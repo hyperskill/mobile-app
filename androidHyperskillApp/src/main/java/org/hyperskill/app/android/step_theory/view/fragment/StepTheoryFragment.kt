@@ -26,8 +26,8 @@ import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute

@@ -1,9 +1,9 @@
 package org.hyperskill.app.project_selection.view.mapper
 
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.presentation.bestRatedProjectId

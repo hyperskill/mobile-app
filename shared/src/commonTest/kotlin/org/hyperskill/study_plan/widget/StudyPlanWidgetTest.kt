@@ -31,7 +31,9 @@ class StudyPlanWidgetTest {
 
     private val resourceProviderStub = ResourceProviderStub()
 
-    private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(SharedDateFormatter(resourceProviderStub))
+    private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(
+        SharedDateFormatter(resourceProviderStub)
+    )
 
     @Test
     fun `Initialize message should trigger studyPLan fetching`() {

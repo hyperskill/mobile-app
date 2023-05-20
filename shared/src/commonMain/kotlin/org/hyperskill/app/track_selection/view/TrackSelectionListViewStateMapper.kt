@@ -1,7 +1,7 @@
 package org.hyperskill.app.track_selection.view
 
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
 

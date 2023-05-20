@@ -408,4 +408,6 @@
     <string name="track_selection_list_select_confirmation_title">Select track "%s"</string>
     <string name="track_selection_list_selection_succeed">Track successfully selected</string>
 
+    <!-- Date formatter -->
+    <string name="date_formatter_less_than_a_minute">less than a minute</string>
 </resources>

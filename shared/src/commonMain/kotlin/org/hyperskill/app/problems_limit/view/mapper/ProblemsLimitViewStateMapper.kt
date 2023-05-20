@@ -1,8 +1,8 @@
 package org.hyperskill.app.problems_limit.view.mapper
 
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 
 class ProblemsLimitViewStateMapper(

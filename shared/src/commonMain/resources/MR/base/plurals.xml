@@ -12,9 +12,33 @@
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plural>
+    <plural name="about_hours">
+        <item quantity="one">about %d hour</item>
+        <item quantity="other">about %d hours</item>
+    </plural>
     <plural name="days">
         <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
+    </plural>
+    <plural name="months">
+        <item quantity="one">%d month</item>
+        <item quantity="other">%d months</item>
+    </plural>
+    <plural name="about_months">
+        <item quantity="one">about %d month</item>
+        <item quantity="other">about %d months</item>
+    </plural>
+    <plural name="about_years">
+        <item quantity="one">about %d year</item>
+        <item quantity="other">about %d years</item>
+    </plural>
+    <plural name="over_years">
+        <item quantity="one">over %d year</item>
+        <item quantity="other">over %d years</item>
+    </plural>
+    <plural name="almost_years">
+        <item quantity="one">almost %d year</item>
+        <item quantity="other">almost %d years</item>
     </plural>
     <plural name="users">
         <item quantity="one">%d user</item>

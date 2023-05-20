@@ -1,8 +1,6 @@
 package org.hyperskill.app.core.view.mapper
 
-import kotlin.math.floor
 import kotlin.math.max
-import kotlin.math.roundToLong
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
@@ -10,75 +8,81 @@ import org.hyperskill.app.SharedResources
 
 class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     companion object {
-        private val DURATION_ONE_HOUR = 1.toDuration(DurationUnit.HOURS)
+        private val DURATION_THIRTY_SECONDS = 30.toDuration(DurationUnit.SECONDS)
         private val DURATION_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
+        private val DURATION_FORTY_FIVE_MINUTES = 45.toDuration(DurationUnit.MINUTES)
+        private val DURATION_ONE_HOUR = 1.toDuration(DurationUnit.HOURS)
+        private val DURATION_ONE_DAY = 1.toDuration(DurationUnit.DAYS)
+        private const val DAYS_IN_MONTH = 30
+        private val DURATION_ONE_MONTH = DAYS_IN_MONTH.toDuration(DurationUnit.DAYS)
+        private const val DAYS_IN_YEAR = 365
+        private const val MONTHS_IN_YEAR = 12
+        private val DURATION_ONE_YEAR = DAYS_IN_YEAR.toDuration(DurationUnit.DAYS)
+    }
 
-        private val SECONDS_PER_HOUR = DURATION_ONE_HOUR.inWholeSeconds
-        private val SECONDS_PER_MINUTE = DURATION_ONE_MINUTE.inWholeSeconds
+    fun formatTimeDistance(millis: Long): String {
+        val duration = millis.toDuration(DurationUnit.MILLISECONDS)
 
-        val THIRTY_SEC_IN_MILLIS: Long = 30.toDuration(DurationUnit.SECONDS).inWholeMilliseconds
-        val ONE_MINUTE_IN_MILLIS: Long = 1.toDuration(DurationUnit.MINUTES).inWholeMilliseconds
-        val ONE_HOUR_IN_MILLIS: Long = 1.toDuration(DurationUnit.HOURS).inWholeMilliseconds
-
-        private val MINUTES_IN_DAY: Long = 1.toDuration(DurationUnit.DAYS).inWholeMinutes
-        private val MINUTES_IN_ALMOST_TWO_DAYS: Long = 42.toDuration(DurationUnit.HOURS).inWholeMinutes
-        private val MINUTES_IN_MONTH: Long = MINUTES_IN_DAY * 30
-
-        fun formatTimeDistance(millis: Long): String {
-            val minutes = (millis / 1000).toFloat().div(60)
-
-            if (millis <= THIRTY_SEC_IN_MILLIS) {
-                return "less than a minute"
-            }
-
-            if (millis <= ONE_MINUTE_IN_MILLIS + THIRTY_SEC_IN_MILLIS) {
-                return "1 minute"
-            }
-
-            if (minutes < 45) {
-                return "${minutes.roundToLong()} minutes"
-            }
-
-            if (minutes < 90) {
-                return "about 1 hour"
-            }
-
-            if (minutes < MINUTES_IN_DAY) {
-                val hours = minutes.div(60).roundToLong()
-                return "about $hours hours"
-            }
-
-            if (minutes < MINUTES_IN_ALMOST_TWO_DAYS) {
-                return "1 day"
-            }
-
-            if (minutes < MINUTES_IN_MONTH) {
-                val days = minutes.div(MINUTES_IN_DAY).roundToLong()
-                return "$days days"
-            }
-
-            if (minutes < MINUTES_IN_MONTH * 2) {
-                val months = minutes.div(MINUTES_IN_MONTH).roundToLong()
-                return "about $months ${if (months == 1L) "month" else "months"}"
-            }
-
-            val months = minutes.div(MINUTES_IN_MONTH).roundToLong()
-
-            if (months < 12) {
-                return "$months months"
-            }
-
-            val monthsSinceStartOfYear = months % 12
-            val years = months.floorDiv(12)
-
-            return if (monthsSinceStartOfYear < 3) {
-                "about $years ${if (years == 1L) "year" else "years"}"
-            } else if (monthsSinceStartOfYear < 9) {
-                "over $years ${if (years == 1L) "year" else "years"}"
-            } else {
-                "almost ${years + 1} years"
-            }
+        if (duration <= DURATION_THIRTY_SECONDS) {
+            return resourceProvider.getString(SharedResources.strings.date_formatter_less_than_a_minute)
         }
+
+        if (duration < DURATION_FORTY_FIVE_MINUTES) {
+            return resourceProvider.getQuantityString(
+                SharedResources.plurals.minutes,
+                duration.inWholeMinutes.toInt(),
+                duration.inWholeMinutes.toInt()
+            )
+        }
+
+        if (duration < DURATION_ONE_DAY) {
+            return resourceProvider.getQuantityString(
+                SharedResources.plurals.about_hours,
+                duration.inWholeHours.toInt(),
+                duration.inWholeHours.toInt()
+            )
+        }
+
+        if (duration < DURATION_ONE_MONTH) {
+            return resourceProvider.getQuantityString(
+                SharedResources.plurals.days,
+                duration.inWholeDays.toInt(),
+                duration.inWholeDays.toInt()
+            )
+        }
+
+        if (duration < DURATION_ONE_MONTH * 2) {
+            return resourceProvider.getQuantityString(
+                SharedResources.plurals.about_months,
+                duration.inWholeDays.toInt() / DAYS_IN_MONTH,
+                duration.inWholeDays.toInt() / DAYS_IN_MONTH
+            )
+        }
+
+        val months = duration.inWholeDays.toInt() / DAYS_IN_MONTH
+
+        if (duration < DURATION_ONE_YEAR) {
+            return resourceProvider.getQuantityString(
+                SharedResources.plurals.months,
+                months,
+                months
+            )
+        }
+
+        val monthsSinceStartOfYear = months % MONTHS_IN_YEAR
+        val years = months.floorDiv(MONTHS_IN_YEAR)
+
+        return resourceProvider.getQuantityString(
+            if (monthsSinceStartOfYear < 3) {
+                SharedResources.plurals.about_years
+            } else if (monthsSinceStartOfYear < 9) {
+                SharedResources.plurals.over_years
+            } else {
+                SharedResources.plurals.almost_years
+            },
+            years,
+            years
+        )
     }
 
     /**
@@ -88,8 +92,9 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
      *
      */
     fun hoursWithMinutesCount(seconds: Long): String {
-        val hours = (seconds / SECONDS_PER_HOUR).toInt()
-        val minutes = ((seconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE).toInt()
+        val duration = seconds.toDuration(DurationUnit.SECONDS)
+        val hours = duration.inWholeHours.toInt()
+        val minutes = duration.inWholeMinutes.toInt() % 60
 
         var result = ""
 
@@ -149,7 +154,7 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     fun hoursCount(seconds: Float?): String? {
         if (seconds == null || seconds <= 0) return null
 
-        val hours = floor(seconds / SECONDS_PER_HOUR).toInt()
+        val hours = seconds.toInt().toDuration(DurationUnit.SECONDS).inWholeHours.toInt()
 
         return if (hours >= 1) {
             resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
