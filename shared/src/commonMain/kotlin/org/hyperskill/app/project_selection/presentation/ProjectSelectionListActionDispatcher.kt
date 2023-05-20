@@ -3,10 +3,12 @@ package org.hyperskill.app.project_selection.presentation
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.InternalAction
+import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Message
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.projectId
@@ -26,71 +28,16 @@ class ProjectSelectionListActionDispatcher(
     private val profileInteractor: ProfileInteractor,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
-) : CoroutineActionDispatcher<ProjectSelectionListFeature.Action, ProjectSelectionListFeature.Message>(
+) : CoroutineActionDispatcher<ProjectSelectionListFeature.Action, Message>(
     config.createConfig()
 ) {
     override suspend fun doSuspendableAction(action: ProjectSelectionListFeature.Action) {
         when (action) {
-            is InternalAction.FetchContent -> {
-                coroutineScope {
-                    val transaction = HyperskillSentryTransactionBuilder
-                        .buildProjectSelectionListScreenRemoteDataLoading()
-                    sentryInteractor.startTransaction(transaction)
-
-                    val track =
-                        trackRepository.getTrack(action.trackId, action.forceLoadFromNetwork)
-                            .getOrElse {
-                                sentryInteractor.finishTransaction(transaction, throwable = it)
-                                onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                                return@coroutineScope
-                            }
-                    val studyPlanDeferred = async {
-                        currentStudyPlanStateRepository.getState(action.forceLoadFromNetwork)
-                    }
-                    val projectsDeferred = async {
-                        projectsRepository.getProjects(track.projects)
-                    }
-                    val projectsProgressesDeferred = async {
-                        progressesRepository.getProjectsProgresses(track.projects, action.forceLoadFromNetwork)
-                    }
-                    val studyPlan = studyPlanDeferred.await()
-                        .getOrElse {
-                            sentryInteractor.finishTransaction(transaction, throwable = it)
-                            onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                            return@coroutineScope
-                        }
-                    val projects = projectsDeferred.await()
-                        .getOrElse {
-                            sentryInteractor.finishTransaction(transaction, throwable = it)
-                            onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                            return@coroutineScope
-                        }
-                    val projectsProgresses: Map<Long?, ProjectProgress> =
-                        projectsProgressesDeferred.await()
-                            .map { progresses -> progresses.associateBy { it.projectId } }
-                            .getOrElse {
-                                sentryInteractor.finishTransaction(transaction, throwable = it)
-                                onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                                return@coroutineScope
-                            }
-                    onNewMessage(
-                        ProjectSelectionListFeature.ContentFetchResult.Success(
-                            track = track,
-                            projects = projects.mapNotNull { project ->
-                                ProjectWithProgress(
-                                    project = project,
-                                    progress = projectsProgresses[project.id]
-                                        ?: return@mapNotNull null
-                                )
-                            },
-                            currentProjectId = studyPlan.projectId
-                        )
-                    )
-                }
-            }
+            is InternalAction.FetchContent ->
+                handleFetchContentAction(action, ::onNewMessage)
             is InternalAction.SelectProject -> {
                 val currentProfile = profileInteractor
-                    .getCurrentProfile()
+                    .getCurrentProfile(DataSourceType.CACHE)
                     .getOrElse {
                         return onNewMessage(ProjectSelectionListFeature.ProjectSelectionResult.Error)
                     }
@@ -109,6 +56,87 @@ class ProjectSelectionListActionDispatcher(
             else -> {
                 // no op
             }
+        }
+    }
+
+    private suspend fun handleFetchContentAction(
+        action: InternalAction.FetchContent,
+        onNewMessage: (Message) -> Unit
+    ) {
+        coroutineScope {
+            val transaction = HyperskillSentryTransactionBuilder
+                .buildProjectSelectionListScreenRemoteDataLoading()
+            sentryInteractor.startTransaction(transaction)
+
+            val profile = profileInteractor.getCurrentProfile(DataSourceType.CACHE)
+                .getOrElse {
+                    sentryInteractor.finishTransaction(transaction, throwable = it)
+                    onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
+                    return@coroutineScope
+                }
+
+            val track =
+                trackRepository.getTrack(action.trackId, action.forceLoadFromNetwork)
+                    .getOrElse {
+                        sentryInteractor.finishTransaction(transaction, throwable = it)
+                        onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
+                        return@coroutineScope
+                    }
+
+            val projectsIds = if (profile.isBeta) {
+                track.projects.union(track.betaProjects).toList()
+            } else {
+                track.projects
+            }
+
+            val studyPlanDeferred = async {
+                currentStudyPlanStateRepository.getState(action.forceLoadFromNetwork)
+            }
+
+            val projectsDeferred = async {
+                projectsRepository.getProjects(projectsIds)
+            }
+
+            val projectsProgressesDeferred = async {
+                progressesRepository.getProjectsProgresses(projectsIds, action.forceLoadFromNetwork)
+            }
+
+            val studyPlan = studyPlanDeferred.await()
+                .getOrElse {
+                    sentryInteractor.finishTransaction(transaction, throwable = it)
+                    onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
+                    return@coroutineScope
+                }
+
+            val projects = projectsDeferred.await()
+                .getOrElse {
+                    sentryInteractor.finishTransaction(transaction, throwable = it)
+                    onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
+                    return@coroutineScope
+                }
+
+            val projectsProgresses: Map<Long?, ProjectProgress> =
+                projectsProgressesDeferred.await()
+                    .map { progresses -> progresses.associateBy { it.projectId } }
+                    .getOrElse {
+                        sentryInteractor.finishTransaction(transaction, throwable = it)
+                        onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
+                        return@coroutineScope
+                    }
+
+            onNewMessage(
+                ProjectSelectionListFeature.ContentFetchResult.Success(
+                    track = track,
+                    projects = projects.mapNotNull { project ->
+                        ProjectWithProgress(
+                            project = project,
+                            progress = projectsProgresses[project.id]
+                                ?: return@mapNotNull null
+                        )
+                    },
+                    currentProjectId = studyPlan.projectId
+                )
+            )
         }
     }
 }
