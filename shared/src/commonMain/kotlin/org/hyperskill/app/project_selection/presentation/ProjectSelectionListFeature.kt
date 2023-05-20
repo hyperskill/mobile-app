@@ -1,6 +1,7 @@
 package org.hyperskill.app.project_selection.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
@@ -21,6 +22,7 @@ object ProjectSelectionListFeature {
         data class Content(
             val track: Track,
             val projects: Map<Long, ProjectWithProgress>,
+            val sortedProjectsIds: List<Long>,
             val currentProjectId: Long?,
             val isProjectSelectionLoadingShowed: Boolean = false
         ) : ContentState
@@ -79,6 +81,7 @@ object ProjectSelectionListFeature {
 
     internal sealed interface ContentFetchResult : Message {
         data class Success(
+            val profile: Profile,
             val track: Track,
             val projects: List<ProjectWithProgress>,
             val currentProjectId: Long?

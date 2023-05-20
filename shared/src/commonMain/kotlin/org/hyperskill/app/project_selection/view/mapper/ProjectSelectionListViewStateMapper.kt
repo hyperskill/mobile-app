@@ -22,58 +22,64 @@ internal class ProjectSelectionListViewStateMapper(
 ) {
     fun map(state: ProjectSelectionListFeature.ContentState): ProjectSelectionListFeature.ViewState =
         when (state) {
-            ProjectSelectionListFeature.ContentState.Idle -> ProjectSelectionListFeature.ViewState.Idle
-            ProjectSelectionListFeature.ContentState.Loading -> ProjectSelectionListFeature.ViewState.Loading
-            is ProjectSelectionListFeature.ContentState.Content -> {
-                val bestRatedProjectId = state.bestRatedProjectId
-                val fastestToCompleteProjectId = state.fastestToCompleteProjectId
-                ProjectSelectionListFeature.ViewState.Content(
-                    trackIcon = state.track.cover.takeIf { it?.isNotBlank() ?: false },
-                    formattedTitle = resourceProvider.getString(
-                        SharedResources.strings.projects_list_title,
-                        state.track.title
-                    ),
-                    selectedProject = state.selectedProject?.let {
-                        mapProjectListItem(
-                            projectWithProgress = it,
-                            trackId = state.track.id,
-                            bestRatedProjectId = bestRatedProjectId,
-                            fastestToCompleteProjectId = fastestToCompleteProjectId,
-                            level = state.track.projectsByLevel.getProjectLevel(it.project.id)
-                        )
-                    },
-                    recommendedProjects = state.recommendedProjects.map {
-                        mapProjectListItem(
-                            projectWithProgress = it,
-                            trackId = state.track.id,
-                            bestRatedProjectId = bestRatedProjectId,
-                            fastestToCompleteProjectId = fastestToCompleteProjectId,
-                            level = state.track.projectsByLevel.getProjectLevel(it.project.id)
-                        )
-                    },
-                    projectsByLevel = state.projectsByLevel.mapValues { (level, projects) ->
-                        projects.map { project ->
-                            mapProjectListItem(
-                                projectWithProgress = project,
-                                trackId = state.track.id,
-                                bestRatedProjectId = bestRatedProjectId,
-                                fastestToCompleteProjectId = fastestToCompleteProjectId,
-                                level = level
-                            )
-                        }
-                    },
-                    isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
-                )
-            }
-            ProjectSelectionListFeature.ContentState.Error -> ProjectSelectionListFeature.ViewState.Error
+            ProjectSelectionListFeature.ContentState.Idle ->
+                ProjectSelectionListFeature.ViewState.Idle
+            ProjectSelectionListFeature.ContentState.Loading ->
+                ProjectSelectionListFeature.ViewState.Loading
+            is ProjectSelectionListFeature.ContentState.Content ->
+                mapContentState(state)
+            ProjectSelectionListFeature.ContentState.Error ->
+                ProjectSelectionListFeature.ViewState.Error
         }
 
+    private fun mapContentState(
+        state: ProjectSelectionListFeature.ContentState.Content
+    ): ProjectSelectionListFeature.ViewState.Content {
+        val bestRatedProjectId = state.bestRatedProjectId
+        val fastestToCompleteProjectId = state.fastestToCompleteProjectId
+        return ProjectSelectionListFeature.ViewState.Content(
+            trackIcon = state.track.cover.takeIf { it?.isNotBlank() ?: false },
+            formattedTitle = resourceProvider.getString(
+                SharedResources.strings.projects_list_title,
+                state.track.title
+            ),
+            selectedProject = state.selectedProject?.let {
+                mapProjectListItem(
+                    state = state,
+                    projectWithProgress = it,
+                    bestRatedProjectId = bestRatedProjectId,
+                    fastestToCompleteProjectId = fastestToCompleteProjectId
+                )
+            },
+            recommendedProjects = state.recommendedProjects.map {
+                mapProjectListItem(
+                    state = state,
+                    projectWithProgress = it,
+                    bestRatedProjectId = bestRatedProjectId,
+                    fastestToCompleteProjectId = fastestToCompleteProjectId
+                )
+            },
+            projectsByLevel = state.projectsByLevel.mapValues { (level, projects) ->
+                projects.map { project ->
+                    mapProjectListItem(
+                        state = state,
+                        projectWithProgress = project,
+                        bestRatedProjectId = bestRatedProjectId,
+                        fastestToCompleteProjectId = fastestToCompleteProjectId,
+                        level = level
+                    )
+                }
+            },
+            isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
+        )
+    }
+
     private fun mapProjectListItem(
+        state: ProjectSelectionListFeature.ContentState.Content,
         projectWithProgress: ProjectWithProgress,
-        trackId: Long,
         bestRatedProjectId: Long?,
         fastestToCompleteProjectId: Long?,
-        level: ProjectLevel?
+        level: ProjectLevel? = state.track.projectsByLevel.getProjectLevel(projectWithProgress.project.id)
     ): ProjectSelectionListFeature.ProjectListItem =
         with(projectWithProgress) {
             ProjectSelectionListFeature.ProjectListItem(
@@ -82,7 +88,7 @@ internal class ProjectSelectionListViewStateMapper(
                 averageRating = numbersFormatter.formatProgressAverageRating(progress.averageRating()),
                 level = level,
                 formattedTimeToComplete = getTimeToComplete(progress.secondsToComplete),
-                isGraduate = project.isGraduate(trackId),
+                isGraduate = project.isGraduate(state.track.id),
                 isBestRated = project.id == bestRatedProjectId,
                 isIdeRequired = project.isIdeRequired,
                 isFastestToComplete = project.id == fastestToCompleteProjectId,
