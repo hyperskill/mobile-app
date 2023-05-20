@@ -4,7 +4,6 @@ import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ContentState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
-import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 
 internal val ContentState.Content.selectedProject: ProjectWithProgress?
     get() = currentProjectId?.let { projects[it] }
@@ -14,9 +13,10 @@ internal val ContentState.Content.recommendedProjects: List<ProjectWithProgress>
         .take(ProjectSelectionListFeature.BEST_RATED_PROJECTS_COUNT)
         .mapNotNull { projectsId -> projects[projectsId] }
 
-internal val ContentState.Content.projectsByLevel: Map<ProjectLevel, List<ProjectWithProgress>>
-    get() = buildMap<ProjectLevel, MutableList<ProjectWithProgress>> {
-        val levelByProjectIdMap = track.projectsByLevel.asLevelByProjectIdMap()
+internal fun ContentState.Content.projectsByLevel(
+    levelByProjectIdMap: Map<Long, ProjectLevel>
+): Map<ProjectLevel, List<ProjectWithProgress>> =
+    buildMap<ProjectLevel, MutableList<ProjectWithProgress>> {
         excludeSelectedProject(sortedProjectsIds, currentProjectId)
             .forEach { projectId ->
                 val level = levelByProjectIdMap[projectId]

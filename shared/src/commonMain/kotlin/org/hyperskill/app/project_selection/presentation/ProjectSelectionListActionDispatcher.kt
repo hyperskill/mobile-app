@@ -126,6 +126,7 @@ class ProjectSelectionListActionDispatcher(
 
             onNewMessage(
                 ProjectSelectionListFeature.ContentFetchResult.Success(
+                    profile = profile,
                     track = track,
                     projects = projects.mapNotNull { project ->
                         ProjectWithProgress(
