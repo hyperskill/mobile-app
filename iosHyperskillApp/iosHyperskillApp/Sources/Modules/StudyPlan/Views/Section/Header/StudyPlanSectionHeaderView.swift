@@ -47,7 +47,7 @@ struct StudyPlanSectionHeaderView: View {
             )
 
             if section.isCurrentBadgeShown {
-                BadgeView.studyPlanCurrent()
+                BadgeView.current()
                     .animation(.easeInOut, value: section.isCurrentBadgeShown)
             }
         }

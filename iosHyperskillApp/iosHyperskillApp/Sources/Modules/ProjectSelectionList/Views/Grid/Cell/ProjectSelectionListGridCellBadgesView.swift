@@ -16,7 +16,7 @@ struct ProjectSelectionListGridCellBadgesView: View {
         } else {
             HStack(spacing: LayoutInsets.smallInset) {
                 if isSelected {
-                    BadgeView.projectSelectionListSelected()
+                    BadgeView.selected()
                 }
 
                 if isIdeRequired {
@@ -24,11 +24,11 @@ struct ProjectSelectionListGridCellBadgesView: View {
                 }
 
                 if isBestRated {
-                    BadgeView.projectSelectionListBestRating()
+                    BadgeView.bestRating()
                 }
 
                 if isFastestToComplete {
-                    BadgeView.projectSelectionListFastestToComplete()
+                    BadgeView.fastestToComplete()
                 }
             }
         }

@@ -38,6 +38,7 @@ import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponent
 
 interface AndroidAppComponent : AppGraph {
     val context: Context
@@ -73,6 +74,6 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
     fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
-
     fun buildPlatformProjectSelectionListComponent(trackId: Long): PlatformProjectSelectionListComponent
+    fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent
 }

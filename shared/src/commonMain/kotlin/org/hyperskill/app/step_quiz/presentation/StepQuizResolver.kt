@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.isIdeRequired
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -88,4 +89,32 @@ object StepQuizResolver {
         }
         return false
     }
+
+    fun isTheoryToolbarItemAvailable(state: StepQuizFeature.StepQuizState): Boolean =
+        when (state) {
+            is StepQuizFeature.StepQuizState.AttemptLoaded -> {
+                state.isTheoryAvailable
+            }
+            is StepQuizFeature.StepQuizState.AttemptLoading -> {
+                state.oldState.isTheoryAvailable
+            }
+            StepQuizFeature.StepQuizState.Idle,
+            StepQuizFeature.StepQuizState.Loading,
+            StepQuizFeature.StepQuizState.NetworkError,
+            StepQuizFeature.StepQuizState.Unsupported -> {
+                false
+            }
+        }
+
+    internal fun isTheoryAvailable(stepRoute: StepRoute, step: Step): Boolean =
+        when (stepRoute) {
+            is StepRoute.Learn,
+            is StepRoute.Repeat -> {
+                step.topicTheory != null
+            }
+            is StepRoute.LearnDaily,
+            is StepRoute.StageImplement -> {
+                false
+            }
+        }
 }

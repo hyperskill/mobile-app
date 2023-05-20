@@ -96,7 +96,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
-                    title = activity.title.ifBlank { activity.id.toString() },
+                    title = formatActivityTitle(activity),
+                    subtitle = formatActivitySubtitle(activity),
                     state = when (activity.state) {
                         LearningActivityState.TODO -> if (activity.id == currentActivityId) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
@@ -114,6 +115,22 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                 )
             }
         )
+
+    private fun formatActivityTitle(activity: LearningActivity): String {
+        val defaultTitle = activity.title.ifBlank { activity.id.toString() }
+        return if (activity.description.isNullOrBlank()) {
+            defaultTitle
+        } else {
+            activity.description
+        }
+    }
+
+    private fun formatActivitySubtitle(activity: LearningActivity): String? =
+        if (activity.description.isNullOrBlank()) {
+            null
+        } else {
+            activity.title.ifBlank { null }
+        }
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
         if (topicsCount > 0) {

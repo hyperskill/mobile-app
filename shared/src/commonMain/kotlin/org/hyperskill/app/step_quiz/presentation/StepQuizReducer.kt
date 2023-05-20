@@ -5,18 +5,20 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.copy
+import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizShownDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.daily_step_completed_modal.StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.problems_limit_reached_modal.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -36,7 +38,8 @@ class StepQuizReducer(
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StepQuizReducerResult =
         when (message) {
-            is Message.InitWithStep -> initialize(state, message)
+            is Message.InitWithStep ->
+                initialize(state, message)
             is Message.FetchAttemptSuccess ->
                 handleFetchAttemptSuccess(state, message)
             is Message.FetchAttemptError ->
@@ -71,10 +74,11 @@ class StepQuizReducer(
                 if (state.stepQuizState is StepQuizState.AttemptLoading) {
                     state.copy(
                         stepQuizState = StepQuizState.AttemptLoaded(
-                            message.step,
-                            message.attempt,
-                            message.submissionState,
-                            message.isProblemsLimitReached
+                            step = message.step,
+                            attempt = message.attempt,
+                            submissionState = message.submissionState,
+                            isProblemsLimitReached = message.isProblemsLimitReached,
+                            isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
                         )
                     ) to emptySet()
                 } else {
@@ -255,6 +259,8 @@ class StepQuizReducer(
                 } else {
                     null
                 }
+            is Message.TheoryToolbarItemClicked ->
+                handleTheoryToolbarItemClicked(state)
             is Message.ClickedRetryEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -315,10 +321,11 @@ class StepQuizReducer(
 
                 state.copy(
                     stepQuizState = StepQuizState.AttemptLoaded(
-                        message.step,
-                        message.attempt,
-                        message.submissionState,
-                        isProblemsLimitReached
+                        step = message.step,
+                        attempt = message.attempt,
+                        submissionState = message.submissionState,
+                        isProblemsLimitReached = isProblemsLimitReached,
+                        isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
                     )
                 ) to actions
             }
@@ -346,7 +353,7 @@ class StepQuizReducer(
         return problemsLimitState to actions
     }
 
-    private fun initialize(state: State, message: Message.InitWithStep): Pair<State, Set<Action>> {
+    private fun initialize(state: State, message: Message.InitWithStep): StepQuizReducerResult {
         val needReloadStepQuiz =
             state.stepQuizState is StepQuizState.Idle ||
                 (message.forceUpdate && state.stepQuizState is StepQuizState.NetworkError)
@@ -372,6 +379,32 @@ class StepQuizReducer(
             problemsLimitState = problemsLimitState
         ) to stepQuizActions + problemsLimitActions
     }
+
+    private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =
+        if (state.stepQuizState is StepQuizState.AttemptLoaded &&
+            state.stepQuizState.isTheoryAvailable
+        ) {
+            val topicTheoryId = state.stepQuizState.step.topicTheory
+
+            val analyticEventAction = Action.LogAnalyticEvent(
+                StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent(
+                    stepRoute.analyticRoute,
+                    topicTheoryId
+                )
+            )
+
+            if (topicTheoryId != null) {
+                val targetStepRoute = stepRoute.copy(stepId = topicTheoryId)
+                state to setOf(
+                    analyticEventAction,
+                    Action.ViewAction.NavigateTo.StepScreen(targetStepRoute)
+                )
+            } else {
+                state to setOf(analyticEventAction)
+            }
+        } else {
+            state to emptySet()
+        }
 
     private fun createLocalSubmission(oldState: StepQuizState.AttemptLoaded, reply: Reply): Submission {
         val submission = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission

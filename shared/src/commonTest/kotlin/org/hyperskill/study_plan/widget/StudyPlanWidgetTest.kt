@@ -574,6 +574,50 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Section content item title in ViewState should be equal to learning activity description`() {
+        val expectedViewState = StudyPlanWidgetViewState.Content(
+            listOf(
+                sectionViewState(
+                    section = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    content = StudyPlanWidgetViewState.SectionContent.Content(
+                        sectionItems = listOf(
+                            studyPlanSectionItemStub(
+                                activityId = 0,
+                                title = "Work on project. Stage: 1/6",
+                                subtitle = "Hello, coffee!",
+                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
+                            )
+                        )
+                    ),
+                    isCurrent = true
+                )
+            )
+        )
+
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                0L to stubLearningActivity(
+                    id = 0,
+                    title = "Hello, coffee!",
+                    description = "Work on project. Stage: 1/6"
+                )
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+        assertEquals(expectedViewState, viewState)
+    }
+
+    @Test
     fun `Section content statistics in ViewState should be always visible for first visible section`() {
         fun makeState(isExpanded: Boolean): StudyPlanWidgetFeature.State =
             StudyPlanWidgetFeature.State(
@@ -1184,6 +1228,7 @@ class StudyPlanWidgetTest {
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
         targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
         title: String = "",
+        description: String? = null,
         isIdeRequired: Boolean = false
     ) =
         LearningActivity(
@@ -1193,18 +1238,21 @@ class StudyPlanWidgetTest {
             typeValue = type.value,
             targetTypeValue = targetType.value,
             title = title,
+            description = description,
             isIdeRequired = isIdeRequired
         )
 
     private fun studyPlanSectionItemStub(
         activityId: Long,
         title: String = "",
+        subtitle: String? = null,
         state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED,
         isIdeRequired: Boolean = false
     ) =
         StudyPlanWidgetViewState.SectionItem(
             id = activityId,
             title = title.ifBlank { activityId.toString() },
+            subtitle = subtitle,
             formattedProgress = null,
             progress = null,
             state = state,

@@ -61,21 +61,20 @@ struct ProjectSelectionListView: View {
                         avatarSource: viewData.trackIcon,
                         title: viewData.formattedTitle
                     )
-                    .padding(.top, appearance.spacing)
 
                     ProjectSelectionListGridView(
                         viewData: viewData,
                         onProjectTap: viewModel.doMainProjectAction(projectID:)
                     )
                 }
-                .padding([.horizontal, .bottom])
+                .padding()
             }
             .frame(maxWidth: .infinity)
         }
     }
 }
 
-// MARK: - ProjectSelectionRootView (ViewAction) -
+// MARK: - ProjectSelectionListView (ViewAction) -
 
 private extension ProjectSelectionListView {
     func handleViewAction(_ viewAction: ProjectSelectionListFeatureActionViewAction) {

@@ -106,8 +106,12 @@ class ProjectSelectionListFragment :
         when (action) {
             ViewAction.NavigateTo.StudyPlan ->
                 requireRouter().backTo(StudyPlanScreen)
-            is ViewAction.ShowProjectSelectionConfirmationModal ->
+            is ViewAction.ShowProjectSelectionConfirmationModal -> {
                 buildProjectSelectionConfirmationModal(action.project).show()
+                projectSelectionListViewModel.onNewMessage(
+                    Message.ProjectSelectionConfirmationModalShown
+                )
+            }
             ViewAction.ShowProjectSelectionStatus.Error ->
                 view?.snackbar(org.hyperskill.app.R.string.connection_error)
             ViewAction.ShowProjectSelectionStatus.Success ->
@@ -145,6 +149,9 @@ class ProjectSelectionListFragment :
                         projectId = project.id,
                         isConfirmed = false
                     )
+                )
+                projectSelectionListViewModel.onNewMessage(
+                    Message.ProjectSelectionConfirmationModalHidden
                 )
             }
 }
