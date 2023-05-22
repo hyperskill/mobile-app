@@ -16,7 +16,9 @@ data class Project(
     @SerialName("tracks")
     val tracks: Map<String, ProjectTracksEntry>,
     @SerialName("is_ide_required")
-    val isIdeRequired: Boolean = false
+    val isIdeRequired: Boolean = false,
+    @SerialName("default_score")
+    val defaultScore: Float = 0f
 ) {
     companion object
 }

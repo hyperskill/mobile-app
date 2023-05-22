@@ -1,5 +1,8 @@
 package org.hyperskill.app.project_selection.presentation
 
+import org.hyperskill.app.profile.domain.model.isRecommendationsJavaProjectsFeatureEnabled
+import org.hyperskill.app.profile.domain.model.isRecommendationsKotlinProjectsFeatureEnabled
+import org.hyperskill.app.profile.domain.model.isRecommendationsPythonProjectsFeatureEnabled
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
@@ -12,6 +15,7 @@ import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFea
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.InternalAction
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Message
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.State
+import org.hyperskill.app.projects.domain.model.sortByScore
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ProjectsListReducerResult = Pair<State, Set<Action>>
@@ -23,15 +27,8 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                 state.updateContentState(ContentState.Loading) to
                     fetchContent(state)
             }
-            is ProjectSelectionListFeature.ContentFetchResult.Success -> {
-                state.updateContentState(
-                    ContentState.Content(
-                        track = message.track,
-                        projects = message.projects.associateBy { it.project.id },
-                        currentProjectId = message.currentProjectId
-                    )
-                ) to emptySet()
-            }
+            is ProjectSelectionListFeature.ContentFetchResult.Success ->
+                handleContentFetchResultSuccess(state, message)
             ProjectSelectionListFeature.ContentFetchResult.Error -> {
                 state.updateContentState(ContentState.Error) to emptySet()
             }
@@ -145,6 +142,30 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                 forceLoadFromNetwork = forceLoadFromNetwork
             )
         )
+
+    private fun handleContentFetchResultSuccess(
+        state: State,
+        message: ProjectSelectionListFeature.ContentFetchResult.Success
+    ): ProjectsListReducerResult {
+        val useFeatureScoreForSorting =
+            with(message.profile.features) {
+                isRecommendationsJavaProjectsFeatureEnabled ||
+                    isRecommendationsKotlinProjectsFeatureEnabled ||
+                    isRecommendationsPythonProjectsFeatureEnabled
+            }
+        val sortedProjectIds =
+            message.projects
+                .sortByScore(useFeatureScoreForSorting)
+                .map { it.project.id }
+        return state.updateContentState(
+            ContentState.Content(
+                track = message.track,
+                projects = message.projects.associateBy { it.project.id },
+                sortedProjectsIds = sortedProjectIds,
+                currentProjectId = message.currentProjectId
+            )
+        ) to emptySet()
+    }
 
     private fun State.updateContentState(contentState: ContentState): State =
         copy(content = contentState)

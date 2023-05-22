@@ -19,7 +19,11 @@ data class ProjectProgress(
     @SerialName("usefulness")
     override val usefulness: Float?,
     @SerialName("seconds_to_complete")
-    val secondsToComplete: Float?
+    val secondsToComplete: Float?,
+    @SerialName("feature_score")
+    val featureScore: Float = 0f,
+    @SerialName("base_score")
+    val baseScore: Float = 0f
 ) : Progress {
     companion object
 }
