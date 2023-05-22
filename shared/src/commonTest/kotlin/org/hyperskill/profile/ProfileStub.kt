@@ -31,5 +31,5 @@ fun Profile.Companion.stub(
         trackId = null,
         trackTitle = null,
         isBeta = isBeta,
-        features = mapOf()
+        featuresMap = mapOf()
     )
