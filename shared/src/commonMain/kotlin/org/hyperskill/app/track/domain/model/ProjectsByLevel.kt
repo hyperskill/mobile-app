@@ -16,19 +16,18 @@ data class ProjectsByLevel(
     val hard: List<Long>? = null
 )
 
-fun ProjectsByLevel.getProjectsIds(level: ProjectLevel): List<Long>? =
-    when (level) {
-        ProjectLevel.EASY -> easy
-        ProjectLevel.MEDIUM -> medium
-        ProjectLevel.HARD -> hard
-        ProjectLevel.NIGHTMARE -> nightmare
-    }
-
-fun ProjectsByLevel.getProjectLevel(projectId: Long): ProjectLevel? =
-    when {
-        easy?.contains(projectId) == true -> ProjectLevel.EASY
-        medium?.contains(projectId) == true -> ProjectLevel.MEDIUM
-        hard?.contains(projectId) == true -> ProjectLevel.HARD
-        nightmare?.contains(projectId) == true -> ProjectLevel.NIGHTMARE
-        else -> null
+internal fun ProjectsByLevel.asLevelByProjectIdMap(): Map<Long, ProjectLevel> =
+    buildMap {
+        nightmare?.forEach {
+            put(it, ProjectLevel.NIGHTMARE)
+        }
+        hard?.forEach {
+            put(it, ProjectLevel.HARD)
+        }
+        medium?.forEach {
+            put(it, ProjectLevel.MEDIUM)
+        }
+        easy?.forEach {
+            put(it, ProjectLevel.EASY)
+        }
     }

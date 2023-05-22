@@ -81,14 +81,14 @@
             android:id="@+id/projectTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="projectCompletedTextView,projectSelectedTextView,projectIdeRequiredTextView,projectBestRatingTextView,projectFastestToCompleteTextView"
+            app:constraint_referenced_ids="projectCompletedTextView,projectSelectedTextView,projectIdeRequiredTextView,projectBestRatingTextView,projectFastestToCompleteTextView,projectBetaTextView"
             app:flow_horizontalAlign="start"
             app:flow_horizontalBias="0"
             app:flow_verticalGap="4dp"
             app:flow_wrapMode="chain"
             app:flow_horizontalGap="8dp"
             app:flow_horizontalStyle="packed"
-            android:layout_marginTop="@dimen/project_selection_list_item_tags_top_margin"
+            android:paddingTop="@dimen/project_selection_list_item_tags_top_margin"
             app:layout_constraintTop_toBottomOf="@+id/projectDuration"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -118,6 +118,11 @@
             android:id="@+id/projectFastestToCompleteTextView"
             layout="@layout/view_badge_fastest_to_complete"
             />
+
+        <include
+            android:id="@+id/projectBetaTextView"
+            layout="@layout/view_badge_beta"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

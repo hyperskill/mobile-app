@@ -11,10 +11,9 @@ import org.hyperskill.app.project_selection.presentation.fastestToCompleteProjec
 import org.hyperskill.app.project_selection.presentation.projectsByLevel
 import org.hyperskill.app.project_selection.presentation.recommendedProjects
 import org.hyperskill.app.project_selection.presentation.selectedProject
-import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.isGraduate
-import org.hyperskill.app.track.domain.model.getProjectLevel
+import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 
 internal class ProjectSelectionListViewStateMapper(
     private val resourceProvider: ResourceProvider,
@@ -22,73 +21,55 @@ internal class ProjectSelectionListViewStateMapper(
 ) {
     fun map(state: ProjectSelectionListFeature.ContentState): ProjectSelectionListFeature.ViewState =
         when (state) {
-            ProjectSelectionListFeature.ContentState.Idle -> ProjectSelectionListFeature.ViewState.Idle
-            ProjectSelectionListFeature.ContentState.Loading -> ProjectSelectionListFeature.ViewState.Loading
-            is ProjectSelectionListFeature.ContentState.Content -> {
-                val bestRatedProjectId = state.bestRatedProjectId
-                val fastestToCompleteProjectId = state.fastestToCompleteProjectId
-                ProjectSelectionListFeature.ViewState.Content(
-                    trackIcon = state.track.cover.takeIf { it?.isNotBlank() ?: false },
-                    formattedTitle = resourceProvider.getString(
-                        SharedResources.strings.projects_list_title,
-                        state.track.title
-                    ),
-                    selectedProject = state.selectedProject?.let {
-                        mapProjectListItem(
-                            projectWithProgress = it,
-                            trackId = state.track.id,
-                            bestRatedProjectId = bestRatedProjectId,
-                            fastestToCompleteProjectId = fastestToCompleteProjectId,
-                            level = state.track.projectsByLevel.getProjectLevel(it.project.id)
-                        )
-                    },
-                    recommendedProjects = state.recommendedProjects.map {
-                        mapProjectListItem(
-                            projectWithProgress = it,
-                            trackId = state.track.id,
-                            bestRatedProjectId = bestRatedProjectId,
-                            fastestToCompleteProjectId = fastestToCompleteProjectId,
-                            level = state.track.projectsByLevel.getProjectLevel(it.project.id)
-                        )
-                    },
-                    projectsByLevel = state.projectsByLevel.mapValues { (level, projects) ->
-                        projects.map { project ->
-                            mapProjectListItem(
-                                projectWithProgress = project,
-                                trackId = state.track.id,
-                                bestRatedProjectId = bestRatedProjectId,
-                                fastestToCompleteProjectId = fastestToCompleteProjectId,
-                                level = level
-                            )
-                        }
-                    },
-                    isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
-                )
-            }
-            ProjectSelectionListFeature.ContentState.Error -> ProjectSelectionListFeature.ViewState.Error
+            ProjectSelectionListFeature.ContentState.Idle ->
+                ProjectSelectionListFeature.ViewState.Idle
+            ProjectSelectionListFeature.ContentState.Loading ->
+                ProjectSelectionListFeature.ViewState.Loading
+            is ProjectSelectionListFeature.ContentState.Content ->
+                mapContentState(state)
+            ProjectSelectionListFeature.ContentState.Error ->
+                ProjectSelectionListFeature.ViewState.Error
         }
 
-    private fun mapProjectListItem(
-        projectWithProgress: ProjectWithProgress,
-        trackId: Long,
-        bestRatedProjectId: Long?,
-        fastestToCompleteProjectId: Long?,
-        level: ProjectLevel?
-    ): ProjectSelectionListFeature.ProjectListItem =
-        with(projectWithProgress) {
-            ProjectSelectionListFeature.ProjectListItem(
-                id = project.id,
-                title = project.title,
-                averageRating = numbersFormatter.formatProgressAverageRating(progress.averageRating()),
-                level = level,
-                formattedTimeToComplete = getTimeToComplete(progress.secondsToComplete),
-                isGraduate = project.isGraduate(trackId),
-                isBestRated = project.id == bestRatedProjectId,
-                isIdeRequired = project.isIdeRequired,
-                isFastestToComplete = project.id == fastestToCompleteProjectId,
-                isCompleted = progress.isCompleted
-            )
-        }
+    private fun mapContentState(
+        state: ProjectSelectionListFeature.ContentState.Content
+    ): ProjectSelectionListFeature.ViewState.Content {
+        val bestRatedProjectId = state.bestRatedProjectId
+        val fastestToCompleteProjectId = state.fastestToCompleteProjectId
+        val levelByProjectIdMap = state.track.projectsByLevel.asLevelByProjectIdMap()
+        val betaProjectIds = state.track.betaProjects.toSet()
+
+        fun mapProjectListItem(projectWithProgress: ProjectWithProgress): ProjectSelectionListFeature.ProjectListItem =
+            with(projectWithProgress) {
+                ProjectSelectionListFeature.ProjectListItem(
+                    id = project.id,
+                    title = project.title,
+                    averageRating = numbersFormatter.formatProgressAverageRating(progress.averageRating()),
+                    level = levelByProjectIdMap[projectWithProgress.project.id],
+                    formattedTimeToComplete = getTimeToComplete(progress.secondsToComplete),
+                    isGraduate = project.isGraduate(state.track.id),
+                    isBestRated = projectWithProgress.project.id == bestRatedProjectId,
+                    isIdeRequired = project.isIdeRequired,
+                    isFastestToComplete = projectWithProgress.project.id == fastestToCompleteProjectId,
+                    isCompleted = progress.isCompleted,
+                    isBeta = betaProjectIds.contains(projectWithProgress.project.id)
+                )
+            }
+
+        return ProjectSelectionListFeature.ViewState.Content(
+            trackIcon = state.track.cover.takeIf { it?.isNotBlank() ?: false },
+            formattedTitle = resourceProvider.getString(
+                SharedResources.strings.projects_list_title,
+                state.track.title
+            ),
+            selectedProject = state.selectedProject?.let(::mapProjectListItem),
+            recommendedProjects = state.recommendedProjects.map(::mapProjectListItem),
+            projectsByLevel = state.projectsByLevel(levelByProjectIdMap).mapValues { (_, projects) ->
+                projects.map(::mapProjectListItem)
+            },
+            isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
+        )
+    }
 
     private fun getTimeToComplete(secondsToComplete: Float?): String? {
         if (secondsToComplete == null || secondsToComplete <= 0) return null
