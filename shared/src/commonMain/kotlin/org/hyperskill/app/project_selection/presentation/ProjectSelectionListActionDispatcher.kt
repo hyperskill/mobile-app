@@ -115,9 +115,8 @@ class ProjectSelectionListActionDispatcher(
                     return@coroutineScope
                 }
 
-            val projectsProgresses: Map<Long?, ProjectProgress> =
-                projectsProgressesDeferred.await()
-                    .map { progresses -> progresses.associateBy { it.projectId } }
+            val projectsProgresses: Map<Long, ProjectProgress> =
+                projectsProgressesDeferred.await().map(::mapProgressesToMap)
                     .getOrElse {
                         sentryInteractor.finishTransaction(transaction, throwable = it)
                         onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
@@ -140,4 +139,14 @@ class ProjectSelectionListActionDispatcher(
             )
         }
     }
+
+    private fun mapProgressesToMap(progresses: List<ProjectProgress>): Map<Long, ProjectProgress> =
+        buildMap(progresses.size) {
+            progresses.forEach { progress ->
+                val projectId = progress.projectId
+                if (projectId != null) {
+                    put(projectId, progress)
+                }
+            }
+        }
 }

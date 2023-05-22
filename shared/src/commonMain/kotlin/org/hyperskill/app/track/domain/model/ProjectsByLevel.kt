@@ -16,7 +16,7 @@ data class ProjectsByLevel(
     val hard: List<Long>? = null
 )
 
-fun ProjectsByLevel.asLevelByProjectIdMap(): Map<Long, ProjectLevel> =
+internal fun ProjectsByLevel.asLevelByProjectIdMap(): Map<Long, ProjectLevel> =
     buildMap {
         nightmare?.forEach {
             put(it, ProjectLevel.NIGHTMARE)

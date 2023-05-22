@@ -1,6 +1,8 @@
 package org.hyperskill.app.project_selection.presentation
 
-import org.hyperskill.app.profile.domain.model.Features
+import org.hyperskill.app.profile.domain.model.isRecommendationsJavaProjectsFeatureEnabled
+import org.hyperskill.app.profile.domain.model.isRecommendationsKotlinProjectsFeatureEnabled
+import org.hyperskill.app.profile.domain.model.isRecommendationsPythonProjectsFeatureEnabled
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
@@ -147,9 +149,9 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
     ): ProjectsListReducerResult {
         val useFeatureScoreForSorting =
             with(message.profile.features) {
-                get(Features.RECOMMENDATIONS_JAVA_PROJECTS) == true ||
-                    get(Features.RECOMMENDATIONS_KOTLIN_PROJECTS) == true ||
-                    get(Features.RECOMMENDATIONS_PYTHON_PROJECTS) == true
+                isRecommendationsJavaProjectsFeatureEnabled ||
+                    isRecommendationsKotlinProjectsFeatureEnabled ||
+                    isRecommendationsPythonProjectsFeatureEnabled
             }
         val sortedProjectIds =
             message.projects

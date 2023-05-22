@@ -13,7 +13,7 @@ data class ProjectWithProgress(
  *
  * Don't change the order of selector lambdas, it's sorted by importance of parameters.
  */
-fun Iterable<ProjectWithProgress>.sortByScore(
+internal fun Iterable<ProjectWithProgress>.sortByScore(
     compareByFeatureScore: Boolean
 ): List<ProjectWithProgress> =
     sortedWith { a, b ->

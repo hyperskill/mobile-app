@@ -11,7 +11,7 @@ internal val ContentState.Content.selectedProject: ProjectWithProgress?
 internal val ContentState.Content.recommendedProjects: List<ProjectWithProgress>
     get() = excludeSelectedProject(sortedProjectsIds, currentProjectId)
         .take(ProjectSelectionListFeature.BEST_RATED_PROJECTS_COUNT)
-        .mapNotNull { projectsId -> projects[projectsId] }
+        .mapNotNull { projectId -> projects[projectId] }
 
 internal fun ContentState.Content.projectsByLevel(
     levelByProjectIdMap: Map<Long, ProjectLevel>
@@ -20,12 +20,10 @@ internal fun ContentState.Content.projectsByLevel(
         excludeSelectedProject(sortedProjectsIds, currentProjectId)
             .forEach { projectId ->
                 val level = levelByProjectIdMap[projectId]
-                if (level != null) {
-                    val project = projects[projectId]
-                    if (project != null) {
-                        val projects = getOrPut(level) { mutableListOf() }
-                        projects.add(project)
-                    }
+                val project = projects[projectId]
+                if (level != null && project != null) {
+                    val projects: MutableList<ProjectWithProgress> = getOrPut(level) { mutableListOf() }
+                    projects.add(project)
                 }
             }
     }
