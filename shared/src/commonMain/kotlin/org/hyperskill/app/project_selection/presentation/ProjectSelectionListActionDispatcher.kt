@@ -19,6 +19,7 @@ import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepo
 import org.hyperskill.app.track.domain.repository.TrackRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
+// TODO: extract all logic of this class to a dedicated interactor.
 class ProjectSelectionListActionDispatcher(
     config: ActionDispatcherOptions,
     private val trackRepository: TrackRepository,
