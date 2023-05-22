@@ -237,6 +237,7 @@ class ProjectSelectionListDelegate(
             isIdeRequired = project.isIdeRequired,
             isFastestToComplete = project.isFastestToComplete,
             isCompleted = project.isCompleted,
+            isBeta = project.isBeta,
             formattedRating = project.averageRating,
             levelText = project.level?.let(levelTitleByLevelMap::get),
             levelIcon = levelIconByLevelMap[project.level],

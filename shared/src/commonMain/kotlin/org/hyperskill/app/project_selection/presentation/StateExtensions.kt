@@ -4,27 +4,28 @@ import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ContentState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
-import org.hyperskill.app.track.domain.model.getProjectsIds
 
 internal val ContentState.Content.selectedProject: ProjectWithProgress?
     get() = currentProjectId?.let { projects[it] }
 
 internal val ContentState.Content.recommendedProjects: List<ProjectWithProgress>
-    get() =
-        excludeSelectedProject(track.projects, currentProjectId)
-            .take(ProjectSelectionListFeature.BEST_RATED_PROJECTS_COUNT)
-            .mapNotNull { projectsId -> projects[projectsId] }
+    get() = excludeSelectedProject(sortedProjectsIds, currentProjectId)
+        .take(ProjectSelectionListFeature.BEST_RATED_PROJECTS_COUNT)
+        .mapNotNull { projectId -> projects[projectId] }
 
-internal val ContentState.Content.projectsByLevel: Map<ProjectLevel, List<ProjectWithProgress>>
-    get() = ProjectLevel.values().associateWith { level ->
-        val projectsIds = track.projectsByLevel.getProjectsIds(level)
-        if (!projectsIds.isNullOrEmpty()) {
-            excludeSelectedProject(projectsIds, currentProjectId).mapNotNull { projectId ->
-                projects[projectId]
+internal fun ContentState.Content.projectsByLevel(
+    levelByProjectIdMap: Map<Long, ProjectLevel>
+): Map<ProjectLevel, List<ProjectWithProgress>> =
+    buildMap<ProjectLevel, MutableList<ProjectWithProgress>> {
+        excludeSelectedProject(sortedProjectsIds, currentProjectId)
+            .forEach { projectId ->
+                val level = levelByProjectIdMap[projectId]
+                val project = projects[projectId]
+                if (level != null && project != null) {
+                    val projects: MutableList<ProjectWithProgress> = getOrPut(level) { mutableListOf() }
+                    projects.add(project)
+                }
             }
-        } else {
-            emptyList()
-        }
     }
 
 private fun excludeSelectedProject(projectsIds: List<Long>, selectedProjectId: Long?): List<Long> =

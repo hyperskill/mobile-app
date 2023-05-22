@@ -60,6 +60,7 @@ struct ProjectSelectionListGridCellView: View {
             ProjectSelectionListGridCellBadgesView(
                 isSelected: isSelected,
                 isIdeRequired: project.isIdeRequired,
+                isBeta: project.isBeta,
                 isBestRated: project.isBestRated,
                 isFastestToComplete: project.isFastestToComplete
             )
@@ -81,7 +82,8 @@ struct ProjectSelectionListGridCellView_Previews: PreviewProvider {
             isBestRated: true,
             isIdeRequired: true,
             isFastestToComplete: true,
-            isCompleted: true
+            isCompleted: true,
+            isBeta: true
         )
 
         VStack(spacing: LayoutInsets.defaultInset) {
