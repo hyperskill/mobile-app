@@ -169,6 +169,8 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponentImpl
 import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
@@ -486,6 +488,13 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent =
         PlatformTrackSelectionListComponentImpl(buildTrackSelectionListComponent())
+
+    /**
+     * Track selection details component
+     */
+
+    override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
+        TrackSelectionDetailsComponentImpl(this)
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
