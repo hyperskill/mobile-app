@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.presentation
+package org.hyperskill.app.track_selection.list.presentation
 
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
@@ -7,10 +7,10 @@ import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListSele
 import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListTrackClickedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionListViewedHyperskillAnalyticEvent
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.InternalAction
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Message
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.State
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.InternalAction
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Message
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal class TrackSelectionListReducer : StateReducer<State, Message, Action> {

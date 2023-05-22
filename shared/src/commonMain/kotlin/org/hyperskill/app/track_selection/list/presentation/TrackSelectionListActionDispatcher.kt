@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.presentation
+package org.hyperskill.app.track_selection.list.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -11,9 +11,9 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.domain.model.TrackWithProgress
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.InternalAction
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Message
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.InternalAction
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class TrackSelectionListActionDispatcher(

@@ -171,8 +171,8 @@ import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponentImpl
-import org.hyperskill.app.track_selection.injection.TrackSelectionListComponent
-import org.hyperskill.app.track_selection.injection.TrackSelectionListComponentImpl
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 

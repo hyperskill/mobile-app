@@ -1,11 +1,11 @@
-package org.hyperskill.app.track_selection.view
+package org.hyperskill.app.track_selection.list.view
 
 import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.track.domain.model.TrackWithProgress
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 
 internal class TrackSelectionListViewStateMapper(
     private val resourceProvider: ResourceProvider,

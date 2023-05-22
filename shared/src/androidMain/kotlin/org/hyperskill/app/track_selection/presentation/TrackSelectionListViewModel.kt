@@ -1,8 +1,8 @@
 package org.hyperskill.app.track_selection.presentation
 
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action.ViewAction
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Message
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.ViewState
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action.ViewAction
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Message
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.ViewState
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 

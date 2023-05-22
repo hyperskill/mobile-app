@@ -16,9 +16,9 @@ import org.hyperskill.app.android.databinding.FragmentTrackSelectionListBinding
 import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
 import org.hyperskill.app.android.track_selection.delegate.TrackSelectionListDelegate
 import org.hyperskill.app.track.domain.model.Track
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action.ViewAction
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.ViewState
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action.ViewAction
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.ViewState
 import org.hyperskill.app.track_selection.presentation.TrackSelectionListViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists

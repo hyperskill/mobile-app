@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.presentation
+package org.hyperskill.app.track_selection.list.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.track.domain.model.Track

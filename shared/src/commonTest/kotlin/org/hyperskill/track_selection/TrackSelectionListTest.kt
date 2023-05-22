@@ -8,13 +8,13 @@ import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.track.domain.model.TrackWithProgress
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.InternalAction
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Message
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.State
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListReducer
-import org.hyperskill.app.track_selection.view.TrackSelectionListViewStateMapper
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.InternalAction
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Message
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.State
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListReducer
+import org.hyperskill.app.track_selection.list.view.TrackSelectionListViewStateMapper
 
 class TrackSelectionListTest {
 
