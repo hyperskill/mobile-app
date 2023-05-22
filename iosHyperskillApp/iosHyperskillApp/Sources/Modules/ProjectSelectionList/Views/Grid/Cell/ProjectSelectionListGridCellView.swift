@@ -60,6 +60,7 @@ struct ProjectSelectionListGridCellView: View {
             ProjectSelectionListGridCellBadgesView(
                 isSelected: isSelected,
                 isIdeRequired: project.isIdeRequired,
+                isBeta: project.isBeta,
                 isBestRated: project.isBestRated,
                 isFastestToComplete: project.isFastestToComplete
             )
