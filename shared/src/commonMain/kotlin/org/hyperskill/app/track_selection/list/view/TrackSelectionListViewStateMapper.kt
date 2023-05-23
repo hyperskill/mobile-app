@@ -4,6 +4,7 @@ import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 
@@ -44,7 +45,7 @@ internal class TrackSelectionListViewStateMapper(
             imageSource = trackWithProgress.track.cover?.takeIf { it.isNotBlank() },
             title = trackWithProgress.track.title,
             timeToComplete = getTimeToComplete(trackWithProgress.track.secondsToComplete),
-            rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating),
+            rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating()),
             isBeta = trackWithProgress.track.isBeta,
             isCompleted = trackWithProgress.track.isCompleted,
             isSelected = isSelected
