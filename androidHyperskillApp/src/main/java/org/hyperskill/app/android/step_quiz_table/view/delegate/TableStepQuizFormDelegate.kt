@@ -44,12 +44,16 @@ class TableStepQuizFormDelegate(
         }
     }
 
-    override fun setState(state: StepQuizFeature.State.AttemptLoaded) {
+    override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
             ?.submission
 
         isCheckBox = state.attempt.dataset?.isCheckbox ?: false
-        tableAdapter.items = tableSelectionItemMapper.mapToTableSelectionItems(state.attempt, submission, StepQuizResolver.isQuizEnabled(state))
+        tableAdapter.items = tableSelectionItemMapper.mapToTableSelectionItems(
+            state.attempt,
+            submission,
+            StepQuizResolver.isQuizEnabled(state)
+        )
     }
 
     override fun createReply(): Reply =

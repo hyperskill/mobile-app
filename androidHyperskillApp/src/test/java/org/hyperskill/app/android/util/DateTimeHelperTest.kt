@@ -1,13 +1,13 @@
 package org.hyperskill.app.android.util
 
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.TimeZone
-import java.util.Locale
-import java.util.Date
 
 class DateTimeHelperTest {
 
@@ -51,7 +51,8 @@ class DateTimeHelperTest {
         val pattern = "dd.MM.yyyy HH:mm"
         val isoFormat = "2017-01-06T15:59:06Z"
 
-        val result = DateTimeHelper.getPrintableOfIsoDate(isoFormat, pattern, timeZone = TimeZone.getTimeZone("Europe/Moscow"))
+        val result =
+            DateTimeHelper.getPrintableOfIsoDate(isoFormat, pattern, timeZone = TimeZone.getTimeZone("Europe/Moscow"))
 
         assertEquals("06.01.2017 18:59", result)
     }
@@ -73,7 +74,10 @@ class DateTimeHelperTest {
     @Test
     fun hourMinutesNegative() {
         val summerDate: Date = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH).parse("2017-08-20 00:00:00")
-        val printable = DateTimeHelper.hourMinutesOfMidnightDiffWithUtc(TimeZone.getTimeZone("America/Chicago"), summerDate) // -5 UTC
+        val printable = DateTimeHelper.hourMinutesOfMidnightDiffWithUtc(
+            TimeZone.getTimeZone("America/Chicago"),
+            summerDate
+        ) // -5 UTC
         assertEquals("19:00", printable)
         // Canada/Newfoundland
     }
@@ -81,14 +85,20 @@ class DateTimeHelperTest {
     @Test
     fun hourMinutesNegativeHalf() {
         val summerDate: Date = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH).parse("2017-08-20 00:00:00")
-        val printable = DateTimeHelper.hourMinutesOfMidnightDiffWithUtc(TimeZone.getTimeZone("Canada/Newfoundland"), summerDate) // -2:30 UTC
+        val printable = DateTimeHelper.hourMinutesOfMidnightDiffWithUtc(
+            TimeZone.getTimeZone("Canada/Newfoundland"),
+            summerDate
+        ) // -2:30 UTC
         assertEquals("21:30", printable)
     }
 
     @Test
     fun hourMinutesLondon() {
         val summerDate: Date = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH).parse("2017-08-20 00:00:00")
-        val printable = DateTimeHelper.hourMinutesOfMidnightDiffWithUtc(TimeZone.getTimeZone("Europe/London"), summerDate) // +1:00 UTC
+        val printable = DateTimeHelper.hourMinutesOfMidnightDiffWithUtc(
+            TimeZone.getTimeZone("Europe/London"),
+            summerDate
+        ) // +1:00 UTC
         assertEquals("01:00", printable)
     }
 

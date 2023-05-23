@@ -5,7 +5,7 @@ import org.hyperskill.app.core.view.mapper.DateFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 
-internal class ProblemsLimitViewStateMapper(
+class ProblemsLimitViewStateMapper(
     private val resourceProvider: ResourceProvider,
     private val dateFormatter: DateFormatter
 ) {

@@ -18,6 +18,20 @@ enum Strings {
         static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
     }
 
+    // MARK: - Badge -
+
+    enum Badge {
+        static let ideRequired = sharedStrings.badge_ide_required_text.localized()
+        static let current = sharedStrings.badge_current_text.localized()
+        static let solveUnlimited = sharedStrings.badge_solve_unlimited_text.localized()
+        static let repeatUnlimited = sharedStrings.badge_repeat_unlimited_text.localized()
+        static let selected = sharedStrings.badge_selected_text.localized()
+        static let bestRating = sharedStrings.badge_best_rating_text.localized()
+        static let fastestToComplete = sharedStrings.badge_fastest_to_complete_text.localized()
+        static let beta = sharedStrings.badge_beta_text.localized()
+        static let completed = sharedStrings.badge_completed_text.localized()
+    }
+
     // MARK: - TabBar -
 
     enum TabBar {
@@ -227,7 +241,6 @@ enum Strings {
     enum StudyPlan {
         static let title = sharedStrings.study_plan_title.localized()
         static let activitiesError = sharedStrings.study_plan_activities_error_text.localized()
-        static let badgeCurrent = sharedStrings.study_plan_badge_current_text.localized()
     }
 
     // MARK: - Profile -
@@ -400,5 +413,39 @@ enum Strings {
         static let text = sharedStrings.onboarding_text.localized()
         static let signIn = sharedStrings.onboarding_sign_in.localized()
         static let signUp = sharedStrings.onboarding_sign_up.localized()
+    }
+
+    // MARK: - ProjectSelectionList -
+
+    enum ProjectSelectionList {
+        static let title = sharedStrings.projects_list_toolbar_title.localized()
+
+        enum List {
+            static let description = sharedStrings.projects_list_description.localized()
+
+            static let recommendedProjectsTitle = sharedStrings.projects_list_recommended_projects_title.localized()
+
+            static let projectGraduateTitle = sharedStrings.projects_list_project_graduate_title.localized()
+
+            enum Category {
+                static let easyTitle = sharedStrings.projects_list_easy_category_title.localized()
+                static let easyDescription = sharedStrings.projects_list_easy_category_description.localized()
+
+                static let mediumTitle = sharedStrings.projects_list_medium_category_title.localized()
+                static let mediumDescription = sharedStrings.projects_list_medium_category_description.localized()
+
+                static let hardTitle = sharedStrings.projects_list_hard_category_title.localized()
+                static let hardDescription = sharedStrings.projects_list_hard_category_description.localized()
+
+                static let nightmareTitle = sharedStrings.projects_list_nightmare_category_title.localized()
+                static let nightmareDescription = sharedStrings.projects_list_nightmare_category_description.localized()
+            }
+        }
+    }
+
+    // MARK: - TrackSelectionList -
+
+    enum TrackSelectionList {
+        static let title = sharedStrings.track_selection_list_toolbar_title.localized()
     }
 }

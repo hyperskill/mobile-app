@@ -40,7 +40,9 @@ class StepQuizActionDispatcher(
         actionScope.launch {
             notificationInteractor.solvedStepsSharedFlow.collect { solvedStepId ->
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
-                    onNewMessage(Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS))
+                    onNewMessage(
+                        Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS)
+                    )
                 } else {
                     val cachedProfile = profileInteractor
                         .getCurrentProfile(sourceType = DataSourceType.CACHE)
@@ -57,7 +59,11 @@ class StepQuizActionDispatcher(
                         profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
                         onNewMessage(
                             Message.ShowProblemOfDaySolvedModal(
-                                earnedGemsText = resourceProvider.getQuantityString(SharedResources.plurals.earned_gems, gemsEarned, gemsEarned)
+                                earnedGemsText = resourceProvider.getQuantityString(
+                                    SharedResources.plurals.earned_gems,
+                                    gemsEarned,
+                                    gemsEarned
+                                )
                             )
                         )
                     }

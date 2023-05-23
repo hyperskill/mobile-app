@@ -6,7 +6,10 @@ import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInterac
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class StepQuizHintsComponentImpl(private val appGraph: AppGraph, private val stepRoute: StepRoute) : StepQuizHintsComponent {
+class StepQuizHintsComponentImpl(
+    private val appGraph: AppGraph,
+    private val stepRoute: StepRoute
+) : StepQuizHintsComponent {
     private val stepQuizHintsInteractor: StepQuizHintsInteractor =
         StepQuizHintsInteractor(
             appGraph.buildDiscussionsDataComponent().discussionsRepository,
@@ -14,7 +17,8 @@ class StepQuizHintsComponentImpl(private val appGraph: AppGraph, private val ste
             appGraph.buildCommentsDataComponent().commentsRepository
         )
 
-    override val stepQuizHintsFeature: Feature<StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
+    override val stepQuizHintsFeature: Feature<
+        StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
         get() = StepQuizHintsFeatureBuilder.build(
             stepRoute,
             stepQuizHintsInteractor,

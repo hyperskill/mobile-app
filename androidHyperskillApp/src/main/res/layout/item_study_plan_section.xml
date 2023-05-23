@@ -74,7 +74,7 @@
             android:id="@+id/sectionBadgeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/study_plan_badge_current_text"
+            android:text="@string/badge_current_text"
             android:textColor="@color/color_primary"
             android:background="@drawable/bg_study_plan_current_badge"
             android:paddingVertical="4dp"

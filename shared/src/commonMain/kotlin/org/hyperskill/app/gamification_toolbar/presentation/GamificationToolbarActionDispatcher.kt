@@ -140,7 +140,9 @@ class GamificationToolbarActionDispatcher(
         }
     }
 
-    private suspend fun fetchTrackWithProgressThroughStudyPlan(forceLoadFromRemote: Boolean): Result<TrackWithProgress?> =
+    private suspend fun fetchTrackWithProgressThroughStudyPlan(
+        forceLoadFromRemote: Boolean
+    ): Result<TrackWithProgress?> =
         kotlin.runCatching {
             val studyPlan =
                 currentStudyPlanStateRepository.getState(forceLoadFromRemote).getOrThrow()

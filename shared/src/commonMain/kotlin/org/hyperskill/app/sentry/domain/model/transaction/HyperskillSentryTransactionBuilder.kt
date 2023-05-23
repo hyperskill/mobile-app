@@ -201,6 +201,27 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
+     * ProblemsLimitFeature
+     */
+    fun buildProblemsLimitHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-home-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildProblemsLimitStudyPlanScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-study-plan-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildProblemsLimitStepQuizScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-step-quiz-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
      * TopicsToDiscoverNextFeature
      */
     fun buildTopicsToDiscoverNextHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
@@ -242,6 +263,24 @@ object HyperskillSentryTransactionBuilder {
     fun buildStudyPlanWidgetFetchTrack(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "study-plan-widget-feature-fetch-track",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * ProjectSelectionListFeature
+     */
+    fun buildProjectSelectionListScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "project-selection-list-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * TrackSelectionListFeature
+     */
+    fun buildTrackSelectionListScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "track-selection-list-feature-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }

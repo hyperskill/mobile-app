@@ -21,11 +21,11 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
-import org.hyperskill.app.problems_limit.injection.PlatformProblemsLimitComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -38,6 +38,7 @@ import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.track.injection.PlatformTrackComponent
 import org.hyperskill.app.track.injection.TrackComponent
+import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponent
 
 interface AndroidAppComponent : AppGraph {
     val context: Context
@@ -48,7 +49,10 @@ interface AndroidAppComponent : AppGraph {
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent
-    fun buildPlatformAuthCredentialsComponent(authCredentialsComponent: AuthCredentialsComponent): PlatformAuthCredentialsComponent
+    fun buildPlatformAuthCredentialsComponent(
+        authCredentialsComponent: AuthCredentialsComponent
+    ): PlatformAuthCredentialsComponent
+
     fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
     fun buildPlatformStepQuizHintsComponent(stepRoute: StepRoute, step: Step): PlatformStepQuizHintsComponent
@@ -56,15 +60,20 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent
     fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
-    fun buildPlatformProfileSettingsComponent(profileSettingsComponent: ProfileSettingsComponent): PlatformProfileSettingsComponent
+    fun buildPlatformProfileSettingsComponent(
+        profileSettingsComponent: ProfileSettingsComponent
+    ): PlatformProfileSettingsComponent
+
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
     fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent
-    fun buildPlatformPlaceholderNewUserComponent(placeholderNewUserComponent: PlaceholderNewUserComponent): PlatformPlaceholderNewUserComponent
+    fun buildPlatformPlaceholderNewUserComponent(
+        placeholderNewUserComponent: PlaceholderNewUserComponent
+    ): PlatformPlaceholderNewUserComponent
+
     fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
-
-    fun buildPlatformProblemsLimitComponent(): PlatformProblemsLimitComponent
-
     fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
+    fun buildPlatformProjectSelectionListComponent(trackId: Long): PlatformProjectSelectionListComponent
+    fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent
 }

@@ -4,5 +4,11 @@ import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 
 class AuthSocialWebViewViewModel(
-    reduxViewContainer: ReduxViewContainer<AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Message, AuthSocialWebViewFeature.Action>
-) : ReduxViewModel<AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Message, AuthSocialWebViewFeature.Action>(reduxViewContainer)
+    reduxViewContainer: ReduxViewContainer<
+        AuthSocialWebViewFeature.State,
+        AuthSocialWebViewFeature.Message,
+        AuthSocialWebViewFeature.Action
+        >
+) : ReduxViewModel<AuthSocialWebViewFeature.State, AuthSocialWebViewFeature.Message, AuthSocialWebViewFeature.Action>(
+    reduxViewContainer
+)

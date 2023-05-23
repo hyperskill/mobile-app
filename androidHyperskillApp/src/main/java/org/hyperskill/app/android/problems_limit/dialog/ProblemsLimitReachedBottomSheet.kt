@@ -27,7 +27,9 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
             ProblemsLimitReachedBottomSheet()
     }
 
-    private val viewBinding: FragmentProblemsLimitReachedBinding by viewBinding(FragmentProblemsLimitReachedBinding::bind)
+    private val viewBinding: FragmentProblemsLimitReachedBinding by viewBinding(
+        FragmentProblemsLimitReachedBinding::bind
+    )
 
     // View model should be created in parent fragment
     private val viewModel: StepQuizViewModel by viewModels(ownerProducer = ::requireParentFragment)

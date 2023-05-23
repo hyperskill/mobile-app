@@ -2,13 +2,14 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.isIdeRequired
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 
 object StepQuizResolver {
-    fun isQuizEnabled(state: StepQuizFeature.State.AttemptLoaded): Boolean {
+    fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean {
         if (state.isProblemsLimitReached) {
             return false
         }
@@ -33,20 +34,20 @@ object StepQuizResolver {
         return false
     }
 
-    fun isQuizLoading(state: StepQuizFeature.State): Boolean =
+    fun isQuizLoading(state: StepQuizFeature.StepQuizState): Boolean =
         when (state) {
-            is StepQuizFeature.State.AttemptLoaded -> {
+            is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 when (state.submissionState) {
                     is StepQuizFeature.SubmissionState.Empty -> false
                     is StepQuizFeature.SubmissionState.Loaded ->
                         state.submissionState.submission.status == SubmissionStatus.EVALUATION
                 }
             }
-            is StepQuizFeature.State.AttemptLoading -> true
-            StepQuizFeature.State.Idle -> false
-            StepQuizFeature.State.Loading -> true
-            StepQuizFeature.State.NetworkError -> false
-            StepQuizFeature.State.Unsupported -> false
+            is StepQuizFeature.StepQuizState.AttemptLoading -> true
+            StepQuizFeature.StepQuizState.Idle -> false
+            StepQuizFeature.StepQuizState.Loading -> true
+            StepQuizFeature.StepQuizState.NetworkError -> false
+            StepQuizFeature.StepQuizState.Unsupported -> false
         }
 
     fun isNeedRecreateAttemptForNewSubmission(step: Step): Boolean =
@@ -88,4 +89,32 @@ object StepQuizResolver {
         }
         return false
     }
+
+    fun isTheoryToolbarItemAvailable(state: StepQuizFeature.StepQuizState): Boolean =
+        when (state) {
+            is StepQuizFeature.StepQuizState.AttemptLoaded -> {
+                state.isTheoryAvailable
+            }
+            is StepQuizFeature.StepQuizState.AttemptLoading -> {
+                state.oldState.isTheoryAvailable
+            }
+            StepQuizFeature.StepQuizState.Idle,
+            StepQuizFeature.StepQuizState.Loading,
+            StepQuizFeature.StepQuizState.NetworkError,
+            StepQuizFeature.StepQuizState.Unsupported -> {
+                false
+            }
+        }
+
+    internal fun isTheoryAvailable(stepRoute: StepRoute, step: Step): Boolean =
+        when (stepRoute) {
+            is StepRoute.Learn,
+            is StepRoute.Repeat -> {
+                step.topicTheory != null
+            }
+            is StepRoute.LearnDaily,
+            is StepRoute.StageImplement -> {
+                false
+            }
+        }
 }

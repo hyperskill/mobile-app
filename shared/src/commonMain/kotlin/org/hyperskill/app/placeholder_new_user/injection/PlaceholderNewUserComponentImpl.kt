@@ -8,7 +8,8 @@ import ru.nobird.app.presentation.redux.feature.Feature
 class PlaceholderNewUserComponentImpl(
     private val appGraph: AppGraph
 ) : PlaceholderNewUserComponent {
-    override val placeholderNewUserFeature: Feature<PlaceholderNewUserFeature.State, PlaceholderNewUserFeature.Message, PlaceholderNewUserFeature.Action>
+    override val placeholderNewUserFeature: Feature<
+        PlaceholderNewUserFeature.State, PlaceholderNewUserFeature.Message, PlaceholderNewUserFeature.Action>
         get() = PlaceholderNewUserFeatureBuilder.build(
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,

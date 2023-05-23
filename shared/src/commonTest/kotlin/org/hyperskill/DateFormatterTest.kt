@@ -1,8 +1,8 @@
 package org.hyperskill
 
-import org.hyperskill.app.core.view.mapper.DateFormatter
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import org.hyperskill.app.core.view.mapper.DateFormatter
 
 class DateFormatterTest {
     @Test
@@ -18,7 +18,9 @@ class DateFormatterTest {
         )
 
         assertEquals(
-            DateFormatter.formatTimeDistance(17 * DateFormatter.ONE_MINUTE_IN_MILLIS + DateFormatter.THIRTY_SEC_IN_MILLIS),
+            DateFormatter.formatTimeDistance(
+                17 * DateFormatter.ONE_MINUTE_IN_MILLIS + DateFormatter.THIRTY_SEC_IN_MILLIS
+            ),
             "18 minutes"
         )
     }
@@ -31,12 +33,17 @@ class DateFormatterTest {
         )
 
         assertEquals(
-            DateFormatter.formatTimeDistance(7 * DateFormatter.ONE_HOUR_IN_MILLIS + 17 * DateFormatter.ONE_MINUTE_IN_MILLIS),
+            DateFormatter.formatTimeDistance(
+                7 * DateFormatter.ONE_HOUR_IN_MILLIS + 17 * DateFormatter.ONE_MINUTE_IN_MILLIS
+            ),
             "about 7 hours"
         )
 
         assertEquals(
-            DateFormatter.formatTimeDistance(23 * DateFormatter.ONE_HOUR_IN_MILLIS + 59 * DateFormatter.ONE_MINUTE_IN_MILLIS + DateFormatter.THIRTY_SEC_IN_MILLIS),
+            DateFormatter.formatTimeDistance(
+                23 * DateFormatter.ONE_HOUR_IN_MILLIS +
+                    59 * DateFormatter.ONE_MINUTE_IN_MILLIS + DateFormatter.THIRTY_SEC_IN_MILLIS
+            ),
             "about 24 hours"
         )
     }

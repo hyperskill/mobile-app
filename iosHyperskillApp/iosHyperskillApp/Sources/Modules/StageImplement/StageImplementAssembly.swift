@@ -33,6 +33,8 @@ final class StageImplementAssembly: UIKitAssembly {
             rootView: stageImplementView,
             appearance: .withoutBackButtonTitle
         )
+        // Fixes an issue with that SwiftUI view content layout unexpectedly pop/jumps on appear
+        hostingController.navigationItem.largeTitleDisplayMode = .never
 
         stackRouter.rootViewController = hostingController
 

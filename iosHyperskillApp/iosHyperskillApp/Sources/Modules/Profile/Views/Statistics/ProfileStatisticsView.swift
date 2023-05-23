@@ -26,7 +26,7 @@ struct ProfileStatisticsView: View {
 
             ProfileStatisticsItemView(
                 appearance: .init(cornerRadius: appearance.cornerRadius),
-                icon: .init(imageName: Images.TabBar.track, renderingMode: .circleBackground),
+                icon: .init(imageName: Images.Track.track, renderingMode: .circleBackground),
                 title: "\(passedTracksCount)",
                 subtitle: Strings.Profile.Statistics.passedTracks
             )

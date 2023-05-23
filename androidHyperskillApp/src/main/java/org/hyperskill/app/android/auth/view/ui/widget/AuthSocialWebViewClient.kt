@@ -27,7 +27,9 @@ class AuthSocialWebViewClient(
         request?.url?.let { url ->
             val urlString = url.toString()
             val codeQueryParameter = url.getQueryParameter(CodeParameter)
-            if (urlString.startsWith("https://${networkEndpointConfigInfo.host}/oauth?") && codeQueryParameter != null) {
+            if (urlString.startsWith("https://${networkEndpointConfigInfo.host}/oauth?") &&
+                codeQueryParameter != null
+            ) {
                 authSocialWebViewViewModel.onNewMessage(
                     AuthSocialWebViewFeature.Message.AuthCodeSuccess(
                         codeQueryParameter,

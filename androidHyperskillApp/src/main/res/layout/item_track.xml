@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/TrackCardViewStyle"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/item_vertical_padding"
+        android:paddingHorizontal="@dimen/item_horizontal_padding"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/trackIconImageView"
+            android:layout_width="@dimen/track_selection_list_item_icon_size"
+            android:layout_height="@dimen/track_selection_list_item_icon_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:background="@color/color_primary"
+            tools:ignore="ContentDescription"
+            />
+
+        <TextView
+            android:id="@+id/trackNameTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_marginHorizontal="12dp"
+            app:layout_constraintStart_toEndOf="@+id/trackIconImageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/trackRatingTextView"
+            tools:text="Kotlin BasicsKotlin BasicsKotlin BasicsKotlin BasicsKotlin BasicsKotlin Basics"
+            />
+
+        <TextView
+            android:id="@+id/trackTimeToCompleteTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/trackNameTextView"
+            app:layout_constraintTop_toBottomOf="@+id/trackNameTextView"
+            android:layout_marginTop="4dp"
+            tools:text="136 hours"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trackRatingTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            app:drawableStartCompat="@drawable/ic_star"
+            android:drawablePadding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="4.7"
+            />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/trackTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="trackSelectedBadge,trackCompletedBadge,trackBetaBadge"
+            app:flow_horizontalAlign="start"
+            app:flow_horizontalBias="0"
+            app:flow_verticalGap="4dp"
+            app:flow_wrapMode="chain"
+            app:flow_horizontalGap="8dp"
+            app:flow_horizontalStyle="packed"
+            android:paddingTop="@dimen/project_selection_list_item_tags_top_margin"
+            app:layout_constraintTop_toBottomOf="@+id/trackTimeToCompleteTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <include
+            android:id="@+id/trackSelectedBadge"
+            layout="@layout/view_badge_selected"
+            />
+
+        <include
+            android:id="@+id/trackCompletedBadge"
+            layout="@layout/view_badge_completed"
+            />
+
+        <include
+            android:id="@+id/trackBetaBadge"
+            layout="@layout/view_badge_beta"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

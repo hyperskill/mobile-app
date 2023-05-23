@@ -48,7 +48,10 @@ class ProgressesRepositoryImpl(
     override suspend fun getTopicsProgresses(topicsIds: List<Long>): Result<List<TopicProgress>> =
         progressesRemoteDataSource.getTopicsProgresses(topicsIds)
 
-    override suspend fun getProjectsProgresses(projectsIds: List<Long>, forceLoadFromRemote: Boolean): Result<List<ProjectProgress>> =
+    override suspend fun getProjectsProgresses(
+        projectsIds: List<Long>,
+        forceLoadFromRemote: Boolean
+    ): Result<List<ProjectProgress>> =
         projectProgressCacheProxy.getValues(projectsIds, forceLoadFromRemote)
 
     override fun clearCache() {

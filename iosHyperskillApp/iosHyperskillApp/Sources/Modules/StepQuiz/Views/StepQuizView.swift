@@ -20,22 +20,11 @@ struct StepQuizView: View {
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.stepRoute is StepRouteRepeat,
-                       let theoryID = viewModel.step.topicTheory {
-                        Button(Strings.Step.theory) {
-                            let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
-                            stackRouter.pushViewController(assembly.makeModule())
-                        }
-                    }
-                }
-            }
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
 
-                if viewModel.state is StepQuizFeatureStateIdle {
+                if viewModel.stepQuizStateKs == .idle {
                     viewModel.loadAttempt()
                 }
 
@@ -51,7 +40,7 @@ struct StepQuizView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        if viewModel.state is StepQuizFeatureStateNetworkError {
+        if viewModel.stepQuizStateKs == .networkError {
             PlaceholderView(
                 configuration: .networkError(
                     backgroundColor: .clear,
@@ -91,6 +80,18 @@ struct StepQuizView: View {
                 }
                 .padding()
             }
+            .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
+                $0.toolbar {
+                    // buildIf is only available in iOS 16.0 or newer
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(
+                            Strings.Step.theory,
+                            action: viewModel.doTheoryToolbarAction
+                        )
+                        .disabled(StepQuizResolver.shared.isQuizLoading(state: viewModel.state.stepQuizState))
+                    }
+                }
+            }
         }
     }
 
@@ -108,10 +109,10 @@ struct StepQuizView: View {
                 .padding(.top)
         }
 
-        let attemptLoadedState: StepQuizFeatureStateAttemptLoaded? = {
-            if let attemptLoadedState = state as? StepQuizFeatureStateAttemptLoaded {
+        let attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded? = {
+            if let attemptLoadedState = state.stepQuizState as? StepQuizFeatureStepQuizStateAttemptLoaded {
                 return attemptLoadedState
-            } else if let attemptLoadingState = state as? StepQuizFeatureStateAttemptLoading {
+            } else if let attemptLoadingState = state.stepQuizState as? StepQuizFeatureStepQuizStateAttemptLoading {
                 return attemptLoadingState.oldState
             }
             return nil
@@ -126,13 +127,12 @@ struct StepQuizView: View {
                     StepQuizStatsView(text: formattedStats)
                 }
 
-                if viewModel.stepRoute is StepRouteLearn {
-                    ProblemsLimitAssembly(
-                        appearance: .init(showTopDivider: true)
-                    ).makeModule()
-                }
+                StepQuizProblemsLimitView(
+                    stateKs: viewModel.problemsLimitViewStateKs,
+                    onReloadButtonTap: viewModel.doReloadProblemsLimit
+                )
 
-                buildQuizStatusView(state: state, attemptLoadedState: attemptLoadedState)
+                buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
                     StepQuizFeedbackView(text: feedbackHintText)
@@ -149,7 +149,7 @@ struct StepQuizView: View {
     private func buildChildQuiz(
         quizType: StepQuizChildQuizType,
         step: Step,
-        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
+        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
         if let dataset = attemptLoadedState.attempt.dataset {
             let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty
@@ -171,10 +171,10 @@ struct StepQuizView: View {
 
     @ViewBuilder
     private func buildQuizStatusView(
-        state: StepQuizFeatureState,
-        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
+        state: StepQuizFeatureStepQuizState,
+        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
-        if state is StepQuizFeatureStateAttemptLoading {
+        if state is StepQuizFeatureStepQuizStateAttemptLoading {
             StepQuizStatusView(state: .loading)
         } else if let submissionState = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
             if let replyValidationError = submissionState.replyValidation as? ReplyValidationResultError {
@@ -189,7 +189,7 @@ struct StepQuizView: View {
     private func buildQuizActionButtons(
         quizType: StepQuizChildQuizType,
         state: StepQuizFeatureState,
-        attemptLoadedState: StepQuizFeatureStateAttemptLoaded
+        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
         let submissionStatus: SubmissionStatus? = {
             if let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded {
@@ -205,10 +205,10 @@ struct StepQuizView: View {
                     runSolutionButtonState: .init(submissionStatus: submissionStatus),
                     runSolutionButtonAction: viewModel.doMainQuizAction
                 )
-                .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state.stepQuizState))
             } else if StepQuizResolver.shared.isNeedRecreateAttemptForNewSubmission(step: viewModel.step) {
                 StepQuizActionButtons.retry(action: viewModel.doQuizRetryAction)
-                    .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
+                    .disabled(StepQuizResolver.shared.isQuizLoading(state: state.stepQuizState))
             } else {
                 StepQuizActionButtons.submit(
                     state: .init(submissionStatus: submissionStatus),
@@ -225,13 +225,16 @@ struct StepQuizView: View {
                         action: viewModel.doQuizContinueAction
                     )
                 )
-                .disabled(StepQuizResolver.shared.isQuizLoading(state: state) || viewModel.isPracticingLoading)
+                .disabled(
+                    StepQuizResolver.shared.isQuizLoading(state: state.stepQuizState) ||
+                    viewModel.isPracticingLoading
+                )
             } else {
                 StepQuizActionButtons.continue(
                     isLoading: viewModel.isPracticingLoading,
                     action: viewModel.doQuizContinueAction
                 )
-                .disabled(StepQuizResolver.shared.isQuizLoading(state: state))
+                .disabled(StepQuizResolver.shared.isQuizLoading(state: state.stepQuizState))
             }
         } else {
             if quizType.isCodeRelated {
@@ -267,6 +270,8 @@ struct StepQuizView: View {
             presentProblemsLimitReachedModal()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
+        case .problemsLimitViewAction:
+            break
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .back:
@@ -274,6 +279,9 @@ struct StepQuizView: View {
             case .home:
                 stackRouter.popViewController()
                 TabBarRouter(tab: .home).route()
+            case .stepScreen(let navigateToStepScreenViewAction):
+                let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
+                stackRouter.pushViewController(assembly.makeModule())
             }
         }
     }

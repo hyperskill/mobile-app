@@ -7,9 +7,9 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.withTranslation
+import kotlin.math.roundToInt
 import ru.nobird.android.view.base.ui.extension.Dp
 import ru.nobird.android.view.base.ui.extension.toPx
-import kotlin.math.roundToInt
 
 class ProblemsLimitView @JvmOverloads constructor(
     context: Context,

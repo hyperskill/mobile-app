@@ -2,7 +2,8 @@ package org.hyperskill.app.track.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlin.math.roundToInt
+import org.hyperskill.app.progresses.domain.model.Progress
+import org.hyperskill.app.progresses.domain.model.averageRating
 
 @Serializable
 data class TrackProgress(
@@ -11,11 +12,11 @@ data class TrackProgress(
     @SerialName("vid")
     val vid: String,
     @SerialName("clarity")
-    val clarity: Float?,
+    override val clarity: Float?,
     @SerialName("fun")
-    val funMeasure: Float?,
+    override val funMeasure: Float?,
     @SerialName("usefulness")
-    val usefulness: Float?,
+    override val usefulness: Float?,
     @SerialName("completed_projects")
     val completedProjects: List<Long>,
     @SerialName("completed_capstone_projects")
@@ -30,16 +31,9 @@ data class TrackProgress(
     val skippedTopicsCount: Int,
     @SerialName("rank")
     val rank: Int = 0
-) {
+) : Progress {
     val averageRating: Double
-        get() {
-            val internalFunMeasure = (funMeasure ?: 0).toDouble()
-            val internalClarity = (clarity ?: 0).toDouble()
-            val internalUsefulness = (usefulness ?: 0).toDouble()
-            val avgRating = (internalFunMeasure + internalClarity + internalUsefulness) / 3
-
-            return (avgRating * 10).roundToInt() / 10.0
-        }
+        get() = averageRating()
 
     val completedTopics: Int
         get() = learnedTopicsCount + skippedTopicsCount

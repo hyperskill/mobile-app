@@ -22,6 +22,7 @@ import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -30,6 +31,7 @@ import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -57,6 +59,7 @@ import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNext
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 
 interface AppGraph {
@@ -99,6 +102,7 @@ interface AppGraph {
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
+    fun buildTrackSelectionListComponent(): TrackSelectionListComponent
     fun buildProfileComponent(): ProfileComponent
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent
@@ -125,7 +129,8 @@ interface AppGraph {
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
+    fun buildProjectSelectionListComponent(): ProjectSelectionListComponent
     fun buildStagesDataComponent(): StagesDataComponent
     fun buildFreemiumDataComponent(): FreemiumDataComponent
-    fun buildProblemsLimitComponent(): ProblemsLimitComponent
+    fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent
 }

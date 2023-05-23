@@ -1,11 +1,11 @@
 package org.hyperskill.app.android.code.view.widget
 
+import kotlin.math.min
 import org.hyperskill.app.android.code.presentation.autocomplete.AutocompleteContainer
 import org.hyperskill.app.android.code.presentation.autocomplete.AutocompleteState
 import org.hyperskill.app.android.core.extensions.countWhile
 import org.hyperskill.app.android.core.extensions.substringOrNull
 import org.hyperskill.app.android.core.extensions.takeLastFromIndexWhile
-import kotlin.math.min
 
 /**
  * Class for smart code analyzing
@@ -74,7 +74,8 @@ class CodeAnalyzer(private val autocompleteContainer: AutocompleteContainer) {
 
             in brackets -> {
                 val next = getNextSymbolAsString(start + 1, text)
-                if (next == null || Character.isWhitespace(next[0]) || next in brackets.values) { // don't want auto bracket if there is a statement next
+                // don't want auto bracket if there is a statement next
+                if (next == null || Character.isWhitespace(next[0]) || next in brackets.values) {
                     insertTextAfterCursor(start, count, codeEditor, brackets[inserted])
                 }
             }
@@ -86,7 +87,8 @@ class CodeAnalyzer(private val autocompleteContainer: AutocompleteContainer) {
             in quotes -> {
                 val next = getNextSymbolAsString(start + 1, text)
                 val prev = getPrevSymbolAsString(start, text)
-                if ((next == null || Character.isWhitespace(next[0])) && prev != inserted) { // don't want auto quote if there is a statement next
+                // don't want auto quote if there is a statement next
+                if ((next == null || Character.isWhitespace(next[0])) && prev != inserted) {
                     insertTextAfterCursor(start, count, codeEditor, inserted)
                 } else {
                     onClosingSymbolInserted(start, count, codeEditor, inserted, text)
@@ -151,8 +153,8 @@ class CodeAnalyzer(private val autocompleteContainer: AutocompleteContainer) {
 
             while (0 <= pos && pos < text.length) {
                 when (text.substring(pos, pos + 1)) {
-                    it.key -> deep += delta  // opening bracket
-                    it.value -> deep -= delta  // closing bracket
+                    it.key -> deep += delta // opening bracket
+                    it.value -> deep -= delta // closing bracket
                 }
 
                 if (deep == 0)

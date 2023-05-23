@@ -186,7 +186,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         codeSubmitButton.setText(org.hyperskill.app.R.string.step_quiz_code_run_solution_button_text)
         codeSubmitButton.setIconResource(R.drawable.ic_run)
         codeSubmitButton.iconPadding =
-            requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
+            requireContext().resources
+                .getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_action_button_icon_padding)
         codeSubmitButton.setOnClickListener { submitCodeActionClick() }
 
         retryButton = playgroundLayout.findViewById(R.id.stepQuizRetryLogoOnlyButton)
@@ -317,7 +318,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                         0,
                         0,
                         0,
-                        requireContext().resources.getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_bottom_padding)
+                        requireContext().resources
+                            .getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_bottom_padding)
                     )
                     setViewsVisibility(needShow = true)
                     keyboardShown = false

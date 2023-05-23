@@ -36,7 +36,8 @@ class MatchingItemTitleAdapterDelegate : AdapterDelegate<MatchingItem, DelegateV
                     rightMargin = context.resources.getDimensionPixelOffset(R.dimen.step_quiz_matching_item_margin)
                 }
 
-            stepQuizSortingOption.webViewClient = ProgressableWebViewClient(stepQuizSortingOptionProgress, stepQuizSortingOption.webView)
+            stepQuizSortingOption.webViewClient =
+                ProgressableWebViewClient(stepQuizSortingOptionProgress, stepQuizSortingOption.webView)
         }
 
         override fun onBind(data: MatchingItem) {
@@ -45,7 +46,8 @@ class MatchingItemTitleAdapterDelegate : AdapterDelegate<MatchingItem, DelegateV
 
             stepQuizSortingOption.setText(data.text)
 
-            val elevation = if (data.isEnabled) context.resources.getDimension(R.dimen.step_quiz_sorting_item_elevation) else 0f
+            val elevation =
+                if (data.isEnabled) context.resources.getDimension(R.dimen.step_quiz_sorting_item_elevation) else 0f
             ViewCompat.setElevation(itemView, elevation)
         }
     }

@@ -29,7 +29,7 @@ class NewUserTrackDetailsBottomSheet : BottomSheetDialogFragment() {
 
         fun newInstance(track: PlaceholderNewUserViewData.Track): NewUserTrackDetailsBottomSheet =
             NewUserTrackDetailsBottomSheet().apply {
-                this.arguments  = Bundle().apply {
+                this.arguments = Bundle().apply {
                     putParcelable(
                         TRACK_KEY,
                         track,
@@ -45,7 +45,9 @@ class NewUserTrackDetailsBottomSheet : BottomSheetDialogFragment() {
         HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
 
-    private val placeholderNewUserViewModel: PlaceholderNewUserViewModel by viewModels(ownerProducer = ::requireParentFragment)
+    private val placeholderNewUserViewModel: PlaceholderNewUserViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +84,8 @@ class NewUserTrackDetailsBottomSheet : BottomSheetDialogFragment() {
         // Hack to apply AppTheme to content
         // Without contextThemeWrapper AppTheme is not applied
         val contextThemeWrapper = ContextThemeWrapper(activity, R.style.AppTheme)
-        return inflater.cloneInContext(contextThemeWrapper).inflate(R.layout.fragment_new_user_track_details, container, false)
+        return inflater.cloneInContext(contextThemeWrapper)
+            .inflate(R.layout.fragment_new_user_track_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

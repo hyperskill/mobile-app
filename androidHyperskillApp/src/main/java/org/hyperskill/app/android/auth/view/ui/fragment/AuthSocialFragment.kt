@@ -101,7 +101,9 @@ class AuthSocialFragment :
 
     private fun onSocialClickListener(social: AuthSocialCardInfo) {
         currentSocialAuthProvider = social.socialAuthProvider
-        authSocialViewModel.onNewMessage(AuthSocialFeature.Message.ClickedSignInWithSocialEventMessage(social.socialAuthProvider))
+        authSocialViewModel.onNewMessage(
+            AuthSocialFeature.Message.ClickedSignInWithSocialEventMessage(social.socialAuthProvider)
+        )
 
         val authSocialWebViewFragment = AuthSocialWebViewFragment.newInstance(social.socialAuthProvider)
         when (social) {

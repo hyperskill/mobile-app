@@ -2,15 +2,21 @@ package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -28,9 +34,10 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
-import org.hyperskill.app.android.problems_limit.fragment.ProblemsLimitFragment
+import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -39,6 +46,9 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -61,7 +71,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
-    StepCompletionView {
+    StepCompletionView,
+    MenuProvider {
 
     companion object {
         private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
@@ -73,7 +84,10 @@ abstract class DefaultStepQuizFragment :
 
     protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
 
-    private var viewStateDelegate: ViewStateDelegate<StepQuizFeature.State>? = null
+    private var stepQuizStateDelegate: ViewStateDelegate<StepQuizFeature.StepQuizState>? = null
+
+    private var problemsLimitDelegate: ProblemsLimitDelegate? = null
+    private var problemsLimitViewStateMapper: ProblemsLimitViewStateMapper? = null
 
     private var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate? = null
     private var stepQuizFormDelegate: StepQuizFormDelegate? = null
@@ -99,6 +113,8 @@ abstract class DefaultStepQuizFragment :
     protected var step: Step by argument(serializer = Step.serializer())
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
+    private var theoryButtonState: TheoryButtonState? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
@@ -107,19 +123,29 @@ abstract class DefaultStepQuizFragment :
     private fun injectComponent() {
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(stepRoute)
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
+        val problemsLimitComponent = HyperskillApp.graph().buildProblemsLimitComponent(ProblemsLimitScreen.STEP_QUIZ)
         userPermissionRequestTextMapper = stepQuizComponent.stepQuizUserPermissionRequestTextMapper
         stepQuizStatsTextMapper = stepQuizComponent.stepQuizStatsTextMapper
         stepQuizTitleMapper = stepQuizComponent.stepQuizTitleMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
+        problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper
     }
 
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity() as MenuHost).addMenuProvider(
+            this,
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
+
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
 
-        viewStateDelegate = StepQuizViewStateDelegateFactory.create(
+        initProblemsLimitDelegate()
+
+        stepQuizStateDelegate = StepQuizViewStateDelegateFactory.create(
             fragmentStepQuizBinding = viewBinding,
             descriptionBinding = descriptionBinding,
             skeletonView = skeletonView,
@@ -139,6 +165,16 @@ abstract class DefaultStepQuizFragment :
         }
 
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
+    }
+
+    private fun initProblemsLimitDelegate() {
+        problemsLimitDelegate = ProblemsLimitDelegate(
+            viewBinding = viewBinding.stepQuizProblemsLimit,
+            onNewMessage = {
+                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitMessage(it))
+            }
+        )
+        problemsLimitDelegate?.setup()
     }
 
     private fun renderStatistics(textView: TextView, step: Step) {
@@ -186,10 +222,34 @@ abstract class DefaultStepQuizFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewStateDelegate = null
+        stepQuizStateDelegate = null
         stepQuizButtonsViewStateDelegate = null
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
+        problemsLimitDelegate?.cleanup()
+        problemsLimitDelegate = null
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.step_quiz_appbar_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+        false
+
+    override fun onPrepareMenu(menu: Menu) {
+        val menuItem = menu.findItem(R.id.theory)
+        menuItem.isVisible =
+            theoryButtonState?.isVisible ?: false
+        menuItem.actionView?.apply {
+            isEnabled =
+                theoryButtonState?.isEnabled ?: false
+            setOnClickListener {
+                stepQuizViewModel.onNewMessage(
+                    StepQuizFeature.Message.TheoryToolbarItemClicked
+                )
+            }
+        }
     }
 
     protected abstract fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View
@@ -236,6 +296,9 @@ abstract class DefaultStepQuizFragment :
                 requireRouter().backTo(MainScreen)
                 mainScreenRouter.switch(HomeScreen)
             }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
+                requireRouter().navigateTo(StepScreen(action.stepRoute))
+            }
             is StepQuizFeature.Action.ViewAction.RequestUserPermission -> {
                 when (action.userPermissionRequest) {
                     StepQuizUserPermissionRequest.RESET_CODE -> {
@@ -255,6 +318,7 @@ abstract class DefaultStepQuizFragment :
                 ProblemsLimitReachedBottomSheet.newInstance()
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
+            is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
         }
     }
 
@@ -322,33 +386,52 @@ abstract class DefaultStepQuizFragment :
     }
 
     override fun render(state: StepQuizFeature.State) {
-        viewStateDelegate?.switchState(state)
+        stepQuizStateDelegate?.switchState(state.stepQuizState)
 
         val stepQuizButtonsLinearLayout = view?.findViewById<LinearLayout>(R.id.stepQuizButtons)
         if (stepQuizButtonsLinearLayout != null) {
             for (childView in stepQuizButtonsLinearLayout.children) {
-                childView.isEnabled = !StepQuizResolver.isQuizLoading(state)
+                childView.isEnabled = !StepQuizResolver.isQuizLoading(state.stepQuizState)
             }
         }
 
-        when (state) {
-            StepQuizFeature.State.Unsupported -> {
+        when (val stepQuizState = state.stepQuizState) {
+            StepQuizFeature.StepQuizState.Unsupported -> {
                 stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Unsupported)
             }
-            is StepQuizFeature.State.AttemptLoaded -> {
+            is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 setStepHintsFragment(step)
-                setProblemsLimitFragment(stepRoute)
-                renderAttemptLoaded(state)
+                renderAttemptLoaded(stepQuizState)
+
+                problemsLimitViewStateMapper?.let { mapper ->
+                    val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
+                    viewBinding.problemsLimitDivider.root.isVisible =
+                        problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
+                    problemsLimitDelegate?.render(problemsLimitViewState)
+                }
             }
             else -> {
                 // no op
             }
         }
 
+        renderTheoryButton(state.stepQuizState)
+
         onNewState(state)
     }
 
-    private fun renderAttemptLoaded(state: StepQuizFeature.State.AttemptLoaded) {
+    private fun renderTheoryButton(state: StepQuizFeature.StepQuizState) {
+        val newTheoryButtonState = TheoryButtonState(
+            isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state),
+            isEnabled = !StepQuizResolver.isQuizLoading(state)
+        )
+        if (newTheoryButtonState != this.theoryButtonState) {
+            this.theoryButtonState = newTheoryButtonState
+            (requireActivity() as MenuHost).invalidateMenu()
+        }
+    }
+
+    private fun renderAttemptLoaded(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         descriptionBinding.stepQuizDescription.text =
             stepQuizTitleMapper?.getStepQuizTitle(
                 blockName = step.block.name,
@@ -405,21 +488,6 @@ abstract class DefaultStepQuizFragment :
         }
     }
 
-    private fun setProblemsLimitFragment(stepRoute: StepRoute) {
-        when (stepRoute) {
-            is StepRoute.Learn -> {
-                setChildFragment(R.id.stepQuizProblemsLimit, ProblemsLimitFragment.TAG) {
-                    ProblemsLimitFragment.newInstance(isDividerVisible = true)
-                }
-            }
-            is StepRoute.StageImplement,
-            is StepRoute.LearnDaily,
-            is StepRoute.Repeat -> {
-                // no op
-            }
-        }
-    }
-
     final override fun render(isPracticingLoading: Boolean) {
         if (isResumed) {
             with(viewBinding) {
@@ -448,4 +516,9 @@ abstract class DefaultStepQuizFragment :
         object RetryLogoAndSubmit : StepQuizButtonsState
         object RetryLogoAndContinue : StepQuizButtonsState
     }
+
+    private data class TheoryButtonState(
+        val isVisible: Boolean,
+        val isEnabled: Boolean
+    )
 }

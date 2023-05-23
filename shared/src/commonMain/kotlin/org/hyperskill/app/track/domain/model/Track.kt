@@ -23,7 +23,7 @@ data class Track(
     @SerialName("results")
     val results: String,
     @SerialName("seconds_to_complete")
-    val secondsToComplete: Double,
+    val secondsToComplete: Float?,
     @SerialName("title")
     val title: String,
     @SerialName("topics_count")
@@ -34,6 +34,8 @@ data class Track(
     val careers: String,
     @SerialName("projects")
     val projects: List<Long>,
+    @SerialName("beta_projects")
+    val betaProjects: List<Long>,
     @SerialName("progress_id")
     val progressId: String,
     @SerialName("is_public")
@@ -49,4 +51,6 @@ data class Track(
     @Deprecated("Use TrackWithProgress instead")
     @Transient
     val progress: TrackProgress? = null
-)
+) {
+    companion object
+}

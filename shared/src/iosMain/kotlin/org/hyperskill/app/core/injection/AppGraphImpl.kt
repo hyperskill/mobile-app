@@ -45,6 +45,7 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
+import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -61,6 +62,8 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponent
+import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponentImpl
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
@@ -114,6 +117,8 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponent
+import org.hyperskill.app.track_selection.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -213,6 +218,9 @@ class AppGraphImpl(
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)
 
+    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
+        TrackSelectionListComponentImpl(this)
+
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
 
@@ -291,6 +299,9 @@ class AppGraphImpl(
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
 
+    override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
+        ProjectSelectionListComponentImpl(this)
+
     override fun buildStagesDataComponent(): StagesDataComponent =
         StagesDataComponentImpl(this)
 
@@ -303,6 +314,6 @@ class AppGraphImpl(
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)
 
-    override fun buildProblemsLimitComponent(): ProblemsLimitComponent =
-        ProblemsLimitComponentImpl(this)
+    override fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(screen, this)
 }

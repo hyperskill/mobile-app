@@ -16,13 +16,20 @@ class StepQuizTitleMapper(
                     resourceProvider.getString(SharedResources.strings.step_quiz_choice_single_choice_title)
                 }
             }
-            BlockName.CODE, BlockName.PYCHARM -> resourceProvider.getString(SharedResources.strings.step_quiz_code_title)
-            BlockName.SQL -> resourceProvider.getString(SharedResources.strings.step_quiz_sql_title)
-            BlockName.MATCHING -> resourceProvider.getString(SharedResources.strings.step_quiz_matching_title)
-            BlockName.MATH -> resourceProvider.getString(SharedResources.strings.step_quiz_math_title)
-            BlockName.NUMBER -> resourceProvider.getString(SharedResources.strings.step_quiz_number_title)
-            BlockName.SORTING -> resourceProvider.getString(SharedResources.strings.step_quiz_sorting_title)
-            BlockName.STRING -> resourceProvider.getString(SharedResources.strings.step_quiz_string_title)
+            BlockName.CODE, BlockName.PYCHARM ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_code_title)
+            BlockName.SQL ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_sql_title)
+            BlockName.MATCHING ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_matching_title)
+            BlockName.MATH ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_math_title)
+            BlockName.NUMBER ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_number_title)
+            BlockName.SORTING ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_sorting_title)
+            BlockName.STRING ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_string_title)
             BlockName.TABLE -> {
                 if (isCheckbox == true) {
                     resourceProvider.getString(SharedResources.strings.step_quiz_table_multiple_choice_title)

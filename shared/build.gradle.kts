@@ -88,6 +88,7 @@ kotlin {
             dependsOn(commonTest)
             dependencies {
                 implementation(kotlin("test-junit"))
+                implementation(kotlin("reflect"))
                 implementation(libs.bundles.android.test)
                 implementation(libs.kotlin.coroutines.test)
             }
@@ -206,7 +207,9 @@ tasks.withType<KotlinNativeLink>()
                 .resolve("Hyperskill-Mobile_shared.swift")
 
             val iosHyperskillAppSharedSwiftFile = rootDir
-                .resolve("iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift")
+                .resolve(
+                    "iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift"
+                )
             if (!iosHyperskillAppSharedSwiftFile.exists()) {
                 iosHyperskillAppSharedSwiftFile.createNewFile()
             }
