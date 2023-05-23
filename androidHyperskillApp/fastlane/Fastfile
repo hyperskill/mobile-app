@@ -46,6 +46,17 @@ platform :android do
     json_key = options[:json_key]
     UI.user_error!("Required json_key: The path to a file containing service account JSON") if json_key.nil?
 
+    track = options[:track]
+    UI.user_error!(
+      "Required track: The track of the application to use. Available tracks are: production, beta, alpha, internal."
+    ) if track.nil?
+
+    if ["production", "beta", "alpha", "internal"].include?(track)
+      # no op
+    else
+      UI.user_error!("Available tracks are: production, beta, alpha, internal.")
+    end
+
     gradle(
       task: "clean bundleRelease",
       gradle_path: gradle_path,
@@ -53,7 +64,7 @@ platform :android do
 
     upload_to_play_store(
       release_status: "completed",
-      track: "alpha",
+      track: track,
       json_key: json_key,
       skip_upload_images: true,
       skip_upload_screenshots: true,

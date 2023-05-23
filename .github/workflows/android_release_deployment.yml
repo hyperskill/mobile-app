@@ -50,7 +50,8 @@ jobs:
       working-directory: './androidHyperskillApp'
       run: |
         bundle exec fastlane release \
-          json_key:"${{ steps.setup.outputs.service-account-path }}"
+          json_key:"${{ steps.setup.outputs.service-account-path }}" \
+          track:"alpha"
       env:
         IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
         HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
