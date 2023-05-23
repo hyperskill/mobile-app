@@ -4,7 +4,7 @@ import org.hyperskill.app.SharedResources
 
 class NumbersFormatter(private val resourceProvider: ResourceProvider) {
     companion object {
-        private fun formatFloatingNumber(number: Double, decimalPoints: Int = 2): String {
+        fun formatFloatingNumber(number: Double, decimalPoints: Int = 2): String {
             // decimal formatting in kotlin stdlib https://youtrack.jetbrains.com/issue/KT-21644
             val numberParts = number.toString().split(".")
             return if (numberParts.size == 2) {
