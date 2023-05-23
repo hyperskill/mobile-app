@@ -58,7 +58,7 @@ final class StepAssembly: Assembly, UIKitAssembly {
         return StepViewModel(
             stepRoute: stepRoute,
             viewDataMapper: StepViewDataMapper(
-                formatter: Formatter(resourceProvider: commonComponent.resourceProvider),
+                dateFormatter: commonComponent.dateFormatter,
                 resourceProvider: commonComponent.resourceProvider,
                 commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
             ),

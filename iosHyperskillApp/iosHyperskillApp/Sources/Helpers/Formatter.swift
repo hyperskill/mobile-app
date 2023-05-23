@@ -62,11 +62,6 @@ final class Formatter {
     // MARK: Date
 
     /// Format seconds with localized and pluralized suffix; 1 -> "1 second", 5 -> "5 seconds"
-    func secondsCount(_ seconds: TimeInterval, roundingRule: FloatingPointRoundingRule = .up) -> String {
-        secondsCount(Int(seconds.rounded(roundingRule)))
-    }
-
-    /// Format seconds with localized and pluralized suffix; 1 -> "1 second", 5 -> "5 seconds"
     func secondsCount(_ count: Int) -> String { secondsCount(Int32(count)) }
 
     /// Format seconds with localized and pluralized suffix; 1 -> "1 second", 5 -> "5 seconds"
@@ -87,25 +82,6 @@ final class Formatter {
             pluralsResource: pluralsResources.minutes,
             quantity: count,
             args: KotlinArray(size: 1, init: { _ in NSNumber(value: count) })
-        )
-    }
-
-    /// Format minutes or seconds count with localized and pluralized suffix;  25 -> "1 seconds", 61 -> "1 minute"
-    func minutesOrSecondsCount(seconds: TimeInterval, roundingRule: FloatingPointRoundingRule = .up) -> String {
-        let roundedSeconds = seconds.rounded(roundingRule)
-        return roundedSeconds >= .oneMinute
-            ? minutesCount(UnitConverters.Minute.from(seconds: roundedSeconds, roundingRule: roundingRule))
-            : secondsCount(Int(roundedSeconds))
-    }
-
-    /// Format hours count with localized and pluralized suffix; 1 -> "1 hour", 5 -> "5 hours"
-    func hoursInSeconds(_ seconds: TimeInterval, roundingRule: FloatingPointRoundingRule = .up) -> String {
-        let hours = UnitConverters.Hour.from(seconds: seconds, roundingRule: roundingRule)
-
-        return resourceProvider.getQuantityString(
-            pluralsResource: pluralsResources.hours,
-            quantity: Int32(hours),
-            args: KotlinArray(size: 1, init: { _ in NSNumber(value: hours) })
         )
     }
 

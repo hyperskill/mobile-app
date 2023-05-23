@@ -1,10 +1,10 @@
 package org.hyperskill.app.android.problem_of_day.view.delegate
 
-import android.content.Context
 import android.view.View
 import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutProblemOfTheDayCardBinding
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 
 class ProblemOfDayCardFormDelegate(
@@ -22,7 +22,7 @@ class ProblemOfDayCardFormDelegate(
     }
 
     fun render(
-        context: Context,
+        dateFormatter: SharedDateFormatter,
         binding: LayoutProblemOfTheDayCardBinding,
         state: HomeFeature.ProblemOfDayState,
         isFreemiumEnabled: Boolean
@@ -82,14 +82,11 @@ class ProblemOfDayCardFormDelegate(
                         onCardClicked(state.step.id)
                     }
 
-                    if (state.step.secondsToComplete != null) {
+                    val secondsToComplete = state.step.secondsToComplete
+                    if (secondsToComplete != null) {
                         problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
-                        val minutesToComplete = state.step.secondsToComplete!!.div(60).toInt()
                         problemOfDayTimeToSolveTextView.text =
-                            context.getString(
-                                org.hyperskill.app.R.string.problem_of_day_minutes,
-                                minutesToComplete
-                            )
+                            dateFormatter.formatMinutesOrSecondsCount(secondsToComplete)
                     } else {
                         problemOfDayTimeToSolveTextView.visibility = View.GONE
                     }

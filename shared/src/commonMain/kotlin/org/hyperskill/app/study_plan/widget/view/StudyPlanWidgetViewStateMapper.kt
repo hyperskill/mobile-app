@@ -1,7 +1,7 @@
 package org.hyperskill.app.study_plan.widget.view
 
 import kotlin.math.roundToLong
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
@@ -10,7 +10,7 @@ import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 
-class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
+class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
         when (state.sectionsStatus) {
             StudyPlanWidgetFeature.ContentStatus.IDLE -> StudyPlanWidgetViewState.Idle
@@ -51,7 +51,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     formattedTimeToComplete = if (shouldShowSectionStatistics) {
                         section.secondsToComplete
                             ?.roundToLong()
-                            ?.let(dateFormatter::hoursWithMinutesCount)
+                            ?.let(dateFormatter::formatHoursWithMinutesCount)
                             ?.takeIf { it.isNotEmpty() }
                     } else {
                         null
