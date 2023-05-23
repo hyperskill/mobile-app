@@ -8,8 +8,8 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
