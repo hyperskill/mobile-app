@@ -1,9 +1,12 @@
 name: Android Release Deployment
 
 on:
-  push:
-    tags:
-      - v**
+  workflow_dispatch:
+  # On push tags disabled for now, because we don't want to deploy on every tag push
+  # See https://vyahhi.myjetbrains.com/youtrack/issue/ALTAPPS-760
+  # push:
+  #   tags:
+  #     - v**
 
 concurrency:
   group: ${{ github.workflow }}
@@ -16,6 +19,7 @@ defaults:
 jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
   gradle-wrapper-validation:
+    if: ${{ github.ref == 'refs/heads/main' }}
     name: Gradle Wrapper Validation
     runs-on: ubuntu-22.04
     steps:
