@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.button.MaterialButton
 import kotlin.math.abs
-import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -28,6 +27,7 @@ import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -49,6 +49,7 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
     }
 
     private lateinit var resourceProvider: ResourceProvider
+    private lateinit var dateFormatter: SharedDateFormatter
     private lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
 
     private val viewBinding: FragmentStepTheoryBinding by viewBinding(FragmentStepTheoryBinding::bind)
@@ -67,6 +68,7 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
     private fun injectComponent() {
         val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
         resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider
+        dateFormatter = HyperskillApp.graph().commonComponent.dateFormatter
         commentThreadTitleMapper = stepComponent.commentThreadTitleMapper
     }
 
@@ -118,17 +120,14 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
     }
 
     private fun renderSecondsToComplete(secondsToComplete: Float?) {
-        viewBinding.stepTheoryTimeToComplete.isVisible = step.secondsToComplete != null
-        if (secondsToComplete != null) {
-            val minutesToComplete = floor(secondsToComplete / 60).toInt()
-            viewBinding.stepTheoryTimeToComplete.text = resourceProvider.getString(
-                SharedResources.strings.step_theory_reading_text,
-                resourceProvider.getQuantityString(
-                    SharedResources.plurals.minutes,
-                    minutesToComplete,
-                    minutesToComplete
+        with(viewBinding.stepTheoryTimeToComplete) {
+            isVisible = secondsToComplete != null
+            if (secondsToComplete != null) {
+                text = resourceProvider.getString(
+                    SharedResources.strings.step_theory_reading_text,
+                    dateFormatter.formatMinutesOrSecondsCount(secondsToComplete)
                 )
-            )
+            }
         }
     }
 

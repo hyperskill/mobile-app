@@ -1,9 +1,9 @@
 package org.hyperskill.app.project_selection.view.mapper
 
-import kotlin.math.floor
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.presentation.bestRatedProjectId
@@ -17,7 +17,8 @@ import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 
 internal class ProjectSelectionListViewStateMapper(
     private val resourceProvider: ResourceProvider,
-    private val numbersFormatter: NumbersFormatter
+    private val numbersFormatter: NumbersFormatter,
+    private val dateFormatter: SharedDateFormatter
 ) {
     fun map(state: ProjectSelectionListFeature.ContentState): ProjectSelectionListFeature.ViewState =
         when (state) {
@@ -46,7 +47,7 @@ internal class ProjectSelectionListViewStateMapper(
                     title = project.title,
                     averageRating = numbersFormatter.formatProgressAverageRating(progress.averageRating()),
                     level = levelByProjectIdMap[projectWithProgress.project.id],
-                    formattedTimeToComplete = getTimeToComplete(progress.secondsToComplete),
+                    formattedTimeToComplete = dateFormatter.formatHoursCount(progress.secondsToComplete),
                     isGraduate = project.isGraduate(state.track.id),
                     isBestRated = projectWithProgress.project.id == bestRatedProjectId,
                     isIdeRequired = project.isIdeRequired,
@@ -69,15 +70,5 @@ internal class ProjectSelectionListViewStateMapper(
             },
             isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
         )
-    }
-
-    private fun getTimeToComplete(secondsToComplete: Float?): String? {
-        if (secondsToComplete == null || secondsToComplete <= 0) return null
-        val hours = floor(secondsToComplete / 3600).toInt()
-        return if (hours >= 1) {
-            resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
-        } else {
-            null
-        }
     }
 }

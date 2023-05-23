@@ -20,5 +20,5 @@ class PlaceholderNewUserComponentImpl(
         )
 
     override val placeHolderNewUserViewDataMapper: PlaceholderNewUserViewDataMapper
-        get() = PlaceholderNewUserViewDataMapper(appGraph.commonComponent.resourceProvider)
+        get() = PlaceholderNewUserViewDataMapper(appGraph.commonComponent.dateFormatter)
 }

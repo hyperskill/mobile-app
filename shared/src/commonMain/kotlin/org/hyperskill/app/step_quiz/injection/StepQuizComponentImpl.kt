@@ -24,7 +24,10 @@ class StepQuizComponentImpl(
         StepQuizReplyValidator(appGraph.commonComponent.resourceProvider)
 
     override val stepQuizStatsTextMapper: StepQuizStatsTextMapper
-        get() = StepQuizStatsTextMapper(appGraph.commonComponent.resourceProvider)
+        get() = StepQuizStatsTextMapper(
+            appGraph.commonComponent.resourceProvider,
+            appGraph.commonComponent.dateFormatter
+        )
 
     override val stepQuizTitleMapper: StepQuizTitleMapper
         get() = StepQuizTitleMapper(appGraph.commonComponent.resourceProvider)

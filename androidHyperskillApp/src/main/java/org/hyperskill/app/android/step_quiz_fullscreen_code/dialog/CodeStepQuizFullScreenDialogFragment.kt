@@ -98,7 +98,10 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private var isCodeSyncedAfterSubmissionClick: Boolean = false
 
     private fun injectComponent() {
-        stepQuizStatsTextMapper = StepQuizStatsTextMapper(HyperskillApp.graph().commonComponent.resourceProvider)
+        stepQuizStatsTextMapper = StepQuizStatsTextMapper(
+            HyperskillApp.graph().commonComponent.resourceProvider,
+            HyperskillApp.graph().commonComponent.dateFormatter
+        )
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
