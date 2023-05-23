@@ -1,5 +1,6 @@
 package org.hyperskill.app.track_selection.details.presentation
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -16,7 +17,8 @@ class TrackSelectionDetailsActionDispatcher(
     private val providersRepository: ProvidersRepository,
     private val freemiumInteractor: FreemiumInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val profileInteractor: ProfileInteractor
+    private val profileInteractor: ProfileInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -60,6 +62,9 @@ class TrackSelectionDetailsActionDispatcher(
                     }
 
                 onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Success)
+            }
+            is TrackSelectionDetailsFeature.InternalAction.LogAnalyticEvent -> {
+                analyticInteractor.logEvent(action.event)
             }
             else -> {
                 // no-op

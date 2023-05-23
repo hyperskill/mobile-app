@@ -2,8 +2,12 @@ package org.hyperskill.app.track_selection.details.presentation
 
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ContentState
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.State
+import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent
+import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionDetailsViewedHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
@@ -23,24 +27,36 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
                 handleSelectTrackButtonClicked(state)
             is TrackSelectionDetailsFeature.TrackSelectionResult ->
                 handleTrackSelectionResult(state, message)
+            is Message.ViewedEventMessage ->
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        TrackSelectionDetailsViewedHyperskillAnalyticEvent(state.trackWithProgress.track.id)
+                    )
+                )
         }
 
     private fun handleRetryContentLoading(
         state: State
-    ): ReducerResult =
-        if (state.contentState is ContentState.NetworkError) {
+    ): ReducerResult {
+        val logAnalyticsAction = InternalAction.LogAnalyticEvent(
+            TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent(
+                trackId = state.trackWithProgress.track.id
+            )
+        )
+        return if (state.contentState is ContentState.NetworkError) {
             state.updateContentState(ContentState.Loading) to
-                fetchAdditionalInfo(state, forceLoadFromNetwork = true)
+                fetchAdditionalInfo(state, forceLoadFromNetwork = true) + logAnalyticsAction
         } else {
-            state to emptySet()
+            state to setOf(logAnalyticsAction)
         }
+    }
 
     private fun fetchAdditionalInfo(
         state: State,
         forceLoadFromNetwork: Boolean
     ): Set<Action> =
         setOf(
-            TrackSelectionDetailsFeature.InternalAction.FetchProvidersAndFreemiumStatus(
+            InternalAction.FetchProvidersAndFreemiumStatus(
                 providerIds = state.trackWithProgress.track.topicProviders,
                 forceLoadFromNetwork = forceLoadFromNetwork
             )
@@ -68,8 +84,13 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
     ): ReducerResult =
         state.copy(isTrackLoadingShowed = true) to
             setOf(
-                TrackSelectionDetailsFeature.InternalAction.SelectTrack(
+                InternalAction.SelectTrack(
                     trackId = state.trackWithProgress.track.id
+                ),
+                InternalAction.LogAnalyticEvent(
+                    TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent(
+                        state.trackWithProgress.track.id
+                    )
                 )
             )
 

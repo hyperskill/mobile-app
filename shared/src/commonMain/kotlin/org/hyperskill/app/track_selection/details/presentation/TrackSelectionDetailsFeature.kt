@@ -1,5 +1,6 @@
 package org.hyperskill.app.track_selection.details.presentation
 
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.providers.domain.model.Provider
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 
@@ -64,6 +65,11 @@ object TrackSelectionDetailsFeature {
         object RetryContentLoading : Message
 
         object SelectTrackButtonClicked : Message
+
+        /**
+         * Analytic
+         */
+        object ViewedEventMessage : Message
     }
 
     internal sealed interface FetchProvidersAndFreemiumStatusResult : Message {
@@ -95,5 +101,7 @@ object TrackSelectionDetailsFeature {
         ) : InternalAction
 
         data class SelectTrack(val trackId: Long) : InternalAction
+
+        data class LogAnalyticEvent(val event: HyperskillAnalyticEvent) : InternalAction
     }
 }
