@@ -33,6 +33,7 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
+import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
@@ -135,4 +136,5 @@ interface AppGraph {
     fun buildStagesDataComponent(): StagesDataComponent
     fun buildFreemiumDataComponent(): FreemiumDataComponent
     fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent
+    fun buildProvidersDataComponent(): ProvidersDataComponent
 }
