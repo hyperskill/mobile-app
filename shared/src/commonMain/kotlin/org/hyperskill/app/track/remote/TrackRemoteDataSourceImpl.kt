@@ -6,6 +6,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.hyperskill.app.network.remote.parameterIds
 import org.hyperskill.app.track.data.source.TrackRemoteDataSource
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.remote.model.TrackResponse
@@ -31,7 +32,7 @@ class TrackRemoteDataSourceImpl(
             httpClient
                 .get("/api/tracks") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", trackIds.joinToString(separator = ","))
+                    parameterIds(trackIds)
                 }.body<TrackResponse>().tracks
         }
 }
