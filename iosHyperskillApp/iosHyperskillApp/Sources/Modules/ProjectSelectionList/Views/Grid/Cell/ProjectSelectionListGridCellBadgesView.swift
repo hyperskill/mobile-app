@@ -3,11 +3,12 @@ import SwiftUI
 struct ProjectSelectionListGridCellBadgesView: View {
     let isSelected: Bool
     let isIdeRequired: Bool
+    let isBeta: Bool
     let isBestRated: Bool
     let isFastestToComplete: Bool
 
     private var isEmpty: Bool {
-        !isSelected && !isIdeRequired && !isBestRated && !isFastestToComplete
+        !isSelected && !isIdeRequired && !isBeta && !isBestRated && !isFastestToComplete
     }
 
     var body: some View {
@@ -21,6 +22,10 @@ struct ProjectSelectionListGridCellBadgesView: View {
 
                 if isIdeRequired {
                     BadgeView.ideRequired()
+                }
+
+                if isBeta {
+                    BadgeView.beta()
                 }
 
                 if isBestRated {
@@ -40,6 +45,7 @@ struct ProjectSelectionListGridCellBadgesView_Previews: PreviewProvider {
         ProjectSelectionListGridCellBadgesView(
             isSelected: true,
             isIdeRequired: true,
+            isBeta: true,
             isBestRated: true,
             isFastestToComplete: true
         )
@@ -48,6 +54,7 @@ struct ProjectSelectionListGridCellBadgesView_Previews: PreviewProvider {
         ProjectSelectionListGridCellBadgesView(
             isSelected: true,
             isIdeRequired: true,
+            isBeta: true,
             isBestRated: true,
             isFastestToComplete: true
         )

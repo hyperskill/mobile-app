@@ -34,6 +34,8 @@ data class Track(
     val careers: String,
     @SerialName("projects")
     val projects: List<Long>,
+    @SerialName("beta_projects")
+    val betaProjects: List<Long>,
     @SerialName("progress_id")
     val progressId: String,
     @SerialName("is_public")

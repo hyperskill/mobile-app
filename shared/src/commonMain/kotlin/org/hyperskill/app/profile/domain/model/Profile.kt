@@ -42,8 +42,17 @@ data class Profile(
     @SerialName("track_id")
     val trackId: Long?,
     @SerialName("track_title")
-    val trackTitle: String?
-)
+    val trackTitle: String?,
+    @SerialName("is_beta")
+    val isBeta: Boolean = false,
+    @SerialName("features")
+    private val featuresMap: Map<String, Boolean> = emptyMap()
+) {
+    companion object
+
+    val features: FeaturesMap
+        get() = FeaturesMap(featuresMap)
+}
 
 internal val Profile.isNewUser: Boolean
     get() = trackId == null

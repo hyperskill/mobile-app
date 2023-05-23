@@ -1,4 +1,4 @@
-fastlane_version "2.210.1"
+fastlane_version "2.212.2"
 
 default_platform(:ios)
 
@@ -366,6 +366,12 @@ platform :ios do
         default_keychain: true,
         unlock: true,
         timeout: 0, # no time-out
+      )
+
+      import_certificate(
+        certificate_path: "fastlane/certs/AppleWWDRCAG6.cer",
+        keychain_name: keychain_name,
+        keychain_password: keychain_password,
       )
     else
       unlock_keychain(password: keychain_password)
