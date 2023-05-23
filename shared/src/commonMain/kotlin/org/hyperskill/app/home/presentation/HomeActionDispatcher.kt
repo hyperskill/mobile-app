@@ -127,7 +127,9 @@ class HomeActionDispatcher(
                         onNewMessage(Message.NextProblemInTimerStopped)
                     }
                     .onEach { seconds ->
-                        onNewMessage(Message.HomeNextProblemInUpdate(dateFormatter.hoursWithMinutesCount(seconds)))
+                        onNewMessage(
+                            Message.HomeNextProblemInUpdate(dateFormatter.formatHoursWithMinutesCount(seconds))
+                        )
                     }
                     .launchIn(actionScope)
             }
@@ -150,11 +152,14 @@ class HomeActionDispatcher(
                 .getStep(dailyStepId)
                 .map { step ->
                     if (step.isCompleted) {
-                        HomeFeature.ProblemOfDayState.Solved(step, dateFormatter.hoursWithMinutesCount(nextProblemIn))
+                        HomeFeature.ProblemOfDayState.Solved(
+                            step = step,
+                            nextProblemIn = dateFormatter.formatHoursWithMinutesCount(nextProblemIn)
+                        )
                     } else {
                         HomeFeature.ProblemOfDayState.NeedToSolve(
                             step,
-                            dateFormatter.hoursWithMinutesCount(nextProblemIn)
+                            dateFormatter.formatHoursWithMinutesCount(nextProblemIn)
                         )
                     }
                 }

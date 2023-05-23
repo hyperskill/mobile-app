@@ -85,7 +85,8 @@ class ProblemOfDayCardFormDelegate(
                     val secondsToComplete = state.step.secondsToComplete
                     if (secondsToComplete != null) {
                         problemOfDayTimeToSolveTextView.visibility = View.VISIBLE
-                        problemOfDayTimeToSolveTextView.text = dateFormatter.minutesOrSecondsCount(secondsToComplete)
+                        problemOfDayTimeToSolveTextView.text =
+                            dateFormatter.formatMinutesOrSecondsCount(secondsToComplete)
                     } else {
                         problemOfDayTimeToSolveTextView.visibility = View.GONE
                     }

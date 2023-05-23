@@ -1,6 +1,7 @@
 import Foundation
 import shared
 
+@available(*, deprecated, message: "Legacy class")
 final class TrackViewDataMapper {
     private let formatter: Formatter
 

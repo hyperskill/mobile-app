@@ -17,8 +17,8 @@ final class StepViewDataMapper {
     }
 
     func mapStepToViewData(_ step: Step) -> StepViewData {
-        let formattedTimeToComplete = dateFormatter.minutesOrSecondsCount(
-            seconds: step.secondsToComplete?.floatValue ?? 60
+        let formattedTimeToComplete = dateFormatter.formatMinutesOrSecondsCount(
+            secondsToFormat: step.secondsToComplete?.floatValue ?? 60
         )
 
         let commentsStatistics = step.commentsStatistics.map(self.mapCommentStatisticsEntryToViewData(_:))

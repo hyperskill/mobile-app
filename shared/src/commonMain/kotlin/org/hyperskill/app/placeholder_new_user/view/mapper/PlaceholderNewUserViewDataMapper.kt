@@ -19,7 +19,7 @@ class PlaceholderNewUserViewDataMapper(
             imageSource = track.cover ?: "",
             title = track.title,
             description = track.description,
-            timeToComplete = dateFormatter.hoursCount(track.secondsToComplete) ?: "",
+            timeToComplete = dateFormatter.formatHoursCount(track.secondsToComplete) ?: "",
             rating = track.progress?.averageRating?.toString() ?: ""
         )
 }

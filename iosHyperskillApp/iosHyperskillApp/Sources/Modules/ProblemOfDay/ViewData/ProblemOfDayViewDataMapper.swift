@@ -37,7 +37,7 @@ final class ProblemOfDayViewDataMapper {
                 return nil
             }
 
-            return dateFormatter.minutesOrSecondsCount(seconds: secondsToComplete)
+            return dateFormatter.formatMinutesOrSecondsCount(secondsToFormat: secondsToComplete)
         }()
 
         let nextProblemIn = solvedStateOrNil?.nextProblemIn ?? needToSolveStateOrNil?.nextProblemIn

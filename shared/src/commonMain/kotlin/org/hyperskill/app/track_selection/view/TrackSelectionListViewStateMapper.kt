@@ -41,7 +41,7 @@ internal class TrackSelectionListViewStateMapper(
             id = trackWithProgress.track.id,
             imageSource = trackWithProgress.track.cover?.takeIf { it.isNotBlank() },
             title = trackWithProgress.track.title,
-            timeToComplete = dateFormatter.hoursCount(trackWithProgress.track.secondsToComplete),
+            timeToComplete = dateFormatter.formatHoursCount(trackWithProgress.track.secondsToComplete),
             rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating),
             isBeta = trackWithProgress.track.isBeta,
             isCompleted = trackWithProgress.track.isCompleted,

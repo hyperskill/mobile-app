@@ -82,7 +82,7 @@ internal class ProjectSelectionListViewStateMapper(
                 title = project.title,
                 averageRating = numbersFormatter.formatProgressAverageRating(progress.averageRating()),
                 level = level,
-                formattedTimeToComplete = dateFormatter.hoursCount(progress.secondsToComplete),
+                formattedTimeToComplete = dateFormatter.formatHoursCount(progress.secondsToComplete),
                 isGraduate = project.isGraduate(trackId),
                 isBestRated = project.id == bestRatedProjectId,
                 isIdeRequired = project.isIdeRequired,

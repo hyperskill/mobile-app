@@ -31,7 +31,7 @@ class ProblemsLimitViewStateMapper(
                         ),
                         updateInLabel = resourceProvider.getString(
                             SharedResources.strings.problems_limit_widget_update_in,
-                            dateFormatter.hoursOrMinutesCount(state.updateIn)
+                            dateFormatter.formatHoursOrMinutesCount(state.updateIn)
                         )
                     )
                 }

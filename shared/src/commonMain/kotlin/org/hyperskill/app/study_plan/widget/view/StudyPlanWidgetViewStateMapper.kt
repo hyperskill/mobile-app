@@ -51,7 +51,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                     formattedTimeToComplete = if (shouldShowSectionStatistics) {
                         section.secondsToComplete
                             ?.roundToLong()
-                            ?.let(dateFormatter::hoursWithMinutesCount)
+                            ?.let(dateFormatter::formatHoursWithMinutesCount)
                             ?.takeIf { it.isNotEmpty() }
                     } else {
                         null
