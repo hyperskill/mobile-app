@@ -91,10 +91,14 @@ object TrackSelectionDetailsFeature {
                 object Success : ShowTrackSelectionStatus
                 object Error : ShowTrackSelectionStatus
             }
+
+            sealed interface NavigateTo : ViewAction {
+                object StudyPlan : NavigateTo
+            }
         }
     }
 
-    sealed interface InternalAction : Action {
+    internal sealed interface InternalAction : Action {
         data class FetchProvidersAndFreemiumStatus(
             val providerIds: List<Long>,
             val forceLoadFromNetwork: Boolean

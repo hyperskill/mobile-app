@@ -18,6 +18,7 @@ class TrackSelectionDetailsComponentImpl(
             freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
             providersRepository = appGraph.buildProvidersDataComponent().providersRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
-            profileInteractor = appGraph.buildProfileDataComponent().profileInteractor
+            profileInteractor = appGraph.buildProfileDataComponent().profileInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
 }

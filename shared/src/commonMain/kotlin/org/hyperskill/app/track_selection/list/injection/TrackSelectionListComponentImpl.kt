@@ -16,9 +16,8 @@ class TrackSelectionListComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildTrackDataComponent().trackInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
-            TrackSelectionListViewStateMapper(
+            trackListViewStateMapper = TrackSelectionListViewStateMapper(
                 resourceProvider = appGraph.commonComponent.resourceProvider,
                 numbersFormatter = appGraph.commonComponent.numbersFormatter
             )

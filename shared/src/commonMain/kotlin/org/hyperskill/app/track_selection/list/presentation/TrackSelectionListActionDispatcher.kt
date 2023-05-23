@@ -4,7 +4,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -22,7 +21,6 @@ class TrackSelectionListActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val trackInteractor: TrackInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val profileInteractor: ProfileInteractor,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -78,20 +76,6 @@ class TrackSelectionListActionDispatcher(
                         )
                     )
                 }
-            is InternalAction.SelectTrack -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile()
-                    .getOrElse {
-                        return onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Error)
-                    }
-
-                profileInteractor.selectTrack(currentProfile.id, action.trackId)
-                    .getOrElse {
-                        return onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Error)
-                    }
-
-                onNewMessage(TrackSelectionListFeature.TrackSelectionResult.Success)
-            }
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}

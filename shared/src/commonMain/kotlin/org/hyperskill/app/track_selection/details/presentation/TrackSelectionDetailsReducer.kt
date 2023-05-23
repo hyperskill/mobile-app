@@ -1,13 +1,13 @@
 package org.hyperskill.app.track_selection.details.presentation
 
+import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent
+import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ContentState
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.State
-import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
-import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent
-import org.hyperskill.app.track_selection.domain.analytic.TrackSelectionDetailsViewedHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
@@ -99,14 +99,15 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
         message: TrackSelectionDetailsFeature.TrackSelectionResult
     ): ReducerResult =
         state.copy(isTrackLoadingShowed = false) to
-            setOf(
-                when (message) {
-                    TrackSelectionDetailsFeature.TrackSelectionResult.Success ->
-                        Action.ViewAction.ShowTrackSelectionStatus.Success
-                    TrackSelectionDetailsFeature.TrackSelectionResult.Error ->
-                        Action.ViewAction.ShowTrackSelectionStatus.Error
-                }
-            )
+            when (message) {
+                TrackSelectionDetailsFeature.TrackSelectionResult.Success ->
+                    setOf(
+                        Action.ViewAction.ShowTrackSelectionStatus.Success,
+                        Action.ViewAction.NavigateTo.StudyPlan
+                    )
+                TrackSelectionDetailsFeature.TrackSelectionResult.Error ->
+                    setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
+            }
 
     private fun State.updateContentState(contentState: ContentState): State =
         copy(contentState = contentState)

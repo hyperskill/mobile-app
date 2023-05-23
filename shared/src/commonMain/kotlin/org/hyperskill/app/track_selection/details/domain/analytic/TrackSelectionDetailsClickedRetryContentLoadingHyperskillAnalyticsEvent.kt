@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.domain.analytic
+package org.hyperskill.app.track_selection.details.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -12,7 +12,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/tracks",
+ *     "route": "/tracks/1",
  *     "action": "click",
  *     "part": "main",
  *     "target": "retry",
@@ -21,8 +21,10 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *
  * @see HyperskillAnalyticEvent
  */
-class TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Tracks(),
+class TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent(
+    trackId: Long
+) : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.Tracks.Details(trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
     HyperskillAnalyticTarget.RETRY

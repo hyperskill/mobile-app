@@ -1,5 +1,6 @@
 package org.hyperskill.app.track_selection.details.injection
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -25,7 +26,8 @@ object TrackSelectionDetailsFeatureBuilder {
         freemiumInteractor: FreemiumInteractor,
         providersRepository: ProvidersRepository,
         sentryInteractor: SentryInteractor,
-        profileInteractor: ProfileInteractor
+        profileInteractor: ProfileInteractor,
+        analyticInteractor: AnalyticInteractor
     ): Feature<ViewState, Message, Action> {
         val reducer = TrackSelectionDetailsReducer()
         val actionDispatcher = TrackSelectionDetailsActionDispatcher(
@@ -33,7 +35,8 @@ object TrackSelectionDetailsFeatureBuilder {
             providersRepository = providersRepository,
             freemiumInteractor = freemiumInteractor,
             sentryInteractor = sentryInteractor,
-            profileInteractor = profileInteractor
+            profileInteractor = profileInteractor,
+            analyticInteractor = analyticInteractor
         )
         val viewStateMapper = TrackSelectionDetailsViewStateMapper(
             resourceProvider = resourceProvider

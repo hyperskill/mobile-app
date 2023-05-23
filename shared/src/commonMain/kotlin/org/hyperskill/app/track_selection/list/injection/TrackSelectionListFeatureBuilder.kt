@@ -3,7 +3,6 @@ package org.hyperskill.app.track_selection.list.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
@@ -24,7 +23,6 @@ internal object TrackSelectionListFeatureBuilder {
         sentryInteractor: SentryInteractor,
         trackInteractor: TrackInteractor,
         progressesInteractor: ProgressesInteractor,
-        profileInteractor: ProfileInteractor,
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         trackListViewStateMapper: TrackSelectionListViewStateMapper
     ): Feature<TrackSelectionListFeature.ViewState, Message, Action> {
@@ -35,7 +33,6 @@ internal object TrackSelectionListFeatureBuilder {
             sentryInteractor,
             trackInteractor,
             progressesInteractor,
-            profileInteractor,
             currentStudyPlanStateRepository
         )
 

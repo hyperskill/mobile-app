@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.domain.analytic
+package org.hyperskill.app.track_selection.details.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -12,7 +12,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * Click on the Track widget:
  * ```
  * {
- *     "route": "/tracks",
+ *     "route": "/tracks/1",
  *     "action": "click",
  *     "part": "main",
  *     "target": "track",
@@ -24,19 +24,11 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class TrackSelectionListTrackClickedHyperskillAnalyticEvent(
+class TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent(
     val trackId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Tracks(),
+    HyperskillAnalyticRoute.Tracks.Details(trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
     HyperskillAnalyticTarget.TRACK
-) {
-    companion object {
-        private const val PARAM_TRACK_ID = "track_id"
-    }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(PARAM_CONTEXT to mapOf(PARAM_TRACK_ID to trackId))
-}
+)
