@@ -29,5 +29,6 @@ fun Track.Companion.stub(
         capstoneTopicsCount = 0,
         topicProviders = emptyList(),
         betaProjects = listOf(),
-        progress = null
+        progress = null,
+        providerId = 0
     )
