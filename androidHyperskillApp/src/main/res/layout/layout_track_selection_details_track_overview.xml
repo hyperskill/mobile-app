@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="@dimen/corner_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/projectBlockTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+            android:textSize="18sp"
+            tools:text="Track overview"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trackOverviewRatingTextView"
+            app:drawableStartCompat="@drawable/ic_track_overview_rating"
+            style="@style/TrackOverviewProperty"
+            tools:text="It’s new track, no rating yet"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trackOverviewHoursToCompleteTextView"
+            app:drawableStartCompat="@drawable/ic_track_overview_time_to_complete"
+            style="@style/TrackOverviewProperty"
+            tools:text="249 hours for all learning activities"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trackOverviewTopicsCountTextView"
+            app:drawableStartCompat="@drawable/ic_track_overview_topics_count"
+            style="@style/TrackOverviewProperty"
+            tools:text="154 topics with theory and practice adapted to you level"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trackOverviewProjectsCountTextView"
+            app:drawableStartCompat="@drawable/ic_track_overview_projects_count"
+            style="@style/TrackOverviewProperty"
+            tools:text="13 projects to choose from for your portfolio"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trackOverviewCertificateAvailabilityTextView"
+            app:drawableStartCompat="@drawable/ic_track_overview_certificate_availability"
+            style="@style/TrackOverviewProperty"
+            tools:text="Certificate of completion available on this track"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
