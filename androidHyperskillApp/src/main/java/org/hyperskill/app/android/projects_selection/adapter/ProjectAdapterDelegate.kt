@@ -2,9 +2,7 @@ package org.hyperskill.app.android.projects_selection.adapter
 
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.ItemProjectBinding
 import org.hyperskill.app.android.projects_selection.model.ProjectSelectionRecyclerItem
@@ -78,14 +76,13 @@ class ProjectAdapterDelegate(
                 projectIdeRequiredTextView.root.isVisible = data.isIdeRequired
                 projectBestRatingTextView.root.isVisible = data.isBestRated
                 projectFastestToCompleteTextView.root.isVisible = data.isFastestToComplete
+                projectBetaTextView.root.isVisible = data.isBeta
 
-                // Remove tags top margin when none of theme are shown.
+                // Remove tags top padding when none of theme are shown.
                 // If set some value to projectTags.isVisible, then all the tags will have that visibility.
                 val newTagsTopMargin = if (data.areTagsVisible) tagsTopMargin else 0
-                if ((projectTags.layoutParams as? MarginLayoutParams)?.topMargin != tagsTopMargin) {
-                    projectTags.updateLayoutParams<MarginLayoutParams> {
-                        topMargin = newTagsTopMargin
-                    }
+                if (projectTags.paddingTop != tagsTopMargin) {
+                    projectTags.paddingTop = newTagsTopMargin
                 }
             }
         }
