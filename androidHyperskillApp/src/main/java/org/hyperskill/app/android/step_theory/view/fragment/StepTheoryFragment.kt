@@ -125,7 +125,7 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
             if (secondsToComplete != null) {
                 text = resourceProvider.getString(
                     SharedResources.strings.step_theory_reading_text,
-                    dateFormatter.formatHoursWithMinutesCount(secondsToComplete)
+                    dateFormatter.formatMinutesOrSecondsCount(secondsToComplete)
                 )
             }
         }
