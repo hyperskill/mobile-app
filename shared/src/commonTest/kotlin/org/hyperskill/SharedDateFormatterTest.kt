@@ -4,7 +4,7 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 
-class DateFormatterTest {
+class SharedDateFormatterTest {
     companion object {
         val ONE_SECOND_IN_MILLIS: Long = 1.toDuration(DurationUnit.SECONDS).inWholeMilliseconds
         val ONE_MINUTE_IN_MILLIS: Long = 1.toDuration(DurationUnit.MINUTES).inWholeMilliseconds
@@ -13,7 +13,8 @@ class DateFormatterTest {
 
     private val dateFormatter = SharedDateFormatter(ResourceProviderStub())
 
-    // TODO: Implement tests
+    // TODO: Implement tests in https://vyahhi.myjetbrains.com/youtrack/issue/ALTAPPS-784
+    // commented because old realization used hardcoded strings
 
 //    @Test
 //    fun testMinutes() {
