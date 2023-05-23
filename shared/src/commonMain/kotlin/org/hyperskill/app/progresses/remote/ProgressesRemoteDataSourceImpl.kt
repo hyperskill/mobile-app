@@ -3,9 +3,9 @@ package org.hyperskill.app.progresses.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.hyperskill.app.network.remote.parameterIds
 import org.hyperskill.app.progresses.data.source.ProgressesRemoteDataSource
 import org.hyperskill.app.progresses.remote.model.ProjectProgressResponse
 import org.hyperskill.app.progresses.remote.model.TopicProgressesResponse
@@ -22,7 +22,7 @@ class ProgressesRemoteDataSourceImpl(
             httpClient
                 .get("/api/progresses") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", tracksIds.joinToString(separator = ",") { "track-$it" })
+                    parameterIds(tracksIds, transform = { "track-$it" })
                 }.body<TrackProgressesResponse>().progresses
         }
 
@@ -31,7 +31,7 @@ class ProgressesRemoteDataSourceImpl(
             httpClient
                 .get("/api/progresses") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", topicsIds.joinToString(separator = ",") { "topic-$it" })
+                    parameterIds(topicsIds, transform = { "topic-$it" })
                 }.body<TopicProgressesResponse>().progresses
         }
 
@@ -40,7 +40,7 @@ class ProgressesRemoteDataSourceImpl(
             httpClient
                 .get("/api/progresses") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", projectsIds.joinToString(separator = ",") { "project-$it" })
+                    parameterIds(projectsIds, transform = { "project-$it" })
                 }.body<ProjectProgressResponse>().progresses
         }
 }

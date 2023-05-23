@@ -105,6 +105,8 @@ import org.hyperskill.app.project_selection.injection.ProjectSelectionListCompon
 import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponentImpl
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
+import org.hyperskill.app.providers.injection.ProvidersDataComponent
+import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -540,4 +542,7 @@ class AndroidAppComponentImpl(
 
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)
+
+    override fun buildProvidersDataComponent(): ProvidersDataComponent =
+        ProvidersDataComponentImpl(this)
 }
