@@ -11,4 +11,6 @@ data class Provider(
     val title: String = "",
     @SerialName("description")
     val description: String = ""
-)
+) {
+    companion object
+}

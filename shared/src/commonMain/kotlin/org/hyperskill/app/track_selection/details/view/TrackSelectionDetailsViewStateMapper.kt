@@ -33,7 +33,7 @@ internal class TrackSelectionDetailsViewStateMapper(
                 formattedTimeToComplete = formatTimeToComplete(track.secondsToComplete),
                 formattedTopicsCount = formatTopicsCount(track.totalTopicsCount),
                 formattedProjectsCount = formatProjectsCount(contentState.isFreemiumEnabled, track.projects.size),
-                isCertificateAvailable = track.canIssueCertificate && contentState.isFreemiumEnabled,
+                isCertificateAvailable = !contentState.isFreemiumEnabled && track.canIssueCertificate,
                 mainProvider = contentState.providers
                     .firstOrNull { it.id == track.providerId }
                     ?.let { mainProvider ->
@@ -76,7 +76,7 @@ internal class TrackSelectionDetailsViewStateMapper(
         isFreemiumEnabled: Boolean,
         projectsCount: Int
     ): String? =
-        if (isFreemiumEnabled) {
+        if (!isFreemiumEnabled) {
             resourceProvider.getString(
                 SharedResources.strings.track_selection_details_projects_text_template,
                 resourceProvider.getQuantityString(SharedResources.plurals.projects, projectsCount, projectsCount)

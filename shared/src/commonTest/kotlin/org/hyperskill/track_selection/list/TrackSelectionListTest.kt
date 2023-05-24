@@ -1,4 +1,4 @@
-package org.hyperskill.track_selection
+package org.hyperskill.track_selection.list
 
 import kotlin.test.Test
 import kotlin.test.assertContains
@@ -15,6 +15,7 @@ import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFe
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.State
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListReducer
 import org.hyperskill.app.track_selection.list.view.TrackSelectionListViewStateMapper
+import org.hyperskill.track_selection.stub
 
 class TrackSelectionListTest {
 
