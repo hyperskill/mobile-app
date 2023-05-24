@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.domain.analytic
+package org.hyperskill.app.track_selection.list.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,15 +7,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a click analytic event for clicking on the confirmation button on the track selection confirmation modal.
+ * Represents a track card clicked analytic event.
  *
- * JSON payload:
+ * Click on the Track widget:
  * ```
  * {
- *     "route": "/tracks"
+ *     "route": "/tracks",
  *     "action": "click",
- *     "part": "track_selection_modal",
- *     "target": "yes / no"
+ *     "part": "main",
+ *     "target": "track",
  *     "context":
  *     {
  *         "track_id": 1234
@@ -24,14 +24,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class TrackSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
-    private val trackId: Long,
-    isConfirmed: Boolean
+class TrackSelectionListTrackClickedHyperskillAnalyticEvent(
+    val trackId: Long
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Tracks(),
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.TRACK_SELECTION_MODAL,
-    if (isConfirmed) HyperskillAnalyticTarget.YES else HyperskillAnalyticTarget.NO
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.TRACK
 ) {
     companion object {
         private const val PARAM_TRACK_ID = "track_id"

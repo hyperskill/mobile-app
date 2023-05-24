@@ -1,10 +1,10 @@
-package org.hyperskill.app.track_selection.injection
+package org.hyperskill.app.track_selection.list.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Message
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.ViewState
-import org.hyperskill.app.track_selection.view.TrackSelectionListViewStateMapper
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Message
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.ViewState
+import org.hyperskill.app.track_selection.list.view.TrackSelectionListViewStateMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class TrackSelectionListComponentImpl(
@@ -16,9 +16,8 @@ class TrackSelectionListComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildTrackDataComponent().trackInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
-            TrackSelectionListViewStateMapper(
+            trackListViewStateMapper = TrackSelectionListViewStateMapper(
                 numbersFormatter = appGraph.commonComponent.numbersFormatter,
                 dateFormatter = appGraph.commonComponent.dateFormatter
             )

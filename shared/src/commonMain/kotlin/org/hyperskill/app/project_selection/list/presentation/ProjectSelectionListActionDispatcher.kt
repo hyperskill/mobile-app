@@ -109,6 +109,7 @@ internal class ProjectSelectionListActionDispatcher(
                         return@coroutineScope
                     }
 
+            sentryInteractor.finishTransaction(transaction)
             onNewMessage(
                 ProjectSelectionListFeature.ContentFetchResult.Success(
                     profile = profile,

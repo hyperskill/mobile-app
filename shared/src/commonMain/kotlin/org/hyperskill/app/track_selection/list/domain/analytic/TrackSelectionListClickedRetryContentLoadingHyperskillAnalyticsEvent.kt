@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.domain.analytic
+package org.hyperskill.app.track_selection.list.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,22 +7,23 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event for the track selection confirmation modal.
+ * Represents an analytic event for clicking on a retry button in the tracks-list.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/tracks"
- *     "action": "shown",
- *     "part": "modal",
- *     "target": "track_selection_modal"
+ *     "route": "/tracks",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "retry",
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-class TrackSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Tracks(),
-    HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.TRACK_SELECTION_MODAL
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.RETRY
 )

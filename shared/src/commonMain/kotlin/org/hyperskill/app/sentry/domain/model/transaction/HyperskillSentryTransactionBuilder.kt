@@ -292,4 +292,13 @@ object HyperskillSentryTransactionBuilder {
             name = "track-selection-list-feature-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * TrackSelectionDetailsFeature
+     */
+    fun buildTrackSelectionDetailsScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "track-selection-details-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }
