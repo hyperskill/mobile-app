@@ -10,6 +10,7 @@ object ProjectSelectionDetailsFeature {
         val trackId: Long,
         val projectId: Long,
         val isProjectSelected: Boolean,
+        val isProjectLoadingShowed: Boolean,
         val contentState: ContentState
     )
 
@@ -26,8 +27,18 @@ object ProjectSelectionDetailsFeature {
         val provider: Provider?
     )
 
-    internal fun initialState(trackId: Long, projectId: Long, isProjectSelected: Boolean): State =
-        State(trackId, projectId, isProjectSelected, ContentState.Idle)
+    internal fun initialState(
+        trackId: Long,
+        projectId: Long,
+        isProjectSelected: Boolean
+    ): State =
+        State(
+            trackId = trackId,
+            projectId = projectId,
+            isProjectSelected = isProjectSelected,
+            isProjectLoadingShowed = false,
+            contentState = ContentState.Idle
+        )
 
     sealed interface ViewState {
         object Idle : ViewState
@@ -36,6 +47,7 @@ object ProjectSelectionDetailsFeature {
         data class Content(
             val formattedTitle: String,
             // Learning outcomes
+            val isSelected: Boolean,
             val isIdeRequired: Boolean,
             val learningOutcomesDescription: String?,
             // Project overview
@@ -44,13 +56,18 @@ object ProjectSelectionDetailsFeature {
             val formattedGraduateDescription: String?,
             val formattedTimeToComplete: String?,
             // Provided by
-            val providerName: String?
+            val providerName: String?,
+            // CTA
+            val isSelectProjectButtonEnabled: Boolean,
+            val isProjectLoadingShowed: Boolean
         ) : ViewState
     }
 
     sealed interface Message {
         object Initialize : Message
         object RetryContentLoading : Message
+
+        object SelectProjectButtonClicked : Message
 
         object ViewedEventMessage : Message
     }
@@ -60,8 +77,17 @@ object ProjectSelectionDetailsFeature {
         data class Success(val data: ContentData) : ContentFetchResult
     }
 
+    internal sealed interface ProjectSelectionResult : Message {
+        object Error : ProjectSelectionResult
+        object Success : ProjectSelectionResult
+    }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
+            sealed interface ShowProjectSelectionStatus : ViewAction {
+                object Error : ShowProjectSelectionStatus
+                object Success : ShowProjectSelectionStatus
+            }
 
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
@@ -75,6 +101,18 @@ object ProjectSelectionDetailsFeature {
             val projectId: Long,
             val forceLoadFromNetwork: Boolean
         ) : InternalAction
+
+        data class SelectProject(
+            val trackId: Long,
+            val projectId: Long
+        ) : InternalAction
+
+        /**
+         * Clears projects cache, because don't need it anymore.
+         *
+         * @see [Action.ViewAction.NavigateTo.StudyPlan]
+         */
+        object ClearProjectsCache : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

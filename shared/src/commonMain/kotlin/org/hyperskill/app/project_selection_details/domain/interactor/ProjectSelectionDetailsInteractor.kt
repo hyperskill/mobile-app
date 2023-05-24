@@ -2,6 +2,9 @@ package org.hyperskill.app.project_selection_details.domain.interactor
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection_details.presentation.ProjectSelectionDetailsFeature
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
@@ -13,7 +16,8 @@ internal class ProjectSelectionDetailsInteractor(
     private val trackRepository: TrackRepository,
     private val projectsRepository: ProjectsRepository,
     private val progressesRepository: ProgressesRepository,
-    private val providersRepository: ProvidersRepository
+    private val providersRepository: ProvidersRepository,
+    private val profileRepository: ProfileRepository
 ) {
     suspend fun getContentData(
         trackId: Long,
@@ -53,4 +57,23 @@ internal class ProjectSelectionDetailsInteractor(
                 )
             }
         }
+
+    suspend fun selectProject(trackId: Long, projectId: Long): Result<Profile> =
+        kotlin.runCatching {
+            val currentProfile = profileRepository
+                .getCurrentProfile(DataSourceType.CACHE)
+                .getOrThrow()
+
+            profileRepository
+                .selectTrackWithProject(
+                    profileId = currentProfile.id,
+                    trackId = trackId,
+                    projectId = projectId
+                )
+                .getOrThrow()
+        }
+
+    fun clearProjectsCache() {
+        projectsRepository.clearCache()
+    }
 }

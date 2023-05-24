@@ -6,6 +6,7 @@ import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection_details.domain.interactor.ProjectSelectionDetailsInteractor
 import org.hyperskill.app.project_selection_details.presentation.ProjectSelectionDetailsActionDispatcher
@@ -30,6 +31,7 @@ object ProjectSelectionDetailsFeatureBuilder {
         projectsRepository: ProjectsRepository,
         progressesRepository: ProgressesRepository,
         providersRepository: ProvidersRepository,
+        profileRepository: ProfileRepository,
         sentryInteractor: SentryInteractor,
         analyticInteractor: AnalyticInteractor,
         resourceProvider: ResourceProvider,
@@ -42,7 +44,8 @@ object ProjectSelectionDetailsFeatureBuilder {
             trackRepository = trackRepository,
             projectsRepository = projectsRepository,
             progressesRepository = progressesRepository,
-            providersRepository = providersRepository
+            providersRepository = providersRepository,
+            profileRepository = profileRepository
         )
         val projectSelectionDetailsActionDispatcher = ProjectSelectionDetailsActionDispatcher(
             config = ActionDispatcherOptions(),

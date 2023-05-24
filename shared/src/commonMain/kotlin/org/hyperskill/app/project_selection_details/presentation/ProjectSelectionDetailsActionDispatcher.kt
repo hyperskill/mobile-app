@@ -37,6 +37,22 @@ internal class ProjectSelectionDetailsActionDispatcher(
                     }
                 )
             }
+            is ProjectSelectionDetailsFeature.InternalAction.SelectProject -> {
+                projectSelectionDetailsInteractor.selectProject(
+                    trackId = action.trackId,
+                    projectId = action.projectId
+                ).fold(
+                    onSuccess = {
+                        onNewMessage(ProjectSelectionDetailsFeature.ProjectSelectionResult.Success)
+                    },
+                    onFailure = {
+                        onNewMessage(ProjectSelectionDetailsFeature.ProjectSelectionResult.Error)
+                    }
+                )
+            }
+            ProjectSelectionDetailsFeature.InternalAction.ClearProjectsCache -> {
+                projectSelectionDetailsInteractor.clearProjectsCache()
+            }
             is ProjectSelectionDetailsFeature.InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }

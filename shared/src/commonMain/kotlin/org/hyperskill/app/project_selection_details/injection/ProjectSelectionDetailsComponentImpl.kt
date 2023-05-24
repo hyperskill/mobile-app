@@ -18,6 +18,7 @@ class ProjectSelectionDetailsComponentImpl(
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
             providersRepository = appGraph.buildProvidersDataComponent().providersRepository,
+            profileRepository = appGraph.buildProfileDataComponent().profileRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,

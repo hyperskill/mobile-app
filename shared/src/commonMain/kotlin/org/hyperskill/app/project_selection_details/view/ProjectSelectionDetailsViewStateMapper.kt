@@ -26,26 +26,33 @@ internal class ProjectSelectionDetailsViewStateMapper(
             ProjectSelectionDetailsFeature.ContentState.Error ->
                 ProjectSelectionDetailsFeature.ViewState.Error
             is ProjectSelectionDetailsFeature.ContentState.Content ->
-                mapContentState(state.contentState)
+                mapContentState(
+                    state = state,
+                    contentState = state.contentState
+                )
         }
 
     private fun mapContentState(
-        state: ProjectSelectionDetailsFeature.ContentState.Content
+        state: ProjectSelectionDetailsFeature.State,
+        contentState: ProjectSelectionDetailsFeature.ContentState.Content
     ): ProjectSelectionDetailsFeature.ViewState.Content {
-        val track = state.data.track
-        val projectWithProgress = state.data.project
+        val track = contentState.data.track
+        val projectWithProgress = contentState.data.project
 
         return ProjectSelectionDetailsFeature.ViewState.Content(
             formattedTitle = projectWithProgress.project.title.ifBlank {
                 resourceProvider.getString(SharedResources.strings.projects_list_toolbar_title)
             },
+            isSelected = state.isProjectSelected,
             isIdeRequired = projectWithProgress.project.isIdeRequired,
             learningOutcomesDescription = projectWithProgress.project.results.ifBlank { null },
             formattedAverageRating = formatAverageRating(projectWithProgress.progress.averageRating()),
             formattedLevel = formatProjectLevel(track, projectWithProgress.project),
             formattedGraduateDescription = formatGraduateDescription(track.id, projectWithProgress.project),
             formattedTimeToComplete = dateFormatter.formatHoursCount(projectWithProgress.progress.secondsToComplete),
-            providerName = state.data.provider?.title?.ifBlank { null }
+            providerName = contentState.data.provider?.title?.ifBlank { null },
+            isSelectProjectButtonEnabled = !state.isProjectSelected,
+            isProjectLoadingShowed = state.isProjectLoadingShowed
         )
     }
 
