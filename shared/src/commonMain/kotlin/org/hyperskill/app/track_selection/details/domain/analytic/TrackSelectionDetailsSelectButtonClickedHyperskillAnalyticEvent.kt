@@ -30,5 +30,5 @@ class TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Tracks.Details(trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.TRACK
+    HyperskillAnalyticTarget.SELECT_THIS_TRACK
 )
