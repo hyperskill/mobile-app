@@ -188,5 +188,14 @@
         <item name="android:background">@drawable/bg_tag_orange</item>
         <item name="android:textColor">@color/color_overlay_orange</item>
     </style>
-
+    
+    <style name="TrackOverviewProperty">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 </resources>
