@@ -95,7 +95,7 @@ class ProjectSelectionListActionDispatcher(
             }
 
             val projectsDeferred = async {
-                projectsRepository.getProjects(projectsIds)
+                projectsRepository.getProjects(projectsIds, action.forceLoadFromNetwork)
             }
 
             val projectsProgressesDeferred = async {
