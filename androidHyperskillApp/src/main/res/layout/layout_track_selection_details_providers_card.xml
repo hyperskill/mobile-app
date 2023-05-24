@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+            android:textSize="14sp"
+            android:text="@string/track_selection_details_main_provider_title"/>
+
+        <TextView
+            android:id="@+id/trackSelectionDetailsMainProviderTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+            android:layout_marginTop="8dp"
+            tools:text="JetBrains Academy"/>
+
+        <TextView
+            android:id="@+id/trackSelectionDetailsMainProviderDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+            android:layout_marginTop="16dp"
+            tools:text="Learn to program by creating real-world applications. Empowered by a personalized study plan, interactive projects, and integration with JetBrains IDEs, you’ll gain hands-on programming experience that is essential for your career as a developer."/>
+
+        <View
+            android:id="@+id/trackSelectionDetailsMainProviderDivider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_on_surface_alpha_9"
+            android:layout_marginTop="16dp" />
+
+        <TextView
+            android:id="@+id/trackSelectionDetailsOtherProvidersTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+            android:textColor="@color/color_on_surface_alpha_60"
+            android:text="@string/track_selection_details_other_providers_title"
+            android:layout_marginTop="16dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+            android:layout_marginTop="8dp"
+            tools:text="Edvancium, Basic"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

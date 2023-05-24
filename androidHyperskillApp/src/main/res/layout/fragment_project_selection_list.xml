@@ -15,10 +15,7 @@
             android:id="@+id/projectSelectionListToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/projects_list_toolbar_title"
-            app:navigationIcon="@drawable/ic_toolbar_back"
-            app:navigationIconTint="?colorControlNormal"
-            app:contentInsetStartWithNavigation="0dp"/>
+            app:title="@string/projects_list_toolbar_title" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
