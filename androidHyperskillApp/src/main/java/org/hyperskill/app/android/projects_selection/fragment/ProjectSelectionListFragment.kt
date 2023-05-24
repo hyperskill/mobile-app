@@ -92,7 +92,7 @@ class ProjectSelectionListFragment :
     override fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.NavigateTo.ProjectDetails ->
-                TODO()
+                TODO("Not implemented yet")
             ViewAction.ShowProjectSelectionError ->
                 view?.snackbar(org.hyperskill.app.R.string.connection_error)
         }

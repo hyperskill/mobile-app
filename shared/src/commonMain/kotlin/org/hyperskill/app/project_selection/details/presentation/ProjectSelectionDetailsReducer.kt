@@ -1,8 +1,8 @@
 package org.hyperskill.app.project_selection.details.presentation
 
-import org.hyperskill.app.project_selection.details.domain.analytic.ProjectsSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
-import org.hyperskill.app.project_selection.details.domain.analytic.ProjectsSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent
-import org.hyperskill.app.project_selection.details.domain.analytic.ProjectsSelectionDetailsViewedHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent
+import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature.Action
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature.ContentState
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature.InternalAction
@@ -34,7 +34,7 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
                 handleProjectSelectionResult(state, message)
             }
             Message.ViewedEventMessage -> {
-                val analyticEvent = ProjectsSelectionDetailsViewedHyperskillAnalyticEvent(
+                val analyticEvent = ProjectSelectionDetailsViewedHyperskillAnalyticEvent(
                     projectId = state.projectId,
                     trackId = state.trackId
                 )
@@ -69,7 +69,7 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
 
     private fun handleRetryContentLoading(state: State): ProjectSelectionDetailsReducerResult {
         val analyticEventAction = InternalAction.LogAnalyticEvent(
-            ProjectsSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent(
+            ProjectSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent(
                 projectId = state.projectId,
                 trackId = state.trackId
             )
@@ -97,7 +97,7 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
 
     private fun handleSelectProjectButtonClicked(state: State): ProjectSelectionDetailsReducerResult {
         val analyticEventAction = InternalAction.LogAnalyticEvent(
-            ProjectsSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent(
+            ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent(
                 projectId = state.projectId,
                 trackId = state.trackId
             )
@@ -106,7 +106,7 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
         return if (state.isProjectSelected) {
             state to setOf(analyticEventAction)
         } else {
-            state.copy(isProjectLoadingShowed = true) to setOf(
+            state.copy(isSelectProjectLoadingShowed = true) to setOf(
                 InternalAction.SelectProject(
                     trackId = state.trackId,
                     projectId = state.projectId
@@ -120,7 +120,7 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
         state: State,
         message: ProjectSelectionDetailsFeature.ProjectSelectionResult
     ): ProjectSelectionDetailsReducerResult =
-        state.copy(isProjectLoadingShowed = false) to
+        state.copy(isSelectProjectLoadingShowed = false) to
             when (message) {
                 ProjectSelectionDetailsFeature.ProjectSelectionResult.Success ->
                     setOf(

@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import ru.nobird.app.core.model.mapOfNotNull
 
 /**
- * Represents an analytic event for clicking on a project in the projects-list.
+ * Represents an analytic event for clicking on a project in the projects selection list screen.
  *
  * JSON payload:
  * ```
@@ -29,7 +29,7 @@ import ru.nobird.app.core.model.mapOfNotNull
  *
  * @see HyperskillAnalyticEvent
  */
-class ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
+class ProjectSelectionListClickedProjectHyperskillAnalyticsEvent(
     val trackId: Long,
     val projectId: Long
 ) : HyperskillAnalyticEvent(

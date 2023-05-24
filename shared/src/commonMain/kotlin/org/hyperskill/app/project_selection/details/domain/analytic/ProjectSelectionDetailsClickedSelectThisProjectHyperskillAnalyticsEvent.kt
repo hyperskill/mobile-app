@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents an analytic event for clicking on a select this project button in the projects selection details screen.
+ * Represents an analytic event for clicking on a select this project button in the project selection details screen.
  *
  * JSON payload:
  * ```
@@ -19,14 +19,14 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * }
  * ```
  *
- * @constructor Creates an analytic event for clicking on a select this project button in the projects selection details screen.
+ * @constructor Creates an analytic event for clicking on a select this project button in the project selection details screen.
  *
  * @param projectId The project id where the event was triggered.
  * @param trackId The track id where the event was triggered.
  *
  * @see HyperskillAnalyticEvent
  */
-class ProjectsSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent(
+class ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent(
     projectId: Long,
     trackId: Long
 ) : HyperskillAnalyticEvent(

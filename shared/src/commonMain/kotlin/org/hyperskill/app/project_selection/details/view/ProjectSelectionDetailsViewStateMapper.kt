@@ -52,7 +52,7 @@ internal class ProjectSelectionDetailsViewStateMapper(
             formattedTimeToComplete = dateFormatter.formatHoursCount(projectWithProgress.progress.secondsToComplete),
             providerName = contentState.data.provider?.title?.ifBlank { null },
             isSelectProjectButtonEnabled = !state.isProjectSelected,
-            isProjectLoadingShowed = state.isProjectLoadingShowed
+            isSelectProjectLoadingShowed = state.isSelectProjectLoadingShowed
         )
     }
 
@@ -60,7 +60,7 @@ internal class ProjectSelectionDetailsViewStateMapper(
         if (averageRating > 0) {
             numbersFormatter.formatProgressAverageRating(averageRating)
         } else {
-            resourceProvider.getString(SharedResources.strings.project_selection_details_no_rating)
+            resourceProvider.getString(SharedResources.strings.project_selection_details_project_overview_no_rating)
         }
 
     private fun formatProjectLevel(track: Track, project: Project): String? {
@@ -79,14 +79,16 @@ internal class ProjectSelectionDetailsViewStateMapper(
         }
 
         return resourceProvider.getString(
-            SharedResources.strings.project_selection_details_project_level,
+            SharedResources.strings.project_selection_details_project_overview_project_level_template,
             levelName
         )
     }
 
     private fun formatGraduateDescription(trackId: Long, project: Project): String? =
         if (project.isGraduate(trackId)) {
-            resourceProvider.getString(SharedResources.strings.project_selection_details_graduate_project_description)
+            resourceProvider.getString(
+                SharedResources.strings.project_selection_details_project_overview_graduate_project_description
+            )
         } else {
             null
         }

@@ -10,7 +10,7 @@ object ProjectSelectionDetailsFeature {
         val trackId: Long,
         val projectId: Long,
         val isProjectSelected: Boolean,
-        val isProjectLoadingShowed: Boolean,
+        val isSelectProjectLoadingShowed: Boolean,
         val contentState: ContentState
     )
 
@@ -36,7 +36,7 @@ object ProjectSelectionDetailsFeature {
             trackId = trackId,
             projectId = projectId,
             isProjectSelected = isProjectSelected,
-            isProjectLoadingShowed = false,
+            isSelectProjectLoadingShowed = false,
             contentState = ContentState.Idle
         )
 
@@ -59,7 +59,7 @@ object ProjectSelectionDetailsFeature {
             val providerName: String?,
             // CTA
             val isSelectProjectButtonEnabled: Boolean,
-            val isProjectLoadingShowed: Boolean
+            val isSelectProjectLoadingShowed: Boolean
         ) : ViewState
     }
 

@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents an analytic event for clicking on a retry button in the projects-list.
+ * Represents an analytic event for clicking on a retry button in the project selection list screen.
  *
  * JSON payload:
  * ```
@@ -27,7 +27,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *
  * @see HyperskillAnalyticEvent
  */
-class ProjectsSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent(
+class ProjectSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent(
     trackId: Long
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Tracks.Projects(trackId),
