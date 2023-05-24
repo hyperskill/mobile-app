@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_selection.fragment
+package org.hyperskill.app.android.track_selection.list.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -14,7 +14,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExi
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackSelectionListBinding
 import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
-import org.hyperskill.app.android.track_selection.delegate.TrackSelectionListDelegate
+import org.hyperskill.app.android.track_selection.list.delegate.TrackSelectionListDelegate
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
 import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature.Action.ViewAction
