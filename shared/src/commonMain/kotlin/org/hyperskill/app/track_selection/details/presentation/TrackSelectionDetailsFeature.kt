@@ -38,7 +38,7 @@ object TrackSelectionDetailsFeature {
         object Loading : ViewState
         data class Content(
             val title: String,
-            val description: String,
+            val description: String?,
             val formattedRating: String,
             val formattedTimeToComplete: String?,
             val formattedTopicsCount: String,

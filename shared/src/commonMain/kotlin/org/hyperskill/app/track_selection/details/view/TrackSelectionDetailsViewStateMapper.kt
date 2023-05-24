@@ -28,7 +28,7 @@ internal class TrackSelectionDetailsViewStateMapper(
         with(state.trackWithProgress) {
             TrackSelectionDetailsFeature.ViewState.Content(
                 title = track.title,
-                description = track.description,
+                description = track.description.takeIf { it.isNotBlank() },
                 formattedRating = formatRating(trackProgress.averageRating()),
                 formattedTimeToComplete = formatTimeToComplete(track.secondsToComplete),
                 formattedTopicsCount = formatTopicsCount(track.totalTopicsCount),
