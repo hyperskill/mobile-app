@@ -399,13 +399,12 @@
     <string name="projects_list_nightmare_category_title">Challenging</string>
     <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
     <string name="projects_list_project_graduate_title">Graduate</string>
-    <string name="projects_list_select_confirmation_title">Select project "%s"</string>
-    <string name="projects_list_selection_succeed">Project successfully selected</string>
 
     <!-- Project selection details -->
     <string name="project_selection_details_no_rating">It\'s new project, no rating yet</string>
     <string name="project_selection_details_project_level">%s project</string>
     <string name="project_selection_details_graduate_project_description">Graduate project. Solve at least one to complete the track.</string>
+    <string name="project_selection_details_selection_succeed">Project successfully selected</string>
 
     <!-- Track selection list -->
     <string name="track_selection_list_toolbar_title">Select track</string>

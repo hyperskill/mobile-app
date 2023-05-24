@@ -67,8 +67,7 @@ internal class ProjectSelectionListViewStateMapper(
             recommendedProjects = state.recommendedProjects.map(::mapProjectListItem),
             projectsByLevel = state.projectsByLevel(levelByProjectIdMap).mapValues { (_, projects) ->
                 projects.map(::mapProjectListItem)
-            },
-            isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
+            }
         )
     }
 }

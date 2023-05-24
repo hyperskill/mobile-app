@@ -3,14 +3,12 @@ package org.hyperskill.projects_selection
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action
@@ -150,38 +148,7 @@ class ProjectsListTest {
     }
 
     @Test
-    fun `ProjectClicked message should request user permission to add the project to their profile`() {
-        val trackId = 0L
-        val projectId = 1L
-        val projectWithProgress = ProjectWithProgress.stub(projectId)
-        val (_, actions) = projectSelectionListReducer.reduce(
-            State(
-                trackId,
-                ContentState.Content(
-                    track = Track.stub(trackId),
-                    projects = mapOf(projectId to projectWithProgress),
-                    currentProjectId = null,
-                    sortedProjectsIds = listOf(projectId)
-                )
-            ),
-            Message.ProjectClicked(projectId)
-        )
-        assertContains(
-            actions,
-            Action.ViewAction.ShowProjectSelectionConfirmationModal(projectWithProgress.project)
-        )
-        assertTrue {
-            actions.any {
-                it is InternalAction.LogAnalyticEvent &&
-                    it.analyticEvent is ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent &&
-                    it.analyticEvent.projectId == projectId &&
-                    it.analyticEvent.trackId == trackId
-            }
-        }
-    }
-
-    @Test
-    fun `ProjectClicked message on current project not request user permission to add the project to their profile`() {
+    fun `ProjectClicked message on project navigates to the project details screen`() {
         val trackId = 0L
         val projectId = 1L
         val projectWithProgress = ProjectWithProgress.stub(projectId)
@@ -199,7 +166,13 @@ class ProjectsListTest {
             Message.ProjectClicked(projectId)
         )
 
-        assertEquals(1, actions.size)
+        assertTrue {
+            actions.any {
+                it is Action.ViewAction.NavigateTo.ProjectDetails &&
+                    it.trackId == trackId &&
+                    it.projectId == projectId && it.isProjectSelected
+            }
+        }
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
@@ -208,114 +181,6 @@ class ProjectsListTest {
                     it.analyticEvent.trackId == trackId
             }
         }
-    }
-
-    @Test
-    fun `Confirming selection permission should trigger project selection`() {
-        val trackId = 0L
-        val projectId = 1L
-        val projectWithProgress = ProjectWithProgress.stub(projectId)
-        val (_, actions) = projectSelectionListReducer.reduce(
-            State(
-                trackId,
-                ContentState.Content(
-                    track = Track.stub(trackId),
-                    projects = mapOf(projectId to projectWithProgress),
-                    currentProjectId = null,
-                    sortedProjectsIds = listOf(projectId)
-                )
-            ),
-            Message.ProjectSelectionConfirmationResult(projectId, true)
-        )
-        assertContains(
-            actions,
-            InternalAction.SelectProject(trackId, projectId)
-        )
-        assertTrue {
-            actions.any {
-                it is InternalAction.LogAnalyticEvent &&
-                    it.analyticEvent is ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent &&
-                    it.analyticEvent.trackId == trackId
-            }
-        }
-    }
-
-    @Test
-    fun `Project selection should not be triggered if user reject project selection permission`() {
-        val trackId = 0L
-        val projectId = 1L
-        val projectWithProgress = ProjectWithProgress.stub(projectId)
-        val (_, actions) = projectSelectionListReducer.reduce(
-            State(
-                trackId,
-                ContentState.Content(
-                    track = Track.stub(trackId),
-                    projects = mapOf(projectId to projectWithProgress),
-                    currentProjectId = null,
-                    sortedProjectsIds = listOf(projectId)
-                )
-            ),
-            Message.ProjectSelectionConfirmationResult(projectId, false)
-        )
-        assertFalse {
-            actions.any {
-                it is InternalAction.SelectProject
-            }
-        }
-    }
-
-    @Test
-    fun `Successful project selection should trigger success status and navigation to the StudyPlan screen`() {
-        val trackId = 0L
-        val projectId = 1L
-        val initialContentState = ContentState.Content(
-            track = Track.stub(trackId),
-            projects = mapOf(projectId to ProjectWithProgress.stub(projectId)),
-            currentProjectId = null,
-            isProjectSelectionLoadingShowed = true,
-            sortedProjectsIds = listOf(projectId)
-        )
-        val (state, actions) = projectSelectionListReducer.reduce(
-            State(trackId, initialContentState),
-            ProjectSelectionListFeature.ProjectSelectionResult.Success
-        )
-        assertContains(
-            actions,
-            Action.ViewAction.ShowProjectSelectionStatus.Success
-        )
-        assertContains(
-            actions,
-            Action.ViewAction.NavigateTo.StudyPlan
-        )
-        assertEquals(
-            initialContentState.copy(isProjectSelectionLoadingShowed = false),
-            state.content
-        )
-    }
-
-    @Test
-    fun `Failed project selection should trigger error status and hide loading`() {
-        val trackId = 0L
-        val projectId = 1L
-        val initialContentState = ContentState.Content(
-            track = Track.stub(trackId),
-            projects = mapOf(projectId to ProjectWithProgress.stub(projectId)),
-            currentProjectId = null,
-            isProjectSelectionLoadingShowed = true,
-            sortedProjectsIds = listOf(projectId)
-        )
-        val (state, actions) = projectSelectionListReducer.reduce(
-            State(trackId, initialContentState),
-            ProjectSelectionListFeature.ProjectSelectionResult.Error
-        )
-        assertContains(
-            actions,
-            Action.ViewAction.ShowProjectSelectionStatus.Error
-        )
-        assertEquals(
-            initialContentState.copy(isProjectSelectionLoadingShowed = false),
-            state.content
-        )
     }
 
     @Test

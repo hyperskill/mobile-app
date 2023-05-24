@@ -20,7 +20,7 @@ import org.hyperskill.app.track.domain.repository.TrackRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 // TODO: extract all logic of this class to a dedicated interactor.
-class ProjectSelectionListActionDispatcher(
+internal class ProjectSelectionListActionDispatcher(
     config: ActionDispatcherOptions,
     private val trackRepository: TrackRepository,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
@@ -36,21 +36,6 @@ class ProjectSelectionListActionDispatcher(
         when (action) {
             is InternalAction.FetchContent ->
                 handleFetchContentAction(action, ::onNewMessage)
-            is InternalAction.SelectProject -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(DataSourceType.CACHE)
-                    .getOrElse {
-                        return onNewMessage(ProjectSelectionListFeature.ProjectSelectionResult.Error)
-                    }
-                profileInteractor.selectTrackWithProject(
-                    profileId = currentProfile.id,
-                    trackId = action.trackId,
-                    projectId = action.projectId
-                ).getOrElse {
-                    return onNewMessage(ProjectSelectionListFeature.ProjectSelectionResult.Error)
-                }
-                onNewMessage(ProjectSelectionListFeature.ProjectSelectionResult.Success)
-            }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }

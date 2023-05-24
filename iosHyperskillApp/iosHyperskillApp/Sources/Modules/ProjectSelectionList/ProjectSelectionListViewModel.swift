@@ -27,26 +27,9 @@ final class ProjectSelectionListViewModel: FeatureViewModel<
         onNewMessage(ProjectSelectionListFeatureMessageProjectClicked(projectId: projectID))
     }
 
-    func doProjectSelectionConfirmationAction(projectID: Int64, isConfirmed: Bool) {
-        onNewMessage(
-            ProjectSelectionListFeatureMessageProjectSelectionConfirmationResult(
-                projectId: projectID,
-                isConfirmed: isConfirmed
-            )
-        )
-    }
-
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(ProjectSelectionListFeatureMessageViewedEventMessage())
-    }
-
-    func logProjectSelectionConfirmationModalShownEvent() {
-        onNewMessage(ProjectSelectionListFeatureMessageProjectSelectionConfirmationModalShown())
-    }
-
-    func logProjectSelectionConfirmationModalHiddenEvent() {
-        onNewMessage(ProjectSelectionListFeatureMessageProjectSelectionConfirmationModalHidden())
     }
 }

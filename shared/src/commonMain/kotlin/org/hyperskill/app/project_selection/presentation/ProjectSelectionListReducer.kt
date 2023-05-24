@@ -3,9 +3,6 @@ package org.hyperskill.app.project_selection.presentation
 import org.hyperskill.app.profile.domain.model.isRecommendationsJavaProjectsFeatureEnabled
 import org.hyperskill.app.profile.domain.model.isRecommendationsKotlinProjectsFeatureEnabled
 import org.hyperskill.app.profile.domain.model.isRecommendationsPythonProjectsFeatureEnabled
-import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.project_selection.domain.analytic.ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
 import org.hyperskill.app.project_selection.domain.analytic.ProjectsSelectionListViewedHyperskillAnalyticEvent
@@ -46,82 +43,7 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                 }
             }
             is Message.ProjectClicked -> {
-                val project = (state.content as? ContentState.Content)?.projects?.get(message.projectId)?.project
-                val currentProjectId = (state.content as? ContentState.Content)?.currentProjectId
-
-                if (project != null) {
-                    val analyticEventAction = InternalAction.LogAnalyticEvent(
-                        ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
-                            trackId = state.trackId,
-                            projectId = message.projectId
-                        )
-                    )
-
-                    if (project.id != currentProjectId) {
-                        state to setOf(
-                            ViewAction.ShowProjectSelectionConfirmationModal(project),
-                            analyticEventAction
-                        )
-                    } else {
-                        state to setOf(analyticEventAction)
-                    }
-                } else {
-                    state to emptySet()
-                }
-            }
-            is Message.ProjectSelectionConfirmationResult -> {
-                if (state.content is ContentState.Content) {
-                    val analyticEventAction = InternalAction.LogAnalyticEvent(
-                        ProjectSelectionListSelectConfirmationResultHyperskillAnalyticEvent(
-                            trackId = state.trackId,
-                            isConfirmed = message.isConfirmed
-                        )
-                    )
-
-                    if (message.isConfirmed) {
-                        state.copy(
-                            content = state.content.copy(isProjectSelectionLoadingShowed = true)
-                        ) to setOf(
-                            InternalAction.SelectProject(state.trackId, message.projectId),
-                            analyticEventAction
-                        )
-                    } else {
-                        state to setOf(analyticEventAction)
-                    }
-                } else {
-                    state to emptySet()
-                }
-            }
-            is ProjectSelectionListFeature.ProjectSelectionResult -> {
-                if (state.content is ContentState.Content) {
-                    state.copy(
-                        content = state.content.copy(isProjectSelectionLoadingShowed = false)
-                    ) to when (message) {
-                        ProjectSelectionListFeature.ProjectSelectionResult.Error ->
-                            setOf(ViewAction.ShowProjectSelectionStatus.Error)
-                        ProjectSelectionListFeature.ProjectSelectionResult.Success ->
-                            setOf(
-                                ViewAction.NavigateTo.StudyPlan,
-                                ViewAction.ShowProjectSelectionStatus.Success
-                            )
-                    }
-                } else {
-                    state to emptySet()
-                }
-            }
-            is Message.ProjectSelectionConfirmationModalShown -> {
-                state to setOf(
-                    InternalAction.LogAnalyticEvent(
-                        ProjectSelectionListSelectConfirmationModalShownHyperskillAnalyticEvent(state.trackId)
-                    )
-                )
-            }
-            is Message.ProjectSelectionConfirmationModalHidden -> {
-                state to setOf(
-                    InternalAction.LogAnalyticEvent(
-                        ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent(state.trackId)
-                    )
-                )
+                handleProjectClickedMessage(state, message)
             }
             Message.ViewedEventMessage -> {
                 state to setOf(
@@ -165,6 +87,37 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                 currentProjectId = message.currentProjectId
             )
         ) to emptySet()
+    }
+
+    private fun handleProjectClickedMessage(
+        state: State,
+        message: Message.ProjectClicked
+    ): ProjectsListReducerResult {
+        val analyticEventAction = InternalAction.LogAnalyticEvent(
+            ProjectsSelectionListClickedProjectHyperskillAnalyticsEvent(
+                trackId = state.trackId,
+                projectId = message.projectId
+            )
+        )
+
+        val project = (state.content as? ContentState.Content)?.projects?.get(message.projectId)?.project
+        val currentProjectId = (state.content as? ContentState.Content)?.currentProjectId
+
+        return if (project != null) {
+            state to setOf(
+                analyticEventAction,
+                ViewAction.NavigateTo.ProjectDetails(
+                    trackId = state.trackId,
+                    projectId = project.id,
+                    isProjectSelected = project.id == currentProjectId
+                )
+            )
+        } else {
+            state to setOf(
+                analyticEventAction,
+                ViewAction.ShowProjectSelectionError
+            )
+        }
     }
 
     private fun State.updateContentState(contentState: ContentState): State =
