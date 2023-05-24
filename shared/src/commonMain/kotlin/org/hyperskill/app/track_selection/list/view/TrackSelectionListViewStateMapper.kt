@@ -1,9 +1,10 @@
-package org.hyperskill.app.track_selection.view
+package org.hyperskill.app.track_selection.list.view
 
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.track.domain.model.TrackWithProgress
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListFeature
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 
 internal class TrackSelectionListViewStateMapper(
     private val numbersFormatter: NumbersFormatter,
@@ -42,7 +43,7 @@ internal class TrackSelectionListViewStateMapper(
             imageSource = trackWithProgress.track.cover?.takeIf { it.isNotBlank() },
             title = trackWithProgress.track.title,
             timeToComplete = dateFormatter.formatHoursCount(trackWithProgress.track.secondsToComplete),
-            rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating),
+            rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating()),
             isBeta = trackWithProgress.track.isBeta,
             isCompleted = trackWithProgress.track.isCompleted,
             isSelected = isSelected

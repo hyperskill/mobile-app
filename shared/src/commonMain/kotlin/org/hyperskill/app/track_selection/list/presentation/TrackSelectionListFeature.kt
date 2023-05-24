@@ -1,7 +1,6 @@
-package org.hyperskill.app.track_selection.presentation
+package org.hyperskill.app.track_selection.list.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 object TrackSelectionListFeature {
@@ -40,17 +39,10 @@ object TrackSelectionListFeature {
 
         data class TrackClicked(val trackId: Long) : Message
 
-        data class TrackSelectionConfirmationResult(
-            val trackId: Long,
-            val isConfirmed: Boolean
-        ) : Message
-
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
-        object TrackSelectionConfirmationModalShown : Message
-        object TrackSelectionConfirmationModalHidden : Message
     }
 
     /**
@@ -64,31 +56,21 @@ object TrackSelectionListFeature {
         object Error : TracksFetchResult
     }
 
-    internal sealed interface TrackSelectionResult : Message {
-        object Success : TrackSelectionResult
-        object Error : TrackSelectionResult
-    }
-
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
+                data class TrackDetails(
+                    val trackWithProgress: TrackWithProgress,
+                    val isTrackSelected: Boolean
+                ) : NavigateTo
             }
 
-            data class ShowTrackSelectionConfirmationModal(val track: Track) : ViewAction
-
-            sealed interface ShowTrackSelectionStatus : ViewAction {
-                object Loading : ShowTrackSelectionStatus
-                object Error : ShowTrackSelectionStatus
-                object Success : ShowTrackSelectionStatus
-            }
+            object ShowTrackSelectionError : ViewAction
         }
     }
 
     internal sealed interface InternalAction : Action {
         object FetchTracks : InternalAction
-
-        data class SelectTrack(val trackId: Long) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
