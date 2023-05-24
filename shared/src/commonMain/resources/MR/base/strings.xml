@@ -404,8 +404,14 @@
 
     <!-- Track selection list -->
     <string name="track_selection_list_toolbar_title">Select track</string>
-    <string name="track_selection_list_select_confirmation_title">Select track "%s"</string>
-    <string name="track_selection_list_selection_succeed">Track successfully selected</string>
+
+    <!--  Track selection details -->
+    <string name="track_selection_details_overview_title">Track overview</string>
+    <string name="track_selection_details_no_rating">It’s new track, no rating yet</string>
+    <string name="track_selection_details_time_to_complete_text_template">%s for all learning activities</string>
+    <string name="track_selection_details_topics_count_text_template">%s with theory and practice adapted to you level</string>
+    <string name="track_selection_details_projects_text_template">%s to choose from for your portfolio</string>
+    <string name="track_selection_details_certificate_text">Certificate of completion available on this track</string>
 
     <!-- Date formatter -->
     <string name="date_formatter_less_than_a_minute">less than a minute</string>

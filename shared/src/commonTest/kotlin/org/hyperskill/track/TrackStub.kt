@@ -6,7 +6,9 @@ import org.hyperskill.app.track.domain.model.Track
 fun Track.Companion.stub(
     id: Long,
     projects: List<Long> = emptyList(),
-    projectsByLevel: ProjectsByLevel = ProjectsByLevel()
+    projectsByLevel: ProjectsByLevel = ProjectsByLevel(),
+    topicProviders: List<Long> = emptyList(),
+    canIssueCertificate: Boolean = false
 ): Track =
     Track(
         id = id,
@@ -14,7 +16,7 @@ fun Track.Companion.stub(
         isBeta = false,
         isFree = false,
         isCompleted = false,
-        canIssueCertificate = false,
+        canIssueCertificate = canIssueCertificate,
         projectsByLevel = projectsByLevel,
         results = "",
         secondsToComplete = .0f,
@@ -27,7 +29,8 @@ fun Track.Companion.stub(
         isPublic = false,
         capstoneProjects = emptyList(),
         capstoneTopicsCount = 0,
-        topicProviders = emptyList(),
+        topicProviders = topicProviders,
         betaProjects = listOf(),
-        progress = null
+        progress = null,
+        providerId = 0
     )

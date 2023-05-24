@@ -32,6 +32,14 @@ data class TrackProgress(
     @SerialName("rank")
     val rank: Int = 0
 ) : Progress {
+
+    @Deprecated(
+        "Use on iOS side only!",
+        replaceWith = ReplaceWith(
+            "averageRating()",
+            "org.hyperskill.app.progresses.domain.model.averageRating"
+        )
+    )
     val averageRating: Double
         get() = averageRating()
 

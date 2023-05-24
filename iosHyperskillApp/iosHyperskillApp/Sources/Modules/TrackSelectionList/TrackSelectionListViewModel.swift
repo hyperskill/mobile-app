@@ -27,26 +27,9 @@ final class TrackSelectionListViewModel: FeatureViewModel<
         onNewMessage(TrackSelectionListFeatureMessageTrackClicked(trackId: trackID))
     }
 
-    func doTrackSelectionConfirmationAction(trackID: Int64, isConfirmed: Bool) {
-        onNewMessage(
-            TrackSelectionListFeatureMessageTrackSelectionConfirmationResult(
-                trackId: trackID,
-                isConfirmed: isConfirmed
-            )
-        )
-    }
-
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(TrackSelectionListFeatureMessageViewedEventMessage())
-    }
-
-    func logTrackSelectionConfirmationModalShownEvent() {
-        onNewMessage(TrackSelectionListFeatureMessageTrackSelectionConfirmationModalShown())
-    }
-
-    func logTrackSelectionConfirmationModalHiddenEvent() {
-        onNewMessage(TrackSelectionListFeatureMessageTrackSelectionConfirmationModalHidden())
     }
 }
