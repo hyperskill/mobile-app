@@ -2,22 +2,22 @@ import Foundation
 import shared
 
 final class StepViewDataMapper {
-    private let formatter: Formatter
+    private let dateFormatter: SharedDateFormatter
     private let resourceProvider: ResourceProvider
     private let commentThreadTitleMapper: CommentThreadTitleMapper
 
     init(
-        formatter: Formatter,
+        dateFormatter: SharedDateFormatter,
         resourceProvider: ResourceProvider,
         commentThreadTitleMapper: CommentThreadTitleMapper
     ) {
-        self.formatter = formatter
+        self.dateFormatter = dateFormatter
         self.resourceProvider = resourceProvider
         self.commentThreadTitleMapper = commentThreadTitleMapper
     }
 
     func mapStepToViewData(_ step: Step) -> StepViewData {
-        let formattedTimeToComplete = self.mapTimeToComplete(seconds: step.secondsToComplete?.doubleValue ?? 60)
+        let formattedTimeToComplete = self.mapTimeToComplete(seconds: step.secondsToComplete?.floatValue ?? 60)
 
         let commentsStatistics = step.commentsStatistics.map(self.mapCommentStatisticsEntryToViewData(_:))
 
@@ -31,8 +31,8 @@ final class StepViewDataMapper {
 
     // MARK: Private API
 
-    private func mapTimeToComplete(seconds: Double) -> String {
-        let minutesQuantityString = formatter.minutesOrSecondsCount(seconds: seconds, roundingRule: .down)
+    private func mapTimeToComplete(seconds: Float) -> String {
+        let minutesQuantityString = dateFormatter.formatMinutesOrSecondsCount(secondsToFormat: seconds)
 
         return self.resourceProvider.getString(
             stringResource: SharedResources.strings.shared.step_theory_reading_text,

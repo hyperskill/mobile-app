@@ -1,16 +1,14 @@
 package org.hyperskill.app.track_selection.list.view
 
-import kotlin.math.floor
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
-import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 
 internal class TrackSelectionListViewStateMapper(
-    private val resourceProvider: ResourceProvider,
-    private val numbersFormatter: NumbersFormatter
+    private val numbersFormatter: NumbersFormatter,
+    private val dateFormatter: SharedDateFormatter
 ) {
     fun map(state: TrackSelectionListFeature.State): TrackSelectionListFeature.ViewState =
         when (state) {
@@ -44,21 +42,10 @@ internal class TrackSelectionListViewStateMapper(
             id = trackWithProgress.track.id,
             imageSource = trackWithProgress.track.cover?.takeIf { it.isNotBlank() },
             title = trackWithProgress.track.title,
-            timeToComplete = getTimeToComplete(trackWithProgress.track.secondsToComplete),
+            timeToComplete = dateFormatter.formatHoursCount(trackWithProgress.track.secondsToComplete),
             rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating()),
             isBeta = trackWithProgress.track.isBeta,
             isCompleted = trackWithProgress.track.isCompleted,
             isSelected = isSelected
         )
-
-    private fun getTimeToComplete(secondsToComplete: Float?): String? {
-        if (secondsToComplete == null || secondsToComplete <= 0) return null
-        // TODO: replace with date formatter
-        val hours = floor(secondsToComplete / 3600).toInt()
-        return if (hours >= 1) {
-            resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
-        } else {
-            null
-        }
-    }
 }

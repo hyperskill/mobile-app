@@ -18,8 +18,8 @@ class TrackSelectionListComponentImpl(
             appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             trackListViewStateMapper = TrackSelectionListViewStateMapper(
-                resourceProvider = appGraph.commonComponent.resourceProvider,
-                numbersFormatter = appGraph.commonComponent.numbersFormatter
+                numbersFormatter = appGraph.commonComponent.numbersFormatter,
+                dateFormatter = appGraph.commonComponent.dateFormatter
             )
         )
 }

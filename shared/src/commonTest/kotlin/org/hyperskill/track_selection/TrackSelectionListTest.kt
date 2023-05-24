@@ -6,6 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action
@@ -22,8 +23,8 @@ class TrackSelectionListTest {
     private val resourceProvider = ResourceProviderStub()
 
     private val viewStateMapper = TrackSelectionListViewStateMapper(
-        resourceProvider = resourceProvider,
-        numbersFormatter = NumbersFormatter(resourceProvider)
+        numbersFormatter = NumbersFormatter(resourceProvider),
+        dateFormatter = SharedDateFormatter(resourceProvider)
     )
 
     @Test

@@ -3,7 +3,7 @@ package org.hyperskill.app.home.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
@@ -41,7 +41,7 @@ object HomeFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         urlPathProcessor: UrlPathProcessor,
-        dateFormatter: DateFormatter,
+        dateFormatter: SharedDateFormatter,
         topicRepeatedFlow: TopicRepeatedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
