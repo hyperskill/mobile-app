@@ -40,7 +40,7 @@ object ProjectSelectionDetailsFeature {
             val learningOutcomesDescription: String?,
             // Project overview
             val formattedAverageRating: String,
-            val formattedLevel: String,
+            val formattedLevel: String?,
             val formattedGraduateDescription: String?,
             val formattedTimeToComplete: String?,
             // Provided by

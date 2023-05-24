@@ -5,6 +5,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection_details.domain.interactor.ProjectSelectionDetailsInteractor
 import org.hyperskill.app.project_selection_details.presentation.ProjectSelectionDetailsActionDispatcher
@@ -32,7 +33,8 @@ object ProjectSelectionDetailsFeatureBuilder {
         sentryInteractor: SentryInteractor,
         analyticInteractor: AnalyticInteractor,
         resourceProvider: ResourceProvider,
-        numbersFormatter: NumbersFormatter
+        numbersFormatter: NumbersFormatter,
+        dateFormatter: SharedDateFormatter
     ): Feature<ViewState, Message, Action> {
         val projectSelectionDetailsReducer = ProjectSelectionDetailsReducer()
 
@@ -51,7 +53,8 @@ object ProjectSelectionDetailsFeatureBuilder {
 
         val projectSelectionDetailsViewStateMapper = ProjectSelectionDetailsViewStateMapper(
             resourceProvider = resourceProvider,
-            numbersFormatter = numbersFormatter
+            numbersFormatter = numbersFormatter,
+            dateFormatter = dateFormatter
         )
 
         val projectSelectionDetailsFeatureInitialState = ProjectSelectionDetailsFeature.initialState(

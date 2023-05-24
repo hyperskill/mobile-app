@@ -21,6 +21,7 @@ class ProjectSelectionDetailsComponentImpl(
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
-            numbersFormatter = appGraph.commonComponent.numbersFormatter
+            numbersFormatter = appGraph.commonComponent.numbersFormatter,
+            dateFormatter = appGraph.commonComponent.dateFormatter
         )
 }

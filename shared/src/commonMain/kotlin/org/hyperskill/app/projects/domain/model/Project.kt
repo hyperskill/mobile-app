@@ -19,6 +19,8 @@ data class Project(
     val isIdeRequired: Boolean = false,
     @SerialName("default_score")
     val defaultScore: Float = 0f,
+    @SerialName("results")
+    val results: String = "", // HTML text
     @SerialName("provider_id")
     val providerId: Long? = null
 ) {
