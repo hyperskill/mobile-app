@@ -14,7 +14,7 @@ import org.hyperskill.app.android.track_selection.list.delegate.TrackSelectionLi
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action.ViewAction
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.ViewState
-import org.hyperskill.app.track_selection.presentation.TrackSelectionListViewModel
+import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
