@@ -11,9 +11,9 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProjectSelectionListBinding
 import org.hyperskill.app.android.projects_selection.delegate.ProjectSelectionListDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action.ViewAction
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Message
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ViewState
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action.ViewAction
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ViewState
 import org.hyperskill.app.project_selection.presentation.ProjectSelectionListViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument

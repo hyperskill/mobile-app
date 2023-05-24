@@ -99,12 +99,12 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponent
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponentImpl
 import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponentImpl
-import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponent
-import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponentImpl
-import org.hyperskill.app.project_selection_details.injection.ProjectSelectionDetailsComponent
-import org.hyperskill.app.project_selection_details.injection.ProjectSelectionDetailsComponentImpl
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponentImpl
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
