@@ -49,7 +49,8 @@ object TrackSelectionDetailsFeature {
             val isBeta: Boolean,
             val isCompleted: Boolean,
             val isSelected: Boolean,
-            val isSelectTrackButtonEnabled: Boolean
+            val isSelectTrackButtonEnabled: Boolean,
+            val isTrackLoadingShowed: Boolean
         ) : ViewState
 
         data class MainProvider(

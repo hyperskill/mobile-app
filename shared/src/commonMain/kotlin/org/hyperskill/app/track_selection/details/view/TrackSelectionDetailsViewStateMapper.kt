@@ -48,7 +48,8 @@ internal class TrackSelectionDetailsViewStateMapper(
                 isBeta = track.isBeta,
                 isCompleted = track.isCompleted,
                 isSelected = state.isTrackSelected,
-                isSelectTrackButtonEnabled = !state.isTrackSelected
+                isSelectTrackButtonEnabled = !state.isTrackSelected,
+                isTrackLoadingShowed = state.isTrackLoadingShowed
             )
         }
 
