@@ -81,23 +81,15 @@ private extension TrackSelectionListView {
                 navigateToViewAction
             )
         case .showTrackSelectionError:
-            handleShowTrackSelectionErrorViewAction()
+            ProgressHUD.showError()
         }
     }
 
     func handleNavigateToViewAction(_ viewAction: TrackSelectionListFeatureActionViewActionNavigateTo) {
         switch TrackSelectionListFeatureActionViewActionNavigateToKs(viewAction) {
         case .trackDetails:
-            TabBarRouter(
-                tab: .studyPlan,
-                popToRoot: true
-            )
-            .route()
+            assertionFailure("Not implemented")
         }
-    }
-
-    func handleShowTrackSelectionErrorViewAction() {
-        ProgressHUD.showError()
     }
 }
 
