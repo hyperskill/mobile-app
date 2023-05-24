@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
@@ -23,6 +24,7 @@ object TrackSelectionDetailsFeatureBuilder {
     fun build(
         params: TrackSelectionDetailsParams,
         resourceProvider: ResourceProvider,
+        dateFormatter: SharedDateFormatter,
         freemiumInteractor: FreemiumInteractor,
         providersRepository: ProvidersRepository,
         sentryInteractor: SentryInteractor,
@@ -39,7 +41,8 @@ object TrackSelectionDetailsFeatureBuilder {
             analyticInteractor = analyticInteractor
         )
         val viewStateMapper = TrackSelectionDetailsViewStateMapper(
-            resourceProvider = resourceProvider
+            resourceProvider = resourceProvider,
+            dateFormatter = dateFormatter
         )
         val initialState = TrackSelectionDetailsFeature.initialState(
             trackWithProgress = params.trackWithProgress,

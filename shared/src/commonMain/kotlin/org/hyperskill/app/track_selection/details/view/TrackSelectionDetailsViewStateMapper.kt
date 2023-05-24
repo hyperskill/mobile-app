@@ -3,13 +3,15 @@ package org.hyperskill.app.track_selection.details.view
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.track.domain.model.totalTopicsCount
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ContentState
 
 internal class TrackSelectionDetailsViewStateMapper(
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val dateFormatter: SharedDateFormatter
 ) {
     fun map(state: TrackSelectionDetailsFeature.State): TrackSelectionDetailsFeature.ViewState =
         when (state.contentState) {
@@ -56,11 +58,13 @@ internal class TrackSelectionDetailsViewStateMapper(
             resourceProvider.getString(SharedResources.strings.track_selection_details_no_rating)
         }
 
-    private fun formatTimeToComplete(secondsToComplete: Float?): String =
-        resourceProvider.getString(
-            SharedResources.strings.track_selection_details_time_to_complete_text_template,
-            TODO("Add time formatter here")
-        )
+    private fun formatTimeToComplete(secondsToComplete: Float?): String? =
+        dateFormatter.formatHoursCount(secondsToComplete)?.let { formattedTime ->
+            resourceProvider.getString(
+                SharedResources.strings.track_selection_details_time_to_complete_text_template,
+                formattedTime
+            )
+        }
 
     private fun formatTopicsCount(topicsCount: Int): String =
         resourceProvider.getString(
