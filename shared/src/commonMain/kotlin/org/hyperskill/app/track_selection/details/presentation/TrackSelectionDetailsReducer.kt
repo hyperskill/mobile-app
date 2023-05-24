@@ -82,17 +82,21 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
     private fun handleSelectTrackButtonClicked(
         state: State
     ): ReducerResult =
-        state.copy(isTrackLoadingShowed = true) to
-            setOf(
-                InternalAction.SelectTrack(
-                    trackId = state.trackWithProgress.track.id
-                ),
-                InternalAction.LogAnalyticEvent(
-                    TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent(
-                        state.trackWithProgress.track.id
+        if (state.isTrackSelected) {
+            state to emptySet()
+        } else {
+            state.copy(isTrackLoadingShowed = true) to
+                setOf(
+                    InternalAction.SelectTrack(
+                        trackId = state.trackWithProgress.track.id
+                    ),
+                    InternalAction.LogAnalyticEvent(
+                        TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent(
+                            state.trackWithProgress.track.id
+                        )
                     )
                 )
-            )
+        }
 
     private fun handleTrackSelectionResult(
         state: State,
