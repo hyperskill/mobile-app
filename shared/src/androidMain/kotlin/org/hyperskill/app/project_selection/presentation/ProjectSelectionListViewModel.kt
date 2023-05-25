@@ -1,8 +1,8 @@
 package org.hyperskill.app.project_selection.presentation
 
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action.ViewAction
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Message
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ViewState
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action.ViewAction
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ViewState
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 

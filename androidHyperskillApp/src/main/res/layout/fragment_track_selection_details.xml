@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/trackSelectionDetailsError"
+        layout="@layout/error_no_connection_with_button"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/trackSelectionDetailsScreenLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/projectSelectionDetailsAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/projectSelectionDetailsToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:title="Python core"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/trackSelectionDetailsContentContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/screen_horizontal_padding">
+
+                    <include
+                        android:id="@+id/trackSelectionDetailsDescription"
+                        layout="@layout/layout_track_selection_details_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <include
+                        android:id="@+id/trackSelectionDetailsTrackOverview"
+                        layout="@layout/layout_track_selection_details_track_overview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <include
+                        android:id="@+id/trackSelectionDetailsProviders"
+                        layout="@layout/layout_track_selection_details_providers_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/trackSelectionDetailsSkeleton"
+                    layout="@layout/layout_track_selection_details_skeleton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/trackSelectionDetailsSelectButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.Blue"
+        android:text="@string/track_selection_details_select_button"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"
+        />
+
+</FrameLayout>

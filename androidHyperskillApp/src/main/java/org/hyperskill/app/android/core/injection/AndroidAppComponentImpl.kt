@@ -99,10 +99,12 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponent
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponentImpl
 import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponentImpl
-import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponent
-import org.hyperskill.app.project_selection.injection.ProjectSelectionListComponentImpl
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponentImpl
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
@@ -171,10 +173,13 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
+import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponentImpl
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponentImpl
-import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponent
-import org.hyperskill.app.track_selection.injection.PlatformTrackSelectionListComponentImpl
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
+import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
+import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
@@ -482,6 +487,12 @@ class AndroidAppComponentImpl(
         )
 
     /**
+     * Project selection details component
+     */
+    override fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent =
+        ProjectSelectionDetailsComponentImpl(this)
+
+    /**
      * Track selection list component
      */
 
@@ -497,6 +508,11 @@ class AndroidAppComponentImpl(
 
     override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
         TrackSelectionDetailsComponentImpl(this)
+
+    override fun buildPlatformTrackSelectionDetailsComponent(
+        params: TrackSelectionDetailsParams
+    ): PlatformTrackSelectionDetailsComponent =
+        PlatformTrackSelectionDetailsComponentImpl(buildTrackSelectionDetailsComponent(), params)
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
