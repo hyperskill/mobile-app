@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_selection.delegate
+package org.hyperskill.app.android.track_selection.list.delegate
 
 import android.content.Context
 import androidx.annotation.ColorInt
@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.ImageLoader
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
-import org.hyperskill.app.android.track_selection.adapter.TrackAdapterDelegate
-import org.hyperskill.app.android.track_selection.model.TrackSelectionRecyclerItem
+import org.hyperskill.app.android.track_selection.list.adapter.TrackAdapterDelegate
+import org.hyperskill.app.android.track_selection.list.model.TrackSelectionRecyclerItem
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter

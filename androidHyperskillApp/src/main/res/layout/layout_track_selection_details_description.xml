@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/trackSelectionDetailsTags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/BadgeFlow"
+            app:constraint_referenced_ids="trackSelectionDetailsSelectedBadge,trackSelectionDetailsBetaBadge,trackSelectionDetailsCompletedBadge"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/trackSelectionDetailsSelectedBadge"
+            layout="@layout/view_badge_selected"/>
+
+        <include
+            android:id="@+id/trackSelectionDetailsBetaBadge"
+            layout="@layout/view_badge_beta"/>
+
+        <include
+            android:id="@+id/trackSelectionDetailsCompletedBadge"
+            layout="@layout/view_badge_completed"/>
+
+        <TextView
+            android:id="@+id/trackSelectionDetailsDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/trackSelectionDetailsTags"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/track_selection_details_tags_bottom_margin"
+            tools:text="This track will guide you on your path of mastering Python, one of the much-in-demand languages in today's environment. Known for its straightforward syntax, Python is easy to learn and use, which accounts for its popularity and makes its community grow every day. This track is dedicated to core Python skills that will give you a solid base and allow you to pursue any further direction, be it Backend Development or Data Science."/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

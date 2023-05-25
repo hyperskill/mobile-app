@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_selection.model
+package org.hyperskill.app.android.track_selection.list.model
 
 import androidx.annotation.ColorInt
 import ru.nobird.app.core.model.Identifiable

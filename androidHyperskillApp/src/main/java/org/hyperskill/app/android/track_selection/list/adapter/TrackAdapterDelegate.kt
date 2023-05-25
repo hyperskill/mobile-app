@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_selection.adapter
+package org.hyperskill.app.android.track_selection.list.adapter
 
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import coil.load
 import coil.size.Scale
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.ItemTrackBinding
-import org.hyperskill.app.android.track_selection.model.TrackSelectionRecyclerItem
+import org.hyperskill.app.android.track_selection.list.model.TrackSelectionRecyclerItem
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
