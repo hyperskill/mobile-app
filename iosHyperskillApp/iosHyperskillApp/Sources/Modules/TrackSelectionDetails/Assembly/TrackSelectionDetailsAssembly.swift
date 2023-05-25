@@ -28,7 +28,8 @@ final class TrackSelectionDetailsAssembly: UIKitAssembly {
         )
 
         let hostingController = StyledHostingController(
-            rootView: trackSelectionDetailsView
+            rootView: trackSelectionDetailsView,
+            appearance: .withoutBackButtonTitle
         )
 
         return hostingController

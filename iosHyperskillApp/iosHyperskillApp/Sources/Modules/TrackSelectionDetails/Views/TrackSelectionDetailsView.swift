@@ -35,10 +35,7 @@ struct TrackSelectionDetailsView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            ProgressView()
-                .onAppear(perform: viewModel.doLoadTrackSelectionDetails)
-        case .loading:
+        case .idle, .loading:
             ProgressView()
         case .networkError:
             PlaceholderView(
@@ -81,6 +78,7 @@ private extension TrackSelectionDetailsView {
     func handleShowTrackSelectionStatusViewAction(
         _ viewAction: TrackSelectionDetailsFeatureActionViewActionShowTrackSelectionStatus
     ) {
+        #warning("Use messages from shared module")
         switch TrackSelectionDetailsFeatureActionViewActionShowTrackSelectionStatusKs(viewAction) {
         case .error:
             ProgressHUD.showError()
