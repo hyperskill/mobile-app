@@ -10,7 +10,9 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackSelectionListBinding
+import org.hyperskill.app.android.track_selection.details.navigation.TrackSelectionDetailsScreen
 import org.hyperskill.app.android.track_selection.list.delegate.TrackSelectionListDelegate
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action.ViewAction
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.ViewState
@@ -51,6 +53,8 @@ class TrackSelectionListFragment : Fragment(R.layout.fragment_track_selection_li
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        trackSelectionListViewModel.onNewMessage(TrackSelectionListFeature.Message.ViewedEventMessage)
+
         trackSelectionListDelegate = TrackSelectionListDelegate(
             context = requireContext(),
             recyclerView = viewBinding.trackSelectionListRecyclerView,
@@ -85,7 +89,14 @@ class TrackSelectionListFragment : Fragment(R.layout.fragment_track_selection_li
     override fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.NavigateTo.TrackDetails ->
-                TODO("Not implemented yet")
+                requireRouter().navigateTo(
+                    TrackSelectionDetailsScreen(
+                        TrackSelectionDetailsParams(
+                            trackWithProgress = action.trackWithProgress,
+                            isTrackSelected = action.isTrackSelected
+                        )
+                    )
+                )
             ViewAction.ShowTrackSelectionError ->
                 view?.snackbar(org.hyperskill.app.R.string.common_error)
         }
