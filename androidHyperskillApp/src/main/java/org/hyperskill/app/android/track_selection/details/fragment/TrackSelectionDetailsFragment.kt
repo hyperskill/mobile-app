@@ -15,6 +15,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackSelectionDetailsBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
@@ -26,6 +28,7 @@ import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDet
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -120,6 +123,7 @@ class TrackSelectionDetailsFragment :
         viewStateDelegate?.switchState(state)
         if (state is ViewState.Content) {
             updateContentBottomMargin()
+            renderSelectionLoading(state.isTrackSelectionLoadingShowed)
             viewBinding.projectSelectionDetailsToolbar.title = state.title
             with(viewBinding.trackSelectionDetailsDescription) {
                 setNullableText(trackSelectionDetailsDescription, state.description)
@@ -150,6 +154,15 @@ class TrackSelectionDetailsFragment :
                 trackSelectionDetailsOtherProvidersTitle.isVisible = state.formattedOtherProviders != null
                 setNullableText(trackSelectionDetailsOtherProvidersDescription, state.formattedOtherProviders)
             }
+        }
+    }
+
+    private fun renderSelectionLoading(isLoadingShowed: Boolean) {
+        if (isLoadingShowed) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
         }
     }
 
