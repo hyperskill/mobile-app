@@ -18,8 +18,7 @@ final class ProjectSelectionDetailsViewModel: FeatureViewModel<
         oldState: ProjectSelectionDetailsFeatureViewState,
         newState: ProjectSelectionDetailsFeatureViewState
     ) -> Bool {
-        // ProjectSelectionDetailsFeatureViewStateKs(oldState) != ProjectSelectionDetailsFeatureViewStateKs(newState)
-        true
+        ProjectSelectionDetailsFeatureViewStateKs(oldState) != ProjectSelectionDetailsFeatureViewStateKs(newState)
     }
 
     func doRetryLoadProjectSelectionDetails() {
