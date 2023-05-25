@@ -61,9 +61,31 @@ private extension TrackSelectionDetailsView {
     ) {
         switch TrackSelectionDetailsFeatureActionViewActionKs(viewAction) {
         case .navigateTo(let navigateToViewAction):
-            print(navigateToViewAction)
+            handleNavigateToViewAction(navigateToViewAction)
         case .showTrackSelectionStatus(let showTrackSelectionStatusViewAction):
             print(showTrackSelectionStatusViewAction)
+        }
+    }
+
+    func handleNavigateToViewAction(_ viewAction: TrackSelectionDetailsFeatureActionViewActionNavigateTo) {
+        switch TrackSelectionDetailsFeatureActionViewActionNavigateToKs(viewAction) {
+        case .studyPlan:
+            TabBarRouter(
+                tab: .studyPlan,
+                popToRoot: true
+            )
+            .route()
+        }
+    }
+
+    func handleShowTrackSelectionStatusViewAction(
+        _ viewAction: TrackSelectionDetailsFeatureActionViewActionShowTrackSelectionStatus
+    ) {
+        switch TrackSelectionDetailsFeatureActionViewActionShowTrackSelectionStatusKs(viewAction) {
+        case .error:
+            ProgressHUD.showError()
+        case .success:
+            ProgressHUD.showSuccess()
         }
     }
 }

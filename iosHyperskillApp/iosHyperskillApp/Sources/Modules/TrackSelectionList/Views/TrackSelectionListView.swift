@@ -87,8 +87,12 @@ private extension TrackSelectionListView {
 
     func handleNavigateToViewAction(_ viewAction: TrackSelectionListFeatureActionViewActionNavigateTo) {
         switch TrackSelectionListFeatureActionViewActionNavigateToKs(viewAction) {
-        case .trackDetails:
-            assertionFailure("Not implemented")
+        case .trackDetails(let navigateToTrackDetailsViewAction):
+            let assembly = TrackSelectionDetailsAssembly(
+                trackWithProgress: navigateToTrackDetailsViewAction.trackWithProgress,
+                isTrackSelected: navigateToTrackDetailsViewAction.isTrackSelected
+            )
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 }
