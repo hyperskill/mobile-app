@@ -64,26 +64,30 @@ CommitAndroidAndIOSBuildNumber() {
 # Set the default option
 option="both"
 
-# Parse the command-line options
-while getopts ":hbai" opt; do
-    case $opt in
-    h) # Display help
+# Parse the command line arguments
+while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case $key in
+    -h | --help) # Display help
         Help
         exit
         ;;
-    b) # Increment both Android and iOS build numbers
-        option="both" ;;
-    a) # Increment Android build number
-        option="android" ;;
-    i) # Increment iOS build number
-        option="ios" ;;
-    \?) # Invalid option
+    -b | --both) # Increment both Android and iOS build numbers
+        option="both"
+        shift # past argument
+        ;;
+    -a | --android) # Increment Android build number
+        option="android"
+        shift # past argument
+        ;;
+    -i | --ios) # Increment iOS build number
+        option="ios"
+        shift # past argument
+        ;;
+    *) # Invalid option
         echo "Invalid option: -$OPTARG" >&2
         Help
-        exit 1
-        ;;
-    :) # Option requires an argument
-        echo "Option -$OPTARG requires an argument." >&2
         exit 1
         ;;
     esac
