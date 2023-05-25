@@ -42,11 +42,15 @@ struct TrackSelectionListSkeletonView: View {
             .padding()
         }
         .frame(maxWidth: .infinity)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
 struct TrackSelectionListSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackSelectionListSkeletonView()
+        NavigationView {
+            TrackSelectionListSkeletonView()
+                .navigationTitle(Strings.TrackSelectionList.title)
+        }
     }
 }

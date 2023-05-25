@@ -4,19 +4,28 @@ final class FeedbackGenerator {
     private let feedbackType: FeedbackType
     private var feedbackGenerator: UIFeedbackGenerator?
 
-    init(feedbackType: FeedbackType) {
+    private let appPowerModeObserver: AppPowerModeObserver
+
+    init(feedbackType: FeedbackType, appPowerModeObserver: AppPowerModeObserver = .shared) {
         self.feedbackType = feedbackType
+        self.appPowerModeObserver = appPowerModeObserver
     }
 
     // MARK: Public API
 
     @MainActor
     func prepare() {
-        getFeedbackGenerator().prepare()
+        if !appPowerModeObserver.isLowPowerModeEnabled {
+            getFeedbackGenerator().prepare()
+        }
     }
 
     @MainActor
     func triggerFeedback() {
+        guard !appPowerModeObserver.isLowPowerModeEnabled else {
+            return
+        }
+
         switch feedbackType {
         case .notification(let style):
             guard let notificationFeedbackGenerator = getFeedbackGenerator() as? UINotificationFeedbackGenerator else {
