@@ -1051,14 +1051,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		187417D43BFC9EFF3623385B /* TrackSelectionDetails */ = {
+		187417D43BFC9EFF3623385B /* Details */ = {
 			isa = PBXGroup;
 			children = (
 				1496D2AE71B028929CE863C6 /* TrackSelectionDetailsAssembly.swift */,
 				5FB20AE82459AAF98DA40D48 /* TrackSelectionDetailsViewModel.swift */,
 				2C54E4202A1F60AC003406B9 /* Views */,
 			);
-			path = TrackSelectionDetails;
+			path = Details;
 			sourceTree = "<group>";
 		};
 		2C005DCF27EF5BD200DC6503 /* Views */ = {
@@ -1325,8 +1325,7 @@
 				E9A5B98A2924FACD00EF0F39 /* TopicsRepetitionsCard */,
 				E96F161D298D294D00EFB3D7 /* TopicToDiscoverNextCard */,
 				2C9EB9562861BA3F007DDE44 /* Track */,
-				187417D43BFC9EFF3623385B /* TrackSelectionDetails */,
-				2C3E656A2A1271B000BC8DC0 /* TrackSelectionList */,
+				2C2600862A2001E600BD3D39 /* TrackSelection */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -1492,6 +1491,15 @@
 			path = Skeleton;
 			sourceTree = "<group>";
 		};
+		2C2600862A2001E600BD3D39 /* TrackSelection */ = {
+			isa = PBXGroup;
+			children = (
+				187417D43BFC9EFF3623385B /* Details */,
+				2C3E656A2A1271B000BC8DC0 /* List */,
+			);
+			path = TrackSelection;
+			sourceTree = "<group>";
+		};
 		2C27C77A28772F79006A641A /* Nuke */ = {
 			isa = PBXGroup;
 			children = (
@@ -1608,7 +1616,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		2C3E656A2A1271B000BC8DC0 /* TrackSelectionList */ = {
+		2C3E656A2A1271B000BC8DC0 /* List */ = {
 			isa = PBXGroup;
 			children = (
 				2C0EB9512A151B69006DC84B /* TrackSelectionListAssembly.swift */,
@@ -1616,7 +1624,7 @@
 				2C7994A92A128CAE00874C16 /* Model */,
 				2C3E656B2A1271C200BC8DC0 /* Views */,
 			);
-			path = TrackSelectionList;
+			path = List;
 			sourceTree = "<group>";
 		};
 		2C3E656B2A1271C200BC8DC0 /* Views */ = {
