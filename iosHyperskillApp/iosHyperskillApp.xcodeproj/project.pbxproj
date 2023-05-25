@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		018CAC44EED7A992000ECF87 /* ProjectSelectionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71D01125D308034C53D75DA6 /* ProjectSelectionDetailsView.swift */; };
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */; };
@@ -392,6 +393,7 @@
 		2CFD7C68292542FB00902748 /* StepFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */; };
 		2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
+		AE0B2D1D267B8904498FA371 /* ProjectSelectionDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEDCC11294912B8656C8B264 /* ProjectSelectionDetailsViewModel.swift */; };
 		C727878256DA0342EF174A4E /* TrackSelectionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2065D585FD89A96C31C08BC /* TrackSelectionDetailsView.swift */; };
 		D64BC006B49702DFDA107FA5 /* TrackSelectionDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1496D2AE71B028929CE863C6 /* TrackSelectionDetailsAssembly.swift */; };
 		D9B929495D696A140BA3D150 /* TrackSelectionDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB20AE82459AAF98DA40D48 /* TrackSelectionDetailsViewModel.swift */; };
@@ -504,6 +506,7 @@
 		E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */; };
 		E9FB89AC2893EA580011EFFB /* NotificationPermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */; };
 		E9FB89B02893EA900011EFFB /* UserNotificationsCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */; };
+		ECD10958C8BA7D758D3D1F66 /* ProjectSelectionDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD7CF422D27CCAE2839046 /* ProjectSelectionDetailsAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -520,6 +523,7 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1496D2AE71B028929CE863C6 /* TrackSelectionDetailsAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsAssembly.swift; sourceTree = "<group>"; };
+		15AD7CF422D27CCAE2839046 /* ProjectSelectionDetailsAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsAssembly.swift; sourceTree = "<group>"; };
 		2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleServiceInfo.swift; sourceTree = "<group>"; };
 		2C0146A928FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenInputProtocol.swift; sourceTree = "<group>"; };
 		2C023C85285D927A00D2D5A9 /* StepQuizTableAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableAssembly.swift; sourceTree = "<group>"; };
@@ -909,6 +913,7 @@
 		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
 		515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.release.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.release.xcconfig"; sourceTree = "<group>"; };
 		5FB20AE82459AAF98DA40D48 /* TrackSelectionDetailsViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsViewModel.swift; sourceTree = "<group>"; };
+		71D01125D308034C53D75DA6 /* ProjectSelectionDetailsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1022,6 +1027,7 @@
 		E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotificationsService.swift; sourceTree = "<group>"; };
 		E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatus.swift; sourceTree = "<group>"; };
 		E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNotificationsCenterDelegate.swift; sourceTree = "<group>"; };
+		FEDCC11294912B8656C8B264 /* ProjectSelectionDetailsViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1304,6 +1310,7 @@
 				E9B55A5329C89FFF0066900E /* ProblemsLimit */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
+				46D884ECAA31C3DB83AF8E56 /* ProjectSelectionDetails */,
 				2C05AC442A0E9E910039C7EF /* ProjectSelectionList */,
 				2C9E5E8229B211DD003AEC16 /* StageImplement */,
 				2CAE8CEE280525A100E6C83D /* Step */,
@@ -2812,6 +2819,16 @@
 			path = ViewData;
 			sourceTree = "<group>";
 		};
+		46D884ECAA31C3DB83AF8E56 /* ProjectSelectionDetails */ = {
+			isa = PBXGroup;
+			children = (
+				15AD7CF422D27CCAE2839046 /* ProjectSelectionDetailsAssembly.swift */,
+				71D01125D308034C53D75DA6 /* ProjectSelectionDetailsView.swift */,
+				FEDCC11294912B8656C8B264 /* ProjectSelectionDetailsViewModel.swift */,
+			);
+			path = ProjectSelectionDetails;
+			sourceTree = "<group>";
+		};
 		69078482427C2E9AB934883B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -3844,6 +3861,9 @@
 				D64BC006B49702DFDA107FA5 /* TrackSelectionDetailsAssembly.swift in Sources */,
 				C727878256DA0342EF174A4E /* TrackSelectionDetailsView.swift in Sources */,
 				D9B929495D696A140BA3D150 /* TrackSelectionDetailsViewModel.swift in Sources */,
+				ECD10958C8BA7D758D3D1F66 /* ProjectSelectionDetailsAssembly.swift in Sources */,
+				018CAC44EED7A992000ECF87 /* ProjectSelectionDetailsView.swift in Sources */,
+				AE0B2D1D267B8904498FA371 /* ProjectSelectionDetailsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
