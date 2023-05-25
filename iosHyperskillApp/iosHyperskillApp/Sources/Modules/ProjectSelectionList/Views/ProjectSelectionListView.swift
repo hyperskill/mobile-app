@@ -83,80 +83,16 @@ private extension ProjectSelectionListView {
             handleNavigateToViewAction(
                 ProjectSelectionListFeatureActionViewActionNavigateToKs(navigateToViewAction)
             )
-        case .showProjectSelectionConfirmationModal(let showProjectSelectionConfirmationModalViewAction):
-            handleShowProjectSelectionConfirmationModalViewAction(
-                showProjectSelectionConfirmationModalViewAction
-            )
-        case .showProjectSelectionStatus(let showProjectSelectionStatusViewAction):
-            handleShowProjectSelectionStatusViewAction(
-                ProjectSelectionListFeatureActionViewActionShowProjectSelectionStatusKs(
-                    showProjectSelectionStatusViewAction
-                )
-            )
+        case .showProjectSelectionError:
+            ProgressHUD.showError()
         }
     }
 
     func handleNavigateToViewAction(_ viewAction: ProjectSelectionListFeatureActionViewActionNavigateToKs) {
         switch viewAction {
-        case .studyPlan:
-            TabBarRouter(tab: .studyPlan, popToRoot: true).route()
-        }
-    }
-
-    func handleShowProjectSelectionConfirmationModalViewAction(
-        _ viewAction: ProjectSelectionListFeatureActionViewActionShowProjectSelectionConfirmationModal
-    ) {
-        guard let rootViewController = stackRouter.rootViewController else {
-            return
-        }
-
-        let projectID = viewAction.project.id
-
-        let alertController = UIAlertController(
-            title: nil,
-            message: "\(Strings.ProjectSelectionList.title) \"\(viewAction.project.title)\"",
-            preferredStyle: .alert
-        )
-        alertController.addAction(
-            UIAlertAction(title: Strings.General.no, style: .cancel, handler: { [weak viewModel] _ in
-                guard let viewModel else {
-                    return
-                }
-
-                viewModel.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: false)
-                viewModel.logProjectSelectionConfirmationModalHiddenEvent()
-            })
-        )
-        alertController.addAction(
-            UIAlertAction(title: Strings.General.yes, style: .default, handler: { [weak viewModel] _ in
-                guard let viewModel else {
-                    return
-                }
-
-                ProgressHUD.show()
-
-                viewModel.doProjectSelectionConfirmationAction(projectID: projectID, isConfirmed: true)
-                viewModel.logProjectSelectionConfirmationModalHiddenEvent()
-            })
-        )
-
-        rootViewController.present(
-            alertController,
-            animated: true,
-            completion: { [weak viewModel] in
-                viewModel?.logProjectSelectionConfirmationModalShownEvent()
-            }
-        )
-    }
-
-    func handleShowProjectSelectionStatusViewAction(
-        _ viewAction: ProjectSelectionListFeatureActionViewActionShowProjectSelectionStatusKs
-    ) {
-        switch viewAction {
-        case .error:
-            ProgressHUD.showError()
-        case .success:
-            ProgressHUD.showSuccess()
+        case .projectDetails(let navigateToProjectDetailsViewAction):
+            print(navigateToProjectDetailsViewAction)
+            assertionFailure("Not implemented")
         }
     }
 }

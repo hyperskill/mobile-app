@@ -1,11 +1,11 @@
-package org.hyperskill.app.project_selection.domain.analytic
+package org.hyperskill.app.project_selection.list.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 
 /**
- * Represents a view analytic event for the projects selection list screen.
+ * Represents a view analytic event for the project selection list screen.
  *
  * JSON payload:
  * ```
@@ -16,7 +16,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * ```
  * @see HyperskillAnalyticEvent
  */
-class ProjectsSelectionListViewedHyperskillAnalyticEvent(trackId: Long) : HyperskillAnalyticEvent(
+class ProjectSelectionListViewedHyperskillAnalyticEvent(trackId: Long) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Tracks.Projects(trackId),
     HyperskillAnalyticAction.VIEW
 )

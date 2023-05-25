@@ -1,4 +1,4 @@
-package org.hyperskill.app.project_selection.domain.analytic
+package org.hyperskill.app.project_selection.list.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,31 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event for the project selection confirmation modal.
+ * Represents an analytic event for clicking on a retry button in the project selection list screen.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/tracks/1/projects"
- *     "action": "hidden",
- *     "part": "modal",
- *     "target": "project_selection_modal"
+ *     "route": "/tracks/1/projects",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "retry",
+ *     "context":
+ *     {
+ *         "id": 1
+ *     }
  * }
  * ```
+ *
+ * @param trackId id of the track
+ *
  * @see HyperskillAnalyticEvent
  */
-class ProjectSelectionListSelectConfirmationModalHiddenHyperskillAnalyticEvent(
+class ProjectSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent(
     trackId: Long
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Tracks.Projects(trackId),
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.PROJECT_SELECTION_MODAL
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.RETRY
 )

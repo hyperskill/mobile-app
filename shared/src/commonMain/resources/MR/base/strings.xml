@@ -385,7 +385,7 @@
     <string name="study_plan_track_title_template">for: %s</string>
     <string name="study_plan_activities_error_text">Oops! We were unable to load the content.</string>
 
-    <!--Projects list-->
+    <!--Project selection list -->
     <string name="projects_list_toolbar_title">Select project</string>
     <string name="projects_list_title">Select project in track %s</string>
     <string name="projects_list_description">Explore recommended projects and pick one</string>
@@ -399,8 +399,19 @@
     <string name="projects_list_nightmare_category_title">Challenging</string>
     <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
     <string name="projects_list_project_graduate_title">Graduate</string>
-    <string name="projects_list_select_confirmation_title">Select project "%s"</string>
-    <string name="projects_list_selection_succeed">Project successfully selected</string>
+
+    <!-- Project selection details -->
+    <string name="project_selection_details_learning_outcomes_title">Learning outcomes</string>
+    <string name="project_selection_details_project_overview_title">Project overview</string>
+    <string name="project_selection_details_project_overview_no_rating">It\'s new project, no rating yet</string>
+    <string name="project_selection_details_project_overview_project_level_template">%s project</string>
+    <string name="project_selection_details_project_overview_graduate_project_description">Graduate project. Solve at
+        least one to complete the track.
+    </string>
+    <string name="project_selection_details_provided_by_title">Provided by:</string>
+    <string name="project_selection_details_cta_button_title">Select this project</string>
+    <string name="project_selection_details_project_selection_success_message">Project successfully selected</string>
+    <string name="project_selection_details_project_selection_error_message">Failed to select a project</string>
 
     <!-- Track selection list -->
     <string name="track_selection_list_toolbar_title">Select track</string>

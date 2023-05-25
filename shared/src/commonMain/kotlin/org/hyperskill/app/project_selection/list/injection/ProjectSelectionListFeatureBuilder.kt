@@ -1,17 +1,17 @@
-package org.hyperskill.app.project_selection.injection
+package org.hyperskill.app.project_selection.list.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListActionDispatcher
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Action
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Message
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ViewState
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListReducer
-import org.hyperskill.app.project_selection.view.mapper.ProjectSelectionListViewStateMapper
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListActionDispatcher
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ViewState
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListReducer
+import org.hyperskill.app.project_selection.list.view.mapper.ProjectSelectionListViewStateMapper
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository

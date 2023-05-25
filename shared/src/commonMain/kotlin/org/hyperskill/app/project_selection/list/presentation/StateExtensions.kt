@@ -1,7 +1,7 @@
-package org.hyperskill.app.project_selection.presentation
+package org.hyperskill.app.project_selection.list.presentation
 
 import org.hyperskill.app.progresses.domain.model.averageRating
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.ContentState
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ContentState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 
