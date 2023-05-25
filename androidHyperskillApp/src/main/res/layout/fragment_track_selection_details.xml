@@ -31,7 +31,6 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/trackSelectionDetailsScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -68,7 +67,6 @@
                         android:layout_marginTop="20dp" />
 
                 </LinearLayout>
-
 
                 <include
                     android:id="@+id/trackSelectionDetailsSkeleton"

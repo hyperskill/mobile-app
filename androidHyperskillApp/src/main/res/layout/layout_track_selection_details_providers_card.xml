@@ -47,10 +47,10 @@
             android:textAppearance="@style/TextAppearance.AppTheme.Body1"
             android:textColor="@color/color_on_surface_alpha_60"
             android:text="@string/track_selection_details_other_providers_title"
-            android:layout_marginTop="16dp"
-            />
+            android:layout_marginTop="16dp" />
 
         <TextView
+            android:id="@+id/trackSelectionDetailsOtherProvidersDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppTheme.Body1"

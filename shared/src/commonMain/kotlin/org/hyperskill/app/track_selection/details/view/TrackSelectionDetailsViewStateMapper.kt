@@ -43,12 +43,13 @@ internal class TrackSelectionDetailsViewStateMapper(
                         )
                     },
                 formattedOtherProviders = contentState.providers
-                    .filter { it.id == track.providerId }
-                    .joinToString(", ") { it.title },
+                    .filter { it.id != track.providerId }
+                    .takeIf { it.isNotEmpty() }
+                    ?.joinToString(", ") { it.title },
                 isBeta = track.isBeta,
                 isCompleted = track.isCompleted,
                 isSelected = state.isTrackSelected,
-                isSelectTrackButtonEnabled = !state.isTrackSelected,
+                isSelectTrackButtonEnabled = !state.isTrackSelected && !track.isCompleted,
                 isTrackLoadingShowed = state.isTrackLoadingShowed
             )
         }

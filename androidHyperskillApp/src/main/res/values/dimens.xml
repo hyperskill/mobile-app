@@ -126,5 +126,6 @@
     <dimen name="track_selection_list_item_top_margin">8dp</dimen>
 
     <dimen name="track_selection_details_content_bottom_margin">20dp</dimen>
+    <dimen name="track_selection_details_tags_bottom_margin">16dp</dimen>
 
 </resources>

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
             android:textSize="18sp"
-            tools:text="Track overview"/>
+            android:text="@string/track_selection_details_overview_title"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/trackOverviewRatingTextView"
@@ -47,7 +47,7 @@
             android:id="@+id/trackOverviewCertificateAvailabilityTextView"
             app:drawableStartCompat="@drawable/ic_track_overview_certificate_availability"
             style="@style/TrackOverviewProperty"
-            tools:text="Certificate of completion available on this track"/>
+            android:text="@string/track_selection_details_certificate_text"/>
 
     </LinearLayout>
 
