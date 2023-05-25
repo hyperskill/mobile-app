@@ -102,6 +102,7 @@
 		2C2452492847C27C00226702 /* Images+SystemNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2452482847C27C00226702 /* Images+SystemNames.swift */; };
 		2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */; };
 		2C2600832A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2600822A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift */; };
+		2C2600852A1FF8B000BD3D39 /* AppPowerModeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */; };
 		2C27C77C28772F8A006A641A /* ImageDecoders+SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C27C77B28772F8A006A641A /* ImageDecoders+SVG.swift */; };
 		2C27C77E28773042006A641A /* NukeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C27C77D28773042006A641A /* NukeManager.swift */; };
 		2C2B7DD22946EF2800FAB55D /* WebViewNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */; };
@@ -614,6 +615,7 @@
 		2C2452482847C27C00226702 /* Images+SystemNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Images+SystemNames.swift"; sourceTree = "<group>"; };
 		2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DesignSystem.swift"; sourceTree = "<group>"; };
 		2C2600822A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsSkeletonView.swift; sourceTree = "<group>"; };
+		2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPowerModeObserver.swift; sourceTree = "<group>"; };
 		2C27C77B28772F8A006A641A /* ImageDecoders+SVG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDecoders+SVG.swift"; sourceTree = "<group>"; };
 		2C27C77D28773042006A641A /* NukeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NukeManager.swift; sourceTree = "<group>"; };
 		2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewNavigationController.swift; sourceTree = "<group>"; };
@@ -2022,6 +2024,7 @@
 			isa = PBXGroup;
 			children = (
 				E99D4CEC2826A37400B49D52 /* AppAppearance.swift */,
+				2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */,
 				2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */,
 				2C27C77D28773042006A641A /* NukeManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
@@ -3633,6 +3636,7 @@
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListGridCellProjectLevelView.swift in Sources */,
 				2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */,
+				2C2600852A1FF8B000BD3D39 /* AppPowerModeObserver.swift in Sources */,
 				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
 				E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */,
 				E9F0A2AC29D4355B00C4A61E /* StudyPlanSectionItemView.swift in Sources */,

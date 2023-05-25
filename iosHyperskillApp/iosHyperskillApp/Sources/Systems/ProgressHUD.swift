@@ -15,6 +15,10 @@ enum ProgressHUD {
         SVProgressHUD.setDefaultStyle(isDark ? .dark : .light)
     }
 
+    static func setHapticsEnabled(_ isEnabled: Bool) {
+        SVProgressHUD.setHapticsEnabled(isEnabled)
+    }
+
     static func show(status: String? = nil) {
         SVProgressHUD.show(withStatus: status)
     }
