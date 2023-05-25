@@ -27,6 +27,13 @@
         <item name="boxCornerRadiusTopEnd">@dimen/corner_radius</item>
     </style>
 
+    <style name="Widget.AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="android:background">@color/color_background</item>
+        <item name="navigationIcon">@drawable/ic_toolbar_back</item>
+        <item name="navigationIconTint">?colorControlNormal</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+
     <!-- Auth -->
     <style name="ZeroSizeTextAppearance">
         <item name="android:textSize">0sp</item>
@@ -189,4 +196,22 @@
         <item name="android:textColor">@color/color_overlay_orange</item>
     </style>
 
+    <style name="BadgeFlow">
+        <item name="flow_horizontalAlign">start</item>
+        <item name="flow_horizontalBias">0</item>
+        <item name="flow_verticalGap">4dp</item>
+        <item name="flow_wrapMode">chain</item>
+        <item name="flow_horizontalGap">8dp</item>
+        <item name="flow_horizontalStyle">packed</item>
+    </style>
+    
+    <style name="TrackOverviewProperty">
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
 </resources>

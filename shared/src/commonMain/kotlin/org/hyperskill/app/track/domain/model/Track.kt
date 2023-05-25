@@ -44,6 +44,8 @@ data class Track(
     val capstoneProjects: List<Long>,
     @SerialName("capstone_topics_count")
     val capstoneTopicsCount: Int,
+    @SerialName("provider_id")
+    val providerId: Long,
     @SerialName("topic_providers")
     val topicProviders: List<Long>,
 
@@ -54,3 +56,9 @@ data class Track(
 ) {
     companion object
 }
+
+/**
+ * Return the total number of topics in the track: [Track.topicsCount] + [Track.capstoneTopicsCount]
+ */
+val Track.totalTopicsCount: Int
+    get() = topicsCount + capstoneTopicsCount

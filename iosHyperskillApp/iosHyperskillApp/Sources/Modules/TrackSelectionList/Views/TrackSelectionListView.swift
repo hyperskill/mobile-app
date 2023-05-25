@@ -80,82 +80,15 @@ private extension TrackSelectionListView {
             handleNavigateToViewAction(
                 navigateToViewAction
             )
-        case .showTrackSelectionConfirmationModal(let showTrackSelectionConfirmationModalViewAction):
-            handleShowTrackSelectionConfirmationModalViewAction(
-                showTrackSelectionConfirmationModalViewAction
-            )
-        case .showTrackSelectionStatus(let showTrackSelectionStatusViewAction):
-            handleShowTrackSelectionStatusViewAction(
-                showTrackSelectionStatusViewAction
-            )
+        case .showTrackSelectionError:
+            ProgressHUD.showError()
         }
     }
 
     func handleNavigateToViewAction(_ viewAction: TrackSelectionListFeatureActionViewActionNavigateTo) {
         switch TrackSelectionListFeatureActionViewActionNavigateToKs(viewAction) {
-        case .studyPlan:
-            TabBarRouter(
-                tab: .studyPlan,
-                popToRoot: true
-            )
-            .route()
-        }
-    }
-
-    func handleShowTrackSelectionConfirmationModalViewAction(
-        _ viewAction: TrackSelectionListFeatureActionViewActionShowTrackSelectionConfirmationModal
-    ) {
-        guard let rootViewController = stackRouter.rootViewController else {
-            return
-        }
-
-        let trackID = viewAction.track.id
-
-        let alertController = UIAlertController(
-            title: nil,
-            message: "\(Strings.TrackSelectionList.title) \"\(viewAction.track.title)\"",
-            preferredStyle: .alert
-        )
-        alertController.addAction(
-            UIAlertAction(title: Strings.General.no, style: .cancel, handler: { [weak viewModel] _ in
-                guard let viewModel else {
-                    return
-                }
-
-                viewModel.doTrackSelectionConfirmationAction(trackID: trackID, isConfirmed: false)
-                viewModel.logTrackSelectionConfirmationModalHiddenEvent()
-            })
-        )
-        alertController.addAction(
-            UIAlertAction(title: Strings.General.yes, style: .default, handler: { [weak viewModel] _ in
-                guard let viewModel else {
-                    return
-                }
-
-                viewModel.doTrackSelectionConfirmationAction(trackID: trackID, isConfirmed: true)
-                viewModel.logTrackSelectionConfirmationModalHiddenEvent()
-            })
-        )
-
-        rootViewController.present(
-            alertController,
-            animated: true,
-            completion: { [weak viewModel] in
-                viewModel?.logTrackSelectionConfirmationModalShownEvent()
-            }
-        )
-    }
-
-    func handleShowTrackSelectionStatusViewAction(
-        _ viewAction: TrackSelectionListFeatureActionViewActionShowTrackSelectionStatus
-    ) {
-        switch TrackSelectionListFeatureActionViewActionShowTrackSelectionStatusKs(viewAction) {
-        case .error:
-            ProgressHUD.showError()
-        case .loading:
-            ProgressHUD.show()
-        case .success:
-            ProgressHUD.showSuccess()
+        case .trackDetails:
+            assertionFailure("Not implemented")
         }
     }
 }

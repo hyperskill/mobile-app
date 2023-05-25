@@ -21,7 +21,7 @@ import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedSt
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
-import org.hyperskill.app.android.track_selection.navigation.TrackSelectionListScreen
+import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
