@@ -31,6 +31,8 @@ final class TrackSelectionDetailsAssembly: UIKitAssembly {
             rootView: trackSelectionDetailsView,
             appearance: .withoutBackButtonTitle
         )
+        hostingController.hidesBottomBarWhenPushed = true
+        hostingController.navigationItem.largeTitleDisplayMode = .always
 
         return hostingController
     }

@@ -24,7 +24,6 @@ struct TrackSelectionListView: View {
 
             buildBody()
         }
-        .navigationBarTitleDisplayMode(.inline)
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationTitle(Strings.TrackSelectionList.title)
         .onAppear {

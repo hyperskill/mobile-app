@@ -3,7 +3,7 @@ import SwiftUI
 
 extension TrackSelectionDetailsView {
     struct Appearance {
-        let backgroundColor = Color.background
+        let backgroundColor = Color.systemGroupedBackground
     }
 }
 
@@ -20,6 +20,7 @@ struct TrackSelectionDetailsView: View {
 
             buildBody()
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -45,7 +46,21 @@ struct TrackSelectionDetailsView: View {
                 )
             )
         case .content(let viewData):
-            Text("Hello, World!")
+            TrackSelectionDetailsContentView(
+                navigationTitle: viewData.title,
+                description: viewData.description_,
+                isBeta: viewData.isBeta,
+                isCompleted: viewData.isCompleted,
+                isSelected: viewData.isSelected,
+                rating: viewData.formattedRating,
+                timeToComplete: viewData.formattedTimeToComplete,
+                topicsCount: viewData.formattedTopicsCount,
+                projectsCount: viewData.formattedProjectsCount,
+                isCertificateAvailable: viewData.isCertificateAvailable,
+                mainProviderTitle: viewData.mainProvider?.title,
+                mainProviderDescription: viewData.mainProvider?.description_,
+                otherProvidersDescription: viewData.formattedOtherProviders
+            )
         }
     }
 }
@@ -87,17 +102,3 @@ private extension TrackSelectionDetailsView {
         }
     }
 }
-
-// MARK: - TrackSelectionDetailsView_Previews: PreviewProvider -
-
-#if DEBUG
-struct TrackSelectionDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitViewControllerPreview {
-            TrackSelectionDetailsAssembly
-                .makePlaceholder()
-                .makeModule()
-        }
-    }
-}
-#endif
