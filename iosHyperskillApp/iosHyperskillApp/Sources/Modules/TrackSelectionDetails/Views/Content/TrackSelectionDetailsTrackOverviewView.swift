@@ -43,7 +43,7 @@ struct TrackSelectionDetailsTrackOverviewView: View {
 
     private var certificateText: String? {
         if isCertificateAvailable {
-            return "Certificate of completion available on this track"
+            return Strings.TrackSelectionDetails.certificateText
         }
         return nil
     }
@@ -54,7 +54,7 @@ struct TrackSelectionDetailsTrackOverviewView: View {
         } else {
             TrackSelectionDetailsBlockView {
                 VStack(alignment: .leading, spacing: appearance.spacing) {
-                    Text("Track overview")
+                    Text(Strings.TrackSelectionDetails.overviewTitle)
                         .font(.headline)
 
                     VStack(alignment: .leading, spacing: appearance.spacing) {

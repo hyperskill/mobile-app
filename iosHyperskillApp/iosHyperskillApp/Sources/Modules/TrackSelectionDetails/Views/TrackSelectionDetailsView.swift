@@ -37,7 +37,7 @@ struct TrackSelectionDetailsView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle, .loading:
-            ProgressView()
+            TrackSelectionDetailsSkeletonView()
         case .networkError:
             PlaceholderView(
                 configuration: .networkError(
@@ -46,6 +46,10 @@ struct TrackSelectionDetailsView: View {
                 )
             )
         case .content(let viewData):
+            let _ = renderTrackSelectionLoadingIndicator(
+                isVisible: viewData.isTrackSelectionLoadingShowed
+            )
+
             TrackSelectionDetailsContentView(
                 navigationTitle: viewData.title,
                 description: viewData.description_,
@@ -59,8 +63,18 @@ struct TrackSelectionDetailsView: View {
                 isCertificateAvailable: viewData.isCertificateAvailable,
                 mainProviderTitle: viewData.mainProvider?.title,
                 mainProviderDescription: viewData.mainProvider?.description_,
-                otherProvidersDescription: viewData.formattedOtherProviders
+                otherProvidersDescription: viewData.formattedOtherProviders,
+                isCallToActionButtonEnabled: viewData.isSelectTrackButtonEnabled,
+                onCallToActionButtonTap: viewModel.doSelectTrackButtonClicked
             )
+        }
+    }
+
+    private func renderTrackSelectionLoadingIndicator(isVisible: Bool) {
+        if isVisible {
+            ProgressHUD.show()
+        } else {
+            ProgressHUD.dismissWithDelay()
         }
     }
 }
@@ -75,7 +89,7 @@ private extension TrackSelectionDetailsView {
         case .navigateTo(let navigateToViewAction):
             handleNavigateToViewAction(navigateToViewAction)
         case .showTrackSelectionStatus(let showTrackSelectionStatusViewAction):
-            print(showTrackSelectionStatusViewAction)
+            handleShowTrackSelectionStatusViewAction(showTrackSelectionStatusViewAction)
         }
     }
 
@@ -93,12 +107,11 @@ private extension TrackSelectionDetailsView {
     func handleShowTrackSelectionStatusViewAction(
         _ viewAction: TrackSelectionDetailsFeatureActionViewActionShowTrackSelectionStatus
     ) {
-        #warning("Use messages from shared module")
         switch TrackSelectionDetailsFeatureActionViewActionShowTrackSelectionStatusKs(viewAction) {
         case .error:
-            ProgressHUD.showError()
+            ProgressHUD.showError(status: Strings.TrackSelectionDetails.selectionErrorMessage)
         case .success:
-            ProgressHUD.showSuccess()
+            ProgressHUD.showSuccess(status: Strings.TrackSelectionDetails.selectionSuccessMessage)
         }
     }
 }

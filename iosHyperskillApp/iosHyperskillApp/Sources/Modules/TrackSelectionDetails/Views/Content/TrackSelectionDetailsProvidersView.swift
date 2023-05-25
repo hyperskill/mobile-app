@@ -33,7 +33,7 @@ struct TrackSelectionDetailsProvidersView: View {
     private func buildMainProviderView() -> some View {
         VStack(alignment: .leading, spacing: apperance.spacing) {
             VStack(alignment: .leading, spacing: apperance.interitemSpacing) {
-                Text("Provided by:")
+                Text(Strings.TrackSelectionDetails.mainProviderTitle)
                     .font(.subheadline)
 
                 Text(mainProviderTitle)
@@ -55,7 +55,7 @@ struct TrackSelectionDetailsProvidersView: View {
                 Divider()
 
                 VStack(alignment: .leading, spacing: apperance.interitemSpacing) {
-                    Text("Other providers for this track:")
+                    Text(Strings.TrackSelectionDetails.otherProvidersTitle)
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
 

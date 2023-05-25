@@ -23,14 +23,14 @@ struct TrackSelectionDetailsDescriptionView: View {
                 VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     if !isBadgesEmpty {
                         HStack(spacing: LayoutInsets.smallInset) {
+                            if isCompleted {
+                                BadgeView.completed()
+                            }
                             if isSelected {
                                 BadgeView.selected()
                             }
                             if isBeta {
                                 BadgeView.beta()
-                            }
-                            if isSelected {
-                                BadgeView.selected()
                             }
                         }
                     }

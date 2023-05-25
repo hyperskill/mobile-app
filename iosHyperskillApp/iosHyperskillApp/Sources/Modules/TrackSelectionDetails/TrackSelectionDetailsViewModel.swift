@@ -25,6 +25,10 @@ final class TrackSelectionDetailsViewModel: FeatureViewModel<
         onNewMessage(TrackSelectionDetailsFeatureMessageRetryContentLoading())
     }
 
+    func doSelectTrackButtonClicked() {
+        onNewMessage(TrackSelectionDetailsFeatureMessageSelectTrackButtonClicked())
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

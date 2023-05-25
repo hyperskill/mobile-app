@@ -42,7 +42,6 @@ struct TrackSelectionListGridCellView: View {
             label: buildContent
         )
         .buttonStyle(appearance.buttonStyle(isSelected: track.isSelected))
-        .disabled(track.isSelected)
     }
 
     @ViewBuilder

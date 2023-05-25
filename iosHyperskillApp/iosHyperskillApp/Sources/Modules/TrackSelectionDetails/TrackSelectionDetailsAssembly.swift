@@ -33,6 +33,7 @@ final class TrackSelectionDetailsAssembly: UIKitAssembly {
         )
         hostingController.hidesBottomBarWhenPushed = true
         hostingController.navigationItem.largeTitleDisplayMode = .always
+        hostingController.title = trackWithProgress.track.title
 
         return hostingController
     }

@@ -21,8 +21,6 @@ struct TrackSelectionListGridView: View {
 
     let onTrackTap: (Int64) -> Void
 
-    private let trackSelectionFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
-
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
@@ -46,17 +44,11 @@ struct TrackSelectionListGridView: View {
                 ForEach(tracks, id: \.id) { track in
                     TrackSelectionListGridCellView(
                         track: track,
-                        onTap: { handleTrackTapped(trackID: $0) }
+                        onTap: onTrackTap
                     )
                 }
             }
         }
-    }
-
-    @MainActor
-    private func handleTrackTapped(trackID: Int64) {
-        trackSelectionFeedbackGenerator.triggerFeedback()
-        onTrackTap(trackID)
     }
 }
 

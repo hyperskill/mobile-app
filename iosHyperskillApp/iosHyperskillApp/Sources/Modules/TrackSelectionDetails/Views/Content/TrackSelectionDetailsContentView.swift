@@ -2,7 +2,19 @@ import SwiftUI
 
 extension TrackSelectionDetailsContentView {
     struct Appearance {
-        let callToActionButtonStyle = RoundedRectangleButtonStyle(style: .violet)
+        let spacing = LayoutInsets.defaultInset
+
+        let callToActionBlurInsets = LayoutInsets(
+            horizontal: LayoutInsets.smallInset,
+            vertical: -LayoutInsets.smallInset
+        )
+
+        func makeCallToActionButtonStyle(isEnabled: Bool) -> RoundedRectangleButtonStyle {
+            var style = RoundedRectangleButtonStyle(style: .violet)
+            style.backgroundDisabledOpacity = 1
+            style.foregroundColor = isEnabled ? Color(ColorPalette.onPrimary) : Color(ColorPalette.onPrimaryAlpha60)
+            return style
+        }
     }
 }
 
@@ -26,23 +38,18 @@ struct TrackSelectionDetailsContentView: View {
     let mainProviderDescription: String?
     let otherProvidersDescription: String?
 
-    @ViewBuilder
-    private var callToActionButton: some View {
-        Button(
-            "Select this track",
-            action: {}
-        )
-        .buttonStyle(appearance.callToActionButtonStyle)
-        .padding(.horizontal)
-        .background(
-            Color(ColorPalette.surface)
-                .blur(radius: appearance.callToActionButtonStyle.cornerRadius)
-        )
-    }
+    let isCallToActionButtonEnabled: Bool
+    let onCallToActionButtonTap: () -> Void
+
+    private let callToActionButtonFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
     var body: some View {
+        let callToActionButtonStyle = appearance.makeCallToActionButtonStyle(
+            isEnabled: isCallToActionButtonEnabled
+        )
+
         ScrollView {
-            VStack(spacing: LayoutInsets.defaultInset) {
+            VStack(spacing: appearance.spacing) {
                 TrackSelectionDetailsDescriptionView(
                     description: description,
                     isBeta: isBeta,
@@ -65,11 +72,36 @@ struct TrackSelectionDetailsContentView: View {
                 )
             }
             .padding()
-            .padding(.bottom, appearance.callToActionButtonStyle.minHeight)
+            .padding(.bottom, callToActionButtonStyle.minHeight)
         }
         .frame(maxWidth: .infinity)
         .navigationTitle(navigationTitle)
-        .overlay(callToActionButton, alignment: .bottom)
+        .overlay(
+            buildCallToActionButton(buttonStyle: callToActionButtonStyle),
+            alignment: .bottom
+        )
+    }
+
+    @MainActor
+    @ViewBuilder
+    private func buildCallToActionButton(
+        buttonStyle: RoundedRectangleButtonStyle
+    ) -> some View {
+        Button(
+            Strings.TrackSelectionDetails.callToActionButtonTitle,
+            action: {
+                callToActionButtonFeedbackGenerator.triggerFeedback()
+                onCallToActionButtonTap()
+            }
+        )
+        .buttonStyle(buttonStyle)
+        .padding(.horizontal)
+        .background(
+            Color(ColorPalette.surface)
+                .padding(appearance.callToActionBlurInsets.edgeInsets)
+                .blur(radius: buttonStyle.cornerRadius)
+        )
+        .disabled(!isCallToActionButtonEnabled)
     }
 }
 
@@ -99,7 +131,9 @@ Learn to program by creating real-world applications. \
 Empowered by a personalized study plan, interactive projects, and integration with JetBrains IDEs, \
 you’ll gain hands-on programming experience that is essential for your career as a developer.
 """,
-                    otherProvidersDescription: "Edvancium, Basic"
+                    otherProvidersDescription: "Edvancium, Basic",
+                    isCallToActionButtonEnabled: false,
+                    onCallToActionButtonTap: {}
                 )
             }
         }

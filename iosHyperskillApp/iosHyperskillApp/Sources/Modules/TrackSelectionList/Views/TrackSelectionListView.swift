@@ -41,10 +41,7 @@ struct TrackSelectionListView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.viewStateKs {
-        case .idle:
-            TrackSelectionListSkeletonView()
-                .onAppear(perform: viewModel.doLoadTrackSelectionList)
-        case .loading:
+        case .idle, .loading:
             TrackSelectionListSkeletonView()
         case .error:
             PlaceholderView(
