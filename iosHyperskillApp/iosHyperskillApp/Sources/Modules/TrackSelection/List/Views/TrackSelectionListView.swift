@@ -24,9 +24,6 @@ struct TrackSelectionListView: View {
 
             buildBody()
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationViewStyle(StackNavigationViewStyle())
-        .navigationTitle(Strings.TrackSelectionList.title)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -42,10 +39,7 @@ struct TrackSelectionListView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.viewStateKs {
-        case .idle:
-            TrackSelectionListSkeletonView()
-                .onAppear(perform: viewModel.doLoadTrackSelectionList)
-        case .loading:
+        case .idle, .loading:
             TrackSelectionListSkeletonView()
         case .error:
             PlaceholderView(
@@ -87,8 +81,12 @@ private extension TrackSelectionListView {
 
     func handleNavigateToViewAction(_ viewAction: TrackSelectionListFeatureActionViewActionNavigateTo) {
         switch TrackSelectionListFeatureActionViewActionNavigateToKs(viewAction) {
-        case .trackDetails:
-            assertionFailure("Not implemented")
+        case .trackDetails(let navigateToTrackDetailsViewAction):
+            let assembly = TrackSelectionDetailsAssembly(
+                trackWithProgress: navigateToTrackDetailsViewAction.trackWithProgress,
+                isTrackSelected: navigateToTrackDetailsViewAction.isTrackSelected
+            )
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 }

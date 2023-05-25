@@ -2,6 +2,8 @@ import SwiftUI
 
 extension StarRatingView {
     struct Appearance {
+        var spacing = LayoutInsets.smallInset
+
         var imageSize = CGSize(width: 16, height: 16)
         var imageColor = Color(ColorPalette.overlayYellow)
 
@@ -17,7 +19,7 @@ struct StarRatingView: View {
 
     var body: some View {
         if let ratingText = rating.text {
-            HStack(spacing: LayoutInsets.smallInset) {
+            HStack(spacing: appearance.spacing) {
                 Image(systemName: "star.fill")
                     .resizable()
                     .renderingMode(.template)
