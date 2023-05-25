@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.presentation
+package org.hyperskill.app.track_selection.list.presentation
 
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action.ViewAction
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Message
