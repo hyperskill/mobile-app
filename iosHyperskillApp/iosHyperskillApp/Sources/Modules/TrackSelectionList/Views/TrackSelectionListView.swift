@@ -24,8 +24,6 @@ struct TrackSelectionListView: View {
 
             buildBody()
         }
-        .navigationViewStyle(StackNavigationViewStyle())
-        .navigationTitle(Strings.TrackSelectionList.title)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)

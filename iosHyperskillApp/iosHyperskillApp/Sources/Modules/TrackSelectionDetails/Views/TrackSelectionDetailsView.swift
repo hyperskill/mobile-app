@@ -20,7 +20,6 @@ struct TrackSelectionDetailsView: View {
 
             buildBody()
         }
-        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -46,7 +45,7 @@ struct TrackSelectionDetailsView: View {
                 )
             )
         case .content(let viewData):
-            let _ = renderTrackSelectionLoadingIndicator(
+            let _ = handleTrackSelectionLoadingIndicatorVisibility(
                 isVisible: viewData.isTrackSelectionLoadingShowed
             )
 
@@ -70,7 +69,7 @@ struct TrackSelectionDetailsView: View {
         }
     }
 
-    private func renderTrackSelectionLoadingIndicator(isVisible: Bool) {
+    private func handleTrackSelectionLoadingIndicatorVisibility(isVisible: Bool) {
         if isVisible {
             ProgressHUD.show()
         } else {

@@ -20,6 +20,7 @@ final class TrackSelectionListAssembly: UIKitAssembly {
         )
         hostingController.hidesBottomBarWhenPushed = true
         hostingController.navigationItem.largeTitleDisplayMode = .never
+        hostingController.title = Strings.TrackSelectionList.title
 
         stackRouter.rootViewController = hostingController
 
