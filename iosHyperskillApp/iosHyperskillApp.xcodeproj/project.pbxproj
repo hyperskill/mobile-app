@@ -161,7 +161,7 @@
 		2C5261A52993CBF100B4E8F6 /* TopicProgressExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */; };
 		2C54E4222A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */; };
 		2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */; };
-		2C54E4282A1F717F003406B9 /* TrackSelectionDetailsBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4272A1F717F003406B9 /* TrackSelectionDetailsBlockView.swift */; };
+		2C54E4282A1F717F003406B9 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4272A1F717F003406B9 /* CardView.swift */; };
 		2C54E42A2A1F948D003406B9 /* TrackSelectionDetailsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4292A1F948D003406B9 /* TrackSelectionDetailsContentView.swift */; };
 		2C54E42D2A1F9623003406B9 /* TrackSelectionDetailsTrackOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E42C2A1F9623003406B9 /* TrackSelectionDetailsTrackOverviewView.swift */; };
 		2C54E42F2A1FAA88003406B9 /* TrackSelectionDetailsProvidersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E42E2A1FAA88003406B9 /* TrackSelectionDetailsProvidersView.swift */; };
@@ -679,7 +679,7 @@
 		2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicProgressExtensions.swift; sourceTree = "<group>"; };
 		2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsDescriptionView.swift; sourceTree = "<group>"; };
-		2C54E4272A1F717F003406B9 /* TrackSelectionDetailsBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsBlockView.swift; sourceTree = "<group>"; };
+		2C54E4272A1F717F003406B9 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		2C54E4292A1F948D003406B9 /* TrackSelectionDetailsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsContentView.swift; sourceTree = "<group>"; };
 		2C54E42C2A1F9623003406B9 /* TrackSelectionDetailsTrackOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsTrackOverviewView.swift; sourceTree = "<group>"; };
 		2C54E42E2A1FAA88003406B9 /* TrackSelectionDetailsProvidersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsProvidersView.swift; sourceTree = "<group>"; };
@@ -1810,7 +1810,6 @@
 		2C54E42B2A1F94A5003406B9 /* Content */ = {
 			isa = PBXGroup;
 			children = (
-				2C54E4272A1F717F003406B9 /* TrackSelectionDetailsBlockView.swift */,
 				2C54E4292A1F948D003406B9 /* TrackSelectionDetailsContentView.swift */,
 				2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */,
 				2C54E42E2A1FAA88003406B9 /* TrackSelectionDetailsProvidersView.swift */,
@@ -2426,6 +2425,7 @@
 			isa = PBXGroup;
 			children = (
 				2C725B622809198000A49043 /* BackgroundView.swift */,
+				2C54E4272A1F717F003406B9 /* CardView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
 				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
@@ -3460,7 +3460,7 @@
 				2C725B612809125700A49043 /* LayoutInsets.swift in Sources */,
 				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */,
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
-				2C54E4282A1F717F003406B9 /* TrackSelectionDetailsBlockView.swift in Sources */,
+				2C54E4282A1F717F003406B9 /* CardView.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
 				2C93C2D4292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift in Sources */,
 				2C306A0E29B4590C0068FF4F /* StageImplementFeatureViewStateKsExtensions.swift in Sources */,

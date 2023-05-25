@@ -1,15 +1,13 @@
 import SwiftUI
 
-extension TrackSelectionDetailsBlockView {
+extension CardView {
     struct Appearance {
-        let backgroundColor = Color(ColorPalette.surface)
-        let cornerRadius: CGFloat = 8
-
-        let spacing: CGFloat = LayoutInsets.defaultInset
+        var backgroundColor = Color(ColorPalette.surface)
+        var cornerRadius: CGFloat = 8
     }
 }
 
-struct TrackSelectionDetailsBlockView<Content>: View where Content: View {
+struct CardView<Content>: View where Content: View {
     private(set) var appearance = Appearance()
 
     @ViewBuilder var content: () -> Content
@@ -24,20 +22,20 @@ struct TrackSelectionDetailsBlockView<Content>: View where Content: View {
 }
 
 #if DEBUG
-struct TrackSelectionDetailsBlockView_Previews: PreviewProvider {
+struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         let text = """
 Acquire key Python skills to establish a solid foundation for pursuing a career in Backend Development or Data Science.
 """
 
         Group {
-            TrackSelectionDetailsBlockView {
+            CardView {
                 Text(text)
                     .font(.body)
                     .foregroundColor(.primaryText)
             }
 
-            TrackSelectionDetailsBlockView {
+            CardView {
                 Text(text)
                     .font(.body)
                     .foregroundColor(.primaryText)

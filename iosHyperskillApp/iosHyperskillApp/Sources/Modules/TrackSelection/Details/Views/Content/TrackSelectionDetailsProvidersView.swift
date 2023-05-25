@@ -19,7 +19,7 @@ struct TrackSelectionDetailsProvidersView: View {
         if mainProviderTitle?.isEmpty ?? true {
             EmptyView()
         } else {
-            TrackSelectionDetailsBlockView {
+            CardView {
                 VStack(alignment: .leading, spacing: apperance.spacing) {
                     buildMainProviderView()
                     buildOtherProvidersView()

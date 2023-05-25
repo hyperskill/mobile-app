@@ -19,7 +19,7 @@ struct TrackSelectionDetailsDescriptionView: View {
         if isEmpty {
             EmptyView()
         } else {
-            TrackSelectionDetailsBlockView {
+            CardView {
                 VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                     if !isBadgesEmpty {
                         HStack(spacing: LayoutInsets.smallInset) {
