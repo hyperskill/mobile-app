@@ -105,7 +105,7 @@ class TrackSelectionDetailsFragment :
             ViewAction.ShowTrackSelectionStatus.Success ->
                 view?.snackbar(org.hyperskill.app.R.string.track_selection_details_selection_succeed)
             ViewAction.ShowTrackSelectionStatus.Error ->
-                view?.snackbar(org.hyperskill.app.R.string.common_error)
+                view?.snackbar(org.hyperskill.app.R.string.track_selection_details_selection_failed)
         }
     }
 

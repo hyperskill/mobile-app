@@ -416,6 +416,7 @@
     <string name="track_selection_details_main_provider_title">Provided by:</string>
     <string name="track_selection_details_other_providers_title">Other providers for this track:</string>
     <string name="track_selection_details_selection_succeed">Track successfully selected</string>
+    <string name="track_selection_details_selection_failed">Failed to select a track</string>
 
     <!-- Date formatter -->
     <string name="date_formatter_less_than_a_minute">less than a minute</string>
