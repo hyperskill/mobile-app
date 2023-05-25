@@ -28,6 +28,7 @@ object TrackSelectionDetailsDelegate {
         updateContentBottomMargin(context, viewBinding)
         renderSelectionLoading(fragmentManager, state.isTrackSelectionLoadingShowed)
         viewBinding.projectSelectionDetailsToolbar.title = state.title
+        viewBinding.trackSelectionDetailsSelectButton.isEnabled = state.isSelectTrackButtonEnabled
         with(viewBinding.trackSelectionDetailsDescription) {
             setNullableText(trackSelectionDetailsDescription, state.description)
             trackSelectionDetailsDescription.updateLayoutParams<ViewGroup.MarginLayoutParams> {
