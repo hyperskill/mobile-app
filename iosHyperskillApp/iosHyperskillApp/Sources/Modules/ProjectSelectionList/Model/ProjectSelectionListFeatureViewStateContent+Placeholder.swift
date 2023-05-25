@@ -154,8 +154,7 @@ extension ProjectSelectionListFeatureViewStateContent {
             formattedTitle: "Select project in track Python Core",
             selectedProject: selectedProject,
             recommendedProjects: recommendedProjects,
-            projectsByLevel: projectsByLevel,
-            isProjectSelectionLoadingShowed: false
+            projectsByLevel: projectsByLevel
         )
     }
 }

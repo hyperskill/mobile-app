@@ -1,8 +1,7 @@
-package org.hyperskill.app.project_selection.presentation
+package org.hyperskill.app.project_selection.list.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.track.domain.model.Track
@@ -23,8 +22,7 @@ object ProjectSelectionListFeature {
             val track: Track,
             val projects: Map<Long, ProjectWithProgress>,
             val sortedProjectsIds: List<Long>,
-            val currentProjectId: Long?,
-            val isProjectSelectionLoadingShowed: Boolean = false
+            val currentProjectId: Long?
         ) : ContentState
         object Error : ContentState
     }
@@ -40,8 +38,7 @@ object ProjectSelectionListFeature {
             val formattedTitle: String,
             val selectedProject: ProjectListItem?,
             val recommendedProjects: List<ProjectListItem>,
-            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>,
-            val isProjectSelectionLoadingShowed: Boolean
+            val projectsByLevel: Map<ProjectLevel, List<ProjectListItem>>
         ) : ViewState
         object Error : ViewState
     }
@@ -67,17 +64,9 @@ object ProjectSelectionListFeature {
         object Initialize : Message
         object RetryContentLoading : Message
 
-        object ViewedEventMessage : Message
-
         data class ProjectClicked(val projectId: Long) : Message
 
-        data class ProjectSelectionConfirmationResult(
-            val projectId: Long,
-            val isConfirmed: Boolean
-        ) : Message
-
-        object ProjectSelectionConfirmationModalShown : Message
-        object ProjectSelectionConfirmationModalHidden : Message
+        object ViewedEventMessage : Message
     }
 
     internal sealed interface ContentFetchResult : Message {
@@ -91,23 +80,16 @@ object ProjectSelectionListFeature {
         object Error : ContentFetchResult
     }
 
-    internal sealed interface ProjectSelectionResult : Message {
-        object Success : ProjectSelectionResult
-        object Error : ProjectSelectionResult
-    }
-
     sealed interface Action {
         sealed interface ViewAction : Action {
+            object ShowProjectSelectionError : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
-            }
-
-            data class ShowProjectSelectionConfirmationModal(val project: Project) : ViewAction
-
-            sealed interface ShowProjectSelectionStatus : ViewAction {
-                object Success : ShowProjectSelectionStatus
-                object Error : ShowProjectSelectionStatus
+                data class ProjectDetails(
+                    val trackId: Long,
+                    val projectId: Long,
+                    val isProjectSelected: Boolean
+                ) : NavigateTo
             }
         }
     }
@@ -117,8 +99,6 @@ object ProjectSelectionListFeature {
             val trackId: Long,
             val forceLoadFromNetwork: Boolean
         ) : InternalAction
-
-        data class SelectProject(val trackId: Long, val projectId: Long) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

@@ -18,7 +18,11 @@ data class Project(
     @SerialName("is_ide_required")
     val isIdeRequired: Boolean = false,
     @SerialName("default_score")
-    val defaultScore: Float = 0f
+    val defaultScore: Float = 0f,
+    @SerialName("results")
+    val results: String = "", // HTML text
+    @SerialName("provider_id")
+    val providerId: Long? = null
 ) {
     companion object
 }

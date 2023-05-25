@@ -1,16 +1,16 @@
-package org.hyperskill.app.project_selection.view.mapper
+package org.hyperskill.app.project_selection.list.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progresses.domain.model.averageRating
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
-import org.hyperskill.app.project_selection.presentation.bestRatedProjectId
-import org.hyperskill.app.project_selection.presentation.fastestToCompleteProjectId
-import org.hyperskill.app.project_selection.presentation.projectsByLevel
-import org.hyperskill.app.project_selection.presentation.recommendedProjects
-import org.hyperskill.app.project_selection.presentation.selectedProject
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
+import org.hyperskill.app.project_selection.list.presentation.bestRatedProjectId
+import org.hyperskill.app.project_selection.list.presentation.fastestToCompleteProjectId
+import org.hyperskill.app.project_selection.list.presentation.projectsByLevel
+import org.hyperskill.app.project_selection.list.presentation.recommendedProjects
+import org.hyperskill.app.project_selection.list.presentation.selectedProject
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.isGraduate
 import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
@@ -67,8 +67,7 @@ internal class ProjectSelectionListViewStateMapper(
             recommendedProjects = state.recommendedProjects.map(::mapProjectListItem),
             projectsByLevel = state.projectsByLevel(levelByProjectIdMap).mapValues { (_, projects) ->
                 projects.map(::mapProjectListItem)
-            },
-            isProjectSelectionLoadingShowed = state.isProjectSelectionLoadingShowed
+            }
         )
     }
 }

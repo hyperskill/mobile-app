@@ -16,7 +16,7 @@ import org.hyperskill.app.android.databinding.ItemProjectBlockHeaderBinding
 import org.hyperskill.app.android.databinding.ItemProjectSelectionHeaderBinding
 import org.hyperskill.app.android.projects_selection.adapter.ProjectAdapterDelegate
 import org.hyperskill.app.android.projects_selection.model.ProjectSelectionRecyclerItem
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter

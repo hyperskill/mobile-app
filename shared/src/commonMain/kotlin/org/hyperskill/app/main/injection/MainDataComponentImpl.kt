@@ -12,6 +12,7 @@ class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataComponent 
             appGraph.analyticComponent.analyticInteractor,
             appGraph.buildProgressesDataComponent().progressesRepository,
             appGraph.buildTrackDataComponent().trackRepository,
-            appGraph.buildProvidersDataComponent().providersRepository
+            appGraph.buildProvidersDataComponent().providersRepository,
+            appGraph.buildProjectsDataComponent().projectsRepository
         )
 }

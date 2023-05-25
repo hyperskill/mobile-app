@@ -1,4 +1,4 @@
-package org.hyperskill.app.project_selection.presentation
+package org.hyperskill.app.project_selection.list.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -7,8 +7,8 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.InternalAction
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListFeature.Message
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.InternalAction
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.model.projectId
@@ -20,7 +20,7 @@ import org.hyperskill.app.track.domain.repository.TrackRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 // TODO: extract all logic of this class to a dedicated interactor.
-class ProjectSelectionListActionDispatcher(
+internal class ProjectSelectionListActionDispatcher(
     config: ActionDispatcherOptions,
     private val trackRepository: TrackRepository,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
@@ -36,21 +36,6 @@ class ProjectSelectionListActionDispatcher(
         when (action) {
             is InternalAction.FetchContent ->
                 handleFetchContentAction(action, ::onNewMessage)
-            is InternalAction.SelectProject -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(DataSourceType.CACHE)
-                    .getOrElse {
-                        return onNewMessage(ProjectSelectionListFeature.ProjectSelectionResult.Error)
-                    }
-                profileInteractor.selectTrackWithProject(
-                    profileId = currentProfile.id,
-                    trackId = action.trackId,
-                    projectId = action.projectId
-                ).getOrElse {
-                    return onNewMessage(ProjectSelectionListFeature.ProjectSelectionResult.Error)
-                }
-                onNewMessage(ProjectSelectionListFeature.ProjectSelectionResult.Success)
-            }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }
@@ -95,7 +80,7 @@ class ProjectSelectionListActionDispatcher(
             }
 
             val projectsDeferred = async {
-                projectsRepository.getProjects(projectsIds)
+                projectsRepository.getProjects(projectsIds, action.forceLoadFromNetwork)
             }
 
             val projectsProgressesDeferred = async {
