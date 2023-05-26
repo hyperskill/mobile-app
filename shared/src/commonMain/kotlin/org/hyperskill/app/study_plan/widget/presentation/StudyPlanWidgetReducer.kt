@@ -177,8 +177,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleLearningActivitiesFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success
-    ): StudyPlanWidgetReducerResult =
-        state.copy(
+    ): StudyPlanWidgetReducerResult {
+        val nextState = state.copy(
             activities = state.activities.toMutableMap().apply {
                 putAll(message.activities.associateBy { it.id })
                 // ALTAPPS-743: We should remove activities that are not in the new list
@@ -188,10 +188,27 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 val activitiesIdsToRemove = activitiesIds - message.activities.map { it.id }.toSet()
                 activitiesIdsToRemove.forEach { remove(it) }
             },
-            studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->
-                sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
+            // ALTAPPS-786: We should hide sections without available activities to avoid blocking study plan
+            studyPlanSections = if (message.activities.isEmpty()) {
+                state.studyPlanSections.toMutableMap().apply {
+                    remove(message.sectionId)
+                }
+            } else {
+                state.studyPlanSections.update(message.sectionId) { sectionInfo ->
+                    sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
+                }
             }
-        ) to emptySet()
+        )
+
+        // ALTAPPS-786: We should expand next section if current section doesn't have available activities
+        return if (message.sectionId == state.getCurrentSection()?.id && message.activities.isEmpty()) {
+            nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
+                changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
+            } ?: (nextState to emptySet())
+        } else {
+            nextState to emptySet()
+        }
+    }
 
     private fun handleLearningActivitiesFetchFailed(
         state: State,
