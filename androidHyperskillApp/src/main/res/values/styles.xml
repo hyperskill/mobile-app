@@ -29,7 +29,6 @@
 
     <style name="Widget.AppTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
         <item name="android:background">@color/color_background</item>
-        <item name="navigationIcon">@drawable/ic_toolbar_back</item>
         <item name="navigationIconTint">?colorControlNormal</item>
         <item name="contentInsetStartWithNavigation">0dp</item>
     </style>

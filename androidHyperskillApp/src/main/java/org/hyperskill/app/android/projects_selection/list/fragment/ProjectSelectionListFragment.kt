@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.projects_selection.fragment
+package org.hyperskill.app.android.projects_selection.list.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -9,12 +9,14 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProjectSelectionListBinding
-import org.hyperskill.app.android.projects_selection.delegate.ProjectSelectionListDelegate
+import org.hyperskill.app.android.projects_selection.details.navigation.ProjectSelectionDetailsScreen
+import org.hyperskill.app.android.projects_selection.list.delegate.ProjectSelectionListDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action.ViewAction
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ViewState
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListViewModel
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.snackbar
@@ -92,9 +94,20 @@ class ProjectSelectionListFragment :
     override fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.NavigateTo.ProjectDetails ->
-                TODO("Not implemented yet")
+                requireRouter().navigateTo(
+                    ProjectSelectionDetailsScreen(
+                        ProjectSelectionDetailsParams(
+                            trackId = action.trackId,
+                            projectId = action.projectId,
+                            isProjectSelected = action.isProjectSelected,
+                            isProjectBestRated = action.isProjectBestRated,
+                            isProjectFastestToComplete = action.isProjectFastestToComplete
+
+                        )
+                    )
+                )
             ViewAction.ShowProjectSelectionError ->
-                view?.snackbar(org.hyperskill.app.R.string.connection_error)
+                view?.snackbar(org.hyperskill.app.R.string.common_error)
         }
     }
 }

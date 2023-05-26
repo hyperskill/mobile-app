@@ -1,7 +1,7 @@
-package org.hyperskill.app.project_selection.injection
+package org.hyperskill.app.project_selection.details.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 
-interface PlatformProjectSelectionListComponent {
+interface PlatformProjectSelectionDetailsComponent {
     val reduxViewModelFactory: ReduxViewModelFactory
 }

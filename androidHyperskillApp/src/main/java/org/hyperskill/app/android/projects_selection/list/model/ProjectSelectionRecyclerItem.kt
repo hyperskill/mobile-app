@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.projects_selection.model
+package org.hyperskill.app.android.projects_selection.list.model
 
 import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt

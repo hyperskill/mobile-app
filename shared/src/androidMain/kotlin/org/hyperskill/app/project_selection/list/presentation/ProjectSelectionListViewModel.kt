@@ -1,4 +1,4 @@
-package org.hyperskill.app.project_selection.presentation
+package org.hyperskill.app.project_selection.list.presentation
 
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action.ViewAction
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message

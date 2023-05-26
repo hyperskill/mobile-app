@@ -1,9 +1,9 @@
-package org.hyperskill.app.android.projects_selection.navigation
+package org.hyperskill.app.android.projects_selection.list.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import org.hyperskill.app.android.projects_selection.fragment.ProjectSelectionListFragment
+import org.hyperskill.app.android.projects_selection.list.fragment.ProjectSelectionListFragment
 
 class ProjectSelectionListScreen(
     private val trackId: Long

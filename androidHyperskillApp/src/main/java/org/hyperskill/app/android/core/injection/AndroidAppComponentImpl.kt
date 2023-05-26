@@ -99,10 +99,13 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponent
+import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponentImpl
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponent
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponentImpl
-import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponent
-import org.hyperskill.app.project_selection.injection.PlatformProjectSelectionListComponentImpl
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
+import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
+import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponentImpl
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponentImpl
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
@@ -492,10 +495,14 @@ class AndroidAppComponentImpl(
     override fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent =
         ProjectSelectionDetailsComponentImpl(this)
 
+    override fun buildPlatformProjectSelectionDetailsComponent(
+        params: ProjectSelectionDetailsParams
+    ): PlatformProjectSelectionDetailsComponent =
+        PlatformProjectSelectionDetailsComponentImpl(buildProjectSelectionDetailsComponent(), params)
+
     /**
      * Track selection list component
      */
-
     override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
         TrackSelectionListComponentImpl(this)
 
@@ -505,7 +512,6 @@ class AndroidAppComponentImpl(
     /**
      * Track selection details component
      */
-
     override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
         TrackSelectionDetailsComponentImpl(this)
 
