@@ -443,6 +443,21 @@ enum Strings {
         }
     }
 
+    // MARK: - ProjectSelectionDetails -
+
+    enum ProjectSelectionDetails {
+        static let learningOutcomesTitle = sharedStrings.project_selection_details_learning_outcomes_title.localized()
+        static let projectOverviewTitle = sharedStrings.project_selection_details_project_overview_title.localized()
+        static let providedByTitle = sharedStrings.project_selection_details_provided_by_title.localized()
+
+        static let selectionSuccessMessage =
+            sharedStrings.project_selection_details_project_selection_success_message.localized()
+        static let selectionErrorMessage =
+            sharedStrings.project_selection_details_project_selection_error_message.localized()
+
+        static let callToActionButtonTitle = sharedStrings.project_selection_details_cta_button_title.localized()
+    }
+
     // MARK: - TrackSelectionList -
 
     enum TrackSelectionList {

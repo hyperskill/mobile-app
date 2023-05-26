@@ -1,3 +1,4 @@
+import CombineSchedulers
 import Foundation
 import shared
 
@@ -8,15 +9,16 @@ final class ProjectSelectionListViewModel: FeatureViewModel<
 > {
     var viewStateKs: ProjectSelectionListFeatureViewStateKs { .init(state) }
 
+    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
+        super.init(feature: feature, mainScheduler: mainScheduler)
+        onNewMessage(ProjectSelectionListFeatureMessageInitialize())
+    }
+
     override func shouldNotifyStateDidChange(
         oldState: ProjectSelectionListFeatureViewState,
         newState: ProjectSelectionListFeatureViewState
     ) -> Bool {
         ProjectSelectionListFeatureViewStateKs(oldState) != ProjectSelectionListFeatureViewStateKs(newState)
-    }
-
-    func doLoadProjectSelectionList() {
-        onNewMessage(ProjectSelectionListFeatureMessageInitialize())
     }
 
     func doRetryLoadProjectSelectionList() {

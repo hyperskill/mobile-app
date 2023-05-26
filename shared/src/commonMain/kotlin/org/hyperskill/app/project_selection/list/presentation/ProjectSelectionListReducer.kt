@@ -100,23 +100,26 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
             )
         )
 
-        val project = (state.content as? ContentState.Content)?.projects?.get(message.projectId)?.project
-        val currentProjectId = (state.content as? ContentState.Content)?.currentProjectId
+        val fallbackResult = state to setOf(
+            analyticEventAction,
+            ViewAction.ShowProjectSelectionError
+        )
 
-        return if (project != null) {
+        return if (state.content is ContentState.Content) {
+            val project = state.content.projects[message.projectId]?.project ?: return fallbackResult
+
             state to setOf(
                 analyticEventAction,
                 ViewAction.NavigateTo.ProjectDetails(
                     trackId = state.trackId,
                     projectId = project.id,
-                    isProjectSelected = project.id == currentProjectId
+                    isProjectSelected = project.id == state.content.currentProjectId,
+                    isProjectBestRated = project.id == state.content.bestRatedProjectId,
+                    isProjectFastestToComplete = project.id == state.content.fastestToCompleteProjectId
                 )
             )
         } else {
-            state to setOf(
-                analyticEventAction,
-                ViewAction.ShowProjectSelectionError
-            )
+            fallbackResult
         }
     }
 

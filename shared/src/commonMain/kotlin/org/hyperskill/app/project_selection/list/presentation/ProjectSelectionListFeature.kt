@@ -88,7 +88,9 @@ object ProjectSelectionListFeature {
                 data class ProjectDetails(
                     val trackId: Long,
                     val projectId: Long,
-                    val isProjectSelected: Boolean
+                    val isProjectSelected: Boolean,
+                    val isProjectBestRated: Boolean,
+                    val isProjectFastestToComplete: Boolean
                 ) : NavigateTo
             }
         }

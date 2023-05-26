@@ -1,6 +1,7 @@
 package org.hyperskill.app.project_selection.details.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.providers.domain.model.Provider
 import org.hyperskill.app.track.domain.model.Track
@@ -10,6 +11,8 @@ object ProjectSelectionDetailsFeature {
         val trackId: Long,
         val projectId: Long,
         val isProjectSelected: Boolean,
+        val isProjectBestRated: Boolean,
+        val isProjectFastestToComplete: Boolean,
         val isSelectProjectLoadingShowed: Boolean,
         val contentState: ContentState
     )
@@ -30,13 +33,17 @@ object ProjectSelectionDetailsFeature {
     internal fun initialState(
         trackId: Long,
         projectId: Long,
-        isProjectSelected: Boolean
+        isProjectSelected: Boolean,
+        isProjectBestRated: Boolean,
+        isProjectFastestToComplete: Boolean
     ): State =
         State(
             trackId = trackId,
             projectId = projectId,
             isProjectSelected = isProjectSelected,
             isSelectProjectLoadingShowed = false,
+            isProjectBestRated = isProjectBestRated,
+            isProjectFastestToComplete = isProjectFastestToComplete,
             contentState = ContentState.Idle
         )
 
@@ -49,10 +56,14 @@ object ProjectSelectionDetailsFeature {
             // Learning outcomes
             val isSelected: Boolean,
             val isIdeRequired: Boolean,
+            val isBeta: Boolean,
+            val isBestRated: Boolean,
+            val isFastestToComplete: Boolean,
             val learningOutcomesDescription: String?,
             // Project overview
             val formattedAverageRating: String,
-            val formattedLevel: String?,
+            val projectLevel: ProjectLevel?,
+            val formattedProjectLevel: String?,
             val formattedGraduateDescription: String?,
             val formattedTimeToComplete: String?,
             // Provided by
@@ -60,7 +71,10 @@ object ProjectSelectionDetailsFeature {
             // CTA
             val isSelectProjectButtonEnabled: Boolean,
             val isSelectProjectLoadingShowed: Boolean
-        ) : ViewState
+        ) : ViewState {
+            val areTagsVisible: Boolean
+                get() = isSelected || isIdeRequired || isBeta || isBestRated || isFastestToComplete
+        }
     }
 
     sealed interface Message {
