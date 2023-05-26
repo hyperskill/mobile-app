@@ -45,7 +45,7 @@ data class Track(
     @SerialName("capstone_topics_count")
     val capstoneTopicsCount: Int,
     @SerialName("provider_id")
-    val providerId: Long,
+    val providerId: Long? = null,
     @SerialName("topic_providers")
     val topicProviders: List<Long>,
 
