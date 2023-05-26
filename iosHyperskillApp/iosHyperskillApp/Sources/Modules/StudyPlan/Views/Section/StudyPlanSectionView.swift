@@ -8,7 +8,7 @@ extension StudyPlanSectionView {
 }
 
 struct StudyPlanSectionView: View {
-    private(set) var apperance = Appearance()
+    private(set) var appearance = Appearance()
 
     let section: StudyPlanWidgetViewStateSection
 
@@ -32,7 +32,7 @@ struct StudyPlanSectionView: View {
                 }
             case .loading:
                 SkeletonRoundedView()
-                    .frame(height: apperance.skeletonHeight)
+                    .frame(height: appearance.skeletonHeight)
             case .content(let content):
                 StudyPlanSectionActivitiesList(
                     sectionItems: content.sectionItems,

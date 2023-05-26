@@ -5,6 +5,8 @@ enum Images {
 
     enum Common {
         static let hyperskillLogo = "hyperskill-logo"
+
+        static let trophy = "trophy"
     }
 
     // MARK: - TabBar -

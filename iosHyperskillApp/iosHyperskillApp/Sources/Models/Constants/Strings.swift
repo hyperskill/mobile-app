@@ -443,9 +443,39 @@ enum Strings {
         }
     }
 
+    // MARK: - ProjectSelectionDetails -
+
+    enum ProjectSelectionDetails {
+        static let learningOutcomesTitle = sharedStrings.project_selection_details_learning_outcomes_title.localized()
+        static let projectOverviewTitle = sharedStrings.project_selection_details_project_overview_title.localized()
+        static let providedByTitle = sharedStrings.project_selection_details_provided_by_title.localized()
+
+        static let selectionSuccessMessage =
+            sharedStrings.project_selection_details_project_selection_success_message.localized()
+        static let selectionErrorMessage =
+            sharedStrings.project_selection_details_project_selection_error_message.localized()
+
+        static let callToActionButtonTitle = sharedStrings.project_selection_details_cta_button_title.localized()
+    }
+
     // MARK: - TrackSelectionList -
 
     enum TrackSelectionList {
         static let title = sharedStrings.track_selection_list_toolbar_title.localized()
+    }
+
+    // MARK: - TrackSelectionDetails -
+
+    enum TrackSelectionDetails {
+        static let callToActionButtonTitle = sharedStrings.track_selection_details_select_button.localized()
+
+        static let overviewTitle = sharedStrings.track_selection_details_overview_title.localized()
+        static let certificateText = sharedStrings.track_selection_details_certificate_text.localized()
+
+        static let selectionSuccessMessage = sharedStrings.track_selection_details_selection_succeed.localized()
+        static let selectionErrorMessage = sharedStrings.track_selection_details_selection_failed.localized()
+
+        static let mainProviderTitle = sharedStrings.track_selection_details_main_provider_title.localized()
+        static let otherProvidersTitle = sharedStrings.track_selection_details_other_providers_title.localized()
     }
 }
