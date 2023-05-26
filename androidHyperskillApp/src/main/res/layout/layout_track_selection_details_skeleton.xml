@@ -17,11 +17,20 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+            android:textSize="18sp"
+            android:text="@string/project_selection_details_project_overview_title"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="16dp"/>
+
         <org.hyperskill.app.android.ui.custom.LoadingView
             android:layout_width="match_parent"
             android:layout_height="240dp"
             android:layout_gravity="bottom"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="98dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp" />
 
@@ -43,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
                 android:textSize="18sp"
-                android:text="@string/track_selection_details_overview_title"/>
+                android:text="@string/project_selection_details_project_overview_title"/>
 
             <org.hyperskill.app.android.ui.custom.LoadingView
                 android:layout_width="match_parent"
