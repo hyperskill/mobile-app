@@ -58,7 +58,7 @@ class ProjectSelectionDetailsFragment :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        projectSelectionDetailsViewModel.onNewMessage(Message.Initialize)
+        projectSelectionDetailsViewModel.onNewMessage(Message.ViewedEventMessage)
         setupViewStateDelegate()
         viewBinding.projectSelectionDetailsToolbar.setNavigationOnClickListener {
             requireRouter().exit()
