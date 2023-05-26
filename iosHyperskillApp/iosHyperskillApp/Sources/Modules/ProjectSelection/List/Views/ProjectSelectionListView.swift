@@ -24,9 +24,6 @@ struct ProjectSelectionListView: View {
 
             buildBody()
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationViewStyle(StackNavigationViewStyle())
-        .navigationTitle(Strings.ProjectSelectionList.title)
         .onAppear {
             viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
@@ -42,10 +39,7 @@ struct ProjectSelectionListView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.viewStateKs {
-        case .idle:
-            ProjectSelectionListSkeletonView()
-                .onAppear(perform: viewModel.doLoadProjectSelectionList)
-        case .loading:
+        case .idle, .loading:
             ProjectSelectionListSkeletonView()
         case .error:
             PlaceholderView(
@@ -91,8 +85,14 @@ private extension ProjectSelectionListView {
     func handleNavigateToViewAction(_ viewAction: ProjectSelectionListFeatureActionViewActionNavigateToKs) {
         switch viewAction {
         case .projectDetails(let navigateToProjectDetailsViewAction):
-            print(navigateToProjectDetailsViewAction)
-            assertionFailure("Not implemented")
+            let assembly = ProjectSelectionDetailsAssembly(
+                trackId: navigateToProjectDetailsViewAction.trackId,
+                projectId: navigateToProjectDetailsViewAction.projectId,
+                isProjectSelected: navigateToProjectDetailsViewAction.isProjectSelected,
+                isProjectBestRated: navigateToProjectDetailsViewAction.isProjectBestRated,
+                isProjectFastestToComplete: navigateToProjectDetailsViewAction.isProjectFastestToComplete
+            )
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 }

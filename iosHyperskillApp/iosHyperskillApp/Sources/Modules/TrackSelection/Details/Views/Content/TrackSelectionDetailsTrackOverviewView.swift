@@ -52,7 +52,7 @@ struct TrackSelectionDetailsTrackOverviewView: View {
         if isEmpty {
             EmptyView()
         } else {
-            TrackSelectionDetailsBlockView {
+            CardView {
                 VStack(alignment: .leading, spacing: appearance.spacing) {
                     Text(Strings.TrackSelectionDetails.overviewTitle)
                         .font(.headline)

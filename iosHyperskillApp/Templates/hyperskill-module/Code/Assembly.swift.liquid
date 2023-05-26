@@ -16,6 +16,7 @@ final class {{ module_info.name }}Assembly: UIKitAssembly {
         let hostingController = StyledHostingController(
             rootView: {{ module_info.name_lower_camelized }}View
         )
+        hostingController.navigationItem.largeTitleDisplayMode = .never
 
         return hostingController
     }

@@ -35,10 +35,7 @@ struct {{ module_info.name }}View: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            ProgressView()
-                .onAppear(perform: viewModel.doLoad{{ module_info.name }})
-        case .loading:
+        case .idle, .loading:
             ProgressView()
         case .networkError:
             PlaceholderView(
