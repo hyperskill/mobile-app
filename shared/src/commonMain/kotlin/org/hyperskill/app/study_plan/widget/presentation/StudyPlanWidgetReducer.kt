@@ -177,7 +177,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleLearningActivitiesFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success
-    ): StudyPlanWidgetReducerResult  {
+    ): StudyPlanWidgetReducerResult {
         val nextState = state.copy(
             activities = state.activities.toMutableMap().apply {
                 putAll(message.activities.associateBy { it.id })
