@@ -1,11 +1,11 @@
-package org.hyperskill.app.android.projects_selection.adapter
+package org.hyperskill.app.android.projects_selection.list.adapter
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.ItemProjectBinding
-import org.hyperskill.app.android.projects_selection.model.ProjectSelectionRecyclerItem
+import org.hyperskill.app.android.projects_selection.list.model.ProjectSelectionRecyclerItem
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged

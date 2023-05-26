@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.projects_selection.fragment
+package org.hyperskill.app.android.projects_selection.list.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProjectSelectionListBinding
-import org.hyperskill.app.android.projects_selection.delegate.ProjectSelectionListDelegate
+import org.hyperskill.app.android.projects_selection.list.delegate.ProjectSelectionListDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action.ViewAction
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message

@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.projects_selection.delegate
+package org.hyperskill.app.android.projects_selection.list.delegate
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -14,8 +14,8 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
 import org.hyperskill.app.android.databinding.ItemProjectBlockHeaderBinding
 import org.hyperskill.app.android.databinding.ItemProjectSelectionHeaderBinding
-import org.hyperskill.app.android.projects_selection.adapter.ProjectAdapterDelegate
-import org.hyperskill.app.android.projects_selection.model.ProjectSelectionRecyclerItem
+import org.hyperskill.app.android.projects_selection.list.adapter.ProjectAdapterDelegate
+import org.hyperskill.app.android.projects_selection.list.model.ProjectSelectionRecyclerItem
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate

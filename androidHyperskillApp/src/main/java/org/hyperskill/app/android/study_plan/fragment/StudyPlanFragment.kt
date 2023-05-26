@@ -16,7 +16,7 @@ import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
-import org.hyperskill.app.android.projects_selection.navigation.ProjectSelectionListScreen
+import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
