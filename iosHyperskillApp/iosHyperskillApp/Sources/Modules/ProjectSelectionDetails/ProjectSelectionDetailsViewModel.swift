@@ -25,6 +25,10 @@ final class ProjectSelectionDetailsViewModel: FeatureViewModel<
         onNewMessage(ProjectSelectionDetailsFeatureMessageRetryContentLoading())
     }
 
+    func doSelectProjectButtonClicked() {
+        onNewMessage(ProjectSelectionDetailsFeatureMessageSelectProjectButtonClicked())
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

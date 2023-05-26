@@ -182,6 +182,11 @@
 		2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A2728659AD80097B270 /* CodeElementSize.swift */; };
 		2C5B9EB329B7A016007E4943 /* StageImplementUnsupportedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B9EB229B7A016007E4943 /* StageImplementUnsupportedModalView.swift */; };
 		2C5CA2372A20185300DBF2F9 /* ProjectSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CA2362A20185300DBF2F9 /* ProjectSelectionDetailsFeatureViewStateKsExtensions.swift */; };
+		2C5CA23A2A201A3900DBF2F9 /* ProjectSelectionDetailsLearningOutcomesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CA2392A201A3900DBF2F9 /* ProjectSelectionDetailsLearningOutcomesView.swift */; };
+		2C5CA23C2A201CCB00DBF2F9 /* ProjectSelectionDetailsProjectOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CA23B2A201CCB00DBF2F9 /* ProjectSelectionDetailsProjectOverviewView.swift */; };
+		2C5CA23E2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CA23D2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift */; };
+		2C5CA2412A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CA2402A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift */; };
+		2C5CA2442A202F1400DBF2F9 /* ProjectSelectionDetailsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CA2432A202F1400DBF2F9 /* ProjectSelectionDetailsSkeletonView.swift */; };
 		2C5CBBE12948EBEA00113007 /* StepQuizSQLViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE02948EBEA00113007 /* StepQuizSQLViewDataMapper.swift */; };
 		2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */; };
 		2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */; };
@@ -700,6 +705,11 @@
 		2C5B2A2728659AD80097B270 /* CodeElementSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeElementSize.swift; sourceTree = "<group>"; };
 		2C5B9EB229B7A016007E4943 /* StageImplementUnsupportedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementUnsupportedModalView.swift; sourceTree = "<group>"; };
 		2C5CA2362A20185300DBF2F9 /* ProjectSelectionDetailsFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C5CA2392A201A3900DBF2F9 /* ProjectSelectionDetailsLearningOutcomesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsLearningOutcomesView.swift; sourceTree = "<group>"; };
+		2C5CA23B2A201CCB00DBF2F9 /* ProjectSelectionDetailsProjectOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsProjectOverviewView.swift; sourceTree = "<group>"; };
+		2C5CA23D2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsProviderView.swift; sourceTree = "<group>"; };
+		2C5CA2402A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsContentView.swift; sourceTree = "<group>"; };
+		2C5CA2432A202F1400DBF2F9 /* ProjectSelectionDetailsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsSkeletonView.swift; sourceTree = "<group>"; };
 		2C5CBBE02948EBEA00113007 /* StepQuizSQLViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLViewDataMapper.swift; sourceTree = "<group>"; };
 		2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLViewModel.swift; sourceTree = "<group>"; };
 		2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLAssembly.swift; sourceTree = "<group>"; };
@@ -1866,6 +1876,35 @@
 			path = UnsupportedModal;
 			sourceTree = "<group>";
 		};
+		2C5CA2382A201A1A00DBF2F9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				71D01125D308034C53D75DA6 /* ProjectSelectionDetailsView.swift */,
+				2C5CA23F2A20242100DBF2F9 /* Content */,
+				2C5CA2422A202F0100DBF2F9 /* Skeleton */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2C5CA23F2A20242100DBF2F9 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				2C5CA2402A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift */,
+				2C5CA2392A201A3900DBF2F9 /* ProjectSelectionDetailsLearningOutcomesView.swift */,
+				2C5CA23B2A201CCB00DBF2F9 /* ProjectSelectionDetailsProjectOverviewView.swift */,
+				2C5CA23D2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		2C5CA2422A202F0100DBF2F9 /* Skeleton */ = {
+			isa = PBXGroup;
+			children = (
+				2C5CA2432A202F1400DBF2F9 /* ProjectSelectionDetailsSkeletonView.swift */,
+			);
+			path = Skeleton;
+			sourceTree = "<group>";
+		};
 		2C5CBBDE2948EB9400113007 /* StepQuizSQL */ = {
 			isa = PBXGroup;
 			children = (
@@ -2826,8 +2865,8 @@
 			isa = PBXGroup;
 			children = (
 				15AD7CF422D27CCAE2839046 /* ProjectSelectionDetailsAssembly.swift */,
-				71D01125D308034C53D75DA6 /* ProjectSelectionDetailsView.swift */,
 				FEDCC11294912B8656C8B264 /* ProjectSelectionDetailsViewModel.swift */,
+				2C5CA2382A201A1A00DBF2F9 /* Views */,
 			);
 			path = ProjectSelectionDetails;
 			sourceTree = "<group>";
@@ -3516,6 +3555,8 @@
 				E9523BF229DA966C0013A661 /* StudyPlanAssembly.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
+				2C5CA2412A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift in Sources */,
+				2C5CA23E2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift in Sources */,
 				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
 				2CE2AE27297FBB34000364C8 /* TrackTopicsToDiscoverNextSkeletonListView.swift in Sources */,
@@ -3652,6 +3693,7 @@
 				2C8E4FA12848BF1F0011ADFA /* StepQuizTableSelectColumnsViewController.swift in Sources */,
 				2C1AE99D29926C02008122D9 /* TopicsToDiscoverNextFeatureStateKsExtensions.swift in Sources */,
 				2C1F5877280D2B4800372A37 /* ApplicationInfo.swift in Sources */,
+				2C5CA23A2A201A3900DBF2F9 /* ProjectSelectionDetailsLearningOutcomesView.swift in Sources */,
 				2C20FBBE284F658E006D879E /* ProcessedContentTextView.swift in Sources */,
 				2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */,
 				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
@@ -3799,9 +3841,11 @@
 				E9F504CE2912891900B788C7 /* StepQuizHintsViewModel.swift in Sources */,
 				E9B3A18C2828093800FE248B /* StepQuizActionButton.swift in Sources */,
 				2C93C2D2292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift in Sources */,
+				2C5CA2442A202F1400DBF2F9 /* ProjectSelectionDetailsSkeletonView.swift in Sources */,
 				E9CC6C0429893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift in Sources */,
 				E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
+				2C5CA23C2A201CCB00DBF2F9 /* ProjectSelectionDetailsProjectOverviewView.swift in Sources */,
 				2CC78D0E28C75A3D0006EF91 /* UIViewControllerExtensions.swift in Sources */,
 				E9F7A5E028AFC2000063913F /* NotificationDescriptionPlainObject.swift in Sources */,
 				2C336D222865E37800C91342 /* CodeInputAccessoryButtonData.swift in Sources */,

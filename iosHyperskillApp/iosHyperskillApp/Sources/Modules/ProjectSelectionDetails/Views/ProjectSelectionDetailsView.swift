@@ -36,7 +36,7 @@ struct ProjectSelectionDetailsView: View {
     private func buildBody() -> some View {
         switch viewModel.stateKs {
         case .idle, .loading:
-            ProgressView()
+            ProjectSelectionDetailsSkeletonView()
         case .error:
             PlaceholderView(
                 configuration: .networkError(
@@ -45,7 +45,36 @@ struct ProjectSelectionDetailsView: View {
                 )
             )
         case .content(let viewData):
-            Text("Hello, World!")
+            let _ = handleProjectSelectionLoadingIndicatorVisibility(
+                isVisible: viewData.isSelectProjectLoadingShowed
+            )
+
+            ProjectSelectionDetailsContentView(
+                navigationTitle: viewData.formattedTitle,
+                learningOutcomesDescription: viewData.learningOutcomesDescription,
+                isSelected: viewData.isSelected,
+                isIdeRequired: viewData.isIdeRequired,
+                isBeta: viewData.isBeta,
+                isBestRated: viewData.isBestRated,
+                isFastestToComplete: viewData.isFastestToComplete,
+                isBadgesVisible: viewData.areTagsVisible,
+                averageRatingTitle: viewData.formattedAverageRating,
+                projectLevel: viewData.projectLevel.flatMap(SharedProjectLevelWrapper.init(sharedProjectLevel:)),
+                projectLevelTitle: viewData.formattedProjectLevel,
+                graduateTitle: viewData.formattedGraduateDescription,
+                timeToCompleteTitle: viewData.formattedTimeToComplete,
+                providerName: viewData.providerName,
+                isCallToActionButtonEnabled: viewData.isSelectProjectButtonEnabled,
+                onCallToActionButtonTap: viewModel.doSelectProjectButtonClicked
+            )
+        }
+    }
+
+    private func handleProjectSelectionLoadingIndicatorVisibility(isVisible: Bool) {
+        if isVisible {
+            ProgressHUD.show()
+        } else {
+            ProgressHUD.dismissWithDelay()
         }
     }
 }
@@ -80,12 +109,11 @@ private extension ProjectSelectionDetailsView {
     func handleShowProjectSelectionStatusViewAction(
         _ viewAction: ProjectSelectionDetailsFeatureActionViewActionShowProjectSelectionStatus
     ) {
-        #warning("shared resources")
         switch ProjectSelectionDetailsFeatureActionViewActionShowProjectSelectionStatusKs(viewAction) {
         case .error:
-            ProgressHUD.showError(status: nil)
+            ProgressHUD.showError(status: Strings.ProjectSelectionDetails.selectionErrorMessage)
         case .success:
-            ProgressHUD.showSuccess(status: nil)
+            ProgressHUD.showSuccess(status: Strings.ProjectSelectionDetails.selectionSuccessMessage)
         }
     }
 }

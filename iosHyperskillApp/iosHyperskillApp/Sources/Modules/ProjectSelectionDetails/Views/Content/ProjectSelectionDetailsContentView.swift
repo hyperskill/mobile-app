@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension TrackSelectionDetailsContentView {
+extension ProjectSelectionDetailsContentView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
 
@@ -18,26 +18,26 @@ extension TrackSelectionDetailsContentView {
     }
 }
 
-struct TrackSelectionDetailsContentView: View {
+struct ProjectSelectionDetailsContentView: View {
     private(set) var appearance = Appearance()
 
     let navigationTitle: String
 
-    let description: String?
-    let isBeta: Bool
-    let isCompleted: Bool
+    let learningOutcomesDescription: String?
     let isSelected: Bool
+    let isIdeRequired: Bool
+    let isBeta: Bool
+    let isBestRated: Bool
+    let isFastestToComplete: Bool
     let isBadgesVisible: Bool
 
-    let rating: String
-    let timeToComplete: String?
-    let topicsCount: String
-    let projectsCount: String?
-    let isCertificateAvailable: Bool
+    let averageRatingTitle: String
+    let projectLevel: SharedProjectLevelWrapper?
+    let projectLevelTitle: String?
+    let graduateTitle: String?
+    let timeToCompleteTitle: String?
 
-    let mainProviderTitle: String?
-    let mainProviderDescription: String?
-    let otherProvidersDescription: String?
+    let providerName: String?
 
     let isCallToActionButtonEnabled: Bool
     let onCallToActionButtonTap: () -> Void
@@ -51,27 +51,25 @@ struct TrackSelectionDetailsContentView: View {
 
         ScrollView {
             VStack(spacing: appearance.spacing) {
-                TrackSelectionDetailsDescriptionView(
-                    description: description,
-                    isBeta: isBeta,
-                    isCompleted: isCompleted,
+                ProjectSelectionDetailsLearningOutcomesView(
+                    description: learningOutcomesDescription,
                     isSelected: isSelected,
+                    isIdeRequired: isIdeRequired,
+                    isBeta: isBeta,
+                    isBestRated: isBestRated,
+                    isFastestToComplete: isFastestToComplete,
                     isBadgesVisible: isBadgesVisible
                 )
 
-                TrackSelectionDetailsTrackOverviewView(
-                    rating: rating,
-                    timeToComplete: timeToComplete,
-                    topicsCount: topicsCount,
-                    projectsCount: projectsCount,
-                    isCertificateAvailable: isCertificateAvailable
+                ProjectSelectionDetailsProjectOverviewView(
+                    averageRatingTitle: averageRatingTitle,
+                    projectLevel: projectLevel,
+                    projectLevelTitle: projectLevelTitle,
+                    graduateTitle: graduateTitle,
+                    timeToCompleteTitle: timeToCompleteTitle
                 )
 
-                TrackSelectionDetailsProvidersView(
-                    mainProviderTitle: mainProviderTitle,
-                    mainProviderDescription: mainProviderDescription,
-                    otherProvidersDescription: otherProvidersDescription
-                )
+                ProjectSelectionDetailsProviderView(title: providerName)
             }
             .padding()
             .padding(.bottom, callToActionButtonStyle.minHeight)
@@ -90,7 +88,7 @@ struct TrackSelectionDetailsContentView: View {
         buttonStyle: RoundedRectangleButtonStyle
     ) -> some View {
         Button(
-            Strings.TrackSelectionDetails.callToActionButtonTitle,
+            Strings.ProjectSelectionDetails.callToActionButtonTitle,
             action: {
                 callToActionButtonFeedbackGenerator.triggerFeedback()
                 onCallToActionButtonTap()
@@ -108,34 +106,32 @@ struct TrackSelectionDetailsContentView: View {
 }
 
 #if DEBUG
-struct TrackSelectionDetailsContentView_Previews: PreviewProvider {
+struct ProjectSelectionDetailsContentView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ZStack {
                 BackgroundView(color: .systemGroupedBackground)
 
-                TrackSelectionDetailsContentView(
-                    navigationTitle: "Python Core",
-                    description: """
-Acquire key Python skills to establish a solid foundation for pursuing a career in Backend Development or Data Science.
+                ProjectSelectionDetailsContentView(
+                    navigationTitle: "Words Virtuoso",
+                    learningOutcomesDescription: """
+This project is aimed at our beginners. \
+It helps you understand some syntax basics and learn how to work with variables, data storage types such as lists, \
+and while loops.
 """,
-                    isBeta: true,
-                    isCompleted: true,
                     isSelected: true,
+                    isIdeRequired: true,
+                    isBeta: true,
+                    isBestRated: true,
+                    isFastestToComplete: true,
                     isBadgesVisible: true,
-                    rating: "It's new track, no rating yet",
-                    timeToComplete: "249 hours for all learning activities",
-                    topicsCount: "154 topics with theory and practice adapted to you level",
-                    projectsCount: "13 projects to choose from for your portfolio",
-                    isCertificateAvailable: true,
-                    mainProviderTitle: "JetBrains Academy",
-                    mainProviderDescription: """
-Learn to program by creating real-world applications. \
-Empowered by a personalized study plan, interactive projects, and integration with JetBrains IDEs, \
-you’ll gain hands-on programming experience that is essential for your career as a developer.
-""",
-                    otherProvidersDescription: "Edvancium, Basic",
-                    isCallToActionButtonEnabled: false,
+                    averageRatingTitle: "It's new project, no rating yet",
+                    projectLevel: .easy,
+                    projectLevelTitle: "Easy project",
+                    graduateTitle: "Graduate project. Solve at least one to complete the track.",
+                    timeToCompleteTitle: "41 hours for project",
+                    providerName: "JetBrains Academy",
+                    isCallToActionButtonEnabled: true,
                     onCallToActionButtonTap: {}
                 )
             }

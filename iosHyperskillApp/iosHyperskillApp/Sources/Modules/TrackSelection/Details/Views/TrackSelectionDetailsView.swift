@@ -55,6 +55,7 @@ struct TrackSelectionDetailsView: View {
                 isBeta: viewData.isBeta,
                 isCompleted: viewData.isCompleted,
                 isSelected: viewData.isSelected,
+                isBadgesVisible: viewData.areTagsVisible,
                 rating: viewData.formattedRating,
                 timeToComplete: viewData.formattedTimeToComplete,
                 topicsCount: viewData.formattedTopicsCount,

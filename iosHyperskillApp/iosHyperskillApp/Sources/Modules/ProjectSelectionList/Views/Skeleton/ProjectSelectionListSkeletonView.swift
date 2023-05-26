@@ -19,11 +19,15 @@ struct ProjectSelectionListSkeletonView: View {
             .padding()
         }
         .frame(maxWidth: .infinity)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
 struct ProjectSelectionListSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
-        ProjectSelectionListSkeletonView()
+        NavigationView {
+            ProjectSelectionListSkeletonView()
+                .navigationTitle(Strings.ProjectSelectionList.title)
+        }
     }
 }

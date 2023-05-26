@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 data class ProjectSelectionDetailsParams(
     val trackId: Long,
     val projectId: Long,
-    val isProjectSelected: Boolean
+    val isProjectSelected: Boolean,
+    val isProjectBestRated: Boolean,
+    val isProjectFastestToComplete: Boolean
 )

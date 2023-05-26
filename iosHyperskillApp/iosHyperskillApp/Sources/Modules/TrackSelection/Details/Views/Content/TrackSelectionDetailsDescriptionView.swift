@@ -7,12 +7,10 @@ struct TrackSelectionDetailsDescriptionView: View {
     let isCompleted: Bool
     let isSelected: Bool
 
-    private var isEmpty: Bool {
-        (description?.isEmpty ?? true) && isBadgesEmpty
-    }
+    let isBadgesVisible: Bool
 
-    private var isBadgesEmpty: Bool {
-        !isBeta && !isCompleted && !isSelected
+    private var isEmpty: Bool {
+        (description?.isEmpty ?? true) && !isBadgesVisible
     }
 
     var body: some View {
@@ -21,18 +19,13 @@ struct TrackSelectionDetailsDescriptionView: View {
         } else {
             CardView {
                 VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-                    if !isBadgesEmpty {
-                        HStack(spacing: LayoutInsets.smallInset) {
-                            if isCompleted {
-                                BadgeView.completed()
-                            }
-                            if isSelected {
-                                BadgeView.selected()
-                            }
-                            if isBeta {
-                                BadgeView.beta()
-                            }
-                        }
+                    if isBadgesVisible {
+                        TrackSelectionListGridCellBadgesView(
+                            isSelected: isSelected,
+                            isIdeRequired: false,
+                            isBeta: isBeta,
+                            isCompleted: isCompleted
+                        )
                     }
 
                     if let description, !description.isEmpty {
@@ -58,14 +51,16 @@ Acquire key Python skills to establish a solid foundation for pursuing a career 
                 description: description,
                 isBeta: true,
                 isCompleted: true,
-                isSelected: true
+                isSelected: true,
+                isBadgesVisible: true
             )
 
             TrackSelectionDetailsDescriptionView(
                 description: description,
                 isBeta: true,
                 isCompleted: true,
-                isSelected: true
+                isSelected: true,
+                isBadgesVisible: true
             )
             .preferredColorScheme(.dark)
         }

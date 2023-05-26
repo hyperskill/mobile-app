@@ -63,7 +63,9 @@ object ProjectSelectionDetailsFeatureBuilder {
         val projectSelectionDetailsFeatureInitialState = ProjectSelectionDetailsFeature.initialState(
             trackId = params.trackId,
             projectId = params.projectId,
-            isProjectSelected = params.isProjectSelected
+            isProjectSelected = params.isProjectSelected,
+            isProjectBestRated = params.isProjectBestRated,
+            isProjectFastestToComplete = params.isProjectFastestToComplete
         )
 
         return ReduxFeature(

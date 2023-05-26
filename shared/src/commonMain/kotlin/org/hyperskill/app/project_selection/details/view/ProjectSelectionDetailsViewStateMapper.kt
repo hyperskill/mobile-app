@@ -9,7 +9,6 @@ import org.hyperskill.app.project_selection.details.presentation.ProjectSelectio
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 import org.hyperskill.app.projects.domain.model.isGraduate
-import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 
 internal class ProjectSelectionDetailsViewStateMapper(
@@ -39,15 +38,24 @@ internal class ProjectSelectionDetailsViewStateMapper(
         val track = contentState.data.track
         val projectWithProgress = contentState.data.project
 
+        val betaProjectIds = track.betaProjects.toSet()
+
+        val projectLevelByProjectIdMap = track.projectsByLevel.asLevelByProjectIdMap()
+        val projectLevel = projectLevelByProjectIdMap[projectWithProgress.project.id]
+
         return ProjectSelectionDetailsFeature.ViewState.Content(
             formattedTitle = projectWithProgress.project.title.ifBlank {
                 resourceProvider.getString(SharedResources.strings.projects_list_toolbar_title)
             },
             isSelected = state.isProjectSelected,
             isIdeRequired = projectWithProgress.project.isIdeRequired,
+            isBeta = betaProjectIds.contains(projectWithProgress.project.id),
+            isBestRated = state.isProjectBestRated,
+            isFastestToComplete = state.isProjectFastestToComplete,
             learningOutcomesDescription = projectWithProgress.project.results.ifBlank { null },
             formattedAverageRating = formatAverageRating(projectWithProgress.progress.averageRating()),
-            formattedLevel = formatProjectLevel(track, projectWithProgress.project),
+            projectLevel = projectLevel,
+            formattedProjectLevel = formatProjectLevel(projectLevel),
             formattedGraduateDescription = formatGraduateDescription(track.id, projectWithProgress.project),
             formattedTimeToComplete = dateFormatter.formatHoursCount(projectWithProgress.progress.secondsToComplete),
             providerName = contentState.data.provider?.title?.ifBlank { null },
@@ -63,9 +71,8 @@ internal class ProjectSelectionDetailsViewStateMapper(
             resourceProvider.getString(SharedResources.strings.project_selection_details_project_overview_no_rating)
         }
 
-    private fun formatProjectLevel(track: Track, project: Project): String? {
-        val levelByIdMap = track.projectsByLevel.asLevelByProjectIdMap()
-        val projectLevel = levelByIdMap[project.id] ?: return null
+    private fun formatProjectLevel(projectLevel: ProjectLevel?): String? {
+        if (projectLevel == null) return null
 
         val levelName = when (projectLevel) {
             ProjectLevel.EASY ->

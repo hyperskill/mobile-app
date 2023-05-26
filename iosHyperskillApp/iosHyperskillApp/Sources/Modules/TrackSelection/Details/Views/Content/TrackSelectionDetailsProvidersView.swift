@@ -8,7 +8,7 @@ extension TrackSelectionDetailsProvidersView {
 }
 
 struct TrackSelectionDetailsProvidersView: View {
-    private(set) var apperance = Appearance()
+    private(set) var appearance = Appearance()
 
     let mainProviderTitle: String?
     let mainProviderDescription: String?
@@ -20,7 +20,7 @@ struct TrackSelectionDetailsProvidersView: View {
             EmptyView()
         } else {
             CardView {
-                VStack(alignment: .leading, spacing: apperance.spacing) {
+                VStack(alignment: .leading, spacing: appearance.spacing) {
                     buildMainProviderView()
                     buildOtherProvidersView()
                 }
@@ -31,8 +31,8 @@ struct TrackSelectionDetailsProvidersView: View {
 
     @ViewBuilder
     private func buildMainProviderView() -> some View {
-        VStack(alignment: .leading, spacing: apperance.spacing) {
-            VStack(alignment: .leading, spacing: apperance.interitemSpacing) {
+        VStack(alignment: .leading, spacing: appearance.spacing) {
+            VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
                 Text(Strings.TrackSelectionDetails.mainProviderTitle)
                     .font(.subheadline)
 
@@ -51,10 +51,10 @@ struct TrackSelectionDetailsProvidersView: View {
     @ViewBuilder
     private func buildOtherProvidersView() -> some View {
         if let otherProvidersDescription, !otherProvidersDescription.isEmpty {
-            VStack(alignment: .leading, spacing: apperance.spacing) {
+            VStack(alignment: .leading, spacing: appearance.spacing) {
                 Divider()
 
-                VStack(alignment: .leading, spacing: apperance.interitemSpacing) {
+                VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
                     Text(Strings.TrackSelectionDetails.otherProvidersTitle)
                         .font(.subheadline)
                         .foregroundColor(.secondaryText)
