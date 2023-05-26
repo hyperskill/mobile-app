@@ -189,20 +189,20 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 activitiesIdsToRemove.forEach { remove(it) }
             },
             // ALTAPPS-786: We should hide sections without available activities to avoid blocking study plan
-            studyPlanSections = if (message.activities.isNotEmpty()) {
-                state.studyPlanSections.update(message.sectionId) { sectionInfo ->
-                    sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
-                }
-            } else {
+            studyPlanSections = if (message.activities.isEmpty()) {
                 state.studyPlanSections.toMutableMap().apply {
                     remove(message.sectionId)
+                }
+            } else {
+                state.studyPlanSections.update(message.sectionId) { sectionInfo ->
+                    sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
                 }
             }
         )
 
         // ALTAPPS-786: We should expand next section if current section doesn't have available activities
         return if (message.sectionId == state.getCurrentSection()?.id && message.activities.isEmpty()) {
-            state.studyPlanSections.keys.drop(1).firstOrNull()?.let { nextSectionId ->
+            nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
                 changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
             } ?: (nextState to emptySet())
         } else {

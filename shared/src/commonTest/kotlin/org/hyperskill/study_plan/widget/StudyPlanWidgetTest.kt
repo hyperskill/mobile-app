@@ -296,6 +296,32 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Not current section should be removed if no available activities loaded`() {
+        val currentSectionId = 0L
+        val notCurrent = 1L
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(currentSectionId),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+                    isExpanded = true
+                ),
+                notCurrent to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(notCurrent),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    isExpanded = false
+                )
+            )
+        )
+        val (state, _) =
+            reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = notCurrent, emptyList())
+            )
+        assertTrue(state.studyPlanSections.containsKey(notCurrent).not())
+    }
+
+    @Test
     fun `New activities should added to activities map`() {
         val sectionId = 0L
         val activities = List(2) { index ->
