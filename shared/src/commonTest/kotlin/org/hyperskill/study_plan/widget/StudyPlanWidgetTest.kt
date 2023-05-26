@@ -258,9 +258,67 @@ class StudyPlanWidgetTest {
         val (state, _) =
             reducer.reduce(
                 initialState,
-                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = sectionId, emptyList())
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
+                    sectionId = sectionId,
+                    activities = listOf(stubLearningActivity(1L))
+                )
             )
         assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, state.studyPlanSections[sectionId]?.contentStatus)
+    }
+
+    @Test
+    fun `Current section should be removed if no available activities loaded and next section should be expanded`() {
+        val currentSectionId = 0L
+        val nextSectionId = 1L
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(currentSectionId),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    isExpanded = true
+                ),
+                nextSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(nextSectionId),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    isExpanded = false
+                )
+            )
+        )
+        val (state, _) =
+            reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = currentSectionId, emptyList())
+            )
+        assertTrue(state.studyPlanSections.containsKey(currentSectionId).not())
+        val nextSection = state.studyPlanSections.get(nextSectionId)
+        assertTrue(nextSection?.isExpanded == true)
+        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADING, nextSection?.contentStatus)
+    }
+
+    @Test
+    fun `Not current section should be removed if no available activities loaded`() {
+        val currentSectionId = 0L
+        val notCurrent = 1L
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(currentSectionId),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+                    isExpanded = true
+                ),
+                notCurrent to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(notCurrent),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    isExpanded = false
+                )
+            )
+        )
+        val (state, _) =
+            reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = notCurrent, emptyList())
+            )
+        assertTrue(state.studyPlanSections.containsKey(notCurrent).not())
     }
 
     @Test
