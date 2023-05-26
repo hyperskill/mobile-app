@@ -1,8 +1,7 @@
-package org.hyperskill.app.project_selection.injection
+package org.hyperskill.app.project_selection.list.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
-import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListViewModel
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListViewModel
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformProjectSelectionListComponentImpl(

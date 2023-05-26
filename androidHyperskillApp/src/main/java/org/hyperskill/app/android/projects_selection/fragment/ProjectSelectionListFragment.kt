@@ -14,7 +14,7 @@ import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action.ViewAction
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ViewState
-import org.hyperskill.app.project_selection.presentation.ProjectSelectionListViewModel
+import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.snackbar

@@ -1,4 +1,4 @@
-package org.hyperskill.app.project_selection.injection
+package org.hyperskill.app.project_selection.list.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 
