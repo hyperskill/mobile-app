@@ -1119,7 +1119,7 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
-		2C05AC442A0E9E910039C7EF /* ProjectSelectionList */ = {
+		2C05AC442A0E9E910039C7EF /* List */ = {
 			isa = PBXGroup;
 			children = (
 				2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */,
@@ -1127,7 +1127,7 @@
 				2C4F639F2A102D1100D4EE39 /* Model */,
 				2C05AC4B2A0EA03F0039C7EF /* Views */,
 			);
-			path = ProjectSelectionList;
+			path = List;
 			sourceTree = "<group>";
 		};
 		2C05AC4B2A0EA03F0039C7EF /* Views */ = {
@@ -1323,8 +1323,7 @@
 				E9B55A5329C89FFF0066900E /* ProblemsLimit */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
-				46D884ECAA31C3DB83AF8E56 /* ProjectSelectionDetails */,
-				2C05AC442A0E9E910039C7EF /* ProjectSelectionList */,
+				2C5CA2452A203C4500DBF2F9 /* ProjectSelection */,
 				2C9E5E8229B211DD003AEC16 /* StageImplement */,
 				2CAE8CEE280525A100E6C83D /* Step */,
 				2C41127428376DE3004948A3 /* StepQuiz */,
@@ -1903,6 +1902,15 @@
 				2C5CA2432A202F1400DBF2F9 /* ProjectSelectionDetailsSkeletonView.swift */,
 			);
 			path = Skeleton;
+			sourceTree = "<group>";
+		};
+		2C5CA2452A203C4500DBF2F9 /* ProjectSelection */ = {
+			isa = PBXGroup;
+			children = (
+				46D884ECAA31C3DB83AF8E56 /* Details */,
+				2C05AC442A0E9E910039C7EF /* List */,
+			);
+			path = ProjectSelection;
 			sourceTree = "<group>";
 		};
 		2C5CBBDE2948EB9400113007 /* StepQuizSQL */ = {
@@ -2861,14 +2869,14 @@
 			path = ViewData;
 			sourceTree = "<group>";
 		};
-		46D884ECAA31C3DB83AF8E56 /* ProjectSelectionDetails */ = {
+		46D884ECAA31C3DB83AF8E56 /* Details */ = {
 			isa = PBXGroup;
 			children = (
 				15AD7CF422D27CCAE2839046 /* ProjectSelectionDetailsAssembly.swift */,
 				FEDCC11294912B8656C8B264 /* ProjectSelectionDetailsViewModel.swift */,
 				2C5CA2382A201A1A00DBF2F9 /* Views */,
 			);
-			path = ProjectSelectionDetails;
+			path = Details;
 			sourceTree = "<group>";
 		};
 		69078482427C2E9AB934883B /* Pods */ = {
