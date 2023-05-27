@@ -63,7 +63,7 @@ dependencies {
     implementation(libs.compose.preview)
     implementation(libs.compose.material)
     debugImplementation(libs.compose.tooling)
-    implementation(libs.accompanist.themeadapter)
+    implementation(libs.compose.themeadapter)
     implementation(libs.compose.viewmodel)
     implementation(libs.compose.lifecycle)
 
@@ -154,7 +154,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 
     compileOptions {
