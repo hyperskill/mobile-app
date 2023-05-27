@@ -84,7 +84,7 @@ kotlin {
                 implementation(libs.android.parcelable)
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependsOn(commonTest)
             dependencies {
                 implementation(kotlin("test-junit"))
@@ -122,11 +122,11 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(appVersions.versions.compileSdk.get().toInt())
+    namespace = "org.hyperskill.app"
+    compileSdk = appVersions.versions.compileSdk.get().toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(appVersions.versions.minSdk.get().toInt())
-        targetSdkVersion(appVersions.versions.targetSdk.get().toInt())
+        minSdk = appVersions.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

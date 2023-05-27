@@ -72,7 +72,7 @@ dependencies {
 
 android {
     compileSdk = appVersions.versions.compileSdk.get().toInt()
-
+    namespace = "org.hyperskill.app.android"
     defaultConfig {
         applicationId = "org.hyperskill.app.android"
         minSdk = appVersions.versions.minSdk.get().toInt()
