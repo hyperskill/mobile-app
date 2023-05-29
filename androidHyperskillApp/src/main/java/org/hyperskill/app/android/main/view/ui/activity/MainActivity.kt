@@ -32,14 +32,13 @@ import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
+import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
-import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
-import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
@@ -160,12 +159,8 @@ class MainActivity :
                 router.newRootScreen(AuthScreen())
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
                 router.newRootScreen(MainScreen)
-            is AppFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->
-                router.newRootScreen(
-                    TrackSelectionListScreen(
-                        TrackSelectionListParams(true)
-                    )
-                )
+            is AppFeature.Action.ViewAction.NavigateTo.NewUserScreen ->
+                router.newRootScreen(PlaceholderNewUserScreen)
         }
     }
 

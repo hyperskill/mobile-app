@@ -9,13 +9,10 @@ interface AppFeature {
     sealed interface State {
         @Serializable
         object Idle : State
-
         @Serializable
         object Loading : State
-
         @Serializable
         object NetworkError : State
-
         @Serializable
         data class Ready(val isAuthorized: Boolean) : State
     }
@@ -43,7 +40,7 @@ interface AppFeature {
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
-                object TrackSelectionScreen : NavigateTo
+                object NewUserScreen : NavigateTo
                 object OnboardingScreen : NavigateTo
             }
         }

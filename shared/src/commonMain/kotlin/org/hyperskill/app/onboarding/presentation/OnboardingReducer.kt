@@ -34,7 +34,7 @@ class OnboardingReducer : StateReducer<State, Message, Action> {
             is Message.ClickedSignUn ->
                 if (state is State.Content) {
                     val navigateToViewAction = if (state.isAuthorized) {
-                        Action.ViewAction.NavigateTo.TrackSelectionListScreen
+                        Action.ViewAction.NavigateTo.NewUserScreen
                     } else {
                         Action.ViewAction.NavigateTo.AuthScreen(isInSignUpMode = true)
                     }

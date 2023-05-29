@@ -101,7 +101,7 @@ struct OnboardingView: View {
             switch OnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .authScreen(let data):
                 viewModel.doSignUpPresentation(isInSignUpMode: data.isInSignUpMode)
-            case .trackSelectionListScreen:
+            case .newUserScreen:
                 viewModel.doSignPresentation()
             }
         }

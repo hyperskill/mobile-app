@@ -91,7 +91,7 @@ extension AppViewModel: OnboardingOutputProtocol {
         if isInSignUpMode {
             onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: isInSignUpMode))
         } else {
-            onViewAction?(AppFeatureActionViewActionNavigateToTrackSelectionScreen())
+            onViewAction?(AppFeatureActionViewActionNavigateToNewUserScreen())
         }
     }
 }
