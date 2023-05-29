@@ -10,9 +10,10 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentOnboardingBinding
-import org.hyperskill.app.android.placeholder_new_user.navigation.PlaceholderNewUserScreen
+import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.onboarding.presentation.OnboardingFeature
 import org.hyperskill.app.onboarding.presentation.OnboardingViewModel
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -80,8 +81,12 @@ class OnboardingFragment :
         when (action) {
             is OnboardingFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 requireRouter().navigateTo(AuthScreen(action.isInSignUpMode))
-            is OnboardingFeature.Action.ViewAction.NavigateTo.NewUserScreen ->
-                requireRouter().navigateTo(PlaceholderNewUserScreen)
+            is OnboardingFeature.Action.ViewAction.NavigateTo.TrackSelectionListScreen ->
+                requireRouter().navigateTo(
+                    TrackSelectionListScreen(
+                        TrackSelectionListParams(true)
+                    )
+                )
         }
     }
 
