@@ -93,7 +93,8 @@ class TrackSelectionListFragment : Fragment(R.layout.fragment_track_selection_li
                     TrackSelectionDetailsScreen(
                         TrackSelectionDetailsParams(
                             trackWithProgress = action.trackWithProgress,
-                            isTrackSelected = action.isTrackSelected
+                            isTrackSelected = action.isTrackSelected,
+                            isNewUserMode = action.isNewUserMode
                         )
                     )
                 )

@@ -40,7 +40,8 @@ class TrackSelectionDetailsTest {
         val (state, actions) = reducer.reduce(
             TrackSelectionDetailsFeature.initialState(
                 trackWithProgress = trackWithProgress,
-                isTrackSelected = false
+                isTrackSelected = false,
+                isNewUserMode = false
             ),
             Message.Initialize
         )
@@ -70,7 +71,8 @@ class TrackSelectionDetailsTest {
         val (state, _) = reducer.reduce(
             TrackSelectionDetailsFeature.initialState(
                 trackWithProgress = trackWithProgress,
-                isTrackSelected = false
+                isTrackSelected = false,
+                isNewUserMode = false
             ),
             TrackSelectionDetailsFeature.FetchProvidersAndFreemiumStatusResult.Success(
                 providers = providers,
@@ -96,6 +98,7 @@ class TrackSelectionDetailsTest {
             TrackSelectionDetailsFeature.State(
                 trackWithProgress = trackWithProgress,
                 isTrackSelected = false,
+                isNewUserMode = false,
                 isTrackLoadingShowed = false,
                 contentState = ContentState.NetworkError
             ),
@@ -122,6 +125,7 @@ class TrackSelectionDetailsTest {
             TrackSelectionDetailsFeature.State(
                 trackWithProgress = TrackWithProgress.stub(trackId = trackId),
                 isTrackSelected = false,
+                isNewUserMode = false,
                 isTrackLoadingShowed = false,
                 contentState = contentState
             ),
@@ -136,25 +140,32 @@ class TrackSelectionDetailsTest {
     }
 
     @Test
-    fun `Successful track selection should trigger navigation to StudyPlan screen`() {
-        val (state, actions) = reducer.reduce(
-            TrackSelectionDetailsFeature.State(
-                trackWithProgress = TrackWithProgress.stub(),
-                isTrackSelected = false,
-                isTrackLoadingShowed = false,
-                contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
-            ),
-            TrackSelectionDetailsFeature.TrackSelectionResult.Success
-        )
-        assertEquals(state.isTrackLoadingShowed, false)
-        assertContains(
-            actions,
-            TrackSelectionDetailsFeature.Action.ViewAction.ShowTrackSelectionStatus.Success
-        )
-        assertContains(
-            actions,
-            TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.StudyPlan
-        )
+    fun `Successful track selection should trigger navigation to StudyPlan or Home screen`() {
+        listOf(true, false).forEach { isNewUserMode ->
+            val (state, actions) = reducer.reduce(
+                TrackSelectionDetailsFeature.State(
+                    trackWithProgress = TrackWithProgress.stub(),
+                    isTrackSelected = false,
+                    isNewUserMode = isNewUserMode,
+                    isTrackLoadingShowed = false,
+                    contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
+                ),
+                TrackSelectionDetailsFeature.TrackSelectionResult.Success
+            )
+            assertEquals(state.isTrackLoadingShowed, false)
+            assertContains(
+                actions,
+                TrackSelectionDetailsFeature.Action.ViewAction.ShowTrackSelectionStatus.Success
+            )
+            assertContains(
+                actions,
+                if (isNewUserMode) {
+                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home
+                } else {
+                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.StudyPlan
+                }
+            )
+        }
     }
 
     @Test
@@ -163,6 +174,7 @@ class TrackSelectionDetailsTest {
             TrackSelectionDetailsFeature.State(
                 trackWithProgress = TrackWithProgress.stub(),
                 isTrackSelected = false,
+                isNewUserMode = false,
                 isTrackLoadingShowed = false,
                 contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
             ),
@@ -180,6 +192,7 @@ class TrackSelectionDetailsTest {
         val state = TrackSelectionDetailsFeature.State(
             trackWithProgress = TrackWithProgress.stub(),
             isTrackSelected = false,
+            isNewUserMode = false,
             isTrackLoadingShowed = false,
             contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
         )
@@ -199,6 +212,7 @@ class TrackSelectionDetailsTest {
         val state = TrackSelectionDetailsFeature.State(
             trackWithProgress = TrackWithProgress.stub(canIssueCertificate = true),
             isTrackSelected = false,
+            isNewUserMode = false,
             isTrackLoadingShowed = false,
             contentState = ContentState.Content(isFreemiumEnabled = false, providers = emptyList())
         )

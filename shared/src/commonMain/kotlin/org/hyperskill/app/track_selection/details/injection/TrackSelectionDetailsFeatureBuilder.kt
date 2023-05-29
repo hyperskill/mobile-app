@@ -46,7 +46,8 @@ object TrackSelectionDetailsFeatureBuilder {
         )
         val initialState = TrackSelectionDetailsFeature.initialState(
             trackWithProgress = params.trackWithProgress,
-            isTrackSelected = params.isTrackSelected
+            isTrackSelected = params.isTrackSelected,
+            isNewUserMode = params.isNewUserMode
         )
         return ReduxFeature(initialState, reducer)
             .wrapWithActionDispatcher(actionDispatcher)

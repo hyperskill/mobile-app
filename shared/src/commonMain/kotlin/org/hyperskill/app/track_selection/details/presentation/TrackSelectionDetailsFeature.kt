@@ -8,6 +8,7 @@ object TrackSelectionDetailsFeature {
     internal data class State(
         val trackWithProgress: TrackWithProgress,
         val isTrackSelected: Boolean,
+        val isNewUserMode: Boolean,
         val isTrackLoadingShowed: Boolean,
         val contentState: ContentState
     )
@@ -24,12 +25,14 @@ object TrackSelectionDetailsFeature {
 
     internal fun initialState(
         trackWithProgress: TrackWithProgress,
-        isTrackSelected: Boolean
+        isTrackSelected: Boolean,
+        isNewUserMode: Boolean
     ) =
         State(
             trackWithProgress = trackWithProgress,
             isTrackSelected = isTrackSelected,
             isTrackLoadingShowed = false,
+            isNewUserMode = isNewUserMode,
             contentState = ContentState.Idle
         )
 
@@ -99,6 +102,7 @@ object TrackSelectionDetailsFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
+                object Home : NavigateTo
             }
         }
     }

@@ -4,6 +4,7 @@ import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelection
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action.ViewAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ContentState
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
@@ -106,11 +107,15 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
             when (message) {
                 TrackSelectionDetailsFeature.TrackSelectionResult.Success ->
                     setOf(
-                        Action.ViewAction.ShowTrackSelectionStatus.Success,
-                        Action.ViewAction.NavigateTo.StudyPlan
+                        ViewAction.ShowTrackSelectionStatus.Success,
+                        if (state.isNewUserMode) {
+                            ViewAction.NavigateTo.Home
+                        } else {
+                            ViewAction.NavigateTo.StudyPlan
+                        }
                     )
                 TrackSelectionDetailsFeature.TrackSelectionResult.Error ->
-                    setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
+                    setOf(ViewAction.ShowTrackSelectionStatus.Error)
             }
 
     private fun State.updateContentState(contentState: ContentState): State =
