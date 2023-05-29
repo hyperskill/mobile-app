@@ -101,6 +101,11 @@ private extension TrackSelectionDetailsView {
                 popToRoot: true
             )
             .route()
+        case .home:
+            TabBarRouter(
+                tab: .home,
+                popToRoot: true
+            ).route()
         }
     }
 

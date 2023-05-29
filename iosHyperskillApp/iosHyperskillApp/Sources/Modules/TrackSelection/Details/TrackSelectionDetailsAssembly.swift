@@ -4,10 +4,12 @@ import SwiftUI
 final class TrackSelectionDetailsAssembly: UIKitAssembly {
     private let trackWithProgress: TrackWithProgress
     private let isTrackSelected: Bool
+    private let isNewUserMode: Bool
 
-    init(trackWithProgress: TrackWithProgress, isTrackSelected: Bool) {
+    init(trackWithProgress: TrackWithProgress, isTrackSelected: Bool, isNewUserMode: Bool) {
         self.trackWithProgress = trackWithProgress
         self.isTrackSelected = isTrackSelected
+        self.isNewUserMode = isNewUserMode
     }
 
     func makeModule() -> UIViewController {
@@ -15,7 +17,8 @@ final class TrackSelectionDetailsAssembly: UIKitAssembly {
 
         let trackSelectionDetailsParams = TrackSelectionDetailsParams(
             trackWithProgress: trackWithProgress,
-            isTrackSelected: isTrackSelected
+            isTrackSelected: isTrackSelected,
+            isNewUserMode: isNewUserMode
         )
         let trackSelectionDetailsViewModel = TrackSelectionDetailsViewModel(
             feature: trackSelectionDetailsComponent.trackSelectionDetailsFeature(

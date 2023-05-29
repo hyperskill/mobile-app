@@ -43,6 +43,7 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
 interface AndroidAppComponent : AppGraph {
     val context: Context
@@ -82,7 +83,7 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformProjectSelectionDetailsComponent(
         params: ProjectSelectionDetailsParams
     ): PlatformProjectSelectionDetailsComponent
-    fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent
+    fun buildPlatformTrackSelectionListComponent(params: TrackSelectionListParams): PlatformTrackSelectionListComponent
     fun buildPlatformTrackSelectionDetailsComponent(
         params: TrackSelectionDetailsParams
     ): PlatformTrackSelectionDetailsComponent

@@ -185,6 +185,7 @@ import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionL
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -506,8 +507,10 @@ class AndroidAppComponentImpl(
     override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
         TrackSelectionListComponentImpl(this)
 
-    override fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent =
-        PlatformTrackSelectionListComponentImpl(buildTrackSelectionListComponent())
+    override fun buildPlatformTrackSelectionListComponent(
+        params: TrackSelectionListParams
+    ): PlatformTrackSelectionListComponent =
+        PlatformTrackSelectionListComponentImpl(buildTrackSelectionListComponent(), params)
 
     /**
      * Track selection details component

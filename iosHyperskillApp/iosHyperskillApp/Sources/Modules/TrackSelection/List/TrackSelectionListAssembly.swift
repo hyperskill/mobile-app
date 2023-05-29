@@ -1,11 +1,12 @@
 import SwiftUI
+import shared
 
 final class TrackSelectionListAssembly: UIKitAssembly {
     func makeModule() -> UIViewController {
         let trackSelectionListComponent = AppGraphBridge.sharedAppGraph.buildTrackSelectionListComponent()
 
         let trackSelectionListViewModel = TrackSelectionListViewModel(
-            feature: trackSelectionListComponent.trackSelectionListFeature
+            feature: trackSelectionListComponent.trackSelectionListFeature(params: TrackSelectionListParams(isNewUserMode: false))
         )
 
         let stackRouter = SwiftUIStackRouter()

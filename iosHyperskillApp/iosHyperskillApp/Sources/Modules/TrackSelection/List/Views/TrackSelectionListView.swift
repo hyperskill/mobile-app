@@ -84,7 +84,8 @@ private extension TrackSelectionListView {
         case .trackDetails(let navigateToTrackDetailsViewAction):
             let assembly = TrackSelectionDetailsAssembly(
                 trackWithProgress: navigateToTrackDetailsViewAction.trackWithProgress,
-                isTrackSelected: navigateToTrackDetailsViewAction.isTrackSelected
+                isTrackSelected: navigateToTrackDetailsViewAction.isTrackSelected,
+                isNewUserMode: navigateToTrackDetailsViewAction.isNewUserMode
             )
             stackRouter.pushViewController(assembly.makeModule())
         }
