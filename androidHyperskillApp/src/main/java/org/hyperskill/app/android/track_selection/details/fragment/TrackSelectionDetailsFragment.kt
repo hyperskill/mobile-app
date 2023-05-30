@@ -12,6 +12,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackSelectionDetailsBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
 import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
 import org.hyperskill.app.android.track_selection.details.delegate.TrackSelectionDetailsDelegate
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
@@ -107,6 +108,8 @@ class TrackSelectionDetailsFragment :
             }
             ViewAction.NavigateTo.Home ->
                 requireRouter().newRootScreen(MainScreen)
+            is ViewAction.NavigateTo.ProjectSelectionList ->
+                requireRouter().newRootScreen(ProjectSelectionListScreen(action.trackId))
             ViewAction.ShowTrackSelectionStatus.Success ->
                 view?.snackbar(org.hyperskill.app.R.string.track_selection_details_selection_succeed)
             ViewAction.ShowTrackSelectionStatus.Error ->

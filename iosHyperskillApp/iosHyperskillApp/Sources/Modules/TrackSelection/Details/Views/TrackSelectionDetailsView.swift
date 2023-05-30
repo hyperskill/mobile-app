@@ -106,6 +106,9 @@ private extension TrackSelectionDetailsView {
                 tab: .home,
                 popToRoot: true
             ).route()
+        case .projectSelectionList:
+            // TODO: Replace TrackSelectionDetails with ProjectSelectionList screen
+            break
         }
     }
 

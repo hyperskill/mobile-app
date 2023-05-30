@@ -5,10 +5,10 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsActionDispatcher
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
@@ -25,7 +25,7 @@ object TrackSelectionDetailsFeatureBuilder {
         params: TrackSelectionDetailsParams,
         resourceProvider: ResourceProvider,
         dateFormatter: SharedDateFormatter,
-        freemiumInteractor: FreemiumInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         providersRepository: ProvidersRepository,
         sentryInteractor: SentryInteractor,
         profileInteractor: ProfileInteractor,
@@ -35,7 +35,7 @@ object TrackSelectionDetailsFeatureBuilder {
         val actionDispatcher = TrackSelectionDetailsActionDispatcher(
             config = ActionDispatcherOptions(),
             providersRepository = providersRepository,
-            freemiumInteractor = freemiumInteractor,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             sentryInteractor = sentryInteractor,
             profileInteractor = profileInteractor,
             analyticInteractor = analyticInteractor
