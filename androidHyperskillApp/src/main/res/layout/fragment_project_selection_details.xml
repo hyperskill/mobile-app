@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        android:id="@+id/projectSelectionDetailsError"
+        layout="@layout/error_no_connection_with_button"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/projectSelectionDetailsScreenLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/projectSelectionDetailsAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/projectSelectionDetailsToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:navigationIcon="@drawable/ic_toolbar_back"
+                tools:title="Python core"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/projectSelectionDetailsContentContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="@dimen/screen_horizontal_padding">
+
+                    <include
+                        android:id="@+id/projectSelectionDetailsDescription"
+                        layout="@layout/layout_project_selection_details_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <include
+                        android:id="@+id/project_selection_details_project_overview"
+                        layout="@layout/layout_project_selection_details_project_overview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                    <include
+                        android:id="@+id/projectSelectionDetailsProviders"
+                        layout="@layout/layout_project_details_provider_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp" />
+
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/projectSelectionDetailsSkeleton"
+                    layout="@layout/layout_track_selection_details_skeleton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+            </FrameLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/projectSelectionDetailsSelectButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.Blue"
+        android:text="@string/project_selection_details_cta_button_title"
+        android:layout_gravity="bottom"
+        android:layout_margin="20dp"
+        />
+
+</FrameLayout>

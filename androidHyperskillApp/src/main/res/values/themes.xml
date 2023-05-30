@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <style name="AppTheme" parent="Base.AppTheme" />
 
     <style name="Base.AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -64,7 +64,7 @@
 
         <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
         <item name="appBarElevation">@dimen/appbar_elevation</item>
-        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Surface</item>
+        <item name="toolbarStyle">@style/Widget.AppTheme.Toolbar</item>
 
         <!-- Inner components parameters -->
         <item name="dividerVertical">@drawable/bg_divider_vertical</item>

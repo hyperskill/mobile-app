@@ -1,6 +1,7 @@
 import Foundation
 import shared
 
+@available(*, deprecated, message: "Legacy class")
 final class TrackViewDataMapper {
     private let formatter: Formatter
 
@@ -55,7 +56,10 @@ final class TrackViewDataMapper {
             return Formatter.averageRating(trackProgress.averageRating, decimalPoints: 1)
         }()
 
-        let allTimeToCompleteText = formatter.hoursInSeconds(track.secondsToComplete?.doubleValue ?? 0.0)
+        // Deprecated file
+        let allTimeToCompleteText = String(
+            formatter.hoursCount(Int(track.secondsToComplete?.doubleValue ?? 0.0) / 3600)
+        )
 
         let projectsCountText: String? = {
             guard !track.projects.isEmpty else {

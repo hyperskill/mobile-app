@@ -3,7 +3,6 @@ package org.hyperskill.app.comments.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.Deferred
@@ -12,6 +11,7 @@ import kotlinx.coroutines.awaitAll
 import org.hyperskill.app.comments.data.source.CommentsRemoteDataSource
 import org.hyperskill.app.comments.domain.model.Comment
 import org.hyperskill.app.comments.remote.model.CommentsResponse
+import org.hyperskill.app.network.remote.parameterIds
 
 class CommentsRemoteDataSourceImpl(
     private val httpClient: HttpClient
@@ -39,7 +39,7 @@ class CommentsRemoteDataSourceImpl(
                 val futureResult = httpClient.async {
                     httpClient.get("/api/comments") {
                         contentType(ContentType.Application.Json)
-                        parameter("ids", chunkIds.joinToString(separator = ","))
+                        parameterIds(chunkIds)
                     }.body<CommentsResponse>().comments
                 }
                 requests.add(futureResult)

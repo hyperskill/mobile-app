@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="@dimen/corner_radius">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+            android:textSize="18sp"
+            android:text="@string/project_selection_details_project_overview_title"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/projectOverviewRatingTextView"
+            app:drawableStartCompat="@drawable/ic_track_overview_rating"
+            style="@style/TrackOverviewProperty"
+            android:drawablePadding="14dp"
+            tools:text="@string/project_selection_details_project_overview_no_rating"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/projectOverviewLevelTextView"
+            app:drawableStartCompat="@drawable/ic_project_details_level_easy"
+            style="@style/TrackOverviewProperty"
+            android:drawablePadding="14dp"
+            tools:text="Easy project"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/projectOverviewCertificateAvailabilityTextView"
+            app:drawableStartCompat="@drawable/ic_project_details_graduate"
+            style="@style/TrackOverviewProperty"
+            android:drawablePadding="12dp"
+            tools:text="@string/project_selection_details_project_overview_graduate_project_description"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/projectOverviewTimeToCompleteTextView"
+            app:drawableStartCompat="@drawable/ic_track_overview_time_to_complete"
+            style="@style/TrackOverviewProperty"
+            android:drawablePadding="14dp"
+            tools:text="41 hours for project"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
