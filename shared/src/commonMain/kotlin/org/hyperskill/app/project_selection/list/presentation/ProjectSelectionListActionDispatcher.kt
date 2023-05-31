@@ -16,6 +16,7 @@ import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
+import org.hyperskill.app.track.domain.model.getAllProjects
 import org.hyperskill.app.track.domain.repository.TrackRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -69,11 +70,7 @@ internal class ProjectSelectionListActionDispatcher(
                         return@coroutineScope
                     }
 
-            val projectsIds = if (profile.isBeta) {
-                track.projects.union(track.betaProjects).toList()
-            } else {
-                track.projects
-            }
+            val projectsIds = track.getAllProjects(profile.isBeta)
 
             val studyPlanDeferred = async {
                 currentStudyPlanStateRepository.getState(action.forceLoadFromNetwork)

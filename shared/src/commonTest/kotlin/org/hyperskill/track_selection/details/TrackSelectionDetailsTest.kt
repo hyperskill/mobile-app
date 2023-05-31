@@ -9,16 +9,23 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.providers.domain.model.Provider
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.track.domain.model.Track
+import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action.ViewAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ContentState
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ViewState
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsReducer
 import org.hyperskill.app.track_selection.details.view.TrackSelectionDetailsViewStateMapper
+import org.hyperskill.profile.stub
 import org.hyperskill.providers.stub
+import org.hyperskill.track.stub
 import org.hyperskill.track_selection.stub
 
 class TrackSelectionDetailsTest {
@@ -48,7 +55,7 @@ class TrackSelectionDetailsTest {
 
         assertContains(
             actions,
-            InternalAction.FetchProvidersAndFreemiumStatus(
+            InternalAction.FetchAdditionalInfo(
                 providerIds = trackWithProgress.track.topicProviders,
                 forceLoadFromNetwork = false
             )
@@ -68,22 +75,26 @@ class TrackSelectionDetailsTest {
         val providers = providersIds.map {
             Provider.stub(id = it)
         }
+        val profile = Profile.stub()
+        val subscriptionType = SubscriptionType.UNKNOWN
         val (state, _) = reducer.reduce(
             TrackSelectionDetailsFeature.initialState(
                 trackWithProgress = trackWithProgress,
                 isTrackSelected = false,
                 isNewUserMode = false
             ),
-            TrackSelectionDetailsFeature.FetchProvidersAndFreemiumStatusResult.Success(
+            TrackSelectionDetailsFeature.FetchAdditionalInfoResult.Success(
                 providers = providers,
-                isFreemiumEnabled = false
+                profile = profile,
+                subscriptionType = subscriptionType
             )
         )
 
         assertEquals(
             ContentState.Content(
                 providers = providers,
-                isFreemiumEnabled = false
+                profile = profile,
+                subscriptionType = subscriptionType
             ),
             state.contentState
         )
@@ -106,7 +117,7 @@ class TrackSelectionDetailsTest {
         )
         assertContains(
             actions,
-            InternalAction.FetchProvidersAndFreemiumStatus(
+            InternalAction.FetchAdditionalInfo(
                 providerIds = trackWithProgress.track.topicProviders,
                 forceLoadFromNetwork = true
             )
@@ -120,7 +131,11 @@ class TrackSelectionDetailsTest {
     @Test
     fun `SelectTrackButtonClicked message should trigger track selection`() {
         val trackId = 0L
-        val contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
+        val contentState = ContentState.Content(
+            providers = emptyList(),
+            profile = Profile.stub(),
+            subscriptionType = SubscriptionType.UNKNOWN
+        )
         val (state, actions) = reducer.reduce(
             TrackSelectionDetailsFeature.State(
                 trackWithProgress = TrackWithProgress.stub(trackId = trackId),
@@ -148,23 +163,83 @@ class TrackSelectionDetailsTest {
                     isTrackSelected = false,
                     isNewUserMode = isNewUserMode,
                     isTrackLoadingShowed = false,
-                    contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
+                    contentState = ContentState.Content(
+                        providers = emptyList(),
+                        profile = Profile.stub(),
+                        subscriptionType = SubscriptionType.UNKNOWN
+                    )
                 ),
                 TrackSelectionDetailsFeature.TrackSelectionResult.Success
             )
             assertEquals(state.isTrackLoadingShowed, false)
             assertContains(
                 actions,
-                TrackSelectionDetailsFeature.Action.ViewAction.ShowTrackSelectionStatus.Success
+                ViewAction.ShowTrackSelectionStatus.Success
             )
             assertContains(
                 actions,
                 if (isNewUserMode) {
-                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home
+                    ViewAction.NavigateTo.Home(
+                        ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                    )
                 } else {
-                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.StudyPlan
+                    ViewAction.NavigateTo.StudyPlan
                 }
             )
+        }
+    }
+
+    @Test
+    fun `Successful track selection should trigger navigation to ProjectSelection or Home for users with subscription`() { // ktlint-disable max-line-length
+        listOf(
+            SubscriptionType.PREMIUM,
+            SubscriptionType.PERSONAL,
+            SubscriptionType.TRIAL
+        ).forEach { subscriptionType ->
+            listOf(
+                listOf(1L, 2L, 3L),
+                emptyList()
+            ).forEach { projects ->
+                val trackId = 0L
+                val (state, actions) = reducer.reduce(
+                    TrackSelectionDetailsFeature.State(
+                        trackWithProgress = TrackWithProgress(
+                            track = Track.stub(
+                                id = trackId,
+                                projects = projects
+                            ),
+                            trackProgress = TrackProgress.stub(trackId = trackId)
+                        ),
+                        isTrackSelected = false,
+                        isNewUserMode = true,
+                        isTrackLoadingShowed = false,
+                        contentState = ContentState.Content(
+                            providers = emptyList(),
+                            profile = Profile.stub(),
+                            subscriptionType = subscriptionType
+                        )
+                    ),
+                    TrackSelectionDetailsFeature.TrackSelectionResult.Success
+                )
+                assertEquals(state.isTrackLoadingShowed, false)
+                assertContains(
+                    actions,
+                    ViewAction.ShowTrackSelectionStatus.Success
+                )
+                assertContains(
+                    actions,
+                    if (projects.isEmpty()) {
+                        ViewAction.NavigateTo.Home(
+                            ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                        )
+                    } else {
+                        ViewAction.NavigateTo.ProjectSelectionList(
+                            trackId = trackId,
+                            isNewUserMode = true
+                        )
+                    }
+                )
+            }
         }
     }
 
@@ -176,14 +251,18 @@ class TrackSelectionDetailsTest {
                 isTrackSelected = false,
                 isNewUserMode = false,
                 isTrackLoadingShowed = false,
-                contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
+                contentState = ContentState.Content(
+                    providers = emptyList(),
+                    profile = Profile.stub(),
+                    subscriptionType = SubscriptionType.UNKNOWN
+                )
             ),
             TrackSelectionDetailsFeature.TrackSelectionResult.Error
         )
         assertEquals(state.isTrackLoadingShowed, false)
         assertContains(
             actions,
-            TrackSelectionDetailsFeature.Action.ViewAction.ShowTrackSelectionStatus.Error
+            ViewAction.ShowTrackSelectionStatus.Error
         )
     }
 
@@ -194,7 +273,11 @@ class TrackSelectionDetailsTest {
             isTrackSelected = false,
             isNewUserMode = false,
             isTrackLoadingShowed = false,
-            contentState = ContentState.Content(isFreemiumEnabled = true, providers = emptyList())
+            contentState = ContentState.Content(
+                providers = emptyList(),
+                profile = Profile.stub(),
+                subscriptionType = SubscriptionType.FREEMIUM
+            )
         )
 
         val viewState = viewStateMapper.map(state)
@@ -214,7 +297,11 @@ class TrackSelectionDetailsTest {
             isTrackSelected = false,
             isNewUserMode = false,
             isTrackLoadingShowed = false,
-            contentState = ContentState.Content(isFreemiumEnabled = false, providers = emptyList())
+            contentState = ContentState.Content(
+                providers = emptyList(),
+                profile = Profile.stub(),
+                subscriptionType = SubscriptionType.UNKNOWN
+            )
         )
 
         val viewState = viewStateMapper.map(state)

@@ -9,9 +9,11 @@ import ru.nobird.app.presentation.redux.feature.Feature
 
 class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : ProjectSelectionListComponent {
 
-    override fun projectSelectionListFeature(trackId: Long): Feature<ViewState, Message, Action> =
+    override fun projectSelectionListFeature(
+        params: ProjectSelectionListParams
+    ): Feature<ViewState, Message, Action> =
         ProjectSelectionListFeatureBuilder.build(
-            trackId = trackId,
+            params = params,
             trackRepository = appGraph.buildTrackDataComponent().trackRepository,
             currentStudyPlanStateRepository = appGraph.buildStudyPlanDataComponent().currentStudyPlanStateRepository,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,

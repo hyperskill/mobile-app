@@ -1,7 +1,9 @@
 package org.hyperskill.app.track_selection.details.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.providers.domain.model.Provider
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 object TrackSelectionDetailsFeature {
@@ -17,9 +19,13 @@ object TrackSelectionDetailsFeature {
         object Idle : ContentState
         object Loading : ContentState
         data class Content(
-            val isFreemiumEnabled: Boolean,
+            val subscriptionType: SubscriptionType,
+            val profile: Profile,
             val providers: List<Provider>
-        ) : ContentState
+        ) : ContentState {
+            val isFreemiumEnabled: Boolean
+                get() = subscriptionType == SubscriptionType.FREEMIUM
+        }
         object NetworkError : ContentState
     }
 
@@ -80,12 +86,13 @@ object TrackSelectionDetailsFeature {
         object ViewedEventMessage : Message
     }
 
-    internal sealed interface FetchProvidersAndFreemiumStatusResult : Message {
+    internal sealed interface FetchAdditionalInfoResult : Message {
         data class Success(
-            val isFreemiumEnabled: Boolean,
+            val subscriptionType: SubscriptionType,
+            val profile: Profile,
             val providers: List<Provider>
-        ) : FetchProvidersAndFreemiumStatusResult
-        object Error : FetchProvidersAndFreemiumStatusResult
+        ) : FetchAdditionalInfoResult
+        object Error : FetchAdditionalInfoResult
     }
 
     internal sealed interface TrackSelectionResult : Message {
@@ -102,13 +109,22 @@ object TrackSelectionDetailsFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
-                object Home : NavigateTo
+                data class Home(val command: NavigationCommand) : NavigateTo {
+                    enum class NavigationCommand {
+                        BackTo,
+                        NewRootScreen
+                    }
+                }
+                data class ProjectSelectionList(
+                    val trackId: Long,
+                    val isNewUserMode: Boolean
+                ) : NavigateTo
             }
         }
     }
 
     internal sealed interface InternalAction : Action {
-        data class FetchProvidersAndFreemiumStatus(
+        data class FetchAdditionalInfo(
             val providerIds: List<Long>,
             val forceLoadFromNetwork: Boolean
         ) : InternalAction

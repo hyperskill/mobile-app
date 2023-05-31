@@ -126,7 +126,13 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
                     setOf(
                         InternalAction.ClearProjectsCache,
                         Action.ViewAction.ShowProjectSelectionStatus.Success,
-                        Action.ViewAction.NavigateTo.StudyPlan
+                        Action.ViewAction.NavigateTo.StudyPlan(
+                            if (state.isNewUserMode) {
+                                Action.ViewAction.NavigateTo.StudyPlan.NavigationCommand.NewRootScreen
+                            } else {
+                                Action.ViewAction.NavigateTo.StudyPlan.NavigationCommand.BackTo
+                            }
+                        )
                     )
                 ProjectSelectionDetailsFeature.ProjectSelectionResult.Error ->
                     setOf(Action.ViewAction.ShowProjectSelectionStatus.Error)
