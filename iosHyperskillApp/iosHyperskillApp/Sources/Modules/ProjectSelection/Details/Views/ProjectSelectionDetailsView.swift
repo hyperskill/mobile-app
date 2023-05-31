@@ -113,8 +113,7 @@ private extension ProjectSelectionDetailsView {
             )
             .route()
         case .newrootscreen:
-            // TODO: ALTAPPS-801 Handle this
-            break
+            #warning("ALTAPPS-801 handle this")
         default:
             assertionFailure("Did receive unexpected command: \(viewAction.command)")
         }

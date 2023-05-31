@@ -97,7 +97,7 @@ extension AppViewModel: OnboardingOutputProtocol {
 }
 
 // MARK: - AppViewModel: AuthNewUserPlaceholderOutputProtocol -
-// TODO: ALTAPPS-801 handle this
+#warning("ALTAPPS-801 handle this")
 //extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
 //    func handleAuthNewUserPlaceholderDidRequestNavigateToHome() {
 //        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
