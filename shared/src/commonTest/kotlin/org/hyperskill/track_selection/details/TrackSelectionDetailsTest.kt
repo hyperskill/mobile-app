@@ -16,6 +16,7 @@ import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action.ViewAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ContentState
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
@@ -173,16 +174,16 @@ class TrackSelectionDetailsTest {
             assertEquals(state.isTrackLoadingShowed, false)
             assertContains(
                 actions,
-                TrackSelectionDetailsFeature.Action.ViewAction.ShowTrackSelectionStatus.Success
+                ViewAction.ShowTrackSelectionStatus.Success
             )
             assertContains(
                 actions,
                 if (isNewUserMode) {
-                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home(
-                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                    ViewAction.NavigateTo.Home(
+                        ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
                     )
                 } else {
-                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.StudyPlan
+                    ViewAction.NavigateTo.StudyPlan
                 }
             )
         }
@@ -223,16 +224,16 @@ class TrackSelectionDetailsTest {
                 assertEquals(state.isTrackLoadingShowed, false)
                 assertContains(
                     actions,
-                    TrackSelectionDetailsFeature.Action.ViewAction.ShowTrackSelectionStatus.Success
+                    ViewAction.ShowTrackSelectionStatus.Success
                 )
                 assertContains(
                     actions,
                     if (projects.isEmpty()) {
-                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home(
-                            TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                        ViewAction.NavigateTo.Home(
+                            ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
                         )
                     } else {
-                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.ProjectSelectionList(
+                        ViewAction.NavigateTo.ProjectSelectionList(
                             trackId = trackId,
                             isNewUserMode = true
                         )
@@ -261,7 +262,7 @@ class TrackSelectionDetailsTest {
         assertEquals(state.isTrackLoadingShowed, false)
         assertContains(
             actions,
-            TrackSelectionDetailsFeature.Action.ViewAction.ShowTrackSelectionStatus.Error
+            ViewAction.ShowTrackSelectionStatus.Error
         )
     }
 
