@@ -108,6 +108,7 @@ import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelect
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponentImpl
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponentImpl
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
@@ -483,11 +484,11 @@ class AndroidAppComponentImpl(
         ProjectSelectionListComponentImpl(this)
 
     override fun buildPlatformProjectSelectionListComponent(
-        trackId: Long
+        params: ProjectSelectionListParams
     ): PlatformProjectSelectionListComponent =
         PlatformProjectSelectionListComponentImpl(
             projectSelectionListComponent = buildProjectSelectionListComponent(),
-            trackId = trackId
+            params = params
         )
 
     /**

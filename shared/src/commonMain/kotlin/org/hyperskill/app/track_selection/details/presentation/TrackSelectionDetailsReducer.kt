@@ -113,7 +113,10 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
                         !state.isNewUserMode ->
                             ViewAction.NavigateTo.StudyPlan
                         isProjectSelectionAvailable(state) ->
-                            ViewAction.NavigateTo.ProjectSelectionList(state.trackWithProgress.track.id)
+                            ViewAction.NavigateTo.ProjectSelectionList(
+                                trackId = state.trackWithProgress.track.id,
+                                isNewUserMode = state.isNewUserMode
+                            )
                         else ->
                             ViewAction.NavigateTo.Home
                     }

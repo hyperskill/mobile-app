@@ -12,6 +12,7 @@ object ProjectSelectionListFeature {
 
     internal data class State(
         val trackId: Long,
+        val isNewUserMode: Boolean,
         val content: ContentState
     )
 
@@ -27,8 +28,11 @@ object ProjectSelectionListFeature {
         object Error : ContentState
     }
 
-    internal fun initialState(trackId: Long): State =
-        State(trackId, ContentState.Idle)
+    internal fun initialState(
+        trackId: Long,
+        isNewUserMode: Boolean
+    ): State =
+        State(trackId, isNewUserMode, ContentState.Idle)
 
     sealed interface ViewState {
         object Idle : ViewState
@@ -86,6 +90,7 @@ object ProjectSelectionListFeature {
 
             sealed interface NavigateTo : ViewAction {
                 data class ProjectDetails(
+                    val isNewUserMode: Boolean,
                     val trackId: Long,
                     val projectId: Long,
                     val isProjectSelected: Boolean,

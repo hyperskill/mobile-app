@@ -110,7 +110,10 @@ object TrackSelectionDetailsFeature {
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
                 object Home : NavigateTo
-                data class ProjectSelectionList(val trackId: Long) : NavigateTo
+                data class ProjectSelectionList(
+                    val trackId: Long,
+                    val isNewUserMode: Boolean
+                ) : NavigateTo
             }
         }
     }
