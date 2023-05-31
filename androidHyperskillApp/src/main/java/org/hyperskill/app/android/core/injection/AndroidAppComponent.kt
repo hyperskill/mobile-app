@@ -28,6 +28,7 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponent
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -43,6 +44,7 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
 interface AndroidAppComponent : AppGraph {
     val context: Context
@@ -78,11 +80,13 @@ interface AndroidAppComponent : AppGraph {
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
     fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
-    fun buildPlatformProjectSelectionListComponent(trackId: Long): PlatformProjectSelectionListComponent
+    fun buildPlatformProjectSelectionListComponent(
+        params: ProjectSelectionListParams
+    ): PlatformProjectSelectionListComponent
     fun buildPlatformProjectSelectionDetailsComponent(
         params: ProjectSelectionDetailsParams
     ): PlatformProjectSelectionDetailsComponent
-    fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent
+    fun buildPlatformTrackSelectionListComponent(params: TrackSelectionListParams): PlatformTrackSelectionListComponent
     fun buildPlatformTrackSelectionDetailsComponent(
         params: TrackSelectionDetailsParams
     ): PlatformTrackSelectionDetailsComponent

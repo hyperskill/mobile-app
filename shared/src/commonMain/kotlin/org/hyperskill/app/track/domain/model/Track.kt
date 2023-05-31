@@ -62,3 +62,10 @@ data class Track(
  */
 val Track.totalTopicsCount: Int
     get() = topicsCount + capstoneTopicsCount
+
+internal fun Track.getAllProjects(isBetaProfile: Boolean): List<Long> =
+    if (isBetaProfile) {
+        projects.union(betaProjects).toList()
+    } else {
+        projects
+    }

@@ -22,7 +22,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object ProjectSelectionListFeatureBuilder {
     fun build(
-        trackId: Long,
+        params: ProjectSelectionListParams,
         trackRepository: TrackRepository,
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         projectsRepository: ProjectsRepository,
@@ -43,7 +43,10 @@ internal object ProjectSelectionListFeatureBuilder {
             analyticInteractor = analyticInteractor
         )
         return ReduxFeature(
-            initialState = ProjectSelectionListFeature.initialState(trackId),
+            initialState = ProjectSelectionListFeature.initialState(
+                trackId = params.trackId,
+                isNewUserMode = params.isNewUserMode
+            ),
             reducer = ProjectSelectionListReducer()
         ).wrapWithActionDispatcher(actionDispatcher)
             .transformState {

@@ -19,6 +19,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object TrackSelectionListFeatureBuilder {
     fun build(
+        params: TrackSelectionListParams,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         trackInteractor: TrackInteractor,
@@ -26,7 +27,7 @@ internal object TrackSelectionListFeatureBuilder {
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         trackListViewStateMapper: TrackSelectionListViewStateMapper
     ): Feature<TrackSelectionListFeature.ViewState, Message, Action> {
-        val trackSelectionListReducer = TrackSelectionListReducer()
+        val trackSelectionListReducer = TrackSelectionListReducer(params)
         val trackSelectionListActionDispatcher = TrackSelectionListActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor,
