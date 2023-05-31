@@ -78,8 +78,8 @@ class StepQuizResolverTest {
         val step = Step.stub(id = 1, topicTheory = 2)
 
         listOf(
-            StepRoute.Learn(step.id),
-            StepRoute.Repeat(step.id)
+            StepRoute.Learn.Step(step.id),
+            StepRoute.Repeat.Practice(step.id)
         ).forEach {
             assertEquals(true, StepQuizResolver.isTheoryAvailable(it, step))
         }
@@ -90,8 +90,10 @@ class StepQuizResolverTest {
         val step = Step.stub(id = 1, topicTheory = null)
 
         listOf(
-            StepRoute.Learn(step.id),
-            StepRoute.Repeat(step.id),
+            StepRoute.Learn.Step(step.id),
+            StepRoute.Learn.RereadTheory(step.id),
+            StepRoute.Repeat.Practice(step.id),
+            StepRoute.Repeat.Theory(step.id),
             StepRoute.LearnDaily(step.id),
             StepRoute.StageImplement(stepId = step.id, projectId = 2, stageId = 3)
         ).forEach { stepRoute ->

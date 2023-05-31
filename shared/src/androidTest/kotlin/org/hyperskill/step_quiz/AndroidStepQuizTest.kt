@@ -36,9 +36,9 @@ class AndroidStepQuizTest {
 
             val reducer = StepQuizReducer(
                 stepRoute = when (stepRouteClass) {
-                    StepRoute.Learn::class -> StepRoute.Learn(step.id)
+                    StepRoute.Learn::class -> StepRoute.Learn.Step(step.id)
                     StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
-                    StepRoute.Repeat::class -> StepRoute.Repeat(step.id)
+                    StepRoute.Repeat::class -> StepRoute.Repeat.Practice(step.id)
                     StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
                     else -> throw IllegalStateException(
                         "Unknown step route class: $stepRouteClass. Please add it to the test."
@@ -84,9 +84,9 @@ class AndroidStepQuizTest {
 
             val reducer = StepQuizReducer(
                 when (stepRouteClass) {
-                    StepRoute.Learn::class -> StepRoute.Learn(step.id)
+                    StepRoute.Learn::class -> StepRoute.Learn.Step(step.id)
                     StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
-                    StepRoute.Repeat::class -> StepRoute.Repeat(step.id)
+                    StepRoute.Repeat::class -> StepRoute.Repeat.Practice(step.id)
                     StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
                     else -> throw IllegalStateException(
                         "Unknown step route class: $stepRouteClass. Please add it to the test."

@@ -11,14 +11,18 @@ sealed interface StepRoute {
     val stepId: Long
 
     @Serializable
-    data class Learn(override val stepId: Long) : StepRoute {
-        @Transient
-        override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Learn.Step(stepId)
+    sealed interface Learn : StepRoute {
+        override val analyticRoute: HyperskillAnalyticRoute
+            get() = HyperskillAnalyticRoute.Learn.Step(stepId)
 
-        @Transient
-        override val stepContext: StepContext =
-            StepContext.DEFAULT
+        override val stepContext: StepContext
+            get() = StepContext.DEFAULT
+
+        @Serializable
+        data class Step(override val stepId: Long) : Learn
+
+        @Serializable
+        data class RereadTheory(override val stepId: Long) : Learn
     }
 
     @Serializable
@@ -33,14 +37,21 @@ sealed interface StepRoute {
     }
 
     @Serializable
-    data class Repeat(override val stepId: Long) : StepRoute {
-        @Transient
-        override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Repeat.Step(stepId)
+    sealed interface Repeat : StepRoute {
+        override val stepContext: StepContext
+            get() = StepContext.REPETITION
 
-        @Transient
-        override val stepContext: StepContext =
-            StepContext.REPETITION
+        @Serializable
+        data class Practice(override val stepId: Long) : Repeat {
+            override val analyticRoute: HyperskillAnalyticRoute
+                get() = HyperskillAnalyticRoute.Repeat.Step(stepId)
+        }
+
+        @Serializable
+        data class Theory(override val stepId: Long) : Repeat {
+            override val analyticRoute: HyperskillAnalyticRoute
+                get() = HyperskillAnalyticRoute.Repeat.Step.Theory(stepId)
+        }
     }
 
     @Serializable
@@ -58,11 +69,3 @@ sealed interface StepRoute {
             StepContext.DEFAULT
     }
 }
-
-internal fun StepRoute.copy(stepId: Long): StepRoute =
-    when (this) {
-        is StepRoute.Learn -> StepRoute.Learn(stepId)
-        is StepRoute.LearnDaily -> StepRoute.LearnDaily(stepId)
-        is StepRoute.Repeat -> StepRoute.Repeat(stepId)
-        is StepRoute.StageImplement -> StepRoute.StageImplement(stepId, projectId, stageId)
-    }

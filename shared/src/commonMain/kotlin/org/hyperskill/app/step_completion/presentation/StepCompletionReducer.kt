@@ -8,7 +8,7 @@ import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.
 import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
-import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinuePracticingAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -22,15 +22,18 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                         route = stepRoute.analyticRoute
                     )
                     state.copy(
-                        isPracticingLoading = state.continueButtonAction is ContinueButtonAction.FetchNextStepQuiz ||
-                            state.continueButtonAction is ContinueButtonAction.CheckTopicCompletion
+                        isPracticingLoading =
+                        state.continuePracticingAction is ContinuePracticingAction.FetchNextStepQuiz ||
+                            state.continuePracticingAction is ContinuePracticingAction.CheckTopicCompletion
                     ) to setOf(
                         Action.LogAnalyticEvent(analyticEvent),
-                        when (state.continueButtonAction) {
-                            ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
-                            ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
-                            ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(state.currentStep)
-                            ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
+                        when (state.continuePracticingAction) {
+                            ContinuePracticingAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
+                            ContinuePracticingAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
+                            ContinuePracticingAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(
+                                currentStep = state.currentStep
+                            )
+                            ContinuePracticingAction.CheckTopicCompletion -> state.currentStep.topic?.let {
                                 Action.CheckTopicCompletionStatus(it)
                             } ?: Action.ViewAction.NavigateTo.Back
                         }
@@ -46,7 +49,12 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                                 route = stepRoute.analyticRoute
                             )
                         ),
-                        Action.FetchNextRecommendedStep(state.currentStep)
+                        when (state.startPracticingAction) {
+                            StepCompletionFeature.StartPracticingAction.FetchNextStepQuiz ->
+                                Action.FetchNextRecommendedStep(state.currentStep)
+                            StepCompletionFeature.StartPracticingAction.NavigateToBack ->
+                                Action.ViewAction.NavigateTo.Back
+                        }
                     )
                 } else {
                     null
@@ -59,15 +67,20 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             is Message.CheckTopicCompletionStatus.Completed ->
                 state.copy(
-                    continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
+                    continuePracticingAction = ContinuePracticingAction.NavigateToHomeScreen,
                     isPracticingLoading = false,
-                    nextStepRoute = message.nextStepId?.let { StepRoute.Learn(it) }
-                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText, message.nextStepId != null))
+                    nextStepRoute = message.nextStepId?.let { StepRoute.Learn.Step(it) }
+                ) to setOf(
+                    Action.ViewAction.ShowTopicCompletedModal(
+                        modalText = message.modalText,
+                        isNextStepAvailable = message.nextStepId != null
+                    )
+                )
             is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state.copy(isPracticingLoading = false) to emptySet()
             is Message.CheckTopicCompletionStatus.Error ->
                 state.copy(
-                    continueButtonAction = ContinueButtonAction.CheckTopicCompletion,
+                    continuePracticingAction = ContinuePracticingAction.CheckTopicCompletion,
                     isPracticingLoading = false
                 ) to emptySet()
             is Message.TopicCompletedModalGoToHomeScreenClicked ->

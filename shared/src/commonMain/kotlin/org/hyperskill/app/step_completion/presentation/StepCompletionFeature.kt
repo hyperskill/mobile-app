@@ -9,26 +9,36 @@ interface StepCompletionFeature {
         fun createState(step: Step, stepRoute: StepRoute): State =
             State(
                 currentStep = step,
-                continueButtonAction = if (stepRoute is StepRoute.Learn) {
-                    ContinueButtonAction.FetchNextStepQuiz
+                startPracticingAction = when (stepRoute) {
+                    is StepRoute.Learn.RereadTheory, is StepRoute.Repeat.Theory -> StartPracticingAction.NavigateToBack
+                    else -> StartPracticingAction.FetchNextStepQuiz
+                },
+                continuePracticingAction = if (stepRoute is StepRoute.Learn) {
+                    ContinuePracticingAction.FetchNextStepQuiz
                 } else {
-                    ContinueButtonAction.NavigateToBack
+                    ContinuePracticingAction.NavigateToBack
                 }
             )
     }
 
     data class State(
         val currentStep: Step,
-        val continueButtonAction: ContinueButtonAction,
+        val startPracticingAction: StartPracticingAction,
+        val continuePracticingAction: ContinuePracticingAction,
         val isPracticingLoading: Boolean = false,
         val nextStepRoute: StepRoute? = null
     )
 
-    sealed interface ContinueButtonAction {
-        object NavigateToHomeScreen : ContinueButtonAction
-        object NavigateToBack : ContinueButtonAction
-        object FetchNextStepQuiz : ContinueButtonAction
-        object CheckTopicCompletion : ContinueButtonAction
+    sealed interface StartPracticingAction {
+        object NavigateToBack : StartPracticingAction
+        object FetchNextStepQuiz : StartPracticingAction
+    }
+
+    sealed interface ContinuePracticingAction {
+        object NavigateToHomeScreen : ContinuePracticingAction
+        object NavigateToBack : ContinuePracticingAction
+        object FetchNextStepQuiz : ContinuePracticingAction
+        object CheckTopicCompletion : ContinuePracticingAction
     }
 
     sealed interface Message {
