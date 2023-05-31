@@ -178,7 +178,9 @@ class TrackSelectionDetailsTest {
             assertContains(
                 actions,
                 if (isNewUserMode) {
-                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home
+                    TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home(
+                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                    )
                 } else {
                     TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.StudyPlan
                 }
@@ -226,7 +228,9 @@ class TrackSelectionDetailsTest {
                 assertContains(
                     actions,
                     if (projects.isEmpty()) {
-                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home
+                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home(
+                            TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                        )
                     } else {
                         TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.ProjectSelectionList(
                             trackId = trackId,
