@@ -75,9 +75,9 @@ class AuthSocialWebViewFragment :
         if (webView == null) {
             webView = WebView(requireContext().applicationContext).also {
                 it.webViewClient = AuthSocialWebViewClient(
-                    authSocialWebViewViewModel,
                     provider,
-                    networkEndpointConfigInfo
+                    networkEndpointConfigInfo,
+                    authSocialWebViewViewModel::onNewMessage
                 )
                 it.settings.apply {
                     javaScriptEnabled = true
