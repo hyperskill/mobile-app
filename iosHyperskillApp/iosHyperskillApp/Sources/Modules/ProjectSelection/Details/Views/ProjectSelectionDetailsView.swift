@@ -105,7 +105,7 @@ private extension ProjectSelectionDetailsView {
     func handleNavigateToStudyPlanViewAction(
         _ viewAction: ProjectSelectionDetailsFeatureActionViewActionNavigateToStudyPlan
     ) {
-        switch viewAction.direction {
+        switch viewAction.command {
         case .backto:
             TabBarRouter(
                 tab: .studyPlan,
@@ -116,7 +116,7 @@ private extension ProjectSelectionDetailsView {
             // TODO: ALTAPPS-801 Handle this
             break
         default:
-            assertionFailure("Did receive unexpected direction: \(viewAction.direction)")
+            assertionFailure("Did receive unexpected command: \(viewAction.command)")
         }
     }
 

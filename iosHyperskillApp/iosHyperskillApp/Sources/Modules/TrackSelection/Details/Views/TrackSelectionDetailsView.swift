@@ -103,12 +103,20 @@ private extension TrackSelectionDetailsView {
                 popToRoot: true
             )
             .route()
-        case .home:
-            // TODO: ALTAPPS-801 Handle this
-            TabBarRouter(
-                tab: .home,
-                popToRoot: true
-            ).route()
+        case .home(let navigateToHomeViewAction):
+            switch navigateToHomeViewAction.command {
+            case .backto:
+                TabBarRouter(
+                    tab: .home,
+                    popToRoot: true
+                )
+                .route()
+            case .newrootscreen:
+                // TODO: ALTAPPS-801 Handle this
+                break
+            default:
+                assertionFailure("Did receive unexpected command: \(navigateToHomeViewAction.command)")
+            }
         case .projectSelectionList(let navigateToProjectSelectionListViewAction):
             let assembly = ProjectSelectionListAssembly(
                 isNewUserMode: navigateToProjectSelectionListViewAction.isNewUserMode,
