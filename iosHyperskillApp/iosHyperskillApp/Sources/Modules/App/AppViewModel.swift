@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 import shared
 import SwiftUI
 
@@ -32,6 +33,8 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
                 strongSelf.viewController?.displayViewAction(AppFeatureActionViewActionKs(viewAction))
             }
         }
+
+        subscribeForNotifications()
     }
 
     override func shouldNotifyStateDidChange(oldState: AppFeatureState, newState: AppFeatureState) -> Bool {
@@ -96,14 +99,6 @@ extension AppViewModel: OnboardingOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: AuthNewUserPlaceholderOutputProtocol -
-#warning("ALTAPPS-801 handle this")
-//extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
-//    func handleAuthNewUserPlaceholderDidRequestNavigateToHome() {
-//        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
-//    }
-//}
-
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
@@ -113,5 +108,36 @@ extension AppViewModel: AppTabBarControllerDelegate {
         oldTabItem: AppTabItem
     ) {
         handleSelectedTabChanged(oldValue: oldTabItem, newValue: newTabItem)
+    }
+}
+
+// MARK: - AppViewModel (NotificationCenter) -
+
+private extension AppViewModel {
+    func subscribeForNotifications() {
+        let notificationCenter = NotificationCenter.default
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
+            name: .trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            object: nil
+        )
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
+            name: .projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            object: nil
+        )
+    }
+
+    @objc
+    func handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
+        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+    }
+
+    @objc
+    func handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
+        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
     }
 }

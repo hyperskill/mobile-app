@@ -82,9 +82,12 @@ extension AppViewController: AppViewControllerProtocol {
                 let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
                 return UIHostingController(rootView: assembly.makeModule())
             case .trackSelectionScreen:
-                #warning("ALTAPPS-801 handle this")
-                //return UIHostingController(rootView: AuthNewUserPlaceholderAssembly(output: viewModel).makeModule())
-                return nil
+                let assembly = TrackSelectionListAssembly(isNewUserMode: true)
+                let navigationController = UINavigationController(
+                    rootViewController: assembly.makeModule()
+                )
+                navigationController.navigationBar.prefersLargeTitles = true
+                return navigationController
             }
         }()
 

@@ -113,7 +113,7 @@ private extension ProjectSelectionDetailsView {
             )
             .route()
         case .newrootscreen:
-            #warning("ALTAPPS-801 handle this")
+            viewModel.doNavigateToHomeAsNewRootScreenPresentation()
         default:
             assertionFailure("Did receive unexpected command: \(viewAction.command)")
         }
