@@ -6,13 +6,11 @@ final class TrackSelectionDetailsAssembly: UIKitAssembly {
 
     private let trackWithProgress: TrackWithProgress
     private let isTrackSelected: Bool
-    private let isNewUserMode: Bool
 
     init(isNewUserMode: Bool, trackWithProgress: TrackWithProgress, isTrackSelected: Bool) {
         self.isNewUserMode = isNewUserMode
         self.trackWithProgress = trackWithProgress
         self.isTrackSelected = isTrackSelected
-        self.isNewUserMode = isNewUserMode
     }
 
     func makeModule() -> UIViewController {

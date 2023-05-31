@@ -1,6 +1,5 @@
 import shared
 import SwiftUI
-import shared
 
 final class TrackSelectionListAssembly: UIKitAssembly {
     private let isNewUserMode: Bool
