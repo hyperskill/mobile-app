@@ -228,7 +228,10 @@ class TrackSelectionDetailsTest {
                     if (projects.isEmpty()) {
                         TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.Home
                     } else {
-                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.ProjectSelectionList(trackId)
+                        TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.ProjectSelectionList(
+                            trackId = trackId,
+                            isNewUserMode = false
+                        )
                     }
                 )
             }
