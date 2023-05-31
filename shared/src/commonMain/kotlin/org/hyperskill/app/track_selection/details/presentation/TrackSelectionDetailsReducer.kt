@@ -118,7 +118,13 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
                                 isNewUserMode = state.isNewUserMode
                             )
                         else ->
-                            ViewAction.NavigateTo.Home
+                            ViewAction.NavigateTo.Home(
+                                command = if (state.isNewUserMode) {
+                                    ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                                } else {
+                                    ViewAction.NavigateTo.Home.NavigationCommand.BackTo
+                                }
+                            )
                     }
                     setOf(
                         ViewAction.ShowTrackSelectionStatus.Success,

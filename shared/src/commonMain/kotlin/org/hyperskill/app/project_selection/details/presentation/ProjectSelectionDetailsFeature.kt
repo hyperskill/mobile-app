@@ -107,7 +107,7 @@ object ProjectSelectionDetailsFeature {
             }
 
             sealed interface NavigateTo : ViewAction {
-                data class StudyPlan(val direction: NavigationCommand) : NavigateTo {
+                data class StudyPlan(val command: NavigationCommand) : NavigateTo {
                     enum class NavigationCommand {
                         BackTo,
                         NewRootScreen

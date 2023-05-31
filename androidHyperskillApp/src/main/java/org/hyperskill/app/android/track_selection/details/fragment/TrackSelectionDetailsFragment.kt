@@ -115,8 +115,14 @@ class TrackSelectionDetailsFragment :
                 requireRouter().backTo(MainScreen)
                 mainScreenRouter.switch(StudyPlanScreen)
             }
-            ViewAction.NavigateTo.Home ->
-                requireRouter().newRootScreen(MainScreen)
+            is ViewAction.NavigateTo.Home -> {
+                when (action.command) {
+                    ViewAction.NavigateTo.Home.NavigationCommand.BackTo ->
+                        requireRouter().backTo(MainScreen)
+                    ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen ->
+                        requireRouter().newRootScreen(MainScreen)
+                }
+            }
             is ViewAction.NavigateTo.ProjectSelectionList ->
                 requireRouter().newRootScreen(
                     ProjectSelectionListScreen(

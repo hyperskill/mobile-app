@@ -197,7 +197,7 @@ class StudyPlanFragment :
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack -> {
                         requireRouter().navigateTo(
                             TrackSelectionListScreen(
-                                TrackSelectionListParams(false)
+                                TrackSelectionListParams(isNewUserMode = false)
                             )
                         )
                     }

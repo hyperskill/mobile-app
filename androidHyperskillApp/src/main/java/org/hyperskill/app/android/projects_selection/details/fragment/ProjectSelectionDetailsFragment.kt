@@ -101,7 +101,7 @@ class ProjectSelectionDetailsFragment :
     override fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.NavigateTo.StudyPlan -> {
-                when (action.direction) {
+                when (action.command) {
                     ViewAction.NavigateTo.StudyPlan.NavigationCommand.BackTo ->
                         requireRouter().backTo(MainScreen)
                     ViewAction.NavigateTo.StudyPlan.NavigationCommand.NewRootScreen ->
