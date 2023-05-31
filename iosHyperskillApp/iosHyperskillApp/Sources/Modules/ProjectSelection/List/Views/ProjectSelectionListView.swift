@@ -103,8 +103,11 @@ private extension ProjectSelectionListView {
 struct ProjectSelectionListView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            ProjectSelectionListAssembly(trackID: 1, isNewUserMode: false)
-                .makeModule()
+            ProjectSelectionListAssembly(
+                isNewUserMode: false,
+                trackID: 1
+            )
+            .makeModule()
         }
     }
 }

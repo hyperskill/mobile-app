@@ -83,9 +83,9 @@ private extension TrackSelectionListView {
         switch TrackSelectionListFeatureActionViewActionNavigateToKs(viewAction) {
         case .trackDetails(let navigateToTrackDetailsViewAction):
             let assembly = TrackSelectionDetailsAssembly(
+                isNewUserMode: navigateToTrackDetailsViewAction.isNewUserMode,
                 trackWithProgress: navigateToTrackDetailsViewAction.trackWithProgress,
-                isTrackSelected: navigateToTrackDetailsViewAction.isTrackSelected,
-                isNewUserMode: navigateToTrackDetailsViewAction.isNewUserMode
+                isTrackSelected: navigateToTrackDetailsViewAction.isTrackSelected
             )
             stackRouter.pushViewController(assembly.makeModule())
         }
@@ -97,7 +97,7 @@ private extension TrackSelectionListView {
 struct TrackSelectionListView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            TrackSelectionListAssembly()
+            TrackSelectionListAssembly(isNewUserMode: false)
                 .makeModule()
         }
     }

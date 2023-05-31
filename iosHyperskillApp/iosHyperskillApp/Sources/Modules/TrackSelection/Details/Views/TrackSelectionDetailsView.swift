@@ -12,6 +12,8 @@ struct TrackSelectionDetailsView: View {
 
     @StateObject var viewModel: TrackSelectionDetailsViewModel
 
+    @ObservedObject var stackRouter: SwiftUIStackRouter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -102,13 +104,17 @@ private extension TrackSelectionDetailsView {
             )
             .route()
         case .home:
+            // TODO: ALTAPPS-801 Handle this
             TabBarRouter(
                 tab: .home,
                 popToRoot: true
             ).route()
-        case .projectSelectionList:
-            // TODO: Replace TrackSelectionDetails with ProjectSelectionList screen
-            break
+        case .projectSelectionList(let navigateToProjectSelectionListViewAction):
+            let assembly = ProjectSelectionListAssembly(
+                isNewUserMode: navigateToProjectSelectionListViewAction.isNewUserMode,
+                trackID: navigateToProjectSelectionListViewAction.trackId
+            )
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 

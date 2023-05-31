@@ -97,12 +97,26 @@ private extension ProjectSelectionDetailsView {
         _ viewAction: ProjectSelectionDetailsFeatureActionViewActionNavigateTo
     ) {
         switch ProjectSelectionDetailsFeatureActionViewActionNavigateToKs(viewAction) {
-        case .studyPlan:
+        case .studyPlan(let navigateToStudyPlanViewAction):
+            handleNavigateToStudyPlanViewAction(navigateToStudyPlanViewAction)
+        }
+    }
+
+    func handleNavigateToStudyPlanViewAction(
+        _ viewAction: ProjectSelectionDetailsFeatureActionViewActionNavigateToStudyPlan
+    ) {
+        switch viewAction.direction {
+        case .backto:
             TabBarRouter(
                 tab: .studyPlan,
                 popToRoot: true
             )
             .route()
+        case .newrootscreen:
+            // TODO: ALTAPPS-801 Handle this
+            break
+        default:
+            assertionFailure("Did receive unexpected direction: \(viewAction.direction)")
         }
     }
 

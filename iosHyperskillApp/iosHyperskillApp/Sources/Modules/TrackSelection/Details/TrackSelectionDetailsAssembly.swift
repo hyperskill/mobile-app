@@ -2,14 +2,15 @@ import shared
 import SwiftUI
 
 final class TrackSelectionDetailsAssembly: UIKitAssembly {
-    private let trackWithProgress: TrackWithProgress
-    private let isTrackSelected: Bool
     private let isNewUserMode: Bool
 
-    init(trackWithProgress: TrackWithProgress, isTrackSelected: Bool, isNewUserMode: Bool) {
+    private let trackWithProgress: TrackWithProgress
+    private let isTrackSelected: Bool
+
+    init(isNewUserMode: Bool, trackWithProgress: TrackWithProgress, isTrackSelected: Bool) {
+        self.isNewUserMode = isNewUserMode
         self.trackWithProgress = trackWithProgress
         self.isTrackSelected = isTrackSelected
-        self.isNewUserMode = isNewUserMode
     }
 
     func makeModule() -> UIViewController {
@@ -26,8 +27,11 @@ final class TrackSelectionDetailsAssembly: UIKitAssembly {
             )
         )
 
+        let stackRouter = SwiftUIStackRouter()
+
         let trackSelectionDetailsView = TrackSelectionDetailsView(
-            viewModel: trackSelectionDetailsViewModel
+            viewModel: trackSelectionDetailsViewModel,
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
@@ -37,6 +41,8 @@ final class TrackSelectionDetailsAssembly: UIKitAssembly {
         hostingController.hidesBottomBarWhenPushed = true
         hostingController.navigationItem.largeTitleDisplayMode = .always
         hostingController.title = trackWithProgress.track.title
+
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }

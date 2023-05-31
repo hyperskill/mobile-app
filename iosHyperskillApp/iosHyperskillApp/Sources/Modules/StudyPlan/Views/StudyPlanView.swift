@@ -167,12 +167,12 @@ private extension StudyPlanView {
             TabBarRouter(tab: .home).route()
         case .selectProject(let navigateToSelectProjectViewAction):
             let assembly = ProjectSelectionListAssembly(
-                trackID: navigateToSelectProjectViewAction.trackId,
-                isNewUserMode: false
+                isNewUserMode: false,
+                trackID: navigateToSelectProjectViewAction.trackId
             )
             stackRouter.pushViewController(assembly.makeModule())
         case .selectTrack:
-            let assembly = TrackSelectionListAssembly()
+            let assembly = TrackSelectionListAssembly(isNewUserMode: false)
             stackRouter.pushViewController(assembly.makeModule())
         }
     }
