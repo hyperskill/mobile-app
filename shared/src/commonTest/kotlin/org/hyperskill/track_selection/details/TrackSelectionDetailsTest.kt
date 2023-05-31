@@ -230,7 +230,7 @@ class TrackSelectionDetailsTest {
                     } else {
                         TrackSelectionDetailsFeature.Action.ViewAction.NavigateTo.ProjectSelectionList(
                             trackId = trackId,
-                            isNewUserMode = false
+                            isNewUserMode = true
                         )
                     }
                 )
