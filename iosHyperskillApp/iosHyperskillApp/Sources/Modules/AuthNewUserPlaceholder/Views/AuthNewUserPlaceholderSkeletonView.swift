@@ -3,7 +3,7 @@ import SwiftUI
 struct AuthNewUserPlaceholderSkeletonView: View {
     var body: some View {
         ScrollView {
-            VStack(spacing: AuthNewUserPlaceholderView.Appearance().spacing) {
+            VStack {
                 AuthNewUserPlaceholderHeaderView()
 
                 VStack(spacing: LayoutInsets.smallInset) {

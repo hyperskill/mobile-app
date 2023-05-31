@@ -51,7 +51,6 @@
 		2C0EB9542A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */; };
 		2C0EB9562A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB9552A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift */; };
 		2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */; };
-		2C0FA877292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */; };
 		2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */; };
@@ -571,7 +570,6 @@
 		2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C0EB9552A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackSelectionListFeatureViewStateContent+Placeholder.swift"; sourceTree = "<group>"; };
 		2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalRouter.swift; sourceTree = "<group>"; };
-		2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderNewUserFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizOutputProtocol.swift; sourceTree = "<group>"; };
@@ -1273,7 +1271,6 @@
 				2C93C2D7292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift */,
 				2C8CD9AD2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift */,
 				2CC7833D295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift */,
-				2C0FA876292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift */,
 				E9B55A5429C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift */,
 				2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */,
 				2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */,
@@ -3899,7 +3896,6 @@
 				2C0EB9522A151B69006DC84B /* TrackSelectionListAssembly.swift in Sources */,
 				2C55E1922A05706300FE58D7 /* HomeSubheadlineView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
-				2C0FA877292FC9BF00A37636 /* PlaceholderNewUserFeatureStateKsExtensions.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
 				2C05AC5D2A0ED7AD0039C7EF /* BadgeView.swift in Sources */,
 				2C656378287440D5006AAD77 /* TrackAboutStatItemView.swift in Sources */,

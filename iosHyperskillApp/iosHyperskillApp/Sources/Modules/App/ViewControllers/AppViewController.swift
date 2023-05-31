@@ -82,7 +82,9 @@ extension AppViewController: AppViewControllerProtocol {
                 let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
                 return UIHostingController(rootView: assembly.makeModule())
             case .trackSelectionScreen:
-                return UIHostingController(rootView: AuthNewUserPlaceholderAssembly(output: viewModel).makeModule())
+                // TODO: ALTAPPS-801 handle this
+                //return UIHostingController(rootView: AuthNewUserPlaceholderAssembly(output: viewModel).makeModule())
+                return nil
             }
         }()
 

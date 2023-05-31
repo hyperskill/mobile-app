@@ -97,12 +97,12 @@ extension AppViewModel: OnboardingOutputProtocol {
 }
 
 // MARK: - AppViewModel: AuthNewUserPlaceholderOutputProtocol -
-
-extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
-    func handleAuthNewUserPlaceholderDidRequestNavigateToHome() {
-        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
-    }
-}
+// TODO: ALTAPPS-801 handle this
+//extension AppViewModel: AuthNewUserPlaceholderOutputProtocol {
+//    func handleAuthNewUserPlaceholderDidRequestNavigateToHome() {
+//        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+//    }
+//}
 
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 

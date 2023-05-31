@@ -74,8 +74,6 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -415,12 +413,6 @@ class AndroidAppComponentImpl(
         onboardingComponent: OnboardingComponent
     ): PlatformOnboardingComponent =
         PlatformOnboardingComponentImpl(onboardingComponent)
-
-    /**
-     * Placeholder new user component
-     */
-    override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
-        PlaceholderNewUserComponentImpl(this)
 
     /**
      * Topics repetitions component
