@@ -39,7 +39,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
                         UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE ->
-                            Action.ViewAction.NavigateTo.TrackSelectionScreen
+                            Action.ViewAction.NavigateTo.OnboardingScreen
                         UserDeauthorized.Reason.SIGN_OUT ->
                             Action.ViewAction.NavigateTo.AuthScreen()
                     }
@@ -65,7 +65,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                                 Action.ViewAction.NavigateTo.HomeScreen
                             }
                         } else {
-                            Action.ViewAction.NavigateTo.TrackSelectionScreen
+                            Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
                     State.Ready(isAuthorized) to setOf(sentryAction, navigateToViewAction)

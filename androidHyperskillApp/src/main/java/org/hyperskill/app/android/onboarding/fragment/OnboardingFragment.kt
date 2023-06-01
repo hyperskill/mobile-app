@@ -84,7 +84,7 @@ class OnboardingFragment :
             is OnboardingFeature.Action.ViewAction.NavigateTo.TrackSelectionListScreen ->
                 requireRouter().navigateTo(
                     TrackSelectionListScreen(
-                        TrackSelectionListParams(true)
+                        TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
         }

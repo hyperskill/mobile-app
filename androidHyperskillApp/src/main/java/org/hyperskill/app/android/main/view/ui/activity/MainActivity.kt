@@ -163,7 +163,7 @@ class MainActivity :
             is AppFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->
                 router.newRootScreen(
                     TrackSelectionListScreen(
-                        TrackSelectionListParams(true)
+                        TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
         }
