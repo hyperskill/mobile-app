@@ -61,6 +61,7 @@ object ProjectSelectionDetailsFeatureBuilder {
         )
 
         val projectSelectionDetailsFeatureInitialState = ProjectSelectionDetailsFeature.initialState(
+            isNewUserMode = params.isNewUserMode,
             trackId = params.trackId,
             projectId = params.projectId,
             isProjectSelected = params.isProjectSelected,

@@ -6,5 +6,5 @@ import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFe
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface TrackSelectionListComponent {
-    val trackSelectionListFeature: Feature<ViewState, Message, Action>
+    fun trackSelectionListFeature(params: TrackSelectionListParams): Feature<ViewState, Message, Action>
 }

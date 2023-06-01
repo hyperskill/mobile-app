@@ -1,9 +1,12 @@
 package org.hyperskill.app.track_selection.details.presentation
 
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.track.domain.model.getAllProjects
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action.ViewAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ContentState
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
@@ -13,7 +16,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
+    override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             is Message.Initialize -> {
                 state.updateContentState(ContentState.Loading) to
@@ -21,7 +24,7 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
             }
             is Message.RetryContentLoading ->
                 handleRetryContentLoading(state)
-            is TrackSelectionDetailsFeature.FetchProvidersAndFreemiumStatusResult ->
+            is TrackSelectionDetailsFeature.FetchAdditionalInfoResult ->
                 handleAdditionalInfoFetchResult(state, message)
             Message.SelectTrackButtonClicked ->
                 handleSelectTrackButtonClicked(state)
@@ -56,7 +59,7 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
         forceLoadFromNetwork: Boolean
     ): Set<Action> =
         setOf(
-            InternalAction.FetchProvidersAndFreemiumStatus(
+            InternalAction.FetchAdditionalInfo(
                 providerIds = state.trackWithProgress.track.topicProviders,
                 forceLoadFromNetwork = forceLoadFromNetwork
             )
@@ -64,16 +67,17 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
 
     private fun handleAdditionalInfoFetchResult(
         state: State,
-        message: TrackSelectionDetailsFeature.FetchProvidersAndFreemiumStatusResult
+        message: TrackSelectionDetailsFeature.FetchAdditionalInfoResult
     ): ReducerResult {
         val contentState = when (message) {
-            is TrackSelectionDetailsFeature.FetchProvidersAndFreemiumStatusResult.Success -> {
+            is TrackSelectionDetailsFeature.FetchAdditionalInfoResult.Success -> {
                 ContentState.Content(
-                    isFreemiumEnabled = message.isFreemiumEnabled,
+                    subscriptionType = message.subscriptionType,
+                    profile = message.profile,
                     providers = message.providers
                 )
             }
-            TrackSelectionDetailsFeature.FetchProvidersAndFreemiumStatusResult.Error ->
+            TrackSelectionDetailsFeature.FetchAdditionalInfoResult.Error ->
                 ContentState.NetworkError
         }
         return state.updateContentState(contentState) to emptySet()
@@ -104,14 +108,48 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
     ): ReducerResult =
         state.copy(isTrackLoadingShowed = false) to
             when (message) {
-                TrackSelectionDetailsFeature.TrackSelectionResult.Success ->
+                TrackSelectionDetailsFeature.TrackSelectionResult.Success -> {
+                    val navigationAction = when {
+                        !state.isNewUserMode ->
+                            ViewAction.NavigateTo.StudyPlan
+                        isProjectSelectionAvailable(state) ->
+                            ViewAction.NavigateTo.ProjectSelectionList(
+                                trackId = state.trackWithProgress.track.id,
+                                isNewUserMode = state.isNewUserMode
+                            )
+                        else ->
+                            ViewAction.NavigateTo.Home(
+                                command = if (state.isNewUserMode) {
+                                    ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
+                                } else {
+                                    ViewAction.NavigateTo.Home.NavigationCommand.BackTo
+                                }
+                            )
+                    }
                     setOf(
-                        Action.ViewAction.ShowTrackSelectionStatus.Success,
-                        Action.ViewAction.NavigateTo.StudyPlan
+                        ViewAction.ShowTrackSelectionStatus.Success,
+                        navigationAction
                     )
+                }
                 TrackSelectionDetailsFeature.TrackSelectionResult.Error ->
-                    setOf(Action.ViewAction.ShowTrackSelectionStatus.Error)
+                    setOf(ViewAction.ShowTrackSelectionStatus.Error)
             }
+
+    private fun isProjectSelectionAvailable(state: State): Boolean {
+        if (state.contentState !is ContentState.Content) {
+            return false
+        }
+        return when (state.contentState.subscriptionType) {
+            SubscriptionType.PREMIUM,
+            SubscriptionType.PERSONAL,
+            SubscriptionType.TRIAL -> {
+                val trackRelatedProjects =
+                    state.trackWithProgress.track.getAllProjects(state.contentState.profile.isBeta)
+                trackRelatedProjects.isNotEmpty()
+            }
+            else -> false
+        }
+    }
 
     private fun State.updateContentState(contentState: ContentState): State =
         copy(contentState = contentState)

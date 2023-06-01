@@ -29,6 +29,8 @@ enum class SubscriptionType {
     FREE,
     @SerialName("freemium")
     FREEMIUM,
+    @SerialName("premium")
+    PREMIUM,
 
     @SerialName("unknown")
     UNKNOWN

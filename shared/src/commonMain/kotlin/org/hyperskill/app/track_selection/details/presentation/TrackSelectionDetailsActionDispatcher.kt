@@ -1,52 +1,42 @@
 package org.hyperskill.app.track_selection.details.presentation
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
-import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.FetchProvidersAndFreemiumStatusResult
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.FetchAdditionalInfoResult
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class TrackSelectionDetailsActionDispatcher(
     config: ActionDispatcherOptions,
     private val providersRepository: ProvidersRepository,
-    private val freemiumInteractor: FreemiumInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val profileInteractor: ProfileInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is TrackSelectionDetailsFeature.InternalAction.FetchProvidersAndFreemiumStatus -> {
+            is TrackSelectionDetailsFeature.InternalAction.FetchAdditionalInfo -> {
                 val transaction =
                     HyperskillSentryTransactionBuilder.buildTrackSelectionDetailsScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(transaction)
-                val providers =
-                    providersRepository.getProviders(action.providerIds, action.forceLoadFromNetwork)
-                        .getOrElse {
-                            sentryInteractor.finishTransaction(transaction, throwable = it)
-                            onNewMessage(FetchProvidersAndFreemiumStatusResult.Error)
-                            return
-                        }
-                val isFreemiumEnabled = freemiumInteractor.isFreemiumEnabled()
+                val message = fetchProvidersAndSubscription(action)
                     .getOrElse {
-                        sentryInteractor.finishTransaction(transaction, throwable = it)
-                        onNewMessage(FetchProvidersAndFreemiumStatusResult.Error)
+                        sentryInteractor.finishTransaction(transaction, it)
+                        onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Error)
                         return
                     }
-
                 sentryInteractor.finishTransaction(transaction)
-                onNewMessage(
-                    FetchProvidersAndFreemiumStatusResult.Success(
-                        isFreemiumEnabled = isFreemiumEnabled,
-                        providers = providers
-                    )
-                )
+                onNewMessage(message)
             }
             is TrackSelectionDetailsFeature.InternalAction.SelectTrack -> {
                 val currentProfile = profileInteractor
@@ -71,4 +61,32 @@ class TrackSelectionDetailsActionDispatcher(
             }
         }
     }
+
+    private suspend fun fetchProvidersAndSubscription(
+        action: TrackSelectionDetailsFeature.InternalAction.FetchAdditionalInfo
+    ): Result<FetchAdditionalInfoResult.Success> =
+        coroutineScope {
+            runCatching {
+                val providersDeferred = async {
+                    providersRepository
+                        .getProviders(action.providerIds, action.forceLoadFromNetwork)
+                        .getOrThrow()
+                }
+                val subscriptionDeferred = async {
+                    currentSubscriptionStateRepository
+                        .getState(action.forceLoadFromNetwork)
+                        .getOrThrow()
+                }
+                val profileDeferred = async {
+                    profileInteractor
+                        .getCurrentProfile(DataSourceType.CACHE)
+                        .getOrThrow()
+                }
+                FetchAdditionalInfoResult.Success(
+                    subscriptionType = subscriptionDeferred.await().type,
+                    profile = profileDeferred.await(),
+                    providers = providersDeferred.await()
+                )
+            }
+        }
 }

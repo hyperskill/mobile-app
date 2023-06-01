@@ -6,5 +6,6 @@ import org.hyperskill.app.track.domain.model.TrackWithProgress
 @Serializable
 data class TrackSelectionDetailsParams(
     val trackWithProgress: TrackWithProgress,
-    val isTrackSelected: Boolean
+    val isTrackSelected: Boolean,
+    val isNewUserMode: Boolean
 )
