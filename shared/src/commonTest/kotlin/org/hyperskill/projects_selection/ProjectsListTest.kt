@@ -52,7 +52,10 @@ class ProjectsListTest {
     fun `Initialize message should trigger content loading`() {
         val trackId = 0L
         val (state, actions) = projectSelectionListReducer.reduce(
-            ProjectSelectionListFeature.initialState(trackId),
+            ProjectSelectionListFeature.initialState(
+                trackId,
+                isNewUserMode = false
+            ),
             Message.Initialize
         )
         assertContains(
@@ -81,7 +84,7 @@ class ProjectsListTest {
         val projects = listOf(5L, 4L, 3L, 2L, 1L, 0L)
 
         val (state, actions) = projectSelectionListReducer.reduce(
-            State(trackId, ContentState.Loading),
+            State(trackId, isNewUserMode = false, ContentState.Loading),
             ProjectSelectionListFeature.ContentFetchResult.Success(
                 track = track,
                 projects = projects.map(ProjectWithProgress.Companion::stub),
@@ -109,6 +112,7 @@ class ProjectsListTest {
         val (state, actions) = projectSelectionListReducer.reduce(
             State(
                 trackId,
+                isNewUserMode = false,
                 ContentState.Error
             ),
             Message.RetryContentLoading
@@ -138,6 +142,7 @@ class ProjectsListTest {
             val (state, actions) = projectSelectionListReducer.reduce(
                 State(
                     trackId = 0L,
+                    isNewUserMode = false,
                     content = contentState
                 ),
                 Message.RetryContentLoading
@@ -156,6 +161,7 @@ class ProjectsListTest {
         val (_, actions) = projectSelectionListReducer.reduce(
             State(
                 trackId,
+                isNewUserMode = false,
                 ContentState.Content(
                     track = Track.stub(trackId),
                     projects = mapOf(projectId to projectWithProgress),

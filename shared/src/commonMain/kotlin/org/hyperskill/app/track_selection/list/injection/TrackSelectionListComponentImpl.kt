@@ -10,13 +10,14 @@ import ru.nobird.app.presentation.redux.feature.Feature
 class TrackSelectionListComponentImpl(
     private val appGraph: AppGraph
 ) : TrackSelectionListComponent {
-    override val trackSelectionListFeature: Feature<ViewState, Message, Action>
-        get() = TrackSelectionListFeatureBuilder.build(
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.buildTrackDataComponent().trackInteractor,
-            appGraph.buildProgressesDataComponent().progressesInteractor,
-            appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
+    override fun trackSelectionListFeature(params: TrackSelectionListParams): Feature<ViewState, Message, Action> =
+        TrackSelectionListFeatureBuilder.build(
+            params = params,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            trackInteractor = appGraph.buildTrackDataComponent().trackInteractor,
+            progressesInteractor = appGraph.buildProgressesDataComponent().progressesInteractor,
+            currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             trackListViewStateMapper = TrackSelectionListViewStateMapper(
                 numbersFormatter = appGraph.commonComponent.numbersFormatter,
                 dateFormatter = appGraph.commonComponent.dateFormatter

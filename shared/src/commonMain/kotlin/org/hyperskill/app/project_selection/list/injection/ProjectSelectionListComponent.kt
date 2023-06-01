@@ -6,5 +6,5 @@ import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionLi
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface ProjectSelectionListComponent {
-    fun projectSelectionListFeature(trackId: Long): Feature<ViewState, Message, Action>
+    fun projectSelectionListFeature(params: ProjectSelectionListParams): Feature<ViewState, Message, Action>
 }
