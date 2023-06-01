@@ -10,8 +10,11 @@ interface StepCompletionFeature {
             State(
                 currentStep = step,
                 startPracticingAction = when (stepRoute) {
-                    is StepRoute.Learn.RereadTheory, is StepRoute.Repeat.Theory -> StartPracticingAction.NavigateToBack
-                    else -> StartPracticingAction.FetchNextStepQuiz
+                    is StepRoute.Learn.TheoryOpenedFromPractice, is StepRoute.Repeat.Theory ->
+                        StartPracticingAction.NavigateToBack
+                    is StepRoute.Learn.Step, is StepRoute.LearnDaily,
+                    is StepRoute.Repeat.Practice, is StepRoute.StageImplement ->
+                        StartPracticingAction.FetchNextStepQuiz
                 },
                 continuePracticingAction = if (stepRoute is StepRoute.Learn) {
                     ContinuePracticingAction.FetchNextStepQuiz

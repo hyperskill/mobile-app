@@ -397,9 +397,13 @@ class StepQuizReducer(
 
                 if (topicTheoryId != null) {
                     when (stepRoute) {
-                        is StepRoute.Repeat.Practice -> StepRoute.Repeat.Theory(stepId = topicTheoryId)
-                        is StepRoute.Learn.Step -> StepRoute.Learn.RereadTheory(stepId = topicTheoryId)
-                        else -> null
+                        is StepRoute.Repeat.Practice ->
+                            StepRoute.Repeat.Theory(stepId = topicTheoryId)
+                        is StepRoute.Learn.Step ->
+                            StepRoute.Learn.TheoryOpenedFromPractice(stepId = topicTheoryId)
+                        is StepRoute.Learn.TheoryOpenedFromPractice, is StepRoute.LearnDaily,
+                        is StepRoute.Repeat.Theory, is StepRoute.StageImplement ->
+                            null
                     }?.let { targetStepRoute ->
                         add(Action.ViewAction.NavigateTo.StepScreen(targetStepRoute))
                     }

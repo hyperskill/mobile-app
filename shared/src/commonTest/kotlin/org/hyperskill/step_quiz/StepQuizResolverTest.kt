@@ -91,7 +91,7 @@ class StepQuizResolverTest {
 
         listOf(
             StepRoute.Learn.Step(step.id),
-            StepRoute.Learn.RereadTheory(step.id),
+            StepRoute.Learn.TheoryOpenedFromPractice(step.id),
             StepRoute.Repeat.Practice(step.id),
             StepRoute.Repeat.Theory(step.id),
             StepRoute.LearnDaily(step.id),

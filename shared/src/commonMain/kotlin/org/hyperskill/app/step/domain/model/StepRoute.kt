@@ -22,7 +22,7 @@ sealed interface StepRoute {
         data class Step(override val stepId: Long) : Learn
 
         @Serializable
-        data class RereadTheory(override val stepId: Long) : Learn
+        data class TheoryOpenedFromPractice(override val stepId: Long) : Learn
     }
 
     @Serializable

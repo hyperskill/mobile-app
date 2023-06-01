@@ -13,7 +13,7 @@ class StepCompletionTest {
     fun `Start practicing navigate to back if theory is opened from toolbar`() {
         val stepId = 1L
         val toolbarStepRoutes = listOf(
-            StepRoute.Learn.RereadTheory(stepId),
+            StepRoute.Learn.TheoryOpenedFromPractice(stepId),
             StepRoute.Repeat.Theory(stepId)
         )
 
