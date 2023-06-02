@@ -7,7 +7,7 @@ import org.hyperskill.app.step.domain.model.CommentThread
 class CommentThreadTitleMapper(
     private val resourceProvider: ResourceProvider
 ) {
-    fun getFormattedStepCommentThreadStatistics(thread: CommentThread, count: Int): String {
+    fun getFormattedStepCommentThreadStatistics(thread: CommentThread?, count: Int): String {
         val threadName = when (thread) {
             CommentThread.COMMENT ->
                 resourceProvider.getString(SharedResources.strings.step_comment_thread_type_comment_text)
@@ -17,7 +17,7 @@ class CommentThreadTitleMapper(
                 resourceProvider.getString(SharedResources.strings.step_comment_thread_type_hint_text)
             CommentThread.USEFUL_LINK ->
                 resourceProvider.getString(SharedResources.strings.step_comment_thread_type_useful_link_text)
-            else -> thread.name
+            else -> thread?.name ?: ""
         }
 
         return resourceProvider.getString(

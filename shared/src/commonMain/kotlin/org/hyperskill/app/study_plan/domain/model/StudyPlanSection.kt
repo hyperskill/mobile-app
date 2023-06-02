@@ -7,14 +7,8 @@ import kotlinx.serialization.Serializable
 data class StudyPlanSection(
     @SerialName("id")
     val id: Long,
-    @SerialName("study_plan_id")
-    val studyPlanId: Long,
     @SerialName("type")
     private val typeValue: String,
-    @SerialName("target_id")
-    val targetId: Long? = null,
-    @SerialName("target_type")
-    val targetType: String? = null,
     @SerialName("next_activity_id")
     val nextActivityId: Long? = null,
     @SerialName("is_visible")

@@ -9,10 +9,6 @@ data class Stage(
     val id: Long,
     @SerialName("title")
     val title: String,
-    @SerialName("description")
-    val description: String,
-    @SerialName("seconds_to_complete")
-    val secondsToComplete: Float? = null,
     @SerialName("is_completed")
     val isCompleted: Boolean,
 
@@ -22,7 +18,7 @@ data class Stage(
     val projectStagesCount: Int,
 
     @SerialName("step")
-    val stepId: Long,
+    val stepId: Long?,
     @SerialName("step_index")
-    val stepIndex: Int
+    val stepIndex: Int?
 )

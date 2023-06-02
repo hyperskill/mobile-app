@@ -48,6 +48,6 @@ final class StepViewDataMapper {
             count: commentStatisticsEntry.totalCount
         )
 
-        return StepCommentStatisticViewData(id: commentStatisticsEntry.thread.name, title: title)
+        return StepCommentStatisticViewData(id: commentStatisticsEntry.thread?.name ?? title, title: title)
     }
 }

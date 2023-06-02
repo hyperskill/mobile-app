@@ -1250,9 +1250,7 @@ class StudyPlanWidgetTest {
             projectId = projectId,
             sections = sections,
             status = status,
-            createdAt = "",
-            secondsToReachTrack = 0f,
-            secondsToReachProject = 0f
+            secondsToReachTrack = 0f
         )
 
     private fun studyPlanSectionStub(
@@ -1267,10 +1265,7 @@ class StudyPlanWidgetTest {
     ) =
         StudyPlanSection(
             id = id,
-            studyPlanId = 0,
             typeValue = type.value,
-            targetId = 0,
-            targetType = "",
             nextActivityId = nextActivityId,
             isVisible = isVisible,
             title = "",

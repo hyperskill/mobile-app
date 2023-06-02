@@ -20,7 +20,7 @@ class StepQuizTest {
     @Test
     fun `When problems limit reached not blocks problem of the day and repeat solving`() {
         val step = Step.stub(id = 1)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
         val stepRoutes = listOf(StepRoute.LearnDaily(step.id), StepRoute.Repeat(step.id))
 
@@ -58,7 +58,7 @@ class StepQuizTest {
     @Test
     fun `When problems limit reached blocks learn solving`() {
         val step = Step.stub(id = 1)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         val expectedState = StepQuizFeature.State(
@@ -94,7 +94,7 @@ class StepQuizTest {
     fun `TheoryToolbarClicked message navigates to step screen when theory available`() {
         val topicTheoryId = 2L
         val step = Step.stub(id = 1, topicTheory = topicTheoryId)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         val expectedState = StepQuizFeature.State(
@@ -150,7 +150,7 @@ class StepQuizTest {
     @Test
     fun `TheoryToolbarClicked message not navigates to step screen when theory unavailable`() {
         val step = Step.stub(id = 1, topicTheory = 2)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         val expectedState = StepQuizFeature.State(

@@ -5,14 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class HistoricalStreak(
-    @SerialName("date")
-    val date: String,
     @SerialName("state")
-    val state: StreakState?,
-    @SerialName("target_type")
-    val targetType: String,
-    @SerialName("target_id")
-    val targetId: Long?
+    val state: StreakState? = null
 ) {
     val isCompleted: Boolean =
         state == StreakState.COMPLETED || state == StreakState.MANUAL_COMPLETED

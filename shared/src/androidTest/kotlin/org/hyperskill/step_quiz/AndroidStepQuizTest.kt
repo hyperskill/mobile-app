@@ -59,7 +59,7 @@ class AndroidStepQuizTest {
     @Test
     fun `Theory should be available for Learn and Repeat StepRoutes`() {
         val step = Step.stub(id = 1, topicTheory = 2)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         StepRoute::class.sealedSubclasses.forEach { stepRouteClass ->
