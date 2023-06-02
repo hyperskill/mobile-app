@@ -59,8 +59,8 @@ class GamificationToolbarDelegate(
                 )
             }
             with(viewBinding.gamificationGemsCountTextView) {
-                isVisible = state.trackWithProgress != null
-                text = state.trackWithProgress?.averageProgress?.toString()
+                isVisible = true
+                text = state.hypercoinsBalance.toString()
             }
 
             state.trackWithProgress.let { trackProgress ->
