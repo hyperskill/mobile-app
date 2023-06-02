@@ -24,13 +24,13 @@ struct TrackSelectionListHeaderView: View {
                 )
                 .frame(size: appearance.avatarSize)
 
-            Text(Strings.Auth.NewUserPlaceholder.title)
+            Text(Strings.TrackSelectionList.title)
                 .bold()
                 .font(.title2)
                 .foregroundColor(.primaryText)
                 .multilineTextAlignment(.center)
 
-            Text(Strings.Auth.NewUserPlaceholder.subtitle)
+            Text(Strings.TrackSelectionList.subtitle)
                 .font(.body)
                 .foregroundColor(.primaryText)
                 .multilineTextAlignment(.center)

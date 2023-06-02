@@ -16,7 +16,6 @@
 		2C023C88285D928100D2D5A9 /* StepQuizTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C87285D928100D2D5A9 /* StepQuizTableViewModel.swift */; };
 		2C023C8B285DCA2100D2D5A9 /* ReplyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */; };
 		2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */; };
-		2C02962028BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C02961F28BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift */; };
 		2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */; };
 		2C05AC482A0EA0180039C7EF /* ProjectSelectionListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */; };
 		2C05AC4A2A0EA0290039C7EF /* ProjectSelectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */; };
@@ -196,8 +195,6 @@
 		2C65637628743F5B006AAD77 /* TrackAboutStatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */; };
 		2C656378287440D5006AAD77 /* TrackAboutStatItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */; };
 		2C65637A28744DDA006AAD77 /* TrackHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65637928744DDA006AAD77 /* TrackHeaderView.swift */; };
-		2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */; };
-		2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */; };
 		2C7036E82943A2A800775E87 /* ProblemOfDaySkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */; };
 		2C7036EA2943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */; };
 		2C708D3228E5AA700061A8DB /* KotlinThrowable+AsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */; };
@@ -314,7 +311,6 @@
 		2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D0B2805829A00E6C83D /* StepViewData.swift */; };
 		2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */; };
 		2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */; };
-		2CB017D329486AF3009E2E56 /* AuthNewUserPlaceholderHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB017D229486AF3009E2E56 /* AuthNewUserPlaceholderHeaderView.swift */; };
 		2CB1962428EF27F30075F7EF /* UIKitViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */; };
 		2CB279AD28C72A9500EDDCC8 /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */; };
 		2CB279AF28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB279AE28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift */; };
@@ -411,12 +407,10 @@
 		E910171728329808002E70F5 /* StepQuizChoiceElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910171628329808002E70F5 /* StepQuizChoiceElementView.swift */; };
 		E9102757288D19E100FF4564 /* ProblemOfDayViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9102756288D19E100FF4564 /* ProblemOfDayViewData.swift */; };
 		E9102759288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9102758288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift */; };
-		E91D8CF929483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91D8CF829483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift */; };
 		E927EC372876BFF30000B898 /* ProblemOfDayTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E927EC362876BFF30000B898 /* ProblemOfDayTitle.swift */; };
 		E92D55DD298CF995006F3DA0 /* TopicToDiscoverNextCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D55DC298CF995006F3DA0 /* TopicToDiscoverNextCardView.swift */; };
 		E92D659727FC2F4100953029 /* AuthSocialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D659627FC2F4100953029 /* AuthSocialButton.swift */; };
 		E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */; };
-		E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */; };
 		E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93B3744283E527000968DF0 /* PlaceholderView.swift */; };
 		E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */; };
 		E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */; };
@@ -432,11 +426,9 @@
 		E9523BF229DA966C0013A661 /* StudyPlanAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9523BF129DA966C0013A661 /* StudyPlanAssembly.swift */; };
 		E9523BF429DAA5690013A661 /* StudyPlanSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9523BF329DAA5690013A661 /* StudyPlanSkeletonView.swift */; };
 		E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */; };
-		E95D0F302941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E96F161F298D296F00EFB3D7 /* TopicToDiscoverNextCardDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96F161E298D296F00EFB3D7 /* TopicToDiscoverNextCardDelegate.swift */; };
 		E9730A9E298A462B00254A6D /* TopicToDiscoverNextButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9730A9D298A462B00254A6D /* TopicToDiscoverNextButtonView.swift */; };
-		E97704782946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */; };
 		E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
@@ -535,7 +527,6 @@
 		2C023C87285D928100D2D5A9 /* StepQuizTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewModel.swift; sourceTree = "<group>"; };
 		2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyExtensions.swift; sourceTree = "<group>"; };
 		2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetExtensions.swift; sourceTree = "<group>"; };
-		2C02961F28BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderOutputProtocol.swift; sourceTree = "<group>"; };
 		2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListAssembly.swift; sourceTree = "<group>"; };
 		2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListViewModel.swift; sourceTree = "<group>"; };
@@ -718,8 +709,6 @@
 		2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatsView.swift; sourceTree = "<group>"; };
 		2C656377287440D5006AAD77 /* TrackAboutStatItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackAboutStatItemView.swift; sourceTree = "<group>"; };
 		2C65637928744DDA006AAD77 /* TrackHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackHeaderView.swift; sourceTree = "<group>"; };
-		2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderViewModel.swift; sourceTree = "<group>"; };
-		2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderAssembly.swift; sourceTree = "<group>"; };
 		2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDaySkeletonView.swift; sourceTree = "<group>"; };
 		2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCardSkeletonView.swift; sourceTree = "<group>"; };
 		2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinThrowable+AsError.swift"; sourceTree = "<group>"; };
@@ -837,7 +826,6 @@
 		2CAE8D0B2805829A00E6C83D /* StepViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewData.swift; sourceTree = "<group>"; };
 		2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DesignSystem.swift"; sourceTree = "<group>"; };
-		2CB017D229486AF3009E2E56 /* AuthNewUserPlaceholderHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderHeaderView.swift; sourceTree = "<group>"; };
 		2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerPreview.swift; sourceTree = "<group>"; };
 		2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
 		2CB279AE28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouterProtocol.swift; sourceTree = "<group>"; };
@@ -937,12 +925,10 @@
 		E910171628329808002E70F5 /* StepQuizChoiceElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceElementView.swift; sourceTree = "<group>"; };
 		E9102756288D19E100FF4564 /* ProblemOfDayViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewData.swift; sourceTree = "<group>"; };
 		E9102758288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewDataMapper.swift; sourceTree = "<group>"; };
-		E91D8CF829483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderSkeletonView.swift; sourceTree = "<group>"; };
 		E927EC362876BFF30000B898 /* ProblemOfDayTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayTitle.swift; sourceTree = "<group>"; };
 		E92D55DC298CF995006F3DA0 /* TopicToDiscoverNextCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicToDiscoverNextCardView.swift; sourceTree = "<group>"; };
 		E92D659627FC2F4100953029 /* AuthSocialButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialButton.swift; sourceTree = "<group>"; };
 		E9317A0128A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNNotificationTrigger+nextTriggerDate.swift"; sourceTree = "<group>"; };
-		E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderView.swift; sourceTree = "<group>"; };
 		E93B3744283E527000968DF0 /* PlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceholderView.swift; sourceTree = "<group>"; };
 		E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakIcon.swift; sourceTree = "<group>"; };
@@ -958,11 +944,9 @@
 		E9523BF129DA966C0013A661 /* StudyPlanAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanAssembly.swift; sourceTree = "<group>"; };
 		E9523BF329DAA5690013A661 /* StudyPlanSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSkeletonView.swift; sourceTree = "<group>"; };
 		E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsStatusBlock.swift; sourceTree = "<group>"; };
-		E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserPlaceholderTrackCardView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E96F161E298D296F00EFB3D7 /* TopicToDiscoverNextCardDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicToDiscoverNextCardDelegate.swift; sourceTree = "<group>"; };
 		E9730A9D298A462B00254A6D /* TopicToDiscoverNextButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicToDiscoverNextButtonView.swift; sourceTree = "<group>"; };
-		E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthNewUserTrackModalViewController.swift; sourceTree = "<group>"; };
 		E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewController.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
@@ -1310,7 +1294,6 @@
 			children = (
 				2CE31F4927F1E058008EEE66 /* App */,
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
-				2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2CA5F8EA2994C3880013B854 /* Debug */,
 				2C5F4A582971C6C500677530 /* GamificationToolbar */,
@@ -1960,17 +1943,6 @@
 				2C65637528743F5B006AAD77 /* TrackAboutStatsView.swift */,
 			);
 			path = About;
-			sourceTree = "<group>";
-		};
-		2C6B30A428B7C3BB00609CE8 /* AuthNewUserPlaceholder */ = {
-			isa = PBXGroup;
-			children = (
-				2C6B30A728B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift */,
-				2C02961F28BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift */,
-				2C6B30A528B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift */,
-				E95D0F2E2941DED20074C9F3 /* Views */,
-			);
-			path = AuthNewUserPlaceholder;
 			sourceTree = "<group>";
 		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
@@ -2943,18 +2915,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		E95D0F2E2941DED20074C9F3 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2CB017D229486AF3009E2E56 /* AuthNewUserPlaceholderHeaderView.swift */,
-				E91D8CF829483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift */,
-				E95D0F2F2941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift */,
-				E9380ED9286B48A400CBF221 /* AuthNewUserPlaceholderView.swift */,
-				E97704772946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		E96F161D298D294D00EFB3D7 /* TopicToDiscoverNextCard */ = {
 			isa = PBXGroup;
 			children = (
@@ -3478,7 +3438,6 @@
 				2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */,
 				E9730A9E298A462B00254A6D /* TopicToDiscoverNextButtonView.swift in Sources */,
 				2C0EB9542A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift in Sources */,
-				E9380EDA286B48A400CBF221 /* AuthNewUserPlaceholderView.swift in Sources */,
 				E94BC946291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift in Sources */,
 				E996D41229221F6200A47498 /* ShowMoreButton.swift in Sources */,
 				2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */,
@@ -3553,7 +3512,6 @@
 				2C0DB90E286452D9001EA35E /* CodeLanguage.swift in Sources */,
 				2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */,
 				2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */,
-				2C02962028BEA000001BAFB3 /* AuthNewUserPlaceholderOutputProtocol.swift in Sources */,
 				2C7A1B1F2922EB070018D72C /* Hyperskill-Mobile_shared.swift in Sources */,
 				2C45E7C12A0FE9E100DFF32D /* ProjectSelectionListGridCellProjectGraduateView.swift in Sources */,
 				2C0146AA28FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift in Sources */,
@@ -3572,7 +3530,6 @@
 				2C11D5CA2A11311900C59238 /* FeedbackGeneratorPreviewView.swift in Sources */,
 				2CB279AF28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift in Sources */,
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
-				E97704782946F47000ACD7E7 /* AuthNewUserTrackModalViewController.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C4F639B2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift in Sources */,
 				2CA5F8EC2994C3AB0013B854 /* DebugView.swift in Sources */,
@@ -3606,7 +3563,6 @@
 				2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
 				E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */,
-				2C6B30A628B7C3F300609CE8 /* AuthNewUserPlaceholderViewModel.swift in Sources */,
 				2C863D932804279E0021EFED /* Require.swift in Sources */,
 				2C177EC32837B65500D841DB /* View+Frame.swift in Sources */,
 				E9950E9528894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift in Sources */,
@@ -3626,7 +3582,6 @@
 				E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */,
 				E9F2CC552922694F00691540 /* TopicsRepetitionsChartBar.swift in Sources */,
 				2C97B0CD298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift in Sources */,
-				2C6B30A828B7C47800609CE8 /* AuthNewUserPlaceholderAssembly.swift in Sources */,
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,
 				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,
@@ -3656,7 +3611,6 @@
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
 				2C9674302888242D0091B6C9 /* StepQuizCodeViewData.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
-				E95D0F302941DF000074C9F3 /* AuthNewUserPlaceholderTrackCardView.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */,
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
@@ -3742,7 +3696,6 @@
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
-				2CB017D329486AF3009E2E56 /* AuthNewUserPlaceholderHeaderView.swift in Sources */,
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
@@ -3891,7 +3844,6 @@
 				2C4F63A32A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift in Sources */,
 				2C2600832A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift in Sources */,
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
-				E91D8CF929483B9300FA9ED4 /* AuthNewUserPlaceholderSkeletonView.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
 				2C0EB9522A151B69006DC84B /* TrackSelectionListAssembly.swift in Sources */,
 				2C55E1922A05706300FE58D7 /* HomeSubheadlineView.swift in Sources */,
