@@ -33,7 +33,7 @@ interface OnboardingFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean) : NavigateTo
-                object NewUserScreen : NavigateTo
+                object TrackSelectionListScreen : NavigateTo
             }
         }
     }

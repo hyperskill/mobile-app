@@ -2,6 +2,7 @@ package org.hyperskill.app.android.track_selection.list.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -75,8 +76,15 @@ class TrackSelectionListFragment : Fragment(R.layout.fragment_track_selection_li
             addState<ViewState.Content>(viewBinding.trackSelectionListRecyclerView)
             addState<ViewState.Error>(viewBinding.trackSelectionListError.root)
         }
-        viewBinding.trackSelectionListToolbar.setNavigationOnClickListener {
-            requireRouter().exit()
+        with(viewBinding.trackSelectionListToolbar) {
+            navigationIcon = if (params.isNewUserMode) {
+                null
+            } else {
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_toolbar_back)
+            }
+            setNavigationOnClickListener {
+                requireRouter().exit()
+            }
         }
         viewBinding.trackSelectionListError.tryAgain.setOnClickListener {
             trackSelectionListViewModel.onNewMessage(TrackSelectionListFeature.Message.RetryContentLoading)

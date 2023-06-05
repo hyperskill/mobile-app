@@ -50,7 +50,7 @@ struct TrackSelectionListSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             TrackSelectionListSkeletonView()
-                .navigationTitle(Strings.TrackSelectionList.title)
+                .navigationTitle(Strings.TrackSelectionList.navigationTitle)
         }
     }
 }
