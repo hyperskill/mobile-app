@@ -26,6 +26,7 @@ import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
@@ -158,7 +159,7 @@ class MainActivity :
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
-                router.newRootScreen(MainScreen)
+                router.newRootScreen(MainScreen())
             is AppFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->
                 router.newRootScreen(
                     TrackSelectionListScreen(
