@@ -22,6 +22,6 @@ class LikesRepositoryImpl(
             targetType = "comment",
             targetId = commentId,
             subject = LikeSubject.ABUSE,
-            value = LikeValue.VALUE_1
+            value = LikeValue.ABUSE_COMMENT
         )
 }

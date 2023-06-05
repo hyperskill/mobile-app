@@ -42,12 +42,16 @@ final class StepViewDataMapper {
 
     private func mapCommentStatisticsEntryToViewData(
         _ commentStatisticsEntry: CommentStatisticsEntry
-    ) -> StepCommentStatisticViewData {
+    ) -> StepCommentStatisticViewData? {
+        guard let thread = commentStatisticsEntry.thread else {
+            return nil
+        }
+
         let title = self.commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(
-            thread: commentStatisticsEntry.thread,
+            thread: thread,
             count: commentStatisticsEntry.totalCount
         )
 
-        return StepCommentStatisticViewData(id: commentStatisticsEntry.thread?.name ?? title, title: title)
+        return StepCommentStatisticViewData(id: thread.name, title: title)
     }
 }

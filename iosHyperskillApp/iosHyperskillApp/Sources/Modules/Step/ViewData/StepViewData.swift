@@ -10,7 +10,7 @@ struct StepViewData {
 
     var text: String
 
-    let commentsStatistics: [StepCommentStatisticViewData]
+    let commentsStatistics: [StepCommentStatisticViewData?]
 }
 
 #if DEBUG
