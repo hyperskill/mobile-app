@@ -32,7 +32,6 @@ import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDeleg
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.progresses.domain.model.averageRating
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -152,7 +151,7 @@ class TrackFragment :
                     is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
                         val viewAction =
                             action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
-                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
+                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
                 }
         }
