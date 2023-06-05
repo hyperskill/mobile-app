@@ -1,0 +1,38 @@
+name: Merge main into develop
+
+on:
+  push:
+    tags:
+      - v**
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  merge:
+    name: Git Merge
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.5.2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - name: merge
+        run: |
+          set -e
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout develop
+          git merge --no-ff --no-edit origin/main
+          git push origin develop

@@ -2,6 +2,7 @@ package org.hyperskill.app.topics_to_discover_next.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.model.TopicProgress
 
@@ -75,7 +76,7 @@ object TopicsToDiscoverNextFeature {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         sealed interface ViewAction : Action {
-            data class ShowStepScreen(val stepId: Long) : ViewAction
+            data class ShowStepScreen(val stepRoute: StepRoute) : ViewAction
         }
     }
 }

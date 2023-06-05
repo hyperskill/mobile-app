@@ -221,7 +221,7 @@ class HomeFragment :
                     is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
                         val viewAction =
                             action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
-                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
+                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
                 }
             }

@@ -152,7 +152,7 @@ struct HomeView: View {
         case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
             switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
             case .showStepScreen(let data):
-                displayStep(stepRoute: StepRouteLearn(stepId: data.stepId))
+                displayStep(stepRoute: data.stepRoute)
             }
         case .problemsLimitViewAction:
             break

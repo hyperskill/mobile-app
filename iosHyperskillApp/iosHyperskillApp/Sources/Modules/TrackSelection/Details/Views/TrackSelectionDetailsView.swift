@@ -106,14 +106,14 @@ private extension TrackSelectionDetailsView {
         case .home(let navigateToHomeViewAction):
             switch navigateToHomeViewAction.command {
             case .backto:
+                stackRouter.popToRootViewController()
                 TabBarRouter(
                     tab: .home,
                     popToRoot: true
                 )
                 .route()
             case .newrootscreen:
-                // TODO: ALTAPPS-801 Handle this
-                break
+                viewModel.doNavigateToHomeAsNewRootScreenPresentation()
             default:
                 assertionFailure("Did receive unexpected command: \(navigateToHomeViewAction.command)")
             }
