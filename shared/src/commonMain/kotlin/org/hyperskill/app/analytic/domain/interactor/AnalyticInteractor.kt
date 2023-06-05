@@ -17,7 +17,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.Profile
@@ -62,10 +61,10 @@ class AnalyticInteractor(
                 return
             }
 
-            val currentProfile: Profile
             // Prevent multiple network calls when no cached profile
-            profileMutex.withLock {
-                currentProfile = getCurrentProfile()
+            val currentProfile: Profile = profileMutex.withLock {
+                profileInteractor
+                    .getCurrentProfile()
                     .getOrElse { return }
             }
 
@@ -95,16 +94,6 @@ class AnalyticInteractor(
                 .getOrDefault(false)
 
             hyperskillRepository.flushEvents(isAuthorized)
-        }
-    }
-
-    private suspend fun getCurrentProfile(): Result<Profile> {
-        val cachedCurrentProfile = profileInteractor
-            .getCurrentProfile(sourceType = DataSourceType.CACHE)
-        return if (cachedCurrentProfile.isSuccess) {
-            cachedCurrentProfile
-        } else {
-            profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
         }
     }
 }

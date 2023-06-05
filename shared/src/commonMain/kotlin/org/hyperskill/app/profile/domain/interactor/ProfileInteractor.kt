@@ -15,7 +15,9 @@ class ProfileInteractor(
     val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
 
     suspend fun getCurrentProfile(sourceType: DataSourceType = DataSourceType.CACHE): Result<Profile> =
-        profileRepository.getCurrentProfile(sourceType)
+        profileRepository.getState(
+            forceUpdate = sourceType == DataSourceType.REMOTE
+        )
 
     suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile> =
         profileRepository.selectTrackWithProject(profileId, trackId, projectId)
@@ -24,7 +26,7 @@ class ProfileInteractor(
         profileRepository.selectTrack(profileId, trackId)
 
     suspend fun clearCache() {
-        profileRepository.clearCache()
+        profileRepository.resetState()
     }
 
     fun observeHypercoinsBalance(): SharedFlow<Int> =

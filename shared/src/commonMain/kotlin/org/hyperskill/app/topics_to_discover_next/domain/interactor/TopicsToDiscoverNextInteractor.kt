@@ -2,7 +2,6 @@ package org.hyperskill.app.topics_to_discover_next.domain.interactor
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.profile.domain.model.isCurrentTrackCompleted
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
@@ -37,7 +36,7 @@ class TopicsToDiscoverNextInteractor(
         coroutineScope {
             kotlin.runCatching {
                 val currentProfile = profileRepository
-                    .getCurrentProfile(primarySourceType = DataSourceType.CACHE)
+                    .getState(forceUpdate = false)
                     .getOrThrow()
 
                 if (currentProfile.isCurrentTrackCompleted) {
