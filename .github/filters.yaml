@@ -4,3 +4,5 @@ shared:
   - 'shared/**'
 ios:
   - 'iosHyperskillApp/**'
+analytic:
+  - 'shared/**/analytic/**'
