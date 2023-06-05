@@ -9,39 +9,42 @@ interface StepCompletionFeature {
         fun createState(step: Step, stepRoute: StepRoute): State =
             State(
                 currentStep = step,
-                startPracticingAction = when (stepRoute) {
-                    is StepRoute.Learn.TheoryOpenedFromPractice, is StepRoute.Repeat.Theory ->
-                        StartPracticingAction.NavigateToBack
-                    is StepRoute.Learn.Step, is StepRoute.LearnDaily,
-                    is StepRoute.Repeat.Practice, is StepRoute.StageImplement ->
-                        StartPracticingAction.FetchNextStepQuiz
+                startPracticingButtonAction = when (stepRoute) {
+                    is StepRoute.Learn.TheoryOpenedFromPractice,
+                    is StepRoute.Repeat.Theory ->
+                        StartPracticingButtonAction.NavigateToBack
+                    is StepRoute.Learn.Step,
+                    is StepRoute.LearnDaily,
+                    is StepRoute.Repeat.Practice,
+                    is StepRoute.StageImplement ->
+                        StartPracticingButtonAction.FetchNextStepQuiz
                 },
-                continuePracticingAction = if (stepRoute is StepRoute.Learn) {
-                    ContinuePracticingAction.FetchNextStepQuiz
+                continueButtonAction = if (stepRoute is StepRoute.Learn) {
+                    ContinueButtonAction.FetchNextStepQuiz
                 } else {
-                    ContinuePracticingAction.NavigateToBack
+                    ContinueButtonAction.NavigateToBack
                 }
             )
     }
 
     data class State(
         val currentStep: Step,
-        val startPracticingAction: StartPracticingAction,
-        val continuePracticingAction: ContinuePracticingAction,
+        val startPracticingButtonAction: StartPracticingButtonAction,
+        val continueButtonAction: ContinueButtonAction,
         val isPracticingLoading: Boolean = false,
         val nextStepRoute: StepRoute? = null
     )
 
-    sealed interface StartPracticingAction {
-        object NavigateToBack : StartPracticingAction
-        object FetchNextStepQuiz : StartPracticingAction
+    sealed interface StartPracticingButtonAction {
+        object NavigateToBack : StartPracticingButtonAction
+        object FetchNextStepQuiz : StartPracticingButtonAction
     }
 
-    sealed interface ContinuePracticingAction {
-        object NavigateToHomeScreen : ContinuePracticingAction
-        object NavigateToBack : ContinuePracticingAction
-        object FetchNextStepQuiz : ContinuePracticingAction
-        object CheckTopicCompletion : ContinuePracticingAction
+    sealed interface ContinueButtonAction {
+        object NavigateToHomeScreen : ContinueButtonAction
+        object NavigateToBack : ContinueButtonAction
+        object FetchNextStepQuiz : ContinueButtonAction
+        object CheckTopicCompletion : ContinueButtonAction
     }
 
     sealed interface Message {

@@ -401,12 +401,14 @@ class StepQuizReducer(
                             StepRoute.Repeat.Theory(stepId = topicTheoryId)
                         is StepRoute.Learn.Step ->
                             StepRoute.Learn.TheoryOpenedFromPractice(stepId = topicTheoryId)
-                        is StepRoute.Learn.TheoryOpenedFromPractice, is StepRoute.LearnDaily,
-                        is StepRoute.Repeat.Theory, is StepRoute.StageImplement ->
+                        is StepRoute.Learn.TheoryOpenedFromPractice,
+                        is StepRoute.LearnDaily,
+                        is StepRoute.Repeat.Theory,
+                        is StepRoute.StageImplement ->
                             null
                     }?.let { targetStepRoute ->
                         add(Action.ViewAction.NavigateTo.StepScreen(targetStepRoute))
-                    }
+                    } ?: add(Action.ViewAction.ShowNetworkError)
                 }
             }
         } else {

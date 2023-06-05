@@ -8,7 +8,7 @@ import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.
 import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
-import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinuePracticingAction
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -22,18 +22,23 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                         route = stepRoute.analyticRoute
                     )
                     state.copy(
-                        isPracticingLoading =
-                        state.continuePracticingAction is ContinuePracticingAction.FetchNextStepQuiz ||
-                            state.continuePracticingAction is ContinuePracticingAction.CheckTopicCompletion
+                        isPracticingLoading = when (state.continueButtonAction) {
+                            is ContinueButtonAction.FetchNextStepQuiz,
+                            is ContinueButtonAction.CheckTopicCompletion ->
+                                true
+                            ContinueButtonAction.NavigateToBack,
+                            ContinueButtonAction.NavigateToHomeScreen ->
+                                false
+                        }
                     ) to setOf(
                         Action.LogAnalyticEvent(analyticEvent),
-                        when (state.continuePracticingAction) {
-                            ContinuePracticingAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
-                            ContinuePracticingAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
-                            ContinuePracticingAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(
+                        when (state.continueButtonAction) {
+                            ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
+                            ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
+                            ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(
                                 currentStep = state.currentStep
                             )
-                            ContinuePracticingAction.CheckTopicCompletion -> state.currentStep.topic?.let {
+                            ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
                                 Action.CheckTopicCompletionStatus(it)
                             } ?: Action.ViewAction.NavigateTo.Back
                         }
@@ -49,10 +54,10 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                                 route = stepRoute.analyticRoute
                             )
                         ),
-                        when (state.startPracticingAction) {
-                            StepCompletionFeature.StartPracticingAction.FetchNextStepQuiz ->
+                        when (state.startPracticingButtonAction) {
+                            StepCompletionFeature.StartPracticingButtonAction.FetchNextStepQuiz ->
                                 Action.FetchNextRecommendedStep(state.currentStep)
-                            StepCompletionFeature.StartPracticingAction.NavigateToBack ->
+                            StepCompletionFeature.StartPracticingButtonAction.NavigateToBack ->
                                 Action.ViewAction.NavigateTo.Back
                         }
                     )
@@ -67,7 +72,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             is Message.CheckTopicCompletionStatus.Completed ->
                 state.copy(
-                    continuePracticingAction = ContinuePracticingAction.NavigateToHomeScreen,
+                    continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
                     isPracticingLoading = false,
                     nextStepRoute = message.nextStepId?.let { StepRoute.Learn.Step(it) }
                 ) to setOf(
@@ -80,7 +85,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 state.copy(isPracticingLoading = false) to emptySet()
             is Message.CheckTopicCompletionStatus.Error ->
                 state.copy(
-                    continuePracticingAction = ContinuePracticingAction.CheckTopicCompletion,
+                    continueButtonAction = ContinueButtonAction.CheckTopicCompletion,
                     isPracticingLoading = false
                 ) to emptySet()
             is Message.TopicCompletedModalGoToHomeScreenClicked ->
