@@ -5,7 +5,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 
 /**
- * Represents a view analytic event.
+ * Represents a view analytic event. TEST
  *
  * JSON payload:
  * ```
