@@ -16,7 +16,6 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
@@ -78,7 +77,7 @@ class HomeActionDispatcher(
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val currentProfile = profileInteractor
-                    .getCurrentProfile(DataSourceType.REMOTE) // ALTAPPS-303: Get from remote to get relevant problem of the day
+                    .getCurrentProfile(forceLoadFromNetwork = true) // ALTAPPS-303: Get from remote to get relevant problem of the day
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         return onNewMessage(Message.HomeFailure)

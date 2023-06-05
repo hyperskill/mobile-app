@@ -3,7 +3,6 @@ package org.hyperskill.app.track_selection.details.presentation
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
@@ -79,7 +78,7 @@ class TrackSelectionDetailsActionDispatcher(
                 }
                 val profileDeferred = async {
                     profileInteractor
-                        .getCurrentProfile(DataSourceType.CACHE)
+                        .getCurrentProfile(forceLoadFromNetwork = false)
                         .getOrThrow()
                 }
                 FetchAdditionalInfoResult.Success(

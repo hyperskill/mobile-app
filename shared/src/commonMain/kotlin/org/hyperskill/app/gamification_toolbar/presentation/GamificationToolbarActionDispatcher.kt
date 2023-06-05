@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
@@ -84,7 +83,7 @@ class GamificationToolbarActionDispatcher(
 
                 val streakResult = async { streaksInteractor.getUserStreak(currentUserId) }
                 val profileResult = async {
-                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                    profileInteractor.getCurrentProfile(forceLoadFromNetwork = true)
                 }
                 val trackWithProgressDeferred = async {
                     fetchTrackWithProgressThroughStudyPlan(action.forceUpdate)

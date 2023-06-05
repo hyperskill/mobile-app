@@ -4,7 +4,6 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
@@ -45,12 +44,12 @@ class StepQuizActionDispatcher(
                     )
                 } else {
                     val cachedProfile = profileInteractor
-                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                        .getCurrentProfile(forceLoadFromNetwork = false)
                         .getOrElse { return@collect }
 
                     if (cachedProfile.dailyStep == solvedStepId) {
                         val currentProfileHypercoinsBalance = profileInteractor
-                            .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                            .getCurrentProfile(forceLoadFromNetwork = true)
                             .map { it.gamification.hypercoinsBalance }
                             .getOrElse { return@collect }
 
@@ -79,7 +78,7 @@ class StepQuizActionDispatcher(
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val currentProfile = profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                    .getCurrentProfile(forceLoadFromNetwork = false)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.FetchAttemptError(it))

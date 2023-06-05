@@ -4,7 +4,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
@@ -66,7 +65,7 @@ class ProfileActionDispatcher(
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val currentProfile = profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                    .getCurrentProfile(forceLoadFromNetwork = true)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         return onNewMessage(Message.ProfileFetchResult.Error)

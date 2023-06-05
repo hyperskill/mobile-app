@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
@@ -61,21 +60,21 @@ class AppActionDispatcher(
                 // TODO: Move this logic to reducer
                 val profileResult = if (isAuthorized) {
                     profileInteractor
-                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                        .getCurrentProfile(forceLoadFromNetwork = false)
                         .fold(
                             onSuccess = { profile ->
                                 // ALTAPPS-693:
                                 // If user is new, we need to fetch profile from remote to check if track selected
                                 if (profile.isNewUser) {
-                                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                                    profileInteractor.getCurrentProfile(forceLoadFromNetwork = true)
                                 } else {
                                     Result.success(profile)
                                 }
                             },
-                            onFailure = { profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE) }
+                            onFailure = { profileInteractor.getCurrentProfile(forceLoadFromNetwork = true) }
                         )
                 } else {
-                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                    profileInteractor.getCurrentProfile(forceLoadFromNetwork = true)
                 }
 
                 profileResult

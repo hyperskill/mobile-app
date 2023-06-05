@@ -6,7 +6,6 @@ import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -33,7 +32,7 @@ class AuthSocialActionDispatcher(
                         .fold(
                             onSuccess = {
                                 profileInteractor
-                                    .getCurrentProfile(DataSourceType.REMOTE)
+                                    .getCurrentProfile(forceLoadFromNetwork = true)
                                     .fold(
                                         onSuccess = {
                                             Message.AuthSuccess(

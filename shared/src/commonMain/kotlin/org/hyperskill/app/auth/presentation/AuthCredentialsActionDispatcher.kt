@@ -6,7 +6,6 @@ import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
@@ -36,7 +35,7 @@ class AuthCredentialsActionDispatcher(
                         .fold(
                             onSuccess = {
                                 profileInteractor
-                                    .getCurrentProfile(DataSourceType.REMOTE)
+                                    .getCurrentProfile(forceLoadFromNetwork = true)
                                     .fold(
                                         onSuccess = { Message.AuthSuccess(it) },
                                         onFailure = { Message.AuthFailure(AuthCredentialsError.CONNECTION_PROBLEM, it) }

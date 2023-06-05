@@ -2,7 +2,6 @@ package org.hyperskill.app.track.presentation
 
 import kotlinx.coroutines.async
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
@@ -33,7 +32,7 @@ class TrackActionDispatcher(
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 val trackId = profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                    .getCurrentProfile(forceLoadFromNetwork = false)
                     .map { it.trackId }
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
