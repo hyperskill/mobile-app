@@ -146,7 +146,7 @@ struct TrackView: View {
         case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
             switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
             case .showStepScreen(let data):
-                let assembly = StepAssembly(stepRoute: StepRouteLearn(stepId: data.stepId))
+                let assembly = StepAssembly(stepRoute: data.stepRoute)
                 stackRouter.pushViewController(assembly.makeModule())
             }
         }
