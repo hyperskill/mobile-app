@@ -5,7 +5,6 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.domain.model.copy
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
@@ -384,23 +383,33 @@ class StepQuizReducer(
         if (state.stepQuizState is StepQuizState.AttemptLoaded &&
             state.stepQuizState.isTheoryAvailable
         ) {
-            val topicTheoryId = state.stepQuizState.step.topicTheory
+            state to buildSet {
+                val topicTheoryId = state.stepQuizState.step.topicTheory
 
-            val analyticEventAction = Action.LogAnalyticEvent(
-                StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent(
-                    stepRoute.analyticRoute,
-                    topicTheoryId
+                add(
+                    Action.LogAnalyticEvent(
+                        StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent(
+                            stepRoute.analyticRoute,
+                            topicTheoryId
+                        )
+                    )
                 )
-            )
 
-            if (topicTheoryId != null) {
-                val targetStepRoute = stepRoute.copy(stepId = topicTheoryId)
-                state to setOf(
-                    analyticEventAction,
-                    Action.ViewAction.NavigateTo.StepScreen(targetStepRoute)
-                )
-            } else {
-                state to setOf(analyticEventAction)
+                if (topicTheoryId != null) {
+                    when (stepRoute) {
+                        is StepRoute.Repeat.Practice ->
+                            StepRoute.Repeat.Theory(stepId = topicTheoryId)
+                        is StepRoute.Learn.Step ->
+                            StepRoute.Learn.TheoryOpenedFromPractice(stepId = topicTheoryId)
+                        is StepRoute.Learn.TheoryOpenedFromPractice,
+                        is StepRoute.LearnDaily,
+                        is StepRoute.Repeat.Theory,
+                        is StepRoute.StageImplement ->
+                            null
+                    }?.let { targetStepRoute ->
+                        add(Action.ViewAction.NavigateTo.StepScreen(targetStepRoute))
+                    } ?: add(Action.ViewAction.ShowNetworkError)
+                }
             }
         } else {
             state to emptySet()
