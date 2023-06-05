@@ -21,7 +21,6 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -112,7 +111,6 @@ interface AppGraph {
     fun buildHomeComponent(): HomeComponent
     fun buildNotificationComponent(): NotificationComponent
     fun buildOnboardingComponent(): OnboardingComponent
-    fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
     fun buildStreaksDataComponent(): StreaksDataComponent

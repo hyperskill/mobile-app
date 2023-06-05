@@ -43,8 +43,6 @@ import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
 import org.hyperskill.app.notification.injection.NotificationFlowDataComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -244,9 +242,6 @@ class AppGraphImpl(
 
     override fun buildOnboardingComponent(): OnboardingComponent =
         OnboardingComponentImpl(this)
-
-    override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
-        PlaceholderNewUserComponentImpl(this)
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)

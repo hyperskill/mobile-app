@@ -29,7 +29,7 @@ struct ProjectSelectionDetailsSkeletonView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
             ProjectSelectionDetailsSkeletonView()
-                .navigationTitle(Strings.TrackSelectionList.title)
+                .navigationTitle(Strings.TrackSelectionList.navigationTitle)
         }
     }
 }

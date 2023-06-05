@@ -23,7 +23,7 @@ class AppReducer : StateReducer<State, Message, Action> {
             is Message.UserAuthorized ->
                 if (state is State.Ready && !state.isAuthorized) {
                     val navigateToViewAction = if (message.profile.isNewUser) {
-                        Action.ViewAction.NavigateTo.NewUserScreen
+                        Action.ViewAction.NavigateTo.TrackSelectionScreen
                     } else {
                         Action.ViewAction.NavigateTo.HomeScreen
                     }
@@ -38,8 +38,10 @@ class AppReducer : StateReducer<State, Message, Action> {
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
-                        UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE -> Action.ViewAction.NavigateTo.OnboardingScreen
-                        UserDeauthorized.Reason.SIGN_OUT -> Action.ViewAction.NavigateTo.AuthScreen()
+                        UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE ->
+                            Action.ViewAction.NavigateTo.OnboardingScreen
+                        UserDeauthorized.Reason.SIGN_OUT ->
+                            Action.ViewAction.NavigateTo.AuthScreen()
                     }
 
                     State.Ready(isAuthorized = false) to setOf(Action.ClearUserInSentry, navigateToViewAction)
@@ -58,7 +60,7 @@ class AppReducer : StateReducer<State, Message, Action> {
                     val navigateToViewAction =
                         if (isAuthorized) {
                             if (message.profile.isNewUser) {
-                                Action.ViewAction.NavigateTo.NewUserScreen
+                                Action.ViewAction.NavigateTo.TrackSelectionScreen
                             } else {
                                 Action.ViewAction.NavigateTo.HomeScreen
                             }
@@ -79,6 +81,6 @@ class AppReducer : StateReducer<State, Message, Action> {
             is Message.OpenAuthScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
-                state to setOf(Action.ViewAction.NavigateTo.NewUserScreen)
+                state to setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
         } ?: (state to emptySet())
 }
