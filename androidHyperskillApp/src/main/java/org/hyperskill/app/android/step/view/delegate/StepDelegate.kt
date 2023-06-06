@@ -34,7 +34,7 @@ object StepDelegate {
                     }
 
                     StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                        fragment.requireRouter().backTo(MainScreen)
+                        fragment.requireRouter().backTo(MainScreen())
                         mainScreenRouter.switch(HomeScreen)
                     }
 

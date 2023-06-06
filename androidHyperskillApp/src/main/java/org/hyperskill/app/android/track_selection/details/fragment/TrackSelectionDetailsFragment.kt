@@ -113,17 +113,17 @@ class TrackSelectionDetailsFragment :
     override fun onAction(action: ViewAction) {
         when (action) {
             ViewAction.NavigateTo.StudyPlan -> {
-                requireRouter().backTo(MainScreen)
+                requireRouter().backTo(MainScreen())
                 mainScreenRouter.switch(StudyPlanScreen)
             }
             is ViewAction.NavigateTo.Home -> {
                 when (action.command) {
                     ViewAction.NavigateTo.Home.NavigationCommand.BackTo -> {
-                        requireRouter().backTo(MainScreen)
+                        requireRouter().backTo(MainScreen())
                         mainScreenRouter.switch(HomeScreen)
                     }
                     ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen ->
-                        requireRouter().newRootScreen(MainScreen)
+                        requireRouter().newRootScreen(MainScreen())
                 }
             }
             is ViewAction.NavigateTo.ProjectSelectionList ->

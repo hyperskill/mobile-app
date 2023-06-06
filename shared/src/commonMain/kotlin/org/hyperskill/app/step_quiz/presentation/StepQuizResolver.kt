@@ -108,12 +108,14 @@ object StepQuizResolver {
 
     internal fun isTheoryAvailable(stepRoute: StepRoute, step: Step): Boolean =
         when (stepRoute) {
-            is StepRoute.Learn,
-            is StepRoute.Repeat -> {
+            is StepRoute.Learn.Step,
+            is StepRoute.Repeat.Practice -> {
                 step.topicTheory != null
             }
             is StepRoute.LearnDaily,
-            is StepRoute.StageImplement -> {
+            is StepRoute.StageImplement,
+            is StepRoute.Learn.TheoryOpenedFromPractice,
+            is StepRoute.Repeat.Theory -> {
                 false
             }
         }

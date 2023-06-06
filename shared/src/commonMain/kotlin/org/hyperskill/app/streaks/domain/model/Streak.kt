@@ -8,8 +8,6 @@ import kotlinx.serialization.Serializable
 data class Streak(
     @SerialName("user_id")
     val userId: Long,
-    @SerialName("kind")
-    val kind: String,
     @SerialName("current_streak")
     val currentStreak: Int,
     @SerialName("max_streak")

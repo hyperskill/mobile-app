@@ -1,5 +1,6 @@
 package org.hyperskill.app.topics_to_discover_next.presentation
 
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.topicId
 import org.hyperskill.app.topics_to_discover_next.domain.analytic.TopicsToDiscoverNextClickedHyperskillAnalyticEvent
 import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
@@ -71,7 +72,7 @@ class TopicsToDiscoverNextReducer(
 
                 if (targetTopic?.theoryId != null) {
                     state to setOf(
-                        Action.ViewAction.ShowStepScreen(targetTopic.theoryId),
+                        Action.ViewAction.ShowStepScreen(StepRoute.Learn.Step(targetTopic.theoryId)),
                         Action.LogAnalyticEvent(
                             TopicsToDiscoverNextClickedHyperskillAnalyticEvent(
                                 analyticRoute = screen.analyticRoute,

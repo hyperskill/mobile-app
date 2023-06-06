@@ -9,23 +9,25 @@ import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.FragmentMainBinding
-import org.hyperskill.app.android.debug.DebugScreen
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
-import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
-import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.main.domain.analytic.AppClickedBottomNavigationItemHyperskillAnalyticEvent
+import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.navigation.navigator.RetainedAppNavigator
 import ru.nobird.android.view.navigation.ui.fragment.addBackNavigationDelegate
 
 class MainFragment : Fragment(R.layout.fragment_main) {
     companion object {
-        fun newInstance(): Fragment =
-            MainFragment()
+        fun newInstance(initialTab: Tabs): Fragment =
+            MainFragment().apply {
+                this.initialTab = initialTab
+            }
     }
+
+    private var initialTab: Tabs by argument()
 
     private val viewBinding: FragmentMainBinding by viewBinding(FragmentMainBinding::bind)
 
@@ -73,7 +75,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null && childFragmentManager.fragments.isEmpty()) {
-            localCicerone.router.switch(HomeScreen)
+            localCicerone.router.switch(initialTab)
         }
 
         viewBinding.mainBottomNavigation.menu.findItem(R.id.debug_tab).isVisible =
@@ -92,16 +94,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
             when (item.itemId) {
                 R.id.home_tab -> {
-                    localCicerone.router.switch(HomeScreen)
+                    localCicerone.router.switch(Tabs.HOME)
                 }
                 R.id.profile_tab -> {
-                    localCicerone.router.switch(ProfileScreen(isInitCurrent = true))
+                    localCicerone.router.switch(Tabs.PROFILE)
                 }
                 R.id.debug_tab -> {
-                    localCicerone.router.switch(DebugScreen)
+                    localCicerone.router.switch(Tabs.DEBUG)
                 }
                 R.id.study_plan_tab -> {
-                    localCicerone.router.switch(StudyPlanScreen)
+                    localCicerone.router.switch(Tabs.STUDY_PLAN)
                 }
             }
             return@setOnItemSelectedListener true

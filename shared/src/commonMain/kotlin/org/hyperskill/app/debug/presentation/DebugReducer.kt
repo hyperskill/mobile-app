@@ -47,7 +47,7 @@ internal class DebugReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     val stepId = state.navigationInput.stepId.toLongOrNull()
                     if (stepId != null) {
-                        state to setOf(Action.ViewAction.OpenStep(StepRoute.Learn(stepId)))
+                        state to setOf(Action.ViewAction.OpenStep(StepRoute.Learn.Step(stepId)))
                     } else {
                         null
                     }
