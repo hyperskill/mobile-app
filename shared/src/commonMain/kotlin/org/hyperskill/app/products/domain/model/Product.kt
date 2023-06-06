@@ -8,7 +8,5 @@ data class Product(
     @SerialName("id")
     val id: Long,
     @SerialName("price")
-    val price: Int,
-    @SerialName("count")
-    val count: Int
+    val price: Int
 )
