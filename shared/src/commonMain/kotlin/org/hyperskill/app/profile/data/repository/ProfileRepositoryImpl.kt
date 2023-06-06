@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.data.repository
 
+import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.core.data.repository.BaseStateRepository
 import org.hyperskill.app.profile.data.source.CurrentProfileStateHolder
 import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
@@ -8,7 +9,8 @@ import org.hyperskill.app.profile.domain.repository.ProfileRepository
 
 class ProfileRepositoryImpl(
     private val profileRemoteDataSource: ProfileRemoteDataSource,
-    override val stateHolder: CurrentProfileStateHolder
+    override val stateHolder: CurrentProfileStateHolder,
+    override val mutableSharedFlow: MutableSharedFlow<Profile>
 ) : ProfileRepository, BaseStateRepository<Profile>() {
     override suspend fun loadState(): Result<Profile> =
         profileRemoteDataSource.getCurrentProfile()
