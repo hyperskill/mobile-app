@@ -70,8 +70,8 @@ class ProfileActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildProfileScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(forceLoadFromNetwork = true)
+                val currentProfile = currentProfileStateRepository
+                    .getState(forceUpdate = true)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         return onNewMessage(Message.ProfileFetchResult.Error)

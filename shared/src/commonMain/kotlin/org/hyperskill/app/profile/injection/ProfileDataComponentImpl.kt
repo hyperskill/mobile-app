@@ -46,7 +46,6 @@ class ProfileDataComponentImpl(private val appGraph: AppGraph) : ProfileDataComp
     override val profileInteractor: ProfileInteractor
         get() = ProfileInteractor(
             profileRepository,
-            currentProfileStateRepository,
             appGraph.submissionDataComponent.submissionRepository
         )
 }

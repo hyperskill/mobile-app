@@ -3,7 +3,7 @@ package org.hyperskill.app.project_selection.list.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListActionDispatcher
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
@@ -27,7 +27,7 @@ internal object ProjectSelectionListFeatureBuilder {
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         projectsRepository: ProjectsRepository,
         progressesRepository: ProgressesRepository,
-        profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         viewStateMapper: ProjectSelectionListViewStateMapper,
         sentryInteractor: SentryInteractor,
         analyticInteractor: AnalyticInteractor
@@ -38,7 +38,7 @@ internal object ProjectSelectionListFeatureBuilder {
             currentStudyPlanStateRepository = currentStudyPlanStateRepository,
             projectsRepository = projectsRepository,
             progressesRepository = progressesRepository,
-            profileInteractor = profileInteractor,
+            currentProfileStateRepository = currentProfileStateRepository,
             sentryInteractor = sentryInteractor,
             analyticInteractor = analyticInteractor
         )

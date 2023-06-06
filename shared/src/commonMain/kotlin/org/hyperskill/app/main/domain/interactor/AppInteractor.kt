@@ -11,7 +11,7 @@ import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 
 class AppInteractor(
     private val authInteractor: AuthInteractor,
-    private val currentProfileRepository: CurrentProfileStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val userStorageInteractor: UserStorageInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val progressesRepository: ProgressesRepository,
@@ -27,7 +27,7 @@ class AppInteractor(
     // TODO: define more flexible & scalable way to clear cache
     private suspend fun clearCache() {
         authInteractor.clearCache()
-        currentProfileRepository.resetState()
+        currentProfileStateRepository.resetState()
         userStorageInteractor.clearCache()
         progressesRepository.clearCache()
         trackRepository.clearCache()

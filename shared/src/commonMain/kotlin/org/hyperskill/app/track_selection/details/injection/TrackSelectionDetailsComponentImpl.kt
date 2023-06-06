@@ -11,15 +11,18 @@ class TrackSelectionDetailsComponentImpl(
 ) : TrackSelectionDetailsComponent {
     override fun trackSelectionDetailsFeature(
         trackSelectionDetailsParams: TrackSelectionDetailsParams
-    ): Feature<ViewState, Message, Action> =
-        TrackSelectionDetailsFeatureBuilder.build(
+    ): Feature<ViewState, Message, Action> {
+        val profileComponent = appGraph.buildProfileDataComponent()
+        return TrackSelectionDetailsFeatureBuilder.build(
             trackSelectionDetailsParams,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             dateFormatter = appGraph.commonComponent.dateFormatter,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             providersRepository = appGraph.buildProvidersDataComponent().providersRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
-            profileInteractor = appGraph.buildProfileDataComponent().profileInteractor,
+            profileInteractor = profileComponent.profileInteractor,
+            currentProfileStateRepository = profileComponent.currentProfileStateRepository,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
+    }
 }

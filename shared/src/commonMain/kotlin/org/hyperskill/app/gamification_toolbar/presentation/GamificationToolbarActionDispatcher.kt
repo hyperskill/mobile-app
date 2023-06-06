@@ -75,8 +75,8 @@ class GamificationToolbarActionDispatcher(
                 val sentryTransaction = action.screen.fetchContentSentryTransaction
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentUserId = profileInteractor
-                    .getCurrentProfile()
+                val currentUserId = currentProfileStateRepository
+                    .getState()
                     .map { it.id }
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)

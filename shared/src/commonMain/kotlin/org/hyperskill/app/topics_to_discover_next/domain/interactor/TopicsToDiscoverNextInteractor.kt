@@ -11,7 +11,7 @@ import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 
 class TopicsToDiscoverNextInteractor(
-    private val currentProfileRepository: CurrentProfileStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val learningActivitiesRepository: LearningActivitiesRepository,
     private val topicsRepository: TopicsRepository,
     private val progressesRepository: ProgressesRepository,
@@ -35,7 +35,7 @@ class TopicsToDiscoverNextInteractor(
     suspend fun getTopicsToDiscoverNext(): Result<List<Topic>> =
         coroutineScope {
             kotlin.runCatching {
-                val currentProfile = currentProfileRepository
+                val currentProfile = currentProfileStateRepository
                     .getState(forceUpdate = false)
                     .getOrThrow()
 

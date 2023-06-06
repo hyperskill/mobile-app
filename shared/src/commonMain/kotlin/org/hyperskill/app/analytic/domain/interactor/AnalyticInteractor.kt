@@ -18,12 +18,12 @@ import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProce
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 
 class AnalyticInteractor(
     private val authInteractor: AuthInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val notificationInteractor: NotificationInteractor,
     private val hyperskillRepository: AnalyticHyperskillRepository,
     private val hyperskillEventProcessor: AnalyticHyperskillEventProcessor,
@@ -63,8 +63,8 @@ class AnalyticInteractor(
 
             // Prevent multiple network calls when no cached profile
             val currentProfile: Profile = profileMutex.withLock {
-                profileInteractor
-                    .getCurrentProfile()
+                currentProfileStateRepository
+                    .getState()
                     .getOrElse { return }
             }
 

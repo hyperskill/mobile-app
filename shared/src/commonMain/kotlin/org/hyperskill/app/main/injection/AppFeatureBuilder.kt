@@ -9,7 +9,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -20,7 +20,7 @@ object AppFeatureBuilder {
         initialState: State?,
         appInteractor: AppInteractor,
         authInteractor: AuthInteractor,
-        profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         sentryInteractor: SentryInteractor,
         stateRepositoriesComponent: StateRepositoriesComponent
     ): Feature<State, Message, Action> {
@@ -29,7 +29,7 @@ object AppFeatureBuilder {
             ActionDispatcherOptions(),
             appInteractor,
             authInteractor,
-            profileInteractor,
+            currentProfileStateRepository,
             sentryInteractor,
             stateRepositoriesComponent
         )

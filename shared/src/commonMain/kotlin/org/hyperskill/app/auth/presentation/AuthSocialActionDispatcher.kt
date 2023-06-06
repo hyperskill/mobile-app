@@ -7,7 +7,7 @@ import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -15,7 +15,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class AuthSocialActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private var sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -31,8 +31,8 @@ class AuthSocialActionDispatcher(
                     result
                         .fold(
                             onSuccess = {
-                                profileInteractor
-                                    .getCurrentProfile(forceLoadFromNetwork = true)
+                                currentProfileStateRepository
+                                    .getState(forceUpdate = true)
                                     .fold(
                                         onSuccess = {
                                             Message.AuthSuccess(

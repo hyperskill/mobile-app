@@ -6,6 +6,7 @@ import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
@@ -29,6 +30,7 @@ object TrackSelectionDetailsFeatureBuilder {
         providersRepository: ProvidersRepository,
         sentryInteractor: SentryInteractor,
         profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         analyticInteractor: AnalyticInteractor
     ): Feature<ViewState, Message, Action> {
         val reducer = TrackSelectionDetailsReducer()
@@ -38,6 +40,7 @@ object TrackSelectionDetailsFeatureBuilder {
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             sentryInteractor = sentryInteractor,
             profileInteractor = profileInteractor,
+            currentProfileStateRepository = currentProfileStateRepository,
             analyticInteractor = analyticInteractor
         )
         val viewStateMapper = TrackSelectionDetailsViewStateMapper(

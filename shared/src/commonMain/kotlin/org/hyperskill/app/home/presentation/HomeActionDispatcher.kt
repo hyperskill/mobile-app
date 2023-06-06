@@ -24,7 +24,7 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.interactor.StepInteractor
@@ -35,7 +35,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class HomeActionDispatcher(
     config: ActionDispatcherOptions,
     homeInteractor: HomeInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
     private val freemiumInteractor: FreemiumInteractor,
@@ -76,8 +76,8 @@ class HomeActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildHomeScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(forceLoadFromNetwork = true) // ALTAPPS-303: Get from remote to get relevant problem of the day
+                val currentProfile = currentProfileStateRepository
+                    .getState(forceUpdate = true) // ALTAPPS-303: Get from remote to get relevant problem of the day
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         return onNewMessage(Message.HomeFailure)
