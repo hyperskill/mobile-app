@@ -293,7 +293,7 @@ abstract class DefaultStepQuizFragment :
                 requireRouter().exit()
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> {
-                requireRouter().backTo(MainScreen)
+                requireRouter().backTo(MainScreen())
                 mainScreenRouter.switch(HomeScreen)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
