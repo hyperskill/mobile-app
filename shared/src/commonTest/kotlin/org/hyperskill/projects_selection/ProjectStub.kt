@@ -11,7 +11,6 @@ fun Project.Companion.stub(
     Project(
         id = id,
         title = "",
-        isDeprecated = false,
         progressId = "",
         tracks = tracks,
         isIdeRequired = false,

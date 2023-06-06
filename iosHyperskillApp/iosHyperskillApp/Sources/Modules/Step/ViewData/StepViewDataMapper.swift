@@ -19,7 +19,7 @@ final class StepViewDataMapper {
     func mapStepToViewData(_ step: Step) -> StepViewData {
         let formattedTimeToComplete = self.mapTimeToComplete(seconds: step.secondsToComplete?.floatValue ?? 60)
 
-        let commentsStatistics = step.commentsStatistics.map(self.mapCommentStatisticsEntryToViewData(_:))
+        let commentsStatistics = step.commentsStatistics.compactMap(self.mapCommentStatisticsEntryToViewData(_:))
 
         return StepViewData(
             title: step.title,
@@ -42,12 +42,16 @@ final class StepViewDataMapper {
 
     private func mapCommentStatisticsEntryToViewData(
         _ commentStatisticsEntry: CommentStatisticsEntry
-    ) -> StepCommentStatisticViewData {
+    ) -> StepCommentStatisticViewData? {
+        guard let thread = commentStatisticsEntry.thread else {
+            return nil
+        }
+
         let title = self.commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(
-            thread: commentStatisticsEntry.thread,
+            thread: thread,
             count: commentStatisticsEntry.totalCount
         )
 
-        return StepCommentStatisticViewData(id: commentStatisticsEntry.thread.name, title: title)
+        return StepCommentStatisticViewData(id: thread.name, title: title)
     }
 }

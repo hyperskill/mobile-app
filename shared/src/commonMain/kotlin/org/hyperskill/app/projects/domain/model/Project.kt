@@ -9,8 +9,6 @@ data class Project(
     val id: Long,
     @SerialName("title")
     val title: String,
-    @SerialName("is_deprecated")
-    val isDeprecated: Boolean = false,
     @SerialName("progress_id")
     val progressId: String,
     @SerialName("tracks")

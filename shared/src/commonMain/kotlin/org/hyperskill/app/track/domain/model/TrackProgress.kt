@@ -17,8 +17,6 @@ data class TrackProgress(
     override val funMeasure: Float?,
     @SerialName("usefulness")
     override val usefulness: Float?,
-    @SerialName("completed_projects")
-    val completedProjects: List<Long>,
     @SerialName("completed_capstone_projects")
     val completedCapstoneProjects: List<Long>,
     @SerialName("applied_capstone_topics_count")

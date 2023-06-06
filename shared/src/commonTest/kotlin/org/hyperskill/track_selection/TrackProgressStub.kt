@@ -15,7 +15,6 @@ fun TrackProgress.Companion.stub(
         clarity = clarity,
         funMeasure = funMeasure,
         usefulness = usefulness,
-        completedProjects = emptyList(),
         completedCapstoneProjects = emptyList(),
         appliedCapstoneTopicsCount = 0,
         learnedTopicsCount = 0,

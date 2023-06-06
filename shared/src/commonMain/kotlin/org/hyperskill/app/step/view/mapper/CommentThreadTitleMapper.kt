@@ -17,7 +17,6 @@ class CommentThreadTitleMapper(
                 resourceProvider.getString(SharedResources.strings.step_comment_thread_type_hint_text)
             CommentThread.USEFUL_LINK ->
                 resourceProvider.getString(SharedResources.strings.step_comment_thread_type_useful_link_text)
-            else -> thread.name
         }
 
         return resourceProvider.getString(

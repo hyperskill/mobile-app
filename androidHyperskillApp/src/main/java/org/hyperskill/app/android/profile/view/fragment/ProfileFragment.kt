@@ -342,12 +342,7 @@ class ProfileFragment :
         with(viewBinding.profileFooterLayout) {
             if (profile.country != null) {
                 profileAboutLivesTextView.text =
-                    "${resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${
-                    Locale(
-                        Locale.ENGLISH.language,
-                        profile.country!!
-                    ).displayCountry
-                    }"
+                    "${resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${profile.country!!}"
             } else {
                 profileAboutLivesTextView.visibility = View.GONE
             }

@@ -9,8 +9,6 @@ data class CommentAuthor(
     val id: Long,
     @SerialName("avatar")
     val avatar: String,
-    @SerialName("badge_title")
-    val badgeTitle: String,
     @SerialName("fullname")
     val fullName: String,
 )
