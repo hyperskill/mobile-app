@@ -2,7 +2,7 @@ package org.hyperskill.app.profile.domain.repository
 
 import org.hyperskill.app.profile.domain.model.Profile
 
-interface ProfileRepository : CurrentProfileStateRepository {
+interface ProfileRepository {
     suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile>
     suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile>
 }

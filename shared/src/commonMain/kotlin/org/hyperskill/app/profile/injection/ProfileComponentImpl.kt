@@ -8,7 +8,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
     override val profileFeature: Feature<ProfileFeature.State, ProfileFeature.Message, ProfileFeature.Action>
         get() = ProfileFeatureBuilder.build(
             appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.buildProfileDataComponent().profileRepository,
+            appGraph.buildProfileDataComponent().currentProfileStateRepository,
             appGraph.buildStreaksDataComponent().streaksInteractor,
             appGraph.buildProductsDataComponent().productsInteractor,
             appGraph.analyticComponent.analyticInteractor,

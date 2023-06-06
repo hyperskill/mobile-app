@@ -4,14 +4,14 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.profile.domain.model.isCurrentTrackCompleted
-import org.hyperskill.app.profile.domain.repository.ProfileRepository
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 
 class TopicsToDiscoverNextInteractor(
-    private val profileRepository: ProfileRepository,
+    private val currentProfileRepository: CurrentProfileStateRepository,
     private val learningActivitiesRepository: LearningActivitiesRepository,
     private val topicsRepository: TopicsRepository,
     private val progressesRepository: ProgressesRepository,
@@ -35,7 +35,7 @@ class TopicsToDiscoverNextInteractor(
     suspend fun getTopicsToDiscoverNext(): Result<List<Topic>> =
         coroutineScope {
             kotlin.runCatching {
-                val currentProfile = profileRepository
+                val currentProfile = currentProfileRepository
                     .getState(forceUpdate = false)
                     .getOrThrow()
 

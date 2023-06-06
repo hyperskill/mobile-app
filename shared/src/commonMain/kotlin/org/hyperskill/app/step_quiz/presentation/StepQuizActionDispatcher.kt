@@ -10,7 +10,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.notification.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
-import org.hyperskill.app.profile.domain.repository.ProfileRepository
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -27,7 +27,7 @@ class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
-    private val profileRepository: ProfileRepository,
+    private val currentProfileRepository: CurrentProfileStateRepository,
     private val notificationInteractor: NotificationInteractor,
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
@@ -43,12 +43,12 @@ class StepQuizActionDispatcher(
                     Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS)
                 )
             } else {
-                val cachedProfile = profileRepository
+                val cachedProfile = currentProfileRepository
                     .getState(forceUpdate = false)
                     .getOrElse { return@onEach }
 
                 if (cachedProfile.dailyStep == solvedStepId) {
-                    val currentProfileHypercoinsBalance = profileRepository
+                    val currentProfileHypercoinsBalance = currentProfileRepository
                         .getState(forceUpdate = true)
                         .map { it.gamification.hypercoinsBalance }
                         .getOrElse { return@onEach }
@@ -74,7 +74,7 @@ class StepQuizActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentProfile = profileRepository
+                val currentProfile = currentProfileRepository
                     .getState(forceUpdate = false)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)

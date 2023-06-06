@@ -6,7 +6,7 @@ import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDisc
 class TopicsToDiscoverNextDataComponentImpl(private val appGraph: AppGraph) : TopicsToDiscoverNextDataComponent {
     override val topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor
         get() = TopicsToDiscoverNextInteractor(
-            appGraph.buildProfileDataComponent().profileRepository,
+            appGraph.buildProfileDataComponent().currentProfileStateRepository,
             appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
             appGraph.buildTopicsDataComponent().topicsRepository,
             appGraph.buildProgressesDataComponent().progressesRepository,

@@ -3,6 +3,7 @@ package org.hyperskill.app.project_selection.details.domain.interactor
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature
@@ -16,7 +17,8 @@ internal class ProjectSelectionDetailsInteractor(
     private val projectsRepository: ProjectsRepository,
     private val progressesRepository: ProgressesRepository,
     private val providersRepository: ProvidersRepository,
-    private val profileRepository: ProfileRepository
+    private val profileRepository: ProfileRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository
 ) {
     suspend fun getContentData(
         trackId: Long,
@@ -59,7 +61,7 @@ internal class ProjectSelectionDetailsInteractor(
 
     suspend fun selectProject(trackId: Long, projectId: Long): Result<Profile> =
         kotlin.runCatching {
-            val currentProfile = profileRepository
+            val currentProfile = currentProfileStateRepository
                 .getState(forceUpdate = false)
                 .getOrThrow()
 
