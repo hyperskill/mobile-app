@@ -56,7 +56,10 @@ final class SentryManager: shared.SentryManager {
         }
         // Start app initialization transaction
         DispatchQueue.main.async {
-            self.startTransaction(transaction: HyperskillSentryTransactionBuilder.shared.buildAppInitialization())
+            let transaction = HyperskillSentryTransactionBuilder.shared.buildAppInitialization(
+                isAuthorized: UserDefaults.standard.isCurrentUserAuthorized
+            )
+            self.startTransaction(transaction: transaction)
         }
     }
 
@@ -145,7 +148,10 @@ final class SentryManager: shared.SentryManager {
 
 private extension SentryManager {
     func getAppInitializationTransaction() -> PlatformHyperskillSentryTransaction? {
-        let key = mapTransactionToKey(HyperskillSentryTransactionBuilder.shared.buildAppInitialization())
+        let transaction = HyperskillSentryTransactionBuilder.shared.buildAppInitialization(
+            isAuthorized: UserDefaults.standard.isCurrentUserAuthorized
+        )
+        let key = mapTransactionToKey(transaction)
         return currentTransactionsDict[key]
     }
 
@@ -169,7 +175,9 @@ private extension SentryManager {
         isAppInitializationTransactionFinished = true
 
         finishTransaction(
-            transaction: HyperskillSentryTransactionBuilder.shared.buildAppInitialization(),
+            transaction: HyperskillSentryTransactionBuilder.shared.buildAppInitialization(
+                isAuthorized: UserDefaults.standard.isCurrentUserAuthorized
+            ),
             throwable: nil
         )
     }
@@ -177,4 +185,10 @@ private extension SentryManager {
 
 private extension HyperskillSentryTransaction {
     var isAppScreenRemoteDataLoading: Bool { name == "app-feature-remote-data-loading" }
+}
+
+private extension UserDefaults {
+    var isCurrentUserAuthorized: Bool {
+        UserDefaults.standard.string(forKey: AuthCacheKeyValues.shared.AUTH_RESPONSE) != nil
+    }
 }
