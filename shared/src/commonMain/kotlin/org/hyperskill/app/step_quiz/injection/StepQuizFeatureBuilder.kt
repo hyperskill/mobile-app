@@ -8,7 +8,7 @@ import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -29,7 +29,7 @@ object StepQuizFeatureBuilder {
         problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         stepQuizInteractor: StepQuizInteractor,
         stepQuizReplyValidator: StepQuizReplyValidator,
-        profileInteractor: ProfileInteractor,
+        profileRepository: ProfileRepository,
         notificationInteractor: NotificationInteractor,
         freemiumInteractor: FreemiumInteractor,
         analyticInteractor: AnalyticInteractor,
@@ -41,7 +41,7 @@ object StepQuizFeatureBuilder {
             ActionDispatcherOptions(),
             stepQuizInteractor,
             stepQuizReplyValidator,
-            profileInteractor,
+            profileRepository,
             notificationInteractor,
             freemiumInteractor,
             analyticInteractor,

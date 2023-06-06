@@ -4,6 +4,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
@@ -12,6 +13,8 @@ import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.model.copy
+import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -24,6 +27,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
+    private val profileRepository: ProfileRepository,
     private val streaksInteractor: StreaksInteractor,
     private val productsInteractor: ProductsInteractor,
     private val analyticInteractor: AnalyticInteractor,
@@ -39,9 +43,9 @@ class ProfileActionDispatcher(
             .onEach { onNewMessage(Message.StepQuizSolved) }
             .launchIn(actionScope)
 
-        profileInteractor.observeHypercoinsBalance()
-            .onEach { hypercoinsBalance ->
-                onNewMessage(Message.HypercoinsBalanceChanged(hypercoinsBalance))
+        profileInteractor.observeProfile()
+            .onEach { profile ->
+                onNewMessage(Message.ProfileChanged(profile))
             }
             .launchIn(actionScope)
 
@@ -102,12 +106,11 @@ class ProfileActionDispatcher(
                         return onNewMessage(Message.BuyStreakFreezeResult.Error)
                     }
 
-                profileInteractor
-                    .getCurrentProfile()
-                    .getOrNull()
-                    ?.gamification?.hypercoinsBalance?.let { oldBalance ->
-                        profileInteractor.notifyHypercoinsBalanceChanged(oldBalance - action.streakFreezePrice)
-                    }
+                profileRepository.updateState { currentProfile ->
+                    currentProfile.copy(
+                        hypercoinsBalance = currentProfile.gamification.hypercoinsBalance - action.streakFreezePrice
+                    )
+                }
 
                 onNewMessage(Message.BuyStreakFreezeResult.Success)
             }

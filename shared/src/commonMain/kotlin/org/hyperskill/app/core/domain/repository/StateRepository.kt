@@ -39,3 +39,11 @@ interface StateRepository<State : Any> {
      */
     suspend fun resetState()
 }
+
+suspend fun <State : Any> StateRepository<State>.updateState(block: (State) -> State) {
+    val currentState = getState(forceUpdate = false).getOrNull()
+    if (currentState != null) {
+        val newState = block(currentState)
+        updateState(newState)
+    }
+}

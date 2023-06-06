@@ -164,7 +164,7 @@ interface ProfileFeature {
          * Flow messages.
          */
         object StepQuizSolved : Message
-        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
+        data class ProfileChanged(val profile: Profile) : Message
         data class StreakChanged(val streak: Streak?) : Message
 
         /**

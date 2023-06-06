@@ -57,7 +57,7 @@ class StepQuizComponentImpl(
             problemsLimitComponent.problemsLimitActionDispatcher,
             stepQuizInteractor,
             stepQuizReplyValidator,
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.buildProfileDataComponent().profileRepository,
             appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.analyticComponent.analyticInteractor,
