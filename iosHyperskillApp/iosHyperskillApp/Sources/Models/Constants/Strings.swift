@@ -65,20 +65,6 @@ enum Strings {
             static let emailPlaceholder = sharedStrings.auth_credentials_email_placeholder.localized()
             static let passwordPlaceholder = sharedStrings.auth_credentials_password_placeholder.localized()
         }
-
-        // MARK: NewUserPlaceholder
-
-        enum NewUserPlaceholder {
-            static let title = sharedStrings.placeholder_new_user_title.localized()
-            static let subtitle = sharedStrings.placeholder_new_user_text.localized()
-
-            static let startLearningButton = sharedStrings.placeholder_new_user_start_track_button_text.localized()
-
-            enum TrackSelectionStatus {
-                static let error = sharedStrings.placeholder_new_user_start_track_error_message.localized()
-                static let success = sharedStrings.placeholder_new_user_start_track_success_message.localized()
-            }
-        }
     }
 
     // MARK: - Step -
@@ -461,7 +447,10 @@ enum Strings {
     // MARK: - TrackSelectionList -
 
     enum TrackSelectionList {
-        static let title = sharedStrings.track_selection_list_toolbar_title.localized()
+        static let navigationTitle = sharedStrings.track_selection_list_toolbar_title.localized()
+
+        static let title = sharedStrings.placeholder_new_user_title.localized()
+        static let subtitle = sharedStrings.placeholder_new_user_text.localized()
     }
 
     // MARK: - TrackSelectionDetails -

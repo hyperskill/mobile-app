@@ -91,9 +91,6 @@
     <dimen name="track_next_topic_horizontal_item_padding">16dp</dimen>
     <dimen name="track_next_topic_first_item_vertical_offset">11dp</dimen>
 
-    <!--New user screen-->
-    <dimen name="track_items_vertical_margin">8dp</dimen>
-
     <dimen name="problems_limit_diver_margin">20dp</dimen>
 
     <!--Study plan-->

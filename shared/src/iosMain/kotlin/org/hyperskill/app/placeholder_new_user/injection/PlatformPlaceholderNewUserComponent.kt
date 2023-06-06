@@ -1,3 +1,0 @@
-package org.hyperskill.app.placeholder_new_user.injection
-
-actual interface PlatformPlaceholderNewUserComponent

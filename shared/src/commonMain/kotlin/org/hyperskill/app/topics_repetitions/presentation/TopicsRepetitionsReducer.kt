@@ -1,6 +1,7 @@
 package org.hyperskill.app.topics_repetitions.presentation
 
 import kotlin.math.max
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent
 import org.hyperskill.app.topics_repetitions.domain.analytic.TopicsRepetitionsViewedHyperskillAnalyticEvent
@@ -105,7 +106,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                 if (state is State.Content) {
                     state to buildSet {
                         state.topicsRepetitions.firstOrNull()?.steps?.firstOrNull()?.let { stepId ->
-                            add(Action.ViewAction.NavigateTo.StepScreen(stepId))
+                            add(Action.ViewAction.NavigateTo.StepScreen(StepRoute.Repeat.Practice(stepId)))
                         }
                         add(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatNextTopicHyperskillAnalyticEvent()))
                     }
@@ -118,7 +119,7 @@ class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
                     state.topicsRepetitions.firstOrNull { it.topicId == message.topicId }?.let { topicRepetition ->
                         state to buildSet {
                             topicRepetition.steps.firstOrNull()?.let { stepId ->
-                                add(Action.ViewAction.NavigateTo.StepScreen(stepId))
+                                add(Action.ViewAction.NavigateTo.StepScreen(StepRoute.Repeat.Practice(stepId)))
                             }
                             add(Action.LogAnalyticEvent(TopicsRepetitionsClickedRepeatTopicHyperskillAnalyticEvent()))
                         }

@@ -2,6 +2,12 @@ name: Detect what files changed
 
 on:
   workflow_call:
+    inputs:
+      base:
+        description: 'Branch, tag, or commit SHA against which the changes will be detected'
+        default: 'develop'
+        required: false
+        type: string
     # Map the workflow outputs to job outputs
     outputs:
       android: 
@@ -10,6 +16,8 @@ on:
         value: ${{ jobs.files-changed.outputs.shared }}
       ios: 
         value: ${{ jobs.files-changed.outputs.ios }}
+      analytic:
+        value: ${{ jobs.files-changed.outputs.analytic }}
 
 jobs:
   files-changed:
@@ -19,6 +27,7 @@ jobs:
       android: ${{ steps.changes.outputs.android }}
       shared: ${{ steps.changes.outputs.shared }}
       ios: ${{ steps.changes.outputs.ios }}
+      analytic: ${{ steps.changes.outputs.analytic }}
 
     steps:
     - name: Checkout
@@ -28,5 +37,5 @@ jobs:
       uses: dorny/paths-filter@v2.11.1
       id: changes
       with:
-        base: 'develop'
+        base: ${{ inputs.base }}
         filters: .github/filters.yaml

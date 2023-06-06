@@ -2,6 +2,7 @@ package org.hyperskill.app.topics_repetitions.presentation
 
 import kotlin.math.ceil
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
 
@@ -86,7 +87,7 @@ interface TopicsRepetitionsFeature {
             object ShowNetworkError : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                data class StepScreen(val stepId: Long) : NavigateTo
+                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
             }
         }
     }
