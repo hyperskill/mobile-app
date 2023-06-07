@@ -12,6 +12,8 @@ struct TrackSelectionDetailsView: View {
 
     @StateObject var viewModel: TrackSelectionDetailsViewModel
 
+    @ObservedObject var stackRouter: SwiftUIStackRouter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -101,6 +103,26 @@ private extension TrackSelectionDetailsView {
                 popToRoot: true
             )
             .route()
+        case .home(let navigateToHomeViewAction):
+            switch navigateToHomeViewAction.command {
+            case .backto:
+                stackRouter.popToRootViewController()
+                TabBarRouter(
+                    tab: .home,
+                    popToRoot: true
+                )
+                .route()
+            case .newrootscreen:
+                viewModel.doNavigateToHomeAsNewRootScreenPresentation()
+            default:
+                assertionFailure("Did receive unexpected command: \(navigateToHomeViewAction.command)")
+            }
+        case .projectSelectionList(let navigateToProjectSelectionListViewAction):
+            let assembly = ProjectSelectionListAssembly(
+                isNewUserMode: navigateToProjectSelectionListViewAction.isNewUserMode,
+                trackID: navigateToProjectSelectionListViewAction.trackId
+            )
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 

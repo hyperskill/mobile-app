@@ -345,7 +345,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
             LearningActivityType.LEARN_TOPIC -> {
                 if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
-                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(activity.targetId))
+                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn.Step(activity.targetId))
                 } else {
                     null
                 }

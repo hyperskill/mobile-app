@@ -5,7 +5,8 @@ import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListVi
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformTrackSelectionListComponentImpl(
-    private val trackSelectionListComponent: TrackSelectionListComponent
+    private val trackSelectionListComponent: TrackSelectionListComponent,
+    private val params: TrackSelectionListParams
 ) : PlatformTrackSelectionListComponent {
 
     override val reduxViewModelFactory: ReduxViewModelFactory
@@ -13,8 +14,9 @@ class PlatformTrackSelectionListComponentImpl(
             viewModelMap = mapOf(
                 TrackSelectionListViewModel::class.java to {
                     TrackSelectionListViewModel(
-                        reduxViewContainer = trackSelectionListComponent
-                            .trackSelectionListFeature.wrapWithViewContainer()
+                        trackSelectionListComponent
+                            .trackSelectionListFeature(params)
+                            .wrapWithViewContainer()
                     )
                 }
             )

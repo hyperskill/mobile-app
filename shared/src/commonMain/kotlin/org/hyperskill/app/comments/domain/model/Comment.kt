@@ -15,16 +15,6 @@ data class Comment(
     val text: String,
     @SerialName("localized_text")
     val localizedText: String,
-    @SerialName("time")
-    val time: String,
     @SerialName("user")
-    val user: CommentAuthor,
-    @SerialName("user_role")
-    val userRole: String,
-    @SerialName("reactions")
-    val reactions: List<CommentReaction>,
-    @SerialName("parent")
-    val parentId: Long? = null,
-    @SerialName("replies")
-    val repliesIds: List<Long> = emptyList()
+    val user: CommentAuthor
 )

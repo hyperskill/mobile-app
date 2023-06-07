@@ -111,6 +111,7 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
             state to setOf(
                 analyticEventAction,
                 ViewAction.NavigateTo.ProjectDetails(
+                    isNewUserMode = state.isNewUserMode,
                     trackId = state.trackId,
                     projectId = project.id,
                     isProjectSelected = project.id == state.content.currentProjectId,

@@ -19,8 +19,6 @@ import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
@@ -28,6 +26,7 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponent
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -43,6 +42,7 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
 interface AndroidAppComponent : AppGraph {
     val context: Context
@@ -70,19 +70,18 @@ interface AndroidAppComponent : AppGraph {
 
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
     fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent
-    fun buildPlatformPlaceholderNewUserComponent(
-        placeholderNewUserComponent: PlaceholderNewUserComponent
-    ): PlatformPlaceholderNewUserComponent
 
     fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
     fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
-    fun buildPlatformProjectSelectionListComponent(trackId: Long): PlatformProjectSelectionListComponent
+    fun buildPlatformProjectSelectionListComponent(
+        params: ProjectSelectionListParams
+    ): PlatformProjectSelectionListComponent
     fun buildPlatformProjectSelectionDetailsComponent(
         params: ProjectSelectionDetailsParams
     ): PlatformProjectSelectionDetailsComponent
-    fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent
+    fun buildPlatformTrackSelectionListComponent(params: TrackSelectionListParams): PlatformTrackSelectionListComponent
     fun buildPlatformTrackSelectionDetailsComponent(
         params: TrackSelectionDetailsParams
     ): PlatformTrackSelectionDetailsComponent

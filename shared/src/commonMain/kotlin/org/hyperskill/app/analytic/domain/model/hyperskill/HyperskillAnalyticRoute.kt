@@ -60,9 +60,14 @@ sealed class HyperskillAnalyticRoute {
     open class Repeat : HyperskillAnalyticRoute() {
         override val path: String = "/repeat"
 
-        class Step(stepId: Long) : Repeat() {
+        open class Step(stepId: Long) : Repeat() {
             override val path: String =
                 "${super.path}/step/$stepId"
+
+            class Theory(stepId: Long) : Step(stepId) {
+                override val path: String =
+                    "${super.path}?theory"
+            }
         }
     }
 

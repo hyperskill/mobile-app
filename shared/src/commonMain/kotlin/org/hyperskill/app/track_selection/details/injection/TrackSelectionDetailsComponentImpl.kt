@@ -16,7 +16,7 @@ class TrackSelectionDetailsComponentImpl(
             trackSelectionDetailsParams,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             dateFormatter = appGraph.commonComponent.dateFormatter,
-            freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             providersRepository = appGraph.buildProvidersDataComponent().providersRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             profileInteractor = appGraph.buildProfileDataComponent().profileInteractor,

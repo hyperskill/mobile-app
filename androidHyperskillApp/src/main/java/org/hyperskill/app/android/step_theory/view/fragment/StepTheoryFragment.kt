@@ -174,8 +174,10 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
             val itemViewBinding: ItemStepCommentActionBinding = ItemStepCommentActionBinding.bind(this.itemView)
 
             onBind { data ->
-                itemViewBinding.root.text =
-                    commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(data.thread, data.totalCount)
+                data.thread?.let { thread ->
+                    itemViewBinding.root.text =
+                        commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(thread, data.totalCount)
+                }
             }
         }
     }

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -17,7 +18,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  files-changed:
+    name: Detect what files changed
+    uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
+    with:
+      base: ${{ github.ref }}
+
   build:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.analytic == 'true' || github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-22.04
     timeout-minutes: 10
 

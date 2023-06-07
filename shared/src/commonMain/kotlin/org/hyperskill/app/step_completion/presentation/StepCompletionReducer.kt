@@ -22,14 +22,22 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                         route = stepRoute.analyticRoute
                     )
                     state.copy(
-                        isPracticingLoading = state.continueButtonAction is ContinueButtonAction.FetchNextStepQuiz ||
-                            state.continueButtonAction is ContinueButtonAction.CheckTopicCompletion
+                        isPracticingLoading = when (state.continueButtonAction) {
+                            is ContinueButtonAction.FetchNextStepQuiz,
+                            is ContinueButtonAction.CheckTopicCompletion ->
+                                true
+                            ContinueButtonAction.NavigateToBack,
+                            ContinueButtonAction.NavigateToHomeScreen ->
+                                false
+                        }
                     ) to setOf(
                         Action.LogAnalyticEvent(analyticEvent),
                         when (state.continueButtonAction) {
                             ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
                             ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
-                            ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(state.currentStep)
+                            ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(
+                                currentStep = state.currentStep
+                            )
                             ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
                                 Action.CheckTopicCompletionStatus(it)
                             } ?: Action.ViewAction.NavigateTo.Back
@@ -46,7 +54,12 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                                 route = stepRoute.analyticRoute
                             )
                         ),
-                        Action.FetchNextRecommendedStep(state.currentStep)
+                        when (state.startPracticingButtonAction) {
+                            StepCompletionFeature.StartPracticingButtonAction.FetchNextStepQuiz ->
+                                Action.FetchNextRecommendedStep(state.currentStep)
+                            StepCompletionFeature.StartPracticingButtonAction.NavigateToBack ->
+                                Action.ViewAction.NavigateTo.Back
+                        }
                     )
                 } else {
                     null
@@ -61,8 +74,13 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 state.copy(
                     continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
                     isPracticingLoading = false,
-                    nextStepRoute = message.nextStepId?.let { StepRoute.Learn(it) }
-                ) to setOf(Action.ViewAction.ShowTopicCompletedModal(message.modalText, message.nextStepId != null))
+                    nextStepRoute = message.nextStepId?.let { StepRoute.Learn.Step(it) }
+                ) to setOf(
+                    Action.ViewAction.ShowTopicCompletedModal(
+                        modalText = message.modalText,
+                        isNextStepAvailable = message.nextStepId != null
+                    )
+                )
             is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state.copy(isPracticingLoading = false) to emptySet()
             is Message.CheckTopicCompletionStatus.Error ->

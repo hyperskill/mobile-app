@@ -1,24 +1,37 @@
+import shared
 import SwiftUI
 
 final class ProjectSelectionListAssembly: UIKitAssembly {
+    private let isNewUserMode: Bool
     private let trackID: Int64
 
-    init(trackID: Int64) {
+    init(isNewUserMode: Bool, trackID: Int64) {
+        self.isNewUserMode = isNewUserMode
         self.trackID = trackID
     }
 
     func makeModule() -> UIViewController {
         let projectSelectionListComponent = AppGraphBridge.sharedAppGraph.buildProjectSelectionListComponent()
 
-        let viewModel = ProjectSelectionListViewModel(
-            feature: projectSelectionListComponent.projectSelectionListFeature(trackId: trackID)
+        let projectSelectionListParams = ProjectSelectionListParams(
+            isNewUserMode: isNewUserMode,
+            trackId: trackID
+        )
+        let projectSelectionListViewModel = ProjectSelectionListViewModel(
+            feature: projectSelectionListComponent.projectSelectionListFeature(
+                params: projectSelectionListParams
+            )
         )
 
         let stackRouter = SwiftUIStackRouter()
 
-        let rootView = ProjectSelectionListView(viewModel: viewModel, stackRouter: stackRouter)
+        let projectSelectionListView = ProjectSelectionListView(
+            viewModel: projectSelectionListViewModel,
+            stackRouter: stackRouter
+        )
+
         let hostingController = StyledHostingController(
-            rootView: rootView,
+            rootView: projectSelectionListView,
             appearance: .withoutBackButtonTitle
         )
         hostingController.hidesBottomBarWhenPushed = true
