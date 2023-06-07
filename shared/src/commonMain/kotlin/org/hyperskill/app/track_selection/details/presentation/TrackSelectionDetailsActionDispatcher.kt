@@ -4,8 +4,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -20,7 +20,7 @@ class TrackSelectionDetailsActionDispatcher(
     private val providersRepository: ProvidersRepository,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val profileRepository: ProfileRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -47,7 +47,7 @@ class TrackSelectionDetailsActionDispatcher(
                         return
                     }
 
-                profileInteractor.selectTrack(currentProfile.id, action.trackId)
+                profileRepository.selectTrack(currentProfile.id, action.trackId)
                     .getOrElse {
                         return onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Error)
                     }

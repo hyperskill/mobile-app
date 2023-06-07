@@ -24,7 +24,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class GamificationToolbarActionDispatcher(
     config: ActionDispatcherOptions,
-    private val profileInteractor: ProfileInteractor,
+    profileInteractor: ProfileInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,

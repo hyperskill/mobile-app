@@ -21,10 +21,11 @@ class ProfileDataComponentImpl(private val appGraph: AppGraph) : ProfileDataComp
         }
     }
 
-    private val profileRemoteDataSource: ProfileRemoteDataSource =
+    private val profileRemoteDataSource: ProfileRemoteDataSource by lazy {
         ProfileRemoteDataSourceImpl(
             appGraph.networkComponent.authorizedHttpClient
         )
+    }
 
     private val currentProfileStateHolder: CurrentProfileStateHolder by lazy {
         CurrentProfileStateHolderImpl(
@@ -45,7 +46,6 @@ class ProfileDataComponentImpl(private val appGraph: AppGraph) : ProfileDataComp
 
     override val profileInteractor: ProfileInteractor
         get() = ProfileInteractor(
-            profileRepository,
             appGraph.submissionDataComponent.submissionRepository
         )
 }

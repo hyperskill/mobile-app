@@ -20,7 +20,7 @@ class TrackSelectionDetailsComponentImpl(
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             providersRepository = appGraph.buildProvidersDataComponent().providersRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
-            profileInteractor = profileComponent.profileInteractor,
+            profileRepository = profileComponent.profileRepository,
             currentProfileStateRepository = profileComponent.currentProfileStateRepository,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )

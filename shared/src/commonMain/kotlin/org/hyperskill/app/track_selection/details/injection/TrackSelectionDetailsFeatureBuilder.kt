@@ -5,8 +5,8 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
@@ -29,7 +29,7 @@ object TrackSelectionDetailsFeatureBuilder {
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         providersRepository: ProvidersRepository,
         sentryInteractor: SentryInteractor,
-        profileInteractor: ProfileInteractor,
+        profileRepository: ProfileRepository,
         currentProfileStateRepository: CurrentProfileStateRepository,
         analyticInteractor: AnalyticInteractor
     ): Feature<ViewState, Message, Action> {
@@ -39,7 +39,7 @@ object TrackSelectionDetailsFeatureBuilder {
             providersRepository = providersRepository,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             sentryInteractor = sentryInteractor,
-            profileInteractor = profileInteractor,
+            profileRepository = profileRepository,
             currentProfileStateRepository = currentProfileStateRepository,
             analyticInteractor = analyticInteractor
         )
