@@ -51,7 +51,7 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
         getStateInternal(forceUpdate = forceUpdate) { state, _ -> state }
 
     override suspend fun getStateWithSource(forceUpdate: Boolean): Result<StateWithSource<State>> =
-        getStateInternal(forceUpdate = forceUpdate) { state, isFormCache  ->
+        getStateInternal(forceUpdate = forceUpdate) { state, isFormCache ->
             StateWithSource(
                 state = state,
                 usedDataSourceType = if (isFormCache) {
