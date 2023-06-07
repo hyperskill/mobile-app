@@ -4,12 +4,21 @@ import kotlinx.coroutines.flow.SharedFlow
 
 interface StateRepository<State : Any> {
     /**
-     * Load state if needed and return new or old value
+     * Load state if needed and return cached or remote-fetched value
      *
-     * @param forceUpdate force loading of state
+     * @param forceUpdate force loading of state from remote
      * @return current state
      */
     suspend fun getState(forceUpdate: Boolean = false): Result<State>
+
+    /**
+     * Load state if needed and return cached or remote-fetched value
+     *
+     * @param forceUpdate force loading of state from remote
+     * @return [StateWithSource] with currentState to know the DataSourceType witch was used to get the state.
+     * @see [StateWithSource]
+     */
+    suspend fun getStateWithSource(forceUpdate: Boolean = false): Result<StateWithSource<State>>
 
     /**
      * Flow of state changes
