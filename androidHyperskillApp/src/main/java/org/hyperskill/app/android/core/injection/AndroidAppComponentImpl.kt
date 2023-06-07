@@ -74,10 +74,6 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
-import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -108,6 +104,7 @@ import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelect
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponentImpl
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponentImpl
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
@@ -185,6 +182,7 @@ import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionL
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -417,17 +415,6 @@ class AndroidAppComponentImpl(
         PlatformOnboardingComponentImpl(onboardingComponent)
 
     /**
-     * Placeholder new user component
-     */
-    override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
-        PlaceholderNewUserComponentImpl(this)
-
-    override fun buildPlatformPlaceholderNewUserComponent(
-        placeholderNewUserComponent: PlaceholderNewUserComponent
-    ): PlatformPlaceholderNewUserComponent =
-        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
-
-    /**
      * Topics repetitions component
      */
     override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
@@ -482,11 +469,11 @@ class AndroidAppComponentImpl(
         ProjectSelectionListComponentImpl(this)
 
     override fun buildPlatformProjectSelectionListComponent(
-        trackId: Long
+        params: ProjectSelectionListParams
     ): PlatformProjectSelectionListComponent =
         PlatformProjectSelectionListComponentImpl(
             projectSelectionListComponent = buildProjectSelectionListComponent(),
-            trackId = trackId
+            params = params
         )
 
     /**
@@ -506,8 +493,10 @@ class AndroidAppComponentImpl(
     override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
         TrackSelectionListComponentImpl(this)
 
-    override fun buildPlatformTrackSelectionListComponent(): PlatformTrackSelectionListComponent =
-        PlatformTrackSelectionListComponentImpl(buildTrackSelectionListComponent())
+    override fun buildPlatformTrackSelectionListComponent(
+        params: TrackSelectionListParams
+    ): PlatformTrackSelectionListComponent =
+        PlatformTrackSelectionListComponentImpl(buildTrackSelectionListComponent(), params)
 
     /**
      * Track selection details component

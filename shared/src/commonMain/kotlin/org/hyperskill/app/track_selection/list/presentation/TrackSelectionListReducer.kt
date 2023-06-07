@@ -4,13 +4,16 @@ import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.list.domain.analytic.TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
 import org.hyperskill.app.track_selection.list.domain.analytic.TrackSelectionListTrackClickedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.list.domain.analytic.TrackSelectionListViewedHyperskillAnalyticEvent
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Action
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.InternalAction
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.Message
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-internal class TrackSelectionListReducer : StateReducer<State, Message, Action> {
+internal class TrackSelectionListReducer(
+    private val params: TrackSelectionListParams
+) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
@@ -47,8 +50,9 @@ internal class TrackSelectionListReducer : StateReducer<State, Message, Action> 
                 if (track != null) {
                     state to setOf(
                         Action.ViewAction.NavigateTo.TrackDetails(
-                            track,
-                            isTrackSelected = state is State.Content && state.selectedTrackId == track.track.id
+                            trackWithProgress = track,
+                            isTrackSelected = state is State.Content && state.selectedTrackId == track.track.id,
+                            isNewUserMode = params.isNewUserMode
                         ),
                         InternalAction.LogAnalyticEvent(
                             TrackSelectionListTrackClickedHyperskillAnalyticEvent(

@@ -97,12 +97,25 @@ private extension ProjectSelectionDetailsView {
         _ viewAction: ProjectSelectionDetailsFeatureActionViewActionNavigateTo
     ) {
         switch ProjectSelectionDetailsFeatureActionViewActionNavigateToKs(viewAction) {
-        case .studyPlan:
+        case .studyPlan(let navigateToStudyPlanViewAction):
+            handleNavigateToStudyPlanViewAction(navigateToStudyPlanViewAction)
+        }
+    }
+
+    func handleNavigateToStudyPlanViewAction(
+        _ viewAction: ProjectSelectionDetailsFeatureActionViewActionNavigateToStudyPlan
+    ) {
+        switch viewAction.command {
+        case .backto:
             TabBarRouter(
                 tab: .studyPlan,
                 popToRoot: true
             )
             .route()
+        case .newrootscreen:
+            viewModel.doNavigateToHomeAsNewRootScreenPresentation()
+        default:
+            assertionFailure("Did receive unexpected command: \(viewAction.command)")
         }
     }
 

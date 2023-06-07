@@ -29,9 +29,23 @@ final class TrackSelectionDetailsViewModel: FeatureViewModel<
         onNewMessage(TrackSelectionDetailsFeatureMessageSelectTrackButtonClicked())
     }
 
+    func doNavigateToHomeAsNewRootScreenPresentation() {
+        NotificationCenter.default.post(
+            name: .trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            object: nil
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(TrackSelectionDetailsFeatureMessageViewedEventMessage())
     }
+}
+
+// MARK: - TrackSelectionDetailsViewModel (NSNotification.Name) -
+
+extension NSNotification.Name {
+    static let trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen =
+      NSNotification.Name("TrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen")
 }

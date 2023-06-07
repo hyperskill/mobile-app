@@ -86,6 +86,6 @@ struct StepQuizHintsView: View {
 
 struct StepQuizHintsView_Previews: PreviewProvider {
     static var previews: some View {
-        StepQuizHintsAssembly(stepID: 15343, stepRoute: StepRouteLearn(stepId: 15343)).makeModule()
+        StepQuizHintsAssembly(stepID: 15343, stepRoute: StepRouteLearnStep(stepId: 15343)).makeModule()
     }
 }

@@ -61,7 +61,8 @@ object TrackSelectionListFeature {
             sealed interface NavigateTo : ViewAction {
                 data class TrackDetails(
                     val trackWithProgress: TrackWithProgress,
-                    val isTrackSelected: Boolean
+                    val isTrackSelected: Boolean,
+                    val isNewUserMode: Boolean
                 ) : NavigateTo
             }
 

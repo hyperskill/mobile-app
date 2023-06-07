@@ -86,6 +86,7 @@ private extension ProjectSelectionListView {
         switch viewAction {
         case .projectDetails(let navigateToProjectDetailsViewAction):
             let assembly = ProjectSelectionDetailsAssembly(
+                isNewUserMode: navigateToProjectDetailsViewAction.isNewUserMode,
                 trackId: navigateToProjectDetailsViewAction.trackId,
                 projectId: navigateToProjectDetailsViewAction.projectId,
                 isProjectSelected: navigateToProjectDetailsViewAction.isProjectSelected,
@@ -102,8 +103,11 @@ private extension ProjectSelectionListView {
 struct ProjectSelectionListView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            ProjectSelectionListAssembly(trackID: 1)
-                .makeModule()
+            ProjectSelectionListAssembly(
+                isNewUserMode: false,
+                trackID: 1
+            )
+            .makeModule()
         }
     }
 }

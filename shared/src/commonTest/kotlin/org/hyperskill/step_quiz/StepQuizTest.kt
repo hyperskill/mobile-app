@@ -20,9 +20,9 @@ class StepQuizTest {
     @Test
     fun `When problems limit reached not blocks problem of the day and repeat solving`() {
         val step = Step.stub(id = 1)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
-        val stepRoutes = listOf(StepRoute.LearnDaily(step.id), StepRoute.Repeat(step.id))
+        val stepRoutes = listOf(StepRoute.LearnDaily(step.id), StepRoute.Repeat.Practice(step.id))
 
         val expectedState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
@@ -58,7 +58,7 @@ class StepQuizTest {
     @Test
     fun `When problems limit reached blocks learn solving`() {
         val step = Step.stub(id = 1)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         val expectedState = StepQuizFeature.State(
@@ -72,7 +72,10 @@ class StepQuizTest {
             problemsLimitState = ProblemsLimitFeature.State.Idle
         )
 
-        val reducer = StepQuizReducer(StepRoute.Learn(step.id), ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ))
+        val reducer = StepQuizReducer(
+            stepRoute = StepRoute.Learn.Step(step.id),
+            problemsLimitReducer = ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ)
+        )
         val (state, actions) = reducer.reduce(
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
@@ -94,7 +97,7 @@ class StepQuizTest {
     fun `TheoryToolbarClicked message navigates to step screen when theory available`() {
         val topicTheoryId = 2L
         val step = Step.stub(id = 1, topicTheory = topicTheoryId)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         val expectedState = StepQuizFeature.State(
@@ -109,7 +112,7 @@ class StepQuizTest {
         )
 
         val reducer = StepQuizReducer(
-            StepRoute.Learn(step.id),
+            StepRoute.Learn.Step(step.id),
             ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ)
         )
 
@@ -135,7 +138,7 @@ class StepQuizTest {
         assertTrue {
             finalActions.any {
                 it is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen &&
-                    it.stepRoute == StepRoute.Learn(topicTheoryId)
+                    it.stepRoute == StepRoute.Learn.TheoryOpenedFromPractice(topicTheoryId)
             }
         }
         assertTrue {
@@ -150,7 +153,7 @@ class StepQuizTest {
     @Test
     fun `TheoryToolbarClicked message not navigates to step screen when theory unavailable`() {
         val step = Step.stub(id = 1, topicTheory = 2)
-        val attempt = Attempt.stub(step = step.id)
+        val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
         val expectedState = StepQuizFeature.State(

@@ -6,10 +6,13 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
  * Please do not change the names of transactions if they already appeared in the Sentry.
  */
 object HyperskillSentryTransactionBuilder {
-    fun buildAppInitialization(): HyperskillSentryTransaction =
+    fun buildAppInitialization(isAuthorized: Boolean): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "app-initialization",
-            operation = HyperskillSentryTransactionOperation.UI_LOAD
+            operation = HyperskillSentryTransactionOperation.UI_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.User.IsAuthorized(isAuthorized)
+            )
         )
 
     /**
@@ -48,15 +51,6 @@ object HyperskillSentryTransactionBuilder {
     fun buildHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "home-feature-remote-data-loading",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
-        )
-
-    /**
-     * PlaceholderNewUserFeature
-     */
-    fun buildPlaceholderNewUserScreenRemoteDataLoading(): HyperskillSentryTransaction =
-        HyperskillSentryTransaction(
-            name = "placeholder-new-user-feature-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 

@@ -24,10 +24,12 @@ import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -183,10 +185,21 @@ class StudyPlanFragment :
                             .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
                     }
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject -> {
-                        requireRouter().navigateTo(ProjectSelectionListScreen(viewAction.trackId))
+                        requireRouter().navigateTo(
+                            ProjectSelectionListScreen(
+                                ProjectSelectionListParams(
+                                    trackId = viewAction.trackId,
+                                    isNewUserMode = false
+                                )
+                            )
+                        )
                     }
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack -> {
-                        requireRouter().navigateTo(TrackSelectionListScreen)
+                        requireRouter().navigateTo(
+                            TrackSelectionListScreen(
+                                TrackSelectionListParams(isNewUserMode = false)
+                            )
+                        )
                     }
                 }
             }

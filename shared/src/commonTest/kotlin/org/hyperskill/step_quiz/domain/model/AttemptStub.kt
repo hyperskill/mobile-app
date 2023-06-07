@@ -8,19 +8,11 @@ import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
 
 fun Attempt.Companion.stub(
     id: Long = 0L,
-    step: Long = 0L,
-    user: Long = 0L,
     dataset: Dataset? = null,
-    status: AttemptStatus? = null,
-    time: String = "",
-    timeLeft: String? = null
+    status: AttemptStatus? = null
 ): Attempt =
     Attempt(
         id = id,
-        step = step,
-        user = user,
         dataset = dataset,
-        status = status,
-        time = time,
-        timeLeft = timeLeft
+        status = status
     )

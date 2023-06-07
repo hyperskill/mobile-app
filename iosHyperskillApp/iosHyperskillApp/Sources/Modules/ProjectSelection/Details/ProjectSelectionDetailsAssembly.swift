@@ -2,6 +2,8 @@ import shared
 import SwiftUI
 
 final class ProjectSelectionDetailsAssembly: UIKitAssembly {
+    private let isNewUserMode: Bool
+
     private let trackId: Int64
     private let projectId: Int64
 
@@ -10,12 +12,14 @@ final class ProjectSelectionDetailsAssembly: UIKitAssembly {
     private let isProjectFastestToComplete: Bool
 
     init(
+        isNewUserMode: Bool,
         trackId: Int64,
         projectId: Int64,
         isProjectSelected: Bool,
         isProjectBestRated: Bool,
         isProjectFastestToComplete: Bool
     ) {
+        self.isNewUserMode = isNewUserMode
         self.trackId = trackId
         self.projectId = projectId
         self.isProjectSelected = isProjectSelected
@@ -27,6 +31,7 @@ final class ProjectSelectionDetailsAssembly: UIKitAssembly {
         let projectSelectionDetailsComponent = AppGraphBridge.sharedAppGraph.buildProjectSelectionDetailsComponent()
 
         let projectSelectionDetailsParams = ProjectSelectionDetailsParams(
+            isNewUserMode: isNewUserMode,
             trackId: trackId,
             projectId: projectId,
             isProjectSelected: isProjectSelected,

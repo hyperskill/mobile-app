@@ -8,6 +8,7 @@ import org.hyperskill.app.track.domain.model.Track
 
 object ProjectSelectionDetailsFeature {
     internal data class State(
+        val isNewUserMode: Boolean,
         val trackId: Long,
         val projectId: Long,
         val isProjectSelected: Boolean,
@@ -31,6 +32,7 @@ object ProjectSelectionDetailsFeature {
     )
 
     internal fun initialState(
+        isNewUserMode: Boolean,
         trackId: Long,
         projectId: Long,
         isProjectSelected: Boolean,
@@ -38,6 +40,7 @@ object ProjectSelectionDetailsFeature {
         isProjectFastestToComplete: Boolean
     ): State =
         State(
+            isNewUserMode = isNewUserMode,
             trackId = trackId,
             projectId = projectId,
             isProjectSelected = isProjectSelected,
@@ -104,7 +107,12 @@ object ProjectSelectionDetailsFeature {
             }
 
             sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
+                data class StudyPlan(val command: NavigationCommand) : NavigateTo {
+                    enum class NavigationCommand {
+                        BackTo,
+                        NewRootScreen
+                    }
+                }
             }
         }
     }

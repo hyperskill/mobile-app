@@ -11,8 +11,9 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProjectSelectionDetailsBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.projects_selection.details.delegate.ProjectSelectionDetailsDelegate
-import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature.Action.ViewAction
@@ -100,9 +101,17 @@ class ProjectSelectionDetailsFragment :
 
     override fun onAction(action: ViewAction) {
         when (action) {
-            ViewAction.NavigateTo.StudyPlan -> {
-                requireRouter().backTo(MainScreen)
-                mainScreenRouter.switch(StudyPlanScreen)
+            is ViewAction.NavigateTo.StudyPlan -> {
+                when (action.command) {
+                    ViewAction.NavigateTo.StudyPlan.NavigationCommand.BackTo -> {
+                        requireRouter().backTo(MainScreen())
+                        mainScreenRouter.switch(Tabs.STUDY_PLAN)
+                    }
+                    ViewAction.NavigateTo.StudyPlan.NavigationCommand.NewRootScreen ->
+                        requireRouter().newRootScreen(
+                            MainScreen(initialTab = Tabs.STUDY_PLAN)
+                        )
+                }
             }
             ViewAction.ShowProjectSelectionStatus.Success ->
                 view?.snackbar(org.hyperskill.app.R.string.project_selection_details_project_selection_success_message)

@@ -81,8 +81,13 @@ extension AppViewController: AppViewControllerProtocol {
             case .authScreen(let data):
                 let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
                 return UIHostingController(rootView: assembly.makeModule())
-            case .newUserScreen:
-                return UIHostingController(rootView: AuthNewUserPlaceholderAssembly(output: viewModel).makeModule())
+            case .trackSelectionScreen:
+                let assembly = TrackSelectionListAssembly(isNewUserMode: true)
+                let navigationController = UINavigationController(
+                    rootViewController: assembly.makeModule()
+                )
+                navigationController.navigationBar.prefersLargeTitles = true
+                return navigationController
             }
         }()
 

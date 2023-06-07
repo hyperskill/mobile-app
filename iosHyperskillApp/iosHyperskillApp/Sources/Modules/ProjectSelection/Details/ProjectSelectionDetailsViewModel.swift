@@ -29,9 +29,23 @@ final class ProjectSelectionDetailsViewModel: FeatureViewModel<
         onNewMessage(ProjectSelectionDetailsFeatureMessageSelectProjectButtonClicked())
     }
 
+    func doNavigateToHomeAsNewRootScreenPresentation() {
+        NotificationCenter.default.post(
+            name: .projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            object: nil
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(ProjectSelectionDetailsFeatureMessageViewedEventMessage())
     }
+}
+
+// MARK: - ProjectSelectionDetailsViewModel (NSNotification.Name) -
+
+extension NSNotification.Name {
+    static let projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen =
+      NSNotification.Name("ProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen")
 }

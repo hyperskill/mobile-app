@@ -17,18 +17,22 @@ internal class StageImplementViewStateMapper(
             is StageImplementFeature.State.NetworkError ->
                 StageImplementFeature.ViewState.NetworkError
             is StageImplementFeature.State.Content ->
-                StageImplementFeature.ViewState.Content(
-                    stepRoute = StepRoute.StageImplement(
-                        stepId = state.stage.stepId,
-                        projectId = state.projectId,
-                        stageId = state.stage.id
-                    ),
-                    navigationTitle = resourceProvider.getString(
-                        SharedResources.strings.stage_implement_title,
-                        state.stage.stepIndex,
-                        state.stage.projectStagesCount
-                    ),
-                    stageTitle = state.stage.title
-                )
+                if (state.stage.stepId != null) {
+                    StageImplementFeature.ViewState.Content(
+                        stepRoute = StepRoute.StageImplement(
+                            stepId = state.stage.stepId,
+                            projectId = state.projectId,
+                            stageId = state.stage.id
+                        ),
+                        navigationTitle = resourceProvider.getString(
+                            SharedResources.strings.stage_implement_title,
+                            state.stage.stepIndex ?: "",
+                            state.stage.projectStagesCount
+                        ),
+                        stageTitle = state.stage.title
+                    )
+                } else {
+                    StageImplementFeature.ViewState.NetworkError
+                }
         }
 }
