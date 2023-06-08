@@ -39,6 +39,8 @@ import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
 import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
+import org.hyperskill.app.devices.injection.DevicesDataComponent
+import org.hyperskill.app.devices.injection.DevicesDataComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
@@ -565,4 +567,7 @@ class AndroidAppComponentImpl(
 
     override fun buildProvidersDataComponent(): ProvidersDataComponent =
         ProvidersDataComponentImpl(this)
+
+    override fun buildDevicesDataComponent(): DevicesDataComponent =
+        DevicesDataComponentImpl(this)
 }
