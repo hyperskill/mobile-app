@@ -51,29 +51,25 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
         getStateInternal(forceUpdate = forceUpdate) { state, _ -> state }
 
     override suspend fun getStateWithSource(forceUpdate: Boolean): Result<StateWithSource<State>> =
-        getStateInternal(forceUpdate = forceUpdate) { state, isFormCache ->
+        getStateInternal(forceUpdate = forceUpdate) { state, usedSource ->
             StateWithSource(
                 state = state,
-                usedDataSourceType = if (isFormCache) {
-                    DataSourceType.CACHE
-                } else {
-                    DataSourceType.REMOTE
-                }
+                usedDataSourceType = usedSource
             )
         }
 
     private suspend fun <T> getStateInternal(
         forceUpdate: Boolean,
-        mapState: (State, isFormCache: Boolean) -> T
+        mapState: (State, usedSource: DataSourceType) -> T
     ): Result<T> =
         mutex.withLock {
             val currentState = stateHolder.getState()
 
             if (currentState != null && !forceUpdate) {
-                return Result.success(mapState(currentState, true))
+                return Result.success(mapState(currentState, DataSourceType.CACHE))
             }
 
-            return loadAndAssignState().map { state -> mapState(state, false) }
+            return loadAndAssignState().map { state -> mapState(state, DataSourceType.REMOTE) }
         }
 
     /**

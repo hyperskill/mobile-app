@@ -10,5 +10,5 @@ interface CurrentProfileStateRepository : StateRepository<Profile>
 
 fun CurrentProfileStateRepository.observeHypercoinsBalance(): Flow<Int> =
     changes
-        .distinctUntilChanged()
         .map { it.gamification.hypercoinsBalance }
+        .distinctUntilChanged()
