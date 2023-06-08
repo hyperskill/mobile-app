@@ -20,17 +20,6 @@ struct StepQuizView: View {
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    if viewModel.stepRoute is StepRouteRepeat,
-                       let theoryID = viewModel.step.topicTheory {
-                        Button(Strings.Step.theory) {
-                            let assembly = StepAssembly(stepRoute: StepRouteRepeat(stepId: theoryID.int64Value))
-                            stackRouter.pushViewController(assembly.makeModule())
-                        }
-                    }
-                }
-            }
             .onAppear {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
@@ -90,6 +79,18 @@ struct StepQuizView: View {
                     }
                 }
                 .padding()
+            }
+            .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
+                $0.toolbar {
+                    // buildIf is only available in iOS 16.0 or newer
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(
+                            Strings.Step.theory,
+                            action: viewModel.doTheoryToolbarAction
+                        )
+                        .disabled(StepQuizResolver.shared.isQuizLoading(state: viewModel.state.stepQuizState))
+                    }
+                }
             }
         }
     }
@@ -278,6 +279,9 @@ struct StepQuizView: View {
             case .home:
                 stackRouter.popViewController()
                 TabBarRouter(tab: .home).route()
+            case .stepScreen(let navigateToStepScreenViewAction):
+                let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
+                stackRouter.pushViewController(assembly.makeModule())
             }
         }
     }

@@ -1,7 +1,7 @@
 package org.hyperskill.app.study_plan.widget.view
 
 import kotlin.math.roundToLong
-import org.hyperskill.app.core.view.mapper.DateFormatter
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
@@ -10,7 +10,7 @@ import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
 
-class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
+class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
         when (state.sectionsStatus) {
             StudyPlanWidgetFeature.ContentStatus.IDLE -> StudyPlanWidgetViewState.Idle
@@ -51,7 +51,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                     formattedTimeToComplete = if (shouldShowSectionStatistics) {
                         section.secondsToComplete
                             ?.roundToLong()
-                            ?.let(dateFormatter::hoursWithMinutesCount)
+                            ?.let(dateFormatter::formatHoursWithMinutesCount)
                             ?.takeIf { it.isNotEmpty() }
                     } else {
                         null
@@ -96,7 +96,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
-                    title = activity.title.ifBlank { activity.id.toString() },
+                    title = formatActivityTitle(activity),
+                    subtitle = formatActivitySubtitle(activity),
                     state = when (activity.state) {
                         LearningActivityState.TODO -> if (activity.id == currentActivityId) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
@@ -114,6 +115,22 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: DateFormatter) {
                 )
             }
         )
+
+    private fun formatActivityTitle(activity: LearningActivity): String {
+        val defaultTitle = activity.title.ifBlank { activity.id.toString() }
+        return if (activity.description.isNullOrBlank()) {
+            defaultTitle
+        } else {
+            activity.description
+        }
+    }
+
+    private fun formatActivitySubtitle(activity: LearningActivity): String? =
+        if (activity.description.isNullOrBlank()) {
+            null
+        } else {
+            activity.title.ifBlank { null }
+        }
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
         if (topicsCount > 0) {

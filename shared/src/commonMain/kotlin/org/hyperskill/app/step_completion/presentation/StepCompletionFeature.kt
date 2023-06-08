@@ -9,6 +9,16 @@ interface StepCompletionFeature {
         fun createState(step: Step, stepRoute: StepRoute): State =
             State(
                 currentStep = step,
+                startPracticingButtonAction = when (stepRoute) {
+                    is StepRoute.Learn.TheoryOpenedFromPractice,
+                    is StepRoute.Repeat.Theory ->
+                        StartPracticingButtonAction.NavigateToBack
+                    is StepRoute.Learn.Step,
+                    is StepRoute.LearnDaily,
+                    is StepRoute.Repeat.Practice,
+                    is StepRoute.StageImplement ->
+                        StartPracticingButtonAction.FetchNextStepQuiz
+                },
                 continueButtonAction = if (stepRoute is StepRoute.Learn) {
                     ContinueButtonAction.FetchNextStepQuiz
                 } else {
@@ -19,10 +29,16 @@ interface StepCompletionFeature {
 
     data class State(
         val currentStep: Step,
+        val startPracticingButtonAction: StartPracticingButtonAction,
         val continueButtonAction: ContinueButtonAction,
         val isPracticingLoading: Boolean = false,
         val nextStepRoute: StepRoute? = null
     )
+
+    sealed interface StartPracticingButtonAction {
+        object NavigateToBack : StartPracticingButtonAction
+        object FetchNextStepQuiz : StartPracticingButtonAction
+    }
 
     sealed interface ContinueButtonAction {
         object NavigateToHomeScreen : ContinueButtonAction

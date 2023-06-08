@@ -78,8 +78,11 @@ struct StudyPlanView: View {
                             .foregroundColor(.secondaryText)
                             .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
-                    // TODO: ALTAPPS-701 change problems limit embedding
-//                    ProblemsLimitAssembly().makeModule()
+
+                    ProblemsLimitView(
+                        stateKs: viewModel.problemsLimitViewStateKs,
+                        onReloadButtonTap: viewModel.doReloadProblemsLimit
+                    )
 
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
@@ -102,37 +105,80 @@ struct StudyPlanView: View {
             .frame(maxWidth: .infinity)
         }
     }
+}
 
-    private func handleViewAction(_ viewAction: StudyPlanScreenFeatureActionViewAction) {
+// MARK: - StudyPlanView (ViewAction) -
+
+private extension StudyPlanView {
+    func handleViewAction(
+        _ viewAction: StudyPlanScreenFeatureActionViewAction
+    ) {
         switch StudyPlanScreenFeatureActionViewActionKs(viewAction) {
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
-            switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
-            case .showProfileTab:
-                TabBarRouter(tab: .profile).route()
-            }
+            handleGamificationToolbarViewAction(
+                gamificationToolbarViewAction.viewAction
+            )
+        case .problemsLimitViewAction:
+            break
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
-            switch StudyPlanWidgetFeatureActionViewActionKs(studyPlanWidgetViewAction.viewAction) {
-            case .showStageImplementUnsupportedModal:
-                let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
-                panModalPresenter.presentPanModal(panModal)
-            case .navigateTo(let navigateToViewAction):
-                switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-                case .stageImplement(let navigateToStageImplementationViewAction):
-                    let assembly = StageImplementAssembly(
-                        projectID: navigateToStageImplementationViewAction.projectId,
-                        stageID: navigateToStageImplementationViewAction.stageId
-                    )
-                    stackRouter.pushViewController(assembly.makeModule())
-                case .stepScreen(let navigateToStepScreenViewAction):
-                    let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
-                    stackRouter.pushViewController(assembly.makeModule())
-                case .home:
-                    TabBarRouter(tab: .home).route()
-                }
-            }
+            handleStudyPlanWidgetViewAction(
+                studyPlanWidgetViewAction.viewAction
+            )
+        }
+    }
+
+    func handleGamificationToolbarViewAction(
+        _ viewAction: GamificationToolbarFeatureActionViewAction
+    ) {
+        switch GamificationToolbarFeatureActionViewActionKs(viewAction) {
+        case .showProfileTab:
+            TabBarRouter(tab: .profile).route()
+        }
+    }
+
+    func handleStudyPlanWidgetViewAction(
+        _ viewAction: StudyPlanWidgetFeatureActionViewAction
+    ) {
+        switch StudyPlanWidgetFeatureActionViewActionKs(viewAction) {
+        case .showStageImplementUnsupportedModal:
+            let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
+            panModalPresenter.presentPanModal(panModal)
+        case .navigateTo(let navigateToViewAction):
+            handleStudyPlanWidgetNavigateToViewAction(navigateToViewAction)
+        }
+    }
+
+    func handleStudyPlanWidgetNavigateToViewAction(
+        _ viewAction: StudyPlanWidgetFeatureActionViewActionNavigateTo
+    ) {
+        switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(viewAction) {
+        case .stageImplement(let navigateToStageImplementViewAction):
+            let assembly = StageImplementAssembly(
+                projectID: navigateToStageImplementViewAction.projectId,
+                stageID: navigateToStageImplementViewAction.stageId
+            )
+            stackRouter.pushViewController(assembly.makeModule())
+        case .stepScreen(let navigateToStepScreenViewAction):
+            let assembly = StepAssembly(
+                stepRoute: navigateToStepScreenViewAction.stepRoute
+            )
+            stackRouter.pushViewController(assembly.makeModule())
+        case .home:
+            TabBarRouter(tab: .home).route()
+        case .selectProject(let navigateToSelectProjectViewAction):
+            let assembly = ProjectSelectionListAssembly(
+                isNewUserMode: false,
+                trackID: navigateToSelectProjectViewAction.trackId
+            )
+            stackRouter.pushViewController(assembly.makeModule())
+        case .selectTrack:
+            let assembly = TrackSelectionListAssembly(isNewUserMode: false)
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 }
+
+// MARK: - StudyPlanView_Previews: PreviewProvider -
 
 struct StudyPlanView_Previews: PreviewProvider {
     static var previews: some View {

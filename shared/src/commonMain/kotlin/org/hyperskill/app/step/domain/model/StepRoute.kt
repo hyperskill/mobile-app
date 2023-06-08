@@ -11,18 +11,22 @@ sealed interface StepRoute {
     val stepId: Long
 
     @Serializable
-    class Learn(override val stepId: Long) : StepRoute {
-        @Transient
-        override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Learn.Step(stepId)
+    sealed interface Learn : StepRoute {
+        override val analyticRoute: HyperskillAnalyticRoute
+            get() = HyperskillAnalyticRoute.Learn.Step(stepId)
 
-        @Transient
-        override val stepContext: StepContext =
-            StepContext.DEFAULT
+        override val stepContext: StepContext
+            get() = StepContext.DEFAULT
+
+        @Serializable
+        data class Step(override val stepId: Long) : Learn
+
+        @Serializable
+        data class TheoryOpenedFromPractice(override val stepId: Long) : Learn
     }
 
     @Serializable
-    class LearnDaily(override val stepId: Long) : StepRoute {
+    data class LearnDaily(override val stepId: Long) : StepRoute {
         @Transient
         override val analyticRoute: HyperskillAnalyticRoute =
             HyperskillAnalyticRoute.Learn.Daily(stepId)
@@ -33,18 +37,25 @@ sealed interface StepRoute {
     }
 
     @Serializable
-    class Repeat(override val stepId: Long) : StepRoute {
-        @Transient
-        override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Repeat.Step(stepId)
+    sealed interface Repeat : StepRoute {
+        override val stepContext: StepContext
+            get() = StepContext.REPETITION
 
-        @Transient
-        override val stepContext: StepContext =
-            StepContext.REPETITION
+        @Serializable
+        data class Practice(override val stepId: Long) : Repeat {
+            override val analyticRoute: HyperskillAnalyticRoute
+                get() = HyperskillAnalyticRoute.Repeat.Step(stepId)
+        }
+
+        @Serializable
+        data class Theory(override val stepId: Long) : Repeat {
+            override val analyticRoute: HyperskillAnalyticRoute
+                get() = HyperskillAnalyticRoute.Repeat.Step.Theory(stepId)
+        }
     }
 
     @Serializable
-    class StageImplement(
+    data class StageImplement(
         override val stepId: Long,
         val projectId: Long,
         val stageId: Long,

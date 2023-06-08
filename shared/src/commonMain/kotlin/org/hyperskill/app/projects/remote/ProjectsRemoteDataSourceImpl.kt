@@ -3,9 +3,9 @@ package org.hyperskill.app.projects.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.hyperskill.app.network.remote.parameterIds
 import org.hyperskill.app.projects.data.source.ProjectsRemoteDataSource
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.remote.model.ProjectsResponse
@@ -18,7 +18,7 @@ class ProjectsRemoteDataSourceImpl(
             httpClient
                 .get("/api/projects") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", projectsIds.joinToString(separator = ","))
+                    parameterIds(projectsIds)
                 }.body<ProjectsResponse>().projects
         }
 }

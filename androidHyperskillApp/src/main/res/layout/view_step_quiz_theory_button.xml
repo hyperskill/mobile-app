@@ -9,4 +9,5 @@
     android:textSize="16sp"
     android:gravity="center"
     android:paddingHorizontal="16dp"
+    android:background="?attr/selectableItemBackgroundBorderless"
     />

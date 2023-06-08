@@ -111,6 +111,8 @@ enum ColorPalette {
     static let primaryVariant = Self.sharedColors.color_primary_variant.color.uiColor
 
     static let onPrimary = Self.sharedColors.color_on_primary.dynamicUIColor
+    static let onPrimaryAlpha87 = Self.sharedColors.color_on_primary_alpha_87.dynamicUIColor
+    static let onPrimaryAlpha60 = Self.sharedColors.color_on_primary_alpha_60.dynamicUIColor
 
     // MARK: Secondary
 

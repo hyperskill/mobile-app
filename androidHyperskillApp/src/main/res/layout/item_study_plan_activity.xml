@@ -38,21 +38,44 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_end="16dp"/>
 
-        <TextView
-            android:id="@+id/activityTitle"
+        <LinearLayout
+            android:id="@+id/activityTextGroup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="16sp"
-            android:textColor="@color/color_on_surface_alpha_87"
-            android:maxLines="2"
-            android:ellipsize="end"
-            app:layout_constraintStart_toStartOf="@+id/startGuideline"
-            app:layout_constraintTop_toTopOf="@+id/topGuideline"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/activityBadges"
             app:layout_constraintEnd_toStartOf="@+id/activityEndIcon"
-            android:layout_marginEnd="8dp"
-            tools:text="Introduction to Command Line Introduction to Command Line Introduction to Command Line Introduction to Command Line"/>
+            app:layout_constraintStart_toStartOf="@+id/startGuideline"
+            app:layout_constraintTop_toTopOf="@+id/topGuideline">
+
+            <TextView
+                android:id="@+id/activityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/color_on_surface_alpha_87"
+                android:textSize="16sp"
+                tools:text="Introduction to Command Line Introduction to Command Line Introduction to Command Line Introduction to Command Line" />
+
+            <TextView
+                android:id="@+id/activitySubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/color_on_surface_alpha_87"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:text="Hello, coffee! Hello, coffee! Hello, coffee! Hello, coffee! Hello, coffee! Hello, coffee! Hello, coffee! Hello, coffee!"
+                tools:visibility="visible"/>
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/activityEndIcon"
@@ -71,30 +94,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/activityTitle"
+            app:layout_constraintTop_toBottomOf="@+id/activityTextGroup"
             app:layout_constraintStart_toStartOf="@+id/startGuideline"
             app:layout_constraintBottom_toBottomOf="@+id/bottomGuideline">
             <TextView
                 android:id="@+id/activityCompletenessTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_secondary"
-                android:background="@drawable/bg_activity_percentage"
-                android:paddingVertical="4dp"
-                android:paddingHorizontal="8dp"
+                style="@style/Badge.Green"
                 tools:text="87%"
                 />
 
             <TextView
                 android:id="@+id/activityIdeRequiredTextView"
-                android:text="@string/stage_implement_unsupported_modal_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/color_overlay_violet"
-                android:background="@drawable/bg_activity_ide_required"
-                android:paddingVertical="4dp"
-                android:paddingHorizontal="8dp"
-                tools:text="87%"
+                style="@style/Badge.Violet"
+                android:text="@string/stage_implement_unsupported_modal_title"
                 />
         </LinearLayout>
 

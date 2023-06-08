@@ -13,6 +13,18 @@
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
     <string name="go_to_homescreen">Go to home</string>
+    <string name="new_word">New</string>
+
+    <!-- Badge -->
+    <string name="badge_ide_required_text">IDE required</string>
+    <string name="badge_current_text">Current</string>
+    <string name="badge_solve_unlimited_text">Solve unlimited</string>
+    <string name="badge_repeat_unlimited_text">Repeat unlimited</string>
+    <string name="badge_selected_text">Selected</string>
+    <string name="badge_best_rating_text">Best rating</string>
+    <string name="badge_fastest_to_complete_text">Fastest to complete</string>
+    <string name="badge_beta_text">Beta</string>
+    <string name="badge_completed_text">Completed</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -268,7 +280,6 @@
     <string name="problem_of_day_solve_a_random_problem">Solve a random problem using the topics you already know to practice what you\'ve learned.</string>
     <string name="problem_of_day_get_back">Get back later to solve another problem.</string>
     <string name="problem_of_day_next_problem_in">Next problem in</string>
-    <string name="problem_of_day_minutes">%d minutes</string>
 
     <!--  Topics repetitions  -->
     <string name="topics_repetitions_card_title_uncompleted">Repeat what you\'ve learned</string>
@@ -373,6 +384,51 @@
     <string name="study_plan_title">Study plan</string>
     <string name="study_plan_track_title_template">for: %s</string>
     <string name="study_plan_activities_error_text">Oops! We were unable to load the content.</string>
-    <string name="study_plan_badge_current_text">Current</string>
 
+    <!--Project selection list -->
+    <string name="projects_list_toolbar_title">Select project</string>
+    <string name="projects_list_title">Select project in track %s</string>
+    <string name="projects_list_description">Explore recommended projects and pick one</string>
+    <string name="projects_list_recommended_projects_title">Recommended projects</string>
+    <string name="projects_list_easy_category_title">Easy</string>
+    <string name="projects_list_easy_category_description">Easy projects if you\'re just starting</string>
+    <string name="projects_list_medium_category_title">Medium</string>
+    <string name="projects_list_medium_category_description">Medium projects to build upon the basics</string>
+    <string name="projects_list_hard_category_title">Hard</string>
+    <string name="projects_list_hard_category_description">Hard projects to practice all the basic concepts and learn new ones</string>
+    <string name="projects_list_nightmare_category_title">Challenging</string>
+    <string name="projects_list_nightmare_category_description">Challenging projects to perfect your knowledge with challenging tasks</string>
+    <string name="projects_list_project_graduate_title">Graduate</string>
+
+    <!-- Project selection details -->
+    <string name="project_selection_details_learning_outcomes_title">Learning outcomes</string>
+    <string name="project_selection_details_project_overview_title">Project overview</string>
+    <string name="project_selection_details_project_overview_no_rating">It\'s new project, no rating yet</string>
+    <string name="project_selection_details_project_overview_project_level_template">%s project</string>
+    <string name="project_selection_details_project_overview_graduate_project_description">Graduate project. Solve at
+        least one to complete the track.
+    </string>
+    <string name="project_selection_details_provided_by_title">Provided by:</string>
+    <string name="project_selection_details_cta_button_title">Select this project</string>
+    <string name="project_selection_details_project_selection_success_message">Project successfully selected</string>
+    <string name="project_selection_details_project_selection_error_message">Failed to select a project</string>
+
+    <!-- Track selection list -->
+    <string name="track_selection_list_toolbar_title">Select track</string>
+
+    <!--  Track selection details -->
+    <string name="track_selection_details_overview_title">Track overview</string>
+    <string name="track_selection_details_no_rating">It’s new track, no rating yet</string>
+    <string name="track_selection_details_time_to_complete_text_template">%s for all learning activities</string>
+    <string name="track_selection_details_topics_count_text_template">%s with theory and practice adapted to you level</string>
+    <string name="track_selection_details_projects_text_template">%s to choose from for your portfolio</string>
+    <string name="track_selection_details_certificate_text">Certificate of completion available on this track</string>
+    <string name="track_selection_details_select_button">Select this track</string>
+    <string name="track_selection_details_main_provider_title">Provided by:</string>
+    <string name="track_selection_details_other_providers_title">Other providers for this track:</string>
+    <string name="track_selection_details_selection_succeed">Track successfully selected</string>
+    <string name="track_selection_details_selection_failed">Failed to select a track</string>
+
+    <!-- Date formatter -->
+    <string name="date_formatter_less_than_a_minute">less than a minute</string>
 </resources>

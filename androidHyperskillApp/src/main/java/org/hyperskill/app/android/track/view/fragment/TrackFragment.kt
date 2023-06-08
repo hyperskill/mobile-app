@@ -31,7 +31,7 @@ import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
-import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
@@ -151,7 +151,7 @@ class TrackFragment :
                     is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
                         val viewAction =
                             action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
-                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
+                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
                 }
         }
@@ -242,8 +242,9 @@ class TrackFragment :
 
     private fun renderAboutSection(content: TrackFeature.TrackState.Content) {
         with(viewBinding.trackAbout) {
-            trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating}"
-            val hoursToComplete = (content.track.secondsToComplete / 3600).roundToInt()
+            trackAboutUsefulnessTextView.text = "${content.trackProgress.averageRating()}"
+            // Deprecated file
+            val hoursToComplete = ((content.track.secondsToComplete ?: 0f) / 3600).roundToInt()
             trackAboutAllPerformTimeTextView.text = resources.getQuantityString(
                 org.hyperskill.app.R.plurals.hours,
                 hoursToComplete,

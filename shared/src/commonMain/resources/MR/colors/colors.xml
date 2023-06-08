@@ -126,6 +126,14 @@
         <light>@color/color_white_50</light>
         <dark>@color/color_black_900</dark>
     </color>
+    <color name="color_on_primary_alpha_87">
+        <light>@color/color_white_50_alpha_87</light>
+        <dark>@color/color_black_900_alpha_87</dark>
+    </color>
+    <color name="color_on_primary_alpha_60">
+        <light>@color/color_white_50_alpha_60</light>
+        <dark>@color/color_black_900_alpha_60</dark>
+    </color>
 
     <color name="color_surface">
         <light>@color/color_white_50</light>

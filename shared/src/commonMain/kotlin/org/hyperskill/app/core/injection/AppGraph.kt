@@ -21,7 +21,6 @@ import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.injection.NotificationComponent
 import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -31,7 +30,10 @@ import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponent
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
+import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
@@ -58,6 +60,8 @@ import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNext
 import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
 import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 
 interface AppGraph {
@@ -100,12 +104,13 @@ interface AppGraph {
     fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
+    fun buildTrackSelectionListComponent(): TrackSelectionListComponent
+    fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent
     fun buildProfileComponent(): ProfileComponent
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent
     fun buildNotificationComponent(): NotificationComponent
     fun buildOnboardingComponent(): OnboardingComponent
-    fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
     fun buildStreaksDataComponent(): StreaksDataComponent
@@ -126,7 +131,10 @@ interface AppGraph {
     fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
+    fun buildProjectSelectionListComponent(): ProjectSelectionListComponent
+    fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent
     fun buildStagesDataComponent(): StagesDataComponent
     fun buildFreemiumDataComponent(): FreemiumDataComponent
     fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent
+    fun buildProvidersDataComponent(): ProvidersDataComponent
 }

@@ -12,6 +12,11 @@
     <dimen name="half_padding">8dp</dimen>
     <dimen name="action_button_height">48dp</dimen>
 
+    <dimen name="item_vertical_padding">20dp</dimen>
+    <dimen name="item_horizontal_padding">16dp</dimen>
+    <dimen name="screen_horizontal_padding">20dp</dimen>
+
+
     <!-- Auth screen -->
 
     <dimen name="auth_button_max_width">380dp</dimen>
@@ -86,9 +91,6 @@
     <dimen name="track_next_topic_horizontal_item_padding">16dp</dimen>
     <dimen name="track_next_topic_first_item_vertical_offset">11dp</dimen>
 
-    <!--New user screen-->
-    <dimen name="track_items_vertical_margin">8dp</dimen>
-
     <dimen name="problems_limit_diver_margin">20dp</dimen>
 
     <!--Study plan-->
@@ -103,5 +105,24 @@
     <dimen name="gamification_toolbar_with_subtitle_height">100dp</dimen>
     <dimen name="gamification_toolbar_default_expanded_title_margin_bottom">8dp</dimen>
     <dimen name="gamification_toolbar_with_subtitle_expanded_title_margin_bottom">30dp</dimen>
+
+    <!--ProjectSelectionList screen-->
+    <dimen name="project_selection_list_first_item_top_margin">32dp</dimen>
+    <dimen name="project_selection_list_section_title_top_margin">32dp</dimen>
+    <dimen name="project_selection_list_section_first_item_top_margin">16dp</dimen>
+    <dimen name="project_selection_list_section_item_top_margin">8dp</dimen>
+    <dimen name="project_selection_list_horizontal_margin">20dp</dimen>
+    <dimen name="project_selection_last_item_bottom_margin">20dp</dimen>
+    <dimen name="project_selection_track_icon_size">40dp</dimen>
+    <dimen name="project_selection_header_top_margin">47dp</dimen>
+    <dimen name="project_selection_list_item_tags_top_margin">12dp</dimen>
+
+    <!--TrackSelectionList screen-->
+    <dimen name="track_selection_list_item_icon_size">20dp</dimen>
+    <dimen name="track_selection_list_item_tags_top_margin">12dp</dimen>
+    <dimen name="track_selection_list_item_top_margin">8dp</dimen>
+
+    <dimen name="track_selection_details_content_bottom_margin">20dp</dimen>
+    <dimen name="track_selection_details_tags_bottom_margin">16dp</dimen>
 
 </resources>

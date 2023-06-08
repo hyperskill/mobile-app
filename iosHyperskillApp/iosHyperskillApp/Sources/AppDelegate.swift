@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ProgressHUD.configure()
         KeyboardManager.configure()
         NukeManager.registerCustomDecoders()
+        AppPowerModeObserver.shared.observe()
 
         notificationsRegistrationService.renewAPNsDeviceToken()
         notificationsService.handleLaunchOptions(launchOptions)

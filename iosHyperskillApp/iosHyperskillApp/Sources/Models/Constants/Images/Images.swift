@@ -5,6 +5,8 @@ enum Images {
 
     enum Common {
         static let hyperskillLogo = "hyperskill-logo"
+
+        static let trophy = "trophy"
     }
 
     // MARK: - TabBar -
@@ -12,8 +14,6 @@ enum Images {
     enum TabBar {
         static let home = "tab-bar-home"
         static let homeFilled = "tab-bar-home-filled"
-
-        static let track = "tab-bar-track"
 
         static let studyPlan = "tab-bar-study-plan"
         static let studyPlanFilled = "tab-bar-study-plan-filled"
@@ -90,6 +90,9 @@ enum Images {
         static let projectGraduate = "track-project-graduate"
         static let hammer = "track-hammer"
 
+        static let track = "track"
+        static let trackFilled = "track-filled"
+
         enum TopicsToDiscoverNext {
             static let skippedTopic = "track-topics-to-discover-next-skipped-topic"
         }
@@ -162,5 +165,18 @@ enum Images {
 
     enum TopicsRepetitions {
         static let bookImage = "topics-repetitions-book-image"
+    }
+
+    // MARK: - ProjectSelectionList -
+
+    enum ProjectSelectionList {
+        static let projectGraduate = "project-selection-list-project-graduate"
+
+        enum ProjectLevel {
+            static let easy = "project-selection-list-project-level-easy"
+            static let medium = "project-selection-list-project-level-medium"
+            static let hard = "project-selection-list-project-level-hard"
+            static let nightmare = "project-selection-list-project-level-nightmare"
+        }
     }
 }

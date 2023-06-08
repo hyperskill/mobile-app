@@ -7,10 +7,13 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
+import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenActionDispatcher
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
-import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewState
 import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewStateMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDispatcher
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
@@ -27,21 +30,33 @@ internal object StudyPlanScreenFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         toolbarReducer: GamificationToolbarReducer,
         toolbarActionDispatcher: GamificationToolbarActionDispatcher,
+        problemsLimitReducer: ProblemsLimitReducer,
+        problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         studyPlanWidgetReducer: StudyPlanWidgetReducer,
         studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher,
+        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
         resourceProvider: ResourceProvider
-    ): Feature<StudyPlanScreenViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
-        val studyPlanScreenReducer = StudyPlanScreenReducer(toolbarReducer, studyPlanWidgetReducer)
+    ): Feature<StudyPlanScreenFeature.ViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
+        val studyPlanScreenReducer = StudyPlanScreenReducer(
+            toolbarReducer = toolbarReducer,
+            problemsLimitReducer = problemsLimitReducer,
+            studyPlanWidgetReducer = studyPlanWidgetReducer
+        )
         val studyPlanScreenActionDispatcher = StudyPlanScreenActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor
         )
         val studyPlanScreenViewStateMapper =
-            StudyPlanScreenViewStateMapper(studyPlanWidgetViewStateMapper, resourceProvider)
+            StudyPlanScreenViewStateMapper(
+                problemsLimitViewStateMapper = problemsLimitViewStateMapper,
+                studyPlanWidgetViewStateMapper = studyPlanWidgetViewStateMapper,
+                resourceProvider = resourceProvider
+            )
         return ReduxFeature(
             StudyPlanScreenFeature.State(
                 toolbarState = GamificationToolbarFeature.State.Idle,
+                problemsLimitState = ProblemsLimitFeature.State.Idle,
                 studyPlanWidgetState = StudyPlanWidgetFeature.State()
             ),
             reducer = studyPlanScreenReducer
@@ -54,6 +69,14 @@ internal object StudyPlanScreenFeatureBuilder {
                         it.safeCast<StudyPlanScreenFeature.InternalAction.GamificationToolbarAction>()?.action
                     },
                     transformMessage = StudyPlanScreenFeature.Message::GamificationToolbarMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                problemsLimitActionDispatcher.transform(
+                    transformAction = {
+                        it.safeCast<StudyPlanScreenFeature.InternalAction.ProblemsLimitAction>()?.action
+                    },
+                    transformMessage = StudyPlanScreenFeature.Message::ProblemsLimitMessage
                 )
             )
             .wrapWithActionDispatcher(

@@ -8,7 +8,6 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
@@ -32,13 +31,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
             is Message.Initialize ->
-                coldContentFetch()
+                coldContentFetch(state, message)
             is StudyPlanWidgetFeature.StudyPlanFetchResult.Success ->
                 handleStudyPlanFetchSuccess(state, message)
             is StudyPlanWidgetFeature.SectionsFetchResult.Success ->
                 handleSectionsFetchSuccess(state, message)
-            is Message.RetryContentLoading ->
-                handleRetryContentLoading()
             is Message.RetryActivitiesLoading ->
                 handleRetryActivitiesLoading(state, message)
             is Message.ReloadContentInBackground -> {
@@ -102,9 +99,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 )
         } ?: (state to emptySet())
 
-    private fun coldContentFetch(): StudyPlanWidgetReducerResult =
-        State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
-            setOf(InternalAction.FetchStudyPlan())
+    private fun coldContentFetch(state: State, message: Message.Initialize): StudyPlanWidgetReducerResult =
+        if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
+            state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
+        ) {
+            State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
+                setOf(InternalAction.FetchStudyPlan())
+        } else {
+            state to emptySet()
+        }
 
     private fun handleStudyPlanFetchSuccess(
         state: State,
@@ -174,8 +177,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleLearningActivitiesFetchSuccess(
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success
-    ): StudyPlanWidgetReducerResult =
-        state.copy(
+    ): StudyPlanWidgetReducerResult {
+        val nextState = state.copy(
             activities = state.activities.toMutableMap().apply {
                 putAll(message.activities.associateBy { it.id })
                 // ALTAPPS-743: We should remove activities that are not in the new list
@@ -185,10 +188,27 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 val activitiesIdsToRemove = activitiesIds - message.activities.map { it.id }.toSet()
                 activitiesIdsToRemove.forEach { remove(it) }
             },
-            studyPlanSections = state.studyPlanSections.update(message.sectionId) { sectionInfo ->
-                sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
+            // ALTAPPS-786: We should hide sections without available activities to avoid blocking study plan
+            studyPlanSections = if (message.activities.isEmpty()) {
+                state.studyPlanSections.toMutableMap().apply {
+                    remove(message.sectionId)
+                }
+            } else {
+                state.studyPlanSections.update(message.sectionId) { sectionInfo ->
+                    sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED)
+                }
             }
-        ) to emptySet()
+        )
+
+        // ALTAPPS-786: We should expand next section if current section doesn't have available activities
+        return if (message.sectionId == state.getCurrentSection()?.id && message.activities.isEmpty()) {
+            nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
+                changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
+            } ?: (nextState to emptySet())
+        } else {
+            nextState to emptySet()
+        }
+    }
 
     private fun handleLearningActivitiesFetchFailed(
         state: State,
@@ -199,13 +219,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 sectionInfo.copy(contentStatus = StudyPlanWidgetFeature.ContentStatus.ERROR)
             }
         ) to emptySet()
-
-    private fun handleRetryContentLoading(): StudyPlanWidgetReducerResult {
-        val (state, actions) = coldContentFetch()
-        return state to actions + InternalAction.LogAnalyticEvent(
-            StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent()
-        )
-    }
 
     private fun handleRetryActivitiesLoading(
         state: State,
@@ -312,10 +325,12 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             return state to setOf(logAnalyticEventAction)
         }
 
-        val viewAction = when (activity.type) {
+        val activityTargetAction = when (activity.type) {
             LearningActivityType.IMPLEMENT_STAGE -> {
                 val projectId = state.studyPlan?.projectId
-                if (projectId != null && activity.targetType == LearningActivityTargetType.STAGE) {
+                if (projectId != null &&
+                    activity.targetId != null && activity.targetType == LearningActivityTargetType.STAGE
+                ) {
                     if (activity.isIdeRequired) {
                         Action.ViewAction.ShowStageImplementUnsupportedModal
                     } else {
@@ -329,15 +344,29 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 }
             }
             LearningActivityType.LEARN_TOPIC -> {
-                if (activity.targetType == LearningActivityTargetType.STEP) {
-                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn(activity.targetId))
+                if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
+                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn.Step(activity.targetId))
                 } else {
                     null
                 }
             }
+            LearningActivityType.SELECT_PROJECT -> {
+                val trackId = state.track?.id ?: state.studyPlan?.trackId
+
+                if (trackId != null) {
+                    Action.ViewAction.NavigateTo.SelectProject(trackId)
+                } else {
+                    // Should not happen because at this point we must have non null study plan
+                    val errorMessage = "StudyPlanWidgetReducer: SELECT_PROJECT trackId is null"
+                    InternalAction.CaptureSentryErrorMessage(errorMessage)
+                }
+            }
+            LearningActivityType.SELECT_TRACK -> {
+                Action.ViewAction.NavigateTo.SelectTrack
+            }
             else -> null
         }
-        return state to setOfNotNull(viewAction, logAnalyticEventAction)
+        return state to setOfNotNull(activityTargetAction, logAnalyticEventAction)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

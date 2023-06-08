@@ -6,10 +6,13 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
  * Please do not change the names of transactions if they already appeared in the Sentry.
  */
 object HyperskillSentryTransactionBuilder {
-    fun buildAppInitialization(): HyperskillSentryTransaction =
+    fun buildAppInitialization(isAuthorized: Boolean): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "app-initialization",
-            operation = HyperskillSentryTransactionOperation.UI_LOAD
+            operation = HyperskillSentryTransactionOperation.UI_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.User.IsAuthorized(isAuthorized)
+            )
         )
 
     /**
@@ -48,15 +51,6 @@ object HyperskillSentryTransactionBuilder {
     fun buildHomeScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "home-feature-remote-data-loading",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
-        )
-
-    /**
-     * PlaceholderNewUserFeature
-     */
-    fun buildPlaceholderNewUserScreenRemoteDataLoading(): HyperskillSentryTransaction =
-        HyperskillSentryTransaction(
-            name = "placeholder-new-user-feature-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
@@ -209,6 +203,12 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildProblemsLimitStudyPlanScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "problems-limit-feature-study-plan-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     fun buildProblemsLimitStepQuizScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "problems-limit-feature-step-quiz-screen-remote-data-loading",
@@ -257,6 +257,42 @@ object HyperskillSentryTransactionBuilder {
     fun buildStudyPlanWidgetFetchTrack(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "study-plan-widget-feature-fetch-track",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * ProjectSelectionListFeature
+     */
+    fun buildProjectSelectionListScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "project-selection-list-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * ProjectSelectionDetailsFeature
+     */
+    fun buildProjectSelectionDetailsScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "project-selection-details-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * TrackSelectionListFeature
+     */
+    fun buildTrackSelectionListScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "track-selection-list-feature-screen-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * TrackSelectionDetailsFeature
+     */
+    fun buildTrackSelectionDetailsScreenRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "track-selection-details-feature-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }

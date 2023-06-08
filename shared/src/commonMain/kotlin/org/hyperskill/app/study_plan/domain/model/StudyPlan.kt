@@ -14,18 +14,17 @@ data class StudyPlan(
     val projectId: Long?,
     @SerialName("sections")
     val sections: List<Long>,
+    @Deprecated("Remove after Track feature removal")
     @SerialName("seconds_to_reach_track")
-    val secondsToReachTrack: Float,
-    @SerialName("seconds_to_reach_project")
-    val secondsToReachProject: Float,
-    @SerialName("created_at")
-    val createdAt: String,
+    private val secondsToReachTrack: Float,
     @SerialName("status")
     val status: StudyPlanStatus
 ) {
+    @Deprecated("Use SharedDateFormatter instead, remove after Track feature removal")
     val minutesToReachTrack: Int =
         (secondsToReachTrack / 60.0).roundToInt()
 
+    @Deprecated("Use SharedDateFormatter instead, remove after Track feature removal")
     val hoursToReachTrack: Int =
         (secondsToReachTrack / 3600.0).roundToInt()
 }

@@ -152,7 +152,7 @@ extension StepView {
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            StepAssembly(stepRoute: StepRouteLearn(stepId: 4350)).makeModule()
+            StepAssembly(stepRoute: StepRouteLearnStep(stepId: 4350)).makeModule()
         }
     }
 }

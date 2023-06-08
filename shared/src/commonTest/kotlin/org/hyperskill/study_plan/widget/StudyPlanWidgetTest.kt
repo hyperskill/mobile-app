@@ -1,14 +1,12 @@
 package org.hyperskill.study_plan.widget
 
-import dev.icerock.moko.resources.PluralsResource
-import dev.icerock.moko.resources.StringResource
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
-import org.hyperskill.app.core.view.mapper.DateFormatter
-import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
@@ -17,7 +15,6 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
-import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -32,26 +29,16 @@ class StudyPlanWidgetTest {
 
     private val reducer = StudyPlanWidgetReducer()
 
-    private val resourceProviderStub = object : ResourceProvider {
-        override fun getString(stringResource: StringResource): String =
-            ""
+    private val resourceProviderStub = ResourceProviderStub()
 
-        override fun getString(stringResource: StringResource, vararg args: Any): String =
-            ""
-
-        override fun getQuantityString(pluralsResource: PluralsResource, quantity: Int): String =
-            ""
-
-        override fun getQuantityString(pluralsResource: PluralsResource, quantity: Int, vararg args: Any): String =
-            ""
-    }
-
-    private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(DateFormatter(resourceProviderStub))
+    private val studyPlanWidgetViewStateMapper = StudyPlanWidgetViewStateMapper(
+        SharedDateFormatter(resourceProviderStub)
+    )
 
     @Test
     fun `Initialize message should trigger studyPLan fetching`() {
         val initialState = StudyPlanWidgetFeature.State()
-        val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.Message.Initialize)
+        val (state, actions) = reducer.reduce(initialState, StudyPlanWidgetFeature.Message.Initialize())
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan())
         assertEquals(state.sectionsStatus, StudyPlanWidgetFeature.ContentStatus.LOADING)
     }
@@ -158,7 +145,9 @@ class StudyPlanWidgetTest {
             setOf(
                 StudyPlanSectionType.STAGE,
                 StudyPlanSectionType.EXTRA_TOPICS,
-                StudyPlanSectionType.ROOT_TOPICS
+                StudyPlanSectionType.ROOT_TOPICS,
+                StudyPlanSectionType.NEXT_PROJECT,
+                StudyPlanSectionType.NEXT_TRACK
             ),
             StudyPlanSectionType.supportedTypes(),
             "Test should be updated according to new supported types"
@@ -167,7 +156,7 @@ class StudyPlanWidgetTest {
         val visibleUnsupportedSection = studyPlanSectionStub(
             id = 0,
             isVisible = true,
-            type = StudyPlanSectionType.NEXT_TRACK
+            type = StudyPlanSectionType.WRAP_UP_TRACK
         )
         val hiddenSection = studyPlanSectionStub(id = 1, isVisible = false)
         val visibleSupportedSection = studyPlanSectionStub(
@@ -269,9 +258,67 @@ class StudyPlanWidgetTest {
         val (state, _) =
             reducer.reduce(
                 initialState,
-                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = sectionId, emptyList())
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
+                    sectionId = sectionId,
+                    activities = listOf(stubLearningActivity(1L))
+                )
             )
         assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, state.studyPlanSections[sectionId]?.contentStatus)
+    }
+
+    @Test
+    fun `Current section should be removed if no available activities loaded and next section should be expanded`() {
+        val currentSectionId = 0L
+        val nextSectionId = 1L
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(currentSectionId),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    isExpanded = true
+                ),
+                nextSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(nextSectionId),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.IDLE,
+                    isExpanded = false
+                )
+            )
+        )
+        val (state, _) =
+            reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = currentSectionId, emptyList())
+            )
+        assertTrue(state.studyPlanSections.containsKey(currentSectionId).not())
+        val nextSection = state.studyPlanSections.get(nextSectionId)
+        assertTrue(nextSection?.isExpanded == true)
+        assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADING, nextSection?.contentStatus)
+    }
+
+    @Test
+    fun `Not current section should be removed if no available activities loaded`() {
+        val currentSectionId = 0L
+        val notCurrent = 1L
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                currentSectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(currentSectionId),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+                    isExpanded = true
+                ),
+                notCurrent to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(notCurrent),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    isExpanded = false
+                )
+            )
+        )
+        val (state, _) =
+            reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId = notCurrent, emptyList())
+            )
+        assertTrue(state.studyPlanSections.containsKey(notCurrent).not())
     }
 
     @Test
@@ -587,6 +634,50 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Section content item title in ViewState should be equal to learning activity description`() {
+        val expectedViewState = StudyPlanWidgetViewState.Content(
+            listOf(
+                sectionViewState(
+                    section = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    content = StudyPlanWidgetViewState.SectionContent.Content(
+                        sectionItems = listOf(
+                            studyPlanSectionItemStub(
+                                activityId = 0,
+                                title = "Work on project. Stage: 1/6",
+                                subtitle = "Hello, coffee!",
+                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
+                            )
+                        )
+                    ),
+                    isCurrent = true
+                )
+            )
+        )
+
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlanSections = mapOf(
+                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                0L to stubLearningActivity(
+                    id = 0,
+                    title = "Hello, coffee!",
+                    description = "Work on project. Stage: 1/6"
+                )
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+        assertEquals(expectedViewState, viewState)
+    }
+
+    @Test
     fun `Section content statistics in ViewState should be always visible for first visible section`() {
         fun makeState(isExpanded: Boolean): StudyPlanWidgetFeature.State =
             StudyPlanWidgetFeature.State(
@@ -882,19 +973,54 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `Retry content loading message should trigger logging analytic event`() {
-        val (_, actions) = reducer.reduce(
-            StudyPlanWidgetFeature.State(),
-            StudyPlanWidgetFeature.Message.RetryContentLoading
+    fun `Click on select project learning activity should navigate to select project`() {
+        val activityId = 0L
+        val sectionId = 1L
+        val trackId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0, trackId = trackId),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                activityId to stubLearningActivity(activityId, type = LearningActivityType.SELECT_PROJECT)
+            )
         )
 
-        assertEquals(actions.size, 2)
-        val targetAction = actions.last() as StudyPlanWidgetFeature.InternalAction.LogAnalyticEvent
-        if (targetAction.analyticEvent is StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent) {
-            // pass
-        } else {
-            fail("Unexpected action: $targetAction")
-        }
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject(trackId))
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
+    }
+
+    @Test
+    fun `Click on select track learning activity should navigate to select track`() {
+        val activityId = 0L
+        val sectionId = 1L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = studyPlanStub(id = 0),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                activityId to stubLearningActivity(activityId, type = LearningActivityType.SELECT_TRACK)
+            )
+        )
+
+        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+
+        assertEquals(state, newState)
+        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack)
+        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -1113,19 +1239,18 @@ class StudyPlanWidgetTest {
 
     private fun studyPlanStub(
         id: Long,
+        trackId: Long? = null,
         projectId: Long? = null,
         status: StudyPlanStatus = StudyPlanStatus.READY,
         sections: List<Long> = emptyList()
     ) =
         StudyPlan(
             id = id,
-            trackId = null,
+            trackId = trackId,
             projectId = projectId,
             sections = sections,
             status = status,
-            createdAt = "",
-            secondsToReachTrack = 0f,
-            secondsToReachProject = 0f
+            secondsToReachTrack = 0f
         )
 
     private fun studyPlanSectionStub(
@@ -1140,10 +1265,7 @@ class StudyPlanWidgetTest {
     ) =
         StudyPlanSection(
             id = id,
-            studyPlanId = 0,
             typeValue = type.value,
-            targetId = 0,
-            targetType = "",
             nextActivityId = nextActivityId,
             isVisible = isVisible,
             title = "",
@@ -1161,6 +1283,7 @@ class StudyPlanWidgetTest {
         type: LearningActivityType = LearningActivityType.LEARN_TOPIC,
         targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
         title: String = "",
+        description: String? = null,
         isIdeRequired: Boolean = false
     ) =
         LearningActivity(
@@ -1170,18 +1293,21 @@ class StudyPlanWidgetTest {
             typeValue = type.value,
             targetTypeValue = targetType.value,
             title = title,
+            description = description,
             isIdeRequired = isIdeRequired
         )
 
     private fun studyPlanSectionItemStub(
         activityId: Long,
         title: String = "",
+        subtitle: String? = null,
         state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED,
         isIdeRequired: Boolean = false
     ) =
         StudyPlanWidgetViewState.SectionItem(
             id = activityId,
             title = title.ifBlank { activityId.toString() },
+            subtitle = subtitle,
             formattedProgress = null,
             progress = null,
             state = state,

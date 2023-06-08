@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/projectSelectionDetailsTags"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/BadgeFlow"
+            app:constraint_referenced_ids="projectSelectionDetailsSelectedBadge,projectSelectionDetailsIdeRequiredBadge,projectSelectionDetailsBestRatingBadge,projectSelectionDetailsFastestToCompleteBadge,projectSelectionDetailsBetaBadge"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <include
+            android:id="@+id/projectSelectionDetailsSelectedBadge"
+            layout="@layout/view_badge_selected"/>
+
+        <include
+            android:id="@+id/projectSelectionDetailsIdeRequiredBadge"
+            layout="@layout/view_badge_ide_required"
+            />
+
+        <include
+            android:id="@+id/projectSelectionDetailsBestRatingBadge"
+            layout="@layout/view_badge_best_rating"
+            />
+
+        <include
+            android:id="@+id/projectSelectionDetailsFastestToCompleteBadge"
+            layout="@layout/view_badge_fastest_to_complete"
+            />
+
+        <include
+            android:id="@+id/projectSelectionDetailsBetaBadge"
+            layout="@layout/view_badge_beta"/>
+
+        <TextView
+            android:id="@+id/projectSelectionDetailsLearningOutcomesTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+            android:textSize="18sp"
+            android:text="@string/project_selection_details_learning_outcomes_title"
+            android:layout_marginTop="@dimen/project_selection_list_item_tags_top_margin"
+            app:layout_constraintTop_toBottomOf="@+id/projectSelectionDetailsTags" />
+
+        <org.hyperskill.app.android.latex.view.widget.LatexView
+            android:id="@+id/projectSelectionLearningOutcomesDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/projectSelectionDetailsLearningOutcomesTitle"
+            android:textAppearance="@style/TextAppearance.AppTheme.Body1"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

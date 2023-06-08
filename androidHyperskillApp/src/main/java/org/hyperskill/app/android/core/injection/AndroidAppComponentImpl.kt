@@ -74,10 +74,6 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlaceholderNewUserComponentImpl
-import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponent
-import org.hyperskill.app.placeholder_new_user.injection.PlatformPlaceholderNewUserComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -99,8 +95,20 @@ import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponent
+import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponentImpl
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponent
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponentImpl
+import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
+import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
+import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponentImpl
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponentImpl
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
+import org.hyperskill.app.providers.injection.ProvidersDataComponent
+import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -165,6 +173,16 @@ import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
+import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
+import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponentImpl
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponentImpl
+import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
+import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
+import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
@@ -397,17 +415,6 @@ class AndroidAppComponentImpl(
         PlatformOnboardingComponentImpl(onboardingComponent)
 
     /**
-     * Placeholder new user component
-     */
-    override fun buildPlaceholderNewUserComponent(): PlaceholderNewUserComponent =
-        PlaceholderNewUserComponentImpl(this)
-
-    override fun buildPlatformPlaceholderNewUserComponent(
-        placeholderNewUserComponent: PlaceholderNewUserComponent
-    ): PlatformPlaceholderNewUserComponent =
-        PlatformPlaceholderNewUserComponentImpl(placeholderNewUserComponent)
-
-    /**
      * Topics repetitions component
      */
     override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
@@ -453,6 +460,54 @@ class AndroidAppComponentImpl(
         PlatformStudyPlanScreenComponentImpl(
             studyPlanScreenComponent = buildStudyPlanScreenComponent()
         )
+
+    /**
+     * Project selection list component
+     */
+
+    override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
+        ProjectSelectionListComponentImpl(this)
+
+    override fun buildPlatformProjectSelectionListComponent(
+        params: ProjectSelectionListParams
+    ): PlatformProjectSelectionListComponent =
+        PlatformProjectSelectionListComponentImpl(
+            projectSelectionListComponent = buildProjectSelectionListComponent(),
+            params = params
+        )
+
+    /**
+     * Project selection details component
+     */
+    override fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent =
+        ProjectSelectionDetailsComponentImpl(this)
+
+    override fun buildPlatformProjectSelectionDetailsComponent(
+        params: ProjectSelectionDetailsParams
+    ): PlatformProjectSelectionDetailsComponent =
+        PlatformProjectSelectionDetailsComponentImpl(buildProjectSelectionDetailsComponent(), params)
+
+    /**
+     * Track selection list component
+     */
+    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
+        TrackSelectionListComponentImpl(this)
+
+    override fun buildPlatformTrackSelectionListComponent(
+        params: TrackSelectionListParams
+    ): PlatformTrackSelectionListComponent =
+        PlatformTrackSelectionListComponentImpl(buildTrackSelectionListComponent(), params)
+
+    /**
+     * Track selection details component
+     */
+    override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
+        TrackSelectionDetailsComponentImpl(this)
+
+    override fun buildPlatformTrackSelectionDetailsComponent(
+        params: TrackSelectionDetailsParams
+    ): PlatformTrackSelectionDetailsComponent =
+        PlatformTrackSelectionDetailsComponentImpl(buildTrackSelectionDetailsComponent(), params)
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
@@ -507,4 +562,7 @@ class AndroidAppComponentImpl(
 
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)
+
+    override fun buildProvidersDataComponent(): ProvidersDataComponent =
+        ProvidersDataComponentImpl(this)
 }

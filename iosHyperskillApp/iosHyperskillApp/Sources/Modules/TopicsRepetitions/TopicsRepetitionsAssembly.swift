@@ -15,13 +15,15 @@ class TopicsRepetitionsAssembly: UIKitAssembly {
             dataMapper: topicsRepetitionsComponent.topicsRepetitionsViewDataMapper
         )
 
-        let viewController = StyledHostingController(
+        let hostingController = StyledHostingController(
             rootView: topicsRepetitionsView,
             appearance: .withoutBackButtonTitle
         )
+        // Fixes an issue with that SwiftUI view content layout unexpectedly pop/jumps on appear
+        hostingController.navigationItem.largeTitleDisplayMode = .never
 
-        stackRouter.rootViewController = viewController
+        stackRouter.rootViewController = hostingController
 
-        return viewController
+        return hostingController
     }
 }

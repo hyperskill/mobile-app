@@ -37,6 +37,11 @@ sealed class HyperskillAnalyticRoute {
     sealed class Projects(projectId: Long) : HyperskillAnalyticRoute() {
         override val path: String = "/projects/$projectId"
 
+        class SelectProjectDetails(projectId: Long, trackId: Long) : Projects(projectId) {
+            override val path: String =
+                "${super.path}?track=$trackId"
+        }
+
         sealed class Stages(projectId: Long, stageId: Long) : Projects(projectId) {
             override val path: String =
                 "${super.path}/stages/$stageId"
@@ -55,9 +60,14 @@ sealed class HyperskillAnalyticRoute {
     open class Repeat : HyperskillAnalyticRoute() {
         override val path: String = "/repeat"
 
-        class Step(stepId: Long) : Repeat() {
+        open class Step(stepId: Long) : Repeat() {
             override val path: String =
                 "${super.path}/step/$stepId"
+
+            class Theory(stepId: Long) : Step(stepId) {
+                override val path: String =
+                    "${super.path}?theory"
+            }
         }
     }
 
@@ -81,5 +91,19 @@ sealed class HyperskillAnalyticRoute {
     class StudyPlan : HyperskillAnalyticRoute() {
         override val path: String =
             "/study-plan"
+    }
+
+    open class Tracks : HyperskillAnalyticRoute() {
+        override val path: String = "/tracks"
+
+        class Details(trackId: Long) : Tracks() {
+            override val path: String =
+                "${super.path}/$trackId"
+        }
+
+        class Projects(trackId: Long) : Tracks() {
+            override val path: String =
+                "${super.path}/$trackId/projects"
+        }
     }
 }

@@ -6,6 +6,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.hyperskill.app.network.remote.parameterIds
 import org.hyperskill.app.stages.data.source.StagesRemoteDataSource
 import org.hyperskill.app.stages.domain.model.Stage
 import org.hyperskill.app.stages.remote.model.StagesResponse
@@ -18,7 +19,7 @@ class StagesRemoteDataSourceImpl(
             httpClient
                 .get("/api/stages") {
                     contentType(ContentType.Application.Json)
-                    parameter("ids", stagesIds.joinToString(separator = ","))
+                    parameterIds(stagesIds)
                 }.body<StagesResponse>().stages
         }
 

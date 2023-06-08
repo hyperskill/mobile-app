@@ -30,6 +30,7 @@ import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDeleg
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
@@ -51,6 +52,7 @@ class HomeFragment :
     }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var dateFormatter: SharedDateFormatter
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
@@ -147,6 +149,7 @@ class HomeFragment :
         val problemsLimitComponent = HyperskillApp.graph().buildProblemsLimitComponent(ProblemsLimitScreen.HOME)
         viewModelFactory = platformHomeComponent.reduxViewModelFactory
         problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper
+        dateFormatter = HyperskillApp.graph().commonComponent.dateFormatter
     }
 
     private fun onProblemOfDayCardActionButtonClicked(stepId: Long) {
@@ -218,7 +221,7 @@ class HomeFragment :
                     is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
                         val viewAction =
                             action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
-                        requireRouter().navigateTo(StepScreen(StepRoute.Learn(viewAction.stepId)))
+                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
                     }
                 }
             }
@@ -270,7 +273,7 @@ class HomeFragment :
         isFreemiumEnabled: Boolean
     ) {
         problemOfDayCardFormDelegate.render(
-            context = requireContext(),
+            dateFormatter = dateFormatter,
             binding = viewBinding.homeScreenProblemOfDayCard,
             state = state,
             isFreemiumEnabled = isFreemiumEnabled
