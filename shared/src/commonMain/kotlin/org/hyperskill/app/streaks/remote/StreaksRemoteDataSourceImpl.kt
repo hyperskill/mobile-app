@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.streaks.data.source.StreaksRemoteDataSource
@@ -20,5 +21,19 @@ class StreaksRemoteDataSourceImpl(
                     parameter("user", userId)
                     parameter("page", page)
                 }.body()
+        }
+
+    override suspend fun recoverStreak(): Result<StreaksResponse> =
+        kotlin.runCatching {
+            httpClient
+                .post("/api/streaks/recover")
+                .body()
+        }
+
+    override suspend fun cancelStreakRecovery(): Result<StreaksResponse> =
+        kotlin.runCatching {
+            httpClient
+                .post("/api/streaks/cancel-recovery")
+                .body()
         }
 }

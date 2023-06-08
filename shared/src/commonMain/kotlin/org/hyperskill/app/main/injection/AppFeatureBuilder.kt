@@ -11,6 +11,10 @@ import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import ru.nobird.app.core.model.safeCast
+import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -22,9 +26,11 @@ object AppFeatureBuilder {
         authInteractor: AuthInteractor,
         profileInteractor: ProfileInteractor,
         sentryInteractor: SentryInteractor,
-        stateRepositoriesComponent: StateRepositoriesComponent
+        stateRepositoriesComponent: StateRepositoriesComponent,
+        streakRecoveryReducer: StreakRecoveryReducer,
+        streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher
     ): Feature<State, Message, Action> {
-        val appReducer = AppReducer()
+        val appReducer = AppReducer(streakRecoveryReducer)
         val appActionDispatcher = AppActionDispatcher(
             ActionDispatcherOptions(),
             appInteractor,
@@ -36,5 +42,11 @@ object AppFeatureBuilder {
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)
             .wrapWithActionDispatcher(appActionDispatcher)
+            .wrapWithActionDispatcher(
+                streakRecoveryActionDispatcher.transform(
+                    transformAction = { it.safeCast<Action.StreakRecoveryAction>()?.action },
+                    transformMessage = Message::StreakRecoveryMessage
+                )
+            )
     }
 }
