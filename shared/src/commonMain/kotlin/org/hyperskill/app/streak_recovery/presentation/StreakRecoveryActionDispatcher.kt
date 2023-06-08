@@ -5,6 +5,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Action
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Message
+import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -12,7 +13,8 @@ class StreakRecoveryActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileInteractor: ProfileInteractor,
     private val streaksInteractor: StreaksInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val streakFlow: StreakFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -43,7 +45,12 @@ class StreakRecoveryActionDispatcher(
                     streaksInteractor
                         .recoverStreak()
                         .fold(
-                            onSuccess = { StreakRecoveryFeature.RecoverStreakResult.Success },
+                            onSuccess = {
+                                it.streaks.firstOrNull()?.let { newStreak ->
+                                    streakFlow.notifyDataChanged(newStreak)
+                                }
+                                StreakRecoveryFeature.RecoverStreakResult.Success
+                            },
                             onFailure = { StreakRecoveryFeature.RecoverStreakResult.Error }
                         )
                 )
@@ -53,7 +60,12 @@ class StreakRecoveryActionDispatcher(
                     streaksInteractor
                         .cancelStreakRecovery()
                         .fold(
-                            onSuccess = { StreakRecoveryFeature.CancelStreakRecoveryResult.Success },
+                            onSuccess = {
+                                it.streaks.firstOrNull()?.let { newStreak ->
+                                    streakFlow.notifyDataChanged(newStreak)
+                                }
+                                StreakRecoveryFeature.CancelStreakRecoveryResult.Success
+                            },
                             onFailure = { StreakRecoveryFeature.CancelStreakRecoveryResult.Error }
                         )
                 )
