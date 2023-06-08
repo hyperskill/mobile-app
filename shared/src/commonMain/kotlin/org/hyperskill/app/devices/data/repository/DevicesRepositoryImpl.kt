@@ -12,11 +12,17 @@ class DevicesRepositoryImpl(
     private val devicesRemoteDataSource: DevicesRemoteDataSource
 ) : DevicesRepository {
     override suspend fun createDevice(
+        name: String?,
         registrationId: String,
         isActive: Boolean,
         type: DeviceType
     ): Result<Device> =
-        devicesRemoteDataSource.createDevice(registrationId, isActive, type.backendName)
+        devicesRemoteDataSource.createDevice(
+            name = name,
+            registrationId = registrationId,
+            isActive = isActive,
+            type = type.backendName
+        )
 
     override fun getCurrentCachedDevice(): Result<Device> =
         devicesCacheDataSource.getCurrentDevice()

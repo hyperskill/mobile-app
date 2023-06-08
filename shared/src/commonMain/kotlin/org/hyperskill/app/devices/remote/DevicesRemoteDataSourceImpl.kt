@@ -14,6 +14,7 @@ class DevicesRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : DevicesRemoteDataSource {
     override suspend fun createDevice(
+        name: String?,
         registrationId: String,
         isActive: Boolean,
         type: String
@@ -22,7 +23,14 @@ class DevicesRemoteDataSourceImpl(
             httpClient
                 .post("/api/devices") {
                     contentType(ContentType.Application.Json)
-                    setBody(DevicesRequest(registrationId = registrationId, isActive = isActive, type = type))
+
+                    val request = DevicesRequest(
+                        name = name,
+                        registrationId = registrationId,
+                        isActive = isActive,
+                        type = type
+                    )
+                    setBody(request)
                 }
                 .body()
         }

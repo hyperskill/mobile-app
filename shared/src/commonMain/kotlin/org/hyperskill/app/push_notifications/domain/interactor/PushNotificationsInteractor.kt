@@ -3,18 +3,14 @@ package org.hyperskill.app.push_notifications.domain.interactor
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.devices.domain.model.Device
-import org.hyperskill.app.devices.domain.model.DeviceType
 import org.hyperskill.app.devices.domain.model.toDeviceType
 import org.hyperskill.app.devices.domain.repository.DevicesRepository
 
 class PushNotificationsInteractor(
-    platform: Platform,
+    private val platform: Platform,
     private val devicesRepository: DevicesRepository,
     private val authInteractor: AuthInteractor
 ) {
-    private val deviceType: DeviceType =
-        platform.platformType.toDeviceType()
-
     suspend fun uploadFCMTokenToBackend(fcmToken: String): Result<Device> {
         val isAuthorized = authInteractor.isAuthorized().getOrNull() ?: false
         if (!isAuthorized) {
@@ -53,10 +49,15 @@ class PushNotificationsInteractor(
 
     private suspend fun activateFCMToken(fcmToken: String): Result<Device> =
         devicesRepository
-            .createDevice(registrationId = fcmToken, isActive = true, type = deviceType)
+            .createDevice(
+                name = platform.platformDescription,
+                registrationId = fcmToken,
+                isActive = true,
+                type = platform.platformType.toDeviceType()
+            )
             .onSuccess { devicesRepository.saveDeviceToCache(it) }
 
     private suspend fun disableFCMToken(fcmToken: String): Result<Device> =
         devicesRepository
-            .createDevice(registrationId = fcmToken, isActive = false, type = deviceType)
+            .createDevice(registrationId = fcmToken, isActive = false, type = platform.platformType.toDeviceType())
 }

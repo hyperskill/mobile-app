@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DevicesRequest(
+    @SerialName("name")
+    val name: String?,
     @SerialName("registration_id")
     val registrationId: String,
     @SerialName("active")

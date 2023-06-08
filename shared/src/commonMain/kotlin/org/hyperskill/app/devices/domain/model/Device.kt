@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 data class Device(
     @SerialName("id")
     val id: Long,
+    @SerialName("name")
+    val name: String? = null,
     @SerialName("registration_id")
     val registrationId: String
 )

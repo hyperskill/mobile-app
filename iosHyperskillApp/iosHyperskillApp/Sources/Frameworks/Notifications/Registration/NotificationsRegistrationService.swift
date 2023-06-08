@@ -4,19 +4,31 @@ import shared
 import UserNotifications
 
 final class NotificationsRegistrationService: NSObject {
-    static let shared = NotificationsRegistrationService(
-        analyticInteractor: AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor
-    )
+    static let shared: NotificationsRegistrationService = {
+        let appGraph = AppGraphBridge.sharedAppGraph
+
+        let pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
+
+        return NotificationsRegistrationService(
+            analyticInteractor: appGraph.analyticComponent.analyticInteractor,
+            pushNotificationsInteractor: pushNotificationsInteractor
+        )
+    }()
 
     private let analyticInteractor: AnalyticInteractor
+    private let pushNotificationsInteractor: PushNotificationsInteractor
 
     private var requestAuthorizationContinuation: CheckedContinuation<Bool, Never>?
 
     private var applicationWasInBackground = false
     private var applicationOpenedSettings = false
 
-    private init(analyticInteractor: AnalyticInteractor) {
+    private init(
+        analyticInteractor: AnalyticInteractor,
+        pushNotificationsInteractor: PushNotificationsInteractor
+    ) {
         self.analyticInteractor = analyticInteractor
+        self.pushNotificationsInteractor = pushNotificationsInteractor
 
         super.init()
 
@@ -140,8 +152,14 @@ extension NotificationsRegistrationService {
 extension NotificationsRegistrationService: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         #if DEBUG
-        print("NotificationsRegistrationService: FCM token: \(String(describing: Messaging.messaging().fcmToken))")
+        print("NotificationsRegistrationService: FCM token: \(String(describing: fcmToken))")
         #endif
+
+        guard let fcmToken else {
+            return
+        }
+
+        pushNotificationsInteractor.uploadFCMTokenToBackend(fcmToken: fcmToken, completionHandler: { _, _ in })
     }
 }
 
