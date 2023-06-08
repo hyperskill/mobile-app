@@ -70,6 +70,8 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
+import org.hyperskill.app.push_notifications.injection.PushNotificationsComponent
+import org.hyperskill.app.push_notifications.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
@@ -331,4 +333,7 @@ class AppGraphImpl(
 
     override fun buildDevicesDataComponent(): DevicesDataComponent =
         DevicesDataComponentImpl(this)
+
+    override fun buildPushNotificationsComponent(): PushNotificationsComponent =
+        PushNotificationsComponentImpl(this)
 }

@@ -12,6 +12,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.isNewUser
+import org.hyperskill.app.push_notifications.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -23,7 +24,8 @@ class AppActionDispatcher(
     private val authInteractor: AuthInteractor,
     private val profileInteractor: ProfileInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val stateRepositoriesComponent: StateRepositoriesComponent
+    private val stateRepositoriesComponent: StateRepositoriesComponent,
+    private val pushNotificationsInteractor: PushNotificationsInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -32,9 +34,11 @@ class AppActionDispatcher(
                 when (it.reason) {
                     UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE -> {
                         authInteractor.clearCache()
+                        pushNotificationsInteractor.handleUserDeauthorized()
                     }
                     UserDeauthorized.Reason.SIGN_OUT -> {
                         appInteractor.doCurrentUserSignedOutCleanUp()
+                        pushNotificationsInteractor.handleUserSignedOut()
                     }
                 }
 

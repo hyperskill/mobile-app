@@ -14,7 +14,8 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             appGraph.authComponent.authInteractor,
             appGraph.buildProfileDataComponent().profileInteractor,
             appGraph.sentryComponent.sentryInteractor,
-            appGraph.stateRepositoriesComponent
+            appGraph.stateRepositoriesComponent,
+            appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
         )
 
     override fun appFeature(): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =

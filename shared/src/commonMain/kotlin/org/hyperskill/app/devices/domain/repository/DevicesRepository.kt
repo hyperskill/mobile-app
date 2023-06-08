@@ -1,9 +1,10 @@
 package org.hyperskill.app.devices.domain.repository
 
 import org.hyperskill.app.devices.domain.model.Device
+import org.hyperskill.app.devices.domain.model.DeviceType
 
 interface DevicesRepository {
-    suspend fun createDevice(registrationId: String, isActive: Boolean, type: String): Result<Device>
+    suspend fun createDevice(registrationId: String, isActive: Boolean, type: DeviceType): Result<Device>
 
     fun getCurrentCachedDevice(): Result<Device>
     fun saveDeviceToCache(device: Device)
