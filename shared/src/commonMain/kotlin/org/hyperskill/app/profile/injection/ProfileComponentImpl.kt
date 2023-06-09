@@ -7,7 +7,8 @@ import ru.nobird.app.presentation.redux.feature.Feature
 class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
     override val profileFeature: Feature<ProfileFeature.State, ProfileFeature.Message, ProfileFeature.Action>
         get() = ProfileFeatureBuilder.build(
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.profileDataComponent.profileInteractor,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildStreaksDataComponent().streaksInteractor,
             appGraph.buildProductsDataComponent().productsInteractor,
             appGraph.analyticComponent.analyticInteractor,

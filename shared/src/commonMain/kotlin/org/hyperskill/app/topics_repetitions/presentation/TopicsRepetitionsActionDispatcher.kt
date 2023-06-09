@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
@@ -19,7 +19,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class TopicsRepetitionsActionDispatcher(
     config: ActionDispatcherOptions,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val topicRepeatedFlow: TopicRepeatedFlow,
@@ -45,7 +45,7 @@ class TopicsRepetitionsActionDispatcher(
                     topicsRepetitionsInteractor.getTopicsRepetitionStatistics()
                 }
                 val currentProfileResult = actionScope.async {
-                    profileInteractor.getCurrentProfile()
+                    currentProfileStateRepository.getState()
                 }
 
                 val topicsRepetitions = topicsRepetitionsResult.await().getOrElse {

@@ -10,8 +10,9 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -21,7 +22,7 @@ class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val appInteractor: AppInteractor,
     private val authInteractor: AuthInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val stateRepositoriesComponent: StateRepositoriesComponent
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -59,23 +60,25 @@ class AppActionDispatcher(
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
                 // TODO: Move this logic to reducer
-                val profileResult = if (isAuthorized) {
-                    profileInteractor
-                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                val profileResult: Result<Profile> = if (isAuthorized) {
+                    currentProfileStateRepository
+                        .getStateWithSource(forceUpdate = false)
                         .fold(
-                            onSuccess = { profile ->
-                                // ALTAPPS-693:
-                                // If user is new, we need to fetch profile from remote to check if track selected
-                                if (profile.isNewUser) {
-                                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                            onSuccess = { (profile, usedDataSourceType) ->
+                                /**
+                                 * ALTAPPS-693:
+                                 * If cached user is new, we need to fetch profile from remote to check if track selected
+                                 */
+                                if (profile.isNewUser && usedDataSourceType == DataSourceType.CACHE) {
+                                    currentProfileStateRepository.getState(forceUpdate = true)
                                 } else {
                                     Result.success(profile)
                                 }
                             },
-                            onFailure = { profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE) }
+                            onFailure = { currentProfileStateRepository.getState(forceUpdate = true) }
                         )
                 } else {
-                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                    currentProfileStateRepository.getState(forceUpdate = true)
                 }
 
                 profileResult

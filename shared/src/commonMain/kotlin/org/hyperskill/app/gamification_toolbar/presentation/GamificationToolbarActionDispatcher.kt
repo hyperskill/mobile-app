@@ -6,11 +6,12 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.observeHypercoinsBalance
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
@@ -23,7 +24,8 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class GamificationToolbarActionDispatcher(
     config: ActionDispatcherOptions,
-    private val profileInteractor: ProfileInteractor,
+    profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
@@ -39,7 +41,7 @@ class GamificationToolbarActionDispatcher(
             .onEach { onNewMessage(Message.StepSolved) }
             .launchIn(actionScope)
 
-        profileInteractor.observeHypercoinsBalance()
+        currentProfileStateRepository.observeHypercoinsBalance()
             .onEach { hypercoinsBalance ->
                 onNewMessage(Message.HypercoinsBalanceChanged(hypercoinsBalance))
             }
@@ -73,8 +75,8 @@ class GamificationToolbarActionDispatcher(
                 val sentryTransaction = action.screen.fetchContentSentryTransaction
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentUserId = profileInteractor
-                    .getCurrentProfile()
+                val currentUserId = currentProfileStateRepository
+                    .getState()
                     .map { it.id }
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
@@ -84,7 +86,7 @@ class GamificationToolbarActionDispatcher(
 
                 val streakResult = async { streaksInteractor.getUserStreak(currentUserId) }
                 val profileResult = async {
-                    profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
+                    currentProfileStateRepository.getState(forceUpdate = true)
                 }
                 val trackWithProgressDeferred = async {
                     fetchTrackWithProgressThroughStudyPlan(action.forceUpdate)

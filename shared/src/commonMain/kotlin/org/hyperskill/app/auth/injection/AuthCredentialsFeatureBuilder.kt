@@ -10,7 +10,7 @@ import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
 import org.hyperskill.app.auth.presentation.AuthCredentialsReducer
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -19,7 +19,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 object AuthCredentialsFeatureBuilder {
     fun build(
         authInteractor: AuthInteractor,
-        profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         urlPathProcessor: UrlPathProcessor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor
@@ -28,7 +28,7 @@ object AuthCredentialsFeatureBuilder {
         val authActionDispatcher = AuthCredentialsActionDispatcher(
             ActionDispatcherOptions(),
             authInteractor,
-            profileInteractor,
+            currentProfileStateRepository,
             urlPathProcessor,
             analyticInteractor,
             sentryInteractor
