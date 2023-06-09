@@ -23,7 +23,7 @@ class OnboardingComponentImpl(private val appGraph: AppGraph) : OnboardingCompon
         OnboardingFeature.State, OnboardingFeature.Message, OnboardingFeature.Action>
         get() = OnboardingFeatureBuilder.build(
             onboardingInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.analyticComponent.analyticInteractor
         )
 }

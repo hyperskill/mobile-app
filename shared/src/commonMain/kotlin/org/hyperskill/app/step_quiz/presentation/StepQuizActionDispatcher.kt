@@ -1,16 +1,16 @@
 package org.hyperskill.app.step_quiz.presentation
 
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.notification.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -27,7 +27,7 @@ class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val notificationInteractor: NotificationInteractor,
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
@@ -37,39 +37,35 @@ class StepQuizActionDispatcher(
 
     init {
         // TODO: ALTAPPS-570 Move solvedStepsSharedFlow processing logic to StepCompletionFeature
-        actionScope.launch {
-            notificationInteractor.solvedStepsSharedFlow.collect { solvedStepId ->
-                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+        notificationInteractor.solvedStepsSharedFlow.onEach { solvedStepId ->
+            if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+                onNewMessage(
+                    Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS)
+                )
+            } else {
+                val cachedProfile = currentProfileStateRepository
+                    .getState(forceUpdate = false)
+                    .getOrElse { return@onEach }
+
+                if (cachedProfile.dailyStep == solvedStepId) {
+                    val currentProfileHypercoinsBalance = currentProfileStateRepository
+                        .getState(forceUpdate = true)
+                        .map { it.gamification.hypercoinsBalance }
+                        .getOrElse { return@onEach }
+
+                    val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
                     onNewMessage(
-                        Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS)
-                    )
-                } else {
-                    val cachedProfile = profileInteractor
-                        .getCurrentProfile(sourceType = DataSourceType.CACHE)
-                        .getOrElse { return@collect }
-
-                    if (cachedProfile.dailyStep == solvedStepId) {
-                        val currentProfileHypercoinsBalance = profileInteractor
-                            .getCurrentProfile(sourceType = DataSourceType.REMOTE)
-                            .map { it.gamification.hypercoinsBalance }
-                            .getOrElse { return@collect }
-
-                        val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
-
-                        profileInteractor.notifyHypercoinsBalanceChanged(currentProfileHypercoinsBalance)
-                        onNewMessage(
-                            Message.ShowProblemOfDaySolvedModal(
-                                earnedGemsText = resourceProvider.getQuantityString(
-                                    SharedResources.plurals.earned_gems,
-                                    gemsEarned,
-                                    gemsEarned
-                                )
+                        Message.ShowProblemOfDaySolvedModal(
+                            earnedGemsText = resourceProvider.getQuantityString(
+                                SharedResources.plurals.earned_gems,
+                                gemsEarned,
+                                gemsEarned
                             )
                         )
-                    }
+                    )
                 }
             }
-        }
+        }.launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -78,8 +74,8 @@ class StepQuizActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentProfile = profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                val currentProfile = currentProfileStateRepository
+                    .getState(forceUpdate = false)
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.FetchAttemptError(it))

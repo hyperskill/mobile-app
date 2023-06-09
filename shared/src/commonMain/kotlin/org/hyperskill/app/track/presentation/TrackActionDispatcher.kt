@@ -2,11 +2,10 @@ package org.hyperskill.app.track.presentation
 
 import kotlinx.coroutines.async
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -20,7 +19,7 @@ class TrackActionDispatcher(
     config: ActionDispatcherOptions,
     private val trackInteractor: TrackInteractor,
     private val studyPlanInteractor: StudyPlanInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val progressesInteractor: ProgressesInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
@@ -32,8 +31,8 @@ class TrackActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildTrackScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val trackId = profileInteractor
-                    .getCurrentProfile(sourceType = DataSourceType.CACHE)
+                val trackId = currentProfileStateRepository
+                    .getState(forceUpdate = false)
                     .map { it.trackId }
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)

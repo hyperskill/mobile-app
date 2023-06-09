@@ -26,7 +26,6 @@ import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
-import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
@@ -72,13 +71,13 @@ interface AppGraph {
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
     val submissionDataComponent: SubmissionDataComponent
-    val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent
     val streakFlowDataComponent: StreakFlowDataComponent
     val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
     val progressesFlowDataComponent: ProgressesFlowDataComponent
     val notificationFlowDataComponent: NotificationFlowDataComponent
     val stateRepositoriesComponent: StateRepositoriesComponent
+    val profileDataComponent: ProfileDataComponent
 
     /**
      * Auth components
@@ -101,7 +100,6 @@ interface AppGraph {
     fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent
 
     fun buildMainDataComponent(): MainDataComponent
-    fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
     fun buildTrackSelectionListComponent(): TrackSelectionListComponent

@@ -3,9 +3,8 @@ package org.hyperskill.app.project_selection.list.presentation
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.InternalAction
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
@@ -27,7 +26,7 @@ internal class ProjectSelectionListActionDispatcher(
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val projectsRepository: ProjectsRepository,
     private val progressesRepository: ProgressesRepository,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<ProjectSelectionListFeature.Action, Message>(
@@ -55,7 +54,7 @@ internal class ProjectSelectionListActionDispatcher(
                 .buildProjectSelectionListScreenRemoteDataLoading()
             sentryInteractor.startTransaction(transaction)
 
-            val profile = profileInteractor.getCurrentProfile(DataSourceType.CACHE)
+            val profile = currentProfileStateRepository.getState(forceUpdate = false)
                 .getOrElse {
                     sentryInteractor.finishTransaction(transaction, throwable = it)
                     onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
