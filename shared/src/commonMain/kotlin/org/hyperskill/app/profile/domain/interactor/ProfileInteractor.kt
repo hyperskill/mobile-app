@@ -3,6 +3,7 @@ package org.hyperskill.app.profile.domain.interactor
 import kotlinx.coroutines.flow.SharedFlow
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
+/* ktlint-disable */
 @Deprecated("ProfileInteractor is going to be removed. To access solvedStepsSharedFlow use SubmissionRepository directly.")
 class ProfileInteractor(
     submissionRepository: SubmissionRepository
