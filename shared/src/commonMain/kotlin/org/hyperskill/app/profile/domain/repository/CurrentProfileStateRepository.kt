@@ -8,7 +8,7 @@ import org.hyperskill.app.profile.domain.model.Profile
 
 interface CurrentProfileStateRepository : StateRepository<Profile>
 
-fun CurrentProfileStateRepository.observeHypercoinsBalance(): Flow<Int> =
+internal fun CurrentProfileStateRepository.observeHypercoinsBalance(): Flow<Int> =
     changes
         .map { it.gamification.hypercoinsBalance }
         .distinctUntilChanged()

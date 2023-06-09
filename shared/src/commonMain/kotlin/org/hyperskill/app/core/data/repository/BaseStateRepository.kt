@@ -60,16 +60,20 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
 
     private suspend fun <T> getStateInternal(
         forceUpdate: Boolean,
-        mapState: (State, usedSource: DataSourceType) -> T
+        transformState: (State, usedSource: DataSourceType) -> T
     ): Result<T> =
         mutex.withLock {
-            val currentState = stateHolder.getState()
-
-            if (currentState != null && !forceUpdate) {
-                return Result.success(mapState(currentState, DataSourceType.CACHE))
+            val currentState = try {
+                stateHolder.getState()
+            } catch (e: Exception) {
+                return Result.failure(e)
             }
 
-            return loadAndAssignState().map { state -> mapState(state, DataSourceType.REMOTE) }
+            if (currentState != null && !forceUpdate) {
+                return Result.success(transformState(currentState, DataSourceType.CACHE))
+            }
+
+            return loadAndAssignState().map { state -> transformState(state, DataSourceType.REMOTE) }
         }
 
     /**

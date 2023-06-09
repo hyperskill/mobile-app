@@ -28,7 +28,8 @@ interface StateRepository<State : Any> {
     val changes: SharedFlow<State>
 
     /**
-     * Update state locally in app
+     * Update state locally in app.
+     * All the subscribers of the [changes] flow get the [newState].
      *
      * @param newState new state to be updated
      */
@@ -49,10 +50,16 @@ interface StateRepository<State : Any> {
     suspend fun resetState()
 }
 
-suspend fun <State : Any> StateRepository<State>.updateState(block: (State) -> State) {
+/**
+ * Update the current state locally in the app using [transformState] lambda.
+ * Remote state loading is used in cased current state is not cached.
+ * [transformState] is not called in cased currentState fetching is failed.
+ * All the subscribers of the [StateRepository.changes] flow get the new state produced by [transformState].
+ */
+suspend fun <State : Any> StateRepository<State>.updateState(transformState: (State) -> State) {
     val currentState = getState(forceUpdate = false).getOrNull()
     if (currentState != null) {
-        val newState = block(currentState)
+        val newState = transformState(currentState)
         updateState(newState)
     }
 }

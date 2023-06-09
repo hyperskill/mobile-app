@@ -7,5 +7,6 @@ import org.hyperskill.app.profile.domain.repository.ProfileRepository
 interface ProfileDataComponent {
     val profileRepository: ProfileRepository
     val currentProfileStateRepository: CurrentProfileStateRepository
+    @Deprecated("Use submissionDataComponent.submissionRepository instead.")
     val profileInteractor: ProfileInteractor
 }
