@@ -12,7 +12,7 @@ class TrackSelectionDetailsComponentImpl(
     override fun trackSelectionDetailsFeature(
         trackSelectionDetailsParams: TrackSelectionDetailsParams
     ): Feature<ViewState, Message, Action> {
-        val profileComponent = appGraph.buildProfileDataComponent()
+        val profileComponent = appGraph.profileDataComponent
         return TrackSelectionDetailsFeatureBuilder.build(
             trackSelectionDetailsParams,
             resourceProvider = appGraph.commonComponent.resourceProvider,

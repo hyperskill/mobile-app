@@ -21,7 +21,7 @@ import org.hyperskill.app.core.domain.repository.StateWithSource
 abstract class BaseStateRepository<State : Any> : StateRepository<State> {
     private val mutex = Mutex()
 
-    protected open val mutableSharedFlow = MutableSharedFlow<State>()
+    private val mutableSharedFlow = MutableSharedFlow<State>()
 
     protected open val stateHolder: StateHolder<State> =
         InMemoryStateHolder()

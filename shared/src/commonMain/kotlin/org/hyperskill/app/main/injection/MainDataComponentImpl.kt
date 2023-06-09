@@ -7,7 +7,7 @@ class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataComponent 
     override val appInteractor: AppInteractor
         get() = AppInteractor(
             appGraph.authComponent.authInteractor,
-            appGraph.buildProfileDataComponent().currentProfileStateRepository,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildUserStorageComponent().userStorageInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.buildProgressesDataComponent().progressesRepository,

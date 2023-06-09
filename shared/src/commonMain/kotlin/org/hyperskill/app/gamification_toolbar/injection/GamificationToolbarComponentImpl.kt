@@ -15,7 +15,7 @@ class GamificationToolbarComponentImpl(
 
     override val gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
         get() {
-            val profileComponent = appGraph.buildProfileDataComponent()
+            val profileComponent = appGraph.profileDataComponent
             return GamificationToolbarActionDispatcher(
                 ActionDispatcherOptions(),
                 profileComponent.profileInteractor,

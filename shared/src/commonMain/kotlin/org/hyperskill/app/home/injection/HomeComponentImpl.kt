@@ -27,7 +27,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
             homeInteractor,
-            appGraph.buildProfileDataComponent().currentProfileStateRepository,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildTopicsRepetitionsDataComponent().topicsRepetitionsInteractor,
             appGraph.buildStepDataComponent().stepInteractor,
             appGraph.buildFreemiumDataComponent().freemiumInteractor,

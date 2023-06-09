@@ -12,7 +12,7 @@ class ProjectSelectionDetailsComponentImpl(
     override fun projectSelectionDetailsFeature(
         projectSelectionDetailsParams: ProjectSelectionDetailsParams
     ): Feature<ViewState, Message, Action> {
-        val profileComponent = appGraph.buildProfileDataComponent()
+        val profileComponent = appGraph.profileDataComponent
         return ProjectSelectionDetailsFeatureBuilder.build(
             params = projectSelectionDetailsParams,
             trackRepository = appGraph.buildTrackDataComponent().trackRepository,

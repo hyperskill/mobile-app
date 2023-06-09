@@ -77,6 +77,7 @@ interface AppGraph {
     val progressesFlowDataComponent: ProgressesFlowDataComponent
     val notificationFlowDataComponent: NotificationFlowDataComponent
     val stateRepositoriesComponent: StateRepositoriesComponent
+    val profileDataComponent: ProfileDataComponent
 
     /**
      * Auth components
@@ -99,7 +100,6 @@ interface AppGraph {
     fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent
 
     fun buildMainDataComponent(): MainDataComponent
-    fun buildProfileDataComponent(): ProfileDataComponent
     fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
     fun buildTrackSelectionListComponent(): TrackSelectionListComponent

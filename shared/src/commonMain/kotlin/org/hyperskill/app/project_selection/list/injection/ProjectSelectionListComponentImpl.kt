@@ -18,7 +18,7 @@ class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : Projec
             currentStudyPlanStateRepository = appGraph.buildStudyPlanDataComponent().currentStudyPlanStateRepository,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
-            currentProfileStateRepository = appGraph.buildProfileDataComponent().currentProfileStateRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             viewStateMapper = ProjectSelectionListViewStateMapper(
                 resourceProvider = appGraph.commonComponent.resourceProvider,
                 numbersFormatter = appGraph.commonComponent.numbersFormatter,
