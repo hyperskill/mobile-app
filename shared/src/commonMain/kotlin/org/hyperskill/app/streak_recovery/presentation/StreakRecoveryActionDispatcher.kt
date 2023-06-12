@@ -28,47 +28,47 @@ class StreakRecoveryActionDispatcher(
                     .getUserStreak(currentProfile.id)
                     .getOrElse { return onNewMessage(StreakRecoveryFeature.FetchStreakResult.Error) }
 
-                onNewMessage(
-                    if (streak != null) {
-                        StreakRecoveryFeature.FetchStreakResult.Success(
-                            streak.canBeRecovered,
-                            streak.recoveryPrice,
-                            streak.previousStreak
-                        )
-                    } else {
-                        StreakRecoveryFeature.FetchStreakResult.Error
-                    }
-                )
+                val message = if (streak != null) {
+                    StreakRecoveryFeature.FetchStreakResult.Success(
+                        streak.canBeRecovered,
+                        streak.recoveryPrice,
+                        streak.previousStreak
+                    )
+                } else {
+                    StreakRecoveryFeature.FetchStreakResult.Error
+                }
+
+                onNewMessage(message)
             }
             StreakRecoveryFeature.InternalAction.RecoverStreak -> {
-                onNewMessage(
-                    streaksInteractor
-                        .recoverStreak()
-                        .fold(
-                            onSuccess = {
-                                it.streaks.firstOrNull()?.let { newStreak ->
-                                    streakFlow.notifyDataChanged(newStreak)
-                                }
-                                StreakRecoveryFeature.RecoverStreakResult.Success
-                            },
-                            onFailure = { StreakRecoveryFeature.RecoverStreakResult.Error }
-                        )
-                )
+                val message = streaksInteractor
+                    .recoverStreak()
+                    .fold(
+                        onSuccess = {
+                            it.streaks.firstOrNull()?.let { newStreak ->
+                                streakFlow.notifyDataChanged(newStreak)
+                            }
+                            StreakRecoveryFeature.RecoverStreakResult.Success
+                        },
+                        onFailure = { StreakRecoveryFeature.RecoverStreakResult.Error }
+                    )
+
+                onNewMessage(message)
             }
             StreakRecoveryFeature.InternalAction.CancelStreakRecovery -> {
-                onNewMessage(
-                    streaksInteractor
-                        .cancelStreakRecovery()
-                        .fold(
-                            onSuccess = {
-                                it.streaks.firstOrNull()?.let { newStreak ->
-                                    streakFlow.notifyDataChanged(newStreak)
-                                }
-                                StreakRecoveryFeature.CancelStreakRecoveryResult.Success
-                            },
-                            onFailure = { StreakRecoveryFeature.CancelStreakRecoveryResult.Error }
-                        )
-                )
+                val message = streaksInteractor
+                    .cancelStreakRecovery()
+                    .fold(
+                        onSuccess = {
+                            it.streaks.firstOrNull()?.let { newStreak ->
+                                streakFlow.notifyDataChanged(newStreak)
+                            }
+                            StreakRecoveryFeature.CancelStreakRecoveryResult.Success
+                        },
+                        onFailure = { StreakRecoveryFeature.CancelStreakRecoveryResult.Error }
+                    )
+
+                onNewMessage(message)
             }
             is StreakRecoveryFeature.InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.event)

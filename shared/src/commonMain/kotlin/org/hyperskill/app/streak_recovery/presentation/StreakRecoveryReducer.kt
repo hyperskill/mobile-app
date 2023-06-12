@@ -16,9 +16,10 @@ class StreakRecoveryReducer :
     StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
-            Message.Initialize ->
+            Message.Initialize -> {
                 state to setOf(InternalAction.FetchStreak)
-            is StreakRecoveryFeature.FetchStreakResult.Success ->
+            }
+            is StreakRecoveryFeature.FetchStreakResult.Success -> {
                 if (message.canRecoveryStreak) {
                     state to setOf(
                         Action.ViewAction.ShowRecoveryStreakModal(
@@ -29,40 +30,56 @@ class StreakRecoveryReducer :
                 } else {
                     null
                 }
-            StreakRecoveryFeature.FetchStreakResult.Error -> handleNetworkError(state)
-            Message.RestoreStreakClicked ->
+            }
+            StreakRecoveryFeature.FetchStreakResult.Error -> {
+                null
+            }
+            Message.RestoreStreakClicked -> {
                 state to setOf(
+                    Action.ViewAction.ShowNetworkRequestStatus.Loading,
                     InternalAction.RecoverStreak,
                     InternalAction.LogAnalyticEvent(
                         StreakRecoveryModalClickedRestoreStreakHyperskillAnalyticEvent()
                     )
                 )
-            Message.NoThanksClicked -> state to setOf(
-                InternalAction.CancelStreakRecovery,
-                InternalAction.LogAnalyticEvent(
-                    StreakRecoveryModalClickedNoThanksHyperskillAnalyticEvent()
+            }
+            Message.NoThanksClicked -> {
+                state to setOf(
+                    Action.ViewAction.ShowNetworkRequestStatus.Loading,
+                    InternalAction.CancelStreakRecovery,
+                    InternalAction.LogAnalyticEvent(
+                        StreakRecoveryModalClickedNoThanksHyperskillAnalyticEvent()
+                    )
                 )
-            )
-            StreakRecoveryFeature.RecoverStreakResult.Success ->
+            }
+            StreakRecoveryFeature.RecoverStreakResult.Success -> {
                 state to setOf(
                     Action.ViewAction.ShowNetworkRequestStatus.Success,
                     Action.ViewAction.HideStreakRecoveryModal
                 )
-            StreakRecoveryFeature.RecoverStreakResult.Error -> handleNetworkError(state)
-            StreakRecoveryFeature.CancelStreakRecoveryResult.Success ->
+            }
+            StreakRecoveryFeature.RecoverStreakResult.Error -> {
+                handleNetworkError(state)
+            }
+            StreakRecoveryFeature.CancelStreakRecoveryResult.Success -> {
                 state to setOf(
                     Action.ViewAction.ShowNetworkRequestStatus.Success,
                     Action.ViewAction.HideStreakRecoveryModal
                 )
-            StreakRecoveryFeature.CancelStreakRecoveryResult.Error -> handleNetworkError(state)
-            Message.StreakRecoveryModalHiddenEventMessage ->
+            }
+            StreakRecoveryFeature.CancelStreakRecoveryResult.Error -> {
+                handleNetworkError(state)
+            }
+            Message.StreakRecoveryModalHiddenEventMessage -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(StreakRecoveryModalShownHyperskillAnalyticEvent())
                 )
-            Message.StreakRecoveryModalShownEventMessage ->
+            }
+            Message.StreakRecoveryModalShownEventMessage -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(StreakRecoveryModalHiddenHyperskillAnalyticEvent())
                 )
+            }
         } ?: (state to emptySet())
 
     private fun handleNetworkError(state: State): ReducerResult =

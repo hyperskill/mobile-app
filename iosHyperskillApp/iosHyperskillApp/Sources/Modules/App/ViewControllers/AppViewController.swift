@@ -66,7 +66,7 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     func displayViewAction(_ viewAction: AppFeatureActionViewActionKs) {
-        // TODO: add streak recovery view actions processing
+        #warning("TODO: add streak recovery view actions processing")
         let viewControllerToPresent: UIViewController? = {
             guard case .navigateTo(let navigateToViewAction) = viewAction else {
                 return nil

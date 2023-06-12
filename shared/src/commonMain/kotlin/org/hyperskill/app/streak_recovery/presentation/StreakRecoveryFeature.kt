@@ -5,8 +5,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 object StreakRecoveryFeature {
     object State
 
-    object ViewState
-
     sealed interface Message {
         object Initialize : Message
 

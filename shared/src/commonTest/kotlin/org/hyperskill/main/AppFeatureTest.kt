@@ -1,4 +1,4 @@
-package org.hyperskill.app
+package org.hyperskill.main
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -27,7 +27,7 @@ class AppFeatureTest {
     }
 
     @Test
-    fun `Streak recovery should NOT be initialized only when user is NOT authorized`() {
+    fun `Streak recovery should NOT be initialized when user is NOT authorized`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
             AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = true))
