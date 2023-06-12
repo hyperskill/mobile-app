@@ -431,4 +431,11 @@
 
     <!-- Date formatter -->
     <string name="date_formatter_less_than_a_minute">less than a minute</string>
+
+    <!--Streak recovery bottom sheet-->
+    <string name="streak_recovery_bottom_sheet_title">Pick up where you left off</string>
+    <string name="streak_recovery_bottom_sheet_subtitle">Good to see you back! You used to study daily and had a N-day streak. Great job!</string>
+    <string name="streak_recovery_bottom_sheet_undone_description">This choice cannot be undone</string>
+    <string name="streak_recovery_bottom_sheet_restore_button">Restore streak</string>
+    <string name="streak_recovery_bottom_sheet_reject">No, thanks</string>
 </resources>
