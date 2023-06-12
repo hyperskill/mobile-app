@@ -5,12 +5,18 @@ extension StyledHostingController {
     struct Appearance {
         var navigationBar = NavigationBar()
 
+        var isBottomSheet = false
+
         static var withoutBackButtonTitle: Appearance {
             Appearance(navigationBar: .init(isBackButtonTitleHidden: true))
         }
 
         static var leftAlignedNavigationBarTitle: Appearance {
             Appearance(navigationBar: .init(titlePosition: .left))
+        }
+
+        static var bottomSheet: Appearance {
+            Appearance(isBottomSheet: true)
         }
 
         struct NavigationBar {
@@ -58,6 +64,12 @@ final class StyledHostingController<RootView: View>: UIHostingController<RootVie
             assert(navigationController?.delegate == nil)
             assert((navigationController?.viewControllers.count ?? 0) <= 1)
             navigationController?.delegate = self
+        }
+        if appearance.isBottomSheet {
+            self.modalPresentationStyle = .pageSheet
+            if #available(iOS 15.0, *), let sheet = sheetPresentationController {
+                sheet.detents = [.medium()]
+            }
         }
     }
 

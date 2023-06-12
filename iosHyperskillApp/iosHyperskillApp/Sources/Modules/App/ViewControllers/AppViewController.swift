@@ -66,7 +66,31 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     func displayViewAction(_ viewAction: AppFeatureActionViewActionKs) {
-        #warning("TODO: add streak recovery view actions processing")
+        if case .streakRecoveryViewAction(let streakRecoveryViewAction) = viewAction {
+            switch StreakRecoveryFeatureActionViewActionKs(streakRecoveryViewAction.viewAction) {
+            case .showRecoveryStreakModal(let showRecoveryStreakModal):
+                let modalViewController = StyledHostingController(
+                    rootView: StreakRecoverySheetView(
+                        recoveryPrice: Int(showRecoveryStreakModal.recoveryPrice),
+                        previousStreak: Int(showRecoveryStreakModal.previousStreak)
+                    ),
+                    appearance: .bottomSheet
+                )
+                present(modalViewController, animated: true)
+            case .hideStreakRecoveryModal:
+                dismiss(animated: true)
+            case .showNetworkRequestStatus(let showNetworkRequestStatus):
+                switch StreakRecoveryFeatureActionViewActionShowNetworkRequestStatusKs(showNetworkRequestStatus) {
+                case .error:
+                    ProgressHUD.showError()
+                case .loading:
+                    ProgressHUD.show()
+                case .success:
+                    ProgressHUD.showSuccess()
+                }
+            }
+        }
+
         let viewControllerToPresent: UIViewController? = {
             guard case .navigateTo(let navigateToViewAction) = viewAction else {
                 return nil
@@ -76,6 +100,15 @@ extension AppViewController: AppViewControllerProtocol {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
             case .homeScreen:
+                let modalViewController = StyledHostingController(
+                    rootView: StreakRecoverySheetView(
+                        recoveryPrice: 25,
+                        previousStreak: 2
+                    ),
+                    appearance: .bottomSheet
+                )
+                present(modalViewController, animated: true)
+
                 let controller = AppTabBarController()
                 controller.appTabBarControllerDelegate = viewModel
                 return controller

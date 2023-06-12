@@ -60,6 +60,10 @@
         <item quantity="one">once</item>
         <item quantity="other">%d times</item>
     </plural>
+    <plural name="gems">
+        <item quantity="one">%d gem</item>
+        <item quantity="other">%d gems</item>
+    </plural>
     <plural name="earned_gems">
         <item quantity="one">+%d gem</item>
         <item quantity="other">+%d gems</item>
