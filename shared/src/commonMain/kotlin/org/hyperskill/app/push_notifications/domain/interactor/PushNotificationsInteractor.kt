@@ -5,11 +5,13 @@ import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.devices.domain.model.Device
 import org.hyperskill.app.devices.domain.model.toDeviceType
 import org.hyperskill.app.devices.domain.repository.DevicesRepository
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 
 class PushNotificationsInteractor(
     private val platform: Platform,
     private val devicesRepository: DevicesRepository,
-    private val authInteractor: AuthInteractor
+    private val authInteractor: AuthInteractor,
+    private val sentryInteractor: SentryInteractor
 ) {
     suspend fun uploadFCMTokenToBackend(fcmToken: String): Result<Device> {
         val isAuthorized = authInteractor.isAuthorized().getOrNull() ?: false
@@ -23,7 +25,7 @@ class PushNotificationsInteractor(
             refreshFCMToken(oldToken = currentFCMToken, newToken = fcmToken)
         } else {
             activateFCMToken(fcmToken)
-        }
+        }.onFailure { sentryInteractor.captureErrorMessage("PushNotificationsInteractor: $it") }
     }
 
     internal fun handleUserDeauthorized() {
@@ -50,14 +52,27 @@ class PushNotificationsInteractor(
     private suspend fun activateFCMToken(fcmToken: String): Result<Device> =
         devicesRepository
             .createDevice(
-                name = platform.platformDescription,
-                registrationId = fcmToken,
-                isActive = true,
-                type = platform.platformType.toDeviceType()
+                makeCurrentPlatformDevice(
+                    registrationId = fcmToken,
+                    isActive = true
+                )
             )
             .onSuccess { devicesRepository.saveDeviceToCache(it) }
 
     private suspend fun disableFCMToken(fcmToken: String): Result<Device> =
         devicesRepository
-            .createDevice(registrationId = fcmToken, isActive = false, type = platform.platformType.toDeviceType())
+            .createDevice(
+                makeCurrentPlatformDevice(
+                    registrationId = fcmToken,
+                    isActive = false
+                )
+            )
+
+    private fun makeCurrentPlatformDevice(registrationId: String, isActive: Boolean): Device =
+        Device(
+            name = platform.platformDescription,
+            registrationId = registrationId,
+            isActive = isActive,
+            type = platform.platformType.toDeviceType()
+        )
 }

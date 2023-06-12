@@ -8,29 +8,16 @@ import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.devices.data.source.DevicesRemoteDataSource
 import org.hyperskill.app.devices.domain.model.Device
-import org.hyperskill.app.devices.remote.model.DevicesRequest
 
 class DevicesRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : DevicesRemoteDataSource {
-    override suspend fun createDevice(
-        name: String?,
-        registrationId: String,
-        isActive: Boolean,
-        type: String
-    ): Result<Device> =
+    override suspend fun createDevice(device: Device): Result<Device> =
         kotlin.runCatching {
             httpClient
                 .post("/api/devices") {
                     contentType(ContentType.Application.Json)
-
-                    val request = DevicesRequest(
-                        name = name,
-                        registrationId = registrationId,
-                        isActive = isActive,
-                        type = type
-                    )
-                    setBody(request)
+                    setBody(device)
                 }
                 .body()
         }

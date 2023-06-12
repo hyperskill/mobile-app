@@ -5,10 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Device(
-    @SerialName("id")
-    val id: Long,
     @SerialName("name")
-    val name: String? = null,
+    val name: String?,
     @SerialName("registration_id")
-    val registrationId: String
+    val registrationId: String,
+    @SerialName("active")
+    val isActive: Boolean,
+    @SerialName("type")
+    val type: DeviceType = DeviceType.UNKNOWN
 )

@@ -1,14 +1,17 @@
 package org.hyperskill.app.devices.domain.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.core.domain.platform.PlatformType
 
+@Serializable
 enum class DeviceType {
+    @SerialName("ios")
     IOS,
-    ANDROID
+    @SerialName("android")
+    ANDROID,
+    UNKNOWN
 }
-
-internal val DeviceType.backendName: String
-    get() = this.name.lowercase()
 
 internal fun PlatformType.toDeviceType(): DeviceType =
     when (this) {

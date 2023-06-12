@@ -11,6 +11,7 @@ class PushNotificationsComponentImpl(
         get() = PushNotificationsInteractor(
             platform = appGraph.commonComponent.platform,
             devicesRepository = appGraph.buildDevicesDataComponent().devicesRepository,
-            authInteractor = appGraph.authComponent.authInteractor
+            authInteractor = appGraph.authComponent.authInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor
         )
 }
