@@ -159,7 +159,11 @@ extension NotificationsRegistrationService: MessagingDelegate {
             return
         }
 
+        #if targetEnvironment(simulator)
+        // no op
+        #else
         pushNotificationsInteractor.uploadFCMTokenToBackend(fcmToken: fcmToken, completionHandler: { _, _ in })
+        #endif
     }
 }
 
