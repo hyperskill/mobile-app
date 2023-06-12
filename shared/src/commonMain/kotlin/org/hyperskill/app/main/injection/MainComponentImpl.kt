@@ -16,7 +16,7 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             initialState,
             appGraph.buildMainDataComponent().appInteractor,
             appGraph.authComponent.authInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.stateRepositoriesComponent,
             streakRecoveryComponent.streakRecoveryReducer,

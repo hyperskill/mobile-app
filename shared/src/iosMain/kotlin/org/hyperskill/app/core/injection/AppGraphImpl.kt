@@ -52,8 +52,6 @@ import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
-import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
-import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
@@ -145,9 +143,6 @@ class AppGraphImpl(
     override val authComponent: AuthComponent =
         AuthComponentImpl(this)
 
-    override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
-        ProfileHypercoinsDataComponentImpl()
-
     override val streakFlowDataComponent: StreakFlowDataComponent =
         StreakFlowDataComponentImpl()
 
@@ -169,11 +164,25 @@ class AppGraphImpl(
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
 
-    override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
-
     override val mainComponent: MainComponent =
         MainComponentImpl(this)
+
+    override val profileDataComponent: ProfileDataComponent =
+        ProfileDataComponentImpl(
+            networkComponent = networkComponent,
+            commonComponent = commonComponent,
+            submissionDataComponent = submissionDataComponent
+        )
+
+    override val analyticComponent: AnalyticComponent =
+        AnalyticComponentImpl(
+            networkComponent = networkComponent,
+            commonComponent = commonComponent,
+            authComponent = authComponent,
+            profileDataComponent = profileDataComponent,
+            notificationComponent = buildNotificationComponent(),
+            sentryComponent = sentryComponent
+        )
 
     override fun buildMainDataComponent(): MainDataComponent =
         MainDataComponentImpl(this)
@@ -182,7 +191,7 @@ class AppGraphImpl(
         AuthSocialComponentImpl(
             commonComponent,
             authComponent,
-            buildProfileDataComponent(),
+            profileDataComponent,
             analyticComponent,
             sentryComponent
         )
@@ -191,7 +200,7 @@ class AppGraphImpl(
         AuthCredentialsComponentImpl(
             commonComponent,
             authComponent,
-            buildProfileDataComponent(),
+            profileDataComponent,
             buildMagicLinksDataComponent(),
             analyticComponent,
             sentryComponent
@@ -214,9 +223,6 @@ class AppGraphImpl(
 
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
-
-    override fun buildProfileDataComponent(): ProfileDataComponent =
-        ProfileDataComponentImpl(this)
 
     override fun buildTrackComponent(): TrackComponent =
         TrackComponentImpl(this)

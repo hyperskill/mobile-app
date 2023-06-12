@@ -28,7 +28,7 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
         ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
             profileSettingsInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.networkComponent.authorizationFlow,
             appGraph.commonComponent.platform,
