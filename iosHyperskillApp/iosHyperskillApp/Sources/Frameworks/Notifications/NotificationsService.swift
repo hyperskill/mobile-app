@@ -129,6 +129,11 @@ extension NotificationsService {
     func handleRemoteNotification(with userInfo: NotificationUserInfo) {
         #if DEBUG
         print("NotificationsService: did receive remote notification with userInfo: \(userInfo)")
+
+        if let data = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
+           let string = String(data: data, encoding: .utf8) {
+            print("NotificationsService: did receive remote notification with JSON string: \(string)")
+        }
         #endif
     }
 }
