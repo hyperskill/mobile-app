@@ -14,7 +14,7 @@ class StreakRecoveryComponentImpl(
     override val streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher
         get() = StreakRecoveryActionDispatcher(
             ActionDispatcherOptions(),
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildStreaksDataComponent().streaksInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.streakFlowDataComponent.streakFlow
