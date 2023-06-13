@@ -24,7 +24,8 @@ class StreakRecoveryReducer :
                     state to setOf(
                         Action.ViewAction.ShowRecoveryStreakModal(
                             message.recoveryPrice,
-                            message.previousStreak
+                            message.recoveryPriceLabel,
+                            message.modalText
                         )
                     )
                 } else {
