@@ -68,11 +68,19 @@ class StreakRecoveryActionDispatcher(
                                     )
                                 }
                             }
-                            StreakRecoveryFeature.RecoverStreakResult.Success
+                            StreakRecoveryFeature.RecoverStreakResult.Success(
+                                resourceProvider.getString(
+                                    SharedResources.strings.streak_recovery_modal_recover_streak_success_message
+                                )
+                            )
                         },
                         onFailure = {
                             sentryInteractor.captureErrorMessage("StreakRecovery: recover streak $it")
-                            StreakRecoveryFeature.RecoverStreakResult.Error
+                            StreakRecoveryFeature.RecoverStreakResult.Error(
+                                resourceProvider.getString(
+                                    SharedResources.strings.streak_recovery_modal_recover_streak_error_message
+                                )
+                            )
                         }
                     )
 
@@ -86,11 +94,19 @@ class StreakRecoveryActionDispatcher(
                             it.streaks.firstOrNull()?.let { newStreak ->
                                 streakFlow.notifyDataChanged(newStreak)
                             }
-                            StreakRecoveryFeature.CancelStreakRecoveryResult.Success
+                            StreakRecoveryFeature.CancelStreakRecoveryResult.Success(
+                                resourceProvider.getString(
+                                    SharedResources.strings.streak_recovery_modal_cancel_streak_recovery_success_message
+                                )
+                            )
                         },
                         onFailure = {
                             sentryInteractor.captureErrorMessage("StreakRecovery: cancel streak recovery $it")
-                            StreakRecoveryFeature.CancelStreakRecoveryResult.Error
+                            StreakRecoveryFeature.CancelStreakRecoveryResult.Error(
+                                resourceProvider.getString(
+                                    SharedResources.strings.streak_recovery_modal_cancel_streak_recovery_error_message
+                                )
+                            )
                         }
                     )
 
