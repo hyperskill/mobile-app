@@ -35,7 +35,7 @@ class StreakRecoveryActionDispatcher(
                 val message = if (streak != null) {
                     StreakRecoveryFeature.FetchStreakResult.Success(
                         streak.canBeRecovered,
-                        streak.recoveryPrice,
+                        streak.recoveryPrice.toString(),
                         resourceProvider.getQuantityString(
                             SharedResources.plurals.gems_without_count, streak.recoveryPrice
                         ),
