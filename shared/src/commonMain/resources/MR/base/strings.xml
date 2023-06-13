@@ -438,4 +438,6 @@
     <string name="streak_recovery_modal_warning">This choice cannot be undone</string>
     <string name="streak_recovery_modal_restore_streak">Restore streak</string>
     <string name="streak_recovery_modal_no_thanks">No, thanks</string>
+    <string name="streak_recovery_modal_success">Streak successfully recovered</string>
+    <string name="streak_recovery_modal_error">Failed to recover streak</string>
 </resources>
