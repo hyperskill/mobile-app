@@ -19,32 +19,24 @@ class StreakRecoveryModalViewController: PanModalSwiftUIViewController<StreakRec
         modalText: String,
         delegate: StreakRecoveryModalViewControllerDelegate?
     ) {
+        let view = StreakRecoveryModalView(
+            recoveryPriceAmount: recoveryPriceAmount,
+            recoveryPriceLabel: recoveryPriceLabel,
+            modalText: modalText,
+            restoreStreakButtonTapped: {
+                delegate?.streakRecoveryModalViewControllerDidTapRestoreStreakButton()
+            },
+            noThanksButtonTapped: {
+                delegate?.streakRecoveryModalViewControllerDidTapNoThanksButton()
+            }
+        )
+
         self.init(
             isPresented: .init(get: { false }, set: { _ in }),
-            content: {
-                StreakRecoveryModalView(
-                    recoveryPriceAmount: recoveryPriceAmount,
-                    recoveryPriceLabel: recoveryPriceLabel,
-                    modalText: modalText,
-                    restoreStreakButtonTapped: {
-                        delegate?.streakRecoveryModalViewControllerDidTapRestoreStreakButton()
-                    },
-                    noThanksButtonTapped: {
-                        delegate?.streakRecoveryModalViewControllerDidTapNoThanksButton()
-                    }
-                )
-            },
-            delegate: delegate
+            content: { view }
         )
-    }
 
-    init(
-        isPresented: Binding<Bool>,
-        content: @escaping () -> StreakRecoveryModalView,
-        delegate: StreakRecoveryModalViewControllerDelegate?
-    ) {
         self.delegate = delegate
-        super.init(isPresented: isPresented, content: content)
     }
 
     override func viewDidAppear(_ animated: Bool) {
