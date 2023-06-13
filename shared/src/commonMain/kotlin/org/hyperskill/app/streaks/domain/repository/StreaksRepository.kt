@@ -8,4 +8,8 @@ interface StreaksRepository {
 
     suspend fun getUserStreak(userId: Long): Result<Streak?> =
         getUserStreaks(userId).map { it.streaks.firstOrNull() }
+
+    suspend fun recoverStreak(): Result<StreaksResponse>
+
+    suspend fun cancelStreakRecovery(): Result<StreaksResponse>
 }
