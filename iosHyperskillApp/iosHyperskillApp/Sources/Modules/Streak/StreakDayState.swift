@@ -4,4 +4,5 @@ enum StreakDayState {
     case active
     case passive
     case frozen
+    case recovered
 }
