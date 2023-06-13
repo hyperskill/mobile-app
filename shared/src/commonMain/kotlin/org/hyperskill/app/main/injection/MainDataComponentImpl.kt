@@ -13,6 +13,7 @@ class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataComponent 
             appGraph.buildProgressesDataComponent().progressesRepository,
             appGraph.buildTrackDataComponent().trackRepository,
             appGraph.buildProvidersDataComponent().providersRepository,
-            appGraph.buildProjectsDataComponent().projectsRepository
+            appGraph.buildProjectsDataComponent().projectsRepository,
+            appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
         )
 }

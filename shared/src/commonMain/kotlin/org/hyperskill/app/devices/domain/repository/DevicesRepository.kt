@@ -7,5 +7,4 @@ interface DevicesRepository {
 
     fun getCurrentCachedDevice(): Result<Device>
     fun saveDeviceToCache(device: Device)
-    fun clearCache()
 }

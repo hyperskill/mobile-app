@@ -23,8 +23,4 @@ class DevicesCacheDataSourceImpl(
             value = json.encodeToString(Device.serializer(), device)
         )
     }
-
-    override fun clearCache() {
-        settings.remove(DevicesCacheKeyValues.CURRENT_DEVICE)
-    }
 }

@@ -28,15 +28,8 @@ class PushNotificationsInteractor(
         }.onFailure { sentryInteractor.captureErrorMessage("PushNotificationsInteractor: $it") }
     }
 
-    internal fun handleUserDeauthorized() {
-        devicesRepository.clearCache()
-    }
-
     internal suspend fun handleUserSignedOut() {
-        val currentFCMToken = getCurrentFCMToken()
-        devicesRepository.clearCache()
-
-        currentFCMToken?.let { disableFCMToken(it) }
+        getCurrentFCMToken()?.let { disableFCMToken(it) }
     }
 
     private fun getCurrentFCMToken(): String? =

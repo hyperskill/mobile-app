@@ -18,8 +18,4 @@ class DevicesRepositoryImpl(
     override fun saveDeviceToCache(device: Device) {
         devicesCacheDataSource.saveDevice(device)
     }
-
-    override fun clearCache() {
-        devicesCacheDataSource.clearCache()
-    }
 }

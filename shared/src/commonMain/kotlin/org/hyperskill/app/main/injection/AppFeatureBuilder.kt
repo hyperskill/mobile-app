@@ -23,8 +23,7 @@ object AppFeatureBuilder {
         authInteractor: AuthInteractor,
         profileInteractor: ProfileInteractor,
         sentryInteractor: SentryInteractor,
-        stateRepositoriesComponent: StateRepositoriesComponent,
-        pushNotificationsInteractor: PushNotificationsInteractor
+        stateRepositoriesComponent: StateRepositoriesComponent
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer()
         val appActionDispatcher = AppActionDispatcher(
@@ -33,8 +32,7 @@ object AppFeatureBuilder {
             authInteractor,
             profileInteractor,
             sentryInteractor,
-            stateRepositoriesComponent,
-            pushNotificationsInteractor
+            stateRepositoriesComponent
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)
