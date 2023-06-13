@@ -77,6 +77,7 @@ extension AppViewController: AppViewControllerProtocol {
                     appearance: .bottomSheet
                 )
                 present(modalViewController, animated: true)
+                presentIfPanModalWithCustomModalPresentationStyle(<#T##viewControllerToPresent: UIViewController##UIViewController#>)
             case .hideStreakRecoveryModal:
                 dismiss(animated: true)
             case .showNetworkRequestStatus(let showNetworkRequestStatus):
