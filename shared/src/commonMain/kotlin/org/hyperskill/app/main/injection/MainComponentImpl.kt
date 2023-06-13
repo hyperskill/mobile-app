@@ -2,9 +2,13 @@ package org.hyperskill.app.main.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.presentation.AppFeature
+import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
+    private val streakRecoveryComponent: StreakRecoveryComponent =
+        appGraph.buildStreakRecoveryComponent()
+
     override fun appFeature(
         initialState: AppFeature.State?
     ): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =
@@ -14,7 +18,9 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             appGraph.authComponent.authInteractor,
             appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.sentryComponent.sentryInteractor,
-            appGraph.stateRepositoriesComponent
+            appGraph.stateRepositoriesComponent,
+            streakRecoveryComponent.streakRecoveryReducer,
+            streakRecoveryComponent.streakRecoveryActionDispatcher
         )
 
     override fun appFeature(): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =

@@ -9,4 +9,10 @@ class StreaksRepositoryImpl(
 ) : StreaksRepository {
     override suspend fun getUserStreaks(userId: Long, page: Int): Result<StreaksResponse> =
         streaksRemoteDataSource.getUserStreaks(userId, page)
+
+    override suspend fun recoverStreak(): Result<StreaksResponse> =
+        streaksRemoteDataSource.recoverStreak()
+
+    override suspend fun cancelStreakRecovery(): Result<StreaksResponse> =
+        streaksRemoteDataSource.cancelStreakRecovery()
 }

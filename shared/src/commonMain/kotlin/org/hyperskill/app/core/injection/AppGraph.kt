@@ -45,6 +45,7 @@ import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataCompon
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
@@ -135,4 +136,5 @@ interface AppGraph {
     fun buildFreemiumDataComponent(): FreemiumDataComponent
     fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent
     fun buildProvidersDataComponent(): ProvidersDataComponent
+    fun buildStreakRecoveryComponent(): StreakRecoveryComponent
 }
