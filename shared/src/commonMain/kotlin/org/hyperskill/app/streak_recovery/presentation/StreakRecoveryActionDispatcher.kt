@@ -104,7 +104,7 @@ class StreakRecoveryActionDispatcher(
                             sentryInteractor.captureErrorMessage("StreakRecovery: cancel streak recovery $it")
                             StreakRecoveryFeature.CancelStreakRecoveryResult.Error(
                                 resourceProvider.getString(
-                                    SharedResources.strings.streak_recovery_modal_recover_streak_error_message
+                                    SharedResources.strings.streak_recovery_modal_cancel_streak_recovery_error_message
                                 )
                             )
                         }

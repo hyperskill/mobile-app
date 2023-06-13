@@ -441,5 +441,5 @@
     <string name="streak_recovery_modal_recover_streak_success_message">Streak successfully recovered</string>
     <string name="streak_recovery_modal_recover_streak_error_message">Failed to recover a streak</string>
     <string name="streak_recovery_modal_cancel_streak_recovery_success_message">Streak recovery successfully cancelled</string>
-    <string name="streak_recovery_modal_recover_streak_error_message">Failed to cancel a streak recovery</string>
+    <string name="streak_recovery_modal_cancel_streak_recovery_error_message">Failed to cancel a streak recovery</string>
 </resources>
