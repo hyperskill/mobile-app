@@ -144,8 +144,8 @@ private extension AppViewModel {
 
 // MARK: - AppViewModel: StreakRecoveryModalDelegate -
 
-extension AppViewModel: StreakRecoveryModalDelegate {
-    func streakRecoveryModalDidTapRestoreStreakButton() {
+extension AppViewModel: StreakRecoveryModalViewControllerDelegate {
+    func streakRecoveryModalViewControllerDidTapRestoreStreakButton() {
         onNewMessage(
             AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageRestoreStreakClicked()
@@ -153,7 +153,7 @@ extension AppViewModel: StreakRecoveryModalDelegate {
         )
     }
 
-    func streakRecoveryModalDidTapNoThanksButton() {
+    func streakRecoveryModalViewControllerDidTapNoThanksButton() {
         onNewMessage(
             AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageNoThanksClicked()
@@ -161,7 +161,7 @@ extension AppViewModel: StreakRecoveryModalDelegate {
         )
     }
 
-    func streakRecoveryModalDidAppear() {
+    func streakRecoveryModalViewControllerDidAppear(_ viewController: StreakRecoveryModalViewController) {
         onNewMessage(
             AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageStreakRecoveryModalShownEventMessage()
@@ -169,7 +169,7 @@ extension AppViewModel: StreakRecoveryModalDelegate {
         )
     }
 
-    func streakRecoveryModalDidDisappear() {
+    func streakRecoveryModalViewControllerDidDisappear(_ viewController: StreakRecoveryModalViewController) {
         onNewMessage(
             AppFeatureMessageStreakRecoveryMessage(
                 message: StreakRecoveryFeatureMessageStreakRecoveryModalHiddenEventMessage()

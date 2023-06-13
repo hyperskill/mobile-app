@@ -66,38 +66,21 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     func displayViewAction(_ viewAction: AppFeatureActionViewActionKs) {
-        if case .streakRecoveryViewAction(let streakRecoveryViewAction) = viewAction {
-            switch StreakRecoveryFeatureActionViewActionKs(streakRecoveryViewAction.viewAction) {
-            case .showRecoveryStreakModal(let showRecoveryStreakModal):
-                let modalViewController = StreakRecoveryModalViewController(
-                    content: StreakRecoveryModalView(
-                        recoveryPriceAmount: showRecoveryStreakModal.recoveryPriceAmountLabel,
-                        recoveryPriceLabel: showRecoveryStreakModal.recoveryPriceGemsLabel,
-                        modalText: showRecoveryStreakModal.modalText,
-                        streakRecoveryModalDelegate: viewModel
-                    )
-                )
-                presentIfPanModalWithCustomModalPresentationStyle(modalViewController)
-            case .hideStreakRecoveryModal:
-                dismiss(animated: true)
-            case .showNetworkRequestStatus(let showNetworkRequestStatus):
-                switch StreakRecoveryFeatureActionViewActionShowNetworkRequestStatusKs(showNetworkRequestStatus) {
-                case .error:
-                    ProgressHUD.showError()
-                case .loading:
-                    ProgressHUD.show()
-                case .success:
-                    ProgressHUD.showSuccess()
-                }
-            }
+        switch viewAction {
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(
+                navigateToViewAction: AppFeatureActionViewActionNavigateToKs(navigateToViewAction)
+            )
+        case .streakRecoveryViewAction(let streakRecoveryViewAction):
+            handleStreakRecoveryViewAction(
+                streakRecoveryViewAction: StreakRecoveryFeatureActionViewActionKs(streakRecoveryViewAction.viewAction)
+            )
         }
+    }
 
-        let viewControllerToPresent: UIViewController? = {
-            guard case .navigateTo(let navigateToViewAction) = viewAction else {
-                return nil
-            }
-
-            switch AppFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+    private func handleNavigateToViewAction(navigateToViewAction: AppFeatureActionViewActionNavigateToKs) {
+        let viewControllerToPresent: UIViewController = {
+            switch navigateToViewAction {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
             case .homeScreen:
@@ -117,10 +100,6 @@ extension AppViewController: AppViewControllerProtocol {
             }
         }()
 
-        guard let viewControllerToPresent else {
-            return
-        }
-
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
                 return false
@@ -135,6 +114,30 @@ extension AppViewController: AppViewControllerProtocol {
         assert(children.count <= 2)
 
         swapRootViewController(from: fromViewController, to: viewControllerToPresent)
+    }
+
+    private func handleStreakRecoveryViewAction(streakRecoveryViewAction: StreakRecoveryFeatureActionViewActionKs) {
+        switch streakRecoveryViewAction {
+        case .showRecoveryStreakModal(let showRecoveryStreakModal):
+            let modalViewController = StreakRecoveryModalViewController(
+                recoveryPriceAmount: showRecoveryStreakModal.recoveryPriceAmountLabel,
+                recoveryPriceLabel: showRecoveryStreakModal.recoveryPriceGemsLabel,
+                modalText: showRecoveryStreakModal.modalText,
+                delegate: viewModel
+            )
+            presentIfPanModalWithCustomModalPresentationStyle(modalViewController)
+        case .hideStreakRecoveryModal:
+            dismiss(animated: true)
+        case .showNetworkRequestStatus(let showNetworkRequestStatus):
+            switch StreakRecoveryFeatureActionViewActionShowNetworkRequestStatusKs(showNetworkRequestStatus) {
+            case .error(let showErrorStatusViewAction):
+                ProgressHUD.showError(status: showErrorStatusViewAction.message)
+            case .loading:
+                ProgressHUD.show()
+            case .success(let showSuccessStatusViewAction):
+                ProgressHUD.showSuccess(status: showSuccessStatusViewAction.message)
+            }
+        }
     }
 
     private func swapRootViewController(

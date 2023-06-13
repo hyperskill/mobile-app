@@ -4,6 +4,7 @@ extension StreakRecoveryModalView {
     struct Appearance {
         let largeSpacing: CGFloat = 32
         let gemsBadgeWidthHeight: CGFloat = 36
+        let warningBottomPadding: CGFloat = 4
     }
 }
 
@@ -13,8 +14,8 @@ struct StreakRecoveryModalView: View {
     let recoveryPriceAmount: String
     let recoveryPriceLabel: String
     let modalText: String
-
-    weak var streakRecoveryModalDelegate: StreakRecoveryModalDelegate?
+    let restoreStreakButtonTapped: () -> Void
+    let noThanksButtonTapped: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.largeSpacing) {
@@ -23,7 +24,7 @@ struct StreakRecoveryModalView: View {
             VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
                 Text(Strings.Streak.RecoverModal.title)
                     .foregroundColor(.primaryText)
-                    .font(.title3)
+                    .font(.title2)
                     .bold()
 
                 Text(modalText)
@@ -37,12 +38,7 @@ struct StreakRecoveryModalView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(widthHeight: appearance.gemsBadgeWidthHeight)
 
-                    Text(recoveryPriceAmount)
-                        .foregroundColor(.primaryText)
-                        .font(.body)
-                        .bold()
-
-                    Text(recoveryPriceLabel)
+                    Text("\(Text(recoveryPriceAmount).bold()) \(recoveryPriceLabel)")
                         .foregroundColor(.primaryText)
                         .font(.body)
                 }
@@ -50,27 +46,22 @@ struct StreakRecoveryModalView: View {
 
             VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
                 Text(Strings.Streak.RecoverModal.warning)
-                    .foregroundColor(.secondaryText)
+                    .foregroundColor(.disabledText)
                     .font(.body)
+                    .padding(.bottom, appearance.warningBottomPadding)
 
                 Button(Strings.Streak.RecoverModal.restoreStreak) {
-                    streakRecoveryModalDelegate?.streakRecoveryModalDidTapRestoreStreakButton()
+                    restoreStreakButtonTapped()
                 }
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
                 Button(Strings.Streak.RecoverModal.noThanks) {
-                    streakRecoveryModalDelegate?.streakRecoveryModalDidTapNoThanksButton()
+                    noThanksButtonTapped()
                 }
                 .buttonStyle(OutlineButtonStyle())
             }
         }
         .padding([.horizontal, .bottom])
-        .onAppear {
-            streakRecoveryModalDelegate?.streakRecoveryModalDidAppear()
-        }
-        .onDisappear {
-            streakRecoveryModalDelegate?.streakRecoveryModalDidDisappear()
-        }
     }
 }
 
@@ -80,17 +71,20 @@ struct StreakRecoveryModalView_Previews: PreviewProvider {
             StreakRecoveryModalView(
                 recoveryPriceAmount: "25",
                 recoveryPriceLabel: "gems",
-                modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!"
+                modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!",
+                restoreStreakButtonTapped: {},
+                noThanksButtonTapped: {}
             )
 
             StreakRecoveryModalView(
                 recoveryPriceAmount: "25",
                 recoveryPriceLabel: "gems",
-                modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!"
+                modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!",
+                restoreStreakButtonTapped: {},
+                noThanksButtonTapped: {}
             )
             .preferredColorScheme(.dark)
         }
-        .padding()
         .previewLayout(.sizeThatFits)
     }
 }
