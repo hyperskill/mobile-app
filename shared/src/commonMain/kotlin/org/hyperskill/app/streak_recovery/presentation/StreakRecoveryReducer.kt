@@ -74,12 +74,12 @@ class StreakRecoveryReducer : StateReducer<State, Message, Action> {
                     Action.ViewAction.ShowNetworkRequestStatus.Error(message.message)
                 )
             }
-            Message.StreakRecoveryModalHiddenEventMessage -> {
+            Message.StreakRecoveryModalShownEventMessage -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(StreakRecoveryModalShownHyperskillAnalyticEvent())
                 )
             }
-            Message.StreakRecoveryModalShownEventMessage -> {
+            Message.StreakRecoveryModalHiddenEventMessage -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(StreakRecoveryModalHiddenHyperskillAnalyticEvent())
                 )
