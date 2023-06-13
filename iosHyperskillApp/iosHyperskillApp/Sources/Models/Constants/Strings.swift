@@ -351,7 +351,6 @@ enum Strings {
 
         enum RecoverModal {
             static let title = sharedStrings.streak_recovery_modal_title.localized()
-            static let text = sharedStrings.streak_recovery_modal_text.localized()
             static let warning = sharedStrings.streak_recovery_modal_warning.localized()
             static let restoreStreak = sharedStrings.streak_recovery_modal_restore_streak.localized()
             static let noThanks = sharedStrings.streak_recovery_modal_no_thanks.localized()

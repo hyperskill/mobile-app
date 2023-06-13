@@ -141,3 +141,39 @@ private extension AppViewModel {
         onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
     }
 }
+
+// MARK: - AppViewModel: StreakRecoveryModalDelegate -
+
+extension AppViewModel: StreakRecoveryModalDelegate {
+    func streakRecoveryModalDidTapRestoreStreakButton() {
+        onNewMessage(
+            AppFeatureMessageStreakRecoveryMessage(
+                message: StreakRecoveryFeatureMessageRestoreStreakClicked()
+            )
+        )
+    }
+
+    func streakRecoveryModalDidTapNoThanksButton() {
+        onNewMessage(
+            AppFeatureMessageStreakRecoveryMessage(
+                message: StreakRecoveryFeatureMessageNoThanksClicked()
+            )
+        )
+    }
+
+    func streakRecoveryModalDidAppear() {
+        onNewMessage(
+            AppFeatureMessageStreakRecoveryMessage(
+                message: StreakRecoveryFeatureMessageStreakRecoveryModalShownEventMessage()
+            )
+        )
+    }
+
+    func streakRecoveryModalDidDisappear() {
+        onNewMessage(
+            AppFeatureMessageStreakRecoveryMessage(
+                message: StreakRecoveryFeatureMessageStreakRecoveryModalHiddenEventMessage()
+            )
+        )
+    }
+}
