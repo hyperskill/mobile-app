@@ -432,10 +432,10 @@
     <!-- Date formatter -->
     <string name="date_formatter_less_than_a_minute">less than a minute</string>
 
-    <!--Streak recovery bottom sheet-->
-    <string name="streak_recovery_bottom_sheet_title">Pick up where you left off</string>
-    <string name="streak_recovery_bottom_sheet_subtitle">Good to see you back! You used to study daily and had a N-day streak. Great job!</string>
-    <string name="streak_recovery_bottom_sheet_undone_description">This choice cannot be undone</string>
-    <string name="streak_recovery_bottom_sheet_restore_button">Restore streak</string>
-    <string name="streak_recovery_bottom_sheet_reject">No, thanks</string>
+    <!-- Streak recovery modal -->
+    <string name="streak_recovery_modal_title">Pick up where you left off</string>
+    <string name="streak_recovery_modal_text">Good to see you back! You used to study daily and had a %d-day streak. Great job!</string>
+    <string name="streak_recovery_modal_warning">This choice cannot be undone</string>
+    <string name="streak_recovery_modal_restore_streak">Restore streak</string>
+    <string name="streak_recovery_modal_no_thanks">No, thanks</string>
 </resources>

@@ -166,6 +166,9 @@ class MainActivity :
                         TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
+            is AppFeature.Action.ViewAction.StreakRecoveryViewAction -> {
+                // TODO: add streak recovery view actions processing
+            }
         }
     }
 
