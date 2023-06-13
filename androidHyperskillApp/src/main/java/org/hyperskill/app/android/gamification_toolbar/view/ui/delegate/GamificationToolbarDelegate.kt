@@ -9,6 +9,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutGamificationToolbarBinding
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.streaks.domain.model.StreakState
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class GamificationToolbarDelegate(
@@ -47,11 +48,12 @@ class GamificationToolbarDelegate(
                 isVisible = true
                 val streakDuration = state.streak?.currentStreak ?: 0
                 text = streakDuration.toString()
+                val historicalStreak = state.streak?.history?.firstOrNull()
                 setCompoundDrawablesWithIntrinsicBounds(
-                    /* left = */ if (state.streak?.history?.firstOrNull()?.isCompleted == true) {
-                        R.drawable.ic_menu_streak
-                    } else {
-                        R.drawable.ic_menu_empty_streak
+                    /* left = */ when {
+                        historicalStreak?.state == StreakState.RECOVERED -> R.drawable.ic_menu_recovered_streak
+                        historicalStreak?.isCompleted == true -> R.drawable.ic_menu_enabled_streak
+                        else -> R.drawable.ic_menu_empty_streak
                     },
                     /* top = */ 0,
                     /* right = */ 0,
