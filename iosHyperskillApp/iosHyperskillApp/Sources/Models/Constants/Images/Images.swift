@@ -143,6 +143,7 @@ enum Images {
                 static let streakActive = "profile-streak-active"
                 static let streakPassive = "profile-streak-passive"
                 static let streakFrozen = "profile-streak-frozen"
+                static let streakRecovered = "profile-streak-recovered"
                 static let crown = "profile-streak-crown"
             }
 

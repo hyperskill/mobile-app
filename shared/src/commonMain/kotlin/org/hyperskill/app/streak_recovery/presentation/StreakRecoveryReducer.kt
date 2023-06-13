@@ -52,23 +52,27 @@ class StreakRecoveryReducer : StateReducer<State, Message, Action> {
                     )
                 )
             }
-            StreakRecoveryFeature.RecoverStreakResult.Success -> {
+            is StreakRecoveryFeature.RecoverStreakResult.Success -> {
                 state to setOf(
-                    Action.ViewAction.ShowNetworkRequestStatus.Success,
+                    Action.ViewAction.ShowNetworkRequestStatus.Success(message.message),
                     Action.ViewAction.HideStreakRecoveryModal
                 )
             }
-            StreakRecoveryFeature.RecoverStreakResult.Error -> {
-                handleNetworkError(state)
-            }
-            StreakRecoveryFeature.CancelStreakRecoveryResult.Success -> {
+            is StreakRecoveryFeature.RecoverStreakResult.Error -> {
                 state to setOf(
-                    Action.ViewAction.ShowNetworkRequestStatus.Success,
+                    Action.ViewAction.ShowNetworkRequestStatus.Error(message.message)
+                )
+            }
+            is StreakRecoveryFeature.CancelStreakRecoveryResult.Success -> {
+                state to setOf(
+                    Action.ViewAction.ShowNetworkRequestStatus.Success(message.message),
                     Action.ViewAction.HideStreakRecoveryModal
                 )
             }
-            StreakRecoveryFeature.CancelStreakRecoveryResult.Error -> {
-                handleNetworkError(state)
+            is StreakRecoveryFeature.CancelStreakRecoveryResult.Error -> {
+                state to setOf(
+                    Action.ViewAction.ShowNetworkRequestStatus.Error(message.message)
+                )
             }
             Message.StreakRecoveryModalHiddenEventMessage -> {
                 state to setOf(
@@ -81,7 +85,4 @@ class StreakRecoveryReducer : StateReducer<State, Message, Action> {
                 )
             }
         } ?: (state to emptySet())
-
-    private fun handleNetworkError(state: State): ReducerResult =
-        state to setOf(Action.ViewAction.ShowNetworkRequestStatus.Error)
 }

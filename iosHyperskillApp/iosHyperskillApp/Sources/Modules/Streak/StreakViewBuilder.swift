@@ -32,6 +32,8 @@ final class StreakViewBuilder {
                 return .active
             } else if historicalStreak.state == StreakState.frozen {
                 return .frozen
+            } else if historicalStreak.state == StreakState.recovered {
+                return .recovered
             }
             return .passive
         }
