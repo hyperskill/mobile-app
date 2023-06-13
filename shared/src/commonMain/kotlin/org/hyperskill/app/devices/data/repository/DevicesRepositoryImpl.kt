@@ -18,6 +18,6 @@ class DevicesRepositoryImpl(
                 }
             }
 
-    override fun getCurrentCachedDevice(): Result<Device> =
+    override fun getCurrentCachedDevice(): Result<Device?> =
         currentDeviceCacheDataSource.getCurrentDevice()
 }

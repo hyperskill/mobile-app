@@ -9,12 +9,11 @@ class CurrentDeviceCacheDataSourceImpl(
     private val json: Json,
     private val settings: Settings
 ) : CurrentDeviceCacheDataSource {
-    override fun getCurrentDevice(): Result<Device> =
+    override fun getCurrentDevice(): Result<Device?> =
         kotlin.runCatching {
-            json.decodeFromString(
-                Device.serializer(),
-                settings.getString(DevicesCacheKeyValues.CURRENT_DEVICE, defaultValue = "")
-            )
+            settings
+                .getStringOrNull(DevicesCacheKeyValues.CURRENT_DEVICE)
+                ?.let { json.decodeFromString(Device.serializer(), it) }
         }
 
     override fun setCurrentDevice(device: Device) {
