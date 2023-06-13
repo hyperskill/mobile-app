@@ -13,7 +13,7 @@ class PushNotificationsInteractor(
     private val authInteractor: AuthInteractor,
     private val sentryInteractor: SentryInteractor
 ) {
-    suspend fun uploadFCMTokenToBackend(fcmToken: String): Result<Device> {
+    suspend fun handleNewFCMToken(fcmToken: String): Result<Device> {
         val isAuthorized = authInteractor.isAuthorized().getOrNull() ?: false
         if (!isAuthorized) {
             return Result.failure(Exception("User is not authorized"))
@@ -50,7 +50,6 @@ class PushNotificationsInteractor(
                     isActive = true
                 )
             )
-            .onSuccess { devicesRepository.saveDeviceToCache(it) }
 
     private suspend fun disableFCMToken(fcmToken: String): Result<Device> =
         devicesRepository

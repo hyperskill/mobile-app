@@ -162,7 +162,7 @@ extension NotificationsRegistrationService: MessagingDelegate {
         #if targetEnvironment(simulator)
         // no op
         #else
-        pushNotificationsInteractor.uploadFCMTokenToBackend(fcmToken: fcmToken, completionHandler: { _, _ in })
+        pushNotificationsInteractor.handleNewFCMToken(fcmToken: fcmToken, completionHandler: { _, _ in })
         #endif
     }
 }

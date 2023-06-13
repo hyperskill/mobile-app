@@ -10,7 +10,6 @@ import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
-import org.hyperskill.app.push_notifications.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature

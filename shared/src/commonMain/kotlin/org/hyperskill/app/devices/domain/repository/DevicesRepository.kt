@@ -6,5 +6,4 @@ interface DevicesRepository {
     suspend fun createDevice(device: Device): Result<Device>
 
     fun getCurrentCachedDevice(): Result<Device>
-    fun saveDeviceToCache(device: Device)
 }
