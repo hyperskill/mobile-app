@@ -12,8 +12,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class StreakRecoveryReducer :
-    StateReducer<State, Message, Action> {
+class StreakRecoveryReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             Message.Initialize -> {
@@ -23,8 +22,9 @@ class StreakRecoveryReducer :
                 if (message.canRecoveryStreak) {
                     state to setOf(
                         Action.ViewAction.ShowRecoveryStreakModal(
-                            message.recoveryPrice,
-                            message.previousStreak
+                            message.recoveryPriceAmountLabel,
+                            message.recoveryPriceGemsLabel,
+                            message.modalText
                         )
                     )
                 } else {

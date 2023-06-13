@@ -22,8 +22,9 @@ object StreakRecoveryFeature {
     internal sealed interface FetchStreakResult : Message {
         data class Success(
             val canRecoveryStreak: Boolean,
-            val recoveryPrice: Int,
-            val previousStreak: Int
+            val recoveryPriceAmountLabel: String,
+            val recoveryPriceGemsLabel: String,
+            val modalText: String
         ) : FetchStreakResult
 
         object Error : FetchStreakResult
@@ -42,8 +43,10 @@ object StreakRecoveryFeature {
     sealed interface Action {
         sealed interface ViewAction : Action {
             data class ShowRecoveryStreakModal(
-                val recoveryPrice: Int,
-                val previousStreak: Int
+                val recoveryPriceAmountLabel: String,
+                // passed separately from price because price amount is highlighted with bold
+                val recoveryPriceGemsLabel: String,
+                val modalText: String
             ) : ViewAction
 
             object HideStreakRecoveryModal : ViewAction

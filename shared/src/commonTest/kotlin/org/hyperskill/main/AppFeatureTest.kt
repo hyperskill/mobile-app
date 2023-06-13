@@ -13,10 +13,10 @@ class AppFeatureTest {
     private val appReducer = AppReducer(StreakRecoveryReducer())
 
     @Test
-    fun `Streak recovery should be initialized only when user is authorized`() {
+    fun `Streak recovery should be initialized only when user is authorized and streak recovery feature enabled`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
-            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = false))
+            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = false, isStreakRecoveryFeatureEnabled = true))
         )
         assertTrue {
             actions.any {
@@ -30,7 +30,20 @@ class AppFeatureTest {
     fun `Streak recovery should NOT be initialized when user is NOT authorized`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
-            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = true))
+            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = true, isStreakRecoveryFeatureEnabled = true))
+        )
+        assertTrue {
+            actions.none {
+                it is AppFeature.Action.StreakRecoveryAction
+            }
+        }
+    }
+
+    @Test
+    fun `Streak recovery should NOT be initialized when streak recovery feature is NOT enabled`() {
+        val (_, actions) = appReducer.reduce(
+            AppFeature.State.Loading,
+            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = false, isStreakRecoveryFeatureEnabled = false))
         )
         assertTrue {
             actions.none {

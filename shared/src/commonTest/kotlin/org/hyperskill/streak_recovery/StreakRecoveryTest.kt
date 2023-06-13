@@ -12,7 +12,7 @@ class StreakRecoveryTest {
     fun `Streak recovery modal should be shown if recovery is available`() {
         val (_, actions) = streakRecoveryReducer.reduce(
             StreakRecoveryFeature.State,
-            StreakRecoveryFeature.FetchStreakResult.Success(true, 0, 0)
+            StreakRecoveryFeature.FetchStreakResult.Success(true, "", "", "")
         )
         assertTrue {
             actions.any {
@@ -25,7 +25,7 @@ class StreakRecoveryTest {
     fun `Streak recovery modal should NOT be shown if recovery is NOT available`() {
         val (_, actions) = streakRecoveryReducer.reduce(
             StreakRecoveryFeature.State,
-            StreakRecoveryFeature.FetchStreakResult.Success(false, 0, 0)
+            StreakRecoveryFeature.FetchStreakResult.Success(false, "", "", "")
         )
         assertTrue {
             actions.none {

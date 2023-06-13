@@ -1,7 +1,11 @@
 package org.hyperskill.app.streak_recovery.presentation
 
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.profile.domain.model.copy
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Action
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Message
@@ -14,7 +18,8 @@ class StreakRecoveryActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,
-    private val streakFlow: StreakFlow
+    private val streakFlow: StreakFlow,
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -30,8 +35,13 @@ class StreakRecoveryActionDispatcher(
                 val message = if (streak != null) {
                     StreakRecoveryFeature.FetchStreakResult.Success(
                         streak.canBeRecovered,
-                        streak.recoveryPrice,
-                        streak.previousStreak
+                        streak.recoveryPrice.toString(),
+                        resourceProvider.getQuantityString(
+                            SharedResources.plurals.gems_without_count, streak.recoveryPrice
+                        ),
+                        resourceProvider.getString(
+                            SharedResources.strings.streak_recovery_modal_text, streak.previousStreak
+                        )
                     )
                 } else {
                     StreakRecoveryFeature.FetchStreakResult.Error
@@ -46,6 +56,13 @@ class StreakRecoveryActionDispatcher(
                         onSuccess = {
                             it.streaks.firstOrNull()?.let { newStreak ->
                                 streakFlow.notifyDataChanged(newStreak)
+
+                                currentProfileStateRepository.updateState { currentProfile ->
+                                    currentProfile.copy(
+                                        hypercoinsBalance = currentProfile.gamification.hypercoinsBalance -
+                                            newStreak.recoveryPrice
+                                    )
+                                }
                             }
                             StreakRecoveryFeature.RecoverStreakResult.Success
                         },

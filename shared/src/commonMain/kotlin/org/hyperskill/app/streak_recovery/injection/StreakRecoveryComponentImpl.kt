@@ -17,6 +17,7 @@ class StreakRecoveryComponentImpl(
             appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildStreaksDataComponent().streaksInteractor,
             appGraph.analyticComponent.analyticInteractor,
-            appGraph.streakFlowDataComponent.streakFlow
+            appGraph.streakFlowDataComponent.streakFlow,
+            appGraph.commonComponent.resourceProvider
         )
 }
