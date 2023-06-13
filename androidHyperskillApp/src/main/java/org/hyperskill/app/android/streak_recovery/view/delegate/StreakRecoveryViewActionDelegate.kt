@@ -34,13 +34,13 @@ object StreakRecoveryViewActionDelegate {
                 LoadingProgressDialogFragment.newInstance()
                     .showIfNotExists(fragmentManager, LoadingProgressDialogFragment.TAG)
             }
-            StreakRecoveryFeature.Action.ViewAction.ShowNetworkRequestStatus.Success -> {
+            is StreakRecoveryFeature.Action.ViewAction.ShowNetworkRequestStatus.Success -> {
                 fragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-                rootView.snackbar(org.hyperskill.app.R.string.streak_recovery_modal_success)
+                rootView.snackbar(viewAction.message)
             }
-            StreakRecoveryFeature.Action.ViewAction.ShowNetworkRequestStatus.Error -> {
+            is StreakRecoveryFeature.Action.ViewAction.ShowNetworkRequestStatus.Error -> {
                 fragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-                rootView.snackbar(org.hyperskill.app.R.string.streak_recovery_modal_error)
+                rootView.snackbar(viewAction.message)
             }
         }
     }

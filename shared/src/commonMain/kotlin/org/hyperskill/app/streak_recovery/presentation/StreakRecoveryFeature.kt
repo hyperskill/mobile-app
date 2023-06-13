@@ -31,13 +31,13 @@ object StreakRecoveryFeature {
     }
 
     internal sealed interface RecoverStreakResult : Message {
-        object Success : RecoverStreakResult
-        object Error : RecoverStreakResult
+        data class Success(val message: String) : RecoverStreakResult
+        data class Error(val message: String) : RecoverStreakResult
     }
 
     internal sealed interface CancelStreakRecoveryResult : Message {
-        object Success : CancelStreakRecoveryResult
-        object Error : CancelStreakRecoveryResult
+        data class Success(val message: String) : CancelStreakRecoveryResult
+        data class Error(val message: String) : CancelStreakRecoveryResult
     }
 
     sealed interface Action {
@@ -53,8 +53,8 @@ object StreakRecoveryFeature {
 
             sealed interface ShowNetworkRequestStatus : ViewAction {
                 object Loading : ShowNetworkRequestStatus
-                object Error : ShowNetworkRequestStatus
-                object Success : ShowNetworkRequestStatus
+                data class Error(val message: String) : ShowNetworkRequestStatus
+                data class Success(val message: String) : ShowNetworkRequestStatus
             }
         }
     }
