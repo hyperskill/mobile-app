@@ -7,6 +7,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.profile.domain.model.copy
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Action
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Message
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
@@ -18,6 +19,7 @@ class StreakRecoveryActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
     private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val streakFlow: StreakFlow,
     private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -26,10 +28,12 @@ class StreakRecoveryActionDispatcher(
             StreakRecoveryFeature.InternalAction.FetchStreak -> {
                 val currentProfile = currentProfileStateRepository
                     .getState()
+                    .onFailure { sentryInteractor.captureErrorMessage("StreakRecovery: fetch streak $it") }
                     .getOrElse { return onNewMessage(StreakRecoveryFeature.FetchStreakResult.Error) }
 
                 val streak = streaksInteractor
                     .getUserStreak(currentProfile.id)
+                    .onFailure { sentryInteractor.captureErrorMessage("StreakRecovery: fetch streak $it") }
                     .getOrElse { return onNewMessage(StreakRecoveryFeature.FetchStreakResult.Error) }
 
                 val message = if (streak != null) {
@@ -66,7 +70,10 @@ class StreakRecoveryActionDispatcher(
                             }
                             StreakRecoveryFeature.RecoverStreakResult.Success
                         },
-                        onFailure = { StreakRecoveryFeature.RecoverStreakResult.Error }
+                        onFailure = {
+                            sentryInteractor.captureErrorMessage("StreakRecovery: recover streak $it")
+                            StreakRecoveryFeature.RecoverStreakResult.Error
+                        }
                     )
 
                 onNewMessage(message)
@@ -81,7 +88,10 @@ class StreakRecoveryActionDispatcher(
                             }
                             StreakRecoveryFeature.CancelStreakRecoveryResult.Success
                         },
-                        onFailure = { StreakRecoveryFeature.CancelStreakRecoveryResult.Error }
+                        onFailure = {
+                            sentryInteractor.captureErrorMessage("StreakRecovery: cancel streak recovery $it")
+                            StreakRecoveryFeature.CancelStreakRecoveryResult.Error
+                        }
                     )
 
                 onNewMessage(message)
