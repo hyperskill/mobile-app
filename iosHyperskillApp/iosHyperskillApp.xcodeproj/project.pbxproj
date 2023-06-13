@@ -433,6 +433,7 @@
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
 		E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */; };
+		E98BE36D2A374394000B430F /* StreakRecoveryModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98BE36C2A374394000B430F /* StreakRecoveryModalView.swift */; };
 		E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */; };
 		E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */; };
 		E9950E9528894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */; };
@@ -475,6 +476,7 @@
 		E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C5C92F28AE105200CADDEC /* NotificationsService.swift */; };
 		E9CC6C0429893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */; };
 		E9CC6C0729893F2200D8D070 /* StepQuizInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */; };
+		E9CF48A92A38499F00938CCE /* StreakRecoveryModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CF48A82A38499F00938CCE /* StreakRecoveryModalViewController.swift */; };
 		E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */; };
 		E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */; };
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
@@ -951,6 +953,7 @@
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
 		E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingOutputProtocol.swift; sourceTree = "<group>"; };
+		E98BE36C2A374394000B430F /* StreakRecoveryModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakRecoveryModalView.swift; sourceTree = "<group>"; };
 		E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewData.swift; sourceTree = "<group>"; };
 		E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersView.swift; sourceTree = "<group>"; };
 		E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersHourIntervalPickerView.swift; sourceTree = "<group>"; };
@@ -993,6 +996,7 @@
 		E9C5C92F28AE105200CADDEC /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
 		E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewControllerDelegate.swift; sourceTree = "<group>"; };
 		E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizInputProtocol.swift; sourceTree = "<group>"; };
+		E9CF48A82A38499F00938CCE /* StreakRecoveryModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakRecoveryModalViewController.swift; sourceTree = "<group>"; };
 		E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewData.swift; sourceTree = "<group>"; };
 		E9D2D672284E0A97000757AC /* StepQuizMatchingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingItemView.swift; sourceTree = "<group>"; };
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
@@ -1468,7 +1472,7 @@
 				E9F655C92875914200291143 /* StreakCardView.swift */,
 				E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */,
 				2C23C00C2879F2290083709F /* StreakView.swift */,
-				E9A22B9F295081BD001700B7 /* StreakFreezeModalViewController.swift */,
+				E9CF48AA2A384B8900938CCE /* Modals */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3067,6 +3071,16 @@
 			path = InputOutput;
 			sourceTree = "<group>";
 		};
+		E9CF48AA2A384B8900938CCE /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				E9A22B9F295081BD001700B7 /* StreakFreezeModalViewController.swift */,
+				E9CF48A82A38499F00938CCE /* StreakRecoveryModalViewController.swift */,
+				E98BE36C2A374394000B430F /* StreakRecoveryModalView.swift */,
+			);
+			path = Modals;
+			sourceTree = "<group>";
+		};
 		E9D2D66E284E0A5D000757AC /* StepQuizMatching */ = {
 			isa = PBXGroup;
 			children = (
@@ -3402,6 +3416,7 @@
 				E9F27D782906447A007F16D7 /* StepQuizHintCardView.swift in Sources */,
 				E9F0A2AA29D417C800C4A61E /* StudyPlanSectionHeaderView.swift in Sources */,
 				E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */,
+				E9CF48A92A38499F00938CCE /* StreakRecoveryModalViewController.swift in Sources */,
 				2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */,
 				2C93AF2729B3BF00004639E0 /* DebugStageImplementNavigationView.swift in Sources */,
 				2C55E18E2A0569D000FE58D7 /* TopicToDiscoverNextCardSkeletonView.swift in Sources */,
@@ -3746,6 +3761,7 @@
 				2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */,
 				2C023C88285D928100D2D5A9 /* StepQuizTableViewModel.swift in Sources */,
 				E99B21872887E9C5006A6154 /* StepQuizSortingSkeletonView.swift in Sources */,
+				E98BE36D2A374394000B430F /* StreakRecoveryModalView.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,
 				2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */,
 				E9AD65AA292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift in Sources */,
