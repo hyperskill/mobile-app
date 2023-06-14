@@ -53,7 +53,6 @@ interface AndroidAppComponent : AppGraph {
     val imageLoadingComponent: ImageLoadingComponent
     val navigationComponent: NavigationComponent
 
-
     fun buildPlatformPushNotificationsComponent(): PlatformPushNotificationsComponent
     fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent
 

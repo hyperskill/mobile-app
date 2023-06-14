@@ -20,10 +20,10 @@ class PlatformMainComponentImpl(
                     val initialState = MainViewModel.decodeState(savedStateHandle)
                     val feature = mainComponent.appFeature(initialState)
                     MainViewModel(
-                        reduxViewContainer = feature.wrapWithViewContainer(),
-                        feature = feature,
-                        savedStateHandle = savedStateHandle,
-                        pushNotificationDeviceRegistrar = platformPushNotificationsComponent.pushNotificationDeviceRegistrar
+                        feature.wrapWithViewContainer(),
+                        feature,
+                        savedStateHandle,
+                        platformPushNotificationsComponent.pushNotificationDeviceRegistrar
                     )
                 }
             )
