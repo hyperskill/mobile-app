@@ -14,6 +14,8 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
+import org.hyperskill.app.devices.injection.DevicesDataComponent
+import org.hyperskill.app.devices.injection.DevicesDataComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
@@ -68,6 +70,8 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
+import org.hyperskill.app.push_notifications.injection.PushNotificationsComponent
+import org.hyperskill.app.push_notifications.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
@@ -326,4 +330,10 @@ class AppGraphImpl(
 
     override fun buildProvidersDataComponent(): ProvidersDataComponent =
         ProvidersDataComponentImpl(this)
+
+    override fun buildDevicesDataComponent(): DevicesDataComponent =
+        DevicesDataComponentImpl(this)
+
+    override fun buildPushNotificationsComponent(): PushNotificationsComponent =
+        PushNotificationsComponentImpl(this)
 }

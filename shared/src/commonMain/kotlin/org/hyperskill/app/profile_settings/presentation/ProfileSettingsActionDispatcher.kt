@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.SharedResources.strings
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
-import org.hyperskill.app.core.domain.Platform
+import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.remote.UserAgentInfo
