@@ -119,6 +119,9 @@ class MainActivity :
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
+        if (savedInstanceState == null) {
+            mainViewModel.onActivityReady()
+        }
         handleNewIntent(intent)
         logNotificationAvailability()
     }

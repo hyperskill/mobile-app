@@ -19,6 +19,7 @@ import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
+import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
@@ -27,6 +28,7 @@ import org.hyperskill.app.project_selection.details.injection.PlatformProjectSel
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
+import org.hyperskill.app.push_notifications.injection.PlatformPushNotificationsComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -50,6 +52,10 @@ interface AndroidAppComponent : AppGraph {
     val platformNotificationComponent: PlatformNotificationComponent
     val imageLoadingComponent: ImageLoadingComponent
     val navigationComponent: NavigationComponent
+
+
+    fun buildPlatformPushNotificationsComponent(): PlatformPushNotificationsComponent
+    fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent

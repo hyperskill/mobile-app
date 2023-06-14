@@ -14,6 +14,8 @@ import org.hyperskill.app.android.main.injection.NavigationComponent
 import org.hyperskill.app.android.main.injection.NavigationComponentImpl
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
+import org.hyperskill.app.android.play_services.injection.PlayServicesCheckerComponentImpl
+import org.hyperskill.app.android.push_notifications.injection.PlatformPushNotificationsComponentImpl
 import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
@@ -76,6 +78,7 @@ import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
+import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -111,6 +114,7 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
+import org.hyperskill.app.push_notifications.injection.PlatformPushNotificationsComponent
 import org.hyperskill.app.push_notifications.injection.PushNotificationsComponent
 import org.hyperskill.app.push_notifications.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
@@ -201,12 +205,6 @@ class AndroidAppComponentImpl(
     override val commonComponent: CommonComponent =
         CommonComponentImpl(application, buildVariant, userAgentInfo)
 
-    override val mainComponent: MainComponent =
-        MainComponentImpl(this)
-
-    override val platformMainComponent: PlatformMainComponent =
-        PlatformMainComponentImpl(mainComponent)
-
     override val imageLoadingComponent: ImageLoadingComponent =
         ImageLoadingComponentImpl(context)
 
@@ -252,8 +250,26 @@ class AndroidAppComponentImpl(
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
 
-    override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
-        PlatformAuthSocialWebViewComponentImpl()
+    override fun buildPlatformPushNotificationsComponent(): PlatformPushNotificationsComponent =
+        PlatformPushNotificationsComponentImpl(
+            pushNotificationsComponent = buildPushNotificationsComponent(),
+            playServicesCheckerComponent = buildPlayServicesCheckerComponent()
+        )
+
+    override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =
+        PlayServicesCheckerComponentImpl(context, sentryComponent)
+
+    /**
+     * Main component
+     */
+    override val mainComponent: MainComponent =
+        MainComponentImpl(this)
+
+    override val platformMainComponent: PlatformMainComponent =
+        PlatformMainComponentImpl(
+            mainComponent = mainComponent,
+            platformPushNotificationsComponent = buildPlatformPushNotificationsComponent()
+        )
 
     override fun buildMainDataComponent(): MainDataComponent =
         MainDataComponentImpl(this)
@@ -274,6 +290,9 @@ class AndroidAppComponentImpl(
         authSocialComponent: AuthSocialComponent
     ): PlatformAuthSocialComponent =
         PlatformAuthSocialComponentImpl(authSocialComponent)
+
+    override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
+        PlatformAuthSocialWebViewComponentImpl()
 
     /**
      * Auth credentials component
