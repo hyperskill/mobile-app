@@ -1,5 +1,5 @@
 [versions]
-androidGradlePlugin = '7.4.2'
+androidGradlePlugin = '7.2.2'
 kotlin = '1.8.21'
 kotlinCoroutines = '1.7.1'
 ktor = '2.3.0'
