@@ -18,6 +18,8 @@ final class NotificationsRegistrationService: NSObject {
     private let analyticInteractor: AnalyticInteractor
     private let pushNotificationsInteractor: PushNotificationsInteractor
 
+    private let handleNewFCMTokenDebouncer: DebouncerProtocol = Debouncer()
+
     private var requestAuthorizationContinuation: CheckedContinuation<Bool, Never>?
 
     private var applicationWasInBackground = false
@@ -118,10 +120,12 @@ extension NotificationsRegistrationService {
     /// - Parameter deviceToken: A globally unique token that identifies this device to APNs.
     func handleApplicationDidRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
         #if DEBUG
-        print("NotificationsRegistrationService: did register for remote notifications")
+        print("NotificationsRegistrationService: \(#function)")
         #endif
+
         setAPNsDeviceTokenToFirebaseMessaging(deviceToken)
         postCurrentPermissionStatus()
+        fetchFirebaseMessagingRegistrationToken()
     }
 
     /// Handles when Apple Push Notification service cannot successfully complete the registration process.
@@ -145,6 +149,51 @@ extension NotificationsRegistrationService {
     private func setAPNsDeviceTokenToFirebaseMessaging(_ apnsToken: Data) {
         Messaging.messaging().apnsToken = apnsToken
     }
+
+    private func fetchFirebaseMessagingRegistrationToken() {
+        #if DEBUG
+        print("NotificationsRegistrationService: \(#function)")
+        #endif
+
+        Messaging.messaging().token { fcmToken, error in
+            if let error {
+                #if DEBUG
+                print("NotificationsRegistrationService: fetch FCM token error: \(error)")
+                #endif
+            } else if let fcmToken {
+                #if DEBUG
+                print("NotificationsRegistrationService: fetched FCM token: \(fcmToken)")
+                #endif
+
+                self.handleNewFCMToken(fcmToken)
+            }
+        }
+    }
+
+    private func handleNewFCMToken(_ fcmToken: String) {
+        #if DEBUG
+        print("NotificationsRegistrationService: \(#function)")
+        #endif
+
+        #if targetEnvironment(simulator)
+        // no op
+        #else
+        handleNewFCMTokenDebouncer.action = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            #if DEBUG
+            print("NotificationsRegistrationService: posting new FCM token to the shared")
+            #endif
+
+            strongSelf.pushNotificationsInteractor.handleNewFCMToken(
+                fcmToken: fcmToken,
+                completionHandler: { _, _ in }
+            )
+        }
+        #endif
+    }
 }
 
 // MARK: - NotificationsRegistrationService: MessagingDelegate -
@@ -152,18 +201,12 @@ extension NotificationsRegistrationService {
 extension NotificationsRegistrationService: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         #if DEBUG
-        print("NotificationsRegistrationService: FCM token: \(String(describing: fcmToken))")
+        print("NotificationsRegistrationService: didReceiveRegistrationToken: \(String(describing: fcmToken))")
         #endif
 
-        guard let fcmToken else {
-            return
+        if let fcmToken {
+            handleNewFCMToken(fcmToken)
         }
-
-        #if targetEnvironment(simulator)
-        // no op
-        #else
-        pushNotificationsInteractor.handleNewFCMToken(fcmToken: fcmToken, completionHandler: { _, _ in })
-        #endif
     }
 }
 
