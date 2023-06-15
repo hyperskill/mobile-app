@@ -1,14 +1,12 @@
 package org.hyperskill.profile
 
-import org.hyperskill.app.profile.domain.model.FeatureKeys
 import org.hyperskill.app.profile.domain.model.Gamification
 import org.hyperskill.app.profile.domain.model.Profile
 
 fun Profile.Companion.stub(
     id: Long = 0,
     isBeta: Boolean = false,
-    isGuest: Boolean = false,
-    isStreakRecoveryFeatureEnabled: Boolean = false
+    isGuest: Boolean = false
 ): Profile =
     Profile(
         id = id,
@@ -34,5 +32,5 @@ fun Profile.Companion.stub(
         trackId = null,
         trackTitle = null,
         isBeta = isBeta,
-        featuresMap = mapOf(FeatureKeys.USER_STREAK_RECOVER to isStreakRecoveryFeatureEnabled)
+        featuresMap = emptyMap()
     )

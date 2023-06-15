@@ -5,7 +5,6 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.profile.domain.model.isNewUser
-import org.hyperskill.app.profile.domain.model.isStreakRecoveryFeatureEnabled
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -73,10 +72,7 @@ class AppReducer(
                             Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
-                    val streakRecoveryActions = if (
-                        isAuthorized &&
-                        message.profile.features.isStreakRecoveryFeatureEnabled
-                    ) {
+                    val streakRecoveryActions = if (isAuthorized) {
                         reduceStreakRecoveryMessage(StreakRecoveryFeature.Message.Initialize)
                     } else {
                         emptySet()
