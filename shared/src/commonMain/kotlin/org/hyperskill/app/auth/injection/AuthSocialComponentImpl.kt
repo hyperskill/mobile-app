@@ -19,7 +19,7 @@ class AuthSocialComponentImpl(
         AuthSocialFeature.State, AuthSocialFeature.Message, AuthSocialFeature.Action>
         get() = AuthSocialFeatureBuilder.build(
             authComponent.authInteractor,
-            profileDataComponent.profileInteractor,
+            profileDataComponent.currentProfileStateRepository,
             analyticComponent.analyticInteractor,
             sentryComponent.sentryInteractor
         )

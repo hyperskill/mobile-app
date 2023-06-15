@@ -21,7 +21,7 @@ class AuthCredentialsComponentImpl(
         AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action>
         get() = AuthCredentialsFeatureBuilder.build(
             authComponent.authInteractor,
-            profileDataComponent.profileInteractor,
+            profileDataComponent.currentProfileStateRepository,
             magicLinkComponent.urlPathProcessor,
             analyticComponent.analyticInteractor,
             sentryComponent.sentryInteractor

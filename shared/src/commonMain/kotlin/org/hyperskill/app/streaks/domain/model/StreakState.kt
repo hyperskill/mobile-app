@@ -12,5 +12,7 @@ enum class StreakState {
     @SerialName("manual_completed")
     MANUAL_COMPLETED,
     @SerialName("nothing")
-    NOTHING
+    NOTHING,
+    @SerialName("recovered")
+    RECOVERED
 }

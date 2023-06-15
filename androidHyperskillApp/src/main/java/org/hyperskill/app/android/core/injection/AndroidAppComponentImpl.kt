@@ -86,8 +86,6 @@ import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
-import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponent
-import org.hyperskill.app.profile.injection.ProfileHypercoinsDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
@@ -141,6 +139,8 @@ import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsCompone
 import org.hyperskill.app.step_quiz_hints.injection.PlatformStepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
+import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponentImpl
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponentImpl
@@ -218,9 +218,6 @@ class AndroidAppComponentImpl(
     override val navigationComponent: NavigationComponent =
         NavigationComponentImpl()
 
-    override val profileHypercoinsDataComponent: ProfileHypercoinsDataComponent =
-        ProfileHypercoinsDataComponentImpl()
-
     override val streakFlowDataComponent: StreakFlowDataComponentImpl =
         StreakFlowDataComponentImpl()
 
@@ -242,8 +239,23 @@ class AndroidAppComponentImpl(
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
 
+    override val profileDataComponent: ProfileDataComponent =
+        ProfileDataComponentImpl(
+            networkComponent = networkComponent,
+            commonComponent = commonComponent,
+            submissionDataComponent = submissionDataComponent
+        )
+
     override val analyticComponent: AnalyticComponent =
-        AnalyticComponentImpl(this)
+        AnalyticComponentImpl(
+            networkComponent = networkComponent,
+            commonComponent = commonComponent,
+            authComponent = authComponent,
+            profileDataComponent = profileDataComponent,
+            notificationComponent = buildNotificationComponent(),
+            sentryComponent = sentryComponent
+
+        )
 
     override val platformNotificationComponent: PlatformNotificationComponent =
         PlatformNotificationComponentImpl(application, this)
@@ -261,7 +273,7 @@ class AndroidAppComponentImpl(
         AuthSocialComponentImpl(
             commonComponent,
             authComponent,
-            buildProfileDataComponent(),
+            profileDataComponent,
             analyticComponent,
             sentryComponent
         )
@@ -278,7 +290,7 @@ class AndroidAppComponentImpl(
         AuthCredentialsComponentImpl(
             commonComponent,
             authComponent,
-            buildProfileDataComponent(),
+            profileDataComponent,
             buildMagicLinksDataComponent(),
             analyticComponent,
             sentryComponent
@@ -364,12 +376,6 @@ class AndroidAppComponentImpl(
 
     override fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent =
         PlatformTrackComponentImpl(trackComponent)
-
-    /**
-     * Profile components
-     */
-    override fun buildProfileDataComponent(): ProfileDataComponent =
-        ProfileDataComponentImpl(this)
 
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
@@ -565,4 +571,7 @@ class AndroidAppComponentImpl(
 
     override fun buildProvidersDataComponent(): ProvidersDataComponent =
         ProvidersDataComponentImpl(this)
+
+    override fun buildStreakRecoveryComponent(): StreakRecoveryComponent =
+        StreakRecoveryComponentImpl(this)
 }
