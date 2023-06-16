@@ -39,10 +39,12 @@ import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
-import org.hyperskill.app.notification.injection.NotificationComponent
-import org.hyperskill.app.notification.injection.NotificationComponentImpl
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponentImpl
+import org.hyperskill.app.notification.local.injection.NotificationComponent
+import org.hyperskill.app.notification.local.injection.NotificationComponentImpl
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponentImpl
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
@@ -70,8 +72,6 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
-import org.hyperskill.app.push_notifications.injection.PushNotificationsComponent
-import org.hyperskill.app.push_notifications.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager

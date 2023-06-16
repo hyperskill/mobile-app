@@ -9,7 +9,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.push_notifications.domain.interactor.PushNotificationsInteractor
+import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 
 class HyperskillFcmService : FirebaseMessagingService() {
 

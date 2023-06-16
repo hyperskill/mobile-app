@@ -36,7 +36,7 @@ import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
-import org.hyperskill.app.notification.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
+import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams

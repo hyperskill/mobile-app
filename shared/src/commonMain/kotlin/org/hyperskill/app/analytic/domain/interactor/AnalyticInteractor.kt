@@ -18,7 +18,7 @@ import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProce
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.DataSourceType
-import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 

@@ -8,8 +8,8 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
-import org.hyperskill.app.notification.cache.NotificationCacheKeyValues
-import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder

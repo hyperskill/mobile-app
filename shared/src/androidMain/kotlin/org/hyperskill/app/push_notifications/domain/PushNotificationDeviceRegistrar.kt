@@ -1,8 +1,8 @@
 package org.hyperskill.app.push_notifications.domain
 
 import android.util.Log
+import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.play_services.domain.PlayServicesChecker
-import org.hyperskill.app.push_notifications.domain.interactor.PushNotificationsInteractor
 
 class PushNotificationDeviceRegistrar(
     private val fcmTokenProvider: FCMTokenProvider,

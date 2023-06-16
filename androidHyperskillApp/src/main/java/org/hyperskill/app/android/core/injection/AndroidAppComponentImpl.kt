@@ -70,10 +70,12 @@ import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
-import org.hyperskill.app.notification.injection.NotificationComponent
-import org.hyperskill.app.notification.injection.NotificationComponentImpl
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponentImpl
+import org.hyperskill.app.notification.local.injection.NotificationComponent
+import org.hyperskill.app.notification.local.injection.NotificationComponentImpl
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponentImpl
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
@@ -115,8 +117,6 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
 import org.hyperskill.app.push_notifications.injection.PlatformPushNotificationsComponent
-import org.hyperskill.app.push_notifications.injection.PushNotificationsComponent
-import org.hyperskill.app.push_notifications.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent

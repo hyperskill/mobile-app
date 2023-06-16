@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
-import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
