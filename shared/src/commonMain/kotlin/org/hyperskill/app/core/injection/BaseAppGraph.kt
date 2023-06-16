@@ -163,7 +163,6 @@ abstract class BaseAppGraph : AppGraph {
         StateRepositoriesComponentImpl(this)
     }
 
-
     override val profileDataComponent: ProfileDataComponent by lazy {
         ProfileDataComponentImpl(
             networkComponent = networkComponent,
@@ -231,7 +230,6 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent =
         StepQuizHintsComponentImpl(this, stepRoute)
-
 
     /**
      * Step completion component

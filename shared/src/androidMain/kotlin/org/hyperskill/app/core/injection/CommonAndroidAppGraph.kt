@@ -41,34 +41,49 @@ interface CommonAndroidAppGraph : AppGraph {
     val platformMainComponent: PlatformMainComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
+
     fun buildPlatformAuthSocialComponent(authSocialComponent: AuthSocialComponent): PlatformAuthSocialComponent
+
     fun buildPlatformAuthCredentialsComponent(
         authCredentialsComponent: AuthCredentialsComponent
     ): PlatformAuthCredentialsComponent
 
     fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
+
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
+
     fun buildPlatformStepQuizHintsComponent(stepRoute: StepRoute, step: Step): PlatformStepQuizHintsComponent
+
     fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent
+
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
+
     fun buildPlatformProfileSettingsComponent(
         profileSettingsComponent: ProfileSettingsComponent
     ): PlatformProfileSettingsComponent
 
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
+
     fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent
 
     fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent
+
     fun buildPlatformDebugComponent(debugComponent: DebugComponent): PlatformDebugComponent
+
     fun buildPlatformStageImplementationComponent(projectId: Long, stageId: Long): PlatformStageImplementationComponent
+
     fun buildPlatformStudyPlanScreenComponent(): PlatformStudyPlanScreenComponent
+
     fun buildPlatformProjectSelectionListComponent(
         params: ProjectSelectionListParams
     ): PlatformProjectSelectionListComponent
+
     fun buildPlatformProjectSelectionDetailsComponent(
         params: ProjectSelectionDetailsParams
     ): PlatformProjectSelectionDetailsComponent
+
     fun buildPlatformTrackSelectionListComponent(params: TrackSelectionListParams): PlatformTrackSelectionListComponent
+
     fun buildPlatformTrackSelectionDetailsComponent(
         params: TrackSelectionDetailsParams
     ): PlatformTrackSelectionDetailsComponent
