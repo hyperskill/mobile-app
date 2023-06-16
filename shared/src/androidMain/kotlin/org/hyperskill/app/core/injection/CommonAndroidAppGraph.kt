@@ -37,7 +37,7 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
-interface CommonAndroidAppGraph {
+interface CommonAndroidAppGraph : AppGraph {
     val platformMainComponent: PlatformMainComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
