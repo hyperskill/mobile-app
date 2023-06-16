@@ -1,7 +1,7 @@
 package org.hyperskill.app.android.notification.model
 
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.notification.data.model.NotificationDescription
+import org.hyperskill.app.notification.local.data.model.NotificationDescription
 
 /**
  * Represent an information about notification witch was clicked by a user

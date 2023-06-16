@@ -7,7 +7,7 @@ import org.hyperskill.app.android.notification.HyperskillNotificationManagerImpl
 import org.hyperskill.app.android.notification.NotificationPublisher
 import org.hyperskill.app.android.notification.NotificationPublisherImpl
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 
 class PlatformNotificationComponentImpl(
     private val context: Context,

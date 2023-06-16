@@ -19,8 +19,9 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
-import org.hyperskill.app.notification.injection.NotificationComponent
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.local.injection.NotificationComponent
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
@@ -35,7 +36,6 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
-import org.hyperskill.app.push_notifications.injection.PushNotificationsComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent

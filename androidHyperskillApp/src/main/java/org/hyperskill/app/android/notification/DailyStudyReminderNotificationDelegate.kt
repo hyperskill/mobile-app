@@ -11,8 +11,8 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
-import org.hyperskill.app.notification.domain.analytic.NotificationDailyStudyReminderShownHyperskillAnalyticEvent
-import org.hyperskill.app.notification.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderShownHyperskillAnalyticEvent
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 
 class DailyStudyReminderNotificationDelegate(
     hyperskillNotificationManager: HyperskillNotificationManager,
