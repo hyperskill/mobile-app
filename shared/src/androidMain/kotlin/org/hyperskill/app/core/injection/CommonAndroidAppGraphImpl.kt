@@ -21,9 +21,9 @@ import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
-import org.hyperskill.app.profile.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
+import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponent
 import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponentImpl

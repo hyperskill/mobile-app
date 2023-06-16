@@ -1,3 +1,0 @@
-package org.hyperskill.app.profile_settings.injection
-
-expect interface PlatformProfileSettingsComponent
