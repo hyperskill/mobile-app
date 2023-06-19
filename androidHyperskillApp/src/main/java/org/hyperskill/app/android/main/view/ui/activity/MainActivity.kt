@@ -71,7 +71,7 @@ class MainActivity :
     private lateinit var analyticInteractor: AnalyticInteractor
 
     private val notificationInteractor =
-        HyperskillApp.graph().platformNotificationComponent.notificationInteractor
+        HyperskillApp.graph().platformLocalNotificationComponent.notificationInteractor
 
     override val navigator by lazy {
         NestedAppNavigator(

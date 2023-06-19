@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.notification
+package org.hyperskill.app.android.notification.local
 
 import android.app.Notification
 

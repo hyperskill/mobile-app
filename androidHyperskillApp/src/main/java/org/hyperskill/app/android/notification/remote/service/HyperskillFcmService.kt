@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.notification.service
+package org.hyperskill.app.android.notification.remote.service
 
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService

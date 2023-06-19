@@ -101,7 +101,7 @@ abstract class DefaultStepQuizFragment :
     }
 
     private val platformNotificationComponent =
-        HyperskillApp.graph().platformNotificationComponent
+        HyperskillApp.graph().platformLocalNotificationComponent
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router

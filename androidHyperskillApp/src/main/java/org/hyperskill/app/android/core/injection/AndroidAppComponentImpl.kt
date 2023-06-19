@@ -12,8 +12,8 @@ import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.android.main.injection.NavigationComponent
 import org.hyperskill.app.android.main.injection.NavigationComponentImpl
-import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
-import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
+import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
+import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponentImpl
 import org.hyperskill.app.android.play_services.injection.PlayServicesCheckerComponentImpl
 import org.hyperskill.app.android.push_notifications.injection.PlatformPushNotificationsComponentImpl
 import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
@@ -247,8 +247,8 @@ class AndroidAppComponentImpl(
     override val analyticComponent: AnalyticComponent =
         AnalyticComponentImpl(this)
 
-    override val platformNotificationComponent: PlatformNotificationComponent =
-        PlatformNotificationComponentImpl(application, this)
+    override val platformLocalNotificationComponent: PlatformLocalNotificationComponent =
+        PlatformLocalNotificationComponentImpl(application, this)
 
     override fun buildPlatformPushNotificationsComponent(): PlatformPushNotificationsComponent =
         PlatformPushNotificationsComponentImpl(

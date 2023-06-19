@@ -6,7 +6,7 @@ import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.shawnlin.numberpicker.NumberPicker
 import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
+import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
 import org.hyperskill.app.android.view.base.ui.extension.TimeIntervalUtil
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 
@@ -22,8 +22,8 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         }
     }
 
-    private val platformNotificationComponent: PlatformNotificationComponent =
-        HyperskillApp.graph().platformNotificationComponent
+    private val platformLocalNotificationComponent: PlatformLocalNotificationComponent =
+        HyperskillApp.graph().platformLocalNotificationComponent
 
     private lateinit var picker: NumberPicker
 
@@ -34,7 +34,7 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         picker.minValue = 0
         picker.maxValue = TimeIntervalUtil.values.size - 1
         picker.displayedValues = TimeIntervalUtil.values
-        picker.value = platformNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+        picker.value = platformLocalNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
         picker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         picker.wrapSelectorWheel = false
         picker.setBackgroundColor(0x0)

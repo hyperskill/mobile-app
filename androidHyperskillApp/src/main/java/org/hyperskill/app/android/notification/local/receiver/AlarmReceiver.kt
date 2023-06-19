@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.notification.receiver
+package org.hyperskill.app.android.notification.local.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -16,7 +16,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val notificationPublisher =
-            HyperskillApp.graph().platformNotificationComponent.notificationPublisher
+            HyperskillApp.graph().platformLocalNotificationComponent.localNotificationPublisher
         val action = intent.action ?: return
         notificationPublisher.onNeedShowNotificationWithId(action)
     }

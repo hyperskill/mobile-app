@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.notification
+package org.hyperskill.app.android.notification.local
 
 import android.app.AlarmManager
 import android.app.Notification
@@ -6,7 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
-import org.hyperskill.app.android.notification.receiver.AlarmReceiver
+import org.hyperskill.app.android.notification.local.receiver.AlarmReceiver
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import ru.nobird.android.view.base.ui.extension.scheduleCompat
 
