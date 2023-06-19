@@ -9,7 +9,7 @@ import org.hyperskill.app.android.notification.injection.PlatformNotificationCom
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.injection.CommonAndroidAppGraph
 
-interface AndroidAppComponent : AppGraph, CommonAndroidAppGraph {
+interface AndroidAppComponent : CommonAndroidAppGraph {
     val context: Context
     val platformNotificationComponent: PlatformNotificationComponent
     val imageLoadingComponent: ImageLoadingComponent
