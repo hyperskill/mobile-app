@@ -6,7 +6,7 @@ import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 
-class AppGraphImpl(
+class iOSAppComponentImpl(
     userAgentInfo: UserAgentInfo,
     buildVariant: BuildVariant,
     sentryManager: SentryManager
