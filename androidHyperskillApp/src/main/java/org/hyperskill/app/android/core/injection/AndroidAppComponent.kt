@@ -6,7 +6,6 @@ import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.main.injection.NavigationComponent
 import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
-import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.injection.CommonAndroidAppGraph
 
 interface AndroidAppComponent : CommonAndroidAppGraph {
