@@ -9,16 +9,20 @@ final class NotificationsService {
 
     let notificationInteractor: NotificationInteractor
     let analyticInteractor: AnalyticInteractor
+    let pushNotificationsInteractor: PushNotificationsInteractor
 
     init(
         localNotificationsService: LocalNotificationsService = LocalNotificationsService(),
         notificationInteractor: NotificationInteractor =
             AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor,
-        analyticInteractor: AnalyticInteractor = AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor
+        analyticInteractor: AnalyticInteractor = AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor,
+        pushNotificationsInteractor: PushNotificationsInteractor =
+            AppGraphBridge.sharedAppGraph.buildPushNotificationsComponent().pushNotificationsInteractor
     ) {
         self.localNotificationsService = localNotificationsService
         self.notificationInteractor = notificationInteractor
         self.analyticInteractor = analyticInteractor
+        self.pushNotificationsInteractor = pushNotificationsInteractor
     }
 
     func handleLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
@@ -130,6 +134,13 @@ extension NotificationsService {
         #if DEBUG
         print("NotificationsService: did receive remote notification with userInfo: \(userInfo)")
 
+        if let aps = userInfo["aps"] {
+            if let apsDict = aps as? [String: Any] {
+                if let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(apsDict) {
+                    print("NotificationsService: did receive remote notification with pushNotificationData: \(pushNotificationData)")
+                }
+            }
+        }
         if let data = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
            let string = String(data: data, encoding: .utf8) {
             print("NotificationsService: did receive remote notification with JSON string: \(string)")
