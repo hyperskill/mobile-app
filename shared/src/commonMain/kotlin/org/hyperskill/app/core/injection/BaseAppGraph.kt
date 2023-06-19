@@ -10,8 +10,6 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
-import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
@@ -68,9 +66,6 @@ import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
-import org.hyperskill.app.sentry.domain.model.manager.SentryManager
-import org.hyperskill.app.sentry.injection.SentryComponent
-import org.hyperskill.app.sentry.injection.SentryComponentImpl
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponentImpl
 import org.hyperskill.app.stages.injection.StagesDataComponent
@@ -126,55 +121,57 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListCompo
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 
-class AppGraphImpl(
-    userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant,
-    sentryManager: SentryManager
-) : iOSAppComponent {
-    override val commonComponent: CommonComponent =
-        CommonComponentImpl(buildVariant, userAgentInfo)
+abstract class BaseAppGraph : AppGraph {
 
-    override val networkComponent: NetworkComponent =
-        NetworkComponentImpl(this)
-
-    override val submissionDataComponent: SubmissionDataComponent =
-        SubmissionDataComponentImpl(this)
-
-    override val authComponent: AuthComponent =
-        AuthComponentImpl(this)
-
-    override val streakFlowDataComponent: StreakFlowDataComponent =
-        StreakFlowDataComponentImpl()
-
-    override val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent =
-        TopicsRepetitionsFlowDataComponentImpl()
-
-    override val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent =
-        StepCompletionFlowDataComponentImpl()
-
-    override val progressesFlowDataComponent: ProgressesFlowDataComponent =
-        ProgressesFlowDataComponentImpl()
-
-    override val notificationFlowDataComponent: NotificationFlowDataComponent =
-        NotificationFlowDataComponentImpl()
-
-    override val stateRepositoriesComponent: StateRepositoriesComponent =
-        StateRepositoriesComponentImpl(this)
-
-    override val sentryComponent: SentryComponent =
-        SentryComponentImpl(sentryManager)
-
-    override val mainComponent: MainComponent =
+    override val mainComponent: MainComponent by lazy {
         MainComponentImpl(this)
+    }
 
-    override val profileDataComponent: ProfileDataComponent =
+    override val networkComponent: NetworkComponent by lazy {
+        NetworkComponentImpl(this)
+    }
+
+    override val submissionDataComponent: SubmissionDataComponent by lazy {
+        SubmissionDataComponentImpl(this)
+    }
+
+    override val authComponent: AuthComponent by lazy {
+        AuthComponentImpl(this)
+    }
+
+    override val streakFlowDataComponent: StreakFlowDataComponent by lazy {
+        StreakFlowDataComponentImpl()
+    }
+
+    override val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent by lazy {
+        TopicsRepetitionsFlowDataComponentImpl()
+    }
+
+    override val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent by lazy {
+        StepCompletionFlowDataComponentImpl()
+    }
+
+    override val progressesFlowDataComponent: ProgressesFlowDataComponent by lazy {
+        ProgressesFlowDataComponentImpl()
+    }
+
+    override val notificationFlowDataComponent: NotificationFlowDataComponent by lazy {
+        NotificationFlowDataComponentImpl()
+    }
+
+    override val stateRepositoriesComponent: StateRepositoriesComponent by lazy {
+        StateRepositoriesComponentImpl(this)
+    }
+
+    override val profileDataComponent: ProfileDataComponent by lazy {
         ProfileDataComponentImpl(
             networkComponent = networkComponent,
             commonComponent = commonComponent,
             submissionDataComponent = submissionDataComponent
         )
+    }
 
-    override val analyticComponent: AnalyticComponent =
+    override val analyticComponent: AnalyticComponent by lazy {
         AnalyticComponentImpl(
             networkComponent = networkComponent,
             commonComponent = commonComponent,
@@ -183,10 +180,14 @@ class AppGraphImpl(
             notificationComponent = buildNotificationComponent(),
             sentryComponent = sentryComponent
         )
+    }
 
     override fun buildMainDataComponent(): MainDataComponent =
         MainDataComponentImpl(this)
 
+    /**
+     * Auth social component
+     */
     override fun buildAuthSocialComponent(): AuthSocialComponent =
         AuthSocialComponentImpl(
             commonComponent,
@@ -196,6 +197,9 @@ class AppGraphImpl(
             sentryComponent
         )
 
+    /**
+     * Auth credentials component
+     */
     override fun buildAuthCredentialsComponent(): AuthCredentialsComponent =
         AuthCredentialsComponentImpl(
             commonComponent,
@@ -206,50 +210,141 @@ class AppGraphImpl(
             sentryComponent
         )
 
+    /**
+     * Step component
+     */
     override fun buildStepComponent(stepRoute: StepRoute): StepComponent =
         StepComponentImpl(this, stepRoute)
 
     override fun buildStepDataComponent(): StepDataComponent =
         StepDataComponentImpl(this)
 
+    /**
+     * Step quiz component
+     */
     override fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent =
         StepQuizComponentImpl(this, stepRoute)
 
+    /**
+     * Step quiz hints component
+     */
     override fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent =
         StepQuizHintsComponentImpl(this, stepRoute)
 
+    /**
+     * Step completion component
+     */
     override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
         StepCompletionComponentImpl(this, stepRoute)
 
+    /**
+     * Stage implement component
+     */
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
 
+    /**
+     * Track component
+     */
     override fun buildTrackComponent(): TrackComponent =
         TrackComponentImpl(this)
 
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)
 
-    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
-        TrackSelectionListComponentImpl(this)
-
-    override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
-        TrackSelectionDetailsComponentImpl(this)
-
     override fun buildProfileComponent(): ProfileComponent =
         ProfileComponentImpl(this)
 
+    /**
+     * Profile settings component
+     */
     override fun buildProfileSettingsComponent(): ProfileSettingsComponent =
         ProfileSettingsComponentImpl(this)
 
+    /**
+     * Home component
+     */
     override fun buildHomeComponent(): HomeComponent =
         HomeComponentImpl(this)
 
+    /**
+     * Notification component
+     */
     override fun buildNotificationComponent(): NotificationComponent =
         NotificationComponentImpl(this)
 
+    /**
+     * Onboarding component
+     */
     override fun buildOnboardingComponent(): OnboardingComponent =
         OnboardingComponentImpl(this)
+
+    /**
+     * Topics repetitions component
+     */
+    override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
+        TopicsRepetitionsComponentImpl(this)
+
+    override fun buildTopicsRepetitionsDataComponent(): TopicsRepetitionsDataComponent =
+        TopicsRepetitionsDataComponentImpl(this)
+
+    /**
+     * Debug component
+     */
+    override fun buildDebugComponent(): DebugComponent =
+        DebugComponentImpl(this)
+
+    /**
+     * Topics to discover next component
+     */
+    override fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent =
+        TopicsToDiscoverNextComponentImpl(this, screen)
+
+    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
+        TopicsToDiscoverNextDataComponentImpl(this)
+
+    /**
+     * ProblemsLimit component
+     */
+    override fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(screen, this)
+
+    /**
+     * Study plan component
+     */
+    override fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent =
+        StudyPlanWidgetComponentImpl(this)
+
+    /**
+     * Project selection list component
+     */
+
+    override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
+        ProjectSelectionListComponentImpl(this)
+
+    /**
+     * Project selection details component
+     */
+    override fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent =
+        ProjectSelectionDetailsComponentImpl(this)
+
+    /**
+     * Track selection list component
+     */
+    override fun buildTrackSelectionListComponent(): TrackSelectionListComponent =
+        TrackSelectionListComponentImpl(this)
+
+    /**
+     * Track selection details component
+     */
+    override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
+        TrackSelectionDetailsComponentImpl(this)
+
+    override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
+        StudyPlanScreenComponentImpl(this)
+
+    override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
+        StudyPlanDataComponentImpl(this)
 
     override fun buildUserStorageComponent(): UserStorageComponent =
         UserStorageComponentImpl(this)
@@ -269,12 +364,6 @@ class AppGraphImpl(
     override fun buildLikesDataComponent(): LikesDataComponent =
         LikesDataComponentImpl(this)
 
-    override fun buildTopicsRepetitionsComponent(): TopicsRepetitionsComponent =
-        TopicsRepetitionsComponentImpl(this)
-
-    override fun buildTopicsRepetitionsDataComponent(): TopicsRepetitionsDataComponent =
-        TopicsRepetitionsDataComponentImpl(this)
-
     override fun buildLearningActivitiesDataComponent(): LearningActivitiesDataComponent =
         LearningActivitiesDataComponentImpl(this)
 
@@ -293,44 +382,17 @@ class AppGraphImpl(
     override fun buildStreaksDataComponent(): StreaksDataComponent =
         StreaksDataComponentImpl(this)
 
-    override fun buildDebugComponent(): DebugComponent =
-        DebugComponentImpl(this)
-
     override fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this, screen)
-
-    override fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent =
-        TopicsToDiscoverNextComponentImpl(this, screen)
-
-    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
-        TopicsToDiscoverNextDataComponentImpl(this)
-
-    override fun buildStudyPlanDataComponent(): StudyPlanDataComponent =
-        StudyPlanDataComponentImpl(this)
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
 
-    override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
-        ProjectSelectionListComponentImpl(this)
-
-    override fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent =
-        ProjectSelectionDetailsComponentImpl(this)
-
     override fun buildStagesDataComponent(): StagesDataComponent =
         StagesDataComponentImpl(this)
 
-    override fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent =
-        StudyPlanWidgetComponentImpl(this)
-
-    override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
-        StudyPlanScreenComponentImpl(this)
-
     override fun buildFreemiumDataComponent(): FreemiumDataComponent =
         FreemiumDataComponentImpl(this)
-
-    override fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent =
-        ProblemsLimitComponentImpl(screen, this)
 
     override fun buildProvidersDataComponent(): ProvidersDataComponent =
         ProvidersDataComponentImpl(this)
