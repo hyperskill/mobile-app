@@ -7,9 +7,9 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the remote push notification analytic event.
+ * Represents a shown analytic event of the push notification.
  *
- * When the user interacts with remote notifications through the notification center or pop-up.
+ * When the user sees the push notification in the notification center.
  *
  * @property group The group of the analytic event.
  * @constructor Creates an analytic event with the given [target].
@@ -18,7 +18,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * {
  *     "route": "/home",
- *     "action": "click",
+ *     "action": "shown",
  *     "part": "notification",
  *     "target": "STREAK_THREE" || "SELECT_FIRST_TRACK" || ...,
  *     "context":
@@ -28,14 +28,14 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * }
  * ```
  *
- * @param target The target of the analytic event.
+ * @param target
  */
-class PushNotificationClickedHyperskillAnalyticEvent(
+class PushNotificationShownHyperskillAnalyticEvent(
     target: HyperskillAnalyticTarget,
     private val group: String
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Home(),
-    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticAction.SHOWN,
     HyperskillAnalyticPart.NOTIFICATION,
     target
 ) {
