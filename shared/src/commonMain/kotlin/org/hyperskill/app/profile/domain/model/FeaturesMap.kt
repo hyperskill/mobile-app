@@ -10,6 +10,3 @@ val FeaturesMap.isRecommendationsKotlinProjectsFeatureEnabled: Boolean
 
 val FeaturesMap.isRecommendationsPythonProjectsFeatureEnabled: Boolean
     get() = get(FeatureKeys.RECOMMENDATIONS_PYTHON_PROJECTS) ?: false
-
-val FeaturesMap.isStreakRecoveryFeatureEnabled: Boolean
-    get() = get(FeatureKeys.USER_STREAK_RECOVER) ?: false
