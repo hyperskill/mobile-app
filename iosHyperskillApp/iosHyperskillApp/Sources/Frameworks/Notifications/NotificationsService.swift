@@ -136,7 +136,7 @@ extension NotificationsService {
 
         if let aps = userInfo["aps"] {
             if let apsDict = aps as? [String: Any] {
-                if let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(apsDict) {
+                if let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(rawNotificationData: apsDict) {
                     print("NotificationsService: did receive remote notification with pushNotificationData: \(pushNotificationData)")
                 }
             }
