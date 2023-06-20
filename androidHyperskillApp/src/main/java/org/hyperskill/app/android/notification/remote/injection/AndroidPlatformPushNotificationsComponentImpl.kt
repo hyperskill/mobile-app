@@ -5,7 +5,6 @@ import org.hyperskill.app.android.notification.local.injection.PlatformLocalNoti
 import org.hyperskill.app.android.notification.remote.FcmNotificationParser
 import org.hyperskill.app.android.notification.remote.PushNotificationHandler
 import org.hyperskill.app.android.notification.remote.PushNotificationHandlerImpl
-import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationComponent
 import org.hyperskill.app.android.notification.remote.domain.FCMTokenProviderImpl
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
