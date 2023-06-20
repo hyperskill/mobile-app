@@ -34,7 +34,8 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         picker.minValue = 0
         picker.maxValue = TimeIntervalUtil.values.size - 1
         picker.displayedValues = TimeIntervalUtil.values
-        picker.value = platformLocalNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+        picker.value =
+            platformLocalNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
         picker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         picker.wrapSelectorWheel = false
         picker.setBackgroundColor(0x0)
