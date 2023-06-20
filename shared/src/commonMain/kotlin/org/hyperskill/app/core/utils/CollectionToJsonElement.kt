@@ -1,4 +1,4 @@
-package org.hyperskill.app.extension
+package org.hyperskill.app.core.utils
 
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
