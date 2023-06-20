@@ -7,6 +7,7 @@ import org.hyperskill.app.android.notification.NotificationBuilder
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.local.HyperskillNotificationManager
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.notification.remote.model.PushNotification
 import org.hyperskill.app.android.notification.remote.model.channel
 import org.hyperskill.app.android.notification.remote.model.id
@@ -31,7 +32,13 @@ class PushNotificationHandlerImpl(
                 channel = data?.channel?.channelId ?: HyperskillNotificationChannel.Other.channelId,
                 title = notification.title,
                 body = notification.body,
-                pendingIntent = NotificationIntentBuilder.buildActivityPendingIntent(context)
+                pendingIntent = with(NotificationIntentBuilder) {
+                    buildActivityPendingIntent(context) {
+                        if (data != null) {
+                            addClickedNotificationDataExtra(PushNotificationClickedData(data))
+                        }
+                    }
+                }
             )
             notificationManager.showNotification(
                 id = data?.id?.notificationId ?: 0,

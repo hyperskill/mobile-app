@@ -31,6 +31,7 @@ import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
+import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
@@ -206,6 +207,9 @@ class MainActivity :
                         )
                     )
                 }
+            }
+            is PushNotificationClickedData -> {
+                // TODO: handle push notification clicks
             }
             is DefaultNotificationClickedData -> {
                 // no op
