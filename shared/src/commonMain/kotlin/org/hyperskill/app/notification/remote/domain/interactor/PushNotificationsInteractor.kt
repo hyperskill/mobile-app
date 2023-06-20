@@ -1,17 +1,21 @@
 package org.hyperskill.app.notification.remote.domain.interactor
 
+import kotlinx.serialization.json.Json
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.platform.Platform
+import org.hyperskill.app.core.utils.toJsonElement
 import org.hyperskill.app.devices.domain.model.Device
 import org.hyperskill.app.devices.domain.model.toDeviceType
 import org.hyperskill.app.devices.domain.repository.DevicesRepository
+import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 
 class PushNotificationsInteractor(
     private val platform: Platform,
     private val devicesRepository: DevicesRepository,
     private val authInteractor: AuthInteractor,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val json: Json
 ) {
     suspend fun handleNewFCMToken(fcmToken: String): Result<Device> {
         val isAuthorized = authInteractor.isAuthorized().getOrNull() ?: false
@@ -31,6 +35,20 @@ class PushNotificationsInteractor(
     internal suspend fun handleUserSignedOut() {
         getCurrentFCMToken()?.let { disableFCMToken(it) }
     }
+
+    fun parsePushNotificationData(rawNotificationData: Map<String, Any>): PushNotificationData? =
+        try {
+            val notificationJson = rawNotificationData.toJsonElement()
+            json.decodeFromJsonElement(
+                PushNotificationData.serializer(),
+                notificationJson
+            )
+        } catch (e: Exception) {
+            sentryInteractor.captureErrorMessage(
+                "Unable to parse PushNotificationData from $rawNotificationData.\n$e"
+            )
+            null
+        }
 
     private fun getCurrentFCMToken(): String? =
         devicesRepository

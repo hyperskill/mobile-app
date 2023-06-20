@@ -23,7 +23,9 @@ class HyperskillFcmService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        Log.d("HyperskillFcmService", "messageReceived")
+        Log.d("HyperskillFcmService", "messageReceived: $message")
+        val pushNotificationData = pushNotificationInteractor?.parsePushNotificationData(message.data)
+        Log.d("HyperskillFcmService", "pushNotificationData: $pushNotificationData")
     }
 
     override fun onNewToken(token: String) {
