@@ -6,7 +6,7 @@ interface HyperskillNotificationManager {
     fun scheduleNotification(id: String, millis: Long)
 
     /**
-     * Reschedule notification using it's original schedule time, used in [scheduleNotification] call
+     * Reschedule notification using its original schedule time, used in [scheduleNotification] call
      * If original schedule time is expired, then [nextMillis] will be used.
      * */
     fun rescheduleActiveNotification(id: String, nextMillis: Long?)

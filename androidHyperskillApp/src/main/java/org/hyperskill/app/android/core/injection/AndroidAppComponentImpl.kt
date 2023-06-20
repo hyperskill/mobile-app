@@ -14,8 +14,9 @@ import org.hyperskill.app.android.main.injection.NavigationComponent
 import org.hyperskill.app.android.main.injection.NavigationComponentImpl
 import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
 import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponentImpl
+import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationComponent
 import org.hyperskill.app.android.play_services.injection.PlayServicesCheckerComponentImpl
-import org.hyperskill.app.android.push_notifications.injection.PlatformPushNotificationsComponentImpl
+import org.hyperskill.app.android.push_notifications.injection.AndroidPlatformPushNotificationsComponentImpl
 import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
@@ -116,7 +117,6 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
-import org.hyperskill.app.push_notifications.injection.PlatformPushNotificationsComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -250,10 +250,12 @@ class AndroidAppComponentImpl(
     override val platformLocalNotificationComponent: PlatformLocalNotificationComponent =
         PlatformLocalNotificationComponentImpl(application, this)
 
-    override fun buildPlatformPushNotificationsComponent(): PlatformPushNotificationsComponent =
-        PlatformPushNotificationsComponentImpl(
+    override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
+        AndroidPlatformPushNotificationsComponentImpl(
             pushNotificationsComponent = buildPushNotificationsComponent(),
-            playServicesCheckerComponent = buildPlayServicesCheckerComponent()
+            playServicesCheckerComponent = buildPlayServicesCheckerComponent(),
+            commonComponent = commonComponent,
+            platformLocalNotificationComponent = platformLocalNotificationComponent
         )
 
     override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =
