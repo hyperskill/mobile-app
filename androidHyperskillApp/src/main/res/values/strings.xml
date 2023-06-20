@@ -18,6 +18,9 @@
     <!-- Notification channel names -->
     <string name="other_channel_name">Other</string>
     <string name="daily_reminder_channel_name">Daily reminders</string>
+    <string name="streak_channel_name">Learning streak</string>
+    <string name="streak_freeze_channel_name">Streak freeze</string>
+    <string name="periodic_learning_reminders_channel_name">Periodic learning reminders</string>
 
     <string name="debug_restarting_message">The app is going to be restarted</string>
 

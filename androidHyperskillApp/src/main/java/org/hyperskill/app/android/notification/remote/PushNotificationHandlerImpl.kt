@@ -6,7 +6,9 @@ import android.util.Log
 import org.hyperskill.app.android.notification.NotificationBuilder
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.local.HyperskillNotificationManager
+import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.notification.remote.model.PushNotification
+import org.hyperskill.app.android.notification.remote.model.channel
 import org.hyperskill.app.android.notification.remote.model.id
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 
@@ -26,7 +28,7 @@ class PushNotificationHandlerImpl(
             }
             val androidNotification = NotificationBuilder.getSimpleNotificationBuilder(
                 context = context,
-                channel = "", // TODO replace with real channel
+                channel = data?.channel?.channelId ?: HyperskillNotificationChannel.Other.channelId,
                 title = notification.title,
                 body = notification.body,
                 pendingIntent = NotificationIntentBuilder.buildActivityPendingIntent(context)

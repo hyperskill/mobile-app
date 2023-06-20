@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.notification
+package org.hyperskill.app.android.notification.model
 
 enum class NotificationId(val notificationId: Long) {
     DailyStudyReminder(0),

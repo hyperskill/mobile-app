@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.notification.remote.model
 
-import org.hyperskill.app.android.notification.NotificationId
+import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.model.NotificationId
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
 
@@ -19,4 +20,21 @@ val PushNotificationData.id: NotificationId
         PushNotificationType.REMIND_SHORT -> NotificationId.RemindShort
         PushNotificationType.REMIND_MEDIUM -> NotificationId.RemindMedium
         PushNotificationType.UNKNOWN -> NotificationId.Unknown
+    }
+
+val PushNotificationData.channel: HyperskillNotificationChannel
+    get() = when (typeEnum) {
+        PushNotificationType.STREAK_THREE,
+        PushNotificationType.STREAK_WEEK,
+        PushNotificationType.STREAK_RECORD_START,
+        PushNotificationType.STREAK_RECORD_NEAR,
+        PushNotificationType.STREAK_RECORD_COMPLETE,
+        PushNotificationType.STREAK_NEW -> HyperskillNotificationChannel.LearningStreak
+        PushNotificationType.STEP_STREAK_FREEZE_TOKEN_USED,
+        PushNotificationType.STREAK_FREEZE_ONBOARDING -> HyperskillNotificationChannel.StreakFreeze
+        PushNotificationType.LEARN_TOPIC,
+        PushNotificationType.REPETITION -> HyperskillNotificationChannel.DailyReminder
+        PushNotificationType.REMIND_SHORT,
+        PushNotificationType.REMIND_MEDIUM -> HyperskillNotificationChannel.PeriodicLearningReminder
+        PushNotificationType.UNKNOWN -> HyperskillNotificationChannel.Other
     }
