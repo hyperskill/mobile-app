@@ -4,15 +4,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAct
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 
 /**
  * Represents a shown analytic event of the push notification.
  *
  * When the user sees the push notification in the notification center.
- *
- * @property group The group of the analytic event.
- * @constructor Creates an analytic event with the given [target].
  *
  * JSON payload:
  * ```
@@ -20,33 +17,28 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/home",
  *     "action": "shown",
  *     "part": "notification",
- *     "target": "STREAK_THREE" || "SELECT_FIRST_TRACK" || ...,
  *     "context":
  *     {
+ *         "type": "STREAK_THREE" || "SELECT_FIRST_TRACK" || ...,
  *         "group": "Routine learning" || "Re-engagement" || ...
  *     }
  * }
  * ```
  *
- * @param target
+ * @property pushNotificationData The data of the push notification.
  */
 class PushNotificationShownHyperskillAnalyticEvent(
-    target: HyperskillAnalyticTarget,
-    private val group: String
+    private val pushNotificationData: PushNotificationData
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Home(),
     HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.NOTIFICATION,
-    target
+    HyperskillAnalyticPart.NOTIFICATION
 ) {
-    companion object {
-        private const val PARAM_GROUP = "group"
-    }
-
     override val params: Map<String, Any>
         get() = super.params + mapOf(
             PARAM_CONTEXT to mapOf(
-                PARAM_GROUP to group
+                PushNotificationHyperskillAnalyticParams.PARAM_TYPE to pushNotificationData.typeString,
+                PushNotificationHyperskillAnalyticParams.PARAM_CATEGORY to pushNotificationData.categoryString
             )
         )
 }
