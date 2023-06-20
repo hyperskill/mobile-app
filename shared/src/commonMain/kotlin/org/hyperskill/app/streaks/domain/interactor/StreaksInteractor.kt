@@ -14,5 +14,5 @@ class StreaksInteractor(
         streaksRepository.recoverStreak()
 
     suspend fun cancelStreakRecovery(): Result<StreaksResponse> =
-        streaksRepository.recoverStreak()
+        streaksRepository.cancelStreakRecovery()
 }
