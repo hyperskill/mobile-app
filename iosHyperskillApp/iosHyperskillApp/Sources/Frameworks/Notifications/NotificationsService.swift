@@ -12,12 +12,10 @@ final class NotificationsService {
     let pushNotificationsInteractor: PushNotificationsInteractor
 
     init(
-        localNotificationsService: LocalNotificationsService = LocalNotificationsService(),
-        notificationInteractor: NotificationInteractor =
-            AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor,
-        analyticInteractor: AnalyticInteractor = AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor,
-        pushNotificationsInteractor: PushNotificationsInteractor =
-            AppGraphBridge.sharedAppGraph.buildPushNotificationsComponent().pushNotificationsInteractor
+        localNotificationsService: LocalNotificationsService = .default,
+        notificationInteractor: NotificationInteractor = .default,
+        analyticInteractor: AnalyticInteractor = .default,
+        pushNotificationsInteractor: PushNotificationsInteractor = .default
     ) {
         self.localNotificationsService = localNotificationsService
         self.notificationInteractor = notificationInteractor
@@ -132,19 +130,22 @@ extension NotificationsService {
 extension NotificationsService {
     func handleRemoteNotification(with userInfo: NotificationUserInfo) {
         #if DEBUG
-        print("NotificationsService: did receive remote notification with userInfo: \(userInfo)")
+        print("NotificationsService: \(#function), userInfo: \(userInfo)")
 
-        if let aps = userInfo["aps"] {
-            if let apsDict = aps as? [String: Any] {
-                if let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(rawNotificationData: apsDict) {
-                    print("NotificationsService: did receive remote notification with pushNotificationData: \(pushNotificationData)")
-                }
-            }
-        }
         if let data = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
            let string = String(data: data, encoding: .utf8) {
-            print("NotificationsService: did receive remote notification with JSON string: \(string)")
+            print("NotificationsService: \(#function), JSON string: \(string)")
         }
+        #endif
+
+        guard let apsDict = userInfo["aps"] as? [String: Any] else {
+            return
+        }
+
+        let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(rawNotificationData: apsDict)
+
+        #if DEBUG
+        print("NotificationsService: \(#function), pushNotificationData: \(String(describing: pushNotificationData))")
         #endif
     }
 }
