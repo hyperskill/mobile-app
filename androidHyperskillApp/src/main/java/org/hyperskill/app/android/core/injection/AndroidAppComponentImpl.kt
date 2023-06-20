@@ -16,7 +16,7 @@ import org.hyperskill.app.android.notification.local.injection.PlatformLocalNoti
 import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponentImpl
 import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationComponent
 import org.hyperskill.app.android.play_services.injection.PlayServicesCheckerComponentImpl
-import org.hyperskill.app.android.push_notifications.injection.AndroidPlatformPushNotificationsComponentImpl
+import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationsComponentImpl
 import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl

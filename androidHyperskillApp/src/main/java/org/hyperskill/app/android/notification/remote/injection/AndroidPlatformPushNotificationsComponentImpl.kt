@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.push_notifications.injection
+package org.hyperskill.app.android.notification.remote.injection
 
 import com.google.firebase.messaging.FirebaseMessaging
 import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
@@ -6,7 +6,7 @@ import org.hyperskill.app.android.notification.remote.FcmNotificationParser
 import org.hyperskill.app.android.notification.remote.PushNotificationHandler
 import org.hyperskill.app.android.notification.remote.PushNotificationHandlerImpl
 import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationComponent
-import org.hyperskill.app.android.push_notifications.domain.FCMTokenProviderImpl
+import org.hyperskill.app.android.notification.remote.domain.FCMTokenProviderImpl
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
