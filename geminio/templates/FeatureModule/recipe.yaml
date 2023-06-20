@@ -1,0 +1,109 @@
+requiredParams:
+  name: FeatureModule
+  description: Creates module with base structure for feature
+
+widgets:
+  - stringParameter:
+      id: featureNameWithoutPostfix
+      name: The name of the feature in camelCase without Feature postfix
+      help: The name of the feature without Feature postfix
+      constraints:
+        - module
+        - nonempty
+      default: MyAwesome
+
+  - stringParameter:
+      id: package
+      name: Package name
+      help: Package name (my_awesome_feature)
+      constraints:
+        - nonempty
+      default: new_feature
+      suggest: ${featureNameWithoutPostfix.camelCaseToUnderlines()}
+
+  - stringParameter:
+      id: featureNameWithPostfix
+      name: The name of the feature with Feature Postfix
+      help: The name of the feature with Feature Postfix
+      constraints:
+        - nonempty
+      default: blank
+      suggest: ${featureNameWithoutPostfix}Feature
+
+  - stringParameter:
+      id: reducerName
+      name: The name of the reducer
+      help: The name of the reducer with Reducer postfix
+      constraints:
+        - nonempty
+      suggest: ${featureNameWithoutPostfix}Reducer
+      default: blank
+
+  - stringParameter:
+      id: actionDispatcherName
+      name: The name of the actionDispatcher
+      help: The name of the actionDispatcher with ActionDispatcher postfix
+      constraints:
+        - nonempty
+      suggest: ${featureNameWithoutPostfix}ActionDispatcher
+      default: blank
+
+  - stringParameter:
+      id: injectionComponentName
+      name: The name of the injection component
+      help: The name of the injection component
+      constraints:
+        - nonempty
+      suggest: ${featureNameWithoutPostfix}Component
+      default: blank
+
+  - stringParameter:
+      id: componentFeatureVariable
+      name: The name of the variable in DI component
+      help: The name of the variable in DI component
+      constraints:
+        - nonempty
+      suggest: ${featureNameWithPostfix.classToResource().}
+      default: blank
+
+  - stringParameter:
+      id: featureBuilderName
+      name: The name of the feature Builder with Builder postfix
+      help: The name of the feature Builder with Builder postfix
+      constraints:
+        - nonempty
+      suggest: ${featureNameWithPostfix}Builder
+      default: blank
+
+  - stringParameter:
+      id: viewEventName
+      name: The name of the view event class
+      help: The name of the view event class
+      constraints:
+        - nonempty
+      suggest: ${featureNameWithoutPostfix}ViewedHyperskillAnalyticEvent
+      default: blank
+
+recipe:
+  - mkDirs:
+      - ${currentDirOut}:
+          - presentation
+          - injection
+  - instantiateAndOpen:
+      from: /root/presentation/Feature.kt.ftl
+      to: ${currentDirOut}/${package}/presentation/${featureNameWithPostfix}.kt
+  - instantiateAndOpen:
+      from: /root/presentation/Reducer.kt.ftl
+      to: ${currentDirOut}/${package}/presentation/${reducerName}.kt
+  - instantiateAndOpen:
+      from: /root/presentation/Dispatcher.kt.ftl
+      to: ${currentDirOut}/${package}/presentation/${actionDispatcherName}.kt
+  - instantiate:
+      from: /root/injection/ComponentInterface.kt.ftl
+      to: ${currentDirOut}/${package}/injection/${injectionComponentName}.kt
+  - instantiate:
+      from: /root/injection/ComponentInterfaceImpl.kt.ftl
+      to: ${currentDirOut}/${package}/injection/${injectionComponentName}Impl.kt
+  - instantiate:
+      from: /root/injection/FeatureBuilder.kt.ftl
+      to: ${currentDirOut}/${package}/injection/${featureBuilderName}.kt
