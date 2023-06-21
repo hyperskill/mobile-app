@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.push_notifications.domain
+package org.hyperskill.app.android.notification.remote.domain
 
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.tasks.await

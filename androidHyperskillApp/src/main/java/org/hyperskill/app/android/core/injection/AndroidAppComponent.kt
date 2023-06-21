@@ -5,7 +5,8 @@ import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.main.injection.NavigationComponent
-import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
+import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
+import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -28,7 +29,6 @@ import org.hyperskill.app.project_selection.details.injection.PlatformProjectSel
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
-import org.hyperskill.app.push_notifications.injection.PlatformPushNotificationsComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -49,11 +49,11 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParam
 interface AndroidAppComponent : AppGraph {
     val context: Context
     val platformMainComponent: PlatformMainComponent
-    val platformNotificationComponent: PlatformNotificationComponent
+    val platformLocalNotificationComponent: PlatformLocalNotificationComponent
     val imageLoadingComponent: ImageLoadingComponent
     val navigationComponent: NavigationComponent
 
-    fun buildPlatformPushNotificationsComponent(): PlatformPushNotificationsComponent
+    fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent
     fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent

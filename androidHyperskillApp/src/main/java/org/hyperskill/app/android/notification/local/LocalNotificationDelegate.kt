@@ -1,8 +1,8 @@
-package org.hyperskill.app.android.notification
+package org.hyperskill.app.android.notification.local
 
 import android.app.Notification
 
-abstract class NotificationDelegate(
+abstract class LocalNotificationDelegate(
     val id: String,
     private val notificationManager: HyperskillNotificationManager
 ) {

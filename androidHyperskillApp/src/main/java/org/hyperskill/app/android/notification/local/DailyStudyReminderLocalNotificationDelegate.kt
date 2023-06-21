@@ -1,28 +1,27 @@
-package org.hyperskill.app.android.notification
+package org.hyperskill.app.android.notification.local
 
 import android.content.Context
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
+import org.hyperskill.app.android.notification.NotificationBuilder
+import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.model.NotificationId
 import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderShownHyperskillAnalyticEvent
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 
-class DailyStudyReminderNotificationDelegate(
+class DailyStudyReminderLocalNotificationDelegate(
     hyperskillNotificationManager: HyperskillNotificationManager,
     private val context: Context,
     private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor
-) : NotificationDelegate(KEY, hyperskillNotificationManager) {
+) : LocalNotificationDelegate(KEY, hyperskillNotificationManager) {
     companion object {
         const val KEY = "daily_study_reminder_notification"
-        private const val NotificationId: Long = 0
     }
 
     override fun onNeedShowNotification() {
@@ -41,19 +40,15 @@ class DailyStudyReminderNotificationDelegate(
             }
         }
 
-        val notification = NotificationCompat.Builder(context, HyperskillNotificationChannel.DailyReminder.channelId)
-            .setContentTitle(notificationDescription.title)
-            .setStyle(
-                NotificationCompat.BigTextStyle()
-                    .bigText(notificationDescription.text)
-            )
-            .setSmallIcon(R.drawable.ic_notifiaction_small)
-            .setColor(ContextCompat.getColor(context, org.hyperskill.app.R.color.color_primary))
-            .setContentIntent(pendingIntent)
-            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setAutoCancel(true)
+        val notification = NotificationBuilder.getSimpleNotificationBuilder(
+            context = context,
+            channel = HyperskillNotificationChannel.DailyReminder.channelId,
+            title = notificationDescription.title,
+            body = notificationDescription.text,
+            pendingIntent = pendingIntent
+        )
 
-        showNotification(NotificationId, notification.build())
+        showNotification(NotificationId.DailyStudyReminder.notificationId, notification.build())
 
         logShownNotificationEvent(notificationDescription.id)
     }
