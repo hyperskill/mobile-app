@@ -135,9 +135,9 @@ class AppReducer(
     private fun reduceNotificationClickHandlingMessage(
         message: NotificationClickHandlingFeature.Message
     ): Set<Action> {
-        val (_, clickedNotificationActions) =
+        val (_, notificationClickedHandlingActions) =
             clickedNotificationReducer.reduce(NotificationClickHandlingFeature.State, message)
-        return clickedNotificationActions.map {
+        return notificationClickedHandlingActions.map {
             if (it is NotificationClickHandlingFeature.Action.ViewAction) {
                 Action.ViewAction.ClickedNotificationViewAction(it)
             } else {

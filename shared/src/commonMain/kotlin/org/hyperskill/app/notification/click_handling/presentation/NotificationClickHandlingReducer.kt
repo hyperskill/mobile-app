@@ -3,23 +3,25 @@ package org.hyperskill.app.notification.click_handling.presentation
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.Action
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.InternalAction
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.Message
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.ProfileFetchResult
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.State
 import org.hyperskill.app.notification.remote.domain.analytic.PushNotificationClickedHyperskillAnalyticEvent
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
+import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
-        when (message) {
-            is Message.NotificationClicked -> handleNotificationClicked(state, message)
+        state to when (message) {
+            is Message.NotificationClicked -> handleNotificationClicked(message)
+            is ProfileFetchResult -> handleProfileFetchResult(message)
         }
 
     private fun handleNotificationClicked(
-        state: State,
         message: Message.NotificationClicked
-    ): ReducerResult {
+    ): Set<Action> {
         val analyticsAction = InternalAction.LogAnalyticEvent(
             PushNotificationClickedHyperskillAnalyticEvent(message.notificationData)
         )
@@ -30,7 +32,10 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
             PushNotificationType.STREAK_RECORD_NEAR,
             PushNotificationType.STREAK_RECORD_COMPLETE,
             PushNotificationType.STREAK_NEW ->
-                navigateToTheProblemOfTheDay()
+                setOf(
+                    Action.ViewAction.SetLoadingShowed(true),
+                    InternalAction.FetchProfile
+                )
 
             PushNotificationType.LEARN_TOPIC,
             PushNotificationType.REMIND_SHORT ->
@@ -48,10 +53,23 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
                 setOf(Action.ViewAction.NavigateTo.Home)
         }
 
-        return state to (actions + analyticsAction)
+        return actions + analyticsAction
     }
 
-    private fun navigateToTheProblemOfTheDay(): Set<Action> {
-        TODO("Implement profile fetching and navigation to the step screen")
-    }
+    private fun handleProfileFetchResult(
+        message: ProfileFetchResult
+    ): Set<Action> =
+        setOfNotNull(
+            Action.ViewAction.SetLoadingShowed(false),
+            when (message) {
+                is ProfileFetchResult.Success -> {
+                    message.profile.dailyStep?.let { dailyStep ->
+                        Action.ViewAction.NavigateTo.StepScreen(
+                            StepRoute.Learn.Step(dailyStep)
+                        )
+                    }
+                }
+                ProfileFetchResult.Error -> null
+            }
+        )
 }
