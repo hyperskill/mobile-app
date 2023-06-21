@@ -16,15 +16,14 @@ import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformP
 import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationsComponentImpl
 import org.hyperskill.app.android.play_services.injection.PlayServicesCheckerComponentImpl
 import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
-import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
-import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonAndroidAppGraphImpl
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
-import org.hyperskill.app.devices.injection.DevicesDataComponent
-import org.hyperskill.app.devices.injection.DevicesDataComponentImpl
+import org.hyperskill.app.main.injection.PlatformMainComponent
+import org.hyperskill.app.main.injection.PlatformMainComponentImpl
+import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 
@@ -70,9 +69,6 @@ class AndroidAppComponentImpl(
     /**
      * Main component
      */
-    override val mainComponent: MainComponent =
-        MainComponentImpl(this)
-
     override val platformMainComponent: PlatformMainComponent =
         PlatformMainComponentImpl(
             mainComponent = mainComponent,

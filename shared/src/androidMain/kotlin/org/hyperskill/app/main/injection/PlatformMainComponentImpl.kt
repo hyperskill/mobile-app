@@ -8,7 +8,7 @@ import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformMainComponentImpl(
     private val mainComponent: MainComponent,
-    private val platformPushNotificationsComponent: PlatformPushNotificationsComponent,
+    private val platformPushNotificationsComponent: PlatformPushNotificationsComponent
 ) : PlatformMainComponent {
     override val reduxViewModelFactory: SavedStateReduxViewModelFactory
         get() = SavedStateReduxViewModelFactory(
