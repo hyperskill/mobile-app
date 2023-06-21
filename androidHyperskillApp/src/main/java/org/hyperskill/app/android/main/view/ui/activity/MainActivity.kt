@@ -169,6 +169,7 @@ class MainActivity :
                         TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
+            is AppFeature.Action.ViewAction.ClickedNotificationViewAction -> TODO()
         }
     }
 

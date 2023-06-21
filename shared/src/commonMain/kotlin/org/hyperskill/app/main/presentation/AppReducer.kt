@@ -4,14 +4,20 @@ import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.profile.domain.model.isNewUser
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class AppReducer : StateReducer<State, Message, Action> {
+private typealias ReducerResult = Pair<State, Set<Action>>
+
+class AppReducer(
+    private val clickedNotificationReducer: NotificationClickHandlingReducer
+) : StateReducer<State, Message, Action> {
     override fun reduce(
         state: State,
         message: Message
-    ): Pair<State, Set<Action>> =
+    ): ReducerResult =
         when (message) {
             is Message.Initialize -> {
                 if (state is State.Idle || (state is State.NetworkError && message.forceUpdate)) {
@@ -82,5 +88,34 @@ class AppReducer : StateReducer<State, Message, Action> {
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+            is Message.NotificationClicked -> handleNotificationClicked(state, message)
+            is Message.ClickedNotificationMessage ->
+                state to reduceNotificationClickHandlingMessage(message.message)
         } ?: (state to emptySet())
+
+    private fun handleNotificationClicked(
+        state: State,
+        message: Message.NotificationClicked
+    ): ReducerResult =
+        if (state is State.Ready && state.isAuthorized) {
+            state to reduceNotificationClickHandlingMessage(
+                NotificationClickHandlingFeature.Message.NotificationClicked(message.notificationData)
+            )
+        } else {
+            state to emptySet()
+        }
+
+    private fun reduceNotificationClickHandlingMessage(
+        message: NotificationClickHandlingFeature.Message
+    ): Set<Action> {
+        val (_, clickedNotificationActions) =
+            clickedNotificationReducer.reduce(NotificationClickHandlingFeature.State, message)
+        return clickedNotificationActions.map {
+            if (it is NotificationClickHandlingFeature.Action.ViewAction) {
+                Action.ViewAction.ClickedNotificationViewAction(it)
+            } else {
+                Action.ClickedNotificationAction(it)
+            }
+        }.toSet()
+    }
 }

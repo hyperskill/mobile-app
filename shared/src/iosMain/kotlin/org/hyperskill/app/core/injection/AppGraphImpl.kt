@@ -39,6 +39,8 @@ import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
+import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponentImpl
 import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponentImpl
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
@@ -336,4 +338,7 @@ class AppGraphImpl(
 
     override fun buildPushNotificationsComponent(): PushNotificationsComponent =
         PushNotificationsComponentImpl(this)
+
+    override fun buildClickedNotificationComponent(): NotificationClickHandlingComponent =
+        NotificationClickHandlingComponentImpl(this)
 }
