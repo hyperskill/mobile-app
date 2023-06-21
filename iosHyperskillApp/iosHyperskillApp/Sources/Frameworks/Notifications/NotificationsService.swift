@@ -147,5 +147,12 @@ extension NotificationsService {
         #if DEBUG
         print("NotificationsService: \(#function), pushNotificationData: \(String(describing: pushNotificationData))")
         #endif
+
+        guard let pushNotificationData else {
+            return
+        }
+
+        let analyticEvent = PushNotificationClickedHyperskillAnalyticEvent(pushNotificationData: pushNotificationData)
+        analyticInteractor.logEvent(event: analyticEvent)
     }
 }
