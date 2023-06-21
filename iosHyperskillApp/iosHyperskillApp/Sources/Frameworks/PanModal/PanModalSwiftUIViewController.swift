@@ -45,6 +45,10 @@ class PanModalSwiftUIViewController<Content: View>: PanModalPresentableViewContr
             make.width.equalToSuperview()
         }
         contentHostingController.didMove(toParent: self)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
         DispatchQueue.main.async {
             self.panModalSetNeedsLayoutUpdate()

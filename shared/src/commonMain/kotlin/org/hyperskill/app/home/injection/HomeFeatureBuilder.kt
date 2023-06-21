@@ -17,7 +17,7 @@ import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
@@ -34,7 +34,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 object HomeFeatureBuilder {
     fun build(
         homeInteractor: HomeInteractor,
-        profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         stepInteractor: StepInteractor,
         freemiumInteractor: FreemiumInteractor,
@@ -54,7 +54,7 @@ object HomeFeatureBuilder {
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
-            profileInteractor,
+            currentProfileStateRepository,
             topicsRepetitionsInteractor,
             stepInteractor,
             freemiumInteractor,

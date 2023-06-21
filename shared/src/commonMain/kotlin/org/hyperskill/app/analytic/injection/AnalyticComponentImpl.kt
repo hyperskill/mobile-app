@@ -9,15 +9,25 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.analytic.remote.AnalyticHyperskillRemoteDataSourceImpl
-import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.auth.injection.AuthComponent
+import org.hyperskill.app.core.injection.CommonComponent
+import org.hyperskill.app.network.injection.NetworkComponent
+import org.hyperskill.app.notification.injection.NotificationComponent
+import org.hyperskill.app.profile.injection.ProfileDataComponent
+import org.hyperskill.app.sentry.injection.SentryComponent
 
 class AnalyticComponentImpl(
-    appGraph: AppGraph
+    networkComponent: NetworkComponent,
+    commonComponent: CommonComponent,
+    authComponent: AuthComponent,
+    profileDataComponent: ProfileDataComponent,
+    notificationComponent: NotificationComponent,
+    sentryComponent: SentryComponent
 ) : AnalyticComponent {
     private val hyperskillRemoteDataSource: AnalyticHyperskillRemoteDataSource =
         AnalyticHyperskillRemoteDataSourceImpl(
-            appGraph.networkComponent.authorizedHttpClient,
-            appGraph.networkComponent.frontendEventsUnauthorizedHttpClient
+            networkComponent.authorizedHttpClient,
+            networkComponent.frontendEventsUnauthorizedHttpClient
         )
     private val hyperskillCacheDataSource: AnalyticHyperskillCacheDataSource =
         AnalyticHyperskillCacheDataSourceImpl()
@@ -29,15 +39,15 @@ class AnalyticComponentImpl(
         )
 
     private val hyperskillEventProcessor =
-        AnalyticHyperskillEventProcessor(appGraph.commonComponent.platform)
+        AnalyticHyperskillEventProcessor(commonComponent.platform)
 
     override val analyticInteractor: AnalyticInteractor =
         AnalyticInteractor(
-            appGraph.authComponent.authInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
-            appGraph.buildNotificationComponent().notificationInteractor,
+            authComponent.authInteractor,
+            profileDataComponent.currentProfileStateRepository,
+            notificationComponent.notificationInteractor,
             hyperskillRepository,
             hyperskillEventProcessor,
-            appGraph.sentryComponent.sentryInteractor
+            sentryComponent.sentryInteractor
         )
 }

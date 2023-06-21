@@ -143,6 +143,7 @@ enum Images {
                 static let streakActive = "profile-streak-active"
                 static let streakPassive = "profile-streak-passive"
                 static let streakFrozen = "profile-streak-frozen"
+                static let streakRecovered = "profile-streak-recovered"
                 static let crown = "profile-streak-crown"
             }
 
@@ -151,6 +152,10 @@ enum Images {
                 static let snowflake = "profile-streak-freeze-modal-snowflake"
                 static let gemsBadgeLocked = "profile-streak-freeze-modal-gems-badge-locked"
                 static let snowflakeBadge = "profile-streak-freeze-modal-snowflake-badge"
+            }
+
+            enum RecoverModal {
+                static let fire = "streak-recover-modal-fire"
             }
         }
     }

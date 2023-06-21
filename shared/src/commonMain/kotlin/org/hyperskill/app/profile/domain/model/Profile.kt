@@ -59,3 +59,13 @@ internal val Profile.isNewUser: Boolean
 
 internal val Profile.isCurrentTrackCompleted: Boolean
     get() = trackId?.let { completedTracks.contains(it) } ?: false
+
+/**
+ * A shortcut to copy [Profile] with updated hypercoinsBalance.
+ */
+internal fun Profile.copy(hypercoinsBalance: Int): Profile =
+    copy(
+        gamification = gamification.copy(
+            hypercoinsBalance = hypercoinsBalance
+        )
+    )

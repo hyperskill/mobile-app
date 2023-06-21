@@ -6,7 +6,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarA
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
@@ -27,7 +27,7 @@ object TrackFeatureBuilder {
     fun build(
         trackInteractor: TrackInteractor,
         studyPlanInteractor: StudyPlanInteractor,
-        profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         progressesInteractor: ProgressesInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
@@ -42,7 +42,7 @@ object TrackFeatureBuilder {
             ActionDispatcherOptions(),
             trackInteractor,
             studyPlanInteractor,
-            profileInteractor,
+            currentProfileStateRepository,
             progressesInteractor,
             analyticInteractor,
             sentryInteractor,

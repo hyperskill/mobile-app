@@ -5,7 +5,8 @@ import org.hyperskill.app.profile.domain.model.Profile
 
 fun Profile.Companion.stub(
     id: Long = 0,
-    isBeta: Boolean = false
+    isBeta: Boolean = false,
+    isGuest: Boolean = false
 ): Profile =
     Profile(
         id = id,
@@ -26,10 +27,10 @@ fun Profile.Companion.stub(
         redditUsername = "",
         facebookUsername = "",
         dailyStep = null,
-        isGuest = false,
+        isGuest = isGuest,
         isStaff = false,
         trackId = null,
         trackTitle = null,
         isBeta = isBeta,
-        featuresMap = mapOf()
+        featuresMap = emptyMap()
     )

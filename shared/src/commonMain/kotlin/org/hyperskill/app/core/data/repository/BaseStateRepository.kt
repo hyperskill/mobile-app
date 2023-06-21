@@ -4,9 +4,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.repository.InMemoryStateHolder
 import org.hyperskill.app.core.domain.repository.StateHolder
 import org.hyperskill.app.core.domain.repository.StateRepository
+import org.hyperskill.app.core.domain.repository.StateWithSource
 
 /**
  * Thread safe repository that allows to
@@ -46,14 +48,32 @@ abstract class BaseStateRepository<State : Any> : StateRepository<State> {
      * @return current state
      */
     override suspend fun getState(forceUpdate: Boolean): Result<State> =
-        mutex.withLock {
-            val currentState = stateHolder.getState()
+        getStateInternal(forceUpdate = forceUpdate) { state, _ -> state }
 
-            if (currentState != null && !forceUpdate) {
-                return Result.success(currentState)
+    override suspend fun getStateWithSource(forceUpdate: Boolean): Result<StateWithSource<State>> =
+        getStateInternal(forceUpdate = forceUpdate) { state, usedSource ->
+            StateWithSource(
+                state = state,
+                usedDataSourceType = usedSource
+            )
+        }
+
+    private suspend fun <T> getStateInternal(
+        forceUpdate: Boolean,
+        transformState: (State, usedSource: DataSourceType) -> T
+    ): Result<T> =
+        mutex.withLock {
+            val currentState = try {
+                stateHolder.getState()
+            } catch (e: Exception) {
+                return Result.failure(e)
             }
 
-            return loadAndAssignState()
+            if (currentState != null && !forceUpdate) {
+                return Result.success(transformState(currentState, DataSourceType.CACHE))
+            }
+
+            return loadAndAssignState().map { state -> transformState(state, DataSourceType.REMOTE) }
         }
 
     /**
