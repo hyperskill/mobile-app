@@ -11,18 +11,21 @@ class ProjectSelectionDetailsComponentImpl(
 ) : ProjectSelectionDetailsComponent {
     override fun projectSelectionDetailsFeature(
         projectSelectionDetailsParams: ProjectSelectionDetailsParams
-    ): Feature<ViewState, Message, Action> =
-        ProjectSelectionDetailsFeatureBuilder.build(
+    ): Feature<ViewState, Message, Action> {
+        val profileComponent = appGraph.profileDataComponent
+        return ProjectSelectionDetailsFeatureBuilder.build(
             params = projectSelectionDetailsParams,
             trackRepository = appGraph.buildTrackDataComponent().trackRepository,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
             providersRepository = appGraph.buildProvidersDataComponent().providersRepository,
-            profileRepository = appGraph.buildProfileDataComponent().profileRepository,
+            profileRepository = profileComponent.profileRepository,
+            currentProfileStateRepository = profileComponent.currentProfileStateRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             numbersFormatter = appGraph.commonComponent.numbersFormatter,
             dateFormatter = appGraph.commonComponent.dateFormatter
         )
+    }
 }

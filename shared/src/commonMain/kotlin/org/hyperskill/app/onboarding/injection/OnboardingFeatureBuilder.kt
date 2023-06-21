@@ -8,7 +8,7 @@ import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Action
 import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Message
 import org.hyperskill.app.onboarding.presentation.OnboardingFeature.State
 import org.hyperskill.app.onboarding.presentation.OnboardingReducer
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -16,7 +16,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 object OnboardingFeatureBuilder {
     fun build(
         onboardingInteractor: OnboardingInteractor,
-        profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         analyticInteractor: AnalyticInteractor
     ): Feature<State, Message, Action> {
         val onboardingReducer = OnboardingReducer()
@@ -24,7 +24,7 @@ object OnboardingFeatureBuilder {
         val onboardingActionDispatcher = OnboardingActionDispatcher(
             ActionDispatcherOptions(),
             onboardingInteractor,
-            profileInteractor,
+            currentProfileStateRepository,
             analyticInteractor
         )
 

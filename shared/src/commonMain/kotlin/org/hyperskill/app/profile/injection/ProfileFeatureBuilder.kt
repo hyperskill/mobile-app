@@ -7,6 +7,7 @@ import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnab
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.presentation.ProfileActionDispatcher
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
@@ -22,6 +23,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 object ProfileFeatureBuilder {
     fun build(
         profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         streaksInteractor: StreaksInteractor,
         productsInteractor: ProductsInteractor,
         analyticInteractor: AnalyticInteractor,
@@ -35,6 +37,7 @@ object ProfileFeatureBuilder {
         val profileActionDispatcher = ProfileActionDispatcher(
             ActionDispatcherOptions(),
             profileInteractor,
+            currentProfileStateRepository,
             streaksInteractor,
             productsInteractor,
             analyticInteractor,

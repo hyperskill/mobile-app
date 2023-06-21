@@ -80,5 +80,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     PROJECT("project"),
     THEORY("theory"),
     SELECT_THIS_TRACK("select_this_track"),
-    SELECT_THIS_PROJECT("select_this_project")
+    SELECT_THIS_PROJECT("select_this_project"),
+    STREAK_RECOVERY_MODAL("streak_recovery_modal"),
+    RESTORE_STREAK("restore_streak"),
+    NO_THANKS("no_thanks")
 }

@@ -1,3 +1,0 @@
-package org.hyperskill.app.onboarding.injection
-
-expect interface PlatformOnboardingComponent

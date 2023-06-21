@@ -3,6 +3,7 @@ package org.hyperskill.app.main.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 
 interface AppFeature {
     @Serializable
@@ -28,10 +29,20 @@ interface AppFeature {
         object UserAccountStatusError : Message
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
+
+        /**
+         * Message Wrappers
+         */
+        data class StreakRecoveryMessage(val message: StreakRecoveryFeature.Message) : Message
     }
 
     sealed interface Action {
         object DetermineUserAccountStatus : Action
+
+        /**
+         * Action Wrappers
+         */
+        data class StreakRecoveryAction(val action: StreakRecoveryFeature.Action) : Action
 
         /**
          * Sentry
@@ -46,6 +57,11 @@ interface AppFeature {
                 object TrackSelectionScreen : NavigateTo
                 object OnboardingScreen : NavigateTo
             }
+
+            /**
+             * ViewAction Wrappers
+             */
+            data class StreakRecoveryViewAction(val viewAction: StreakRecoveryFeature.Action.ViewAction) : ViewAction
         }
     }
 }

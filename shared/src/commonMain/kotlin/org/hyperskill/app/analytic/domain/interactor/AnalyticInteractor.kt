@@ -7,8 +7,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEventMonitor
@@ -17,14 +15,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 
 class AnalyticInteractor(
     private val authInteractor: AuthInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val notificationInteractor: NotificationInteractor,
     private val hyperskillRepository: AnalyticHyperskillRepository,
     private val hyperskillEventProcessor: AnalyticHyperskillEventProcessor,
@@ -33,8 +30,6 @@ class AnalyticInteractor(
     companion object {
         private val FLUSH_EVENTS_DELAY_DURATION: Duration = 5.seconds
     }
-
-    private val profileMutex = Mutex()
 
     private var flushEventsJob: Job? = null
 
@@ -62,12 +57,9 @@ class AnalyticInteractor(
                 return
             }
 
-            val currentProfile: Profile
             // Prevent multiple network calls when no cached profile
-            profileMutex.withLock {
-                currentProfile = getCurrentProfile()
-                    .getOrElse { return }
-            }
+            val currentProfile: Profile =
+                currentProfileStateRepository.getState().getOrElse { return }
 
             val processedEvent = hyperskillEventProcessor.processEvent(
                 event,
@@ -95,16 +87,6 @@ class AnalyticInteractor(
                 .getOrDefault(false)
 
             hyperskillRepository.flushEvents(isAuthorized)
-        }
-    }
-
-    private suspend fun getCurrentProfile(): Result<Profile> {
-        val cachedCurrentProfile = profileInteractor
-            .getCurrentProfile(sourceType = DataSourceType.CACHE)
-        return if (cachedCurrentProfile.isSuccess) {
-            cachedCurrentProfile
-        } else {
-            profileInteractor.getCurrentProfile(sourceType = DataSourceType.REMOTE)
         }
     }
 }

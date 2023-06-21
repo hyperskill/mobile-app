@@ -34,6 +34,7 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
+import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
@@ -169,6 +170,12 @@ class MainActivity :
                     TrackSelectionListScreen(
                         TrackSelectionListParams(isNewUserMode = true)
                     )
+                )
+            is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
+                StreakRecoveryViewActionDelegate.handleViewAction(
+                    fragmentManager = supportFragmentManager,
+                    rootView = viewBinding.root,
+                    viewAction = action.viewAction
                 )
         }
     }

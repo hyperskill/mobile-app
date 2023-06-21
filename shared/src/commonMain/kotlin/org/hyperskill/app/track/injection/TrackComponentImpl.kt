@@ -19,7 +19,7 @@ class TrackComponentImpl(private val appGraph: AppGraph) : TrackComponent {
         get() = TrackFeatureBuilder.build(
             appGraph.buildTrackDataComponent().trackInteractor,
             appGraph.buildStudyPlanDataComponent().studyPlanInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,

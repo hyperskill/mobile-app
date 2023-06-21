@@ -1,3 +1,0 @@
-package org.hyperskill.app.topics_repetitions.injection
-
-expect interface PlatformTopicsRepetitionComponent
