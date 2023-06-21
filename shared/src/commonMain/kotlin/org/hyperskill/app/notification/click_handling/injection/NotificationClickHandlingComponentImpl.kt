@@ -9,5 +9,8 @@ class NotificationClickHandlingComponentImpl(private val appGraph: AppGraph) : N
     override val notificationClickHandlingReducer: NotificationClickHandlingReducer
         get() = NotificationClickHandlingReducer()
     override val notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher
-        get() = NotificationClickHandlingDispatcher(ActionDispatcherOptions())
+        get() = NotificationClickHandlingDispatcher(
+            ActionDispatcherOptions(),
+            appGraph.analyticComponent.analyticInteractor
+        )
 }
