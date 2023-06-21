@@ -142,7 +142,7 @@ platform :ios do
       load_app_store_connect_api_token
     end
 
-    # sync_device_info()
+    sync_device_info()
     match_adhoc()
 
     # Disable automatic code signing -> build -> enable again
