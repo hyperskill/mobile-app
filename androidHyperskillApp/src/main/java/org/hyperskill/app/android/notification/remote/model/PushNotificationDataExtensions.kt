@@ -29,12 +29,15 @@ val PushNotificationData.channel: HyperskillNotificationChannel
         PushNotificationType.STREAK_RECORD_START,
         PushNotificationType.STREAK_RECORD_NEAR,
         PushNotificationType.STREAK_RECORD_COMPLETE,
-        PushNotificationType.STREAK_NEW -> HyperskillNotificationChannel.LearningStreak
+        PushNotificationType.STREAK_NEW -> HyperskillNotificationChannel.StreakBoosters
+
         PushNotificationType.STEP_STREAK_FREEZE_TOKEN_USED,
-        PushNotificationType.STREAK_FREEZE_ONBOARDING -> HyperskillNotificationChannel.StreakFreeze
+        PushNotificationType.STREAK_FREEZE_ONBOARDING -> HyperskillNotificationChannel.StreakSavers
+
         PushNotificationType.LEARN_TOPIC,
-        PushNotificationType.REPETITION -> HyperskillNotificationChannel.DailyReminder
+        PushNotificationType.REPETITION,
         PushNotificationType.REMIND_SHORT,
-        PushNotificationType.REMIND_MEDIUM -> HyperskillNotificationChannel.PeriodicLearningReminder
+        PushNotificationType.REMIND_MEDIUM -> HyperskillNotificationChannel.RegularLearningReminders
+
         PushNotificationType.UNKNOWN -> HyperskillNotificationChannel.Other
     }
