@@ -2,6 +2,6 @@ package org.hyperskill.app.track.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 
-actual interface PlatformTrackComponent {
+interface PlatformTrackComponent {
     val reduxViewModelFactory: ReduxViewModelFactory
 }
