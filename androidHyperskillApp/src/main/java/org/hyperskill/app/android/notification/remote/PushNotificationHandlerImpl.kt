@@ -21,7 +21,7 @@ class PushNotificationHandlerImpl(
         notification: PushNotification?,
         data: PushNotificationData?
     ) {
-        Log.d("CommonRemoteNotificationHandler", "\nnotification=$notification\ndata=$data")
+        Log.d("PushNotificationHandlerImpl", "\nnotification=$notification\ndata=$data")
         // TODO: add analytics
         if (notification != null) {
             if (Looper.myLooper() == Looper.getMainLooper()) {
