@@ -11,7 +11,7 @@ class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRep
     override val topicsRepetitionsFeature: Feature<State, Message, Action>
         get() = TopicsRepetitionsFeatureBuilder.build(
             appGraph.buildTopicsRepetitionsDataComponent().topicsRepetitionsInteractor,
-            appGraph.buildProfileDataComponent().profileInteractor,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,

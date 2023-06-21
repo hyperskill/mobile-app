@@ -11,7 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.transform.CircleCropTransformation
-import java.util.Locale
+import java.util.*
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
@@ -67,7 +67,7 @@ class ProfileFragment :
     private var streakFormDelegate: StreakCardFormDelegate? = null
 
     private val platformNotificationComponent =
-        HyperskillApp.graph().platformNotificationComponent
+        HyperskillApp.graph().platformLocalNotificationComponent
 
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().imageLoadingComponent.imageLoader

@@ -20,7 +20,7 @@ runs:
     - name: Setup Xcode version
       uses: maxim-lobanov/setup-xcode@v1.5.1
       with:
-        xcode-version: '14.3'
+        xcode-version: '14.3.1'
 
     - name: Homebrew install git-crypt
       run: brew install git-crypt
@@ -94,7 +94,7 @@ runs:
 
     # Fix Cocoapods not being able to access the shared framework file
     - name: Fix Cocoapods generateDummyFramework
-      run: ./gradlew generateDummyFramework
+      run: ./gradlew :shared:generateDummyFramework
       shell: bash
 
     # Cache Pods dependencies

@@ -5,6 +5,7 @@ import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 
 interface AppFeature {
     @Serializable
@@ -30,9 +31,15 @@ interface AppFeature {
         object UserAccountStatusError : Message
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
+
         data class NotificationClicked(
             val notificationData: PushNotificationData
         ) : Message
+
+        /**
+         * Message Wrappers
+         */
+        data class StreakRecoveryMessage(val message: StreakRecoveryFeature.Message) : Message
 
         data class ClickedNotificationMessage(
             val message: NotificationClickHandlingFeature.Message
@@ -41,6 +48,11 @@ interface AppFeature {
 
     sealed interface Action {
         object DetermineUserAccountStatus : Action
+
+        /**
+         * Action Wrappers
+         */
+        data class StreakRecoveryAction(val action: StreakRecoveryFeature.Action) : Action
 
         /**
          * Sentry
@@ -59,6 +71,11 @@ interface AppFeature {
                 object TrackSelectionScreen : NavigateTo
                 object OnboardingScreen : NavigateTo
             }
+
+            /**
+             * ViewAction Wrappers
+             */
+            data class StreakRecoveryViewAction(val viewAction: StreakRecoveryFeature.Action.ViewAction) : ViewAction
 
             data class ClickedNotificationViewAction(
                 val viewAction: NotificationClickHandlingFeature.Action.ViewAction

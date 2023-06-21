@@ -31,15 +31,15 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notification.receiver.AlarmReceiver" />
+        <receiver android:name=".notification.local.receiver.AlarmReceiver" />
 
         <service
-            android:name=".notification.service.RescheduleNotificationsService"
+            android:name=".notification.local.service.RescheduleLocalNotificationsService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
-            android:name=".notification.receiver.RescheduleNotificationsReceiver"
+            android:name=".notification.local.receiver.RescheduleNotificationsReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
@@ -50,7 +50,7 @@
         </receiver>
 
         <service
-            android:name=".notification.service.HyperskillFcmService"
+            android:name=".notification.remote.service.HyperskillFcmService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

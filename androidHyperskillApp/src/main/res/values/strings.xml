@@ -18,6 +18,13 @@
     <!-- Notification channel names -->
     <string name="other_channel_name">Other</string>
     <string name="daily_reminder_channel_name">Daily reminders</string>
+    <string name="daily_reminder_channel_description">Daily reminders about studying and staying motivated</string>
+    <string name="streak_boosters_channel_name">Streak boosters</string>
+    <string name="streak_boosters_channel_description">Learning streak maintenance notifications</string>
+    <string name="streak_savers_channel_name">Streak savers (freezers)</string>
+    <string name="streak_savers_channel_description">Learning streak freeze notifications</string>
+    <string name="regular_learning_reminders_channel_name">Regular learning reminders</string>
+    <string name="regular_learning_reminders_channel_description">Regular study reminders less often than every day</string>
 
     <string name="debug_restarting_message">The app is going to be restarted</string>
 

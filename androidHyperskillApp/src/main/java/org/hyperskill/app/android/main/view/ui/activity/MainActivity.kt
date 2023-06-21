@@ -31,8 +31,10 @@ import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
+import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
+import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
@@ -71,7 +73,7 @@ class MainActivity :
     private lateinit var analyticInteractor: AnalyticInteractor
 
     private val notificationInteractor =
-        HyperskillApp.graph().platformNotificationComponent.notificationInteractor
+        HyperskillApp.graph().platformLocalNotificationComponent.notificationInteractor
 
     override val navigator by lazy {
         NestedAppNavigator(
@@ -169,6 +171,12 @@ class MainActivity :
                         TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
+            is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
+                StreakRecoveryViewActionDelegate.handleViewAction(
+                    fragmentManager = supportFragmentManager,
+                    rootView = viewBinding.root,
+                    viewAction = action.viewAction
+                )
             is AppFeature.Action.ViewAction.ClickedNotificationViewAction -> TODO()
         }
     }
@@ -207,6 +215,9 @@ class MainActivity :
                         )
                     )
                 }
+            }
+            is PushNotificationClickedData -> {
+                // TODO: handle push notification clicks
             }
             is DefaultNotificationClickedData -> {
                 // no op

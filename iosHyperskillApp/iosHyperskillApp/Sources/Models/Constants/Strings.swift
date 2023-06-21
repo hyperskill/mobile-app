@@ -348,6 +348,13 @@ enum Strings {
             static let boughtError = sharedStrings.streak_freeze_bought_error.localized()
             static let boughtSuccess = sharedStrings.streak_freeze_bought_success.localized()
         }
+
+        enum RecoverModal {
+            static let title = sharedStrings.streak_recovery_modal_title.localized()
+            static let warning = sharedStrings.streak_recovery_modal_warning.localized()
+            static let restoreStreak = sharedStrings.streak_recovery_modal_restore_streak.localized()
+            static let noThanks = sharedStrings.streak_recovery_modal_no_thanks.localized()
+        }
     }
 
     // MARK: - ProblemOfDay -

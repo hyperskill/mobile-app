@@ -7,11 +7,14 @@ import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.profile.domain.model.isNewUser
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class AppReducer(
+    private val streakRecoveryReducer: StreakRecoveryReducer,
     private val clickedNotificationReducer: NotificationClickHandlingReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(
@@ -74,7 +77,13 @@ class AppReducer(
                             Action.ViewAction.NavigateTo.OnboardingScreen
                         }
 
-                    State.Ready(isAuthorized) to setOf(sentryAction, navigateToViewAction)
+                    val streakRecoveryActions = if (isAuthorized) {
+                        reduceStreakRecoveryMessage(StreakRecoveryFeature.Message.Initialize)
+                    } else {
+                        emptySet()
+                    }
+
+                    State.Ready(isAuthorized) to setOf(sentryAction, navigateToViewAction) + streakRecoveryActions
                 } else {
                     null
                 }
@@ -88,10 +97,28 @@ class AppReducer(
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+            is Message.StreakRecoveryMessage ->
+                state to reduceStreakRecoveryMessage(message.message)
             is Message.NotificationClicked -> handleNotificationClicked(state, message)
             is Message.ClickedNotificationMessage ->
                 state to reduceNotificationClickHandlingMessage(message.message)
         } ?: (state to emptySet())
+
+    private fun reduceStreakRecoveryMessage(
+        message: StreakRecoveryFeature.Message
+    ): Set<Action> {
+        val (_, streakRecoveryActions) = streakRecoveryReducer.reduce(StreakRecoveryFeature.State, message)
+
+        return streakRecoveryActions
+            .map {
+                if (it is StreakRecoveryFeature.Action.ViewAction) {
+                    Action.ViewAction.StreakRecoveryViewAction(it)
+                } else {
+                    Action.StreakRecoveryAction(it)
+                }
+            }
+            .toSet()
+    }
 
     private fun handleNotificationClicked(
         state: State,

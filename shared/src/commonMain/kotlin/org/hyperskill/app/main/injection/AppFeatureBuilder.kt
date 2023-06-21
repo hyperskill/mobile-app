@@ -11,8 +11,10 @@ import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingDispatcher
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -24,24 +26,35 @@ object AppFeatureBuilder {
         initialState: State?,
         appInteractor: AppInteractor,
         authInteractor: AuthInteractor,
-        profileInteractor: ProfileInteractor,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         sentryInteractor: SentryInteractor,
         stateRepositoriesComponent: StateRepositoriesComponent,
+        streakRecoveryReducer: StreakRecoveryReducer,
+        streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher,
         clickedNotificationReducer: NotificationClickHandlingReducer,
         notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher
     ): Feature<State, Message, Action> {
-        val appReducer = AppReducer(clickedNotificationReducer)
+        val appReducer = AppReducer(
+            streakRecoveryReducer,
+            clickedNotificationReducer
+        )
         val appActionDispatcher = AppActionDispatcher(
             ActionDispatcherOptions(),
             appInteractor,
             authInteractor,
-            profileInteractor,
+            currentProfileStateRepository,
             sentryInteractor,
             stateRepositoriesComponent
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)
             .wrapWithActionDispatcher(appActionDispatcher)
+            .wrapWithActionDispatcher(
+                streakRecoveryActionDispatcher.transform(
+                    transformAction = { it.safeCast<Action.StreakRecoveryAction>()?.action },
+                    transformMessage = Message::StreakRecoveryMessage
+                )
+            )
             .wrapWithActionDispatcher(
                 notificationClickHandlingDispatcher.transform(
                     transformAction = { it.safeCast<Action.ClickedNotificationAction>()?.action },

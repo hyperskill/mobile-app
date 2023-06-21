@@ -18,6 +18,12 @@ data class Streak(
     val canFreeze: Boolean,
     @SerialName("can_buy_freeze")
     val canBuyFreeze: Boolean,
+    @SerialName("can_be_recovered")
+    val canBeRecovered: Boolean,
+    @SerialName("recovery_price")
+    val recoveryPrice: Int,
+    @SerialName("previous_streak")
+    val previousStreak: Int,
     @SerialName("history")
     val history: List<HistoricalStreak>
 ) {

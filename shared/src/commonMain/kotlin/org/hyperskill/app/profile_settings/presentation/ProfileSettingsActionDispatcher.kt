@@ -10,7 +10,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailDataBuilder
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
@@ -20,7 +20,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
-    private val profileInteractor: ProfileInteractor,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val authorizationFlow: MutableSharedFlow<UserDeauthorized>,
     private val platform: Platform,
@@ -39,8 +39,8 @@ class ProfileSettingsActionDispatcher(
             is Action.SignOut ->
                 authorizationFlow.tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.SIGN_OUT))
             is Action.PrepareFeedbackEmailData -> {
-                val currentProfile = profileInteractor
-                    .getCurrentProfile()
+                val currentProfile = currentProfileStateRepository
+                    .getState()
                     .getOrNull()
 
                 val feedbackEmailData = FeedbackEmailDataBuilder.build(
