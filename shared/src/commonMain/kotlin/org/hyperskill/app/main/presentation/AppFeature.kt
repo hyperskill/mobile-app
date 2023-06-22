@@ -24,11 +24,19 @@ interface AppFeature {
     }
 
     sealed interface Message {
-        data class Initialize(val forceUpdate: Boolean = false) : Message
+        data class Initialize(
+            val pushNotificationData: PushNotificationData?,
+            val forceUpdate: Boolean = false
+        ) : Message
+
+        data class UserAccountStatus(
+            val profile: Profile,
+            val notificationData: PushNotificationData?
+        ) : Message
+        object UserAccountStatusError : Message
+
         data class UserAuthorized(val profile: Profile) : Message
         data class UserDeauthorized(val reason: Reason) : Message
-        data class UserAccountStatus(val profile: Profile) : Message
-        object UserAccountStatusError : Message
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
 
@@ -41,13 +49,15 @@ interface AppFeature {
          */
         data class StreakRecoveryMessage(val message: StreakRecoveryFeature.Message) : Message
 
-        data class ClickedNotificationMessage(
+        data class NotificationClickHandlingMessage(
             val message: NotificationClickHandlingFeature.Message
         ) : Message
     }
 
     sealed interface Action {
-        object DetermineUserAccountStatus : Action
+        data class DetermineUserAccountStatus(
+            val pushNotificationData: PushNotificationData?
+        ) : Action
 
         /**
          * Action Wrappers

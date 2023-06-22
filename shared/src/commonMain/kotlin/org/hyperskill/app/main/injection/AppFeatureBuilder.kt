@@ -58,7 +58,7 @@ object AppFeatureBuilder {
             .wrapWithActionDispatcher(
                 notificationClickHandlingDispatcher.transform(
                     transformAction = { it.safeCast<Action.ClickedNotificationAction>()?.action },
-                    transformMessage = Message::ClickedNotificationMessage
+                    transformMessage = Message::NotificationClickHandlingMessage
                 )
             )
     }

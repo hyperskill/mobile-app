@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +28,7 @@ import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserv
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
@@ -34,10 +36,13 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
+import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
@@ -102,8 +107,15 @@ class MainActivity :
         initViewStateDelegate()
 
         viewBinding.mainError.tryAgain.setOnClickListener {
-            mainViewModel.onNewMessage(AppFeature.Message.Initialize(forceUpdate = true))
+            mainViewModel.onNewMessage(
+                AppFeature.Message.Initialize(
+                    pushNotificationData = (parseClickedNotificationData(intent) as? PushNotificationClickedData)?.data,
+                    forceUpdate = true
+                )
+            )
         }
+
+        startupViewModel(intent)
 
         lifecycleScope.launch {
             router
@@ -121,10 +133,6 @@ class MainActivity :
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
-        if (savedInstanceState == null) {
-            mainViewModel.onActivityReady()
-        }
-        handleNewIntent(intent)
         logNotificationAvailability()
     }
 
@@ -142,9 +150,29 @@ class MainActivity :
         viewStateDelegate.addState<AppFeature.State.NetworkError>(viewBinding.mainError.root)
     }
 
+    private fun startupViewModel(intent: Intent?) {
+        if (intent != null) {
+            handleIntent(intent) { clickedNotificationData ->
+                mainViewModel.startup(
+                    (clickedNotificationData as? PushNotificationClickedData)?.data
+                )
+            }
+        } else {
+            mainViewModel.startup()
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        intent?.let(::handleNewIntent)
+        if (intent != null) {
+            handleIntent(intent) { clickedNotificationData ->
+                if (clickedNotificationData is PushNotificationClickedData) {
+                    mainViewModel.onNewMessage(
+                        AppFeature.Message.NotificationClicked(clickedNotificationData.data)
+                    )
+                }
+            }
+        }
     }
 
     override fun onResumeFragments() {
@@ -177,7 +205,30 @@ class MainActivity :
                     rootView = viewBinding.root,
                     viewAction = action.viewAction
                 )
-            is AppFeature.Action.ViewAction.ClickedNotificationViewAction -> TODO()
+            is AppFeature.Action.ViewAction.ClickedNotificationViewAction -> {
+                when (val viewAction = action.viewAction) {
+                    is NotificationClickHandlingFeature.Action.ViewAction.SetLoadingShowed -> {
+                        viewBinding.mainProgress.isVisible = viewAction.isLoadingShowed
+                    }
+                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.Home ->
+                        router.newRootScreen(MainScreen(initialTab = Tabs.HOME))
+                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.Profile ->
+                        router.newRootScreen(MainScreen(initialTab = Tabs.PROFILE))
+                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.StudyPlan ->
+                        router.newRootScreen(MainScreen(initialTab = Tabs.STUDY_PLAN))
+                    is NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.StepScreen ->
+                        router.newRootChain(
+                            MainScreen(),
+                            StepScreen(viewAction.stepRoute)
+                        )
+                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.TopicRepetition -> {
+                        router.newRootChain(
+                            MainScreen(),
+                            TopicsRepetitionScreen()
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -194,15 +245,23 @@ class MainActivity :
         }
     }
 
-    private fun handleNewIntent(intent: Intent) {
-        val clickedNotificationData = with(NotificationIntentBuilder) {
-            intent.getClickedNotificationData()
-        }
+    private fun handleIntent(
+        intent: Intent,
+        handlePushNotificationData: (ClickedNotificationData?) -> Unit
+    ) {
+        val clickedNotificationData = parseClickedNotificationData(intent)
+        handlePushNotificationData(clickedNotificationData)
         if (clickedNotificationData != null) {
             logNotificationClickedEvent(clickedNotificationData)
         }
     }
 
+    private fun parseClickedNotificationData(intent: Intent?): ClickedNotificationData? =
+        with(NotificationIntentBuilder) {
+            intent?.getClickedNotificationData()
+        }
+
+    // TODO: move to the viewModel
     private fun logNotificationClickedEvent(
         clickedNotificationData: ClickedNotificationData
     ) {
@@ -216,15 +275,14 @@ class MainActivity :
                     )
                 }
             }
-            is PushNotificationClickedData -> {
-                // TODO: handle push notification clicks
-            }
+            is PushNotificationClickedData,
             is DefaultNotificationClickedData -> {
                 // no op
             }
         }
     }
 
+    // TODO: move to the viewModel
     private fun logNotificationAvailability() {
         notificationInteractor.setNotificationsPermissionGranted(
             NotificationManagerCompat.from(this).areNotificationsEnabled()
