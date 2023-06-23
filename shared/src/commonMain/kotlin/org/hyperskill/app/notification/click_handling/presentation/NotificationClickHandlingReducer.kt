@@ -25,6 +25,8 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
         val analyticsAction = InternalAction.LogAnalyticEvent(
             PushNotificationClickedHyperskillAnalyticEvent(message.notificationData)
         )
+        if (!message.isUserAuthorized) return setOf(analyticsAction)
+
         val actions = when (message.notificationData.typeEnum) {
             PushNotificationType.STREAK_THREE,
             PushNotificationType.STREAK_WEEK,

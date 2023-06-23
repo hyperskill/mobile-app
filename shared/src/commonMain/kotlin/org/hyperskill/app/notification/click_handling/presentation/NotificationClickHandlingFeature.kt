@@ -9,8 +9,14 @@ object NotificationClickHandlingFeature {
     object State
 
     sealed interface Message {
+
+        /**
+         * If [isUserAuthorized] == false, then just logs analytics event.
+         * Otherwise, also executes navigation to the appropriate for the [notificationData] screen.
+         */
         data class NotificationClicked(
-            val notificationData: PushNotificationData
+            val notificationData: PushNotificationData,
+            val isUserAuthorized: Boolean
         ) : Message
     }
 

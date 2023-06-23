@@ -17,10 +17,13 @@ class AppFeatureTest {
     )
 
     @Test
-    fun `Streak recovery should be initialized only when user is authorized`() {
+    fun `Streak recovery should be initialized only when user is authorized and already selected track`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
-            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = false))
+            AppFeature.Message.UserAccountStatus(
+                Profile.stub(isGuest = false, trackId = 1),
+                null
+            )
         )
         assertTrue {
             actions.any {
@@ -34,7 +37,7 @@ class AppFeatureTest {
     fun `Streak recovery should NOT be initialized when user is NOT authorized`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
-            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = true))
+            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = true), null)
         )
         assertTrue {
             actions.none {

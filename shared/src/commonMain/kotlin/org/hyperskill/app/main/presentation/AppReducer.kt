@@ -95,7 +95,8 @@ class AppReducer(
                         message.notificationData != null ->
                             reduceNotificationClickHandlingMessage(
                                 NotificationClickHandlingFeature.Message.NotificationClicked(
-                                    message.notificationData
+                                    message.notificationData,
+                                    isUserAuthorized = true
                                 )
                             )
                         message.profile.isNewUser ->
@@ -104,7 +105,19 @@ class AppReducer(
                             setOf(Action.ViewAction.NavigateTo.HomeScreen)
                     }
                 } else {
-                    setOf(Action.ViewAction.NavigateTo.OnboardingScreen)
+                    buildSet {
+                        if (message.notificationData != null) {
+                            addAll(
+                                reduceNotificationClickHandlingMessage(
+                                    NotificationClickHandlingFeature.Message.NotificationClicked(
+                                        message.notificationData,
+                                        isUserAuthorized = false
+                                    )
+                                )
+                            )
+                        }
+                        add(Action.ViewAction.NavigateTo.OnboardingScreen)
+                    }
                 }
 
             val streakRecoveryActions = if (isAuthorized && message.notificationData == null) {
@@ -139,9 +152,12 @@ class AppReducer(
         state: State,
         message: Message.NotificationClicked
     ): ReducerResult =
-        if (state is State.Ready && state.isAuthorized) {
+        if (state is State.Ready) {
             state to reduceNotificationClickHandlingMessage(
-                NotificationClickHandlingFeature.Message.NotificationClicked(message.notificationData)
+                NotificationClickHandlingFeature.Message.NotificationClicked(
+                    notificationData = message.notificationData,
+                    isUserAuthorized = state.isAuthorized
+                )
             )
         } else {
             state to emptySet()
