@@ -5,6 +5,9 @@ import kotlin.test.assertTrue
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
+import org.hyperskill.app.notification.remote.domain.model.PushNotificationCategory
+import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
+import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
@@ -39,6 +42,25 @@ class AppFeatureTest {
             AppFeature.State.Loading,
             AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = true), null)
         )
+        assertNoStreakRecoveryActions(actions)
+    }
+
+    @Test
+    fun `Streak recovery should NOT be initialized in case of push notification handling`() {
+        val (_, actions) = appReducer.reduce(
+            AppFeature.State.Loading,
+            AppFeature.Message.UserAccountStatus(
+                Profile.stub(isGuest = true, trackId = 1),
+                PushNotificationData(
+                    PushNotificationType.STREAK_NEW.name,
+                    PushNotificationCategory.CONTINUE_LEARNING.backendName!!
+                )
+            )
+        )
+        assertNoStreakRecoveryActions(actions)
+    }
+
+    private fun assertNoStreakRecoveryActions(actions: Set<AppFeature.Action>) {
         assertTrue {
             actions.none {
                 it is AppFeature.Action.StreakRecoveryAction
