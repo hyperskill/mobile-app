@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.api.dsl.ApplicationBuildType
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
@@ -7,6 +9,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     kotlin("plugin.serialization")
+    alias(libs.plugins.sentry.androidGradle)
 }
 
 dependencies {

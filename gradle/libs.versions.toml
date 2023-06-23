@@ -22,7 +22,7 @@ plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref
 plugin-dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10.2.0" }
-plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
+plugin-gradleVersionUpdates =  { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.39.0" }
 plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.13.3" }
 plugin-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
 plugin-mokoKswift = { module = "dev.icerock.moko:kswift-gradle-plugin", version.ref = "mokoKswift" }
@@ -111,3 +111,6 @@ accompanist-themeadapter = { module = "com.google.accompanist:accompanist-themea
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
+
+[plugins]
+sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.11.0" }
