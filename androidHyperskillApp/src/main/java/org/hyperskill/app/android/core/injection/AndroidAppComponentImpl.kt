@@ -60,7 +60,8 @@ class AndroidAppComponentImpl(
             pushNotificationsComponent = buildPushNotificationsComponent(),
             playServicesCheckerComponent = buildPlayServicesCheckerComponent(),
             commonComponent = commonComponent,
-            platformLocalNotificationComponent = platformLocalNotificationComponent
+            platformLocalNotificationComponent = platformLocalNotificationComponent,
+            analyticInteractor = analyticComponent.analyticInteractor
         )
 
     override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =

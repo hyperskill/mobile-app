@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.notification.remote.injection
 
 import com.google.firebase.messaging.FirebaseMessaging
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
 import org.hyperskill.app.android.notification.remote.FcmNotificationParser
 import org.hyperskill.app.android.notification.remote.PushNotificationHandler
@@ -16,7 +17,8 @@ class AndroidPlatformPushNotificationsComponentImpl(
     private val pushNotificationsComponent: PushNotificationsComponent,
     private val playServicesCheckerComponent: PlayServicesCheckerComponent,
     private val commonComponent: CommonComponent,
-    private val platformLocalNotificationComponent: PlatformLocalNotificationComponent
+    private val platformLocalNotificationComponent: PlatformLocalNotificationComponent,
+    private val analyticInteractor: AnalyticInteractor
 ) : AndroidPlatformPushNotificationComponent {
     private val fcmTokenProvider: FCMTokenProvider
         get() = FCMTokenProviderImpl(FirebaseMessaging.getInstance())
@@ -32,5 +34,8 @@ class AndroidPlatformPushNotificationsComponentImpl(
         get() = FcmNotificationParser(commonComponent.json)
 
     override val pushNotificationHandler: PushNotificationHandler
-        get() = PushNotificationHandlerImpl(platformLocalNotificationComponent.notificationManager)
+        get() = PushNotificationHandlerImpl(
+            platformLocalNotificationComponent.notificationManager,
+            analyticInteractor
+        )
 }
