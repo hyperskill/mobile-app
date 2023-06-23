@@ -24,7 +24,7 @@ class NotificationClickHandlingDispatcher(
                         .getState()
                         .getOrElse {
                             sentryInteractor.captureErrorMessage(
-                                "NotificationClickHandlingDispatcherL: can't fetch profile\n$it"
+                                "NotificationClickHandlingDispatcher: can't fetch profile\n$it"
                             )
                             onNewMessage(NotificationClickHandlingFeature.ProfileFetchResult.Error)
                             return

@@ -60,12 +60,9 @@ class MainViewModel(
         }
     }
 
-    fun startup(
-        pushNotificationData: PushNotificationData? = null,
-        forceUpdate: Boolean = false
-    ) {
+    fun startup(pushNotificationData: PushNotificationData? = null) {
         if (!wasStateSaved) {
-            onNewMessage(AppFeature.Message.Initialize(pushNotificationData, forceUpdate = forceUpdate))
+            onNewMessage(AppFeature.Message.Initialize(pushNotificationData))
             viewModelScope.launch {
                 pushNotificationDeviceRegistrar.registerDeviceToPushes()
             }

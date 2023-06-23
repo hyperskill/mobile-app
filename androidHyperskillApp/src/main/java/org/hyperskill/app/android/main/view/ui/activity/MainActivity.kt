@@ -208,8 +208,10 @@ class MainActivity :
                     is NotificationClickHandlingFeature.Action.ViewAction.SetLoadingShowed -> {
                         viewBinding.mainProgress.isVisible = viewAction.isLoadingShowed
                     }
-                    is NotificationClickHandlingFeature.Action.ViewAction.NavigateTo ->
+                    is NotificationClickHandlingFeature.Action.ViewAction.NavigateTo -> {
+                        intent = null
                         NotificationClickHandlingDelegate.onNavigationViewAction(router, viewAction)
+                    }
                 }
             }
         }

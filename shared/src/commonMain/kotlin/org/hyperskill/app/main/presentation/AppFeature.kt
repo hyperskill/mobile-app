@@ -64,15 +64,15 @@ interface AppFeature {
          */
         data class StreakRecoveryAction(val action: StreakRecoveryFeature.Action) : Action
 
+        data class ClickedNotificationAction(
+            val action: NotificationClickHandlingFeature.Action
+        ) : Action
+
         /**
          * Sentry
          */
         data class IdentifyUserInSentry(val userId: Long) : Action
         object ClearUserInSentry : Action
-
-        data class ClickedNotificationAction(
-            val action: NotificationClickHandlingFeature.Action
-        ) : Action
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
