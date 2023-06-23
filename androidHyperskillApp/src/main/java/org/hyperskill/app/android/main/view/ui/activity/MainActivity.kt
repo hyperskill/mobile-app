@@ -28,17 +28,15 @@ import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserv
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
-import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
+import org.hyperskill.app.android.notification.click_handling.delegate.NotificationClickHandlingDelegate
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
-import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
-import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
@@ -210,23 +208,8 @@ class MainActivity :
                     is NotificationClickHandlingFeature.Action.ViewAction.SetLoadingShowed -> {
                         viewBinding.mainProgress.isVisible = viewAction.isLoadingShowed
                     }
-                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.Home ->
-                        router.newRootScreen(MainScreen(initialTab = Tabs.HOME))
-                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.Profile ->
-                        router.newRootScreen(MainScreen(initialTab = Tabs.PROFILE))
-                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.StudyPlan ->
-                        router.newRootScreen(MainScreen(initialTab = Tabs.STUDY_PLAN))
-                    is NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.StepScreen ->
-                        router.newRootChain(
-                            MainScreen(),
-                            StepScreen(viewAction.stepRoute)
-                        )
-                    NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.TopicRepetition -> {
-                        router.newRootChain(
-                            MainScreen(),
-                            TopicsRepetitionScreen()
-                        )
-                    }
+                    is NotificationClickHandlingFeature.Action.ViewAction.NavigateTo ->
+                        NotificationClickHandlingDelegate.onNavigationViewAction(router, viewAction)
                 }
             }
         }
