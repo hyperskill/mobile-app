@@ -67,7 +67,7 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
                 is ProfileFetchResult.Success -> {
                     message.profile.dailyStep?.let { dailyStep ->
                         Action.ViewAction.NavigateTo.StepScreen(
-                            StepRoute.Learn.Step(dailyStep)
+                            StepRoute.LearnDaily(dailyStep)
                         )
                     }
                 }
