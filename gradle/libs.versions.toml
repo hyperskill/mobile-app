@@ -118,3 +118,6 @@ ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentN
 android-test = ['android-test-junit', 'android-test-runner', 'android-test-robolectric']
 play-servises = ['gms-play-services', 'gms-play-login']
 firebase = ['firebase-bom', 'firebase-messaging']
+
+[plugins]
+sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.11.0" }

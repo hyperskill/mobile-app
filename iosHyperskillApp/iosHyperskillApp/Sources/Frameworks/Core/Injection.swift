@@ -4,7 +4,7 @@ import shared
 enum AppGraphBridge {
     static let sharedAppGraph: iOSAppComponent = iOSAppComponentImpl(
         userAgentInfo: UserAgentBuilder.userAgentInfo,
-        buildVariant: BuildType.current.buildVariant,
+        buildVariant: BuildVariant.current,
         sentryManager: SentryManager.shared
     )
 }

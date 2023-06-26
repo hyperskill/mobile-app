@@ -15,7 +15,7 @@ final class SentryManager: shared.SentryManager {
         SentrySDK.start { options in
             options.dsn = SentryInfo.dsn
 
-            options.environment = "\(ApplicationInfo.flavor)-\(BuildType.current.rawValue)"
+            options.environment = "\(ApplicationInfo.flavor)-\(BuildVariant.current.value)"
 
             let userAgentInfo = UserAgentBuilder.userAgentInfo
             options.releaseName = "\(userAgentInfo.versionName) (\(userAgentInfo.versionCode))"

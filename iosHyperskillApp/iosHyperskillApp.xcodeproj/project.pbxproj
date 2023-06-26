@@ -134,6 +134,7 @@
 		2C3E656D2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */; };
 		2C3E65702A127F2300BC8DC0 /* BrandLinearGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E656F2A127F2300BC8DC0 /* BrandLinearGradient.swift */; };
 		2C3E65732A1280A500BC8DC0 /* TrackSelectionListHeaderSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3E65722A1280A500BC8DC0 /* TrackSelectionListHeaderSkeletonView.swift */; };
+		2C406C372A440E8200FA838E /* BuildVariant+Current.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C406C362A440E8200FA838E /* BuildVariant+Current.swift */; };
 		2C41127828376F6D004948A3 /* StepQuizDiscussionsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */; };
 		2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C42EFAA27F2C03D00B4648B /* Localizable.strings */; };
 		2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C42EFAC27F2C29500B4648B /* Strings.swift */; };
@@ -649,6 +650,7 @@
 		2C3E656C2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListHeaderView.swift; sourceTree = "<group>"; };
 		2C3E656F2A127F2300BC8DC0 /* BrandLinearGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandLinearGradient.swift; sourceTree = "<group>"; };
 		2C3E65722A1280A500BC8DC0 /* TrackSelectionListHeaderSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListHeaderSkeletonView.swift; sourceTree = "<group>"; };
+		2C406C362A440E8200FA838E /* BuildVariant+Current.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BuildVariant+Current.swift"; sourceTree = "<group>"; };
 		2C41127728376F6D004948A3 /* StepQuizDiscussionsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizDiscussionsButton.swift; sourceTree = "<group>"; };
 		2C42EFA927F2C03D00B4648B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2C42EFAC27F2C29500B4648B /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
@@ -2114,6 +2116,7 @@
 			children = (
 				2CEB50C7288A94050044F9AB /* BlockExtensions.swift */,
 				2C96744328883E710091B6C9 /* BlockOptionsExtensions.swift */,
+				2C406C362A440E8200FA838E /* BuildVariant+Current.swift */,
 				2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */,
 				2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */,
 				2CEB50C5288A92820044F9AB /* StepExtensions.swift */,
@@ -3845,6 +3848,7 @@
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2CD4148329A8C98000ACA855 /* OpaqueUIPasteControl.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
+				2C406C372A440E8200FA838E /* BuildVariant+Current.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,
 				E9102759288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift in Sources */,
 				2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */,
