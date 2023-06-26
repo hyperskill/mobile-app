@@ -6,3 +6,4 @@ ios:
   - 'iosHyperskillApp/**'
 analytic:
   - 'shared/**/analytic/**'
+  - '.github/workflows/gh_pages_analytics.yml'
