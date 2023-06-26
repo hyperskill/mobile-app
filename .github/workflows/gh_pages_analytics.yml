@@ -47,7 +47,7 @@ jobs:
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload Artifact
-        uses: actions/upload-pages-artifact@v1.0.8
+        uses: actions/upload-pages-artifact@v1.0.9
         with:
           name: 'github-pages-analytics'
           path: 'shared/build/dokka/analytics'
