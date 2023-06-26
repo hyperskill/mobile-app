@@ -7,21 +7,21 @@ import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 internal class ProgressScreenViewStateMapper(
     private val dateFormatter: SharedDateFormatter
 ) {
-    fun map(state: ProgressScreenFeature.State): ProgressScreenFeature.ViewState =
+    fun map(state: ProgressScreenFeature.State): ProgressScreenViewState =
         when (state) {
             ProgressScreenFeature.State.Idle ->
-                ProgressScreenFeature.ViewState.Idle
+                ProgressScreenViewState.Idle
             ProgressScreenFeature.State.Loading ->
-                ProgressScreenFeature.ViewState.Loading
+                ProgressScreenViewState.Loading
             ProgressScreenFeature.State.Error ->
-                ProgressScreenFeature.ViewState.Error
+                ProgressScreenViewState.Error
             is ProgressScreenFeature.State.Content ->
                 mapContentState(state)
         }
 
     private fun mapContentState(
         contentState: ProgressScreenFeature.State.Content
-    ): ProgressScreenFeature.ViewState.Content {
+    ): ProgressScreenViewState.Content {
 
         val track = contentState.trackWithProgress.track
         val trackProgress = contentState.trackWithProgress.trackProgress
@@ -29,8 +29,8 @@ internal class ProgressScreenViewStateMapper(
         val project = contentState.projectWithProgress.project
         val projectProgress = contentState.projectWithProgress.progress
 
-        return ProgressScreenFeature.ViewState.Content(
-            trackProgress = ProgressScreenFeature.ViewState.TrackProgressViewState(
+        return ProgressScreenViewState.Content(
+            trackProgress = ProgressScreenViewState.TrackProgressViewState(
                 title = track.title,
                 imageSource = track.cover?.takeIf { it.isNotBlank() },
                 completedTopicsCountLabel = "${trackProgress.completedTopics} / ${track.topicsCount}",
@@ -43,7 +43,7 @@ internal class ProgressScreenViewStateMapper(
                 completedGraduateProjectsCount = trackProgress.completedCapstoneProjects.size,
                 isCompleted = trackProgress.isCompleted
             ),
-            projectProgress = ProgressScreenFeature.ViewState.ProjectProgressViewState(
+            projectProgress = ProgressScreenViewState.ProjectProgressViewState(
                 title = project.title,
                 level = track.projectsByLevel.asLevelByProjectIdMap().get(project.id),
                 timeToCompleteLabel = formatTimeToComplete(projectProgress.secondsToComplete),
