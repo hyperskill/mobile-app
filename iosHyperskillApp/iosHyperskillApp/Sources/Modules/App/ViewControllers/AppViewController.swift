@@ -158,7 +158,7 @@ extension AppViewController: AppViewControllerProtocol {
     ) {
         switch viewAction {
         case .navigateTo(let navigateToViewAction):
-            handleClickedNotificationNavigateToViewActionViewAction(
+            handleClickedNotificationNavigateToViewAction(
                 NotificationClickHandlingFeatureActionViewActionNavigateToKs(navigateToViewAction)
             )
         case .setLoadingShowed(let setLoadingShowedViewAction):
@@ -170,7 +170,7 @@ extension AppViewController: AppViewControllerProtocol {
         }
     }
 
-    private func handleClickedNotificationNavigateToViewActionViewAction(
+    private func handleClickedNotificationNavigateToViewAction(
         _ viewAction: NotificationClickHandlingFeatureActionViewActionNavigateToKs
     ) {
         func route() {
