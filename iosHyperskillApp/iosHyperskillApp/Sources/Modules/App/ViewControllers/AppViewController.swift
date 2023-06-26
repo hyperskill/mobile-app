@@ -75,6 +75,9 @@ extension AppViewController: AppViewControllerProtocol {
             handleStreakRecoveryViewAction(
                 streakRecoveryViewAction: StreakRecoveryFeatureActionViewActionKs(streakRecoveryViewAction.viewAction)
             )
+        case .clickedNotificationViewAction(let clickedNotificationViewAction):
+            // TODO: implement actions handling
+            return
         }
     }
 

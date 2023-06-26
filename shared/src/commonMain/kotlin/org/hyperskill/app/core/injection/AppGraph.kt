@@ -19,6 +19,7 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
+import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
@@ -141,4 +142,5 @@ interface AppGraph {
     fun buildStreakRecoveryComponent(): StreakRecoveryComponent
     fun buildDevicesDataComponent(): DevicesDataComponent
     fun buildPushNotificationsComponent(): PushNotificationsComponent
+    fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
 }

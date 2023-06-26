@@ -42,7 +42,7 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
     }
 
     func loadApp(forceUpdate: Bool = false) {
-        onNewMessage(AppFeatureMessageInitialize(forceUpdate: forceUpdate))
+        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: nil, forceUpdate: forceUpdate))
     }
 
     // MARK: Private API

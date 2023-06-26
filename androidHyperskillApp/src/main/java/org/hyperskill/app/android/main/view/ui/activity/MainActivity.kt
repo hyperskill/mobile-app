@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +29,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
+import org.hyperskill.app.android.notification.click_handling.delegate.NotificationClickHandlingDelegate
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
@@ -38,6 +40,7 @@ import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryVi
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
@@ -102,8 +105,15 @@ class MainActivity :
         initViewStateDelegate()
 
         viewBinding.mainError.tryAgain.setOnClickListener {
-            mainViewModel.onNewMessage(AppFeature.Message.Initialize(forceUpdate = true))
+            mainViewModel.onNewMessage(
+                AppFeature.Message.Initialize(
+                    pushNotificationData = (parseClickedNotificationData(intent) as? PushNotificationClickedData)?.data,
+                    forceUpdate = true
+                )
+            )
         }
+
+        startupViewModel(intent)
 
         lifecycleScope.launch {
             router
@@ -121,10 +131,6 @@ class MainActivity :
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
-        if (savedInstanceState == null) {
-            mainViewModel.onActivityReady()
-        }
-        handleNewIntent(intent)
         logNotificationAvailability()
     }
 
@@ -142,9 +148,29 @@ class MainActivity :
         viewStateDelegate.addState<AppFeature.State.NetworkError>(viewBinding.mainError.root)
     }
 
+    private fun startupViewModel(intent: Intent?) {
+        if (intent != null) {
+            handleIntent(intent) { clickedNotificationData ->
+                mainViewModel.startup(
+                    (clickedNotificationData as? PushNotificationClickedData)?.data
+                )
+            }
+        } else {
+            mainViewModel.startup()
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        intent?.let(::handleNewIntent)
+        if (intent != null) {
+            handleIntent(intent) { clickedNotificationData ->
+                if (clickedNotificationData is PushNotificationClickedData) {
+                    mainViewModel.onNewMessage(
+                        AppFeature.Message.NotificationClicked(clickedNotificationData.data)
+                    )
+                }
+            }
+        }
     }
 
     override fun onResumeFragments() {
@@ -177,6 +203,17 @@ class MainActivity :
                     rootView = viewBinding.root,
                     viewAction = action.viewAction
                 )
+            is AppFeature.Action.ViewAction.ClickedNotificationViewAction -> {
+                when (val viewAction = action.viewAction) {
+                    is NotificationClickHandlingFeature.Action.ViewAction.SetLoadingShowed -> {
+                        viewBinding.mainProgress.isVisible = viewAction.isLoadingShowed
+                    }
+                    is NotificationClickHandlingFeature.Action.ViewAction.NavigateTo -> {
+                        intent = null
+                        NotificationClickHandlingDelegate.onNavigationViewAction(router, viewAction)
+                    }
+                }
+            }
         }
     }
 
@@ -193,15 +230,23 @@ class MainActivity :
         }
     }
 
-    private fun handleNewIntent(intent: Intent) {
-        val clickedNotificationData = with(NotificationIntentBuilder) {
-            intent.getClickedNotificationData()
-        }
+    private fun handleIntent(
+        intent: Intent,
+        handlePushNotificationData: (ClickedNotificationData?) -> Unit
+    ) {
+        val clickedNotificationData = parseClickedNotificationData(intent)
+        handlePushNotificationData(clickedNotificationData)
         if (clickedNotificationData != null) {
             logNotificationClickedEvent(clickedNotificationData)
         }
     }
 
+    private fun parseClickedNotificationData(intent: Intent?): ClickedNotificationData? =
+        with(NotificationIntentBuilder) {
+            intent?.getClickedNotificationData()
+        }
+
+    // TODO: move to the viewModel
     private fun logNotificationClickedEvent(
         clickedNotificationData: ClickedNotificationData
     ) {
@@ -215,15 +260,14 @@ class MainActivity :
                     )
                 }
             }
-            is PushNotificationClickedData -> {
-                // TODO: handle push notification clicks
-            }
+            is PushNotificationClickedData,
             is DefaultNotificationClickedData -> {
                 // no op
             }
         }
     }
 
+    // TODO: move to the viewModel
     private fun logNotificationAvailability() {
         notificationInteractor.setNotificationsPermissionGranted(
             NotificationManagerCompat.from(this).areNotificationsEnabled()
