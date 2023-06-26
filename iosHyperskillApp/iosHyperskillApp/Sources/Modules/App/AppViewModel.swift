@@ -6,14 +6,23 @@ import SwiftUI
 final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, AppFeatureActionViewAction> {
     weak var viewController: AppViewControllerProtocol?
 
+    private var pushNotificationData: PushNotificationData?
+
     private let analytic: Analytic
 
     private var objectWillChangeSubscription: AnyCancellable?
 
-    init(analytic: Analytic, feature: Presentation_reduxFeature) {
+    init(
+        pushNotificationData: PushNotificationData?,
+        analytic: Analytic,
+        feature: Presentation_reduxFeature
+    ) {
+        self.pushNotificationData = pushNotificationData
         self.analytic = analytic
 
         super.init(feature: feature)
+
+        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: pushNotificationData, forceUpdate: false))
 
         self.objectWillChangeSubscription = objectWillChange.sink { [weak self] _ in
             self?.mainScheduler.schedule { [weak self] in
@@ -21,7 +30,13 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
                     return
                 }
 
-                strongSelf.viewController?.displayState(AppFeatureStateKs(strongSelf.state))
+                let stateKs = AppFeatureStateKs(strongSelf.state)
+
+                if case .ready = stateKs {
+                    strongSelf.pushNotificationData = nil
+                }
+
+                strongSelf.viewController?.displayState(stateKs)
             }
         }
         self.onViewAction = { [weak self] viewAction in
@@ -41,8 +56,8 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
         AppFeatureStateKs(oldState) != AppFeatureStateKs(newState)
     }
 
-    func loadApp(forceUpdate: Bool = false) {
-        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: nil, forceUpdate: forceUpdate))
+    func doRetryLoadApp() {
+        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: pushNotificationData, forceUpdate: true))
     }
 
     // MARK: Private API
@@ -129,6 +144,13 @@ private extension AppViewModel {
             name: .projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
             object: nil
         )
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleRemoteNotificationClicked(notification:)),
+            name: .remoteNotificationClicked,
+            object: nil
+        )
     }
 
     @objc
@@ -139,6 +161,24 @@ private extension AppViewModel {
     @objc
     func handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
         onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+    }
+
+    @objc
+    func handleRemoteNotificationClicked(notification: Foundation.Notification) {
+        let key = NotificationsService.PayloadKey.pushNotificationData.rawValue
+
+        guard let pushNotificationData = notification.userInfo?[key] as? PushNotificationData else {
+            #if DEBUG
+            print(
+"""
+AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String(describing: notification.userInfo))
+"""
+            )
+            #endif
+            return
+        }
+
+        onNewMessage(AppFeatureMessageNotificationClicked(notificationData: pushNotificationData))
     }
 }
 

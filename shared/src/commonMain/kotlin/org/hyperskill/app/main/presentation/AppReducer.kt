@@ -71,7 +71,8 @@ class AppReducer(
                 state to setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
             is Message.StreakRecoveryMessage ->
                 state to reduceStreakRecoveryMessage(message.message)
-            is Message.NotificationClicked -> handleNotificationClicked(state, message)
+            is Message.NotificationClicked ->
+                handleNotificationClicked(state, message)
             is Message.NotificationClickHandlingMessage ->
                 state to reduceNotificationClickHandlingMessage(message.message)
         } ?: (state to emptySet())

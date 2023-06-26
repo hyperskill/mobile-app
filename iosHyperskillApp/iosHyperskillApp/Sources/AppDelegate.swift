@@ -21,7 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        let rootViewController = AppAssembly().makeModule()
+        let launchOptionsResult = notificationsService.handleLaunchOptions(launchOptions)
+
+        let rootViewController = AppAssembly(
+            pushNotificationData: launchOptionsResult.pushNotificationData
+        ).makeModule()
         window?.rootViewController = rootViewController
 
         // Sentry SDK observing UIWindowDidBecomeVisibleNotification for correct working of the SentryAppStartTracker,
@@ -40,7 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppPowerModeObserver.shared.observe()
 
         notificationsRegistrationService.renewAPNsDeviceToken()
-        notificationsService.handleLaunchOptions(launchOptions)
         userNotificationsCenterDelegate.attachNotificationDelegate()
         notificationPermissionStatusSettingsObserver.startObserving()
 

@@ -36,11 +36,17 @@ final class AppViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.startListening()
-        viewModel.loadApp()
-
         updateProgressHUDStyle()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.startListening()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.stopListening()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -76,8 +82,7 @@ extension AppViewController: AppViewControllerProtocol {
                 streakRecoveryViewAction: StreakRecoveryFeatureActionViewActionKs(streakRecoveryViewAction.viewAction)
             )
         case .clickedNotificationViewAction(let clickedNotificationViewAction):
-            // TODO: implement actions handling
-            return
+            #warning("implement actions handling")
         }
     }
 
@@ -187,7 +192,7 @@ extension AppViewController: AppViewControllerProtocol {
 
 extension AppViewController: AppViewDelegate {
     func appViewPlaceholderActionButtonTapped(_ view: AppView) {
-        viewModel.loadApp(forceUpdate: true)
+        viewModel.doRetryLoadApp()
     }
 
     func appView(
