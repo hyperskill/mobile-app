@@ -13,9 +13,9 @@ data class TrackWithProgress(
     val averageProgress: Int
         get() {
             val currentTopicsCount =
-                trackProgress.learnedTopicsCount +
-                    trackProgress.skippedTopicsCount +
-                    trackProgress.appliedCapstoneTopicsCount
+                (trackProgress.learnedTopicsCount ?: 0) +
+                    (trackProgress.skippedTopicsCount ?: 0) +
+                    (trackProgress.appliedCapstoneTopicsCount ?: 0)
             val maxTopicsCount =
                 track.topicsCount + track.capstoneTopicsCount
             return floor(currentTopicsCount / maxTopicsCount.toFloat() * 100).toInt()
@@ -25,5 +25,5 @@ data class TrackWithProgress(
         get() = floor(trackProgress.completedTopics.toFloat() / track.topicsCount).toInt()
 
     val appliedTopicsProgress: Int
-        get() = floor(trackProgress.appliedCapstoneTopicsCount.toFloat() / track.capstoneTopicsCount).toInt()
+        get() = floor((trackProgress.appliedCapstoneTopicsCount ?: 0).toFloat() / track.capstoneTopicsCount).toInt()
 }

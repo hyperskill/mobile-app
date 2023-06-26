@@ -18,15 +18,15 @@ data class TrackProgress(
     @SerialName("usefulness")
     override val usefulness: Float?,
     @SerialName("completed_capstone_projects")
-    val completedCapstoneProjects: List<Long>,
+    val completedCapstoneProjects: List<Long>?,
     @SerialName("applied_capstone_topics_count")
-    val appliedCapstoneTopicsCount: Int,
+    val appliedCapstoneTopicsCount: Int?,
     @SerialName("is_completed")
     val isCompleted: Boolean,
     @SerialName("learned_topics_count")
-    val learnedTopicsCount: Int,
+    val learnedTopicsCount: Int?,
     @SerialName("skipped_topics_count")
-    val skippedTopicsCount: Int,
+    val skippedTopicsCount: Int?,
     @SerialName("rank")
     val rank: Int = 0
 ) : Progress {
@@ -42,7 +42,7 @@ data class TrackProgress(
         get() = averageRating()
 
     val completedTopics: Int
-        get() = learnedTopicsCount + skippedTopicsCount
+        get() = (learnedTopicsCount ?: 0) + (skippedTopicsCount ?: 0)
 }
 
 internal val TrackProgress.trackId: Long?

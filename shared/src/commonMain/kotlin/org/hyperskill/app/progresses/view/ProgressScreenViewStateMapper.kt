@@ -40,7 +40,7 @@ internal class ProgressScreenViewStateMapper(
                 appliedTopicsPercentageLabel = "${contentState.trackWithProgress.appliedTopicsProgress}%",
                 appliedTopicsPercentageProgress = contentState.trackWithProgress.appliedTopicsProgress / 100f,
                 timeToCompleteLabel = formatTimeToComplete(track.secondsToComplete),
-                completedGraduateProjectsCount = trackProgress.completedCapstoneProjects.size,
+                completedGraduateProjectsCount = trackProgress.completedCapstoneProjects?.size ?: 0,
                 isCompleted = trackProgress.isCompleted
             ),
             projectProgress = ProgressScreenViewState.ProjectProgressViewState(
