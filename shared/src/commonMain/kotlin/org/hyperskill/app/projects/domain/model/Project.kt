@@ -20,7 +20,9 @@ data class Project(
     @SerialName("results")
     val results: String = "", // HTML text
     @SerialName("provider_id")
-    val providerId: Long? = null
+    val providerId: Long? = null,
+    @SerialName("stages_ids")
+    val stagesIds: List<Long>
 ) {
     companion object
 }
