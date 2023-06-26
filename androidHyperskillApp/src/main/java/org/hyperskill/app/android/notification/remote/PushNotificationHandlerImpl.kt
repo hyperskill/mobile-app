@@ -3,6 +3,7 @@ package org.hyperskill.app.android.notification.remote
 import android.content.Context
 import android.os.Looper
 import android.util.Log
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.android.notification.NotificationBuilder
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.local.HyperskillNotificationManager
@@ -11,18 +12,24 @@ import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.notification.remote.model.PushNotification
 import org.hyperskill.app.android.notification.remote.model.channel
 import org.hyperskill.app.android.notification.remote.model.id
+import org.hyperskill.app.notification.remote.domain.analytic.PushNotificationShownHyperskillAnalyticEvent
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 
 class PushNotificationHandlerImpl(
-    private val notificationManager: HyperskillNotificationManager
+    private val notificationManager: HyperskillNotificationManager,
+    private val analyticInteractor: AnalyticInteractor
 ) : PushNotificationHandler {
-    override fun onNotificationReceived(
+    override suspend fun onNotificationReceived(
         context: Context,
         notification: PushNotification?,
         data: PushNotificationData?
     ) {
         Log.d("PushNotificationHandlerImpl", "\nnotification=$notification\ndata=$data")
-        // TODO: add analytics
+        if (data != null) {
+            analyticInteractor.logEvent(
+                PushNotificationShownHyperskillAnalyticEvent(data)
+            )
+        }
         if (notification != null) {
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 throw RuntimeException("Can't create notification on main thread")

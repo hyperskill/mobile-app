@@ -31,11 +31,13 @@ class HyperskillFcmService : FirebaseMessagingService() {
 
     override fun onMessageReceived(message: RemoteMessage) {
         Log.d("HyperskillFcmService", "messageReceived: $message")
-        pushNotificationHandler?.onNotificationReceived(
-            context = applicationContext,
-            notification = fcmNotificationParser?.parseNotification(message),
-            data = pushNotificationInteractor?.parsePushNotificationData(message.data)
-        )
+        coroutineScope.launch {
+            pushNotificationHandler?.onNotificationReceived(
+                context = applicationContext,
+                notification = fcmNotificationParser?.parseNotification(message),
+                data = pushNotificationInteractor?.parsePushNotificationData(message.data)
+            )
+        }
     }
 
     override fun onNewToken(token: String) {
