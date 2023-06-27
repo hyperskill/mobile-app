@@ -12,7 +12,7 @@ extension AppViewController {
     enum Animation {
         static let swapRootViewControllerAnimationDuration: TimeInterval = 0.3
 
-        fileprivate static let clickedNotificationViewActionNavigateToHomeCompletionAnimationDelay: TimeInterval = 0.33
+        fileprivate static let clickedNotificationViewActionNavigateToHomeCompletionDelay: TimeInterval = 0.33
         fileprivate static let clickedNotificationViewActionDismissProgressHUDDelay: TimeInterval = 0.33
     }
 }
@@ -201,7 +201,7 @@ extension AppViewController: AppViewControllerProtocol {
         func navigateToHomeAndPresent(_ navigateToHomeCompletionHandler: @escaping () -> Void) {
             TabBarRouter(tab: .home).route()
             DispatchQueue.main.asyncAfter(
-                deadline: .now() + Animation.clickedNotificationViewActionNavigateToHomeCompletionAnimationDelay,
+                deadline: .now() + Animation.clickedNotificationViewActionNavigateToHomeCompletionDelay,
                 execute: navigateToHomeCompletionHandler
             )
         }
