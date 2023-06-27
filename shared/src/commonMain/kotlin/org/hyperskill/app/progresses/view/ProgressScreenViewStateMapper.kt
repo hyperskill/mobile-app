@@ -40,7 +40,8 @@ internal class ProgressScreenViewStateMapper(
                                 projectProgressContent = state.projectProgressState
                             )
                     }
-            }
+            },
+            isRefreshing = state.isTrackProgressRefreshing && state.isProjectProgressRefreshing
         )
 
     private fun mapTrackProgressContent(

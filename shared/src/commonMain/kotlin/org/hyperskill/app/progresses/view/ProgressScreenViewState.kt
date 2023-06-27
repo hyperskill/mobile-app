@@ -4,7 +4,8 @@ import org.hyperskill.app.projects.domain.model.ProjectLevel
 
 data class ProgressScreenViewState(
     val trackProgressViewState: TrackProgressViewState,
-    val projectProgressViewState: ProjectProgressViewState
+    val projectProgressViewState: ProjectProgressViewState,
+    val isRefreshing: Boolean
 ) {
     sealed interface TrackProgressViewState {
         object Idle : TrackProgressViewState

@@ -7,7 +7,9 @@ import org.hyperskill.app.track.domain.model.TrackWithProgress
 object ProgressScreenFeature {
     internal data class State(
         val trackProgressState: TrackProgressState,
-        val projectProgressState: ProjectProgressState
+        val projectProgressState: ProjectProgressState,
+        val isTrackProgressRefreshing: Boolean,
+        val isProjectProgressRefreshing: Boolean
     )
 
     internal sealed interface TrackProgressState {
@@ -26,7 +28,8 @@ object ProgressScreenFeature {
 
     sealed interface Message {
         object Initialize : Message
-        object RetryContentLoading : Message
+        object RetryTrackProgressLoading : Message
+        object RetryProjectProgressLoading : Message
         object PullToRefresh : Message
         object BackButtonClicked : Message
 
@@ -40,6 +43,7 @@ object ProgressScreenFeature {
 
     internal sealed interface ProjectWithProgressFetchResult : Message {
         object Error : ProjectWithProgressFetchResult
+        object Empty : ProjectWithProgressFetchResult
         data class Success(val projectWithProgress: ProjectWithProgress) : ProjectWithProgressFetchResult
     }
 
