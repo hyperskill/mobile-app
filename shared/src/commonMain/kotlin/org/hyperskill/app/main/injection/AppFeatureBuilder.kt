@@ -9,6 +9,8 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingDispatcher
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
@@ -28,9 +30,14 @@ object AppFeatureBuilder {
         sentryInteractor: SentryInteractor,
         stateRepositoriesComponent: StateRepositoriesComponent,
         streakRecoveryReducer: StreakRecoveryReducer,
-        streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher
+        streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher,
+        clickedNotificationReducer: NotificationClickHandlingReducer,
+        notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher
     ): Feature<State, Message, Action> {
-        val appReducer = AppReducer(streakRecoveryReducer)
+        val appReducer = AppReducer(
+            streakRecoveryReducer,
+            clickedNotificationReducer
+        )
         val appActionDispatcher = AppActionDispatcher(
             ActionDispatcherOptions(),
             appInteractor,
@@ -46,6 +53,12 @@ object AppFeatureBuilder {
                 streakRecoveryActionDispatcher.transform(
                     transformAction = { it.safeCast<Action.StreakRecoveryAction>()?.action },
                     transformMessage = Message::StreakRecoveryMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                notificationClickHandlingDispatcher.transform(
+                    transformAction = { it.safeCast<Action.ClickedNotificationAction>()?.action },
+                    transformMessage = Message::NotificationClickHandlingMessage
                 )
             )
     }

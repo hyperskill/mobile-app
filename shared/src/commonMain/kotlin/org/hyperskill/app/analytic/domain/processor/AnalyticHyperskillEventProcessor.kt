@@ -2,7 +2,7 @@ package org.hyperskill.app.analytic.domain.processor
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillProcessedAnalyticEvent
-import org.hyperskill.app.core.domain.Platform
+import org.hyperskill.app.core.domain.platform.Platform
 import ru.nobird.app.core.model.mapOfNotNull
 import ru.nobird.app.core.model.safeCast
 

@@ -93,4 +93,11 @@ object HyperskillSentryBreadcrumbBuilder {
             message = "Sign in failed with ${socialAuthProvider.title}",
             level = HyperskillSentryLevel.ERROR
         )
+
+    fun buildGoogleServicesTooOld(): HyperskillSentryBreadcrumb =
+        HyperskillSentryBreadcrumb(
+            category = HyperskillSentryBreadcrumbCategory.APP_FEATURE,
+            message = "Google services too old and will not be used on this device",
+            level = HyperskillSentryLevel.WARNING
+        )
 }

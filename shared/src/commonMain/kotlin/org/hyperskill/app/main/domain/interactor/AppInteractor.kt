@@ -2,6 +2,7 @@ package org.hyperskill.app.main.domain.interactor
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
@@ -17,10 +18,12 @@ class AppInteractor(
     private val progressesRepository: ProgressesRepository,
     private val trackRepository: TrackRepository,
     private val providersRepository: ProvidersRepository,
-    private val projectsRepository: ProjectsRepository
+    private val projectsRepository: ProjectsRepository,
+    private val pushNotificationsInteractor: PushNotificationsInteractor
 ) {
     suspend fun doCurrentUserSignedOutCleanUp() {
         analyticInteractor.flushEvents()
+        pushNotificationsInteractor.handleUserSignedOut()
         clearCache()
     }
 

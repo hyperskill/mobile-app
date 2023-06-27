@@ -1,3 +1,4 @@
+import FirebaseCore
 import GoogleSignIn
 import SwiftUI
 import UIKit
@@ -10,6 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var userNotificationsCenterDelegate = UserNotificationsCenterDelegate()
     private lazy var notificationsService = NotificationsService()
     private lazy var notificationPermissionStatusSettingsObserver = NotificationPermissionStatusSettingsObserver.default
+    private lazy var notificationsRegistrationService = NotificationsRegistrationService.shared
 
     // MARK: Initializing the App
 
@@ -19,7 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        let rootViewController = AppAssembly().makeModule()
+        let launchOptionsResult = notificationsService.handleLaunchOptions(launchOptions)
+
+        let rootViewController = AppAssembly(
+            pushNotificationData: launchOptionsResult.pushNotificationData
+        ).makeModule()
         window?.rootViewController = rootViewController
 
         // Sentry SDK observing UIWindowDidBecomeVisibleNotification for correct working of the SentryAppStartTracker,
@@ -31,12 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppAppearance.themeApplication(window: window.require())
         ApplicationThemeService.default.applyDefaultTheme()
 
+        FirebaseApp.configure()
         ProgressHUD.configure()
         KeyboardManager.configure()
         NukeManager.registerCustomDecoders()
         AppPowerModeObserver.shared.observe()
 
-        notificationsService.handleLaunchOptions(launchOptions)
+        notificationsRegistrationService.renewAPNsDeviceToken()
         userNotificationsCenterDelegate.attachNotificationDelegate()
         notificationPermissionStatusSettingsObserver.startObserving()
 
@@ -45,11 +52,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Responding to App Life-Cycle Events
 
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        notificationsRegistrationService.renewAPNsDeviceToken()
+    }
+
     func applicationDidBecomeActive(_ application: UIApplication) {
         notificationsService.scheduleDailyStudyReminderLocalNotifications()
     }
 
     // MARK: Handling Notifications
+
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        notificationsRegistrationService.handleApplicationDidRegisterForRemoteNotificationsWithDeviceToken(deviceToken)
+    }
+
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+        notificationsRegistrationService.handleApplicationDidFailToRegisterForRemoteNotificationsWithError(error)
+    }
+
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any]
+    ) {
+        notificationsService.handleRemoteNotification(with: userInfo)
+    }
 
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         notificationsService.handleLocalNotification(with: notification.userInfo)
