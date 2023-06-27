@@ -88,7 +88,7 @@ class AppActionDispatcher(
                                 HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
                             )
                             sentryInteractor.finishTransaction(transaction)
-                            onNewMessage(Message.UserAccountStatus(profile))
+                            onNewMessage(Message.UserAccountStatus(profile, action.pushNotificationData))
                         },
                         onFailure = { exception ->
                             sentryInteractor.addBreadcrumb(

@@ -12,6 +12,8 @@ import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.DebugComponentImpl
+import org.hyperskill.app.devices.injection.DevicesDataComponent
+import org.hyperskill.app.devices.injection.DevicesDataComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
@@ -35,10 +37,14 @@ import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
-import org.hyperskill.app.notification.injection.NotificationComponent
-import org.hyperskill.app.notification.injection.NotificationComponentImpl
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponentImpl
+import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
+import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponentImpl
+import org.hyperskill.app.notification.local.injection.NotificationComponent
+import org.hyperskill.app.notification.local.injection.NotificationComponentImpl
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponentImpl
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
@@ -399,4 +405,13 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildStreakRecoveryComponent(): StreakRecoveryComponent =
         StreakRecoveryComponentImpl(this)
+
+    override fun buildDevicesDataComponent(): DevicesDataComponent =
+        DevicesDataComponentImpl(this)
+
+    override fun buildPushNotificationsComponent(): PushNotificationsComponent =
+        PushNotificationsComponentImpl(this)
+
+    override fun buildClickedNotificationComponent(): NotificationClickHandlingComponent =
+        NotificationClickHandlingComponentImpl(this)
 }

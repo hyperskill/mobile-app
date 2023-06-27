@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 
@@ -33,7 +32,9 @@ object NotificationChannelInitializer {
     ): NotificationChannel {
         val channelName = context.getString(hyperskillChannel.visibleChannelNameRes)
         val channel = NotificationChannel(hyperskillChannel.channelId, channelName, hyperskillChannel.importance)
-        channel.description = context.getString(hyperskillChannel.visibleChannelDescriptionRes)
+        hyperskillChannel.visibleChannelDescriptionRes?.let {
+            channel.description = context.getString(it)
+        }
         channel.enableLights(true)
         channel.enableVibration(true)
         channel.lightColor = context.resolveColorAttribute(androidx.appcompat.R.attr.colorError)

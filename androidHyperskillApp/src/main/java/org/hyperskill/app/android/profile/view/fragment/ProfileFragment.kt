@@ -67,7 +67,7 @@ class ProfileFragment :
     private var streakFormDelegate: StreakCardFormDelegate? = null
 
     private val platformNotificationComponent =
-        HyperskillApp.graph().platformNotificationComponent
+        HyperskillApp.graph().platformLocalNotificationComponent
 
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().imageLoadingComponent.imageLoader

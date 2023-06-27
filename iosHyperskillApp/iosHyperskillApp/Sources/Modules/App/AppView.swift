@@ -118,7 +118,7 @@ extension AppView: ProgrammaticallyInitializableViewProtocol {
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            AppAssembly().makeModule()
+            AppAssembly(pushNotificationData: nil).makeModule()
         }
     }
 }

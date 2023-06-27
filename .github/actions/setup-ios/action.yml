@@ -94,7 +94,7 @@ runs:
 
     # Fix Cocoapods not being able to access the shared framework file
     - name: Fix Cocoapods generateDummyFramework
-      run: ./gradlew generateDummyFramework
+      run: ./gradlew :shared:generateDummyFramework
       shell: bash
 
     # Cache Pods dependencies
