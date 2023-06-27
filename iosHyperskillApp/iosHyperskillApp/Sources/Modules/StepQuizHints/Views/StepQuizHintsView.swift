@@ -34,7 +34,6 @@ struct StepQuizHintsView: View {
         case .idle:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonInitialHeight)
-                .onAppear(perform: viewModel.loadHintsIDs)
         case .initialLoading, .hintLoading:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonHintHeight)
