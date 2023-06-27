@@ -28,7 +28,8 @@ object TrackSelectionListFeature {
             val rating: String,
             val isBeta: Boolean,
             val isCompleted: Boolean,
-            val isSelected: Boolean
+            val isSelected: Boolean,
+            val progress: Int
         )
     }
 
