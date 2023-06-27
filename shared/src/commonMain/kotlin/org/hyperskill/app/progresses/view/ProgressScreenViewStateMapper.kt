@@ -2,55 +2,82 @@ package org.hyperskill.app.progresses.view
 
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
+import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 
 internal class ProgressScreenViewStateMapper(
     private val dateFormatter: SharedDateFormatter
 ) {
     fun map(state: ProgressScreenFeature.State): ProgressScreenViewState =
-        when (state) {
-            ProgressScreenFeature.State.Idle ->
-                ProgressScreenViewState.Idle
-            ProgressScreenFeature.State.Loading ->
-                ProgressScreenViewState.Loading
-            ProgressScreenFeature.State.Error ->
-                ProgressScreenViewState.Error
-            is ProgressScreenFeature.State.Content ->
-                mapContentState(state)
-        }
+        ProgressScreenViewState(
+            trackProgressViewState = when (state.trackProgressState) {
+                ProgressScreenFeature.TrackProgressState.Idle ->
+                    ProgressScreenViewState.TrackProgressViewState.Idle
+                ProgressScreenFeature.TrackProgressState.Loading ->
+                    ProgressScreenViewState.TrackProgressViewState.Loading
+                ProgressScreenFeature.TrackProgressState.Error ->
+                    ProgressScreenViewState.TrackProgressViewState.Error
+                is ProgressScreenFeature.TrackProgressState.Content ->
+                    mapTrackProgressContent(state.trackProgressState)
+            },
+            projectProgressViewState = when (state.projectProgressState) {
+                ProgressScreenFeature.ProjectProgressState.Idle ->
+                    ProgressScreenViewState.ProjectProgressViewState.Idle
+                ProgressScreenFeature.ProjectProgressState.Loading ->
+                    ProgressScreenViewState.ProjectProgressViewState.Loading
+                ProgressScreenFeature.ProjectProgressState.Error ->
+                    ProgressScreenViewState.ProjectProgressViewState.Error
+                is ProgressScreenFeature.ProjectProgressState.Content ->
+                    when (state.trackProgressState) {
+                        ProgressScreenFeature.TrackProgressState.Idle,
+                        ProgressScreenFeature.TrackProgressState.Loading ->
+                            ProgressScreenViewState.ProjectProgressViewState.Loading
+                        ProgressScreenFeature.TrackProgressState.Error ->
+                            ProgressScreenViewState.ProjectProgressViewState.Error
+                        is ProgressScreenFeature.TrackProgressState.Content ->
+                            mapProjectProgressContent(
+                                track = state.trackProgressState.trackWithProgress.track,
+                                projectProgressContent = state.projectProgressState
+                            )
+                    }
+            }
+        )
 
-    private fun mapContentState(
-        contentState: ProgressScreenFeature.State.Content
-    ): ProgressScreenViewState.Content {
+    private fun mapTrackProgressContent(
+        trackProgressContent: ProgressScreenFeature.TrackProgressState.Content
+    ): ProgressScreenViewState.TrackProgressViewState.Content {
+        val track = trackProgressContent.trackWithProgress.track
+        val trackProgress = trackProgressContent.trackWithProgress.trackProgress
 
-        val track = contentState.trackWithProgress.track
-        val trackProgress = contentState.trackWithProgress.trackProgress
+        return ProgressScreenViewState.TrackProgressViewState.Content(
+            title = track.title,
+            imageSource = track.cover?.takeIf { it.isNotBlank() },
+            completedTopicsCountLabel = "${trackProgress.completedTopics} / ${track.topicsCount}",
+            completedTopicsPercentageLabel = "${trackProgressContent.trackWithProgress.completedTopicsProgress}%",
+            completedTopicsPercentageProgress = trackProgressContent.trackWithProgress.completedTopicsProgress / 100f,
+            appliedTopicsCountLabel = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}",
+            appliedTopicsPercentageLabel = "${trackProgressContent.trackWithProgress.appliedTopicsProgress}%",
+            appliedTopicsPercentageProgress = trackProgressContent.trackWithProgress.appliedTopicsProgress / 100f,
+            timeToCompleteLabel = formatTimeToComplete(track.secondsToComplete),
+            completedGraduateProjectsCount = trackProgress.completedCapstoneProjects?.size ?: 0,
+            isCompleted = trackProgress.isCompleted
+        )
+    }
 
-        val project = contentState.projectWithProgress.project
-        val projectProgress = contentState.projectWithProgress.progress
+    private fun mapProjectProgressContent(
+        track: Track,
+        projectProgressContent: ProgressScreenFeature.ProjectProgressState.Content
+    ): ProgressScreenViewState.ProjectProgressViewState.Content {
+        val project = projectProgressContent.projectWithProgress.project
+        val projectProgress = projectProgressContent.projectWithProgress.progress
 
-        return ProgressScreenViewState.Content(
-            trackProgress = ProgressScreenViewState.TrackProgressViewState(
-                title = track.title,
-                imageSource = track.cover?.takeIf { it.isNotBlank() },
-                completedTopicsCountLabel = "${trackProgress.completedTopics} / ${track.topicsCount}",
-                completedTopicsPercentageLabel = "${contentState.trackWithProgress.completedTopicsProgress}%",
-                completedTopicsPercentageProgress = contentState.trackWithProgress.completedTopicsProgress / 100f,
-                appliedTopicsCountLabel = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}",
-                appliedTopicsPercentageLabel = "${contentState.trackWithProgress.appliedTopicsProgress}%",
-                appliedTopicsPercentageProgress = contentState.trackWithProgress.appliedTopicsProgress / 100f,
-                timeToCompleteLabel = formatTimeToComplete(track.secondsToComplete),
-                completedGraduateProjectsCount = trackProgress.completedCapstoneProjects?.size ?: 0,
-                isCompleted = trackProgress.isCompleted
-            ),
-            projectProgress = ProgressScreenViewState.ProjectProgressViewState(
-                title = project.title,
-                level = track.projectsByLevel.asLevelByProjectIdMap().get(project.id),
-                timeToCompleteLabel = formatTimeToComplete(projectProgress.secondsToComplete),
-                completedStagesLabel = "${projectProgress.completedStages?.size ?: 0} / ${project.stagesIds.size}",
-                completedStagesProgress = contentState.projectWithProgress.progressPercentage / 100f,
-                isCompleted = projectProgress.isCompleted
-            )
+        return ProgressScreenViewState.ProjectProgressViewState.Content(
+            title = project.title,
+            level = track.projectsByLevel.asLevelByProjectIdMap().get(project.id),
+            timeToCompleteLabel = formatTimeToComplete(projectProgress.secondsToComplete),
+            completedStagesLabel = "${projectProgress.completedStages?.size ?: 0} / ${project.stagesIds.size}",
+            completedStagesProgress = projectProgressContent.projectWithProgress.progressPercentage / 100f,
+            isCompleted = projectProgress.isCompleted
         )
     }
 

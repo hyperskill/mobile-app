@@ -2,45 +2,50 @@ package org.hyperskill.app.progresses.view
 
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 
-sealed interface ProgressScreenViewState {
-    object Idle : ProgressScreenViewState
-    object Loading : ProgressScreenViewState
-    object Error : ProgressScreenViewState
-    data class Content(
-        val trackProgress: TrackProgressViewState,
-        val projectProgress: ProjectProgressViewState?
-    ) : ProgressScreenViewState
+data class ProgressScreenViewState(
+    val trackProgressViewState: TrackProgressViewState,
+    val projectProgressViewState: ProjectProgressViewState
+) {
+    sealed interface TrackProgressViewState {
+        object Idle : TrackProgressViewState
+        object Loading : TrackProgressViewState
+        object Error : TrackProgressViewState
+        data class Content(
+            val title: String,
 
-    data class TrackProgressViewState(
-        val title: String,
+            val imageSource: String?,
 
-        val imageSource: String?,
+            val completedTopicsCountLabel: String,
+            val completedTopicsPercentageLabel: String,
+            val completedTopicsPercentageProgress: Float,
 
-        val completedTopicsCountLabel: String,
-        val completedTopicsPercentageLabel: String,
-        val completedTopicsPercentageProgress: Float,
+            val appliedTopicsCountLabel: String,
+            val appliedTopicsPercentageLabel: String,
+            val appliedTopicsPercentageProgress: Float,
 
-        val appliedTopicsCountLabel: String,
-        val appliedTopicsPercentageLabel: String,
-        val appliedTopicsPercentageProgress: Float,
+            val timeToCompleteLabel: String?,
 
-        val timeToCompleteLabel: String?,
+            val completedGraduateProjectsCount: Int,
 
-        val completedGraduateProjectsCount: Int,
+            val isCompleted: Boolean
+        ) : TrackProgressViewState
+    }
 
-        val isCompleted: Boolean
-    )
+    sealed interface ProjectProgressViewState {
+        object Idle : ProjectProgressViewState
+        object Loading : ProjectProgressViewState
+        object Error : ProjectProgressViewState
+        data class Content(
+            val title: String,
 
-    data class ProjectProgressViewState(
-        val title: String,
+            val level: ProjectLevel?,
 
-        val level: ProjectLevel?,
+            val timeToCompleteLabel: String?,
 
-        val timeToCompleteLabel: String?,
+            val completedStagesLabel: String,
+            val completedStagesProgress: Float,
 
-        val completedStagesLabel: String,
-        val completedStagesProgress: Float,
-
-        val isCompleted: Boolean
-    )
+            val isCompleted: Boolean
+        ) : ProjectProgressViewState
+    }
 }
