@@ -10,6 +10,11 @@ final class OnboardingViewModel: FeatureViewModel<
 
     var stateKs: OnboardingFeatureStateKs { .init(state) }
 
+    init(feature: Presentation_reduxFeature) {
+        super.init(feature: feature)
+        onNewMessage(OnboardingFeatureMessageInitialize(forceUpdate: false))
+    }
+
     override func shouldNotifyStateDidChange(
         oldState: OnboardingFeatureState,
         newState: OnboardingFeatureState
@@ -17,8 +22,8 @@ final class OnboardingViewModel: FeatureViewModel<
         OnboardingFeatureStateKs(oldState) != OnboardingFeatureStateKs(newState)
     }
 
-    func loadOnboarding(forceUpdate: Bool = false) {
-        onNewMessage(OnboardingFeatureMessageInitialize(forceUpdate: forceUpdate))
+    func doRetryLoadOnboarding() {
+        onNewMessage(OnboardingFeatureMessageInitialize(forceUpdate: true))
     }
 
     func doSignPresentation() {

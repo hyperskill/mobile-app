@@ -21,7 +21,10 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     ) {
         self.stepRoute = stepRoute
         self.viewDataMapper = viewDataMapper
+
         super.init(feature: feature)
+
+        onNewMessage(StepFeatureMessageInitialize(forceUpdate: false))
     }
 
     override func shouldNotifyStateDidChange(oldState: StepFeatureState, newState: StepFeatureState) -> Bool {
@@ -46,8 +49,8 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         return shouldNotify
     }
 
-    func loadStep(forceUpdate: Bool = false) {
-        onNewMessage(StepFeatureMessageInitialize(forceUpdate: forceUpdate))
+    func doRetryLoadStep() {
+        onNewMessage(StepFeatureMessageInitialize(forceUpdate: true))
     }
 
     func makeViewData(_ step: Step) -> StepViewData {

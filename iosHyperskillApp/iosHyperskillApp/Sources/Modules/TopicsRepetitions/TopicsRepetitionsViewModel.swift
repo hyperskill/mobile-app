@@ -8,6 +8,11 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
 > {
     var stateKs: TopicsRepetitionsFeatureStateKs { .init(state) }
 
+    init(feature: Presentation_reduxFeature) {
+        super.init(feature: feature)
+        onNewMessage(TopicsRepetitionsFeatureMessageInitialize(forceUpdate: false))
+    }
+
     override func shouldNotifyStateDidChange(
         oldState: TopicsRepetitionsFeatureState,
         newState: TopicsRepetitionsFeatureState
@@ -15,8 +20,8 @@ final class TopicsRepetitionsViewModel: FeatureViewModel<
         TopicsRepetitionsFeatureStateKs(oldState) != TopicsRepetitionsFeatureStateKs(newState)
     }
 
-    func doLoadContent(forceUpdate: Bool = false) {
-        onNewMessage(TopicsRepetitionsFeatureMessageInitialize(forceUpdate: forceUpdate))
+    func doRetryLoadTopicsRepetitions() {
+        onNewMessage(TopicsRepetitionsFeatureMessageInitialize(forceUpdate: true))
     }
 
     func doLoadNextTopics() {

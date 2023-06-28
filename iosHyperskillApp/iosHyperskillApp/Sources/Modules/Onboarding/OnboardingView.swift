@@ -39,18 +39,14 @@ struct OnboardingView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            ProgressView()
-                .onAppear {
-                    viewModel.loadOnboarding()
-                }
-        case .loading:
+        case .idle, .loading:
             ProgressView()
         case .networkError:
             PlaceholderView(
-                configuration: .networkError(backgroundColor: .clear) {
-                    viewModel.loadOnboarding(forceUpdate: true)
-                }
+                configuration: .networkError(
+                    backgroundColor: .clear,
+                    action: viewModel.doRetryLoadOnboarding
+                )
             )
         case .content:
             VStack(alignment: .center, spacing: LayoutInsets.largeInset) {

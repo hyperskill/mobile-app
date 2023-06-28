@@ -25,6 +25,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     ) {
         self.applicationThemeService = applicationThemeService
         super.init(feature: feature)
+
+        onNewMessage(ProfileSettingsFeatureMessageInitMessage(forceUpdate: false))
     }
 
     override func shouldNotifyStateDidChange(
@@ -34,8 +36,8 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         ProfileSettingsFeatureStateKs(oldState) != ProfileSettingsFeatureStateKs(newState)
     }
 
-    func loadProfileSettings(forceUpdate: Bool = false) {
-        onNewMessage(ProfileSettingsFeatureMessageInitMessage(forceUpdate: forceUpdate))
+    func doRetryLoadProfileSettings() {
+        onNewMessage(ProfileSettingsFeatureMessageInitMessage(forceUpdate: true))
     }
 
     func doThemeChange(newTheme: ApplicationTheme) {

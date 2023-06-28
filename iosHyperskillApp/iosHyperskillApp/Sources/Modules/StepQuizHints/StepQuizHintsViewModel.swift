@@ -13,6 +13,8 @@ final class StepQuizHintsViewModel: FeatureViewModel<
     init(stepID: Int64, feature: Presentation_reduxFeature) {
         self.stepID = stepID
         super.init(feature: feature)
+
+        onNewMessage(StepQuizHintsFeatureMessageInitWithStepId(stepId: stepID))
     }
 
     override func shouldNotifyStateDidChange(
@@ -20,10 +22,6 @@ final class StepQuizHintsViewModel: FeatureViewModel<
         newState: StepQuizHintsFeatureViewState
     ) -> Bool {
         StepQuizHintsFeatureViewStateKs(oldState) != StepQuizHintsFeatureViewStateKs(newState)
-    }
-
-    func loadHintsIDs() {
-        onNewMessage(StepQuizHintsFeatureMessageInitWithStepId(stepId: stepID))
     }
 
     func onHintReactionButtonTap(reaction: ReactionType) {
