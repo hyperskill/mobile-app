@@ -12,7 +12,7 @@ data class ProjectWithProgress(
         get() = if (progress.isCompleted) {
             100
         } else {
-            floor((progress.completedStages?.size ?: 0) / project.stagesIds.size.toFloat()).toInt()
+            floor(progress.completedStages.size / project.stagesIds.size.toFloat()).toInt()
         }
 }
 

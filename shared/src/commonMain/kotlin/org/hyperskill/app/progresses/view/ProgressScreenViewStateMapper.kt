@@ -60,7 +60,7 @@ internal class ProgressScreenViewStateMapper(
             appliedTopicsPercentageLabel = "${trackProgressContent.trackWithProgress.appliedTopicsProgress}%",
             appliedTopicsPercentageProgress = trackProgressContent.trackWithProgress.appliedTopicsProgress / 100f,
             timeToCompleteLabel = formatTimeToComplete(track.secondsToComplete),
-            completedGraduateProjectsCount = trackProgress.completedCapstoneProjects?.size ?: 0,
+            completedGraduateProjectsCount = trackProgress.completedCapstoneProjects.size,
             isCompleted = trackProgress.isCompleted
         )
     }
@@ -76,7 +76,7 @@ internal class ProgressScreenViewStateMapper(
             title = project.title,
             level = track.projectsByLevel.asLevelByProjectIdMap().get(project.id),
             timeToCompleteLabel = formatTimeToComplete(projectProgress.secondsToComplete),
-            completedStagesLabel = "${projectProgress.completedStages?.size ?: 0} / ${project.stagesIds.size}",
+            completedStagesLabel = "${projectProgress.completedStages.size} / ${project.stagesIds.size}",
             completedStagesProgress = projectProgressContent.projectWithProgress.progressPercentage / 100f,
             isCompleted = projectProgress.isCompleted
         )

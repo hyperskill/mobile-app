@@ -227,7 +227,7 @@ class TrackFragment :
                 trackProgressCompletedGraduateProjectsCardView.visibility = View.GONE
             } else {
                 trackCompletedGraduateProjectsTextView.text =
-                    "${content.trackProgress.completedCapstoneProjects?.size ?: 0}"
+                    "${content.trackProgress.completedCapstoneProjects.size}"
             }
 
             if (content.track.capstoneTopicsCount == 0) {
@@ -236,7 +236,7 @@ class TrackFragment :
                 trackAppliedCoreTopicsTextView.text =
                     "${content.trackProgress.appliedCapstoneTopicsCount} / ${content.track.capstoneTopicsCount}"
                 trackAppliedCoreTopicsProgressIndicator.progress =
-                    (content.trackProgress.appliedCapstoneTopicsCount ?: 0) * 100 / content.track.capstoneTopicsCount
+                    content.trackProgress.appliedCapstoneTopicsCount * 100 / content.track.capstoneTopicsCount
             }
         }
     }

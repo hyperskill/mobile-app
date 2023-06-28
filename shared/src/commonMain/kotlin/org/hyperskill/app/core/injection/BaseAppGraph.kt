@@ -52,6 +52,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
+import org.hyperskill.app.progresses.injection.ProgressScreenComponent
+import org.hyperskill.app.progresses.injection.ProgressScreenComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
@@ -399,4 +401,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildStreakRecoveryComponent(): StreakRecoveryComponent =
         StreakRecoveryComponentImpl(this)
+
+    override fun buildProgressScreenComponent(): ProgressScreenComponent =
+        ProgressScreenComponentImpl(this)
 }

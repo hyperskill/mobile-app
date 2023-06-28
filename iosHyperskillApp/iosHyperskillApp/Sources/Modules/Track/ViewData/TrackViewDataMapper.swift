@@ -32,7 +32,7 @@ final class TrackViewDataMapper {
 
         let completedGraduateProjectsCountText = track.capstoneProjects.isEmpty
             ? nil
-            : "\(trackProgress.completedCapstoneProjects?.count ?? 0)"
+            : "\(trackProgress.completedCapstoneProjects.count)"
 
         let completedTopicsText = track.topicsCount > 0
             ? "\(trackProgress.completedTopics) / \(track.topicsCount)"
@@ -42,10 +42,10 @@ final class TrackViewDataMapper {
             : Float(trackProgress.completedTopics) / Float(track.topicsCount)
 
         let capstoneTopicsText = track.capstoneTopicsCount > 0
-            ? "\(trackProgress.appliedCapstoneTopicsCount ?? 0) / \(track.capstoneTopicsCount)"
+            ? "\(trackProgress.appliedCapstoneTopicsCount) / \(track.capstoneTopicsCount)"
             : nil
         let capstoneTopicsProgress = track.capstoneTopicsCount > 0
-            ? Float(trackProgress.appliedCapstoneTopicsCount ?? 0) / Float(track.capstoneTopicsCount)
+            ? Float(trackProgress.appliedCapstoneTopicsCount) / Float(track.capstoneTopicsCount)
             : 0
 
         let ratingText: String? = {

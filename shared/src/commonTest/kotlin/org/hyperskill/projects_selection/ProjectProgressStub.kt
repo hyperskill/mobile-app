@@ -20,6 +20,5 @@ fun ProjectProgress.Companion.stub(
         usefulness = usefulness,
         secondsToComplete = secondsToComplete,
         featureScore = featureScore,
-        baseScore = baseScore,
-        completedStages = emptyList()
+        baseScore = baseScore
     )

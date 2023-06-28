@@ -25,7 +25,7 @@ data class ProjectProgress(
     @SerialName("base_score")
     val baseScore: Float = 0f,
     @SerialName("completed_stages")
-    val completedStages: List<Long>?
+    val completedStages: List<Long> = emptyList()
 ) : Progress {
     companion object
 }
