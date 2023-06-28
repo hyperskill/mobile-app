@@ -51,7 +51,10 @@ final class StepQuizViewModel: FeatureViewModel<
         self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
         self.notificationService = notificationService
         self.notificationsRegistrationService = notificationsRegistrationService
+
         super.init(feature: feature)
+
+        onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: false))
     }
 
     override func shouldNotifyStateDidChange(oldState: StepQuizFeatureState, newState: StepQuizFeatureState) -> Bool {
@@ -76,8 +79,8 @@ final class StepQuizViewModel: FeatureViewModel<
         provideModuleInputCallback(self)
     }
 
-    func loadAttempt(forceUpdate: Bool = false) {
-        onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: forceUpdate))
+    func doRetryLoadAttempt() {
+        onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: true))
     }
 
     func syncReply(_ reply: Reply) {

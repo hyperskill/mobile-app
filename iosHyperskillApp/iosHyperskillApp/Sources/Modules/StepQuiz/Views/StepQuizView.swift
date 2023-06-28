@@ -24,10 +24,6 @@ struct StepQuizView: View {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
 
-                if viewModel.stepQuizStateKs == .idle {
-                    viewModel.loadAttempt()
-                }
-
                 viewModel.doProvideModuleInput()
             }
             .onDisappear {
@@ -44,9 +40,7 @@ struct StepQuizView: View {
             PlaceholderView(
                 configuration: .networkError(
                     backgroundColor: .clear,
-                    action: {
-                        viewModel.loadAttempt(forceUpdate: true)
-                    }
+                    action: viewModel.doRetryLoadAttempt
                 )
             )
         } else {
