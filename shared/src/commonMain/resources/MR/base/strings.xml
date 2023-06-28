@@ -442,4 +442,13 @@
     <string name="streak_recovery_modal_recover_streak_error_message">Failed to recover a streak</string>
     <string name="streak_recovery_modal_cancel_streak_recovery_success_message">Streak recovery successfully cancelled</string>
     <string name="streak_recovery_modal_cancel_streak_recovery_error_message">Failed to cancel a streak recovery</string>
+
+    <!-- Progress screen -->
+    <string name="progress_screen_title">Progress</string>
+    <string name="progress_screen_completed_topics">Completed topics</string>
+    <string name="progress_screen_applied_core_topics">Applied core topics by completing project stages</string>
+    <string name="progress_screen_time_to_complete_track">Time to complete the track</string>
+    <string name="progress_screen_completed_graduate_project">Completed graduate project</string>
+    <string name="progress_screen_time_to_complete_project">Time to complete the project</string>
+    <string name="progress_screen_stages">Stages</string>
 </resources>

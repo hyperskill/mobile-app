@@ -1,8 +1,10 @@
 package org.hyperskill.app.progresses.presentation
 
 import org.hyperskill.app.progresses.domain.analytic.ProgressScreenClickedBackHyperskillAnalyticsEvent
+import org.hyperskill.app.progresses.domain.analytic.ProgressScreenClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.progresses.domain.analytic.ProgressScreenViewedHyperskillAnalyticEvent
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Action
+import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.InternalAction
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Message
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.ProjectProgressState
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.State
@@ -34,7 +36,7 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
             }
             Message.BackButtonClicked -> {
                 state to setOf(
-                    ProgressScreenFeature.InternalAction.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProgressScreenClickedBackHyperskillAnalyticsEvent()
                     ),
                     Action.ViewAction.NavigateTo.Back
@@ -42,7 +44,7 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
             }
             Message.ViewedEventMessage -> {
                 state to setOf(
-                    ProgressScreenFeature.InternalAction.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProgressScreenViewedHyperskillAnalyticEvent()
                     )
                 )
@@ -65,14 +67,18 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
         state.copy(
             isTrackProgressRefreshing = true,
             isProjectProgressRefreshing = true
-        ) to fetchContent(forceLoadFromNetwork = true)
+        ) to fetchContent(forceLoadFromNetwork = true) + setOf(
+            InternalAction.LogAnalyticEvent(
+                ProgressScreenClickedPullToRefreshHyperskillAnalyticEvent()
+            )
+        )
 
     private fun handleRetryTrackProgressLoading(state: State): ProgressScreenReducerResult? =
         if (state.trackProgressState is TrackProgressState.Error) {
             state.copy(
                 trackProgressState = TrackProgressState.Loading
             ) to setOf(
-                ProgressScreenFeature.InternalAction.FetchTrackWithProgress(forceLoadFromNetwork = true)
+                InternalAction.FetchTrackWithProgress(forceLoadFromNetwork = true)
             )
         } else {
             null
@@ -83,7 +89,7 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
             state.copy(
                 projectProgressState = ProjectProgressState.Loading
             ) to setOf(
-                ProgressScreenFeature.InternalAction.FetchProjectWithProgress(forceLoadFromNetwork = true)
+                InternalAction.FetchProjectWithProgress(forceLoadFromNetwork = true)
             )
         } else {
             null
@@ -121,7 +127,7 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
 
     private fun fetchContent(forceLoadFromNetwork: Boolean = false): Set<Action> =
         setOf(
-            ProgressScreenFeature.InternalAction.FetchTrackWithProgress(forceLoadFromNetwork),
-            ProgressScreenFeature.InternalAction.FetchProjectWithProgress(forceLoadFromNetwork)
+            InternalAction.FetchTrackWithProgress(forceLoadFromNetwork),
+            InternalAction.FetchProjectWithProgress(forceLoadFromNetwork)
         )
 }
