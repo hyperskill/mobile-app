@@ -39,6 +39,8 @@ final class AppViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel.doLoadApp()
         updateProgressHUDStyle()
     }
 
@@ -258,7 +260,7 @@ extension AppViewController: AppViewControllerProtocol {
 
 extension AppViewController: AppViewDelegate {
     func appViewPlaceholderActionButtonTapped(_ view: AppView) {
-        viewModel.doRetryLoadApp()
+        viewModel.doLoadApp(forceUpdate: true)
     }
 
     func appView(
