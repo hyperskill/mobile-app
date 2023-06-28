@@ -12,7 +12,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/progresses",
+ *     "route": "/progress",
  *     "action": "click",
  *     "part": "main",
  *     "target": "back",

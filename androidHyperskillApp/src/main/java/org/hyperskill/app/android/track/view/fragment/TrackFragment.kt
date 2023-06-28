@@ -226,8 +226,7 @@ class TrackFragment :
             if (content.track.capstoneProjects.isEmpty()) {
                 trackProgressCompletedGraduateProjectsCardView.visibility = View.GONE
             } else {
-                trackCompletedGraduateProjectsTextView.text =
-                    "${content.trackProgress.completedCapstoneProjects.size}"
+                trackCompletedGraduateProjectsTextView.text = "${content.trackProgress.completedCapstoneProjects.size}"
             }
 
             if (content.track.capstoneTopicsCount == 0) {
