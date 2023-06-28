@@ -39,8 +39,8 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
 
         GIDSignIn.sharedInstance.signIn(
             with: GIDConfiguration(
-                clientID: GoogleServiceInfo.clientID,
-                serverClientID: GoogleServiceInfo.serverClientID
+                clientID: GoogleServiceInfo.authClientID,
+                serverClientID: GoogleServiceInfo.authServerClientID
             ),
             presenting: currentPresentedViewController
         ) { user, error in

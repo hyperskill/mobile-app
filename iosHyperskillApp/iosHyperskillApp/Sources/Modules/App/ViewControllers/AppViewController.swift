@@ -11,6 +11,9 @@ protocol AppViewControllerProtocol: AnyObject {
 extension AppViewController {
     enum Animation {
         static let swapRootViewControllerAnimationDuration: TimeInterval = 0.3
+
+        fileprivate static let clickedNotificationViewActionNavigateToHomeCompletionDelay: TimeInterval = 0.33
+        fileprivate static let clickedNotificationViewActionDismissProgressHUDDelay: TimeInterval = 0.33
     }
 }
 
@@ -36,11 +39,17 @@ final class AppViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.startListening()
-        viewModel.loadApp()
-
         updateProgressHUDStyle()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.startListening()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.stopListening()
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -69,18 +78,22 @@ extension AppViewController: AppViewControllerProtocol {
         switch viewAction {
         case .navigateTo(let navigateToViewAction):
             handleNavigateToViewAction(
-                navigateToViewAction: AppFeatureActionViewActionNavigateToKs(navigateToViewAction)
+                AppFeatureActionViewActionNavigateToKs(navigateToViewAction)
             )
         case .streakRecoveryViewAction(let streakRecoveryViewAction):
             handleStreakRecoveryViewAction(
-                streakRecoveryViewAction: StreakRecoveryFeatureActionViewActionKs(streakRecoveryViewAction.viewAction)
+                StreakRecoveryFeatureActionViewActionKs(streakRecoveryViewAction.viewAction)
+            )
+        case .clickedNotificationViewAction(let clickedNotificationViewAction):
+            handleClickedNotificationViewAction(
+                NotificationClickHandlingFeatureActionViewActionKs(clickedNotificationViewAction.viewAction)
             )
         }
     }
 
-    private func handleNavigateToViewAction(navigateToViewAction: AppFeatureActionViewActionNavigateToKs) {
+    private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
         let viewControllerToPresent: UIViewController = {
-            switch navigateToViewAction {
+            switch viewAction {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
             case .homeScreen:
@@ -116,8 +129,8 @@ extension AppViewController: AppViewControllerProtocol {
         swapRootViewController(from: fromViewController, to: viewControllerToPresent)
     }
 
-    private func handleStreakRecoveryViewAction(streakRecoveryViewAction: StreakRecoveryFeatureActionViewActionKs) {
-        switch streakRecoveryViewAction {
+    private func handleStreakRecoveryViewAction(_ viewAction: StreakRecoveryFeatureActionViewActionKs) {
+        switch viewAction {
         case .showRecoveryStreakModal(let showRecoveryStreakModal):
             let modalViewController = StreakRecoveryModalViewController(
                 recoveryPriceAmount: showRecoveryStreakModal.recoveryPriceAmountLabel,
@@ -137,6 +150,67 @@ extension AppViewController: AppViewControllerProtocol {
             case .success(let showSuccessStatusViewAction):
                 ProgressHUD.showSuccess(status: showSuccessStatusViewAction.message)
             }
+        }
+    }
+
+    private func handleClickedNotificationViewAction(
+        _ viewAction: NotificationClickHandlingFeatureActionViewActionKs
+    ) {
+        switch viewAction {
+        case .navigateTo(let navigateToViewAction):
+            handleClickedNotificationNavigateToViewAction(
+                NotificationClickHandlingFeatureActionViewActionNavigateToKs(navigateToViewAction)
+            )
+        case .setLoadingShowed(let setLoadingShowedViewAction):
+            if setLoadingShowedViewAction.isLoadingShowed {
+                ProgressHUD.show()
+            } else {
+                ProgressHUD.dismissWithDelay(Animation.clickedNotificationViewActionDismissProgressHUDDelay)
+            }
+        }
+    }
+
+    private func handleClickedNotificationNavigateToViewAction(
+        _ viewAction: NotificationClickHandlingFeatureActionViewActionNavigateToKs
+    ) {
+        func route() {
+            switch viewAction {
+            case .home:
+                TabBarRouter(tab: .home).route()
+            case .profile:
+                TabBarRouter(tab: .profile).route()
+            case .stepScreen(let navigateToStepScreenViewAction):
+                navigateToHomeAndPresent {
+                    let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
+
+                    let sourcelessRouter = SourcelessRouter()
+                    sourcelessRouter.currentNavigation?.pushViewController(assembly.makeModule(), animated: true)
+                }
+            case .studyPlan:
+                TabBarRouter(tab: .studyPlan).route()
+            case .topicRepetition:
+                navigateToHomeAndPresent {
+                    let assembly = TopicsRepetitionsAssembly()
+
+                    let sourcelessRouter = SourcelessRouter()
+                    sourcelessRouter.currentNavigation?.pushViewController(assembly.makeModule(), animated: true)
+                }
+            }
+        }
+
+        func navigateToHomeAndPresent(_ navigateToHomeCompletionHandler: @escaping () -> Void) {
+            TabBarRouter(tab: .home).route()
+            DispatchQueue.main.asyncAfter(
+                deadline: .now() + Animation.clickedNotificationViewActionNavigateToHomeCompletionDelay,
+                execute: navigateToHomeCompletionHandler
+            )
+        }
+
+        // Display home screen if needed
+        handleNavigateToViewAction(.homeScreen)
+
+        DispatchQueue.main.async {
+            route()
         }
     }
 
@@ -184,7 +258,7 @@ extension AppViewController: AppViewControllerProtocol {
 
 extension AppViewController: AppViewDelegate {
     func appViewPlaceholderActionButtonTapped(_ view: AppView) {
-        viewModel.loadApp(forceUpdate: true)
+        viewModel.doRetryLoadApp()
     }
 
     func appView(

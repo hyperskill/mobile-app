@@ -18,6 +18,7 @@ buildscript {
         classpath(libs.plugin.mokoKswift)
         classpath(libs.plugin.dokka)
         classpath(libs.plugin.dokkaBase)
+        classpath(libs.plugin.googleServises)
     }
 }
 

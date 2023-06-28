@@ -6,6 +6,7 @@ import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
+import org.hyperskill.app.devices.injection.DevicesDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
@@ -18,8 +19,10 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
-import org.hyperskill.app.notification.injection.NotificationComponent
-import org.hyperskill.app.notification.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
+import org.hyperskill.app.notification.local.injection.NotificationComponent
+import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
@@ -138,5 +141,8 @@ interface AppGraph {
     fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent
     fun buildProvidersDataComponent(): ProvidersDataComponent
     fun buildStreakRecoveryComponent(): StreakRecoveryComponent
+    fun buildDevicesDataComponent(): DevicesDataComponent
+    fun buildPushNotificationsComponent(): PushNotificationsComponent
+    fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
     fun buildProgressScreenComponent(): ProgressScreenComponent
 }

@@ -1,6 +1,6 @@
 package org.hyperskill.app.profile_settings.domain.model
 
-import org.hyperskill.app.core.domain.Platform
+import org.hyperskill.app.core.domain.platform.Platform
 
 object FeedbackEmailDataBuilder {
     fun build(
@@ -12,8 +12,9 @@ object FeedbackEmailDataBuilder {
     ): FeedbackEmailData {
         val subject = "[$applicationName] ${platform.feedbackName} Feedback"
 
+        val platformDescription = platform.platformDescription
         val body =
-            "\n\n\n---\nUser ID: ${userId ?: "None"}\nApp version: $applicationVersion\nDevice: ${platform.platform}"
+            "\n\n\n---\nUser ID: ${userId ?: "None"}\nApp version: $applicationVersion\nDevice: $platformDescription"
 
         return FeedbackEmailData(
             mailTo = supportEmail,
