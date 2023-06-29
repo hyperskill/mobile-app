@@ -27,6 +27,8 @@ internal class ProgressScreenViewStateMapper(
                     ProgressScreenViewState.ProjectProgressViewState.Loading
                 ProgressScreenFeature.ProjectProgressState.Error ->
                     ProgressScreenViewState.ProjectProgressViewState.Error
+                ProgressScreenFeature.ProjectProgressState.Empty ->
+                    ProgressScreenViewState.ProjectProgressViewState.Empty
                 is ProgressScreenFeature.ProjectProgressState.Content ->
                     when (state.trackProgressState) {
                         ProgressScreenFeature.TrackProgressState.Idle,

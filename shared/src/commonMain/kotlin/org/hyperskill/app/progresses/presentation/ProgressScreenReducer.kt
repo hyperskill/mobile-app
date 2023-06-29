@@ -1,6 +1,5 @@
 package org.hyperskill.app.progresses.presentation
 
-import org.hyperskill.app.progresses.domain.analytic.ProgressScreenClickedBackHyperskillAnalyticsEvent
 import org.hyperskill.app.progresses.domain.analytic.ProgressScreenClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.progresses.domain.analytic.ProgressScreenViewedHyperskillAnalyticEvent
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Action
@@ -33,14 +32,6 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
             }
             is ProgressScreenFeature.ProjectWithProgressFetchResult -> {
                 handleProjectWithProgressFetchResult(state, message)
-            }
-            Message.BackButtonClicked -> {
-                state to setOf(
-                    InternalAction.LogAnalyticEvent(
-                        ProgressScreenClickedBackHyperskillAnalyticsEvent()
-                    ),
-                    Action.ViewAction.NavigateTo.Back
-                )
             }
             Message.ViewedEventMessage -> {
                 state to setOf(
@@ -116,7 +107,7 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
         state.copy(
             projectProgressState = when (message) {
                 ProgressScreenFeature.ProjectWithProgressFetchResult.Empty ->
-                    ProjectProgressState.Idle
+                    ProjectProgressState.Empty
                 ProgressScreenFeature.ProjectWithProgressFetchResult.Error ->
                     ProjectProgressState.Error
                 is ProgressScreenFeature.ProjectWithProgressFetchResult.Success ->

@@ -34,11 +34,11 @@ class ProgressScreenTest {
             ProgressScreenFeature.ProjectWithProgressFetchResult.Empty
         )
 
-        assertEquals(ProgressScreenFeature.ProjectProgressState.Idle, actualState.projectProgressState)
+        assertEquals(ProgressScreenFeature.ProjectProgressState.Empty, actualState.projectProgressState)
     }
 
     @Test
-    fun `Loading of both track and progress after pull to refresh should change refreshing flat to false`() {
+    fun `Loading of both track and progress after pull to refresh should change refreshing flag to false`() {
         val (refreshingState, _) = progressScreenReducer.reduce(
             ProgressScreenFeature.State(
                 trackProgressState = ProgressScreenFeature.TrackProgressState.Loading,

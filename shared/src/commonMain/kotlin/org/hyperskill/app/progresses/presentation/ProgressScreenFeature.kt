@@ -23,6 +23,7 @@ object ProgressScreenFeature {
         object Idle : ProjectProgressState
         object Loading : ProjectProgressState
         object Error : ProjectProgressState
+        object Empty : ProjectProgressState
         data class Content(val projectWithProgress: ProjectWithProgress) : ProjectProgressState
     }
 
@@ -31,7 +32,6 @@ object ProgressScreenFeature {
         object RetryTrackProgressLoading : Message
         object RetryProjectProgressLoading : Message
         object PullToRefresh : Message
-        object BackButtonClicked : Message
 
         object ViewedEventMessage : Message
     }
@@ -48,11 +48,7 @@ object ProgressScreenFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action {
-            sealed interface NavigateTo : ViewAction {
-                object Back : NavigateTo
-            }
-        }
+        sealed interface ViewAction : Action
     }
 
     internal sealed interface InternalAction : Action {

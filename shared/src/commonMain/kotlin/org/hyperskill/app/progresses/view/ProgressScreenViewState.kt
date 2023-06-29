@@ -36,6 +36,7 @@ data class ProgressScreenViewState(
         object Idle : ProjectProgressViewState
         object Loading : ProjectProgressViewState
         object Error : ProjectProgressViewState
+        object Empty : ProjectProgressViewState
         data class Content(
             val title: String,
 
