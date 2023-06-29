@@ -10,6 +10,9 @@ data class TrackWithProgress(
 ) {
     companion object
 
+    /**
+     * @return progress in percents, from 0 to 100
+     */
     val averageProgress: Int
         get() {
             val currentTopicsCount =

@@ -86,6 +86,7 @@ struct TopicToDiscoverNextButtonView: View {
 
     @ViewBuilder
     private func buildCompletenessBar(completenessPercentage: Float) -> some View {
+        #warning("Migrate to the BackgroundProgressView")
         GeometryReader { geometry in
             Rectangle()
                 .stroke(lineWidth: 0)
