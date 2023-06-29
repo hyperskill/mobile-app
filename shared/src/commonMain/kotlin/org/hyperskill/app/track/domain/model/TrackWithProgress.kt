@@ -20,4 +20,10 @@ data class TrackWithProgress(
                 track.topicsCount + track.capstoneTopicsCount
             return floor(currentTopicsCount / maxTopicsCount.toFloat() * 100).toInt()
         }
+
+    val completedTopicsProgress: Int
+        get() = floor(trackProgress.completedTopics.toFloat() / track.topicsCount).toInt()
+
+    val appliedTopicsProgress: Int
+        get() = floor(trackProgress.appliedCapstoneTopicsCount.toFloat() / track.capstoneTopicsCount).toInt()
 }

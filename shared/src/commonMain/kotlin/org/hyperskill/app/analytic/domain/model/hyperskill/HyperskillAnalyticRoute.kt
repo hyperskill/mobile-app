@@ -106,4 +106,9 @@ sealed class HyperskillAnalyticRoute {
                 "${super.path}/$trackId/projects"
         }
     }
+
+    class Progress : HyperskillAnalyticRoute() {
+        override val path: String =
+            "/progress"
+    }
 }
