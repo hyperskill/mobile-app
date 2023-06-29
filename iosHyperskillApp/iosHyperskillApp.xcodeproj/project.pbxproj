@@ -237,6 +237,8 @@
 		2C8E66D7287877F500D3928D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D6287877F500D3928D /* ProfileViewModel.swift */; };
 		2C8E66D9287896CF00D3928D /* TabNavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */; };
 		2C8EBE512A4D3DF700A77205 /* ProgressScreenTrackCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8EBE502A4D3DF700A77205 /* ProgressScreenTrackCardView.swift */; };
+		2C8EBE542A4D476700A77205 /* ProgressScreenProjectBlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8EBE532A4D476700A77205 /* ProgressScreenProjectBlockView.swift */; };
+		2C8EBE562A4D488D00A77205 /* ProgressScreenProjectTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8EBE552A4D488D00A77205 /* ProgressScreenProjectTitleView.swift */; };
 		2C8FFE7F2892E1C000574941 /* AuthOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8FFE7E2892E1C000574941 /* AuthOutputProtocol.swift */; };
 		2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */; };
 		2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919DE727EEEDD60022A2F2 /* LinkedList.swift */; };
@@ -760,6 +762,8 @@
 		2C8E66D6287877F500D3928D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabNavigationLazyView.swift; sourceTree = "<group>"; };
 		2C8EBE502A4D3DF700A77205 /* ProgressScreenTrackCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenTrackCardView.swift; sourceTree = "<group>"; };
+		2C8EBE532A4D476700A77205 /* ProgressScreenProjectBlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenProjectBlockView.swift; sourceTree = "<group>"; };
+		2C8EBE552A4D488D00A77205 /* ProgressScreenProjectTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenProjectTitleView.swift; sourceTree = "<group>"; };
 		2C8FFE7E2892E1C000574941 /* AuthOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthOutputProtocol.swift; sourceTree = "<group>"; };
 		2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		2C919DE727EEEDD60022A2F2 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
@@ -1578,6 +1582,7 @@
 			isa = PBXGroup;
 			children = (
 				CCC18157582494D2909B214C /* ProgressScreenView.swift */,
+				2C8EBE522A4D475200A77205 /* Project */,
 				2C336A062A4D38D100A01F26 /* Track */,
 			);
 			path = Views;
@@ -2089,6 +2094,15 @@
 				2C8E4FB02848C9050011ADFA /* StepQuizTableSelectColumnsView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2C8EBE522A4D475200A77205 /* Project */ = {
+			isa = PBXGroup;
+			children = (
+				2C8EBE532A4D476700A77205 /* ProgressScreenProjectBlockView.swift */,
+				2C8EBE552A4D488D00A77205 /* ProgressScreenProjectTitleView.swift */,
+			);
+			path = Project;
 			sourceTree = "<group>";
 		};
 		2C906CBC280E5C7D0079C594 /* Systems */ = {
@@ -3460,6 +3474,7 @@
 			files = (
 				E9F27D782906447A007F16D7 /* StepQuizHintCardView.swift in Sources */,
 				E9F0A2AA29D417C800C4A61E /* StudyPlanSectionHeaderView.swift in Sources */,
+				2C8EBE542A4D476700A77205 /* ProgressScreenProjectBlockView.swift in Sources */,
 				E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */,
 				E9CF48A92A38499F00938CCE /* StreakRecoveryModalViewController.swift in Sources */,
 				2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */,
@@ -3849,6 +3864,7 @@
 				2C9E5E8829B215D7003AEC16 /* StageImplementView.swift in Sources */,
 				E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */,
 				E99B218C2887EA14006A6154 /* StepQuizStringSkeletonView.swift in Sources */,
+				2C8EBE562A4D488D00A77205 /* ProgressScreenProjectTitleView.swift in Sources */,
 				2C20FBC0284F65F6006D879E /* HTMLToAttributedStringConverter.swift in Sources */,
 				2C93AF2529B34FE6004639E0 /* StepQuizPyCharmAssembly.swift in Sources */,
 				2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */,
