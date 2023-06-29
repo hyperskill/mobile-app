@@ -50,7 +50,7 @@
 //    }
 //}
 //
-//// MARK: - ProgressScreenView (ViewAction) -
+// MARK: - ProgressScreenView (ViewAction) -
 //
 //private extension ProgressScreenView {
 //    func handleViewAction(
@@ -60,7 +60,7 @@
 //    }
 //}
 //
-//// MARK: - ProgressScreenView_Previews: PreviewProvider -
+// MARK: - ProgressScreenView_Previews: PreviewProvider -
 //
 //struct ProgressScreenView_Previews: PreviewProvider {
 //    static var previews: some View {
