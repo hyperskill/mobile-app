@@ -22,8 +22,6 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
         super.init(feature: feature)
 
-        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: pushNotificationData, forceUpdate: false))
-
         self.objectWillChangeSubscription = objectWillChange.sink { [weak self] _ in
             self?.mainScheduler.schedule { [weak self] in
                 guard let strongSelf = self else {
@@ -56,8 +54,8 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
         AppFeatureStateKs(oldState) != AppFeatureStateKs(newState)
     }
 
-    func doRetryLoadApp() {
-        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: pushNotificationData, forceUpdate: true))
+    func doLoadApp(forceUpdate: Bool = false) {
+        onNewMessage(AppFeatureMessageInitialize(pushNotificationData: pushNotificationData, forceUpdate: forceUpdate))
     }
 
     // MARK: Private API
