@@ -30,18 +30,12 @@ internal class ProgressScreenViewStateMapper(
                 ProgressScreenFeature.ProjectProgressState.Empty ->
                     ProgressScreenViewState.ProjectProgressViewState.Empty
                 is ProgressScreenFeature.ProjectProgressState.Content ->
-                    when (state.trackProgressState) {
-                        ProgressScreenFeature.TrackProgressState.Idle,
-                        ProgressScreenFeature.TrackProgressState.Loading ->
-                            ProgressScreenViewState.ProjectProgressViewState.Loading
-                        ProgressScreenFeature.TrackProgressState.Error ->
-                            ProgressScreenViewState.ProjectProgressViewState.Error
-                        is ProgressScreenFeature.TrackProgressState.Content ->
-                            mapProjectProgressContent(
-                                track = state.trackProgressState.trackWithProgress.track,
-                                projectProgressContent = state.projectProgressState
-                            )
-                    }
+                    mapProjectProgressContent(
+                        track = (state.trackProgressState as? ProgressScreenFeature.TrackProgressState.Content)
+                            ?.trackWithProgress
+                            ?.track,
+                        projectProgressContent = state.projectProgressState
+                    )
             },
             isRefreshing = state.isTrackProgressRefreshing || state.isProjectProgressRefreshing
         )
@@ -68,7 +62,7 @@ internal class ProgressScreenViewStateMapper(
     }
 
     private fun mapProjectProgressContent(
-        track: Track,
+        track: Track?,
         projectProgressContent: ProgressScreenFeature.ProjectProgressState.Content
     ): ProgressScreenViewState.ProjectProgressViewState.Content {
         val project = projectProgressContent.projectWithProgress.project
@@ -76,7 +70,7 @@ internal class ProgressScreenViewStateMapper(
 
         return ProgressScreenViewState.ProjectProgressViewState.Content(
             title = project.title,
-            level = track.projectsByLevel.asLevelByProjectIdMap().get(project.id),
+            level = track?.projectsByLevel?.asLevelByProjectIdMap()?.get(project.id),
             timeToCompleteLabel = formatTimeToComplete(projectProgress.secondsToComplete),
             completedStagesLabel = "${projectProgress.completedStages.size} / ${project.stagesIds.size}",
             completedStagesProgress = projectProgressContent.projectWithProgress.progressPercentage / 100f,
