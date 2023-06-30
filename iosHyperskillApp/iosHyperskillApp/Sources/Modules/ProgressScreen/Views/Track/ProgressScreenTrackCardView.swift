@@ -24,7 +24,7 @@ struct ProgressScreenTrackCardView: View {
     let subtitle: String
 
     var body: some View {
-        VStack(spacing: LayoutInsets.defaultInset) {
+        VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             HStack(spacing: LayoutInsets.smallInset) {
                 Text(title)
                     .font(.callout)
@@ -54,7 +54,7 @@ struct ProgressScreenTrackCardView: View {
             Text(subtitle)
                 .font(.callout)
                 .foregroundColor(.secondaryText)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding()
         .background(appearance.backgroundColor)
