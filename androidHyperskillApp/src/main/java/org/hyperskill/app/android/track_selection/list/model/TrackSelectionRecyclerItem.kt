@@ -17,7 +17,8 @@ sealed interface TrackSelectionRecyclerItem {
         val isBeta: Boolean,
         val isCompleted: Boolean,
         val isSelected: Boolean,
-        @ColorInt val strokeColor: Int
+        @ColorInt val strokeColor: Int,
+        val progress: Int
     ) : TrackSelectionRecyclerItem, Identifiable<Long> {
         val areTagsVisible: Boolean
             get() = isBeta || isCompleted || isSelected
