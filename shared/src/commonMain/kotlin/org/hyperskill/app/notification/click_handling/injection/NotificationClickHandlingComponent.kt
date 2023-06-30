@@ -1,0 +1,9 @@
+package org.hyperskill.app.notification.click_handling.injection
+
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingDispatcher
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
+
+interface NotificationClickHandlingComponent {
+    val notificationClickHandlingReducer: NotificationClickHandlingReducer
+    val notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher
+}

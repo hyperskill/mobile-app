@@ -37,7 +37,7 @@ class HyperskillApp : Application() {
         appGraph = AndroidAppComponentImpl(
             application = this,
             userAgentInfo = buildUserAgentInfo(),
-            buildVariant = if (BuildConfig.DEBUG) BuildVariant.DEBUG else BuildVariant.RELEASE
+            buildVariant = BuildVariant.getByValue(BuildConfig.BUILD_TYPE)!!
         )
 
         initSentry()

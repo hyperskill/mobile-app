@@ -10,11 +10,57 @@ PODS:
     - CocoaLumberjack/Core (= 3.8.0)
   - CocoaLumberjack/Core (3.8.0)
   - CombineSchedulers (0.8.0)
+  - Firebase/CoreOnly (10.11.0):
+    - FirebaseCore (= 10.11.0)
+  - Firebase/Messaging (10.11.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 10.11.0)
+  - FirebaseCore (10.11.0):
+    - FirebaseCoreInternal (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Logger (~> 7.8)
+  - FirebaseCoreInternal (10.11.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+  - FirebaseInstallations (10.11.0):
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - PromisesObjC (~> 2.1)
+  - FirebaseMessaging (10.11.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleDataTransport (~> 9.2)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Reachability (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
   - Gifu (3.3.1)
+  - GoogleDataTransport (9.2.3):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
   - GoogleSignIn (6.1.0):
     - AppAuth (~> 1.4)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
+  - GoogleUtilities/AppDelegateSwizzler (7.11.1):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.11.1):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.11.1):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/Network (7.11.1):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.11.1)"
+  - GoogleUtilities/Reachability (7.11.1):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.11.1):
+    - GoogleUtilities/Logger
   - GTMAppAuth (1.3.1):
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
@@ -22,11 +68,17 @@ PODS:
   - Highlightr (2.1.0)
   - IQKeyboardManagerSwift (6.5.9)
   - Kanna (5.2.7)
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
   - Nuke (10.7.1)
   - NukeUI (0.8.1):
     - Gifu (~> 3.0)
     - Nuke (~> 10.5)
   - PanModal (1.2.7)
+  - PromisesObjC (2.2.0)
   - Sentry (8.5.0):
     - Sentry/Core (= 8.5.0)
     - SentryPrivate (= 8.5.0)
@@ -45,6 +97,8 @@ PODS:
 DEPENDENCIES:
   - Atributika (= 4.10.1)
   - CombineSchedulers (from `https://github.com/ivan-magda/combine-schedulers.git`, branch `main`)
+  - Firebase/CoreOnly (= 10.11.0)
+  - Firebase/Messaging (= 10.11.0)
   - GoogleSignIn (= 6.1.0)
   - Highlightr (from `https://github.com/raspu/Highlightr.git`, branch `master`)
   - IQKeyboardManagerSwift (= 6.5.9)
@@ -65,13 +119,22 @@ SPEC REPOS:
     - AppAuth
     - Atributika
     - CocoaLumberjack
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreInternal
+    - FirebaseInstallations
+    - FirebaseMessaging
     - Gifu
+    - GoogleDataTransport
     - GoogleSignIn
+    - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
     - IQKeyboardManagerSwift
     - Kanna
+    - nanopb
     - Nuke
+    - PromisesObjC
     - Sentry
     - SentryPrivate
     - SkeletonUI
@@ -121,16 +184,25 @@ SPEC CHECKSUMS:
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
   CocoaLumberjack: 78abfb691154e2a9df8ded4350d504ee19d90732
   CombineSchedulers: 80f670c732b4754eb011cd1147d9a08654b1c463
+  Firebase: 31d9575c124839fb5abc0db6d39511cc1dab1b85
+  FirebaseCore: 62fd4d549f5e3f3bd52b7998721c5fa0557fb355
+  FirebaseCoreInternal: 9e46c82a14a3b3a25be4e1e151ce6d21536b89c0
+  FirebaseInstallations: 2a2c6859354cbec0a228a863d4daf6de7c74ced4
+  FirebaseMessaging: 06253e9669434df0a40718fc82a90c78090f4704
   Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
+  GoogleDataTransport: f0308f5905a745f94fb91fea9c6cbaf3831cb1bd
   GoogleSignIn: c90b5bec45e780f54c6a8e1e3c182a86e3dda69d
+  GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   Highlightr: 683f05d5223cade533a78528a35c9f06e4caddf8
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   Nuke: 279f17a599fd1c83cf51de5e0e1f2db143a287b0
   NukeUI: 3c7ec7b299dd99707afdc783b436f39768b4493b
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
+  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   Sentry: 3be3f42e40e5a552935552e115744d5810a216d9
   SentryPrivate: 8c9463280e282527f938d1a5d1d60f8e10ff279b
   shared: 210f065b47c10083f8ccc49e665dec6d32c5b2d3
@@ -141,6 +213,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: 6b0cf1f4d619808dbc16e4fab064ce6fc79f090b
 
-PODFILE CHECKSUM: f2d08497f46768d7109ba67662306b53f674f4cb
+PODFILE CHECKSUM: d5507d1898e59ef8745a2ba9916b7ecdba733963
 
 COCOAPODS: 1.12.1

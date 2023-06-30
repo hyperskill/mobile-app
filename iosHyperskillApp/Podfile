@@ -12,6 +12,10 @@ target "iosHyperskillApp" do
   pod "SwiftLint", "0.50.1"
   pod "Sentry", "8.5.0"
 
+  # Firebase
+  pod "Firebase/CoreOnly", "10.11.0"
+  pod "Firebase/Messaging", "10.11.0"
+
   # Social SDKs
   pod "GoogleSignIn", "6.1.0"
 

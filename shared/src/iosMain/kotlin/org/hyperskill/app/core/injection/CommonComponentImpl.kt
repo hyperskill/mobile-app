@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.config.BuildKonfigModule
 import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.core.domain.Platform
+import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider

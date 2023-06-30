@@ -10,16 +10,20 @@ import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponentImpl
 import org.hyperskill.app.android.main.injection.NavigationComponent
 import org.hyperskill.app.android.main.injection.NavigationComponentImpl
-import org.hyperskill.app.android.notification.injection.PlatformNotificationComponent
-import org.hyperskill.app.android.notification.injection.PlatformNotificationComponentImpl
+import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
+import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponentImpl
+import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationComponent
+import org.hyperskill.app.android.notification.remote.injection.AndroidPlatformPushNotificationsComponentImpl
+import org.hyperskill.app.android.play_services.injection.PlayServicesCheckerComponentImpl
 import org.hyperskill.app.android.sentry.domain.model.manager.SentryManagerImpl
-import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
-import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.injection.CommonAndroidAppGraphImpl
 import org.hyperskill.app.core.injection.CommonComponent
 import org.hyperskill.app.core.injection.CommonComponentImpl
 import org.hyperskill.app.core.remote.UserAgentInfo
+import org.hyperskill.app.main.injection.PlatformMainComponent
+import org.hyperskill.app.main.injection.PlatformMainComponentImpl
+import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 
@@ -47,12 +51,30 @@ class AndroidAppComponentImpl(
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
     }
 
-    override val platformNotificationComponent: PlatformNotificationComponent by lazy {
-        PlatformNotificationComponentImpl(application, this)
+    override val platformLocalNotificationComponent: PlatformLocalNotificationComponent by lazy {
+        PlatformLocalNotificationComponentImpl(application, this)
     }
 
-    override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
-        PlatformAuthSocialWebViewComponentImpl()
+    override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
+        AndroidPlatformPushNotificationsComponentImpl(
+            pushNotificationsComponent = buildPushNotificationsComponent(),
+            playServicesCheckerComponent = buildPlayServicesCheckerComponent(),
+            commonComponent = commonComponent,
+            platformLocalNotificationComponent = platformLocalNotificationComponent,
+            analyticInteractor = analyticComponent.analyticInteractor
+        )
+
+    override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =
+        PlayServicesCheckerComponentImpl(context, sentryComponent)
+
+    /**
+     * Main component
+     */
+    override val platformMainComponent: PlatformMainComponent =
+        PlatformMainComponentImpl(
+            mainComponent = mainComponent,
+            platformPushNotificationsComponent = buildPlatformPushNotificationsComponent()
+        )
 
     /**
      * Latex component

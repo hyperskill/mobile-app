@@ -2,6 +2,10 @@ import Foundation
 import shared
 import UserNotifications
 
+struct HandleLaunchOptionsResult {
+    let pushNotificationData: PushNotificationData?
+}
+
 final class NotificationsService {
     typealias NotificationUserInfo = [AnyHashable: Any]
 
@@ -9,24 +13,31 @@ final class NotificationsService {
 
     let notificationInteractor: NotificationInteractor
     let analyticInteractor: AnalyticInteractor
+    let pushNotificationsInteractor: PushNotificationsInteractor
 
     init(
-        localNotificationsService: LocalNotificationsService = LocalNotificationsService(),
-        notificationInteractor: NotificationInteractor =
-            AppGraphBridge.sharedAppGraph.buildNotificationComponent().notificationInteractor,
-        analyticInteractor: AnalyticInteractor = AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor
+        localNotificationsService: LocalNotificationsService = .default,
+        notificationInteractor: NotificationInteractor = .default,
+        analyticInteractor: AnalyticInteractor = .default,
+        pushNotificationsInteractor: PushNotificationsInteractor = .default
     ) {
         self.localNotificationsService = localNotificationsService
         self.notificationInteractor = notificationInteractor
         self.analyticInteractor = analyticInteractor
+        self.pushNotificationsInteractor = pushNotificationsInteractor
     }
 
-    func handleLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        guard let localNotification = launchOptions?[.localNotification] as? UILocalNotification else {
-            return
+    func handleLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> HandleLaunchOptionsResult {
+        if let localNotification = launchOptions?[.localNotification] as? UILocalNotification {
+            handleLocalNotification(with: localNotification.userInfo)
+            return .init(pushNotificationData: nil)
+        } else if let remoteNotificationUserInfo = launchOptions?[.remoteNotification] as? NotificationUserInfo {
+            debugPrintRemoteNotification(with: remoteNotificationUserInfo)
+            let pushNotificationData = parseRemoteNotification(with: remoteNotificationUserInfo)
+            return .init(pushNotificationData: pushNotificationData)
+        } else {
+            return .init(pushNotificationData: nil)
         }
-
-        handleLocalNotification(with: localNotification.userInfo)
     }
 
     enum NotificationType: String {
@@ -46,7 +57,9 @@ extension NotificationsService {
         do {
             try await self.localNotificationsService.scheduleNotification(localNotification)
         } catch {
+            #if DEBUG
             print("NotificationsService :: failed schedule local notification with error: \(error)")
+            #endif
         }
     }
 
@@ -66,8 +79,11 @@ extension NotificationsService {
         #if DEBUG
         print("NotificationsService :: did receive local notification with info: \(userInfo ?? [:])")
         #endif
-        reportReceivedLocalNotification(with: userInfo)
-        routeLocalNotification(with: userInfo)
+
+        DispatchQueue.main.async {
+            self.reportReceivedLocalNotification(with: userInfo)
+            self.routeLocalNotification(with: userInfo)
+        }
     }
 
     // MARK: Private Helpers
@@ -118,5 +134,66 @@ extension NotificationsService {
     enum PayloadKey: String {
         case type
         case id
+        case aps
+        case pushNotificationData
     }
+}
+
+// MARK: - NotificationsService (RemoteNotifications) -
+
+extension NotificationsService {
+    func handleRemoteNotification(with userInfo: NotificationUserInfo) {
+        debugPrintRemoteNotification(with: userInfo)
+
+        let pushNotificationData = parseRemoteNotification(with: userInfo)
+
+        guard let pushNotificationData else {
+            #if DEBUG
+            print("NotificationsService: \(#function), failed to parse pushNotificationData, userInfo = \(userInfo)")
+            #endif
+            return
+        }
+
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(
+                name: .remoteNotificationClicked,
+                object: self,
+                userInfo: [
+                    PayloadKey.pushNotificationData.rawValue: pushNotificationData
+                ]
+            )
+        }
+    }
+
+    private func parseRemoteNotification(with userInfo: NotificationUserInfo) -> PushNotificationData? {
+        guard let apsDict = userInfo[PayloadKey.aps.rawValue] as? [String: Any] else {
+            #if DEBUG
+            print("NotificationsService: \(#function), failed to parse aps dict, userInfo = \(userInfo)")
+            #endif
+            return nil
+        }
+
+        let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(rawNotificationData: apsDict)
+
+        #if DEBUG
+        print("NotificationsService: \(#function), pushNotificationData: \(String(describing: pushNotificationData))")
+        #endif
+
+        return pushNotificationData
+    }
+
+    private func debugPrintRemoteNotification(with userInfo: NotificationUserInfo) {
+        #if DEBUG
+        print("NotificationsService: \(#function), userInfo: \(userInfo)")
+
+        if let data = try? JSONSerialization.data(withJSONObject: userInfo, options: [.prettyPrinted]),
+           let string = String(data: data, encoding: .utf8) {
+            print("NotificationsService: \(#function), JSON string: \(string)")
+        }
+        #endif
+    }
+}
+
+extension NSNotification.Name {
+    static let remoteNotificationClicked = NSNotification.Name("NotificationsServiceRemoteNotificationClicked")
 }

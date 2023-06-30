@@ -5,19 +5,19 @@ enum GoogleServiceInfo {
         resourceName: "GoogleService-Info"
     )
 
-    static let clientID = Self.getStringValue(for: .clientID).require()
+    static let authClientID = Self.getStringValue(for: .authClientID).require()
 
-    static let reversedClientID = Self.getStringValue(for: .reversedClientID).require()
+    static let authReversedClientID = Self.getStringValue(for: .authReversedClientID).require()
 
-    static let serverClientID = Self.getStringValue(for: .serverClientID).require()
+    static let authServerClientID = Self.getStringValue(for: .authServerClientID).require()
 
     private static func getStringValue(for key: Key) -> String? {
         self.plistDictionary?[key.rawValue] as? String
     }
 
     enum Key: String {
-        case clientID = "CLIENT_ID"
-        case reversedClientID = "REVERSED_CLIENT_ID"
-        case serverClientID = "SERVER_CLIENT_ID"
+        case authClientID = "AUTH_CLIENT_ID"
+        case authReversedClientID = "AUTH_REVERSED_CLIENT_ID"
+        case authServerClientID = "AUTH_SERVER_CLIENT_ID"
     }
 }

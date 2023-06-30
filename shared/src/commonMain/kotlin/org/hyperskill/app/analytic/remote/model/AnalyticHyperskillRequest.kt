@@ -2,7 +2,7 @@ package org.hyperskill.app.analytic.remote.model
 
 import kotlinx.serialization.json.JsonElement
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.extension.toJsonElement
+import org.hyperskill.app.core.utils.toJsonElement
 
 class AnalyticHyperskillRequest(
     val events: List<AnalyticEvent>

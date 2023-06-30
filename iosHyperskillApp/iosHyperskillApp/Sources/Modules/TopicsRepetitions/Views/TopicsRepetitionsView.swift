@@ -44,18 +44,14 @@ struct TopicsRepetitionsView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            buildSkeletons()
-                .onAppear {
-                    viewModel.doLoadContent()
-                }
-        case .loading:
+        case .idle, .loading:
             buildSkeletons()
         case .networkError:
             PlaceholderView(
-                configuration: .networkError(backgroundColor: appearance.backgroundColor) {
-                    viewModel.doLoadContent(forceUpdate: true)
-                }
+                configuration: .networkError(
+                    backgroundColor: appearance.backgroundColor,
+                    action: viewModel.doRetryLoadTopicsRepetitions
+                )
             )
         case .content(let state):
             ScrollView {

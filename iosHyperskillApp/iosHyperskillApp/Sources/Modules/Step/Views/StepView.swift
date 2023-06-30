@@ -33,20 +33,13 @@ struct StepView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            ProgressView()
-                .onAppear {
-                    viewModel.loadStep()
-                }
-        case .loading:
+        case .idle, .loading:
             ProgressView()
         case .error:
             PlaceholderView(
                 configuration: .networkError(
                     backgroundColor: .clear,
-                    action: {
-                        viewModel.loadStep(forceUpdate: true)
-                    }
+                    action: viewModel.doRetryLoadStep
                 )
             )
         case .data(let data):

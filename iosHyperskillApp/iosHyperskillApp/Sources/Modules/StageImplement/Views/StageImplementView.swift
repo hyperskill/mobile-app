@@ -29,21 +29,10 @@ struct StageImplementView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            ProgressView()
-                .onAppear {
-                    viewModel.doLoadStageImplement()
-                }
-        case .loading:
+        case .idle, .loading:
             ProgressView()
         case .networkError:
-            PlaceholderView(
-                configuration: .networkError(
-                    action: {
-                        viewModel.doLoadStageImplement(forceUpdate: true)
-                    }
-                )
-            )
+            PlaceholderView(configuration: .networkError(action: viewModel.doRetryLoadStageImplement))
         case .content(let data):
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {

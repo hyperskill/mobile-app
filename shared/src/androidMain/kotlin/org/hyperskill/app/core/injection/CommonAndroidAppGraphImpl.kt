@@ -14,8 +14,6 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
-import org.hyperskill.app.main.injection.PlatformMainComponent
-import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
@@ -58,10 +56,6 @@ import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionL
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
-
-    override val platformMainComponent: PlatformMainComponent by lazy {
-        PlatformMainComponentImpl(mainComponent)
-    }
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()

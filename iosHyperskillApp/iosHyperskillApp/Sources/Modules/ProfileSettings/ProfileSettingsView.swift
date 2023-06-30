@@ -47,19 +47,10 @@ struct ProfileSettingsView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            ProgressView()
-                .onAppear {
-                    viewModel.loadProfileSettings()
-                }
-        case .loading:
+        case .idle, .loading:
             ProgressView()
         case .error:
-            PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadProfileSettings(forceUpdate: true)
-                }
-            )
+            PlaceholderView(configuration: .networkError(action: viewModel.doRetryLoadProfileSettings))
         case .content(let content):
             if content.isLoadingMagicLink {
                 let _ = ProgressHUD.show()

@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.api.dsl.ApplicationBuildType
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
@@ -7,6 +9,8 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     kotlin("plugin.serialization")
+    alias(libs.plugins.sentry.androidGradle)
+    id("com.google.gms.google-services")
 }
 
 dependencies {
@@ -30,8 +34,11 @@ dependencies {
 
     implementation(libs.bundles.ktor.common)
 
-    implementation(libs.gms.services)
-    implementation(libs.gms.login)
+    implementation(libs.gms.play.services)
+    implementation(libs.gms.play.login)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
+
     implementation(libs.viewbinding)
     implementation(libs.kit.ui.adapters)
 
