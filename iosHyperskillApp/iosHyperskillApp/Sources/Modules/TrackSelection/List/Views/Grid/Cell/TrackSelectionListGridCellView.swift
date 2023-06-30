@@ -71,6 +71,7 @@ struct TrackSelectionListGridCellView: View {
                     rating: .string(track.rating)
                 )
             }
+            .opacity(track.isCompleted ? 0.5 : 1)
 
             TrackSelectionListGridCellBadgesView(
                 isSelected: track.isSelected,
@@ -81,6 +82,7 @@ struct TrackSelectionListGridCellView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .backgroundProgress(progress: Int(track.progress))
     }
 }
 
@@ -97,6 +99,11 @@ struct TrackSelectionListGridCellView_Previews: PreviewProvider {
 
             TrackSelectionListGridCellView(
                 track: tracks[1],
+                onTap: { _ in }
+            )
+
+            TrackSelectionListGridCellView(
+                track: tracks[2],
                 onTap: { _ in }
             )
         }

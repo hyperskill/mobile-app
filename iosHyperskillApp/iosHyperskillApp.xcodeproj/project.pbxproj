@@ -253,6 +253,7 @@
 		2C93C2D2292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93C2D1292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift */; };
 		2C93C2D4292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93C2D3292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift */; };
 		2C93C2D8292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93C2D7292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift */; };
+		2C95BAD92A4AED4300371C17 /* BackgroundProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C95BAD82A4AED4300371C17 /* BackgroundProgressView.swift */; };
 		2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC42812D1A70036DD53 /* HomeView.swift */; };
 		2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC62812D1BF0036DD53 /* HomeAssembly.swift */; };
 		2C963BCA2812D3550036DD53 /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C963BC92812D3550036DD53 /* ProfileSettingsView.swift */; };
@@ -779,6 +780,7 @@
 		2C93C2D1292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyperskillSentryLevel+SentryLevel.swift"; sourceTree = "<group>"; };
 		2C93C2D3292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HyperskillSentryBreadcrumb+SentryBreadcrumb.swift"; sourceTree = "<group>"; };
 		2C93C2D7292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C95BAD82A4AED4300371C17 /* BackgroundProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundProgressView.swift; sourceTree = "<group>"; };
 		2C963BC42812D1A70036DD53 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2C963BC62812D1BF0036DD53 /* HomeAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssembly.swift; sourceTree = "<group>"; };
 		2C963BC92812D3550036DD53 /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
@@ -2493,6 +2495,7 @@
 		2CBD191B291D3A2500F5FB0B /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				2C95BAD82A4AED4300371C17 /* BackgroundProgressView.swift */,
 				2C725B622809198000A49043 /* BackgroundView.swift */,
 				2C54E4272A1F717F003406B9 /* CardView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
@@ -3590,6 +3593,7 @@
 				2C7A1B1F2922EB070018D72C /* Hyperskill-Mobile_shared.swift in Sources */,
 				2C45E7C12A0FE9E100DFF32D /* ProjectSelectionListGridCellProjectGraduateView.swift in Sources */,
 				2C0146AA28FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift in Sources */,
+				2C95BAD92A4AED4300371C17 /* BackgroundProgressView.swift in Sources */,
 				E9523BF229DA966C0013A661 /* StudyPlanAssembly.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,

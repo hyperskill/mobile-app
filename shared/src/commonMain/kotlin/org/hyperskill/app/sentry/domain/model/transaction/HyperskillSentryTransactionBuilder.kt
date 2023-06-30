@@ -295,4 +295,19 @@ object HyperskillSentryTransactionBuilder {
             name = "track-selection-details-feature-screen-remote-data-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * ProgressScreenFeature
+     */
+    fun buildProgressScreenRemoteTrackWithProgressLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "progress-screen-remote-track-with-progress-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildProgressScreenRemoteProjectWithProgressLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "progress-screen-remote-project-with-progress-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

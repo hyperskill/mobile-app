@@ -14,5 +14,6 @@ fun Project.Companion.stub(
         progressId = "",
         tracks = tracks,
         isIdeRequired = false,
-        defaultScore = defaultScore
+        defaultScore = defaultScore,
+        stagesIds = emptyList()
     )

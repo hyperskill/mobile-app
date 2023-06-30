@@ -71,6 +71,7 @@ struct StudyPlanSectionItemView: View {
 
     @ViewBuilder
     private func buildProgressBar(_ progress: Float) -> some View {
+        #warning("Migrate to the BackgroundProgressView")
         GeometryReader { geometry in
             Rectangle()
                 .stroke(lineWidth: 0)

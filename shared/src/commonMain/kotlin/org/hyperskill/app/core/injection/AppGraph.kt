@@ -30,6 +30,7 @@ import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.progresses.injection.ProgressScreenComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponent
@@ -143,4 +144,5 @@ interface AppGraph {
     fun buildDevicesDataComponent(): DevicesDataComponent
     fun buildPushNotificationsComponent(): PushNotificationsComponent
     fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
+    fun buildProgressScreenComponent(): ProgressScreenComponent
 }

@@ -46,6 +46,7 @@ internal class TrackSelectionListViewStateMapper(
             rating = numbersFormatter.formatProgressAverageRating(trackWithProgress.trackProgress.averageRating()),
             isBeta = trackWithProgress.track.isBeta,
             isCompleted = trackWithProgress.track.isCompleted,
-            isSelected = isSelected
+            isSelected = isSelected,
+            progress = trackWithProgress.averageProgress
         )
 }
