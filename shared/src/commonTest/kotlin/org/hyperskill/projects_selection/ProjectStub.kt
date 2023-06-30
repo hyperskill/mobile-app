@@ -6,7 +6,8 @@ import org.hyperskill.app.projects.domain.model.ProjectTracksEntry
 fun Project.Companion.stub(
     id: Long,
     tracks: Map<String, ProjectTracksEntry> = emptyMap(),
-    defaultScore: Float = 0f
+    defaultScore: Float = 0f,
+    stagesIds: List<Long> = listOf(0)
 ): Project =
     Project(
         id = id,
@@ -15,5 +16,5 @@ fun Project.Companion.stub(
         tracks = tracks,
         isIdeRequired = false,
         defaultScore = defaultScore,
-        stagesIds = emptyList()
+        stagesIds = stagesIds
     )
