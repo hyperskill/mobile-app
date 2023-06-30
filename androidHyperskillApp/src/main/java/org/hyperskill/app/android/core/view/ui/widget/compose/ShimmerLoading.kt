@@ -15,7 +15,11 @@ fun ShimmerLoading(
 ) {
     AndroidView(
         factory = { context ->
-            LoadingView(context)
+            LoadingView(context).apply {
+                setRadius(
+                    ru.nobird.android.view.base.ui.extension.Dp(radius.value).toPx().value
+                )
+            }
         },
         update = {
             it.setRadius(

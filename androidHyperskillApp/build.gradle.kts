@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.accompanist.themeadapter)
     implementation(libs.compose.viewmodel)
     implementation(libs.compose.lifecycle)
+    implementation(libs.compose.viewbinding)
 
     coreLibraryDesugaring(libs.android.desugar.jdk)
 }

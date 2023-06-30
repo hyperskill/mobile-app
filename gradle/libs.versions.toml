@@ -111,6 +111,7 @@ compose-ui = { module = "androidx.compose.ui:ui" }
 compose-material = { module = "androidx.compose.material:material" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 compose-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 accompanist-themeadapter = { module = "com.google.accompanist:accompanist-themeadapter-material", version = "0.28.0" }

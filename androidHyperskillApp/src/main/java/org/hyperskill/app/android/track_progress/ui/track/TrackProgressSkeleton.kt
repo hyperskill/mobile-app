@@ -25,6 +25,9 @@ fun TrackProgressSkeleton(
             .fillMaxWidth()
             .height(ProgressDefaults.SkeletonWidgetHeight)
     }
+    val smallWidgetModifier = Modifier
+        .height(ProgressDefaults.SkeletonWidgetHeight)
+
     Column(modifier = modifier) {
         BlockHeaderSkeleton()
         Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
@@ -32,7 +35,7 @@ fun TrackProgressSkeleton(
             radius = dimensionResource(id = R.dimen.corner_radius),
             modifier = bigWidgetModifier
         )
-        Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
+        Spacer(modifier = Modifier.height(ProgressDefaults.SmallSpaceDp))
         ShimmerLoading(
             radius = dimensionResource(id = R.dimen.corner_radius),
             modifier = bigWidgetModifier
@@ -40,14 +43,12 @@ fun TrackProgressSkeleton(
         Spacer(modifier = Modifier.height(ProgressDefaults.SmallSpaceDp))
         Row(horizontalArrangement = Arrangement.spacedBy(ProgressDefaults.SmallSpaceDp)) {
             ShimmerLoading(
-                modifier = Modifier
-                    .height(ProgressDefaults.SkeletonWidgetHeight)
-                    .weight(1f)
+                radius = dimensionResource(id = R.dimen.corner_radius),
+                modifier = smallWidgetModifier.weight(1f)
             )
             ShimmerLoading(
-                modifier = Modifier
-                    .height(ProgressDefaults.SkeletonWidgetHeight)
-                    .weight(1f)
+                radius = dimensionResource(id = R.dimen.corner_radius),
+                modifier = smallWidgetModifier.weight(1f)
             )
         }
     }
