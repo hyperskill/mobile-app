@@ -4,9 +4,12 @@ import android.content.Context
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.LifecycleOwner
+import com.github.terrakok.cicerone.Router
 import com.google.android.material.appbar.AppBarLayout
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutGamificationToolbarBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.streaks.domain.model.StreakState
@@ -74,6 +77,19 @@ class GamificationToolbarDelegate(
                     )
                 }
             }
+        }
+    }
+
+    fun onAction(
+        action: GamificationToolbarFeature.Action.ViewAction,
+        mainScreenRouter: MainScreenRouter,
+        router: Router
+    ) {
+        when (action) {
+            is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
+                mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
+            GamificationToolbarFeature.Action.ViewAction.NavigateTo.ProgressScreen ->
+                router.navigateToProgressScreen()
         }
     }
 
