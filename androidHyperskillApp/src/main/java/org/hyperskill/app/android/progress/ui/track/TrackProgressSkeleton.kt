@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_progress.ui.track
+package org.hyperskill.app.android.progress.ui.track
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,8 +13,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerLoading
-import org.hyperskill.app.android.track_progress.ui.BlockHeaderSkeleton
-import org.hyperskill.app.android.track_progress.ui.ProgressDefaults
+import org.hyperskill.app.android.progress.ui.BlockHeaderSkeleton
+import org.hyperskill.app.android.progress.ui.ProgressDefaults
 
 @Composable
 fun TrackProgressSkeleton(

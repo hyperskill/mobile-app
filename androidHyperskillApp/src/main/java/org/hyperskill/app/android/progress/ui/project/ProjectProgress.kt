@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_progress.ui.project
+package org.hyperskill.app.android.progress.ui.project
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable

@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_progress.ui
+package org.hyperskill.app.android.progress.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border

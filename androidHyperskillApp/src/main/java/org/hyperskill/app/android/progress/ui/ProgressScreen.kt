@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_progress.ui
+package org.hyperskill.app.android.progress.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.track_progress.ui.project.ProjectProgress
-import org.hyperskill.app.android.track_progress.ui.track.TrackProgress
+import org.hyperskill.app.android.progress.ui.project.ProjectProgress
+import org.hyperskill.app.android.progress.ui.track.TrackProgress
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
 import org.hyperskill.app.progresses.view.ProgressScreenViewState

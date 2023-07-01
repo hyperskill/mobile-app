@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_progress.ui.project
+package org.hyperskill.app.android.progress.ui.project
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +16,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.track_progress.ui.BlockHeader
-import org.hyperskill.app.android.track_progress.ui.GeneralStatistics
-import org.hyperskill.app.android.track_progress.ui.PercentStatistics
-import org.hyperskill.app.android.track_progress.ui.ProgressDefaults
+import org.hyperskill.app.android.progress.ui.BlockHeader
+import org.hyperskill.app.android.progress.ui.GeneralStatistics
+import org.hyperskill.app.android.progress.ui.PercentStatistics
+import org.hyperskill.app.android.progress.ui.ProgressDefaults
 import org.hyperskill.app.progresses.view.ProgressScreenViewState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 

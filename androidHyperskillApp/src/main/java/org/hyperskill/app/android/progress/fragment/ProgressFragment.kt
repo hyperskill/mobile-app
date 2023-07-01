@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_progress.fragment
+package org.hyperskill.app.android.progress.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.android.track_progress.ui.ProgressScreen
+import org.hyperskill.app.android.progress.ui.ProgressScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
 

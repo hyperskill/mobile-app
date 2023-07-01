@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.track_progress.ui.track
+package org.hyperskill.app.android.progress.ui.track
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import org.hyperskill.app.R
-import org.hyperskill.app.android.track_progress.ui.PercentStatistics
+import org.hyperskill.app.android.progress.ui.PercentStatistics
 
 @Composable
 fun TrackTopicsStatistics(
