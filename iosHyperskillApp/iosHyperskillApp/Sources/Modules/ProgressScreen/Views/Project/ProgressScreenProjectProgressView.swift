@@ -16,7 +16,12 @@ struct ProgressScreenProjectProgressView: View {
     var body: some View {
         switch projectProgressViewStateKs {
         case .idle, .loading:
-            ProgressView()
+            ProgressScreenProjectProgressSkeletonView(
+                appearance: .init(
+                    spacing: appearance.spacing,
+                    interitemSpacing: appearance.interitemSpacing
+                )
+            )
         case .empty:
             EmptyView()
         case .error:
