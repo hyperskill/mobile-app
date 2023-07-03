@@ -79,12 +79,13 @@ private fun DrawScope.drawLinearIndicator(
 private fun DrawScope.drawLinearIndicatorBackground(
     brushOrColor: BrushOrColor,
     strokeWidth: Float
-) = drawLinearIndicator(0f, 1f, brushOrColor, strokeWidth)
+) =
+    drawLinearIndicator(0f, 1f, brushOrColor, strokeWidth)
 
 @Immutable
 private sealed interface BrushOrColor {
-    class Brush(val brush: androidx.compose.ui.graphics.Brush): BrushOrColor
-    class Color(val color: androidx.compose.ui.graphics.Color): BrushOrColor
+    class Brush(val brush: androidx.compose.ui.graphics.Brush) : BrushOrColor
+    class Color(val color: androidx.compose.ui.graphics.Color) : BrushOrColor
 }
 
 private val LinearIndicatorHeight = ProgressIndicatorDefaults.StrokeWidth

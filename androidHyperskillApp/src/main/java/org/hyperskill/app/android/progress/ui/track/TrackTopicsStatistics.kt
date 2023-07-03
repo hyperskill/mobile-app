@@ -44,19 +44,20 @@ fun TrackTopicsStatistics(
 private fun getProgressAnnotatedTitle(
     countString: String,
     percentageString: String
-) = buildAnnotatedString {
-    withStyle(SpanStyle(colorResource(id = R.color.color_on_surface))) {
-        append(countString)
+) =
+    buildAnnotatedString {
+        withStyle(SpanStyle(colorResource(id = R.color.color_on_surface))) {
+            append(countString)
+        }
+        append(' ')
+        withStyle(SpanStyle(colorResource(id = R.color.color_on_surface_alpha_12))) {
+            append('•')
+        }
+        append(' ')
+        withStyle(SpanStyle(colorResource(id = R.color.color_on_surface_alpha_38))) {
+            append(percentageString)
+        }
     }
-    append(' ')
-    withStyle(SpanStyle(colorResource(id = R.color.color_on_surface_alpha_12))) {
-        append('•')
-    }
-    append(' ')
-    withStyle(SpanStyle(colorResource(id = R.color.color_on_surface_alpha_38))) {
-        append(percentageString)
-    }
-}
 
 @Composable
 @Preview(showBackground = true)

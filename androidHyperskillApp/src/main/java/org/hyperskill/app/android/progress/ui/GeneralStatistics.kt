@@ -54,7 +54,6 @@ fun GeneralStatistics(
             color = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_60)
         )
     }
-
 }
 
 @Composable
