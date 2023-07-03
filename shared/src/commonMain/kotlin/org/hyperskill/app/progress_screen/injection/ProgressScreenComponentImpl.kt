@@ -1,10 +1,10 @@
-package org.hyperskill.app.progresses.injection
+package org.hyperskill.app.progress_screen.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Action
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Message
-import org.hyperskill.app.progresses.view.ProgressScreenViewState
-import org.hyperskill.app.progresses.view.ProgressScreenViewStateMapper
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.Action
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.Message
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewStateMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class ProgressScreenComponentImpl(

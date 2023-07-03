@@ -58,8 +58,8 @@ import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
-import org.hyperskill.app.progresses.injection.ProgressScreenComponent
-import org.hyperskill.app.progresses.injection.ProgressScreenComponentImpl
+import org.hyperskill.app.progress_screen.injection.ProgressScreenComponent
+import org.hyperskill.app.progress_screen.injection.ProgressScreenComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesDataComponent
 import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
 import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent

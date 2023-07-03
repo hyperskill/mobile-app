@@ -1,4 +1,4 @@
-package org.hyperskill.app.progresses.presentation
+package org.hyperskill.app.progress_screen.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress

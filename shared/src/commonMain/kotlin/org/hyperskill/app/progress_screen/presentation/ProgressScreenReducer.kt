@@ -1,13 +1,13 @@
-package org.hyperskill.app.progresses.presentation
+package org.hyperskill.app.progress_screen.presentation
 
-import org.hyperskill.app.progresses.domain.analytic.ProgressScreenClickedPullToRefreshHyperskillAnalyticEvent
-import org.hyperskill.app.progresses.domain.analytic.ProgressScreenViewedHyperskillAnalyticEvent
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Action
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.InternalAction
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Message
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.ProjectProgressState
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.State
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.TrackProgressState
+import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedPullToRefreshHyperskillAnalyticEvent
+import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenViewedHyperskillAnalyticEvent
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.Action
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.InternalAction
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.Message
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.ProjectProgressState
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.State
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.TrackProgressState
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ProgressScreenReducerResult = Pair<State, Set<Action>>

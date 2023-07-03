@@ -1,12 +1,12 @@
-package org.hyperskill.app.progresses.presentation
+package org.hyperskill.app.progress_screen.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.InternalAction
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.Message
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.InternalAction
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature.Message
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor

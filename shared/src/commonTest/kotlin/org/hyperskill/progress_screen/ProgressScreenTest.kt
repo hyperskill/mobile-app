@@ -4,9 +4,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
-import org.hyperskill.app.progresses.presentation.ProgressScreenReducer
-import org.hyperskill.app.progresses.view.ProgressScreenViewStateMapper
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenReducer
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewStateMapper
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
