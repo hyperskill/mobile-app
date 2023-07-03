@@ -148,6 +148,9 @@ struct HomeView: View {
             switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
             case .showProfileTab:
                 TabBarRouter(tab: .profile).route()
+            case .showProgressScreen:
+                let assembly = ProgressScreenAssembly()
+                stackRouter.pushViewController(assembly.makeModule())
             }
         case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
             switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {

@@ -161,6 +161,9 @@ class StudyPlanFragment :
                     GamificationToolbarFeature.Action.ViewAction.ShowProfileTab -> {
                         mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
                     }
+                    GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen -> {
+                        // TODO: Show progress screen
+                    }
                 }
             }
             is StudyPlanScreenFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
