@@ -30,7 +30,6 @@ import org.hyperskill.app.android.progress.ui.track.TrackProgress
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
 import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
 import org.hyperskill.app.progresses.view.ProgressScreenViewState
-import org.hyperskill.app.projects.domain.model.ProjectLevel
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -101,8 +100,8 @@ fun ProgressScreen(
 fun NexusTrackProgressScreenPreview() {
     ProgressScreen(
         ProgressScreenViewState(
-            trackProgressViewState = previewTrackViewState(),
-            projectProgressViewState = previewProjectViewState(),
+            trackProgressViewState = ProgressPreview.trackContentViewStatePreview(),
+            projectProgressViewState = ProgressPreview.projectContentViewStatePreview(),
             isRefreshing = false
         ),
         onNewMessage = {},
@@ -118,34 +117,11 @@ fun NexusTrackProgressScreenPreview() {
 fun GeneralTrackProgressScreenPreview() {
     ProgressScreen(
         ProgressScreenViewState(
-            trackProgressViewState = previewTrackViewState(),
-            projectProgressViewState = previewProjectViewState(),
+            trackProgressViewState = ProgressPreview.trackContentViewStatePreview(),
+            projectProgressViewState = ProgressPreview.projectContentViewStatePreview(),
             isRefreshing = false
         ),
         onNewMessage = {},
         onBackClick = {}
     )
 }
-
-private fun previewTrackViewState() = ProgressScreenViewState.TrackProgressViewState.Content(
-    title = "Kotlin for Beginners",
-    imageSource = null,
-    completedTopicsCountLabel = "0 / 147",
-    completedTopicsPercentageLabel = "34%",
-    completedTopicsPercentageProgress = 0.34f,
-    appliedTopicsCountLabel = "34 / 150",
-    appliedTopicsPercentageLabel = "67",
-    appliedTopicsPercentageProgress = 0.67f,
-    timeToCompleteLabel = "~ 56h",
-    completedGraduateProjectsCount = 50,
-    isCompleted = false
-)
-
-private fun previewProjectViewState() = ProgressScreenViewState.ProjectProgressViewState.Content(
-    title = "Simple Chatty Bot",
-    level = ProjectLevel.EASY,
-    timeToCompleteLabel = "~ 56h",
-    completedStagesLabel = "0 / 5",
-    completedStagesProgress = 0.2f,
-    isCompleted = false
-)

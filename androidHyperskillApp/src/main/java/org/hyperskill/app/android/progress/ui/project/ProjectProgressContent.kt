@@ -20,6 +20,7 @@ import org.hyperskill.app.android.progress.ui.BlockHeader
 import org.hyperskill.app.android.progress.ui.GeneralStatistics
 import org.hyperskill.app.android.progress.ui.PercentStatistics
 import org.hyperskill.app.android.progress.ui.ProgressDefaults
+import org.hyperskill.app.android.progress.ui.ProgressPreview
 import org.hyperskill.app.progresses.view.ProgressScreenViewState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 
@@ -75,13 +76,6 @@ private fun getProjectLevelIconRes(level: ProjectLevel): Int =
 @Preview
 fun ProjectProgressPreview() {
     ProjectProgressContent(
-        viewState = ProgressScreenViewState.ProjectProgressViewState.Content(
-            title = "Simple Chatty Bot",
-            level = ProjectLevel.EASY,
-            timeToCompleteLabel = "~ 56 h",
-            completedStagesLabel = "1 / 5",
-            completedStagesProgress = 0.2f,
-            isCompleted = false
-        )
+        viewState = ProgressPreview.projectContentViewStatePreview()
     )
 }

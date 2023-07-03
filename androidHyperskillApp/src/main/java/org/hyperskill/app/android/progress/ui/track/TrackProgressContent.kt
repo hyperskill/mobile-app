@@ -14,6 +14,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.progress.ui.BlockHeader
 import org.hyperskill.app.android.progress.ui.GeneralStatistics
 import org.hyperskill.app.android.progress.ui.ProgressDefaults
+import org.hyperskill.app.android.progress.ui.ProgressPreview
 import org.hyperskill.app.progresses.view.ProgressScreenViewState
 
 @Composable
@@ -71,20 +72,8 @@ fun TrackProgressContent(
 
 @Composable
 @Preview(showBackground = true)
-fun TrackProgresContentPreview() {
+fun TrackProgressContentPreview() {
     TrackProgressContent(
-        viewState = ProgressScreenViewState.TrackProgressViewState.Content(
-            title = "Kotlin for Beginners",
-            imageSource = null,
-            completedTopicsCountLabel = "0 / 149",
-            completedTopicsPercentageLabel = "14%",
-            completedTopicsPercentageProgress = 0.14f,
-            appliedTopicsCountLabel = "0 / 138",
-            appliedTopicsPercentageLabel = "55%",
-            appliedTopicsPercentageProgress = 0.55f,
-            timeToCompleteLabel = "~ 56 h",
-            completedGraduateProjectsCount = 14,
-            isCompleted = true
-        )
+        viewState = ProgressPreview.trackContentViewStatePreview(isCompleted = true)
     )
 }
