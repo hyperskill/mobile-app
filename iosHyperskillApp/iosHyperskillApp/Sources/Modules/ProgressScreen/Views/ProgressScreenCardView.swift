@@ -8,7 +8,6 @@ extension ProgressScreenCardView {
         let imageWidthHeight: CGFloat = 16
 
         let backgroundColor: Color
-
         let cornerRadius: CGFloat
     }
 }
@@ -29,15 +28,12 @@ struct ProgressScreenCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             HStack(spacing: appearance.interitemSpacing) {
-                Text(title)
+                Text("\(title) ")
                     .font(.callout)
-                    .foregroundColor(.primaryText)
-
-                if let titleSecondaryText {
-                    Text(titleSecondaryText)
-                        .font(.callout)
-                        .foregroundColor(.disabledText)
-                }
+                    .foregroundColor(.primaryText) +
+                Text(titleSecondaryText)
+                    .font(.callout)
+                    .foregroundColor(.disabledText)
 
                 Spacer()
 
