@@ -47,7 +47,7 @@ struct TopicToDiscoverNextButtonView: View {
                                 .foregroundColor(Color(ColorPalette.secondary))
                                 .frame(widthHeight: appearance.rightDetailIconWidthHeight)
                         } else if topicProgress.isSkipped {
-                            Image(Images.Track.TopicsToDiscoverNext.skippedTopic)
+                            Image(Images.Common.skip)
                                 .resizable()
                                 .renderingMode(.template)
                                 .aspectRatio(contentMode: .fit)
@@ -100,7 +100,7 @@ struct TopicToDiscoverNextButtonView: View {
 
     @ViewBuilder private var learnNextBadge: some View {
         if isLearnNext {
-            Text(Strings.Track.TopicsToDiscoverNext.learnNextBadge)
+            Text(Strings.TopicsWidget.learnNextBadge)
                 .font(.caption)
                 .foregroundColor(Color(ColorPalette.primary))
                 .padding(.horizontal, LayoutInsets.smallInset)

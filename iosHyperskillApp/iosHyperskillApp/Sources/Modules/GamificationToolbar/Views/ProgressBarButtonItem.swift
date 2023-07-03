@@ -45,7 +45,7 @@ struct ProgressBarButtonItem: View {
                             .frame(widthHeight: appearance.circleBackgroundWidthHeight)
                     )
 
-                    Text(Strings.Track.Progress.title)
+                    Text(Strings.General.progress)
                         .foregroundColor(.primaryText)
                         .font(.subheadline)
                 }

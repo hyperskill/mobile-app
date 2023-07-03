@@ -63,7 +63,7 @@ struct ProgressScreenTrackProgressContentView: View {
                 appearance: appearance.cardAppearance,
                 title: completedTopicsCountLabel,
                 titleSecondaryText: completedTopicsPercentageLabel,
-                imageName: Images.Track.About.topic,
+                imageName: Images.Common.topic,
                 progress: .init(value: completedTopicsPercentageProgress, isCompleted: isCompleted),
                 subtitle: Strings.ProgressScreen.Track.completedTopics
             )
@@ -72,7 +72,7 @@ struct ProgressScreenTrackProgressContentView: View {
                 appearance: appearance.cardAppearance,
                 title: appliedTopicsCountLabel,
                 titleSecondaryText: appliedTopicsPercentageLabel,
-                imageName: Images.Track.hammer,
+                imageName: Images.Common.hammer,
                 progress: .init(value: appliedTopicsPercentageProgress, isCompleted: isCompleted),
                 subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
             )

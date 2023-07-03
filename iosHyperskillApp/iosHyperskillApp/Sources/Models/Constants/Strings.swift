@@ -16,6 +16,7 @@ enum Strings {
         static let later = sharedStrings.later.localized()
         static let goodJob = sharedStrings.good_job.localized()
         static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
+        static let progress = sharedStrings.progress.localized()
     }
 
     // MARK: - Badge -
@@ -189,37 +190,19 @@ enum Strings {
     enum Home {
         static let title = sharedStrings.home_title.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
+
         static let topicsToDiscoverNextTitle = sharedStrings.home_topics_to_discover_next_title.localized()
+
         static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
         static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()
+
+        static let continueLearningInWebButton = sharedStrings.home_continue_learning_on_web_text.localized()
     }
 
-    // MARK: - Track -
+    // MARK: - Topics widget -
 
-    enum Track {
-        static let title = sharedStrings.track_title.localized()
-
-        enum Header {
-            static let learningNow = sharedStrings.track_learning_now_text.localized()
-        }
-
-        enum Progress {
-            static let title = sharedStrings.track_progress_block_title.localized()
-            static let timeToComplete = sharedStrings.track_time_to_complete_text.localized()
-            static let completedGraduateProject = sharedStrings.track_completed_graduate_project_text.localized()
-            static let completedTopics = sharedStrings.track_completed_topics_text.localized()
-            static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
-        }
-
-        enum TopicsToDiscoverNext {
-            static let title = sharedStrings.track_topics_to_discover_next_block_title.localized()
-            static let learnNextBadge = sharedStrings.topics_widget_learn_next_badge.localized()
-        }
-
-        enum About {
-            static let title = sharedStrings.track_about_text.localized()
-            static let continueInWebButton = sharedStrings.track_continue_in_web_text.localized()
-        }
+    enum TopicsWidget {
+        static let learnNextBadge = sharedStrings.topics_widget_learn_next_badge.localized()
     }
 
     // MARK: - StudyPlan -

@@ -23,7 +23,7 @@ struct StudyPlanSectionHeaderStatisticsView: View {
         } else {
             HStack(spacing: LayoutInsets.defaultInset) {
                 if let formattedTopicsCount {
-                    buildItemView(imageName: Images.Track.About.topic, title: formattedTopicsCount)
+                    buildItemView(imageName: Images.Common.topic, title: formattedTopicsCount)
                 }
                 if let formattedTimeToComplete {
                     buildItemView(imageName: Images.Step.clock, title: formattedTimeToComplete)

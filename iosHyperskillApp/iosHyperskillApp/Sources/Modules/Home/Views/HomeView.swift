@@ -110,7 +110,7 @@ struct HomeView: View {
 
                     if shouldShowContinueInWebButton {
                         Button(
-                            Strings.Track.About.continueInWebButton,
+                            Strings.Home.continueLearningInWebButton,
                             action: viewModel.doContinueLearningOnWebPresentation
                         )
                         .buttonStyle(OutlineButtonStyle())

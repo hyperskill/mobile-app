@@ -91,7 +91,7 @@ struct ProgressScreenTrackCardView_Previews: PreviewProvider {
                 appearance: appearance,
                 title: "48 / 149",
                 titleSecondaryText: "• 32%",
-                imageName: Images.Track.About.topic,
+                imageName: Images.Common.topic,
                 progress: .init(value: 0.322147651, isCompleted: false),
                 subtitle: "Completed topics"
             )
@@ -100,7 +100,7 @@ struct ProgressScreenTrackCardView_Previews: PreviewProvider {
                 appearance: appearance,
                 title: "131 / 149",
                 titleSecondaryText: "• 91%",
-                imageName: Images.Track.About.topic,
+                imageName: Images.Common.topic,
                 progress: .init(value: 0.91, isCompleted: true),
                 subtitle: "Completed topics"
             )
