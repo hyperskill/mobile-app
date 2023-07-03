@@ -51,7 +51,7 @@ struct StudyPlanSectionItemView: View {
             }
         }
         .padding()
-        .background(buildProgressBar(Float(truncating: item.progress ?? 0)))
+        .background(buildProgressBar(Float(item.progress)))
     }
 
     @ViewBuilder

@@ -1309,7 +1309,7 @@ class StudyPlanWidgetTest {
             title = title.ifBlank { activityId.toString() },
             subtitle = subtitle,
             formattedProgress = null,
-            progress = null,
+            progress = 0,
             state = state,
             isIdeRequired = isIdeRequired,
             hypercoinsAward = null

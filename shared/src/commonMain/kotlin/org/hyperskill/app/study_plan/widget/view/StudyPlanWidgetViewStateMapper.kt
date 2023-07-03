@@ -109,8 +109,12 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         null -> StudyPlanWidgetViewState.SectionItemState.IDLE
                     },
                     isIdeRequired = activity.isIdeRequired,
-                    progress = null, // TODO: ALTAPPS-713 add data with new activities API
-                    formattedProgress = null, // TODO: ALTAPPS-713 add data with new activities API
+                    progress = activity.progressPercentage,
+                    formattedProgress = if (activity.progressPercentage != 0) {
+                        "${activity.progressPercentage}%"
+                    } else {
+                        null
+                    },
                     hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
                 )
             }
