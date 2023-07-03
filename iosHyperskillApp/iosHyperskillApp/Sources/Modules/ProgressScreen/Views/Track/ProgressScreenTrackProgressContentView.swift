@@ -6,6 +6,18 @@ extension ProgressScreenTrackProgressContentView {
         let interitemSpacing: CGFloat
 
         let avatarSize = CGSize(width: 34, height: 34)
+
+        let cardBackgroundColor: Color
+        let cardCornerRadius: CGFloat
+
+        var cardAppearance: ProgressScreenCardView.Appearance {
+            .init(
+                spacing: spacing,
+                interitemSpacing: interitemSpacing,
+                backgroundColor: cardBackgroundColor,
+                cornerRadius: cardCornerRadius
+            )
+        }
     }
 }
 
@@ -48,10 +60,7 @@ struct ProgressScreenTrackProgressContentView: View {
     private func buildCardsView() -> some View {
         VStack(spacing: appearance.interitemSpacing) {
             ProgressScreenCardView(
-                appearance: .init(
-                    spacing: appearance.spacing,
-                    interitemSpacing: appearance.interitemSpacing
-                ),
+                appearance: appearance.cardAppearance,
                 title: completedTopicsCountLabel,
                 titleSecondaryText: completedTopicsPercentageLabel,
                 imageName: Images.Track.About.topic,
@@ -60,10 +69,7 @@ struct ProgressScreenTrackProgressContentView: View {
             )
 
             ProgressScreenCardView(
-                appearance: .init(
-                    spacing: appearance.spacing,
-                    interitemSpacing: appearance.interitemSpacing
-                ),
+                appearance: appearance.cardAppearance,
                 title: appliedTopicsCountLabel,
                 titleSecondaryText: appliedTopicsPercentageLabel,
                 imageName: Images.Track.hammer,
@@ -74,10 +80,7 @@ struct ProgressScreenTrackProgressContentView: View {
             HStack(spacing: appearance.interitemSpacing) {
                 if let timeToCompleteLabel {
                     ProgressScreenCardView(
-                        appearance: .init(
-                            spacing: appearance.spacing,
-                            interitemSpacing: appearance.interitemSpacing
-                        ),
+                        appearance: appearance.cardAppearance,
                         title: timeToCompleteLabel,
                         titleSecondaryText: nil,
                         imageName: Images.Step.clock,
@@ -87,10 +90,7 @@ struct ProgressScreenTrackProgressContentView: View {
                 }
 
                 ProgressScreenCardView(
-                    appearance: .init(
-                        spacing: appearance.spacing,
-                        interitemSpacing: appearance.interitemSpacing
-                    ),
+                    appearance: appearance.cardAppearance,
                     title: "\(completedGraduateProjectsCount)",
                     titleSecondaryText: nil,
                     imageName: Images.ProjectSelectionList.projectGraduate,
@@ -108,7 +108,9 @@ struct ProgressScreenTrackProgressContentView_Previews: PreviewProvider {
         ProgressScreenTrackProgressContentView(
             appearance: .init(
                 spacing: LayoutInsets.defaultInset,
-                interitemSpacing: LayoutInsets.smallInset
+                interitemSpacing: LayoutInsets.smallInset,
+                cardBackgroundColor: Color(ColorPalette.surface),
+                cardCornerRadius: 8
             ),
             avatarImageSource: "https://hyperskill.azureedge.net/media/tracks/9368deaab97441f192fd4c8db42cb9bc/python.svg",
             title: "Python Core",

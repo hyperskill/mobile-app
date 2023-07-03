@@ -9,6 +9,18 @@ extension ProgressScreenProjectProgressContentView {
             imageSize: .init(width: 16, height: 16),
             padding: .small
         )
+
+        let cardBackgroundColor: Color
+        let cardCornerRadius: CGFloat
+
+        var cardAppearance: ProgressScreenCardView.Appearance {
+            .init(
+                spacing: spacing,
+                interitemSpacing: interitemSpacing,
+                backgroundColor: cardBackgroundColor,
+                cornerRadius: cardCornerRadius
+            )
+        }
     }
 }
 
@@ -43,10 +55,7 @@ struct ProgressScreenProjectProgressContentView: View {
             HStack(spacing: appearance.interitemSpacing) {
                 if let timeToCompleteLabel {
                     ProgressScreenCardView(
-                        appearance: .init(
-                            spacing: appearance.spacing,
-                            interitemSpacing: appearance.interitemSpacing
-                        ),
+                        appearance: appearance.cardAppearance,
                         title: timeToCompleteLabel,
                         titleSecondaryText: nil,
                         imageName: Images.Step.clock,
@@ -56,10 +65,7 @@ struct ProgressScreenProjectProgressContentView: View {
                 }
 
                 ProgressScreenCardView(
-                    appearance: .init(
-                        spacing: appearance.spacing,
-                        interitemSpacing: appearance.interitemSpacing
-                    ),
+                    appearance: appearance.cardAppearance,
                     title: completedStagesLabel,
                     titleSecondaryText: nil,
                     imageName: "",
@@ -77,7 +83,9 @@ struct ProgressScreenProjectProgressContentView_Previews: PreviewProvider {
         ProgressScreenProjectProgressContentView(
             appearance: .init(
                 spacing: LayoutInsets.defaultInset,
-                interitemSpacing: LayoutInsets.smallInset
+                interitemSpacing: LayoutInsets.smallInset,
+                cardBackgroundColor: Color(ColorPalette.surface),
+                cardCornerRadius: 8
             ),
             projectLevel: .easy,
             title: "Simple Chatty Bot",

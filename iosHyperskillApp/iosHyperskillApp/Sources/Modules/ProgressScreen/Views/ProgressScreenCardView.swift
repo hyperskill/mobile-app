@@ -7,9 +7,9 @@ extension ProgressScreenCardView {
 
         let imageWidthHeight: CGFloat = 16
 
-        let backgroundColor = Color(ColorPalette.surface)
+        let backgroundColor: Color
 
-        let cornerRadius: CGFloat = 8
+        let cornerRadius: CGFloat
     }
 }
 
@@ -81,7 +81,9 @@ struct ProgressScreenTrackCardView_Previews: PreviewProvider {
     static var previews: some View {
         let appearance = ProgressScreenCardView.Appearance(
             spacing: LayoutInsets.defaultInset,
-            interitemSpacing: LayoutInsets.smallInset
+            interitemSpacing: LayoutInsets.smallInset,
+            backgroundColor: Color(ColorPalette.surface),
+            cornerRadius: 8
         )
 
         VStack {

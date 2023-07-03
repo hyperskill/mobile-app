@@ -29,8 +29,11 @@ object ProgressScreenFeature {
 
     sealed interface Message {
         object Initialize : Message
+
+        object RetryContentLoading : Message
         object RetryTrackProgressLoading : Message
         object RetryProjectProgressLoading : Message
+
         object PullToRefresh : Message
 
         object ViewedEventMessage : Message

@@ -69,4 +69,44 @@ class ProgressScreenTest {
 
         assertEquals(false, viewStateMapper.map(loadedStateEmpty).isRefreshing)
     }
+
+    @Test
+    fun `If both track and project progress are in error state then isInErrorState returns true`() {
+        val state = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Error,
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Error,
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+        val viewState = viewStateMapper.map(state)
+
+        assertEquals(true, viewState.isInErrorState)
+    }
+
+    @Test
+    fun `If both track and project progress are in error state then RetryContentLoading message retries loading`() {
+        val initialState = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Error,
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Error,
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+
+        val (actualState, actualActions) = progressScreenReducer.reduce(
+            initialState,
+            ProgressScreenFeature.Message.RetryContentLoading
+        )
+
+        val expectedState = initialState.copy(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Loading,
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Loading
+        )
+        val expectedActions: Set<ProgressScreenFeature.Action> = setOf(
+            ProgressScreenFeature.InternalAction.FetchTrackWithProgress(forceLoadFromNetwork = true),
+            ProgressScreenFeature.InternalAction.FetchProjectWithProgress(forceLoadFromNetwork = true)
+        )
+
+        assertEquals(expectedState, actualState)
+        assertEquals(expectedActions, actualActions)
+    }
 }

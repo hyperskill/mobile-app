@@ -21,6 +21,9 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
             Message.PullToRefresh -> {
                 handlePullToRefresh(state)
             }
+            Message.RetryContentLoading -> {
+                handleRetryContentLoading(state)
+            }
             Message.RetryTrackProgressLoading -> {
                 handleRetryTrackProgressLoading(state)
             }
@@ -63,6 +66,18 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
                 ProgressScreenClickedPullToRefreshHyperskillAnalyticEvent()
             )
         )
+
+    private fun handleRetryContentLoading(state: State): ProgressScreenReducerResult? =
+        if (state.trackProgressState is TrackProgressState.Error &&
+            state.projectProgressState is ProjectProgressState.Error
+        ) {
+            state.copy(
+                trackProgressState = TrackProgressState.Loading,
+                projectProgressState = ProjectProgressState.Loading
+            ) to fetchContent(forceLoadFromNetwork = true)
+        } else {
+            null
+        }
 
     private fun handleRetryTrackProgressLoading(state: State): ProgressScreenReducerResult? =
         if (state.trackProgressState is TrackProgressState.Error) {

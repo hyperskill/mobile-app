@@ -7,6 +7,10 @@ data class ProgressScreenViewState(
     val projectProgressViewState: ProjectProgressViewState,
     val isRefreshing: Boolean
 ) {
+    val isInErrorState: Boolean
+        get() = trackProgressViewState is TrackProgressViewState.Error &&
+            projectProgressViewState is ProjectProgressViewState.Error
+
     sealed interface TrackProgressViewState {
         object Idle : TrackProgressViewState
         object Loading : TrackProgressViewState

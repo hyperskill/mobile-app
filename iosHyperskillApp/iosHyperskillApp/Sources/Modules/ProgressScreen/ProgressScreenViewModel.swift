@@ -30,6 +30,18 @@ final class ProgressScreenViewModel: FeatureViewModel<
         onNewMessage(ProgressScreenFeatureMessagePullToRefresh())
     }
 
+    func doRetryLoadProgressScreen() {
+        onNewMessage(ProgressScreenFeatureMessageRetryContentLoading())
+    }
+
+    func doRetryLoadTrackProgress() {
+        onNewMessage(ProgressScreenFeatureMessageRetryTrackProgressLoading())
+    }
+
+    func doRetryLoadProjectProgress() {
+        onNewMessage(ProgressScreenFeatureMessageRetryProjectProgressLoading())
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

@@ -6,7 +6,9 @@ extension ProgressScreenSectionTitleSkeletonView {
 
         let avatarSize = ProgressScreenTrackProgressContentView.Appearance(
             spacing: 0,
-            interitemSpacing: 0
+            interitemSpacing: 0,
+            cardBackgroundColor: .clear,
+            cardCornerRadius: 0
         ).avatarSize
     }
 }

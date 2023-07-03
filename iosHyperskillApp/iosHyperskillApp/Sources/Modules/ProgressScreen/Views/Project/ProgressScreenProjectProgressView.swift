@@ -5,6 +5,9 @@ extension ProgressScreenProjectProgressView {
     struct Appearance {
         let spacing: CGFloat
         let interitemSpacing: CGFloat
+
+        let cardBackgroundColor: Color
+        let cardCornerRadius: CGFloat
     }
 }
 
@@ -12,6 +15,8 @@ struct ProgressScreenProjectProgressView: View {
     let appearance: Appearance
 
     let projectProgressViewStateKs: ProgressScreenViewStateProjectProgressViewStateKs
+
+    let onRetryTap: () -> Void
 
     var body: some View {
         switch projectProgressViewStateKs {
@@ -25,12 +30,20 @@ struct ProgressScreenProjectProgressView: View {
         case .empty:
             EmptyView()
         case .error:
-            EmptyView()
+            PlaceholderView(
+                configuration: .reloadContent(
+                    backgroundColor: appearance.cardBackgroundColor,
+                    action: onRetryTap
+                )
+            )
+            .cornerRadius(appearance.cardCornerRadius)
         case .content(let data):
             ProgressScreenProjectProgressContentView(
                 appearance: .init(
                     spacing: appearance.spacing,
-                    interitemSpacing: appearance.interitemSpacing
+                    interitemSpacing: appearance.interitemSpacing,
+                    cardBackgroundColor: appearance.cardBackgroundColor,
+                    cardCornerRadius: appearance.cardCornerRadius
                 ),
                 projectLevel: data.level.flatMap(SharedProjectLevelWrapper.init(sharedProjectLevel:)),
                 title: data.title,
@@ -42,9 +55,3 @@ struct ProgressScreenProjectProgressView: View {
         }
     }
 }
-
-//struct ProgressScreenProjectProgressView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgressScreenProjectProgressView()
-//    }
-//}
