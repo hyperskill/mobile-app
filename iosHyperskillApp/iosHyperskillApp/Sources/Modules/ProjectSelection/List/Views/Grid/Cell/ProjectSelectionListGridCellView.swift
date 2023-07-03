@@ -82,7 +82,8 @@ struct ProjectSelectionListGridCellView_Previews: PreviewProvider {
             isIdeRequired: true,
             isFastestToComplete: true,
             isCompleted: true,
-            isBeta: true
+            isBeta: true,
+            progress: 50
         )
 
         VStack(spacing: LayoutInsets.defaultInset) {
