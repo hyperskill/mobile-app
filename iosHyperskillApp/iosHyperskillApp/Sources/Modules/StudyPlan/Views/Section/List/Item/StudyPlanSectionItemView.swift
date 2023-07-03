@@ -126,7 +126,7 @@ extension StudyPlanWidgetViewStateSectionItem {
         title: String = "Work on project. Stage: 1/6",
         subtitle: String? = nil,
         isIdeRequired: Bool = false,
-        progress: Float? = nil,
+        progress: Int32 = 0,
         formattedProgress: String? = nil
     ) -> StudyPlanWidgetViewStateSectionItem {
         StudyPlanWidgetViewStateSectionItem(
@@ -135,7 +135,7 @@ extension StudyPlanWidgetViewStateSectionItem {
             subtitle: subtitle,
             state: state,
             isIdeRequired: isIdeRequired,
-            progress: progress != nil ? KotlinFloat(value: progress.require()) : nil,
+            progress: progress,
             formattedProgress: formattedProgress,
             hypercoinsAward: nil
         )
