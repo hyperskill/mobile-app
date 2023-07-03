@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.progress.ui.ProgressScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
@@ -41,7 +42,10 @@ class ProgressFragment : Fragment() {
         ComposeView(requireContext()).apply {
             setContent {
                 MdcTheme {
-                    ProgressScreen(progressScreenViewModel)
+                    ProgressScreen(
+                        progressScreenViewModel,
+                        onBackClick = { requireRouter().exit() }
+                    )
                 }
             }
         }

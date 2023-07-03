@@ -4,18 +4,20 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,19 +35,20 @@ import org.hyperskill.app.projects.domain.model.ProjectLevel
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ProgressScreen(
-    viewModel: ProgressScreenViewModel
+    viewModel: ProgressScreenViewModel,
+    onBackClick: () -> Unit
 ) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
-    ProgressScreen(viewState, viewModel::onNewMessage)
+    ProgressScreen(viewState, viewModel::onNewMessage, onBackClick)
 }
-
 
 @Composable
 fun ProgressScreen(
     viewState: ProgressScreenViewState,
-    onNewMessage: (ProgressScreenFeature.Message) -> Unit
+    onNewMessage: (ProgressScreenFeature.Message) -> Unit,
+    onBackClick: () -> Unit
 ) {
-    val scrollState = rememberScrollState()
+    val currentOnBackClick by rememberUpdatedState(newValue = onBackClick)
     Column(
         Modifier
             .background(MaterialTheme.colors.background)
@@ -56,19 +59,23 @@ fun ProgressScreen(
                 Text(text = stringResource(id = org.hyperskill.app.R.string.progress_screen_title))
             },
             navigationIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_toolbar_back),
-                    contentDescription = stringResource(id = org.hyperskill.app.R.string.back)
-                )
+                IconButton(
+                    onClick = currentOnBackClick
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_toolbar_back),
+                        contentDescription = stringResource(id = org.hyperskill.app.R.string.back),
+                        tint = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_60)
+                    )
+                }
             },
-            modifier = Modifier.fillMaxWidth(),
             backgroundColor = MaterialTheme.colors.background
         )
         Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
         Column(
             Modifier
                 .padding(horizontal = 20.dp)
-                .verticalScroll(scrollState)
+                .verticalScroll(rememberScrollState())
                 .fillMaxSize()
         ) {
             TrackProgress(
@@ -98,7 +105,8 @@ fun NexusTrackProgressScreenPreview() {
             projectProgressViewState = previewProjectViewState(),
             isRefreshing = false
         ),
-        onNewMessage = {}
+        onNewMessage = {},
+        onBackClick = {}
     )
 }
 
@@ -114,7 +122,8 @@ fun GeneralTrackProgressScreenPreview() {
             projectProgressViewState = previewProjectViewState(),
             isRefreshing = false
         ),
-        onNewMessage = {}
+        onNewMessage = {},
+        onBackClick = {}
     )
 }
 
