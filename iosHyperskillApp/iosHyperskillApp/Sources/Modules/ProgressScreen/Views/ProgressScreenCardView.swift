@@ -1,7 +1,10 @@
 import SwiftUI
 
-extension ProgressScreenTrackCardView {
+extension ProgressScreenCardView {
     struct Appearance {
+        let spacing: CGFloat
+        let interitemSpacing: CGFloat
+
         let imageWidthHeight: CGFloat = 16
 
         let backgroundColor = Color(ColorPalette.surface)
@@ -10,8 +13,8 @@ extension ProgressScreenTrackCardView {
     }
 }
 
-struct ProgressScreenTrackCardView: View {
-    private(set) var appearance = Appearance()
+struct ProgressScreenCardView: View {
+    let appearance: Appearance
 
     let title: String
     let titleSecondaryText: String?
@@ -24,8 +27,8 @@ struct ProgressScreenTrackCardView: View {
     let subtitle: String
 
     var body: some View {
-        VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-            HStack(spacing: LayoutInsets.smallInset) {
+        VStack(alignment: .leading, spacing: appearance.spacing) {
+            HStack(spacing: appearance.interitemSpacing) {
                 Text(title)
                     .font(.callout)
                     .foregroundColor(.primaryText)
@@ -76,8 +79,14 @@ struct ProgressScreenTrackCardView: View {
 
 struct ProgressScreenTrackCardView_Previews: PreviewProvider {
     static var previews: some View {
+        let appearance = ProgressScreenCardView.Appearance(
+            spacing: LayoutInsets.defaultInset,
+            interitemSpacing: LayoutInsets.smallInset
+        )
+
         VStack {
-            ProgressScreenTrackCardView(
+            ProgressScreenCardView(
+                appearance: appearance,
                 title: "48 / 149",
                 titleSecondaryText: "• 32%",
                 imageName: Images.Track.About.topic,
@@ -85,7 +94,8 @@ struct ProgressScreenTrackCardView_Previews: PreviewProvider {
                 subtitle: "Completed topics"
             )
 
-            ProgressScreenTrackCardView(
+            ProgressScreenCardView(
+                appearance: appearance,
                 title: "131 / 149",
                 titleSecondaryText: "• 91%",
                 imageName: Images.Track.About.topic,
@@ -93,7 +103,8 @@ struct ProgressScreenTrackCardView_Previews: PreviewProvider {
                 subtitle: "Completed topics"
             )
 
-            ProgressScreenTrackCardView(
+            ProgressScreenCardView(
+                appearance: appearance,
                 title: "~ 56 h",
                 titleSecondaryText: nil,
                 imageName: Images.Step.clock,

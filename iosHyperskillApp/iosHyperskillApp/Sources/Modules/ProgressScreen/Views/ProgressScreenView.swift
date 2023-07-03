@@ -3,7 +3,10 @@ import SwiftUI
 
 extension ProgressScreenView {
     struct Appearance {
-        let spacing = LayoutInsets.defaultInset * 2
+        let spacingBetweenSections = LayoutInsets.defaultInset * 2
+
+        let cardRootSpacing = LayoutInsets.defaultInset
+        let cardInteritemSpacing = LayoutInsets.smallInset
 
         let backgroundColor = Color.systemGroupedBackground
     }
@@ -37,12 +40,20 @@ struct ProgressScreenView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         ScrollView {
-            VStack(spacing: appearance.spacing) {
+            VStack(spacing: appearance.spacingBetweenSections) {
                 ProgressScreenTrackProgressView(
+                    appearance: .init(
+                        spacing: appearance.cardRootSpacing,
+                        interitemSpacing: appearance.cardInteritemSpacing
+                    ),
                     trackProgressViewStateKs: viewModel.trackProgressViewStateKs
                 )
 
                 ProgressScreenProjectProgressView(
+                    appearance: .init(
+                        spacing: appearance.cardRootSpacing,
+                        interitemSpacing: appearance.cardInteritemSpacing
+                    ),
                     projectProgressViewStateKs: viewModel.projectProgressViewStateKs
                 )
             }

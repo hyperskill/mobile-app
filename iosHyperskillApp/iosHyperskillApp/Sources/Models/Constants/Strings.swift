@@ -474,4 +474,22 @@ enum Strings {
         static let mainProviderTitle = sharedStrings.track_selection_details_main_provider_title.localized()
         static let otherProvidersTitle = sharedStrings.track_selection_details_other_providers_title.localized()
     }
+
+    // MARK: - ProgressScreen -
+
+    enum ProgressScreen {
+        static let navigationTitle = sharedStrings.progress_screen_title.localized()
+
+        enum Track {
+            static let completedTopics = sharedStrings.progress_screen_completed_topics.localized()
+            static let appliedCoreTopics = sharedStrings.progress_screen_applied_core_topics.localized()
+            static let timeToCompleteTrack = sharedStrings.progress_screen_time_to_complete_track.localized()
+            static let completedGraduateProject = sharedStrings.progress_screen_completed_graduate_project.localized()
+        }
+
+        enum Project {
+            static let timeToCompleteProject = sharedStrings.progress_screen_time_to_complete_project.localized()
+            static let stages = sharedStrings.progress_screen_stages.localized()
+        }
+    }
 }

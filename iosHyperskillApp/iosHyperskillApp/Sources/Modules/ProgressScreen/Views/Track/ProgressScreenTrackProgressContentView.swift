@@ -1,14 +1,16 @@
 import SwiftUI
 
-extension ProgressScreenTrackBlockView {
+extension ProgressScreenTrackProgressContentView {
     struct Appearance {
-        let spacing = LayoutInsets.defaultInset
-        let interitemSpacing = LayoutInsets.smallInset
+        let spacing: CGFloat
+        let interitemSpacing: CGFloat
+
+        let avatarSize = CGSize(width: 34, height: 34)
     }
 }
 
-struct ProgressScreenTrackBlockView: View {
-    private(set) var appearance = Appearance()
+struct ProgressScreenTrackProgressContentView: View {
+    let appearance: Appearance
 
     let avatarImageSource: String?
     let title: String
@@ -29,10 +31,13 @@ struct ProgressScreenTrackBlockView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
-            ProgressScreenTrackTitleView(
-                avatarImageSource: avatarImageSource,
+            ProgressScreenSectionTitleView(
+                appearance: .init(spacing: appearance.spacing),
                 title: title
-            )
+            ) {
+                LazyAvatarView(avatarImageSource)
+                    .frame(size: appearance.avatarSize)
+            }
 
             buildCardsView()
         }
@@ -42,49 +47,69 @@ struct ProgressScreenTrackBlockView: View {
     @ViewBuilder
     private func buildCardsView() -> some View {
         VStack(spacing: appearance.interitemSpacing) {
-            ProgressScreenTrackCardView(
+            ProgressScreenCardView(
+                appearance: .init(
+                    spacing: appearance.spacing,
+                    interitemSpacing: appearance.interitemSpacing
+                ),
                 title: completedTopicsCountLabel,
                 titleSecondaryText: completedTopicsPercentageLabel,
                 imageName: Images.Track.About.topic,
                 progress: .init(value: completedTopicsPercentageProgress, isCompleted: isCompleted),
-                subtitle: Strings.Track.Progress.completedTopics
+                subtitle: Strings.ProgressScreen.Track.completedTopics
             )
 
-            ProgressScreenTrackCardView(
+            ProgressScreenCardView(
+                appearance: .init(
+                    spacing: appearance.spacing,
+                    interitemSpacing: appearance.interitemSpacing
+                ),
                 title: appliedTopicsCountLabel,
                 titleSecondaryText: appliedTopicsPercentageLabel,
                 imageName: Images.Track.hammer,
                 progress: .init(value: appliedTopicsPercentageProgress, isCompleted: isCompleted),
-                subtitle: Strings.Track.Progress.appliedCoreTopics
+                subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
             )
 
             HStack(spacing: appearance.interitemSpacing) {
                 if let timeToCompleteLabel {
-                    ProgressScreenTrackCardView(
+                    ProgressScreenCardView(
+                        appearance: .init(
+                            spacing: appearance.spacing,
+                            interitemSpacing: appearance.interitemSpacing
+                        ),
                         title: timeToCompleteLabel,
                         titleSecondaryText: nil,
                         imageName: Images.Step.clock,
                         progress: nil,
-                        subtitle: Strings.Track.Progress.timeToComplete
+                        subtitle: Strings.ProgressScreen.Track.timeToCompleteTrack
                     )
                 }
 
-                ProgressScreenTrackCardView(
+                ProgressScreenCardView(
+                    appearance: .init(
+                        spacing: appearance.spacing,
+                        interitemSpacing: appearance.interitemSpacing
+                    ),
                     title: "\(completedGraduateProjectsCount)",
                     titleSecondaryText: nil,
-                    imageName: Images.Track.projectGraduate,
+                    imageName: Images.ProjectSelectionList.projectGraduate,
                     imageRenderingMode: .original,
                     progress: nil,
-                    subtitle: Strings.Track.Progress.completedGraduateProject
+                    subtitle: Strings.ProgressScreen.Track.completedGraduateProject
                 )
             }
         }
     }
 }
 
-struct ProgressScreenTrackBlockView_Previews: PreviewProvider {
+struct ProgressScreenTrackProgressContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressScreenTrackBlockView(
+        ProgressScreenTrackProgressContentView(
+            appearance: .init(
+                spacing: LayoutInsets.defaultInset,
+                interitemSpacing: LayoutInsets.smallInset
+            ),
             avatarImageSource: "https://hyperskill.azureedge.net/media/tracks/9368deaab97441f192fd4c8db42cb9bc/python.svg",
             title: "Python Core",
             completedTopicsCountLabel: "0 / 149",

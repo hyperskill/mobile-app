@@ -1,7 +1,16 @@
 import shared
 import SwiftUI
 
+extension ProgressScreenTrackProgressView {
+    struct Appearance {
+        let spacing: CGFloat
+        let interitemSpacing: CGFloat
+    }
+}
+
 struct ProgressScreenTrackProgressView: View {
+    let appearance: Appearance
+
     let trackProgressViewStateKs: ProgressScreenViewStateTrackProgressViewStateKs
 
     var body: some View {
@@ -11,8 +20,11 @@ struct ProgressScreenTrackProgressView: View {
         case .error:
             EmptyView()
         case .content(let data):
-            ProgressScreenTrackBlockView(
-                appearance: .init(),
+            ProgressScreenTrackProgressContentView(
+                appearance: .init(
+                    spacing: appearance.spacing,
+                    interitemSpacing: appearance.interitemSpacing
+                ),
                 avatarImageSource: data.imageSource,
                 title: data.title,
                 completedTopicsCountLabel: data.completedTopicsCountLabel,

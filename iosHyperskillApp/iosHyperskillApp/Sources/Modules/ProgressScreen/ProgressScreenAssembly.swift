@@ -18,7 +18,7 @@ final class ProgressScreenAssembly: UIKitAssembly {
             appearance: .withoutBackButtonTitle
         )
         hostingController.navigationItem.largeTitleDisplayMode = .never
-        hostingController.title = "Progress"
+        hostingController.title = Strings.ProgressScreen.navigationTitle
 
         return hostingController
     }

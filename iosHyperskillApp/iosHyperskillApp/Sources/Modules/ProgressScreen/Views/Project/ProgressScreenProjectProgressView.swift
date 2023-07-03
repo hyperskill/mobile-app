@@ -1,7 +1,16 @@
 import shared
 import SwiftUI
 
+extension ProgressScreenProjectProgressView {
+    struct Appearance {
+        let spacing: CGFloat
+        let interitemSpacing: CGFloat
+    }
+}
+
 struct ProgressScreenProjectProgressView: View {
+    let appearance: Appearance
+
     let projectProgressViewStateKs: ProgressScreenViewStateProjectProgressViewStateKs
 
     var body: some View {
@@ -13,8 +22,11 @@ struct ProgressScreenProjectProgressView: View {
         case .error:
             EmptyView()
         case .content(let data):
-            ProgressScreenProjectBlockView(
-                appearance: .init(),
+            ProgressScreenProjectProgressContentView(
+                appearance: .init(
+                    spacing: appearance.spacing,
+                    interitemSpacing: appearance.interitemSpacing
+                ),
                 projectLevel: data.level.flatMap(SharedProjectLevelWrapper.init(sharedProjectLevel:)),
                 title: data.title,
                 timeToCompleteLabel: data.timeToCompleteLabel,
