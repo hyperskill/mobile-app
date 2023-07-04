@@ -50,15 +50,12 @@ class StudyPlanActivityAdapterDelegate(
                 setTextColor(data.titleTextColor)
             }
 
-            val isProgressVisible =
-                data.progress != null && data.progress > 0f && data.formattedProgress != null
+            val isProgressVisible = data.progress > 0 && data.formattedProgress != null
 
             with(binding.activityCompletenessView) {
                 isVisible = isProgressVisible
-                if (data.progress != null) {
-                    updateLayoutParams<ConstraintLayout.LayoutParams> {
-                        matchConstraintPercentWidth = data.progress
-                    }
+                updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    matchConstraintPercentWidth = data.progress / 100f
                 }
             }
 
