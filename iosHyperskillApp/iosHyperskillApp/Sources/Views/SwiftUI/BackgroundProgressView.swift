@@ -10,7 +10,7 @@ extension BackgroundProgressView {
 struct BackgroundProgressView: View {
     private(set) var appearance = Appearance()
 
-    let progress: Int
+    let progress: CGFloat
 
     var body: some View {
         GeometryReader { geometry in
@@ -18,7 +18,7 @@ struct BackgroundProgressView: View {
                 .stroke(lineWidth: 0)
                 .cornerRadius(appearance.cornerRadius)
                 .background(appearance.backgroundColor)
-                .frame(width: geometry.size.width * CGFloat(progress) / 100)
+                .frame(width: geometry.size.width * progress / 100)
         }
     }
 }
@@ -31,7 +31,19 @@ extension View {
         background(
             BackgroundProgressView(
                 appearance: appearance,
-                progress: progress
+                progress: CGFloat(progress)
+            )
+        )
+    }
+
+    func backgroundProgress(
+        progress: Int32,
+        appearance: BackgroundProgressView.Appearance = .init()
+    ) -> some View {
+        background(
+            BackgroundProgressView(
+                appearance: appearance,
+                progress: CGFloat(progress)
             )
         )
     }

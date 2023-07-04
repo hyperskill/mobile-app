@@ -36,7 +36,7 @@ sealed interface StudyPlanRecyclerItem {
         val title: String,
         val subtitle: String?,
         @ColorInt val titleTextColor: Int,
-        val progress: Float?,
+        val progress: Int,
         val formattedProgress: String?,
         val endIcon: Drawable?,
         val isClickable: Boolean,
