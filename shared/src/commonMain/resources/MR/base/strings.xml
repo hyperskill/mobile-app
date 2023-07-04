@@ -451,4 +451,14 @@
     <string name="progress_screen_completed_graduate_project">Completed graduate project</string>
     <string name="progress_screen_time_to_complete_project">Time to complete the project</string>
     <string name="progress_screen_stages">Stages</string>
+
+    <!-- Stage completed modal -->
+    <string name="stage_completed_modal_title">Yay! You’ve completed Stage %d/%d!</string>
+    <string name="stage_completed_modal_text">Keep on learning and soon you’ll complete your project.</string>
+    <string name="stage_completed_modal_stage_reward_text">gems for completing the stage</string>
+
+    <!-- Project completed modal -->
+    <string name="project_completed_modal_title">Congratulations! Your project is completed!</string>
+    <string name="project_completed_modal_text">You did a great job!</string>
+    <string name="project_completed_modal_project_reward_text">gems for completing the whole project</string>
 </resources>

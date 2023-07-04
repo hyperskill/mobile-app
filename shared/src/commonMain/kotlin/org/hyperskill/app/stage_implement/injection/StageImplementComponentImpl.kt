@@ -15,8 +15,11 @@ class StageImplementComponentImpl(
             projectId,
             stageId,
             appGraph.buildStagesDataComponent().stagesInteractor,
+            appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
-            appGraph.commonComponent.resourceProvider
+            appGraph.commonComponent.resourceProvider,
+            appGraph.profileDataComponent.currentProfileStateRepository,
+            appGraph.submissionDataComponent.submissionRepository
         )
 }
