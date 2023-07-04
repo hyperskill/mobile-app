@@ -14,6 +14,10 @@ extension ProjectSelectionListGridCellView {
                 backgroundColor: Color(ColorPalette.surface)
             )
         }
+
+        fileprivate func opacityValue(for project: ProjectSelectionListFeature.ProjectListItem) -> Double {
+            project.isCompleted ? 0.5 : 1.0
+        }
     }
 }
 
@@ -43,6 +47,7 @@ struct ProjectSelectionListGridCellView: View {
                 isGraduate: project.isGraduate,
                 averageRating: project.averageRating
             )
+            .opacity(appearance.opacityValue(for: project))
 
             VStack(alignment: .leading, spacing: appearance.textGroupSpacing) {
                 Text(project.title)
@@ -55,6 +60,7 @@ struct ProjectSelectionListGridCellView: View {
                         .foregroundColor(.secondaryText)
                 }
             }
+            .opacity(appearance.opacityValue(for: project))
 
             ProjectSelectionListGridCellBadgesView(
                 isSelected: isSelected,
@@ -66,6 +72,7 @@ struct ProjectSelectionListGridCellView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .backgroundProgress(progress: project.progress)
     }
 }
 
