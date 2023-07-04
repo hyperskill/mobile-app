@@ -84,7 +84,7 @@
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/trackTags"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/BadgeFlow"
             app:constraint_referenced_ids="trackSelectedBadge,trackCompletedBadge,trackBetaBadge"
@@ -92,7 +92,6 @@
             app:layout_constraintTop_toBottomOf="@+id/trackTimeToCompleteTextView"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
-            android:paddingHorizontal="@dimen/item_horizontal_padding"
             android:paddingBottom="@dimen/item_vertical_padding"
             />
 
