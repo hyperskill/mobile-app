@@ -110,11 +110,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                     },
                     isIdeRequired = activity.isIdeRequired,
                     progress = activity.progressPercentage,
-                    formattedProgress = if (activity.progressPercentage != 0) {
-                        "${activity.progressPercentage}%"
-                    } else {
-                        null
-                    },
+                    formattedProgress = activity.progressPercentage.takeIf { it > 0 }?.let { "$it%" },
                     hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
                 )
             }

@@ -51,7 +51,7 @@ struct StudyPlanSectionItemView: View {
             }
         }
         .padding()
-        .background(buildProgressBar(Float(item.progress)))
+        .backgroundProgress(progress: item.progress)
     }
 
     @ViewBuilder
@@ -67,18 +67,6 @@ struct StudyPlanSectionItemView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .foregroundColor(item.isClickable ? .primaryText : .secondaryText)
-    }
-
-    @ViewBuilder
-    private func buildProgressBar(_ progress: Float) -> some View {
-        #warning("Migrate to the BackgroundProgressView")
-        GeometryReader { geometry in
-            Rectangle()
-                .stroke(lineWidth: 0)
-                .background(appearance.progressBarBackgroundColor)
-                .cornerRadius(appearance.buttonStyle.cornerRadius)
-                .frame(width: geometry.size.width * CGFloat(progress) / 100)
-        }
     }
 }
 
