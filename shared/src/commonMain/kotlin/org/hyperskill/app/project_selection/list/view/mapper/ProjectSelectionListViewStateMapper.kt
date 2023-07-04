@@ -53,7 +53,8 @@ internal class ProjectSelectionListViewStateMapper(
                     isIdeRequired = project.isIdeRequired,
                     isFastestToComplete = projectWithProgress.project.id == fastestToCompleteProjectId,
                     isCompleted = progress.isCompleted,
-                    isBeta = betaProjectIds.contains(projectWithProgress.project.id)
+                    isBeta = betaProjectIds.contains(projectWithProgress.project.id),
+                    progress = projectWithProgress.progressPercentage
                 )
             }
 
