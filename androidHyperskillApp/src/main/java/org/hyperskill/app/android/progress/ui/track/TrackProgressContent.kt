@@ -52,7 +52,9 @@ fun TrackProgressContent(
                 GeneralStatistics(
                     title = timeToCompleteLabel,
                     icon = painterResource(id = R.drawable.ic_track_progress_time),
-                    description = stringResource(id = org.hyperskill.app.R.string.progress_screen_time_to_complete_track),
+                    description = stringResource(
+                        id = org.hyperskill.app.R.string.progress_screen_time_to_complete_track
+                    ),
                     modifier = Modifier.weight(1f)
                 )
             }
