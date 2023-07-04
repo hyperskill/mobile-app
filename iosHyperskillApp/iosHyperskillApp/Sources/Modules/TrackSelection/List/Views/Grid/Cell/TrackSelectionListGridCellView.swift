@@ -82,7 +82,7 @@ struct TrackSelectionListGridCellView: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .backgroundProgress(progress: Int(track.progress))
+        .backgroundProgress(progress: track.progress)
     }
 }
 

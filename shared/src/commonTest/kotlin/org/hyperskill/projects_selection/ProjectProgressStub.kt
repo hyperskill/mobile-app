@@ -9,16 +9,19 @@ fun ProjectProgress.Companion.stub(
     usefulness: Float? = null,
     secondsToComplete: Float = 0f,
     baseScore: Float = 0f,
-    featureScore: Float = 0f
+    featureScore: Float = 0f,
+    isCompleted: Boolean = false,
+    completedStages: List<Long> = emptyList()
 ): ProjectProgress =
     ProjectProgress(
         id = "",
         vid = "project-$projectId",
-        isCompleted = false,
+        isCompleted = isCompleted,
         clarity = clarity,
         funMeasure = funMeasure,
         usefulness = usefulness,
         secondsToComplete = secondsToComplete,
         featureScore = featureScore,
-        baseScore = baseScore
+        baseScore = baseScore,
+        completedStages = completedStages
     )
