@@ -25,7 +25,7 @@ data class LearningActivity(
     @SerialName("is_ide_required")
     val isIdeRequired: Boolean = false,
     @SerialName("progress")
-    private val progress: Float = 0f
+    val progress: Float = 0f
 ) {
     val state: LearningActivityState?
         get() = LearningActivityState.getByValue(stateValue)
