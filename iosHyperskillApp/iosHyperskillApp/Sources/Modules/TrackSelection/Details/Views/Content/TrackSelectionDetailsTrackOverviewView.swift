@@ -66,8 +66,8 @@ struct TrackSelectionDetailsTrackOverviewView: View {
                         }
 
                         buildItemView(imageName: Images.Step.clock, text: timeToComplete)
-                        buildItemView(imageName: Images.Track.About.topic, text: topicsCount)
-                        buildItemView(imageName: Images.Track.About.project, text: projectsCount)
+                        buildItemView(imageName: Images.Common.topic, text: topicsCount)
+                        buildItemView(imageName: Images.Common.project, text: projectsCount)
                         buildItemView(imageName: Images.Common.trophy, text: certificateText)
                     }
                 }
