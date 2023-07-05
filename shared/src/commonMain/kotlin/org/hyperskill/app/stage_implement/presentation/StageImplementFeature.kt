@@ -59,56 +59,14 @@ object StageImplementFeature {
          * @property stageId Stage id
          * @property forceUpdate Flag, that indicates if we should force data loading
          *
-         * @see FetchStageImplementResult
-         * @see Action.FetchStageImplement
+         * @see InternalMessage.FetchStageImplementSuccess
+         * @see InternalMessage.FetchStageImplementFailure
+         * @see InternalAction.FetchStageImplement
          */
         data class Initialize(
             val projectId: Long,
             val stageId: Long,
             val forceUpdate: Boolean = false
-        ) : Message
-
-        /**
-         * Represents an available results of the feature data loading.
-         * @see Initialize
-         */
-        sealed interface FetchStageImplementResult : Message {
-            /**
-             * Represents a network error result.
-             *
-             * @see State.NetworkError
-             */
-            object NetworkError : FetchStageImplementResult
-
-            /**
-             * Represents a success result, when all necessary data is successfully loaded.
-             *
-             * @property projectId Current stage implementation project id
-             * @property stage Current stage implementation stage
-             *
-             * @see State.Content
-             */
-            data class Success(val projectId: Long, val stage: Stage) : FetchStageImplementResult
-        }
-
-        /**
-         * Represents a message, when step is solved. Checks that solved step equals stage step
-         *
-         * @see Action.CheckStageCompletionStatus
-         */
-        data class StepSolved(val stepId: Long) : Message
-
-        /**
-         * Represents a message, when stage is completed
-         *
-         * @property title Title of stage completed modal
-         * @property stageCompletionGemsReward Gems reward for stage completion
-         *
-         * @see Action.ViewAction.ShowStageCompletedModal
-         */
-        data class StageCompleted(
-            val title: String,
-            val stageCompletionGemsReward: Int
         ) : Message
 
         /**
@@ -118,19 +76,6 @@ object StageImplementFeature {
          * @see Action.ViewAction.NavigateTo.StudyPlan
          */
         object StageCompletedModalGoToStudyPlanClicked : Message
-
-        /**
-         * Represents a message, when project is completed
-         *
-         * @property stageCompletionGemsReward Gems reward for stage completion
-         * @property projectCompletionGemsReward Gems reward for project completion
-         *
-         * @see Action.ViewAction.ShowProjectCompletedModal
-         */
-        data class ProjectCompleted(
-            val stageCompletionGemsReward: Int,
-            val projectCompletionGemsReward: Int
-        ) : Message
 
         /**
          * Represents a project completed modal clicked "Go to home screen" event message.
@@ -176,7 +121,78 @@ object StageImplementFeature {
         object ProjectCompletedModalHiddenEventMessage : Message
     }
 
+    internal sealed interface InternalMessage : Message {
+        /**
+         * Represents a message, when feature initializing failed.
+         *
+         * @see State.NetworkError
+         */
+        object FetchStageImplementFailure : InternalMessage
+
+        /**
+         * Represents a message, when feature initializing succeeded.
+         *
+         * @see State.Content
+         */
+        data class FetchStageImplementSuccess(val projectId: Long, val stage: Stage) : InternalMessage
+
+        /**
+         * Represents a message, when step is solved. Checks that solved step equals stage step.
+         *
+         * @see InternalAction.CheckStageCompletionStatus
+         */
+        data class StepSolved(val stepId: Long) : InternalMessage
+
+        /**
+         * Represents a message, when stage is completed
+         *
+         * @property title Title of stage completed modal
+         * @property stageAward Gems award for stage completion
+         *
+         * @see Action.ViewAction.ShowStageCompletedModal
+         */
+        data class StageCompleted(val title: String, val stageAward: Int) : InternalMessage
+
+        /**
+         * Represents a message, when project is completed
+         *
+         * @property stageAward Gems award for stage completion
+         * @property projectAward Gems award for project completion
+         *
+         * @see Action.ViewAction.ShowProjectCompletedModal
+         */
+        data class ProjectCompleted(val stageAward: Int, val projectAward: Int) : InternalMessage
+    }
+
     sealed interface Action {
+        sealed interface ViewAction : Action {
+            /**
+             * Represents a view action to show stage completion modal
+             *
+             * @property title Title of stage completed modal
+             * @property stageAward Gems award for stage completion
+             *
+             * @see InternalMessage.StageCompleted
+             */
+            data class ShowStageCompletedModal(val title: String, val stageAward: Int) : ViewAction
+
+            /**
+             * Represents a view action to show project completion modal
+             *
+             * @property stageAward Gems award for stage completion
+             * @property projectAward Gems award for project completion
+             *
+             * @see InternalMessage.ProjectCompleted
+             */
+            data class ShowProjectCompletedModal(val stageAward: Int, val projectAward: Int) : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                object StudyPlan : NavigateTo
+            }
+        }
+    }
+
+    internal sealed interface InternalAction : Action {
         /**
          * Represents an action, when feature is initializing. Initiates data loading.
          *
@@ -184,57 +200,26 @@ object StageImplementFeature {
          * @property stageId Stage id to load
          *
          * @see Message.Initialize
-         * @see Message.FetchStageImplementResult
+         * @see InternalMessage.FetchStageImplementSuccess
+         * @see InternalMessage.FetchStageImplementFailure
          */
-        data class FetchStageImplement(val projectId: Long, val stageId: Long) : Action
+        data class FetchStageImplement(val projectId: Long, val stageId: Long) : InternalAction
 
         /**
          * Represents an action, that checks stage completion
          *
          * @property stage Current stage
          *
-         * @see Message.StageCompleted
-         * @see Message.ProjectCompleted
+         * @see InternalMessage.StageCompleted
+         * @see InternalMessage.ProjectCompleted
          */
-        data class CheckStageCompletionStatus(val stage: Stage) : Action
+        data class CheckStageCompletionStatus(val stage: Stage) : InternalAction
 
         /**
          * Represents an analytic action, logs analytic event to the analytic service.
          *
          * @property analyticEvent Analytic event to be logged
          */
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-
-        sealed interface ViewAction : Action {
-            /**
-             * Represents a view action to show stage completion modal
-             *
-             * @property title Title of stage completed modal
-             * @property stageCompletionGemsReward Gems reward for stage completion
-             *
-             * @see Message.StageCompleted
-             */
-            data class ShowStageCompletedModal(
-                val title: String,
-                val stageCompletionGemsReward: Int
-            ) : ViewAction
-
-            /**
-             * Represents a view action to show project completion modal
-             *
-             * @property stageCompletionGemsReward Gems reward for stage completion
-             * @property projectCompletionGemsReward Gems reward for project completion
-             *
-             * @see Message.ProjectCompleted
-             */
-            data class ShowProjectCompletedModal(
-                val stageCompletionGemsReward: Int,
-                val projectCompletionGemsReward: Int
-            ) : ViewAction
-
-            sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
-            }
-        }
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

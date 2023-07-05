@@ -1,4 +1,4 @@
-package org.hyperskill.stage_implement
+package org.hyperskill.stages.domain.model
 
 import org.hyperskill.app.stages.domain.model.Stage
 

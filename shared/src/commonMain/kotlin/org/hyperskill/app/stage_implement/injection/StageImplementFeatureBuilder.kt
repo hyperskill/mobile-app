@@ -35,13 +35,13 @@ internal object StageImplementFeatureBuilder {
 
         val stageImplementActionDispatcher = StageImplementActionDispatcher(
             ActionDispatcherOptions(),
+            submissionRepository,
+            currentProfileStateRepository,
             stagesInteractor,
             progressesInteractor,
             analyticInteractor,
             sentryInteractor,
             resourceProvider,
-            currentProfileStateRepository,
-            submissionRepository
         )
 
         val stageImplementViewStateMapper = StageImplementViewStateMapper(resourceProvider)

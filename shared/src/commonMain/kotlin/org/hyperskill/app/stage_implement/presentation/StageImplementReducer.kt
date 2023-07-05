@@ -9,6 +9,8 @@ import org.hyperskill.app.stage_implement.domain.analytic.StageCompletedModalHid
 import org.hyperskill.app.stage_implement.domain.analytic.StageCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.domain.analytic.StageImplementViewedHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.InternalAction
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.InternalMessage
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -23,67 +25,72 @@ internal class StageImplementReducer(
                     (message.forceUpdate && state is State.NetworkError)
                 ) {
                     State.Loading to setOf(
-                        Action.FetchStageImplement(projectId = message.projectId, stageId = message.stageId)
+                        InternalAction.FetchStageImplement(
+                            projectId = message.projectId,
+                            stageId = message.stageId
+                        )
                     )
                 } else {
                     null
                 }
             }
-            is Message.FetchStageImplementResult.NetworkError ->
+            is InternalMessage.FetchStageImplementFailure ->
                 State.NetworkError to emptySet()
-            is Message.FetchStageImplementResult.Success ->
+            is InternalMessage.FetchStageImplementSuccess ->
                 State.Content(message.projectId, message.stage) to emptySet()
-            is Message.StepSolved ->
+            is InternalMessage.StepSolved ->
                 if (state is State.Content && message.stepId == state.stage.stepId) {
-                    state to setOf(Action.CheckStageCompletionStatus(state.stage))
+                    state to setOf(InternalAction.CheckStageCompletionStatus(state.stage))
                 } else {
                     null
                 }
-            is Message.StageCompleted ->
+            is InternalMessage.StageCompleted ->
                 state to setOf(
                     Action.ViewAction.ShowStageCompletedModal(
                         title = message.title,
-                        stageCompletionGemsReward = message.stageCompletionGemsReward
+                        stageAward = message.stageAward
                     )
                 )
             Message.StageCompletedModalGoToStudyPlanClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.StudyPlan,
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         StageCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(analyticRoute)
                     )
                 )
-            is Message.ProjectCompleted ->
+            is InternalMessage.ProjectCompleted ->
                 state to setOf(
                     Action.ViewAction.ShowProjectCompletedModal(
-                        stageCompletionGemsReward = message.stageCompletionGemsReward,
-                        projectCompletionGemsReward = message.projectCompletionGemsReward
+                        stageAward = message.stageAward,
+                        projectAward = message.projectAward
                     )
                 )
             Message.ProjectCompletedModalGoToStudyPlanClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.StudyPlan,
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProjectCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(analyticRoute)
                     )
                 )
             is Message.ViewedEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(StageImplementViewedHyperskillAnalyticEvent(analyticRoute)))
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(StageImplementViewedHyperskillAnalyticEvent(analyticRoute))
+                )
             Message.StageCompletedModalShownEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(StageCompletedModalShownHyperskillAnalyticEvent(analyticRoute)))
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(StageCompletedModalShownHyperskillAnalyticEvent(analyticRoute))
+                )
             Message.StageCompletedModalHiddenEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(StageCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute)))
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(StageCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute))
+                )
             Message.ProjectCompletedModalShownEventMessage ->
                 state to setOf(
-                    Action.LogAnalyticEvent(
-                        ProjectCompletedModalShownHyperskillAnalyticEvent(analyticRoute)
-                    )
+                    InternalAction.LogAnalyticEvent(ProjectCompletedModalShownHyperskillAnalyticEvent(analyticRoute))
                 )
             Message.ProjectCompletedModalHiddenEventMessage ->
                 state to setOf(
-                    Action.LogAnalyticEvent(
-                        ProjectCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute)
-                    )
+                    InternalAction.LogAnalyticEvent(ProjectCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute))
                 )
         } ?: (state to emptySet())
 }

@@ -5,10 +5,12 @@ import kotlin.test.assertContains
 import kotlin.test.assertTrue
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
-import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.InternalAction
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.InternalMessage
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.State
 import org.hyperskill.app.stage_implement.presentation.StageImplementReducer
 import org.hyperskill.app.stages.domain.model.Stage
+import org.hyperskill.stages.domain.model.stub
 
 class StageImplementTest {
     private val stageImplementReducer = StageImplementReducer(
@@ -21,10 +23,10 @@ class StageImplementTest {
         val stage = Stage.stub(stepId = stepId)
         val (_, actions) = stageImplementReducer.reduce(
             State.Content(0, stage),
-            Message.StepSolved(stepId)
+            InternalMessage.StepSolved(stepId)
         )
 
-        assertContains(actions, Action.CheckStageCompletionStatus(stage))
+        assertContains(actions, InternalAction.CheckStageCompletionStatus(stage))
     }
 
     @Test
@@ -34,11 +36,11 @@ class StageImplementTest {
         val stage = Stage.stub(stepId = stageStepId)
         val (_, actions) = stageImplementReducer.reduce(
             State.Content(0, stage),
-            Message.StepSolved(solvedStepId)
+            InternalMessage.StepSolved(solvedStepId)
         )
 
         assertTrue {
-            actions.none { it is Action.CheckStageCompletionStatus }
+            actions.none { it is InternalAction.CheckStageCompletionStatus }
         }
     }
 
@@ -46,7 +48,7 @@ class StageImplementTest {
     fun `Stage completed message should trigger show stage completed modal view action`() {
         val (_, actions) = stageImplementReducer.reduce(
             State.Content(0, Stage.stub()),
-            Message.StageCompleted("", 0)
+            InternalMessage.StageCompleted("", 0)
         )
 
         assertTrue {
@@ -58,7 +60,7 @@ class StageImplementTest {
     fun `Project completed message should trigger show project completed modal view action`() {
         val (_, actions) = stageImplementReducer.reduce(
             State.Content(0, Stage.stub()),
-            Message.ProjectCompleted(0, 0)
+            InternalMessage.ProjectCompleted(0, 0)
         )
 
         assertTrue {
