@@ -30,5 +30,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     STUDY_PLAN_SECTION("study_plan_section"),
     STUDY_PLAN_SECTION_ACTIVITIES("study_plan_section_activities"),
     PROJECTS_LIST("projects_list"),
-    STREAK_RECOVERY_MODAL("streak_recovery_modal")
+    STREAK_RECOVERY_MODAL("streak_recovery_modal"),
+    STAGE_COMPLETED_MODAL("stage_completed_modal"),
+    PROJECT_COMPLETED_MODAL("project_completed_modal"),
 }

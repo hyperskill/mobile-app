@@ -1,6 +1,12 @@
 package org.hyperskill.app.stage_implement.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.stage_implement.domain.analytic.ProjectCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
+import org.hyperskill.app.stage_implement.domain.analytic.ProjectCompletedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.stage_implement.domain.analytic.ProjectCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.stage_implement.domain.analytic.StageCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
+import org.hyperskill.app.stage_implement.domain.analytic.StageCompletedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.stage_implement.domain.analytic.StageCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.domain.analytic.StageImplementViewedHyperskillAnalyticEvent
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
@@ -27,7 +33,57 @@ internal class StageImplementReducer(
                 State.NetworkError to emptySet()
             is Message.FetchStageImplementResult.Success ->
                 State.Content(message.projectId, message.stage) to emptySet()
+            is Message.StepSolved ->
+                if (state is State.Content && message.stepId == state.stage.stepId) {
+                    state to setOf(Action.CheckStageCompletionStatus(state.stage))
+                } else {
+                    null
+                }
+            is Message.StageCompleted ->
+                state to setOf(
+                    Action.ViewAction.ShowStageCompletedModal(
+                        title = message.title,
+                        stageCompletionGemsReward = message.stageCompletionGemsReward
+                    )
+                )
+            Message.StageCompletedModalGoToStudyPlanClicked ->
+                state to setOf(
+                    Action.ViewAction.NavigateTo.StudyPlan,
+                    Action.LogAnalyticEvent(
+                        StageCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(analyticRoute)
+                    )
+                )
+            is Message.ProjectCompleted ->
+                state to setOf(
+                    Action.ViewAction.ShowProjectCompletedModal(
+                        stageCompletionGemsReward = message.stageCompletionGemsReward,
+                        projectCompletionGemsReward = message.projectCompletionGemsReward
+                    )
+                )
+            Message.ProjectCompletedModalGoToStudyPlanClicked ->
+                state to setOf(
+                    Action.ViewAction.NavigateTo.StudyPlan,
+                    Action.LogAnalyticEvent(
+                        ProjectCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(analyticRoute)
+                    )
+                )
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(StageImplementViewedHyperskillAnalyticEvent(analyticRoute)))
+            Message.StageCompletedModalShownEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(StageCompletedModalShownHyperskillAnalyticEvent(analyticRoute)))
+            Message.StageCompletedModalHiddenEventMessage ->
+                state to setOf(Action.LogAnalyticEvent(StageCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute)))
+            Message.ProjectCompletedModalShownEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProjectCompletedModalShownHyperskillAnalyticEvent(analyticRoute)
+                    )
+                )
+            Message.ProjectCompletedModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProjectCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute)
+                    )
+                )
         } ?: (state to emptySet())
 }
