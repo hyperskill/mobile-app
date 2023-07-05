@@ -323,6 +323,9 @@
 		2CBC97C62A55435E0078E445 /* StageImplementStageCompletedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC97C52A55435E0078E445 /* StageImplementStageCompletedModalView.swift */; };
 		2CBC97C82A5549F10078E445 /* HypercoinLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC97C72A5549F10078E445 /* HypercoinLabel.swift */; };
 		2CBC97CA2A5553330078E445 /* StageImplementStageCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC97C92A5553330078E445 /* StageImplementStageCompletedModalViewController.swift */; };
+		2CBC97CD2A555AA20078E445 /* StageImplementProjectCompletedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC97CC2A555AA20078E445 /* StageImplementProjectCompletedModalView.swift */; };
+		2CBC97D02A555BE60078E445 /* HypercoinsAwardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC97CF2A555BE60078E445 /* HypercoinsAwardView.swift */; };
+		2CBC97D22A555F190078E445 /* StageImplementProjectCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBC97D12A555F190078E445 /* StageImplementProjectCompletedModalViewController.swift */; };
 		2CBD1915291D2AF800F5FB0B /* ProfileDailyStudyRemindersPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD1914291D2AF800F5FB0B /* ProfileDailyStudyRemindersPickerViewController.swift */; };
 		2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD1916291D392400F5FB0B /* UIView+Animations.swift */; };
 		2CBD1919291D399500F5FB0B /* UIKitBounceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */; };
@@ -842,6 +845,9 @@
 		2CBC97C52A55435E0078E445 /* StageImplementStageCompletedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementStageCompletedModalView.swift; sourceTree = "<group>"; };
 		2CBC97C72A5549F10078E445 /* HypercoinLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypercoinLabel.swift; sourceTree = "<group>"; };
 		2CBC97C92A5553330078E445 /* StageImplementStageCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementStageCompletedModalViewController.swift; sourceTree = "<group>"; };
+		2CBC97CC2A555AA20078E445 /* StageImplementProjectCompletedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementProjectCompletedModalView.swift; sourceTree = "<group>"; };
+		2CBC97CF2A555BE60078E445 /* HypercoinsAwardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HypercoinsAwardView.swift; sourceTree = "<group>"; };
+		2CBC97D12A555F190078E445 /* StageImplementProjectCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementProjectCompletedModalViewController.swift; sourceTree = "<group>"; };
 		2CBD1914291D2AF800F5FB0B /* ProfileDailyStudyRemindersPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersPickerViewController.swift; sourceTree = "<group>"; };
 		2CBD1916291D392400F5FB0B /* UIView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
 		2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBounceButton.swift; sourceTree = "<group>"; };
@@ -1518,6 +1524,7 @@
 		2C2C8ABE29B7994A00615893 /* Modals */ = {
 			isa = PBXGroup;
 			children = (
+				2CBC97CB2A555A8A0078E445 /* ProjectCompleted */,
 				2CBC97C42A5543190078E445 /* StageCompleted */,
 				2C5B9EB429B7A9CD007E4943 /* Unsupported */,
 			);
@@ -2446,6 +2453,24 @@
 			path = StageCompleted;
 			sourceTree = "<group>";
 		};
+		2CBC97CB2A555A8A0078E445 /* ProjectCompleted */ = {
+			isa = PBXGroup;
+			children = (
+				2CBC97CC2A555AA20078E445 /* StageImplementProjectCompletedModalView.swift */,
+				2CBC97D12A555F190078E445 /* StageImplementProjectCompletedModalViewController.swift */,
+			);
+			path = ProjectCompleted;
+			sourceTree = "<group>";
+		};
+		2CBC97CE2A555BD00078E445 /* Hypercoins */ = {
+			isa = PBXGroup;
+			children = (
+				2CBC97C72A5549F10078E445 /* HypercoinLabel.swift */,
+				2CBC97CF2A555BE60078E445 /* HypercoinsAwardView.swift */,
+			);
+			path = Hypercoins;
+			sourceTree = "<group>";
+		};
 		2CBD191A291D3A0C00F5FB0B /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -2464,7 +2489,6 @@
 				2C54E4272A1F717F003406B9 /* CardView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
-				2CBC97C72A5549F10078E445 /* HypercoinLabel.swift */,
 				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
@@ -2476,6 +2500,7 @@
 				2CC95C0C2A4EBB7D0036C73E /* Avatars */,
 				2C05AC5B2A0ED7480039C7EF /* BadgeView */,
 				2C3E656E2A127E6100BC8DC0 /* Gradients */,
+				2CBC97CE2A555BD00078E445 /* Hypercoins */,
 				2CF87DA029B717E20092FF83 /* Introspect */,
 				2C82BA302844AFED004C9013 /* PlaceholderView */,
 				2C60F1B428880AA600B66C78 /* Skeletons */,
@@ -3440,6 +3465,7 @@
 				2C7994A82A12821800874C16 /* TrackSelectionListGridCellBadgesView.swift in Sources */,
 				E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */,
 				2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */,
+				2CBC97D22A555F190078E445 /* StageImplementProjectCompletedModalViewController.swift in Sources */,
 				E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */,
 				2C8E66D52878771B00D3928D /* ProfilePresentationDescription.swift in Sources */,
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
@@ -3478,6 +3504,7 @@
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
 				2C54E4282A1F717F003406B9 /* CardView.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
+				2CBC97CD2A555AA20078E445 /* StageImplementProjectCompletedModalView.swift in Sources */,
 				2CC95C0E2A4EBB970036C73E /* ProjectLevelAvatarView.swift in Sources */,
 				2C93C2D4292E5905004D1861 /* HyperskillSentryBreadcrumb+SentryBreadcrumb.swift in Sources */,
 				2C306A0E29B4590C0068FF4F /* StageImplementFeatureViewStateKsExtensions.swift in Sources */,
@@ -3687,6 +3714,7 @@
 				2C54E42D2A1F9623003406B9 /* TrackSelectionDetailsTrackOverviewView.swift in Sources */,
 				2C42EFAD27F2C29500B4648B /* Strings.swift in Sources */,
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
+				2CBC97D02A555BE60078E445 /* HypercoinsAwardView.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
 				2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */,
 				E9CC6C0729893F2200D8D070 /* StepQuizInputProtocol.swift in Sources */,

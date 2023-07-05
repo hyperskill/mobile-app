@@ -456,8 +456,8 @@
     <string name="progress_screen_stages">Stages</string>
 
     <!-- Stage completed modal -->
-    <string name="stage_completed_modal_title">Yay! You’ve completed Stage %d/%d!</string>
-    <string name="stage_completed_modal_text">Keep on learning and soon you’ll complete your project.</string>
+    <string name="stage_completed_modal_title">Yay! You\'ve completed Stage %d/%d!</string>
+    <string name="stage_completed_modal_text">Keep on learning and soon you\'ll complete your project.</string>
     <string name="stage_completed_modal_stage_reward_text">gems for completing the stage</string>
 
     <!-- Project completed modal -->

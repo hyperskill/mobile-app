@@ -91,6 +91,10 @@ enum Images {
         enum StageCompletedModal {
             static let icon = "stage-implement-stage-completed-modal-icon"
         }
+
+        enum ProjectCompletedModal {
+            static let icon = "stage-implement-project-completed-modal-icon"
+        }
     }
 
     // MARK: - Track -

@@ -1,35 +1,37 @@
 import SwiftUI
 
-extension StageImplementStageCompletedModalView {
+extension StageImplementProjectCompletedModalView {
     struct Appearance {
         let spacing: CGFloat = LayoutInsets.defaultInset * 2
         let interitemSpacing = LayoutInsets.defaultInset
     }
 }
 
-struct StageImplementStageCompletedModalView: View {
+struct StageImplementProjectCompletedModalView: View {
     private(set) var appearance = Appearance()
 
-    let title: String
-    let award: Int
+    let stageAward: Int
+    let projectAward: Int
 
     var onCallToActionTap: () -> Void = {}
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
-            Image(Images.StageImplement.StageCompletedModal.icon)
+            Image(Images.StageImplement.ProjectCompletedModal.icon)
 
             VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
-                Text(title)
+                Text(Strings.StageImplement.ProjectCompletedModal.title)
                     .font(.title2).bold()
                     .foregroundColor(.primaryText)
 
-                Text(Strings.StageImplement.StageCompletedModal.description)
+                Text(Strings.StageImplement.ProjectCompletedModal.description)
                     .font(.body)
                     .foregroundColor(.primaryText)
 
                 HypercoinsAwardView
-                    .stageCompleted(award: award)
+                    .stageCompleted(award: stageAward)
+                HypercoinsAwardView
+                    .projectCompleted(award: projectAward)
             }
 
             Button(
@@ -42,17 +44,17 @@ struct StageImplementStageCompletedModalView: View {
     }
 }
 
-struct StageImplementStageCompletedModalView_Previews: PreviewProvider {
+struct StageImplementProjectCompletedModalView_Previews: PreviewProvider {
     static var previews: some View {
-        StageImplementStageCompletedModalView(
-            title: "Yay! You've completed Stage 1/10!",
-            award: 15,
+        StageImplementProjectCompletedModalView(
+            stageAward: 15,
+            projectAward: 25,
             onCallToActionTap: {}
         )
 
-        StageImplementStageCompletedModalView(
-            title: "Yay! You've completed Stage 1/10!",
-            award: 15,
+        StageImplementProjectCompletedModalView(
+            stageAward: 15,
+            projectAward: 25,
             onCallToActionTap: {}
         )
         .preferredColorScheme(.dark)

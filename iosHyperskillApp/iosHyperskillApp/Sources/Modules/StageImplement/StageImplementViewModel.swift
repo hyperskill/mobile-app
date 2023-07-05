@@ -65,3 +65,25 @@ extension StageImplementViewModel: StageImplementStageCompletedModalViewControll
         onNewMessage(StageImplementFeatureMessageStageCompletedModalGoToStudyPlanClicked())
     }
 }
+
+// MARK: - StageImplementViewModel: StageImplementProjectCompletedModalViewControllerDelegate -
+
+extension StageImplementViewModel: StageImplementProjectCompletedModalViewControllerDelegate {
+    func stageImplementProjectCompletedModalViewControllerDidAppear(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalShownEventMessage())
+    }
+
+    func stageImplementProjectCompletedModalViewControllerDidDisappear(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalHiddenEventMessage())
+    }
+
+    func stageImplementProjectCompletedModalViewControllerDidTapCallToActionButton(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalGoToStudyPlanClicked())
+    }
+}
