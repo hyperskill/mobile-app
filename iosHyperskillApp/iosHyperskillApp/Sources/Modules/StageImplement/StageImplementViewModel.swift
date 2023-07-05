@@ -43,3 +43,25 @@ final class StageImplementViewModel: FeatureViewModel<
         onNewMessage(StageImplementFeatureMessageViewedEventMessage())
     }
 }
+
+// MARK: - StageImplementViewModel: StageImplementStageCompletedModalViewControllerDelegate -
+
+extension StageImplementViewModel: StageImplementStageCompletedModalViewControllerDelegate {
+    func stageImplementStageCompletedModalViewControllerDidAppear(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalShownEventMessage())
+    }
+
+    func stageImplementStageCompletedModalViewControllerDidDisappear(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalHiddenEventMessage())
+    }
+
+    func stageImplementStageCompletedModalViewControllerDidTapCallToActionButton(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalGoToStudyPlanClicked())
+    }
+}

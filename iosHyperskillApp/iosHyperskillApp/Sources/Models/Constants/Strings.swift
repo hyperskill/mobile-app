@@ -16,6 +16,7 @@ enum Strings {
         static let later = sharedStrings.later.localized()
         static let goodJob = sharedStrings.good_job.localized()
         static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
+        static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
         static let progress = sharedStrings.progress.localized()
     }
 
@@ -182,6 +183,17 @@ enum Strings {
         enum UnsupportedModal {
             static let title = sharedStrings.stage_implement_unsupported_modal_title.localized()
             static let description = sharedStrings.stage_implement_unsupported_modal_description.localized()
+        }
+
+        enum StageCompletedModal {
+            static let description = sharedStrings.stage_completed_modal_text.localized()
+            static let awardDescription = sharedStrings.stage_completed_modal_stage_reward_text.localized()
+        }
+
+        enum ProjectCompletedModal {
+            static let title = sharedStrings.project_completed_modal_title.localized()
+            static let description = sharedStrings.project_completed_modal_text.localized()
+            static let awardDescription = sharedStrings.project_completed_modal_project_reward_text.localized()
         }
     }
 

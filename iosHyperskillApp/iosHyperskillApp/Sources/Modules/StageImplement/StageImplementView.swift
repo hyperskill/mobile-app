@@ -80,7 +80,14 @@ private extension StageImplementView {
 
     func handleShowStageCompletedModalViewAction(
         _ viewAction: StageImplementFeatureActionViewActionShowStageCompletedModal
-    ) {}
+    ) {
+        let viewController = StageImplementStageCompletedModalViewController(
+            title: viewAction.title,
+            award: Int(viewAction.stageAward),
+            delegate: viewModel
+        )
+        stackRouter.rootViewController?.presentIfPanModalWithCustomModalPresentationStyle(viewController)
+    }
 
     func handleShowProjectCompletedModalViewAction(
         _ viewAction: StageImplementFeatureActionViewActionShowProjectCompletedModal

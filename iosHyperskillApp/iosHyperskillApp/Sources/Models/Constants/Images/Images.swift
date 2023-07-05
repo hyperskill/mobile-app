@@ -87,6 +87,10 @@ enum Images {
         enum UnsupportedModal {
             static let icon = "stage-implement-unsupported-modal-icon"
         }
+
+        enum StageCompletedModal {
+            static let icon = "stage-implement-stage-completed-modal-icon"
+        }
     }
 
     // MARK: - Track -
