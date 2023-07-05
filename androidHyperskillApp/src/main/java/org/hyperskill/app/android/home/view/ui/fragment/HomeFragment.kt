@@ -215,6 +215,9 @@ class HomeFragment :
                 when (action.viewAction) {
                     is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
+                    is GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen -> {
+                        // TODO: Show progress screen
+                    }
                 }
             is HomeFeature.Action.ViewAction.TopicsToDiscoverNextViewAction -> {
                 when (action.viewAction) {

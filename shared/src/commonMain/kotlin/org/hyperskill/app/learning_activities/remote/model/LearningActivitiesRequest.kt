@@ -18,16 +18,20 @@ class LearningActivitiesRequest(
         private const val PAGE = "page"
         private const val STATE = "state"
         private const val TYPES = "types"
+
         private const val IDS = "ids"
+        private const val IDS_CHUNK_SIZE = 100
     }
 
-    val parameters: Map<String, Any> =
-        mapOfNotNull(
-            STUDY_PLAN to studyPlanId,
-            PAGE_SIZE to pageSize,
-            PAGE to page,
-            STATE to states.joinToString(",") { it.value.toString() }.ifEmpty { null },
-            TYPES to types.joinToString(",") { it.value.toString() }.ifEmpty { null },
-            IDS to activitiesIds.joinToString(separator = ",").ifEmpty { null }
-        )
+    val chunkedParameters: List<Map<String, Any>> =
+        activitiesIds.chunked(IDS_CHUNK_SIZE).map { ids ->
+            mapOfNotNull(
+                STUDY_PLAN to studyPlanId,
+                PAGE_SIZE to pageSize,
+                PAGE to page,
+                STATE to states.joinToString(",") { it.value.toString() }.ifEmpty { null },
+                TYPES to types.joinToString(",") { it.value.toString() }.ifEmpty { null },
+                IDS to ids.joinToString(separator = ",").ifEmpty { null }
+            )
+        }
 }

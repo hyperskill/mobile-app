@@ -1,5 +1,6 @@
 package org.hyperskill.app.learning_activities.domain.model
 
+import kotlin.math.floor
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -22,7 +23,9 @@ data class LearningActivity(
     @SerialName("hypercoins_award")
     val hypercoinsAward: Int = 0,
     @SerialName("is_ide_required")
-    val isIdeRequired: Boolean = false
+    val isIdeRequired: Boolean = false,
+    @SerialName("progress")
+    val progress: Float = 0f
 ) {
     val state: LearningActivityState?
         get() = LearningActivityState.getByValue(stateValue)
@@ -32,4 +35,7 @@ data class LearningActivity(
 
     val targetType: LearningActivityTargetType?
         get() = targetTypeValue?.let { LearningActivityTargetType.getByValue(it) }
+
+    val progressPercentage: Int
+        get() = floor(progress * 100).toInt()
 }
