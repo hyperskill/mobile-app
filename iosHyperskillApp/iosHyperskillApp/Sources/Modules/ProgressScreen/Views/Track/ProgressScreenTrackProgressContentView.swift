@@ -118,7 +118,7 @@ struct ProgressScreenTrackProgressContentView_Previews: PreviewProvider {
             completedTopicsPercentageLabel: "• 98%",
             completedTopicsPercentageProgress: 0,
             appliedTopicsCountLabel: "0 / 138",
-            appliedTopicsPercentageLabel: "0%",
+            appliedTopicsPercentageLabel: "• 0%",
             appliedTopicsPercentageProgress: 0,
             timeToCompleteLabel: "~ 56 h",
             completedGraduateProjectsCount: 0,
