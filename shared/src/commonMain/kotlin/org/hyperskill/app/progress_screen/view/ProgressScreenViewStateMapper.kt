@@ -1,12 +1,15 @@
 package org.hyperskill.app.progress_screen.view
 
+import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 
 internal class ProgressScreenViewStateMapper(
-    private val dateFormatter: SharedDateFormatter
+    private val dateFormatter: SharedDateFormatter,
+    private val resourceProvider: ResourceProvider
 ) {
     fun map(state: ProgressScreenFeature.State): ProgressScreenViewState =
         ProgressScreenViewState(
@@ -55,7 +58,13 @@ internal class ProgressScreenViewStateMapper(
             appliedTopicsCountLabel = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}",
             appliedTopicsPercentageLabel = "• ${trackProgressContent.trackWithProgress.appliedTopicsProgress}%",
             appliedTopicsPercentageProgress = trackProgressContent.trackWithProgress.appliedTopicsProgress / 100f,
-            timeToCompleteLabel = formatTimeToComplete(track.secondsToComplete),
+            timeToCompleteLabel = if (trackProgress.isCompleted) {
+                resourceProvider.getString(SharedResources.strings.completed)
+            } else if (trackProgressContent.profile.gamification.passedTopicsCount < 3)
+                formatTimeToComplete(track.secondsToComplete)
+            else {
+                formatTimeToComplete(trackProgressContent.studyPlan.secondsToReachTrack)
+            },
             completedGraduateProjectsCount = trackProgress.completedCapstoneProjects.size,
             isCompleted = trackProgress.isCompleted
         )
@@ -71,7 +80,11 @@ internal class ProgressScreenViewStateMapper(
         return ProgressScreenViewState.ProjectProgressViewState.Content(
             title = project.title,
             level = track?.projectsByLevel?.asLevelByProjectIdMap()?.get(project.id),
-            timeToCompleteLabel = formatTimeToComplete(projectProgress.secondsToComplete),
+            timeToCompleteLabel = if (projectProgress.isCompleted) {
+                resourceProvider.getString(SharedResources.strings.completed)
+            } else {
+                formatTimeToComplete(projectProgressContent.studyPlan.secondsToReachProject)
+            },
             completedStagesLabel = "${projectProgress.completedStages.size} / ${project.stagesIds.size}",
             completedStagesProgress = projectProgressContent.projectWithProgress.progressPercentage / 100f,
             isCompleted = projectProgress.isCompleted

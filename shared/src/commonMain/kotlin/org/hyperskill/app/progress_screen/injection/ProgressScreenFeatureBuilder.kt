@@ -3,6 +3,7 @@ package org.hyperskill.app.progress_screen.injection
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenActionDispatcher
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenReducer
@@ -20,6 +21,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 internal object ProgressScreenFeatureBuilder {
     fun build(
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         trackInteractor: TrackInteractor,
         projectsRepository: ProjectsRepository,
         progressesInteractor: ProgressesInteractor,
@@ -30,6 +32,7 @@ internal object ProgressScreenFeatureBuilder {
         val actionDispatcher = ProgressScreenActionDispatcher(
             config = ActionDispatcherOptions(),
             currentStudyPlanStateRepository = currentStudyPlanStateRepository,
+            currentProfileStateRepository = currentProfileStateRepository,
             trackInteractor = trackInteractor,
             projectsRepository = projectsRepository,
             progressesInteractor = progressesInteractor,

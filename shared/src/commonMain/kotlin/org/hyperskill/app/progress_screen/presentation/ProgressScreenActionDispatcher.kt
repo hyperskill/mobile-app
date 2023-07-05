@@ -4,6 +4,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.InternalAction
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.Message
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
@@ -19,6 +20,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 internal class ProgressScreenActionDispatcher(
     config: ActionDispatcherOptions,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val trackInteractor: TrackInteractor,
     private val projectsRepository: ProjectsRepository,
     private val progressesInteractor: ProgressesInteractor,
@@ -34,19 +36,26 @@ internal class ProgressScreenActionDispatcher(
                     .buildProgressScreenRemoteTrackWithProgressLoading()
                 sentryInteractor.startTransaction(transaction)
 
-                val trackId = currentStudyPlanStateRepository
+                val profile = currentProfileStateRepository
                     .getState(forceUpdate = action.forceLoadFromNetwork)
                     .getOrElse {
                         sentryInteractor.finishTransaction(transaction, throwable = it)
                         return onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
-                    }.trackId
+                    }
 
-                if (trackId == null) {
+                val studyPlan = currentStudyPlanStateRepository
+                    .getState(forceUpdate = action.forceLoadFromNetwork)
+                    .getOrElse {
+                        sentryInteractor.finishTransaction(transaction, throwable = it)
+                        return onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
+                    }
+
+                if (studyPlan.trackId == null) {
                     sentryInteractor.finishTransaction(transaction)
                     return onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
                 }
 
-                val trackWithProgress = fetchTrackWithProgress(trackId, action.forceLoadFromNetwork)
+                val trackWithProgress = fetchTrackWithProgress(studyPlan.trackId, action.forceLoadFromNetwork)
                     .getOrElse {
                         sentryInteractor.finishTransaction(transaction, throwable = it)
                         return onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
@@ -58,27 +67,32 @@ internal class ProgressScreenActionDispatcher(
                 }
 
                 sentryInteractor.finishTransaction(transaction)
-                onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Success(trackWithProgress))
+                onNewMessage(
+                    ProgressScreenFeature.TrackWithProgressFetchResult.Success(
+                        trackWithProgress = trackWithProgress,
+                        studyPlan = studyPlan,
+                        profile = profile
+                    )
+                )
             }
             is InternalAction.FetchProjectWithProgress -> {
                 val transaction = HyperskillSentryTransactionBuilder
                     .buildProgressScreenRemoteProjectWithProgressLoading()
                 sentryInteractor.startTransaction(transaction)
 
-                val projectId = currentStudyPlanStateRepository
+                val studyPlan = currentStudyPlanStateRepository
                     .getState(forceUpdate = action.forceLoadFromNetwork)
                     .getOrElse {
                         sentryInteractor.finishTransaction(transaction, throwable = it)
                         return onNewMessage(ProgressScreenFeature.ProjectWithProgressFetchResult.Error)
                     }
-                    .projectId
 
-                if (projectId == null) {
+                if (studyPlan.projectId == null) {
                     sentryInteractor.finishTransaction(transaction)
                     return onNewMessage(ProgressScreenFeature.ProjectWithProgressFetchResult.Empty)
                 }
 
-                val projectWithProgress = fetchProjectWithProgress(projectId, action.forceLoadFromNetwork)
+                val projectWithProgress = fetchProjectWithProgress(studyPlan.projectId, action.forceLoadFromNetwork)
                     .getOrElse {
                         sentryInteractor.finishTransaction(transaction, throwable = it)
                         return onNewMessage(ProgressScreenFeature.ProjectWithProgressFetchResult.Error)
@@ -90,13 +104,15 @@ internal class ProgressScreenActionDispatcher(
                 }
 
                 sentryInteractor.finishTransaction(transaction)
-                onNewMessage(ProgressScreenFeature.ProjectWithProgressFetchResult.Success(projectWithProgress))
+                onNewMessage(
+                    ProgressScreenFeature.ProjectWithProgressFetchResult.Success(
+                        projectWithProgress = projectWithProgress,
+                        studyPlan = studyPlan
+                    )
+                )
             }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
-            }
-            else -> {
-                // no op
             }
         }
     }
