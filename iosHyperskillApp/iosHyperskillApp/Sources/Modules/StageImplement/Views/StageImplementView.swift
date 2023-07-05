@@ -51,9 +51,43 @@ struct StageImplementView: View {
             .navigationTitle(data.navigationTitle)
         }
     }
-
-    private func handleViewAction(_ viewAction: StageImplementFeatureActionViewAction) {}
 }
+
+// MARK: - StageImplementView (ViewAction) -
+
+private extension StageImplementView {
+    func handleViewAction(_ viewAction: StageImplementFeatureActionViewAction) {
+        switch StageImplementFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(navigateToViewAction)
+        case .showStageCompletedModal(let showStageCompletedModalViewAction):
+            handleShowStageCompletedModalViewAction(showStageCompletedModalViewAction)
+        case .showProjectCompletedModal(let showProjectCompletedModalViewAction):
+            handleShowProjectCompletedModalViewAction(showProjectCompletedModalViewAction)
+        }
+    }
+
+    func handleNavigateToViewAction(_ viewAction: StageImplementFeatureActionViewActionNavigateTo) {
+        switch StageImplementFeatureActionViewActionNavigateToKs(viewAction) {
+        case .studyPlan:
+            TabBarRouter(
+                tab: .studyPlan,
+                popToRoot: true
+            )
+            .route()
+        }
+    }
+
+    func handleShowStageCompletedModalViewAction(
+        _ viewAction: StageImplementFeatureActionViewActionShowStageCompletedModal
+    ) {}
+
+    func handleShowProjectCompletedModalViewAction(
+        _ viewAction: StageImplementFeatureActionViewActionShowProjectCompletedModal
+    ) {}
+}
+
+// MARK: - StageImplementView_Previews: PreviewProvider -
 
 struct StageImplementView_Previews: PreviewProvider {
     static var previews: some View {
