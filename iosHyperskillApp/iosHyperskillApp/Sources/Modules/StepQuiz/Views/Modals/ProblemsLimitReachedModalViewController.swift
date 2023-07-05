@@ -146,7 +146,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
 
     private func setupGoToHomescreenBackButton() {
         let button = UIKitRoundedRectangleButton(style: .violet)
-        button.setTitle(Strings.General.goToHomescreen, for: .normal)
+        button.setTitle(Strings.Common.goToHomescreen, for: .normal)
         button.addTarget(self, action: #selector(goToHomescreenButtonTap), for: .touchUpInside)
 
         contentStackView.addArrangedSubview(button)

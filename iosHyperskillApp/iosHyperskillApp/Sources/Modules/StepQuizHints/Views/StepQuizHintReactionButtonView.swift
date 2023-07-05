@@ -44,7 +44,7 @@ struct StepQuizHintReactionButtonView_Previews: PreviewProvider {
     static var previews: some View {
         StepQuizHintReactionButtonView(
             reactionImage: Images.StepQuiz.Hints.unhelpfulReaction,
-            reactionText: Strings.General.no,
+            reactionText: Strings.Common.no,
             onReactionButtonTap: {}
         )
     }

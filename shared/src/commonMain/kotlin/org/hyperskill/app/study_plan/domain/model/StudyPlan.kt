@@ -14,9 +14,10 @@ data class StudyPlan(
     val projectId: Long?,
     @SerialName("sections")
     val sections: List<Long>,
-    @Deprecated("Remove after Track feature removal")
     @SerialName("seconds_to_reach_track")
-    private val secondsToReachTrack: Float,
+    val secondsToReachTrack: Float,
+    @SerialName("seconds_to_reach_project")
+    val secondsToReachProject: Float,
     @SerialName("status")
     val status: StudyPlanStatus
 ) {
