@@ -19,7 +19,7 @@ struct ProfileStatisticsView: View {
         HStack {
             ProfileStatisticsItemView(
                 appearance: .init(cornerRadius: appearance.cornerRadius),
-                icon: .init(imageName: Images.Track.About.project, renderingMode: .circleBackground),
+                icon: .init(imageName: Images.Common.project, renderingMode: .circleBackground),
                 title: "\(passedProjectsCount)",
                 subtitle: Strings.Profile.Statistics.passedProjects
             )

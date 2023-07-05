@@ -74,7 +74,7 @@ struct ProfileStatisticsItemView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ProfileStatisticsItemView(
-                icon: .init(imageName: Images.Track.About.project, renderingMode: .circleBackground),
+                icon: .init(imageName: Images.Common.project, renderingMode: .circleBackground),
                 title: "3",
                 subtitle: Strings.Profile.Statistics.passedProjects
             )

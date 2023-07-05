@@ -1,4 +1,3 @@
-import CombineSchedulers
 import Foundation
 import shared
 
@@ -9,8 +8,8 @@ final class {{ module_info.name }}ViewModel: FeatureViewModel<
 > {
     var stateKs: {{ module_info.name }}FeatureViewStateKs { .init(state) }
 
-    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
-        super.init(feature: feature, mainScheduler: mainScheduler)
+    init(feature: Presentation_reduxFeature) {
+        super.init(feature: feature)
         onNewMessage({{ module_info.name }}FeatureMessageInitialize())
     }
 

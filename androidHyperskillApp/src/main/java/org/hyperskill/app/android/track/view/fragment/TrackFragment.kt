@@ -145,6 +145,9 @@ class TrackFragment :
                 when (action.viewAction) {
                     is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                         mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
+                    GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen -> {
+                        // TODO: Show progress screen
+                    }
                 }
             is TrackFeature.Action.ViewAction.TopicsToDiscoverNextViewAction ->
                 when (action.viewAction) {
