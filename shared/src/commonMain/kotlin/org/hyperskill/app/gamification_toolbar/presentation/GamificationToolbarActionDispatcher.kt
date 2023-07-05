@@ -12,7 +12,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.observeHypercoinsBalance
-import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow

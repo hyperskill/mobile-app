@@ -1,4 +1,4 @@
-package org.hyperskill.app.progresses.remote.model
+package org.hyperskill.app.progress_screen.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

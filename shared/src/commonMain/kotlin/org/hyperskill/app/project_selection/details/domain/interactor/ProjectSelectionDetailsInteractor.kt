@@ -5,7 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
-import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository

@@ -2,8 +2,8 @@ package org.hyperskill.app.track.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.progresses.domain.model.Progress
-import org.hyperskill.app.progresses.domain.model.averageRating
+import org.hyperskill.app.progress_screen.domain.model.Progress
+import org.hyperskill.app.progress_screen.domain.model.averageRating
 
 @Serializable
 data class TrackProgress(
@@ -35,7 +35,7 @@ data class TrackProgress(
         "Use on iOS side only!",
         replaceWith = ReplaceWith(
             "averageRating()",
-            "org.hyperskill.app.progresses.domain.model.averageRating"
+            "org.hyperskill.app.progress_screen.domain.model.averageRating"
         )
     )
     val averageRating: Double

@@ -5,7 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.profile.domain.model.isCurrentTrackCompleted
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.domain.repository.TopicsRepository

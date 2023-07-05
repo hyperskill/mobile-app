@@ -60,10 +60,10 @@ import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponentImpl
 import org.hyperskill.app.progress_screen.injection.ProgressScreenComponent
 import org.hyperskill.app.progress_screen.injection.ProgressScreenComponentImpl
-import org.hyperskill.app.progresses.injection.ProgressesDataComponent
-import org.hyperskill.app.progresses.injection.ProgressesDataComponentImpl
-import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponent
-import org.hyperskill.app.progresses.injection.ProgressesFlowDataComponentImpl
+import org.hyperskill.app.progress_screen.injection.ProgressesDataComponent
+import org.hyperskill.app.progress_screen.injection.ProgressesDataComponentImpl
+import org.hyperskill.app.progress_screen.injection.ProgressesFlowDataComponent
+import org.hyperskill.app.progress_screen.injection.ProgressesFlowDataComponentImpl
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponent
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsComponentImpl
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent

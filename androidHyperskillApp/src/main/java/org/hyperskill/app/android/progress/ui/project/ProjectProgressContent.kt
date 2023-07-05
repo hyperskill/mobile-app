@@ -21,7 +21,7 @@ import org.hyperskill.app.android.progress.ui.GeneralStatistics
 import org.hyperskill.app.android.progress.ui.PercentStatistics
 import org.hyperskill.app.android.progress.ui.ProgressDefaults
 import org.hyperskill.app.android.progress.ui.ProgressPreview
-import org.hyperskill.app.progresses.view.ProgressScreenViewState
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 
 @Composable

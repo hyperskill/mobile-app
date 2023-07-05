@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import org.hyperskill.app.android.core.view.ui.widget.compose.DataLoadingError
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
-import org.hyperskill.app.progresses.view.ProgressScreenViewState
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 
 @Composable
 fun TrackProgress(

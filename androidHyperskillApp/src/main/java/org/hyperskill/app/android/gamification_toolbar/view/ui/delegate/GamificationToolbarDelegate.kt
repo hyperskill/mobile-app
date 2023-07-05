@@ -88,7 +88,7 @@ class GamificationToolbarDelegate(
         when (action) {
             is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                 mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
-            GamificationToolbarFeature.Action.ViewAction.NavigateTo.ProgressScreen ->
+            GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen ->
                 router.navigateToProgressScreen()
         }
     }

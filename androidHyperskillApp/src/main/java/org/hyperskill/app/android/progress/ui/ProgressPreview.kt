@@ -1,6 +1,6 @@
 package org.hyperskill.app.android.progress.ui
 
-import org.hyperskill.app.progresses.view.ProgressScreenViewState
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 
 object ProgressPreview {

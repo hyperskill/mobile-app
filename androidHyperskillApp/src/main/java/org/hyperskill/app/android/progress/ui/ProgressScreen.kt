@@ -28,8 +28,8 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.progress.ui.project.ProjectProgress
 import org.hyperskill.app.android.progress.ui.track.TrackProgress
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
-import org.hyperskill.app.progresses.view.ProgressScreenViewState
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable

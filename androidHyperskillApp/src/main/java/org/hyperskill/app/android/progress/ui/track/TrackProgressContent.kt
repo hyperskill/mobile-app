@@ -15,7 +15,7 @@ import org.hyperskill.app.android.progress.ui.BlockHeader
 import org.hyperskill.app.android.progress.ui.GeneralStatistics
 import org.hyperskill.app.android.progress.ui.ProgressDefaults
 import org.hyperskill.app.android.progress.ui.ProgressPreview
-import org.hyperskill.app.progresses.view.ProgressScreenViewState
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 
 @Composable
 fun TrackProgressContent(

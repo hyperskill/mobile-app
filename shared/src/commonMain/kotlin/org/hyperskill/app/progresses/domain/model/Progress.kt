@@ -1,4 +1,4 @@
-package org.hyperskill.app.progresses.domain.model
+package org.hyperskill.app.progress_screen.domain.model
 
 import kotlin.math.roundToInt
 

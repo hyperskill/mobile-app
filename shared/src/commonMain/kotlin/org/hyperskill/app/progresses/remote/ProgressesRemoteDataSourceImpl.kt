@@ -1,4 +1,4 @@
-package org.hyperskill.app.progresses.remote
+package org.hyperskill.app.progress_screen.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -6,10 +6,10 @@ import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.network.remote.parameterIds
-import org.hyperskill.app.progresses.data.source.ProgressesRemoteDataSource
-import org.hyperskill.app.progresses.remote.model.ProjectProgressResponse
-import org.hyperskill.app.progresses.remote.model.TopicProgressesResponse
-import org.hyperskill.app.progresses.remote.model.TrackProgressesResponse
+import org.hyperskill.app.progress_screen.data.source.ProgressesRemoteDataSource
+import org.hyperskill.app.progress_screen.remote.model.ProjectProgressResponse
+import org.hyperskill.app.progress_screen.remote.model.TopicProgressesResponse
+import org.hyperskill.app.progress_screen.remote.model.TrackProgressesResponse
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.topics.domain.model.TopicProgress
 import org.hyperskill.app.track.domain.model.TrackProgress

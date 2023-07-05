@@ -2,7 +2,7 @@ package org.hyperskill.app.track_selection.list.view
 
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.progresses.domain.model.averageRating
+import org.hyperskill.app.progress_screen.domain.model.averageRating
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.app.track_selection.list.presentation.TrackSelectionListFeature
 

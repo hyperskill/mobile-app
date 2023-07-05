@@ -1,4 +1,4 @@
-package org.hyperskill.app.progresses.data.source
+package org.hyperskill.app.progress_screen.data.source
 
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.topics.domain.model.TopicProgress

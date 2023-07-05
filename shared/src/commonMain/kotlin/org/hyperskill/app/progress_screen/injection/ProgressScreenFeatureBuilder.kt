@@ -4,12 +4,12 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.progress_screen.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenActionDispatcher
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenReducer
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewStateMapper
-import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository

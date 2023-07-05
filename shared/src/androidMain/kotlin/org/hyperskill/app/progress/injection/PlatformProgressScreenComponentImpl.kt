@@ -3,7 +3,7 @@ package org.hyperskill.app.progress.injection
 import org.hyperskill.app.core.flowredux.presentation.wrapWithFlowView
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
-import org.hyperskill.app.progresses.injection.ProgressScreenComponent
+import org.hyperskill.app.progress_screen.injection.ProgressScreenComponent
 
 class PlatformProgressScreenComponentImpl(
     private val progressScreenComponent: ProgressScreenComponent

@@ -8,7 +8,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
-import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.details.domain.interactor.ProjectSelectionDetailsInteractor
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsActionDispatcher
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature

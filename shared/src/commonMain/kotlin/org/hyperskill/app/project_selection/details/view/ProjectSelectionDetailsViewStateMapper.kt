@@ -4,7 +4,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.progresses.domain.model.averageRating
+import org.hyperskill.app.progress_screen.domain.model.averageRating
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectLevel

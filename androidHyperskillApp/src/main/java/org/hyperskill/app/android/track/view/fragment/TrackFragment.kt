@@ -29,7 +29,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.progresses.domain.model.averageRating
+import org.hyperskill.app.progress_screen.domain.model.averageRating
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.presentation.TrackFeature
