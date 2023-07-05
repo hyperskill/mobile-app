@@ -115,7 +115,7 @@ struct ProgressScreenTrackProgressContentView_Previews: PreviewProvider {
             avatarImageSource: "https://hyperskill.azureedge.net/media/tracks/9368deaab97441f192fd4c8db42cb9bc/python.svg",
             title: "Python Core",
             completedTopicsCountLabel: "0 / 149",
-            completedTopicsPercentageLabel: "98%",
+            completedTopicsPercentageLabel: "• 98%",
             completedTopicsPercentageProgress: 0,
             appliedTopicsCountLabel: "0 / 138",
             appliedTopicsPercentageLabel: "0%",
