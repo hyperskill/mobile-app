@@ -1512,18 +1512,9 @@
 		2C2C8ABE29B7994A00615893 /* Modals */ = {
 			isa = PBXGroup;
 			children = (
-				2C5B9EB429B7A9CD007E4943 /* UnsupportedModal */,
+				2C5B9EB429B7A9CD007E4943 /* Unsupported */,
 			);
 			path = Modals;
-			sourceTree = "<group>";
-		};
-		2C2C8ABF29B7995900615893 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				2C9E5E8729B215D7003AEC16 /* StageImplementView.swift */,
-				2C2C8ABE29B7994A00615893 /* Modals */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		2C2FF9CA285073340069C092 /* UIKit */ = {
@@ -1870,13 +1861,13 @@
 			path = CodeTextView;
 			sourceTree = "<group>";
 		};
-		2C5B9EB429B7A9CD007E4943 /* UnsupportedModal */ = {
+		2C5B9EB429B7A9CD007E4943 /* Unsupported */ = {
 			isa = PBXGroup;
 			children = (
 				2C5B9EB229B7A016007E4943 /* StageImplementUnsupportedModalView.swift */,
 				E90DF95829AE288600EC40DA /* StageImplementUnsupportedModalViewController.swift */,
 			);
-			path = UnsupportedModal;
+			path = Unsupported;
 			sourceTree = "<group>";
 		};
 		2C5CA2382A201A1A00DBF2F9 /* Views */ = {
@@ -2297,8 +2288,9 @@
 			isa = PBXGroup;
 			children = (
 				2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */,
+				2C9E5E8729B215D7003AEC16 /* StageImplementView.swift */,
 				2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */,
-				2C2C8ABF29B7995900615893 /* Views */,
+				2C2C8ABE29B7994A00615893 /* Modals */,
 			);
 			path = StageImplement;
 			sourceTree = "<group>";
