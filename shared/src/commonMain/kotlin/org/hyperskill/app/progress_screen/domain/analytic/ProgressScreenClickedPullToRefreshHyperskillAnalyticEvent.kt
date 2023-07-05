@@ -1,4 +1,4 @@
-package org.hyperskill.app.progresses.domain.analytic
+package org.hyperskill.app.progress_screen.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent

@@ -1,4 +1,4 @@
-package org.hyperskill.app.progresses.view
+package org.hyperskill.app.progress_screen.view
 
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 

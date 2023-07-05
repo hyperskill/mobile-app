@@ -1,7 +1,7 @@
-package org.hyperskill.app.progresses.view
+package org.hyperskill.app.progress_screen.view
 
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 
