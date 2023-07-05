@@ -17,7 +17,7 @@ import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.profile.stub
 import org.hyperskill.projects_selection.stub
-import org.hyperskill.study_plan.stub
+import org.hyperskill.study_plan.domain.model.stub
 import org.hyperskill.track.stub
 import org.hyperskill.track_selection.stub
 

@@ -4,9 +4,9 @@ import shared
 enum Strings {
     private static let sharedStrings = SharedResources.strings.shared
 
-    // MARK: - General -
+    // MARK: - Common -
 
-    enum General {
+    enum Common {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
         static let yes = sharedStrings.yes.localized()

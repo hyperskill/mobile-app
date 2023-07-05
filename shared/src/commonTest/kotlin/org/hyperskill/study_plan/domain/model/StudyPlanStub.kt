@@ -1,4 +1,4 @@
-package org.hyperskill.study_plan
+package org.hyperskill.study_plan.domain.model
 
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus

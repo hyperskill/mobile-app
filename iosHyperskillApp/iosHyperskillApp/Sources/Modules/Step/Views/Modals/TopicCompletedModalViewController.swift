@@ -121,7 +121,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
         contentStackView.addArrangedSubview(containerStackView)
 
         let titleLabel = UILabel()
-        titleLabel.text = Strings.General.goodJob
+        titleLabel.text = Strings.Common.goodJob
         titleLabel.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
         titleLabel.textColor = .primaryText
         titleLabel.lineBreakMode = .byWordWrapping
@@ -167,7 +167,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
         let goToHomescreenButton = makeActionButton(
             style: isNextStepAvailable ? .outline : .violet,
-            title: Strings.General.goToHomescreen,
+            title: Strings.Common.goToHomescreen,
             action: #selector(goToHomescreenButtonTapped)
         )
 

@@ -24,7 +24,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
-import org.hyperskill.study_plan.stub
+import org.hyperskill.study_plan.domain.model.stub
 
 class StudyPlanWidgetTest {
 
