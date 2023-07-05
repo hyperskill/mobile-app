@@ -13,11 +13,15 @@ class ProgressScreenComponentImpl(
     override val progressScreenFeature: Feature<ProgressScreenViewState, Message, Action>
         get() = ProgressScreenFeatureBuilder.build(
             appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             trackInteractor = appGraph.buildTrackDataComponent().trackInteractor,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             progressesInteractor = appGraph.buildProgressesDataComponent().progressesInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
-            viewStateMapper = ProgressScreenViewStateMapper(appGraph.commonComponent.dateFormatter)
+            viewStateMapper = ProgressScreenViewStateMapper(
+                dateFormatter = appGraph.commonComponent.dateFormatter,
+                resourceProvider = appGraph.commonComponent.resourceProvider
+            )
         )
 }

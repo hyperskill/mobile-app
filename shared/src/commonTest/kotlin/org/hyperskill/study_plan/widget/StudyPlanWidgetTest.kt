@@ -24,6 +24,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
 import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
+import org.hyperskill.study_plan.domain.model.stub
 
 class StudyPlanWidgetTest {
 
@@ -50,7 +51,7 @@ class StudyPlanWidgetTest {
             .asSequence()
             .filterNot { it == StudyPlanStatus.READY }
             .forEach { status ->
-                val studyPlan = studyPlanStub(id = 0, status = status)
+                val studyPlan = StudyPlan.stub(id = 0, status = status)
                 val (_, actions) = reducer.reduce(
                     initialState,
                     StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1, true)
@@ -66,7 +67,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Receiving not ready studyPlan should trigger fetch studyPlan with delay`() {
         val initialState = StudyPlanWidgetFeature.State()
-        val studyPlan = studyPlanStub(id = 0, status = StudyPlanStatus.INITING)
+        val studyPlan = StudyPlan.stub(id = 0, status = StudyPlanStatus.INITING)
         repeat(5) { tryNumber ->
             val (_, actions) = reducer.reduce(
                 initialState,
@@ -83,7 +84,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Receiving ready studyPlan should stop study plan polling`() {
         val initialState = StudyPlanWidgetFeature.State()
-        val studyPlan = studyPlanStub(id = 0, status = StudyPlanStatus.READY)
+        val studyPlan = StudyPlan.stub(id = 0, status = StudyPlanStatus.READY)
         val (_, actions) = reducer.reduce(
             initialState,
             StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1, true)
@@ -102,7 +103,7 @@ class StudyPlanWidgetTest {
             .asSequence()
             .filterNot { it == StudyPlanStatus.READY }
             .forEach { status ->
-                val studyPlan = studyPlanStub(id = 0, status = status)
+                val studyPlan = StudyPlan.stub(id = 0, status = status)
                 val (state, _) = reducer.reduce(
                     initialState,
                     StudyPlanWidgetFeature.StudyPlanFetchResult.Success(studyPlan, 1, true)
@@ -115,7 +116,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Receiving ready studyPlan should trigger sections loading`() {
         val expectedSections = listOf(0L, 1L, 2L)
-        val studyPlanStub = studyPlanStub(
+        val studyPlanStub = StudyPlan.stub(
             id = 0,
             status = StudyPlanStatus.READY,
             sections = expectedSections
@@ -132,7 +133,7 @@ class StudyPlanWidgetTest {
     fun `Sections status should be Loaded after loading finish`() {
         val (state, _) = reducer.reduce(
             StudyPlanWidgetFeature.State(
-                studyPlan = studyPlanStub(id = 0)
+                studyPlan = StudyPlan.stub(id = 0)
             ),
             StudyPlanWidgetFeature.SectionsFetchResult.Success(emptyList())
         )
@@ -166,7 +167,7 @@ class StudyPlanWidgetTest {
         )
 
         val (state, _) = reducer.reduce(
-            StudyPlanWidgetFeature.State(studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1, 2))),
+            StudyPlanWidgetFeature.State(studyPlan = StudyPlan.stub(id = 0, sections = listOf(0, 1, 2))),
             StudyPlanWidgetFeature.SectionsFetchResult.Success(
                 listOf(
                     visibleUnsupportedSection,
@@ -204,7 +205,7 @@ class StudyPlanWidgetTest {
 
         val (state, _) = reducer.reduce(
             StudyPlanWidgetFeature.State(
-                studyPlan = studyPlanStub(
+                studyPlan = StudyPlan.stub(
                     id = 0,
                     sections = expectedSectionsIds,
                     status = StudyPlanStatus.READY
@@ -228,7 +229,7 @@ class StudyPlanWidgetTest {
         val secondSection = studyPlanSectionStub(id = 1)
         val (state, actions) = reducer.reduce(
             StudyPlanWidgetFeature.State(
-                studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1))
+                studyPlan = StudyPlan.stub(id = 0, sections = listOf(0, 1))
             ),
             StudyPlanWidgetFeature.SectionsFetchResult.Success(listOf(firstSection, secondSection))
         )
@@ -431,7 +432,7 @@ class StudyPlanWidgetTest {
 
         listOf(collapsedSection, idleSection).forEach { givenSection ->
             val state = StudyPlanWidgetFeature.State(
-                studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+                studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
                 studyPlanSections = mapOf(sectionId to givenSection),
                 sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
             )
@@ -462,7 +463,7 @@ class StudyPlanWidgetTest {
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(sectionId to section),
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
@@ -501,7 +502,7 @@ class StudyPlanWidgetTest {
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(sectionId to section),
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
             activities = mapOf(activityId to stubLearningActivity(activityId))
@@ -531,7 +532,7 @@ class StudyPlanWidgetTest {
 
     @Test
     fun `Reload content in background should trigger fetch studyPlan without loading indicators`() {
-        val state = StudyPlanWidgetFeature.State(studyPlan = studyPlanStub(id = 0))
+        val state = StudyPlanWidgetFeature.State(studyPlan = StudyPlan.stub(id = 0))
         val (_, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ReloadContentInBackground)
         assertContains(actions, StudyPlanWidgetFeature.InternalAction.FetchStudyPlan(showLoadingIndicators = false))
     }
@@ -545,7 +546,7 @@ class StudyPlanWidgetTest {
             isExpanded = true
         )
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(sectionId to section),
             sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
@@ -578,7 +579,7 @@ class StudyPlanWidgetTest {
         )
 
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0)),
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -617,7 +618,7 @@ class StudyPlanWidgetTest {
         )
 
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0)),
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -655,7 +656,7 @@ class StudyPlanWidgetTest {
         )
 
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0)),
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -681,7 +682,7 @@ class StudyPlanWidgetTest {
     fun `Section content statistics in ViewState should be always visible for first visible section`() {
         fun makeState(isExpanded: Boolean): StudyPlanWidgetFeature.State =
             StudyPlanWidgetFeature.State(
-                studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+                studyPlan = StudyPlan.stub(id = 0, sections = listOf(0)),
                 studyPlanSections = mapOf(
                     0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                         studyPlanSection = studyPlanSectionStub(
@@ -746,7 +747,7 @@ class StudyPlanWidgetTest {
         )
 
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0, 1)),
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -778,7 +779,7 @@ class StudyPlanWidgetTest {
     @Test
     fun `Click on non current learning activity should do nothing`() {
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(0, 1)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0, 1)),
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
@@ -812,7 +813,7 @@ class StudyPlanWidgetTest {
         val sectionId = 3L
 
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, projectId = projectId, sections = listOf(sectionId)),
+            studyPlan = StudyPlan.stub(id = 0, projectId = projectId, sections = listOf(sectionId)),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
@@ -844,7 +845,7 @@ class StudyPlanWidgetTest {
     fun `Click on stage implement learning activity with non stage target should do nothing`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0)),
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(activityId)),
@@ -876,7 +877,7 @@ class StudyPlanWidgetTest {
         val stepId = 1L
         val sectionId = 2L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
@@ -914,7 +915,7 @@ class StudyPlanWidgetTest {
     fun `Click on learn topic learning activity with non step target should do nothing`() {
         val activityId = 0L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(0)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0)),
             studyPlanSections = mapOf(
                 0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(activityId)),
@@ -945,7 +946,7 @@ class StudyPlanWidgetTest {
         val activityId = 0L
         val sectionId = 1L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, projectId = 1L),
+            studyPlan = StudyPlan.stub(id = 0, projectId = 1L),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
@@ -978,7 +979,7 @@ class StudyPlanWidgetTest {
         val sectionId = 1L
         val trackId = 2L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, trackId = trackId),
+            studyPlan = StudyPlan.stub(id = 0, trackId = trackId),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
@@ -1003,7 +1004,7 @@ class StudyPlanWidgetTest {
         val activityId = 0L
         val sectionId = 1L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0),
+            studyPlan = StudyPlan.stub(id = 0),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId, activities = listOf(activityId)),
@@ -1027,7 +1028,7 @@ class StudyPlanWidgetTest {
     fun `Clicking on section should change section expansion state`() {
         val sectionId = 0L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0),
+            studyPlan = StudyPlan.stub(id = 0),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(id = sectionId),
@@ -1138,7 +1139,7 @@ class StudyPlanWidgetTest {
         val notNextActivityId = 1L
         val sectionId = 2L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(
@@ -1182,7 +1183,7 @@ class StudyPlanWidgetTest {
         val secondActivityId = 1L
         val sectionId = 2L
         val state = StudyPlanWidgetFeature.State(
-            studyPlan = studyPlanStub(id = 0, sections = listOf(sectionId)),
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
             studyPlanSections = mapOf(
                 sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                     studyPlanSection = studyPlanSectionStub(
@@ -1235,22 +1236,6 @@ class StudyPlanWidgetTest {
             content = content,
             formattedTopicsCount = formattedTopicsCount,
             formattedTimeToComplete = formattedTimeToComplete
-        )
-
-    private fun studyPlanStub(
-        id: Long,
-        trackId: Long? = null,
-        projectId: Long? = null,
-        status: StudyPlanStatus = StudyPlanStatus.READY,
-        sections: List<Long> = emptyList()
-    ) =
-        StudyPlan(
-            id = id,
-            trackId = trackId,
-            projectId = projectId,
-            sections = sections,
-            status = status,
-            secondsToReachTrack = 0f
         )
 
     private fun studyPlanSectionStub(

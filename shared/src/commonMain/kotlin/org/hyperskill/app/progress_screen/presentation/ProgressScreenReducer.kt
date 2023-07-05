@@ -110,7 +110,11 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
                 ProgressScreenFeature.TrackWithProgressFetchResult.Error ->
                     TrackProgressState.Error
                 is ProgressScreenFeature.TrackWithProgressFetchResult.Success ->
-                    TrackProgressState.Content(message.trackWithProgress)
+                    TrackProgressState.Content(
+                        trackWithProgress = message.trackWithProgress,
+                        studyPlan = message.studyPlan,
+                        profile = message.profile
+                    )
             },
             isTrackProgressRefreshing = false
         ) to emptySet()
@@ -126,7 +130,10 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
                 ProgressScreenFeature.ProjectWithProgressFetchResult.Error ->
                     ProjectProgressState.Error
                 is ProgressScreenFeature.ProjectWithProgressFetchResult.Success ->
-                    ProjectProgressState.Content(message.projectWithProgress)
+                    ProjectProgressState.Content(
+                        projectWithProgress = message.projectWithProgress,
+                        studyPlan = message.studyPlan
+                    )
             },
             isProjectProgressRefreshing = false
         ) to emptySet()

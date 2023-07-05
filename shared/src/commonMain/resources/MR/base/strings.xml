@@ -15,6 +15,7 @@
     <string name="go_to_homescreen">Go to home</string>
     <string name="new_word">New</string>
     <string name="progress">Progress</string>
+    <string name="completed">Completed</string>
 
     <!-- Badge -->
     <string name="badge_ide_required_text">IDE required</string>
@@ -25,7 +26,6 @@
     <string name="badge_best_rating_text">Best rating</string>
     <string name="badge_fastest_to_complete_text">Fastest to complete</string>
     <string name="badge_beta_text">Beta</string>
-    <string name="badge_completed_text">Completed</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
