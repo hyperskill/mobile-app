@@ -125,7 +125,7 @@ class GamificationToolbarReducer(
             is Message.ClickedProgress ->
                 if (state is State.Content) {
                     state to setOf(
-                        Action.ViewAction.NavigateTo.ProgressScreen,
+                        Action.ViewAction.ShowProgressScreen,
                         Action.LogAnalyticEvent(GamificationToolbarClickedProgressHyperskillAnalyticEvent(screen))
                     )
                 } else {

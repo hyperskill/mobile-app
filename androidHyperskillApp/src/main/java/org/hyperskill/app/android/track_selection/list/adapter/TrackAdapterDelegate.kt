@@ -2,7 +2,9 @@ package org.hyperskill.app.android.track_selection.list.adapter
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import coil.ImageLoader
 import coil.load
 import coil.size.Scale
@@ -71,6 +73,10 @@ class TrackAdapterDelegate(
                 // Remove tags top padding when none of theme are shown.
                 // If set some value to trackTags.isVisible, then all the tags will have that visibility.
                 trackTags.paddingTop = if (data.areTagsVisible) tagsTopMargin else 0
+
+                trackCompletenessView.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                    matchConstraintPercentWidth = data.progress / 100f
+                }
             }
         }
     }

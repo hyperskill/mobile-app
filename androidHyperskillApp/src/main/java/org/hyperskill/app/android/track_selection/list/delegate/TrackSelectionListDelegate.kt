@@ -126,7 +126,8 @@ class TrackSelectionListDelegate(
             isBeta = track.isBeta,
             isSelected = track.isSelected,
             isCompleted = track.isCompleted,
-            strokeColor = if (track.isSelected) selectedStrokeColor else notSelectedStrokeColor
+            strokeColor = if (track.isSelected) selectedStrokeColor else notSelectedStrokeColor,
+            progress = track.progress
         )
 
     private fun headerAdapterDelegate() =

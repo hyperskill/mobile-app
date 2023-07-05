@@ -34,7 +34,7 @@ extension BadgeView {
     }
 
     static func completed() -> BadgeView {
-        BadgeView(text: Strings.Badge.completed, style: .green)
+        BadgeView(text: Strings.Common.completed, style: .green)
     }
 }
 

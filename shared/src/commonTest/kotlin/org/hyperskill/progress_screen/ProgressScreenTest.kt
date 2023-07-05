@@ -4,23 +4,30 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.progresses.presentation.ProgressScreenFeature
-import org.hyperskill.app.progresses.presentation.ProgressScreenReducer
-import org.hyperskill.app.progresses.view.ProgressScreenViewStateMapper
+import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenReducer
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewStateMapper
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
+import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.domain.model.TrackWithProgress
+import org.hyperskill.profile.stub
 import org.hyperskill.projects_selection.stub
+import org.hyperskill.study_plan.domain.model.stub
 import org.hyperskill.track.stub
 import org.hyperskill.track_selection.stub
 
 class ProgressScreenTest {
     private val progressScreenReducer = ProgressScreenReducer()
 
-    private val viewStateMapper = ProgressScreenViewStateMapper(SharedDateFormatter(ResourceProviderStub()))
+    private val viewStateMapper = ProgressScreenViewStateMapper(
+        SharedDateFormatter(ResourceProviderStub()),
+        ResourceProviderStub()
+    )
 
     @Test
     fun `Empty fetch project with progress result should reduce project progress state to idle`() {
@@ -47,7 +54,9 @@ class ProgressScreenTest {
                 isProjectProgressRefreshing = true
             ),
             ProgressScreenFeature.TrackWithProgressFetchResult.Success(
-                TrackWithProgress(Track.stub(1), TrackProgress.stub(1))
+                TrackWithProgress(Track.stub(1), TrackProgress.stub(1)),
+                StudyPlan.stub(),
+                Profile.stub()
             )
         )
 
@@ -56,7 +65,8 @@ class ProgressScreenTest {
         val (loadedStateSuccess, _) = progressScreenReducer.reduce(
             refreshingState,
             ProgressScreenFeature.ProjectWithProgressFetchResult.Success(
-                ProjectWithProgress(Project.stub(1), ProjectProgress.stub(1))
+                ProjectWithProgress(Project.stub(1), ProjectProgress.stub(1)),
+                StudyPlan.stub()
             )
         )
 
@@ -68,5 +78,45 @@ class ProgressScreenTest {
         )
 
         assertEquals(false, viewStateMapper.map(loadedStateEmpty).isRefreshing)
+    }
+
+    @Test
+    fun `If both track and project progress are in error state then isInErrorState returns true`() {
+        val state = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Error,
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Error,
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+        val viewState = viewStateMapper.map(state)
+
+        assertEquals(true, viewState.isInErrorState)
+    }
+
+    @Test
+    fun `If both track and project progress are in error state then RetryContentLoading message retries loading`() {
+        val initialState = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Error,
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Error,
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+
+        val (actualState, actualActions) = progressScreenReducer.reduce(
+            initialState,
+            ProgressScreenFeature.Message.RetryContentLoading
+        )
+
+        val expectedState = initialState.copy(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Loading,
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Loading
+        )
+        val expectedActions: Set<ProgressScreenFeature.Action> = setOf(
+            ProgressScreenFeature.InternalAction.FetchTrackWithProgress(forceLoadFromNetwork = true),
+            ProgressScreenFeature.InternalAction.FetchProjectWithProgress(forceLoadFromNetwork = true)
+        )
+
+        assertEquals(expectedState, actualState)
+        assertEquals(expectedActions, actualActions)
     }
 }

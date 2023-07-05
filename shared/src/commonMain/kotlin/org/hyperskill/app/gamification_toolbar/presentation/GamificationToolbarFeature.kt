@@ -75,9 +75,7 @@ object GamificationToolbarFeature {
 
         sealed interface ViewAction : Action {
             object ShowProfileTab : ViewAction
-            sealed interface NavigateTo : ViewAction {
-                object ProgressScreen : NavigateTo
-            }
+            object ShowProgressScreen : ViewAction
         }
     }
 }

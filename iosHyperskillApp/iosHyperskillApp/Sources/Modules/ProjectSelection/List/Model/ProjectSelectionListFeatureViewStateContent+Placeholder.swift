@@ -15,7 +15,8 @@ extension ProjectSelectionListFeatureViewStateContent {
             isIdeRequired: true,
             isFastestToComplete: true,
             isCompleted: true,
-            isBeta: true
+            isBeta: true,
+            progress: 50
         )
 
         let recommendedProjects: [ProjectSelectionListFeature.ProjectListItem] = [
@@ -30,7 +31,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                 isIdeRequired: false,
                 isFastestToComplete: false,
                 isCompleted: false,
-                isBeta: true
+                isBeta: true,
+                progress: 50
             ),
             .init(
                 id: 3,
@@ -43,7 +45,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                 isIdeRequired: true,
                 isFastestToComplete: false,
                 isCompleted: false,
-                isBeta: true
+                isBeta: true,
+                progress: 50
             )
         ]
 
@@ -60,7 +63,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isIdeRequired: false,
                     isFastestToComplete: false,
                     isCompleted: false,
-                    isBeta: true
+                    isBeta: true,
+                    progress: 50
                 ),
                 .init(
                     id: 5,
@@ -73,7 +77,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isIdeRequired: true,
                     isFastestToComplete: false,
                     isCompleted: false,
-                    isBeta: true
+                    isBeta: true,
+                    progress: 50
                 )
             ],
             .medium: [
@@ -88,7 +93,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isIdeRequired: false,
                     isFastestToComplete: false,
                     isCompleted: false,
-                    isBeta: true
+                    isBeta: true,
+                    progress: 50
                 ),
                 .init(
                     id: 7,
@@ -101,7 +107,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isIdeRequired: false,
                     isFastestToComplete: false,
                     isCompleted: false,
-                    isBeta: true
+                    isBeta: true,
+                    progress: 50
                 )
             ],
             .hard: [
@@ -116,7 +123,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isIdeRequired: false,
                     isFastestToComplete: false,
                     isCompleted: false,
-                    isBeta: true
+                    isBeta: true,
+                    progress: 50
                 ),
                 .init(
                     id: 9,
@@ -129,7 +137,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isIdeRequired: false,
                     isFastestToComplete: false,
                     isCompleted: false,
-                    isBeta: true
+                    isBeta: true,
+                    progress: 50
                 )
             ],
             .nightmare: [
@@ -144,7 +153,8 @@ extension ProjectSelectionListFeatureViewStateContent {
                     isIdeRequired: false,
                     isFastestToComplete: false,
                     isCompleted: false,
-                    isBeta: true
+                    isBeta: true,
+                    progress: 50
                 )
             ]
         ]

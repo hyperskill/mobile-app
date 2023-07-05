@@ -51,7 +51,7 @@ struct StudyPlanSectionItemView: View {
             }
         }
         .padding()
-        .background(buildProgressBar(Float(truncating: item.progress ?? 0)))
+        .backgroundProgress(progress: item.progress)
     }
 
     @ViewBuilder
@@ -67,18 +67,6 @@ struct StudyPlanSectionItemView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .foregroundColor(item.isClickable ? .primaryText : .secondaryText)
-    }
-
-    @ViewBuilder
-    private func buildProgressBar(_ progress: Float) -> some View {
-        #warning("Migrate to the BackgroundProgressView")
-        GeometryReader { geometry in
-            Rectangle()
-                .stroke(lineWidth: 0)
-                .background(appearance.progressBarBackgroundColor)
-                .cornerRadius(appearance.buttonStyle.cornerRadius)
-                .frame(width: geometry.size.width * CGFloat(progress) / 100)
-        }
     }
 }
 
@@ -126,7 +114,7 @@ extension StudyPlanWidgetViewStateSectionItem {
         title: String = "Work on project. Stage: 1/6",
         subtitle: String? = nil,
         isIdeRequired: Bool = false,
-        progress: Float? = nil,
+        progress: Int32 = 0,
         formattedProgress: String? = nil
     ) -> StudyPlanWidgetViewStateSectionItem {
         StudyPlanWidgetViewStateSectionItem(
@@ -135,7 +123,7 @@ extension StudyPlanWidgetViewStateSectionItem {
             subtitle: subtitle,
             state: state,
             isIdeRequired: isIdeRequired,
-            progress: progress != nil ? KotlinFloat(value: progress.require()) : nil,
+            progress: progress,
             formattedProgress: formattedProgress,
             hypercoinsAward: nil
         )
