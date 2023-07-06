@@ -3,6 +3,8 @@ package org.hyperskill.app.android.progress.ui
 import androidx.compose.ui.unit.dp
 
 object ProgressDefaults {
+    val ScreenHorizontalPadding = 20.dp
+
     val BigSpaceDp = 20.dp
     val SmallSpaceDp = 8.dp
     val BetweenBlockSpaceDp = 40.dp
