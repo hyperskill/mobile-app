@@ -110,9 +110,12 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
      * @param secondsToFormat seconds to format
      *
      */
-    fun formatHoursOrMinutesCount(secondsToFormat: Float?): String? =
-        secondsToFormat?.let {
-            formatHoursOrMinutesCount(it.toInt().toDuration(DurationUnit.SECONDS))
+    fun formatHoursOrMinutesCount(seconds: Float?): String? =
+        if (seconds == null || seconds <= 0) {
+            null
+        } else {
+            val duration = seconds.toInt().toDuration(DurationUnit.SECONDS)
+            formatHoursOrMinutesCount(duration)
         }
 
     /**
