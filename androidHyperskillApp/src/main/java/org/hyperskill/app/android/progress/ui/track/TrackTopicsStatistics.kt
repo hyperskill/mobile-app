@@ -50,10 +50,6 @@ private fun getProgressAnnotatedTitle(
             append(countString)
         }
         append(' ')
-        withStyle(SpanStyle(colorResource(id = R.color.color_on_surface_alpha_12))) {
-            append('•')
-        }
-        append(' ')
         withStyle(SpanStyle(colorResource(id = R.color.color_on_surface_alpha_38))) {
             append(percentageString)
         }
@@ -64,7 +60,7 @@ private fun getProgressAnnotatedTitle(
 fun CompletedTopicsProgressPreview() {
     TrackTopicsStatistics(
         countString = "0 / 149",
-        percentageString = "0%",
+        percentageString = "• 0%",
         isTrackCompleted = true,
         progressPercent = .5f,
         icon = painterResource(id = org.hyperskill.app.android.R.drawable.ic_track_progress_topics),
