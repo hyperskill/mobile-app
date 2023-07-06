@@ -35,7 +35,7 @@ struct StageImplementProjectCompletedModalView: View {
             }
 
             Button(
-                Strings.General.goToStudyPlan,
+                Strings.Common.goToStudyPlan,
                 action: onCallToActionTap
             )
             .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
