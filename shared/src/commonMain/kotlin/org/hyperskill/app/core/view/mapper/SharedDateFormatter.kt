@@ -107,7 +107,7 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     /**
      * Format hours or minutes count with localized and pluralized suffix;
      * 7390.0 -> "2 hours", 776.0 -> "12 minutes"
-     * @param secondsToFormat seconds to format
+     * @param seconds seconds to format
      *
      */
     fun formatHoursOrMinutesCount(seconds: Float?): String? =
