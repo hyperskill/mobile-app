@@ -3,18 +3,20 @@ package org.hyperskill.app.android.core.view.ui.widget.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidViewBinding
-import org.hyperskill.app.android.databinding.WidgetDataLoadingErrorBinding
+import androidx.core.view.isVisible
+import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
 
 @Composable
-fun WidgetDataLoadingError(
+fun ScreenDataLoadingError(
     onRetryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AndroidViewBinding(
-        WidgetDataLoadingErrorBinding::inflate,
-        modifier
+        ErrorNoConnectionWithButtonBinding::inflate,
+        modifier = modifier
     ) {
-        this.reloadButton.setOnClickListener {
+        root.isVisible = true
+        tryAgain.setOnClickListener {
             onRetryClick()
         }
     }

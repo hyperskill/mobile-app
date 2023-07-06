@@ -21,6 +21,9 @@ object ProgressPreview {
             isCompleted = isCompleted
         )
 
+    fun trackErrorPreview(): ProgressScreenViewState.TrackProgressViewState.Error =
+        ProgressScreenViewState.TrackProgressViewState.Error
+
     fun projectContentViewStatePreview(
         isCompleted: Boolean = false
     ): ProgressScreenViewState.ProjectProgressViewState.Content =
@@ -32,4 +35,7 @@ object ProgressPreview {
             completedStagesProgress = 0.2f,
             isCompleted = isCompleted
         )
+
+    fun projectErrorPreview(): ProgressScreenViewState.ProjectProgressViewState.Error =
+        ProgressScreenViewState.ProjectProgressViewState.Error
 }

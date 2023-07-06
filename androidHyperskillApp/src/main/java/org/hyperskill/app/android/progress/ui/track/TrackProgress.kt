@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import org.hyperskill.app.android.core.view.ui.widget.compose.DataLoadingError
+import org.hyperskill.app.android.core.view.ui.widget.compose.WidgetDataLoadingError
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 
@@ -23,12 +23,12 @@ fun TrackProgress(
         is ProgressScreenViewState.TrackProgressViewState.Content ->
             TrackProgressContent(viewState, modifier)
         ProgressScreenViewState.TrackProgressViewState.Error -> {
-            val onRetryTrackProgressLoadingClick = remember {
+            val onRetryTrackProgressLoadingClick = remember(onNewMessage) {
                 {
                     onNewMessage(ProgressScreenFeature.Message.RetryTrackProgressLoading)
                 }
             }
-            DataLoadingError(
+            WidgetDataLoadingError(
                 onRetryClick = onRetryTrackProgressLoadingClick,
                 modifier = Modifier.fillMaxWidth()
             )

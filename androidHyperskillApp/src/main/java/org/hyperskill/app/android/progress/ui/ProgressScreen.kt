@@ -2,6 +2,7 @@ package org.hyperskill.app.android.progress.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -21,6 +22,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +35,7 @@ import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillPullRefreshIndicator
+import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingError
 import org.hyperskill.app.android.progress.ui.project.ProjectProgress
 import org.hyperskill.app.android.progress.ui.track.TrackProgress
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
@@ -57,10 +60,7 @@ fun ProgressScreen(
     onBackClick: () -> Unit
 ) {
     val currentOnBackClick by rememberUpdatedState(newValue = onBackClick)
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = viewState.isRefreshing,
-        onRefresh = { onNewMessage(ProgressScreenFeature.Message.PullToRefresh) }
-    )
+    val currentOnNewMessage by rememberUpdatedState(newValue = onNewMessage)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -82,41 +82,70 @@ fun ProgressScreen(
             )
         }
     ) { padding ->
-        Box(
-            Modifier
-                .pullRefresh(pullRefreshState)
-                .verticalScroll(rememberScrollState())
-        ) {
-            val layoutDirection = LocalLayoutDirection.current
-            val startPadding = padding.calculateStartPadding(layoutDirection)
-            val endPadding = padding.calculateEndPadding(layoutDirection)
-            Column(
-                Modifier
-                    .padding(
-                        start = ProgressDefaults.ScreenHorizontalPadding + startPadding,
-                        end = ProgressDefaults.ScreenHorizontalPadding + endPadding
-                    )
-                    .fillMaxSize()
-            ) {
-                Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
-                TrackProgress(
-                    viewState = viewState.trackProgressViewState,
-                    onNewMessage = onNewMessage
-                )
-                Spacer(modifier = Modifier.height(ProgressDefaults.BetweenBlockSpaceDp))
-                ProjectProgress(
-                    viewState = viewState.projectProgressViewState,
-                    onNewMessage = onNewMessage
-                )
-                Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
+        if (!viewState.isInErrorState) {
+            ProgressScreenContent(
+                viewState = viewState,
+                onNewMessage = currentOnNewMessage,
+                padding = padding
+            )
+        } else {
+            val onRetryClick = remember(currentOnNewMessage) {
+                {
+                    currentOnNewMessage(ProgressScreenFeature.Message.RetryContentLoading)
+                }
             }
-
-            HyperskillPullRefreshIndicator(
-                refreshing = viewState.isRefreshing,
-                state = pullRefreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
+            ScreenDataLoadingError(
+                onRetryClick = onRetryClick,
+                modifier = Modifier.fillMaxSize()
             )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun ProgressScreenContent(
+    viewState: ProgressScreenViewState,
+    onNewMessage: (ProgressScreenFeature.Message) -> Unit,
+    padding: PaddingValues
+) {
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = viewState.isRefreshing,
+        onRefresh = { onNewMessage(ProgressScreenFeature.Message.PullToRefresh) }
+    )
+    Box(
+        Modifier
+            .pullRefresh(pullRefreshState)
+            .verticalScroll(rememberScrollState())
+    ) {
+        val layoutDirection = LocalLayoutDirection.current
+        val startPadding = padding.calculateStartPadding(layoutDirection) +
+            ProgressDefaults.ScreenHorizontalPadding
+        val endPadding = padding.calculateEndPadding(layoutDirection) +
+            ProgressDefaults.ScreenHorizontalPadding
+        Column(
+            Modifier
+                .padding(start = startPadding, end = endPadding)
+                .fillMaxSize()
+        ) {
+            Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
+            TrackProgress(
+                viewState = viewState.trackProgressViewState,
+                onNewMessage = onNewMessage
+            )
+            Spacer(modifier = Modifier.height(ProgressDefaults.BetweenBlockSpaceDp))
+            ProjectProgress(
+                viewState = viewState.projectProgressViewState,
+                onNewMessage = onNewMessage
+            )
+            Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
+        }
+
+        HyperskillPullRefreshIndicator(
+            refreshing = viewState.isRefreshing,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
@@ -140,14 +169,14 @@ fun NexusTrackProgressScreenPreview() {
 
 @Composable
 @Preview(
-    name = "General",
+    name = "Error",
     showBackground = true
 )
 fun GeneralTrackProgressScreenPreview() {
     ProgressScreen(
         ProgressScreenViewState(
-            trackProgressViewState = ProgressPreview.trackContentViewStatePreview(),
-            projectProgressViewState = ProgressPreview.projectContentViewStatePreview(),
+            trackProgressViewState = ProgressPreview.trackErrorPreview(),
+            projectProgressViewState = ProgressPreview.projectErrorPreview(),
             isRefreshing = false
         ),
         onNewMessage = {},
