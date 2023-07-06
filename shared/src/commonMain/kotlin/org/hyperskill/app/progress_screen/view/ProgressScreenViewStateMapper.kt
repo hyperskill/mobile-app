@@ -102,7 +102,7 @@ internal class ProgressScreenViewStateMapper(
         }
 
     private fun formatTimeToComplete(secondsToComplete: Float?): String? =
-        dateFormatter.formatHoursCount(secondsToComplete)?.let { formattedTime ->
+        dateFormatter.formatHoursOrMinutesCount(secondsToComplete)?.let { formattedTime ->
             "~ $formattedTime"
         }
 }
