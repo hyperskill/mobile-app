@@ -105,13 +105,15 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     }
 
     /**
-     * Format hours and minutes count with localized and pluralized suffix;
-     * 7260 -> "2 hours 1 minute", 7320 -> "2 hours 2 minute", 21600 -> "6 hours"
-     * @param seconds Seconds to format
+     * Format hours or minutes count with localized and pluralized suffix;
+     * 7390.0 -> "2 hours", 776.0 -> "12 minutes"
+     * @param secondsToFormat seconds to format
      *
      */
-    fun formatHoursWithMinutesCount(seconds: Float): String =
-        formatHoursWithMinutesCount(seconds.toLong())
+    fun formatHoursOrMinutesCount(secondsToFormat: Float?): String? =
+        secondsToFormat?.let {
+            formatHoursOrMinutesCount(it.toInt().toDuration(DurationUnit.SECONDS))
+        }
 
     /**
      * Format hours or minutes count with localized and pluralized suffix;
