@@ -25,7 +25,8 @@ extension TrackSelectionListFeatureViewStateContent {
                 rating: rating,
                 isBeta: index.isMultiple(of: 3),
                 isCompleted: index == 2,
-                isSelected: index == 0
+                isSelected: index == 0,
+                progress: Int32.random(in: 0...100)
             )
         }
 

@@ -1,10 +1,19 @@
 package org.hyperskill.app.projects.domain.model
 
+import kotlin.math.floor
+
 data class ProjectWithProgress(
     val project: Project,
     val progress: ProjectProgress
 ) {
     companion object
+
+    val progressPercentage: Int
+        get() = if (progress.isCompleted) {
+            100
+        } else {
+            floor(progress.completedStages.size / project.stagesIds.size.toFloat() * 100).toInt()
+        }
 }
 
 /**

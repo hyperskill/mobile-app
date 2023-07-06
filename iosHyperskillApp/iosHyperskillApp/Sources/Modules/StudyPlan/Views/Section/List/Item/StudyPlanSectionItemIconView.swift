@@ -23,7 +23,7 @@ struct StudyPlanSectionItemIconView: View {
         case .next:
             return Image(Images.Home.ProblemOfDay.arrowUncompleted)
         case .skipped:
-            return Image(Images.Track.TopicsToDiscoverNext.skippedTopic)
+            return Image(Images.Common.skip)
         case .idle:
             return Image(nil)
         }

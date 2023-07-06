@@ -114,7 +114,7 @@ struct TopicsRepetitionsView: View {
     private func handleViewAction(_ viewAction: TopicsRepetitionsFeatureActionViewAction) {
         switch TopicsRepetitionsFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
-            ProgressHUD.showError(status: Strings.General.connectionError)
+            ProgressHUD.showError(status: Strings.Common.connectionError)
         case .navigateTo(let navigateToViewAction):
             switch TopicsRepetitionsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):

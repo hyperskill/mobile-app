@@ -78,7 +78,7 @@ struct StepQuizHintsView: View {
     private func handleViewAction(_ viewAction: StepQuizHintsFeatureActionViewAction) {
         switch StepQuizHintsFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
-            ProgressHUD.showError(status: Strings.General.connectionError)
+            ProgressHUD.showError(status: Strings.Common.connectionError)
         }
     }
 }

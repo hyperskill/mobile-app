@@ -133,6 +133,9 @@ private extension StudyPlanView {
         switch GamificationToolbarFeatureActionViewActionKs(viewAction) {
         case .showProfileTab:
             TabBarRouter(tab: .profile).route()
+        case .showProgressScreen:
+            let assembly = ProgressScreenAssembly()
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 
