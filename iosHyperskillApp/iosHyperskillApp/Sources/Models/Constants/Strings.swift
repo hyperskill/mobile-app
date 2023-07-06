@@ -4,9 +4,9 @@ import shared
 enum Strings {
     private static let sharedStrings = SharedResources.strings.shared
 
-    // MARK: - General -
+    // MARK: - Common -
 
-    enum General {
+    enum Common {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
         static let yes = sharedStrings.yes.localized()
@@ -18,6 +18,7 @@ enum Strings {
         static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
         static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
         static let progress = sharedStrings.progress.localized()
+        static let completed = sharedStrings.completed.localized()
     }
 
     // MARK: - Badge -
@@ -31,7 +32,6 @@ enum Strings {
         static let bestRating = sharedStrings.badge_best_rating_text.localized()
         static let fastestToComplete = sharedStrings.badge_fastest_to_complete_text.localized()
         static let beta = sharedStrings.badge_beta_text.localized()
-        static let completed = sharedStrings.badge_completed_text.localized()
     }
 
     // MARK: - TabBar -

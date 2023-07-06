@@ -123,7 +123,7 @@ struct DebugView: View {
         )
         alert.addAction(
             UIAlertAction(
-                title: Strings.General.ok,
+                title: Strings.Common.ok,
                 style: .default,
                 handler: { [weak viewModel] _ in
                     ProgressHUD.show()

@@ -25,7 +25,7 @@ extension StageImplementUnsupportedModalView {
         let descriptionLabelFont = UIFont.preferredFont(forTextStyle: .body)
         let descriptionLabelTextColor = UIColor.primaryText
 
-        let callToActionButtonTitle = Strings.General.goToHomescreen
+        let callToActionButtonTitle = Strings.Common.goToHomescreen
         let callToActionButtonHeight: CGFloat = 44
 
         let backgroundColor = UIColor.systemBackground

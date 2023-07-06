@@ -93,13 +93,13 @@ struct StepQuizHintCardView: View {
 
                     StepQuizHintReactionButtonView(
                         reactionImage: Images.StepQuiz.Hints.unhelpfulReaction,
-                        reactionText: Strings.General.no,
+                        reactionText: Strings.Common.no,
                         onReactionButtonTap: { onReactionTapped(ReactionType.unhelpful) }
                     )
 
                     StepQuizHintReactionButtonView(
                         reactionImage: Images.StepQuiz.Hints.helpfulReaction,
-                        reactionText: Strings.General.yes,
+                        reactionText: Strings.Common.yes,
                         onReactionButtonTap: { onReactionTapped(ReactionType.helpful) }
                     )
                 }
@@ -113,11 +113,11 @@ struct StepQuizHintCardView: View {
                 title: Text(Strings.StepQuiz.Hints.reportAlertTitle),
                 message: Text(Strings.StepQuiz.Hints.reportAlertText),
                 primaryButton: .default(
-                    Text(Strings.General.no),
+                    Text(Strings.Common.no),
                     action: onReportAlertCanceled
                 ),
                 secondaryButton: .default(
-                    Text(Strings.General.yes),
+                    Text(Strings.Common.yes),
                     action: onReportAlertConfirmed
                 )
             )
