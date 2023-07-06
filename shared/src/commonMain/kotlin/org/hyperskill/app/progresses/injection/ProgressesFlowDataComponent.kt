@@ -1,6 +1,6 @@
-package org.hyperskill.app.progress_screen.injection
+package org.hyperskill.app.progresses.injection
 
-import org.hyperskill.app.progress_screen.domain.flow.TopicProgressFlow
+import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 
 interface ProgressesFlowDataComponent {
     val topicProgressFlow: TopicProgressFlow

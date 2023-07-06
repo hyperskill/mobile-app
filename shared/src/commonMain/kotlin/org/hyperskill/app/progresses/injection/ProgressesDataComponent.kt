@@ -1,7 +1,7 @@
-package org.hyperskill.app.progress_screen.injection
+package org.hyperskill.app.progresses.injection
 
-import org.hyperskill.app.progress_screen.domain.interactor.ProgressesInteractor
-import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
+import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 
 interface ProgressesDataComponent {
     val progressesRepository: ProgressesRepository

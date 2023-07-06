@@ -10,7 +10,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.hypercoins.domain.HypercoinsAwards
 import org.hyperskill.app.profile.domain.model.copy
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.progress_screen.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action

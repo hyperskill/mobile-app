@@ -1,8 +1,8 @@
-package org.hyperskill.app.progress_screen.data.flow
+package org.hyperskill.app.progresses.data.flow
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-import org.hyperskill.app.progress_screen.domain.flow.TopicProgressFlow
+import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.topics.domain.model.TopicProgress
 
 class TopicProgressFlowImpl : TopicProgressFlow {

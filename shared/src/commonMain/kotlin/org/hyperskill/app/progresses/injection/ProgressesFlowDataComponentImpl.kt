@@ -1,7 +1,7 @@
-package org.hyperskill.app.progress_screen.injection
+package org.hyperskill.app.progresses.injection
 
-import org.hyperskill.app.progress_screen.data.flow.TopicProgressFlowImpl
-import org.hyperskill.app.progress_screen.domain.flow.TopicProgressFlow
+import org.hyperskill.app.progresses.data.flow.TopicProgressFlowImpl
+import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 
 class ProgressesFlowDataComponentImpl : ProgressesFlowDataComponent {
     override val topicProgressFlow: TopicProgressFlow = TopicProgressFlowImpl()

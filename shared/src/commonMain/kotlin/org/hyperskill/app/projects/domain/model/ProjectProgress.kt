@@ -2,7 +2,7 @@ package org.hyperskill.app.projects.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.progress_screen.domain.model.Progress
+import org.hyperskill.app.progresses.domain.model.Progress
 
 @Serializable
 data class ProjectProgress(

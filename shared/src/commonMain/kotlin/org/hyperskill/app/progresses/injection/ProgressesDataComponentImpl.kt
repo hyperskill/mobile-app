@@ -1,16 +1,16 @@
-package org.hyperskill.app.progress_screen.injection
+package org.hyperskill.app.progresses.injection
 
 import org.hyperskill.app.core.data.repository_cache.InMemoryRepositoryCache
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.progress_screen.cache.ProjectProgressesCacheDataSourceImpl
-import org.hyperskill.app.progress_screen.cache.TrackProgressesCacheDataSourceImpl
-import org.hyperskill.app.progress_screen.data.repository.ProgressesRepositoryImpl
-import org.hyperskill.app.progress_screen.data.source.ProgressesRemoteDataSource
-import org.hyperskill.app.progress_screen.data.source.ProjectProgressesCacheDataSource
-import org.hyperskill.app.progress_screen.data.source.TrackProgressesCacheDataSource
-import org.hyperskill.app.progress_screen.domain.interactor.ProgressesInteractor
-import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
-import org.hyperskill.app.progress_screen.remote.ProgressesRemoteDataSourceImpl
+import org.hyperskill.app.progresses.cache.ProjectProgressesCacheDataSourceImpl
+import org.hyperskill.app.progresses.cache.TrackProgressesCacheDataSourceImpl
+import org.hyperskill.app.progresses.data.repository.ProgressesRepositoryImpl
+import org.hyperskill.app.progresses.data.source.ProgressesRemoteDataSource
+import org.hyperskill.app.progresses.data.source.ProjectProgressesCacheDataSource
+import org.hyperskill.app.progresses.data.source.TrackProgressesCacheDataSource
+import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
+import org.hyperskill.app.progresses.remote.ProgressesRemoteDataSourceImpl
 
 class ProgressesDataComponentImpl(
     appGraph: AppGraph

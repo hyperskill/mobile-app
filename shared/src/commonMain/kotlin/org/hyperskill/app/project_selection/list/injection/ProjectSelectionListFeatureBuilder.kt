@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListActionDispatcher
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action

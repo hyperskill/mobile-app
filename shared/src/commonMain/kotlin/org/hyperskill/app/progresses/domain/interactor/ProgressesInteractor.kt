@@ -1,6 +1,6 @@
-package org.hyperskill.app.progress_screen.domain.interactor
+package org.hyperskill.app.progresses.domain.interactor
 
-import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.topics.domain.model.TopicProgress
 import org.hyperskill.app.track.domain.model.TrackProgress

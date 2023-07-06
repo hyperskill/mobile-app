@@ -52,7 +52,6 @@ fun ProgressScreen(
     ProgressScreen(viewState, viewModel::onNewMessage, onBackClick)
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ProgressScreen(
     viewState: ProgressScreenViewState,

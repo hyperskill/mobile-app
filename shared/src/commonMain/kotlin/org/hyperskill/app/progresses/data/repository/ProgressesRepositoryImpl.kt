@@ -1,10 +1,10 @@
-package org.hyperskill.app.progress_screen.data.repository
+package org.hyperskill.app.progresses.data.repository
 
 import org.hyperskill.app.core.domain.repository_cache.RepositoryCacheProxy
-import org.hyperskill.app.progress_screen.data.source.ProgressesRemoteDataSource
-import org.hyperskill.app.progress_screen.data.source.ProjectProgressesCacheDataSource
-import org.hyperskill.app.progress_screen.data.source.TrackProgressesCacheDataSource
-import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
+import org.hyperskill.app.progresses.data.source.ProgressesRemoteDataSource
+import org.hyperskill.app.progresses.data.source.ProjectProgressesCacheDataSource
+import org.hyperskill.app.progresses.data.source.TrackProgressesCacheDataSource
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.projectId
 import org.hyperskill.app.topics.domain.model.TopicProgress

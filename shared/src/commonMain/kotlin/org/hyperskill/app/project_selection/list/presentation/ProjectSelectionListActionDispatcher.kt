@@ -5,7 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.progress_screen.domain.repository.ProgressesRepository
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.InternalAction
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Message
 import org.hyperskill.app.projects.domain.model.ProjectProgress
