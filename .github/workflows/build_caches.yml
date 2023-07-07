@@ -26,7 +26,7 @@ jobs:
 
   build-android:
     needs: files-changed
-    if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.android == 'true' }}
     name: Build Android Caches
     runs-on: ubuntu-22.04
     timeout-minutes: 60
@@ -48,7 +48,7 @@ jobs:
 
   build-ios:
     needs: files-changed
-    if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.ios == 'true' }}
     name: Build iOS Caches
     runs-on: macos-13
     timeout-minutes: 60
