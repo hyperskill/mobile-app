@@ -89,7 +89,7 @@ class ProjectAdapterDelegate(
 
                 with(projectCompletenessView) {
                     val progress = data.progress / 100f
-                    isVisible = progress != 0.0f
+                    isVisible = progress > 0.0f
                     updateLayoutParams<ConstraintLayout.LayoutParams> {
                         matchConstraintPercentWidth = progress
                     }
