@@ -43,3 +43,47 @@ final class StageImplementViewModel: FeatureViewModel<
         onNewMessage(StageImplementFeatureMessageViewedEventMessage())
     }
 }
+
+// MARK: - StageImplementViewModel: StageImplementStageCompletedModalViewControllerDelegate -
+
+extension StageImplementViewModel: StageImplementStageCompletedModalViewControllerDelegate {
+    func stageImplementStageCompletedModalViewControllerDidAppear(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalShownEventMessage())
+    }
+
+    func stageImplementStageCompletedModalViewControllerDidDisappear(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalHiddenEventMessage())
+    }
+
+    func stageImplementStageCompletedModalViewControllerDidTapCallToActionButton(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalGoToStudyPlanClicked())
+    }
+}
+
+// MARK: - StageImplementViewModel: StageImplementProjectCompletedModalViewControllerDelegate -
+
+extension StageImplementViewModel: StageImplementProjectCompletedModalViewControllerDelegate {
+    func stageImplementProjectCompletedModalViewControllerDidAppear(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalShownEventMessage())
+    }
+
+    func stageImplementProjectCompletedModalViewControllerDidDisappear(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalHiddenEventMessage())
+    }
+
+    func stageImplementProjectCompletedModalViewControllerDidTapCallToActionButton(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalGoToStudyPlanClicked())
+    }
+}

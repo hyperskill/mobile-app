@@ -77,7 +77,7 @@ struct ProgressScreenTrackProgressContentView: View {
                 subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
             )
 
-            HStack(spacing: appearance.interitemSpacing) {
+            HStack(alignment: .top, spacing: appearance.interitemSpacing) {
                 if let timeToCompleteLabel {
                     ProgressScreenCardView(
                         appearance: appearance.cardAppearance,
