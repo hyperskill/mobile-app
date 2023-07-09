@@ -87,8 +87,12 @@ class ProjectAdapterDelegate(
                     projectTags.paddingTop = newTagsTopMargin
                 }
 
-                projectCompletenessView.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    matchConstraintPercentWidth = data.progress / 100f
+                with(projectCompletenessView) {
+                    val progress = data.progress / 100f
+                    isVisible = progress != 0.0f
+                    updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        matchConstraintPercentWidth = progress
+                    }
                 }
             }
         }

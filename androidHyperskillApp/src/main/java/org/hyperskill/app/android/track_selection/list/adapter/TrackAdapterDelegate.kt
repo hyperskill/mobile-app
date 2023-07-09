@@ -74,8 +74,12 @@ class TrackAdapterDelegate(
                 // If set some value to trackTags.isVisible, then all the tags will have that visibility.
                 trackTags.paddingTop = if (data.areTagsVisible) tagsTopMargin else 0
 
-                trackCompletenessView.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                    matchConstraintPercentWidth = data.progress / 100f
+                with(trackCompletenessView) {
+                    val progress = data.progress / 100f
+                    isVisible = progress != 0.0f
+                    updateLayoutParams<ConstraintLayout.LayoutParams> {
+                        matchConstraintPercentWidth = progress
+                    }
                 }
             }
         }
