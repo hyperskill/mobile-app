@@ -241,6 +241,7 @@ class ProjectSelectionListDelegate(
             formattedRating = project.averageRating,
             levelText = project.level?.let(levelTitleByLevelMap::get),
             levelIcon = levelIconByLevelMap[project.level],
-            strokeColor = if (isSelected) selectedStrokeColor else notSelectedStrokeColor
+            strokeColor = if (isSelected) selectedStrokeColor else notSelectedStrokeColor,
+            progress = project.progress
         )
 }

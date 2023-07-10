@@ -31,6 +31,7 @@ struct StreakRecoveryModalView: View {
                     .foregroundColor(.primaryText)
                     .font(.body)
 
+                #warning("Migrate to the HypercoinLabel")
                 HStack(alignment: .center, spacing: LayoutInsets.smallInset) {
                     Image(Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge)
                         .renderingMode(.original)
