@@ -87,4 +87,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     STAGE_COMPLETED_MODAL("stage_completed_modal"),
     PROJECT_COMPLETED_MODAL("project_completed_modal"),
     GO_TO_STUDY_PLAN("go_to_study_plan"),
+    CHANGE_TRACK("change_track"),
+    CHANGE_PROJECT("change_project"),
 }

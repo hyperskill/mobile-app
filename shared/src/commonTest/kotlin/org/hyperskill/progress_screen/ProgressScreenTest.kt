@@ -1,10 +1,14 @@
 package org.hyperskill.progress_screen
 
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedChangeProjectHyperskillAnalyticEvent
+import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedChangeTrackHyperskillAnalyticEvent
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenReducer
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewStateMapper
@@ -118,5 +122,68 @@ class ProgressScreenTest {
 
         assertEquals(expectedState, actualState)
         assertEquals(expectedActions, actualActions)
+    }
+
+    @Test
+    fun `Click on change track button triggers logging analytic event and navigation to track selection screen`() {
+        val studyPlan = StudyPlan.stub()
+        val initialState = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
+                trackWithProgress = TrackWithProgress.stub(),
+                studyPlan = studyPlan,
+                profile = Profile.stub()
+            ),
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Content(
+                projectWithProgress = ProjectWithProgress.stub(),
+                studyPlan = studyPlan
+            ),
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+
+        val (_, actions) = progressScreenReducer.reduce(
+            initialState,
+            ProgressScreenFeature.Message.ChangeTrackButtonClicked
+        )
+
+        assertContains(actions, ProgressScreenFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen)
+        assertTrue {
+            actions.any {
+                it is ProgressScreenFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is ProgressScreenClickedChangeTrackHyperskillAnalyticEvent
+            }
+        }
+    }
+
+    @Test
+    fun `Click on change project button triggers logging analytic event and navigation to project selection screen`() {
+        val trackId = 1L
+        val studyPlan = StudyPlan.stub()
+        val initialState = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
+                trackWithProgress = TrackWithProgress.stub(trackId = trackId),
+                studyPlan = studyPlan,
+                profile = Profile.stub()
+            ),
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Content(
+                projectWithProgress = ProjectWithProgress.stub(),
+                studyPlan = studyPlan
+            ),
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+
+        val (_, actions) = progressScreenReducer.reduce(
+            initialState,
+            ProgressScreenFeature.Message.ChangeProjectButtonClicked
+        )
+
+        assertContains(actions, ProgressScreenFeature.Action.ViewAction.NavigateTo.ProjectSelectionScreen(trackId))
+        assertTrue {
+            actions.any {
+                it is ProgressScreenFeature.InternalAction.LogAnalyticEvent &&
+                    it.analyticEvent is ProgressScreenClickedChangeProjectHyperskillAnalyticEvent
+            }
+        }
     }
 }
