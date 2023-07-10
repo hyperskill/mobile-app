@@ -12,12 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
@@ -27,14 +22,12 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillPullRefreshIndicator
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTopAppBar
 import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingError
 import org.hyperskill.app.android.progress.ui.project.ProjectProgress
 import org.hyperskill.app.android.progress.ui.track.TrackProgress
@@ -62,22 +55,9 @@ fun ProgressScreen(
     val currentOnNewMessage by rememberUpdatedState(newValue = onNewMessage)
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = org.hyperskill.app.R.string.progress_screen_title))
-                },
-                navigationIcon = {
-                    IconButton(
-                        onClick = currentOnBackClick
-                    ) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_toolbar_back),
-                            contentDescription = stringResource(id = org.hyperskill.app.R.string.back),
-                            tint = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_60)
-                        )
-                    }
-                },
-                backgroundColor = MaterialTheme.colors.background
+            HyperskillTopAppBar(
+                title = stringResource(id = org.hyperskill.app.R.string.progress_screen_title),
+                onNavigationIconClick = currentOnBackClick
             )
         }
     ) { padding ->
