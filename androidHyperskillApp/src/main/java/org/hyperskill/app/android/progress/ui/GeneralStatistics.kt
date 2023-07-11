@@ -35,7 +35,7 @@ fun GeneralStatistics(
                 color = MaterialTheme.colors.surface,
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius))
             )
-            .padding(16.dp),
+            .padding(ProgressDefaults.CardInnerPadding),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Row(

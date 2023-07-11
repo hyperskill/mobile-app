@@ -37,7 +37,7 @@ fun HyperskillTopAppBar(
         title = {
             Text(
                 text = title,
-                modifier = Modifier.offset(x = (-16).dp)
+                modifier = TopAppBarTitleModifier
             )
         },
         backgroundColor = MaterialTheme.colors.background,
@@ -45,3 +45,6 @@ fun HyperskillTopAppBar(
         modifier = modifier
     )
 }
+
+// -16 dp is used to fix spacing between navigation icon and title
+private val TopAppBarTitleModifier = Modifier.offset(x = (-16).dp)

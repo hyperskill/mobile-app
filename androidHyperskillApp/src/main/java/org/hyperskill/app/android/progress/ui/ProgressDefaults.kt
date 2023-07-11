@@ -13,4 +13,6 @@ object ProgressDefaults {
     val HeaderIconPadding = 16.dp
 
     val SkeletonWidgetHeight = 90.dp
+
+    val CardInnerPadding = 16.dp
 }
