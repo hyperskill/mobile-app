@@ -43,6 +43,9 @@ object ProgressScreenFeature {
         object RetryTrackProgressLoading : Message
         object RetryProjectProgressLoading : Message
 
+        object ChangeTrackButtonClicked : Message
+        object ChangeProjectButtonClicked : Message
+
         object PullToRefresh : Message
 
         object ViewedEventMessage : Message
@@ -67,7 +70,12 @@ object ProgressScreenFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            sealed interface NavigateTo : ViewAction {
+                object TrackSelectionScreen : NavigateTo
+                data class ProjectSelectionScreen(val trackId: Long) : NavigateTo
+            }
+        }
     }
 
     internal sealed interface InternalAction : Action {

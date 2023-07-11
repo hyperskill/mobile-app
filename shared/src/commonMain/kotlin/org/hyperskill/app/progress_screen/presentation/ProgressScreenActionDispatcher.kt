@@ -40,6 +40,9 @@ internal class ProgressScreenActionDispatcher(
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }
+            else -> {
+                // no op
+            }
         }
     }
 
