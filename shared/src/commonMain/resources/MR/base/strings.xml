@@ -454,6 +454,8 @@
     <string name="progress_screen_completed_graduate_project">Completed graduate project</string>
     <string name="progress_screen_time_to_complete_project">Time to complete the project</string>
     <string name="progress_screen_stages">Stages</string>
+    <string name="progress_screen_change_track">Change track</string>
+    <string name="progress_screen_change_project">Change project</string>
 
     <!-- Stage completed modal -->
     <string name="stage_completed_modal_title">Yay! You\'ve completed Stage %d/%d!</string>
