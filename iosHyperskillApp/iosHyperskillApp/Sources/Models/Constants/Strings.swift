@@ -480,11 +480,13 @@ enum Strings {
             static let appliedCoreTopics = sharedStrings.progress_screen_applied_core_topics.localized()
             static let timeToCompleteTrack = sharedStrings.progress_screen_time_to_complete_track.localized()
             static let completedGraduateProject = sharedStrings.progress_screen_completed_graduate_project.localized()
+            static let changeTrack = sharedStrings.progress_screen_change_track.localized()
         }
 
         enum Project {
             static let timeToCompleteProject = sharedStrings.progress_screen_time_to_complete_project.localized()
             static let stages = sharedStrings.progress_screen_stages.localized()
+            static let changeProject = sharedStrings.progress_screen_change_project.localized()
         }
     }
 }
