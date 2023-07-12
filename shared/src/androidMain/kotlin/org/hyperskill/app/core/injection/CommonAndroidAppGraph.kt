@@ -16,6 +16,7 @@ import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.progress.injection.PlatformProgressScreenComponent
 import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponent
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
@@ -87,4 +88,6 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformTrackSelectionDetailsComponent(
         params: TrackSelectionDetailsParams
     ): PlatformTrackSelectionDetailsComponent
+
+    fun buildPlatformProgressScreenComponent(): PlatformProgressScreenComponent
 }
