@@ -21,7 +21,7 @@ fun TrackProgress(
         ProgressScreenViewState.TrackProgressViewState.Loading ->
             TrackProgressSkeleton(modifier)
         is ProgressScreenViewState.TrackProgressViewState.Content ->
-            TrackProgressContent(viewState, modifier)
+            TrackProgressContent(viewState, onNewMessage, modifier)
         ProgressScreenViewState.TrackProgressViewState.Error -> {
             val onRetryTrackProgressLoadingClick = remember(onNewMessage) {
                 {

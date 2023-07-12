@@ -22,7 +22,7 @@ fun ProjectProgress(
         ProgressScreenViewState.ProjectProgressViewState.Loading ->
             ProjectProgressSkeleton(modifier)
         is ProgressScreenViewState.ProjectProgressViewState.Content ->
-            ProjectProgressContent(viewState, modifier)
+            ProjectProgressContent(viewState, onNewMessage, modifier)
         ProgressScreenViewState.ProjectProgressViewState.Error -> {
             val onRetryProjectProgressLoadingClick = remember(onNewMessage) {
                 {

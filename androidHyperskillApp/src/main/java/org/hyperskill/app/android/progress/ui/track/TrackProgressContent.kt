@@ -4,8 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -15,13 +19,20 @@ import org.hyperskill.app.android.progress.ui.BlockHeader
 import org.hyperskill.app.android.progress.ui.GeneralStatistics
 import org.hyperskill.app.android.progress.ui.ProgressDefaults
 import org.hyperskill.app.android.progress.ui.ProgressPreview
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 
 @Composable
 fun TrackProgressContent(
     viewState: ProgressScreenViewState.TrackProgressViewState.Content,
+    onNewMessage: (ProgressScreenFeature.Message) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val onChangeTrackClick = remember(onNewMessage) {
+        {
+            onNewMessage(ProgressScreenFeature.Message.ChangeTrackButtonClicked)
+        }
+    }
     Column(modifier = modifier) {
         BlockHeader(
             title = viewState.title,
@@ -69,6 +80,13 @@ fun TrackProgressContent(
                 )
             }
         }
+        Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
+        TextButton(
+            onClick = onChangeTrackClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = stringResource(id = org.hyperskill.app.R.string.progress_screen_change_track))
+        }
     }
 }
 
@@ -76,6 +94,7 @@ fun TrackProgressContent(
 @Preview(showBackground = true)
 fun TrackProgressContentPreview() {
     TrackProgressContent(
-        viewState = ProgressPreview.trackContentViewStatePreview(isCompleted = true)
+        viewState = ProgressPreview.trackContentViewStatePreview(isCompleted = true),
+        onNewMessage = {}
     )
 }

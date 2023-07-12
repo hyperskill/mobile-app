@@ -11,8 +11,14 @@ import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.progress.ui.ProgressScreen
+import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
+import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
+import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
+import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
+import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
 class ProgressFragment : Fragment() {
 
@@ -27,6 +33,7 @@ class ProgressFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        progressScreenViewModel.handleActions(this, block = ::onAction)
     }
 
     private fun injectComponent() {
@@ -49,4 +56,23 @@ class ProgressFragment : Fragment() {
                 }
             }
         }
+
+    private fun onAction(action: ProgressScreenFeature.Action.ViewAction) {
+        when (action) {
+            is ProgressScreenFeature.Action.ViewAction.NavigateTo.ProjectSelectionScreen ->
+                requireRouter().navigateTo(
+                    ProjectSelectionListScreen(
+                        ProjectSelectionListParams(
+                            trackId = action.trackId
+                        )
+                    )
+                )
+            ProgressScreenFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->
+                requireRouter().navigateTo(
+                    TrackSelectionListScreen(
+                        TrackSelectionListParams()
+                    )
+                )
+        }
+    }
 }
