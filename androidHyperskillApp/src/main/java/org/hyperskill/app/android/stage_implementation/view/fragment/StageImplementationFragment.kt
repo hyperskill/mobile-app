@@ -8,11 +8,14 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStageImplementationBinding
+import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
+import org.hyperskill.app.android.stage_implementation.view.dialog.StageCompletedBottomSheet
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implementation.presentation.StageImplementationViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -84,7 +87,19 @@ class StageImplementationFragment :
     }
 
     override fun onAction(action: StageImplementFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            StageImplementFeature.Action.ViewAction.NavigateTo.StudyPlan -> TODO()
+            is StageImplementFeature.Action.ViewAction.ShowProjectCompletedModal -> TODO()
+            is StageImplementFeature.Action.ViewAction.ShowStageCompletedModal -> {
+                StageCompletedBottomSheet.newInstance(
+                    StageCompletedBottomSheet.Params(
+                        title = action.title,
+                        award = action.stageAward
+                    )
+                )
+                    .showIfNotExists(childFragmentManager, StreakFreezeDialogFragment.Tag)
+            }
+        }
     }
 
     @Suppress("DEPRECATION")
