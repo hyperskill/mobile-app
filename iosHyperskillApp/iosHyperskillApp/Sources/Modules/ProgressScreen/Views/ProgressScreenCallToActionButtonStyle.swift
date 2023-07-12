@@ -6,6 +6,7 @@ struct ProgressScreenCallToActionButtonStyle: ButtonStyle {
             .foregroundColor(Color(ColorPalette.primary))
             .font(.subheadline)
             .frame(maxWidth: .infinity)
+            .opacity(configuration.isPressed ? 0.5 : 1)
     }
 }
 
