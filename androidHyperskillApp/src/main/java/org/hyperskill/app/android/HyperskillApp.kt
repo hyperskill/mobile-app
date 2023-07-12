@@ -3,6 +3,8 @@ package org.hyperskill.app.android
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import coil.ImageLoader
+import coil.ImageLoaderFactory
 import org.hyperskill.app.android.core.extensions.NotificationChannelInitializer
 import org.hyperskill.app.android.core.injection.AndroidAppComponent
 import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
@@ -11,7 +13,7 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import ru.nobird.android.view.base.ui.extension.isMainProcess
 
-class HyperskillApp : Application() {
+class HyperskillApp : Application(), ImageLoaderFactory {
     companion object {
         lateinit var application: HyperskillApp
 
@@ -43,6 +45,9 @@ class HyperskillApp : Application() {
         initSentry()
         initChannels()
     }
+
+    override fun newImageLoader(): ImageLoader =
+        graph().imageLoadingComponent.imageLoader
 
     private fun initSentry() {
         appGraph.sentryComponent.sentryInteractor.setup()
