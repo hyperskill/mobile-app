@@ -28,4 +28,6 @@
 
     <string name="debug_restarting_message">The app is going to be restarted</string>
 
+    <string name="track_progress_topics_description">Completed topics</string>
+
 </resources>

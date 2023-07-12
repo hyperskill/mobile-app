@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.android.reactivex.rxkotlin)
     implementation(libs.android.coil)
     implementation(libs.android.coil.svg)
+    implementation(libs.android.coil.compose)
     implementation(libs.android.splashscreen)
     implementation(libs.android.timepicker)
 
@@ -73,6 +74,7 @@ dependencies {
     implementation(libs.accompanist.themeadapter)
     implementation(libs.compose.viewmodel)
     implementation(libs.compose.lifecycle)
+    implementation(libs.compose.viewbinding)
 
     coreLibraryDesugaring(libs.android.desugar.jdk)
 }
