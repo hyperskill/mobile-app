@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="20dp"
+    >
+
+    <ImageView
+        android:id="@+id/projectCompletedSwipeIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bottom_sheet_swipe_indicator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription"
+        />
+
+    <ImageView
+        android:id="@+id/projectCompletedImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/img_project_completed"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/projectCompletedSwipeIndicator"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription"
+        />
+
+    <TextView
+        android:id="@+id/projectCompletedModalTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/project_completed_modal_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textSize="34sp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/projectCompletedImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/projectCompletedModalText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="@string/project_completed_modal_text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/projectCompletedModalTitle"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/projectCompletedGemsAmountForStageCompletionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:textColor="@color/color_overlay_violet"
+        android:gravity="center_vertical"
+        android:drawablePadding="6dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@id/projectCompletedModalText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:drawableStartCompat="@drawable/ic_gems_count"
+        tools:text="+15"
+        />
+
+    <TextView
+        android:id="@+id/projectCompletedStageCompletionRewardTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        tools:text="@string/stage_completed_modal_stage_reward_text"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@id/projectCompletedGemsAmountForStageCompletionTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/projectCompletedGemsAmountForStageCompletionTextView"
+        app:layout_constraintStart_toEndOf="@id/projectCompletedGemsAmountForStageCompletionTextView"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/projectCompletedGemsAmountForProjectCompletionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:textColor="@color/color_overlay_violet"
+        android:gravity="center_vertical"
+        android:drawablePadding="6dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@id/projectCompletedGemsAmountForStageCompletionTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:drawableStartCompat="@drawable/ic_gems_count"
+        tools:text="+25"
+        />
+
+    <TextView
+        android:id="@+id/projectCompletedProjectCompletionRewardTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        tools:text="@string/stage_completed_modal_stage_reward_text"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@id/projectCompletedGemsAmountForProjectCompletionTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/projectCompletedGemsAmountForProjectCompletionTextView"
+        app:layout_constraintStart_toEndOf="@id/projectCompletedGemsAmountForProjectCompletionTextView"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/projectCompletedGoToStudyPlanButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/go_to_study_plan"
+        android:layout_marginTop="32dp"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintTop_toBottomOf="@id/projectCompletedGemsAmountForProjectCompletionTextView"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
