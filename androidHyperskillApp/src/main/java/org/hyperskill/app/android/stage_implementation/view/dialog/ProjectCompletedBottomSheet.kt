@@ -30,7 +30,7 @@ class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
 
     private var params: Params by argument(Params.serializer())
 
-    private val viewModel: StageImplementationViewModel by viewModels(ownerProducer = ::requireActivity)
+    private val viewModel: StageImplementationViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
     private val viewBinding: FragmentProjectCompletedBinding by viewBinding(FragmentProjectCompletedBinding::bind)
 
