@@ -12,6 +12,8 @@ struct ProjectSelectionDetailsView: View {
 
     @StateObject var viewModel: ProjectSelectionDetailsViewModel
 
+    @ObservedObject var stackRouter: SwiftUIStackRouter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -112,6 +114,10 @@ private extension ProjectSelectionDetailsView {
                 popToRoot: true
             )
             .route()
+
+            DispatchQueue.main.async {
+                stackRouter.popToRootViewController()
+            }
         case .newrootscreen:
             viewModel.doNavigateToHomeAsNewRootScreenPresentation()
         default:
