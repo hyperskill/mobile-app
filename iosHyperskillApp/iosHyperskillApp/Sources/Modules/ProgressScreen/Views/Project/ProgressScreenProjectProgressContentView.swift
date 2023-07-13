@@ -38,6 +38,8 @@ struct ProgressScreenProjectProgressContentView: View {
 
     let isCompleted: Bool
 
+    let onChangeProjectTap: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             ProgressScreenSectionTitleView(
@@ -73,6 +75,11 @@ struct ProgressScreenProjectProgressContentView: View {
                     subtitle: Strings.ProgressScreen.Project.stages
                 )
             }
+
+            Button(Strings.ProgressScreen.Project.changeProject) {
+                onChangeProjectTap()
+            }
+            .buttonStyle(ProgressScreenCallToActionButtonStyle())
         }
         .frame(maxWidth: .infinity)
     }
@@ -92,7 +99,8 @@ struct ProgressScreenProjectProgressContentView_Previews: PreviewProvider {
             timeToCompleteLabel: "~ 56 h",
             completedStagesLabel: "0 / 5",
             completedStagesProgress: 0,
-            isCompleted: false
+            isCompleted: false,
+            onChangeProjectTap: {}
         )
         .padding()
         .background(Color.systemGroupedBackground)

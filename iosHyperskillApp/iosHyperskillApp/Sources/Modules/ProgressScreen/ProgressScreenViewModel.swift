@@ -42,6 +42,14 @@ final class ProgressScreenViewModel: FeatureViewModel<
         onNewMessage(ProgressScreenFeatureMessageRetryProjectProgressLoading())
     }
 
+    func doTrackSelectionPresentation() {
+        onNewMessage(ProgressScreenFeatureMessageChangeTrackButtonClicked())
+    }
+
+    func doProjectSelectionPresentation() {
+        onNewMessage(ProgressScreenFeatureMessageChangeProjectButtonClicked())
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

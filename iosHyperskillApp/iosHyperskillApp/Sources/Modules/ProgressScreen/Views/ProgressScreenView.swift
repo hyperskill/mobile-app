@@ -19,6 +19,8 @@ struct ProgressScreenView: View {
 
     @StateObject var viewModel: ProgressScreenViewModel
 
+    @ObservedObject var stackRouter: SwiftUIStackRouter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -60,7 +62,8 @@ struct ProgressScreenView: View {
                         cardCornerRadius: appearance.cardCornerRadius
                     ),
                     trackProgressViewStateKs: viewModel.trackProgressViewStateKs,
-                    onRetryTap: viewModel.doRetryLoadTrackProgress
+                    onRetryTap: viewModel.doRetryLoadTrackProgress,
+                    onChangeTrackTap: viewModel.doTrackSelectionPresentation
                 )
 
                 ProgressScreenProjectProgressView(
@@ -71,7 +74,8 @@ struct ProgressScreenView: View {
                         cardCornerRadius: appearance.cardCornerRadius
                     ),
                     projectProgressViewStateKs: viewModel.projectProgressViewStateKs,
-                    onRetryTap: viewModel.doRetryLoadProjectProgress
+                    onRetryTap: viewModel.doRetryLoadProjectProgress,
+                    onChangeProjectTap: viewModel.doProjectSelectionPresentation
                 )
             }
             .padding()
@@ -92,5 +96,20 @@ struct ProgressScreenView: View {
 private extension ProgressScreenView {
     func handleViewAction(
         _ viewAction: ProgressScreenFeatureActionViewAction
-    ) {}
+    ) {
+        switch ProgressScreenFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            switch ProgressScreenFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .projectSelectionScreen(let navigateToSelectProjectViewAction):
+                let assembly = ProjectSelectionListAssembly(
+                    isNewUserMode: false,
+                    trackID: navigateToSelectProjectViewAction.trackId
+                )
+                stackRouter.pushViewController(assembly.makeModule())
+            case .trackSelectionScreen:
+                let assembly = TrackSelectionListAssembly(isNewUserMode: false)
+                stackRouter.pushViewController(assembly.makeModule())
+            }
+        }
+    }
 }
