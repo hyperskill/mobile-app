@@ -70,7 +70,7 @@
 
     <TextView
         android:id="@+id/stageCompletedRewardTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="16sp"
@@ -79,6 +79,7 @@
         app:layout_constraintTop_toTopOf="@id/stageCompletedGemsAmountTextView"
         app:layout_constraintBottom_toBottomOf="@+id/stageCompletedGemsAmountTextView"
         app:layout_constraintStart_toEndOf="@id/stageCompletedGemsAmountTextView"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
     <com.google.android.material.button.MaterialButton

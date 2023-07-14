@@ -105,8 +105,7 @@ class StageImplementationFragment :
                         stageAward = action.stageAward,
                         projectAward = action.projectAward
                     )
-                )
-                    .showIfNotExists(childFragmentManager, ProjectCompletedBottomSheet.TAG)
+                ).showIfNotExists(childFragmentManager, ProjectCompletedBottomSheet.TAG)
             }
             is StageImplementFeature.Action.ViewAction.ShowStageCompletedModal -> {
                 StageCompletedBottomSheet.newInstance(
@@ -114,8 +113,7 @@ class StageImplementationFragment :
                         title = action.title,
                         award = action.stageAward
                     )
-                )
-                    .showIfNotExists(childFragmentManager, StageCompletedBottomSheet.TAG)
+                ).showIfNotExists(childFragmentManager, StageCompletedBottomSheet.TAG)
             }
         }
     }
