@@ -1,5 +1,6 @@
 package org.hyperskill.app.core.injection
 
+import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
@@ -9,8 +10,11 @@ interface StateRepositoriesComponent {
 
     val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository
 
+    val nextLearningActivityStateRepository: NextLearningActivityStateRepository
+
     suspend fun resetRepositories() {
         currentSubscriptionStateRepository.resetState()
         currentStudyPlanStateRepository.resetState()
+        nextLearningActivityStateRepository.resetState()
     }
 }
