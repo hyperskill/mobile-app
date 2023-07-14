@@ -1,5 +1,8 @@
 package org.hyperskill.app.step_completion.presentation
 
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedStartPracticingHyperskillAnalyticEvent
@@ -70,17 +73,19 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 state.copy(isPracticingLoading = false) to setOf(
                     Action.ViewAction.ShowStartPracticingError(message.errorMessage)
                 )
-            is Message.CheckTopicCompletionStatus.Completed ->
+            is Message.CheckTopicCompletionStatus.Completed -> {
+                val nextStepRoute = getNextStepRouteForLearningActivity(message.nextLearningActivity)
                 state.copy(
                     continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
                     isPracticingLoading = false,
-                    nextStepRoute = message.nextStepId?.let { StepRoute.Learn.Step(it) }
+                    nextStepRoute = nextStepRoute
                 ) to setOf(
                     Action.ViewAction.ShowTopicCompletedModal(
                         modalText = message.modalText,
-                        isNextStepAvailable = message.nextStepId != null
+                        isNextStepAvailable = nextStepRoute != null
                     )
                 )
+            }
             is Message.CheckTopicCompletionStatus.Uncompleted ->
                 state.copy(isPracticingLoading = false) to emptySet()
             is Message.CheckTopicCompletionStatus.Error ->
@@ -138,4 +143,19 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 state to setOf(Action.LogAnalyticEvent(event))
             }
         } ?: (state to emptySet())
+
+    private fun getNextStepRouteForLearningActivity(learningActivity: LearningActivity?): StepRoute? {
+        if (learningActivity == null) {
+            return null
+        }
+
+        return if (learningActivity.type == LearningActivityType.LEARN_TOPIC &&
+            learningActivity.targetId != null &&
+            learningActivity.targetType == LearningActivityTargetType.STEP
+        ) {
+            StepRoute.Learn.Step(learningActivity.targetId)
+        } else {
+            null
+        }
+    }
 }

@@ -3,6 +3,7 @@ package org.hyperskill.app.android.profile.view.fragment
 import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
+import android.widget.CompoundButton
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.openUrl
+import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
@@ -25,6 +27,7 @@ import org.hyperskill.app.android.databinding.FragmentProfileBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
@@ -80,9 +83,21 @@ class ProfileFragment :
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
+    private lateinit var notificationPermissionDelegate: NotificationPermissionDelegate
+
+    private val dailyReminderCheckChangeListener =
+        CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) {
+                onDailyLearningSwitchNotificationPermissionGranted(false)
+            } else {
+                notificationPermissionDelegate.requestNotificationPermission(::onNotificationPermissionResult)
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
+        notificationPermissionDelegate = NotificationPermissionDelegate(this)
     }
 
     private fun injectComponents() {
@@ -158,20 +173,43 @@ class ProfileFragment :
                     .newInstance()
                     .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
             }
+            profileDailyRemindersSwitchCompat.setOnCheckedChangeListener(dailyReminderCheckChangeListener)
+        }
+    }
 
-            profileDailyRemindersSwitchCompat.setOnCheckedChangeListener { _, isChecked ->
-                onDailyReminderCheckClicked(
-                    isChecked = isChecked,
-                    notificationManager = notificationManager
-                )
+    private fun onNotificationPermissionResult(
+        result: NotificationPermissionDelegate.Result
+    ) {
+        when (result) {
+            NotificationPermissionDelegate.Result.GRANTED ->
+                onDailyLearningSwitchNotificationPermissionGranted(notificationSwitchChecked = true)
+            NotificationPermissionDelegate.Result.DENIED -> {
+                viewBinding.profileDailyReminder.profileDailyRemindersSwitchCompat.isChecked = false
+                view?.snackbar(R.string.daily_reminder_notification_permission_explanation)
+            }
+            NotificationPermissionDelegate.Result.DONT_ASK -> {
+                viewBinding.profileDailyReminder.profileDailyRemindersSwitchCompat.isChecked = false
+                view?.snackbar(
+                    getString(R.string.daily_reminder_notification_permission_explanation_with_settings)
+                ) {
+                    setAction(R.string.daily_reminder_notification_settings_button) {
+                        if (isResumed) {
+                            this@ProfileFragment.context?.startAppNotificationSettingsIntent {
+                                this@ProfileFragment.view?.snackbar(org.hyperskill.app.R.string.common_error)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
-    private fun onDailyReminderCheckClicked(isChecked: Boolean, notificationManager: NotificationManagerCompat) {
-        profileViewModel.onNewMessage(ProfileFeature.Message.DailyStudyRemindersToggleClicked(isChecked))
+    private fun onDailyLearningSwitchNotificationPermissionGranted(notificationSwitchChecked: Boolean) {
+        profileViewModel.onNewMessage(
+            ProfileFeature.Message.DailyStudyRemindersToggleClicked(notificationSwitchChecked)
+        )
 
-        if (isChecked) {
+        if (notificationSwitchChecked) {
             platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
 
             val isEnabled = notificationManager.checkNotificationChannelAvailability(
@@ -274,7 +312,7 @@ class ProfileFragment :
 
         renderStatistics(content.profile)
         renderNameProfileBadge(content.profile)
-        renderRemindersSchedule(content.dailyStudyRemindersState, notificationManager)
+        renderReminderSchedule(content.dailyStudyRemindersState, notificationManager)
         renderAboutMeSection(content.profile)
         renderBioSection(content.profile)
         renderExperienceSection(content.profile)
@@ -313,7 +351,7 @@ class ProfileFragment :
         }
     }
 
-    private fun renderRemindersSchedule(
+    private fun renderReminderSchedule(
         remindersState: ProfileFeature.DailyStudyRemindersState,
         notificationManager: NotificationManagerCompat
     ) {
@@ -325,7 +363,11 @@ class ProfileFragment :
             val isDailyNotificationEnabled = notificationManager.isChannelNotificationsEnabled(
                 HyperskillNotificationChannel.DailyReminder.channelId
             ) && remindersState.isEnabled
-            profileDailyRemindersSwitchCompat.isChecked = isDailyNotificationEnabled
+            with(profileDailyRemindersSwitchCompat) {
+                setOnCheckedChangeListener(null)
+                this.isChecked = isDailyNotificationEnabled
+                setOnCheckedChangeListener(dailyReminderCheckChangeListener)
+            }
             profileScheduleTextView.isVisible = isDailyNotificationEnabled
         }
     }

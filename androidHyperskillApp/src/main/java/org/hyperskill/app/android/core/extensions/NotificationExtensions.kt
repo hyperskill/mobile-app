@@ -33,32 +33,45 @@ fun NotificationManagerCompat.checkNotificationChannelAvailability(
     context: Context,
     notificationChannel: HyperskillNotificationChannel,
     onError: () -> Unit
-): Boolean {
-    fun startActivitySafe(intent: Intent) {
-        try {
-            context.startActivity(intent)
-        } catch (e: ActivityNotFoundException) {
-            onError()
-        }
-    }
-    return when {
+): Boolean =
+    when {
         !areNotificationsEnabled() -> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-                    .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-                startActivitySafe(intent)
+                context.startAppNotificationSettingsIntent(onError)
             }
             false
         }
         !isChannelNotificationsEnabled(notificationChannel.channelId) -> {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
-                    .putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
-                    .putExtra(Settings.EXTRA_CHANNEL_ID, notificationChannel.channelId)
-                startActivitySafe(intent)
-            }
+            context.startNotificationChannelSettingsIntent(notificationChannel, onError)
             false
         }
         else -> true
+    }
+
+fun Context.startAppNotificationSettingsIntent(onError: () -> Unit) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+            .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+        startActivitySafe(this, intent, onError)
+    }
+}
+
+fun Context.startNotificationChannelSettingsIntent(
+    notificationChannel: HyperskillNotificationChannel,
+    onError: () -> Unit
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        val intent = Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+            .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+            .putExtra(Settings.EXTRA_CHANNEL_ID, notificationChannel.channelId)
+        startActivitySafe(this, intent, onError)
+    }
+}
+
+private fun startActivitySafe(context: Context, intent: Intent, onError: () -> Unit) {
+    try {
+        context.startActivity(intent)
+    } catch (e: ActivityNotFoundException) {
+        onError()
     }
 }

@@ -16,8 +16,6 @@ class LearningActivitiesRequest(
         private const val STUDY_PLAN = "study_plan"
         private const val PAGE_SIZE = "page_size"
         private const val PAGE = "page"
-        private const val STATE = "state"
-        private const val TYPES = "types"
 
         private const val IDS = "ids"
         private const val IDS_CHUNK_SIZE = 100
@@ -29,8 +27,10 @@ class LearningActivitiesRequest(
                 STUDY_PLAN to studyPlanId,
                 PAGE_SIZE to pageSize,
                 PAGE to page,
-                STATE to states.joinToString(",") { it.value.toString() }.ifEmpty { null },
-                TYPES to types.joinToString(",") { it.value.toString() }.ifEmpty { null },
+                LearningActivitiesRequestParams.STATE to
+                    states.joinToString(",") { it.value.toString() }.ifEmpty { null },
+                LearningActivitiesRequestParams.TYPES to
+                    types.joinToString(",") { it.value.toString() }.ifEmpty { null },
                 IDS to ids.joinToString(separator = ",").ifEmpty { null }
             )
         }

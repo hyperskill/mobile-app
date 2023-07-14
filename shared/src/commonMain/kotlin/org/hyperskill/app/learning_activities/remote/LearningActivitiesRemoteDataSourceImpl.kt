@@ -13,10 +13,22 @@ import org.hyperskill.app.learning_activities.data.source.LearningActivitiesRemo
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesRequest
 import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesResponse
+import org.hyperskill.app.learning_activities.remote.model.NextLearningActivityRequest
 
 class LearningActivitiesRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : LearningActivitiesRemoteDataSource {
+    override suspend fun getNextLearningActivity(request: NextLearningActivityRequest): Result<LearningActivity> =
+        kotlin.runCatching {
+            httpClient
+                .get("/api/learning-activities/next") {
+                    contentType(ContentType.Application.Json)
+                    request.parameters.forEach { (key, value) ->
+                        parameter(key, value)
+                    }
+                }
+                .body<LearningActivitiesResponse>().learningActivities.first()
+        }
 
     override suspend fun getLearningActivities(request: LearningActivitiesRequest): Result<List<LearningActivity>> =
         kotlin.runCatching {
