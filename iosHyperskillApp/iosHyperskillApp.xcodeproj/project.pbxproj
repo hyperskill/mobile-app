@@ -438,6 +438,7 @@
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
 		E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */; };
 		E98BE36D2A374394000B430F /* StreakRecoveryModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98BE36C2A374394000B430F /* StreakRecoveryModalView.swift */; };
+		E98EDCEF2A5EB6B600B8C8AA /* ProgressScreenCallToActionButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98EDCEE2A5EB6B600B8C8AA /* ProgressScreenCallToActionButtonStyle.swift */; };
 		E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */; };
 		E9950E9328893F1700C4D962 /* ProfileDailyStudyRemindersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */; };
 		E9950E9528894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */; };
@@ -964,6 +965,7 @@
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
 		E9886D3128ABCE5C003724F9 /* OnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingOutputProtocol.swift; sourceTree = "<group>"; };
 		E98BE36C2A374394000B430F /* StreakRecoveryModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakRecoveryModalView.swift; sourceTree = "<group>"; };
+		E98EDCEE2A5EB6B600B8C8AA /* ProgressScreenCallToActionButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenCallToActionButtonStyle.swift; sourceTree = "<group>"; };
 		E993E9A828426FF2005988EC /* StepQuizSortingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingViewData.swift; sourceTree = "<group>"; };
 		E9950E9228893F1700C4D962 /* ProfileDailyStudyRemindersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersView.swift; sourceTree = "<group>"; };
 		E9950E9428894F4700C4D962 /* ProfileDailyStudyRemindersHourIntervalPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDailyStudyRemindersHourIntervalPickerView.swift; sourceTree = "<group>"; };
@@ -1565,6 +1567,7 @@
 		2C336A052A4D388100A01F26 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E98EDCEE2A5EB6B600B8C8AA /* ProgressScreenCallToActionButtonStyle.swift */,
 				2C8EBE502A4D3DF700A77205 /* ProgressScreenCardView.swift */,
 				2C6672052A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift */,
 				CCC18157582494D2909B214C /* ProgressScreenView.swift */,
@@ -3452,6 +3455,7 @@
 				2C3E656D2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift in Sources */,
 				2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
+				E98EDCEF2A5EB6B600B8C8AA /* ProgressScreenCallToActionButtonStyle.swift in Sources */,
 				2C5CA2372A20185300DBF2F9 /* ProjectSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */,
 				E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */,
 				2C5CBBE12948EBEA00113007 /* StepQuizSQLViewDataMapper.swift in Sources */,
@@ -3943,7 +3947,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 152;
+				CURRENT_PROJECT_VERSION = 157;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -3964,7 +3968,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 152;
+				CURRENT_PROJECT_VERSION = 157;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;

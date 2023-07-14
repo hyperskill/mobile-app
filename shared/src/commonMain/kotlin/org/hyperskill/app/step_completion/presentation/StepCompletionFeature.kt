@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_completion.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 
@@ -59,7 +60,10 @@ interface StepCompletionFeature {
          */
 
         sealed interface CheckTopicCompletionStatus : Message {
-            data class Completed(val modalText: String, val nextStepId: Long?) : CheckTopicCompletionStatus
+            data class Completed(
+                val modalText: String,
+                val nextLearningActivity: LearningActivity?
+            ) : CheckTopicCompletionStatus
             object Uncompleted : CheckTopicCompletionStatus
             object Error : CheckTopicCompletionStatus
         }

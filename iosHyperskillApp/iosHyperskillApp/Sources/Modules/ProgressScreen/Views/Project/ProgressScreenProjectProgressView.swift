@@ -18,6 +18,8 @@ struct ProgressScreenProjectProgressView: View {
 
     let onRetryTap: () -> Void
 
+    let onChangeProjectTap: () -> Void
+
     var body: some View {
         switch projectProgressViewStateKs {
         case .idle, .loading:
@@ -50,7 +52,8 @@ struct ProgressScreenProjectProgressView: View {
                 timeToCompleteLabel: data.timeToCompleteLabel,
                 completedStagesLabel: data.completedStagesLabel,
                 completedStagesProgress: data.completedStagesProgress,
-                isCompleted: data.isCompleted
+                isCompleted: data.isCompleted,
+                onChangeProjectTap: onChangeProjectTap
             )
         }
     }
