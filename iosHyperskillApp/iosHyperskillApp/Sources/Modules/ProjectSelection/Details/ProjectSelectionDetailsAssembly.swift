@@ -44,8 +44,11 @@ final class ProjectSelectionDetailsAssembly: UIKitAssembly {
             )
         )
 
+        let stackRouter = SwiftUIStackRouter()
+
         let projectSelectionDetailsView = ProjectSelectionDetailsView(
-            viewModel: projectSelectionDetailsViewModel
+            viewModel: projectSelectionDetailsViewModel,
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
@@ -54,6 +57,8 @@ final class ProjectSelectionDetailsAssembly: UIKitAssembly {
         )
         hostingController.navigationItem.largeTitleDisplayMode = .always
         hostingController.title = ""
+
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }

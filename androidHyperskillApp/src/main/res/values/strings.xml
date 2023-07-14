@@ -28,4 +28,8 @@
 
     <string name="debug_restarting_message">The app is going to be restarted</string>
 
+    <string name="daily_reminder_notification_permission_explanation">To enable daily reminders, allow sending notifications</string>
+    <string name="daily_reminder_notification_permission_explanation_with_settings">To enable daily reminders, go to the device settings</string>
+    <string name="daily_reminder_notification_settings_button">Settings</string>
+
 </resources>

@@ -26,11 +26,9 @@ import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentTrackBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import org.hyperskill.app.track.domain.model.Track
@@ -142,13 +140,11 @@ class TrackFragment :
             is TrackFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
             is TrackFeature.Action.ViewAction.GamificationToolbarViewAction ->
-                when (action.viewAction) {
-                    is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
-                        mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
-                    GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen -> {
-                        // TODO: Show progress screen
-                    }
-                }
+                gamificationToolbarDelegate?.onAction(
+                    action = action.viewAction,
+                    mainScreenRouter = mainScreenRouter,
+                    router = requireRouter()
+                )
             is TrackFeature.Action.ViewAction.TopicsToDiscoverNextViewAction ->
                 when (action.viewAction) {
                     is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {

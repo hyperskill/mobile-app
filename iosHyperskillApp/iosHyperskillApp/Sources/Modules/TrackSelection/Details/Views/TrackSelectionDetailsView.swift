@@ -103,15 +103,22 @@ private extension TrackSelectionDetailsView {
                 popToRoot: true
             )
             .route()
+
+            DispatchQueue.main.async {
+                stackRouter.popToRootViewController()
+            }
         case .home(let navigateToHomeViewAction):
             switch navigateToHomeViewAction.command {
             case .backto:
-                stackRouter.popToRootViewController()
                 TabBarRouter(
                     tab: .home,
                     popToRoot: true
                 )
                 .route()
+
+                DispatchQueue.main.async {
+                    stackRouter.popToRootViewController()
+                }
             case .newrootscreen:
                 viewModel.doNavigateToHomeAsNewRootScreenPresentation()
             default:

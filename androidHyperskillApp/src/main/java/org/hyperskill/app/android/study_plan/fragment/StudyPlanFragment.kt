@@ -15,7 +15,6 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
-import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
@@ -23,7 +22,6 @@ import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
-import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
@@ -157,14 +155,11 @@ class StudyPlanFragment :
     override fun onAction(action: StudyPlanScreenFeature.Action.ViewAction) {
         when (action) {
             is StudyPlanScreenFeature.Action.ViewAction.GamificationToolbarViewAction -> {
-                when (action.viewAction) {
-                    GamificationToolbarFeature.Action.ViewAction.ShowProfileTab -> {
-                        mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
-                    }
-                    GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen -> {
-                        // TODO: Show progress screen
-                    }
-                }
+                gamificationToolbarDelegate?.onAction(
+                    action = action.viewAction,
+                    mainScreenRouter = mainScreenRouter,
+                    router = requireRouter()
+                )
             }
             is StudyPlanScreenFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
