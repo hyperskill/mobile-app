@@ -1,5 +1,7 @@
 package org.hyperskill.app.progress_screen.presentation
 
+import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedChangeProjectHyperskillAnalyticEvent
+import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedChangeTrackHyperskillAnalyticEvent
 import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenViewedHyperskillAnalyticEvent
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.Action
@@ -29,6 +31,12 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
             }
             Message.RetryProjectProgressLoading -> {
                 handleRetryProjectProgressLoading(state)
+            }
+            Message.ChangeTrackButtonClicked -> {
+                handleChangeTrackButtonClicked(state)
+            }
+            Message.ChangeProjectButtonClicked -> {
+                handleChangeProjectButtonClicked(state)
             }
             is ProgressScreenFeature.TrackWithProgressFetchResult -> {
                 handleTrackWithProgressFetchResult(state, message)
@@ -137,6 +145,27 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
             },
             isProjectProgressRefreshing = false
         ) to emptySet()
+
+    private fun handleChangeTrackButtonClicked(state: State): ProgressScreenReducerResult =
+        state to setOf(
+            Action.ViewAction.NavigateTo.TrackSelectionScreen,
+            InternalAction.LogAnalyticEvent(
+                ProgressScreenClickedChangeTrackHyperskillAnalyticEvent()
+            )
+        )
+
+    private fun handleChangeProjectButtonClicked(state: State): ProgressScreenReducerResult =
+        state to if (state.trackProgressState is TrackProgressState.Content) {
+            val trackId = state.trackProgressState.trackWithProgress.track.id
+            setOf(
+                Action.ViewAction.NavigateTo.ProjectSelectionScreen(trackId),
+                InternalAction.LogAnalyticEvent(
+                    ProgressScreenClickedChangeProjectHyperskillAnalyticEvent(trackId)
+                )
+            )
+        } else {
+            emptySet()
+        }
 
     private fun fetchContent(forceLoadFromNetwork: Boolean = false): Set<Action> =
         setOf(

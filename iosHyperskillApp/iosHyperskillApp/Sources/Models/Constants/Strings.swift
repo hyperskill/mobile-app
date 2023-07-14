@@ -16,6 +16,7 @@ enum Strings {
         static let later = sharedStrings.later.localized()
         static let goodJob = sharedStrings.good_job.localized()
         static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
+        static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
         static let progress = sharedStrings.progress.localized()
         static let completed = sharedStrings.completed.localized()
     }
@@ -182,6 +183,17 @@ enum Strings {
         enum UnsupportedModal {
             static let title = sharedStrings.stage_implement_unsupported_modal_title.localized()
             static let description = sharedStrings.stage_implement_unsupported_modal_description.localized()
+        }
+
+        enum StageCompletedModal {
+            static let description = sharedStrings.stage_completed_modal_text.localized()
+            static let awardDescription = sharedStrings.stage_completed_modal_stage_reward_text.localized()
+        }
+
+        enum ProjectCompletedModal {
+            static let title = sharedStrings.project_completed_modal_title.localized()
+            static let description = sharedStrings.project_completed_modal_text.localized()
+            static let awardDescription = sharedStrings.project_completed_modal_project_reward_text.localized()
         }
     }
 
@@ -468,11 +480,13 @@ enum Strings {
             static let appliedCoreTopics = sharedStrings.progress_screen_applied_core_topics.localized()
             static let timeToCompleteTrack = sharedStrings.progress_screen_time_to_complete_track.localized()
             static let completedGraduateProject = sharedStrings.progress_screen_completed_graduate_project.localized()
+            static let changeTrack = sharedStrings.progress_screen_change_track.localized()
         }
 
         enum Project {
             static let timeToCompleteProject = sharedStrings.progress_screen_time_to_complete_project.localized()
             static let stages = sharedStrings.progress_screen_stages.localized()
+            static let changeProject = sharedStrings.progress_screen_change_project.localized()
         }
     }
 }

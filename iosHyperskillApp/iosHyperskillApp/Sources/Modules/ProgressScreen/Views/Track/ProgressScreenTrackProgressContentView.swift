@@ -41,6 +41,8 @@ struct ProgressScreenTrackProgressContentView: View {
 
     let isCompleted: Bool
 
+    let onChangeTrackTap: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             ProgressScreenSectionTitleView(
@@ -52,6 +54,11 @@ struct ProgressScreenTrackProgressContentView: View {
             }
 
             buildCardsView()
+
+            Button(Strings.ProgressScreen.Track.changeTrack) {
+                onChangeTrackTap()
+            }
+            .buttonStyle(ProgressScreenCallToActionButtonStyle())
         }
         .frame(maxWidth: .infinity)
     }
@@ -77,7 +84,7 @@ struct ProgressScreenTrackProgressContentView: View {
                 subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
             )
 
-            HStack(spacing: appearance.interitemSpacing) {
+            HStack(alignment: .top, spacing: appearance.interitemSpacing) {
                 if let timeToCompleteLabel {
                     ProgressScreenCardView(
                         appearance: appearance.cardAppearance,
@@ -122,7 +129,8 @@ struct ProgressScreenTrackProgressContentView_Previews: PreviewProvider {
             appliedTopicsPercentageProgress: 0,
             timeToCompleteLabel: "~ 56 h",
             completedGraduateProjectsCount: 0,
-            isCompleted: false
+            isCompleted: false,
+            onChangeTrackTap: {}
         )
         .padding()
         .background(Color.systemGroupedBackground)

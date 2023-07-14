@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
-import org.hyperskill.app.android.databinding.ItemStudyPlanActivitiesErrorBinding
+import org.hyperskill.app.android.databinding.WidgetDataLoadingErrorBinding
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanActivityAdapterDelegate
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanItemAnimator
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanSectionAdapterDelegate
@@ -155,10 +155,10 @@ class StudyPlanWidgetDelegate(
         onNewMessage: (StudyPlanWidgetFeature.Message) -> Unit
     ) =
         adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivitiesError>(
-            R.layout.item_study_plan_activities_error
+            R.layout.widget_data_loading_error
         ) {
-            val viewBinding = ItemStudyPlanActivitiesErrorBinding.bind(itemView)
-            viewBinding.activitiesReloadButton.setOnClickListener {
+            val viewBinding = WidgetDataLoadingErrorBinding.bind(itemView)
+            viewBinding.reloadButton.setOnClickListener {
                 item?.sectionId?.let { sectionId ->
                     onNewMessage(StudyPlanWidgetFeature.Message.RetryActivitiesLoading(sectionId))
                 }

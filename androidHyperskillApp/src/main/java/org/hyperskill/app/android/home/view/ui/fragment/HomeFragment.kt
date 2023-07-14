@@ -24,14 +24,12 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
-import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
-import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
@@ -212,13 +210,11 @@ class HomeFragment :
                 requireRouter().navigateTo(TopicsRepetitionScreen())
             }
             is HomeFeature.Action.ViewAction.GamificationToolbarViewAction ->
-                when (action.viewAction) {
-                    is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
-                        mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
-                    is GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen -> {
-                        // TODO: Show progress screen
-                    }
-                }
+                gamificationToolbarDelegate?.onAction(
+                    action = action.viewAction,
+                    mainScreenRouter = mainScreenRouter,
+                    router = requireRouter()
+                )
             is HomeFeature.Action.ViewAction.TopicsToDiscoverNextViewAction -> {
                 when (action.viewAction) {
                     is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {

@@ -8,9 +8,11 @@ final class ProgressScreenAssembly: UIKitAssembly {
         let progressScreenViewModel = ProgressScreenViewModel(
             feature: progressScreenComponent.progressScreenFeature
         )
+        let stackRouter = SwiftUIStackRouter()
 
         let progressScreenView = ProgressScreenView(
-            viewModel: progressScreenViewModel
+            viewModel: progressScreenViewModel,
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
@@ -19,6 +21,8 @@ final class ProgressScreenAssembly: UIKitAssembly {
         )
         hostingController.navigationItem.largeTitleDisplayMode = .never
         hostingController.title = Strings.ProgressScreen.navigationTitle
+
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }
