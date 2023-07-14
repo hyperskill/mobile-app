@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,16 +23,23 @@ import org.hyperskill.app.android.progress.ui.GeneralStatistics
 import org.hyperskill.app.android.progress.ui.PercentStatistics
 import org.hyperskill.app.android.progress.ui.ProgressDefaults
 import org.hyperskill.app.android.progress.ui.ProgressPreview
+import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 import org.hyperskill.app.projects.domain.model.ProjectLevel
 
 @Composable
 fun ProjectProgressContent(
     viewState: ProgressScreenViewState.ProjectProgressViewState.Content,
+    onNewMessage: (ProgressScreenFeature.Message) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val levelDrawable by remember(viewState.level) {
         mutableStateOf(viewState.level?.let(::getProjectLevelIconRes))
+    }
+    val onChangeProjectClick = remember(onNewMessage) {
+        {
+            onNewMessage(ProgressScreenFeature.Message.ChangeProjectButtonClicked)
+        }
     }
     Column(modifier = modifier) {
         BlockHeader(
@@ -60,6 +69,13 @@ fun ProjectProgressContent(
                 modifier = Modifier.weight(1f)
             )
         }
+        Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
+        TextButton(
+            onClick = onChangeProjectClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = stringResource(id = org.hyperskill.app.R.string.progress_screen_change_project))
+        }
     }
 }
 
@@ -76,6 +92,7 @@ private fun getProjectLevelIconRes(level: ProjectLevel): Int =
 @Preview
 fun ProjectProgressPreview() {
     ProjectProgressContent(
-        viewState = ProgressPreview.projectContentViewStatePreview()
+        viewState = ProgressPreview.projectContentViewStatePreview(),
+        onNewMessage = {}
     )
 }
