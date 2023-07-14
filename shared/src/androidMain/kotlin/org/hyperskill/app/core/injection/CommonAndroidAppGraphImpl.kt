@@ -14,8 +14,6 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
-import org.hyperskill.app.main.injection.PlatformMainComponent
-import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
@@ -25,6 +23,8 @@ import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponentImpl
 import org.hyperskill.app.profile_settings.injection.ProfileSettingsComponent
+import org.hyperskill.app.progress.injection.PlatformProgressScreenComponent
+import org.hyperskill.app.progress.injection.PlatformProgressScreenComponentImpl
 import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponent
 import org.hyperskill.app.project_selection.details.injection.PlatformProjectSelectionDetailsComponentImpl
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
@@ -58,10 +58,6 @@ import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionL
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
-
-    override val platformMainComponent: PlatformMainComponent by lazy {
-        PlatformMainComponentImpl(mainComponent)
-    }
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl()
@@ -201,4 +197,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         params: TrackSelectionDetailsParams
     ): PlatformTrackSelectionDetailsComponent =
         PlatformTrackSelectionDetailsComponentImpl(buildTrackSelectionDetailsComponent(), params)
+
+    override fun buildPlatformProgressScreenComponent(): PlatformProgressScreenComponent =
+        PlatformProgressScreenComponentImpl(buildProgressScreenComponent())
 }

@@ -8,7 +8,9 @@ fun Track.Companion.stub(
     projects: List<Long> = emptyList(),
     projectsByLevel: ProjectsByLevel = ProjectsByLevel(),
     topicProviders: List<Long> = emptyList(),
-    canIssueCertificate: Boolean = false
+    canIssueCertificate: Boolean = false,
+    topicsCount: Int = 1,
+    capstoneTopicsCount: Int = 0
 ): Track =
     Track(
         id = id,
@@ -19,14 +21,14 @@ fun Track.Companion.stub(
         projectsByLevel = projectsByLevel,
         secondsToComplete = .0f,
         title = "",
-        topicsCount = 0,
+        topicsCount = topicsCount,
         cover = "",
         projects = projects,
         progressId = "",
         capstoneProjects = emptyList(),
-        capstoneTopicsCount = 0,
+        capstoneTopicsCount = capstoneTopicsCount,
         topicProviders = topicProviders,
         betaProjects = listOf(),
         progress = null,
-        providerId = 0
+        providerId = 0,
     )

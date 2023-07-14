@@ -1,22 +1,41 @@
+import FirebaseMessaging
 import Foundation
 import shared
 import UserNotifications
 
-final class NotificationsRegistrationService {
-    static let shared = NotificationsRegistrationService(
-        analyticInteractor: AppGraphBridge.sharedAppGraph.analyticComponent.analyticInteractor
-    )
+final class NotificationsRegistrationService: NSObject {
+    static let shared: NotificationsRegistrationService = {
+        let appGraph = AppGraphBridge.sharedAppGraph
+
+        let pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
+
+        return NotificationsRegistrationService(
+            analyticInteractor: appGraph.analyticComponent.analyticInteractor,
+            pushNotificationsInteractor: pushNotificationsInteractor
+        )
+    }()
 
     private let analyticInteractor: AnalyticInteractor
+    private let pushNotificationsInteractor: PushNotificationsInteractor
+
+    private let handleNewFCMTokenDebouncer: DebouncerProtocol = Debouncer()
 
     private var requestAuthorizationContinuation: CheckedContinuation<Bool, Never>?
 
     private var applicationWasInBackground = false
     private var applicationOpenedSettings = false
 
-    private init(analyticInteractor: AnalyticInteractor) {
+    private init(
+        analyticInteractor: AnalyticInteractor,
+        pushNotificationsInteractor: PushNotificationsInteractor
+    ) {
         self.analyticInteractor = analyticInteractor
+        self.pushNotificationsInteractor = pushNotificationsInteractor
+
+        super.init()
+
         addObservers()
+        Messaging.messaging().delegate = self
     }
 
     // MARK: Public API
@@ -53,6 +72,10 @@ final class NotificationsRegistrationService {
 
                     logSystemNoticeHiddenEvent(isAllowed: isGranted)
 
+                    if isGranted {
+                        registerForRemoteNotifications()
+                    }
+
                     await resumeRequestAuthorizationContinuation(isGranted: isGranted)
                 } catch {
                     #if DEBUG
@@ -76,6 +99,114 @@ final class NotificationsRegistrationService {
         requestAuthorizationContinuation = nil
 
         applicationOpenedSettings = false
+    }
+}
+
+// MARK: - NotificationsRegistrationService (APNs) -
+
+extension NotificationsRegistrationService {
+    func renewAPNsDeviceToken() {
+        Task {
+            let permissionStatus = await NotificationPermissionStatus.current
+            postCurrentPermissionStatus(permissionStatus)
+
+            if permissionStatus.isRegistered {
+                registerForRemoteNotifications()
+            }
+        }
+    }
+
+    /// Handles when the app successfully registered with APNs.
+    /// - Parameter deviceToken: A globally unique token that identifies this device to APNs.
+    func handleApplicationDidRegisterForRemoteNotificationsWithDeviceToken(_ deviceToken: Data) {
+        #if DEBUG
+        print("NotificationsRegistrationService: \(#function)")
+        #endif
+
+        setAPNsDeviceTokenToFirebaseMessaging(deviceToken)
+        postCurrentPermissionStatus()
+        fetchFirebaseMessagingRegistrationToken()
+    }
+
+    /// Handles when Apple Push Notification service cannot successfully complete the registration process.
+    /// - Parameter error: An error that encapsulates information why registration did not succeed.
+    func handleApplicationDidFailToRegisterForRemoteNotificationsWithError(_ error: Error) {
+        #if DEBUG
+        print("NotificationsRegistrationService: did fail to register for remote notifications with error: \(error)")
+        #endif
+        postCurrentPermissionStatus()
+    }
+
+    /// Initiates the registration process with APNs.
+    private func registerForRemoteNotifications() {
+        DispatchQueue.main.async {
+            UIApplication.shared.registerForRemoteNotifications()
+        }
+    }
+
+    // MARK: FirebaseMessaging
+
+    private func setAPNsDeviceTokenToFirebaseMessaging(_ apnsToken: Data) {
+        Messaging.messaging().apnsToken = apnsToken
+    }
+
+    private func fetchFirebaseMessagingRegistrationToken() {
+        #if DEBUG
+        print("NotificationsRegistrationService: \(#function)")
+        #endif
+
+        Messaging.messaging().token { fcmToken, error in
+            if let error {
+                #if DEBUG
+                print("NotificationsRegistrationService: fetch FCM token error: \(error)")
+                #endif
+            } else if let fcmToken {
+                #if DEBUG
+                print("NotificationsRegistrationService: fetched FCM token: \(fcmToken)")
+                #endif
+
+                self.handleNewFCMToken(fcmToken)
+            }
+        }
+    }
+
+    private func handleNewFCMToken(_ fcmToken: String) {
+        #if DEBUG
+        print("NotificationsRegistrationService: \(#function)")
+        #endif
+
+        #if targetEnvironment(simulator)
+        // no op
+        #else
+        handleNewFCMTokenDebouncer.action = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            #if DEBUG
+            print("NotificationsRegistrationService: posting new FCM token to the shared")
+            #endif
+
+            strongSelf.pushNotificationsInteractor.handleNewFCMToken(
+                fcmToken: fcmToken,
+                completionHandler: { _, _ in }
+            )
+        }
+        #endif
+    }
+}
+
+// MARK: - NotificationsRegistrationService: MessagingDelegate -
+
+extension NotificationsRegistrationService: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        #if DEBUG
+        print("NotificationsRegistrationService: didReceiveRegistrationToken: \(String(describing: fcmToken))")
+        #endif
+
+        if let fcmToken {
+            handleNewFCMToken(fcmToken)
+        }
     }
 }
 

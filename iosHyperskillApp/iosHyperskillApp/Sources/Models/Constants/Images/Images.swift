@@ -6,7 +6,12 @@ enum Images {
     enum Common {
         static let hyperskillLogo = "hyperskill-logo"
 
+        static let skip = "skip"
         static let trophy = "trophy"
+        static let hammer = "hammer"
+
+        static let topic = "topic"
+        static let project = "project"
     }
 
     // MARK: - TabBar -
@@ -82,26 +87,21 @@ enum Images {
         enum UnsupportedModal {
             static let icon = "stage-implement-unsupported-modal-icon"
         }
+
+        enum StageCompletedModal {
+            static let icon = "stage-implement-stage-completed-modal-icon"
+        }
+
+        enum ProjectCompletedModal {
+            static let icon = "stage-implement-project-completed-modal-icon"
+        }
     }
 
     // MARK: - Track -
 
     enum Track {
-        static let projectGraduate = "track-project-graduate"
-        static let hammer = "track-hammer"
-
         static let track = "track"
         static let trackFilled = "track-filled"
-
-        enum TopicsToDiscoverNext {
-            static let skippedTopic = "track-topics-to-discover-next-skipped-topic"
-        }
-
-        enum About {
-            static let rating = "track-about-stat-item-star"
-            static let project = "track-about-stat-item-project"
-            static let topic = "track-about-stat-item-topic"
-        }
     }
 
     // MARK: - Placeholder -

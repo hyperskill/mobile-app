@@ -34,7 +34,6 @@ struct StepQuizHintsView: View {
         case .idle:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonInitialHeight)
-                .onAppear(perform: viewModel.loadHintsIDs)
         case .initialLoading, .hintLoading:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonHintHeight)
@@ -79,7 +78,7 @@ struct StepQuizHintsView: View {
     private func handleViewAction(_ viewAction: StepQuizHintsFeatureActionViewAction) {
         switch StepQuizHintsFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
-            ProgressHUD.showError(status: Strings.General.connectionError)
+            ProgressHUD.showError(status: Strings.Common.connectionError)
         }
     }
 }

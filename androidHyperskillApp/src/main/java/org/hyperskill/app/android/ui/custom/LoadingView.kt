@@ -116,6 +116,11 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
         }
     }
 
+    fun setRadius(radius: Float) {
+        this.radius = radius
+        invalidate()
+    }
+
     override fun onDraw(canvas: Canvas) {
         val width = width.toFloat()
         val height = height.toFloat()

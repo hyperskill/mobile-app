@@ -11,14 +11,22 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 defaults:
   run:
     shell: bash
 
 jobs:
+  files-changed:
+    name: Detect what files changed
+    uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
+    with:
+      base: ${{ github.ref }}
+
   build-android:
+    needs: files-changed
+    if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.android == 'true' }}
     name: Build Android Caches
     runs-on: ubuntu-22.04
     timeout-minutes: 60
@@ -37,12 +45,14 @@ jobs:
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+
   build-ios:
+    needs: files-changed
+    if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.ios == 'true' }}
     name: Build iOS Caches
     runs-on: macos-13
     timeout-minutes: 60
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3.5.2

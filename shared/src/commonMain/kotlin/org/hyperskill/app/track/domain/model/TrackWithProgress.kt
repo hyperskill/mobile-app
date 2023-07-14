@@ -10,6 +10,9 @@ data class TrackWithProgress(
 ) {
     companion object
 
+    /**
+     * @return progress in percents, from 0 to 100
+     */
     val averageProgress: Int
         get() {
             val currentTopicsCount =
@@ -20,4 +23,10 @@ data class TrackWithProgress(
                 track.topicsCount + track.capstoneTopicsCount
             return floor(currentTopicsCount / maxTopicsCount.toFloat() * 100).toInt()
         }
+
+    val completedTopicsProgress: Int
+        get() = floor(trackProgress.completedTopics / track.topicsCount.toFloat() * 100).toInt()
+
+    val appliedTopicsProgress: Int
+        get() = floor(trackProgress.appliedCapstoneTopicsCount / track.capstoneTopicsCount.toFloat() * 100).toInt()
 }

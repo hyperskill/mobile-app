@@ -4,9 +4,9 @@ import shared
 enum Strings {
     private static let sharedStrings = SharedResources.strings.shared
 
-    // MARK: - General -
+    // MARK: - Common -
 
-    enum General {
+    enum Common {
         static let connectionError = sharedStrings.connection_error.localized()
         static let done = sharedStrings.done.localized()
         static let yes = sharedStrings.yes.localized()
@@ -16,6 +16,9 @@ enum Strings {
         static let later = sharedStrings.later.localized()
         static let goodJob = sharedStrings.good_job.localized()
         static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
+        static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
+        static let progress = sharedStrings.progress.localized()
+        static let completed = sharedStrings.completed.localized()
     }
 
     // MARK: - Badge -
@@ -29,7 +32,6 @@ enum Strings {
         static let bestRating = sharedStrings.badge_best_rating_text.localized()
         static let fastestToComplete = sharedStrings.badge_fastest_to_complete_text.localized()
         static let beta = sharedStrings.badge_beta_text.localized()
-        static let completed = sharedStrings.badge_completed_text.localized()
     }
 
     // MARK: - TabBar -
@@ -182,6 +184,17 @@ enum Strings {
             static let title = sharedStrings.stage_implement_unsupported_modal_title.localized()
             static let description = sharedStrings.stage_implement_unsupported_modal_description.localized()
         }
+
+        enum StageCompletedModal {
+            static let description = sharedStrings.stage_completed_modal_text.localized()
+            static let awardDescription = sharedStrings.stage_completed_modal_stage_reward_text.localized()
+        }
+
+        enum ProjectCompletedModal {
+            static let title = sharedStrings.project_completed_modal_title.localized()
+            static let description = sharedStrings.project_completed_modal_text.localized()
+            static let awardDescription = sharedStrings.project_completed_modal_project_reward_text.localized()
+        }
     }
 
     // MARK: - Home -
@@ -189,37 +202,19 @@ enum Strings {
     enum Home {
         static let title = sharedStrings.home_title.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
+
         static let topicsToDiscoverNextTitle = sharedStrings.home_topics_to_discover_next_title.localized()
+
         static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
         static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()
+
+        static let continueLearningInWebButton = sharedStrings.home_continue_learning_on_web_text.localized()
     }
 
-    // MARK: - Track -
+    // MARK: - Topics widget -
 
-    enum Track {
-        static let title = sharedStrings.track_title.localized()
-
-        enum Header {
-            static let learningNow = sharedStrings.track_learning_now_text.localized()
-        }
-
-        enum Progress {
-            static let title = sharedStrings.track_progress_block_title.localized()
-            static let timeToComplete = sharedStrings.track_time_to_complete_text.localized()
-            static let completedGraduateProject = sharedStrings.track_completed_graduate_project_text.localized()
-            static let completedTopics = sharedStrings.track_completed_topics_text.localized()
-            static let appliedCoreTopics = sharedStrings.track_applied_core_topics_text.localized()
-        }
-
-        enum TopicsToDiscoverNext {
-            static let title = sharedStrings.track_topics_to_discover_next_block_title.localized()
-            static let learnNextBadge = sharedStrings.topics_widget_learn_next_badge.localized()
-        }
-
-        enum About {
-            static let title = sharedStrings.track_about_text.localized()
-            static let continueInWebButton = sharedStrings.track_continue_in_web_text.localized()
-        }
+    enum TopicsWidget {
+        static let learnNextBadge = sharedStrings.topics_widget_learn_next_badge.localized()
     }
 
     // MARK: - StudyPlan -
@@ -473,5 +468,25 @@ enum Strings {
 
         static let mainProviderTitle = sharedStrings.track_selection_details_main_provider_title.localized()
         static let otherProvidersTitle = sharedStrings.track_selection_details_other_providers_title.localized()
+    }
+
+    // MARK: - ProgressScreen -
+
+    enum ProgressScreen {
+        static let navigationTitle = sharedStrings.progress_screen_title.localized()
+
+        enum Track {
+            static let completedTopics = sharedStrings.progress_screen_completed_topics.localized()
+            static let appliedCoreTopics = sharedStrings.progress_screen_applied_core_topics.localized()
+            static let timeToCompleteTrack = sharedStrings.progress_screen_time_to_complete_track.localized()
+            static let completedGraduateProject = sharedStrings.progress_screen_completed_graduate_project.localized()
+            static let changeTrack = sharedStrings.progress_screen_change_track.localized()
+        }
+
+        enum Project {
+            static let timeToCompleteProject = sharedStrings.progress_screen_time_to_complete_project.localized()
+            static let stages = sharedStrings.progress_screen_stages.localized()
+            static let changeProject = sharedStrings.progress_screen_change_project.localized()
+        }
     }
 }

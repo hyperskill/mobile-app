@@ -24,10 +24,6 @@ struct StepQuizView: View {
                 viewModel.startListening()
                 viewModel.onViewAction = handleViewAction(_:)
 
-                if viewModel.stepQuizStateKs == .idle {
-                    viewModel.loadAttempt()
-                }
-
                 viewModel.doProvideModuleInput()
             }
             .onDisappear {
@@ -44,9 +40,7 @@ struct StepQuizView: View {
             PlaceholderView(
                 configuration: .networkError(
                     backgroundColor: .clear,
-                    action: {
-                        viewModel.loadAttempt(forceUpdate: true)
-                    }
+                    action: viewModel.doRetryLoadAttempt
                 )
             )
         } else {
@@ -256,7 +250,7 @@ struct StepQuizView: View {
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
         switch StepQuizFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
-            ProgressHUD.showError(status: Strings.General.connectionError)
+            ProgressHUD.showError(status: Strings.Common.connectionError)
         case .requestUserPermission(let requestUserPermissionViewAction):
             switch requestUserPermissionViewAction.userPermissionRequest {
             case StepQuizUserPermissionRequest.resetCode:
@@ -298,7 +292,7 @@ extension StepQuizView {
         )
         alert.addAction(
             UIAlertAction(
-                title: Strings.General.cancel,
+                title: Strings.Common.cancel,
                 style: .cancel,
                 handler: { [weak viewModel] _ in
                     viewModel?.handleResetCodePermissionRequestResult(isGranted: false)
@@ -326,7 +320,7 @@ extension StepQuizView {
         )
         alert.addAction(
             UIAlertAction(
-                title: Strings.General.ok,
+                title: Strings.Common.ok,
                 style: .default,
                 handler: { [weak viewModel] _ in
                     viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: true)
@@ -335,7 +329,7 @@ extension StepQuizView {
         )
         alert.addAction(
             UIAlertAction(
-                title: Strings.General.later,
+                title: Strings.Common.later,
                 style: .cancel,
                 handler: { [weak viewModel] _ in
                     viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: false)

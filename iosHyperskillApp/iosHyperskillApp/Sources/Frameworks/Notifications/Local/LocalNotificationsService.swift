@@ -129,3 +129,11 @@ final class LocalNotificationsService {
         case badFireDate
     }
 }
+
+// MARK: - LocalNotificationsService (Default Instance) -
+
+extension LocalNotificationsService {
+    static var `default`: LocalNotificationsService {
+        LocalNotificationsService()
+    }
+}

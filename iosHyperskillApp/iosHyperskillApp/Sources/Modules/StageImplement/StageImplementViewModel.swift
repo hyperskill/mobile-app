@@ -18,7 +18,12 @@ final class StageImplementViewModel: FeatureViewModel<
     ) {
         self.projectID = projectID
         self.stageID = stageID
+
         super.init(feature: feature)
+
+        onNewMessage(
+            StageImplementFeatureMessageInitialize(projectId: projectID, stageId: stageID, forceUpdate: false)
+        )
     }
 
     override func shouldNotifyStateDidChange(
@@ -28,13 +33,57 @@ final class StageImplementViewModel: FeatureViewModel<
         StageImplementFeatureViewStateKs(oldState) != StageImplementFeatureViewStateKs(newState)
     }
 
-    func doLoadStageImplement(forceUpdate: Bool = false) {
+    func doRetryLoadStageImplement() {
         onNewMessage(
-            StageImplementFeatureMessageInitialize(projectId: projectID, stageId: stageID, forceUpdate: forceUpdate)
+            StageImplementFeatureMessageInitialize(projectId: projectID, stageId: stageID, forceUpdate: true)
         )
     }
 
     func logViewedEvent() {
         onNewMessage(StageImplementFeatureMessageViewedEventMessage())
+    }
+}
+
+// MARK: - StageImplementViewModel: StageImplementStageCompletedModalViewControllerDelegate -
+
+extension StageImplementViewModel: StageImplementStageCompletedModalViewControllerDelegate {
+    func stageImplementStageCompletedModalViewControllerDidAppear(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalShownEventMessage())
+    }
+
+    func stageImplementStageCompletedModalViewControllerDidDisappear(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalHiddenEventMessage())
+    }
+
+    func stageImplementStageCompletedModalViewControllerDidTapCallToActionButton(
+        _ viewController: StageImplementStageCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageStageCompletedModalGoToStudyPlanClicked())
+    }
+}
+
+// MARK: - StageImplementViewModel: StageImplementProjectCompletedModalViewControllerDelegate -
+
+extension StageImplementViewModel: StageImplementProjectCompletedModalViewControllerDelegate {
+    func stageImplementProjectCompletedModalViewControllerDidAppear(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalShownEventMessage())
+    }
+
+    func stageImplementProjectCompletedModalViewControllerDidDisappear(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalHiddenEventMessage())
+    }
+
+    func stageImplementProjectCompletedModalViewControllerDidTapCallToActionButton(
+        _ viewController: StageImplementProjectCompletedModalViewController
+    ) {
+        onNewMessage(StageImplementFeatureMessageProjectCompletedModalGoToStudyPlanClicked())
     }
 }

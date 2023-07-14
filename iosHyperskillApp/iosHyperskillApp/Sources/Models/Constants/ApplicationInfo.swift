@@ -19,25 +19,3 @@ enum ApplicationInfo {
 
     static let isDebugModeAvailable: Bool = DebugFeature.shared.isAvailable(buildKonfig: buildKonfig)
 }
-
-enum BuildType: String {
-    case debug
-    case release
-
-    static var current: BuildType {
-        #if DEBUG
-        return .debug
-        #else
-        return .release
-        #endif
-    }
-
-    var buildVariant: BuildVariant {
-        switch self {
-        case .debug:
-            return BuildVariant.debug
-        case .release:
-            return BuildVariant.release_
-        }
-    }
-}

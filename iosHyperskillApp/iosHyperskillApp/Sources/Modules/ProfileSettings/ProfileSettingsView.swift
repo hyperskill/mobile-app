@@ -24,7 +24,7 @@ struct ProfileSettingsView: View {
             .navigationTitle(Strings.Settings.title)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Button(Strings.General.done) {
+                    Button(Strings.Common.done) {
                         viewModel.logClickedDoneEvent()
                         presentationMode.wrappedValue.dismiss()
                     }
@@ -47,19 +47,10 @@ struct ProfileSettingsView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
-            ProgressView()
-                .onAppear {
-                    viewModel.loadProfileSettings()
-                }
-        case .loading:
+        case .idle, .loading:
             ProgressView()
         case .error:
-            PlaceholderView(
-                configuration: .networkError {
-                    viewModel.loadProfileSettings(forceUpdate: true)
-                }
-            )
+            PlaceholderView(configuration: .networkError(action: viewModel.doRetryLoadProfileSettings))
         case .content(let content):
             if content.isLoadingMagicLink {
                 let _ = ProgressHUD.show()
@@ -151,13 +142,13 @@ struct ProfileSettingsView: View {
                         title: Text(Strings.Settings.signOutAlertTitle),
                         message: Text(Strings.Settings.signOutAlertMessage),
                         primaryButton: .default(
-                            Text(Strings.General.no),
+                            Text(Strings.Common.no),
                             action: {
                                 viewModel.logSignOutNoticeHiddenEvent(isConfirmed: false)
                             }
                         ),
                         secondaryButton: .destructive(
-                            Text(Strings.General.yes),
+                            Text(Strings.Common.yes),
                             action: {
                                 viewModel.logSignOutNoticeHiddenEvent(isConfirmed: true)
                                 viewModel.doSignOut()
@@ -183,7 +174,7 @@ struct ProfileSettingsView: View {
                         title: Text(Strings.Settings.deleteAccountAlertTitle),
                         message: Text(Strings.Settings.deleteAccountAlertMessage),
                         primaryButton: .default(
-                            Text(Strings.General.cancel),
+                            Text(Strings.Common.cancel),
                             action: {
                                 viewModel.doDeleteAccount(isConfirmed: false)
                             }

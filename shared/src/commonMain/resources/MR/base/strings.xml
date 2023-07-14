@@ -13,7 +13,10 @@
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
     <string name="go_to_homescreen">Go to home</string>
+    <string name="go_to_study_plan">Go to study plan</string>
     <string name="new_word">New</string>
+    <string name="progress">Progress</string>
+    <string name="completed">Completed</string>
 
     <!-- Badge -->
     <string name="badge_ide_required_text">IDE required</string>
@@ -24,7 +27,6 @@
     <string name="badge_best_rating_text">Best rating</string>
     <string name="badge_fastest_to_complete_text">Fastest to complete</string>
     <string name="badge_beta_text">Beta</string>
-    <string name="badge_completed_text">Completed</string>
 
     <!-- Users list -->
     <string name="user_list_search_button_title">Search</string>
@@ -69,7 +71,7 @@
     <string name="step_comment_thread_type_solutions_text">Solutions</string>
 
     <!-- Step quiz -->
-    <string name="step_quiz_status_correct_text">You’re absolutely correct!</string>
+    <string name="step_quiz_status_correct_text">You\'re absolutely correct!</string>
     <string name="step_quiz_status_wrong_text">Not correct, but keep on trying\nand never give up!</string>
     <string name="step_quiz_status_evaluation_text">Evaluation...</string>
     <string name="step_quiz_status_loading_text">Loading...</string>
@@ -173,6 +175,7 @@
     <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
     <string name="home_repeat_unlimited">Repeat unlimited</string>
+    <string name="home_continue_learning_on_web_text">Continue learning on the web</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>
@@ -418,7 +421,7 @@
 
     <!--  Track selection details -->
     <string name="track_selection_details_overview_title">Track overview</string>
-    <string name="track_selection_details_no_rating">It’s new track, no rating yet</string>
+    <string name="track_selection_details_no_rating">It\'s new track, no rating yet</string>
     <string name="track_selection_details_time_to_complete_text_template">%s for all learning activities</string>
     <string name="track_selection_details_topics_count_text_template">%s with theory and practice adapted to you level</string>
     <string name="track_selection_details_projects_text_template">%s to choose from for your portfolio</string>
@@ -442,4 +445,25 @@
     <string name="streak_recovery_modal_recover_streak_error_message">Failed to recover a streak</string>
     <string name="streak_recovery_modal_cancel_streak_recovery_success_message">Streak recovery successfully cancelled</string>
     <string name="streak_recovery_modal_cancel_streak_recovery_error_message">Failed to cancel a streak recovery</string>
+
+    <!-- Progress screen -->
+    <string name="progress_screen_title">Progress</string>
+    <string name="progress_screen_completed_topics">Completed topics</string>
+    <string name="progress_screen_applied_core_topics">Applied core topics by completing project stages</string>
+    <string name="progress_screen_time_to_complete_track">Time to complete the track</string>
+    <string name="progress_screen_completed_graduate_project">Completed graduate project</string>
+    <string name="progress_screen_time_to_complete_project">Time to complete the project</string>
+    <string name="progress_screen_stages">Stages</string>
+    <string name="progress_screen_change_track">Change track</string>
+    <string name="progress_screen_change_project">Change project</string>
+
+    <!-- Stage completed modal -->
+    <string name="stage_completed_modal_title">Yay! You\'ve completed Stage %d/%d!</string>
+    <string name="stage_completed_modal_text">Keep on learning and soon you\'ll complete your project.</string>
+    <string name="stage_completed_modal_stage_reward_text">gems for completing the stage</string>
+
+    <!-- Project completed modal -->
+    <string name="project_completed_modal_title">Congratulations! Your project is completed!</string>
+    <string name="project_completed_modal_text">You did a great job!</string>
+    <string name="project_completed_modal_project_reward_text">gems for completing the whole project</string>
 </resources>
