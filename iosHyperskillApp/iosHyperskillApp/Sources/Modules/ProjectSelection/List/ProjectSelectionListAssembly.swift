@@ -14,8 +14,8 @@ final class ProjectSelectionListAssembly: UIKitAssembly {
         let projectSelectionListComponent = AppGraphBridge.sharedAppGraph.buildProjectSelectionListComponent()
 
         let projectSelectionListParams = ProjectSelectionListParams(
-            isNewUserMode: isNewUserMode,
-            trackId: trackID
+            trackId: trackID,
+            isNewUserMode: isNewUserMode
         )
         let projectSelectionListViewModel = ProjectSelectionListViewModel(
             feature: projectSelectionListComponent.projectSelectionListFeature(

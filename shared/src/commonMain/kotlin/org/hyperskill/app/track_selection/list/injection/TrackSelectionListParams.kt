@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TrackSelectionListParams(
-    val isNewUserMode: Boolean
+    val isNewUserMode: Boolean = false
 )

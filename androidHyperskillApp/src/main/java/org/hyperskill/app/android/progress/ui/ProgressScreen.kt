@@ -88,9 +88,14 @@ private fun ProgressScreenContent(
     onNewMessage: (ProgressScreenFeature.Message) -> Unit,
     padding: PaddingValues
 ) {
+    val onRefresh = remember(onNewMessage) {
+        {
+            onNewMessage(ProgressScreenFeature.Message.PullToRefresh)
+        }
+    }
     val pullRefreshState = rememberPullRefreshState(
         refreshing = viewState.isRefreshing,
-        onRefresh = { onNewMessage(ProgressScreenFeature.Message.PullToRefresh) }
+        onRefresh = onRefresh
     )
     Box(
         Modifier

@@ -9,6 +9,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
+import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
@@ -21,7 +22,6 @@ import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
-import org.hyperskill.app.topics_to_discover_next.domain.interactor.TopicsToDiscoverNextInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
@@ -32,8 +32,8 @@ class StepCompletionActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
-    private val topicsToDiscoverNextInteractor: TopicsToDiscoverNextInteractor,
     private val freemiumInteractor: FreemiumInteractor,
+    private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
     notificationInteractor: NotificationInteractor,
@@ -79,51 +79,57 @@ class StepCompletionActionDispatcher(
                 onNewMessage(message)
             }
             is Action.CheckTopicCompletionStatus -> {
-                val topicProgress = progressesInteractor
-                    .getTopicProgress(action.topicId)
-                    .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
-
-                if (topicProgress.isCompleted) {
-                    topicCompletedFlow.notifyDataChanged(action.topicId)
-
-                    coroutineScope {
-                        val topicResult = async {
-                            topicsInteractor.getTopic(action.topicId)
-                        }
-                        val nextTopicToDiscoverResult = async {
-                            topicsToDiscoverNextInteractor.getNextTopicToDiscover()
-                        }
-
-                        val topicTitle = topicResult.await()
-                            .map { it.title }
-                            .getOrElse {
-                                onNewMessage(Message.CheckTopicCompletionStatus.Error)
-                                return@coroutineScope
-                            }
-                        val nextStepId = nextTopicToDiscoverResult.await()
-                            .getOrNull()
-                            ?.theoryId
-
-                        onNewMessage(
-                            Message.CheckTopicCompletionStatus.Completed(
-                                modalText = resourceProvider.getString(
-                                    SharedResources.strings.step_quiz_topic_completed_modal_text,
-                                    topicTitle
-                                ),
-                                nextStepId = nextStepId
-                            )
-                        )
-                    }
-                } else {
-                    topicProgressFlow.notifyDataChanged(topicProgress)
-                    onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
-                }
+                handleCheckTopicCompletionStatusAction(action, ::onNewMessage)
             }
-            is Action.UpdateProblemsLimit ->
+            is Action.UpdateProblemsLimit -> {
                 freemiumInteractor.onStepSolved()
-            is Action.LogAnalyticEvent ->
+            }
+            is Action.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
-            else -> {}
+            }
+            else -> {
+                // no op
+            }
+        }
+    }
+
+    private suspend fun handleCheckTopicCompletionStatusAction(
+        action: Action.CheckTopicCompletionStatus,
+        onNewMessage: (Message) -> Unit
+    ) {
+        val topicProgress = progressesInteractor
+            .getTopicProgress(action.topicId)
+            .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
+
+        if (topicProgress.isCompleted) {
+            topicCompletedFlow.notifyDataChanged(action.topicId)
+
+            coroutineScope {
+                val topicDeferred = async {
+                    topicsInteractor.getTopic(action.topicId)
+                }
+                val nextLearningActivityDeferred = async {
+                    nextLearningActivityStateRepository.getState(forceUpdate = true)
+                }
+
+                val topic = topicDeferred.await()
+                    .getOrElse { return@coroutineScope onNewMessage(Message.CheckTopicCompletionStatus.Error) }
+                val nextLearningActivity = nextLearningActivityDeferred.await()
+                    .getOrNull()
+
+                onNewMessage(
+                    Message.CheckTopicCompletionStatus.Completed(
+                        modalText = resourceProvider.getString(
+                            SharedResources.strings.step_quiz_topic_completed_modal_text,
+                            topic.title
+                        ),
+                        nextLearningActivity = nextLearningActivity
+                    )
+                )
+            }
+        } else {
+            topicProgressFlow.notifyDataChanged(topicProgress)
+            onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
         }
     }
 }
