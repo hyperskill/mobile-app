@@ -309,7 +309,7 @@ abstract class BaseAppGraph : AppGraph {
         TopicsToDiscoverNextComponentImpl(this, screen)
 
     override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
-        TopicsToDiscoverNextDataComponentImpl(this)
+        TopicsToDiscoverNextDataComponentImpl()
 
     /**
      * ProblemsLimit component
