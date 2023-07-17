@@ -14,6 +14,9 @@ import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.home.view.HomeFeatureViewStateMapper
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetActionDispatcher
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
@@ -44,10 +47,14 @@ internal object HomeFeatureBuilder {
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         problemsLimitReducer: ProblemsLimitReducer,
         problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
-        topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer,
-        topicsToDiscoverNextActionDispatcher: TopicsToDiscoverNextActionDispatcher
+        nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer,
+        nextLearningActivityWidgetActionDispatcher: NextLearningActivityWidgetActionDispatcher
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
-        val homeReducer = HomeReducer(gamificationToolbarReducer, problemsLimitReducer, topicsToDiscoverNextReducer)
+        val homeReducer = HomeReducer(
+            gamificationToolbarReducer,
+            problemsLimitReducer,
+            nextLearningActivityWidgetReducer
+        )
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
@@ -67,7 +74,7 @@ internal object HomeFeatureBuilder {
                 homeState = HomeFeature.HomeState.Idle,
                 toolbarState = GamificationToolbarFeature.State.Idle,
                 problemsLimitState = ProblemsLimitFeature.State.Idle,
-                topicsToDiscoverNextState = TopicsToDiscoverNextFeature.State.Idle
+                nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.State.Idle
             ),
             homeReducer
         )
@@ -85,9 +92,9 @@ internal object HomeFeatureBuilder {
                 )
             )
             .wrapWithActionDispatcher(
-                topicsToDiscoverNextActionDispatcher.transform(
-                    transformAction = { it.safeCast<HomeFeature.Action.TopicsToDiscoverNextAction>()?.action },
-                    transformMessage = HomeFeature.Message::TopicsToDiscoverNextMessage
+                nextLearningActivityWidgetActionDispatcher.transform(
+                    transformAction = { it.safeCast<HomeFeature.Action.NextLearningActivityWidgetAction>()?.action },
+                    transformMessage = HomeFeature.Message::NextLearningActivityWidgetMessage
                 )
             )
             .transformState(HomeFeatureViewStateMapper::map)

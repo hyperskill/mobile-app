@@ -286,4 +286,13 @@ object HyperskillSentryTransactionBuilder {
             name = "progress-screen-remote-project-with-progress-loading",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * NextLearningActivityWidgetFeature
+     */
+    fun buildNextLearningActivityWidgetFetchNextLearningActivity(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "next-learning-activity-widget-feature-fetch-next-learning-activity",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

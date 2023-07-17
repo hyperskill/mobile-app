@@ -19,6 +19,7 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
+import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
@@ -138,4 +139,5 @@ interface AppGraph {
     fun buildPushNotificationsComponent(): PushNotificationsComponent
     fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
     fun buildProgressScreenComponent(): ProgressScreenComponent
+    fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent
 }

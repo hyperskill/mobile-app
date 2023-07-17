@@ -14,6 +14,8 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.HomeState
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -21,11 +23,13 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 class HomeReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer,
     private val problemsLimitReducer: ProblemsLimitReducer,
-    private val topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer
+    private val nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            is Message.Initialize -> initialize(state, message.forceUpdate)
+            is Message.Initialize -> {
+                initialize(state, message.forceUpdate)
+            }
             is Message.HomeSuccess ->
                 state.copy(
                     homeState = HomeState.Content(
@@ -58,17 +62,18 @@ class HomeReducer(
                     ProblemsLimitFeature.Message.PullToRefresh
                 )
 
-                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) = reduceTopicsToDiscoverNextMessage(
-                    state.topicsToDiscoverNextState,
-                    TopicsToDiscoverNextFeature.Message.PullToRefresh
-                )
+                val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
+                    reduceNextLearningActivityWidgetMessage(
+                        state.nextLearningActivityWidgetState,
+                        NextLearningActivityWidgetFeature.InternalMessage.PullToRefresh
+                    )
 
                 state.copy(
                     homeState = homeState,
                     toolbarState = toolbarState,
                     problemsLimitState = problemsLimitState,
-                    topicsToDiscoverNextState = topicsToDiscoverNextState
-                ) to homeActions + toolbarActions + problemsLimitActions + topicsToDiscoverNextActions
+                    nextLearningActivityWidgetState = nextLearningActivityWidgetState
+                ) to homeActions + toolbarActions + problemsLimitActions + nextLearningActivityWidgetActions
             }
             // Timer Messages
             is Message.ReadyToLaunchNextProblemInTimer ->
@@ -280,10 +285,12 @@ class HomeReducer(
                     reduceProblemsLimitMessage(state.problemsLimitState, message.message)
                 state.copy(problemsLimitState = problemsLimitState) to problemsLimitActions
             }
-            is Message.TopicsToDiscoverNextMessage -> {
-                val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
-                    reduceTopicsToDiscoverNextMessage(state.topicsToDiscoverNextState, message.message)
-                state.copy(topicsToDiscoverNextState = topicsToDiscoverNextState) to topicsToDiscoverNextActions
+            is Message.NextLearningActivityWidgetMessage -> {
+                val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
+                    reduceNextLearningActivityWidgetMessage(state.nextLearningActivityWidgetState, message.message)
+                state.copy(
+                    nextLearningActivityWidgetState = nextLearningActivityWidgetState
+                ) to nextLearningActivityWidgetActions
             }
         } ?: (state to emptySet())
 
@@ -326,24 +333,24 @@ class HomeReducer(
         return problemsLimitState to actions
     }
 
-    private fun reduceTopicsToDiscoverNextMessage(
-        state: TopicsToDiscoverNextFeature.State,
-        message: TopicsToDiscoverNextFeature.Message
-    ): Pair<TopicsToDiscoverNextFeature.State, Set<Action>> {
-        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
-            topicsToDiscoverNextReducer.reduce(state, message)
+    private fun reduceNextLearningActivityWidgetMessage(
+        state: NextLearningActivityWidgetFeature.State,
+        message: NextLearningActivityWidgetFeature.Message
+    ): Pair<NextLearningActivityWidgetFeature.State, Set<Action>> {
+        val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
+            nextLearningActivityWidgetReducer.reduce(state, message)
 
-        val actions = topicsToDiscoverNextActions
+        val actions = nextLearningActivityWidgetActions
             .map {
-                if (it is TopicsToDiscoverNextFeature.Action.ViewAction) {
-                    Action.ViewAction.TopicsToDiscoverNextViewAction(it)
+                if (it is NextLearningActivityWidgetFeature.Action.ViewAction) {
+                    Action.ViewAction.NextLearningActivityWidgetViewAction(it)
                 } else {
-                    Action.TopicsToDiscoverNextAction(it)
+                    Action.NextLearningActivityWidgetAction(it)
                 }
             }
             .toSet()
 
-        return topicsToDiscoverNextState to actions
+        return nextLearningActivityWidgetState to actions
     }
 
     private fun initialize(state: State, forceUpdate: Boolean): Pair<State, Set<Action>> {
@@ -369,17 +376,17 @@ class HomeReducer(
                 ProblemsLimitFeature.Message.Initialize(forceUpdate)
             )
 
-        val (topicsToDiscoverNextState, topicsToDiscoverNextActions) =
-            reduceTopicsToDiscoverNextMessage(
-                state.topicsToDiscoverNextState,
-                TopicsToDiscoverNextFeature.Message.Initialize(forceUpdate)
+        val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
+            reduceNextLearningActivityWidgetMessage(
+                state.nextLearningActivityWidgetState,
+                NextLearningActivityWidgetFeature.InternalMessage.Initialize(forceUpdate)
             )
 
         return state.copy(
             homeState = homeState,
             toolbarState = toolbarState,
             problemsLimitState = problemsLimitState,
-            topicsToDiscoverNextState = topicsToDiscoverNextState
-        ) to homeActions + toolbarActions + problemsLimitActions + topicsToDiscoverNextActions
+            nextLearningActivityWidgetState = nextLearningActivityWidgetState
+        ) to homeActions + toolbarActions + problemsLimitActions + nextLearningActivityWidgetActions
     }
 }

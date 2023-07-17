@@ -37,6 +37,8 @@ import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponent
+import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponentImpl
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponentImpl
 import org.hyperskill.app.notification.local.injection.NotificationComponent
@@ -324,6 +326,12 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
         TrackSelectionDetailsComponentImpl(this)
+
+    /**
+     * Next learning activity widget component
+     */
+    override fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent =
+        NextLearningActivityWidgetComponentImpl(this)
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
