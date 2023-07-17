@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile.presentation
 
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -70,37 +71,17 @@ class ProfileActionDispatcher(
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildProfileScreenRemoteDataLoading()
                 sentryInteractor.startTransaction(sentryTransaction)
 
-                val currentProfile = currentProfileStateRepository
-                    .getState(forceUpdate = true)
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(Message.ProfileFetchResult.Error)
-                    }
-
-                val streakResult = actionScope.async { streaksInteractor.getUserStreak(currentProfile.id) }
-                val streakFreezeProductResult = actionScope.async { productsInteractor.getStreakFreezeProduct() }
-
-                val streak = streakResult.await().getOrElse {
+                val profileResult = fetchProfileData().getOrElse {
                     sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.ProfileFetchResult.Error)
+                    onNewMessage(Message.ProfileFetchResult.Error)
+                    return
                 }
-                val streakFreezeProduct = streakFreezeProductResult.await().getOrNull()
 
                 sentryInteractor.finishTransaction(sentryTransaction)
 
-                streakFlow.notifyDataChanged(streak)
+                streakFlow.notifyDataChanged(profileResult.streak)
 
-                onNewMessage(
-                    Message.ProfileFetchResult.Success(
-                        profile = currentProfile,
-                        streak = streak,
-                        streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak),
-                        dailyStudyRemindersState = ProfileFeature.DailyStudyRemindersState(
-                            isEnabled = notificationInteractor.isDailyStudyRemindersEnabled(),
-                            startHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
-                        )
-                    )
-                )
+                onNewMessage(profileResult)
             }
             is Action.BuyStreakFreeze -> {
                 productsInteractor.buyStreakFreeze(action.streakFreezeProductId)
@@ -143,6 +124,32 @@ class ProfileActionDispatcher(
                     onNewMessage(Message.GetMagicLinkReceiveFailure)
                 }
             )
+
+    private suspend fun fetchProfileData(): Result<Message.ProfileFetchResult.Success> =
+        runCatching {
+            coroutineScope {
+                val currentProfile =
+                    currentProfileStateRepository
+                        .getState(forceUpdate = true)
+                        .getOrThrow()
+
+                val streakResult = async { streaksInteractor.getUserStreak(currentProfile.id) }
+                val streakFreezeProductResult = async { productsInteractor.getStreakFreezeProduct() }
+
+                val streak = streakResult.await().getOrThrow()
+                val streakFreezeProduct = streakFreezeProductResult.await().getOrNull()
+
+                Message.ProfileFetchResult.Success(
+                    profile = currentProfile,
+                    streak = streak,
+                    streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak),
+                    dailyStudyRemindersState = ProfileFeature.DailyStudyRemindersState(
+                        isEnabled = notificationInteractor.isDailyStudyRemindersEnabled(),
+                        startHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+                    )
+                )
+            }
+        }
 
     private fun getStreakFreezeState(
         streakFreezeProduct: Product?,
