@@ -7,8 +7,6 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {

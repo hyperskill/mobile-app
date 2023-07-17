@@ -59,10 +59,6 @@ import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
-import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
@@ -105,7 +101,6 @@ interface AppGraph {
     fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent
 
     fun buildMainDataComponent(): MainDataComponent
-    fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
     fun buildTrackSelectionListComponent(): TrackSelectionListComponent
     fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent
@@ -130,8 +125,6 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent
-    fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
-    fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildProjectSelectionListComponent(): ProjectSelectionListComponent

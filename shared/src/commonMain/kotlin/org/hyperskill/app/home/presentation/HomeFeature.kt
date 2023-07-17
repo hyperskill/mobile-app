@@ -9,8 +9,6 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRef
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature.isRefreshing
 
 interface HomeFeature {
     data class State(

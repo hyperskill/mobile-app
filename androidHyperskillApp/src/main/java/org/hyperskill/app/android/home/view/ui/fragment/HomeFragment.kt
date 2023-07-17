@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
@@ -25,7 +23,6 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
-import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
@@ -35,7 +32,6 @@ import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -71,15 +67,6 @@ class HomeFragment :
         TopicsRepetitionCardFormDelegate()
     }
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
-    private val topicsToDiscoverNextDelegate: TopicsToDiscoverNextDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        TopicsToDiscoverNextDelegate(loadingItems = 1) { topicId ->
-            homeViewModel.onNewMessage(
-                HomeFeature.Message.TopicsToDiscoverNextMessage(
-                    TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(topicId)
-                )
-            )
-        }
-    }
 
     private val onForegroundObserver =
         object : DefaultLifecycleObserver {
@@ -104,10 +91,6 @@ class HomeFragment :
         initGamificationToolbarDelegate()
         initProblemsLimitDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
-        topicsToDiscoverNextDelegate.setup(
-            requireContext(),
-            viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
-        )
         with(viewBinding) {
             homeScreenSwipeRefreshLayout.setHyperskillColors()
             homeScreenSwipeRefreshLayout.setOnRefreshListener {
@@ -215,15 +198,6 @@ class HomeFragment :
                     mainScreenRouter = mainScreenRouter,
                     router = requireRouter()
                 )
-            is HomeFeature.Action.ViewAction.TopicsToDiscoverNextViewAction -> {
-                when (action.viewAction) {
-                    is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
-                        val viewAction =
-                            action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
-                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
-                    }
-                }
-            }
             else -> {
                 // no op
             }
@@ -246,7 +220,6 @@ class HomeFragment :
         problemsLimitViewStateMapper?.let { mapper ->
             problemsLimitDelegate?.render(mapper.mapState(state.problemsLimitState))
         }
-        renderTopicsToDiscoverNext(state.topicsToDiscoverNextState)
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.State) {
@@ -295,16 +268,5 @@ class HomeFragment :
                 isFreemiumEnabled = isFreemiumEnabled
             )
         }
-    }
-
-    private fun renderTopicsToDiscoverNext(state: TopicsToDiscoverNextFeature.State) {
-        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
-        with(viewBinding) {
-            homeTopicsToDiscoverNext.homeTopicsToDiscoverNextTitle.isVisible =
-                state is TopicsToDiscoverNextFeature.State.Content
-            homeTopicsToDiscoverNext.homeTopicsToDiscoverNextTitleSkeleton.isVisible =
-                state is TopicsToDiscoverNextFeature.State.Loading
-        }
-        topicsToDiscoverNextDelegate.render(state)
     }
 }

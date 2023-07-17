@@ -113,13 +113,6 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComp
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponentImpl
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponentImpl
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponentImpl
-import org.hyperskill.app.track.injection.TrackComponent
-import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
@@ -251,12 +244,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
 
-    /**
-     * Track component
-     */
-    override fun buildTrackComponent(): TrackComponent =
-        TrackComponentImpl(this)
-
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)
 
@@ -303,15 +290,6 @@ abstract class BaseAppGraph : AppGraph {
         DebugComponentImpl(this)
 
     /**
-     * Topics to discover next component
-     */
-    override fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent =
-        TopicsToDiscoverNextComponentImpl(this, screen)
-
-    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
-        TopicsToDiscoverNextDataComponentImpl()
-
-    /**
      * ProblemsLimit component
      */
     override fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent =
@@ -326,7 +304,6 @@ abstract class BaseAppGraph : AppGraph {
     /**
      * Project selection list component
      */
-
     override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
         ProjectSelectionListComponentImpl(this)
 
