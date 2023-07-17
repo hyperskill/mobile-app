@@ -2,6 +2,7 @@ package org.hyperskill.app.profile.presentation
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.badges.domain.model.Badge
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streaks.domain.model.Streak
@@ -33,6 +34,7 @@ interface ProfileFeature {
             val streak: Streak?,
             val streakFreezeState: StreakFreezeState?,
             val dailyStudyRemindersState: DailyStudyRemindersState,
+            val badges: List<Badge>,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -116,7 +118,8 @@ interface ProfileFeature {
                 val profile: Profile,
                 val streak: Streak?,
                 val streakFreezeState: StreakFreezeState?,
-                val dailyStudyRemindersState: DailyStudyRemindersState
+                val dailyStudyRemindersState: DailyStudyRemindersState,
+                val badges: List<Badge>
             ) : ProfileFetchResult
 
             /**

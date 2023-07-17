@@ -37,10 +37,11 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             }
             is Message.ProfileFetchResult.Success ->
                 State.Content(
-                    message.profile,
-                    message.streak,
-                    message.streakFreezeState,
-                    message.dailyStudyRemindersState
+                    profile = message.profile,
+                    streak = message.streak,
+                    streakFreezeState = message.streakFreezeState,
+                    dailyStudyRemindersState = message.dailyStudyRemindersState,
+                    badges = message.badges
                 ) to emptySet()
             is Message.ProfileFetchResult.Error ->
                 State.Error to emptySet()

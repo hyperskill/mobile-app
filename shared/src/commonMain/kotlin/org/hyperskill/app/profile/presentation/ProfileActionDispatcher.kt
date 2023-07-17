@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.badges.domain.repository.BadgesRepository
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -37,7 +38,8 @@ class ProfileActionDispatcher(
     private val notificationInteractor: NotificationInteractor,
     private val urlPathProcessor: UrlPathProcessor,
     private val streakFlow: StreakFlow,
-    dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
+    dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
+    private val badgesRepository: BadgesRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -135,9 +137,11 @@ class ProfileActionDispatcher(
 
                 val streakResult = async { streaksInteractor.getUserStreak(currentProfile.id) }
                 val streakFreezeProductResult = async { productsInteractor.getStreakFreezeProduct() }
+                val badgesDeferred = async { badgesRepository.getReceivedBadges() }
 
                 val streak = streakResult.await().getOrThrow()
                 val streakFreezeProduct = streakFreezeProductResult.await().getOrNull()
+                val badges = badgesDeferred.await().getOrThrow()
 
                 Message.ProfileFetchResult.Success(
                     profile = currentProfile,
@@ -146,7 +150,8 @@ class ProfileActionDispatcher(
                     dailyStudyRemindersState = ProfileFeature.DailyStudyRemindersState(
                         isEnabled = notificationInteractor.isDailyStudyRemindersEnabled(),
                         startHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
-                    )
+                    ),
+                    badges = badges
                 )
             }
         }
