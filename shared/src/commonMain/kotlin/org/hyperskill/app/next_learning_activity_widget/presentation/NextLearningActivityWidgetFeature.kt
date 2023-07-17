@@ -37,7 +37,7 @@ object NextLearningActivityWidgetFeature {
 
         object PullToRefresh : InternalMessage
 
-        data class NextLearningActivityChanged(val learningActivity: LearningActivity) : InternalMessage
+        data class NextLearningActivityChanged(val learningActivity: LearningActivity?) : InternalMessage
     }
 
     sealed interface Action {
