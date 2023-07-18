@@ -54,19 +54,17 @@ class DailyStudyReminderLocalNotificationDelegate(
     }
 
     override fun getNextScheduledAt(): Long? =
-        getNextScheduledAtInternal()
+        if (!notificationInteractor.isDailyStudyRemindersEnabled()) {
+            null
+        } else {
+            getNextScheduledAtInternal()
+        }
 
     fun scheduleDailyNotification() {
-        getNextScheduledAtInternal()?.let { scheduledAt ->
-            scheduleNotificationAt(scheduledAt)
-        }
+        scheduleNotificationAt(getNextScheduledAtInternal())
     }
 
-    private fun getNextScheduledAtInternal(): Long? {
-        if (!notificationInteractor.isDailyStudyRemindersEnabled()) {
-            return null
-        }
-
+    private fun getNextScheduledAtInternal(): Long {
         val hour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
         val now = DateTimeHelper.nowUtc()
         val calendar = Calendar.getInstance()
