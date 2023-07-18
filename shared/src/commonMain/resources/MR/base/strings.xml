@@ -476,4 +476,6 @@
     <string name="badge_project_sweetheart">Sweetheart</string>
     <string name="badge_project_benefactor">Benefactor</string>
     <string name="badge_project_bounty_hunter">Bounty Hunter</string>
+    <string name="badge_level">Level %d</string>
+    <string name="badge_max_level">Level %d (Max)</string>
 </resources>

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 // The order is important, don't change it!
 @Serializable
-enum class BadgeType {
+enum class BadgeKind {
     @SerialName("project master")
     ProjectMaster,
     @SerialName("topic master")

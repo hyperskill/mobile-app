@@ -8,7 +8,7 @@ data class Badge(
     @SerialName("id")
     val id: Long,
     @SerialName("kind")
-    val kind: BadgeType,
+    val kind: BadgeKind,
     @SerialName("title")
     val title: String,
     @SerialName("level")
