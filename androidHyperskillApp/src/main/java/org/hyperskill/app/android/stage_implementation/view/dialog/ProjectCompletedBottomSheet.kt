@@ -65,9 +65,13 @@ class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val context = requireContext()
+
         with(viewBinding) {
-            projectCompletedGemsAmountForStageCompletionTextView.text = "+${params.stageAward}"
-            projectCompletedGemsAmountForProjectCompletionTextView.text = "+${params.projectAward}"
+            projectCompletedGemsAmountForStageCompletionTextView.text =
+                context.getString(R.string.plus_hypercoins_award, params.stageAward)
+            projectCompletedGemsAmountForProjectCompletionTextView.text =
+                context.getString(R.string.plus_hypercoins_award, params.projectAward)
 
             projectCompletedGoToStudyPlanButton.setOnClickListener {
                 viewModel.onNewMessage(

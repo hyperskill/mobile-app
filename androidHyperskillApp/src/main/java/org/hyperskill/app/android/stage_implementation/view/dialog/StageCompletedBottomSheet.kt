@@ -65,9 +65,11 @@ class StageCompletedBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val context = requireContext()
+
         with(viewBinding) {
             stageCompletedModalTitle.text = params.title
-            stageCompletedGemsAmountTextView.text = "+${params.award}"
+            stageCompletedGemsAmountTextView.text = context.getString(R.string.plus_hypercoins_award, params.award)
 
             stageCompletedGoToStudyPlanButton.setOnClickListener {
                 viewModel.onNewMessage(
