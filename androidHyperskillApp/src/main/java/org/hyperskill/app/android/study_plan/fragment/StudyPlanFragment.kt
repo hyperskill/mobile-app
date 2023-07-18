@@ -26,7 +26,7 @@ import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListP
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel

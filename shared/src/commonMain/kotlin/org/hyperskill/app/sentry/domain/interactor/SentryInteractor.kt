@@ -34,8 +34,8 @@ class SentryInteractor(
         sentryManager.captureMessage(message, level)
     }
 
-    fun captureErrorMessage(message: String) {
-        sentryManager.captureErrorMessage(message)
+    fun captureErrorMessage(message: String, data: Map<String, Any> = emptyMap()) {
+        sentryManager.captureErrorMessage(message, data)
     }
 
     fun setUsedId(userId: Long) {

@@ -15,6 +15,7 @@ internal class NextLearningActivityWidgetComponentImpl(
         get() = NextLearningActivityWidgetActionDispatcher(
             ActionDispatcherOptions(),
             appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
+            appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             appGraph.sentryComponent.sentryInteractor
         )
 }

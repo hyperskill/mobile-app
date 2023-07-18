@@ -5,7 +5,6 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.isRefreshing
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.step.domain.model.Step

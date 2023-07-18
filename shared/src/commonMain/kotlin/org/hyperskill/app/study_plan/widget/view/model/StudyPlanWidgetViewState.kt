@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.widget.view
+package org.hyperskill.app.study_plan.widget.view.model
 
 sealed interface StudyPlanWidgetViewState {
     object Idle : StudyPlanWidgetViewState

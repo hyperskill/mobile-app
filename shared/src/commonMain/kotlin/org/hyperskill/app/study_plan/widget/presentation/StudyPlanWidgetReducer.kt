@@ -2,10 +2,8 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlin.math.max
 import kotlin.math.min
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
@@ -14,6 +12,8 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsu
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
+import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityTargetActionMapper
+import org.hyperskill.app.study_plan.widget.domain.model.LearningActivityTargetAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
@@ -325,48 +325,55 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             return state to setOf(logAnalyticEventAction)
         }
 
-        val activityTargetAction = when (activity.type) {
-            LearningActivityType.IMPLEMENT_STAGE -> {
-                val projectId = state.studyPlan?.projectId
-                if (projectId != null &&
-                    activity.targetId != null && activity.targetType == LearningActivityTargetType.STAGE
-                ) {
-                    if (activity.isIdeRequired) {
-                        Action.ViewAction.ShowStageImplementUnsupportedModal
-                    } else {
-                        Action.ViewAction.NavigateTo.StageImplement(
-                            stageId = activity.targetId,
-                            projectId = projectId
-                        )
-                    }
-                } else {
-                    null
-                }
-            }
-            LearningActivityType.LEARN_TOPIC -> {
-                if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
-                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn.Step(activity.targetId))
-                } else {
-                    null
-                }
-            }
-            LearningActivityType.SELECT_PROJECT -> {
-                val trackId = state.track?.id ?: state.studyPlan?.trackId
+        val activityTargetAction = mapLearningActivityClickToStudyPlanWidgetAction(state, activity)
 
-                if (trackId != null) {
-                    Action.ViewAction.NavigateTo.SelectProject(trackId)
-                } else {
-                    // Should not happen because at this point we must have non null study plan
-                    val errorMessage = "StudyPlanWidgetReducer: SELECT_PROJECT trackId is null"
-                    InternalAction.CaptureSentryErrorMessage(errorMessage)
-                }
+        return state to setOf(activityTargetAction, logAnalyticEventAction)
+    }
+
+    private fun mapLearningActivityClickToStudyPlanWidgetAction(
+        state: State,
+        activity: LearningActivity
+    ): Action {
+        val learningActivityTargetAction = LearningActivityTargetActionMapper
+            .mapLearningActivityToTargetAction(
+                activity = activity,
+                trackId = state.track?.id ?: state.studyPlan?.trackId,
+                projectId = state.studyPlan?.projectId
+            )
+
+        return when (learningActivityTargetAction) {
+            is LearningActivityTargetAction.LearnTopic.Supported -> {
+                Action.ViewAction.NavigateTo.StepScreen(learningActivityTargetAction.stepRoute)
             }
-            LearningActivityType.SELECT_TRACK -> {
+            is LearningActivityTargetAction.SelectProject.Supported -> {
+                Action.ViewAction.NavigateTo.SelectProject(trackId = learningActivityTargetAction.trackId)
+            }
+            LearningActivityTargetAction.SelectTrack -> {
                 Action.ViewAction.NavigateTo.SelectTrack
             }
-            else -> null
+            LearningActivityTargetAction.StageImplement.IDERequired -> {
+                Action.ViewAction.ShowStageImplementUnsupportedModal
+            }
+            is LearningActivityTargetAction.StageImplement.Supported -> {
+                Action.ViewAction.NavigateTo.StageImplement(
+                    stageId = learningActivityTargetAction.stageId,
+                    projectId = learningActivityTargetAction.projectId
+                )
+            }
+            LearningActivityTargetAction.LearnTopic.Error,
+            LearningActivityTargetAction.SelectProject.Error,
+            LearningActivityTargetAction.StageImplement.Error,
+            LearningActivityTargetAction.Unsupported -> {
+                InternalAction.CaptureSentryErrorMessage(
+                    message = "StudyPlanWidgetReducer: ${activity.type?.name ?: activity.typeValue} action failed",
+                    data = mapOf(
+                        "learning_activity" to activity.toString(),
+                        "track" to state.track.toString(),
+                        "study_plan" to state.studyPlan.toString()
+                    )
+                )
+            }
         }
-        return state to setOfNotNull(activityTargetAction, logAnalyticEventAction)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

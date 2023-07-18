@@ -15,7 +15,7 @@ data class LearningActivity(
     @SerialName("target_type")
     private val targetTypeValue: String?,
     @SerialName("type")
-    private val typeValue: Int,
+    internal val typeValue: Int,
     @SerialName("title")
     val title: String = "",
     @SerialName("description")

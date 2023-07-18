@@ -2,7 +2,6 @@ package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
@@ -12,7 +11,6 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
-import org.hyperskill.app.home.view.HomeFeatureViewStateMapper
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetActionDispatcher
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
@@ -74,7 +72,7 @@ internal object HomeFeatureBuilder {
                 homeState = HomeFeature.HomeState.Idle,
                 toolbarState = GamificationToolbarFeature.State.Idle,
                 problemsLimitState = ProblemsLimitFeature.State.Idle,
-                nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.State.Idle
+                nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.initialState()
             ),
             homeReducer
         )
@@ -97,6 +95,5 @@ internal object HomeFeatureBuilder {
                     transformMessage = HomeFeature.Message::NextLearningActivityWidgetMessage
                 )
             )
-            .transformState(HomeFeatureViewStateMapper::map)
     }
 }

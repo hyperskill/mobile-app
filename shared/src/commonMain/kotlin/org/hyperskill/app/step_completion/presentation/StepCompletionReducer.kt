@@ -1,8 +1,6 @@
 package org.hyperskill.app.step_completion.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedStartPracticingHyperskillAnalyticEvent
@@ -14,6 +12,8 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Act
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
+import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityTargetActionMapper
+import org.hyperskill.app.study_plan.widget.domain.model.LearningActivityTargetAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
@@ -149,11 +149,15 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             return null
         }
 
-        return if (learningActivity.type == LearningActivityType.LEARN_TOPIC &&
-            learningActivity.targetId != null &&
-            learningActivity.targetType == LearningActivityTargetType.STEP
-        ) {
-            StepRoute.Learn.Step(learningActivity.targetId)
+        val learningActivityTargetAction = LearningActivityTargetActionMapper
+            .mapLearningActivityToTargetAction(
+                activity = learningActivity,
+                trackId = null,
+                projectId = null
+            )
+
+        return if (learningActivityTargetAction is LearningActivityTargetAction.LearnTopic.Supported) {
+            learningActivityTargetAction.stepRoute
         } else {
             null
         }

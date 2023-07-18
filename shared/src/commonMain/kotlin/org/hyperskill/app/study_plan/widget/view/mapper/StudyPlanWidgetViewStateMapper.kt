@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.widget.view
+package org.hyperskill.app.study_plan.widget.view.mapper
 
 import kotlin.math.roundToLong
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
@@ -8,7 +8,8 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentActivity
 import org.hyperskill.app.study_plan.widget.presentation.getCurrentSection
 import org.hyperskill.app.study_plan.widget.presentation.getSectionActivities
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState.SectionContent
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState.SectionContent
 
 class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormatter) {
     fun map(state: StudyPlanWidgetFeature.State): StudyPlanWidgetViewState =
@@ -96,8 +97,8 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
             sectionItems = activities.map { activity ->
                 StudyPlanWidgetViewState.SectionItem(
                     id = activity.id,
-                    title = formatActivityTitle(activity),
-                    subtitle = formatActivitySubtitle(activity),
+                    title = LearningActivityTextsMapper.mapLearningActivityToTitle(activity),
+                    subtitle = LearningActivityTextsMapper.mapLearningActivityToSubtitle(activity),
                     state = when (activity.state) {
                         LearningActivityState.TODO -> if (activity.id == currentActivityId) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
@@ -110,27 +111,11 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                     },
                     isIdeRequired = activity.isIdeRequired,
                     progress = activity.progressPercentage,
-                    formattedProgress = activity.progressPercentage.takeIf { it > 0 }?.let { "$it%" },
+                    formattedProgress = LearningActivityTextsMapper.mapLearningActivityToProgressString(activity),
                     hypercoinsAward = activity.hypercoinsAward.takeIf { it > 0 }
                 )
             }
         )
-
-    private fun formatActivityTitle(activity: LearningActivity): String {
-        val defaultTitle = activity.title.ifBlank { activity.id.toString() }
-        return if (activity.description.isNullOrBlank()) {
-            defaultTitle
-        } else {
-            activity.description
-        }
-    }
-
-    private fun formatActivitySubtitle(activity: LearningActivity): String? =
-        if (activity.description.isNullOrBlank()) {
-            null
-        } else {
-            activity.title.ifBlank { null }
-        }
 
     private fun formatTopicsCount(completedTopicsCount: Int, topicsCount: Int): String? =
         if (topicsCount > 0) {

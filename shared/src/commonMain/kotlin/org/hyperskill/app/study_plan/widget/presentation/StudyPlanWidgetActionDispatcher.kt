@@ -94,7 +94,7 @@ class StudyPlanWidgetActionDispatcher(
                     }
             }
             is InternalAction.CaptureSentryErrorMessage -> {
-                sentryInteractor.captureErrorMessage(action.message)
+                sentryInteractor.captureErrorMessage(action.message, action.data)
             }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
