@@ -256,7 +256,7 @@ class ProfileFragment :
         profileViewModel.onNewMessage(
             ProfileFeature.Message.DailyStudyRemindersIntervalStartHourChanged(chosenInterval)
         )
-        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification(chosenInterval)
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
