@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProjectSelectionListParams(
-    val isNewUserMode: Boolean,
-    val trackId: Long
+    val trackId: Long,
+    val isNewUserMode: Boolean = false
 )
