@@ -32,4 +32,6 @@
     <string name="daily_reminder_notification_permission_explanation_with_settings">To enable daily reminders, go to the device settings</string>
     <string name="daily_reminder_notification_settings_button">Settings</string>
 
+    <string name="plus_hypercoins_award">+%d</string>
+
 </resources>

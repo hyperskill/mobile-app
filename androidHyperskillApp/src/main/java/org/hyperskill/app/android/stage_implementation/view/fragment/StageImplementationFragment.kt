@@ -7,12 +7,19 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageImplementationBinding
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.stage_implementation.view.dialog.ProjectCompletedBottomSheet
+import org.hyperskill.app.android.stage_implementation.view.dialog.StageCompletedBottomSheet
+import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implementation.presentation.StageImplementationViewModel
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -50,6 +57,9 @@ class StageImplementationFragment :
 
     private var viewStateDelegate: ViewStateDelegate<StageImplementFeature.ViewState>? = null
 
+    private val mainScreenRouter: MainScreenRouter =
+        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
@@ -84,7 +94,28 @@ class StageImplementationFragment :
     }
 
     override fun onAction(action: StageImplementFeature.Action.ViewAction) {
-        // no op
+        when (action) {
+            StageImplementFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
+                requireRouter().backTo(MainScreen())
+                mainScreenRouter.switch(StudyPlanScreen)
+            }
+            is StageImplementFeature.Action.ViewAction.ShowProjectCompletedModal -> {
+                ProjectCompletedBottomSheet.newInstance(
+                    ProjectCompletedBottomSheet.Params(
+                        stageAward = action.stageAward,
+                        projectAward = action.projectAward
+                    )
+                ).showIfNotExists(childFragmentManager, ProjectCompletedBottomSheet.TAG)
+            }
+            is StageImplementFeature.Action.ViewAction.ShowStageCompletedModal -> {
+                StageCompletedBottomSheet.newInstance(
+                    StageCompletedBottomSheet.Params(
+                        title = action.title,
+                        award = action.stageAward
+                    )
+                ).showIfNotExists(childFragmentManager, StageCompletedBottomSheet.TAG)
+            }
+        }
     }
 
     @Suppress("DEPRECATION")
