@@ -19,6 +19,9 @@ class NextLearningActivityWidgetReducer : StateReducer<State, Message, Action> {
             is InternalMessage.Initialize -> {
                 handleInitialize(state, message)
             }
+            is Message.RetryContentLoading -> {
+                handleRetryContentLoading(state)
+            }
             InternalMessage.FetchNextLearningActivityDataError -> {
                 handleFetchNextLearningActivityError(state)
             }
@@ -63,6 +66,18 @@ class NextLearningActivityWidgetReducer : StateReducer<State, Message, Action> {
             null
         }
     }
+
+    private fun handleRetryContentLoading(state: State): NextLearningActivityWidgetReducerResult? =
+        when (state.contentState) {
+            is ContentState.NetworkError -> {
+                state.updateContentState(ContentState.Loading) to setOf(
+                    InternalAction.FetchNextLearningActivity(forceUpdate = true)
+                )
+            }
+            else -> {
+                null
+            }
+        }
 
     private fun handleFetchNextLearningActivityError(state: State): NextLearningActivityWidgetReducerResult? =
         when (state.contentState) {

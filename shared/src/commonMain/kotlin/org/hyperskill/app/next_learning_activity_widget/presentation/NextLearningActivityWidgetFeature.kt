@@ -43,6 +43,7 @@ object NextLearningActivityWidgetFeature {
     }
 
     sealed interface Message {
+        object RetryContentLoading : Message
         object NextLearningActivityClicked : Message
     }
 
