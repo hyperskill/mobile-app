@@ -62,6 +62,10 @@ class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
         }
     }
 
+    override fun captureException(throwable: Throwable) {
+        Sentry.captureException(throwable)
+    }
+
     override fun setUsedId(userId: String) {
         val user = User().apply {
             id = userId

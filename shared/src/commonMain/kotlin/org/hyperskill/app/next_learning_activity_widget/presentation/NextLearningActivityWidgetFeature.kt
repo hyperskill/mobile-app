@@ -2,8 +2,8 @@ package org.hyperskill.app.next_learning_activity_widget.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
+import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 
 object NextLearningActivityWidgetFeature {
     data class State(
@@ -63,18 +63,8 @@ object NextLearningActivityWidgetFeature {
 
     sealed interface Action {
         sealed interface ViewAction : Action {
-            object ShowStageImplementUnsupportedModal : ViewAction
-
             sealed interface NavigateTo : ViewAction {
-                data class StageImplement(
-                    val stageId: Long,
-                    val projectId: Long
-                ) : NavigateTo
-
-                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
-
-                object SelectTrack : NavigateTo
-                data class SelectProject(val trackId: Long) : NavigateTo
+                data class LearningActivityTarget(val viewAction: LearningActivityTargetViewAction) : NavigateTo
             }
         }
     }
@@ -82,6 +72,7 @@ object NextLearningActivityWidgetFeature {
     internal sealed interface InternalAction : Action {
         data class FetchNextLearningActivity(val forceUpdate: Boolean) : InternalAction
 
+        data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

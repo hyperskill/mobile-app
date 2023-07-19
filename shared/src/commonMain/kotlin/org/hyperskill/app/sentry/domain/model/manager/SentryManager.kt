@@ -40,6 +40,13 @@ interface SentryManager {
     }
 
     /**
+     * Captures the exception.
+     *
+     * @param throwable The throwable to send.
+     */
+    fun captureException(throwable: Throwable)
+
+    /**
      * Sets the id of the user.
      *
      * @param userId the user id.

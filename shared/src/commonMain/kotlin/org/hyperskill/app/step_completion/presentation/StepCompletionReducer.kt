@@ -12,8 +12,8 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Act
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
-import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityTargetActionMapper
-import org.hyperskill.app.study_plan.widget.domain.model.LearningActivityTargetAction
+import org.hyperskill.app.study_plan.widget.presentation.mapper.LearningActivityTargetViewActionMapper
+import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
@@ -149,15 +149,16 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             return null
         }
 
-        val learningActivityTargetAction = LearningActivityTargetActionMapper
-            .mapLearningActivityToTargetAction(
+        val learningActivityTargetViewAction = LearningActivityTargetViewActionMapper
+            .mapLearningActivityToTargetViewAction(
                 activity = learningActivity,
                 trackId = null,
                 projectId = null
             )
+            .getOrElse { return null }
 
-        return if (learningActivityTargetAction is LearningActivityTargetAction.LearnTopic.Supported) {
-            learningActivityTargetAction.stepRoute
+        return if (learningActivityTargetViewAction is LearningActivityTargetViewAction.NavigateTo.Step) {
+            learningActivityTargetViewAction.stepRoute
         } else {
             null
         }

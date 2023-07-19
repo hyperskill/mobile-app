@@ -38,6 +38,10 @@ class SentryInteractor(
         sentryManager.captureErrorMessage(message, data)
     }
 
+    fun captureException(throwable: Throwable) {
+        sentryManager.captureException(throwable)
+    }
+
     fun setUsedId(userId: Long) {
         sentryManager.setUsedId(userId.toString())
     }

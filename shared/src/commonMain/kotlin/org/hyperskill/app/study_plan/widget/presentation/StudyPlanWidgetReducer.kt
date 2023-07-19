@@ -2,7 +2,6 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlin.math.max
 import kotlin.math.min
-import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
@@ -12,13 +11,12 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsu
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
-import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityTargetActionMapper
-import org.hyperskill.app.study_plan.widget.domain.model.LearningActivityTargetAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.STUDY_PLAN_FETCH_INTERVAL
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
+import org.hyperskill.app.study_plan.widget.presentation.mapper.LearningActivityTargetViewActionMapper
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
@@ -333,55 +331,18 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             return state to setOf(logAnalyticEventAction)
         }
 
-        val activityTargetAction = mapLearningActivityClickToStudyPlanWidgetAction(state, activity)
-
-        return state to setOf(activityTargetAction, logAnalyticEventAction)
-    }
-
-    private fun mapLearningActivityClickToStudyPlanWidgetAction(
-        state: State,
-        activity: LearningActivity
-    ): Action {
-        val learningActivityTargetAction = LearningActivityTargetActionMapper
-            .mapLearningActivityToTargetAction(
+        val activityTargetAction = LearningActivityTargetViewActionMapper
+            .mapLearningActivityToTargetViewAction(
                 activity = activity,
                 trackId = state.track?.id ?: state.studyPlan?.trackId,
                 projectId = state.studyPlan?.projectId
             )
+            .fold(
+                onSuccess = { Action.ViewAction.NavigateTo.LearningActivityTarget(it) },
+                onFailure = { InternalAction.CaptureSentryException(it) }
+            )
 
-        return when (learningActivityTargetAction) {
-            is LearningActivityTargetAction.LearnTopic.Supported -> {
-                Action.ViewAction.NavigateTo.StepScreen(learningActivityTargetAction.stepRoute)
-            }
-            is LearningActivityTargetAction.SelectProject.Supported -> {
-                Action.ViewAction.NavigateTo.SelectProject(trackId = learningActivityTargetAction.trackId)
-            }
-            LearningActivityTargetAction.SelectTrack -> {
-                Action.ViewAction.NavigateTo.SelectTrack
-            }
-            LearningActivityTargetAction.StageImplement.IDERequired -> {
-                Action.ViewAction.ShowStageImplementUnsupportedModal
-            }
-            is LearningActivityTargetAction.StageImplement.Supported -> {
-                Action.ViewAction.NavigateTo.StageImplement(
-                    stageId = learningActivityTargetAction.stageId,
-                    projectId = learningActivityTargetAction.projectId
-                )
-            }
-            LearningActivityTargetAction.LearnTopic.Error,
-            LearningActivityTargetAction.SelectProject.Error,
-            LearningActivityTargetAction.StageImplement.Error,
-            LearningActivityTargetAction.Unsupported -> {
-                InternalAction.CaptureSentryErrorMessage(
-                    message = "StudyPlanWidgetReducer: ${activity.type?.name ?: activity.typeValue} action failed",
-                    data = mapOf(
-                        "learning_activity" to activity.toString(),
-                        "track" to state.track.toString(),
-                        "study_plan" to state.studyPlan.toString()
-                    )
-                )
-            }
-        }
+        return state to setOf(activityTargetAction, logAnalyticEventAction)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

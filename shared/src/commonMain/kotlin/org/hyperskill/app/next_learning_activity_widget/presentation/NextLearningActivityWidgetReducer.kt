@@ -8,8 +8,7 @@ import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearnin
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.InternalMessage
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.Message
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.State
-import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityTargetActionMapper
-import org.hyperskill.app.study_plan.widget.domain.model.LearningActivityTargetAction
+import org.hyperskill.app.study_plan.widget.presentation.mapper.LearningActivityTargetViewActionMapper
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias NextLearningActivityWidgetReducerResult = Pair<State, Set<Action>>
@@ -122,40 +121,6 @@ class NextLearningActivityWidgetReducer : StateReducer<State, Message, Action> {
             return null
         }
 
-        val learningActivityTargetAction = LearningActivityTargetActionMapper
-            .mapLearningActivityToTargetAction(
-                activity = state.contentState.learningActivity,
-                trackId = state.studyPlan?.trackId,
-                projectId = state.studyPlan?.projectId
-            )
-
-        val targetViewAction = when (learningActivityTargetAction) {
-            is LearningActivityTargetAction.LearnTopic.Supported -> {
-                Action.ViewAction.NavigateTo.StepScreen(learningActivityTargetAction.stepRoute)
-            }
-            is LearningActivityTargetAction.SelectProject.Supported -> {
-                Action.ViewAction.NavigateTo.SelectProject(trackId = learningActivityTargetAction.trackId)
-            }
-            LearningActivityTargetAction.SelectTrack -> {
-                Action.ViewAction.NavigateTo.SelectTrack
-            }
-            LearningActivityTargetAction.StageImplement.IDERequired -> {
-                Action.ViewAction.ShowStageImplementUnsupportedModal
-            }
-            is LearningActivityTargetAction.StageImplement.Supported -> {
-                Action.ViewAction.NavigateTo.StageImplement(
-                    stageId = learningActivityTargetAction.stageId,
-                    projectId = learningActivityTargetAction.projectId
-                )
-            }
-            LearningActivityTargetAction.LearnTopic.Error,
-            LearningActivityTargetAction.SelectProject.Error,
-            LearningActivityTargetAction.StageImplement.Error,
-            LearningActivityTargetAction.Unsupported -> {
-                null
-            }
-        }
-
         val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
             NextLearningActivityWidgetClickedHyperskillAnalyticEvent(
                 activityId = state.contentState.learningActivity.id,
@@ -165,7 +130,18 @@ class NextLearningActivityWidgetReducer : StateReducer<State, Message, Action> {
             )
         )
 
-        return state to setOfNotNull(logAnalyticEventAction, targetViewAction)
+        val activityTargetAction = LearningActivityTargetViewActionMapper
+            .mapLearningActivityToTargetViewAction(
+                activity = state.contentState.learningActivity,
+                trackId = state.studyPlan?.trackId,
+                projectId = state.studyPlan?.projectId
+            )
+            .fold(
+                onSuccess = { Action.ViewAction.NavigateTo.LearningActivityTarget(it) },
+                onFailure = { InternalAction.CaptureSentryException(it) }
+            )
+
+        return state to setOfNotNull(logAnalyticEventAction, activityTargetAction)
     }
 
     private fun handleNextLearningActivityChanged(

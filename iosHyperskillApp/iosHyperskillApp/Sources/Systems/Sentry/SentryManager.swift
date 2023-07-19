@@ -88,6 +88,10 @@ final class SentryManager: shared.SentryManager {
         captureMessage(message: message, level: HyperskillSentryLevel.error, data: data)
     }
 
+    func captureException(throwable: KotlinThrowable) {
+        SentrySDK.capture(error: throwable.asError())
+    }
+
     // MARK: Identify Users
 
     func setUsedId(userId: String) {

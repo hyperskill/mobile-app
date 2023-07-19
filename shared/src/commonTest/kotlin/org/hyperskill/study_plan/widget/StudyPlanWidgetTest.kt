@@ -22,6 +22,7 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
+import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.study_plan.domain.model.stub
@@ -869,7 +870,10 @@ class StudyPlanWidgetTest {
 
         assertEquals(state, newState)
         assertContains(
-            actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement(stageId, projectId)
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.NavigateTo.StageImplement(stageId = stageId, projectId = projectId)
+            )
         )
 
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
@@ -933,13 +937,20 @@ class StudyPlanWidgetTest {
 
         assertEquals(state, newState)
 
-        val targetViewAction = actions.first()
-        if (targetViewAction is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen &&
-            targetViewAction.stepRoute is StepRoute.Learn
-        ) {
-            assertEquals(targetViewAction.stepRoute.stepId, stepId)
-        } else {
-            fail("Unexpected action: $targetViewAction")
+        when (val targetViewAction = actions.first()) {
+            is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget -> {
+                when (val activityViewAction = targetViewAction.viewAction) {
+                    is LearningActivityTargetViewAction.NavigateTo.Step -> {
+                        assertEquals(activityViewAction.stepRoute, StepRoute.Learn.Step(stepId))
+                    }
+                    else -> {
+                        fail("Unexpected action: $activityViewAction")
+                    }
+                }
+            }
+            else -> {
+                fail("Unexpected action: $targetViewAction")
+            }
         }
 
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
@@ -1002,7 +1013,12 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal)
+        assertContains(
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.ShowStageImplementIDERequiredModal
+            )
+        )
 
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
@@ -1029,7 +1045,12 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject(trackId))
+        assertContains(
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.NavigateTo.SelectProject(trackId = trackId)
+            )
+        )
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
@@ -1054,7 +1075,12 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack)
+        assertContains(
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.NavigateTo.SelectTrack
+            )
+        )
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 

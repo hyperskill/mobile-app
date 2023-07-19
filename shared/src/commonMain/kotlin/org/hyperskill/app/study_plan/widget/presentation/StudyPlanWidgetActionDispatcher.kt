@@ -98,8 +98,8 @@ class StudyPlanWidgetActionDispatcher(
             is InternalAction.UpdateNextLearningActivityState -> {
                 nextLearningActivityStateRepository.updateState(newState = action.learningActivity)
             }
-            is InternalAction.CaptureSentryErrorMessage -> {
-                sentryInteractor.captureErrorMessage(action.message, action.data)
+            is InternalAction.CaptureSentryException -> {
+                sentryInteractor.captureException(action.throwable)
             }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)

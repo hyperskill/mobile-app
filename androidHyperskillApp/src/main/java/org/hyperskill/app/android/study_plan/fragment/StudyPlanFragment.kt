@@ -26,6 +26,7 @@ import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListP
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
+import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
@@ -164,40 +165,44 @@ class StudyPlanFragment :
             is StudyPlanScreenFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
                 when (val viewAction = action.viewAction) {
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement -> {
-                        requireRouter().navigateTo(
-                            StageImplementationScreen(
-                                projectId = viewAction.projectId,
-                                stageId = viewAction.stageId
-                            )
-                        )
-                    }
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen -> {
-                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
-                    }
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
                         mainScreenRouter.switch(HomeScreen)
                     }
-                    is StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
-                        UnsupportedStageBottomSheet.newInstance()
-                            .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
-                    }
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject -> {
-                        requireRouter().navigateTo(
-                            ProjectSelectionListScreen(
-                                ProjectSelectionListParams(
-                                    trackId = viewAction.trackId,
-                                    isNewUserMode = false
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget -> {
+                        when (val activityViewAction = viewAction.viewAction) {
+                            LearningActivityTargetViewAction.ShowStageImplementIDERequiredModal -> {
+                                UnsupportedStageBottomSheet.newInstance()
+                                    .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
+                            }
+                            is LearningActivityTargetViewAction.NavigateTo.StageImplement -> {
+                                requireRouter().navigateTo(
+                                    StageImplementationScreen(
+                                        projectId = activityViewAction.projectId,
+                                        stageId = activityViewAction.stageId
+                                    )
                                 )
-                            )
-                        )
-                    }
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack -> {
-                        requireRouter().navigateTo(
-                            TrackSelectionListScreen(
-                                TrackSelectionListParams(isNewUserMode = false)
-                            )
-                        )
+                            }
+                            is LearningActivityTargetViewAction.NavigateTo.Step -> {
+                                requireRouter().navigateTo(StepScreen(activityViewAction.stepRoute))
+                            }
+                            is LearningActivityTargetViewAction.NavigateTo.SelectProject -> {
+                                requireRouter().navigateTo(
+                                    ProjectSelectionListScreen(
+                                        ProjectSelectionListParams(
+                                            trackId = activityViewAction.trackId,
+                                            isNewUserMode = false
+                                        )
+                                    )
+                                )
+                            }
+                            LearningActivityTargetViewAction.NavigateTo.SelectTrack -> {
+                                requireRouter().navigateTo(
+                                    TrackSelectionListScreen(
+                                        TrackSelectionListParams(isNewUserMode = false)
+                                    )
+                                )
+                            }
+                        }
                     }
                 }
             }

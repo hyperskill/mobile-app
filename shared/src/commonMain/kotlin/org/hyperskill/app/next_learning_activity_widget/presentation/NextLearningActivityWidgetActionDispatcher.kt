@@ -41,6 +41,9 @@ class NextLearningActivityWidgetActionDispatcher(
             is InternalAction.FetchNextLearningActivity -> {
                 handleFetchNextLearningActivityAction(action, ::onNewMessage)
             }
+            is InternalAction.CaptureSentryException -> {
+                sentryInteractor.captureException(action.throwable)
+            }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }

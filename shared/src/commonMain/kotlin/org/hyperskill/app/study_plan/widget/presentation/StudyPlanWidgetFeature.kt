@@ -7,9 +7,9 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
+import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.track.domain.model.Track
 
 object StudyPlanWidgetFeature {
@@ -109,20 +109,9 @@ object StudyPlanWidgetFeature {
 
     sealed interface Action {
         sealed interface ViewAction : Action {
-            object ShowStageImplementUnsupportedModal : ViewAction
-
             sealed interface NavigateTo : ViewAction {
-                data class StageImplement(
-                    val stageId: Long,
-                    val projectId: Long
-                ) : NavigateTo
-
-                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
-
                 object Home : NavigateTo
-
-                object SelectTrack : NavigateTo
-                data class SelectProject(val trackId: Long) : NavigateTo
+                data class LearningActivityTarget(val viewAction: LearningActivityTargetViewAction) : NavigateTo
             }
         }
     }
@@ -154,11 +143,7 @@ object StudyPlanWidgetFeature {
 
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
-        data class CaptureSentryErrorMessage(
-            val message: String,
-            val data: Map<String, Any> = emptyMap()
-        ) : InternalAction
-
+        data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }
