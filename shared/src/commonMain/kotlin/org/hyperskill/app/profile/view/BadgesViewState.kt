@@ -24,6 +24,9 @@ data class BadgesViewState(
     sealed interface BadgeImage {
         object Locked : BadgeImage
 
-        data class Remote(val source: String) : BadgeImage
+        data class Remote(
+            val fullSource: String,
+            val previewSource: String
+        ) : BadgeImage
     }
 }

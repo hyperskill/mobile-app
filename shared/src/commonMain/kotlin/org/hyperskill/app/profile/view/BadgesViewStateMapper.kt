@@ -33,7 +33,10 @@ class BadgesViewStateMapper(
         BadgesViewState.BadgeViewState(
             kind = badge.kind,
             title = badge.title,
-            image = BadgesViewState.BadgeImage.Remote(""), // TODO: add real data
+            image = BadgesViewState.BadgeImage.Remote(
+                fullSource = badge.imageFull,
+                previewSource = badge.imagePreview
+            ),
             formattedCurrentLevel = resourceProvider.getString(
                 if (badge.isMaxLevel) {
                     SharedResources.strings.badge_max_level
@@ -62,17 +65,16 @@ class BadgesViewStateMapper(
             progress = 0f
         )
 
-    private fun getBadgeTitle(badgeKind: BadgeKind): String {
-        val stringResource = when (badgeKind) {
-            BadgeKind.ProjectMaster -> SharedResources.strings.badge_project_mastery_title
-            BadgeKind.TopicMaster -> SharedResources.strings.badge_project_topic_mastery
-            BadgeKind.CommittedLearner -> SharedResources.strings.badge_project_committed_learning
-            BadgeKind.BrilliantMind -> SharedResources.strings.badge_project_brilliant_mind
-            BadgeKind.HelpingHand -> SharedResources.strings.badge_project_helping_hand
-            BadgeKind.Sweetheart -> SharedResources.strings.badge_project_sweetheart
-            BadgeKind.Benefactor -> SharedResources.strings.badge_project_benefactor
-            BadgeKind.BountyHunter -> SharedResources.strings.badge_project_bounty_hunter
+    private fun getBadgeTitle(badgeKind: BadgeKind): String =
+        when (badgeKind) {
+            BadgeKind.ProjectMaster -> resourceProvider.getString(SharedResources.strings.badge_project_mastery_title)
+            BadgeKind.TopicMaster -> resourceProvider.getString(SharedResources.strings.badge_project_topic_mastery)
+            BadgeKind.CommittedLearner -> resourceProvider.getString(SharedResources.strings.badge_project_committed_learning)
+            BadgeKind.BrilliantMind -> resourceProvider.getString(SharedResources.strings.badge_project_brilliant_mind)
+            BadgeKind.HelpingHand -> resourceProvider.getString(SharedResources.strings.badge_project_helping_hand)
+            BadgeKind.Sweetheart -> resourceProvider.getString(SharedResources.strings.badge_project_sweetheart)
+            BadgeKind.Benefactor -> resourceProvider.getString(SharedResources.strings.badge_project_benefactor)
+            BadgeKind.BountyHunter -> resourceProvider.getString(SharedResources.strings.badge_project_bounty_hunter)
+            BadgeKind.UNKNOWN -> ""
         }
-        return resourceProvider.getString(stringResource)
-    }
 }
