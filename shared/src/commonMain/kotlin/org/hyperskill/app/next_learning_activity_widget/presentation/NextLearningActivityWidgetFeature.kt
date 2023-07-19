@@ -1,12 +1,13 @@
 package org.hyperskill.app.next_learning_activity_widget.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 
 object NextLearningActivityWidgetFeature {
     data class State(
-        val studyPlan: StudyPlan?,
+        internal val studyPlan: StudyPlan?,
         val contentState: ContentState
     ) {
         internal val isRefreshing: Boolean
@@ -80,5 +81,7 @@ object NextLearningActivityWidgetFeature {
 
     internal sealed interface InternalAction : Action {
         data class FetchNextLearningActivity(val forceUpdate: Boolean) : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

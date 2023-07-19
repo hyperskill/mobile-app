@@ -1,6 +1,7 @@
 package org.hyperskill.app.next_learning_activity_widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.next_learning_activity_widget.domain.analytic.NextLearningActivityWidgetClickedHyperskillAnalyticEvent
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.Action
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.ContentState
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.InternalAction
@@ -155,7 +156,16 @@ class NextLearningActivityWidgetReducer : StateReducer<State, Message, Action> {
             }
         }
 
-        return state to setOfNotNull(targetViewAction)
+        val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
+            NextLearningActivityWidgetClickedHyperskillAnalyticEvent(
+                activityId = state.contentState.learningActivity.id,
+                activityType = state.contentState.learningActivity.typeValue,
+                activityTargetType = state.contentState.learningActivity.targetTypeValue,
+                activityTargetId = state.contentState.learningActivity.targetId
+            )
+        )
+
+        return state to setOfNotNull(logAnalyticEventAction, targetViewAction)
     }
 
     private fun handleNextLearningActivityChanged(

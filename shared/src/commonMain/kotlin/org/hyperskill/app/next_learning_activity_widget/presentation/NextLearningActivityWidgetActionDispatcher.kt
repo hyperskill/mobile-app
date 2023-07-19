@@ -5,6 +5,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.Action
@@ -20,7 +21,8 @@ class NextLearningActivityWidgetActionDispatcher(
     config: ActionDispatcherOptions,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
-    private val sentryInteractor: SentryInteractor
+    private val sentryInteractor: SentryInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         nextLearningActivityStateRepository.changes
@@ -38,6 +40,9 @@ class NextLearningActivityWidgetActionDispatcher(
         when (action) {
             is InternalAction.FetchNextLearningActivity -> {
                 handleFetchNextLearningActivityAction(action, ::onNewMessage)
+            }
+            is InternalAction.LogAnalyticEvent -> {
+                analyticInteractor.logEvent(action.analyticEvent)
             }
             else -> {
                 // no op
