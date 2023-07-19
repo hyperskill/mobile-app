@@ -8,7 +8,7 @@ data class Badge(
     @SerialName("id")
     val id: Long,
     @SerialName("kind")
-    val kind: BadgeKind,
+    val kind: BadgeKind = BadgeKind.UNKNOWN,
     @SerialName("title")
     val title: String,
     @SerialName("level")
@@ -20,5 +20,11 @@ data class Badge(
     @SerialName("next_level_value")
     val nextLevelValue: Int? = null,
     @SerialName("is_max_level")
-    val isMaxLevel: Boolean
+    val isMaxLevel: Boolean,
+    @SerialName("image_full")
+    val imageFull: String,
+    @SerialName("image_preview")
+    val imagePreview: String,
+    @SerialName("rank")
+    val rank: BadgeRank = BadgeRank.UNKNOWN
 )

@@ -21,5 +21,7 @@ enum class BadgeKind {
     @SerialName("benefactor")
     Benefactor,
     @SerialName("bounty hunter")
-    BountyHunter
+    BountyHunter,
+
+    UNKNOWN
 }
