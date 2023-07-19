@@ -19,8 +19,7 @@ data class BadgesViewState(
         val formattedCurrentLevel: String,
         val nextLevel: Int?,
         val progress: Float
-    ) {
-    }
+    )
 
     sealed interface BadgeImage {
         object Locked : BadgeImage
