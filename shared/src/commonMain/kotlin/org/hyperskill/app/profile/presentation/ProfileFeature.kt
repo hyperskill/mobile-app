@@ -34,7 +34,7 @@ interface ProfileFeature {
             val streak: Streak?,
             val streakFreezeState: StreakFreezeState?,
             val dailyStudyRemindersState: DailyStudyRemindersState,
-            val badges: List<Badge>,
+            val badgesState: BadgesState,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -90,6 +90,8 @@ interface ProfileFeature {
         @Serializable
         object AlreadyHave : StreakFreezeState
     }
+
+    data class BadgesState(val isExpanded: Boolean, val badges: List<Badge>)
 
     sealed interface Message {
         data class Initialize(

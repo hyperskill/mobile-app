@@ -4,25 +4,36 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.badges.domain.model.Badge
 import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.profile.presentation.ProfileFeature
 
-class ProfileBadgesViewStateMapper(
+class BadgesViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
-    fun mapUnlockedBadge(badges: List<Badge>): List<ProfileBadgeViewState> {
-        val unlockedBadges = badges.sortedBy { it.level }.map(::mapUnlockedBadge)
-        val lockedBadgeKinds = getLockedBadgeKinds(badges.map { it.kind })
-        val lockedBadges = lockedBadgeKinds.map(::mapLockedBadge)
-        return unlockedBadges + lockedBadges
+    fun map(state: ProfileFeature.BadgesState): BadgesViewState {
+        val unlockedBadges = state.badges.sortedBy { it.level }.map(::mapUnlockedBadge)
+        return if (state.isExpanded) {
+            val lockedBadgeKinds = getLockedBadgeKinds(state.badges.map { it.kind })
+            val lockedBadges = lockedBadgeKinds.map(::mapLockedBadge)
+            BadgesViewState(
+                badges = lockedBadges,
+                isExpanded = state.isExpanded
+            )
+        } else {
+            BadgesViewState(
+                badges = unlockedBadges,
+                isExpanded = state.isExpanded
+            )
+        }
     }
 
     private fun getLockedBadgeKinds(unlockedBadgeKinds: List<BadgeKind>): Set<BadgeKind> =
         BadgeKind.values().subtract(unlockedBadgeKinds.toSet())
 
-    private fun mapUnlockedBadge(badge: Badge): ProfileBadgeViewState =
-        ProfileBadgeViewState(
+    private fun mapUnlockedBadge(badge: Badge): BadgesViewState.BadgeViewState =
+        BadgesViewState.BadgeViewState(
             kind = badge.kind,
             title = badge.title,
-            image = ProfileBadgeViewState.Image.Remote(""), // TODO: add real data
+            image = BadgesViewState.BadgeImage.Remote(""), // TODO: add real data
             formattedCurrentLevel = resourceProvider.getString(
                 if (badge.isMaxLevel) {
                     SharedResources.strings.badge_max_level
@@ -41,11 +52,11 @@ class ProfileBadgesViewStateMapper(
             }
         )
 
-    private fun mapLockedBadge(badgeKind: BadgeKind): ProfileBadgeViewState =
-        ProfileBadgeViewState(
+    private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.BadgeViewState =
+        BadgesViewState.BadgeViewState(
             kind = badgeKind,
             title = getBadgeTitle(badgeKind),
-            image = ProfileBadgeViewState.Image.Locked,
+            image = BadgesViewState.BadgeImage.Locked,
             formattedCurrentLevel = resourceProvider.getString(SharedResources.strings.badge_level, 0),
             nextLevel = 1,
             progress = 0f

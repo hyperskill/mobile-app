@@ -41,7 +41,10 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     streak = message.streak,
                     streakFreezeState = message.streakFreezeState,
                     dailyStudyRemindersState = message.dailyStudyRemindersState,
-                    badges = message.badges
+                    badgesState = ProfileFeature.BadgesState(
+                        badges = message.badges,
+                        isExpanded = false
+                    )
                 ) to emptySet()
             is Message.ProfileFetchResult.Error ->
                 State.Error to emptySet()

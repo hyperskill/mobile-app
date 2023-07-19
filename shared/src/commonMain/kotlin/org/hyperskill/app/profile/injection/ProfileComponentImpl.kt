@@ -2,6 +2,7 @@ package org.hyperskill.app.profile.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.profile.presentation.ProfileFeature
+import org.hyperskill.app.profile.view.BadgesViewStateMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
@@ -19,4 +20,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
             appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
             appGraph.buildBadgesDataComponent().badgesRepository
         )
+
+    override val badgesViewStateMapper: BadgesViewStateMapper
+        get() = BadgesViewStateMapper(appGraph.commonComponent.resourceProvider)
 }
