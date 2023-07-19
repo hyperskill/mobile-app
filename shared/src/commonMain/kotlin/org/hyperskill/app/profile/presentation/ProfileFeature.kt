@@ -3,6 +3,7 @@ package org.hyperskill.app.profile.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.badges.domain.model.Badge
+import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streaks.domain.model.Streak
@@ -164,6 +165,16 @@ interface ProfileFeature {
         data class DailyStudyRemindersToggleClicked(val isEnabled: Boolean) : Message
         data class DailyStudyRemindersIntervalStartHourChanged(val startHour: Int) : Message
         data class DailyStudyRemindersIsEnabledChanged(val isEnabled: Boolean) : Message
+
+        /**
+         * Badges
+         */
+        data class BadgesVisibilityButtonClicked(val visibilityButton: BadgesVisibilityButton) : Message
+        enum class BadgesVisibilityButton {
+            SHOW_ALL,
+            SHOW_LESS
+        }
+        data class BadgeClicked(val badgeKind: BadgeKind) : Message
 
         /**
          * Flow messages.
