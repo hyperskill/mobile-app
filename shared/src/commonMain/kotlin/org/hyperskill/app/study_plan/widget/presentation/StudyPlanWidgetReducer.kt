@@ -200,13 +200,21 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
         )
 
+        val isFetchedActivitiesForCurrentSection = message.sectionId == state.getCurrentSection()?.id
+
         // ALTAPPS-786: We should expand next section if current section doesn't have available activities
-        return if (message.sectionId == state.getCurrentSection()?.id && message.activities.isEmpty()) {
+        return if (isFetchedActivitiesForCurrentSection && message.activities.isEmpty()) {
             nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
                 changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
             } ?: (nextState to emptySet())
         } else {
             nextState to emptySet()
+        }.updateSecond { first, second ->
+            if (isFetchedActivitiesForCurrentSection) {
+                second + setOf(InternalAction.UpdateNextLearningActivityState(first.getCurrentActivity()))
+            } else {
+                second
+            }
         }
     }
 
@@ -393,4 +401,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             this
         }
     }
+
+    private inline fun <A, B> Pair<A, B>.updateSecond(block: (A, B) -> B): Pair<A, B> =
+        this.copy(second = block(first, second))
 }

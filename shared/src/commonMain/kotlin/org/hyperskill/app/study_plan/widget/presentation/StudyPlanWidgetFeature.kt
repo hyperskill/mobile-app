@@ -152,6 +152,8 @@ object StudyPlanWidgetFeature {
 
         data class FetchTrack(val trackId: Long) : InternalAction
 
+        data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
+
         data class CaptureSentryErrorMessage(
             val message: String,
             val data: Map<String, Any> = emptyMap()

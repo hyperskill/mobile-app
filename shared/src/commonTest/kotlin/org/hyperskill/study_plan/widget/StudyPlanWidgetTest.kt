@@ -343,6 +343,40 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Successfully loaded activities for current section should update next learning activity state`() {
+        val sectionId = 0L
+        val activities = List(2) { index ->
+            stubLearningActivity(id = index.toLong())
+        }
+
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(
+                        sectionId,
+                        activities = activities.map { it.id }
+                    ),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    isExpanded = true
+                )
+            )
+        )
+
+        val expectedActivity = activities.first()
+
+        val (_, resultActions) =
+            reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId, activities)
+            )
+
+        assertContains(
+            resultActions,
+            StudyPlanWidgetFeature.InternalAction.UpdateNextLearningActivityState(expectedActivity)
+        )
+    }
+
+    @Test
     fun `New activities should replace old activities in activities map`() {
         // ALTAPPS-743: old activities [0, 1], new activities [1, 2], result activities [1, 2]
         val sectionId = 0L
@@ -1269,7 +1303,8 @@ class StudyPlanWidgetTest {
         targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
         title: String = "",
         description: String? = null,
-        isIdeRequired: Boolean = false
+        isIdeRequired: Boolean = false,
+        topicId: Long? = null
     ) =
         LearningActivity(
             id = id,
@@ -1279,7 +1314,8 @@ class StudyPlanWidgetTest {
             targetTypeValue = targetType.value,
             title = title,
             description = description,
-            isIdeRequired = isIdeRequired
+            isIdeRequired = isIdeRequired,
+            topicId = topicId
         )
 
     private fun studyPlanSectionItemStub(
