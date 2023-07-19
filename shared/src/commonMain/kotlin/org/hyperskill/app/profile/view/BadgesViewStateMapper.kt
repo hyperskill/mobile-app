@@ -67,14 +67,22 @@ class BadgesViewStateMapper(
 
     private fun getBadgeTitle(badgeKind: BadgeKind): String =
         when (badgeKind) {
-            BadgeKind.ProjectMaster -> resourceProvider.getString(SharedResources.strings.badge_project_mastery_title)
-            BadgeKind.TopicMaster -> resourceProvider.getString(SharedResources.strings.badge_project_topic_mastery)
-            BadgeKind.CommittedLearner -> resourceProvider.getString(SharedResources.strings.badge_project_committed_learning)
-            BadgeKind.BrilliantMind -> resourceProvider.getString(SharedResources.strings.badge_project_brilliant_mind)
-            BadgeKind.HelpingHand -> resourceProvider.getString(SharedResources.strings.badge_project_helping_hand)
-            BadgeKind.Sweetheart -> resourceProvider.getString(SharedResources.strings.badge_project_sweetheart)
-            BadgeKind.Benefactor -> resourceProvider.getString(SharedResources.strings.badge_project_benefactor)
-            BadgeKind.BountyHunter -> resourceProvider.getString(SharedResources.strings.badge_project_bounty_hunter)
+            BadgeKind.ProjectMaster ->
+                resourceProvider.getString(SharedResources.strings.badge_project_mastery_title)
+            BadgeKind.TopicMaster ->
+                resourceProvider.getString(SharedResources.strings.badge_project_topic_mastery)
+            BadgeKind.CommittedLearner ->
+                resourceProvider.getString(SharedResources.strings.badge_project_committed_learning)
+            BadgeKind.BrilliantMind ->
+                resourceProvider.getString(SharedResources.strings.badge_project_brilliant_mind)
+            BadgeKind.HelpingHand ->
+                resourceProvider.getString(SharedResources.strings.badge_project_helping_hand)
+            BadgeKind.Sweetheart ->
+                resourceProvider.getString(SharedResources.strings.badge_project_sweetheart)
+            BadgeKind.Benefactor ->
+                resourceProvider.getString(SharedResources.strings.badge_project_benefactor)
+            BadgeKind.BountyHunter ->
+                resourceProvider.getString(SharedResources.strings.badge_project_bounty_hunter)
             BadgeKind.UNKNOWN -> ""
         }
 }
