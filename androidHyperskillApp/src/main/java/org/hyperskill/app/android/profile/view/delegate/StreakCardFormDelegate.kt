@@ -10,12 +10,13 @@ import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.streaks.domain.model.StreakState
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
-class StreakCardFormDelegate(
-    private val context: Context,
-    private val binding: LayoutProfileStreakCardBinding,
-    onFreezeButtonClick: () -> Unit
-) {
-    init {
+object StreakCardFormDelegate {
+
+    fun setup(
+        context: Context,
+        binding: LayoutProfileStreakCardBinding,
+        onFreezeButtonClick: () -> Unit
+    ) {
         with(binding.streakTodayIncludedFire.itemStreak) {
             strokeWidth =
                 context.resources.getDimensionPixelSize(R.dimen.streak_today_streak_card_stroke_width)
@@ -32,7 +33,12 @@ class StreakCardFormDelegate(
         }
     }
 
-    fun render(streak: Streak?, freezeState: ProfileFeature.StreakFreezeState?) {
+    fun render(
+        context: Context,
+        binding: LayoutProfileStreakCardBinding,
+        streak: Streak?,
+        freezeState: ProfileFeature.StreakFreezeState?
+    ) {
         binding.root.isVisible = streak != null
         if (streak == null) return
 
