@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.profile.presentation.ProfileFeature
 
 /**
- * Represents click on the daily study reminds formatted time button analytic event.
+ * Represents click on the showAll or showLess badges button in profile analytics event.
  *
  * JSON payload:
  * ```

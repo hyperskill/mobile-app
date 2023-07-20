@@ -1,16 +1,16 @@
 package org.hyperskill.app.badges.injection
 
-import org.hyperskill.app.badges.domain.data.repository.BadgesRepositoryImpl
+import org.hyperskill.app.badges.data.repository.BadgesRepositoryImpl
 import org.hyperskill.app.badges.domain.repository.BadgesRepository
-import org.hyperskill.app.badges.remote.BadgesRemoteDataSource
+import org.hyperskill.app.badges.remote.BadgesRemoteDataSourceImpl
 import org.hyperskill.app.core.injection.AppGraph
 
-class BadgesDataComponentImpl(
+internal class BadgesDataComponentImpl(
     appGraph: AppGraph
 ) : BadgesDataComponent {
 
-    private val badgesRemoteDataSource: BadgesRemoteDataSource =
-        BadgesRemoteDataSource(appGraph.networkComponent.authorizedHttpClient)
+    private val badgesRemoteDataSource: BadgesRemoteDataSourceImpl =
+        BadgesRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
 
     override val badgesRepository: BadgesRepository
         get() = BadgesRepositoryImpl(badgesRemoteDataSource)

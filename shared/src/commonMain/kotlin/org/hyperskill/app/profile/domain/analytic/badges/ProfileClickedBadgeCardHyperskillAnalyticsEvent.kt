@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.badges.domain.model.BadgeKind
 
 /**
- * Represents click on the daily study reminds formatted time button analytic event.
+ * Represents click on the badge in profile analytics event.
  *
  * JSON payload:
  * ```

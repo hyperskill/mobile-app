@@ -5,12 +5,12 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import org.hyperskill.app.badges.domain.data.source.BadgesDataSource
+import org.hyperskill.app.badges.data.source.BadgesRemoteDataSource
 import org.hyperskill.app.badges.domain.model.Badge
 
-class BadgesRemoteDataSource(
+class BadgesRemoteDataSourceImpl(
     private val httpClient: HttpClient
-) : BadgesDataSource {
+) : BadgesRemoteDataSource {
     override suspend fun getReceivedBadges(): Result<List<Badge>> =
         runCatching {
             httpClient.get("/api/badges") {
