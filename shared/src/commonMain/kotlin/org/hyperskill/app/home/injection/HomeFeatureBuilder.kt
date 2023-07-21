@@ -2,7 +2,6 @@ package org.hyperskill.app.home.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
@@ -12,8 +11,10 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
-import org.hyperskill.app.home.view.HomeFeatureViewStateMapper
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetActionDispatcher
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
@@ -22,16 +23,13 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextActionDispatcher
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object HomeFeatureBuilder {
+internal object HomeFeatureBuilder {
     fun build(
         homeInteractor: HomeInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
@@ -47,10 +45,14 @@ object HomeFeatureBuilder {
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         problemsLimitReducer: ProblemsLimitReducer,
         problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
-        topicsToDiscoverNextReducer: TopicsToDiscoverNextReducer,
-        topicsToDiscoverNextActionDispatcher: TopicsToDiscoverNextActionDispatcher
+        nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer,
+        nextLearningActivityWidgetActionDispatcher: NextLearningActivityWidgetActionDispatcher
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
-        val homeReducer = HomeReducer(gamificationToolbarReducer, problemsLimitReducer, topicsToDiscoverNextReducer)
+        val homeReducer = HomeReducer(
+            gamificationToolbarReducer,
+            problemsLimitReducer,
+            nextLearningActivityWidgetReducer
+        )
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
@@ -70,7 +72,7 @@ object HomeFeatureBuilder {
                 homeState = HomeFeature.HomeState.Idle,
                 toolbarState = GamificationToolbarFeature.State.Idle,
                 problemsLimitState = ProblemsLimitFeature.State.Idle,
-                topicsToDiscoverNextState = TopicsToDiscoverNextFeature.State.Idle
+                nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.initialState()
             ),
             homeReducer
         )
@@ -88,11 +90,10 @@ object HomeFeatureBuilder {
                 )
             )
             .wrapWithActionDispatcher(
-                topicsToDiscoverNextActionDispatcher.transform(
-                    transformAction = { it.safeCast<HomeFeature.Action.TopicsToDiscoverNextAction>()?.action },
-                    transformMessage = HomeFeature.Message::TopicsToDiscoverNextMessage
+                nextLearningActivityWidgetActionDispatcher.transform(
+                    transformAction = { it.safeCast<HomeFeature.Action.NextLearningActivityWidgetAction>()?.action },
+                    transformMessage = HomeFeature.Message::NextLearningActivityWidgetMessage
                 )
             )
-            .transformState(HomeFeatureViewStateMapper::map)
     }
 }

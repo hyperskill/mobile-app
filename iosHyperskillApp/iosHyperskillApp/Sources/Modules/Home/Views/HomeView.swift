@@ -97,14 +97,6 @@ struct HomeView: View {
                         )
                     }
 
-                    if !viewModel.topicsToDiscoverNextStateSk.isEmpty {
-                        TopicToDiscoverNextCardView(
-                            state: viewModel.topicsToDiscoverNextStateSk,
-                            delegate: viewModel
-                        )
-                        .padding(.top, LayoutInsets.smallInset)
-                    }
-
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
 
@@ -152,12 +144,9 @@ struct HomeView: View {
                 let assembly = ProgressScreenAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
-        case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
-            switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
-            case .showStepScreen(let data):
-                displayStep(stepRoute: data.stepRoute)
-            }
         case .problemsLimitViewAction:
+            break
+        case .nextLearningActivityWidgetViewAction:
             break
         }
     }

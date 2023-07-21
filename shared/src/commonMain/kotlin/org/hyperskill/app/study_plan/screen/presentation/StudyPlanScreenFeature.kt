@@ -6,7 +6,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 
 object StudyPlanScreenFeature {
 

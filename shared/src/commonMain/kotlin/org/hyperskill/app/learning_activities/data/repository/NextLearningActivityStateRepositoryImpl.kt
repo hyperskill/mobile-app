@@ -8,7 +8,7 @@ import org.hyperskill.app.learning_activities.remote.model.NextLearningActivityR
 
 class NextLearningActivityStateRepositoryImpl(
     private val learningActivitiesRemoteDataSource: LearningActivitiesRemoteDataSource
-) : NextLearningActivityStateRepository, BaseStateRepository<LearningActivity>() {
-    override suspend fun loadState(): Result<LearningActivity> =
+) : NextLearningActivityStateRepository, BaseStateRepository<LearningActivity?>() {
+    override suspend fun loadState(): Result<LearningActivity?> =
         learningActivitiesRemoteDataSource.getNextLearningActivity(NextLearningActivityRequest())
 }

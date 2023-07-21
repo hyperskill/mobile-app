@@ -13,7 +13,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
         .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
     }
-    var topicsToDiscoverNextStateSk: TopicsToDiscoverNextFeatureStateKs { .init(state.topicsToDiscoverNextState) }
 
     init(
         problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
@@ -142,27 +141,5 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
                 )
             )
         }
-    }
-}
-
-// MARK: - HomeViewModel: TopicToDiscoverNextCardDelegate -
-
-extension HomeViewModel: TopicToDiscoverNextCardDelegate {
-    func doTopicToDiscoverNextCardTapAction(topicID: Int64) {
-        onNewMessage(
-            HomeFeatureMessageTopicsToDiscoverNextMessage(
-                message: TopicsToDiscoverNextFeatureMessageTopicToDiscoverNextClicked(
-                    topicId: topicID
-                )
-            )
-        )
-    }
-
-    func doTopicToDiscoverNextCardReloadAction() {
-        onNewMessage(
-            HomeFeatureMessageTopicsToDiscoverNextMessage(
-                message: TopicsToDiscoverNextFeatureMessageInitialize(forceUpdate: true)
-            )
-        )
     }
 }

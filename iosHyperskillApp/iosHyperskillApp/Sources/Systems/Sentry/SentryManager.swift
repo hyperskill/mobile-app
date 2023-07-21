@@ -72,14 +72,24 @@ final class SentryManager: shared.SentryManager {
 
     // MARK: Capture
 
-    func captureMessage(message: String, level: HyperskillSentryLevel) {
+    func captureMessage(message: String, level: HyperskillSentryLevel, data: [String: Any]) {
         SentrySDK.capture(message: message) { scope in
             scope.setLevel(level.sentryLevel)
+
+            if let span = scope.span {
+                data.forEach { (key, value) in
+                    span.setData(value: value, key: key)
+                }
+            }
         }
     }
 
-    func captureErrorMessage(message: String) {
-        captureMessage(message: message, level: HyperskillSentryLevel.error)
+    func captureErrorMessage(message: String, data: [String: Any]) {
+        captureMessage(message: message, level: HyperskillSentryLevel.error, data: data)
+    }
+
+    func captureException(throwable: KotlinThrowable) {
+        SentrySDK.capture(error: throwable.asError())
     }
 
     // MARK: Identify Users

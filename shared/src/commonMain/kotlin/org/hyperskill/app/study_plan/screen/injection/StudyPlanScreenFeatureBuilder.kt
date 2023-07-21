@@ -18,7 +18,7 @@ import org.hyperskill.app.study_plan.screen.view.StudyPlanScreenViewStateMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDispatcher
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
+import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
