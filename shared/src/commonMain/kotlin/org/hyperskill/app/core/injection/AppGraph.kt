@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
+import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponent
@@ -140,4 +141,5 @@ interface AppGraph {
     fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
     fun buildProgressScreenComponent(): ProgressScreenComponent
     fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent
+    fun buildBadgesDataComponent(): BadgesDataComponent
 }

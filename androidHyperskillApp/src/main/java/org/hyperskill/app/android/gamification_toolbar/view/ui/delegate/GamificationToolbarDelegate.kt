@@ -10,6 +10,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutGamificationToolbarBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
+import org.hyperskill.app.android.progress.navigation.ProgressScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.streaks.domain.model.StreakState
@@ -89,7 +90,7 @@ class GamificationToolbarDelegate(
             is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
                 mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
             GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen ->
-                router.navigateToProgressScreen()
+                router.navigateTo(ProgressScreen)
         }
     }
 
