@@ -8,6 +8,8 @@ import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponentImpl
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
+import org.hyperskill.app.badges.injection.BadgesDataComponent
+import org.hyperskill.app.badges.injection.BadgesDataComponentImpl
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.debug.injection.DebugComponent
@@ -419,4 +421,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildProgressScreenComponent(): ProgressScreenComponent =
         ProgressScreenComponentImpl(this)
+
+    override fun buildBadgesDataComponent(): BadgesDataComponent =
+        BadgesDataComponentImpl(this)
 }
