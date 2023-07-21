@@ -34,7 +34,7 @@ import ru.nobird.app.core.model.mapOfNotNull
  *
  * @see HyperskillAnalyticEvent
  */
-internal class NextLearningActivityWidgetClickedHyperskillAnalyticEvent(
+class NextLearningActivityWidgetClickedHyperskillAnalyticEvent(
     private val activityId: Long,
     private val activityType: Int?,
     private val activityTargetType: String?,
