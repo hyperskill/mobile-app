@@ -1,7 +1,7 @@
 package org.hyperskill.app.next_learning_activity_widget.view.mapper
 
+import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
-import org.hyperskill.app.study_plan.widget.view.mapper.LearningActivityTextsMapper
 
 object NextLearningActivityWidgetViewStateMapper {
     fun map(state: NextLearningActivityWidgetFeature.ContentState): NextLearningActivityWidgetFeature.ViewState =

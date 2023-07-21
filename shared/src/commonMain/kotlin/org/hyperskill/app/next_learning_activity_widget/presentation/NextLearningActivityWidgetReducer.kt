@@ -1,6 +1,7 @@
 package org.hyperskill.app.next_learning_activity_widget.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
 import org.hyperskill.app.next_learning_activity_widget.domain.analytic.NextLearningActivityWidgetClickedHyperskillAnalyticEvent
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.Action
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.ContentState
@@ -8,7 +9,6 @@ import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearnin
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.InternalMessage
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.Message
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature.State
-import org.hyperskill.app.study_plan.widget.presentation.mapper.LearningActivityTargetViewActionMapper
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias NextLearningActivityWidgetReducerResult = Pair<State, Set<Action>>
@@ -156,7 +156,7 @@ class NextLearningActivityWidgetReducer : StateReducer<State, Message, Action> {
                 onFailure = { InternalAction.CaptureSentryException(it) }
             )
 
-        return state to setOfNotNull(logAnalyticEventAction, activityTargetAction)
+        return state to setOf(logAnalyticEventAction, activityTargetAction)
     }
 
     private fun handleNextLearningActivityChanged(

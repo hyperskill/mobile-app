@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.widget.presentation.model
+package org.hyperskill.app.learning_activities.presentation.model
 
 import org.hyperskill.app.step.domain.model.StepRoute
 

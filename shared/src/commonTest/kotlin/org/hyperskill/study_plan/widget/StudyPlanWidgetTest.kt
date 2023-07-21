@@ -11,6 +11,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
@@ -22,7 +23,6 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.study_plan.domain.model.stub

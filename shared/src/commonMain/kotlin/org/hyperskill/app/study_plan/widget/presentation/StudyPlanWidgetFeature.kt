@@ -6,10 +6,10 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
-import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.track.domain.model.Track
 
 object StudyPlanWidgetFeature {

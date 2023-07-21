@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlin.math.max
 import kotlin.math.min
+import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
@@ -16,7 +17,6 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.STUDY_PLAN_FETCH_INTERVAL
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
-import org.hyperskill.app.study_plan.widget.presentation.mapper.LearningActivityTargetViewActionMapper
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
@@ -201,19 +201,22 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val isFetchedActivitiesForCurrentSection = message.sectionId == state.getCurrentSection()?.id
 
         // ALTAPPS-786: We should expand next section if current section doesn't have available activities
-        return if (isFetchedActivitiesForCurrentSection && message.activities.isEmpty()) {
-            nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
-                changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
-            } ?: (nextState to emptySet())
-        } else {
-            nextState to emptySet()
-        }.updateSecond { first, second ->
-            if (isFetchedActivitiesForCurrentSection) {
-                second + setOf(InternalAction.UpdateNextLearningActivityState(first.getCurrentActivity()))
+        val (resultState, resultActions) =
+            if (isFetchedActivitiesForCurrentSection && message.activities.isEmpty()) {
+                nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
+                    changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
+                } ?: (nextState to emptySet())
             } else {
-                second
+                nextState to emptySet()
             }
+
+        val updateNextLearningActivityStateAction = if (isFetchedActivitiesForCurrentSection) {
+            InternalAction.UpdateNextLearningActivityState(resultState.getCurrentActivity())
+        } else {
+            null
         }
+
+        return resultState to (resultActions + setOfNotNull(updateNextLearningActivityStateAction))
     }
 
     private fun handleLearningActivitiesFetchFailed(
@@ -362,7 +365,4 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             this
         }
     }
-
-    private inline fun <A, B> Pair<A, B>.updateSecond(block: (A, B) -> B): Pair<A, B> =
-        this.copy(second = block(first, second))
 }

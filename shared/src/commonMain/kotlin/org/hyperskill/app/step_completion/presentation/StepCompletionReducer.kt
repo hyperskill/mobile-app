@@ -1,6 +1,8 @@
 package org.hyperskill.app.step_completion.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
+import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedStartPracticingHyperskillAnalyticEvent
@@ -12,8 +14,6 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Act
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
-import org.hyperskill.app.study_plan.widget.presentation.mapper.LearningActivityTargetViewActionMapper
-import org.hyperskill.app.study_plan.widget.presentation.model.LearningActivityTargetViewAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {

@@ -1,4 +1,4 @@
-package org.hyperskill.app.study_plan.widget.view.mapper
+package org.hyperskill.app.learning_activities.view.mapper
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 
