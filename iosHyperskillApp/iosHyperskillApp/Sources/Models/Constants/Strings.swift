@@ -203,7 +203,7 @@ enum Strings {
         static let title = sharedStrings.home_title.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
 
-        static let topicsToDiscoverNextTitle = sharedStrings.home_topics_to_discover_next_title.localized()
+        static let nextLearningActivityTitle = sharedStrings.home_next_learning_activity_title.localized()
 
         static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
         static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()

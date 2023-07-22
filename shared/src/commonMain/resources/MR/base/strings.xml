@@ -172,7 +172,7 @@
     <!-- Home -->
     <string name="home_title">Hello!</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
-    <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
+    <string name="home_next_learning_activity_title">Pick up where you left off</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
     <string name="home_repeat_unlimited">Repeat unlimited</string>
     <string name="home_continue_learning_on_web_text">Continue learning on the web</string>

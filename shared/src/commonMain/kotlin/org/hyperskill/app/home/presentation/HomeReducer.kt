@@ -1,6 +1,7 @@
 package org.hyperskill.app.home.presentation
 
 import kotlin.math.max
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
@@ -18,6 +19,9 @@ import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearnin
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias HomeReducerResult = Pair<State, Set<Action>>
@@ -244,6 +248,30 @@ class HomeReducer(
                     null
                 }
             }
+            is Message.StageImplementUnsupportedModalGoToHomeClicked ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.Home()
+                        )
+                    )
+                )
+            is Message.StageImplementUnsupportedModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.Home()
+                        )
+                    )
+                )
+            is Message.StageImplementUnsupportedModalShownEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.Home()
+                        )
+                    )
+                )
             // Wrapper Messages
             is Message.GamificationToolbarMessage -> {
                 val (toolbarState, toolbarActions) =

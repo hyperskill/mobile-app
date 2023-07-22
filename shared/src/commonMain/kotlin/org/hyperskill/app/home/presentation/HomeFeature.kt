@@ -129,6 +129,13 @@ interface HomeFeature {
         object ClickedContinueLearningOnWebEventMessage : Message
 
         /**
+         * Stage implementation unsupported modal
+         */
+        object StageImplementUnsupportedModalGoToHomeClicked : Message
+        object StageImplementUnsupportedModalShownEventMessage : Message
+        object StageImplementUnsupportedModalHiddenEventMessage : Message
+
+        /**
          * Message Wrappers
          */
         data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message

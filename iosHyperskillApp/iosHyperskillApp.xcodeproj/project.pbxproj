@@ -471,6 +471,8 @@
 		E9B55A5529C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5429C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift */; };
 		E9B55A5929C8A0760066900E /* ProblemsLimitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5829C8A0760066900E /* ProblemsLimitView.swift */; };
 		E9B55A5D29C978E40066900E /* ProblemsLimitReachedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */; };
+		E9B642012A6BCC16001A9653 /* NextLearningActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B642002A6BCC16001A9653 /* NextLearningActivityView.swift */; };
+		E9B642032A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B642022A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift */; };
 		E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */; };
 		E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */; };
 		E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C5C92F28AE105200CADDEC /* NotificationsService.swift */; };
@@ -993,6 +995,8 @@
 		E9B55A5429C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		E9B55A5829C8A0760066900E /* ProblemsLimitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitView.swift; sourceTree = "<group>"; };
 		E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitReachedModalViewController.swift; sourceTree = "<group>"; };
+		E9B642002A6BCC16001A9653 /* NextLearningActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLearningActivityView.swift; sourceTree = "<group>"; };
+		E9B642022A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLearningActivitySkeletonView.swift; sourceTree = "<group>"; };
 		E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBundleInfo.swift; sourceTree = "<group>"; };
 		E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLInsideAppButton.swift; sourceTree = "<group>"; };
 		E9C5C92F28AE105200CADDEC /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
@@ -1303,6 +1307,7 @@
 				2CA5F8EA2994C3880013B854 /* Debug */,
 				2C5F4A582971C6C500677530 /* GamificationToolbar */,
 				2C963BC32812D16C0036DD53 /* Home */,
+				E9B641FE2A6BCBCA001A9653 /* NextLearningActivity */,
 				E9F923F428A2632800C065A7 /* Onboarding */,
 				E9F655CF2875B31B00291143 /* ProblemOfDay */,
 				E9B55A5329C89FFF0066900E /* ProblemsLimit */,
@@ -3065,6 +3070,23 @@
 			path = Modals;
 			sourceTree = "<group>";
 		};
+		E9B641FE2A6BCBCA001A9653 /* NextLearningActivity */ = {
+			isa = PBXGroup;
+			children = (
+				E9B641FF2A6BCC03001A9653 /* Views */,
+			);
+			path = NextLearningActivity;
+			sourceTree = "<group>";
+		};
+		E9B641FF2A6BCC03001A9653 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E9B642022A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift */,
+				E9B642002A6BCC16001A9653 /* NextLearningActivityView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E9CC6C0529893EFC00D8D070 /* InputOutput */ = {
 			isa = PBXGroup;
 			children = (
@@ -3711,6 +3733,7 @@
 				2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
+				E9B642012A6BCC16001A9653 /* NextLearningActivityView.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
@@ -3838,6 +3861,7 @@
 				2CD3652C287987FA00D61855 /* ProfileSocialAccount.swift in Sources */,
 				E90DF95929AE288600EC40DA /* StageImplementUnsupportedModalViewController.swift in Sources */,
 				E9F655CA2875914200291143 /* StreakCardView.swift in Sources */,
+				E9B642032A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift in Sources */,
 				2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */,
 				2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */,
 				2C023C8B285DCA2100D2D5A9 /* ReplyExtensions.swift in Sources */,
