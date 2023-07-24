@@ -15,7 +15,7 @@
             android:id="@+id/homeTopicsToDiscoverNextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/home_topics_to_discover_next_title"
+            android:text="@string/home_next_learning_activity_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/color_on_surface_alpha_60"
             android:layout_marginHorizontal="20dp"

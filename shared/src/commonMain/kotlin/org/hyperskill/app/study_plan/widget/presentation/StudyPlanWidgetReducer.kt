@@ -2,6 +2,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlin.math.max
 import kotlin.math.min
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
@@ -79,20 +80,26 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is Message.StageImplementUnsupportedModalGoToHomeClicked ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent()
+                        StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.StudyPlan()
+                        )
                     ),
                     Action.ViewAction.NavigateTo.Home
                 )
             is Message.StageImplementUnsupportedModalHiddenEventMessage ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent()
+                        StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.StudyPlan()
+                        )
                     )
                 )
             is Message.StageImplementUnsupportedModalShownEventMessage ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent()
+                        StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.StudyPlan()
+                        )
                     )
                 )
         } ?: (state to emptySet())

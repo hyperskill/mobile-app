@@ -13,6 +13,13 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
         .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
     }
+    var nextLearningActivityViewStateKs: NextLearningActivityWidgetFeatureViewStateKs {
+        .init(
+            NextLearningActivityWidgetViewStateMapper.shared.map(
+                state: state.nextLearningActivityWidgetState.contentState
+            )
+        )
+    }
 
     init(
         problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
@@ -94,6 +101,22 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
+    func doNextLearningActivityPresentation() {
+        onNewMessage(
+            HomeFeatureMessageNextLearningActivityWidgetMessage(
+                message: NextLearningActivityWidgetFeatureMessageNextLearningActivityClicked()
+            )
+        )
+    }
+
+    func doReloadNextLearningActivity() {
+        onNewMessage(
+            HomeFeatureMessageNextLearningActivityWidgetMessage(
+                message: NextLearningActivityWidgetFeatureMessageRetryContentLoading()
+            )
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
@@ -141,5 +164,35 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
                 )
             )
         }
+    }
+}
+
+// MARK: - StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelegate -
+
+extension HomeViewModel: StageImplementUnsupportedModalViewControllerDelegate {
+    func stageImplementUnsupportedModalViewControllerDidAppear(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        onNewMessage(
+            HomeFeatureMessageStageImplementUnsupportedModalShownEventMessage()
+        )
+    }
+
+    func stageImplementUnsupportedModalViewControllerDidDisappear(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        onNewMessage(
+            HomeFeatureMessageStageImplementUnsupportedModalHiddenEventMessage()
+        )
+    }
+
+    func stageImplementUnsupportedModalViewControllerDidTapGoToHomescreenButton(
+        _ viewController: StageImplementUnsupportedModalViewController
+    ) {
+        viewController.dismiss(animated: true)
+
+        onNewMessage(
+            HomeFeatureMessageStageImplementUnsupportedModalGoToHomeClicked()
+        )
     }
 }
