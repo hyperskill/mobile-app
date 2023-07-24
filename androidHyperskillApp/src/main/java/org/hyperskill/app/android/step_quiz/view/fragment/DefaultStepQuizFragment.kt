@@ -33,6 +33,7 @@ import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
@@ -106,6 +107,8 @@ abstract class DefaultStepQuizFragment :
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
+    private lateinit var notificationPermissionDelegate: NotificationPermissionDelegate
+
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
     protected abstract val descriptionBinding: LayoutStepQuizDescriptionBinding
@@ -118,6 +121,7 @@ abstract class DefaultStepQuizFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        notificationPermissionDelegate = NotificationPermissionDelegate(this)
     }
 
     private fun injectComponent() {
@@ -352,8 +356,10 @@ abstract class DefaultStepQuizFragment :
             .setTitle(userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest))
             .setMessage(userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest))
             .setPositiveButton(org.hyperskill.app.R.string.ok) { dialog, _ ->
-                onSendDailyStudyReminderAccepted(action.userPermissionRequest)
-                dialog.dismiss()
+                notificationPermissionDelegate.requestNotificationPermission { result ->
+                    dialog.dismiss()
+                    onNotificationPermissionResult(result)
+                }
             }
             .setNegativeButton(org.hyperskill.app.R.string.later) { dialog, _ ->
                 stepQuizViewModel.onNewMessage(
@@ -367,10 +373,16 @@ abstract class DefaultStepQuizFragment :
             .show()
     }
 
-    private fun onSendDailyStudyReminderAccepted(userPermissionRequest: StepQuizUserPermissionRequest) {
+    private fun onNotificationPermissionResult(result: NotificationPermissionDelegate.Result) {
+        if (result == NotificationPermissionDelegate.Result.GRANTED) {
+            onNotificationPermissionGranted()
+        }
+    }
+
+    private fun onNotificationPermissionGranted() {
         stepQuizViewModel.onNewMessage(
             StepQuizFeature.Message.RequestUserPermissionResult(
-                userPermissionRequest,
+                StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS,
                 isGranted = true
             )
         )

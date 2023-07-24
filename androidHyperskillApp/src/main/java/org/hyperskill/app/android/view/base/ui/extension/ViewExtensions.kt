@@ -57,9 +57,10 @@ fun View.snackbar(@StringRes messageRes: Int, length: Int = Snackbar.LENGTH_SHOR
     snackbar(context.getString(messageRes), length)
 }
 
-fun View.snackbar(message: String, length: Int = Snackbar.LENGTH_SHORT) {
+fun View.snackbar(message: String, length: Int = Snackbar.LENGTH_SHORT, block: Snackbar.() -> Unit = {}) {
     Snackbar
         .make(this, message, length)
+        .apply(block)
         .show()
 }
 
