@@ -14,7 +14,7 @@ import org.hyperskill.app.android.study_plan.adapter.StudyPlanItemAnimator
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanSectionAdapterDelegate
 import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate

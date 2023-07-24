@@ -31,13 +31,4 @@
             />
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homeTopicsToDiscoverNextRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="9dp"
-        tools:itemCount="1"
-        tools:listitem="@layout/item_topic"
-        />
-
 </LinearLayout>

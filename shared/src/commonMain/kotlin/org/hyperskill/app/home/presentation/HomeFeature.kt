@@ -4,26 +4,25 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
+import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature.isRefreshing
 
 interface HomeFeature {
     data class State(
         val homeState: HomeState,
         val toolbarState: GamificationToolbarFeature.State,
         val problemsLimitState: ProblemsLimitFeature.State,
-        val topicsToDiscoverNextState: TopicsToDiscoverNextFeature.State
+        val nextLearningActivityWidgetState: NextLearningActivityWidgetFeature.State
     ) {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
                 toolbarState.isRefreshing ||
                 problemsLimitState.isRefreshing ||
-                topicsToDiscoverNextState.isRefreshing
+                nextLearningActivityWidgetState.isRefreshing
     }
 
     sealed interface HomeState {
@@ -134,7 +133,7 @@ interface HomeFeature {
          */
         data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
         data class ProblemsLimitMessage(val message: ProblemsLimitFeature.Message) : Message
-        data class TopicsToDiscoverNextMessage(val message: TopicsToDiscoverNextFeature.Message) : Message
+        data class NextLearningActivityWidgetMessage(val message: NextLearningActivityWidgetFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -150,7 +149,7 @@ interface HomeFeature {
          */
         data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
         data class ProblemsLimitAction(val action: ProblemsLimitFeature.Action) : Action
-        data class TopicsToDiscoverNextAction(val action: TopicsToDiscoverNextFeature.Action) : Action
+        data class NextLearningActivityWidgetAction(val action: NextLearningActivityWidgetFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
@@ -159,12 +158,13 @@ interface HomeFeature {
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
             ) : ViewAction
+
             data class ProblemsLimitViewAction(
                 val viewAction: ProblemsLimitFeature.Action.ViewAction
             ) : ViewAction
 
-            data class TopicsToDiscoverNextViewAction(
-                val viewAction: TopicsToDiscoverNextFeature.Action.ViewAction
+            data class NextLearningActivityWidgetViewAction(
+                val viewAction: NextLearningActivityWidgetFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {

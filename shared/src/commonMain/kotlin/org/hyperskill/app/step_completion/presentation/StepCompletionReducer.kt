@@ -1,8 +1,8 @@
 package org.hyperskill.app.step_completion.presentation
 
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
+import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedStartPracticingHyperskillAnalyticEvent
@@ -149,11 +149,16 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             return null
         }
 
-        return if (learningActivity.type == LearningActivityType.LEARN_TOPIC &&
-            learningActivity.targetId != null &&
-            learningActivity.targetType == LearningActivityTargetType.STEP
-        ) {
-            StepRoute.Learn.Step(learningActivity.targetId)
+        val learningActivityTargetViewAction = LearningActivityTargetViewActionMapper
+            .mapLearningActivityToTargetViewAction(
+                activity = learningActivity,
+                trackId = null,
+                projectId = null
+            )
+            .getOrElse { return null }
+
+        return if (learningActivityTargetViewAction is LearningActivityTargetViewAction.NavigateTo.Step) {
+            learningActivityTargetViewAction.stepRoute
         } else {
             null
         }

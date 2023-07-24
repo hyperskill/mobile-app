@@ -39,6 +39,8 @@ import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
+import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponent
+import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponentImpl
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponentImpl
 import org.hyperskill.app.notification.local.injection.NotificationComponent
@@ -115,13 +117,6 @@ import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComp
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponentImpl
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponentImpl
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponentImpl
-import org.hyperskill.app.track.injection.TrackComponent
-import org.hyperskill.app.track.injection.TrackComponentImpl
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track.injection.TrackDataComponentImpl
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
@@ -253,12 +248,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
 
-    /**
-     * Track component
-     */
-    override fun buildTrackComponent(): TrackComponent =
-        TrackComponentImpl(this)
-
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)
 
@@ -305,15 +294,6 @@ abstract class BaseAppGraph : AppGraph {
         DebugComponentImpl(this)
 
     /**
-     * Topics to discover next component
-     */
-    override fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent =
-        TopicsToDiscoverNextComponentImpl(this, screen)
-
-    override fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent =
-        TopicsToDiscoverNextDataComponentImpl()
-
-    /**
      * ProblemsLimit component
      */
     override fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent =
@@ -328,7 +308,6 @@ abstract class BaseAppGraph : AppGraph {
     /**
      * Project selection list component
      */
-
     override fun buildProjectSelectionListComponent(): ProjectSelectionListComponent =
         ProjectSelectionListComponentImpl(this)
 
@@ -349,6 +328,12 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
         TrackSelectionDetailsComponentImpl(this)
+
+    /**
+     * Next learning activity widget component
+     */
+    override fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent =
+        NextLearningActivityWidgetComponentImpl(this)
 
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)

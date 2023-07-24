@@ -3,6 +3,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 import kotlinx.coroutines.delay
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
@@ -16,6 +17,7 @@ class StudyPlanWidgetActionDispatcher(
     config: ActionDispatcherOptions,
     private val studyPlanInteractor: StudyPlanInteractor,
     private val trackInteractor: TrackInteractor,
+    private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -93,8 +95,11 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.TrackFetchResult.Failed)
                     }
             }
-            is InternalAction.CaptureSentryErrorMessage -> {
-                sentryInteractor.captureErrorMessage(action.message)
+            is InternalAction.UpdateNextLearningActivityState -> {
+                nextLearningActivityStateRepository.updateState(newState = action.learningActivity)
+            }
+            is InternalAction.CaptureSentryException -> {
+                sentryInteractor.captureException(action.throwable)
             }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
