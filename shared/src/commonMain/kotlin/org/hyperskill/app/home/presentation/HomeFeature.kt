@@ -129,6 +129,7 @@ interface HomeFeature {
         object ClickedContinueLearningOnWebEventMessage : Message
 
         /**
+         * TODO: ALTAPPS-908 refactor this
          * Stage implementation unsupported modal
          */
         object StageImplementUnsupportedModalGoToHomeClicked : Message

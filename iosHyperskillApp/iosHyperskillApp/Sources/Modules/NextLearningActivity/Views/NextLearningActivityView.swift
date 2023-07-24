@@ -18,9 +18,7 @@ struct NextLearningActivityView: View {
 
     var body: some View {
         switch stateKs {
-        case .idle:
-            EmptyView()
-        case .loading:
+        case .idle, .loading:
             NextLearningActivitySkeletonView()
         case .networkError:
             Button(

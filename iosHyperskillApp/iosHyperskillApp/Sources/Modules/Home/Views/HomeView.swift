@@ -163,6 +163,7 @@ struct HomeView: View {
         }
     }
 
+    #warning("ALTAPPS-909: Refactor this")
     private func handleNextLearningActivityWidgetViewAction(
         _ viewActionKs: NextLearningActivityWidgetFeatureActionViewActionKs
     ) {
