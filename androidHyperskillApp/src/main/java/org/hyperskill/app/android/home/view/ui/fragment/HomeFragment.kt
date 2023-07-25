@@ -23,6 +23,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.next_learning_activity.view.delegate.NextLearningActivityDelegate
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
+import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
@@ -40,7 +41,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class HomeFragment :
     Fragment(R.layout.fragment_home),
-    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction> {
+    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction>,
+    UnsupportedStageBottomSheet.Callback {
     companion object {
         fun newInstance(): Fragment =
             HomeFragment()
@@ -209,8 +211,19 @@ class HomeFragment :
                     mainScreenRouter = mainScreenRouter,
                     router = requireRouter()
                 )
-            else -> {
+            is HomeFeature.Action.ViewAction.NavigateTo.StepScreen -> {
+                requireRouter().navigateTo(
+                    StepScreen(action.stepRoute)
+                )
+            }
+            is HomeFeature.Action.ViewAction.ProblemsLimitViewAction -> {
                 // no op
+            }
+            is HomeFeature.Action.ViewAction.NextLearningActivityWidgetViewAction -> {
+                nextLearningActivityDelegate.handleAction(
+                    fragment = this,
+                    action = action.viewAction
+                )
             }
         }
     }
@@ -280,5 +293,20 @@ class HomeFragment :
                 isFreemiumEnabled = isFreemiumEnabled
             )
         }
+    }
+
+    // UnsupportedStageBottomSheet.Callback methods
+    override fun onShow() {
+        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalShownEventMessage)
+    }
+
+    override fun onDismiss() {
+        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalHiddenEventMessage)
+    }
+
+    override fun onHomeClick() {
+        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalGoToHomeClicked)
+        childFragmentManager
+            .dismissDialogFragmentIfExists(UnsupportedStageBottomSheet.TAG)
     }
 }
