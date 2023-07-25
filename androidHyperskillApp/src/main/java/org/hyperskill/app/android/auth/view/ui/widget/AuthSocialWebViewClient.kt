@@ -26,21 +26,23 @@ class AuthSocialWebViewClient(
         request?.url?.let { url ->
             val urlString = url.toString()
             if (urlString.startsWith("https://${networkEndpointConfigInfo.host}/oauth?")) {
-                try {
-                    url.getQueryParameter(CodeParameter)?.let { codeQueryParameter ->
-                        onNewMessage(
-                            AuthSocialWebViewFeature.Message.AuthCodeSuccess(
-                                codeQueryParameter,
-                                socialAuthProvider
-                            )
+                val message = try {
+                    val codeQueryParameter = url.getQueryParameter(CodeParameter)
+                    if (codeQueryParameter != null) {
+                        AuthSocialWebViewFeature.Message.AuthCodeSuccess(
+                            codeQueryParameter,
+                            socialAuthProvider
+                        )
+                    } else {
+                        AuthSocialWebViewFeature.Message.AuthCodeFailure(
+                            socialError = AuthSocialError.CONNECTION_PROBLEM,
+                            originalError = IllegalStateException("No code query parameter in url")
                         )
                     }
                 } catch (e: UnsupportedOperationException) {
-                    onNewMessage(
-                        AuthSocialWebViewFeature.Message.AuthCodeFailure(
-                            socialError = AuthSocialError.CONNECTION_PROBLEM,
-                            originalError = e
-                        )
+                    AuthSocialWebViewFeature.Message.AuthCodeFailure(
+                        socialError = AuthSocialError.CONNECTION_PROBLEM,
+                        originalError = e
                     )
                 }
                 onNewMessage(message)
