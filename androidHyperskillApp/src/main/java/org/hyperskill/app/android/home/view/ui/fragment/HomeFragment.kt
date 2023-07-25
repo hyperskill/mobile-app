@@ -20,6 +20,7 @@ import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.next_learning_activity.view.delegate.NextLearningActivityDelegate
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
@@ -66,6 +67,15 @@ class HomeFragment :
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         TopicsRepetitionCardFormDelegate()
     }
+
+    private val nextLearningActivityDelegate: NextLearningActivityDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        NextLearningActivityDelegate { nextLearningActivityMessage ->
+            homeViewModel.onNewMessage(
+                HomeFeature.Message.NextLearningActivityWidgetMessage(nextLearningActivityMessage)
+            )
+        }
+    }
+
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
     private val onForegroundObserver =
@@ -91,6 +101,7 @@ class HomeFragment :
         initGamificationToolbarDelegate()
         initProblemsLimitDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
+        nextLearningActivityDelegate.setup(requireContext(), viewBinding.homeNextLearningActivity)
         with(viewBinding) {
             homeScreenSwipeRefreshLayout.setHyperskillColors()
             homeScreenSwipeRefreshLayout.setOnRefreshListener {
@@ -220,6 +231,7 @@ class HomeFragment :
         problemsLimitViewStateMapper?.let { mapper ->
             problemsLimitDelegate?.render(mapper.mapState(state.problemsLimitState))
         }
+        nextLearningActivityDelegate.render(requireContext(), state.nextLearningActivityWidgetState)
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.State) {
