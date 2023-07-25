@@ -56,12 +56,14 @@ class AuthSocialWebViewClient(
         request: WebResourceRequest?,
         error: WebResourceError?
     ) {
-        onNewMessage(
-            AuthSocialWebViewFeature.Message.AuthCodeFailure(
-                socialError = AuthSocialError.CONNECTION_PROBLEM,
-                originalError = if (error != null) Exception(error.description.toString()) else null
+        if (request?.isForMainFrame == true) {
+            onNewMessage(
+                AuthSocialWebViewFeature.Message.AuthCodeFailure(
+                    socialError = AuthSocialError.CONNECTION_PROBLEM,
+                    originalError = if (error != null) Exception(error.description.toString()) else null
+                )
             )
-        )
+        }
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
