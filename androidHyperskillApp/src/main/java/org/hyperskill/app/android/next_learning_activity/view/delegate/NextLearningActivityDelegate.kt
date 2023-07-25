@@ -75,7 +75,7 @@ class NextLearningActivityDelegate(
             id = 0,
             title = content.title,
             subtitle = content.subtitle,
-            titleTextColor = ContextCompat.getColor(context,StudyPlanRecyclerItem.Activity.activeTextColorRes),
+            titleTextColor = ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.activeTextColorRes),
             progress = content.progress,
             formattedProgress = content.formattedProgress,
             endIcon = ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.nextActivityIconRes),
@@ -86,7 +86,7 @@ class NextLearningActivityDelegate(
     fun <TFragment> handleAction(
         fragment: TFragment,
         action: NextLearningActivityWidgetFeature.Action.ViewAction
-    ) where TFragment: Fragment, TFragment : UnsupportedStageBottomSheet.Callback {
+    ) where TFragment : Fragment, TFragment : UnsupportedStageBottomSheet.Callback {
         when (action) {
             is NextLearningActivityWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget ->
                 LearningActivityTargetViewActionHandler.handle(

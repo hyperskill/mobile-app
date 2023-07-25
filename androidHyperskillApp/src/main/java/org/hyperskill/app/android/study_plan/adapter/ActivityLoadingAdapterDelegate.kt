@@ -6,7 +6,9 @@ import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 
-class ActivityLoadingAdapterDelegate : AdapterDelegate<StudyPlanRecyclerItem, DelegateViewHolder<StudyPlanRecyclerItem>>() {
+class ActivityLoadingAdapterDelegate : AdapterDelegate<
+    StudyPlanRecyclerItem,
+    DelegateViewHolder<StudyPlanRecyclerItem>>() {
     override fun isForViewType(position: Int, data: StudyPlanRecyclerItem): Boolean =
         data is StudyPlanRecyclerItem.ActivityLoading
 

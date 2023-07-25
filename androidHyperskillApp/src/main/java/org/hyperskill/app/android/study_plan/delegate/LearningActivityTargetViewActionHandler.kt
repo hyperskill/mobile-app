@@ -16,7 +16,7 @@ object LearningActivityTargetViewActionHandler {
     fun <TFragment> handle(
         fragment: TFragment,
         viewAction: LearningActivityTargetViewAction
-    ) where TFragment: Fragment, TFragment : UnsupportedStageBottomSheet.Callback {
+    ) where TFragment : Fragment, TFragment : UnsupportedStageBottomSheet.Callback {
         when (viewAction) {
             is LearningActivityTargetViewAction.NavigateTo.SelectProject -> {
                 fragment.requireRouter().navigateTo(
