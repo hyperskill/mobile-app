@@ -57,7 +57,11 @@ class AuthSocialWebViewClient(
             onNewMessage(
                 AuthSocialWebViewFeature.Message.AuthCodeFailure(
                     socialError = AuthSocialError.CONNECTION_PROBLEM,
-                    originalError = if (error != null) Exception(error.description.toString()) else null
+                    originalError = if (error != null) Exception(
+                        "Error code=${error.errorCode}, description=${error.description}"
+                    ) else {
+                        null
+                    }
                 )
             )
         }
