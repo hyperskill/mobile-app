@@ -34,6 +34,7 @@ object NextLearningActivityWidgetFeature {
         object NetworkError : ViewState
         object Empty : ViewState
         data class Content(
+            val id: Long,
             val title: String,
             val subtitle: String?,
             val isIdeRequired: Boolean,

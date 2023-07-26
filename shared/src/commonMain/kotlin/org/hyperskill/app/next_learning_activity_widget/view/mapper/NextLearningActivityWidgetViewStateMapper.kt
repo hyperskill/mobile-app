@@ -20,6 +20,7 @@ object NextLearningActivityWidgetViewStateMapper {
             }
             is NextLearningActivityWidgetFeature.ContentState.Content -> {
                 NextLearningActivityWidgetFeature.ViewState.Content(
+                    id = state.learningActivity.id,
                     title = LearningActivityTextsMapper.mapLearningActivityToTitle(state.learningActivity),
                     subtitle = LearningActivityTextsMapper.mapLearningActivityToSubtitle(state.learningActivity),
                     isIdeRequired = state.learningActivity.isIdeRequired,

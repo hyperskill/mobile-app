@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.next_learning_activity.view.delegate
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import org.hyperskill.app.next_learning_activity_widget.view.mapper.NextLearning
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class NextLearningActivityDelegate(
+    context: Context,
     onNewMessage: (NextLearningActivityWidgetFeature.Message) -> Unit
 ) {
 
@@ -43,6 +45,12 @@ class NextLearningActivityDelegate(
         }
     }
 
+
+    private val nextLearningActivityTitleTextColor: Int =
+        ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.activeTextColorRes)
+    private val nextLearningActivityEndIcon: Drawable? =
+        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.nextActivityIconRes)
+
     fun setup(context: Context, viewBinding: LayoutNextLearningActivityBinding) {
         with(viewBinding) {
             with(homeNextLearningActivityRecycler) {
@@ -57,28 +65,25 @@ class NextLearningActivityDelegate(
         }
     }
 
-    fun render(
-        context: Context,
-        state: NextLearningActivityWidgetFeature.State
-    ) {
+    fun render(state: NextLearningActivityWidgetFeature.State) {
         val viewState = NextLearningActivityWidgetViewStateMapper.map(state.contentState)
         nextLearningActivityAdapter.items = when (viewState) {
             Idle, Empty -> emptyList()
             Loading -> listOf(StudyPlanRecyclerItem.ActivityLoading(0, 0))
-            is Content -> listOf(mapContentToRecyclerItem(context, viewState))
+            is Content -> listOf(mapContentToRecyclerItem(viewState))
             NetworkError -> listOf(NextLearningActivityLoadingErrorRecyclerItem)
         }
     }
 
-    private fun mapContentToRecyclerItem(context: Context, content: Content): StudyPlanRecyclerItem.Activity =
+    private fun mapContentToRecyclerItem(content: Content): StudyPlanRecyclerItem.Activity =
         StudyPlanRecyclerItem.Activity(
-            id = 0,
+            id = content.id,
             title = content.title,
             subtitle = content.subtitle,
-            titleTextColor = ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.activeTextColorRes),
+            titleTextColor = nextLearningActivityTitleTextColor,
             progress = content.progress,
             formattedProgress = content.formattedProgress,
-            endIcon = ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.nextActivityIconRes),
+            endIcon = nextLearningActivityEndIcon,
             isClickable = true,
             isIdeRequired = content.isIdeRequired
         )

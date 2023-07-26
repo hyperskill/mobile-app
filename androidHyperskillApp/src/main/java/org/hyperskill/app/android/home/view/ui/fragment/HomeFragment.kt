@@ -71,7 +71,7 @@ class HomeFragment :
     }
 
     private val nextLearningActivityDelegate: NextLearningActivityDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        NextLearningActivityDelegate { nextLearningActivityMessage ->
+        NextLearningActivityDelegate(requireContext()) { nextLearningActivityMessage ->
             homeViewModel.onNewMessage(
                 HomeFeature.Message.NextLearningActivityWidgetMessage(nextLearningActivityMessage)
             )
@@ -167,7 +167,7 @@ class HomeFragment :
                 viewBinding.homeScreenKeepPracticingTextView,
                 viewBinding.homeScreenProblemOfDayCard.root,
                 viewBinding.homeScreenTopicsRepetitionCard.root,
-                viewBinding.homeScreenKeepLearningInWebButton,
+                viewBinding.homeScreenKeepLearningInWebButton
             )
         }
     }
@@ -244,7 +244,7 @@ class HomeFragment :
         problemsLimitViewStateMapper?.let { mapper ->
             problemsLimitDelegate?.render(mapper.mapState(state.problemsLimitState))
         }
-        nextLearningActivityDelegate.render(requireContext(), state.nextLearningActivityWidgetState)
+        nextLearningActivityDelegate.render(state.nextLearningActivityWidgetState)
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.State) {
