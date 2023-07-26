@@ -8,14 +8,12 @@ import androidx.core.view.updateLayoutParams
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.ItemStudyPlanActivityBinding
 import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
-import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 
 class StudyPlanActivityAdapterDelegate(
-    private val onNewMessage: (StudyPlanWidgetFeature.Message) -> Unit
-) :
-    AdapterDelegate<StudyPlanRecyclerItem, DelegateViewHolder<StudyPlanRecyclerItem>>() {
+    private val onActivityClicked: (Long) -> Unit
+) : AdapterDelegate<StudyPlanRecyclerItem, DelegateViewHolder<StudyPlanRecyclerItem>>() {
 
     override fun isForViewType(position: Int, data: StudyPlanRecyclerItem): Boolean =
         data is StudyPlanRecyclerItem.Activity
@@ -31,7 +29,7 @@ class StudyPlanActivityAdapterDelegate(
             itemView.setOnClickListener {
                 val activityId = (itemData as? StudyPlanRecyclerItem.Activity)?.id
                 if (activityId != null) {
-                    onNewMessage(StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+                    onActivityClicked(activityId)
                 }
             }
         }

@@ -73,10 +73,10 @@
                     />
 
                 <include
-                    android:id="@+id/homeTopicsToDiscoverNext"
+                    android:id="@+id/homeNextLearningActivity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    layout="@layout/layout_home_topics_to_discover_next"
+                    layout="@layout/layout_next_learning_activity"
                     android:layout_marginTop="46dp"
                     />
 
