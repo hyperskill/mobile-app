@@ -45,7 +45,6 @@ class NextLearningActivityDelegate(
         }
     }
 
-
     private val nextLearningActivityTitleTextColor: Int =
         ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.activeTextColorRes)
     private val nextLearningActivityEndIcon: Drawable? =
