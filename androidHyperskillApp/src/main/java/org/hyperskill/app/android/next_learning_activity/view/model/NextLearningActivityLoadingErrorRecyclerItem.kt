@@ -1,0 +1,5 @@
+package org.hyperskill.app.android.next_learning_activity.view.model
+
+import org.hyperskill.app.android.study_plan.model.StudyPlanRecyclerItem
+
+object NextLearningActivityLoadingErrorRecyclerItem : StudyPlanRecyclerItem

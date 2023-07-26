@@ -6,9 +6,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.adapter.DataLoadingErrorAdapterDelegate
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.itemDecoration
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
-import org.hyperskill.app.android.databinding.WidgetDataLoadingErrorBinding
+import org.hyperskill.app.android.study_plan.adapter.ActivityLoadingAdapterDelegate
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanActivityAdapterDelegate
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanItemAnimator
 import org.hyperskill.app.android.study_plan.adapter.StudyPlanSectionAdapterDelegate
@@ -32,10 +33,18 @@ class StudyPlanWidgetDelegate(
 
     private val studyPlanAdapter = DefaultDelegateAdapter<StudyPlanRecyclerItem>().apply {
         addDelegate(StudyPlanSectionAdapterDelegate(onNewMessage))
-        addDelegate(StudyPlanActivityAdapterDelegate(onNewMessage))
+        addDelegate(
+            StudyPlanActivityAdapterDelegate { activityId ->
+                onNewMessage(StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
+            }
+        )
         addDelegate(sectionsLoadingAdapterDelegate())
-        addDelegate(activitiesLoadingAdapterDelegate())
-        addDelegate(activitiesErrorAdapterDelegate(onNewMessage))
+        addDelegate(ActivityLoadingAdapterDelegate())
+        addDelegate(
+            DataLoadingErrorAdapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivitiesError> { item ->
+                onNewMessage(StudyPlanWidgetFeature.Message.RetryActivitiesLoading(item.sectionId))
+            }
+        )
     }
 
     @ColorInt private val inactiveSectionTextColor: Int =
@@ -45,10 +54,10 @@ class StudyPlanWidgetDelegate(
         ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface)
 
     @ColorInt private val activeActivityTextColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_87)
+        ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.activeTextColorRes)
 
     @ColorInt private val inactiveActivityTextColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_on_surface_alpha_60)
+        ContextCompat.getColor(context, StudyPlanRecyclerItem.Activity.inactiveTextColorRes)
 
     private val sectionTopMargin =
         context.resources.getDimensionPixelOffset(R.dimen.study_plan_section_top_margin)
@@ -56,13 +65,13 @@ class StudyPlanWidgetDelegate(
         context.resources.getDimensionPixelOffset(R.dimen.study_plan_activity_top_margin)
 
     private val lockIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_activity_locked)
+        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.lockedActivityIconRes)
     private val activeIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_home_screen_arrow_button)
+        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.nextActivityIconRes)
     private val skippedIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_topic_skipped)
+        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.skippedActivityIconRes)
     private val completedIcon =
-        ContextCompat.getDrawable(context, R.drawable.ic_topic_completed)
+        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.completedActivityIconRes)
 
     private var studyPlanViewStateDelegate: ViewStateDelegate<StudyPlanWidgetViewState>? = null
 
@@ -120,6 +129,7 @@ class StudyPlanWidgetDelegate(
             is StudyPlanRecyclerItem.ActivityLoading,
             is StudyPlanRecyclerItem.Activity,
             is StudyPlanRecyclerItem.ActivitiesError -> activityTopMargin
+            else -> 0
         }
 
     fun cleanup() {
@@ -145,25 +155,6 @@ class StudyPlanWidgetDelegate(
         adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.SectionLoading>(
             R.layout.item_study_plan_section_loading
         )
-
-    private fun activitiesLoadingAdapterDelegate() =
-        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivityLoading>(
-            R.layout.item_study_plan_activities_loading
-        )
-
-    private fun activitiesErrorAdapterDelegate(
-        onNewMessage: (StudyPlanWidgetFeature.Message) -> Unit
-    ) =
-        adapterDelegate<StudyPlanRecyclerItem, StudyPlanRecyclerItem.ActivitiesError>(
-            R.layout.widget_data_loading_error
-        ) {
-            val viewBinding = WidgetDataLoadingErrorBinding.bind(itemView)
-            viewBinding.reloadButton.setOnClickListener {
-                item?.sectionId?.let { sectionId ->
-                    onNewMessage(StudyPlanWidgetFeature.Message.RetryActivitiesLoading(sectionId))
-                }
-            }
-        }
 
     private fun mapContentToRecyclerItems(
         studyPlanContent: StudyPlanWidgetViewState.Content
