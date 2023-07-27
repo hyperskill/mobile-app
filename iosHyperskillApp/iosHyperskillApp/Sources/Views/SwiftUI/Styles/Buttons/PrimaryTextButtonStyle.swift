@@ -1,19 +1,18 @@
 import SwiftUI
 
-struct ProgressScreenCallToActionButtonStyle: ButtonStyle {
+struct PrimaryTextButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(Color(ColorPalette.primary))
             .font(.subheadline)
-            .frame(maxWidth: .infinity)
             .opacity(configuration.isPressed ? 0.5 : 1)
     }
 }
 
-struct ProgressScreenCallToActionButtonStyle_Previews: PreviewProvider {
+struct PrimaryTextButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
         Button("Press Me", action: {})
-            .buttonStyle(ProgressScreenCallToActionButtonStyle())
+            .buttonStyle(PrimaryTextButtonStyle())
             .padding()
     }
 }

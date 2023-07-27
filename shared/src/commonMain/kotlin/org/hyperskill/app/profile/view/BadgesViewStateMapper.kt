@@ -9,25 +9,29 @@ import org.hyperskill.app.profile.presentation.ProfileFeature
 class BadgesViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
+    companion object {
+        const val HIDDEN_STATE_BADGES_COUNT = 4
+    }
+
     fun map(state: ProfileFeature.BadgesState): BadgesViewState {
         val unlockedBadges = state.badges.sortedBy { it.level }.map(::mapUnlockedBadge)
-        return if (state.isExpanded) {
-            val lockedBadgeKinds = getLockedBadgeKinds(state.badges.map { it.kind })
-            val lockedBadges = lockedBadgeKinds.map(::mapLockedBadge)
-            BadgesViewState(
-                badges = lockedBadges,
-                isExpanded = state.isExpanded
-            )
-        } else {
-            BadgesViewState(
-                badges = unlockedBadges,
-                isExpanded = state.isExpanded
-            )
-        }
+        val lockedBadges = getLockedBadgeKinds(state.badges.map { it.kind }).map(::mapLockedBadge)
+        val allBadges = unlockedBadges + lockedBadges
+
+        return BadgesViewState(
+            badges = allBadges.take(
+                if (state.isExpanded) {
+                    allBadges.size
+                } else {
+                    HIDDEN_STATE_BADGES_COUNT
+                }
+            ),
+            isExpanded = state.isExpanded
+        )
     }
 
     private fun getLockedBadgeKinds(unlockedBadgeKinds: List<BadgeKind>): Set<BadgeKind> =
-        BadgeKind.values().subtract(unlockedBadgeKinds.toSet())
+        BadgeKind.values().filter { it != BadgeKind.UNKNOWN }.subtract(unlockedBadgeKinds.toSet())
 
     private fun mapUnlockedBadge(badge: Badge): BadgesViewState.BadgeViewState =
         BadgesViewState.BadgeViewState(

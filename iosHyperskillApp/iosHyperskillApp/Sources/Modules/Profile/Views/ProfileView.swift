@@ -87,18 +87,20 @@ struct ProfileView: View {
                 let _ = ProgressHUD.show()
             }
 
-            let viewData = viewModel.makeViewData(
+            let profileViewData = viewModel.makeProfileViewData(
                 profile: data.profile,
                 dailyStudyRemindersState: data.dailyStudyRemindersState
             )
+
+            let badgesViewState = viewModel.makeBadgesViewState(badgesState: data.badgesState)
 
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
                     ProfileHeaderView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),
-                        avatarSource: viewData.avatarSource,
-                        title: viewData.fullname,
-                        subtitle: viewData.role
+                        avatarSource: profileViewData.avatarSource,
+                        title: profileViewData.fullname,
+                        subtitle: profileViewData.role
                     )
 
                     if let streak = data.streak {
@@ -114,6 +116,21 @@ struct ProfileView: View {
                         .cornerRadius(appearance.cornerRadius)
                     }
 
+                    ProfileDailyStudyRemindersView(
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
+                        isActivated: profileViewData.isDailyStudyRemindersEnabled,
+                        selectedHour: profileViewData.dailyStudyRemindersStartHour,
+                        onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
+                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(_:),
+                        onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
+                    )
+
+                    ProfileBadgesGridView(
+                        badgesState: badgesViewState,
+                        onBadgeTapped: viewModel.doBadgeCardTapped(badgeKind:),
+                        onVisibilityButtonTap: viewModel.doBadgesVisibilityButtonTapped(visibilityButton:)
+                    )
+
                     ProfileStatisticsView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),
                         passedProjectsCount: Int(data.profile.gamification.passedProjectsCount),
@@ -121,22 +138,13 @@ struct ProfileView: View {
                         hypercoinsBalance: Int(data.profile.gamification.hypercoinsBalance)
                     )
 
-                    ProfileDailyStudyRemindersView(
-                        appearance: .init(cornerRadius: appearance.cornerRadius),
-                        isActivated: viewData.isDailyStudyRemindersEnabled,
-                        selectedHour: viewData.dailyStudyRemindersStartHour,
-                        onIsActivatedChanged: viewModel.setDailyStudyRemindersEnabled(_:),
-                        onSelectedHourChanged: viewModel.setDailyStudyRemindersStartHour(_:),
-                        onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
-                    )
-
                     ProfileAboutView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),
-                        livesInText: viewData.livesInText,
-                        speaksText: viewData.speaksText,
-                        bio: viewData.bio,
-                        experience: viewData.experience,
-                        socialAccounts: viewData.socialAccounts,
+                        livesInText: profileViewData.livesInText,
+                        speaksText: profileViewData.speaksText,
+                        bio: profileViewData.bio,
+                        experience: profileViewData.experience,
+                        socialAccounts: profileViewData.socialAccounts,
                         onSocialAccountTapped: viewModel.doSocialAccountPresentation(_:),
                         onFullVersionButtonTapped: viewModel.doProfileFullVersionPresentation
                     )
