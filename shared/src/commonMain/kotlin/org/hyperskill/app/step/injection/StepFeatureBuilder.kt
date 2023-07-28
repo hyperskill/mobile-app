@@ -2,6 +2,7 @@ package org.hyperskill.app.step.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -22,6 +23,7 @@ object StepFeatureBuilder {
     fun build(
         stepRoute: StepRoute,
         stepInteractor: StepInteractor,
+        nextLearningActivityStateRepository: NextLearningActivityStateRepository,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         stepCompletionReducer: StepCompletionReducer,
@@ -31,6 +33,7 @@ object StepFeatureBuilder {
         val stepActionDispatcher = StepActionDispatcher(
             ActionDispatcherOptions(),
             stepInteractor,
+            nextLearningActivityStateRepository,
             analyticInteractor,
             sentryInteractor
         )

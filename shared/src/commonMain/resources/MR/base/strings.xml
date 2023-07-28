@@ -172,7 +172,7 @@
     <!-- Home -->
     <string name="home_title">Hello!</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
-    <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
+    <string name="home_next_learning_activity_title">Pick up where you left off</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
     <string name="home_repeat_unlimited">Repeat unlimited</string>
     <string name="home_continue_learning_on_web_text">Continue learning on the web</string>
@@ -466,4 +466,16 @@
     <string name="project_completed_modal_title">Congratulations! Your project is completed!</string>
     <string name="project_completed_modal_text">You did a great job!</string>
     <string name="project_completed_modal_project_reward_text">gems for completing the whole project</string>
+
+    <!--Badges-->
+    <string name="badge_project_mastery_title">Project Mastery</string>
+    <string name="badge_project_topic_mastery">Topic Mastery</string>
+    <string name="badge_project_committed_learning">Committed Learning</string>
+    <string name="badge_project_brilliant_mind">Brilliant Mind</string>
+    <string name="badge_project_helping_hand">Helping Hand</string>
+    <string name="badge_project_sweetheart">Sweetheart</string>
+    <string name="badge_project_benefactor">Benefactor</string>
+    <string name="badge_project_bounty_hunter">Bounty Hunter</string>
+    <string name="badge_level">Level %d</string>
+    <string name="badge_max_level">Level %d (Max)</string>
 </resources>

@@ -20,7 +20,18 @@ extension StudyPlanSectionItemView {
 struct StudyPlanSectionItemView: View {
     private(set) var appearance = Appearance()
 
-    let item: StudyPlanWidgetViewStateSectionItem
+    let title: String
+    let subtitle: String?
+
+    let isClickable: Bool
+
+    let progress: Int32
+    let formattedProgress: String?
+
+    let isIdeRequired: Bool
+
+    let itemState: StudyPlanWidgetViewStateSectionItemStateWrapper?
+
     let onActivityTap: () -> Void
 
     var body: some View {
@@ -28,7 +39,7 @@ struct StudyPlanSectionItemView: View {
             action: onActivityTap,
             label: buildContent
         )
-        .disabled(!item.isClickable)
+        .disabled(!isClickable)
         .buttonStyle(appearance.buttonStyle)
     }
 
@@ -41,66 +52,111 @@ struct StudyPlanSectionItemView: View {
                 buildTextContent()
 
                 StudyPlanSectionItemBadgesView(
-                    formattedProgress: item.formattedProgress,
-                    isIdeRequired: item.isIdeRequired
+                    formattedProgress: formattedProgress,
+                    isIdeRequired: isIdeRequired
                 )
             }
 
-            if let itemState = item.state.wrapped {
+            if let itemState {
                 StudyPlanSectionItemIconView(itemState: itemState)
             }
         }
         .padding()
-        .backgroundProgress(progress: item.progress)
+        .backgroundProgress(progress: progress)
     }
 
     @ViewBuilder
     private func buildTextContent() -> some View {
         VStack(alignment: .leading, spacing: appearance.textGroupSpacing) {
-            Text(item.title)
+            Text(title)
                 .font(.body)
 
-            if let subtitle = item.subtitle {
+            if let subtitle {
                 Text(subtitle)
                     .font(.headline)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .foregroundColor(item.isClickable ? .primaryText : .secondaryText)
+        .foregroundColor(isClickable ? .primaryText : .secondaryText)
     }
 }
 
 #if DEBUG
 struct StudyPlanSectionItemView_Previews: PreviewProvider {
     static var previews: some View {
+        let idlePlaceholder = StudyPlanWidgetViewStateSectionItem
+            .makePlaceholder(state: .idle)
+
+        let completedPlaceholder = StudyPlanWidgetViewStateSectionItem
+            .makePlaceholder(
+                state: .completed,
+                isIdeRequired: true,
+                progress: 50,
+                formattedProgress: "50%"
+            )
+
+        let lockedPlaceholder = StudyPlanWidgetViewStateSectionItem
+            .makePlaceholder(state: .locked)
+
+        let nextPlaceholder = StudyPlanWidgetViewStateSectionItem
+            .makePlaceholder(state: .next, subtitle: "Hello, coffee!")
+
+        let skippedPlaceholder = StudyPlanWidgetViewStateSectionItem
+            .makePlaceholder(state: .skipped)
+
         VStack(spacing: LayoutInsets.defaultInset) {
             StudyPlanSectionItemView(
-                item: .makePlaceholder(state: .idle),
+                title: idlePlaceholder.title,
+                subtitle: idlePlaceholder.subtitle,
+                isClickable: idlePlaceholder.isClickable,
+                progress: idlePlaceholder.progress,
+                formattedProgress: idlePlaceholder.formattedProgress,
+                isIdeRequired: idlePlaceholder.isIdeRequired,
+                itemState: idlePlaceholder.state.wrapped,
                 onActivityTap: {}
             )
 
             StudyPlanSectionItemView(
-                item: .makePlaceholder(
-                    state: .completed,
-                    isIdeRequired: true,
-                    progress: 50,
-                    formattedProgress: "50%"
-                ),
+                title: completedPlaceholder.title,
+                subtitle: completedPlaceholder.subtitle,
+                isClickable: completedPlaceholder.isClickable,
+                progress: completedPlaceholder.progress,
+                formattedProgress: completedPlaceholder.formattedProgress,
+                isIdeRequired: completedPlaceholder.isIdeRequired,
+                itemState: completedPlaceholder.state.wrapped,
                 onActivityTap: {}
             )
 
             StudyPlanSectionItemView(
-                item: .makePlaceholder(state: .locked),
+                title: lockedPlaceholder.title,
+                subtitle: lockedPlaceholder.subtitle,
+                isClickable: lockedPlaceholder.isClickable,
+                progress: lockedPlaceholder.progress,
+                formattedProgress: lockedPlaceholder.formattedProgress,
+                isIdeRequired: lockedPlaceholder.isIdeRequired,
+                itemState: lockedPlaceholder.state.wrapped,
                 onActivityTap: {}
             )
 
             StudyPlanSectionItemView(
-                item: .makePlaceholder(state: .next, subtitle: "Hello, coffee!"),
+                title: nextPlaceholder.title,
+                subtitle: nextPlaceholder.subtitle,
+                isClickable: nextPlaceholder.isClickable,
+                progress: nextPlaceholder.progress,
+                formattedProgress: nextPlaceholder.formattedProgress,
+                isIdeRequired: nextPlaceholder.isIdeRequired,
+                itemState: nextPlaceholder.state.wrapped,
                 onActivityTap: {}
             )
 
             StudyPlanSectionItemView(
-                item: .makePlaceholder(state: .skipped),
+                title: skippedPlaceholder.title,
+                subtitle: skippedPlaceholder.subtitle,
+                isClickable: skippedPlaceholder.isClickable,
+                progress: skippedPlaceholder.progress,
+                formattedProgress: skippedPlaceholder.formattedProgress,
+                isIdeRequired: skippedPlaceholder.isIdeRequired,
+                itemState: skippedPlaceholder.state.wrapped,
                 onActivityTap: {}
             )
         }

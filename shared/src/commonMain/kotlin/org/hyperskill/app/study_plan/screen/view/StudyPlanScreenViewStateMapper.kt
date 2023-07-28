@@ -4,7 +4,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
+import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 
 internal class StudyPlanScreenViewStateMapper(
     private val problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,

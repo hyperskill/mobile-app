@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
@@ -22,10 +20,11 @@ import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.next_learning_activity.view.delegate.NextLearningActivityDelegate
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
+import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
-import org.hyperskill.app.android.topics.view.delegate.TopicsToDiscoverNextDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
@@ -35,7 +34,6 @@ import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.topics_to_discover_next.presentation.TopicsToDiscoverNextFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -43,7 +41,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class HomeFragment :
     Fragment(R.layout.fragment_home),
-    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction> {
+    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction>,
+    UnsupportedStageBottomSheet.Callback {
     companion object {
         fun newInstance(): Fragment =
             HomeFragment()
@@ -70,16 +69,16 @@ class HomeFragment :
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         TopicsRepetitionCardFormDelegate()
     }
-    private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
-    private val topicsToDiscoverNextDelegate: TopicsToDiscoverNextDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        TopicsToDiscoverNextDelegate(loadingItems = 1) { topicId ->
+
+    private val nextLearningActivityDelegate: NextLearningActivityDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        NextLearningActivityDelegate(requireContext()) { nextLearningActivityMessage ->
             homeViewModel.onNewMessage(
-                HomeFeature.Message.TopicsToDiscoverNextMessage(
-                    TopicsToDiscoverNextFeature.Message.TopicToDiscoverNextClicked(topicId)
-                )
+                HomeFeature.Message.NextLearningActivityWidgetMessage(nextLearningActivityMessage)
             )
         }
     }
+
+    private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
     private val onForegroundObserver =
         object : DefaultLifecycleObserver {
@@ -104,10 +103,7 @@ class HomeFragment :
         initGamificationToolbarDelegate()
         initProblemsLimitDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
-        topicsToDiscoverNextDelegate.setup(
-            requireContext(),
-            viewBinding.homeTopicsToDiscoverNext.homeTopicsToDiscoverNextRecycler
-        )
+        nextLearningActivityDelegate.setup(requireContext(), viewBinding.homeNextLearningActivity)
         with(viewBinding) {
             homeScreenSwipeRefreshLayout.setHyperskillColors()
             homeScreenSwipeRefreshLayout.setOnRefreshListener {
@@ -171,7 +167,7 @@ class HomeFragment :
                 viewBinding.homeScreenKeepPracticingTextView,
                 viewBinding.homeScreenProblemOfDayCard.root,
                 viewBinding.homeScreenTopicsRepetitionCard.root,
-                viewBinding.homeScreenKeepLearningInWebButton,
+                viewBinding.homeScreenKeepLearningInWebButton
             )
         }
     }
@@ -215,17 +211,19 @@ class HomeFragment :
                     mainScreenRouter = mainScreenRouter,
                     router = requireRouter()
                 )
-            is HomeFeature.Action.ViewAction.TopicsToDiscoverNextViewAction -> {
-                when (action.viewAction) {
-                    is TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen -> {
-                        val viewAction =
-                            action.viewAction as TopicsToDiscoverNextFeature.Action.ViewAction.ShowStepScreen
-                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
-                    }
-                }
+            is HomeFeature.Action.ViewAction.NavigateTo.StepScreen -> {
+                requireRouter().navigateTo(
+                    StepScreen(action.stepRoute)
+                )
             }
-            else -> {
+            is HomeFeature.Action.ViewAction.ProblemsLimitViewAction -> {
                 // no op
+            }
+            is HomeFeature.Action.ViewAction.NextLearningActivityWidgetViewAction -> {
+                nextLearningActivityDelegate.handleAction(
+                    fragment = this,
+                    action = action.viewAction
+                )
             }
         }
     }
@@ -246,7 +244,7 @@ class HomeFragment :
         problemsLimitViewStateMapper?.let { mapper ->
             problemsLimitDelegate?.render(mapper.mapState(state.problemsLimitState))
         }
-        renderTopicsToDiscoverNext(state.topicsToDiscoverNextState)
+        nextLearningActivityDelegate.render(state.nextLearningActivityWidgetState)
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.State) {
@@ -297,14 +295,18 @@ class HomeFragment :
         }
     }
 
-    private fun renderTopicsToDiscoverNext(state: TopicsToDiscoverNextFeature.State) {
-        TransitionManager.beginDelayedTransition(viewBinding.root, AutoTransition())
-        with(viewBinding) {
-            homeTopicsToDiscoverNext.homeTopicsToDiscoverNextTitle.isVisible =
-                state is TopicsToDiscoverNextFeature.State.Content
-            homeTopicsToDiscoverNext.homeTopicsToDiscoverNextTitleSkeleton.isVisible =
-                state is TopicsToDiscoverNextFeature.State.Loading
-        }
-        topicsToDiscoverNextDelegate.render(state)
+    // UnsupportedStageBottomSheet.Callback methods
+    override fun onShow() {
+        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalShownEventMessage)
+    }
+
+    override fun onDismiss() {
+        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalHiddenEventMessage)
+    }
+
+    override fun onHomeClick() {
+        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalGoToHomeClicked)
+        childFragmentManager
+            .dismissDialogFragmentIfExists(UnsupportedStageBottomSheet.TAG)
     }
 }
