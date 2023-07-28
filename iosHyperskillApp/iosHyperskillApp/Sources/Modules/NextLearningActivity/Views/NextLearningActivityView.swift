@@ -57,6 +57,7 @@ struct NextLearningActivityView_Previews: PreviewProvider {
         NextLearningActivityView(
             stateKs: .content(
                 NextLearningActivityWidgetFeatureViewStateContent(
+                    id: nextPlaceholder.id,
                     title: nextPlaceholder.title,
                     subtitle: nextPlaceholder.subtitle,
                     isIdeRequired: nextPlaceholder.isIdeRequired,
