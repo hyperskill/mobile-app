@@ -12,7 +12,13 @@ struct StudyPlanSectionActivitiesList: View {
     var body: some View {
         ForEach(sectionItems, id: \.id) { item in
             StudyPlanSectionItemView(
-                item: item,
+                title: item.title,
+                subtitle: item.subtitle,
+                isClickable: item.isClickable,
+                progress: item.progress,
+                formattedProgress: item.formattedProgress,
+                isIdeRequired: item.isIdeRequired,
+                itemState: item.state.wrapped,
                 onActivityTap: { onTap(item.id) }
             )
         }

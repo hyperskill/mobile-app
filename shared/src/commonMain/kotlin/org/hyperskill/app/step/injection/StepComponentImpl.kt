@@ -18,6 +18,7 @@ class StepComponentImpl(private val appGraph: AppGraph, private val stepRoute: S
         get() = StepFeatureBuilder.build(
             stepRoute,
             appGraph.buildStepDataComponent().stepInteractor,
+            appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             stepCompletionComponent.stepCompletionReducer,
