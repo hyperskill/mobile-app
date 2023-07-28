@@ -95,9 +95,6 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
                 formattedProgress: "50%"
             )
 
-        let lockedPlaceholder = StudyPlanWidgetViewStateSectionItem
-            .makePlaceholder(state: .locked)
-
         let nextPlaceholder = StudyPlanWidgetViewStateSectionItem
             .makePlaceholder(state: .next, subtitle: "Hello, coffee!")
 
@@ -124,17 +121,6 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
                 formattedProgress: completedPlaceholder.formattedProgress,
                 isIdeRequired: completedPlaceholder.isIdeRequired,
                 itemState: completedPlaceholder.state.wrapped,
-                onActivityTap: {}
-            )
-
-            StudyPlanSectionItemView(
-                title: lockedPlaceholder.title,
-                subtitle: lockedPlaceholder.subtitle,
-                isClickable: lockedPlaceholder.isClickable,
-                progress: lockedPlaceholder.progress,
-                formattedProgress: lockedPlaceholder.formattedProgress,
-                isIdeRequired: lockedPlaceholder.isIdeRequired,
-                itemState: lockedPlaceholder.state.wrapped,
                 onActivityTap: {}
             )
 

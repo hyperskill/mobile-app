@@ -48,7 +48,6 @@ interface StudyPlanRecyclerItem {
             val inactiveTextColorRes: Int = org.hyperskill.app.R.color.color_on_surface_alpha_60
 
             const val nextActivityIconRes: Int = R.drawable.ic_home_screen_arrow_button
-            const val lockedActivityIconRes: Int = R.drawable.ic_activity_locked
             const val skippedActivityIconRes: Int = R.drawable.ic_topic_skipped
             const val completedActivityIconRes: Int = R.drawable.ic_topic_completed
         }

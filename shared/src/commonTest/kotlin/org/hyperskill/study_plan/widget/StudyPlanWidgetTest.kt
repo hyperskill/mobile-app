@@ -770,7 +770,7 @@ class StudyPlanWidgetTest {
                         listOf(
                             studyPlanSectionItemStub(
                                 activityId = 1,
-                                state = StudyPlanWidgetViewState.SectionItemState.NEXT
+                                state = StudyPlanWidgetViewState.SectionItemState.IDLE
                             )
                         )
                     ),
@@ -1164,6 +1164,94 @@ class StudyPlanWidgetTest {
         assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
     }
 
+    @Test
+    fun `Activity with id section next_activity_id in ViewState will be next for root topics section`() {
+        val nextActivityId = 0L
+        val notNextActivityId = 1L
+        val sectionId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(
+                        id = sectionId,
+                        activities = listOf(nextActivityId, notNextActivityId),
+                        nextActivityId = nextActivityId
+                    ),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                notNextActivityId to stubLearningActivity(notNextActivityId),
+                nextActivityId to stubLearningActivity(nextActivityId)
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+
+        val viewSectionItems = (
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
+
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.NEXT,
+            viewSectionItems.first { it.id == nextActivityId }.state
+        )
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.IDLE,
+            viewSectionItems.first { it.id == notNextActivityId }.state
+        )
+    }
+
+    @Test
+    fun `First activity in ViewState will be next for not root topics section`() {
+        val firstActivityId = 0L
+        val secondActivityId = 1L
+        val sectionId = 2L
+        val state = StudyPlanWidgetFeature.State(
+            studyPlan = StudyPlan.stub(id = 0, sections = listOf(sectionId)),
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(
+                        id = sectionId,
+                        activities = listOf(firstActivityId, secondActivityId),
+                        nextActivityId = null
+                    ),
+                    isExpanded = true,
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+                )
+            ),
+            activities = mapOf(
+                firstActivityId to stubLearningActivity(firstActivityId),
+                secondActivityId to stubLearningActivity(secondActivityId)
+            ),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        val viewState = studyPlanWidgetViewStateMapper.map(state)
+
+        val viewSectionItems = (
+            (viewState as? StudyPlanWidgetViewState.Content)
+                ?.sections
+                ?.firstOrNull()
+                ?.content as? StudyPlanWidgetViewState.SectionContent.Content
+            )?.sectionItems ?: fail("Unexpected view state: $viewState")
+
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.NEXT,
+            viewSectionItems.first { it.id == firstActivityId }.state
+        )
+        assertEquals(
+            StudyPlanWidgetViewState.SectionItemState.IDLE,
+            viewSectionItems.first { it.id == secondActivityId }.state
+        )
+    }
+
     private fun sectionViewState(
         section: StudyPlanSection,
         content: StudyPlanWidgetViewState.SectionContent,
@@ -1231,7 +1319,7 @@ class StudyPlanWidgetTest {
         activityId: Long,
         title: String = "",
         subtitle: String? = null,
-        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED,
+        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.IDLE,
         isIdeRequired: Boolean = false
     ) =
         StudyPlanWidgetViewState.SectionItem(

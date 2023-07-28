@@ -47,13 +47,12 @@ sealed interface StudyPlanWidgetViewState {
         val hypercoinsAward: Int?
     ) {
         val isClickable: Boolean
-            get() = state == SectionItemState.NEXT
+            get() = state == SectionItemState.NEXT || state == SectionItemState.IDLE
     }
 
     enum class SectionItemState {
         IDLE,
         NEXT,
-        LOCKED,
         SKIPPED,
         COMPLETED
     }

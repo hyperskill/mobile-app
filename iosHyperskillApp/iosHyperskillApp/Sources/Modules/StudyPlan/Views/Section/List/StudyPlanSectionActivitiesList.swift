@@ -43,7 +43,7 @@ struct StudyPlanSectionActivitiesList_Previews: PreviewProvider {
             StudyPlanSectionActivitiesList(
                 sectionItems: [
                     .makePlaceholder(state: .next),
-                    .makePlaceholder(state: .locked)
+                    .makePlaceholder(state: .idle)
                 ],
                 onTap: { _ in }
             )

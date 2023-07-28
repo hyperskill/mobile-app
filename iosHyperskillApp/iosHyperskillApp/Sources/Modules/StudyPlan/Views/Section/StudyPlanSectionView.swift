@@ -71,7 +71,6 @@ extension StudyPlanWidgetViewStateSection {
                     .makePlaceholder(state: .idle),
                     .makePlaceholder(state: .skipped),
                     .makePlaceholder(state: .completed),
-                    .makePlaceholder(state: .locked),
                     .makePlaceholder(state: .next)
                 ]
             )
