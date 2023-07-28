@@ -337,10 +337,6 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             )
         )
 
-        if (activity.id != state.getCurrentActivity()?.id) {
-            return state to setOf(logAnalyticEventAction)
-        }
-
         val activityTargetAction = LearningActivityTargetViewActionMapper
             .mapLearningActivityToTargetViewAction(
                 activity = activity,
