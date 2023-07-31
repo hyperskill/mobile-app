@@ -45,10 +45,7 @@ sealed interface StudyPlanWidgetViewState {
         val progress: Int,
         val formattedProgress: String?,
         val hypercoinsAward: Int?
-    ) {
-        val isClickable: Boolean
-            get() = state == SectionItemState.NEXT || state == SectionItemState.IDLE
-    }
+    )
 
     enum class SectionItemState {
         IDLE,

@@ -40,7 +40,6 @@ interface StudyPlanRecyclerItem {
         val progress: Int,
         val formattedProgress: String?,
         val endIcon: Drawable?,
-        val isClickable: Boolean,
         val isIdeRequired: Boolean
     ) : StudyPlanRecyclerItem, Identifiable<Long> {
         companion object {

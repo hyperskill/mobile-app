@@ -83,7 +83,6 @@ class NextLearningActivityDelegate(
             progress = content.progress,
             formattedProgress = content.formattedProgress,
             endIcon = nextLearningActivityEndIcon,
-            isClickable = true,
             isIdeRequired = content.isIdeRequired
         )
 

@@ -14,7 +14,6 @@ struct StudyPlanSectionActivitiesList: View {
             StudyPlanSectionItemView(
                 title: item.title,
                 subtitle: item.subtitle,
-                isClickable: item.isClickable,
                 progress: item.progress,
                 formattedProgress: item.formattedProgress,
                 isIdeRequired: item.isIdeRequired,
