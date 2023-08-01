@@ -37,7 +37,6 @@ struct NextLearningActivityView: View {
                 StudyPlanSectionItemView(
                     title: content.title,
                     subtitle: content.subtitle,
-                    isClickable: true,
                     progress: content.progress,
                     formattedProgress: content.formattedProgress,
                     isIdeRequired: content.isIdeRequired,
