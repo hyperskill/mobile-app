@@ -50,7 +50,7 @@ class BadgesViewStateMapper(
                 badge.level
             ),
             nextLevel = if (badge.isMaxLevel) null else badge.level + 1,
-            progress = if (badge.nextLevelValue != null && badge.isMaxLevel) {
+            progress = if (badge.nextLevelValue != null && !badge.isMaxLevel) {
                 val totalCount = badge.nextLevelValue - badge.currentLevelValue
                 val currentCount = badge.value - badge.currentLevelValue
                 currentCount / totalCount.toFloat()
