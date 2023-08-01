@@ -175,6 +175,9 @@ interface ProfileFeature {
             SHOW_LESS
         }
         data class BadgeClicked(val badgeKind: BadgeKind) : Message
+        data class BadgeModalShownEventMessage(val badgeKind: BadgeKind) : Message
+        data class BadgeModalHiddenEventMessage(val badgeKind: BadgeKind) : Message
+        data class BadgeModalCloseClicked(val badgeKind: BadgeKind) : Message
 
         /**
          * Flow messages.
@@ -220,6 +223,8 @@ interface ProfileFeature {
                 object Error : ShowStreakFreezeBuyingStatus
                 object Success : ShowStreakFreezeBuyingStatus
             }
+
+            data class ShowBadgeDetailsModal(val badge: Badge) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo

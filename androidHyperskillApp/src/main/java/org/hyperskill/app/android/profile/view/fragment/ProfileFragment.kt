@@ -290,6 +290,9 @@ class ProfileFragment :
             ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                 mainScreenRouter.switch(HomeScreen)
             }
+            is ProfileFeature.Action.ViewAction.ShowBadgeDetailsModal -> {
+                TODO("not implemented")
+            }
         }
     }
 
