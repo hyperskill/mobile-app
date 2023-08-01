@@ -10,9 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
+import coil.result
 import coil.transform.CircleCropTransformation
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.badges.view.delegate.ProfileBadgesDelegate
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
@@ -33,6 +35,7 @@ import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
+import org.hyperskill.app.profile.view.BadgesViewStateMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -61,6 +64,13 @@ class ProfileFragment :
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private val profileViewModel: ProfileViewModel by reduxViewModel(this) { viewModelFactory }
     private var viewStateDelegate: ViewStateDelegate<ProfileFeature.State>? = null
+    private val profileBadgesDelegate: ProfileBadgesDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        ProfileBadgesDelegate(
+            BadgesViewStateMapper(
+                HyperskillApp.graph().commonComponent.resourceProvider
+            )
+        )
+    }
 
     private val platformNotificationComponent =
         HyperskillApp.graph().platformLocalNotificationComponent
@@ -110,6 +120,18 @@ class ProfileFragment :
             binding = viewBinding.profileStreakLayout,
             onFreezeButtonClick = {
                 profileViewModel.onNewMessage(ProfileFeature.Message.StreakFreezeCardButtonClicked)
+            }
+        )
+        profileBadgesDelegate.setup(
+            activity = requireActivity(),
+            composeView = viewBinding.profileBadges,
+            onBadgeClick = { badgeKind ->
+                profileViewModel.onNewMessage(ProfileFeature.Message.BadgeClicked(badgeKind))
+            },
+            onExpandButtonClick = { button ->
+                profileViewModel.onNewMessage(
+                    ProfileFeature.Message.BadgesVisibilityButtonClicked(button)
+                )
             }
         )
 
@@ -289,6 +311,7 @@ class ProfileFragment :
         renderNameHeader(content.profile)
         renderReminderSchedule(content.dailyStudyRemindersState, notificationManager)
         AboutMeDelegate.render(requireContext(), viewBinding.profileAboutMeLayout, content.profile)
+        profileBadgesDelegate.render(content.badgesState)
 
         if (content.isLoadingMagicLink) {
             LoadingProgressDialogFragment.newInstance()
@@ -312,6 +335,7 @@ class ProfileFragment :
             profileAvatarImageView.load(profile.avatar, imageLoader) {
                 transformations(CircleCropTransformation())
             }
+            profileAvatarImageView.result?.request?.memoryCacheKey
             profileNameTextView.setTextIfChanged(profile.fullname)
             profileRoleTextView.setTextIfChanged(
                 if (profile.isStaff) {

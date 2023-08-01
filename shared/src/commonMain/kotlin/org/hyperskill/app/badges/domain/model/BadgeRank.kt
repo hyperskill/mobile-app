@@ -5,6 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class BadgeRank {
+    @SerialName("Locked")
+    LOCKED,
     @SerialName("Apprentice")
     APPRENTICE,
     @SerialName("Expert")
