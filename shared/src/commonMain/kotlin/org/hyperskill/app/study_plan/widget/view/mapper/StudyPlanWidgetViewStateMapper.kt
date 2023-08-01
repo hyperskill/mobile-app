@@ -104,7 +104,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         LearningActivityState.TODO -> if (activity.id == currentActivityId) {
                             StudyPlanWidgetViewState.SectionItemState.NEXT
                         } else {
-                            StudyPlanWidgetViewState.SectionItemState.LOCKED
+                            StudyPlanWidgetViewState.SectionItemState.IDLE
                         }
                         LearningActivityState.SKIPPED -> StudyPlanWidgetViewState.SectionItemState.SKIPPED
                         LearningActivityState.COMPLETED -> StudyPlanWidgetViewState.SectionItemState.COMPLETED

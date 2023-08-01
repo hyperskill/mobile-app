@@ -64,8 +64,6 @@ class StudyPlanWidgetDelegate(
     private val activityTopMargin =
         context.resources.getDimensionPixelOffset(R.dimen.study_plan_activity_top_margin)
 
-    private val lockIcon =
-        ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.lockedActivityIconRes)
     private val activeIcon =
         ContextCompat.getDrawable(context, StudyPlanRecyclerItem.Activity.nextActivityIconRes)
     private val skippedIcon =
@@ -220,11 +218,9 @@ class StudyPlanWidgetDelegate(
                 endIcon = when (item.state) {
                     StudyPlanWidgetViewState.SectionItemState.IDLE -> null
                     StudyPlanWidgetViewState.SectionItemState.NEXT -> activeIcon
-                    StudyPlanWidgetViewState.SectionItemState.LOCKED -> lockIcon
                     StudyPlanWidgetViewState.SectionItemState.SKIPPED -> skippedIcon
                     StudyPlanWidgetViewState.SectionItemState.COMPLETED -> completedIcon
                 },
-                isClickable = item.isClickable,
                 isIdeRequired = item.isIdeRequired
             )
         }

@@ -14,7 +14,6 @@ struct StudyPlanSectionActivitiesList: View {
             StudyPlanSectionItemView(
                 title: item.title,
                 subtitle: item.subtitle,
-                isClickable: item.isClickable,
                 progress: item.progress,
                 formattedProgress: item.formattedProgress,
                 isIdeRequired: item.isIdeRequired,
@@ -43,7 +42,7 @@ struct StudyPlanSectionActivitiesList_Previews: PreviewProvider {
             StudyPlanSectionActivitiesList(
                 sectionItems: [
                     .makePlaceholder(state: .next),
-                    .makePlaceholder(state: .locked)
+                    .makePlaceholder(state: .idle)
                 ],
                 onTap: { _ in }
             )

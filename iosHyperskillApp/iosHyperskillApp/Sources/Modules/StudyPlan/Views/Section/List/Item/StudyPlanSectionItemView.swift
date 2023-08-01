@@ -23,8 +23,6 @@ struct StudyPlanSectionItemView: View {
     let title: String
     let subtitle: String?
 
-    let isClickable: Bool
-
     let progress: Int32
     let formattedProgress: String?
 
@@ -39,7 +37,6 @@ struct StudyPlanSectionItemView: View {
             action: onActivityTap,
             label: buildContent
         )
-        .disabled(!isClickable)
         .buttonStyle(appearance.buttonStyle)
     }
 
@@ -77,7 +74,7 @@ struct StudyPlanSectionItemView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .foregroundColor(isClickable ? .primaryText : .secondaryText)
+        .foregroundColor(itemState == .next ? .primaryText : .secondaryText)
     }
 }
 
@@ -95,9 +92,6 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
                 formattedProgress: "50%"
             )
 
-        let lockedPlaceholder = StudyPlanWidgetViewStateSectionItem
-            .makePlaceholder(state: .locked)
-
         let nextPlaceholder = StudyPlanWidgetViewStateSectionItem
             .makePlaceholder(state: .next, subtitle: "Hello, coffee!")
 
@@ -108,7 +102,6 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
             StudyPlanSectionItemView(
                 title: idlePlaceholder.title,
                 subtitle: idlePlaceholder.subtitle,
-                isClickable: idlePlaceholder.isClickable,
                 progress: idlePlaceholder.progress,
                 formattedProgress: idlePlaceholder.formattedProgress,
                 isIdeRequired: idlePlaceholder.isIdeRequired,
@@ -119,7 +112,6 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
             StudyPlanSectionItemView(
                 title: completedPlaceholder.title,
                 subtitle: completedPlaceholder.subtitle,
-                isClickable: completedPlaceholder.isClickable,
                 progress: completedPlaceholder.progress,
                 formattedProgress: completedPlaceholder.formattedProgress,
                 isIdeRequired: completedPlaceholder.isIdeRequired,
@@ -128,20 +120,8 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
             )
 
             StudyPlanSectionItemView(
-                title: lockedPlaceholder.title,
-                subtitle: lockedPlaceholder.subtitle,
-                isClickable: lockedPlaceholder.isClickable,
-                progress: lockedPlaceholder.progress,
-                formattedProgress: lockedPlaceholder.formattedProgress,
-                isIdeRequired: lockedPlaceholder.isIdeRequired,
-                itemState: lockedPlaceholder.state.wrapped,
-                onActivityTap: {}
-            )
-
-            StudyPlanSectionItemView(
                 title: nextPlaceholder.title,
                 subtitle: nextPlaceholder.subtitle,
-                isClickable: nextPlaceholder.isClickable,
                 progress: nextPlaceholder.progress,
                 formattedProgress: nextPlaceholder.formattedProgress,
                 isIdeRequired: nextPlaceholder.isIdeRequired,
@@ -152,7 +132,6 @@ struct StudyPlanSectionItemView_Previews: PreviewProvider {
             StudyPlanSectionItemView(
                 title: skippedPlaceholder.title,
                 subtitle: skippedPlaceholder.subtitle,
-                isClickable: skippedPlaceholder.isClickable,
                 progress: skippedPlaceholder.progress,
                 formattedProgress: skippedPlaceholder.formattedProgress,
                 isIdeRequired: skippedPlaceholder.isIdeRequired,
