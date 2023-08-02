@@ -48,6 +48,7 @@ struct NextLearningActivityView: View {
     }
 }
 
+#if DEBUG
 struct NextLearningActivityView_Previews: PreviewProvider {
     static var previews: some View {
         let nextPlaceholder = StudyPlanWidgetViewStateSectionItem
@@ -71,3 +72,4 @@ struct NextLearningActivityView_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+#endif
