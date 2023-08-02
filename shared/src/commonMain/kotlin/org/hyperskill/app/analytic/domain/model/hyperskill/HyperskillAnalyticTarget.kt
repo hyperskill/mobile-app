@@ -19,7 +19,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DONE("done"),
     YES("yes"),
     NO("no"),
-    BACK("back"),
     THEME("theme"),
     JETBRAINS_TERMS_OF_SERVICE("jetbrains_terms_of_service"),
     HYPERSKILL_TERMS_OF_SERVICE("hyperskill_terms_of_service"),
@@ -55,7 +54,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     REPORT("report"),
     REPORT_HINT_NOTICE("report_hint_notice"),
     REFRESH("refresh"),
-    TOPIC("topic"),
     GO_BACK("go_back"),
     GO_TO_HOME_SCREEN("go_to_home_screen"),
     CONTINUE_WITH_NEXT_TOPIC("continue_with_next_topic"),
@@ -66,8 +64,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     STREAK("streak"),
     GEMS("gems"),
     PROGRESS("progress"),
-    TRACK_MODAL("track_modal"),
-    START_LEARNING("start_learning"),
     GET_STREAK_FREEZE("get_streak_freeze"),
     STREAK_FREEZE_ICON("streak_freeze_icon"),
     STREAK_FREEZE_MODAL("streak_freeze_modal"),
@@ -89,4 +85,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     GO_TO_STUDY_PLAN("go_to_study_plan"),
     CHANGE_TRACK("change_track"),
     CHANGE_PROJECT("change_project"),
+    BADGES_VISIBILITY_BUTTON("badges_visibility_button"),
+    BADGE_CARD("badges_card")
 }

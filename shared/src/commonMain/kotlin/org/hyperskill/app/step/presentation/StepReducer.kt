@@ -31,7 +31,7 @@ class StepReducer(
                     step = message.step,
                     isPracticingAvailable = stepRoute is StepRoute.Learn,
                     stepCompletionState = StepCompletionFeature.createState(message.step, stepRoute)
-                ) to emptySet()
+                ) to setOf(Action.UpdateNextLearningActivityState(message.step))
             }
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()

@@ -42,6 +42,8 @@ interface StepFeature {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
         data class ViewStep(val stepId: Long, val stepContext: StepContext) : Action
 
+        data class UpdateNextLearningActivityState(val step: Step) : Action
+
         /**
          * Action Wrappers
          */

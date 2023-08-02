@@ -4,7 +4,6 @@ import shared
 enum StudyPlanWidgetViewStateSectionItemStateWrapper {
     case idle
     case next
-    case locked
     case skipped
     case completed
 }
@@ -16,8 +15,6 @@ extension StudyPlanWidgetViewStateSectionItemStateWrapper {
             self = .idle
         case .next:
             self = .next
-        case .locked:
-            self = .locked
         case .skipped:
             self = .skipped
         case .completed:

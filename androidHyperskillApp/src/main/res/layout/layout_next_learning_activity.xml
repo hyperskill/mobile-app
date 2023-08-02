@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/homeNextLearningActivityTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/home_next_learning_activity_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/color_on_surface_alpha_60"
+        android:layout_marginHorizontal="20dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homeNextLearningActivityRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="9dp"
+        android:paddingBottom="2dp"
+        android:clipToPadding="false"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_study_plan_activity"
+        />
+
+</LinearLayout>

@@ -18,8 +18,6 @@ struct StudyPlanSectionItemIconView: View {
         switch itemState {
         case .completed:
             return Image(systemName: "checkmark")
-        case .locked:
-            return Image(systemName: "lock")
         case .next:
             return Image(Images.Home.ProblemOfDay.arrowUncompleted)
         case .skipped:
@@ -31,7 +29,7 @@ struct StudyPlanSectionItemIconView: View {
 
     private var renderingMode: Image.TemplateRenderingMode? {
         switch itemState {
-        case .completed, .locked, .skipped:
+        case .completed, .skipped:
             return .template
         case .next:
             return .original
@@ -42,7 +40,7 @@ struct StudyPlanSectionItemIconView: View {
 
     private var contentMode: ContentMode {
         switch itemState {
-        case .completed, .locked, .skipped:
+        case .completed, .skipped:
             return .fit
         case .idle, .next:
             return .fill
@@ -53,7 +51,7 @@ struct StudyPlanSectionItemIconView: View {
         switch itemState {
         case .completed:
             return Color(ColorPalette.secondary)
-        case .locked, .skipped:
+        case .skipped:
             return Color(ColorPalette.onSurfaceAlpha38)
         case .idle, .next:
             return nil
@@ -62,7 +60,7 @@ struct StudyPlanSectionItemIconView: View {
 
     private var widthHeight: CGFloat {
         switch itemState {
-        case .completed, .locked, .skipped:
+        case .completed, .skipped:
             return appearance.defaultWidthHeight
         case .next:
             return appearance.arrowWidthHeight
@@ -90,7 +88,6 @@ struct StudyPlanSectionItemIconView_Previews: PreviewProvider {
         VStack(spacing: LayoutInsets.defaultInset) {
             StudyPlanSectionItemIconView(itemState: .idle)
             StudyPlanSectionItemIconView(itemState: .next)
-            StudyPlanSectionItemIconView(itemState: .locked)
             StudyPlanSectionItemIconView(itemState: .skipped)
             StudyPlanSectionItemIconView(itemState: .completed)
         }

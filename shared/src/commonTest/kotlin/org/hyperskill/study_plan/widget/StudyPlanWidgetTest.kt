@@ -11,6 +11,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
@@ -22,8 +23,8 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanStatus
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewStateMapper
+import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.study_plan.domain.model.stub
 
 class StudyPlanWidgetTest {
@@ -340,6 +341,40 @@ class StudyPlanWidgetTest {
         val resultActivitiesIds = state.activities.keys
 
         assertEquals(expectedActivitiesIds, resultActivitiesIds)
+    }
+
+    @Test
+    fun `Successfully loaded activities for current section should update next learning activity state`() {
+        val sectionId = 0L
+        val activities = List(2) { index ->
+            stubLearningActivity(id = index.toLong())
+        }
+
+        val initialState = StudyPlanWidgetFeature.State(
+            studyPlanSections = mapOf(
+                sectionId to StudyPlanWidgetFeature.StudyPlanSectionInfo(
+                    studyPlanSection = studyPlanSectionStub(
+                        sectionId,
+                        activities = activities.map { it.id }
+                    ),
+                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADING,
+                    isExpanded = true
+                )
+            )
+        )
+
+        val expectedActivity = activities.first()
+
+        val (_, resultActions) =
+            reducer.reduce(
+                initialState,
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(sectionId, activities)
+            )
+
+        assertContains(
+            resultActions,
+            StudyPlanWidgetFeature.InternalAction.UpdateNextLearningActivityState(expectedActivity)
+        )
     }
 
     @Test
@@ -735,7 +770,7 @@ class StudyPlanWidgetTest {
                         listOf(
                             studyPlanSectionItemStub(
                                 activityId = 1,
-                                state = StudyPlanWidgetViewState.SectionItemState.LOCKED
+                                state = StudyPlanWidgetViewState.SectionItemState.IDLE
                             )
                         )
                     ),
@@ -777,35 +812,6 @@ class StudyPlanWidgetTest {
     }
 
     @Test
-    fun `Click on non current learning activity should do nothing`() {
-        val state = StudyPlanWidgetFeature.State(
-            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0, 1)),
-            studyPlanSections = mapOf(
-                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
-                    isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                ),
-                1L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    studyPlanSection = studyPlanSectionStub(id = 1, activities = listOf(1)),
-                    isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                )
-            ),
-            activities = mapOf(0L to stubLearningActivity(id = 0), 1L to stubLearningActivity(id = 1)),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-        )
-        val activityId = 1L
-
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
-
-        assertEquals(state, newState)
-        assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
-
-        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
-    }
-
-    @Test
     fun `Click on stage implement learning activity should navigate to stage implementation`() {
         val activityId = 0L
         val projectId = 1L
@@ -835,7 +841,10 @@ class StudyPlanWidgetTest {
 
         assertEquals(state, newState)
         assertContains(
-            actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement(stageId, projectId)
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.NavigateTo.StageImplement(stageId = stageId, projectId = projectId)
+            )
         )
 
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
@@ -899,13 +908,20 @@ class StudyPlanWidgetTest {
 
         assertEquals(state, newState)
 
-        val targetViewAction = actions.first()
-        if (targetViewAction is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen &&
-            targetViewAction.stepRoute is StepRoute.Learn
-        ) {
-            assertEquals(targetViewAction.stepRoute.stepId, stepId)
-        } else {
-            fail("Unexpected action: $targetViewAction")
+        when (val targetViewAction = actions.first()) {
+            is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget -> {
+                when (val activityViewAction = targetViewAction.viewAction) {
+                    is LearningActivityTargetViewAction.NavigateTo.Step -> {
+                        assertEquals(activityViewAction.stepRoute, StepRoute.Learn.Step(stepId))
+                    }
+                    else -> {
+                        fail("Unexpected action: $activityViewAction")
+                    }
+                }
+            }
+            else -> {
+                fail("Unexpected action: $targetViewAction")
+            }
         }
 
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
@@ -968,7 +984,12 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal)
+        assertContains(
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.ShowStageImplementIDERequiredModal
+            )
+        )
 
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
@@ -995,7 +1016,12 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject(trackId))
+        assertContains(
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.NavigateTo.SelectProject(trackId = trackId)
+            )
+        )
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
@@ -1020,7 +1046,12 @@ class StudyPlanWidgetTest {
         val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
 
         assertEquals(state, newState)
-        assertContains(actions, StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack)
+        assertContains(
+            actions,
+            StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget(
+                LearningActivityTargetViewAction.NavigateTo.SelectTrack
+            )
+        )
         assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
@@ -1172,7 +1203,7 @@ class StudyPlanWidgetTest {
             viewSectionItems.first { it.id == nextActivityId }.state
         )
         assertEquals(
-            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            StudyPlanWidgetViewState.SectionItemState.IDLE,
             viewSectionItems.first { it.id == notNextActivityId }.state
         )
     }
@@ -1216,7 +1247,7 @@ class StudyPlanWidgetTest {
             viewSectionItems.first { it.id == firstActivityId }.state
         )
         assertEquals(
-            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            StudyPlanWidgetViewState.SectionItemState.IDLE,
             viewSectionItems.first { it.id == secondActivityId }.state
         )
     }
@@ -1269,7 +1300,8 @@ class StudyPlanWidgetTest {
         targetType: LearningActivityTargetType = LearningActivityTargetType.STEP,
         title: String = "",
         description: String? = null,
-        isIdeRequired: Boolean = false
+        isIdeRequired: Boolean = false,
+        topicId: Long? = null
     ) =
         LearningActivity(
             id = id,
@@ -1279,14 +1311,15 @@ class StudyPlanWidgetTest {
             targetTypeValue = targetType.value,
             title = title,
             description = description,
-            isIdeRequired = isIdeRequired
+            isIdeRequired = isIdeRequired,
+            topicId = topicId
         )
 
     private fun studyPlanSectionItemStub(
         activityId: Long,
         title: String = "",
         subtitle: String? = null,
-        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED,
+        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.IDLE,
         isIdeRequired: Boolean = false
     ) =
         StudyPlanWidgetViewState.SectionItem(

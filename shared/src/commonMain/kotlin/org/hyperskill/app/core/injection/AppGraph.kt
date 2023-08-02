@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
+import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponent
@@ -19,6 +20,7 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
+import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
@@ -59,10 +61,6 @@ import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsFlowDataComponent
-import org.hyperskill.app.topics_to_discover_next.domain.model.TopicsToDiscoverNextScreen
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextComponent
-import org.hyperskill.app.topics_to_discover_next.injection.TopicsToDiscoverNextDataComponent
-import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
@@ -105,7 +103,6 @@ interface AppGraph {
     fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent
 
     fun buildMainDataComponent(): MainDataComponent
-    fun buildTrackComponent(): TrackComponent
     fun buildTrackDataComponent(): TrackDataComponent
     fun buildTrackSelectionListComponent(): TrackSelectionListComponent
     fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent
@@ -130,8 +127,6 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent
-    fun buildTopicsToDiscoverNextComponent(screen: TopicsToDiscoverNextScreen): TopicsToDiscoverNextComponent
-    fun buildTopicsToDiscoverNextDataComponent(): TopicsToDiscoverNextDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildProjectSelectionListComponent(): ProjectSelectionListComponent
@@ -145,4 +140,6 @@ interface AppGraph {
     fun buildPushNotificationsComponent(): PushNotificationsComponent
     fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
     fun buildProgressScreenComponent(): ProgressScreenComponent
+    fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent
+    fun buildBadgesDataComponent(): BadgesDataComponent
 }
