@@ -224,7 +224,12 @@ interface ProfileFeature {
                 object Success : ShowStreakFreezeBuyingStatus
             }
 
-            data class ShowBadgeDetailsModal(val badge: Badge) : ViewAction
+            data class ShowBadgeDetailsModal(val details: BadgeDetails) : ViewAction
+
+            sealed interface BadgeDetails {
+                data class Badge(val badge: org.hyperskill.app.badges.domain.model.Badge) : BadgeDetails
+                data class Kind(val badgeKind: BadgeKind) : BadgeDetails
+            }
 
             sealed interface NavigateTo : ViewAction {
                 object HomeScreen : NavigateTo

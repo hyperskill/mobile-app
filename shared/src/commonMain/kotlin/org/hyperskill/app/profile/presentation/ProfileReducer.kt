@@ -305,10 +305,15 @@ class ProfileReducer : StateReducer<State, Message, Action> {
     ): ReducerResult =
         if (state is State.Content) {
             val clickedBadge = state.badgesState.badges.firstOrNull { it.kind == message.badgeKind }
-            state to setOfNotNull(
-                clickedBadge?.let { badge ->
-                    Action.ViewAction.ShowBadgeDetailsModal(badge)
-                },
+            val showAction = Action.ViewAction.ShowBadgeDetailsModal(
+                if (clickedBadge == null) {
+                    Action.ViewAction.BadgeDetails.Kind(message.badgeKind)
+                } else {
+                    Action.ViewAction.BadgeDetails.Badge(clickedBadge)
+                }
+            )
+            state to setOf(
+                showAction,
                 Action.LogAnalyticEvent(
                     ProfileClickedBadgeCardHyperskillAnalyticsEvent(
                         badgeKind = message.badgeKind,
