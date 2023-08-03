@@ -19,8 +19,6 @@ struct ProfileBadgesGridItemView: View {
 
     let onBadgeTapped: (BadgeKind) -> Void
 
-    @State private var isIconLoading = false
-
     var body: some View {
         Button(
             action: {
@@ -78,18 +76,7 @@ struct ProfileBadgesGridItemView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
         case .remote(let remoteImage):
-            LazyImage(
-                source: remoteImage.fullSource,
-                resizingMode: .aspectFit
-            )
-            .onStart { _ in
-                isIconLoading = true
-            }
-            .onCompletion { _ in
-                isIconLoading = false
-            }
-            .skeleton(with: isIconLoading)
-            .shape(type: .circle)
+            ProfileBadgeImageView(source: remoteImage.fullSource)
         }
     }
 }

@@ -66,7 +66,6 @@ struct ProfileBadgesGridView: View {
                     )
                 }
             }
-            .animation(.easeOut, value: badgesState.isExpanded)
         }
     }
 }

@@ -472,6 +472,7 @@
 		E9B55A5D29C978E40066900E /* ProblemsLimitReachedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */; };
 		E9B642012A6BCC16001A9653 /* NextLearningActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B642002A6BCC16001A9653 /* NextLearningActivityView.swift */; };
 		E9B642032A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B642022A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift */; };
+		E9BDB4052A7BE1E30069EF98 /* ProfileBadgeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BDB4042A7BE1E30069EF98 /* ProfileBadgeImageView.swift */; };
 		E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */; };
 		E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */; };
 		E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C5C92F28AE105200CADDEC /* NotificationsService.swift */; };
@@ -998,6 +999,7 @@
 		E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitReachedModalViewController.swift; sourceTree = "<group>"; };
 		E9B642002A6BCC16001A9653 /* NextLearningActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLearningActivityView.swift; sourceTree = "<group>"; };
 		E9B642022A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLearningActivitySkeletonView.swift; sourceTree = "<group>"; };
+		E9BDB4042A7BE1E30069EF98 /* ProfileBadgeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBadgeImageView.swift; sourceTree = "<group>"; };
 		E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBundleInfo.swift; sourceTree = "<group>"; };
 		E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLInsideAppButton.swift; sourceTree = "<group>"; };
 		E9C5C92F28AE105200CADDEC /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
@@ -3134,9 +3136,10 @@
 		E9D537CE2A71053700F21828 /* Badges */ = {
 			isa = PBXGroup;
 			children = (
-				E9D537D12A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift */,
+				E9BDB4042A7BE1E30069EF98 /* ProfileBadgeImageView.swift */,
 				E9D537CF2A71056100F21828 /* ProfileBadgesGridItemView.swift */,
 				E9D537D32A71393A00F21828 /* ProfileBadgesGridView.swift */,
+				E9D537D12A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift */,
 			);
 			path = Badges;
 			sourceTree = "<group>";
@@ -3618,6 +3621,7 @@
 				E9A022AE291D0E3F004317DB /* TopicsRepetitionsCardView.swift in Sources */,
 				2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */,
+				E9BDB4052A7BE1E30069EF98 /* ProfileBadgeImageView.swift in Sources */,
 				2C106D9928C1CE6E004FA584 /* SendEmailFeedbackController.swift in Sources */,
 				2C688C052A4E97750061AFFD /* ProgressScreenProjectProgressView.swift in Sources */,
 				E9523BF429DAA5690013A661 /* StudyPlanSkeletonView.swift in Sources */,
