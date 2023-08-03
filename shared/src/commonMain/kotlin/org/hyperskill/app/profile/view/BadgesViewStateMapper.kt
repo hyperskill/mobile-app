@@ -69,8 +69,9 @@ class BadgesViewStateMapper(
     private fun mapToDetails(badge: Badge): BadgeDetailsViewState =
         BadgeDetailsViewState(
             kind = badge.kind,
+            rank = badge.rank,
             title = badge.title,
-            rank = getBadgeRankName(badge.rank) ?: "",
+            formattedRank = getBadgeRankName(badge.rank) ?: "",
             badgeDescription = if (!badge.isMaxLevel) {
                 getBadgeDescription(badge.kind)
             } else {
@@ -105,8 +106,9 @@ class BadgesViewStateMapper(
     private fun mapToDetails(badgeKind: BadgeKind): BadgeDetailsViewState =
         BadgeDetailsViewState(
             kind = badgeKind,
+            rank = BadgeRank.UNKNOWN, // TODO: replace with BadgeRank.LOCKED
             title = getBadgeTitle(badgeKind) ?: "",
-            rank = "", // TODO: replace with `getBadgeRankName(BadgeRank.LOCKED)`
+            formattedRank = "", // TODO: replace with `getBadgeRankName(BadgeRank.LOCKED)`
             badgeDescription = getBadgeDescription(badgeKind),
             levelDescription = getBadgeUnlockDescription(badgeKind, countToUnlock = 1),
             formattedNextLevel = resourceProvider.getString(SharedResources.strings.badge_locked),

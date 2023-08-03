@@ -1,11 +1,13 @@
 package org.hyperskill.app.profile.view
 
 import org.hyperskill.app.badges.domain.model.BadgeKind
+import org.hyperskill.app.badges.domain.model.BadgeRank
 
 data class BadgeDetailsViewState(
     val kind: BadgeKind,
+    val rank: BadgeRank,
     val title: String,
-    val rank: String,
+    val formattedRank: String,
     val imageSource: String?,
     val badgeDescription: String?,
     val levelDescription: String?,

@@ -1,11 +1,14 @@
 package org.hyperskill.app.android.profile.view.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import coil.size.Scale
@@ -19,6 +22,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentBadgeDetailsBinding
 import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.badges.domain.model.BadgeKind
+import org.hyperskill.app.badges.domain.model.BadgeRank
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action.ViewAction.BadgeDetails
 import org.hyperskill.app.profile.view.BadgesViewStateMapper
 
@@ -72,7 +76,10 @@ class BadgeDetailsDialogFragment : BottomSheetDialogFragment() {
         with(viewBinding) {
             badgeTitle.text = viewState.title
             badgeDescription.text = viewState.badgeDescription
-            badgeRank.text = viewState.rank
+            with(badgeRank) {
+                text = viewState.formattedRank
+                setTextColor(getRankTextColor(requireContext(), viewState.rank))
+            }
             badgeCurrentLevel.text = viewState.formattedCurrentLevel
             with(badgeNextLevel) {
                 text = viewState.formattedNextLevel
@@ -96,6 +103,16 @@ class BadgeDetailsDialogFragment : BottomSheetDialogFragment() {
         super.onDismiss(dialog)
         (parentFragment as? Callback)?.onBadgeDetailsDialogFragmentHidden(badgeDetails.badgeKind)
     }
+
+    @ColorInt
+    private fun getRankTextColor(context: Context, rank: BadgeRank): Int =
+        when (rank) {
+            BadgeRank.APPRENTICE,
+            BadgeRank.EXPERT -> org.hyperskill.app.R.color.color_overlay_blue_brand
+            BadgeRank.MASTER -> org.hyperskill.app.R.color.color_overlay_blue
+            BadgeRank.LEGENDARY -> org.hyperskill.app.R.color.color_on_surface
+            BadgeRank.UNKNOWN -> org.hyperskill.app.R.color.color_on_surface_alpha_38
+        }.let { colorRes -> ContextCompat.getColor(context, colorRes) }
 
     interface Callback {
         fun onBadgeDetailsDialogFragmentShown(badgeKind: BadgeKind)

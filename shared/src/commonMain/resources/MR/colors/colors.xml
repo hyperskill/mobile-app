@@ -188,6 +188,8 @@
         <dark>@color/color_blue_200_alpha_7</dark>
     </color>
 
+    <color name="color_overlay_blue_brand">#4D9FFF</color>
+
     <color name="color_overlay_orange">
         <light>@color/color_orange_900</light>
         <dark>@color/color_orange_300</dark>
