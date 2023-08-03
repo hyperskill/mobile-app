@@ -18,7 +18,7 @@ import org.hyperskill.app.learning_activities.remote.model.NextLearningActivityR
 class LearningActivitiesRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : LearningActivitiesRemoteDataSource {
-    override suspend fun getNextLearningActivity(request: NextLearningActivityRequest): Result<LearningActivity> =
+    override suspend fun getNextLearningActivity(request: NextLearningActivityRequest): Result<LearningActivity?> =
         kotlin.runCatching {
             httpClient
                 .get("/api/learning-activities/next") {
@@ -27,7 +27,7 @@ class LearningActivitiesRemoteDataSourceImpl(
                         parameter(key, value)
                     }
                 }
-                .body<LearningActivitiesResponse>().learningActivities.first()
+                .body<LearningActivitiesResponse>().learningActivities.firstOrNull()
         }
 
     override suspend fun getLearningActivities(request: LearningActivitiesRequest): Result<List<LearningActivity>> =

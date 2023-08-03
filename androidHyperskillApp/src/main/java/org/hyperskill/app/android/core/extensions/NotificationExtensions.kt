@@ -27,7 +27,11 @@ fun NotificationChannel.isFullyEnabled(notificationManager: NotificationManagerC
 }
 
 fun NotificationManagerCompat.isChannelNotificationsEnabled(channelId: String): Boolean =
-    areNotificationsEnabled() && getNotificationChannel(channelId)?.isFullyEnabled(this) == true
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        areNotificationsEnabled() && getNotificationChannel(channelId)?.isFullyEnabled(this) == true
+    } else {
+        areNotificationsEnabled()
+    }
 
 fun NotificationManagerCompat.checkNotificationChannelAvailability(
     context: Context,

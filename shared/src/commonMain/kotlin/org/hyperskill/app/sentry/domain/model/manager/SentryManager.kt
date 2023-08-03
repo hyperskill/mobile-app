@@ -28,16 +28,23 @@ interface SentryManager {
      * @param message The message to send.
      * @param level The message level.
      */
-    fun captureMessage(message: String, level: HyperskillSentryLevel)
+    fun captureMessage(message: String, level: HyperskillSentryLevel, data: Map<String, Any> = emptyMap())
 
     /**
      * Captures the message with the error level.
      *
      * @param message The message to send.
      */
-    fun captureErrorMessage(message: String) {
-        captureMessage(message, HyperskillSentryLevel.ERROR)
+    fun captureErrorMessage(message: String, data: Map<String, Any> = emptyMap()) {
+        captureMessage(message = message, level = HyperskillSentryLevel.ERROR, data = data)
     }
+
+    /**
+     * Captures the exception.
+     *
+     * @param throwable The throwable to send.
+     */
+    fun captureException(throwable: Throwable)
 
     /**
      * Sets the id of the user.

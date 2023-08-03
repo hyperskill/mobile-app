@@ -13,9 +13,6 @@ struct HomeSkeletonView: View {
 
             TopicsRepetitionsCardSkeletonView()
 
-            TopicToDiscoverNextCardSkeletonView()
-                .padding(.top, LayoutInsets.smallInset)
-
             Spacer()
         }
         .padding([.horizontal, .bottom])
