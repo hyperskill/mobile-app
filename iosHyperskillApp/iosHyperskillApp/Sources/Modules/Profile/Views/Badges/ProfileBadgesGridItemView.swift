@@ -30,7 +30,7 @@ struct ProfileBadgesGridItemView: View {
                         .font(.subheadline)
                         .foregroundColor(.primaryText)
 
-                    buildImageView()
+                    ProfileBadgeImageView(badge: badge)
                         .frame(maxWidth: .infinity)
                         .frame(height: appearance.badgeIconHeight)
 
@@ -65,44 +65,6 @@ struct ProfileBadgesGridItemView: View {
             }
         )
         .buttonStyle(BounceButtonStyle())
-    }
-
-    @ViewBuilder
-    private func buildImageView() -> some View {
-        switch BadgesViewStateBadgeImageKs(badge.image) {
-        case .locked:
-            Image(badge.kind.lockedImage)
-                .renderingMode(.original)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-        case .remote(let remoteImage):
-            ProfileBadgeImageView(source: remoteImage.fullSource)
-        }
-    }
-}
-
-fileprivate extension BadgeKind {
-    var lockedImage: String {
-        switch self {
-        case .projectmaster:
-            return Images.Profile.Badges.projectMastery
-        case .topicmaster:
-            return Images.Profile.Badges.topicMastery
-        case .committedlearner:
-            return Images.Profile.Badges.commitedLearning
-        case .brilliantmind:
-            return Images.Profile.Badges.brilliantMind
-        case .helpinghand:
-            return Images.Profile.Badges.helpingHand
-        case .sweetheart:
-            return Images.Profile.Badges.sweetheart
-        case .benefactor:
-            return Images.Profile.Badges.benefactor
-        case .bountyhunter:
-            return Images.Profile.Badges.bountyHunter
-        default:
-            return ""
-        }
     }
 }
 

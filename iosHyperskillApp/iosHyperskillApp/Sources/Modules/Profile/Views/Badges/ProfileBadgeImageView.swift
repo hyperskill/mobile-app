@@ -1,37 +1,73 @@
 import NukeUI
+import shared
 import SwiftUI
 
 struct ProfileBadgeImageView: View {
-    let source: String
+    let badge: BadgesViewState.BadgeViewState
 
     @State private var isIconLoading = false
 
     var body: some View {
-        ZStack {
-            LazyImage(
-                source: source,
-                resizingMode: .aspectFit
-            )
-            .onStart { _ in
-                isIconLoading = true
-            }
-            .onCompletion { _ in
-                isIconLoading = false
-            }
+        switch BadgesViewStateBadgeImageKs(badge.image) {
+        case .locked:
+            Image(badge.kind.lockedImage)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        case .remote(let remoteImage):
+            ZStack {
+                LazyImage(
+                    source: remoteImage.fullSource,
+                    resizingMode: .aspectFit
+                )
+                .onStart { _ in
+                    isIconLoading = true
+                }
+                .onCompletion { _ in
+                    isIconLoading = false
+                }
 
-            EmptyView()
-                .skeleton(with: isIconLoading)
-                .shape(type: .circle)
-                .appearance(type: .gradient())
-                .animation(type: .linear(autoreverses: true))
+                EmptyView()
+                    .skeleton(with: isIconLoading)
+                    .shape(type: .circle)
+                    .appearance(type: .gradient())
+                    .animation(type: .linear(autoreverses: true))
+            }
         }
     }
 }
 
+fileprivate extension BadgeKind {
+    var lockedImage: String {
+        switch self {
+        case .projectmaster:
+            return Images.Profile.Badges.projectMastery
+        case .topicmaster:
+            return Images.Profile.Badges.topicMastery
+        case .committedlearner:
+            return Images.Profile.Badges.commitedLearning
+        case .brilliantmind:
+            return Images.Profile.Badges.brilliantMind
+        case .helpinghand:
+            return Images.Profile.Badges.helpingHand
+        case .sweetheart:
+            return Images.Profile.Badges.sweetheart
+        case .benefactor:
+            return Images.Profile.Badges.benefactor
+        case .bountyhunter:
+            return Images.Profile.Badges.bountyHunter
+        default:
+            return ""
+        }
+    }
+}
+
+#if DEBUG
 struct ProfileBadgeImageView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileBadgeImageView(
-            source: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png"
+            badge: BadgesViewState.BadgeViewState.makePlaceholder(kind: .committedlearner)
         )
     }
 }
+#endif
