@@ -43,7 +43,7 @@ struct ProfileBadgesGridView: View {
                         : ProfileFeatureMessageBadgesVisibilityButton.showAll
                     )
                 }
-                .buttonStyle(PrimaryTextButtonStyle())
+                .font(.subheadline)
                 .animation(.easeInOut, value: badgesState.isExpanded)
             }
 

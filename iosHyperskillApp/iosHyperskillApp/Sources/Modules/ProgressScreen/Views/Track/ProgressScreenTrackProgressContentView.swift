@@ -58,7 +58,7 @@ struct ProgressScreenTrackProgressContentView: View {
             Button(Strings.ProgressScreen.Track.changeTrack) {
                 onChangeTrackTap()
             }
-            .buttonStyle(PrimaryTextButtonStyle())
+            .font(.subheadline)
             .frame(maxWidth: .infinity)
         }
         .frame(maxWidth: .infinity)
