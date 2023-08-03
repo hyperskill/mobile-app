@@ -181,7 +181,15 @@ struct ProfileView: View {
             case .homeScreen:
                 TabBarRouter(tab: .home).route()
             }
+        case .showBadgeDetailsModal(let badgeDetailsModal):
+            displayBadgeDetailsModal(
+                badgeDetails: badgeDetailsModal
+            )
         }
+    }
+
+    private func displayBadgeDetailsModal(badgeDetails: ProfileFeatureActionViewActionShowBadgeDetailsModal) {
+        // implement badge details modal
     }
 
     private func displayStreakFreezeModal(streakFreezeState: ProfileFeatureStreakFreezeStateKs) {
