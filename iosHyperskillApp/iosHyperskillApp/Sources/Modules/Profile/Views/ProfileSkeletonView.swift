@@ -8,20 +8,13 @@ struct ProfileSkeletonView: View {
                     .frame(height: 96)
 
                 SkeletonRoundedView()
-                    .frame(height: 156)
-
-                HStack {
-                    SkeletonRoundedView()
-                    SkeletonRoundedView()
-                    SkeletonRoundedView()
-                }
-                .frame(height: 74)
+                    .frame(height: 208)
 
                 SkeletonRoundedView()
-                    .frame(height: 100)
+                    .frame(height: 71)
 
                 SkeletonRoundedView()
-                    .frame(height: 379)
+                    .frame(height: 444)
             }
         }
         .frame(maxWidth: .infinity)

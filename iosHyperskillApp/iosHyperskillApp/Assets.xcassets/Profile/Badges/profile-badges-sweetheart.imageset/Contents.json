@@ -1,23 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "profile-badges-sweetheart.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "profile-badges-sweetheart@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "profile-badges-sweetheart@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "profile-badges-sweetheart.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

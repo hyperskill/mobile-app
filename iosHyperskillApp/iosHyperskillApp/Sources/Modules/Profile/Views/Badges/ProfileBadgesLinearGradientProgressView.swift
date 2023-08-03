@@ -1,13 +1,13 @@
 import SwiftUI
 
-extension LinearGradientProgressView {
+extension ProfileBadgesLinearGradientProgressView {
     struct Appearance {
         let maxHeight: CGFloat = 8
-        let cornerRadius: CGFloat = 8
+        let cornerRadius = ProfileView.Appearance().cornerRadius
     }
 }
 
-struct LinearGradientProgressView: View {
+struct ProfileBadgesLinearGradientProgressView: View {
     private(set) var appearance = Appearance()
 
     let progress: Float
@@ -38,9 +38,9 @@ struct LinearGradientProgressView: View {
     }
 }
 
-struct LinearGradientProgressView_Previews: PreviewProvider {
+struct ProfileBadgesLinearGradientProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        LinearGradientProgressView(
+        ProfileBadgesLinearGradientProgressView(
             progress: 0.6
         )
     }

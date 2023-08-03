@@ -484,7 +484,7 @@
 		E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */; };
 		E9D458E429927C8900AAEBD9 /* lines_wrapper.js in Resources */ = {isa = PBXBuildFile; fileRef = E9D458E329927C8900AAEBD9 /* lines_wrapper.js */; };
 		E9D537D02A71056100F21828 /* ProfileBadgesGridItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D537CF2A71056100F21828 /* ProfileBadgesGridItemView.swift */; };
-		E9D537D22A71330A00F21828 /* LinearGradientProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */; };
+		E9D537D22A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D537D12A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift */; };
 		E9D537D42A71393A00F21828 /* ProfileBadgesGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D537D32A71393A00F21828 /* ProfileBadgesGridView.swift */; };
 		E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */; };
 		E9D90905289814AA00D0EE91 /* NotificationsRegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */; };
@@ -1011,7 +1011,7 @@
 		E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingView.swift; sourceTree = "<group>"; };
 		E9D458E329927C8900AAEBD9 /* lines_wrapper.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = lines_wrapper.js; sourceTree = "<group>"; };
 		E9D537CF2A71056100F21828 /* ProfileBadgesGridItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBadgesGridItemView.swift; sourceTree = "<group>"; };
-		E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearGradientProgressView.swift; sourceTree = "<group>"; };
+		E9D537D12A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBadgesLinearGradientProgressView.swift; sourceTree = "<group>"; };
 		E9D537D32A71393A00F21828 /* ProfileBadgesGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBadgesGridView.swift; sourceTree = "<group>"; };
 		E9D69A3F28084FF7000E114E /* AuthCredentialsErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsErrorView.swift; sourceTree = "<group>"; };
 		E9D90904289814AA00D0EE91 /* NotificationsRegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsRegistrationService.swift; sourceTree = "<group>"; };
@@ -2493,7 +2493,6 @@
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
 				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
-				E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
@@ -3138,6 +3137,7 @@
 		E9D537CE2A71053700F21828 /* Badges */ = {
 			isa = PBXGroup;
 			children = (
+				E9D537D12A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift */,
 				E9D537CF2A71056100F21828 /* ProfileBadgesGridItemView.swift */,
 				E9D537D32A71393A00F21828 /* ProfileBadgesGridView.swift */,
 			);
@@ -3795,7 +3795,7 @@
 				2C0EB9502A151B56006DC84B /* TrackSelectionListViewModel.swift in Sources */,
 				E9ACD3412937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift in Sources */,
 				2C0EB9562A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift in Sources */,
-				E9D537D22A71330A00F21828 /* LinearGradientProgressView.swift in Sources */,
+				E9D537D22A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift in Sources */,
 				2C4F63A12A102D3300D4EE39 /* SharedProjectLevelWrapper.swift in Sources */,
 				2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */,
 				2C05AC572A0EC9E50039C7EF /* ProjectSelectionListHeaderSkeletonView.swift in Sources */,

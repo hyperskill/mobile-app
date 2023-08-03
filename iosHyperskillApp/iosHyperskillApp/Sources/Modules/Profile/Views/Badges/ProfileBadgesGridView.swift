@@ -9,9 +9,6 @@ extension ProfileBadgesGridView {
         func badgesColumnsCount(for horizontalSizeClass: UserInterfaceSizeClass?) -> Int {
             horizontalSizeClass == .regular ? regularHorizontalSizeClassColumnsCount : defaultColumnsCount
         }
-
-        let rootSpacing: CGFloat = 16
-        let interitemSpacing: CGFloat = 8
     }
 }
 
@@ -27,9 +24,7 @@ struct ProfileBadgesGridView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     var body: some View {
-        let badgesColumnsCount = appearance.badgesColumnsCount(for: horizontalSizeClass)
-
-        VStack(spacing: appearance.rootSpacing) {
+        VStack(spacing: LayoutInsets.defaultInset) {
             HStack {
                 Text(Strings.Profile.Badges.title)
                     .font(.headline)
@@ -39,8 +34,8 @@ struct ProfileBadgesGridView: View {
 
                 Button(
                     badgesState.isExpanded
-                    ? Strings.Profile.Badges.showLess
-                    : Strings.Profile.Badges.showAll
+                      ? Strings.Profile.Badges.showLess
+                      : Strings.Profile.Badges.showAll
                 ) {
                     onVisibilityButtonTap(
                         badgesState.isExpanded
@@ -49,31 +44,34 @@ struct ProfileBadgesGridView: View {
                     )
                 }
                 .buttonStyle(PrimaryTextButtonStyle())
+                .animation(.easeInOut, value: badgesState.isExpanded)
             }
 
             LazyVGrid(
                 columns: Array(
                     repeating: GridItem(
                         .flexible(),
-                        spacing: appearance.interitemSpacing,
+                        spacing: LayoutInsets.smallInset,
                         alignment: .top
                     ),
-                    count: badgesColumnsCount
+                    count: appearance.badgesColumnsCount(for: horizontalSizeClass)
                 ),
                 alignment: .leading,
-                spacing: appearance.interitemSpacing
+                spacing: LayoutInsets.smallInset
             ) {
                 ForEach(badgesState.badges, id: \.kind) { badge in
                     ProfileBadgesGridItemView(
                         badge: badge,
-                        onBadgeTapped: { onBadgeTapped(badge.kind) }
+                        onBadgeTapped: onBadgeTapped
                     )
                 }
             }
+            .animation(.easeOut, value: badgesState.isExpanded)
         }
     }
 }
 
+#if DEBUG
 struct ProfileBadgesListView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileBadgesGridView(
@@ -95,3 +93,4 @@ struct ProfileBadgesListView_Previews: PreviewProvider {
         .background(Color(ColorPalette.background))
     }
 }
+#endif

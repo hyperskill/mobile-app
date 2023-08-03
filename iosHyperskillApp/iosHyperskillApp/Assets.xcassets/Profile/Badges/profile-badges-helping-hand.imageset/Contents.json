@@ -1,23 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "profile-badges-helping-hand.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "profile-badges-helping-hand@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "profile-badges-helping-hand@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "profile-badges-helping-hand.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }

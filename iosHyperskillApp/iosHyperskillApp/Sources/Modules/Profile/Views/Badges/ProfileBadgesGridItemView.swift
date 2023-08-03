@@ -4,10 +4,10 @@ import SwiftUI
 
 extension ProfileBadgesGridItemView {
     struct Appearance {
-        let badgeIconSize = CGSize(width: 73, height: 86)
+        let badgeIconHeight: CGFloat = 86
         let lockIconWidthHeight: CGFloat = 12
         let levelContainerSpacing: CGFloat = 4
-        let cornerRadius: CGFloat = 8
+        let cornerRadius: CGFloat = ProfileView.Appearance().cornerRadius
         let backgroundColor = Color(ColorPalette.surface)
     }
 }
@@ -17,47 +17,56 @@ struct ProfileBadgesGridItemView: View {
 
     let badge: BadgesViewState.BadgeViewState
 
-    let onBadgeTapped: () -> Void
+    let onBadgeTapped: (BadgeKind) -> Void
+
+    @State private var isIconLoading = false
 
     var body: some View {
-        Button(action: onBadgeTapped) {
-            VStack(spacing: LayoutInsets.defaultInset) {
-                Text(badge.title)
-                    .font(.subheadline)
-                    .foregroundColor(.primaryText)
+        Button(
+            action: {
+                onBadgeTapped(badge.kind)
+            },
+            label: {
+                VStack(spacing: LayoutInsets.defaultInset) {
+                    Text(badge.title)
+                        .font(.subheadline)
+                        .foregroundColor(.primaryText)
 
-                buildImageView()
-                    .frame(size: appearance.badgeIconSize)
+                    buildImageView()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: appearance.badgeIconHeight)
 
-                VStack(spacing: LayoutInsets.smallInset) {
-                    HStack(spacing: appearance.levelContainerSpacing) {
-                        Text(badge.formattedCurrentLevel)
-                            .font(.caption2)
-                            .foregroundColor(.primaryText)
-
-                        Spacer()
-
-                        if let nextLevel = badge.nextLevel {
-                            Image(systemName: "lock")
-                                .resizable()
-                                .renderingMode(.template)
-                                .foregroundColor(.disabledText)
-                                .aspectRatio(contentMode: .fit)
-                                .frame(widthHeight: appearance.lockIconWidthHeight)
-
-                            Text("\(nextLevel)")
+                    VStack(spacing: LayoutInsets.smallInset) {
+                        HStack(spacing: appearance.levelContainerSpacing) {
+                            Text(badge.formattedCurrentLevel)
                                 .font(.caption2)
-                                .foregroundColor(.disabledText)
-                        }
-                    }
+                                .foregroundColor(.primaryText)
 
-                    LinearGradientProgressView(progress: badge.progress)
+                            Spacer()
+
+                            if let nextLevel = badge.nextLevel {
+                                Image(systemName: "lock")
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .foregroundColor(.disabledText)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(widthHeight: appearance.lockIconWidthHeight)
+
+                                Text("\(nextLevel)")
+                                    .font(.caption2)
+                                    .foregroundColor(.disabledText)
+                            }
+                        }
+
+                        ProfileBadgesLinearGradientProgressView(progress: badge.progress)
+                    }
                 }
+                .padding()
+                .background(appearance.backgroundColor)
+                .cornerRadius(appearance.cornerRadius)
             }
-            .padding()
-            .background(appearance.backgroundColor)
-            .cornerRadius(appearance.cornerRadius)
-        }
+        )
+        .buttonStyle(BounceButtonStyle())
     }
 
     @ViewBuilder
@@ -67,11 +76,20 @@ struct ProfileBadgesGridItemView: View {
             Image(badge.kind.lockedImage)
                 .renderingMode(.original)
                 .resizable()
+                .aspectRatio(contentMode: .fit)
         case .remote(let remoteImage):
             LazyImage(
-                source: remoteImage.previewSource,
-                resizingMode: .aspectFill
+                source: remoteImage.fullSource,
+                resizingMode: .aspectFit
             )
+            .onStart { _ in
+                isIconLoading = true
+            }
+            .onCompletion { _ in
+                isIconLoading = false
+            }
+            .skeleton(with: isIconLoading)
+            .shape(type: .circle)
         }
     }
 }
@@ -101,12 +119,13 @@ fileprivate extension BadgeKind {
     }
 }
 
+#if DEBUG
 struct ProfileBadgesListItemView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ProfileBadgesGridItemView(
                 badge: BadgesViewState.BadgeViewState.makePlaceholder(kind: .benefactor),
-                onBadgeTapped: {}
+                onBadgeTapped: { _ in }
             )
 
             ProfileBadgesGridItemView(
@@ -121,7 +140,7 @@ struct ProfileBadgesListItemView_Previews: PreviewProvider {
                     nextLevel: 3,
                     progress: 0.3
                 ),
-                onBadgeTapped: {}
+                onBadgeTapped: { _ in }
             )
         }
         .frame(maxWidth: 180)
@@ -129,7 +148,6 @@ struct ProfileBadgesListItemView_Previews: PreviewProvider {
     }
 }
 
-#if DEBUG
 extension BadgesViewState.BadgeViewState {
     static func makePlaceholder(kind: BadgeKind) -> BadgesViewState.BadgeViewState {
         BadgesViewState.BadgeViewState(

@@ -1,23 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "profile-badges-topic-mastery.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "profile-badges-topic-mastery@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "profile-badges-topic-mastery@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "profile-badges-topic-mastery.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
   }
 }
