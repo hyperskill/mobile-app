@@ -226,9 +226,18 @@ interface ProfileFeature {
 
             data class ShowBadgeDetailsModal(val details: BadgeDetails) : ViewAction
 
+            @Serializable
             sealed interface BadgeDetails {
-                data class Badge(val badge: org.hyperskill.app.badges.domain.model.Badge) : BadgeDetails
-                data class Kind(val badgeKind: BadgeKind) : BadgeDetails
+                val badgeKind: BadgeKind
+                @Serializable
+                data class Badge(
+                    val badge: org.hyperskill.app.badges.domain.model.Badge
+                ) : BadgeDetails {
+                    override val badgeKind: BadgeKind
+                        get() = badge.kind
+                }
+                @Serializable
+                data class Kind(override val badgeKind: BadgeKind) : BadgeDetails
             }
 
             sealed interface NavigateTo : ViewAction {

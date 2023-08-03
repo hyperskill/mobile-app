@@ -6,9 +6,11 @@ data class BadgeDetailsViewState(
     val kind: BadgeKind,
     val title: String,
     val rank: String,
+    val imageSource: String?,
     val badgeDescription: String?,
     val levelDescription: String?,
     val formattedCurrentLevel: String,
     val formattedNextLevel: String?,
+    val progress: Float?,
     val isLocked: Boolean
 )

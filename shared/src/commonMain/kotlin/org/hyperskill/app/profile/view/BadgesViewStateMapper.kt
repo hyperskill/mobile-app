@@ -47,13 +47,7 @@ class BadgesViewStateMapper(
                 badge.level
             ),
             nextLevel = getNextLevel(badge),
-            progress = if (badge.nextLevelValue != null && badge.isMaxLevel) {
-                val totalCount = badge.nextLevelValue - badge.currentLevelValue
-                val currentCount = badge.value - badge.currentLevelValue
-                currentCount / totalCount.toFloat()
-            } else {
-                1f
-            }
+            progress = getProgress(badge)
         )
 
     private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.BadgeViewState =
@@ -97,6 +91,8 @@ class BadgesViewStateMapper(
             formattedNextLevel = getNextLevel(badge)?.let { nextLevel ->
                 resourceProvider.getString(SharedResources.strings.badge_level, nextLevel)
             },
+            progress = getProgress(badge),
+            imageSource = badge.imageFull,
             isLocked = false // TODO: replace with `badge.rank == BadgeRank.LOCKED`
         )
 
@@ -109,6 +105,8 @@ class BadgesViewStateMapper(
             levelDescription = getBadgeUnlockDescription(badgeKind, countToUnlock = 1),
             formattedNextLevel = resourceProvider.getString(SharedResources.strings.badge_locked),
             formattedCurrentLevel = resourceProvider.getString(SharedResources.strings.badge_level, 1),
+            progress = 0f,
+            imageSource = null,
             isLocked = true
         )
 
@@ -169,7 +167,7 @@ class BadgesViewStateMapper(
             BadgeKind.Benefactor -> SharedResources.plurals.badge_benefactor_unlock_description
             BadgeKind.BountyHunter -> SharedResources.plurals.badge_bounty_hunter_unlock_description
             BadgeKind.UNKNOWN -> null
-        }?.let { res -> resourceProvider.getQuantityString(res, countToUnlock) }
+        }?.let { res -> resourceProvider.getQuantityString(res, countToUnlock, countToUnlock) }
 
     private fun getBadgeUpgradeDescription(badgeKind: BadgeKind, countToUpgrade: Int): String? =
         when (badgeKind) {
@@ -182,8 +180,17 @@ class BadgesViewStateMapper(
             BadgeKind.Benefactor -> SharedResources.plurals.badge_benefactor_upgrade_description
             BadgeKind.BountyHunter -> SharedResources.plurals.badge_bounty_hunter_upgrade_description
             BadgeKind.UNKNOWN -> null
-        }?.let { res -> resourceProvider.getQuantityString(res, countToUpgrade) }
+        }?.let { res -> resourceProvider.getQuantityString(res, countToUpgrade, countToUpgrade) }
 
     private fun getNextLevel(badge: Badge): Int? =
         if (badge.isMaxLevel) null else badge.level + 1
+
+    private fun getProgress(badge: Badge): Float =
+        if (badge.nextLevelValue != null && !badge.isMaxLevel) {
+            val totalCount = badge.nextLevelValue - badge.currentLevelValue
+            val currentCount = badge.value - badge.currentLevelValue
+            currentCount / totalCount.toFloat()
+        } else {
+            0f
+        }
 }
