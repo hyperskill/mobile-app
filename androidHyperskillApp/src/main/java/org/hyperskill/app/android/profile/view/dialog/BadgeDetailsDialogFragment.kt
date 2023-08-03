@@ -69,10 +69,7 @@ class BadgeDetailsDialogFragment : BottomSheetDialogFragment() {
             )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val viewState = when (val details = badgeDetails) {
-            is BadgeDetails.Badge -> viewStateMapper.mapToDetails(details.badge)
-            is BadgeDetails.Kind -> viewStateMapper.mapToDetails(details.badgeKind)
-        }
+        val viewState = viewStateMapper.map(badgeDetails)
         with(viewBinding) {
             badgeTitle.text = viewState.title
             badgeDescription.text = viewState.badgeDescription

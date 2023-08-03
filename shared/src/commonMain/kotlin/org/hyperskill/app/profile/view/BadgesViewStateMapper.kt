@@ -60,7 +60,13 @@ class BadgesViewStateMapper(
             progress = 0f
         )
 
-    fun mapToDetails(badge: Badge): BadgeDetailsViewState =
+    fun map(badgeDetails: ProfileFeature.Action.ViewAction.BadgeDetails): BadgeDetailsViewState =
+        when (badgeDetails) {
+            is ProfileFeature.Action.ViewAction.BadgeDetails.Badge -> mapToDetails(badgeDetails.badge)
+            is ProfileFeature.Action.ViewAction.BadgeDetails.Kind -> mapToDetails(badgeDetails.badgeKind)
+        }
+
+    private fun mapToDetails(badge: Badge): BadgeDetailsViewState =
         BadgeDetailsViewState(
             kind = badge.kind,
             title = badge.title,
@@ -96,7 +102,7 @@ class BadgesViewStateMapper(
             isLocked = false // TODO: replace with `badge.rank == BadgeRank.LOCKED`
         )
 
-    fun mapToDetails(badgeKind: BadgeKind): BadgeDetailsViewState =
+    private fun mapToDetails(badgeKind: BadgeKind): BadgeDetailsViewState =
         BadgeDetailsViewState(
             kind = badgeKind,
             title = getBadgeTitle(badgeKind) ?: "",

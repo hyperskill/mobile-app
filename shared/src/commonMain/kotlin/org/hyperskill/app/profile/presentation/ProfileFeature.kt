@@ -177,7 +177,6 @@ interface ProfileFeature {
         data class BadgeClicked(val badgeKind: BadgeKind) : Message
         data class BadgeModalShownEventMessage(val badgeKind: BadgeKind) : Message
         data class BadgeModalHiddenEventMessage(val badgeKind: BadgeKind) : Message
-        data class BadgeModalCloseClicked(val badgeKind: BadgeKind) : Message
 
         /**
          * Flow messages.

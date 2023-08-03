@@ -7,7 +7,6 @@ import org.hyperskill.app.profile.domain.analytic.ProfileClickedPullToRefreshHyp
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedSettingsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
-import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalClosedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalHiddenHyperskillAnalyticsEvent
 import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.badges.ProfileClickedBadgeCardHyperskillAnalyticsEvent
@@ -242,10 +241,6 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             is Message.BadgeModalHiddenEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(
                     ProfileBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind))
-                )
-            is Message.BadgeModalCloseClicked ->
-                state to setOf(Action.LogAnalyticEvent(
-                    ProfileBadgeModalClosedHyperskillAnalyticEvent(message.badgeKind))
                 )
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
