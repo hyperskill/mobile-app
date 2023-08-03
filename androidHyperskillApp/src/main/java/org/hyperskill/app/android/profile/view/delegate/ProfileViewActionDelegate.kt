@@ -52,6 +52,5 @@ object ProfileViewActionDelegate {
                 mainScreenRouter.switch(HomeScreen)
             }
         }
-
     }
 }

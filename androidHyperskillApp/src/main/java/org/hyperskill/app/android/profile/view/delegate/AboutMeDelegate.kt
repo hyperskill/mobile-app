@@ -42,10 +42,10 @@ object AboutMeDelegate {
             if (profile.country != null) {
                 profileAboutLivesTextView.text =
                     "${context.resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${
-                        Locale(
-                            java.util.Locale.ENGLISH.language,
-                            profile.country!!
-                        ).displayCountry
+                    Locale(
+                        java.util.Locale.ENGLISH.language,
+                        profile.country!!
+                    ).displayCountry
                     }"
             } else {
                 profileAboutLivesTextView.visibility = View.GONE
