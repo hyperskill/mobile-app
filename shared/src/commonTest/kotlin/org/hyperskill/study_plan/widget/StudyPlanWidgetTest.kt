@@ -770,7 +770,7 @@ class StudyPlanWidgetTest {
                         listOf(
                             studyPlanSectionItemStub(
                                 activityId = 1,
-                                state = StudyPlanWidgetViewState.SectionItemState.LOCKED
+                                state = StudyPlanWidgetViewState.SectionItemState.IDLE
                             )
                         )
                     ),
@@ -809,35 +809,6 @@ class StudyPlanWidgetTest {
 
         val viewState = studyPlanWidgetViewStateMapper.map(state)
         assertEquals(expectedViewState, viewState)
-    }
-
-    @Test
-    fun `Click on non current learning activity should do nothing`() {
-        val state = StudyPlanWidgetFeature.State(
-            studyPlan = StudyPlan.stub(id = 0, sections = listOf(0, 1)),
-            studyPlanSections = mapOf(
-                0L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    studyPlanSection = studyPlanSectionStub(id = 0, activities = listOf(0)),
-                    isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                ),
-                1L to StudyPlanWidgetFeature.StudyPlanSectionInfo(
-                    studyPlanSection = studyPlanSectionStub(id = 1, activities = listOf(1)),
-                    isExpanded = true,
-                    contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-                )
-            ),
-            activities = mapOf(0L to stubLearningActivity(id = 0), 1L to stubLearningActivity(id = 1)),
-            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
-        )
-        val activityId = 1L
-
-        val (newState, actions) = reducer.reduce(state, StudyPlanWidgetFeature.Message.ActivityClicked(activityId))
-
-        assertEquals(state, newState)
-        assertTrue { actions.filterIsInstance<StudyPlanWidgetFeature.Action.ViewAction>().isEmpty() }
-
-        assertClickedActivityAnalyticEvent(actions, newState.activities[activityId]!!)
     }
 
     @Test
@@ -1232,7 +1203,7 @@ class StudyPlanWidgetTest {
             viewSectionItems.first { it.id == nextActivityId }.state
         )
         assertEquals(
-            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            StudyPlanWidgetViewState.SectionItemState.IDLE,
             viewSectionItems.first { it.id == notNextActivityId }.state
         )
     }
@@ -1276,7 +1247,7 @@ class StudyPlanWidgetTest {
             viewSectionItems.first { it.id == firstActivityId }.state
         )
         assertEquals(
-            StudyPlanWidgetViewState.SectionItemState.LOCKED,
+            StudyPlanWidgetViewState.SectionItemState.IDLE,
             viewSectionItems.first { it.id == secondActivityId }.state
         )
     }
@@ -1348,7 +1319,7 @@ class StudyPlanWidgetTest {
         activityId: Long,
         title: String = "",
         subtitle: String? = null,
-        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.LOCKED,
+        state: StudyPlanWidgetViewState.SectionItemState = StudyPlanWidgetViewState.SectionItemState.IDLE,
         isIdeRequired: Boolean = false
     ) =
         StudyPlanWidgetViewState.SectionItem(
