@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic
+package org.hyperskill.app.step_completion.domain.analytic.daily_notifications_notice
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event of the daily step completed modal.
+ * Represents a shown analytic event of the prompt to receive daily study reminders.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
  *     "action": "hidden",
- *     "part": "daily_step_completed_modal",
- *     "target": "close"
+ *     "part": "notice",
+ *     "target": "daily_notifications_notice"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepQuizDailyStepCompletedModalHiddenHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute
+class StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent(
+    route: HyperskillAnalyticRoute,
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.DAILY_STEP_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.CLOSE
+    HyperskillAnalyticAction.SHOWN,
+    HyperskillAnalyticPart.NOTICE,
+    HyperskillAnalyticTarget.DAILY_NOTIFICATIONS_NOTICE
 )

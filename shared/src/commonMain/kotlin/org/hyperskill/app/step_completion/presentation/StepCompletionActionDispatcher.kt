@@ -4,13 +4,16 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -34,14 +37,43 @@ class StepCompletionActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val freemiumInteractor: FreemiumInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
-    notificationInteractor: NotificationInteractor,
+    private val notificationInteractor: NotificationInteractor,
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         notificationInteractor.solvedStepsSharedFlow
-            .onEach { stepId ->
-                onNewMessage(Message.StepSolved(stepId))
+            .onEach { solvedStepId ->
+                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+                    onNewMessage(
+                        Message.RequestDailyStudyRemindersPermission
+                    )
+                } else {
+                    val cachedProfile = currentProfileStateRepository
+                        .getState(forceUpdate = false)
+                        .getOrElse { return@onEach }
+
+                    if (cachedProfile.dailyStep == solvedStepId) {
+                        val currentProfileHypercoinsBalance = currentProfileStateRepository
+                            .getState(forceUpdate = true)
+                            .map { it.gamification.hypercoinsBalance }
+                            .getOrElse { return@onEach }
+
+                        val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+                        onNewMessage(
+                            Message.ShowProblemOfDaySolvedModal(
+                                earnedGemsText = resourceProvider.getQuantityString(
+                                    SharedResources.plurals.earned_gems,
+                                    gemsEarned,
+                                    gemsEarned
+                                )
+                            )
+                        )
+                    } else {
+                        onNewMessage(Message.StepSolved(solvedStepId))
+                    }
+                }
             }
             .launchIn(actionScope)
     }
@@ -83,6 +115,9 @@ class StepCompletionActionDispatcher(
             }
             is Action.UpdateProblemsLimit -> {
                 freemiumInteractor.onStepSolved()
+            }
+            is Action.RequestDailyStudyRemindersPermissionResult -> {
+                handleRequestDailyStudyRemindersPermissionResultAction(action)
             }
             is Action.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
@@ -130,6 +165,21 @@ class StepCompletionActionDispatcher(
         } else {
             topicProgressFlow.notifyDataChanged(topicProgress)
             onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
+        }
+    }
+
+    private suspend fun handleRequestDailyStudyRemindersPermissionResultAction(
+        action: Action.RequestDailyStudyRemindersPermissionResult
+    ) {
+        if (action.isGranted) {
+            notificationInteractor.setDailyStudyRemindersEnabled(true)
+            notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+                NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
+            )
+        } else {
+            notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
+                Clock.System.now().toEpochMilliseconds()
+            )
         }
     }
 }

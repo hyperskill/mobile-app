@@ -77,10 +77,24 @@ interface StepCompletionFeature {
         }
 
         /**
+         * Show problem of day solve modal
+         */
+        data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : Message
+        object ProblemOfDaySolvedModalGoBackClicked : Message
+
+        /**
+         * Daily study reminders
+         */
+        object RequestDailyStudyRemindersPermission : Message
+        data class RequestDailyStudyRemindersPermissionResult(val isGranted: Boolean) : Message
+
+        /**
          * Analytic
          */
         object TopicCompletedModalShownEventMessage : Message
         object TopicCompletedModalHiddenEventMessage : Message
+        object DailyStepCompletedModalShownEventMessage : Message
+        object DailyStepCompletedModalHiddenEventMessage : Message
     }
 
     sealed interface Action {
@@ -92,8 +106,14 @@ interface StepCompletionFeature {
 
         object UpdateProblemsLimit : Action
 
+        data class RequestDailyStudyRemindersPermissionResult(val isGranted: Boolean) : Action
+
         sealed interface ViewAction : Action {
             data class ShowTopicCompletedModal(val modalText: String, val isNextStepAvailable: Boolean) : ViewAction
+
+            data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
+
+            object RequestDailyStudyRemindersPermission : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
 

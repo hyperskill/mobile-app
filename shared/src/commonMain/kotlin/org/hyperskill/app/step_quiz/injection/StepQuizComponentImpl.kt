@@ -51,17 +51,16 @@ class StepQuizComponentImpl(
         appGraph.buildProblemsLimitComponent(ProblemsLimitScreen.STEP_QUIZ)
 
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
-        get() = StepQuizFeatureBuilder.build(
+        get() = StepQuizFeatureBuilder.
+        build(
             stepRoute,
             problemsLimitComponent.problemsLimitReducer,
             problemsLimitComponent.problemsLimitActionDispatcher,
             stepQuizInteractor,
             stepQuizReplyValidator,
             appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.commonComponent.resourceProvider
+            appGraph.sentryComponent.sentryInteractor
         )
 }

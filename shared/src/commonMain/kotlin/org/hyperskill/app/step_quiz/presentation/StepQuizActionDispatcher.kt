@@ -1,21 +1,13 @@
 package org.hyperskill.app.step_quiz.presentation
 
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.Clock
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
-import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
-import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.permissions.StepQuizUserPermissionRequest
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
@@ -28,46 +20,10 @@ class StepQuizActionDispatcher(
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val notificationInteractor: NotificationInteractor,
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
-
-    init {
-        // TODO: ALTAPPS-570 Move solvedStepsSharedFlow processing logic to StepCompletionFeature
-        notificationInteractor.solvedStepsSharedFlow.onEach { solvedStepId ->
-            if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
-                onNewMessage(
-                    Message.RequestUserPermission(StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS)
-                )
-            } else {
-                val cachedProfile = currentProfileStateRepository
-                    .getState(forceUpdate = false)
-                    .getOrElse { return@onEach }
-
-                if (cachedProfile.dailyStep == solvedStepId) {
-                    val currentProfileHypercoinsBalance = currentProfileStateRepository
-                        .getState(forceUpdate = true)
-                        .map { it.gamification.hypercoinsBalance }
-                        .getOrElse { return@onEach }
-
-                    val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
-                    onNewMessage(
-                        Message.ShowProblemOfDaySolvedModal(
-                            earnedGemsText = resourceProvider.getQuantityString(
-                                SharedResources.plurals.earned_gems,
-                                gemsEarned,
-                                gemsEarned
-                            )
-                        )
-                    )
-                }
-            }
-        }.launchIn(actionScope)
-    }
-
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt -> {
@@ -213,23 +169,6 @@ class StepQuizActionDispatcher(
                             onNewMessage(Message.CreateSubmissionNetworkError)
                         }
                     )
-            }
-            is Action.RequestUserPermissionResult -> {
-                when (action.userPermissionRequest) {
-                    StepQuizUserPermissionRequest.RESET_CODE -> {}
-                    StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
-                        if (action.isGranted) {
-                            notificationInteractor.setDailyStudyRemindersEnabled(true)
-                            notificationInteractor.setDailyStudyRemindersIntervalStartHour(
-                                NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
-                            )
-                        } else {
-                            notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
-                                Clock.System.now().toEpochMilliseconds()
-                            )
-                        }
-                    }
-                }
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
