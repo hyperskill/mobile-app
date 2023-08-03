@@ -239,8 +239,10 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(ProfileBadgeModalShownHyperskillAnalyticEvent(message.badgeKind))
                 )
             is Message.BadgeModalHiddenEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(
-                    ProfileBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind))
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProfileBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind)
+                    )
                 )
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
