@@ -79,7 +79,8 @@ struct ProgressScreenProjectProgressContentView: View {
             Button(Strings.ProgressScreen.Project.changeProject) {
                 onChangeProjectTap()
             }
-            .buttonStyle(ProgressScreenCallToActionButtonStyle())
+            .font(.subheadline)
+            .frame(maxWidth: .infinity)
         }
         .frame(maxWidth: .infinity)
     }
