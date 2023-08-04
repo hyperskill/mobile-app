@@ -5,7 +5,7 @@ import SwiftUI
 struct ProfileBadgeImageView: View {
     let badge: BadgesViewState.BadgeViewState
 
-    @State private var isIconLoading = false
+    @State private var isLoading = false
 
     var body: some View {
         switch BadgesViewStateBadgeImageKs(badge.image) {
@@ -21,14 +21,14 @@ struct ProfileBadgeImageView: View {
                     resizingMode: .aspectFit
                 )
                 .onStart { _ in
-                    isIconLoading = true
+                    isLoading = true
                 }
                 .onCompletion { _ in
-                    isIconLoading = false
+                    isLoading = false
                 }
 
                 EmptyView()
-                    .skeleton(with: isIconLoading)
+                    .skeleton(with: isLoading)
                     .shape(type: .circle)
                     .appearance(type: .gradient())
                     .animation(type: .linear(autoreverses: true))
@@ -65,9 +65,7 @@ fileprivate extension BadgeKind {
 #if DEBUG
 struct ProfileBadgeImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileBadgeImageView(
-            badge: BadgesViewState.BadgeViewState.makePlaceholder(kind: .committedlearner)
-        )
+        ProfileBadgeImageView(badge: .makePlaceholder(kind: .committedlearner))
     }
 }
 #endif

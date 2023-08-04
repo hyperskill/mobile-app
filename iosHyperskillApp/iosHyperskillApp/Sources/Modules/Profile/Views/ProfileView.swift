@@ -92,8 +92,6 @@ struct ProfileView: View {
                 dailyStudyRemindersState: data.dailyStudyRemindersState
             )
 
-            let badgesViewState = viewModel.makeBadgesViewState(badgesState: data.badgesState)
-
             ScrollView {
                 VStack(spacing: appearance.spacingBetweenContainers) {
                     ProfileHeaderView(
@@ -126,8 +124,9 @@ struct ProfileView: View {
                     )
 
                     ProfileBadgesGridView(
-                        badgesState: badgesViewState,
-                        onBadgeTapped: viewModel.doBadgeCardTapped(badgeKind:),
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
+                        badgesState: viewModel.makeBadgesViewState(badgesState: data.badgesState),
+                        onBadgeTap: viewModel.doBadgeCardTapped(badgeKind:),
                         onVisibilityButtonTap: viewModel.doBadgesVisibilityButtonTapped(visibilityButton:)
                     )
 

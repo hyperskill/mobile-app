@@ -5,9 +5,11 @@ import SwiftUI
 extension ProfileBadgesGridItemView {
     struct Appearance {
         let badgeIconHeight: CGFloat = 86
+
         let lockIconWidthHeight: CGFloat = 12
         let levelContainerSpacing: CGFloat = 4
-        let cornerRadius: CGFloat = ProfileView.Appearance().cornerRadius
+
+        var cornerRadius: CGFloat = 8
         let backgroundColor = Color(ColorPalette.surface)
     }
 }
@@ -17,12 +19,12 @@ struct ProfileBadgesGridItemView: View {
 
     let badge: BadgesViewState.BadgeViewState
 
-    let onBadgeTapped: (BadgeKind) -> Void
+    let onBadgeTap: (BadgeKind) -> Void
 
     var body: some View {
         Button(
             action: {
-                onBadgeTapped(badge.kind)
+                onBadgeTap(badge.kind)
             },
             label: {
                 VStack(spacing: LayoutInsets.defaultInset) {
@@ -69,12 +71,12 @@ struct ProfileBadgesGridItemView: View {
 }
 
 #if DEBUG
-struct ProfileBadgesListItemView_Previews: PreviewProvider {
+struct ProfileBadgesGridItemView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ProfileBadgesGridItemView(
-                badge: BadgesViewState.BadgeViewState.makePlaceholder(kind: .benefactor),
-                onBadgeTapped: { _ in }
+                badge: .makePlaceholder(kind: .benefactor),
+                onBadgeTap: { _ in }
             )
 
             ProfileBadgesGridItemView(
@@ -89,7 +91,7 @@ struct ProfileBadgesListItemView_Previews: PreviewProvider {
                     nextLevel: 3,
                     progress: 0.3
                 ),
-                onBadgeTapped: { _ in }
+                onBadgeTap: { _ in }
             )
         }
         .frame(maxWidth: 180)

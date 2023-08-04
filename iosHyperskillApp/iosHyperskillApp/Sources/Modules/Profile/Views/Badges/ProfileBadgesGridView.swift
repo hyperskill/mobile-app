@@ -3,6 +3,8 @@ import SwiftUI
 
 extension ProfileBadgesGridView {
     struct Appearance {
+        var cornerRadius: CGFloat = 8
+
         let defaultColumnsCount = 2
         let regularHorizontalSizeClassColumnsCount = 4
 
@@ -17,8 +19,7 @@ struct ProfileBadgesGridView: View {
 
     let badgesState: BadgesViewState
 
-    let onBadgeTapped: (BadgeKind) -> Void
-
+    let onBadgeTap: (BadgeKind) -> Void
     let onVisibilityButtonTap: (ProfileFeatureMessageBadgesVisibilityButton) -> Void
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
@@ -33,15 +34,9 @@ struct ProfileBadgesGridView: View {
                 Spacer()
 
                 Button(
-                    badgesState.isExpanded
-                      ? Strings.Profile.Badges.showLess
-                      : Strings.Profile.Badges.showAll
+                    badgesState.isExpanded ? Strings.Profile.Badges.showLess : Strings.Profile.Badges.showAll
                 ) {
-                    onVisibilityButtonTap(
-                        badgesState.isExpanded
-                        ? ProfileFeatureMessageBadgesVisibilityButton.showLess
-                        : ProfileFeatureMessageBadgesVisibilityButton.showAll
-                    )
+                    onVisibilityButtonTap(badgesState.isExpanded ? .showLess : .showAll)
                 }
                 .font(.subheadline)
                 .animation(.easeInOut, value: badgesState.isExpanded)
@@ -61,8 +56,9 @@ struct ProfileBadgesGridView: View {
             ) {
                 ForEach(badgesState.badges, id: \.kind) { badge in
                     ProfileBadgesGridItemView(
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
                         badge: badge,
-                        onBadgeTapped: onBadgeTapped
+                        onBadgeTap: onBadgeTap
                     )
                 }
             }
@@ -71,21 +67,21 @@ struct ProfileBadgesGridView: View {
 }
 
 #if DEBUG
-struct ProfileBadgesListView_Previews: PreviewProvider {
+struct ProfileBadgesGridView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileBadgesGridView(
             badgesState: BadgesViewState(
                 badges: [
-                    BadgesViewState.BadgeViewState.makePlaceholder(kind: .benefactor),
-                    BadgesViewState.BadgeViewState.makePlaceholder(kind: .bountyhunter),
-                    BadgesViewState.BadgeViewState.makePlaceholder(kind: .sweetheart),
-                    BadgesViewState.BadgeViewState.makePlaceholder(kind: .helpinghand),
-                    BadgesViewState.BadgeViewState.makePlaceholder(kind: .brilliantmind),
-                    BadgesViewState.BadgeViewState.makePlaceholder(kind: .committedlearner)
+                    .makePlaceholder(kind: .benefactor),
+                    .makePlaceholder(kind: .bountyhunter),
+                    .makePlaceholder(kind: .sweetheart),
+                    .makePlaceholder(kind: .helpinghand),
+                    .makePlaceholder(kind: .brilliantmind),
+                    .makePlaceholder(kind: .committedlearner)
                 ],
                 isExpanded: true
             ),
-            onBadgeTapped: { _ in },
+            onBadgeTap: { _ in },
             onVisibilityButtonTap: { _ in }
         )
         .padding()
