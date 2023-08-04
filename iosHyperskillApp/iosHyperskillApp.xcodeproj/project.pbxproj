@@ -288,6 +288,9 @@
 		2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9EB95E2861BAD4007DDE44 /* ProfileAssembly.swift */; };
 		2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */; };
 		2C9F59A729267A530008ADC5 /* StepTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F59A629267A530008ADC5 /* StepTextView.swift */; };
+		2CA182A12A7CCDBB0086183D /* InterfaceOrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA182A02A7CCDBB0086183D /* InterfaceOrientationManager.swift */; };
+		2CA182A32A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA182A22A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift */; };
+		2CA182A52A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA182A42A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift */; };
 		2CA368E528EEAC39004F7FD8 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA368E428EEAC39004F7FD8 /* AppViewController.swift */; };
 		2CA368E728EEAE09004F7FD8 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA368E628EEAE09004F7FD8 /* AppView.swift */; };
 		2CA3B0332888818C00EEF716 /* StepQuizCodeSampleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */; };
@@ -811,6 +814,9 @@
 		2C9EB95E2861BAD4007DDE44 /* ProfileAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAssembly.swift; sourceTree = "<group>"; };
 		2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewDataMapper.swift; sourceTree = "<group>"; };
 		2C9F59A629267A530008ADC5 /* StepTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTextView.swift; sourceTree = "<group>"; };
+		2CA182A02A7CCDBB0086183D /* InterfaceOrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceOrientationManager.swift; sourceTree = "<group>"; };
+		2CA182A22A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SupportedInterfaceOrientations.swift"; sourceTree = "<group>"; };
+		2CA182A42A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceOrientationChangesPublisher.swift; sourceTree = "<group>"; };
 		2CA368E428EEAC39004F7FD8 /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		2CA368E628EEAE09004F7FD8 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSampleItemView.swift; sourceTree = "<group>"; };
@@ -2090,6 +2096,7 @@
 				2C27C77D28773042006A641A /* NukeManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
 				2C11D5C82A1130F300C59238 /* FeedbackGenerator */,
+				2CA1829F2A7CCD640086183D /* InterfaceOrientation */,
 				2C334D0F2939E0FC008593F1 /* Sentry */,
 			);
 			path = Systems;
@@ -2329,6 +2336,16 @@
 				2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */,
 			);
 			path = ViewData;
+			sourceTree = "<group>";
+		};
+		2CA1829F2A7CCD640086183D /* InterfaceOrientation */ = {
+			isa = PBXGroup;
+			children = (
+				2CA182A42A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift */,
+				2CA182A02A7CCDBB0086183D /* InterfaceOrientationManager.swift */,
+				2CA182A22A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift */,
+			);
+			path = InterfaceOrientation;
 			sourceTree = "<group>";
 		};
 		2CA3B0342888819200EEF716 /* Samples */ = {
@@ -3520,6 +3537,7 @@
 				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */,
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
 				2C54E4282A1F717F003406B9 /* CardView.swift in Sources */,
+				2CA182A52A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
 				2CBC97CD2A555AA20078E445 /* StageImplementProjectCompletedModalView.swift in Sources */,
 				2CC95C0E2A4EBB970036C73E /* ProjectLevelAvatarView.swift in Sources */,
@@ -3558,6 +3576,7 @@
 				E9B55A5D29C978E40066900E /* ProblemsLimitReachedModalViewController.swift in Sources */,
 				2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */,
 				2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */,
+				2CA182A32A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift in Sources */,
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,
 				E9B55A5529C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
@@ -3755,6 +3774,7 @@
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
+				2CA182A12A7CCDBB0086183D /* InterfaceOrientationManager.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
 				2C3E65702A127F2300BC8DC0 /* BrandLinearGradient.swift in Sources */,
 				2CBC97C62A55435E0078E445 /* StageImplementStageCompletedModalView.swift in Sources */,
