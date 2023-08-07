@@ -51,6 +51,9 @@
 		2C0EB9542A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */; };
 		2C0EB9562A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EB9552A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift */; };
 		2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */; };
+		2C0F3CFA2A80A42D00947C35 /* BadgeDetailsModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F3CF92A80A42D00947C35 /* BadgeDetailsModalViewController.swift */; };
+		2C0F3CFC2A80A47600947C35 /* BadgeDetailsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F3CFB2A80A47600947C35 /* BadgeDetailsModalView.swift */; };
+		2C0F3CFF2A80AAA100947C35 /* ProfileBadgeLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F3CFE2A80AAA100947C35 /* ProfileBadgeLevelView.swift */; };
 		2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */; };
@@ -573,6 +576,9 @@
 		2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C0EB9552A15296D006DC84B /* TrackSelectionListFeatureViewStateContent+Placeholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackSelectionListFeatureViewStateContent+Placeholder.swift"; sourceTree = "<group>"; };
 		2C0EC2DE28F9E92D004A36B2 /* ModalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalRouter.swift; sourceTree = "<group>"; };
+		2C0F3CF92A80A42D00947C35 /* BadgeDetailsModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailsModalViewController.swift; sourceTree = "<group>"; };
+		2C0F3CFB2A80A47600947C35 /* BadgeDetailsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailsModalView.swift; sourceTree = "<group>"; };
+		2C0F3CFE2A80AAA100947C35 /* ProfileBadgeLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBadgeLevelView.swift; sourceTree = "<group>"; };
 		2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizOutputProtocol.swift; sourceTree = "<group>"; };
@@ -1240,6 +1246,15 @@
 				2C0DB91B28645ADA001EA35E /* CodeCompletionKeywords.swift */,
 			);
 			path = CodeCompletion;
+			sourceTree = "<group>";
+		};
+		2C0F3CFD2A80A48300947C35 /* BadgeDetailsModal */ = {
+			isa = PBXGroup;
+			children = (
+				2C0F3CFB2A80A47600947C35 /* BadgeDetailsModalView.swift */,
+				2C0F3CF92A80A42D00947C35 /* BadgeDetailsModalViewController.swift */,
+			);
+			path = BadgeDetailsModal;
 			sourceTree = "<group>";
 		};
 		2C1061A0285C341C00EBD614 /* ChildProtocols */ = {
@@ -3154,9 +3169,11 @@
 			isa = PBXGroup;
 			children = (
 				E9BDB4042A7BE1E30069EF98 /* ProfileBadgeImageView.swift */,
+				2C0F3CFE2A80AAA100947C35 /* ProfileBadgeLevelView.swift */,
 				E9D537CF2A71056100F21828 /* ProfileBadgesGridItemView.swift */,
 				E9D537D32A71393A00F21828 /* ProfileBadgesGridView.swift */,
 				E9D537D12A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift */,
+				2C0F3CFD2A80A48300947C35 /* BadgeDetailsModal */,
 			);
 			path = Badges;
 			sourceTree = "<group>";
@@ -3487,6 +3504,7 @@
 				2C3E656D2A12722800BC8DC0 /* TrackSelectionListHeaderView.swift in Sources */,
 				2C5B2A2828659AD80097B270 /* CodeElementSize.swift in Sources */,
 				2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */,
+				2C0F3CFA2A80A42D00947C35 /* BadgeDetailsModalViewController.swift in Sources */,
 				2C5CA2372A20185300DBF2F9 /* ProjectSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */,
 				E9886D3228ABCE5C003724F9 /* OnboardingOutputProtocol.swift in Sources */,
 				2C5CBBE12948EBEA00113007 /* StepQuizSQLViewDataMapper.swift in Sources */,
@@ -3580,6 +3598,7 @@
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,
 				E9B55A5529C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
+				2C0F3CFF2A80AAA100947C35 /* ProfileBadgeLevelView.swift in Sources */,
 				2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */,
 				2C80D4FF288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift in Sources */,
 				2C99B0FD2A141BF10018627B /* StudyPlanSectionItemBadgesView.swift in Sources */,
@@ -3610,6 +3629,7 @@
 				2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */,
 				2CBD191D291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift in Sources */,
 				E9A6250F28ABAE83009423EE /* OnboardingViewModel.swift in Sources */,
+				2C0F3CFC2A80A47600947C35 /* BadgeDetailsModalView.swift in Sources */,
 				E9F504D029128B5300B788C7 /* StepQuizHintsAssembly.swift in Sources */,
 				E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */,
 				2CEEE03128916A3100282849 /* ProblemOfDayAssembly.swift in Sources */,
