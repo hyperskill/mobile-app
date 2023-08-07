@@ -13,6 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var notificationPermissionStatusSettingsObserver = NotificationPermissionStatusSettingsObserver.default
     private lazy var notificationsRegistrationService = NotificationsRegistrationService.shared
 
+    private lazy var interfaceOrientationManager = InterfaceOrientationManager()
+
     // MARK: Initializing the App
 
     func application(
@@ -107,16 +109,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         supportedInterfaceOrientationsFor window: UIWindow?
     ) -> UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            if #available(iOS 16.0, *),
-               SourcelessRouter().currentPresentedViewController() is WebViewNavigationController {
-                // ALTAPPS-453: Fix iOS 16 Password AutoFill crash
-                return .all
-            } else {
-                return .portrait
-            }
-        } else {
-            return .all
-        }
+        interfaceOrientationManager.supportedInterfaceOrientations
     }
 }
