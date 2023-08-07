@@ -102,7 +102,8 @@ class StageStepWrapperFragment :
             }
         }
         viewBinding.stageImplementationTitle.text = stageTitle
-        StepDelegate.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
+        // TODO init step delegate
+//        StepDelegate.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
     }
 
     override fun onDestroyView() {
@@ -133,11 +134,13 @@ class StageStepWrapperFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        StepDelegate.onAction(
-            fragment = this,
-            mainScreenRouter = mainScreenRouter,
-            action = action
-        )
+        //TODO uncomment
+//        StepDelegate.onAction(
+//            fragment = this,
+//            mainScreenRouter = mainScreenRouter,
+//            action = action,
+//            childFragmentManager = childFragmentManager
+//        )
     }
 
     override fun onNewMessage(message: StepCompletionFeature.Message) {

@@ -21,6 +21,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -28,7 +29,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class StepFragment :
     Fragment(R.layout.fragment_step),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
-    StepCompletionHost {
+    StepCompletionHost,
+    StepDelegate.NotificationGrantedDeletate {
 
     companion object {
         private const val STEP_TAG = "step"
@@ -39,6 +41,8 @@ class StepFragment :
                     this.stepRoute = stepRoute
                 }
     }
+
+    private lateinit var stepDelegate: StepDelegate
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -57,7 +61,8 @@ class StepFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
-        StepDelegate.init(viewBinding.stepError, stepViewModel::onNewMessage)
+        stepDelegate = StepDelegate(this, viewBinding.root)
+        stepDelegate.init(viewBinding.stepError, stepViewModel::onNewMessage)
     }
 
     private fun injectComponent() {
@@ -76,7 +81,7 @@ class StepFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        StepDelegate.onAction(
+        stepDelegate.onAction(
             fragment = this,
             mainScreenRouter = mainScreenRouter,
             action = action
@@ -111,5 +116,13 @@ class StepFragment :
                 StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
             }
         }
+    }
+
+    override fun onNotificationPermissionResult(isGranted: Boolean) {
+        stepViewModel.onNewMessage(
+            StepFeature.Message.StepCompletionMessage(
+                StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted)
+            )
+        )
     }
 }

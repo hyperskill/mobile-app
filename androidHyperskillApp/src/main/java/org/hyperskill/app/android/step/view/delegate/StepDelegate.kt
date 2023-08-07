@@ -1,19 +1,39 @@
 package org.hyperskill.app.android.step.view.delegate
 
+import android.view.View
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-object StepDelegate {
+class StepDelegate(
+    private val fragment: Fragment,
+    private val rootView: View,
+    private val notificationGrantedDelegate: NotificationGrantedDeletate
+) {
+    private val notificationPermissionDelegate: NotificationPermissionDelegate =
+        NotificationPermissionDelegate(fragment)
+
+    private val platformNotificationComponent =
+        HyperskillApp.graph().platformLocalNotificationComponent
+
+
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
         errorBinding.tryAgain.setOnClickListener {
@@ -24,7 +44,7 @@ object StepDelegate {
     fun onAction(
         fragment: Fragment,
         mainScreenRouter: MainScreenRouter,
-        action: StepFeature.Action.ViewAction
+        action: StepFeature.Action.ViewAction,
     ) {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
@@ -57,8 +77,61 @@ object StepDelegate {
                                 TopicPracticeCompletedBottomSheet.Tag
                             )
                     }
+                    StepCompletionFeature.Action.ViewAction.RequestDailyStudyRemindersPermission -> {
+                        requestSendDailyStudyRemindersPermission()
+                    }
+                    is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
+                        CompletedStepOfTheDayDialogFragment
+                            .newInstance(earnedGemsText = stepCompletionAction.earnedGemsText)
+                            .showIfNotExists(fragment.childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
+                    }
                 }
             }
         }
+    }
+
+    private fun requestSendDailyStudyRemindersPermission() {
+        MaterialAlertDialogBuilder(fragment.requireContext())
+            .setTitle(org.hyperskill.app.R.string.after_daily_step_completed_dialog_title)
+            .setMessage(org.hyperskill.app.R.string.after_daily_step_completed_dialog_text)
+            .setPositiveButton(org.hyperskill.app.R.string.ok) { dialog, _ ->
+                notificationPermissionDelegate.requestNotificationPermission { result ->
+                    dialog.dismiss()
+                    if (result == NotificationPermissionDelegate.Result.GRANTED) {
+                        onNotificationPermissionGranted()
+                    }
+                }
+            }
+            .setNegativeButton(org.hyperskill.app.R.string.later) { dialog, _ ->
+                stepQuizViewModel.onNewMessage(
+                    StepQuizFeature.Message.RequestUserPermissionResult(
+                        action.userPermissionRequest,
+                        isGranted = false
+                    )
+                )
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun onNotificationPermissionGranted() {
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.RequestUserPermissionResult(
+                isGranted = true
+            )
+        )
+        NotificationManagerCompat.from(fragment.requireContext()).checkNotificationChannelAvailability(
+            fragment.requireContext(),
+            HyperskillNotificationChannel.DailyReminder
+        ) {
+            if (fragment.isResumed) {
+                rootView.snackbar(org.hyperskill.app.R.string.common_error)
+            }
+        }
+        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+    }
+    
+    interface NotificationGrantedDeletate {
+        fun onNotificationPermissionResult(isGranted: Boolean)
     }
 }
