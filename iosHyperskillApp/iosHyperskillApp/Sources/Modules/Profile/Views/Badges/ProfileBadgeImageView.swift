@@ -3,7 +3,7 @@ import shared
 import SwiftUI
 
 struct ProfileBadgeImageView: View {
-    let badge: BadgesViewState.BadgeViewState
+    let badge: BadgesViewState.Badge
 
     @State private var isLoading = false
 
