@@ -204,6 +204,9 @@
     <string name="profile_statistics_block_passed_projects_title">Projects</string>
     <string name="profile_statistics_block_passed_tracks_title">Tracks</string>
     <string name="profile_statistics_block_hypercoins_balance_title">Gems</string>
+    <string name="profile_badges_title">Achievements</string>
+    <string name="profile_badges_show_all">Show all</string>
+    <string name="profile_badges_show_less">Show less</string>
     <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Settings -->
