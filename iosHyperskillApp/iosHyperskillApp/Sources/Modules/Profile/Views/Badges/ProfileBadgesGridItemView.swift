@@ -29,7 +29,7 @@ struct ProfileBadgesGridItemView: View {
                         .font(.subheadline)
                         .foregroundColor(.primaryText)
 
-                    ProfileBadgeImageView(badge: badge)
+                    ProfileBadgeImageView(kind: badge.kind, image: badge.image)
                         .frame(maxWidth: .infinity)
                         .frame(height: appearance.badgeIconHeight)
 

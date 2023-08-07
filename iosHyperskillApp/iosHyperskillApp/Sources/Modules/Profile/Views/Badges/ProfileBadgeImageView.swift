@@ -3,14 +3,15 @@ import shared
 import SwiftUI
 
 struct ProfileBadgeImageView: View {
-    let badge: BadgesViewState.BadgeViewState
+    let kind: BadgeKind
+    let image: BadgesViewStateBadgeImage
 
     @State private var isLoading = false
 
     var body: some View {
-        switch BadgesViewStateBadgeImageKs(badge.image) {
+        switch BadgesViewStateBadgeImageKs(image) {
         case .locked:
-            Image(badge.kind.lockedImage)
+            Image(kind.lockedImage)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -62,10 +63,11 @@ fileprivate extension BadgeKind {
     }
 }
 
-#if DEBUG
 struct ProfileBadgeImageView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileBadgeImageView(badge: .makePlaceholder(kind: .committedlearner))
+        ProfileBadgeImageView(
+            kind: .committedlearner,
+            image: BadgesViewStateBadgeImageLocked()
+        )
     }
 }
-#endif

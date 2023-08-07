@@ -188,15 +188,14 @@ struct ProfileView: View {
             case .homeScreen:
                 TabBarRouter(tab: .home).route()
             }
-        case .showBadgeDetailsModal(let badgeDetailsModal):
-            displayBadgeDetailsModal(
-                badgeDetails: badgeDetailsModal
-            )
+        case .showBadgeDetailsModal(let showBadgeDetailsModalViewAction):
+            displayBadgeDetailsModal(details: showBadgeDetailsModalViewAction.details)
         }
     }
 
-    private func displayBadgeDetailsModal(badgeDetails: ProfileFeatureActionViewActionShowBadgeDetailsModal) {
-        // implement badge details modal
+    private func displayBadgeDetailsModal(details: ProfileFeatureActionViewActionBadgeDetails) {
+        let assembly = BadgeDetailsModalAssembly(badgeDetails: details, delegate: viewModel)
+        panModalPresenter.presentIfPanModal(assembly.makeModule())
     }
 
     private func displayStreakFreezeModal(streakFreezeState: ProfileFeatureStreakFreezeStateKs) {
