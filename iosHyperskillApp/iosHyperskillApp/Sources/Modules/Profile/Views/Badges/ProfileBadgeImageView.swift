@@ -21,8 +21,11 @@ struct ProfileBadgeImageView: View {
                     source: remoteImage.fullSource,
                     resizingMode: .aspectFit
                 )
-                .onStart { _ in
-                    isLoading = true
+                .animation(nil)
+                .onStart { task in
+                    if !ImagePipeline.shared.cache.containsData(for: task.request) {
+                        isLoading = true
+                    }
                 }
                 .onCompletion { _ in
                     isLoading = false
