@@ -17,7 +17,7 @@ extension ProfileBadgesGridItemView {
 struct ProfileBadgesGridItemView: View {
     private(set) var appearance = Appearance()
 
-    let badge: BadgesViewState.BadgeViewState
+    let badge: BadgesViewState.Badge
 
     let onBadgeTap: (BadgeKind) -> Void
 
@@ -80,7 +80,7 @@ struct ProfileBadgesGridItemView_Previews: PreviewProvider {
             )
 
             ProfileBadgesGridItemView(
-                badge: BadgesViewState.BadgeViewState(
+                badge: BadgesViewState.Badge(
                     kind: .bountyhunter,
                     title: "Bounty Hunter",
                     image: BadgesViewStateBadgeImageRemote(
@@ -99,9 +99,9 @@ struct ProfileBadgesGridItemView_Previews: PreviewProvider {
     }
 }
 
-extension BadgesViewState.BadgeViewState {
-    static func makePlaceholder(kind: BadgeKind) -> BadgesViewState.BadgeViewState {
-        BadgesViewState.BadgeViewState(
+extension BadgesViewState.Badge {
+    static func makePlaceholder(kind: BadgeKind) -> BadgesViewState.Badge {
+        BadgesViewState.Badge(
             kind: kind,
             title: "Bounty Hunter",
             image: BadgesViewStateBadgeImageLocked(),
