@@ -126,6 +126,7 @@ class BadgeDetailsDialogFragment : BottomSheetDialogFragment() {
             BadgeRank.EXPERT -> org.hyperskill.app.R.color.color_overlay_blue_brand
             BadgeRank.MASTER -> org.hyperskill.app.R.color.color_overlay_blue
             BadgeRank.LEGENDARY -> org.hyperskill.app.R.color.color_on_surface
+            BadgeRank.LOCKED,
             BadgeRank.UNKNOWN -> org.hyperskill.app.R.color.color_on_surface_alpha_38
         }.let { colorRes -> ContextCompat.getColor(context, colorRes) }
 

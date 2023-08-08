@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.badges.view.ui
 
 import org.hyperskill.app.badges.domain.model.BadgeKind
+import org.hyperskill.app.profile.view.BadgeImage
 import org.hyperskill.app.profile.view.BadgesViewState
 
 object BadgeCardStatePreview {
@@ -34,7 +35,7 @@ object BadgeCardStatePreview {
         BadgesViewState.Badge(
             kind = kind,
             title = title,
-            image = BadgesViewState.BadgeImage.Locked,
+            image = BadgeImage.Locked,
             formattedCurrentLevel = if (isMaxLevel) "Level 15 (max)" else "Level 1",
             nextLevel = if (isMaxLevel) null else 2,
             progress = .35f
