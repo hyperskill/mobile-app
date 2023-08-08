@@ -40,15 +40,7 @@ class StepFragment :
                 }
     }
 
-    private val stepDelegate: StepDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        StepDelegate(
-            fragment = this,
-            rootView = viewBinding.root,
-            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
-                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
-            }
-        )
-    }
+    private var stepDelegate: StepDelegate? = null
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -63,11 +55,18 @@ class StepFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        stepDelegate = StepDelegate(
+            fragment = this,
+            rootView = viewBinding.root,
+            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
+                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
-        stepDelegate.init(viewBinding.stepError, stepViewModel::onNewMessage)
+        stepDelegate?.init(viewBinding.stepError, stepViewModel::onNewMessage)
     }
 
     private fun injectComponent() {
@@ -86,7 +85,7 @@ class StepFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        stepDelegate.onAction(
+        stepDelegate?.onAction(
             mainScreenRouter = mainScreenRouter,
             action = action
         )
@@ -104,6 +103,7 @@ class StepFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
+        stepDelegate = null
     }
 
     override fun onNewMessage(message: StepCompletionFeature.Message) {

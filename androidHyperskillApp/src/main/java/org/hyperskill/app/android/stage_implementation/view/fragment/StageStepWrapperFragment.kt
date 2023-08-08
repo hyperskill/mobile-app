@@ -70,15 +70,7 @@ class StageStepWrapperFragment :
 
     private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
 
-    private val stepDelegate: StepDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        StepDelegate(
-            fragment = this,
-            rootView = viewBinding.root,
-            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
-                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
-            }
-        )
-    }
+    private var stepDelegate: StepDelegate? = null
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
@@ -86,6 +78,13 @@ class StageStepWrapperFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        stepDelegate = StepDelegate(
+            fragment = this,
+            rootView = viewBinding.root,
+            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
+                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
+            }
+        )
     }
 
     private fun injectComponent() {
@@ -112,12 +111,13 @@ class StageStepWrapperFragment :
             }
         }
         viewBinding.stageImplementationTitle.text = stageTitle
-        stepDelegate.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
+        stepDelegate?.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
+        stepDelegate = null
     }
 
     override fun render(state: StepFeature.State) {
@@ -143,7 +143,7 @@ class StageStepWrapperFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        stepDelegate.onAction(
+        stepDelegate?.onAction(
             mainScreenRouter = mainScreenRouter,
             action = action
         )
