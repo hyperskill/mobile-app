@@ -17,11 +17,7 @@ final class StepQuizViewModel: FeatureViewModel<
     private var updateChildQuizSubscription: AnyCancellable?
 
     private let stepQuizViewDataMapper: StepQuizViewDataMapper
-    private let userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
     private let problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
-
-    private let notificationService: NotificationsService
-    private let notificationsRegistrationService: NotificationsRegistrationService
 
     var stepQuizStateKs: StepQuizFeatureStepQuizStateKs { .init(state.stepQuizState) }
     var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
@@ -36,10 +32,7 @@ final class StepQuizViewModel: FeatureViewModel<
         moduleOutput: StepQuizOutputProtocol?,
         provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
         viewDataMapper: StepQuizViewDataMapper,
-        userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
         problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
-        notificationService: NotificationsService,
-        notificationsRegistrationService: NotificationsRegistrationService,
         feature: Presentation_reduxFeature
     ) {
         self.step = step
@@ -47,10 +40,7 @@ final class StepQuizViewModel: FeatureViewModel<
         self.moduleOutput = moduleOutput
         self.provideModuleInputCallback = provideModuleInputCallback
         self.stepQuizViewDataMapper = viewDataMapper
-        self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
         self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
-        self.notificationService = notificationService
-        self.notificationsRegistrationService = notificationsRegistrationService
 
         super.init(feature: feature)
 
@@ -104,10 +94,6 @@ final class StepQuizViewModel: FeatureViewModel<
         moduleOutput?.stepQuizDidRequestContinue()
     }
 
-    func doGoBackAction() {
-        onNewMessage(StepQuizFeatureMessageProblemOfDaySolvedModalGoBackClicked())
-    }
-
     func makeViewData() -> StepQuizViewData {
         stepQuizViewDataMapper.mapStepDataToViewData(step: step, state: stepQuizStateKs)
     }
@@ -129,48 +115,14 @@ final class StepQuizViewModel: FeatureViewModel<
         }
     }
 
-    // MARK: StepQuizUserPermissionRequest
-
-    func makeUserPermissionRequestTitle(_ userPermissionRequest: StepQuizUserPermissionRequest) -> String {
-        userPermissionRequestTextMapper.getTitle(request: userPermissionRequest)
-    }
-
-    func makeUserPermissionRequestMessage(_ userPermissionRequest: StepQuizUserPermissionRequest) -> String {
-        userPermissionRequestTextMapper.getMessage(request: userPermissionRequest)
-    }
+    // MARK: StepQuizUserResetCodeRequest
 
     func handleResetCodePermissionRequestResult(isGranted: Bool) {
-        let message = StepQuizFeatureMessageRequestUserPermissionResult(
-            userPermissionRequest: StepQuizUserPermissionRequest.resetCode,
-            isGranted: isGranted
+        onNewMessage(
+            StepQuizFeatureMessageRequestResetCodeResult(
+                isGranted: isGranted
+            )
         )
-        onNewMessage(message)
-    }
-
-    func handleSendDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
-        let message = StepQuizFeatureMessageRequestUserPermissionResult(
-            userPermissionRequest: StepQuizUserPermissionRequest.sendDailyStudyReminders,
-            isGranted: isGranted
-        )
-
-        if isGranted {
-            Task(priority: .userInitiated) {
-                let isNotificationPermissionGranted =
-                  await notificationsRegistrationService.requestAuthorizationIfNeeded()
-
-                await MainActor.run {
-                    onNewMessage(message)
-
-                    if isNotificationPermissionGranted {
-                        notificationService.scheduleDailyStudyReminderLocalNotifications(
-                            analyticRoute: HyperskillAnalyticRoute.Learn.LearnStep(stepId: step.id)
-                        )
-                    }
-                }
-            }
-        } else {
-            onNewMessage(message)
-        }
     }
 
     func doReloadProblemsLimit() {
@@ -189,14 +141,6 @@ final class StepQuizViewModel: FeatureViewModel<
 
     private func logClickedRetryEvent() {
         onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
-    }
-
-    func logDailyStepCompletedModalShownEvent() {
-        onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalShownEventMessage())
-    }
-
-    func logDailyStepCompletedModalHiddenEvent() {
-        onNewMessage(StepQuizFeatureMessageDailyStepCompletedModalHiddenEventMessage())
     }
 }
 

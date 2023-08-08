@@ -251,25 +251,14 @@ struct StepQuizView: View {
         switch StepQuizFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
             ProgressHUD.showError(status: Strings.Common.connectionError)
-        case .requestUserPermission(let requestUserPermissionViewAction):
-            switch requestUserPermissionViewAction.userPermissionRequest {
-            case StepQuizUserPermissionRequest.resetCode:
-                presentResetCodePermissionAlert()
-            case StepQuizUserPermissionRequest.sendDailyStudyReminders:
-                presentSendDailyStudyRemindersPermissionAlert()
-            default:
-                break
-            }
+        case .requestResetCode:
+            presentResetCodePermissionAlert()
         case .showProblemsLimitReachedModal:
             presentProblemsLimitReachedModal()
-        case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
-            presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         case .problemsLimitViewAction:
             break
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
-            case .back:
-                stackRouter.popViewController()
             case .home:
                 stackRouter.popViewController()
                 TabBarRouter(tab: .home).route()
@@ -286,8 +275,8 @@ struct StepQuizView: View {
 extension StepQuizView {
     private func presentResetCodePermissionAlert() {
         let alert = UIAlertController(
-            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.resetCode),
-            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.resetCode),
+            title: Strings.StepQuiz.ResetCodeAlert.title,
+            message: Strings.StepQuiz.ResetCodeAlert.text,
             preferredStyle: .alert
         )
         alert.addAction(
@@ -311,55 +300,11 @@ extension StepQuizView {
 
         modalRouter.presentAlert(alert)
     }
-
-    private func presentSendDailyStudyRemindersPermissionAlert() {
-        let alert = UIAlertController(
-            title: viewModel.makeUserPermissionRequestTitle(StepQuizUserPermissionRequest.sendDailyStudyReminders),
-            message: viewModel.makeUserPermissionRequestMessage(StepQuizUserPermissionRequest.sendDailyStudyReminders),
-            preferredStyle: .alert
-        )
-        alert.addAction(
-            UIAlertAction(
-                title: Strings.Common.ok,
-                style: .default,
-                handler: { [weak viewModel] _ in
-                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: true)
-                }
-            )
-        )
-        alert.addAction(
-            UIAlertAction(
-                title: Strings.Common.later,
-                style: .cancel,
-                handler: { [weak viewModel] _ in
-                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: false)
-                }
-            )
-        )
-
-        modalRouter.presentAlert(alert)
-    }
 }
 
 // MARK: - StepQuizView (Modals) -
 
 extension StepQuizView {
-    private func presentDailyStepCompletedModal(earnedGemsText: String) {
-        viewModel.logDailyStepCompletedModalShownEvent()
-
-        let panModal = ProblemOfDaySolvedModalViewController(
-            earnedGemsText: earnedGemsText,
-            onGoBackButtonTap: { [weak viewModel] in
-                viewModel?.doGoBackAction()
-            }
-        )
-        panModal.onDisappear = { [weak viewModel] in
-            viewModel?.logDailyStepCompletedModalHiddenEvent()
-        }
-
-        panModalPresenter.presentPanModal(panModal)
-    }
-
     private func presentProblemsLimitReachedModal() {
         let panModal = ProblemsLimitReachedModalViewController(
             delegate: viewModel

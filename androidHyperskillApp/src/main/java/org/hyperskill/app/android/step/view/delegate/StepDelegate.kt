@@ -24,8 +24,7 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 class StepDelegate(
     private val fragment: Fragment,
-    private val rootView: View,
-    private val notificationGrantedDelegate: NotificationGrantedDeletate
+    private val rootView: View
 ) {
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment)
