@@ -21,11 +21,7 @@ import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepDelegate(
-    private val fragment: Fragment,
-    private val rootView: View,
-    private val onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
-) {
+class StepDelegate(private val fragment: Fragment) {
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment)
 
@@ -42,6 +38,8 @@ class StepDelegate(
     fun onAction(
         mainScreenRouter: MainScreenRouter,
         action: StepFeature.Action.ViewAction,
+        rootView: View,
+        onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
     ) {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
@@ -75,7 +73,7 @@ class StepDelegate(
                             )
                     }
                     StepCompletionFeature.Action.ViewAction.RequestDailyStudyRemindersPermission -> {
-                        requestSendDailyStudyRemindersPermission()
+                        requestSendDailyStudyRemindersPermission(rootView, onRequestDailyStudyRemindersPermissionResult)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
@@ -87,7 +85,10 @@ class StepDelegate(
         }
     }
 
-    private fun requestSendDailyStudyRemindersPermission() {
+    private fun requestSendDailyStudyRemindersPermission(
+        rootView: View,
+        onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
+    ) {
         MaterialAlertDialogBuilder(fragment.requireContext())
             .setTitle(org.hyperskill.app.R.string.after_daily_step_completed_dialog_title)
             .setMessage(org.hyperskill.app.R.string.after_daily_step_completed_dialog_text)
@@ -95,7 +96,10 @@ class StepDelegate(
                 notificationPermissionDelegate.requestNotificationPermission { result ->
                     dialog.dismiss()
                     if (result == NotificationPermissionDelegate.Result.GRANTED) {
-                        onNotificationPermissionGranted()
+                        onNotificationPermissionGranted(
+                            rootView = rootView,
+                            onRequestDailyStudyRemindersPermissionResult = onRequestDailyStudyRemindersPermissionResult
+                        )
                     }
                 }
             }
@@ -106,7 +110,10 @@ class StepDelegate(
             .show()
     }
 
-    private fun onNotificationPermissionGranted() {
+    private fun onNotificationPermissionGranted(
+        rootView: View,
+        onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
+    ) {
         onRequestDailyStudyRemindersPermissionResult(true)
         NotificationManagerCompat.from(fragment.requireContext()).checkNotificationChannelAvailability(
             fragment.requireContext(),

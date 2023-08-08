@@ -78,13 +78,7 @@ class StageStepWrapperFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        stepDelegate = StepDelegate(
-            fragment = this,
-            rootView = viewBinding.root,
-            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
-                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
-            }
-        )
+        stepDelegate = StepDelegate(fragment = this)
     }
 
     private fun injectComponent() {
@@ -145,7 +139,11 @@ class StageStepWrapperFragment :
     override fun onAction(action: StepFeature.Action.ViewAction) {
         stepDelegate?.onAction(
             mainScreenRouter = mainScreenRouter,
-            action = action
+            action = action,
+            rootView = viewBinding.root,
+            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
+                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
+            }
         )
     }
 
