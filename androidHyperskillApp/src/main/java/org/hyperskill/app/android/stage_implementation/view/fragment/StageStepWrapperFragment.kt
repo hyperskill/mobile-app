@@ -143,7 +143,7 @@ class StageStepWrapperFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-       stepDelegate.onAction(
+        stepDelegate.onAction(
             mainScreenRouter = mainScreenRouter,
             action = action
         )

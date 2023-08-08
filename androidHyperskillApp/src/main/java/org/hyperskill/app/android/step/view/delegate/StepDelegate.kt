@@ -32,7 +32,6 @@ class StepDelegate(
     private val platformNotificationComponent =
         HyperskillApp.graph().platformLocalNotificationComponent
 
-
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
         errorBinding.tryAgain.setOnClickListener {

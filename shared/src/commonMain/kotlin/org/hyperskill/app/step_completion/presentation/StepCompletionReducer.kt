@@ -164,8 +164,8 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             }
             /**
-            * Analytic
-            * */
+             * Analytic
+             * */
             is Message.TopicCompletedModalShownEventMessage -> {
                 val event = StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute
