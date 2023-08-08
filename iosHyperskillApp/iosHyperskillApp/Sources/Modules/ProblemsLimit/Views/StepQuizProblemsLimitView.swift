@@ -24,8 +24,7 @@ struct StepQuizProblemsLimitView_Previews: PreviewProvider {
         ProblemsLimitView(
             stateKs: .content(
                 ProblemsLimitFeatureViewStateContentWidget(
-                    stepsLimitTotal: 5,
-                    stepsLimitLeft: 3,
+                    progress: 0.6,
                     stepsLimitLabel: "3/5 steps",
                     updateInLabel: "12 hours"
                 )

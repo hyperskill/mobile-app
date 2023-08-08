@@ -23,8 +23,6 @@ class ProblemsLimitViewStateMapper(
                         ProblemsLimitFeature.ViewState.Content.Empty
                     else -> ProblemsLimitFeature.ViewState.Content.Widget(
                         progress = (state.subscription.stepsLimitLeft.toFloat() / state.subscription.stepsLimitTotal),
-                        stepsLimitTotal = state.subscription.stepsLimitTotal,
-                        stepsLimitLeft = state.subscription.stepsLimitLeft,
                         stepsLimitLabel = resourceProvider.getString(
                             SharedResources.strings.problems_limit_widget_problems_limit,
                             state.subscription.stepsLimitLeft,

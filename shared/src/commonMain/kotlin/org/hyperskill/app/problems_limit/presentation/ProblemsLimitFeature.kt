@@ -38,8 +38,6 @@ object ProblemsLimitFeature {
              */
             data class Widget(
                 val progress: Float,
-                val stepsLimitTotal: Int,
-                val stepsLimitLeft: Int,
                 val stepsLimitLabel: String,
                 val updateInLabel: String
             ) : Content
