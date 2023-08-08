@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             app:title="@string/profile_title"
-            android:minHeight="?attr/actionBarSize"
             app:contentScrim="@color/color_background"
             app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginBottom="8dp"
@@ -92,6 +91,21 @@
                     />
 
                 <include
+                    android:id="@+id/profileDailyReminder"
+                    layout="@layout/layout_profile_daily_reminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    />
+                
+                <androidx.compose.ui.platform.ComposeView
+                        android:id="@+id/profileBadges"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        />
+
+                <include
                     android:id="@+id/profileStatisticsLayout"
                     layout="@layout/layout_profile_statistics"
                     android:layout_width="match_parent"
@@ -100,15 +114,7 @@
                     />
 
                 <include
-                    android:id="@+id/profileDailyReminder"
-                    layout="@layout/layout_profile_daily_reminder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    />
-
-                <include
-                    android:id="@+id/profileFooterLayout"
+                    android:id="@+id/profileAboutMeLayout"
                     layout="@layout/layout_profile_personal_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,6 +136,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
+        tools:visibility="gone"
         />
 
     <include
