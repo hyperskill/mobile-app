@@ -16,7 +16,7 @@ struct ProfileView: View {
 
     @StateObject var viewModel: ProfileViewModel
 
-    @StateObject var panModalPresenter = PanModalPresenter()
+    private(set) var panModalPresenter: PanModalPresenter
 
     @State private var presentingSettings = false
 
