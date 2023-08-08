@@ -24,6 +24,7 @@ import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.badges.domain.model.BadgeRank
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action.ViewAction.BadgeDetails
+import org.hyperskill.app.profile.view.BadgeImage
 import org.hyperskill.app.profile.view.BadgesViewStateMapper
 
 class BadgeDetailsDialogFragment : BottomSheetDialogFragment() {
@@ -90,10 +91,24 @@ class BadgeDetailsDialogFragment : BottomSheetDialogFragment() {
                     /* bottom = */ 0
                 )
             }
-            badgeLevelProgressIndicator.progress =
-                viewState.progress?.let { progress -> (progress * 100).roundToInt() } ?: 0
+            badgeLevelProgressIndicator.progress = (viewState.progress * 100).roundToInt()
             badgeLevelDescription.text = viewState.levelDescription
-            badgeImage.load(viewState.imageSource) {
+            badgeImage.load(
+                data = when (val image = viewState.image) {
+                    BadgeImage.Locked -> when (viewState.kind) {
+                        BadgeKind.ProjectMaster -> R.drawable.img_badge_details_project_master
+                        BadgeKind.TopicMaster -> R.drawable.img_badge_details_topic_master
+                        BadgeKind.CommittedLearner -> R.drawable.img_badge_details_committed_learner
+                        BadgeKind.BrilliantMind -> R.drawable.img_badge_details_brilliant_mind
+                        BadgeKind.HelpingHand -> R.drawable.img_badge_details_helping_hand
+                        BadgeKind.Sweetheart -> R.drawable.img_badge_details_sweetheart
+                        BadgeKind.Benefactor -> R.drawable.img_badge_details_benefactor
+                        BadgeKind.BountyHunter -> R.drawable.img_badge_details_bounty_hunter
+                        BadgeKind.UNKNOWN -> null
+                    }
+                    is BadgeImage.Remote -> image.fullSource
+                }
+            ) {
                 scale(Scale.FIT)
             }
         }

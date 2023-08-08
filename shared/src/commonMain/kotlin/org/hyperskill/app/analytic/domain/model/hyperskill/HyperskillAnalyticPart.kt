@@ -31,6 +31,5 @@ enum class HyperskillAnalyticPart(val partName: String) {
     STREAK_RECOVERY_MODAL("streak_recovery_modal"),
     STAGE_COMPLETED_MODAL("stage_completed_modal"),
     PROJECT_COMPLETED_MODAL("project_completed_modal"),
-    NEXT_LEARNING_ACTIVITY_WIDGET("next_learning_activity_widget"),
-    BADGE_MODAL("badge_modal")
+    NEXT_LEARNING_ACTIVITY_WIDGET("next_learning_activity_widget")
 }

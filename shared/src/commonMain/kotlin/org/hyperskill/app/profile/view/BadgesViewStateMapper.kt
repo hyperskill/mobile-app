@@ -38,7 +38,7 @@ class BadgesViewStateMapper(
         BadgesViewState.BadgeViewState(
             kind = badge.kind,
             title = badge.title,
-            image = BadgesViewState.BadgeImage.Remote(
+            image = BadgeImage.Remote(
                 fullSource = badge.imageFull,
                 previewSource = badge.imagePreview
             ),
@@ -58,7 +58,7 @@ class BadgesViewStateMapper(
         BadgesViewState.BadgeViewState(
             kind = badgeKind,
             title = getBadgeTitle(badgeKind) ?: "",
-            image = BadgesViewState.BadgeImage.Locked,
+            image = BadgeImage.Locked,
             formattedCurrentLevel = resourceProvider.getString(SharedResources.strings.badge_level, 0),
             nextLevel = 1,
             progress = 0f
@@ -103,7 +103,10 @@ class BadgesViewStateMapper(
                 resourceProvider.getString(SharedResources.strings.badge_level, nextLevel)
             },
             progress = getProgress(badge),
-            imageSource = badge.imageFull,
+            image = BadgeImage.Remote(
+                previewSource = badge.imagePreview,
+                fullSource = badge.imageFull
+            ),
             isLocked = false // TODO: replace with `badge.rank == BadgeRank.LOCKED`
         )
 
@@ -118,7 +121,7 @@ class BadgesViewStateMapper(
             formattedNextLevel = resourceProvider.getString(SharedResources.strings.badge_locked),
             formattedCurrentLevel = resourceProvider.getString(SharedResources.strings.badge_level, 1),
             progress = 0f,
-            imageSource = null,
+            image = BadgeImage.Locked,
             isLocked = true
         )
 
