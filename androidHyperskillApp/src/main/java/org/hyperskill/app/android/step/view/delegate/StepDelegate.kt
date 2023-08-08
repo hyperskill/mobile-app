@@ -19,12 +19,12 @@ import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDia
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 class StepDelegate(
     private val fragment: Fragment,
-    private val rootView: View
+    private val rootView: View,
+    private val onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
 ) {
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment)
@@ -41,7 +41,6 @@ class StepDelegate(
     }
 
     fun onAction(
-        fragment: Fragment,
         mainScreenRouter: MainScreenRouter,
         action: StepFeature.Action.ViewAction,
     ) {
@@ -102,23 +101,14 @@ class StepDelegate(
                 }
             }
             .setNegativeButton(org.hyperskill.app.R.string.later) { dialog, _ ->
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.RequestUserPermissionResult(
-                        action.userPermissionRequest,
-                        isGranted = false
-                    )
-                )
+                onRequestDailyStudyRemindersPermissionResult(false)
                 dialog.dismiss()
             }
             .show()
     }
 
     private fun onNotificationPermissionGranted() {
-        stepQuizViewModel.onNewMessage(
-            StepQuizFeature.Message.RequestUserPermissionResult(
-                isGranted = true
-            )
-        )
+        onRequestDailyStudyRemindersPermissionResult(true)
         NotificationManagerCompat.from(fragment.requireContext()).checkNotificationChannelAvailability(
             fragment.requireContext(),
             HyperskillNotificationChannel.DailyReminder
@@ -128,9 +118,5 @@ class StepDelegate(
             }
         }
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
-    }
-    
-    interface NotificationGrantedDeletate {
-        fun onNotificationPermissionResult(isGranted: Boolean)
     }
 }

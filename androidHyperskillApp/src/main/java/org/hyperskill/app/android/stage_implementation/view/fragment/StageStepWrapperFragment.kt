@@ -70,6 +70,16 @@ class StageStepWrapperFragment :
 
     private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
 
+    private val stepDelegate: StepDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        StepDelegate(
+            fragment = this,
+            rootView = viewBinding.root,
+            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
+                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
+            }
+        )
+    }
+
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
@@ -102,8 +112,7 @@ class StageStepWrapperFragment :
             }
         }
         viewBinding.stageImplementationTitle.text = stageTitle
-        // TODO init step delegate
-//        StepDelegate.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
+        stepDelegate.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
     }
 
     override fun onDestroyView() {
@@ -134,13 +143,10 @@ class StageStepWrapperFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        //TODO uncomment
-//        StepDelegate.onAction(
-//            fragment = this,
-//            mainScreenRouter = mainScreenRouter,
-//            action = action,
-//            childFragmentManager = childFragmentManager
-//        )
+       stepDelegate.onAction(
+            mainScreenRouter = mainScreenRouter,
+            action = action
+        )
     }
 
     override fun onNewMessage(message: StepCompletionFeature.Message) {

@@ -21,7 +21,6 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -29,8 +28,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class StepFragment :
     Fragment(R.layout.fragment_step),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
-    StepCompletionHost,
-    StepDelegate.NotificationGrantedDeletate {
+    StepCompletionHost {
 
     companion object {
         private const val STEP_TAG = "step"
@@ -42,7 +40,15 @@ class StepFragment :
                 }
     }
 
-    private lateinit var stepDelegate: StepDelegate
+    private val stepDelegate: StepDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        StepDelegate(
+            fragment = this,
+            rootView = viewBinding.root,
+            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
+                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
+            }
+        )
+    }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -61,7 +67,6 @@ class StepFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
-        stepDelegate = StepDelegate(this, viewBinding.root)
         stepDelegate.init(viewBinding.stepError, stepViewModel::onNewMessage)
     }
 
@@ -82,7 +87,6 @@ class StepFragment :
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
         stepDelegate.onAction(
-            fragment = this,
             mainScreenRouter = mainScreenRouter,
             action = action
         )
@@ -116,13 +120,5 @@ class StepFragment :
                 StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
             }
         }
-    }
-
-    override fun onNotificationPermissionResult(isGranted: Boolean) {
-        stepViewModel.onNewMessage(
-            StepFeature.Message.StepCompletionMessage(
-                StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted)
-            )
-        )
     }
 }
