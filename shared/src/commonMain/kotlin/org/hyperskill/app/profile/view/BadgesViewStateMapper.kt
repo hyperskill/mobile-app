@@ -123,15 +123,15 @@ class BadgesViewStateMapper(
                 previewSource = badge.imagePreview,
                 fullSource = badge.imageFull
             ),
-            isLocked = false // TODO: replace with `badge.rank == BadgeRank.LOCKED`
+            isLocked = badge.rank == BadgeRank.LOCKED
         )
 
     private fun mapToDetails(badgeKind: BadgeKind): BadgeDetailsViewState =
         BadgeDetailsViewState(
             kind = badgeKind,
-            rank = BadgeRank.UNKNOWN, // TODO: replace with BadgeRank.LOCKED
+            rank = BadgeRank.LOCKED,
             title = getBadgeTitle(badgeKind) ?: "",
-            formattedRank = "", // TODO: replace with `getBadgeRankName(BadgeRank.LOCKED)`
+            formattedRank = getBadgeRankName(BadgeRank.LOCKED) ?: "",
             badgeDescription = getBadgeDescription(badgeKind),
             levelDescription = getBadgeUnlockDescription(badgeKind, countToUnlock = 1),
             formattedNextLevel = resourceProvider.getString(SharedResources.strings.badge_locked),
@@ -164,6 +164,8 @@ class BadgesViewStateMapper(
 
     private fun getBadgeRankName(badgeRank: BadgeRank): String? =
         when (badgeRank) {
+            BadgeRank.LOCKED ->
+                SharedResources.strings.badge_locked
             BadgeRank.APPRENTICE ->
                 SharedResources.strings.badge_apprentice_level
             BadgeRank.EXPERT ->
