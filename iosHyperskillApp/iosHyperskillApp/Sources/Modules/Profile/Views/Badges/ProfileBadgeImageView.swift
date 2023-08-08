@@ -8,7 +8,7 @@ struct ProfileBadgeImageView: View {
     @State private var isLoading = false
 
     var body: some View {
-        switch BadgesViewStateBadgeImageKs(badge.image) {
+        switch BadgeImageKs(badge.image) {
         case .locked:
             Image(badge.kind.lockedImage)
                 .renderingMode(.original)
