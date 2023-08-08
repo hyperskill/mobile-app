@@ -12,6 +12,14 @@
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plural>
+    <plural name="minutes_short">
+        <item quantity="one">%d m.</item>
+        <item quantity="other">%d m.</item>
+    </plural>
+    <plural name="hours_short">
+        <item quantity="one">%d h.</item>
+        <item quantity="other">%d h.</item>
+    </plural>
     <plural name="about_hours">
         <item quantity="one">about %d hour</item>
         <item quantity="other">about %d hours</item>
