@@ -3,6 +3,7 @@ package org.hyperskill.app.android.badges.view.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -12,8 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import coil.compose.AsyncImage
+import androidx.compose.ui.res.dimensionResource
+import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
+import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerLoading
 import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.profile.view.BadgesViewState
 
@@ -61,15 +65,29 @@ private fun AsyncBadgeImage(
     imageSource: String,
     modifier: Modifier = Modifier
 ) {
-    AsyncImage(
+    SubcomposeAsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageSource)
             .crossfade(true)
             .build(),
+        modifier = modifier.fillMaxHeight(),
+        loading = {
+            BadgePlaceholder()
+        },
+        error = {
+            BadgePlaceholder()
+        },
         contentDescription = null,
         contentScale = ContentScale.FillWidth,
         alignment = Alignment.Center,
-        filterQuality = FilterQuality.High,
-        modifier = modifier.fillMaxHeight()
+        filterQuality = FilterQuality.High
+    )
+}
+
+@Composable
+private fun BadgePlaceholder() {
+    ShimmerLoading(
+        modifier = Modifier.fillMaxSize(),
+        radius = dimensionResource(id = R.dimen.corner_radius)
     )
 }
