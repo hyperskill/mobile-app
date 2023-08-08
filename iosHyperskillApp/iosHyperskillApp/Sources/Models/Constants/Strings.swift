@@ -257,6 +257,12 @@ enum Strings {
             static let title = sharedStrings.profile_daily_study_reminders_text.localized()
             static let schedule = sharedStrings.profile_daily_study_reminders_schedule_text.localized()
         }
+
+        enum Badges {
+            static let title = sharedStrings.profile_badges_title.localized()
+            static let showAll = sharedStrings.profile_badges_show_all.localized()
+            static let showLess = sharedStrings.profile_badges_show_less.localized()
+        }
     }
 
     // MARK: - Settings -

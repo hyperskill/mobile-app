@@ -5,7 +5,7 @@ import org.hyperskill.app.debug.domain.model.EndpointConfigType
 
 class BuildKonfig(
     val buildVariant: BuildVariant,
-    val endpointConfigType: EndpointConfigType
+    endpointConfigType: EndpointConfigType
 ) {
     companion object {
         val IS_INTERNAL_TESTING: Boolean? = InternalBuildKonfig.IS_INTERNAL_TESTING

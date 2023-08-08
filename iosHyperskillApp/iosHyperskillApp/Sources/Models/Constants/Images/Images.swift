@@ -158,6 +158,17 @@ enum Images {
                 static let fire = "streak-recover-modal-fire"
             }
         }
+
+        enum Badges {
+            static let benefactor = "profile-badges-benefactor"
+            static let bountyHunter = "profile-badges-bounty-hunter"
+            static let brilliantMind = "profile-badges-brilliant-mind"
+            static let commitedLearning = "profile-badges-commited-learning"
+            static let helpingHand = "profile-badges-helping-hand"
+            static let projectMastery = "profile-badges-project-mastery"
+            static let sweetheart = "profile-badges-sweetheart"
+            static let topicMastery = "profile-badges-topic-mastery"
+        }
     }
 
     // MARK: - Onboarding -

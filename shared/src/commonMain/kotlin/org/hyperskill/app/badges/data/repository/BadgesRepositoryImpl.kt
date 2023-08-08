@@ -5,13 +5,8 @@ import org.hyperskill.app.badges.domain.model.Badge
 import org.hyperskill.app.badges.domain.repository.BadgesRepository
 
 internal class BadgesRepositoryImpl(
-    private val remoteDataSource: BadgesRemoteDataSource,
-    private var isBadgesFeatureEnabled: Boolean
+    private val remoteDataSource: BadgesRemoteDataSource
 ) : BadgesRepository {
     override suspend fun getReceivedBadges(): Result<List<Badge>> =
-        if (isBadgesFeatureEnabled) {
-            remoteDataSource.getReceivedBadges()
-        } else {
-            Result.success(emptyList())
-        }
+        remoteDataSource.getReceivedBadges()
 }
