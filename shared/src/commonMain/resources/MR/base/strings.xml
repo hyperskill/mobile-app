@@ -383,8 +383,8 @@
     <string name="problems_limit_reached_modal_description">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
 
     <!--  Problems limit widget  -->
-    <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
-    <string name="problems_limit_widget_update_in">Update in %s</string>
+    <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>
+    <string name="problems_limit_widget_update_in">Reset in %s</string>
 
     <!--Study plan-->
     <string name="study_plan_title">Study plan</string>

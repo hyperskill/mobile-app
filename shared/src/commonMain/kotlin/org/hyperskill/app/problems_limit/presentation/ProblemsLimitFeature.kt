@@ -30,7 +30,14 @@ object ProblemsLimitFeature {
 
         sealed interface Content : ViewState {
             object Empty : Content
+
+            /**
+             * [progress] represent progress from 0.0 to 1.0.
+             * 1.0 means the user haven't passed any step.
+             * 0.0 means the user passed all the available steps.
+             */
             data class Widget(
+                val progress: Float,
                 val stepsLimitTotal: Int,
                 val stepsLimitLeft: Int,
                 val stepsLimitLabel: String,
