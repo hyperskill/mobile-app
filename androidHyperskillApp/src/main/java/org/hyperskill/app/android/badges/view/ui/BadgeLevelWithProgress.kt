@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -36,7 +37,7 @@ fun BadgeLevelWithProgress(
         ) {
             Text(
                 text = level,
-                fontSize = BadgeDefaults.currentLevelTextSize
+                style = MaterialTheme.typography.caption
             )
             if (nextLevel != null) {
                 Row {
@@ -47,7 +48,7 @@ fun BadgeLevelWithProgress(
                     )
                     Text(
                         text = nextLevel.toString(),
-                        fontSize = BadgeDefaults.nextLevelTextSize,
+                        style = MaterialTheme.typography.caption,
                         color = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_38),
                         modifier = Modifier.padding(start = 6.dp)
                     )

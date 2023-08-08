@@ -51,6 +51,7 @@ fun BadgeCard(
         ) {
             Text(
                 text = badge.title,
+                style = MaterialTheme.typography.body1,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

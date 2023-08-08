@@ -27,8 +27,10 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.hyperskill.app.R
 import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.view.BadgesViewState
@@ -62,9 +64,8 @@ fun ProfileBadges(
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "Achievements",
-                    fontSize = BadgeDefaults.titleTextSize,
-                    fontWeight = BadgeDefaults.titleFontWeight,
+                    text = stringResource(id = R.string.profile_badges_title),
+                    style = MaterialTheme.typography.h6,
                     modifier = Modifier.padding(end = 16.dp)
                 )
                 Box(
@@ -80,8 +81,14 @@ fun ProfileBadges(
                         )
                 ) {
                     Text(
-                        text = if (viewState.isExpanded) "Show less" else "Show all",
-                        fontSize = BadgeDefaults.visibilityButtonFontSize,
+                        text = stringResource(
+                            id = if (viewState.isExpanded) {
+                                R.string.profile_badges_show_less
+                            } else {
+                                R.string.profile_badges_show_all
+                            }
+                        ),
+                        style = MaterialTheme.typography.body2,
                         color = MaterialTheme.colors.primary,
                         modifier = Modifier.align(Alignment.Center)
                     )
