@@ -43,10 +43,10 @@ class BadgesViewStateMapper(
     }
 
     private fun getLockedBadgeKinds(unlockedBadgeKinds: List<BadgeKind>): Set<BadgeKind> =
-        BadgeKind.values().filter { it != BadgeKind.UNKNOWN }.subtract(unlockedBadgeKinds.toSet())
+        BadgeKind.values().subtract(unlockedBadgeKinds.toSet() + BadgeKind.UNKNOWN)
 
-    private fun mapUnlockedBadge(badge: Badge): BadgesViewState.BadgeViewState =
-        BadgesViewState.BadgeViewState(
+    private fun mapUnlockedBadge(badge: Badge): BadgesViewState.Badge =
+        BadgesViewState.Badge(
             kind = badge.kind,
             title = badge.title,
             image = BadgeImage.Remote(
@@ -65,8 +65,8 @@ class BadgesViewStateMapper(
             progress = getProgress(badge)
         )
 
-    private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.BadgeViewState =
-        BadgesViewState.BadgeViewState(
+    private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.Badge =
+        BadgesViewState.Badge(
             kind = badgeKind,
             title = getBadgeTitle(badgeKind) ?: "",
             image = BadgeImage.Locked,
