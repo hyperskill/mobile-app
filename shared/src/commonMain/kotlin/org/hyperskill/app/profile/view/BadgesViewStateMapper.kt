@@ -7,6 +7,12 @@ import org.hyperskill.app.badges.domain.model.BadgeRank
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.profile.presentation.ProfileFeature
 
+/**
+ * Maps the badgeState into the viewState.
+ * If the badgeState doesn't contain all badge kinds
+ * or, in case of details modal, it doesn't contain detailed badge data,
+ * it returns missing badges as locked.
+ */
 class BadgesViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
@@ -14,6 +20,11 @@ class BadgesViewStateMapper(
         const val HIDDEN_STATE_BADGES_COUNT = 4
     }
 
+    /**
+     * Maps the [state] to the [BadgesViewState].
+     * If the [state] doesn't contain all badge kinds, adds missing badges as locked.
+     * @see [ProfileFeature.BadgesState] for more details.
+     */
     fun map(state: ProfileFeature.BadgesState): BadgesViewState {
         val unlockedBadges = state.badges.filter { it.level > 0 }.sortedBy { it.level }.map(::mapUnlockedBadge)
         val lockedBadges = getLockedBadgeKinds(unlockedBadges.map { it.kind }).map(::mapLockedBadge)
@@ -64,10 +75,15 @@ class BadgesViewStateMapper(
             progress = 0f
         )
 
-    fun map(badgeDetails: ProfileFeature.Action.ViewAction.BadgeDetails): BadgeDetailsViewState =
-        when (badgeDetails) {
-            is ProfileFeature.Action.ViewAction.BadgeDetails.Badge -> mapToDetails(badgeDetails.badge)
-            is ProfileFeature.Action.ViewAction.BadgeDetails.Kind -> mapToDetails(badgeDetails.badgeKind)
+    /**
+     * Maps the [badgeDetailsInfo] to the [BadgeDetailsViewState].
+     * If the [badgeDetailsInfo] doesn't contain [Badge], return [BadgeDetailsViewState] in locked state.
+     * @see [ProfileFeature.BadgesState] for more details.
+     */
+    fun map(badgeDetailsInfo: ProfileFeature.Action.ViewAction.BadgeDetails): BadgeDetailsViewState =
+        when (badgeDetailsInfo) {
+            is ProfileFeature.Action.ViewAction.BadgeDetails.FullBadge -> mapToDetails(badgeDetailsInfo.badge)
+            is ProfileFeature.Action.ViewAction.BadgeDetails.BadgeKind -> mapToDetails(badgeDetailsInfo.badgeKind)
         }
 
     private fun mapToDetails(badge: Badge): BadgeDetailsViewState =
