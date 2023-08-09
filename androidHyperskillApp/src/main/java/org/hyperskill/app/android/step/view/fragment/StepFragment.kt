@@ -101,6 +101,10 @@ class StepFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         stepDelegate = null
     }
 

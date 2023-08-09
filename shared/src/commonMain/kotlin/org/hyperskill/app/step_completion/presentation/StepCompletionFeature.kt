@@ -79,7 +79,7 @@ interface StepCompletionFeature {
         /**
          * Show problem of day solve modal
          */
-        data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : Message
+        data class ProblemOfDaySolved(val earnedGemsText: String) : Message
         object ProblemOfDaySolvedModalGoBackClicked : Message
 
         /**

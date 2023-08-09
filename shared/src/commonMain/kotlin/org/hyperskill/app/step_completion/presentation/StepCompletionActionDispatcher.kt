@@ -46,33 +46,9 @@ class StepCompletionActionDispatcher(
         notificationInteractor.solvedStepsSharedFlow
             .onEach { solvedStepId ->
                 if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
-                    onNewMessage(
-                        Message.RequestDailyStudyRemindersPermission
-                    )
+                    onNewMessage(Message.RequestDailyStudyRemindersPermission)
                 } else {
-                    val cachedProfile = currentProfileStateRepository
-                        .getState(forceUpdate = false)
-                        .getOrElse { return@onEach }
-
-                    if (cachedProfile.dailyStep == solvedStepId) {
-                        val currentProfileHypercoinsBalance = currentProfileStateRepository
-                            .getState(forceUpdate = true)
-                            .map { it.gamification.hypercoinsBalance }
-                            .getOrElse { return@onEach }
-
-                        val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
-                        onNewMessage(
-                            Message.ShowProblemOfDaySolvedModal(
-                                earnedGemsText = resourceProvider.getQuantityString(
-                                    SharedResources.plurals.earned_gems,
-                                    gemsEarned,
-                                    gemsEarned
-                                )
-                            )
-                        )
-                    } else {
-                        onNewMessage(Message.StepSolved(solvedStepId))
-                    }
+                    checkProblemOfDaySolved(solvedStepId)
                 }
             }
             .launchIn(actionScope)
@@ -180,6 +156,32 @@ class StepCompletionActionDispatcher(
             notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
                 Clock.System.now().toEpochMilliseconds()
             )
+        }
+    }
+
+    private suspend fun checkProblemOfDaySolved(solvedStepId: Long) {
+        val cachedProfile = currentProfileStateRepository
+            .getState(forceUpdate = false)
+            .getOrElse { return }
+
+        if (cachedProfile.dailyStep == solvedStepId) {
+            val currentProfileHypercoinsBalance = currentProfileStateRepository
+                .getState(forceUpdate = true)
+                .map { it.gamification.hypercoinsBalance }
+                .getOrElse { return }
+
+            val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+            onNewMessage(
+                Message.ProblemOfDaySolved(
+                    earnedGemsText = resourceProvider.getQuantityString(
+                        SharedResources.plurals.earned_gems,
+                        gemsEarned,
+                        gemsEarned
+                    )
+                )
+            )
+        } else {
+            onNewMessage(Message.StepSolved(solvedStepId))
         }
     }
 }

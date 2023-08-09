@@ -120,7 +120,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 } else {
                     null
                 }
-            is Message.ShowProblemOfDaySolvedModal ->
+            is Message.ProblemOfDaySolved ->
                 state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.earnedGemsText))
             is Message.ProblemOfDaySolvedModalGoBackClicked -> {
                 state to setOf(
