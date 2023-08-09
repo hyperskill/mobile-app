@@ -34,6 +34,7 @@ struct BadgeRemoteImageView: View {
             .onCompletion { _ in
                 isLoading = false
             }
+            .opacity(isLoading ? 0 : 1)
 
             EmptyView()
                 .skeleton(with: isLoading)
