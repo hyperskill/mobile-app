@@ -19,15 +19,6 @@ struct BadgeDetailsModalView: View {
 
     private(set) var badgeDetailsViewState: BadgeDetailsViewState
 
-    private var badgeImage: BadgesViewStateBadgeImage? {
-        if badgeDetailsViewState.isLocked {
-            return BadgesViewStateBadgeImageLocked()
-        } else if let imageSource = badgeDetailsViewState.imageSource {
-            return BadgesViewStateBadgeImageRemote(fullSource: imageSource, previewSource: imageSource)
-        }
-        return nil
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
@@ -46,13 +37,11 @@ struct BadgeDetailsModalView: View {
                     .foregroundColor(.disabledText)
                     .font(.headline)
 
-                if let badgeImage {
-                    ProfileBadgeImageView(
-                        kind: badgeDetailsViewState.kind,
-                        image: badgeImage
-                    )
-                    .frame(size: appearance.badgeImageViewSize)
-                }
+                ProfileBadgeImageView(
+                    kind: badgeDetailsViewState.kind,
+                    image: badgeDetailsViewState.image
+                )
+                .frame(size: appearance.badgeImageViewSize)
             }
             .frame(maxWidth: .infinity, alignment: .center)
 
@@ -60,7 +49,7 @@ struct BadgeDetailsModalView: View {
                 appearance: appearance.levelViewAppearance(),
                 currentLevel: badgeDetailsViewState.formattedCurrentLevel,
                 nextLevel: badgeDetailsViewState.formattedNextLevel,
-                progress: badgeDetailsViewState.progress?.floatValue ?? 0,
+                progress: badgeDetailsViewState.progress,
                 description: badgeDetailsViewState.levelDescription
             )
         }
@@ -76,7 +65,7 @@ struct BadgeDetailsModalView_Previews: PreviewProvider {
                 rank: .apprentice,
                 title: "Project Mastery",
                 formattedRank: "Apprentice",
-                imageSource: nil,
+                image: BadgeImageLocked(),
                 badgeDescription: "Complete projects to upgrade this badge",
                 levelDescription: "Complete 1 project to unlock this badge",
                 formattedCurrentLevel: "Locked",

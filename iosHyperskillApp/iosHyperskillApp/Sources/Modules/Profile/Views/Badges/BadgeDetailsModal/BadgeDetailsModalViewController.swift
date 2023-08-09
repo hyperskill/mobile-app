@@ -30,7 +30,7 @@ final class BadgeDetailsModalAssembly: UIKitAssembly {
         let badgesViewStateMapper = BadgesViewStateMapper(
             resourceProvider: AppGraphBridge.sharedAppGraph.commonComponent.resourceProvider
         )
-        let badgeDetailsViewState = badgesViewStateMapper.map(badgeDetails: badgeDetails)
+        let badgeDetailsViewState = badgesViewStateMapper.map(badgeDetailsInfo: badgeDetails)
 
         return BadgeDetailsModalViewController(
             badgeDetailsViewState: badgeDetailsViewState,

@@ -3,12 +3,13 @@ import shared
 import SwiftUI
 
 struct ProfileBadgeImageView: View {
-    let badge: BadgesViewState.Badge
+    let kind: BadgeKind
+    let image: BadgeImage
 
     @State private var isLoading = false
 
     var body: some View {
-        switch BadgeImageKs(badge.image) {
+        switch BadgeImageKs(image) {
         case .locked:
             Image(kind.lockedImage)
                 .renderingMode(.original)
@@ -37,6 +38,12 @@ struct ProfileBadgeImageView: View {
                     .animation(type: .linear(autoreverses: true))
             }
         }
+    }
+}
+
+extension ProfileBadgeImageView {
+    init(badge: BadgesViewState.Badge) {
+        self.init(kind: badge.kind, image: badge.image)
     }
 }
 
@@ -69,7 +76,7 @@ struct ProfileBadgeImageView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileBadgeImageView(
             kind: .committedlearner,
-            image: BadgesViewStateBadgeImageLocked()
+            image: BadgeImageLocked()
         )
     }
 }
