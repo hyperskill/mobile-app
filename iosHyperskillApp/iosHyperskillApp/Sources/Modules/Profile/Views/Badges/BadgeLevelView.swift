@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension ProfileBadgeLevelView {
+extension BadgeLevelView {
     struct Appearance {
         var rootSpacing = LayoutInsets.smallInset
 
@@ -14,7 +14,7 @@ extension ProfileBadgeLevelView {
     }
 }
 
-struct ProfileBadgeLevelView: View {
+struct BadgeLevelView: View {
     private(set) var appearance = Appearance()
 
     let currentLevel: String
@@ -40,7 +40,7 @@ struct ProfileBadgeLevelView: View {
                 }
             }
 
-            ProfileBadgesLinearGradientProgressView(progress: progress)
+            BadgeLinearGradientProgressView(progress: progress)
 
             if let description {
                 Text(description)
@@ -52,7 +52,7 @@ struct ProfileBadgeLevelView: View {
     }
 }
 
-extension ProfileBadgeLevelView {
+extension BadgeLevelView {
     init(currentLevel: String, nextLevel: Int?, progress: Float) {
         self.init(
             currentLevel: currentLevel,
@@ -63,17 +63,17 @@ extension ProfileBadgeLevelView {
     }
 }
 
-struct ProfileBadgeLevelView_Previews: PreviewProvider {
+struct BadgeLevelView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: LayoutInsets.largeInset) {
-            ProfileBadgeLevelView(
+            BadgeLevelView(
                 currentLevel: "Level 2",
                 nextLevel: "3",
                 progress: 0.3,
                 description: nil
             )
 
-            ProfileBadgeLevelView(
+            BadgeLevelView(
                 appearance: .init(
                     rootSpacing: LayoutInsets.defaultInset,
                     currentLevelFont: .headline,

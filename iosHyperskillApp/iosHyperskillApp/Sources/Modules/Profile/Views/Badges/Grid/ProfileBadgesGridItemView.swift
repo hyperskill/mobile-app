@@ -1,4 +1,3 @@
-import NukeUI
 import shared
 import SwiftUI
 
@@ -33,7 +32,7 @@ struct ProfileBadgesGridItemView: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: appearance.badgeIconHeight)
 
-                    ProfileBadgeLevelView(
+                    BadgeLevelView(
                         currentLevel: badge.formattedCurrentLevel,
                         nextLevel: badge.nextLevel?.intValue,
                         progress: badge.progress

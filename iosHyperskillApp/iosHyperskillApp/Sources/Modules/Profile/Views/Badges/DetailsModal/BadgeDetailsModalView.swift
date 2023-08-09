@@ -8,7 +8,7 @@ extension BadgeDetailsModalView {
 
         let badgeImageViewSize = CGSize(width: 172, height: 200)
 
-        func levelViewAppearance() -> ProfileBadgeLevelView.Appearance {
+        func levelViewAppearance() -> BadgeLevelView.Appearance {
             .init(rootSpacing: interitemSpacing, currentLevelFont: .headline, nextLevelFont: .headline)
         }
     }
@@ -45,7 +45,7 @@ struct BadgeDetailsModalView: View {
             }
             .frame(maxWidth: .infinity, alignment: .center)
 
-            ProfileBadgeLevelView(
+            BadgeLevelView(
                 appearance: appearance.levelViewAppearance(),
                 currentLevel: badgeDetailsViewState.formattedCurrentLevel,
                 nextLevel: badgeDetailsViewState.formattedNextLevel,

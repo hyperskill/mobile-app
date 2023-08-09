@@ -21,7 +21,7 @@ extension BadgeImageView {
     }
 }
 
-struct ProfileBadgeImageView_Previews: PreviewProvider {
+struct BadgeImageView_Previews: PreviewProvider {
     static var previews: some View {
         BadgeImageView(
             kind: .committedlearner,
