@@ -36,7 +36,7 @@ fun NotificationManagerCompat.isChannelNotificationsEnabled(channelId: String): 
 fun NotificationManagerCompat.checkNotificationChannelAvailability(
     context: Context,
     notificationChannel: HyperskillNotificationChannel,
-    onError: () -> Unit
+    onError: () -> Unit = {}
 ): Boolean =
     when {
         !areNotificationsEnabled() -> {
