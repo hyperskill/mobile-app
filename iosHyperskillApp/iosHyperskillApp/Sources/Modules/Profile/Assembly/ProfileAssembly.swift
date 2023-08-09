@@ -33,6 +33,6 @@ final class ProfileAssembly: Assembly {
             feature: profileComponent.profileFeature
         )
 
-        return ProfileView(viewModel: viewModel)
+        return ProfileView(viewModel: viewModel, panModalPresenter: PanModalPresenter())
     }
 }

@@ -20,13 +20,4 @@ data class BadgesViewState(
         val nextLevel: Int?,
         val progress: Float
     )
-
-    sealed interface BadgeImage {
-        object Locked : BadgeImage
-
-        data class Remote(
-            val fullSource: String,
-            val previewSource: String
-        ) : BadgeImage
-    }
 }

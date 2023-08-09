@@ -76,4 +76,68 @@
         <item quantity="one">+%d gem</item>
         <item quantity="other">+%d gems</item>
     </plural>
+    <plural name="badge_project_master_unlock_description">
+        <item quantity="one">Complete %d project to unlock this badge</item>
+        <item quantity="other">Complete %d projects to unlock this badge</item>
+    </plural>
+    <plural name="badge_project_master_upgrade_description">
+        <item quantity="one">Complete %d project to upgrade this badge</item>
+        <item quantity="other">Complete %d projects to upgrade this badge</item>
+    </plural>
+    <plural name="badge_topic_master_unlock_description">
+        <item quantity="one">Complete %d topic to unlock this badge</item>
+        <item quantity="other">Complete %d topics to unlock this badge</item>
+    </plural>
+    <plural name="badge_topic_master_upgrade_description">
+        <item quantity="one">Complete %d topic to upgrade this badge</item>
+        <item quantity="other">Complete %d topics to upgrade this badge</item>
+    </plural>
+    <plural name="badge_committed_learner_unlock_description">
+        <item quantity="one">Achieve %d-day streak to unlock this badge</item>
+        <item quantity="other">Achieve %d-days streak to unlock this badge</item>
+    </plural>
+    <plural name="badge_committed_learner_upgrade_description">
+        <item quantity="one">Achieve %d-day streak to upgrade this badge</item>
+        <item quantity="other">Achieve %d-days streak to upgrade this badge</item>
+    </plural>
+    <plural name="badge_brilliant_mind_unlock_description">
+        <item quantity="one">Post %d solution to unlock this badge</item>
+        <item quantity="other">Post %d solutions to unlock this badge</item>
+    </plural>
+    <plural name="badge_brilliant_mind_upgrade_description">
+        <item quantity="one">Post %d solution to upgrade this badge</item>
+        <item quantity="other">Post %d solutions to upgrade this badge</item>
+    </plural>
+    <plural name="badge_helping_hand_unlock_description">
+        <item quantity="one">Post %d useful hint to unlock this badge</item>
+        <item quantity="other">Post %d useful hints to unlock this badge</item>
+    </plural>
+    <plural name="badge_helping_hand_upgrade_description">
+        <item quantity="one">Post %d useful hint to upgrade this badge</item>
+        <item quantity="other">Post %d useful hints to upgrade this badge</item>
+    </plural>
+    <plural name="badge_sweetheart_unlock_description">
+        <item quantity="one">Receive %d upvote to unlock this badge</item>
+        <item quantity="other">Receive %d upvotes to unlock this badge</item>
+    </plural>
+    <plural name="badge_sweetheart_upgrade_description">
+        <item quantity="one">Receive %d upvote to upgrade this badge</item>
+        <item quantity="other">Receive %d upvotes to upgrade this badge</item>
+    </plural>
+    <plural name="badge_benefactor_unlock_description">
+        <item quantity="one">Give %d bounty to unlock this badge</item>
+        <item quantity="other">Give %d bounties to unlock this badge</item>
+    </plural>
+    <plural name="badge_benefactor_upgrade_description">
+        <item quantity="one">Give %d bounty to upgrade this badge</item>
+        <item quantity="other">Give %d bounties to upgrade this badge</item>
+    </plural>
+    <plural name="badge_bounty_hunter_unlock_description">
+        <item quantity="one">Win %d bounty to unlock this badge</item>
+        <item quantity="other">Win %d bounties to unlock this badge</item>
+    </plural>
+    <plural name="badge_bounty_hunter_upgrade_description">
+        <item quantity="one">Win %d bounty to upgrade this badge</item>
+        <item quantity="other">Win %d bounties to upgrade this badge</item>
+    </plural>
 </resources>
