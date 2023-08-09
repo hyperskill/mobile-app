@@ -472,13 +472,27 @@
 
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>
-    <string name="badge_project_topic_mastery">Topic Mastery</string>
-    <string name="badge_project_committed_learning">Committed Learning</string>
-    <string name="badge_project_brilliant_mind">Brilliant Mind</string>
-    <string name="badge_project_helping_hand">Helping Hand</string>
-    <string name="badge_project_sweetheart">Sweetheart</string>
-    <string name="badge_project_benefactor">Benefactor</string>
-    <string name="badge_project_bounty_hunter">Bounty Hunter</string>
+    <string name="badge_topic_mastery">Topic Mastery</string>
+    <string name="badge_committed_learning">Committed Learning</string>
+    <string name="badge_brilliant_mind">Brilliant Mind</string>
+    <string name="badge_helping_hand">Helping Hand</string>
+    <string name="badge_sweetheart">Sweetheart</string>
+    <string name="badge_benefactor">Benefactor</string>
+    <string name="badge_bounty_hunter">Bounty Hunter</string>
     <string name="badge_level">Level %d</string>
     <string name="badge_max_level">Level %d (Max)</string>
+    <string name="badge_max_level_description">Hooray! You’ve reached the maximum level!</string>
+    <string name="badge_project_master_description">Complete projects to upgrade this badge</string>
+    <string name="badge_topic_master_description">Complete topics to upgrade this badge</string>
+    <string name="badge_committed_learner_description">Achieve streaks to upgrade this badge</string>
+    <string name="badge_brilliant_mind_description">Post solutions to upgrade this badge</string>
+    <string name="badge_helping_hand_description">Post useful hints to upgrade this badge</string>
+    <string name="badge_sweetheart_description">Receive upvotes to upgrade this badge</string>
+    <string name="badge_benefactor_description">Give bounties to upgrade this badge</string>
+    <string name="badge_bounty_hunter_description">Win bounties to upgrade this badge</string>
+    <string name="badge_apprentice_level">Apprentice</string>
+    <string name="badge_expert_level">Expert</string>
+    <string name="badge_master_level">Master</string>
+    <string name="badge_legendary_level">Legendary</string>
+    <string name="badge_locked">Locked</string>
 </resources>

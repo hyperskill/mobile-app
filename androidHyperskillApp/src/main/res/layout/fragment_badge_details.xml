@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="32dp"
+    android:paddingHorizontal="20dp"
+    >
+
+    <ImageView
+        android:id="@+id/badgeSwipeIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bottom_sheet_swipe_indicator"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription"
+        />
+
+    <TextView
+        android:id="@+id/badgeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/badgeSwipeIndicator"
+        tools:text="Project Mastery"
+        />
+
+    <TextView
+        android:id="@+id/badgeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+        android:textColor="@color/color_on_surface_alpha_60"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/badgeTitle"
+        tools:text="Complete projects to upgrade this badge"
+        />
+
+    <TextView
+        android:id="@+id/badgeRank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+        android:textSize="17sp"
+        android:textColor="@color/color_on_surface_alpha_38"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/badgeDescription"
+        android:layout_marginTop="32dp"
+        tools:text="Apprentice"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/badgeImage"
+        android:layout_width="172dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/badgeRank"
+        tools:background="@color/color_on_surface_alpha_9"
+        />
+    
+    <TextView
+        android:id="@+id/badgeCurrentLevel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+        android:textSize="18sp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/badgeImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/badgeNextLevel"
+        tools:text="Locked"
+        />
+
+    <TextView
+        android:id="@+id/badgeNextLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Subtitle2"
+        android:textSize="18sp"
+        android:textColor="@color/color_on_surface_alpha_38"
+        app:drawableStartCompat="@drawable/ic_badge_details_locked"
+        android:drawablePadding="6dp"
+        app:layout_constraintStart_toEndOf="@+id/badgeCurrentLevel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/badgeCurrentLevel"
+        app:layout_constraintBottom_toBottomOf="@+id/badgeCurrentLevel"
+        tools:text="Level 1"/>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/badgeLevelProgressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:indicatorColor="@color/color_blue_400_alpha_60"
+        app:trackColor="@color/color_on_surface_alpha_9"
+        app:trackCornerRadius="4dp"
+        app:trackThickness="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/badgeCurrentLevel"
+        android:layout_marginTop="12dp"
+        tools:progress="45"/>
+
+    <TextView
+        android:id="@+id/badge_level_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Body2"
+        android:textColor="@color/color_on_surface_alpha_60"
+        app:layout_constraintTop_toBottomOf="@+id/badgeLevelProgressIndicator"
+        android:layout_marginTop="12dp"
+        tools:text="Complete 2 more projects to unlock level 6"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

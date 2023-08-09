@@ -8,6 +8,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.profile.view.dialog.BadgeDetailsDialogFragment
 import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.presentation.ProfileFeature
@@ -50,6 +51,10 @@ object ProfileViewActionDelegate {
 
             ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
                 mainScreenRouter.switch(HomeScreen)
+            }
+            is ProfileFeature.Action.ViewAction.ShowBadgeDetailsModal -> {
+                BadgeDetailsDialogFragment.newInstance(action.details)
+                    .showIfNotExists(fragmentManager, BadgeDetailsDialogFragment.TAG)
             }
         }
     }
