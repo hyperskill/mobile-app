@@ -42,6 +42,7 @@ import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
+import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
@@ -73,7 +74,8 @@ abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
-    MenuProvider {
+    MenuProvider,
+    RequestDailyStudyReminderDialogFragment.Callback {
 
     companion object {
         private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
@@ -352,25 +354,25 @@ abstract class DefaultStepQuizFragment :
     private fun requestSendDailyStudyRemindersPermission(
         action: StepQuizFeature.Action.ViewAction.RequestUserPermission
     ) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest))
-            .setMessage(userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest))
-            .setPositiveButton(org.hyperskill.app.R.string.ok) { dialog, _ ->
-                notificationPermissionDelegate.requestNotificationPermission { result ->
-                    dialog.dismiss()
-                    onNotificationPermissionResult(result)
-                }
+        RequestDailyStudyReminderDialogFragment.newInstance(
+            title = userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest) ?: "",
+            message = userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest) ?: ""
+        ).showIfNotExists(childFragmentManager, RequestDailyStudyReminderDialogFragment.TAG)
+    }
+
+    override fun onPermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            notificationPermissionDelegate.requestNotificationPermission { result ->
+                onNotificationPermissionResult(result)
             }
-            .setNegativeButton(org.hyperskill.app.R.string.later) { dialog, _ ->
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.RequestUserPermissionResult(
-                        action.userPermissionRequest,
-                        isGranted = false
-                    )
+        } else {
+            stepQuizViewModel.onNewMessage(
+                StepQuizFeature.Message.RequestUserPermissionResult(
+                    userPermissionRequest = StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS,
+                    isGranted = false
                 )
-                dialog.dismiss()
-            }
-            .show()
+            )
+        }
     }
 
     private fun onNotificationPermissionResult(result: NotificationPermissionDelegate.Result) {
