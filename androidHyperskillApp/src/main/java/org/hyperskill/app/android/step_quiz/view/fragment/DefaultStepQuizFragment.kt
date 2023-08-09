@@ -311,7 +311,7 @@ abstract class DefaultStepQuizFragment :
                         requestResetCodeActionPermission(action)
                     }
                     StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS -> {
-                        requestSendDailyStudyRemindersPermission(action)
+                        requestSendDailyStudyRemindersPermission()
                     }
                 }
             }
@@ -351,13 +351,9 @@ abstract class DefaultStepQuizFragment :
             .show()
     }
 
-    private fun requestSendDailyStudyRemindersPermission(
-        action: StepQuizFeature.Action.ViewAction.RequestUserPermission
-    ) {
-        RequestDailyStudyReminderDialogFragment.newInstance(
-            title = userPermissionRequestTextMapper?.getTitle(action.userPermissionRequest) ?: "",
-            message = userPermissionRequestTextMapper?.getMessage(action.userPermissionRequest) ?: ""
-        ).showIfNotExists(childFragmentManager, RequestDailyStudyReminderDialogFragment.TAG)
+    private fun requestSendDailyStudyRemindersPermission() {
+        RequestDailyStudyReminderDialogFragment.newInstance()
+            .showIfNotExists(childFragmentManager, RequestDailyStudyReminderDialogFragment.TAG)
     }
 
     override fun onPermissionResult(isGranted: Boolean) {
