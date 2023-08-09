@@ -388,13 +388,10 @@ abstract class DefaultStepQuizFragment :
                 isGranted = true
             )
         )
-        NotificationManagerCompat.from(requireContext()).checkNotificationChannelAvailability(
-            requireContext(),
-            HyperskillNotificationChannel.DailyReminder
-        ) {
-            if (isResumed) {
-                viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
-            }
+        val context = context
+        if (context != null) {
+            NotificationManagerCompat.from(context)
+                .checkNotificationChannelAvailability(context, HyperskillNotificationChannel.DailyReminder)
         }
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
     }
