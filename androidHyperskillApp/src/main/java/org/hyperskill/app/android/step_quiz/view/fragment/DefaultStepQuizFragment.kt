@@ -376,8 +376,17 @@ abstract class DefaultStepQuizFragment :
     }
 
     private fun onNotificationPermissionResult(result: NotificationPermissionDelegate.Result) {
-        if (result == NotificationPermissionDelegate.Result.GRANTED) {
-            onNotificationPermissionGranted()
+        when (result) {
+            NotificationPermissionDelegate.Result.GRANTED -> {
+                onNotificationPermissionGranted()
+            }
+            NotificationPermissionDelegate.Result.DENIED,
+            NotificationPermissionDelegate.Result.DONT_ASK -> {
+                StepQuizFeature.Message.RequestUserPermissionResult(
+                    userPermissionRequest = StepQuizUserPermissionRequest.SEND_DAILY_STUDY_REMINDERS,
+                    isGranted = false
+                )
+            }
         }
     }
 
