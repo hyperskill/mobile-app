@@ -51,6 +51,8 @@ class PanModalPresentableViewController: UIViewController, PanModalPresentable {
 
     var onDisappear: (() -> Void)?
 
+    var shouldUpdateAdditionalSafeAreaInsets: Bool { true }
+
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -106,6 +108,10 @@ class PanModalPresentableViewController: UIViewController, PanModalPresentable {
     func panModalDidDismiss() {}
 
     private func updateAdditionalSafeAreaInsets() {
+        guard shouldUpdateAdditionalSafeAreaInsets else {
+            return
+        }
+
         self.additionalSafeAreaInsets = UIApplication.shared.delegate?.window??.safeAreaInsets ?? .zero
     }
 }
