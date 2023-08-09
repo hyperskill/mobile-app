@@ -395,6 +395,8 @@
 		2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */; };
 		2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */; };
 		2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */; };
+		2CF7C1B12A8355D3006B07ED /* BadgeLockedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7C1B02A8355D3006B07ED /* BadgeLockedImageView.swift */; };
+		2CF7C1B62A835E82006B07ED /* BadgeRemoteImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF7C1B52A835E82006B07ED /* BadgeRemoteImageView.swift */; };
 		2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA129B718800092FF83 /* IntrospectViewController.swift */; };
 		2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */; };
 		2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */; };
@@ -478,7 +480,7 @@
 		E9B55A5D29C978E40066900E /* ProblemsLimitReachedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */; };
 		E9B642012A6BCC16001A9653 /* NextLearningActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B642002A6BCC16001A9653 /* NextLearningActivityView.swift */; };
 		E9B642032A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B642022A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift */; };
-		E9BDB4052A7BE1E30069EF98 /* ProfileBadgeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BDB4042A7BE1E30069EF98 /* ProfileBadgeImageView.swift */; };
+		E9BDB4052A7BE1E30069EF98 /* BadgeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BDB4042A7BE1E30069EF98 /* BadgeImageView.swift */; };
 		E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */; };
 		E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */; };
 		E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C5C92F28AE105200CADDEC /* NotificationsService.swift */; };
@@ -924,6 +926,8 @@
 		2CF72AA22847757300E1C192 /* StepQuizTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewData.swift; sourceTree = "<group>"; };
 		2CF72AA4284775BF00E1C192 /* StepQuizTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableView.swift; sourceTree = "<group>"; };
 		2CF72AA728477E0600E1C192 /* StepQuizTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableRowView.swift; sourceTree = "<group>"; };
+		2CF7C1B02A8355D3006B07ED /* BadgeLockedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLockedImageView.swift; sourceTree = "<group>"; };
+		2CF7C1B52A835E82006B07ED /* BadgeRemoteImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeRemoteImageView.swift; sourceTree = "<group>"; };
 		2CF87DA129B718800092FF83 /* IntrospectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewController.swift; sourceTree = "<group>"; };
 		2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectTestUtils.swift; sourceTree = "<group>"; };
 		2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewControllerTests.swift; sourceTree = "<group>"; };
@@ -1011,7 +1015,7 @@
 		E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitReachedModalViewController.swift; sourceTree = "<group>"; };
 		E9B642002A6BCC16001A9653 /* NextLearningActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLearningActivityView.swift; sourceTree = "<group>"; };
 		E9B642022A6BDC8E001A9653 /* NextLearningActivitySkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextLearningActivitySkeletonView.swift; sourceTree = "<group>"; };
-		E9BDB4042A7BE1E30069EF98 /* ProfileBadgeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBadgeImageView.swift; sourceTree = "<group>"; };
+		E9BDB4042A7BE1E30069EF98 /* BadgeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeImageView.swift; sourceTree = "<group>"; };
 		E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBundleInfo.swift; sourceTree = "<group>"; };
 		E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLInsideAppButton.swift; sourceTree = "<group>"; };
 		E9C5C92F28AE105200CADDEC /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
@@ -2870,6 +2874,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		2CF7C1AF2A83556E006B07ED /* BadgeImage */ = {
+			isa = PBXGroup;
+			children = (
+				E9BDB4042A7BE1E30069EF98 /* BadgeImageView.swift */,
+				2CF7C1B02A8355D3006B07ED /* BadgeLockedImageView.swift */,
+				2CF7C1B52A835E82006B07ED /* BadgeRemoteImageView.swift */,
+			);
+			path = BadgeImage;
+			sourceTree = "<group>";
+		};
 		2CF87DA029B717E20092FF83 /* Introspect */ = {
 			isa = PBXGroup;
 			children = (
@@ -3168,12 +3182,12 @@
 		E9D537CE2A71053700F21828 /* Badges */ = {
 			isa = PBXGroup;
 			children = (
-				E9BDB4042A7BE1E30069EF98 /* ProfileBadgeImageView.swift */,
 				2C0F3CFE2A80AAA100947C35 /* ProfileBadgeLevelView.swift */,
 				E9D537CF2A71056100F21828 /* ProfileBadgesGridItemView.swift */,
 				E9D537D32A71393A00F21828 /* ProfileBadgesGridView.swift */,
 				E9D537D12A71330A00F21828 /* ProfileBadgesLinearGradientProgressView.swift */,
 				2C0F3CFD2A80A48300947C35 /* BadgeDetailsModal */,
+				2CF7C1AF2A83556E006B07ED /* BadgeImage */,
 			);
 			path = Badges;
 			sourceTree = "<group>";
@@ -3660,7 +3674,7 @@
 				E9A022AE291D0E3F004317DB /* TopicsRepetitionsCardView.swift in Sources */,
 				2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* OnboardingView.swift in Sources */,
-				E9BDB4052A7BE1E30069EF98 /* ProfileBadgeImageView.swift in Sources */,
+				E9BDB4052A7BE1E30069EF98 /* BadgeImageView.swift in Sources */,
 				2C106D9928C1CE6E004FA584 /* SendEmailFeedbackController.swift in Sources */,
 				2C688C052A4E97750061AFFD /* ProgressScreenProjectProgressView.swift in Sources */,
 				E9523BF429DAA5690013A661 /* StudyPlanSkeletonView.swift in Sources */,
@@ -3762,6 +3776,7 @@
 				2C2600852A1FF8B000BD3D39 /* AppPowerModeObserver.swift in Sources */,
 				2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */,
 				E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */,
+				2CF7C1B62A835E82006B07ED /* BadgeRemoteImageView.swift in Sources */,
 				E9F0A2AC29D4355B00C4A61E /* StudyPlanSectionItemView.swift in Sources */,
 				2C5B2A1B286595810097B270 /* CodeCompletionCellView.swift in Sources */,
 				E9D69A4028084FF7000E114E /* AuthCredentialsErrorView.swift in Sources */,
@@ -3929,6 +3944,7 @@
 				2C96744428883E710091B6C9 /* BlockOptionsExtensions.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2CD4148329A8C98000ACA855 /* OpaqueUIPasteControl.swift in Sources */,
+				2CF7C1B12A8355D3006B07ED /* BadgeLockedImageView.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
 				2C406C372A440E8200FA838E /* BuildVariant+Current.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,

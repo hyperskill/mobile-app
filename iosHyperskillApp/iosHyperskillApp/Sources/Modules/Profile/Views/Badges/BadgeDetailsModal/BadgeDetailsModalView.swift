@@ -37,7 +37,7 @@ struct BadgeDetailsModalView: View {
                     .foregroundColor(.disabledText)
                     .font(.headline)
 
-                ProfileBadgeImageView(
+                BadgeImageView(
                     kind: badgeDetailsViewState.kind,
                     image: badgeDetailsViewState.image
                 )
