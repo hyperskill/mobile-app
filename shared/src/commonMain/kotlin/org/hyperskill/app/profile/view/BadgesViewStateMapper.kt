@@ -7,6 +7,12 @@ import org.hyperskill.app.badges.domain.model.BadgeRank
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.profile.presentation.ProfileFeature
 
+/**
+ * Maps the badgeState into the viewState.
+ * If the badgeState doesn't contain all badge kinds
+ * or, in case of details modal, it doesn't contain detailed badge data,
+ * it returns missing badges as locked.
+ */
 class BadgesViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
@@ -14,6 +20,11 @@ class BadgesViewStateMapper(
         const val HIDDEN_STATE_BADGES_COUNT = 4
     }
 
+    /**
+     * Maps the [state] to the [BadgesViewState].
+     * If the [state] doesn't contain all badge kinds, adds missing badges as locked.
+     * @see [ProfileFeature.BadgesState] for more details.
+     */
     fun map(state: ProfileFeature.BadgesState): BadgesViewState {
         val unlockedBadges = state.badges.filter { it.level > 0 }.sortedBy { it.level }.map(::mapUnlockedBadge)
         val lockedBadges = getLockedBadgeKinds(unlockedBadges.map { it.kind }).map(::mapLockedBadge)
@@ -32,13 +43,13 @@ class BadgesViewStateMapper(
     }
 
     private fun getLockedBadgeKinds(unlockedBadgeKinds: List<BadgeKind>): Set<BadgeKind> =
-        BadgeKind.values().filter { it != BadgeKind.UNKNOWN }.subtract(unlockedBadgeKinds.toSet())
+        BadgeKind.values().subtract(unlockedBadgeKinds.toSet() + BadgeKind.UNKNOWN)
 
-    private fun mapUnlockedBadge(badge: Badge): BadgesViewState.BadgeViewState =
-        BadgesViewState.BadgeViewState(
+    private fun mapUnlockedBadge(badge: Badge): BadgesViewState.Badge =
+        BadgesViewState.Badge(
             kind = badge.kind,
             title = badge.title,
-            image = BadgesViewState.BadgeImage.Remote(
+            image = BadgeImage.Remote(
                 fullSource = badge.imageFull,
                 previewSource = badge.imagePreview
             ),
@@ -54,20 +65,25 @@ class BadgesViewStateMapper(
             progress = getProgress(badge)
         )
 
-    private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.BadgeViewState =
-        BadgesViewState.BadgeViewState(
+    private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.Badge =
+        BadgesViewState.Badge(
             kind = badgeKind,
             title = getBadgeTitle(badgeKind) ?: "",
-            image = BadgesViewState.BadgeImage.Locked,
+            image = BadgeImage.Locked,
             formattedCurrentLevel = resourceProvider.getString(SharedResources.strings.badge_level, 0),
             nextLevel = 1,
             progress = 0f
         )
 
-    fun map(badgeDetails: ProfileFeature.Action.ViewAction.BadgeDetails): BadgeDetailsViewState =
-        when (badgeDetails) {
-            is ProfileFeature.Action.ViewAction.BadgeDetails.Badge -> mapToDetails(badgeDetails.badge)
-            is ProfileFeature.Action.ViewAction.BadgeDetails.Kind -> mapToDetails(badgeDetails.badgeKind)
+    /**
+     * Maps the [badgeDetailsInfo] to the [BadgeDetailsViewState].
+     * If the [badgeDetailsInfo] doesn't contain [Badge], return [BadgeDetailsViewState] in locked state.
+     * @see [ProfileFeature.BadgesState] for more details.
+     */
+    fun map(badgeDetailsInfo: ProfileFeature.Action.ViewAction.BadgeDetails): BadgeDetailsViewState =
+        when (badgeDetailsInfo) {
+            is ProfileFeature.Action.ViewAction.BadgeDetails.FullBadge -> mapToDetails(badgeDetailsInfo.badge)
+            is ProfileFeature.Action.ViewAction.BadgeDetails.BadgeKind -> mapToDetails(badgeDetailsInfo.badgeKind)
         }
 
     private fun mapToDetails(badge: Badge): BadgeDetailsViewState =
@@ -103,22 +119,25 @@ class BadgesViewStateMapper(
                 resourceProvider.getString(SharedResources.strings.badge_level, nextLevel)
             },
             progress = getProgress(badge),
-            imageSource = badge.imageFull,
-            isLocked = false // TODO: replace with `badge.rank == BadgeRank.LOCKED`
+            image = BadgeImage.Remote(
+                previewSource = badge.imagePreview,
+                fullSource = badge.imageFull
+            ),
+            isLocked = badge.rank == BadgeRank.LOCKED
         )
 
     private fun mapToDetails(badgeKind: BadgeKind): BadgeDetailsViewState =
         BadgeDetailsViewState(
             kind = badgeKind,
-            rank = BadgeRank.UNKNOWN, // TODO: replace with BadgeRank.LOCKED
+            rank = BadgeRank.LOCKED,
             title = getBadgeTitle(badgeKind) ?: "",
-            formattedRank = "", // TODO: replace with `getBadgeRankName(BadgeRank.LOCKED)`
+            formattedRank = getBadgeRankName(BadgeRank.LOCKED) ?: "",
             badgeDescription = getBadgeDescription(badgeKind),
             levelDescription = getBadgeUnlockDescription(badgeKind, countToUnlock = 1),
             formattedNextLevel = resourceProvider.getString(SharedResources.strings.badge_locked),
             formattedCurrentLevel = resourceProvider.getString(SharedResources.strings.badge_level, 1),
             progress = 0f,
-            imageSource = null,
+            image = BadgeImage.Locked,
             isLocked = true
         )
 
@@ -145,6 +164,8 @@ class BadgesViewStateMapper(
 
     private fun getBadgeRankName(badgeRank: BadgeRank): String? =
         when (badgeRank) {
+            BadgeRank.LOCKED ->
+                SharedResources.strings.badge_locked
             BadgeRank.APPRENTICE ->
                 SharedResources.strings.badge_apprentice_level
             BadgeRank.EXPERT ->

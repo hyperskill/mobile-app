@@ -8,11 +8,11 @@ data class BadgeDetailsViewState(
     val rank: BadgeRank,
     val title: String,
     val formattedRank: String,
-    val imageSource: String?,
+    val image: BadgeImage,
     val badgeDescription: String?,
     val levelDescription: String?,
     val formattedCurrentLevel: String,
     val formattedNextLevel: String?,
-    val progress: Float?,
+    val progress: Float,
     val isLocked: Boolean
 )

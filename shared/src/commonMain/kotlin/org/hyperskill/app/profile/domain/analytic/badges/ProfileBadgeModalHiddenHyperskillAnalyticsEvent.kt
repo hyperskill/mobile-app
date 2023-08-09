@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.badges.domain.model.BadgeKind
 
 /**
- * Represents click on the badge in profile analytics event.
+ * Represents a hidden analytic event of the badge detailed modal in profile analytics event.
  *
  * JSON payload:
  * ```
@@ -34,6 +34,6 @@ class ProfileBadgeModalHiddenHyperskillAnalyticsEvent(
 ) {
     override val params: Map<String, Any>
         get() = super.params + mapOf(
-            BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind
+            BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name
         )
 }

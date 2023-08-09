@@ -3,13 +3,12 @@ import shared
 import SwiftUI
 
 struct ProfileBadgeImageView: View {
-    let kind: BadgeKind
-    let image: BadgesViewStateBadgeImage
+    let badge: BadgesViewState.Badge
 
     @State private var isLoading = false
 
     var body: some View {
-        switch BadgesViewStateBadgeImageKs(image) {
+        switch BadgeImageKs(badge.image) {
         case .locked:
             Image(kind.lockedImage)
                 .renderingMode(.original)
