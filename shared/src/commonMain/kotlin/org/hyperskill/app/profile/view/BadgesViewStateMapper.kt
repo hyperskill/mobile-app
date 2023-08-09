@@ -9,28 +9,32 @@ import org.hyperskill.app.profile.presentation.ProfileFeature
 class BadgesViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
+    companion object {
+        const val HIDDEN_STATE_BADGES_COUNT = 4
+    }
+
     fun map(state: ProfileFeature.BadgesState): BadgesViewState {
-        val unlockedBadges = state.badges.sortedBy { it.level }.map(::mapUnlockedBadge)
-        return if (state.isExpanded) {
-            val lockedBadgeKinds = getLockedBadgeKinds(state.badges.map { it.kind })
-            val lockedBadges = lockedBadgeKinds.map(::mapLockedBadge)
-            BadgesViewState(
-                badges = lockedBadges,
-                isExpanded = state.isExpanded
-            )
-        } else {
-            BadgesViewState(
-                badges = unlockedBadges,
-                isExpanded = state.isExpanded
-            )
-        }
+        val unlockedBadges = state.badges.filter { it.level > 0 }.sortedBy { it.level }.map(::mapUnlockedBadge)
+        val lockedBadges = getLockedBadgeKinds(unlockedBadges.map { it.kind }).map(::mapLockedBadge)
+        val allBadges = unlockedBadges + lockedBadges
+
+        return BadgesViewState(
+            badges = allBadges.take(
+                if (state.isExpanded) {
+                    allBadges.size
+                } else {
+                    HIDDEN_STATE_BADGES_COUNT
+                }
+            ),
+            isExpanded = state.isExpanded
+        )
     }
 
     private fun getLockedBadgeKinds(unlockedBadgeKinds: List<BadgeKind>): Set<BadgeKind> =
-        BadgeKind.values().subtract(unlockedBadgeKinds.toSet())
+        BadgeKind.values().subtract(unlockedBadgeKinds.toSet() + BadgeKind.UNKNOWN)
 
-    private fun mapUnlockedBadge(badge: Badge): BadgesViewState.BadgeViewState =
-        BadgesViewState.BadgeViewState(
+    private fun mapUnlockedBadge(badge: Badge): BadgesViewState.Badge =
+        BadgesViewState.Badge(
             kind = badge.kind,
             title = badge.title,
             image = BadgesViewState.BadgeImage.Remote(
@@ -46,7 +50,7 @@ class BadgesViewStateMapper(
                 badge.level
             ),
             nextLevel = if (badge.isMaxLevel) null else badge.level + 1,
-            progress = if (badge.nextLevelValue != null && badge.isMaxLevel) {
+            progress = if (badge.nextLevelValue != null && !badge.isMaxLevel) {
                 val totalCount = badge.nextLevelValue - badge.currentLevelValue
                 val currentCount = badge.value - badge.currentLevelValue
                 currentCount / totalCount.toFloat()
@@ -55,8 +59,8 @@ class BadgesViewStateMapper(
             }
         )
 
-    private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.BadgeViewState =
-        BadgesViewState.BadgeViewState(
+    private fun mapLockedBadge(badgeKind: BadgeKind): BadgesViewState.Badge =
+        BadgesViewState.Badge(
             kind = badgeKind,
             title = getBadgeTitle(badgeKind),
             image = BadgesViewState.BadgeImage.Locked,

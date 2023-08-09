@@ -53,7 +53,7 @@ class ModalRouter: ModalRouterProtocol {
             module: viewControllerToPresent,
             animated: animated,
             modalPresentationStyle: modalPresentationStyle,
-            completion: nil
+            completion: completion
         )
     }
 

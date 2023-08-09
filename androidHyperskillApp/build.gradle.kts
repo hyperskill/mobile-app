@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.preview)
     implementation(libs.compose.material)
+    implementation(libs.compose.windowsizeclasses)
     debugImplementation(libs.compose.tooling)
     implementation(libs.accompanist.themeadapter)
     implementation(libs.compose.viewmodel)
