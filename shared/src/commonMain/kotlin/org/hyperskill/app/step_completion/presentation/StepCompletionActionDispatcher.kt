@@ -92,8 +92,11 @@ class StepCompletionActionDispatcher(
             is Action.UpdateProblemsLimit -> {
                 freemiumInteractor.onStepSolved()
             }
-            is Action.RequestDailyStudyRemindersPermissionResult -> {
-                handleRequestDailyStudyRemindersPermissionResultAction(action)
+            is Action.TurnOnDailyStudyReminder -> {
+                handleTurnOnDailyStudyReminderAction()
+            }
+            is Action.PostponeDailyStudyReminder -> {
+                handlePostponeDailyStudyReminderAction()
             }
             is Action.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
@@ -144,19 +147,17 @@ class StepCompletionActionDispatcher(
         }
     }
 
-    private suspend fun handleRequestDailyStudyRemindersPermissionResultAction(
-        action: Action.RequestDailyStudyRemindersPermissionResult
-    ) {
-        if (action.isGranted) {
-            notificationInteractor.setDailyStudyRemindersEnabled(true)
-            notificationInteractor.setDailyStudyRemindersIntervalStartHour(
-                NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
-            )
-        } else {
-            notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
-                Clock.System.now().toEpochMilliseconds()
-            )
-        }
+    private suspend fun handleTurnOnDailyStudyReminderAction() {
+        notificationInteractor.setDailyStudyRemindersEnabled(true)
+        notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
+        )
+    }
+
+    private fun handlePostponeDailyStudyReminderAction() {
+        notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
+            Clock.System.now().toEpochMilliseconds()
+        )
     }
 
     private suspend fun checkProblemOfDaySolved(solvedStepId: Long) {

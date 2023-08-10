@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal
+package org.hyperskill.app.step_completion.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the topic completed modal.
+ * Represents click on the "Continue with next topic" button analytic event.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "shown",
- *     "part": "modal",
- *     "target": "topic_completed_modal"
+ *     "action": "click",
+ *     "part": "topic_completed_modal",
+ *     "target": "continue_with_next_topic"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent(
+class StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.TOPIC_COMPLETED_MODAL
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.TOPIC_COMPLETED_MODAL,
+    HyperskillAnalyticTarget.CONTINUE_WITH_NEXT_TOPIC
 )

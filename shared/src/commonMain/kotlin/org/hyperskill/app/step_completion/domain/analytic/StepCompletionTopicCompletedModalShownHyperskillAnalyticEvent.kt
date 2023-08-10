@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal
+package org.hyperskill.app.step_completion.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the daily step completed modal.
+ * Represents a shown analytic event of the topic completed modal.
  *
  * JSON payload:
  * ```
@@ -15,16 +15,16 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "shown",
  *     "part": "modal",
- *     "target": "daily_step_completed_modal"
+ *     "target": "topic_completed_modal"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent(
+class StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.SHOWN,
     HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.DAILY_STEP_COMPLETED_MODAL
+    HyperskillAnalyticTarget.TOPIC_COMPLETED_MODAL
 )

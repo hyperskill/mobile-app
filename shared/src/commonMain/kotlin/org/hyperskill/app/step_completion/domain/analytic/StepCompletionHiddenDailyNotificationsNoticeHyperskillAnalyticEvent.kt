@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_completion.domain.analytic.daily_notifications_notice
+package org.hyperskill.app.step_completion.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent

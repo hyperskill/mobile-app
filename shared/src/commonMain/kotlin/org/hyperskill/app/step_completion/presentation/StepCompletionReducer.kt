@@ -6,15 +6,15 @@ import org.hyperskill.app.learning_activities.presentation.model.LearningActivit
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedStartPracticingHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_notifications_notice.StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_notifications_notice.StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.daily_step_completed_modal.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.topic_completed_modal.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
@@ -159,7 +159,11 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     isAgreed = message.isGranted
                 )
                 state to setOf(
-                    Action.RequestDailyStudyRemindersPermissionResult(message.isGranted),
+                    if (message.isGranted) {
+                        Action.TurnOnDailyStudyReminder
+                    } else {
+                        Action.PostponeDailyStudyReminder
+                    },
                     Action.LogAnalyticEvent(analyticEvent)
                 )
             }

@@ -106,7 +106,8 @@ interface StepCompletionFeature {
 
         object UpdateProblemsLimit : Action
 
-        data class RequestDailyStudyRemindersPermissionResult(val isGranted: Boolean) : Action
+        object TurnOnDailyStudyReminder : Action
+        object PostponeDailyStudyReminder : Action
 
         sealed interface ViewAction : Action {
             data class ShowTopicCompletedModal(val modalText: String, val isNextStepAvailable: Boolean) : ViewAction

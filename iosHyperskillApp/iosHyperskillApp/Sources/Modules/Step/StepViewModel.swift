@@ -107,7 +107,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         if isGranted {
             Task(priority: .userInitiated) {
                 let isNotificationPermissionGranted =
-                await notificationsRegistrationService.requestAuthorizationIfNeeded()
+                  await notificationsRegistrationService.requestAuthorizationIfNeeded()
 
                 await MainActor.run {
                     onNewMessage(message)
