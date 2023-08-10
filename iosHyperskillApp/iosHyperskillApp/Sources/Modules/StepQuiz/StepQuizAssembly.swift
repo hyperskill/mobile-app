@@ -35,7 +35,6 @@ final class StepQuizAssembly: Assembly {
             moduleOutput: moduleOutput,
             provideModuleInputCallback: provideModuleInputCallback,
             viewDataMapper: viewDataMapper,
-            notificationsRegistrationService: .shared,
             feature: stepQuizComponent.stepQuizFeature
         )
 
