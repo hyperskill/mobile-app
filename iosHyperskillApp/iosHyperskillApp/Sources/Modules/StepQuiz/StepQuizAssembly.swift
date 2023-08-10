@@ -29,17 +29,13 @@ final class StepQuizAssembly: Assembly {
             stepQuizTitleMapper: stepQuizComponent.stepQuizTitleMapper
         )
 
-        let problemsLimitComponent = AppGraphBridge.sharedAppGraph.buildProblemsLimitComponent(
-            screen: ProblemsLimitScreen.stepQuiz
-        )
-
         let viewModel = StepQuizViewModel(
             step: step,
             stepRoute: stepRoute,
             moduleOutput: moduleOutput,
             provideModuleInputCallback: provideModuleInputCallback,
             viewDataMapper: viewDataMapper,
-            problemsLimitViewStateMapper: problemsLimitComponent.problemsLimitViewStateMapper,
+            notificationsRegistrationService: .shared,
             feature: stepQuizComponent.stepQuizFeature
         )
 

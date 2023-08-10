@@ -6,13 +6,9 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
-    private let problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
-
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
-    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
-        .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
-    }
+
     var nextLearningActivityViewStateKs: NextLearningActivityWidgetFeatureViewStateKs {
         .init(
             NextLearningActivityWidgetViewStateMapper.shared.map(
@@ -21,12 +17,10 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
-    init(
-        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
+    override init(
         feature: Presentation_reduxFeature,
         mainScheduler: AnySchedulerOf<RunLoop> = .main
     ) {
-        self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
         super.init(feature: feature, mainScheduler: mainScheduler)
 
         NotificationCenter.default.addObserver(
@@ -89,14 +83,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         onNewMessage(
             HomeFeatureMessageGamificationToolbarMessage(
                 message: GamificationToolbarFeatureMessageClickedProgress()
-            )
-        )
-    }
-
-    func doReloadProblemsLimit() {
-        onNewMessage(
-            HomeFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
             )
         )
     }
