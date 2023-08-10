@@ -143,9 +143,6 @@ private extension StudyPlanView {
         _ viewAction: StudyPlanWidgetFeatureActionViewAction
     ) {
         switch StudyPlanWidgetFeatureActionViewActionKs(viewAction) {
-        case .showStageImplementUnsupportedModal:
-            let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
-            panModalPresenter.presentPanModal(panModal)
         case .navigateTo(let navigateToViewAction):
             handleStudyPlanWidgetNavigateToViewAction(navigateToViewAction)
         }
@@ -155,28 +152,45 @@ private extension StudyPlanView {
         _ viewAction: StudyPlanWidgetFeatureActionViewActionNavigateTo
     ) {
         switch StudyPlanWidgetFeatureActionViewActionNavigateToKs(viewAction) {
-        case .stageImplement(let navigateToStageImplementViewAction):
-            let assembly = StageImplementAssembly(
-                projectID: navigateToStageImplementViewAction.projectId,
-                stageID: navigateToStageImplementViewAction.stageId
-            )
-            stackRouter.pushViewController(assembly.makeModule())
-        case .stepScreen(let navigateToStepScreenViewAction):
-            let assembly = StepAssembly(
-                stepRoute: navigateToStepScreenViewAction.stepRoute
-            )
-            stackRouter.pushViewController(assembly.makeModule())
         case .home:
             TabBarRouter(tab: .home).route()
-        case .selectProject(let navigateToSelectProjectViewAction):
-            let assembly = ProjectSelectionListAssembly(
-                isNewUserMode: false,
-                trackID: navigateToSelectProjectViewAction.trackId
+        case .learningActivityTarget(let navigateToLearningActivityTargetViewAction):
+            handleNavigateToLearningActivityTargetViewAction(
+                navigateToLearningActivityTargetViewAction.viewAction
             )
-            stackRouter.pushViewController(assembly.makeModule())
-        case .selectTrack:
-            let assembly = TrackSelectionListAssembly(isNewUserMode: false)
-            stackRouter.pushViewController(assembly.makeModule())
+        }
+    }
+
+    func handleNavigateToLearningActivityTargetViewAction(
+        _ viewAction: LearningActivityTargetViewAction
+    ) {
+        switch LearningActivityTargetViewActionKs(viewAction) {
+        case .showStageImplementIDERequiredModal:
+            let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
+            panModalPresenter.presentPanModal(panModal)
+        case .navigateTo(let navigateToViewAction):
+            switch LearningActivityTargetViewActionNavigateToKs(navigateToViewAction) {
+            case .selectProject(let navigateToSelectProjectViewAction):
+                let assembly = ProjectSelectionListAssembly(
+                    isNewUserMode: false,
+                    trackID: navigateToSelectProjectViewAction.trackId
+                )
+                stackRouter.pushViewController(assembly.makeModule())
+            case .selectTrack:
+                let assembly = TrackSelectionListAssembly(isNewUserMode: false)
+                stackRouter.pushViewController(assembly.makeModule())
+            case .stageImplement(let navigateToStageImplementViewAction):
+                let assembly = StageImplementAssembly(
+                    projectID: navigateToStageImplementViewAction.projectId,
+                    stageID: navigateToStageImplementViewAction.stageId
+                )
+                stackRouter.pushViewController(assembly.makeModule())
+            case .step(let navigateToStepViewAction):
+                let assembly = StepAssembly(
+                    stepRoute: navigateToStepViewAction.stepRoute
+                )
+                stackRouter.pushViewController(assembly.makeModule())
+            }
         }
     }
 }

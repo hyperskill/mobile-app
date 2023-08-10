@@ -74,6 +74,7 @@ struct StepQuizCodeFullScreenView: View {
         .onDisappear {
             KeyboardManager.setEnabled(true)
         }
+        .supportedInterfaceOrientations(.all)
     }
 
     @ToolbarContentBuilder

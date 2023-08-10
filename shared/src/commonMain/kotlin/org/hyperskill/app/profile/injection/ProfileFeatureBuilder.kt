@@ -1,6 +1,7 @@
 package org.hyperskill.app.profile.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.badges.domain.repository.BadgesRepository
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
@@ -31,7 +32,8 @@ object ProfileFeatureBuilder {
         notificationInteractor: NotificationInteractor,
         urlPathProcessor: UrlPathProcessor,
         streakFlow: StreakFlow,
-        dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
+        dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
+        badgesRepository: BadgesRepository
     ): Feature<State, Message, Action> {
         val profileReducer = ProfileReducer()
         val profileActionDispatcher = ProfileActionDispatcher(
@@ -45,7 +47,8 @@ object ProfileFeatureBuilder {
             notificationInteractor,
             urlPathProcessor,
             streakFlow,
-            dailyStudyRemindersEnabledFlow
+            dailyStudyRemindersEnabledFlow,
+            badgesRepository
         )
 
         return ReduxFeature(State.Idle, profileReducer)

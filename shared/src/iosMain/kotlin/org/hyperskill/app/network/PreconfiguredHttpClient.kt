@@ -8,4 +8,9 @@ import io.ktor.client.engine.darwin.Darwin
 internal actual fun PreconfiguredPlatformHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient =
     HttpClient(Darwin) {
         apply(block)
+        engine {
+            configureSession {
+                timeoutIntervalForRequest = 10.0
+            }
+        }
     }

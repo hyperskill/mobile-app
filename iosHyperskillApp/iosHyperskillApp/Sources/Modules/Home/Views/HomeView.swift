@@ -16,6 +16,8 @@ struct HomeView: View {
 
     @StateObject var stackRouter: SwiftUIStackRouter
 
+    @StateObject var panModalPresenter: PanModalPresenter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(
@@ -97,13 +99,13 @@ struct HomeView: View {
                         )
                     }
 
-                    if !viewModel.topicsToDiscoverNextStateSk.isEmpty {
-                        TopicToDiscoverNextCardView(
-                            state: viewModel.topicsToDiscoverNextStateSk,
-                            delegate: viewModel
-                        )
-                        .padding(.top, LayoutInsets.smallInset)
-                    }
+                    NextLearningActivityView(
+                        appearance: .init(spacing: appearance.spacingBetweenContainers),
+                        stateKs: viewModel.nextLearningActivityViewStateKs,
+                        onActivityTap: viewModel.doNextLearningActivityPresentation,
+                        onReloadButtonTap: viewModel.doReloadNextLearningActivity
+                    )
+                    .padding(.top)
 
                     let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
                       data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
@@ -152,13 +154,54 @@ struct HomeView: View {
                 let assembly = ProgressScreenAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
-        case .topicsToDiscoverNextViewAction(let topicsToDiscoverNextViewAction):
-            switch TopicsToDiscoverNextFeatureActionViewActionKs(topicsToDiscoverNextViewAction.viewAction) {
-            case .showStepScreen(let data):
-                displayStep(stepRoute: data.stepRoute)
-            }
         case .problemsLimitViewAction:
             break
+        case .nextLearningActivityWidgetViewAction(let nextLearningActivityWidgetViewAction):
+            handleNextLearningActivityWidgetViewAction(
+                NextLearningActivityWidgetFeatureActionViewActionKs(nextLearningActivityWidgetViewAction.viewAction)
+            )
+        }
+    }
+
+    #warning("ALTAPPS-909: Refactor this")
+    private func handleNextLearningActivityWidgetViewAction(
+        _ viewActionKs: NextLearningActivityWidgetFeatureActionViewActionKs
+    ) {
+        switch viewActionKs {
+        case .navigateTo(let nextLearningActivityWidgetNavigateToViewAction):
+            switch NextLearningActivityWidgetFeatureActionViewActionNavigateToKs(
+                nextLearningActivityWidgetNavigateToViewAction
+            ) {
+            case .learningActivityTarget(let navigateToLearningActivityTargetViewAction):
+                switch LearningActivityTargetViewActionKs(navigateToLearningActivityTargetViewAction.viewAction) {
+                case .showStageImplementIDERequiredModal:
+                    let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
+                    panModalPresenter.presentPanModal(panModal)
+                case .navigateTo(let navigateToViewAction):
+                    switch LearningActivityTargetViewActionNavigateToKs(navigateToViewAction) {
+                    case .selectProject(let navigateToSelectProjectViewAction):
+                        let assembly = ProjectSelectionListAssembly(
+                            isNewUserMode: false,
+                            trackID: navigateToSelectProjectViewAction.trackId
+                        )
+                        stackRouter.pushViewController(assembly.makeModule())
+                    case .selectTrack:
+                        let assembly = TrackSelectionListAssembly(isNewUserMode: false)
+                        stackRouter.pushViewController(assembly.makeModule())
+                    case .stageImplement(let navigateToStageImplementViewAction):
+                        let assembly = StageImplementAssembly(
+                            projectID: navigateToStageImplementViewAction.projectId,
+                            stageID: navigateToStageImplementViewAction.stageId
+                        )
+                        stackRouter.pushViewController(assembly.makeModule())
+                    case .step(let navigateToStepViewAction):
+                        let assembly = StepAssembly(
+                            stepRoute: navigateToStepViewAction.stepRoute
+                        )
+                        stackRouter.pushViewController(assembly.makeModule())
+                    }
+                }
+            }
         }
     }
 

@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.profile.view.fragment
 
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
@@ -11,33 +10,34 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
+import coil.result
 import coil.transform.CircleCropTransformation
-import java.util.Locale
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.badges.view.delegate.ProfileBadgesDelegate
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
-import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
+import org.hyperskill.app.android.profile.view.delegate.AboutMeDelegate
+import org.hyperskill.app.android.profile.view.delegate.ProfileViewActionDelegate
 import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
-import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
+import org.hyperskill.app.android.profile.view.dialog.BadgeDetailsDialogFragment
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
-import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
-import org.hyperskill.app.profile.view.social_redirect.SocialNetworksRedirect
+import org.hyperskill.app.profile.view.BadgesViewStateMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -48,7 +48,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
     ReduxView<ProfileFeature.State, ProfileFeature.Action.ViewAction>,
-    TimeIntervalPickerDialogFragment.Companion.Callback {
+    TimeIntervalPickerDialogFragment.Companion.Callback,
+    BadgeDetailsDialogFragment.Callback {
     companion object {
         fun newInstance(profileId: Long? = null, isInitCurrent: Boolean = true): Fragment =
             ProfileFragment()
@@ -65,9 +66,14 @@ class ProfileFragment :
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private val profileViewModel: ProfileViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<ProfileFeature.State> = ViewStateDelegate()
-
-    private var streakFormDelegate: StreakCardFormDelegate? = null
+    private var viewStateDelegate: ViewStateDelegate<ProfileFeature.State>? = null
+    private val profileBadgesDelegate: ProfileBadgesDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        ProfileBadgesDelegate(
+            BadgesViewStateMapper(
+                HyperskillApp.graph().commonComponent.resourceProvider
+            )
+        )
+    }
 
     private val platformNotificationComponent =
         HyperskillApp.graph().platformLocalNotificationComponent
@@ -83,14 +89,14 @@ class ProfileFragment :
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
-    private lateinit var notificationPermissionDelegate: NotificationPermissionDelegate
+    private var notificationPermissionDelegate: NotificationPermissionDelegate? = null
 
     private val dailyReminderCheckChangeListener =
         CompoundButton.OnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
                 onDailyLearningSwitchNotificationPermissionGranted(false)
             } else {
-                notificationPermissionDelegate.requestNotificationPermission(::onNotificationPermissionResult)
+                notificationPermissionDelegate?.requestNotificationPermission(::onNotificationPermissionResult)
             }
         }
 
@@ -111,16 +117,26 @@ class ProfileFragment :
         initViewStateDelegate()
         initToolbar()
         initRemindersSchedule()
-        initProfileViewFullVersionTextView()
-
-        streakFormDelegate =
-            StreakCardFormDelegate(
-                context = requireContext(),
-                binding = viewBinding.profileStreakLayout,
-                onFreezeButtonClick = {
-                    profileViewModel.onNewMessage(ProfileFeature.Message.StreakFreezeCardButtonClicked)
-                }
-            )
+        AboutMeDelegate.setup(viewBinding.profileAboutMeLayout, profileViewModel::onNewMessage)
+        StreakCardFormDelegate.setup(
+            context = requireContext(),
+            binding = viewBinding.profileStreakLayout,
+            onFreezeButtonClick = {
+                profileViewModel.onNewMessage(ProfileFeature.Message.StreakFreezeCardButtonClicked)
+            }
+        )
+        profileBadgesDelegate.setup(
+            activity = requireActivity(),
+            composeView = viewBinding.profileBadges,
+            onBadgeClick = { badgeKind ->
+                profileViewModel.onNewMessage(ProfileFeature.Message.BadgeClicked(badgeKind))
+            },
+            onExpandButtonClick = { button ->
+                profileViewModel.onNewMessage(
+                    ProfileFeature.Message.BadgesVisibilityButtonClicked(button)
+                )
+            }
+        )
 
         viewBinding.profileError.tryAgain.setOnClickListener {
             profileViewModel.onNewMessage(
@@ -154,11 +170,18 @@ class ProfileFragment :
     }
 
     private fun initViewStateDelegate() {
-        with(viewStateDelegate) {
+        viewStateDelegate = ViewStateDelegate<ProfileFeature.State>().apply {
             addState<ProfileFeature.State.Idle>()
-            addState<ProfileFeature.State.Loading>(viewBinding.profileSkeleton.root)
-            addState<ProfileFeature.State.Error>(viewBinding.profileError.root)
+            addState<ProfileFeature.State.Loading>(
+                viewBinding.profileAppBar,
+                viewBinding.profileSkeleton.root
+            )
+            addState<ProfileFeature.State.Error>(
+                viewBinding.profileAppBar,
+                viewBinding.profileError.root
+            )
             addState<ProfileFeature.State.Content>(
+                viewBinding.profileAppBar,
                 viewBinding.profileContentNestedScrollView,
                 viewBinding.profileSettingsButton
             )
@@ -225,15 +248,6 @@ class ProfileFragment :
         }
     }
 
-    private fun initProfileViewFullVersionTextView() {
-        with(viewBinding.profileFooterLayout.profileViewFullVersionTextView) {
-            paintFlags = paintFlags or Paint.UNDERLINE_TEXT_FLAG
-            setOnClickListener {
-                profileViewModel.onNewMessage(ProfileFeature.Message.ClickedViewFullProfile)
-            }
-        }
-    }
-
     private fun initToolbar() {
         with(viewBinding.profileAppBar) {
             setElevationOnCollapsed(viewLifecycleOwner.lifecycle)
@@ -249,52 +263,41 @@ class ProfileFragment :
 
     override fun onDestroyView() {
         super.onDestroyView()
-        streakFormDelegate = null
+        viewStateDelegate = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        notificationPermissionDelegate = null
     }
 
     override fun onTimeIntervalPicked(chosenInterval: Int) {
         profileViewModel.onNewMessage(
             ProfileFeature.Message.DailyStudyRemindersIntervalStartHourChanged(chosenInterval)
         )
-        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
+        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification(chosenInterval)
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
-        when (action) {
-            is ProfileFeature.Action.ViewAction.OpenUrl ->
-                requireContext().openUrl(action.url)
+        ProfileViewActionDelegate.onAction(
+            context = requireContext(),
+            view = viewBinding.root,
+            fragmentManager = childFragmentManager,
+            mainScreenRouter = mainScreenRouter,
+            action = action
+        )
+    }
 
-            is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
-                viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
+    override fun onBadgeDetailsDialogFragmentShown(badgeKind: BadgeKind) {
+        profileViewModel.onNewMessage(ProfileFeature.Message.BadgeModalShownEventMessage(badgeKind))
+    }
 
-            is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {
-                StreakFreezeDialogFragment.newInstance(action.streakFreezeState)
-                    .showIfNotExists(childFragmentManager, StreakFreezeDialogFragment.Tag)
-            }
-            ProfileFeature.Action.ViewAction.HideStreakFreezeModal -> {
-                childFragmentManager
-                    .dismissDialogFragmentIfExists(StreakFreezeDialogFragment.Tag)
-            }
-            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Loading -> {
-                childFragmentManager
-                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-            }
-            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Success -> {
-                viewBinding.root.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_success)
-                childFragmentManager
-                    .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-            }
-            ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
-                viewBinding.root.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_error)
-
-            ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                mainScreenRouter.switch(HomeScreen)
-            }
-        }
+    override fun onBadgeDetailsDialogFragmentHidden(badgeKind: BadgeKind) {
+        profileViewModel.onNewMessage(ProfileFeature.Message.BadgeModalHiddenEventMessage(badgeKind))
     }
 
     override fun render(state: ProfileFeature.State) {
-        viewStateDelegate.switchState(state)
+        viewStateDelegate?.switchState(state)
         renderSwipeRefresh(state)
         when (state) {
             is ProfileFeature.State.Content -> {
@@ -308,15 +311,18 @@ class ProfileFragment :
     }
 
     private fun renderContent(content: ProfileFeature.State.Content) {
-        streakFormDelegate?.render(content.streak, content.streakFreezeState)
+        StreakCardFormDelegate.render(
+            context = requireContext(),
+            binding = viewBinding.profileStreakLayout,
+            streak = content.streak,
+            freezeState = content.streakFreezeState
+        )
 
         renderStatistics(content.profile)
-        renderNameProfileBadge(content.profile)
+        renderNameHeader(content.profile)
         renderReminderSchedule(content.dailyStudyRemindersState, notificationManager)
-        renderAboutMeSection(content.profile)
-        renderBioSection(content.profile)
-        renderExperienceSection(content.profile)
-        renderSocialButtons(content.profile)
+        AboutMeDelegate.render(requireContext(), viewBinding.profileAboutMeLayout, content.profile)
+        profileBadgesDelegate.render(content.badgesState)
 
         if (content.isLoadingMagicLink) {
             LoadingProgressDialogFragment.newInstance()
@@ -335,11 +341,12 @@ class ProfileFragment :
         }
     }
 
-    private fun renderNameProfileBadge(profile: Profile) {
+    private fun renderNameHeader(profile: Profile) {
         with(viewBinding.profileHeader) {
             profileAvatarImageView.load(profile.avatar, imageLoader) {
                 transformations(CircleCropTransformation())
             }
+            profileAvatarImageView.result?.request?.memoryCacheKey
             profileNameTextView.setTextIfChanged(profile.fullname)
             profileRoleTextView.setTextIfChanged(
                 if (profile.isStaff) {
@@ -377,98 +384,6 @@ class ProfileFragment :
             profileGemsCountTextView.setTextIfChanged(profile.gamification.hypercoinsBalance.toString())
             profileTracksCountTextView.setTextIfChanged(profile.completedTracks.size.toString())
             profileProjectsCountTextView.setTextIfChanged(profile.gamification.passedProjectsCount.toString())
-        }
-    }
-
-    private fun renderAboutMeSection(profile: Profile) {
-        with(viewBinding.profileFooterLayout) {
-            if (profile.country != null) {
-                profileAboutLivesTextView.text =
-                    "${resources.getString(org.hyperskill.app.R.string.profile_lives_in_text)} ${
-                    Locale(
-                        Locale.ENGLISH.language,
-                        profile.country!!
-                    ).displayCountry
-                    }"
-            } else {
-                profileAboutLivesTextView.visibility = View.GONE
-            }
-
-            if (profile.languages?.isEmpty() == false) {
-                val languages = profile.languages!!.joinToString(", ") {
-                    Locale(it).getDisplayLanguage(Locale.ENGLISH)
-                }
-                profileAboutSpeaksTextView.text =
-                    "${resources.getString(org.hyperskill.app.R.string.profile_speaks_text)} $languages"
-            } else {
-                profileAboutSpeaksTextView.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun renderBioSection(profile: Profile) {
-        with(viewBinding.profileFooterLayout) {
-            if (profile.bio != "") {
-                profileAboutBioTextTextView.text = profile.bio
-            } else {
-                profileAboutBioTextTextView.visibility = View.GONE
-                profileAboutBioBarTextView.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun renderExperienceSection(profile: Profile) {
-        with(viewBinding.profileFooterLayout) {
-            if (profile.experience != "") {
-                profileAboutExperienceTextTextView.text = profile.experience
-            } else {
-                profileAboutExperienceTextTextView.visibility = View.GONE
-                profileAboutExperienceBarTextView.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun renderSocialButtons(profile: Profile) {
-        with(viewBinding.profileFooterLayout) {
-            if (profile.facebookUsername != "") {
-                profileFacebookButton.setOnClickListener {
-                    SocialNetworksRedirect.FACEBOOK.redirectToUsernamePage(requireContext(), profile.facebookUsername)
-                }
-            } else {
-                profileFacebookButton.visibility = View.GONE
-            }
-
-            if (profile.twitterUsername != "") {
-                profileTwitterButton.setOnClickListener {
-                    SocialNetworksRedirect.TWITTER.redirectToUsernamePage(requireContext(), profile.twitterUsername)
-                }
-            } else {
-                profileTwitterButton.visibility = View.GONE
-            }
-
-            if (profile.linkedinUsername != "") {
-                profileLinkedinButton.setOnClickListener {
-                    SocialNetworksRedirect.LINKEDIN.redirectToUsernamePage(requireContext(), profile.linkedinUsername)
-                }
-            } else {
-                profileLinkedinButton.visibility = View.GONE
-            }
-
-            if (profile.redditUsername != "") {
-                profileRedditButton.setOnClickListener {
-                    SocialNetworksRedirect.REDDIT.redirectToUsernamePage(requireContext(), profile.redditUsername)
-                }
-            } else {
-                profileRedditButton.visibility = View.GONE
-            }
-
-            if (profile.githubUsername != "") {
-                profileGithubButton.setOnClickListener {
-                    SocialNetworksRedirect.GITHUB.redirectToUsernamePage(requireContext(), profile.githubUsername)
-                }
-            } else {
-                profileGithubButton.visibility = View.GONE
-            }
         }
     }
 

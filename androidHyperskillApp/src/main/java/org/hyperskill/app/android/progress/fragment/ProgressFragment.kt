@@ -57,6 +57,11 @@ class ProgressFragment : Fragment() {
             }
         }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        progressScreenViewModel.onNewMessage(ProgressScreenFeature.Message.ViewedEventMessage)
+    }
+
     private fun onAction(action: ProgressScreenFeature.Action.ViewAction) {
         when (action) {
             is ProgressScreenFeature.Action.ViewAction.NavigateTo.ProjectSelectionScreen ->

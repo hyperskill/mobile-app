@@ -2,10 +2,9 @@ package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlin.math.max
 import kotlin.math.min
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
@@ -81,20 +80,26 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is Message.StageImplementUnsupportedModalGoToHomeClicked ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent()
+                        StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.StudyPlan()
+                        )
                     ),
                     Action.ViewAction.NavigateTo.Home
                 )
             is Message.StageImplementUnsupportedModalHiddenEventMessage ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent()
+                        StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.StudyPlan()
+                        )
                     )
                 )
             is Message.StageImplementUnsupportedModalShownEventMessage ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent()
+                        StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent(
+                            route = HyperskillAnalyticRoute.StudyPlan()
+                        )
                     )
                 )
         } ?: (state to emptySet())
@@ -200,14 +205,25 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
         )
 
+        val isFetchedActivitiesForCurrentSection = message.sectionId == state.getCurrentSection()?.id
+
         // ALTAPPS-786: We should expand next section if current section doesn't have available activities
-        return if (message.sectionId == state.getCurrentSection()?.id && message.activities.isEmpty()) {
-            nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
-                changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
-            } ?: (nextState to emptySet())
+        val (resultState, resultActions) =
+            if (isFetchedActivitiesForCurrentSection && message.activities.isEmpty()) {
+                nextState.studyPlanSections.keys.firstOrNull()?.let { nextSectionId ->
+                    changeSectionExpanse(nextState, nextSectionId, shouldLogAnalyticEvent = false)
+                } ?: (nextState to emptySet())
+            } else {
+                nextState to emptySet()
+            }
+
+        val updateNextLearningActivityStateAction = if (isFetchedActivitiesForCurrentSection) {
+            InternalAction.UpdateNextLearningActivityState(resultState.getCurrentActivity())
         } else {
-            nextState to emptySet()
+            null
         }
+
+        return resultState to (resultActions + setOfNotNull(updateNextLearningActivityStateAction))
     }
 
     private fun handleLearningActivitiesFetchFailed(
@@ -321,52 +337,18 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             )
         )
 
-        if (activity.id != state.getCurrentActivity()?.id) {
-            return state to setOf(logAnalyticEventAction)
-        }
+        val activityTargetAction = LearningActivityTargetViewActionMapper
+            .mapLearningActivityToTargetViewAction(
+                activity = activity,
+                trackId = state.track?.id ?: state.studyPlan?.trackId,
+                projectId = state.studyPlan?.projectId
+            )
+            .fold(
+                onSuccess = { Action.ViewAction.NavigateTo.LearningActivityTarget(it) },
+                onFailure = { InternalAction.CaptureSentryException(it) }
+            )
 
-        val activityTargetAction = when (activity.type) {
-            LearningActivityType.IMPLEMENT_STAGE -> {
-                val projectId = state.studyPlan?.projectId
-                if (projectId != null &&
-                    activity.targetId != null && activity.targetType == LearningActivityTargetType.STAGE
-                ) {
-                    if (activity.isIdeRequired) {
-                        Action.ViewAction.ShowStageImplementUnsupportedModal
-                    } else {
-                        Action.ViewAction.NavigateTo.StageImplement(
-                            stageId = activity.targetId,
-                            projectId = projectId
-                        )
-                    }
-                } else {
-                    null
-                }
-            }
-            LearningActivityType.LEARN_TOPIC -> {
-                if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
-                    Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn.Step(activity.targetId))
-                } else {
-                    null
-                }
-            }
-            LearningActivityType.SELECT_PROJECT -> {
-                val trackId = state.track?.id ?: state.studyPlan?.trackId
-
-                if (trackId != null) {
-                    Action.ViewAction.NavigateTo.SelectProject(trackId)
-                } else {
-                    // Should not happen because at this point we must have non null study plan
-                    val errorMessage = "StudyPlanWidgetReducer: SELECT_PROJECT trackId is null"
-                    InternalAction.CaptureSentryErrorMessage(errorMessage)
-                }
-            }
-            LearningActivityType.SELECT_TRACK -> {
-                Action.ViewAction.NavigateTo.SelectTrack
-            }
-            else -> null
-        }
-        return state to setOfNotNull(activityTargetAction, logAnalyticEventAction)
+        return state to setOf(activityTargetAction, logAnalyticEventAction)
     }
 
     private fun <K, V> Map<K, V>.update(key: K, value: V): Map<K, V> =

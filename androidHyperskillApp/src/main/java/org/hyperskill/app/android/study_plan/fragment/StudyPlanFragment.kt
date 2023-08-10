@@ -15,20 +15,14 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
-import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
-import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
-import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
-import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
-import org.hyperskill.app.study_plan.widget.view.StudyPlanWidgetViewState
-import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
+import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -163,40 +157,14 @@ class StudyPlanFragment :
             }
             is StudyPlanScreenFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
-                when (val viewAction = action.viewAction) {
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StageImplement -> {
-                        requireRouter().navigateTo(
-                            StageImplementationScreen(
-                                projectId = viewAction.projectId,
-                                stageId = viewAction.stageId
-                            )
-                        )
-                    }
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.StepScreen -> {
-                        requireRouter().navigateTo(StepScreen(viewAction.stepRoute))
-                    }
+                when (val studyPlanWidgetViewAction = action.viewAction) {
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
                         mainScreenRouter.switch(HomeScreen)
                     }
-                    is StudyPlanWidgetFeature.Action.ViewAction.ShowStageImplementUnsupportedModal -> {
-                        UnsupportedStageBottomSheet.newInstance()
-                            .showIfNotExists(childFragmentManager, UnsupportedStageBottomSheet.TAG)
-                    }
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectProject -> {
-                        requireRouter().navigateTo(
-                            ProjectSelectionListScreen(
-                                ProjectSelectionListParams(
-                                    trackId = viewAction.trackId,
-                                    isNewUserMode = false
-                                )
-                            )
-                        )
-                    }
-                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.SelectTrack -> {
-                        requireRouter().navigateTo(
-                            TrackSelectionListScreen(
-                                TrackSelectionListParams(isNewUserMode = false)
-                            )
+                    is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget -> {
+                        LearningActivityTargetViewActionHandler.handle(
+                            fragment = this,
+                            viewAction = studyPlanWidgetViewAction.viewAction
                         )
                     }
                 }

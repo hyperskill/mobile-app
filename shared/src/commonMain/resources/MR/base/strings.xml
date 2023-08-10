@@ -172,7 +172,7 @@
     <!-- Home -->
     <string name="home_title">Hello!</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
-    <string name="home_topics_to_discover_next_title">Discover next topic in your track</string>
+    <string name="home_next_learning_activity_title">Pick up where you left off</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
     <string name="home_repeat_unlimited">Repeat unlimited</string>
     <string name="home_continue_learning_on_web_text">Continue learning on the web</string>
@@ -204,6 +204,9 @@
     <string name="profile_statistics_block_passed_projects_title">Projects</string>
     <string name="profile_statistics_block_passed_tracks_title">Tracks</string>
     <string name="profile_statistics_block_hypercoins_balance_title">Gems</string>
+    <string name="profile_badges_title">Achievements</string>
+    <string name="profile_badges_show_all">Show all</string>
+    <string name="profile_badges_show_less">Show less</string>
     <string name="choose_notification_time_interval">Change notification interval</string>
 
     <!-- Settings -->
@@ -466,4 +469,30 @@
     <string name="project_completed_modal_title">Congratulations! Your project is completed!</string>
     <string name="project_completed_modal_text">You did a great job!</string>
     <string name="project_completed_modal_project_reward_text">gems for completing the whole project</string>
+
+    <!--Badges-->
+    <string name="badge_project_mastery_title">Project Mastery</string>
+    <string name="badge_topic_mastery">Topic Mastery</string>
+    <string name="badge_committed_learning">Committed Learning</string>
+    <string name="badge_brilliant_mind">Brilliant Mind</string>
+    <string name="badge_helping_hand">Helping Hand</string>
+    <string name="badge_sweetheart">Sweetheart</string>
+    <string name="badge_benefactor">Benefactor</string>
+    <string name="badge_bounty_hunter">Bounty Hunter</string>
+    <string name="badge_level">Level %d</string>
+    <string name="badge_max_level">Level %d (Max)</string>
+    <string name="badge_max_level_description">Hooray! You’ve reached the maximum level!</string>
+    <string name="badge_project_master_description">Complete projects to upgrade this badge</string>
+    <string name="badge_topic_master_description">Complete topics to upgrade this badge</string>
+    <string name="badge_committed_learner_description">Achieve streaks to upgrade this badge</string>
+    <string name="badge_brilliant_mind_description">Post solutions to upgrade this badge</string>
+    <string name="badge_helping_hand_description">Post useful hints to upgrade this badge</string>
+    <string name="badge_sweetheart_description">Receive upvotes to upgrade this badge</string>
+    <string name="badge_benefactor_description">Give bounties to upgrade this badge</string>
+    <string name="badge_bounty_hunter_description">Win bounties to upgrade this badge</string>
+    <string name="badge_apprentice_level">Apprentice</string>
+    <string name="badge_expert_level">Expert</string>
+    <string name="badge_master_level">Master</string>
+    <string name="badge_legendary_level">Legendary</string>
+    <string name="badge_locked">Locked</string>
 </resources>

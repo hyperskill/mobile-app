@@ -47,9 +47,6 @@ import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponentImpl
-import org.hyperskill.app.track.injection.PlatformTrackComponent
-import org.hyperskill.app.track.injection.PlatformTrackComponentImpl
-import org.hyperskill.app.track.injection.TrackComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponentImpl
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
@@ -108,12 +105,6 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
             stageId = stageId,
             stageImplementationComponent = buildStageImplementComponent(projectId, stageId)
         )
-
-    /**
-     * Track component
-     */
-    override fun buildPlatformTrackComponent(trackComponent: TrackComponent): PlatformTrackComponent =
-        PlatformTrackComponentImpl(trackComponent)
 
     /**
      * Profile component

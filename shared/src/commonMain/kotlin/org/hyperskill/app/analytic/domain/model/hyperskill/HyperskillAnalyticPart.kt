@@ -18,12 +18,10 @@ enum class HyperskillAnalyticPart(val partName: String) {
     REPEAT_TOPIC("repeat_topic"),
     DAILY_NOTIFICATIONS_NOTICE("daily_notifications_notice"),
     STEP_HINTS("step_hints"),
-    THEORY_TO_DISCOVER_NEXT("theory_to_discover_next"),
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
     MODAL("modal"),
-    TRACK_MODAL("track_modal"),
     STREAK_WIDGET("streak_widget"),
     STREAK_FREEZE_MODAL("streak_freeze_modal"),
     STAGE_IMPLEMENT_UNSUPPORTED_MODAL("stage_implement_unsupported_modal"),
@@ -33,4 +31,5 @@ enum class HyperskillAnalyticPart(val partName: String) {
     STREAK_RECOVERY_MODAL("streak_recovery_modal"),
     STAGE_COMPLETED_MODAL("stage_completed_modal"),
     PROJECT_COMPLETED_MODAL("project_completed_modal"),
+    NEXT_LEARNING_ACTIVITY_WIDGET("next_learning_activity_widget")
 }

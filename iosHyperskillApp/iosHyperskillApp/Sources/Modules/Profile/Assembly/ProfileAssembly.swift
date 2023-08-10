@@ -23,7 +23,8 @@ final class ProfileAssembly: Assembly {
 
         let viewModel = ProfileViewModel(
             presentationDescription: presentationDescription,
-            viewDataMapper: ProfileViewDataMapper(),
+            profileViewDataMapper: ProfileViewDataMapper(),
+            badgesViewStateMapper: profileComponent.badgesViewStateMapper,
             notificationService: NotificationsService(
                 notificationInteractor: notificationComponent.notificationInteractor
             ),
@@ -32,6 +33,6 @@ final class ProfileAssembly: Assembly {
             feature: profileComponent.profileFeature
         )
 
-        return ProfileView(viewModel: viewModel)
+        return ProfileView(viewModel: viewModel, panModalPresenter: PanModalPresenter())
     }
 }

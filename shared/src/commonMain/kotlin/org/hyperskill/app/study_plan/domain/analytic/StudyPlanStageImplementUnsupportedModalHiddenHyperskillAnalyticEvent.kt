@@ -12,7 +12,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/study-plan",
+ *     "route": "/{study-plan | home}",
  *     "action": "hidden",
  *     "part": "stage_implement_unsupported_modal",
  *     "target": "close"
@@ -20,8 +20,10 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.StudyPlan(),
+class StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent(
+    route: HyperskillAnalyticRoute
+) : HyperskillAnalyticEvent(
+    route,
     HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.STAGE_IMPLEMENT_UNSUPPORTED_MODAL,
     HyperskillAnalyticTarget.CLOSE

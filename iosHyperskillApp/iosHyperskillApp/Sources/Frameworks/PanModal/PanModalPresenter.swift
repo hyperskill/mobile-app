@@ -11,7 +11,7 @@ final class PanModalPresenter: ObservableObject {
         self.rootViewController = rootViewController
     }
 
-    func presentPanModal(_ panModal: PanModalPresentableViewController) {
+    func presentPanModal(_ panModal: UIViewController & PanModalPresentable) {
         let presentationViewController = rootViewController ?? sourcelessRouter.currentPresentedViewController()
 
         guard let presentationViewController else {
@@ -19,6 +19,16 @@ final class PanModalPresenter: ObservableObject {
         }
 
         presentationViewController.presentIfPanModalWithCustomModalPresentationStyle(panModal)
+    }
+
+    @discardableResult
+    func presentIfPanModal(_ viewControllerToPresent: UIViewController) -> Bool {
+        if let panModalPresentableViewController = viewControllerToPresent as? UIViewController & PanModalPresentable {
+            presentPanModal(panModalPresentableViewController)
+            return true
+        } else {
+            return false
+        }
     }
 
     @discardableResult

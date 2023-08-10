@@ -8,7 +8,9 @@ final class ProfileViewModel: FeatureViewModel<
 > {
     private let presentationDescription: ProfilePresentationDescription
 
-    private let viewDataMapper: ProfileViewDataMapper
+    private let profileViewDataMapper: ProfileViewDataMapper
+
+    private let badgesViewStateMapper: BadgesViewStateMapper
 
     private let notificationService: NotificationsService
     private let notificationsRegistrationService: NotificationsRegistrationService
@@ -27,14 +29,16 @@ final class ProfileViewModel: FeatureViewModel<
 
     init(
         presentationDescription: ProfilePresentationDescription,
-        viewDataMapper: ProfileViewDataMapper,
+        profileViewDataMapper: ProfileViewDataMapper,
+        badgesViewStateMapper: BadgesViewStateMapper,
         notificationService: NotificationsService,
         notificationsRegistrationService: NotificationsRegistrationService,
         notificationInteractor: NotificationInteractor,
         feature: Presentation_reduxFeature
     ) {
         self.presentationDescription = presentationDescription
-        self.viewDataMapper = viewDataMapper
+        self.profileViewDataMapper = profileViewDataMapper
+        self.badgesViewStateMapper = badgesViewStateMapper
         self.notificationService = notificationService
         self.notificationsRegistrationService = notificationsRegistrationService
         self.notificationInteractor = notificationInteractor
@@ -86,16 +90,22 @@ final class ProfileViewModel: FeatureViewModel<
         }
     }
 
-    func makeViewData(
+    func makeProfileViewData(
         profile: Profile,
         dailyStudyRemindersState: ProfileFeatureDailyStudyRemindersState
     ) -> ProfileViewData {
-        viewDataMapper.mapProfileToViewData(
+        profileViewDataMapper.mapProfileToViewData(
             profile,
             isDailyStudyRemindersEnabled: dailyStudyRemindersState.isEnabled,
             dailyStudyRemindersStartHour: Int(dailyStudyRemindersState.startHour),
             notificationPermissionStatus: currentNotificationPermissionStatus
         )
+    }
+
+    func makeBadgesViewState(
+        badgesState: ProfileFeatureBadgesState
+    ) -> BadgesViewState {
+        badgesViewStateMapper.map(state: badgesState)
     }
 
     // MARK: Presentation
@@ -129,6 +139,16 @@ final class ProfileViewModel: FeatureViewModel<
 
     func doStreakFreezeModalButtonTapped() {
         onNewMessage(ProfileFeatureMessageStreakFreezeModalButtonClicked())
+    }
+
+    // MARK: Badges
+
+    func doBadgeCardTapped(badgeKind: BadgeKind) {
+        onNewMessage(ProfileFeatureMessageBadgeClicked(badgeKind: badgeKind))
+    }
+
+    func doBadgesVisibilityButtonTapped(visibilityButton: ProfileFeatureMessageBadgesVisibilityButton) {
+        onNewMessage(ProfileFeatureMessageBadgesVisibilityButtonClicked(visibilityButton: visibilityButton))
     }
 
     // MARK: Daily study reminders
@@ -211,5 +231,23 @@ final class ProfileViewModel: FeatureViewModel<
 
     func logStreakFreezeModalHiddenEvent() {
         onNewMessage(ProfileFeatureMessageStreakFreezeModalHiddenEventMessage())
+    }
+}
+
+// MARK: - ProfileViewModel: BadgeDetailsModalViewControllerDelegate -
+
+extension ProfileViewModel: BadgeDetailsModalViewControllerDelegate {
+    func badgeDetailsModalViewControllerDidAppear(
+        _ viewController: BadgeDetailsModalViewController,
+        badgeKind: BadgeKind
+    ) {
+        onNewMessage(ProfileFeatureMessageBadgeModalShownEventMessage(badgeKind: badgeKind))
+    }
+
+    func badgeDetailsModalViewControllerDidDisappear(
+        _ viewController: BadgeDetailsModalViewController,
+        badgeKind: BadgeKind
+    ) {
+        onNewMessage(ProfileFeatureMessageBadgeModalHiddenEventMessage(badgeKind: badgeKind))
     }
 }

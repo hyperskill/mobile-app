@@ -7,6 +7,10 @@ import org.hyperskill.app.profile.domain.analytic.ProfileClickedPullToRefreshHyp
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedSettingsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalHiddenHyperskillAnalyticsEvent
+import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.badges.ProfileClickedBadgeCardHyperskillAnalyticsEvent
+import org.hyperskill.app.profile.domain.analytic.badges.ProfileClickedBadgesVisibilityButtonHyperskillAnalyticsEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeAnalyticState
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeCardAnalyticAction
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedCardActionHyperskillAnalyticEvent
@@ -19,8 +23,10 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.profile.presentation.ProfileFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
+private typealias ReducerResult = Pair<State, Set<Action>>
+
 class ProfileReducer : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
+    override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             is Message.Initialize -> {
                 if (state is State.Idle ||
@@ -37,10 +43,14 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             }
             is Message.ProfileFetchResult.Success ->
                 State.Content(
-                    message.profile,
-                    message.streak,
-                    message.streakFreezeState,
-                    message.dailyStudyRemindersState
+                    profile = message.profile,
+                    streak = message.streak,
+                    streakFreezeState = message.streakFreezeState,
+                    dailyStudyRemindersState = message.dailyStudyRemindersState,
+                    badgesState = ProfileFeature.BadgesState(
+                        badges = message.badges,
+                        isExpanded = false
+                    )
                 ) to emptySet()
             is Message.ProfileFetchResult.Error ->
                 State.Error to emptySet()
@@ -222,6 +232,18 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            is Message.BadgesVisibilityButtonClicked -> handleBadgesVisibilityButtonClicked(state, message)
+            is Message.BadgeClicked -> handleBadgeClicked(state, message)
+            is Message.BadgeModalShownEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(ProfileBadgeModalShownHyperskillAnalyticEvent(message.badgeKind))
+                )
+            is Message.BadgeModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProfileBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind)
+                    )
+                )
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(ProfileViewedHyperskillAnalyticEvent()))
             is Message.ClickedSettingsEventMessage ->
@@ -253,5 +275,50 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             ProfileFeature.StreakFreezeState.AlreadyHave -> StreakFreezeAnalyticState.ALREADY_HAVE
             is ProfileFeature.StreakFreezeState.CanBuy -> StreakFreezeAnalyticState.CAN_BUY
             is ProfileFeature.StreakFreezeState.NotEnoughGems -> StreakFreezeAnalyticState.NOT_ENOUGH_GEMS
+        }
+
+    private fun handleBadgesVisibilityButtonClicked(
+        state: State,
+        message: Message.BadgesVisibilityButtonClicked
+    ): ReducerResult =
+        if (state is State.Content) {
+            val badgesState = state.badgesState
+            state.copy(
+                badgesState = badgesState.copy(
+                    isExpanded = message.visibilityButton == Message.BadgesVisibilityButton.SHOW_ALL
+                )
+            ) to setOf(
+                Action.LogAnalyticEvent(
+                    ProfileClickedBadgesVisibilityButtonHyperskillAnalyticsEvent(message.visibilityButton)
+                )
+            )
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleBadgeClicked(
+        state: State,
+        message: Message.BadgeClicked
+    ): ReducerResult =
+        if (state is State.Content) {
+            val clickedBadge = state.badgesState.badges.firstOrNull { it.kind == message.badgeKind }
+            val showAction = Action.ViewAction.ShowBadgeDetailsModal(
+                if (clickedBadge == null) {
+                    Action.ViewAction.BadgeDetails.BadgeKind(message.badgeKind)
+                } else {
+                    Action.ViewAction.BadgeDetails.FullBadge(clickedBadge)
+                }
+            )
+            state to setOf(
+                showAction,
+                Action.LogAnalyticEvent(
+                    ProfileClickedBadgeCardHyperskillAnalyticsEvent(
+                        badgeKind = message.badgeKind,
+                        isLocked = message.badgeKind !in state.badgesState.badges.map { it.kind }
+                    )
+                )
+            )
+        } else {
+            state to emptySet()
         }
 }

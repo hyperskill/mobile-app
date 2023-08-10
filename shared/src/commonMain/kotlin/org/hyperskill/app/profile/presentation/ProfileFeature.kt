@@ -2,8 +2,11 @@ package org.hyperskill.app.profile.presentation
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.badges.domain.model.Badge
+import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.view.BadgesViewStateMapper
 import org.hyperskill.app.streaks.domain.model.Streak
 
 interface ProfileFeature {
@@ -33,6 +36,7 @@ interface ProfileFeature {
             val streak: Streak?,
             val streakFreezeState: StreakFreezeState?,
             val dailyStudyRemindersState: DailyStudyRemindersState,
+            val badgesState: BadgesState,
             val isRefreshing: Boolean = false,
             val isLoadingMagicLink: Boolean = false
         ) : State
@@ -89,6 +93,14 @@ interface ProfileFeature {
         object AlreadyHave : StreakFreezeState
     }
 
+    /**
+     * Represent state of the badges.
+     * @property badges represent a list of the badges.
+     * Usually it contains all kind of badges.
+     * In some cases it may contain only unlocked badges, because of the bug on backend side. See ALT-8526.
+     */
+    data class BadgesState(val isExpanded: Boolean, val badges: List<Badge>)
+
     sealed interface Message {
         data class Initialize(
             val isInitCurrent: Boolean = true,
@@ -116,7 +128,8 @@ interface ProfileFeature {
                 val profile: Profile,
                 val streak: Streak?,
                 val streakFreezeState: StreakFreezeState?,
-                val dailyStudyRemindersState: DailyStudyRemindersState
+                val dailyStudyRemindersState: DailyStudyRemindersState,
+                val badges: List<Badge>
             ) : ProfileFetchResult
 
             /**
@@ -161,6 +174,18 @@ interface ProfileFeature {
         data class DailyStudyRemindersIsEnabledChanged(val isEnabled: Boolean) : Message
 
         /**
+         * Badges
+         */
+        data class BadgesVisibilityButtonClicked(val visibilityButton: BadgesVisibilityButton) : Message
+        enum class BadgesVisibilityButton {
+            SHOW_ALL,
+            SHOW_LESS
+        }
+        data class BadgeClicked(val badgeKind: BadgeKind) : Message
+        data class BadgeModalShownEventMessage(val badgeKind: BadgeKind) : Message
+        data class BadgeModalHiddenEventMessage(val badgeKind: BadgeKind) : Message
+
+        /**
          * Flow messages.
          */
         object StepQuizSolved : Message
@@ -203,6 +228,36 @@ interface ProfileFeature {
                 object Loading : ShowStreakFreezeBuyingStatus
                 object Error : ShowStreakFreezeBuyingStatus
                 object Success : ShowStreakFreezeBuyingStatus
+            }
+
+            data class ShowBadgeDetailsModal(val details: BadgeDetails) : ViewAction
+
+            /**
+             * Represents a data to show the badge detailed modal.
+             */
+            @Serializable
+            sealed interface BadgeDetails {
+                val badgeKind: org.hyperskill.app.badges.domain.model.BadgeKind
+
+                /**
+                 * Represents a data to show the badge detailed modal
+                 * in case these badge kind data is returned by backend.
+                 */
+                @Serializable
+                data class FullBadge(val badge: Badge) : BadgeDetails {
+                    override val badgeKind: org.hyperskill.app.badges.domain.model.BadgeKind
+                        get() = badge.kind
+                }
+
+                /**
+                 * Represents a data to show the badge detailed modal
+                 * in case the backend didn't return these badge kind data.
+                 * @see [BadgesViewStateMapper], [BadgesState]
+                 */
+                @Serializable
+                data class BadgeKind(
+                    override val badgeKind: org.hyperskill.app.badges.domain.model.BadgeKind
+                ) : BadgeDetails
             }
 
             sealed interface NavigateTo : ViewAction {

@@ -112,6 +112,7 @@ compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeB
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-material = { module = "androidx.compose.material:material" }
+compose-windowsizeclasses = { module = "androidx.compose.material3:material3-window-size-class"}
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }

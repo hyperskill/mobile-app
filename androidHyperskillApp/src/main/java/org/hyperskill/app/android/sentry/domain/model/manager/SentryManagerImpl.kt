@@ -52,8 +52,18 @@ class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
         Sentry.addBreadcrumb(sentryBreadcrumb)
     }
 
-    override fun captureMessage(message: String, level: HyperskillSentryLevel) {
-        Sentry.captureMessage(message, level.toSentryLevel())
+    override fun captureMessage(message: String, level: HyperskillSentryLevel, data: Map<String, Any>) {
+        Sentry.captureMessage(message, level.toSentryLevel()) { scope ->
+            scope.span.let {
+                data.forEach { (key, value) ->
+                    it?.setData(key, value)
+                }
+            }
+        }
+    }
+
+    override fun captureException(throwable: Throwable) {
+        Sentry.captureException(throwable)
     }
 
     override fun setUsedId(userId: String) {
