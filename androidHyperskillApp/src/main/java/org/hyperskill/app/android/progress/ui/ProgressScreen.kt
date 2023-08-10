@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillPullRefreshIndicator
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTopAppBar
@@ -35,7 +34,6 @@ import org.hyperskill.app.progress.presentation.ProgressScreenViewModel
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun ProgressScreen(
     viewModel: ProgressScreenViewModel,
