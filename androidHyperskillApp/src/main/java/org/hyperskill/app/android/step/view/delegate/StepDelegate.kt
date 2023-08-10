@@ -1,9 +1,7 @@
 package org.hyperskill.app.android.step.view.delegate
 
-import android.view.View
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -16,12 +14,16 @@ import org.hyperskill.app.android.notification.permission.NotificationPermission
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
+import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepDelegate(private val fragment: Fragment) {
+class StepDelegate(
+    private val fragment: Fragment,
+    private val onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
+) {
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment)
 
@@ -37,9 +39,7 @@ class StepDelegate(private val fragment: Fragment) {
 
     fun onAction(
         mainScreenRouter: MainScreenRouter,
-        action: StepFeature.Action.ViewAction,
-        rootView: View,
-        onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
+        action: StepFeature.Action.ViewAction
     ) {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
@@ -73,7 +73,7 @@ class StepDelegate(private val fragment: Fragment) {
                             )
                     }
                     StepCompletionFeature.Action.ViewAction.RequestDailyStudyRemindersPermission -> {
-                        requestSendDailyStudyRemindersPermission(rootView, onRequestDailyStudyRemindersPermissionResult)
+                        requestSendDailyStudyRemindersPermission()
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
@@ -85,43 +85,39 @@ class StepDelegate(private val fragment: Fragment) {
         }
     }
 
-    private fun requestSendDailyStudyRemindersPermission(
-        rootView: View,
-        onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
-    ) {
-        MaterialAlertDialogBuilder(fragment.requireContext())
-            .setTitle(org.hyperskill.app.R.string.after_daily_step_completed_dialog_title)
-            .setMessage(org.hyperskill.app.R.string.after_daily_step_completed_dialog_text)
-            .setPositiveButton(org.hyperskill.app.R.string.ok) { dialog, _ ->
-                notificationPermissionDelegate.requestNotificationPermission { result ->
-                    dialog.dismiss()
-                    if (result == NotificationPermissionDelegate.Result.GRANTED) {
-                        onNotificationPermissionGranted(
-                            rootView = rootView,
-                            onRequestDailyStudyRemindersPermissionResult = onRequestDailyStudyRemindersPermissionResult
-                        )
-                    }
-                }
-            }
-            .setNegativeButton(org.hyperskill.app.R.string.later) { dialog, _ ->
-                onRequestDailyStudyRemindersPermissionResult(false)
-                dialog.dismiss()
-            }
-            .show()
+    private fun requestSendDailyStudyRemindersPermission() {
+        RequestDailyStudyReminderDialogFragment.newInstance(::onPermissionResult)
+            .showIfNotExists(fragment.childFragmentManager, RequestDailyStudyReminderDialogFragment.TAG)
     }
 
-    private fun onNotificationPermissionGranted(
-        rootView: View,
-        onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
-    ) {
-        onRequestDailyStudyRemindersPermissionResult(true)
-        NotificationManagerCompat.from(fragment.requireContext()).checkNotificationChannelAvailability(
-            fragment.requireContext(),
-            HyperskillNotificationChannel.DailyReminder
-        ) {
-            if (fragment.isResumed) {
-                rootView.snackbar(org.hyperskill.app.R.string.common_error)
+    private fun onPermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            notificationPermissionDelegate.requestNotificationPermission { result ->
+                onNotificationPermissionResult(result)
             }
+        } else {
+            onRequestDailyStudyRemindersPermissionResult(false)
+        }
+    }
+
+    private fun onNotificationPermissionResult(result: NotificationPermissionDelegate.Result) {
+        when (result) {
+            NotificationPermissionDelegate.Result.GRANTED -> {
+                onNotificationPermissionGranted()
+            }
+            NotificationPermissionDelegate.Result.DENIED,
+            NotificationPermissionDelegate.Result.DONT_ASK -> {
+                onRequestDailyStudyRemindersPermissionResult(false)
+            }
+        }
+    }
+
+    private fun onNotificationPermissionGranted() {
+        onRequestDailyStudyRemindersPermissionResult(true)
+        val context = fragment.context
+        if (context != null) {
+            NotificationManagerCompat.from(context)
+                .checkNotificationChannelAvailability(context, HyperskillNotificationChannel.DailyReminder)
         }
         platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
     }
