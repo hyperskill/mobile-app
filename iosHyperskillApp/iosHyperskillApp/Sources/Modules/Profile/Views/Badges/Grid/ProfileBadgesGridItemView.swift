@@ -1,13 +1,9 @@
-import NukeUI
 import shared
 import SwiftUI
 
 extension ProfileBadgesGridItemView {
     struct Appearance {
         let badgeIconHeight: CGFloat = 86
-
-        let lockIconWidthHeight: CGFloat = 12
-        let levelContainerSpacing: CGFloat = 4
 
         var cornerRadius: CGFloat = 8
         let backgroundColor = Color(ColorPalette.surface)
@@ -32,34 +28,15 @@ struct ProfileBadgesGridItemView: View {
                         .font(.subheadline)
                         .foregroundColor(.primaryText)
 
-                    ProfileBadgeImageView(badge: badge)
+                    BadgeImageView(badge: badge)
                         .frame(maxWidth: .infinity)
                         .frame(height: appearance.badgeIconHeight)
 
-                    VStack(spacing: LayoutInsets.smallInset) {
-                        HStack(spacing: appearance.levelContainerSpacing) {
-                            Text(badge.formattedCurrentLevel)
-                                .font(.caption2)
-                                .foregroundColor(.primaryText)
-
-                            Spacer()
-
-                            if let nextLevel = badge.nextLevel {
-                                Image(systemName: "lock")
-                                    .resizable()
-                                    .renderingMode(.template)
-                                    .foregroundColor(.disabledText)
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(widthHeight: appearance.lockIconWidthHeight)
-
-                                Text("\(nextLevel)")
-                                    .font(.caption2)
-                                    .foregroundColor(.disabledText)
-                            }
-                        }
-
-                        ProfileBadgesLinearGradientProgressView(progress: badge.progress)
-                    }
+                    BadgeLevelView(
+                        currentLevel: badge.formattedCurrentLevel,
+                        nextLevel: badge.nextLevel?.intValue,
+                        progress: badge.progress
+                    )
                 }
                 .padding()
                 .background(appearance.backgroundColor)
@@ -83,7 +60,7 @@ struct ProfileBadgesGridItemView_Previews: PreviewProvider {
                 badge: BadgesViewState.Badge(
                     kind: .bountyhunter,
                     title: "Bounty Hunter",
-                    image: BadgesViewStateBadgeImageRemote(
+                    image: BadgeImageRemote(
                         fullSource: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png",
                         previewSource: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png"
                     ),
@@ -104,7 +81,7 @@ extension BadgesViewState.Badge {
         BadgesViewState.Badge(
             kind: kind,
             title: "Bounty Hunter",
-            image: BadgesViewStateBadgeImageLocked(),
+            image: BadgeImageLocked(),
             formattedCurrentLevel: "Level 0",
             nextLevel: 1,
             progress: 0.3

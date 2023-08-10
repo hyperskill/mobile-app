@@ -6,6 +6,7 @@ import org.hyperskill.app.badges.domain.model.Badge
 import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.view.BadgesViewStateMapper
 import org.hyperskill.app.streaks.domain.model.Streak
 
 interface ProfileFeature {
@@ -92,6 +93,12 @@ interface ProfileFeature {
         object AlreadyHave : StreakFreezeState
     }
 
+    /**
+     * Represent state of the badges.
+     * @property badges represent a list of the badges.
+     * Usually it contains all kind of badges.
+     * In some cases it may contain only unlocked badges, because of the bug on backend side. See ALT-8526.
+     */
     data class BadgesState(val isExpanded: Boolean, val badges: List<Badge>)
 
     sealed interface Message {
@@ -175,6 +182,8 @@ interface ProfileFeature {
             SHOW_LESS
         }
         data class BadgeClicked(val badgeKind: BadgeKind) : Message
+        data class BadgeModalShownEventMessage(val badgeKind: BadgeKind) : Message
+        data class BadgeModalHiddenEventMessage(val badgeKind: BadgeKind) : Message
 
         /**
          * Flow messages.
@@ -219,6 +228,36 @@ interface ProfileFeature {
                 object Loading : ShowStreakFreezeBuyingStatus
                 object Error : ShowStreakFreezeBuyingStatus
                 object Success : ShowStreakFreezeBuyingStatus
+            }
+
+            data class ShowBadgeDetailsModal(val details: BadgeDetails) : ViewAction
+
+            /**
+             * Represents a data to show the badge detailed modal.
+             */
+            @Serializable
+            sealed interface BadgeDetails {
+                val badgeKind: org.hyperskill.app.badges.domain.model.BadgeKind
+
+                /**
+                 * Represents a data to show the badge detailed modal
+                 * in case these badge kind data is returned by backend.
+                 */
+                @Serializable
+                data class FullBadge(val badge: Badge) : BadgeDetails {
+                    override val badgeKind: org.hyperskill.app.badges.domain.model.BadgeKind
+                        get() = badge.kind
+                }
+
+                /**
+                 * Represents a data to show the badge detailed modal
+                 * in case the backend didn't return these badge kind data.
+                 * @see [BadgesViewStateMapper], [BadgesState]
+                 */
+                @Serializable
+                data class BadgeKind(
+                    override val badgeKind: org.hyperskill.app.badges.domain.model.BadgeKind
+                ) : BadgeDetails
             }
 
             sealed interface NavigateTo : ViewAction {

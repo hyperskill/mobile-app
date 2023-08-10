@@ -19,6 +19,7 @@ import coil.request.ImageRequest
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerLoading
 import org.hyperskill.app.badges.domain.model.BadgeKind
+import org.hyperskill.app.profile.view.BadgeImage
 import org.hyperskill.app.profile.view.BadgesViewState
 
 @Composable
@@ -34,10 +35,10 @@ fun BadgeImage(
                 .align(Alignment.Center)
         }
         when (val image = badge.image) {
-            BadgesViewState.BadgeImage.Locked -> {
+            BadgeImage.Locked -> {
                 LockedBadgeImage(badgeKind = badge.kind, modifier = imageModifier)
             }
-            is BadgesViewState.BadgeImage.Remote -> {
+            is BadgeImage.Remote -> {
                 AsyncBadgeImage(imageSource = image.fullSource, modifier = imageModifier)
             }
         }

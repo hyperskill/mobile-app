@@ -16,7 +16,7 @@ struct ProfileView: View {
 
     @StateObject var viewModel: ProfileViewModel
 
-    @StateObject var panModalPresenter = PanModalPresenter()
+    private(set) var panModalPresenter: PanModalPresenter
 
     @State private var presentingSettings = false
 
@@ -188,7 +188,14 @@ struct ProfileView: View {
             case .homeScreen:
                 TabBarRouter(tab: .home).route()
             }
+        case .showBadgeDetailsModal(let showBadgeDetailsModalViewAction):
+            displayBadgeDetailsModal(details: showBadgeDetailsModalViewAction.details)
         }
+    }
+
+    private func displayBadgeDetailsModal(details: ProfileFeatureActionViewActionBadgeDetails) {
+        let assembly = BadgeDetailsModalAssembly(badgeDetails: details, delegate: viewModel)
+        panModalPresenter.presentIfPanModal(assembly.makeModule())
     }
 
     private func displayStreakFreezeModal(streakFreezeState: ProfileFeatureStreakFreezeStateKs) {

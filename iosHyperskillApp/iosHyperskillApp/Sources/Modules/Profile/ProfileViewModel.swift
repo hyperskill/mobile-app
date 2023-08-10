@@ -233,3 +233,21 @@ final class ProfileViewModel: FeatureViewModel<
         onNewMessage(ProfileFeatureMessageStreakFreezeModalHiddenEventMessage())
     }
 }
+
+// MARK: - ProfileViewModel: BadgeDetailsModalViewControllerDelegate -
+
+extension ProfileViewModel: BadgeDetailsModalViewControllerDelegate {
+    func badgeDetailsModalViewControllerDidAppear(
+        _ viewController: BadgeDetailsModalViewController,
+        badgeKind: BadgeKind
+    ) {
+        onNewMessage(ProfileFeatureMessageBadgeModalShownEventMessage(badgeKind: badgeKind))
+    }
+
+    func badgeDetailsModalViewControllerDidDisappear(
+        _ viewController: BadgeDetailsModalViewController,
+        badgeKind: BadgeKind
+    ) {
+        onNewMessage(ProfileFeatureMessageBadgeModalHiddenEventMessage(badgeKind: badgeKind))
+    }
+}

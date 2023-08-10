@@ -34,16 +34,12 @@ class ProfileClickedBadgeCardHyperskillAnalyticsEvent(
     HyperskillAnalyticPart.MAIN,
     HyperskillAnalyticTarget.BADGE_CARD
 ) {
-    companion object {
-        private const val PARAM_BADGE_KIND = "badge_kind"
-        private const val PARAM_LOCKED = "is_locked"
-    }
 
     override val params: Map<String, Any>
         get() = super.params + mapOf(
             PARAM_CONTEXT to mapOf(
-                PARAM_BADGE_KIND to badgeKind.name,
-                PARAM_LOCKED to isLocked
+                BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name,
+                BadgesAnalyticKeys.PARAM_LOCKED to isLocked
             )
         )
 }
