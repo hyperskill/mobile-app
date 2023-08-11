@@ -54,6 +54,7 @@ final class StepAssembly: Assembly, UIKitAssembly {
     private func makeViewModel() -> StepViewModel {
         let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let stepComponent = AppGraphBridge.sharedAppGraph.buildStepComponent(stepRoute: stepRoute)
+        let notificationComponent = AppGraphBridge.sharedAppGraph.buildNotificationComponent()
 
         return StepViewModel(
             stepRoute: stepRoute,
@@ -62,6 +63,10 @@ final class StepAssembly: Assembly, UIKitAssembly {
                 resourceProvider: commonComponent.resourceProvider,
                 commentThreadTitleMapper: stepComponent.commentThreadTitleMapper
             ),
+            notificationService: NotificationsService(
+                notificationInteractor: notificationComponent.notificationInteractor
+            ),
+            notificationsRegistrationService: .shared,
             feature: stepComponent.stepFeature
         )
     }

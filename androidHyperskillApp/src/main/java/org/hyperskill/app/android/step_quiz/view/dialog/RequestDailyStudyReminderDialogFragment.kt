@@ -19,11 +19,11 @@ class RequestDailyStudyReminderDialogFragment : DialogFragment() {
             .setTitle(org.hyperskill.app.R.string.after_daily_step_completed_dialog_title)
             .setMessage(org.hyperskill.app.R.string.after_daily_step_completed_dialog_text)
             .setPositiveButton(org.hyperskill.app.R.string.ok) { dialog, _ ->
-                (parentFragment as Callback).onPermissionResult(isGranted = true)
+                (parentFragment as Callback).onPermissionResult(true)
                 dialog.dismiss()
             }
             .setNegativeButton(org.hyperskill.app.R.string.later) { dialog, _ ->
-                (parentFragment as Callback).onPermissionResult(isGranted = false)
+                (parentFragment as Callback).onPermissionResult(false)
                 dialog.dismiss()
             }
             .show()
