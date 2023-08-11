@@ -45,11 +45,7 @@ class StepCompletionActionDispatcher(
     init {
         notificationInteractor.solvedStepsSharedFlow
             .onEach { solvedStepId ->
-                if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
-                    onNewMessage(Message.RequestDailyStudyRemindersPermission)
-                } else {
-                    checkProblemOfDaySolved(solvedStepId)
-                }
+                handleStepSolved(solvedStepId)
             }
             .launchIn(actionScope)
     }
@@ -160,29 +156,36 @@ class StepCompletionActionDispatcher(
         )
     }
 
-    private suspend fun checkProblemOfDaySolved(solvedStepId: Long) {
+    private suspend fun handleStepSolved(stepId: Long) {
+        // we should load cached and current profile
+        // to update hypercoins balance in case of
+        // requesting study reminders permission
         val cachedProfile = currentProfileStateRepository
             .getState(forceUpdate = false)
             .getOrElse { return }
 
-        if (cachedProfile.dailyStep == solvedStepId) {
-            val currentProfileHypercoinsBalance = currentProfileStateRepository
-                .getState(forceUpdate = true)
-                .map { it.gamification.hypercoinsBalance }
-                .getOrElse { return }
+        val currentProfileHypercoinsBalance = currentProfileStateRepository
+            .getState(forceUpdate = true)
+            .map { it.gamification.hypercoinsBalance }
+            .getOrElse { return }
 
-            val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
-            onNewMessage(
-                Message.ProblemOfDaySolved(
-                    earnedGemsText = resourceProvider.getQuantityString(
-                        SharedResources.plurals.earned_gems,
-                        gemsEarned,
-                        gemsEarned
+        if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+            onNewMessage(Message.RequestDailyStudyRemindersPermission)
+        } else {
+            if (cachedProfile.dailyStep == stepId) {
+                val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+                onNewMessage(
+                    Message.ProblemOfDaySolved(
+                        earnedGemsText = resourceProvider.getQuantityString(
+                            SharedResources.plurals.earned_gems,
+                            gemsEarned,
+                            gemsEarned
+                        )
                     )
                 )
-            )
-        } else {
-            onNewMessage(Message.StepSolved(solvedStepId))
+            } else {
+                onNewMessage(Message.StepSolved(stepId))
+            }
         }
     }
 }
