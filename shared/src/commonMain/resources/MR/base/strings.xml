@@ -17,6 +17,8 @@
     <string name="new_word">New</string>
     <string name="progress">Progress</string>
     <string name="completed">Completed</string>
+    <string name="minutes_short">%d m.</string>
+    <string name="hours_short">%d h.</string>
 
     <!-- Badge -->
     <string name="badge_ide_required_text">IDE required</string>

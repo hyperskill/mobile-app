@@ -142,10 +142,10 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     fun formatHoursOrMinutesCountShort(duration: Duration): String =
         if (duration > DURATION_ONE_HOUR) {
             val hours = duration.inWholeHours.toInt()
-            resourceProvider.getQuantityString(SharedResources.plurals.hours_short, hours, hours)
+            resourceProvider.getString(SharedResources.strings.hours_short, hours)
         } else {
             val minutes = duration.inWholeMinutes.toInt()
-            resourceProvider.getQuantityString(SharedResources.plurals.minutes_short, minutes, minutes)
+            resourceProvider.getString(SharedResources.strings.minutes_short, minutes)
         }
 
     /**
