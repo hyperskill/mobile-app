@@ -18,15 +18,11 @@ final class StepQuizViewModel: FeatureViewModel<
 
     private let stepQuizViewDataMapper: StepQuizViewDataMapper
     private let userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper
-    private let problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
 
     private let notificationService: NotificationsService
     private let notificationsRegistrationService: NotificationsRegistrationService
 
     var stepQuizStateKs: StepQuizFeatureStepQuizStateKs { .init(state.stepQuizState) }
-    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
-        .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
-    }
 
     @Published var isPracticingLoading = false
 
@@ -37,7 +33,6 @@ final class StepQuizViewModel: FeatureViewModel<
         provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
         viewDataMapper: StepQuizViewDataMapper,
         userPermissionRequestTextMapper: StepQuizUserPermissionRequestTextMapper,
-        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         notificationService: NotificationsService,
         notificationsRegistrationService: NotificationsRegistrationService,
         feature: Presentation_reduxFeature
@@ -48,7 +43,6 @@ final class StepQuizViewModel: FeatureViewModel<
         self.provideModuleInputCallback = provideModuleInputCallback
         self.stepQuizViewDataMapper = viewDataMapper
         self.userPermissionRequestTextMapper = userPermissionRequestTextMapper
-        self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
         self.notificationService = notificationService
         self.notificationsRegistrationService = notificationsRegistrationService
 
@@ -171,14 +165,6 @@ final class StepQuizViewModel: FeatureViewModel<
         } else {
             onNewMessage(message)
         }
-    }
-
-    func doReloadProblemsLimit() {
-        onNewMessage(
-            StepQuizFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
-            )
-        )
     }
 
     func doTheoryToolbarAction() {
