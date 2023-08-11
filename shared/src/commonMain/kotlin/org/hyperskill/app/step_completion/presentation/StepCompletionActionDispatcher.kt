@@ -4,13 +4,16 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -34,14 +37,15 @@ class StepCompletionActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val freemiumInteractor: FreemiumInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
-    notificationInteractor: NotificationInteractor,
+    private val notificationInteractor: NotificationInteractor,
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         notificationInteractor.solvedStepsSharedFlow
-            .onEach { stepId ->
-                onNewMessage(Message.StepSolved(stepId))
+            .onEach { solvedStepId ->
+                handleStepSolved(solvedStepId)
             }
             .launchIn(actionScope)
     }
@@ -83,6 +87,12 @@ class StepCompletionActionDispatcher(
             }
             is Action.UpdateProblemsLimit -> {
                 freemiumInteractor.onStepSolved()
+            }
+            is Action.TurnOnDailyStudyReminder -> {
+                handleTurnOnDailyStudyReminderAction()
+            }
+            is Action.PostponeDailyStudyReminder -> {
+                handlePostponeDailyStudyReminderAction()
             }
             is Action.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
@@ -130,6 +140,52 @@ class StepCompletionActionDispatcher(
         } else {
             topicProgressFlow.notifyDataChanged(topicProgress)
             onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
+        }
+    }
+
+    private suspend fun handleTurnOnDailyStudyReminderAction() {
+        notificationInteractor.setDailyStudyRemindersEnabled(true)
+        notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
+        )
+    }
+
+    private fun handlePostponeDailyStudyReminderAction() {
+        notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
+            Clock.System.now().toEpochMilliseconds()
+        )
+    }
+
+    private suspend fun handleStepSolved(stepId: Long) {
+        // we should load cached and current profile
+        // to update hypercoins balance in case of
+        // requesting study reminders permission
+        val cachedProfile = currentProfileStateRepository
+            .getState(forceUpdate = false)
+            .getOrElse { return }
+
+        val currentProfileHypercoinsBalance = currentProfileStateRepository
+            .getState(forceUpdate = true)
+            .map { it.gamification.hypercoinsBalance }
+            .getOrElse { return }
+
+        if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+            onNewMessage(Message.RequestDailyStudyRemindersPermission)
+        } else {
+            if (cachedProfile.dailyStep == stepId) {
+                val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+                onNewMessage(
+                    Message.ProblemOfDaySolved(
+                        earnedGemsText = resourceProvider.getQuantityString(
+                            SharedResources.plurals.earned_gems,
+                            gemsEarned,
+                            gemsEarned
+                        )
+                    )
+                )
+            } else {
+                onNewMessage(Message.StepSolved(stepId))
+            }
         }
     }
 }
