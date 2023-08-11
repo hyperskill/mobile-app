@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:id="@+id/problemsLimitsContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <org.hyperskill.app.android.problems_limit.view.widget.ProblemsLimitView
-            android:id="@+id/problemsLimitsDots"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/problemsLimitIndicator"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            app:trackThickness="8dp"
+            app:indicatorColor="#4D9FFF"
+            app:trackColor="@color/color_on_surface_alpha_12"
+            app:trackCornerRadius="@dimen/corner_radius"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
+            tools:progress="45"
             />
 
         <TextView
@@ -23,16 +30,18 @@
             android:layout_height="wrap_content"
             android:textColor="@color/color_on_surface"
             android:layout_marginEnd="8dp"
-            tools:text="3/5 problems limit" />
+            android:layout_gravity="center_vertical"
+            tools:text="3/5 problems left" />
 
         <TextView
             android:id="@+id/problemsLimitUpdatedIn"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textColor="@color/color_on_surface_alpha_38"
             android:textSize="12sp"
             android:gravity="bottom"
-            tools:text="Update in 2 h."/>
+            android:layout_gravity="center_vertical"
+            tools:text="Reset in 2 h. Reset in 2 h. Reset in 2 h. Reset in 2 h."/>
 
     </LinearLayout>
 
@@ -40,11 +49,13 @@
         android:id="@+id/problemsLimitRetryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/reload"/>
+        android:text="@string/reload"
+        android:visibility="gone"/>
 
     <org.hyperskill.app.android.ui.custom.LoadingView
         android:id="@+id/problemsLimitSkeleton"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="20dp"
+        tools:visibility="gone" />
 
 </FrameLayout>
