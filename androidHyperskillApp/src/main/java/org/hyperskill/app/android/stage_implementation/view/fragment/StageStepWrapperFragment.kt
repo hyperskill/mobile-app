@@ -17,6 +17,7 @@ import org.hyperskill.app.android.step.view.fragment.StepFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
+import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -39,7 +40,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
-    StepCompletionHost {
+    StepCompletionHost,
+    RequestDailyStudyReminderDialogFragment.Callback {
 
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
@@ -70,7 +72,8 @@ class StageStepWrapperFragment :
 
     private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
 
-    private var stepDelegate: StepDelegate? = null
+    @Suppress("DEPRECATION")
+    private var stepDelegate: StepDelegate<StageStepWrapperFragment>? = null
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
@@ -154,5 +157,9 @@ class StageStepWrapperFragment :
 
     override fun onNewMessage(message: StepCompletionFeature.Message) {
         stepViewModel.onNewMessage(StepFeature.Message.StepCompletionMessage(message))
+    }
+
+    override fun onPermissionResult(isGranted: Boolean) {
+        stepDelegate?.onPermissionResult(isGranted)
     }
 }

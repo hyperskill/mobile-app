@@ -20,10 +20,13 @@ import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepDelegate(
-    private val fragment: Fragment,
+class StepDelegate<TFragment>(
+    private val fragment: TFragment,
     private val onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
-) {
+) : RequestDailyStudyReminderDialogFragment.Callback
+    where TFragment : Fragment,
+          TFragment : RequestDailyStudyReminderDialogFragment.Callback {
+
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment)
 
@@ -73,7 +76,8 @@ class StepDelegate(
                             )
                     }
                     StepCompletionFeature.Action.ViewAction.RequestDailyStudyRemindersPermission -> {
-                        requestSendDailyStudyRemindersPermission()
+                        RequestDailyStudyReminderDialogFragment.newInstance()
+                            .showIfNotExists(fragment.childFragmentManager, RequestDailyStudyReminderDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
@@ -85,12 +89,7 @@ class StepDelegate(
         }
     }
 
-    private fun requestSendDailyStudyRemindersPermission() {
-        RequestDailyStudyReminderDialogFragment.newInstance(::onPermissionResult)
-            .showIfNotExists(fragment.childFragmentManager, RequestDailyStudyReminderDialogFragment.TAG)
-    }
-
-    private fun onPermissionResult(isGranted: Boolean) {
+    override fun onPermissionResult(isGranted: Boolean) {
         if (isGranted) {
             notificationPermissionDelegate.requestNotificationPermission { result ->
                 onNotificationPermissionResult(result)
