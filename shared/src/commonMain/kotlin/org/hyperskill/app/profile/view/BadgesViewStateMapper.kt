@@ -26,7 +26,10 @@ class BadgesViewStateMapper(
      * @see [ProfileFeature.BadgesState] for more details.
      */
     fun map(state: ProfileFeature.BadgesState): BadgesViewState {
-        val unlockedBadges = state.badges.filter { it.level > 0 }.sortedBy { it.level }.map(::mapUnlockedBadge)
+        val unlockedBadges = state.badges
+            .filter { it.level > 0 }
+            .sortedByDescending { it.level }
+            .map(::mapUnlockedBadge)
         val lockedBadges = getLockedBadgeKinds(unlockedBadges.map { it.kind }).map(::mapLockedBadge)
         val allBadges = unlockedBadges + lockedBadges
 

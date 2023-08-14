@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic
+package org.hyperskill.app.step_completion.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Go back" button analytic event.
+ * Represents a hidden analytic event of the daily step completed modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "click",
+ *     "action": "hidden",
  *     "part": "daily_step_completed_modal",
- *     "target": "go_back"
+ *     "target": "close"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepQuizDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent(
+class StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.DAILY_STEP_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.GO_BACK
+    HyperskillAnalyticTarget.CLOSE
 )

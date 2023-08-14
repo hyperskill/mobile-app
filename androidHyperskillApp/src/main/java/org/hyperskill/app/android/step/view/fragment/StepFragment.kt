@@ -15,6 +15,7 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
+import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -28,7 +29,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class StepFragment :
     Fragment(R.layout.fragment_step),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
-    StepCompletionHost {
+    StepCompletionHost,
+    RequestDailyStudyReminderDialogFragment.Callback {
 
     companion object {
         private const val STEP_TAG = "step"
@@ -39,6 +41,8 @@ class StepFragment :
                     this.stepRoute = stepRoute
                 }
     }
+
+    private var stepDelegate: StepDelegate<StepFragment>? = null
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -53,11 +57,17 @@ class StepFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        stepDelegate = StepDelegate(
+            fragment = this,
+            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
+                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
+            }
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
-        StepDelegate.init(viewBinding.stepError, stepViewModel::onNewMessage)
+        stepDelegate?.init(viewBinding.stepError, stepViewModel::onNewMessage)
     }
 
     private fun injectComponent() {
@@ -76,8 +86,7 @@ class StepFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        StepDelegate.onAction(
-            fragment = this,
+        stepDelegate?.onAction(
             mainScreenRouter = mainScreenRouter,
             action = action
         )
@@ -97,10 +106,19 @@ class StepFragment :
         viewStateDelegate = null
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        stepDelegate = null
+    }
+
     override fun onNewMessage(message: StepCompletionFeature.Message) {
         stepViewModel.onNewMessage(
             StepFeature.Message.StepCompletionMessage(message)
         )
+    }
+
+    override fun onPermissionResult(isGranted: Boolean) {
+        stepDelegate?.onPermissionResult(isGranted)
     }
 
     private fun initStepContainer(data: StepFeature.State.Data) {

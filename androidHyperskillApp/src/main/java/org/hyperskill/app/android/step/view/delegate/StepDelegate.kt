@@ -1,19 +1,38 @@
 package org.hyperskill.app.android.step.view.delegate
 
+import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
 import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
+import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
+import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-object StepDelegate {
+class StepDelegate<TFragment>(
+    private val fragment: TFragment,
+    private val onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
+) : RequestDailyStudyReminderDialogFragment.Callback
+    where TFragment : Fragment,
+          TFragment : RequestDailyStudyReminderDialogFragment.Callback {
+
+    private val notificationPermissionDelegate: NotificationPermissionDelegate =
+        NotificationPermissionDelegate(fragment)
+
+    private val platformNotificationComponent =
+        HyperskillApp.graph().platformLocalNotificationComponent
+
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
         errorBinding.tryAgain.setOnClickListener {
@@ -22,7 +41,6 @@ object StepDelegate {
     }
 
     fun onAction(
-        fragment: Fragment,
         mainScreenRouter: MainScreenRouter,
         action: StepFeature.Action.ViewAction
     ) {
@@ -57,8 +75,49 @@ object StepDelegate {
                                 TopicPracticeCompletedBottomSheet.Tag
                             )
                     }
+                    StepCompletionFeature.Action.ViewAction.RequestDailyStudyRemindersPermission -> {
+                        RequestDailyStudyReminderDialogFragment.newInstance()
+                            .showIfNotExists(fragment.childFragmentManager, RequestDailyStudyReminderDialogFragment.TAG)
+                    }
+                    is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
+                        CompletedStepOfTheDayDialogFragment
+                            .newInstance(earnedGemsText = stepCompletionAction.earnedGemsText)
+                            .showIfNotExists(fragment.childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
+                    }
                 }
             }
         }
+    }
+
+    override fun onPermissionResult(isGranted: Boolean) {
+        if (isGranted) {
+            notificationPermissionDelegate.requestNotificationPermission { result ->
+                onNotificationPermissionResult(result)
+            }
+        } else {
+            onRequestDailyStudyRemindersPermissionResult(false)
+        }
+    }
+
+    private fun onNotificationPermissionResult(result: NotificationPermissionDelegate.Result) {
+        when (result) {
+            NotificationPermissionDelegate.Result.GRANTED -> {
+                onNotificationPermissionGranted()
+            }
+            NotificationPermissionDelegate.Result.DENIED,
+            NotificationPermissionDelegate.Result.DONT_ASK -> {
+                onRequestDailyStudyRemindersPermissionResult(false)
+            }
+        }
+    }
+
+    private fun onNotificationPermissionGranted() {
+        onRequestDailyStudyRemindersPermissionResult(true)
+        val context = fragment.context
+        if (context != null) {
+            NotificationManagerCompat.from(context)
+                .checkNotificationChannelAvailability(context, HyperskillNotificationChannel.DailyReminder)
+        }
+        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
     }
 }
