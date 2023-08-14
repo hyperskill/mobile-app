@@ -15,7 +15,7 @@ struct ProblemsLimitWidgetView: View {
     let stepsLimitLeft: Int
     let stepsLimitTotal: Int
     let stepsLimitLabel: String
-    let updateInLabel: String
+    let updateInLabel: String?
 
     var body: some View {
         HStack(spacing: appearance.stackSpacing) {
@@ -36,9 +36,11 @@ struct ProblemsLimitWidgetView: View {
                     .font(.subheadline)
                     .foregroundColor(.primaryText)
 
-                Text(updateInLabel)
-                    .font(.caption)
-                    .foregroundColor(.secondaryText)
+                if let notNullableUpdateInLabel = updateInLabel {
+                    Text(notNullableUpdateInLabel)
+                        .font(.caption)
+                        .foregroundColor(.secondaryText)
+                }
             }
         }
     }

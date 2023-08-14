@@ -4,6 +4,9 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * If the [stepsLimitResetTime] is null, then the user doesn't have submissions yet
+ */
 @Serializable
 data class Subscription(
     @SerialName("type")
