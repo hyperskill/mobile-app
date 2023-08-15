@@ -82,7 +82,7 @@ class AndroidStepQuizTest {
                             else -> throw IllegalStateException(
                                 "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
                             )
-                        },
+                        }
                     ),
                     problemsLimitState = ProblemsLimitFeature.State.Idle
                 )
