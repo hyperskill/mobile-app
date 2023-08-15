@@ -39,7 +39,7 @@ object ProblemsLimitFeature {
             data class Widget(
                 val progress: Float,
                 val stepsLimitLabel: String,
-                val updateInLabel: String
+                val updateInLabel: String?
             ) : Content
         }
 

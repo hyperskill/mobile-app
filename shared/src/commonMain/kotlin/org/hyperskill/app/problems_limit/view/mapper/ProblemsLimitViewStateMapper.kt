@@ -15,23 +15,25 @@ class ProblemsLimitViewStateMapper(
             is ProblemsLimitFeature.State.Loading -> ProblemsLimitFeature.ViewState.Loading
             is ProblemsLimitFeature.State.NetworkError -> ProblemsLimitFeature.ViewState.Error
             is ProblemsLimitFeature.State.Content -> {
+                val stepsLimitLeft = state.subscription.stepsLimitLeft
+                val stepsLimitTotal = state.subscription.stepsLimitTotal
                 when {
                     !state.isFreemiumEnabled ||
-                        state.subscription.stepsLimitLeft == null ||
-                        state.subscription.stepsLimitTotal == null ||
-                        state.updateIn == null ->
-                        ProblemsLimitFeature.ViewState.Content.Empty
+                        stepsLimitLeft == null ||
+                        stepsLimitTotal == null -> ProblemsLimitFeature.ViewState.Content.Empty
                     else -> ProblemsLimitFeature.ViewState.Content.Widget(
-                        progress = (state.subscription.stepsLimitLeft.toFloat() / state.subscription.stepsLimitTotal),
+                        progress = (stepsLimitLeft.toFloat() / stepsLimitTotal),
                         stepsLimitLabel = resourceProvider.getString(
                             SharedResources.strings.problems_limit_widget_problems_limit,
                             state.subscription.stepsLimitLeft,
                             state.subscription.stepsLimitTotal
                         ),
-                        updateInLabel = resourceProvider.getString(
-                            SharedResources.strings.problems_limit_widget_update_in,
-                            dateFormatter.formatHoursOrMinutesCountShort(state.updateIn)
-                        )
+                        updateInLabel = state.updateIn?.let { updateIn ->
+                            resourceProvider.getString(
+                                SharedResources.strings.problems_limit_widget_update_in,
+                                dateFormatter.formatHoursOrMinutesCountShort(updateIn)
+                            )
+                        }
                     )
                 }
             }
