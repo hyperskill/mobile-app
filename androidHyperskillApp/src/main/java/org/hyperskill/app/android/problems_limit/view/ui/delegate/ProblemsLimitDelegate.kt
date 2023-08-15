@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.problems_limit.view.ui.delegate
 
+import androidx.core.view.isVisible
 import kotlin.math.roundToInt
 import org.hyperskill.app.android.databinding.LayoutProblemsLimitBinding
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
@@ -42,9 +43,16 @@ class ProblemsLimitDelegate(
         viewStateDelegate?.switchState(state)
         when (state) {
             is ProblemsLimitFeature.ViewState.Content.Widget -> {
-                viewBinding.problemsLimitIndicator.progress = (100 * state.progress).roundToInt()
-                viewBinding.problemsLimitCount.setTextIfChanged(state.stepsLimitLabel)
-                viewBinding.problemsLimitUpdatedIn.setTextIfChanged(state.updateInLabel)
+                with(viewBinding) {
+                    problemsLimitIndicator.progress = (100 * state.progress).roundToInt()
+                    problemsLimitCount.setTextIfChanged(state.stepsLimitLabel)
+
+                    val updateInLabel = state.updateInLabel
+                    problemsLimitUpdatedIn.isVisible = updateInLabel != null
+                    if (updateInLabel != null) {
+                        problemsLimitUpdatedIn.setTextIfChanged(updateInLabel)
+                    }
+                }
             }
             else -> {
                 // no op
