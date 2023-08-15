@@ -36,8 +36,8 @@ struct ProblemsLimitWidgetView: View {
                     .font(.subheadline)
                     .foregroundColor(.primaryText)
 
-                if let notNullableUpdateInLabel = updateInLabel {
-                    Text(notNullableUpdateInLabel)
+                if let updateInLabel {
+                    Text(updateInLabel)
                         .font(.caption)
                         .foregroundColor(.secondaryText)
                 }
