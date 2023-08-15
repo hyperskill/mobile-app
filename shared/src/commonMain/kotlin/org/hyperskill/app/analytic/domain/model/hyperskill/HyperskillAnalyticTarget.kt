@@ -86,5 +86,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CHANGE_TRACK("change_track"),
     CHANGE_PROJECT("change_project"),
     BADGES_VISIBILITY_BUTTON("badges_visibility_button"),
-    BADGE_CARD("badges_card")
+    BADGE_CARD("badges_card"),
+    BADGE_MODAL("badge_modal")
 }

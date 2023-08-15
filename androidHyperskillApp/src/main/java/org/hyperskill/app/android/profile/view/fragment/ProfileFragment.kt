@@ -29,9 +29,11 @@ import org.hyperskill.app.android.notification.permission.NotificationPermission
 import org.hyperskill.app.android.profile.view.delegate.AboutMeDelegate
 import org.hyperskill.app.android.profile.view.delegate.ProfileViewActionDelegate
 import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
+import org.hyperskill.app.android.profile.view.dialog.BadgeDetailsDialogFragment
 import org.hyperskill.app.android.profile_settings.view.dialog.ProfileSettingsDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
@@ -46,7 +48,8 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
     ReduxView<ProfileFeature.State, ProfileFeature.Action.ViewAction>,
-    TimeIntervalPickerDialogFragment.Companion.Callback {
+    TimeIntervalPickerDialogFragment.Companion.Callback,
+    BadgeDetailsDialogFragment.Callback {
     companion object {
         fun newInstance(profileId: Long? = null, isInitCurrent: Boolean = true): Fragment =
             ProfileFragment()
@@ -283,6 +286,14 @@ class ProfileFragment :
             mainScreenRouter = mainScreenRouter,
             action = action
         )
+    }
+
+    override fun onBadgeDetailsDialogFragmentShown(badgeKind: BadgeKind) {
+        profileViewModel.onNewMessage(ProfileFeature.Message.BadgeModalShownEventMessage(badgeKind))
+    }
+
+    override fun onBadgeDetailsDialogFragmentHidden(badgeKind: BadgeKind) {
+        profileViewModel.onNewMessage(ProfileFeature.Message.BadgeModalHiddenEventMessage(badgeKind))
     }
 
     override fun render(state: ProfileFeature.State) {

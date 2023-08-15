@@ -24,6 +24,7 @@ class StepCompletionComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             appGraph.progressesFlowDataComponent.topicProgressFlow,
             appGraph.buildNotificationComponent().notificationInteractor
