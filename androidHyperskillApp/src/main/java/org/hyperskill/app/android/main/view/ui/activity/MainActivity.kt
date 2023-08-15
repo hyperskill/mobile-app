@@ -212,6 +212,7 @@ class MainActivity :
                         intent = null
                         NotificationClickHandlingDelegate.onNavigationViewAction(router, viewAction)
                     }
+                    is NotificationClickHandlingFeature.Action.ViewAction.ShowEarnedBadgeModal -> TODO()
                 }
             }
         }

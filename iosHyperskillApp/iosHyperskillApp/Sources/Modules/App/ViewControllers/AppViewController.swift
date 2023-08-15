@@ -169,6 +169,8 @@ extension AppViewController: AppViewControllerProtocol {
             } else {
                 ProgressHUD.dismissWithDelay(Animation.clickedNotificationViewActionDismissProgressHUDDelay)
             }
+        case .showEarnedBadgeModal:
+            #warning("TODO: implement in ALTAPPS-893")
         }
     }
 

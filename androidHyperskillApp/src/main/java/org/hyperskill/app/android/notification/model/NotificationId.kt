@@ -14,6 +14,8 @@ enum class NotificationId(val notificationId: Long) {
     StreakNew(10),
     RemindShort(11),
     RemindMedium(12),
+    UserBadgeUpdated(13),
+    UserBadgeUnlocked(14),
 
     Unknown(Long.MIN_VALUE)
 }
