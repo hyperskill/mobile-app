@@ -106,7 +106,7 @@ class BadgeDetailsDialogFragment : BottomSheetDialogFragment() {
                         BadgeKind.BountyHunter -> R.drawable.img_badge_details_bounty_hunter
                         BadgeKind.UNKNOWN -> null
                     }
-                    is BadgeImage.Remote -> image.fullSource
+                    is BadgeImage.Remote -> image.source
                 }
             ) {
                 scale(Scale.FIT)
