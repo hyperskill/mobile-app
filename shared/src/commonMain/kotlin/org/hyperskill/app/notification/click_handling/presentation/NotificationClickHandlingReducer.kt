@@ -8,6 +8,8 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.State
 import org.hyperskill.app.notification.remote.domain.analytic.PushNotificationClickedHyperskillAnalyticEvent
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
+import org.hyperskill.app.profile.domain.analytic.badges.EarnedBadgeModalHiddenHyperskillAnalyticsEvent
+import org.hyperskill.app.profile.domain.analytic.badges.EarnedBadgeModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -19,6 +21,17 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
             is Message.NotificationClicked -> handleNotificationClicked(message)
             is ProfileFetchResult -> handleProfileFetchResult(message)
             is EarnedBadgeFetchResult -> handleEarnedBadgeFetchResult(message)
+            /**
+             * Analytic
+             */
+            is Message.EarnedBadgeModalHiddenEventMessage ->
+                setOf(
+                    InternalAction.LogAnalyticEvent(EarnedBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind))
+                )
+            is Message.EarnedBadgeModalShownEventMessage ->
+                setOf(
+                    InternalAction.LogAnalyticEvent(EarnedBadgeModalShownHyperskillAnalyticEvent(message.badgeKind))
+                )
         }
 
     private fun handleNotificationClicked(

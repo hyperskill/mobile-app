@@ -2,6 +2,7 @@ package org.hyperskill.app.notification.click_handling.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.badges.domain.model.Badge
+import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -20,6 +21,12 @@ object NotificationClickHandlingFeature {
             val isUserAuthorized: Boolean,
             val notificationLaunchedApp: Boolean
         ) : Message
+
+        /**
+         * Analytic
+         */
+        data class EarnedBadgeModalShownEventMessage(val badgeKind: BadgeKind) : Message
+        data class EarnedBadgeModalHiddenEventMessage(val badgeKind: BadgeKind) : Message
     }
 
     internal sealed interface ProfileFetchResult : Message {
