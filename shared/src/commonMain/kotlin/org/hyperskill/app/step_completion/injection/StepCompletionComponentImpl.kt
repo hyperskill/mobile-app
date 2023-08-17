@@ -27,6 +27,7 @@ class StepCompletionComponentImpl(
             appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             appGraph.progressesFlowDataComponent.topicProgressFlow,
-            appGraph.buildNotificationComponent().notificationInteractor
+            appGraph.buildNotificationComponent().notificationInteractor,
+            appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
         )
 }

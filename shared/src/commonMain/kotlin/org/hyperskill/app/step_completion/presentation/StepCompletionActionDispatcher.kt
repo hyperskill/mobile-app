@@ -13,6 +13,7 @@ import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
@@ -41,6 +42,7 @@ class StepCompletionActionDispatcher(
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
     private val notificationInteractor: NotificationInteractor,
+    private val pushNotificationInteractor: PushNotificationsInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         notificationInteractor.solvedStepsSharedFlow
@@ -145,7 +147,7 @@ class StepCompletionActionDispatcher(
 
     private suspend fun handleTurnOnDailyStudyReminderAction() {
         notificationInteractor.setDailyStudyRemindersEnabled(true)
-        notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+        pushNotificationInteractor.setDailyStudyReminderNotificationTime(
             NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
         )
     }
