@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.R
@@ -27,7 +26,6 @@ import org.hyperskill.app.debug.domain.model.EndpointConfigType
 import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.debug.presentation.DebugViewModel
 
-@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun DebugScreen(viewModel: DebugViewModel) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()

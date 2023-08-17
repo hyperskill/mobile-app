@@ -84,7 +84,7 @@ kotlin {
                 implementation(libs.android.parcelable)
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependsOn(commonTest)
             dependencies {
                 implementation(kotlin("test-junit"))
