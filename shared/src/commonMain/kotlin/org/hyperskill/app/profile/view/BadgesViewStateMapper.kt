@@ -123,7 +123,7 @@ class BadgesViewStateMapper(
             isLocked = badge.rank == BadgeRank.LOCKED
         )
 
-    public fun mapToEarnedBadgeModalViewState(badge: Badge): EarnedBadgeModalViewState =
+    fun mapToEarnedBadgeModalViewState(badge: Badge): EarnedBadgeModalViewState =
         EarnedBadgeModalViewState(
             kind = badge.kind,
             rank = badge.rank,
