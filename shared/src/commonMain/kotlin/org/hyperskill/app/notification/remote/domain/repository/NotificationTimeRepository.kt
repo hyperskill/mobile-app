@@ -8,5 +8,5 @@ interface NotificationTimeRepository {
      * @param notificationHour the hour of the day in 24-hour format (0-23) by UTC time zone
      * at which the notification should be triggered.
      */
-    suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int)
+    suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit>
 }

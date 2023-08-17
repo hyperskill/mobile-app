@@ -63,7 +63,7 @@ class PushNotificationsInteractor(
      *
      * @param notificationHour the hour of the day in 24-hour format (0-23) at which the notification should be shown.
      */
-    internal suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int) {
+    internal suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> {
         val currentTimeZone = TimeZone.currentSystemDefault()
         val currentTimeZoneNotificationTime =
             Clock.System.now()
@@ -84,7 +84,7 @@ class PushNotificationsInteractor(
                 utcNotificationTime.hour
             }
 
-        notificationTimeRepository
+        return notificationTimeRepository
             .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
     }
 

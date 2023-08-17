@@ -5,7 +5,6 @@ import org.hyperskill.app.notification.remote.domain.repository.NotificationTime
 class NotificationTimeRepositoryImpl(
     private val notificationTimeDataSource: NotificationTimeRemoteDataSource
 ) : NotificationTimeRepository {
-    override suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int) {
+    override suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> =
         notificationTimeDataSource.setDailyStudyReminderNotificationTime(notificationHour)
-    }
 }
