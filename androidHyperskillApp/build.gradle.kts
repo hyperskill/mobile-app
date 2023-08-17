@@ -72,7 +72,7 @@ dependencies {
     implementation(libs.compose.material)
     implementation(libs.compose.windowsizeclasses)
     debugImplementation(libs.compose.tooling)
-    implementation(libs.accompanist.themeadapter)
+    implementation(libs.compose.themeadapter)
     implementation(libs.compose.viewmodel)
     implementation(libs.compose.lifecycle)
     implementation(libs.compose.viewbinding)
@@ -164,7 +164,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.0-alpha02"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinCompilerExtension.get()
     }
 
     compileOptions {

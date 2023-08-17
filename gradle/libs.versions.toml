@@ -1,8 +1,8 @@
 [versions]
 androidGradlePlugin = '7.2.2'
-kotlin = '1.7.21'
-kotlinCoroutines = '1.6.4'
-ktor = '2.0.0'
+kotlin = '1.8.22'
+kotlinCoroutines = '1.7.2'
+ktor = '2.3.3'
 mokoResources = "0.20.1"
 mokoKswift = "0.6.1"
 ktlintRules = '1.0.0'
@@ -13,6 +13,9 @@ flipper = '0.148.0'
 dokka = '1.7.20'
 androidxLifecycle = "2.6.0-alpha01"
 coil = '2.2.0'
+
+kotlinCompilerExtension = "1.4.8"
+composeBom = "2023.06.01"
 
 kitPresentationRedux = '1.3.1'
 
@@ -105,7 +108,7 @@ android-timepicker = { module = "io.github.ShawnLin013:number-picker", version =
 
 android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version = "1.1.5" }
 
-compose-bom = { module = "androidx.compose:compose-bom", version = "2022.12.00" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-material = { module = "androidx.compose.material:material" }
@@ -115,7 +118,7 @@ compose-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-viewbinding = { module = "androidx.compose.ui:ui-viewbinding" }
 compose-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxLifecycle" }
 compose-lifecycle = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
-accompanist-themeadapter = { module = "com.google.accompanist:accompanist-themeadapter-material", version = "0.28.0" }
+compose-themeadapter = { module = "com.google.accompanist:accompanist-themeadapter-material", version = "0.30.1" }
 
 [bundles]
 ktor-common = ['ktor-core', 'ktor-serialization', 'ktor-logging', 'ktor-contentNegotiation', 'ktor-serialization-json']

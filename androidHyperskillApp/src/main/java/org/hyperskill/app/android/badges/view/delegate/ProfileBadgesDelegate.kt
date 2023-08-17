@@ -5,7 +5,6 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
-import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.themeadapter.material.MdcTheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +19,7 @@ class ProfileBadgesDelegate(
 ) {
     private val stateFlow: MutableStateFlow<ProfileFeature.BadgesState?> = MutableStateFlow(null)
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalLifecycleComposeApi::class)
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     fun setup(
         activity: Activity,
         composeView: ComposeView,
