@@ -1,6 +1,6 @@
 package org.hyperskill.app.notification.remote.data
 
-import org.hyperskill.app.notification.remote.domain.interactor.repository.NotificationTimeRepository
+import org.hyperskill.app.notification.remote.domain.repository.NotificationTimeRepository
 
 class NotificationTimeRepositoryImpl(
     private val notificationTimeDataSource: NotificationTimeRemoteDataSource

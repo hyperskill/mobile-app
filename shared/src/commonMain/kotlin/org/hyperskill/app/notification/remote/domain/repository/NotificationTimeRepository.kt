@@ -1,4 +1,4 @@
-package org.hyperskill.app.notification.remote.domain.interactor.repository
+package org.hyperskill.app.notification.remote.domain.repository
 
 interface NotificationTimeRepository {
     /**

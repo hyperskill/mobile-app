@@ -13,8 +13,8 @@ import org.hyperskill.app.core.utils.toJsonElement
 import org.hyperskill.app.devices.domain.model.Device
 import org.hyperskill.app.devices.domain.model.toDeviceType
 import org.hyperskill.app.devices.domain.repository.DevicesRepository
-import org.hyperskill.app.notification.remote.domain.interactor.repository.NotificationTimeRepository
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
+import org.hyperskill.app.notification.remote.domain.repository.NotificationTimeRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 
 class PushNotificationsInteractor(
