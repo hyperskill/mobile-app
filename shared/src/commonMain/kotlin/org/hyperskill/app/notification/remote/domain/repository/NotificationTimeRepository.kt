@@ -9,4 +9,6 @@ interface NotificationTimeRepository {
      * at which the notification should be triggered.
      */
     suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit>
+
+    suspend fun disableDailyStudyReminderNotification(): Result<Unit>
 }

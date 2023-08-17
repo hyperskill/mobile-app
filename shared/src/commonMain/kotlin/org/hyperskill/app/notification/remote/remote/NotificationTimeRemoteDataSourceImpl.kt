@@ -10,7 +10,7 @@ import org.hyperskill.app.notification.remote.data.NotificationTimeRemoteDataSou
 class NotificationTimeRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : NotificationTimeRemoteDataSource {
-    override suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> =
+    override suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int?): Result<Unit> =
         runCatching {
             httpClient
                 .post("/api/notifications/set-time") {

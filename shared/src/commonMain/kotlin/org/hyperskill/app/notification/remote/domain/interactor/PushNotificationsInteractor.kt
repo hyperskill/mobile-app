@@ -88,6 +88,9 @@ class PushNotificationsInteractor(
             .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
     }
 
+    internal suspend fun disableDailyStudyReminderNotification(): Result<Unit> =
+        notificationTimeRepository.disableDailyStudyReminderNotification()
+
     private fun getCurrentFCMToken(): String? =
         devicesRepository
             .getCurrentCachedDevice()

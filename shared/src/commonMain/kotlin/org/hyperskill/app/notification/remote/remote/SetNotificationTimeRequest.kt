@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SetNotificationTimeRequest(
     @SerialName("notification_hour")
-    val notificationHour: Int
+    val notificationHour: Int?
 )

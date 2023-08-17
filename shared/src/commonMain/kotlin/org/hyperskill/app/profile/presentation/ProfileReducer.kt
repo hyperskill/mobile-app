@@ -111,7 +111,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             }
             is Message.ClickedViewFullProfile -> {
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = true) to setOf(
+                    state.copy(isLoadingShowed = true) to setOf(
                         Action.GetMagicLink(HyperskillUrlPath.Profile(state.profile.id)),
                         Action.LogAnalyticEvent(ProfileClickedViewFullProfileHyperskillAnalyticEvent())
                     )
@@ -121,14 +121,14 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             }
             is Message.GetMagicLinkReceiveSuccess -> {
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+                    state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.OpenUrl(message.url))
                 } else {
                     null
                 }
             }
             is Message.GetMagicLinkReceiveFailure ->
                 if (state is State.Content) {
-                    state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowGetMagicLinkError)
+                    state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowError.MagicLink)
                 } else {
                     null
                 }
@@ -200,35 +200,18 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             is Message.DailyStudyRemindersToggleClicked ->
-                if (state is State.Content) {
-                    state.copy(
-                        dailyStudyRemindersState = state.dailyStudyRemindersState.copy(isEnabled = message.isEnabled)
-                    ) to setOf(
-                        Action.SaveDailyStudyRemindersIsEnabled(message.isEnabled),
-                        Action.LogAnalyticEvent(
-                            ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent(message.isEnabled)
-                        )
-                    )
-                } else {
-                    null
-                }
+                handleDailyStudyRemindersToggleClicked(state, message)
+            is Message.DailyStudyRemindersIsEnabledUpdateResult ->
+                handleDailyStudyReminderIsEnabledUpdateResult(state, message)
+            is Message.DailyStudyRemindersIntervalStartHourChanged ->
+                handleDailyStudyRemindersIntervalStartHourChanged(state, message)
+            is Message.DailyStudyRemindersIntervalStartHourSaveResult ->
+                handleDailyStudyRemindersIntervalStartHourSaveResult(state, message)
             is Message.DailyStudyRemindersIsEnabledChanged ->
                 if (state is State.Content) {
                     state.copy(
                         dailyStudyRemindersState = state.dailyStudyRemindersState.copy(isEnabled = message.isEnabled)
                     ) to emptySet()
-                } else {
-                    null
-                }
-            is Message.DailyStudyRemindersIntervalStartHourChanged ->
-                if (state is State.Content && state.dailyStudyRemindersState.isEnabled) {
-                    state.copy(
-                        dailyStudyRemindersState = state.dailyStudyRemindersState.copy(
-                            startHour = message.startHour
-                        )
-                    ) to setOf(
-                        Action.SaveDailyStudyRemindersIntervalStartHour(message.startHour)
-                    )
                 } else {
                     null
                 }
@@ -320,5 +303,75 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             )
         } else {
             state to emptySet()
+        }
+
+    private fun handleDailyStudyRemindersToggleClicked(
+        state: State,
+        message: Message.DailyStudyRemindersToggleClicked
+    ): ReducerResult =
+        state.updateContent { content ->
+            content.copy(isLoadingShowed = true) to
+                setOf(
+                    Action.SaveDailyStudyRemindersIsEnabled(message.isEnabled),
+                    Action.LogAnalyticEvent(
+                        ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent(message.isEnabled)
+                    )
+                )
+        }
+
+    private fun handleDailyStudyReminderIsEnabledUpdateResult(
+        state: State,
+        message: Message.DailyStudyRemindersIsEnabledUpdateResult
+    ): ReducerResult =
+        state.updateContent { content ->
+            content.copy(
+                isLoadingShowed = false,
+                dailyStudyRemindersState = when (message) {
+                    is Message.DailyStudyRemindersIsEnabledUpdateResult.Success ->
+                        content.dailyStudyRemindersState.copy(isEnabled = message.isEnabled)
+                    Message.DailyStudyRemindersIsEnabledUpdateResult.Error ->
+                        content.dailyStudyRemindersState
+                }
+            ) to if (message is Message.DailyStudyRemindersIsEnabledUpdateResult.Error) {
+                setOf(Action.ViewAction.ShowError.DailyStudyReminders)
+            } else {
+                emptySet()
+            }
+        }
+
+    private fun handleDailyStudyRemindersIntervalStartHourChanged(
+        state: State,
+        message: Message.DailyStudyRemindersIntervalStartHourChanged
+    ): ReducerResult =
+        state.updateContent { content ->
+            content.copy(isLoadingShowed = true) to
+                setOf(Action.SaveDailyStudyRemindersIntervalStartHour(message.startHour))
+        }
+
+    private fun handleDailyStudyRemindersIntervalStartHourSaveResult(
+        state: State,
+        message: Message.DailyStudyRemindersIntervalStartHourSaveResult
+    ): ReducerResult =
+        state.updateContent { content ->
+            content.copy(
+                isLoadingShowed = false,
+                dailyStudyRemindersState = when (message) {
+                    is Message.DailyStudyRemindersIntervalStartHourSaveResult.Success ->
+                        content.dailyStudyRemindersState.copy(startHour = message.startHour)
+                    Message.DailyStudyRemindersIntervalStartHourSaveResult.Error ->
+                        content.dailyStudyRemindersState
+                }
+            ) to if (message is Message.DailyStudyRemindersIntervalStartHourSaveResult.Error) {
+                setOf(Action.ViewAction.ShowError.DailyStudyReminders)
+            } else {
+                emptySet()
+            }
+        }
+
+    private fun State.updateContent(block: (content: State.Content) -> ReducerResult): ReducerResult =
+        if (this is State.Content) {
+            block(this)
+        } else {
+            this to emptySet()
         }
 }

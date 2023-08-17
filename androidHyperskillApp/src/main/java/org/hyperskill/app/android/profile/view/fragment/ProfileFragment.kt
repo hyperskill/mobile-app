@@ -324,7 +324,7 @@ class ProfileFragment :
         AboutMeDelegate.render(requireContext(), viewBinding.profileAboutMeLayout, content.profile)
         profileBadgesDelegate.render(content.badgesState)
 
-        if (content.isLoadingMagicLink) {
+        if (content.isLoadingShowed) {
             LoadingProgressDialogFragment.newInstance()
                 .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
         } else {

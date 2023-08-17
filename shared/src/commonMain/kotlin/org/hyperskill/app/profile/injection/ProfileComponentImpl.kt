@@ -8,17 +8,18 @@ import ru.nobird.app.presentation.redux.feature.Feature
 class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
     override val profileFeature: Feature<ProfileFeature.State, ProfileFeature.Message, ProfileFeature.Action>
         get() = ProfileFeatureBuilder.build(
-            appGraph.profileDataComponent.profileInteractor,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.buildStreaksDataComponent().streaksInteractor,
-            appGraph.buildProductsDataComponent().productsInteractor,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.buildNotificationComponent().notificationInteractor,
-            appGraph.buildMagicLinksDataComponent().urlPathProcessor,
-            appGraph.streakFlowDataComponent.streakFlow,
-            appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
-            appGraph.buildBadgesDataComponent().badgesRepository
+            profileInteractor = appGraph.profileDataComponent.profileInteractor,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            streaksInteractor = appGraph.buildStreaksDataComponent().streaksInteractor,
+            productsInteractor = appGraph.buildProductsDataComponent().productsInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
+            pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
+            urlPathProcessor = appGraph.buildMagicLinksDataComponent().urlPathProcessor,
+            streakFlow = appGraph.streakFlowDataComponent.streakFlow,
+            dailyStudyRemindersEnabledFlow = appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
+            badgesRepository = appGraph.buildBadgesDataComponent().badgesRepository
         )
 
     override val badgesViewStateMapper: BadgesViewStateMapper
