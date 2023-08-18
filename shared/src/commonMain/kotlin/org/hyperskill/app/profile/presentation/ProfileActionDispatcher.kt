@@ -143,13 +143,17 @@ class ProfileActionDispatcher(
                 val streakFreezeProduct = streakFreezeProductResult.await().getOrNull()
                 val badges = badgesDeferred.await().getOrThrow()
 
+                val dailyLearningNotificationHour =
+                    currentProfile.dailyLearningNotificationHour
+                        ?: notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+
                 Message.ProfileFetchResult.Success(
                     profile = currentProfile,
                     streak = streak,
                     streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak),
                     dailyStudyRemindersState = ProfileFeature.DailyStudyRemindersState(
-                        isEnabled = notificationInteractor.isDailyStudyRemindersEnabled(),
-                        startHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+                        isEnabled = currentProfile.isDailyLearningNotificationEnabled,
+                        startHour = dailyLearningNotificationHour
                     ),
                     badges = badges
                 )

@@ -189,15 +189,8 @@ class ProfileFragment :
     }
 
     private fun initRemindersSchedule() {
-        with(viewBinding.profileDailyReminder) {
-            profileScheduleTextView.setOnClickListener {
-                profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
-                TimeIntervalPickerDialogFragment
-                    .newInstance()
-                    .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
-            }
-            profileDailyRemindersSwitchCompat.setOnCheckedChangeListener(dailyReminderCheckChangeListener)
-        }
+        viewBinding.profileDailyReminder
+            .profileDailyRemindersSwitchCompat.setOnCheckedChangeListener(dailyReminderCheckChangeListener)
     }
 
     private fun onNotificationPermissionResult(
@@ -366,6 +359,9 @@ class ProfileFragment :
             profileScheduleTextView.text = getScheduleTimeText(
                 time = remindersState.startHour
             )
+            profileScheduleTextView.setOnClickListener {
+                onDailyStudyRemindersScheduleClick(remindersState.startHour)
+            }
 
             val isDailyNotificationEnabled = notificationManager.isChannelNotificationsEnabled(
                 HyperskillNotificationChannel.DailyReminder.channelId
@@ -377,6 +373,13 @@ class ProfileFragment :
             }
             profileScheduleTextView.isVisible = isDailyNotificationEnabled
         }
+    }
+
+    private fun onDailyStudyRemindersScheduleClick(notificationHour: Int) {
+        profileViewModel.onNewMessage(ProfileFeature.Message.ClickedDailyStudyRemindsTimeEventMessage)
+        TimeIntervalPickerDialogFragment
+            .newInstance(notificationHour)
+            .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
     }
 
     private fun renderStatistics(profile: Profile) {
