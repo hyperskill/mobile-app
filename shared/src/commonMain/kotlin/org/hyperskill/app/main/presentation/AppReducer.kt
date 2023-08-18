@@ -84,29 +84,32 @@ class AppReducer(
         if (state is State.Loading) {
             val isAuthorized = !message.profile.isGuest
 
-            val sentryAction = if (isAuthorized) {
-                Action.IdentifyUserInSentry(message.profile.id)
-            } else {
-                Action.ClearUserInSentry
-            }
-
             val actions: Set<Action> =
-                if (isAuthorized) {
-                    when {
-                        message.notificationData != null ->
-                            reduceNotificationClickHandlingMessage(
-                                NotificationClickHandlingFeature.Message.NotificationClicked(
-                                    message.notificationData,
-                                    isUserAuthorized = true
-                                )
-                            )
-                        message.profile.isNewUser ->
-                            setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
-                        else ->
-                            setOf(Action.ViewAction.NavigateTo.HomeScreen)
+                buildSet {
+                    if (isAuthorized) {
+                        add(Action.IdentifyUserInSentry(message.profile.id))
+                    } else {
+                        add(Action.ClearUserInSentry)
                     }
-                } else {
-                    buildSet {
+
+                    if (isAuthorized) {
+                        when {
+                            message.notificationData != null ->
+                                addAll(
+                                    reduceNotificationClickHandlingMessage(
+                                        NotificationClickHandlingFeature.Message.NotificationClicked(
+                                            message.notificationData,
+                                            isUserAuthorized = true
+                                        )
+                                    )
+                                )
+                            message.profile.isNewUser ->
+                                add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+                            else ->
+                                add(Action.ViewAction.NavigateTo.HomeScreen)
+                        }
+                        add(Action.UpdateDailyLearningNotificationTime)
+                    } else {
                         if (message.notificationData != null) {
                             addAll(
                                 reduceNotificationClickHandlingMessage(
@@ -119,16 +122,13 @@ class AppReducer(
                         }
                         add(Action.ViewAction.NavigateTo.OnboardingScreen)
                     }
+
+                    if (isAuthorized && message.notificationData == null) {
+                        addAll(reduceStreakRecoveryMessage(StreakRecoveryFeature.Message.Initialize))
+                    }
                 }
 
-            val streakRecoveryActions = if (isAuthorized && message.notificationData == null) {
-                reduceStreakRecoveryMessage(StreakRecoveryFeature.Message.Initialize)
-            } else {
-                emptySet()
-            }
-
-            State.Ready(isAuthorized) to
-                actions + sentryAction + streakRecoveryActions
+            State.Ready(isAuthorized) to actions
         } else {
             state to emptySet()
         }
