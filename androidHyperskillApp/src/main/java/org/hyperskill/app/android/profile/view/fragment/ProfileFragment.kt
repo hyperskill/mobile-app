@@ -116,7 +116,6 @@ class ProfileFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         initToolbar()
-        initRemindersSchedule()
         AboutMeDelegate.setup(viewBinding.profileAboutMeLayout, profileViewModel::onNewMessage)
         StreakCardFormDelegate.setup(
             context = requireContext(),
@@ -186,11 +185,6 @@ class ProfileFragment :
                 viewBinding.profileSettingsButton
             )
         }
-    }
-
-    private fun initRemindersSchedule() {
-        viewBinding.profileDailyReminder
-            .profileDailyRemindersSwitchCompat.setOnCheckedChangeListener(dailyReminderCheckChangeListener)
     }
 
     private fun onNotificationPermissionResult(
