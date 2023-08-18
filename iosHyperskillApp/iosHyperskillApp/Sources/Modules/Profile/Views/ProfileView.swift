@@ -83,7 +83,7 @@ struct ProfileView: View {
                 }
             )
         case .content(let data):
-            if data.isLoadingMagicLink {
+            if data.isLoadingShowed {
                 let _ = ProgressHUD.show()
             }
 
@@ -166,7 +166,7 @@ struct ProfileView: View {
         case .openUrl(let data):
             ProgressHUD.showSuccess()
             WebControllerManager.shared.presentWebControllerWithURLString(data.url)
-        case .showGetMagicLinkError:
+        case .showError:
             ProgressHUD.showError()
         case .showStreakFreezeBuyingStatus(let streakFreezeBuyingStatus):
             switch ProfileFeatureActionViewActionShowStreakFreezeBuyingStatusKs(streakFreezeBuyingStatus) {

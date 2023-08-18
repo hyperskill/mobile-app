@@ -233,7 +233,7 @@ interface ProfileFeature {
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
 
-            sealed interface ShowError : Action {
+            sealed interface ShowError : ViewAction {
                 object MagicLink : ShowError
 
                 object DailyStudyReminders : ShowError
