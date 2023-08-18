@@ -35,6 +35,7 @@ import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedDa
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
+import org.hyperskill.app.android.profile.view.dialog.BadgeEarnedDialogFragment
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
@@ -47,6 +48,7 @@ import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.router.observeResult
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -212,7 +214,10 @@ class MainActivity :
                         intent = null
                         NotificationClickHandlingDelegate.onNavigationViewAction(router, viewAction)
                     }
-                    is NotificationClickHandlingFeature.Action.ViewAction.ShowEarnedBadgeModal -> TODO()
+                    is NotificationClickHandlingFeature.Action.ViewAction.ShowEarnedBadgeModal -> {
+                        BadgeEarnedDialogFragment.newInstance(viewAction.badge)
+                            .showIfNotExists(supportFragmentManager, BadgeEarnedDialogFragment.TAG)
+                    }
                 }
             }
         }
