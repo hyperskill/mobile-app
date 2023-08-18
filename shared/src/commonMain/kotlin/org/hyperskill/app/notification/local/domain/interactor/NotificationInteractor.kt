@@ -1,18 +1,25 @@
 package org.hyperskill.app.notification.local.domain.interactor
 
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atTime
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.notification.local.data.model.NotificationDescription
 import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.local.domain.repository.NotificationRepository
+import org.hyperskill.app.notification.remote.domain.repository.NotificationTimeRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository,
     private val submissionRepository: SubmissionRepository,
-    private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow
+    private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
+    private val notificationTimeRepository: NotificationTimeRepository
 ) {
     companion object {
         private val TWO_DAYS_IN_MILLIS = 2.toDuration(DurationUnit.DAYS).inWholeMilliseconds
@@ -47,10 +54,6 @@ class NotificationInteractor(
     fun getDailyStudyRemindersIntervalStartHour(): Int =
         notificationRepository.getDailyStudyRemindersIntervalStartHour()
 
-    fun setDailyStudyRemindersIntervalStartHour(hour: Int) {
-        notificationRepository.setDailyStudyRemindersIntervalStartHour(hour)
-    }
-
     fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         notificationRepository.getRandomDailyStudyRemindersNotificationDescription()
 
@@ -81,4 +84,43 @@ class NotificationInteractor(
 
     fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
         notificationRepository.getShuffledDailyStudyRemindersNotificationDescriptions()
+
+    /**
+     * Sets the daily study reminder notification time.
+     *
+     * @param notificationHour the hour of the day in 24-hour format (0-23) at which the notification should be shown.
+     */
+    internal suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> {
+        val utcNotificationHour = getUtcDailyStudyReminderNotificationHour(notificationHour)
+        notificationRepository.setDailyStudyRemindersIntervalStartHour(utcNotificationHour)
+        return notificationTimeRepository
+            .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
+    }
+
+    internal suspend fun setSavedDailyStudyReminderNotificationTime(): Result<Unit> =
+        setDailyStudyReminderNotificationTime(getDailyStudyRemindersIntervalStartHour())
+
+    private fun getUtcDailyStudyReminderNotificationHour(notificationHour: Int): Int {
+        val currentTimeZone = TimeZone.currentSystemDefault()
+        val currentTimeZoneNotificationTime =
+            Clock.System.now()
+                .toLocalDateTime(currentTimeZone)
+                .date
+                .atTime(hour = notificationHour, minute = 0)
+                .toInstant(currentTimeZone)
+        val utcNotificationTime = currentTimeZoneNotificationTime.toLocalDateTime(TimeZone.UTC)
+        return if (utcNotificationTime.minute > 0) {
+            // In case the time zone contains minutes, add 1 hour
+            // to have notification hour at the beginning of the next hour
+            currentTimeZoneNotificationTime
+                .plus(1.hours)
+                .toLocalDateTime(TimeZone.UTC)
+                .hour
+        } else {
+            utcNotificationTime.hour
+        }
+    }
+
+    internal suspend fun disableDailyStudyReminderNotification(): Result<Unit> =
+        notificationTimeRepository.disableDailyStudyReminderNotification()
 }

@@ -13,7 +13,6 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
-import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
@@ -37,7 +36,6 @@ class ProfileActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val notificationInteractor: NotificationInteractor,
-    private val pushNotificationsInteractor: PushNotificationsInteractor,
     private val urlPathProcessor: UrlPathProcessor,
     private val streakFlow: StreakFlow,
     dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
@@ -176,11 +174,9 @@ class ProfileActionDispatcher(
 
     private suspend fun handleSaveDailyStudyRemindersIsEnabled(action: Action.SaveDailyStudyRemindersIsEnabled) {
         val result = if (action.isEnabled) {
-            val defaultStartHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
-            notificationInteractor.setDailyStudyRemindersIntervalStartHour(defaultStartHour)
-            pushNotificationsInteractor.setDailyStudyReminderNotificationTime(defaultStartHour)
+            notificationInteractor.setSavedDailyStudyReminderNotificationTime()
         } else {
-            pushNotificationsInteractor.disableDailyStudyReminderNotification()
+            notificationInteractor.disableDailyStudyReminderNotification()
         }
         result
             .onSuccess {
@@ -194,8 +190,7 @@ class ProfileActionDispatcher(
     private suspend fun handleSaveDailyStudyRemindersIntervalStartHour(
         action: Action.SaveDailyStudyRemindersIntervalStartHour
     ) {
-        notificationInteractor.setDailyStudyRemindersIntervalStartHour(action.startHour)
-        pushNotificationsInteractor.setDailyStudyReminderNotificationTime(action.startHour)
+        notificationInteractor.setDailyStudyReminderNotificationTime(action.startHour)
             .onSuccess {
                 onNewMessage(Message.DailyStudyRemindersIntervalStartHourSaveResult.Success(action.startHour))
             }

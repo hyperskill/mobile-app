@@ -47,7 +47,6 @@ object ProfileFeatureBuilder {
             analyticInteractor,
             sentryInteractor,
             notificationInteractor,
-            pushNotificationsInteractor,
             urlPathProcessor,
             streakFlow,
             dailyStudyRemindersEnabledFlow,

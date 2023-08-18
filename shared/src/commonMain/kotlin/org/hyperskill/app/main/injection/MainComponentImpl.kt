@@ -27,7 +27,6 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             streakRecoveryComponent.streakRecoveryActionDispatcher,
             clickedNotificationComponent.notificationClickHandlingReducer,
             clickedNotificationComponent.notificationClickHandlingDispatcher,
-            appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
             appGraph.buildNotificationComponent().notificationInteractor
         )
 
