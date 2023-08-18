@@ -6,7 +6,6 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
-import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -31,7 +30,6 @@ object ProfileFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         notificationInteractor: NotificationInteractor,
-        pushNotificationsInteractor: PushNotificationsInteractor,
         urlPathProcessor: UrlPathProcessor,
         streakFlow: StreakFlow,
         dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,

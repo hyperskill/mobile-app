@@ -15,7 +15,6 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
-            pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
             urlPathProcessor = appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             dailyStudyRemindersEnabledFlow = appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
