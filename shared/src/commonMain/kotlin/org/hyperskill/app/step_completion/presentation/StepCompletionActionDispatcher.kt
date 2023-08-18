@@ -166,18 +166,23 @@ class StepCompletionActionDispatcher(
             .getState(forceUpdate = false)
             .getOrElse { return }
 
-        val currentProfileHypercoinsBalance = currentProfileStateRepository
+        val currentProfile = currentProfileStateRepository
             .getState(forceUpdate = true)
-            .map { it.gamification.hypercoinsBalance }
             .getOrElse { return }
 
-        if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
+        val shouldDailyStudyRemindersPermissionBeRequested =
+            !currentProfile.isDailyLearningNotificationEnabled &&
+                notificationInteractor.isRequiredToAskUserToEnableDailyReminders()
+
+        if (shouldDailyStudyRemindersPermissionBeRequested) {
             onNewMessage(Message.RequestDailyStudyRemindersPermission)
         } else {
             if (cachedProfile.dailyStep == stepId) {
-                val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+                val gemsEarned =
+                    currentProfile.gamification.hypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
                 onNewMessage(
                     Message.ProblemOfDaySolved(
+                        // TODO move formatting to the view state mapper
                         earnedGemsText = resourceProvider.getQuantityString(
                             SharedResources.plurals.earned_gems,
                             gemsEarned,
