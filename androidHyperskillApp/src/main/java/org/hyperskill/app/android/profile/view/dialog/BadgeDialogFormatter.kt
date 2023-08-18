@@ -3,21 +3,14 @@ package org.hyperskill.app.android.profile.view.dialog
 import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.badges.domain.model.BadgeKind
 import org.hyperskill.app.badges.domain.model.BadgeRank
 import org.hyperskill.app.profile.view.BadgeImage
-import org.hyperskill.app.profile.view.BadgesViewStateMapper
 
-abstract class AbstractBadgeDialogFragment : BottomSheetDialogFragment() {
-    protected val viewStateMapper: BadgesViewStateMapper by lazy(LazyThreadSafetyMode.NONE) {
-        BadgesViewStateMapper(resourceProvider = HyperskillApp.graph().commonComponent.resourceProvider)
-    }
-
+object BadgeDialogFormatter {
     @ColorInt
-    protected fun getRankTextColor(context: Context, rank: BadgeRank): Int =
+    fun getRankTextColor(context: Context, rank: BadgeRank): Int =
         when (rank) {
             BadgeRank.APPRENTICE,
             BadgeRank.EXPERT -> org.hyperskill.app.R.color.color_overlay_blue_brand
@@ -27,7 +20,7 @@ abstract class AbstractBadgeDialogFragment : BottomSheetDialogFragment() {
             BadgeRank.UNKNOWN -> org.hyperskill.app.R.color.color_on_surface_alpha_38
         }.let { colorRes -> ContextCompat.getColor(context, colorRes) }
 
-    protected fun getImageData(image: BadgeImage, kind: BadgeKind): Any? =
+    fun getImageData(image: BadgeImage, kind: BadgeKind): Any? =
         when (image) {
             BadgeImage.Locked -> when (kind) {
                 BadgeKind.ProjectMaster -> R.drawable.img_badge_details_project_master
