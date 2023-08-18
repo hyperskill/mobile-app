@@ -147,9 +147,10 @@ class StepCompletionActionDispatcher(
 
     private suspend fun handleTurnOnDailyStudyReminderAction() {
         notificationInteractor.setDailyStudyRemindersEnabled(true)
-        pushNotificationInteractor.setDailyStudyReminderNotificationTime(
+        val notificationHour =
             NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
-        )
+        notificationInteractor.setDailyStudyRemindersIntervalStartHour(notificationHour)
+        pushNotificationInteractor.setDailyStudyReminderNotificationTime(notificationHour)
     }
 
     private fun handlePostponeDailyStudyReminderAction() {

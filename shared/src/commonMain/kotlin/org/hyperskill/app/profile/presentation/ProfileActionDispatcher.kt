@@ -177,6 +177,7 @@ class ProfileActionDispatcher(
     private suspend fun handleSaveDailyStudyRemindersIsEnabled(action: Action.SaveDailyStudyRemindersIsEnabled) {
         val result = if (action.isEnabled) {
             val defaultStartHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+            notificationInteractor.setDailyStudyRemindersIntervalStartHour(defaultStartHour)
             pushNotificationsInteractor.setDailyStudyReminderNotificationTime(defaultStartHour)
         } else {
             pushNotificationsInteractor.disableDailyStudyReminderNotification()
@@ -193,6 +194,7 @@ class ProfileActionDispatcher(
     private suspend fun handleSaveDailyStudyRemindersIntervalStartHour(
         action: Action.SaveDailyStudyRemindersIntervalStartHour
     ) {
+        notificationInteractor.setDailyStudyRemindersIntervalStartHour(action.startHour)
         pushNotificationsInteractor.setDailyStudyReminderNotificationTime(action.startHour)
             .onSuccess {
                 onNewMessage(Message.DailyStudyRemindersIntervalStartHourSaveResult.Success(action.startHour))
