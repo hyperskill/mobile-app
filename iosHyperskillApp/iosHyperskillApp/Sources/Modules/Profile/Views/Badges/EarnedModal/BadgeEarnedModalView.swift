@@ -16,7 +16,7 @@ struct BadgeEarnedModalView: View {
     private(set) var earnedBadgeModalViewState: EarnedBadgeModalViewState
 
     var body: some View {
-        VStack(alignment: .leading, spacing: appearance.spacing) {
+        VStack(alignment: .center, spacing: appearance.spacing) {
             VStack(alignment: .center, spacing: appearance.interitemSpacing) {
                 Text(earnedBadgeModalViewState.formattedRank)
                     .foregroundColor(Color(earnedBadgeModalViewState.rank.foregroundColor))
