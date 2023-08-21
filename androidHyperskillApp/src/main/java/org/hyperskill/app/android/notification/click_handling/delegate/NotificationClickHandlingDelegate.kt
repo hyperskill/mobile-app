@@ -1,11 +1,14 @@
 package org.hyperskill.app.android.notification.click_handling.delegate
 
+import androidx.fragment.app.FragmentManager
 import com.github.terrakok.cicerone.Router
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.profile.view.dialog.BadgeEarnedDialogFragment
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 object NotificationClickHandlingDelegate {
     fun onNavigationViewAction(
@@ -31,5 +34,13 @@ object NotificationClickHandlingDelegate {
                 )
             }
         }
+    }
+
+    fun onShowEarnedBadgeModalViewAction(
+        showEarnedBadgeModal: NotificationClickHandlingFeature.Action.ViewAction.ShowEarnedBadgeModal,
+        fragmentManager: FragmentManager
+    ) {
+        BadgeEarnedDialogFragment.newInstance(showEarnedBadgeModal.badge)
+            .showIfNotExists(fragmentManager, BadgeEarnedDialogFragment.TAG)
     }
 }
