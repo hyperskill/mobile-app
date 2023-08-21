@@ -169,8 +169,12 @@ extension AppViewController: AppViewControllerProtocol {
             } else {
                 ProgressHUD.dismissWithDelay(Animation.clickedNotificationViewActionDismissProgressHUDDelay)
             }
-        case .showEarnedBadgeModal:
-            #warning("TODO: implement in ALTAPPS-893")
+        case .showEarnedBadgeModal(let showEarnedBadgeModalViewAction):
+            let earnedBadgeModalAssembly = BadgeEarnedModalAssembly(
+                badge: showEarnedBadgeModalViewAction.badge,
+                delegate: viewModel
+            )
+            presentIfPanModalWithCustomModalPresentationStyle(earnedBadgeModalAssembly.makeModule())
         }
     }
 
