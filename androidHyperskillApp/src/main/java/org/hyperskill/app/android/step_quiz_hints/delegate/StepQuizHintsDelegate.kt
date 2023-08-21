@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.step_quiz_hints.delegate
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
 import androidx.core.view.isVisible
 import coil.ImageLoader
 import coil.load
@@ -27,6 +28,9 @@ class StepQuizHintsDelegate(
             }
 
             with(stepQuizHintCard) {
+                stepQuizHintContentTextView.movementMethod = LinkMovementMethod.getInstance()
+                stepQuizHintContentTextView.setTextIsSelectable(true)
+
                 stepQuizSeeNextHintButton.root.setText(org.hyperskill.app.R.string.step_quiz_hints_see_next_hint)
                 stepQuizSeeNextHintButton.root.setOnClickListener {
                     onNewMessage(StepQuizHintsFeature.Message.LoadHintButtonClicked)
