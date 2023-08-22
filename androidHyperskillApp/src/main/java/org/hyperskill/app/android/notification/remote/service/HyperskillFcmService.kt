@@ -30,7 +30,7 @@ class HyperskillFcmService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        Log.d("HyperskillFcmService", "messageReceived: $message")
+        Log.d("HyperskillFcmService", "MessageReceived.\nData=${message.data}")
         coroutineScope.launch {
             pushNotificationHandler?.onNotificationReceived(
                 context = applicationContext,

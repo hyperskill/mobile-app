@@ -34,13 +34,14 @@ class PushNotificationHandlerImpl(
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 throw RuntimeException("Can't create notification on main thread")
             }
+            val notificationId = data?.id?.notificationId ?: 0
             val androidNotification = NotificationBuilder.getSimpleNotificationBuilder(
                 context = context,
                 channel = data?.channel?.channelId ?: HyperskillNotificationChannel.Other.channelId,
                 title = notification.title,
-                body = notification.body,
+                body = notification.body, 
                 pendingIntent = with(NotificationIntentBuilder) {
-                    buildActivityPendingIntent(context) {
+                    buildActivityPendingIntent(context, notificationId.toInt()) {
                         if (data != null) {
                             addClickedNotificationDataExtra(PushNotificationClickedData(data))
                         }

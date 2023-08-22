@@ -12,20 +12,20 @@ data class PushNotificationData(
     @SerialName("badge")
     private val badgeIdString: String? = null
 ) {
-    val typeEnum: PushNotificationType =
-        try {
+    val typeEnum: PushNotificationType
+        get() = try {
             PushNotificationType.valueOf(typeString)
         } catch (e: Exception) {
             PushNotificationType.UNKNOWN
         }
 
-    val categoryEnum: PushNotificationCategory =
-        try {
+    val categoryEnum: PushNotificationCategory
+        get() = try {
             PushNotificationCategory.getByBackendName(categoryString)
         } catch (e: Exception) {
             PushNotificationCategory.UNKNOWN
         }
 
-    val badgeId: Long? =
-        badgeIdString?.toLongOrNull()
+    val badgeId: Long?
+        get() = badgeIdString?.toLongOrNull()
 }

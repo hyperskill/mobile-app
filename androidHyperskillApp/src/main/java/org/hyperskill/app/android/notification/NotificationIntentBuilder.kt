@@ -11,12 +11,16 @@ import org.hyperskill.app.android.notification.model.ClickedNotificationData
 object NotificationIntentBuilder {
     private const val NotificationClickedKey = "NotificationClickedKey"
 
-    fun buildActivityPendingIntent(context: Context, block: Intent.() -> Unit = {}): PendingIntent =
-        PendingIntent.getActivity(
+    fun buildActivityPendingIntent(
+        context: Context,
+        requestCode: Int,
+        block: Intent.() -> Unit = {}
+    ): PendingIntent =
+        PendingIntentCompat.getActivity(
             context,
-            0,
+            requestCode,
             Intent(context, MainActivity::class.java).apply(block),
-            PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
 
     fun Intent.addClickedNotificationDataExtra(notificationClickedData: ClickedNotificationData) {
