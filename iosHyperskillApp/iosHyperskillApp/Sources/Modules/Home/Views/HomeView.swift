@@ -106,17 +106,6 @@ struct HomeView: View {
                         onReloadButtonTap: viewModel.doReloadNextLearningActivity
                     )
                     .padding(.top)
-
-                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
-                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
-
-                    if shouldShowContinueInWebButton {
-                        Button(
-                            Strings.Home.continueLearningInWebButton,
-                            action: viewModel.doContinueLearningOnWebPresentation
-                        )
-                        .buttonStyle(OutlineButtonStyle())
-                    }
                 }
                 .padding([.horizontal, .bottom])
                 .pullToRefresh(
