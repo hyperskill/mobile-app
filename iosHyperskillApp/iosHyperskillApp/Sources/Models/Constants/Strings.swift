@@ -110,6 +110,7 @@ enum Strings {
             static let reportAlertTitle = sharedStrings.step_quiz_hints_report_alert_title.localized()
             static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
             static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
+            static let copy = sharedStrings.step_quiz_hints_copy.localized()
         }
 
         enum ProblemOfDaySolvedModal {
