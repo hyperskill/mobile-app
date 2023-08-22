@@ -78,6 +78,12 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     HomeSubheadlineView()
 
+                    ProblemsLimitView(
+                        stateKs: viewModel.problemsLimitViewStateKs,
+                        onReloadButtonTap: viewModel.doReloadProblemsLimit
+                    )
+                    .padding(.top, LayoutInsets.smallInset)
+
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
                         isFreemiumEnabled: data.isFreemiumEnabled,
@@ -100,17 +106,6 @@ struct HomeView: View {
                         onReloadButtonTap: viewModel.doReloadNextLearningActivity
                     )
                     .padding(.top)
-
-                    let shouldShowContinueInWebButton = data.problemOfDayState is HomeFeatureProblemOfDayStateEmpty ||
-                      data.problemOfDayState is HomeFeatureProblemOfDayStateSolved
-
-                    if shouldShowContinueInWebButton {
-                        Button(
-                            Strings.Home.continueLearningInWebButton,
-                            action: viewModel.doContinueLearningOnWebPresentation
-                        )
-                        .buttonStyle(OutlineButtonStyle())
-                    }
                 }
                 .padding([.horizontal, .bottom])
                 .pullToRefresh(
