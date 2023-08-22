@@ -11,6 +11,7 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
 
     override func shouldNotifyStateDidChange(
         oldState: StudyPlanScreenFeature.ViewState,
@@ -83,6 +84,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(
                 message: GamificationToolbarFeatureMessageClickedProgress()
+            )
+        )
+    }
+
+    func doReloadProblemsLimit() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageProblemsLimitMessage(
+                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
             )
         )
     }
