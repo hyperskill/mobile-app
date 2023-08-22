@@ -6,23 +6,12 @@ import SwiftUI
 struct BadgeRemoteImageView: View {
     let image: BadgeImageRemote
 
-    private(set) var primarySourceType: Source = .full
-
     @State private var isLoading = false
-
-    private var imageSource: String {
-        switch primarySourceType {
-        case .full:
-            return image.fullSource
-        case .preview:
-            return image.previewSource
-        }
-    }
 
     var body: some View {
         ZStack {
             LazyImage(
-                source: imageSource,
+                source: image.source,
                 resizingMode: .aspectFit
             )
             .animation(nil)
@@ -53,10 +42,7 @@ struct BadgeRemoteImageView: View {
 struct BadgeRemoteImageView_Previews: PreviewProvider {
     static var previews: some View {
         BadgeRemoteImageView(
-            image: BadgeImageRemote(
-                fullSource: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png",
-                previewSource: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png"
-            )
+            image: BadgeImageRemote(source: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png")
         )
     }
 }

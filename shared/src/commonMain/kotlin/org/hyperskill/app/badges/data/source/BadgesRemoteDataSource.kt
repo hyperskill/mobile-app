@@ -4,4 +4,5 @@ import org.hyperskill.app.badges.domain.model.Badge
 
 interface BadgesRemoteDataSource {
     suspend fun getReceivedBadges(): Result<List<Badge>>
+    suspend fun getBadge(badgeId: Long): Result<Badge>
 }
