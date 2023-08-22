@@ -32,8 +32,9 @@ class DailyStudyReminderLocalNotificationDelegate(
 
         val notificationDescription = notificationInteractor.getRandomDailyStudyRemindersNotificationDescription()
 
+        val notificationId = NotificationId.DailyStudyReminder.notificationId
         val pendingIntent = with(NotificationIntentBuilder) {
-            buildActivityPendingIntent(context) {
+            buildActivityPendingIntent(context, notificationId.toInt()) {
                 addClickedNotificationDataExtra(
                     DailyStudyReminderClickedData(notificationId = notificationDescription.id)
                 )

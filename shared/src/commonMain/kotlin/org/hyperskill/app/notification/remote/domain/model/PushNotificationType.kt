@@ -16,6 +16,8 @@ enum class PushNotificationType {
     STREAK_NEW,
     REMIND_SHORT,
     REMIND_MEDIUM,
+    USER_BADGE_UPDATED,
+    USER_BADGE_UNLOCKED,
 
     UNKNOWN
 }

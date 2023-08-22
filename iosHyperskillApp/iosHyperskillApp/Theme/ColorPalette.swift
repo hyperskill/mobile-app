@@ -146,6 +146,7 @@ enum ColorPalette {
     static let overlayBlue = Self.sharedColors.color_overlay_blue.dynamicUIColor
     static let overlayBlueAlpha12 = Self.sharedColors.color_overlay_blue_alpha_12.dynamicUIColor
     static let overlayBlueAlpha7 = Self.sharedColors.color_overlay_blue_alpha_7.dynamicUIColor
+    static let overlayBlueBrand = Self.sharedColors.color_overlay_blue_brand.color.uiColor
 
     // MARK: Orange
 
