@@ -39,7 +39,7 @@ class PushNotificationHandlerImpl(
                 context = context,
                 channel = data?.channel?.channelId ?: HyperskillNotificationChannel.Other.channelId,
                 title = notification.title,
-                body = notification.body, 
+                body = notification.body,
                 pendingIntent = with(NotificationIntentBuilder) {
                     buildActivityPendingIntent(context, notificationId.toInt()) {
                         if (data != null) {
