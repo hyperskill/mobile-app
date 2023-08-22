@@ -135,6 +135,7 @@ extension NotificationsService {
         case type
         case id
         case aps
+        case badge
         case pushNotificationData
     }
 }
@@ -166,11 +167,15 @@ extension NotificationsService {
     }
 
     private func parseRemoteNotification(with userInfo: NotificationUserInfo) -> PushNotificationData? {
-        guard let apsDict = userInfo[PayloadKey.aps.rawValue] as? [String: Any] else {
+        guard var apsDict = userInfo[PayloadKey.aps.rawValue] as? [String: Any] else {
             #if DEBUG
             print("NotificationsService: \(#function), failed to parse aps dict, userInfo = \(userInfo)")
             #endif
             return nil
+        }
+
+        if let badgeID = userInfo[PayloadKey.badge.rawValue] {
+            apsDict[PayloadKey.badge.rawValue] = badgeID
         }
 
         let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(rawNotificationData: apsDict)

@@ -5,7 +5,12 @@ final class HomeAssembly: UIKitAssembly {
     func makeModule() -> UIViewController {
         let homeComponent = AppGraphBridge.sharedAppGraph.buildHomeComponent()
 
+        let problemsLimitComponent = AppGraphBridge.sharedAppGraph.buildProblemsLimitComponent(
+            screen: ProblemsLimitScreen.home
+        )
+
         let viewModel = HomeViewModel(
+            problemsLimitViewStateMapper: problemsLimitComponent.problemsLimitViewStateMapper,
             feature: homeComponent.homeFeature
         )
 

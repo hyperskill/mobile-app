@@ -60,10 +60,7 @@ struct ProfileBadgesGridItemView_Previews: PreviewProvider {
                 badge: BadgesViewState.Badge(
                     kind: .bountyhunter,
                     title: "Bounty Hunter",
-                    image: BadgeImageRemote(
-                        fullSource: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png",
-                        previewSource: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png"
-                    ),
+                    image: BadgeImageRemote(source: "https://hs-dev.azureedge.net/static/badges/apprentice-streak.png"),
                     formattedCurrentLevel: "Level 2",
                     nextLevel: 3,
                     progress: 0.3

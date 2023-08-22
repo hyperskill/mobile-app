@@ -1,12 +1,15 @@
 package org.hyperskill.app.notification.click_handling.presentation
 
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.Action
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.EarnedBadgeFetchResult
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.InternalAction
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.Message
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.ProfileFetchResult
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.State
 import org.hyperskill.app.notification.remote.domain.analytic.PushNotificationClickedHyperskillAnalyticEvent
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
+import org.hyperskill.app.profile.domain.analytic.badges.EarnedBadgeModalHiddenHyperskillAnalyticsEvent
+import org.hyperskill.app.profile.domain.analytic.badges.EarnedBadgeModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -17,6 +20,18 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
         state to when (message) {
             is Message.NotificationClicked -> handleNotificationClicked(message)
             is ProfileFetchResult -> handleProfileFetchResult(message)
+            is EarnedBadgeFetchResult -> handleEarnedBadgeFetchResult(message)
+            /**
+             * Analytic
+             */
+            is Message.EarnedBadgeModalHiddenEventMessage ->
+                setOf(
+                    InternalAction.LogAnalyticEvent(EarnedBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind))
+                )
+            is Message.EarnedBadgeModalShownEventMessage ->
+                setOf(
+                    InternalAction.LogAnalyticEvent(EarnedBadgeModalShownHyperskillAnalyticEvent(message.badgeKind))
+                )
         }
 
     private fun handleNotificationClicked(
@@ -51,6 +66,22 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
             PushNotificationType.STREAK_FREEZE_ONBOARDING ->
                 setOf(Action.ViewAction.NavigateTo.Profile)
 
+            PushNotificationType.USER_BADGE_UPDATED,
+            PushNotificationType.USER_BADGE_UNLOCKED ->
+                buildSet {
+                    if (message.notificationLaunchedApp) {
+                        add(Action.ViewAction.NavigateTo.Profile)
+                    }
+                    message.notificationData.badgeId?.let { earnedBadgeId ->
+                        addAll(
+                            setOf(
+                                Action.ViewAction.SetLoadingShowed(true),
+                                InternalAction.FetchEarnedBadge(earnedBadgeId)
+                            )
+                        )
+                    }
+                }
+
             PushNotificationType.UNKNOWN ->
                 setOf(Action.ViewAction.NavigateTo.Home)
         }
@@ -72,6 +103,19 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
                     }
                 }
                 ProfileFetchResult.Error -> null
+            }
+        )
+
+    private fun handleEarnedBadgeFetchResult(
+        message: EarnedBadgeFetchResult
+    ): Set<Action> =
+        setOfNotNull(
+            Action.ViewAction.SetLoadingShowed(false),
+            when (message) {
+                is EarnedBadgeFetchResult.Success -> {
+                    Action.ViewAction.ShowEarnedBadgeModal(message.badge)
+                }
+                EarnedBadgeFetchResult.Error -> null
             }
         )
 }
