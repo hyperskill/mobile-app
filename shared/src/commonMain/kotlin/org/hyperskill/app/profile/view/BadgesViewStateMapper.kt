@@ -52,10 +52,7 @@ class BadgesViewStateMapper(
         BadgesViewState.Badge(
             kind = badge.kind,
             title = badge.title,
-            image = BadgeImage.Remote(
-                fullSource = badge.imageFull,
-                previewSource = badge.imagePreview
-            ),
+            image = BadgeImage.Remote(source = badge.imagePreview),
             formattedCurrentLevel = resourceProvider.getString(
                 if (badge.isMaxLevel) {
                     SharedResources.strings.badge_max_level
@@ -122,11 +119,22 @@ class BadgesViewStateMapper(
                 resourceProvider.getString(SharedResources.strings.badge_level, nextLevel)
             },
             progress = getProgress(badge),
-            image = BadgeImage.Remote(
-                previewSource = badge.imagePreview,
-                fullSource = badge.imageFull
-            ),
+            image = BadgeImage.Remote(source = badge.imageFull),
             isLocked = badge.rank == BadgeRank.LOCKED
+        )
+
+    fun mapToEarnedBadgeModalViewState(badge: Badge): EarnedBadgeModalViewState =
+        EarnedBadgeModalViewState(
+            kind = badge.kind,
+            rank = badge.rank,
+            title = resourceProvider.getString(SharedResources.strings.earned_badge_modal_title, badge.level),
+            description = resourceProvider.getString(
+                SharedResources.strings.earned_badge_modal_description,
+                badge.title,
+                badge.level
+            ),
+            formattedRank = getBadgeRankName(badge.rank) ?: "",
+            image = BadgeImage.Remote(source = badge.imageFull)
         )
 
     private fun mapToDetails(badgeKind: BadgeKind): BadgeDetailsViewState =

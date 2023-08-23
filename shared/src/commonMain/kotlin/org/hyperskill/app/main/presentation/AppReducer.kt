@@ -99,7 +99,8 @@ class AppReducer(
                                     reduceNotificationClickHandlingMessage(
                                         NotificationClickHandlingFeature.Message.NotificationClicked(
                                             message.notificationData,
-                                            isUserAuthorized = true
+                                            isUserAuthorized = true,
+                                            notificationLaunchedApp = true
                                         )
                                     )
                                 )
@@ -115,7 +116,8 @@ class AppReducer(
                                 reduceNotificationClickHandlingMessage(
                                     NotificationClickHandlingFeature.Message.NotificationClicked(
                                         message.notificationData,
-                                        isUserAuthorized = false
+                                        isUserAuthorized = false,
+                                        notificationLaunchedApp = true
                                     )
                                 )
                             )
@@ -157,7 +159,8 @@ class AppReducer(
             state to reduceNotificationClickHandlingMessage(
                 NotificationClickHandlingFeature.Message.NotificationClicked(
                     notificationData = message.notificationData,
-                    isUserAuthorized = state.isAuthorized
+                    isUserAuthorized = state.isAuthorized,
+                    notificationLaunchedApp = false
                 )
             )
         } else {

@@ -75,7 +75,7 @@ platform :ios do
         clean: true,
         output_directory: "artifacts",
         output_name: "#{scheme}.ipa",
-        include_bitcode: true,
+        include_bitcode: false,
         skip_profile_detection: true,
         export_method: "app-store",
         export_options: {
@@ -160,7 +160,7 @@ platform :ios do
         clean: true,
         output_directory: "artifacts",
         output_name: "#{scheme}.ipa",
-        include_bitcode: true,
+        include_bitcode: false,
         skip_profile_detection: true,
         export_method: "ad-hoc",
         export_options: {

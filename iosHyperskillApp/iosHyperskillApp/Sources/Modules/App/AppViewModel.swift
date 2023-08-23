@@ -215,3 +215,27 @@ extension AppViewModel: StreakRecoveryModalViewControllerDelegate {
         )
     }
 }
+
+// MARK: - AppViewModel: BadgeEarnedModalViewControllerDelegate -
+
+extension AppViewModel: BadgeEarnedModalViewControllerDelegate {
+    func badgeEarnedModalViewControllerDidAppear(
+        _ viewController: BadgeEarnedModalViewController, badgeKind: BadgeKind
+    ) {
+        onNewMessage(
+            AppFeatureMessageNotificationClickHandlingMessage(
+                message: NotificationClickHandlingFeatureMessageEarnedBadgeModalShownEventMessage(badgeKind: badgeKind)
+            )
+        )
+    }
+
+    func badgeEarnedModalViewControllerDidDisappear(
+        _ viewController: BadgeEarnedModalViewController, badgeKind: BadgeKind
+    ) {
+        onNewMessage(
+            AppFeatureMessageNotificationClickHandlingMessage(
+                message: NotificationClickHandlingFeatureMessageEarnedBadgeModalHiddenEventMessage(badgeKind: badgeKind)
+            )
+        )
+    }
+}

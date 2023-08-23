@@ -39,7 +39,7 @@ fun BadgeImage(
                 LockedBadgeImage(badgeKind = badge.kind, modifier = imageModifier)
             }
             is BadgeImage.Remote -> {
-                AsyncBadgeImage(imageSource = image.fullSource, modifier = imageModifier)
+                AsyncBadgeImage(imageSource = image.source, modifier = imageModifier)
             }
         }
     }

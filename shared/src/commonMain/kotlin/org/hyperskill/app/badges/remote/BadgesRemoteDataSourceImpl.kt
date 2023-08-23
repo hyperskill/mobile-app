@@ -17,4 +17,11 @@ class BadgesRemoteDataSourceImpl(
                 contentType(ContentType.Application.Json)
             }.body<BadgesResponse>().badges
         }
+
+    override suspend fun getBadge(badgeId: Long): Result<Badge> =
+        runCatching {
+            httpClient.get("/api/badges/$badgeId") {
+                contentType(ContentType.Application.Json)
+            }.body<BadgesResponse>().badges.first()
+        }
 }

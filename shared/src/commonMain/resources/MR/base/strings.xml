@@ -483,7 +483,7 @@
     <string name="badge_bounty_hunter">Bounty Hunter</string>
     <string name="badge_level">Level %d</string>
     <string name="badge_max_level">Level %d (Max)</string>
-    <string name="badge_max_level_description">Hooray! You’ve reached the maximum level!</string>
+    <string name="badge_max_level_description">Hooray! You\'ve reached the maximum level!</string>
     <string name="badge_project_master_description">Complete projects to upgrade this badge</string>
     <string name="badge_topic_master_description">Complete topics to upgrade this badge</string>
     <string name="badge_committed_learner_description">Achieve streaks to upgrade this badge</string>
@@ -497,4 +497,8 @@
     <string name="badge_master_level">Master</string>
     <string name="badge_legendary_level">Legendary</string>
     <string name="badge_locked">Locked</string>
+
+    <!-- Earned badge modal -->
+    <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
+    <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
 </resources>
