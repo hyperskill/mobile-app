@@ -144,7 +144,6 @@ class StepCompletionActionDispatcher(
     }
 
     private suspend fun handleTurnOnDailyStudyReminderAction() {
-        notificationInteractor.setDailyStudyRemindersEnabled(true)
         notificationInteractor.setDailyStudyReminderNotificationTime(
             NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
         )

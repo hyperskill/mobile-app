@@ -17,13 +17,6 @@ class NotificationCacheDataSourceImpl(
         settings.putBoolean(NotificationCacheKeyValues.NOTIFICATIONS_PERMISSION_GRANTED, isGranted)
     }
 
-    override fun isDailyStudyRemindersEnabled(): Boolean =
-        settings.getBoolean(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_ENABLED, false)
-
-    override fun setDailyStudyRemindersEnabled(isEnabled: Boolean) {
-        settings.putBoolean(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_ENABLED, isEnabled)
-    }
-
     override fun getNotificationTimestamp(key: String): Long =
         settings.getLong(key, 0)
 
@@ -43,9 +36,6 @@ class NotificationCacheDataSourceImpl(
 
     override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         getDailyStudyRemindersNotificationDescriptions().random()
-
-    override fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
-        getDailyStudyRemindersNotificationDescriptions().shuffled()
 
     private fun getDailyStudyRemindersNotificationDescriptions() =
         listOf(

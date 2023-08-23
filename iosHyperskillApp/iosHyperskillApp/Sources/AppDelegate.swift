@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        notificationsService.scheduleDailyStudyReminderLocalNotifications()
+        notificationsService.removeDailyStudyReminderLocalNotifications()
     }
 
     // MARK: Handling Notifications
