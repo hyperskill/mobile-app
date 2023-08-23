@@ -122,13 +122,12 @@ interface ProfileFeature {
              * @property profile User profile model.
              * @property streak User profile streak.
              * @property streakFreezeState A streak freeze state.
-             * @property dailyStudyRemindersState A daily study reminders state.
              */
             data class Success(
                 val profile: Profile,
                 val streak: Streak?,
                 val streakFreezeState: StreakFreezeState?,
-                val dailyStudyRemindersState: DailyStudyRemindersState,
+                val defaultDailyStudyReminderHour: Int,
                 val badges: List<Badge>
             ) : ProfileFetchResult
 
@@ -201,7 +200,10 @@ interface ProfileFeature {
          * Flow messages.
          */
         object StepQuizSolved : Message
-        data class ProfileChanged(val profile: Profile) : Message
+        data class ProfileChanged(
+            val profile: Profile,
+            val defaultDailyStudyReminderHour: Int
+        ) : Message
         data class StreakChanged(val streak: Streak?) : Message
 
         /**

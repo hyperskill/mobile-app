@@ -18,6 +18,7 @@ import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClic
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalAnalyticAction
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.profile.presentation.ProfileFeature.State
@@ -41,19 +42,8 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.ProfileFetchResult.Success ->
-                State.Content(
-                    profile = message.profile,
-                    streak = message.streak,
-                    streakFreezeState = message.streakFreezeState,
-                    dailyStudyRemindersState = message.dailyStudyRemindersState,
-                    badgesState = ProfileFeature.BadgesState(
-                        badges = message.badges,
-                        isExpanded = false
-                    )
-                ) to emptySet()
-            is Message.ProfileFetchResult.Error ->
-                State.Error to emptySet()
+            is Message.ProfileFetchResult ->
+                handleProfileFetchResult(message)
             is Message.PullToRefresh ->
                 if (state is State.Content && !state.isRefreshing) {
                     state.copy(isRefreshing = true) to setOf(
@@ -74,34 +64,8 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
-            is Message.ProfileChanged -> {
-                if (state is State.Content) {
-                    state.copy(
-                        profile = message.profile,
-                        streakFreezeState = if (
-                            state.streakFreezeState is ProfileFeature.StreakFreezeState.NotEnoughGems &&
-                            state.streakFreezeState.price <= message.profile.gamification.hypercoinsBalance
-                        ) {
-                            ProfileFeature.StreakFreezeState.CanBuy(
-                                state.streakFreezeState.streakFreezeProductId,
-                                state.streakFreezeState.price
-                            )
-                        } else if (
-                            state.streakFreezeState is ProfileFeature.StreakFreezeState.CanBuy &&
-                            state.streakFreezeState.price > message.profile.gamification.hypercoinsBalance
-                        ) {
-                            ProfileFeature.StreakFreezeState.NotEnoughGems(
-                                state.streakFreezeState.streakFreezeProductId,
-                                state.streakFreezeState.price
-                            )
-                        } else {
-                            state.streakFreezeState
-                        }
-                    ) to emptySet()
-                } else {
-                    null
-                }
-            }
+            is Message.ProfileChanged ->
+                handleProfileChanged(state, message)
             is Message.StreakChanged -> {
                 if (state is State.Content) {
                     state.copy(streak = message.streak) to emptySet()
@@ -259,6 +223,70 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             is ProfileFeature.StreakFreezeState.CanBuy -> StreakFreezeAnalyticState.CAN_BUY
             is ProfileFeature.StreakFreezeState.NotEnoughGems -> StreakFreezeAnalyticState.NOT_ENOUGH_GEMS
         }
+
+    private fun handleProfileFetchResult(
+        message: Message.ProfileFetchResult
+    ): ReducerResult =
+        when (message) {
+            is Message.ProfileFetchResult.Success ->
+                State.Content(
+                    profile = message.profile,
+                    streak = message.streak,
+                    streakFreezeState = message.streakFreezeState,
+                    dailyStudyRemindersState = getDailyStudyRemindersState(
+                        profile = message.profile,
+                        defaultDailyStudyReminderHour = message.defaultDailyStudyReminderHour
+                    ),
+                    badgesState = ProfileFeature.BadgesState(
+                        badges = message.badges,
+                        isExpanded = false
+                    )
+                ) to emptySet()
+            Message.ProfileFetchResult.Error ->
+                State.Error to emptySet()
+        }
+
+    private fun handleProfileChanged(
+        state: State,
+        message: Message.ProfileChanged
+    ): ReducerResult =
+        state.updateContent { content ->
+            content.copy(
+                profile = message.profile,
+                streakFreezeState = if (
+                    content.streakFreezeState is ProfileFeature.StreakFreezeState.NotEnoughGems &&
+                    content.streakFreezeState.price <= message.profile.gamification.hypercoinsBalance
+                ) {
+                    ProfileFeature.StreakFreezeState.CanBuy(
+                        content.streakFreezeState.streakFreezeProductId,
+                        content.streakFreezeState.price
+                    )
+                } else if (
+                    content.streakFreezeState is ProfileFeature.StreakFreezeState.CanBuy &&
+                    content.streakFreezeState.price > message.profile.gamification.hypercoinsBalance
+                ) {
+                    ProfileFeature.StreakFreezeState.NotEnoughGems(
+                        content.streakFreezeState.streakFreezeProductId,
+                        content.streakFreezeState.price
+                    )
+                } else {
+                    content.streakFreezeState
+                },
+                dailyStudyRemindersState = getDailyStudyRemindersState(
+                    profile = message.profile,
+                    defaultDailyStudyReminderHour = message.defaultDailyStudyReminderHour
+                )
+            ) to emptySet()
+        }
+
+    private fun getDailyStudyRemindersState(
+        profile: Profile,
+        defaultDailyStudyReminderHour: Int
+    ): ProfileFeature.DailyStudyRemindersState =
+        ProfileFeature.DailyStudyRemindersState(
+            isEnabled = profile.isDailyLearningNotificationEnabled,
+            startHour = profile.dailyLearningNotificationHour ?: defaultDailyStudyReminderHour
+        )
 
     private fun handleBadgesVisibilityButtonClicked(
         state: State,
