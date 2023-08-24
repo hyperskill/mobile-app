@@ -10,15 +10,15 @@ import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.notification.local.data.model.NotificationDescription
+import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.local.domain.repository.NotificationRepository
 import org.hyperskill.app.notification.remote.domain.repository.NotificationTimeRepository
-import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository,
     private val submissionRepository: SubmissionRepository,
-    private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
     private val notificationTimeRepository: NotificationTimeRepository
 ) {
     companion object {
@@ -35,6 +35,15 @@ class NotificationInteractor(
         notificationRepository.setNotificationsPermissionGranted(isGranted)
     }
 
+    fun isDailyStudyRemindersEnabled(): Boolean =
+        notificationRepository.isDailyStudyRemindersEnabled()
+
+    suspend fun setDailyStudyRemindersEnabled(enabled: Boolean) {
+        notificationRepository.setDailyStudyRemindersEnabled(enabled)
+
+        dailyStudyRemindersEnabledFlow.notifyDataChanged(enabled)
+    }
+
     fun getNotificationTimestamp(key: String): Long =
         notificationRepository.getNotificationTimestamp(key)
 
@@ -48,12 +57,8 @@ class NotificationInteractor(
     fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         notificationRepository.getRandomDailyStudyRemindersNotificationDescription()
 
-    suspend fun isRequiredToAskUserToEnableDailyReminders(): Boolean {
-        val profile = currentProfileStateRepository.getState().getOrElse {
-            return false
-        }
-
-        if (profile.isDailyLearningNotificationEnabled) {
+    fun isRequiredToAskUserToEnableDailyReminders(): Boolean {
+        if (notificationRepository.isDailyStudyRemindersEnabled()) {
             return false
         }
 
@@ -77,6 +82,9 @@ class NotificationInteractor(
     private fun getUserAskedToEnableDailyRemindersCount(): Long =
         notificationRepository.getUserAskedToEnableDailyRemindersCount()
 
+    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
+        notificationRepository.getShuffledDailyStudyRemindersNotificationDescriptions()
+
     /**
      * Sets the daily study reminder notification time.
      *
@@ -85,11 +93,8 @@ class NotificationInteractor(
     internal suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> {
         val utcNotificationHour = getUtcDailyStudyReminderNotificationHour(notificationHour)
         notificationRepository.setDailyStudyRemindersIntervalStartHour(utcNotificationHour)
-        val result = notificationTimeRepository
+        return notificationTimeRepository
             .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
-        // reloading state to update utcNotificationHour
-        currentProfileStateRepository.reloadState()
-        return result
     }
 
     internal suspend fun setSavedDailyStudyReminderNotificationTime(): Result<Unit> =

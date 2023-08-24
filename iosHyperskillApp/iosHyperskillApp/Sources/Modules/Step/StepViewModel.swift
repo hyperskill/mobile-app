@@ -106,10 +106,17 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
         if isGranted {
             Task(priority: .userInitiated) {
-                let _ = await notificationsRegistrationService.requestAuthorizationIfNeeded()
+                let isNotificationPermissionGranted =
+                  await notificationsRegistrationService.requestAuthorizationIfNeeded()
 
                 await MainActor.run {
                     onNewMessage(message)
+
+                    if isNotificationPermissionGranted {
+                        notificationService.scheduleDailyStudyReminderLocalNotifications(
+                            analyticRoute: stepRoute.analyticRoute
+                        )
+                    }
                 }
             }
         } else {

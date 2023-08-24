@@ -169,6 +169,9 @@ final class ProfileViewModel: FeatureViewModel<
         onNewMessage(
             ProfileFeatureMessageDailyStudyRemindersIntervalStartHourChanged(startHour: Int32(startHour))
         )
+        notificationService.scheduleDailyStudyReminderLocalNotifications(
+            analyticRoute: HyperskillAnalyticRoute.Profile()
+        )
     }
 
     func determineCurrentNotificationPermissionStatus() {
@@ -182,13 +185,22 @@ final class ProfileViewModel: FeatureViewModel<
         newValue: NotificationPermissionStatus?
     ) {
         guard oldValue != newValue,
-              case .content(let content) = stateKs,
-              content.dailyStudyRemindersState.isEnabled else {
+              notificationInteractor.isDailyStudyRemindersEnabled() else {
             return
         }
 
-        DispatchQueue.main.async {
-            self.objectWillChange.send()
+        if newValue?.isRegistered ?? false {
+            notificationService.scheduleDailyStudyReminderLocalNotifications(
+                analyticRoute: HyperskillAnalyticRoute.Profile()
+            )
+        } else {
+            notificationService.removeDailyStudyReminderLocalNotifications()
+        }
+
+        if case .content = stateKs {
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
 
