@@ -16,7 +16,6 @@ interface NotificationRepository {
     fun setDailyStudyRemindersIntervalStartHour(hour: Int)
 
     fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription
-    fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription>
 
     fun getLastTimeUserAskedToEnableDailyReminders(): Long?
     fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long)

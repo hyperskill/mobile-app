@@ -85,6 +85,8 @@ struct ProfileView: View {
         case .content(let data):
             if data.isLoadingShowed {
                 let _ = ProgressHUD.show()
+            } else {
+                let _ = ProgressHUD.dismiss()
             }
 
             let profileViewData = viewModel.makeProfileViewData(
