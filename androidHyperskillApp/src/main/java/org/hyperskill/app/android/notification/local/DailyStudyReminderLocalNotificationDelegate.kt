@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.notification.local
 
 import android.content.Context
-import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import kotlinx.coroutines.runBlocking
@@ -29,7 +28,6 @@ class DailyStudyReminderLocalNotificationDelegate(
     }
 
     override fun onNeedShowNotification() {
-        Log.d("DailyStudyReminderLocalNotificationDelegate", "onNeedShowNotification has called")
         if (wasNotificationTimeSentToServer() || !notificationInteractor.isDailyStudyRemindersEnabled()) {
             return
         }
