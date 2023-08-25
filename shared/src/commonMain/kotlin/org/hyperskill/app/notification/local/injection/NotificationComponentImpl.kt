@@ -29,6 +29,7 @@ class NotificationComponentImpl(appGraph: AppGraph) : NotificationComponent {
             notificationRepository,
             appGraph.submissionDataComponent.submissionRepository,
             appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
-            notificationTimeRepository
+            notificationTimeRepository,
+            appGraph.profileDataComponent.currentProfileStateRepository
         )
 }
