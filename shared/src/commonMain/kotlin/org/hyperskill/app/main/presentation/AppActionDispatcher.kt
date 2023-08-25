@@ -1,9 +1,7 @@
 package org.hyperskill.app.main.presentation
 
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
@@ -114,7 +112,7 @@ class AppActionDispatcher(
     }
 
     private suspend fun handleUpdateDailyLearningNotificationTime() {
-        coroutineScope {
+       /* coroutineScope {
             launch {
                 notificationsInteractor
                     .updateDailyStudyReminderNotificationTime()
@@ -124,6 +122,6 @@ class AppActionDispatcher(
                         )
                     }
             }
-        }
+        }*/
     }
 }

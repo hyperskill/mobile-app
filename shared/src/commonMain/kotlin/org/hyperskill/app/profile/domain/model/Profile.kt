@@ -60,7 +60,7 @@ data class Profile(
     val features: FeaturesMap
         get() = FeaturesMap(featuresMap)
 
-    internal val isDailyLearningNotificationEnabled: Boolean
+    val isDailyLearningNotificationEnabled: Boolean
         get() = utcNotificationHour != null
 
     internal val dailyLearningNotificationHour: Int?
