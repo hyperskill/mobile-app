@@ -110,10 +110,16 @@ class NotificationInteractor(
             .getState(forceUpdate = false)
             .getOrNull()
             ?.dailyLearningNotificationHour
-        return if (notificationHour != null) {
-            setDailyStudyReminderNotificationTime(notificationHour)
-        } else {
-            Result.success(Unit)
+        return when {
+            notificationHour != null -> {
+                setDailyStudyReminderNotificationTime(notificationHour)
+            }
+            isDailyStudyRemindersEnabled() -> {
+                setDefaultDailyStudyReminderNotificationTime()
+            }
+            else -> {
+                Result.success(Unit)
+            }
         }
     }
 
