@@ -169,6 +169,7 @@ class StepCompletionActionDispatcher(
             .map { it.gamification.hypercoinsBalance }
             .getOrElse { return }
 
+        // TODO: ALTUX-2415 Enhance the user experience of "Daily Study Reminders"
         if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
             onNewMessage(Message.RequestDailyStudyRemindersPermission)
         } else {
