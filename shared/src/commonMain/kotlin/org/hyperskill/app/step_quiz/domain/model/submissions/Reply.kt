@@ -36,7 +36,9 @@ data class Reply(
     @SerialName("solution")
     val solution: List<PyCharmFile>? = null,
     @SerialName("check_profile")
-    val checkProfile: String? = null
+    val checkProfile: String? = null,
+    @SerialName("lines")
+    val lines: List<ParsonsLine>? = null,
 ) {
 
     companion object {
