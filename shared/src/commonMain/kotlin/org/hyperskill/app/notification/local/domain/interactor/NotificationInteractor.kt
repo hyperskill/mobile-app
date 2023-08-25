@@ -13,13 +13,15 @@ import org.hyperskill.app.notification.local.data.model.NotificationDescription
 import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.local.domain.repository.NotificationRepository
 import org.hyperskill.app.notification.remote.domain.repository.NotificationTimeRepository
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository,
     private val submissionRepository: SubmissionRepository,
     private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
-    private val notificationTimeRepository: NotificationTimeRepository
+    private val notificationTimeRepository: NotificationTimeRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository
 ) {
     companion object {
         private val TWO_DAYS_IN_MILLIS = 2.toDuration(DurationUnit.DAYS).inWholeMilliseconds
@@ -97,8 +99,23 @@ class NotificationInteractor(
             .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
     }
 
-    internal suspend fun setSavedDailyStudyReminderNotificationTime(): Result<Unit> =
+    internal suspend fun setDefaultDailyStudyReminderNotificationTime(): Result<Unit> =
         setDailyStudyReminderNotificationTime(getDailyStudyRemindersIntervalStartHour())
+
+    /**
+     * Updates notification time on the server-side to keep the user timezone up to date
+     */
+    internal suspend fun updateDailyStudyReminderNotificationTime(): Result<Unit> {
+        val notificationHour = currentProfileStateRepository
+            .getState(forceUpdate = false)
+            .getOrNull()
+            ?.dailyLearningNotificationHour
+        return if (notificationHour != null) {
+            setDailyStudyReminderNotificationTime(notificationHour)
+        } else {
+            Result.success(Unit)
+        }
+    }
 
     private fun getUtcDailyStudyReminderNotificationHour(notificationHour: Int): Int {
         val currentTimeZone = TimeZone.currentSystemDefault()

@@ -117,7 +117,7 @@ class AppActionDispatcher(
         coroutineScope {
             launch {
                 notificationsInteractor
-                    .setSavedDailyStudyReminderNotificationTime()
+                    .updateDailyStudyReminderNotificationTime()
                     .onFailure {
                         sentryInteractor.captureErrorMessage(
                             "AppActionDispatcher: failed to update dailyStudyReminders hour\n$it"
