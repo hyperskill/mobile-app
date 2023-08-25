@@ -75,7 +75,6 @@ class ProfileFragment :
         )
     }
 
-
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
