@@ -4,6 +4,7 @@ import kotlin.time.Duration.Companion.hours
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
@@ -93,30 +94,32 @@ class NotificationInteractor(
      * @param notificationHour the hour of the day in 24-hour format (0-23) at which the notification should be shown.
      */
     internal suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> {
+        notificationRepository.setDailyStudyRemindersIntervalStartHour(notificationHour)
         val utcNotificationHour = getUtcDailyStudyReminderNotificationHour(notificationHour)
-        notificationRepository.setDailyStudyRemindersIntervalStartHour(utcNotificationHour)
         return notificationTimeRepository
             .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
     }
 
-    suspend fun setDefaultDailyStudyReminderNotificationTime(): Result<Unit> =
+    internal suspend fun setSavedDailyStudyReminderNotificationTime(): Result<Unit> =
         setDailyStudyReminderNotificationTime(getDailyStudyRemindersIntervalStartHour())
 
     /**
      * Updates notification time on the server-side to keep the user timezone up to date
      */
     internal suspend fun updateDailyStudyReminderNotificationTime(): Result<Unit> {
+        // Wait for the first emitted value, to get the fresh value without an additional network call
         val notificationHour = currentProfileStateRepository
-            .getState(forceUpdate = false)
-            .getOrNull()
-            ?.dailyLearningNotificationHour
+            .changes
+            .first()
+            .dailyLearningNotificationHour
         return when {
             notificationHour != null -> {
                 setDailyStudyReminderNotificationTime(notificationHour)
             }
             isDailyStudyRemindersEnabled() -> {
-                setDefaultDailyStudyReminderNotificationTime()
+                setSavedDailyStudyReminderNotificationTime()
             }
+
             else -> {
                 Result.success(Unit)
             }

@@ -172,7 +172,7 @@ class ProfileActionDispatcher(
 
     private suspend fun handleSaveDailyStudyRemindersIsEnabled(action: Action.SaveDailyStudyRemindersIsEnabled) {
         val result = if (action.isEnabled) {
-            notificationInteractor.setDefaultDailyStudyReminderNotificationTime()
+            notificationInteractor.setSavedDailyStudyReminderNotificationTime()
         } else {
             notificationInteractor.disableDailyStudyReminderNotification()
         }
