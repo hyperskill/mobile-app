@@ -75,9 +75,6 @@ class ProfileFragment :
         )
     }
 
-    private val platformNotificationComponent =
-        HyperskillApp.graph().platformLocalNotificationComponent
-
     private val imageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().imageLoadingComponent.imageLoader
     }
@@ -220,14 +217,10 @@ class ProfileFragment :
         )
 
         if (notificationSwitchChecked) {
-            platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
-
             val isEnabled = notificationManager.checkNotificationChannelAvailability(
                 requireContext(),
                 HyperskillNotificationChannel.DailyReminder
-            ) {
-                viewBinding.root.snackbar(org.hyperskill.app.R.string.common_error)
-            }
+            )
             viewBinding.profileDailyReminder.profileDailyRemindersSwitchCompat.isChecked = isEnabled
             viewBinding.profileDailyReminder.profileScheduleTextView.isVisible = isEnabled
         } else {
@@ -262,7 +255,6 @@ class ProfileFragment :
         profileViewModel.onNewMessage(
             ProfileFeature.Message.DailyStudyRemindersIntervalStartHourChanged(chosenInterval)
         )
-        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification(chosenInterval)
     }
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {

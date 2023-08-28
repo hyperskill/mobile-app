@@ -97,7 +97,7 @@ class NotificationInteractor(
             .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
     }
 
-    internal suspend fun setSavedDailyStudyReminderNotificationTime(): Result<Unit> =
+    suspend fun setSavedDailyStudyReminderNotificationTime(): Result<Unit> =
         setDailyStudyReminderNotificationTime(getDailyStudyRemindersIntervalStartHour())
 
     /**
