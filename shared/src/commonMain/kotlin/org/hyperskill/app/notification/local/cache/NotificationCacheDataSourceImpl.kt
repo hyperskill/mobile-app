@@ -44,9 +44,6 @@ class NotificationCacheDataSourceImpl(
     override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         getDailyStudyRemindersNotificationDescriptions().random()
 
-    override fun getShuffledDailyStudyRemindersNotificationDescriptions(): List<NotificationDescription> =
-        getDailyStudyRemindersNotificationDescriptions().shuffled()
-
     private fun getDailyStudyRemindersNotificationDescriptions() =
         listOf(
             NotificationDescription(
