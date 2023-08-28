@@ -57,6 +57,9 @@ data class Reply(
                 },
                 checkProfile = step.checkProfile
             )
+
+        fun parsons(lines: List<ParsonsLine>): Reply =
+            Reply(lines = lines)
     }
 }
 
