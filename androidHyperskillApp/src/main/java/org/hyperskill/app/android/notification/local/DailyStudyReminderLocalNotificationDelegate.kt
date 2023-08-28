@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.notification.local
 
 import android.content.Context
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import kotlinx.coroutines.runBlocking
@@ -25,9 +26,11 @@ class DailyStudyReminderLocalNotificationDelegate(
 ) : LocalNotificationDelegate(KEY, hyperskillNotificationManager) {
     companion object {
         const val KEY = "daily_study_reminder_notification"
+        private const val LOG_TAG = "DailyStudyReminderLocalNotificationDelegate"
     }
 
     override fun onNeedShowNotification() {
+        Log.i(LOG_TAG, "onNeedShowNotification has called")
         if (wasNotificationTimeSentToServer() || !notificationInteractor.isDailyStudyRemindersEnabled()) {
             return
         }
@@ -57,12 +60,15 @@ class DailyStudyReminderLocalNotificationDelegate(
         logShownNotificationEvent(notificationDescription.id)
     }
 
-    override fun getNextScheduledAt(): Long? =
-        if (wasNotificationTimeSentToServer() || !notificationInteractor.isDailyStudyRemindersEnabled()) {
+    override fun getNextScheduledAt(): Long? {
+        val time = if (wasNotificationTimeSentToServer() || !notificationInteractor.isDailyStudyRemindersEnabled()) {
             null
         } else {
             getNextScheduledAtInternal(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
         }
+        Log.i(LOG_TAG, "getNextScheduledAt returns $time")
+        return time
+    }
 
     private fun wasNotificationTimeSentToServer(): Boolean =
         runBlocking {
@@ -72,7 +78,8 @@ class DailyStudyReminderLocalNotificationDelegate(
 
     private fun sendNotificationTimeToServer() {
         runBlocking {
-            notificationInteractor.setDefaultDailyStudyReminderNotificationTime()
+            notificationInteractor.setSavedDailyStudyReminderNotificationTime()
+            Log.i(LOG_TAG, "Selected notification time successfully sent to the sever")
         }
     }
 
