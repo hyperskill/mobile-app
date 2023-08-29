@@ -50,7 +50,12 @@ class ProfileActionDispatcher(
         currentProfileStateRepository.changes
             .distinctUntilChanged()
             .onEach { profile ->
-                onNewMessage(Message.ProfileChanged(profile))
+                onNewMessage(
+                    Message.ProfileChanged(
+                        profile = profile,
+                        defaultDailyStudyReminderHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+                    )
+                )
             }
             .launchIn(actionScope)
 
@@ -99,12 +104,10 @@ class ProfileActionDispatcher(
 
                 onNewMessage(Message.BuyStreakFreezeResult.Success)
             }
-            is Action.SaveDailyStudyRemindersIsEnabled -> {
-                notificationInteractor.setDailyStudyRemindersEnabled(action.isEnabled)
-            }
-            is Action.SaveDailyStudyRemindersIntervalStartHour -> {
-                notificationInteractor.setDailyStudyRemindersIntervalStartHour(action.startHour)
-            }
+            is Action.SaveDailyStudyRemindersIsEnabled ->
+                handleSaveDailyStudyRemindersIsEnabled(action)
+            is Action.SaveDailyStudyRemindersIntervalStartHour ->
+                handleSaveDailyStudyRemindersIntervalStartHour(action)
             is Action.FetchProfile -> {
                 // TODO add code when GET on any profile is implemented
             }
@@ -147,10 +150,7 @@ class ProfileActionDispatcher(
                     profile = currentProfile,
                     streak = streak,
                     streakFreezeState = getStreakFreezeState(streakFreezeProduct, streak),
-                    dailyStudyRemindersState = ProfileFeature.DailyStudyRemindersState(
-                        isEnabled = notificationInteractor.isDailyStudyRemindersEnabled(),
-                        startHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour()
-                    ),
+                    defaultDailyStudyReminderHour = notificationInteractor.getDailyStudyRemindersIntervalStartHour(),
                     badges = badges
                 )
             }
@@ -169,4 +169,33 @@ class ProfileActionDispatcher(
             )
             else -> ProfileFeature.StreakFreezeState.NotEnoughGems(streakFreezeProduct.id, streakFreezeProduct.price)
         }
+
+    private suspend fun handleSaveDailyStudyRemindersIsEnabled(action: Action.SaveDailyStudyRemindersIsEnabled) {
+        notificationInteractor.setDailyStudyRemindersEnabled(action.isEnabled)
+
+        val result = if (action.isEnabled) {
+            notificationInteractor.setSavedDailyStudyReminderNotificationTime()
+        } else {
+            notificationInteractor.disableDailyStudyReminderNotification()
+        }
+        result
+            .onSuccess {
+                onNewMessage(Message.DailyStudyRemindersIsEnabledUpdateResult.Success(action.isEnabled))
+            }
+            .onFailure {
+                onNewMessage(Message.DailyStudyRemindersIsEnabledUpdateResult.Error)
+            }
+    }
+
+    private suspend fun handleSaveDailyStudyRemindersIntervalStartHour(
+        action: Action.SaveDailyStudyRemindersIntervalStartHour
+    ) {
+        notificationInteractor.setDailyStudyReminderNotificationTime(action.startHour)
+            .onSuccess {
+                onNewMessage(Message.DailyStudyRemindersIntervalStartHourSaveResult.Success(action.startHour))
+            }
+            .onFailure {
+                onNewMessage(Message.DailyStudyRemindersIntervalStartHourSaveResult.Error)
+            }
+    }
 }
