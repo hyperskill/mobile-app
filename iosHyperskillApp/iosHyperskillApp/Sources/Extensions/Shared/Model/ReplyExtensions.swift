@@ -17,7 +17,8 @@ extension Reply {
         solveSql: String? = nil,
         score: String? = nil,
         solution: [PyCharmFile]? = nil,
-        checkProfile: String? = nil
+        checkProfile: String? = nil,
+        lines: [ParsonsLine]? = nil
     ) {
         let choicesAnswer: [ChoiceAnswer]? = {
             if let sortingChoices = sortingChoices {
@@ -42,7 +43,8 @@ extension Reply {
             solveSql: solveSql,
             score: score,
             solution: solution,
-            checkProfile: checkProfile
+            checkProfile: checkProfile,
+            lines: lines
         )
     }
 }

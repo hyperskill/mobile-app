@@ -27,7 +27,7 @@ interface ProfileFeature {
          * @property profile User profile model.
          * @property streak User profile streak.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
-         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
+         * @property isLoadingShowed A boolean flag that indicates general loading.
          * @see Profile
          * @see Streak
          */
@@ -38,7 +38,7 @@ interface ProfileFeature {
             val dailyStudyRemindersState: DailyStudyRemindersState,
             val badgesState: BadgesState,
             val isRefreshing: Boolean = false,
-            val isLoadingMagicLink: Boolean = false
+            val isLoadingShowed: Boolean = false
         ) : State
 
         /**
@@ -122,13 +122,12 @@ interface ProfileFeature {
              * @property profile User profile model.
              * @property streak User profile streak.
              * @property streakFreezeState A streak freeze state.
-             * @property dailyStudyRemindersState A daily study reminders state.
              */
             data class Success(
                 val profile: Profile,
                 val streak: Streak?,
                 val streakFreezeState: StreakFreezeState?,
-                val dailyStudyRemindersState: DailyStudyRemindersState,
+                val defaultDailyStudyReminderHour: Int,
                 val badges: List<Badge>
             ) : ProfileFetchResult
 
@@ -170,7 +169,19 @@ interface ProfileFeature {
          * DailyStudyReminders
          */
         data class DailyStudyRemindersToggleClicked(val isEnabled: Boolean) : Message
+
+        sealed interface DailyStudyRemindersIsEnabledUpdateResult : Message {
+            data class Success(val isEnabled: Boolean) : DailyStudyRemindersIsEnabledUpdateResult
+            object Error : DailyStudyRemindersIsEnabledUpdateResult
+        }
+
         data class DailyStudyRemindersIntervalStartHourChanged(val startHour: Int) : Message
+
+        sealed interface DailyStudyRemindersIntervalStartHourSaveResult : Message {
+            data class Success(val startHour: Int) : DailyStudyRemindersIntervalStartHourSaveResult
+            object Error : DailyStudyRemindersIntervalStartHourSaveResult
+        }
+
         data class DailyStudyRemindersIsEnabledChanged(val isEnabled: Boolean) : Message
 
         /**
@@ -189,7 +200,10 @@ interface ProfileFeature {
          * Flow messages.
          */
         object StepQuizSolved : Message
-        data class ProfileChanged(val profile: Profile) : Message
+        data class ProfileChanged(
+            val profile: Profile,
+            val defaultDailyStudyReminderHour: Int
+        ) : Message
         data class StreakChanged(val streak: Streak?) : Message
 
         /**
@@ -220,7 +234,12 @@ interface ProfileFeature {
 
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
-            object ShowGetMagicLinkError : ViewAction
+
+            sealed interface ShowError : ViewAction {
+                object MagicLink : ShowError
+
+                object DailyStudyReminders : ShowError
+            }
 
             data class ShowStreakFreezeModal(val streakFreezeState: StreakFreezeState) : ViewAction
             object HideStreakFreezeModal : ViewAction

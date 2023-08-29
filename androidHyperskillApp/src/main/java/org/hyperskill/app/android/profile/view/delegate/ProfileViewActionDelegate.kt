@@ -26,7 +26,7 @@ object ProfileViewActionDelegate {
             is ProfileFeature.Action.ViewAction.OpenUrl ->
                 context.openUrl(action.url)
 
-            is ProfileFeature.Action.ViewAction.ShowGetMagicLinkError ->
+            is ProfileFeature.Action.ViewAction.ShowError ->
                 view.snackbar(org.hyperskill.app.R.string.common_error)
 
             is ProfileFeature.Action.ViewAction.ShowStreakFreezeModal -> {

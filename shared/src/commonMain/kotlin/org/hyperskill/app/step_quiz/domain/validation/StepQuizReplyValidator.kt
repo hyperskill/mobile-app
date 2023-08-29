@@ -29,6 +29,9 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
             BlockName.MATCHING, BlockName.SORTING -> if (reply.ordering.isNullOrEmpty()) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
+            BlockName.PARSONS -> if (reply.lines.isNullOrEmpty()) {
+                return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
+            }
             BlockName.MATH -> if (reply.formula.isNullOrEmpty()) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
@@ -61,6 +64,8 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
             BlockName.MATCHING ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_matching_invalid_reply)
             BlockName.SORTING ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_sorting_invalid_reply)
+            BlockName.PARSONS ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_sorting_invalid_reply)
             BlockName.MATH, BlockName.STRING ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_text_empty_reply)
