@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
+import org.hyperskill.app.android.notification.PendingIntentCompat
 import org.hyperskill.app.android.notification.local.receiver.AlarmReceiver
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import ru.nobird.android.view.base.ui.extension.scheduleCompat
@@ -24,11 +25,11 @@ class HyperskillNotificationManagerImpl(
         val intent = AlarmReceiver
             .createIntent(context, id)
 
-        val pendingIntent = PendingIntent.getBroadcast(
+        val pendingIntent = PendingIntentCompat.getBroadcast(
             context,
             AlarmReceiver.REQUEST_CODE,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         alarmManager.cancel(pendingIntent)

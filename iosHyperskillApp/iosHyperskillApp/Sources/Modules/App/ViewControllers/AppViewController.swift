@@ -169,6 +169,12 @@ extension AppViewController: AppViewControllerProtocol {
             } else {
                 ProgressHUD.dismissWithDelay(Animation.clickedNotificationViewActionDismissProgressHUDDelay)
             }
+        case .showEarnedBadgeModal(let showEarnedBadgeModalViewAction):
+            let earnedBadgeModalAssembly = BadgeEarnedModalAssembly(
+                badge: showEarnedBadgeModalViewAction.badge,
+                delegate: viewModel
+            )
+            presentIfPanModalWithCustomModalPresentationStyle(earnedBadgeModalAssembly.makeModule())
         }
     }
 

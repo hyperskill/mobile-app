@@ -21,7 +21,8 @@ class NotificationClickHandlingFeatureTest {
                     PushNotificationType.STREAK_NEW.name,
                     PushNotificationCategory.CONTINUE_LEARNING.backendName!!
                 ),
-                isUserAuthorized = false
+                isUserAuthorized = false,
+                notificationLaunchedApp = true
             )
         )
         assertTrue {
@@ -40,7 +41,8 @@ class NotificationClickHandlingFeatureTest {
                     PushNotificationType.STREAK_NEW.name,
                     PushNotificationCategory.CONTINUE_LEARNING.backendName!!
                 ),
-                isUserAuthorized = true
+                isUserAuthorized = true,
+                notificationLaunchedApp = true
             )
         )
         assertTrue {

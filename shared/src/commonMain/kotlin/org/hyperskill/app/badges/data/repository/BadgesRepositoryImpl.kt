@@ -9,4 +9,7 @@ internal class BadgesRepositoryImpl(
 ) : BadgesRepository {
     override suspend fun getReceivedBadges(): Result<List<Badge>> =
         remoteDataSource.getReceivedBadges()
+
+    override suspend fun getBadge(badgeId: Long): Result<Badge> =
+        remoteDataSource.getBadge(badgeId)
 }

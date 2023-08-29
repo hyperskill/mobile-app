@@ -40,7 +40,7 @@ class StepCompletionActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
-    private val notificationInteractor: NotificationInteractor,
+    private val notificationInteractor: NotificationInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         notificationInteractor.solvedStepsSharedFlow
@@ -145,7 +145,7 @@ class StepCompletionActionDispatcher(
 
     private suspend fun handleTurnOnDailyStudyReminderAction() {
         notificationInteractor.setDailyStudyRemindersEnabled(true)
-        notificationInteractor.setDailyStudyRemindersIntervalStartHour(
+        notificationInteractor.setDailyStudyReminderNotificationTime(
             NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
         )
     }
@@ -169,6 +169,7 @@ class StepCompletionActionDispatcher(
             .map { it.gamification.hypercoinsBalance }
             .getOrElse { return }
 
+        // TODO: ALTUX-2415 Enhance the user experience of "Daily Study Reminders"
         if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
             onNewMessage(Message.RequestDailyStudyRemindersPermission)
         } else {
@@ -176,6 +177,7 @@ class StepCompletionActionDispatcher(
                 val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
                 onNewMessage(
                     Message.ProblemOfDaySolved(
+                        // TODO move formatting to the view state mapper
                         earnedGemsText = resourceProvider.getQuantityString(
                             SharedResources.plurals.earned_gems,
                             gemsEarned,

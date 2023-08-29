@@ -121,6 +121,11 @@ struct StepQuizView: View {
                     StepQuizStatsView(text: formattedStats)
                 }
 
+                StepQuizProblemsLimitView(
+                    stateKs: viewModel.problemsLimitViewStateKs,
+                    onReloadButtonTap: viewModel.doReloadProblemsLimit
+                )
+
                 buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {

@@ -218,8 +218,6 @@ enum Strings {
 
         static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
         static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()
-
-        static let continueLearningInWebButton = sharedStrings.home_continue_learning_on_web_text.localized()
     }
 
     // MARK: - Topics widget -
