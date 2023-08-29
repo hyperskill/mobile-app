@@ -22,5 +22,7 @@ data class Dataset(
     @SerialName("is_checkbox")
     val isCheckbox: Boolean = false,
     @SerialName("is_html_enabled")
-    val isHtmlEnabled: Boolean = false
+    val isHtmlEnabled: Boolean = false,
+    @SerialName("lines")
+    val lines: List<String>? = null
 )

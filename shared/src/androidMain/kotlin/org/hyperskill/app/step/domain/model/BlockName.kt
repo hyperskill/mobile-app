@@ -11,5 +11,6 @@ actual val BlockName.supportedBlocksNames: Set<String>
         TABLE,
         STRING,
         MATH,
-        NUMBER
+        NUMBER,
+        PARSONS
     )
