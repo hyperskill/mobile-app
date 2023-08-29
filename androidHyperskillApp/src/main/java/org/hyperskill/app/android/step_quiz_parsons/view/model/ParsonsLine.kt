@@ -6,7 +6,7 @@ data class ParsonsLine(
     val lineNumber: Int,
     val text: String,
     val tabsCount: Int
-): Identifiable<Int> {
+) : Identifiable<Int> {
     override val id: Int
         get() = lineNumber
 }
