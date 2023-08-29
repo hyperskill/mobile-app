@@ -18,8 +18,6 @@ import org.hyperskill.app.android.badges.view.delegate.ProfileBadgesDelegate
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
-import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
-import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentProfileBinding
@@ -27,6 +25,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.profile.view.delegate.AboutMeDelegate
+import org.hyperskill.app.android.profile.view.delegate.ProfileLoadingDelegate
 import org.hyperskill.app.android.profile.view.delegate.ProfileViewActionDelegate
 import org.hyperskill.app.android.profile.view.delegate.StreakCardFormDelegate
 import org.hyperskill.app.android.profile.view.dialog.BadgeDetailsDialogFragment
@@ -87,6 +86,8 @@ class ProfileFragment :
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     private var notificationPermissionDelegate: NotificationPermissionDelegate? = null
+
+    private var profileLoadingDelegate: ProfileLoadingDelegate? = null
 
     private val dailyReminderCheckChangeListener =
         CompoundButton.OnCheckedChangeListener { _, isChecked ->
@@ -155,6 +156,8 @@ class ProfileFragment :
                 )
             }
         }
+
+        profileLoadingDelegate = ProfileLoadingDelegate(childFragmentManager, viewLifecycleOwner.lifecycle)
 
         profileViewModel.onNewMessage(
             ProfileFeature.Message.Initialize(
@@ -244,6 +247,7 @@ class ProfileFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
+        profileLoadingDelegate = null
     }
 
     override fun onDestroy() {
@@ -303,12 +307,7 @@ class ProfileFragment :
         AboutMeDelegate.render(requireContext(), viewBinding.profileAboutMeLayout, content.profile)
         profileBadgesDelegate.render(content.badgesState)
 
-        if (content.isLoadingShowed) {
-            LoadingProgressDialogFragment.newInstance()
-                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
-        } else {
-            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-        }
+        profileLoadingDelegate?.render(content.isLoadingShowed)
     }
 
     private fun renderSwipeRefresh(content: ProfileFeature.State) {
