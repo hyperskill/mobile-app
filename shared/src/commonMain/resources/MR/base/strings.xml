@@ -153,8 +153,13 @@
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
 
-    <!-- Step quiz code -->
+    <!-- Step quiz sql -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>
+
+    <!-- Step quiz parsons -->
+    <string name="step_quiz_parsons_title">Rearrange the lines to make the code work. Use the “Tab” button on the left to add indentation.</string>
+    <string name="step_quiz_parsons_invalid_reply">Rearrange the lines</string>
+    <string name="step_quiz_parsons_tab_text">Tab</string>
 
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>

@@ -13,6 +13,7 @@ object BlockName {
     const val STRING = "string"
     const val TABLE = "table"
     const val TEXT = "text"
+    const val PARSONS = "parsons"
     const val VIDEO = "video"
 
     val codeRelatedBlocksNames: Set<String> =

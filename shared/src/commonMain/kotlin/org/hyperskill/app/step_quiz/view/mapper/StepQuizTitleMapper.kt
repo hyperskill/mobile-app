@@ -30,6 +30,8 @@ class StepQuizTitleMapper(
                 resourceProvider.getString(SharedResources.strings.step_quiz_sorting_title)
             BlockName.STRING ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_string_title)
+            BlockName.PARSONS ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_parsons_title)
             BlockName.TABLE -> {
                 if (isCheckbox == true) {
                     resourceProvider.getString(SharedResources.strings.step_quiz_table_multiple_choice_title)
