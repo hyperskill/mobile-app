@@ -1,8 +1,6 @@
 package org.hyperskill.app.android.step_quiz_parsons.view.delegate
 
 import android.content.Context
-import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
@@ -12,10 +10,12 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizParsonsContentBindin
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_parsons.view.adapter.ParsonsLinesAdapterDelegate
 import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLine
+import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLineControlMessage
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.mutate
+import ru.nobird.app.core.model.swap
 
 class ParsonsStepQuizFormDelegate(
     context: Context,
@@ -31,12 +31,6 @@ class ParsonsStepQuizFormDelegate(
         )
     }
 
-    @ColorInt
-    private val enabledControlStrokeColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_primary_alpha_60)
-    private val disabledControlStrokeColor: Int =
-        ContextCompat.getColor(context, org.hyperskill.app.R.color.color_overlay_blue_alpha_12)
-
     init {
         with(binding.parsonsStepContent.parsonsRecycler) {
             adapter = linesAdapter
@@ -47,9 +41,24 @@ class ParsonsStepQuizFormDelegate(
             (itemAnimator as? SimpleItemAnimator)
                 ?.supportsChangeAnimations = false
         }
-        setControlsEnabled(
-            areControlsEnabled = false,
-            binding = binding.parsonsStepContent
+        with(binding.parsonsStepContent) {
+            parsonsAddTabButton.setOnClickListener {
+                onNewControlMessage(ParsonsLineControlMessage.ADD_TAB)
+            }
+            parsonsRemoveTabButton.setOnClickListener {
+                onNewControlMessage(ParsonsLineControlMessage.REMOVE_TAB)
+            }
+            parsonsDropDownLineButton.setOnClickListener {
+                onNewControlMessage(ParsonsLineControlMessage.DROP_DOWN)
+            }
+            parsonsRaiseUpLineButton.setOnClickListener {
+                onNewControlMessage(ParsonsLineControlMessage.RAISE_UP)
+            }
+        }
+        onSelectedLinePositionChanged(
+            newSelectedLinePosition = null,
+            binding = binding.parsonsStepContent,
+            lines = linesAdapter.items
         )
     }
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
@@ -79,8 +88,9 @@ class ParsonsStepQuizFormDelegate(
             val newSelectedLinePosition = updateSelectedItem(position, previousSelectedLinePosition)
             selectedLinePosition = newSelectedLinePosition
             if (newSelectedLinePosition != previousSelectedLinePosition) {
-                setControlsEnabled(
-                    areControlsEnabled = newSelectedLinePosition != null,
+                onSelectedLinePositionChanged(
+                    newSelectedLinePosition = newSelectedLinePosition,
+                    lines = linesAdapter.items,
                     binding = binding.parsonsStepContent
                 )
             }
@@ -122,15 +132,60 @@ class ParsonsStepQuizFormDelegate(
         }
     }
 
-    private fun setControlsEnabled(
-        areControlsEnabled: Boolean,
+    private fun onNewControlMessage(
+        controlMessage: ParsonsLineControlMessage
+    ) {
+        val newSelectedLinePosition = handleControlMessage(
+            controlMessage = controlMessage,
+            selectedLinePosition = selectedLinePosition,
+            binding = binding.parsonsStepContent,
+            linesAdapter = linesAdapter
+        )
+        selectedLinePosition = newSelectedLinePosition
+        onSelectedLinePositionChanged(
+            newSelectedLinePosition = newSelectedLinePosition,
+            lines = linesAdapter.items,
+            binding = binding.parsonsStepContent
+        )
+    }
+
+    private fun handleControlMessage(
+        controlMessage: ParsonsLineControlMessage,
+        selectedLinePosition: Int?,
+        binding: LayoutStepQuizParsonsContentBinding,
+        linesAdapter: DefaultDelegateAdapter<ParsonsLine>
+    ): Int? {
+        if (selectedLinePosition == null) return selectedLinePosition
+        return when (controlMessage) {
+            ParsonsLineControlMessage.ADD_TAB -> TODO()
+            ParsonsLineControlMessage.REMOVE_TAB -> TODO()
+            ParsonsLineControlMessage.RAISE_UP,
+            ParsonsLineControlMessage.DROP_DOWN -> {
+                val targetPosition = when (controlMessage) {
+                    ParsonsLineControlMessage.RAISE_UP -> selectedLinePosition - 1
+                    ParsonsLineControlMessage.DROP_DOWN -> selectedLinePosition + 1
+                    else -> error("")
+                }
+                linesAdapter.items = linesAdapter.items.swap(selectedLinePosition, targetPosition)
+                targetPosition
+            }
+        }
+    }
+
+    private fun onSelectedLinePositionChanged(
+        newSelectedLinePosition: Int?,
+        lines: List<ParsonsLine>,
         binding: LayoutStepQuizParsonsContentBinding
     ) {
         with(binding) {
-            parsonsAddTabButton.isEnabled = areControlsEnabled
-            parsonsRemoveTabButton.isEnabled = areControlsEnabled
-            parsonsDropDownLineButton.isEnabled = areControlsEnabled
-            parsonsRaiseUpLineButton.isEnabled = areControlsEnabled
+            parsonsAddTabButton.isEnabled = newSelectedLinePosition != null
+            parsonsRemoveTabButton.isEnabled = newSelectedLinePosition != null
+            parsonsRaiseUpLineButton.isEnabled =
+                newSelectedLinePosition != null &&
+                    newSelectedLinePosition in 1..lines.lastIndex
+            parsonsDropDownLineButton.isEnabled =
+                newSelectedLinePosition != null &&
+                    newSelectedLinePosition in 0 until lines.lastIndex
         }
     }
 }
