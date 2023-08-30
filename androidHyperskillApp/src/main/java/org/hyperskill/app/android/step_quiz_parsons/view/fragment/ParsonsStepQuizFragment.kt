@@ -43,6 +43,7 @@ class ParsonsStepQuizFragment :
 
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
         ParsonsStepQuizFormDelegate(
+            context = requireContext(),
             binding = binding,
             onQuizChanged = ::syncReplyState
         )
