@@ -188,6 +188,12 @@ enum Strings {
         static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
     }
 
+    // MARK: - StepQuizParsons -
+
+    enum StepQuizParsons {
+        static let tab = sharedStrings.step_quiz_parsons_tab_text.localized()
+    }
+
     // MARK: - StageImplement -
 
     enum StageImplement {

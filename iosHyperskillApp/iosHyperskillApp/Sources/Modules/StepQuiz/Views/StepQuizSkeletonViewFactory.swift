@@ -18,6 +18,8 @@ enum StepQuizSkeletonViewFactory {
             StepQuizTableSkeletonView()
         case .string, .number, .math:
             StepQuizStringSkeletonView()
+        case .parsons:
+            StepQuizParsonsSkeletonView()
         case .unsupported:
             SkeletonRoundedView()
                 .frame(height: 100)
