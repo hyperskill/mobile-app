@@ -1,11 +1,15 @@
 package org.hyperskill.app.android.step_quiz_parsons.view.adapter
 
+import android.annotation.SuppressLint
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.DefaultTapUpListener
 import org.hyperskill.app.android.databinding.ItemStepQuizParsonsLineBinding
 import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLine
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
@@ -21,6 +25,7 @@ class ParsonsLinesAdapterDelegate(
     override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<ParsonsLine> =
         ViewHolder(createView(parent, R.layout.item_step_quiz_parsons_line))
 
+    @SuppressLint("ClickableViewAccessibility")
     private inner class ViewHolder(root: View) : DelegateViewHolder<ParsonsLine>(root) {
         private val viewBinding: ItemStepQuizParsonsLineBinding by viewBinding(ItemStepQuizParsonsLineBinding::bind)
 
@@ -31,23 +36,38 @@ class ParsonsLinesAdapterDelegate(
 
         private val tabString = context.getString(R.string.step_quiz_parsons_tab)
 
+        private val gestureDetector = GestureDetector(
+            context,
+            object : DefaultTapUpListener() {
+                override fun onSingleTapUp(e: MotionEvent): Boolean {
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        onLineClick(position)
+                    }
+                    return false
+                }
+            }
+        )
+
         init {
-            viewBinding.root.setOnClickListener {
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    onLineClick(position)
+            with(viewBinding.root) {
+                isVerticalScrollBarEnabled = false
+                isHorizontalScrollBarEnabled = false
+                setOnTouchListener { _, event ->
+                    gestureDetector.onTouchEvent(event)
+                    false
                 }
             }
         }
 
         override fun onBind(data: ParsonsLine) {
             with(viewBinding) {
-                tabsTextView.text = buildString {
+                stepQuizParsonsLineTabs.text = buildString {
                     repeat(data.tabsCount) {
                         append(tabString)
                     }
                 }
-                stepQuizParsonsLine.setText(data.text)
+                stepQuizParsonsLineTextView.text = data.text
                 root.background = if (data.isSelected) {
                     selectedBackground
                 } else {

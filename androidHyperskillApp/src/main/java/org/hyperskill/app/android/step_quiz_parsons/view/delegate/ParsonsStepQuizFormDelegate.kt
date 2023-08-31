@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.step_quiz_parsons.view.delegate
 
 import android.content.Context
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
@@ -69,7 +70,8 @@ class ParsonsStepQuizFormDelegate(
         linesAdapter.items = state.attempt.dataset?.lines?.mapIndexed { index, text ->
             ParsonsLine(
                 lineNumber = index,
-                text = text,
+                // Html parsing is used to handle symbols like &gt
+                text = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_COMPACT),
                 tabsCount = 0,
                 isSelected = false
             )
