@@ -5,25 +5,25 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.shawnlin.numberpicker.NumberPicker
-import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.android.notification.local.injection.PlatformLocalNotificationComponent
 import org.hyperskill.app.android.view.base.ui.extension.TimeIntervalUtil
+import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 
 class TimeIntervalPickerDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "time_interval_picker_dialog"
 
-        fun newInstance(): TimeIntervalPickerDialogFragment =
-            TimeIntervalPickerDialogFragment()
+        fun newInstance(selectedHour: Int): TimeIntervalPickerDialogFragment =
+            TimeIntervalPickerDialogFragment().apply {
+                this.selectedHour = selectedHour
+            }
 
         interface Callback {
             fun onTimeIntervalPicked(chosenInterval: Int)
         }
     }
 
-    private val platformLocalNotificationComponent: PlatformLocalNotificationComponent =
-        HyperskillApp.graph().platformLocalNotificationComponent
+    private var selectedHour: Int by argument()
 
     private lateinit var picker: NumberPicker
 
@@ -34,8 +34,7 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
         picker.minValue = 0
         picker.maxValue = TimeIntervalUtil.values.size - 1
         picker.displayedValues = TimeIntervalUtil.values
-        picker.value =
-            platformLocalNotificationComponent.notificationInteractor.getDailyStudyRemindersIntervalStartHour()
+        picker.value = selectedHour
         picker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         picker.wrapSelectorWheel = false
         picker.setBackgroundColor(0x0)

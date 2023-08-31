@@ -1,7 +1,9 @@
 package org.hyperskill.app.main.presentation
 
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
@@ -10,6 +12,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -24,7 +27,8 @@ class AppActionDispatcher(
     private val authInteractor: AuthInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
-    private val stateRepositoriesComponent: StateRepositoriesComponent
+    private val stateRepositoriesComponent: StateRepositoriesComponent,
+    private val notificationsInteractor: NotificationInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -103,7 +107,23 @@ class AppActionDispatcher(
                 sentryInteractor.setUsedId(action.userId)
             is Action.ClearUserInSentry ->
                 sentryInteractor.clearCurrentUser()
+            is Action.UpdateDailyLearningNotificationTime ->
+                handleUpdateDailyLearningNotificationTime()
             else -> {}
+        }
+    }
+
+    private suspend fun handleUpdateDailyLearningNotificationTime() {
+        coroutineScope {
+            launch {
+                notificationsInteractor
+                    .updateDailyStudyReminderNotificationTime()
+                    .onFailure {
+                        sentryInteractor.captureErrorMessage(
+                            "AppActionDispatcher: failed to update dailyStudyReminders hour\n$it"
+                        )
+                    }
+            }
         }
     }
 }
