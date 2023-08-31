@@ -29,6 +29,8 @@ class ParsonsLinesAdapterDelegate(
         private val notSelectedBackground =
             ContextCompat.getDrawable(context, R.drawable.step_quiz_parsons_line_background)
 
+        private val tabString = context.getString(R.string.step_quiz_parsons_tab)
+
         init {
             viewBinding.root.setOnClickListener {
                 val position = bindingAdapterPosition
@@ -40,6 +42,11 @@ class ParsonsLinesAdapterDelegate(
 
         override fun onBind(data: ParsonsLine) {
             with(viewBinding) {
+                tabsTextView.text = buildString {
+                    repeat(data.tabsCount) {
+                        append(tabString)
+                    }
+                }
                 stepQuizParsonsLine.setText(data.text)
                 root.background = if (data.isSelected) {
                     selectedBackground

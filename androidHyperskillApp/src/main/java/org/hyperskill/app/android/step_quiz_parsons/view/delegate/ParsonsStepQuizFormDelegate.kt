@@ -23,6 +23,10 @@ class ParsonsStepQuizFormDelegate(
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
 
+    companion object {
+        private const val MAX_TABS_COUNT = 10
+    }
+
     private var selectedLinePosition: Int? = null
 
     private val linesAdapter = DefaultDelegateAdapter<ParsonsLine>().apply {
@@ -55,7 +59,7 @@ class ParsonsStepQuizFormDelegate(
                 onNewControlMessage(ParsonsLineControlMessage.RAISE_UP)
             }
         }
-        onSelectedLinePositionChanged(
+        updateControlsEnabled(
             newSelectedLinePosition = null,
             binding = binding.parsonsStepContent,
             lines = linesAdapter.items
@@ -88,7 +92,7 @@ class ParsonsStepQuizFormDelegate(
             val newSelectedLinePosition = updateSelectedItem(position, previousSelectedLinePosition)
             selectedLinePosition = newSelectedLinePosition
             if (newSelectedLinePosition != previousSelectedLinePosition) {
-                onSelectedLinePositionChanged(
+                updateControlsEnabled(
                     newSelectedLinePosition = newSelectedLinePosition,
                     lines = linesAdapter.items,
                     binding = binding.parsonsStepContent
@@ -138,11 +142,10 @@ class ParsonsStepQuizFormDelegate(
         val newSelectedLinePosition = handleControlMessage(
             controlMessage = controlMessage,
             selectedLinePosition = selectedLinePosition,
-            binding = binding.parsonsStepContent,
             linesAdapter = linesAdapter
         )
         selectedLinePosition = newSelectedLinePosition
-        onSelectedLinePositionChanged(
+        updateControlsEnabled(
             newSelectedLinePosition = newSelectedLinePosition,
             lines = linesAdapter.items,
             binding = binding.parsonsStepContent
@@ -152,34 +155,70 @@ class ParsonsStepQuizFormDelegate(
     private fun handleControlMessage(
         controlMessage: ParsonsLineControlMessage,
         selectedLinePosition: Int?,
-        binding: LayoutStepQuizParsonsContentBinding,
         linesAdapter: DefaultDelegateAdapter<ParsonsLine>
     ): Int? {
         if (selectedLinePosition == null) return selectedLinePosition
         return when (controlMessage) {
-            ParsonsLineControlMessage.ADD_TAB -> TODO()
-            ParsonsLineControlMessage.REMOVE_TAB -> TODO()
-            ParsonsLineControlMessage.RAISE_UP,
-            ParsonsLineControlMessage.DROP_DOWN -> {
-                val targetPosition = when (controlMessage) {
-                    ParsonsLineControlMessage.RAISE_UP -> selectedLinePosition - 1
-                    ParsonsLineControlMessage.DROP_DOWN -> selectedLinePosition + 1
-                    else -> error("")
-                }
-                linesAdapter.items = linesAdapter.items.swap(selectedLinePosition, targetPosition)
-                targetPosition
+            ParsonsLineControlMessage.ADD_TAB,
+            ParsonsLineControlMessage.REMOVE_TAB -> {
+                handleTabChanges(controlMessage, selectedLinePosition, linesAdapter)
+                selectedLinePosition
             }
+            ParsonsLineControlMessage.RAISE_UP,
+            ParsonsLineControlMessage.DROP_DOWN ->
+                handleLineDrag(controlMessage, selectedLinePosition, linesAdapter)
         }
     }
 
-    private fun onSelectedLinePositionChanged(
+    private fun handleTabChanges(
+        controlMessage: ParsonsLineControlMessage,
+        selectedLinePosition: Int,
+        linesAdapter: DefaultDelegateAdapter<ParsonsLine>
+    ) {
+        val selectedLine = linesAdapter.items.getOrNull(selectedLinePosition) ?: return
+        val newTabsCount = when (controlMessage) {
+            ParsonsLineControlMessage.ADD_TAB ->
+                (selectedLine.tabsCount + 1).coerceAtMost(10)
+            ParsonsLineControlMessage.REMOVE_TAB ->
+                (selectedLine.tabsCount - 1).coerceAtLeast(0)
+            else -> error("")
+        }
+        linesAdapter.items = linesAdapter.items.mutate {
+            set(selectedLinePosition, selectedLine.copy(tabsCount = newTabsCount))
+        }
+    }
+
+    private fun handleLineDrag(
+        controlMessage: ParsonsLineControlMessage,
+        selectedLinePosition: Int,
+        linesAdapter: DefaultDelegateAdapter<ParsonsLine>
+    ): Int {
+        val targetPosition = when (controlMessage) {
+            ParsonsLineControlMessage.RAISE_UP -> selectedLinePosition - 1
+            ParsonsLineControlMessage.DROP_DOWN -> selectedLinePosition + 1
+            else -> error("")
+        }
+        linesAdapter.items = linesAdapter.items.swap(selectedLinePosition, targetPosition)
+        return targetPosition
+    }
+
+    private fun updateControlsEnabled(
         newSelectedLinePosition: Int?,
         lines: List<ParsonsLine>,
         binding: LayoutStepQuizParsonsContentBinding
     ) {
+        val selectedLine = if (newSelectedLinePosition != null) {
+            lines.getOrNull(newSelectedLinePosition)
+        } else {
+            null
+        }
         with(binding) {
-            parsonsAddTabButton.isEnabled = newSelectedLinePosition != null
-            parsonsRemoveTabButton.isEnabled = newSelectedLinePosition != null
+            parsonsAddTabButton.isEnabled =
+                newSelectedLinePosition != null &&
+                    selectedLine?.tabsCount in 0 until MAX_TABS_COUNT
+            parsonsRemoveTabButton.isEnabled =
+                newSelectedLinePosition != null &&
+                    selectedLine?.tabsCount in 1..MAX_TABS_COUNT
             parsonsRaiseUpLineButton.isEnabled =
                 newSelectedLinePosition != null &&
                     newSelectedLinePosition in 1..lines.lastIndex
