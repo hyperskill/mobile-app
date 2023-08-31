@@ -2,6 +2,7 @@
 <HorizontalScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:background="@drawable/step_quiz_parsons_line_selected_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -32,6 +33,7 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:textSize="14sp"
+            app:fontFamily="@font/pt_mono"
             android:maxLines="1"
             tools:text="Reader reader = new FileReader(“file.txt”); Reader reader = new FileReader(“file.txt”);"/>
 

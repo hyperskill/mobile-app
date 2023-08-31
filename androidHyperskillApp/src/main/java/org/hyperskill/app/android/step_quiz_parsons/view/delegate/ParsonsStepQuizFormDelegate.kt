@@ -5,6 +5,8 @@ import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.code.view.model.themes.CodeTheme
+import org.hyperskill.app.android.code.view.model.themes.CodeThemes
 import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.databinding.LayoutStepQuizParsonsBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizParsonsContentBinding
@@ -30,9 +32,15 @@ class ParsonsStepQuizFormDelegate(
 
     private var selectedLinePosition: Int? = null
 
+    private val codeTheme: CodeTheme =
+        CodeThemes.resolve(context)
+
     private val linesAdapter = DefaultDelegateAdapter<ParsonsLine>().apply {
         addDelegate(
-            ParsonsLinesAdapterDelegate(::onLineClick)
+            ParsonsLinesAdapterDelegate(
+                codeTextColor = codeTheme.syntax.plain,
+                ::onLineClick
+            )
         )
     }
 
