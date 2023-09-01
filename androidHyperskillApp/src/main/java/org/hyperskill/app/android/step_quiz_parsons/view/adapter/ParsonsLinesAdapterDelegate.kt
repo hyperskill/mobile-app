@@ -12,23 +12,23 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.DefaultTapUpListener
 import org.hyperskill.app.android.databinding.ItemStepQuizParsonsLineBinding
-import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLine
+import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 
 class ParsonsLinesAdapterDelegate(
     @ColorInt private val codeTextColor: Int,
     private val onLineClick: (Int) -> Unit
-) : AdapterDelegate<ParsonsLine, DelegateViewHolder<ParsonsLine>>() {
+) : AdapterDelegate<UiParsonsLine, DelegateViewHolder<UiParsonsLine>>() {
 
-    override fun isForViewType(position: Int, data: ParsonsLine): Boolean =
+    override fun isForViewType(position: Int, data: UiParsonsLine): Boolean =
         true
 
-    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<ParsonsLine> =
+    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<UiParsonsLine> =
         ViewHolder(createView(parent, R.layout.item_step_quiz_parsons_line))
 
     @SuppressLint("ClickableViewAccessibility")
-    private inner class ViewHolder(root: View) : DelegateViewHolder<ParsonsLine>(root) {
+    private inner class ViewHolder(root: View) : DelegateViewHolder<UiParsonsLine>(root) {
         private val viewBinding: ItemStepQuizParsonsLineBinding by viewBinding(ItemStepQuizParsonsLineBinding::bind)
 
         private val selectedBackground =
@@ -64,7 +64,7 @@ class ParsonsLinesAdapterDelegate(
             viewBinding.stepQuizParsonsLineTextView.setTextColor(codeTextColor)
         }
 
-        override fun onBind(data: ParsonsLine) {
+        override fun onBind(data: UiParsonsLine) {
             with(viewBinding) {
                 root.setOnTouchListener(if (data.isClickable) onTouchListener else null)
                 stepQuizParsonsLineTabs.text = buildString {

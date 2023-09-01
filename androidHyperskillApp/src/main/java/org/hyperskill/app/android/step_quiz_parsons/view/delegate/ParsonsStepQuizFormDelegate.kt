@@ -12,14 +12,15 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizParsonsContentBindin
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_parsons.view.adapter.ParsonsLinesAdapterDelegate
 import org.hyperskill.app.android.step_quiz_parsons.view.mapper.ParsonsLinesMapper
-import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLine
 import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLineControlMessage
+import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.swap
+import org.hyperskill.app.step_quiz.domain.model.submissions.ParsonsLine as DomainParsonsLine
 
 class ParsonsStepQuizFormDelegate(
     context: Context,
@@ -36,7 +37,7 @@ class ParsonsStepQuizFormDelegate(
     private val codeTheme: CodeTheme =
         CodeThemes.resolve(context)
 
-    private val linesAdapter = DefaultDelegateAdapter<ParsonsLine>().apply {
+    private val linesAdapter = DefaultDelegateAdapter<UiParsonsLine>().apply {
         addDelegate(
             ParsonsLinesAdapterDelegate(
                 codeTextColor = codeTheme.syntax.plain,
@@ -92,11 +93,11 @@ class ParsonsStepQuizFormDelegate(
         createReplyInternal(linesAdapter.items)
 
     private fun createReplyInternal(
-        lines: List<ParsonsLine>
+        lines: List<UiParsonsLine>
     ): Reply =
         Reply.parsons(
             lines.map { line ->
-                org.hyperskill.app.step_quiz.domain.model.submissions.ParsonsLine(
+                DomainParsonsLine(
                     level = line.tabsCount,
                     lineNumber = line.lineNumber
                 )
@@ -133,8 +134,8 @@ class ParsonsStepQuizFormDelegate(
     private fun handleSelectionChange(
         clickedItemPosition: Int,
         selectedItemPosition: Int?,
-        items: List<ParsonsLine>,
-        linesAdapter: DefaultDelegateAdapter<ParsonsLine>
+        items: List<UiParsonsLine>,
+        linesAdapter: DefaultDelegateAdapter<UiParsonsLine>
     ): Int? {
         val clickedItem = items.getOrNull(clickedItemPosition)
         val previouslySelectedItem = selectedItemPosition?.let(items::getOrNull)
@@ -174,7 +175,7 @@ class ParsonsStepQuizFormDelegate(
     private fun handleControlMessage(
         controlMessage: ParsonsLineControlMessage,
         selectedLinePosition: Int?,
-        lines: List<ParsonsLine>
+        lines: List<UiParsonsLine>
     ): ControlMessageHandleResult {
         if (selectedLinePosition == null) {
             return ControlMessageHandleResult(
@@ -198,8 +199,8 @@ class ParsonsStepQuizFormDelegate(
     private fun handleTabChanges(
         controlMessage: ParsonsLineControlMessage,
         selectedLinePosition: Int,
-        lines: List<ParsonsLine>
-    ): List<ParsonsLine> {
+        lines: List<UiParsonsLine>
+    ): List<UiParsonsLine> {
         val selectedLine = lines.getOrNull(selectedLinePosition) ?: return lines
         val newTabsCount = when (controlMessage) {
             ParsonsLineControlMessage.ADD_TAB ->
@@ -216,7 +217,7 @@ class ParsonsStepQuizFormDelegate(
     private fun handleLineDrag(
         controlMessage: ParsonsLineControlMessage,
         selectedLinePosition: Int,
-        lines: List<ParsonsLine>
+        lines: List<UiParsonsLine>
     ): ControlMessageHandleResult {
         val targetPosition = when (controlMessage) {
             ParsonsLineControlMessage.RAISE_UP -> selectedLinePosition - 1
@@ -231,7 +232,7 @@ class ParsonsStepQuizFormDelegate(
 
     private fun updateControlsEnabled(
         selectedLinePosition: Int?,
-        lines: List<ParsonsLine>,
+        lines: List<UiParsonsLine>,
         binding: LayoutStepQuizParsonsContentBinding
     ) {
         val selectedLine = if (selectedLinePosition != null) {
@@ -253,6 +254,6 @@ class ParsonsStepQuizFormDelegate(
 
     private data class ControlMessageHandleResult(
         val selectedLinePosition: Int?,
-        val lines: List<ParsonsLine>
+        val lines: List<UiParsonsLine>
     )
 }

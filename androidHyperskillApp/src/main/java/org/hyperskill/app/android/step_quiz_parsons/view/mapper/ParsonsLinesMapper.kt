@@ -2,7 +2,7 @@ package org.hyperskill.app.android.step_quiz_parsons.view.mapper
 
 import android.text.Spanned
 import androidx.core.text.HtmlCompat
-import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLine
+import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 
@@ -12,11 +12,11 @@ object ParsonsLinesMapper {
         submission: Submission?,
         selectedLinePosition: Int?,
         isEnabled: Boolean
-    ): List<ParsonsLine> {
+    ): List<UiParsonsLine> {
         val linesDataset = attempt.dataset?.lines
         return if (submission == null) {
             linesDataset?.mapIndexed { index, text ->
-                ParsonsLine(
+                UiParsonsLine(
                     lineNumber = index,
                     text = parseLineText(text),
                     tabsCount = 0,
@@ -29,7 +29,7 @@ object ParsonsLinesMapper {
             replyLines?.mapIndexed { index, replyLine ->
                 val text =
                     linesDataset?.getOrNull(replyLine.lineNumber) ?: ""
-                ParsonsLine(
+                UiParsonsLine(
                     lineNumber = replyLine.lineNumber,
                     text = parseLineText(text),
                     tabsCount = replyLine.level,
