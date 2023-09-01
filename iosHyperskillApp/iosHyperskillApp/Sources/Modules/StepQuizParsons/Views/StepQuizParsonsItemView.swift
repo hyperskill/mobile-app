@@ -14,9 +14,13 @@ struct StepQuizParsonsItemView: View {
 
     let isSelected: Bool
 
-    let text: String
+    let code: String
 
     let level: Int
+
+    var styledCode: String {
+        "<code style=\"border: 0; width: 100%; padding: 0; margin: 0\">\(code)</code>"
+    }
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
@@ -24,7 +28,7 @@ struct StepQuizParsonsItemView: View {
                 StepQuizParsonsLevelView()
             }
             LatexView(
-                text: .constant("<code style=\"\(getCodeStyle())\">\(text)</code>"),
+                text: .constant(styledCode),
                 configuration: .quizContent()
             )
             .background(Color(ColorPalette.background))
@@ -43,10 +47,6 @@ struct StepQuizParsonsItemView: View {
             )
         }
     }
-
-    private func getCodeStyle() -> String {
-        "border: 0; width: 100%; padding: 0; margin: 0"
-    }
 }
 
 struct StepQuizParsonsItemView_Previews: PreviewProvider {
@@ -54,13 +54,13 @@ struct StepQuizParsonsItemView_Previews: PreviewProvider {
         Group {
             StepQuizParsonsItemView(
                 isSelected: true,
-                text: "if b &lt; minimum:",
+                code: "if b &lt; minimum:",
                 level: 1
             )
 
             StepQuizParsonsItemView(
                 isSelected: false,
-                text: "if b &lt; minimum:",
+                code: "if b &lt; minimum:",
                 level: 0
             )
         }

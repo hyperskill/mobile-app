@@ -37,7 +37,7 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
                     lines: datasetLines
                         .enumerated()
                         .map {
-                            .init(lineNumber: $0, text: $1, level: Int.random(in: 0...1))
+                            .init(lineNumber: $0, text: $1, level: 0)
                         }
                 )
             }
@@ -62,7 +62,7 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         guard let index = selectedLineNumberIndex else {
             return false
         }
-        return viewData.lines[index].level == 10
+        return viewData.lines[index].level == 3
     }
 
     func doRemoveTab() {

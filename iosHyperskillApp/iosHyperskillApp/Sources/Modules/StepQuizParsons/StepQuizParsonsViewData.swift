@@ -1,6 +1,6 @@
 import Foundation
 
-struct StepQuizParsonsViewData {
+struct StepQuizParsonsViewData: Equatable {
     var lines: [Line]
 
     var selectedLineNumber: Int?

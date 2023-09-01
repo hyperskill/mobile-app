@@ -14,10 +14,10 @@ struct StepQuizParsonsView: View {
     var body: some View {
         VStack(spacing: appearance.containerSpacing) {
             VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-                ForEach(Array(viewModel.viewData.lines), id: \.lineNumber) { line in
+                ForEach(Array(viewModel.viewData.lines), id: \.self) { line in
                     StepQuizParsonsItemView(
                         isSelected: line.lineNumber == viewModel.viewData.selectedLineNumber,
-                        text: line.text,
+                        code: line.text,
                         level: line.level
                     )
                     .onTapGesture {
@@ -25,22 +25,23 @@ struct StepQuizParsonsView: View {
                     }
                 }
             }
+            .animation(.default, value: viewModel.viewData)
 
             StepQuizParsonsControlsView(
                 addTabControlConfiguration: .init(
-                    action: withAnimation { viewModel.doAddTab },
+                    action: viewModel.doAddTab,
                     isDisabled: viewModel.isAddTabDisabled()
                 ),
                 removeTabControlConfiguration: .init(
-                    action: withAnimation { viewModel.doRemoveTab },
+                    action: viewModel.doRemoveTab,
                     isDisabled: viewModel.isRemoveTabDisabled()
                 ),
                 downControlConfiguration: .init(
-                    action: withAnimation { viewModel.doMoveDown },
+                    action: viewModel.doMoveDown,
                     isDisabled: viewModel.isMoveDownDisabled()
                 ),
                 upControlConfiguration: .init(
-                    action: withAnimation { viewModel.doMoveUp },
+                    action: viewModel.doMoveUp,
                     isDisabled: viewModel.isMoveUpDisabled()
                 )
             )
