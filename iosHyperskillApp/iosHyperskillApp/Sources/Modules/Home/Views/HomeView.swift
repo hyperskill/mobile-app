@@ -70,10 +70,6 @@ struct HomeView: View {
                 }
             )
         case .content(let data):
-            if data.isLoadingMagicLink {
-                let _ = ProgressHUD.show()
-            }
-
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     HomeSubheadlineView()
@@ -130,11 +126,6 @@ struct HomeView: View {
                 let assembly = TopicsRepetitionsAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
-        case .openUrl(let data):
-            ProgressHUD.showSuccess()
-            WebControllerManager.shared.presentWebControllerWithURLString(data.url)
-        case .showGetMagicLinkError:
-            ProgressHUD.showError()
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
             case .showProfileTab:
