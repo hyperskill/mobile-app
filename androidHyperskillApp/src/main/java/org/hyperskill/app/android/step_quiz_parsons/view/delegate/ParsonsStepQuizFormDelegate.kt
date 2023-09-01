@@ -16,6 +16,7 @@ import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLine
 import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLineControlMessage
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.swap
@@ -71,14 +72,17 @@ class ParsonsStepQuizFormDelegate(
     }
 
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
+        val isEnabled = StepQuizResolver.isQuizEnabled(state)
         val lines = ParsonsLinesMapper.mapToParsonsLines(
             attempt = state.attempt,
             submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission,
-            selectedLinePosition = selectedLinePosition
+            selectedLinePosition = selectedLinePosition,
+            isEnabled = isEnabled
         )
         linesAdapter.items = lines
+        val newSelectedLinePosition = if (isEnabled) selectedLinePosition else null
         updateControlsEnabled(
-            selectedLinePosition = selectedLinePosition,
+            selectedLinePosition = newSelectedLinePosition,
             lines = lines,
             binding = binding.parsonsStepContent
         )

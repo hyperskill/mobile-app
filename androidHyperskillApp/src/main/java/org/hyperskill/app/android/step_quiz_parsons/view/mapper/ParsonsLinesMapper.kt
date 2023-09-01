@@ -10,7 +10,8 @@ object ParsonsLinesMapper {
     fun mapToParsonsLines(
         attempt: Attempt,
         submission: Submission?,
-        selectedLinePosition: Int?
+        selectedLinePosition: Int?,
+        isEnabled: Boolean
     ): List<ParsonsLine> {
         val linesDataset = attempt.dataset?.lines
         return if (submission == null) {
@@ -19,7 +20,8 @@ object ParsonsLinesMapper {
                     lineNumber = index,
                     text = parseLineText(text),
                     tabsCount = 0,
-                    isSelected = index == selectedLinePosition
+                    isSelected = isEnabled && index == selectedLinePosition,
+                    isClickable = isEnabled
                 )
             } ?: emptyList()
         } else {
@@ -31,7 +33,8 @@ object ParsonsLinesMapper {
                     lineNumber = replyLine.lineNumber,
                     text = parseLineText(text),
                     tabsCount = replyLine.level,
-                    isSelected = index == selectedLinePosition
+                    isSelected = isEnabled && index == selectedLinePosition,
+                    isClickable = isEnabled
                 )
             } ?: emptyList()
         }

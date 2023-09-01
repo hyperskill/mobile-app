@@ -7,7 +7,8 @@ data class ParsonsLine(
     val lineNumber: Int,
     val text: Spanned,
     val tabsCount: Int,
-    val isSelected: Boolean
+    val isSelected: Boolean,
+    val isClickable: Boolean
 ) : Identifiable<Int> {
     override val id: Int
         get() = lineNumber

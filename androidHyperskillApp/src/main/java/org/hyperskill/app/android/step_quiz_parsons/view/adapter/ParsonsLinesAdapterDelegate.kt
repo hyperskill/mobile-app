@@ -51,20 +51,22 @@ class ParsonsLinesAdapterDelegate(
             }
         )
 
+        private val onTouchListener = View.OnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false
+        }
+
         init {
             with(viewBinding.root) {
                 isVerticalScrollBarEnabled = false
                 isHorizontalScrollBarEnabled = false
-                setOnTouchListener { _, event ->
-                    gestureDetector.onTouchEvent(event)
-                    false
-                }
             }
             viewBinding.stepQuizParsonsLineTextView.setTextColor(codeTextColor)
         }
 
         override fun onBind(data: ParsonsLine) {
             with(viewBinding) {
+                root.setOnTouchListener(if (data.isClickable) onTouchListener else null)
                 stepQuizParsonsLineTabs.text = buildString {
                     repeat(data.tabsCount) {
                         append(tabString)
