@@ -22,7 +22,6 @@ object ParsonsLinesMapper {
                     isSelected = index == selectedLinePosition
                 )
             } ?: emptyList()
-
         } else {
             val replyLines = submission.reply?.lines
             replyLines?.mapIndexed { index, replyLine ->

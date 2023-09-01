@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.step_quiz_parsons.view.delegate
 
 import android.content.Context
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import org.hyperskill.app.android.R
@@ -77,7 +76,6 @@ class ParsonsStepQuizFormDelegate(
             submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission,
             selectedLinePosition = selectedLinePosition
         )
-        Log.d("ParsonsStepQuizFormDelegate", "setState \nselectedLinePosition=$selectedLinePosition\nlinesAdapter.items=$lines")
         linesAdapter.items = lines
         updateControlsEnabled(
             selectedLinePosition = selectedLinePosition,
@@ -154,7 +152,6 @@ class ParsonsStepQuizFormDelegate(
     private fun onNewControlMessage(
         controlMessage: ParsonsLineControlMessage
     ) {
-        Log.d("ParsonsStepQuizFormDelegate", "onNewControlMessage($controlMessage)")
         val currentLines = linesAdapter.items
         val handleControlMessageResult = handleControlMessage(
             controlMessage = controlMessage,
@@ -167,7 +164,6 @@ class ParsonsStepQuizFormDelegate(
             lines = handleControlMessageResult.lines,
             binding = binding.parsonsStepContent
         )
-        Log.d("ParsonsStepQuizFormDelegate", "onNewControlMessage: call onQuizChanged;\nselectedLinePosition=${selectedLinePosition}\nlines=${handleControlMessageResult.lines}")
         onQuizChanged(createReplyInternal(handleControlMessageResult.lines))
     }
 
@@ -203,7 +199,7 @@ class ParsonsStepQuizFormDelegate(
         val selectedLine = lines.getOrNull(selectedLinePosition) ?: return lines
         val newTabsCount = when (controlMessage) {
             ParsonsLineControlMessage.ADD_TAB ->
-                (selectedLine.tabsCount + 1).coerceAtMost(10)
+                (selectedLine.tabsCount + 1).coerceAtMost(MAX_TABS_COUNT)
             ParsonsLineControlMessage.REMOVE_TAB ->
                 (selectedLine.tabsCount - 1).coerceAtLeast(0)
             else -> error("")
@@ -241,17 +237,13 @@ class ParsonsStepQuizFormDelegate(
         }
         with(binding) {
             parsonsAddTabButton.isEnabled =
-                selectedLinePosition != null &&
-                    selectedLine?.tabsCount in 0 until MAX_TABS_COUNT
+                selectedLinePosition != null && selectedLine?.tabsCount in 0 until MAX_TABS_COUNT
             parsonsRemoveTabButton.isEnabled =
-                selectedLinePosition != null &&
-                    selectedLine?.tabsCount in 1..MAX_TABS_COUNT
+                selectedLinePosition != null && selectedLine?.tabsCount in 1..MAX_TABS_COUNT
             parsonsRaiseUpLineButton.isEnabled =
-                selectedLinePosition != null &&
-                    selectedLinePosition in 1..lines.lastIndex
+                selectedLinePosition != null && selectedLinePosition in 1..lines.lastIndex
             parsonsDropDownLineButton.isEnabled =
-                selectedLinePosition != null &&
-                    selectedLinePosition in 0 until lines.lastIndex
+                selectedLinePosition != null && selectedLinePosition in 0 until lines.lastIndex
         }
     }
 

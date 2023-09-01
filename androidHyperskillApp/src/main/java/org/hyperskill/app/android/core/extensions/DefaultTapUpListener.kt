@@ -22,6 +22,4 @@ open class DefaultTapUpListener : GestureDetector.OnGestureListener {
 
     override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean =
         false
-
 }
-
