@@ -66,6 +66,8 @@ class ParsonsLinesAdapterDelegate(
 
         override fun onBind(data: UiParsonsLine) {
             with(viewBinding) {
+                // OnTouchListener is used instead of onClickListener
+                // because horizontalScrollView doesn't trigger onClick listener
                 root.setOnTouchListener(if (data.isClickable) onTouchListener else null)
                 stepQuizParsonsLineTabs.text = buildString {
                     repeat(data.tabsCount) {
