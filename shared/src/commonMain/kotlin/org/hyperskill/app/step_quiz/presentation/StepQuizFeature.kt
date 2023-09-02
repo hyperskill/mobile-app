@@ -45,7 +45,8 @@ interface StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val isProblemsLimitReached: Boolean
+            val isProblemsLimitReached: Boolean,
+            val shouldShowParsonsModal: Boolean
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
 
@@ -99,6 +100,8 @@ interface StepQuizFeature {
         object ClickedRetryEventMessage : Message
         object ProblemsLimitReachedModalShownEventMessage : Message
         object ProblemsLimitReachedModalHiddenEventMessage : Message
+        object ParsonsProblemOnboardingModalShownEventMessage : Message
+        object ParsonsProblemOnboardingModalHiddenEventMessage : Message
 
         /**
          * Message Wrappers
@@ -125,6 +128,8 @@ interface StepQuizFeature {
             val submission: Submission
         ) : Action
 
+        object SaveParsonsProblemOnboardingModalShownCacheFlag : Action
+
         /**
          * Analytic
          */
@@ -141,6 +146,8 @@ interface StepQuizFeature {
             object RequestResetCode : ViewAction
 
             object ShowProblemsLimitReachedModal : ViewAction
+
+            object ShowParsonsProblemOnboardingModal : ViewAction
 
             data class ProblemsLimitViewAction(
                 val viewAction: ProblemsLimitFeature.Action.ViewAction

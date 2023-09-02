@@ -5,6 +5,8 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz.domain.analytic.ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.ParsonsProblemOnboardingModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
@@ -228,6 +230,19 @@ class StepQuizReducer(
                         ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
+            is Message.ParsonsProblemOnboardingModalShownEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ParsonsProblemOnboardingModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    ),
+                    Action.SaveParsonsProblemOnboardingModalShownCacheFlag
+                )
+            is Message.ParsonsProblemOnboardingModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
             // Wrapper Messages
             is Message.ProblemsLimitMessage -> {
                 val (problemsLimitState, problemsLimitActions) =
@@ -249,6 +264,8 @@ class StepQuizReducer(
 
                 val actions = if (isProblemsLimitReached) {
                     setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
+                } else if (message.shouldShowParsonsModal) {
+                    setOf(Action.ViewAction.ShowParsonsProblemOnboardingModal)
                 } else {
                     emptySet()
                 }

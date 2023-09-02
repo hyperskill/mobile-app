@@ -11,4 +11,11 @@ class OnboardingInteractor(
     fun setOnboardingShown(isShown: Boolean) {
         onboardingRepository.setOnboardingShown(isShown)
     }
+
+    fun isParsonsOnboardingShown(): Boolean =
+        onboardingRepository.isParsonsOnboardingShown()
+
+    fun setParsonsOnboardingShown(isShown: Boolean) {
+        onboardingRepository.setParsonsOnboardingShown(isShown)
+    }
 }

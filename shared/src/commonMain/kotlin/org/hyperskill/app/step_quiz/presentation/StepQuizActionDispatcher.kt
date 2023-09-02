@@ -3,9 +3,11 @@ package org.hyperskill.app.step_quiz.presentation
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
+import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -23,6 +25,7 @@ class StepQuizActionDispatcher(
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
+    private val onboardingInteractor: OnboardingInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -53,10 +56,12 @@ class StepQuizActionDispatcher(
                             val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
                                 onSuccess = {
                                     Message.FetchAttemptSuccess(
-                                        action.step,
-                                        attempt,
-                                        it,
-                                        isProblemsLimitReached
+                                        step = action.step,
+                                        attempt = attempt,
+                                        submissionState = it,
+                                        isProblemsLimitReached = isProblemsLimitReached,
+                                        shouldShowParsonsModal = action.step.block.name == BlockName.PARSONS &&
+                                            !onboardingInteractor.isParsonsOnboardingShown()
                                     )
                                 },
                                 onFailure = {
@@ -169,6 +174,9 @@ class StepQuizActionDispatcher(
                             onNewMessage(Message.CreateSubmissionNetworkError)
                         }
                     )
+            }
+            is Action.SaveParsonsProblemOnboardingModalShownCacheFlag -> {
+                onboardingInteractor.setParsonsOnboardingShown(isShown = true)
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
