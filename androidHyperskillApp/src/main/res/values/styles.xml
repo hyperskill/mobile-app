@@ -20,6 +20,17 @@
         <item name="android:insetBottom">0dp</item>
     </style>
 
+    <style name="Widget.AppTheme.Button.OutlinedButton.Icon" parent="@style/Widget.Material3.Button.IconButton.Outlined">
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+    </style>
+
+    <style name="Widget.AppTheme.Button.OutlinedButton.Icon.Square" parent="@style/Widget.AppTheme.Button.OutlinedButton.Icon">
+        <item name="cornerRadius">8dp</item>
+    </style>
+
     <style name="Widget.AppTheme.TextInputLayouts.InputText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxCornerRadiusBottomStart">@dimen/corner_radius</item>
         <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius</item>
