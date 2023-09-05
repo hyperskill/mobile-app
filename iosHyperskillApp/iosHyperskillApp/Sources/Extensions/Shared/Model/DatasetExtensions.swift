@@ -11,7 +11,8 @@ extension Dataset {
         components: [Component]? = nil,
         isMultipleChoice: Bool = false,
         isCheckbox: Bool = false,
-        isHtmlEnabled: Bool = false
+        isHtmlEnabled: Bool = false,
+        lines: [String]? = nil
     ) {
         self.init(
             options: options,
@@ -22,7 +23,8 @@ extension Dataset {
             components: components,
             isMultipleChoice: isMultipleChoice,
             isCheckbox: isCheckbox,
-            isHtmlEnabled: isHtmlEnabled
+            isHtmlEnabled: isHtmlEnabled,
+            lines: lines
         )
     }
 }

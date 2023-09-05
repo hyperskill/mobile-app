@@ -3,7 +3,6 @@ package org.hyperskill.app.android.code.view.widget
 import android.content.Context
 import android.text.TextWatcher
 import android.util.AttributeSet
-import androidx.core.content.res.use
 import androidx.core.view.ViewCompat
 import androidx.core.widget.NestedScrollView
 import org.hyperskill.app.android.R
@@ -51,17 +50,7 @@ constructor(
         inflate(R.layout.view_code_editor, true)
         codeEditor = findViewById(R.id.codeEdit)
 
-        val isNightMode =
-            context.obtainStyledAttributes(intArrayOf(R.attr.isNightMode)).use {
-                it.getBoolean(0, false)
-            }
-
-        theme =
-            if (isNightMode) {
-                CodeThemes.TomorrowNight
-            } else {
-                CodeThemes.Light
-            }
+        theme = CodeThemes.resolve(context)
     }
 
     override fun onAttachedToWindow() {
