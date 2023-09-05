@@ -40,10 +40,10 @@ class StepQuizCodeFullScreenEditorOrientationChanghedAnalyticEvent(
         get() = super.params +
             mapOf(
                 PARAM_CONTEXT to mapOf(
-                    SCREEN_ORIENTATION_KEY to when(isPortraitOrientation) {
+                    SCREEN_ORIENTATION_KEY to when (isPortraitOrientation) {
                         true -> PORTRAIT_SCREEN_ORIENTATION_KEY
                         false -> LANDSCAPE_SCREEN_ORIENTATION_KEY
                     }
                 )
-        )
+            )
 }
