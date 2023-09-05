@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.step_quiz_choice.view.fragment.ChoiceStepQuizFragment
 import org.hyperskill.app.android.step_quiz_code.view.fragment.CodeStepQuizFragment
 import org.hyperskill.app.android.step_quiz_matching.view.fragment.MatchingStepQuizFragment
+import org.hyperskill.app.android.step_quiz_parsons.view.fragment.ParsonsStepQuizFragment
 import org.hyperskill.app.android.step_quiz_sorting.view.fragment.SortingStepQuizFragment
 import org.hyperskill.app.android.step_quiz_sql.view.fragment.SqlStepQuizFragment
 import org.hyperskill.app.android.step_quiz_table.view.fragment.TableStepQuizFragment
@@ -41,6 +42,9 @@ object StepQuizFragmentFactory {
 
                 BlockName.SQL ->
                     SqlStepQuizFragment.newInstance(step, stepRoute)
+
+                BlockName.PARSONS ->
+                    ParsonsStepQuizFragment.newInstance(step, stepRoute)
 
                 else ->
                     UnsupportedStepQuizFragment.newInstance()

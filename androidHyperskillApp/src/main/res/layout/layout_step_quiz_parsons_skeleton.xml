@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <org.hyperskill.app.android.ui.custom.LoadingView
+        android:id="@+id/firstSkeleton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:radius="4dp"/>
+
+    <org.hyperskill.app.android.ui.custom.LoadingView
+        android:id="@+id/secondSkeleton"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:radius="4dp"/>
+
+    <org.hyperskill.app.android.ui.custom.LoadingView
+        android:id="@+id/thirdSkeleton"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:radius="4dp"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

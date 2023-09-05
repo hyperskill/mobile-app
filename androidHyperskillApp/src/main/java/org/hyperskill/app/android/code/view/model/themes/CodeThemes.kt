@@ -1,5 +1,7 @@
 package org.hyperskill.app.android.code.view.model.themes
 
+import android.content.Context
+import androidx.core.content.res.use
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.ColorUtil
@@ -85,4 +87,17 @@ object CodeThemes {
         selectedLineBackground = ColorUtil.getColorArgb(R.color.tomorrow_night_theme_selected_line_background),
         lineNumberStroke = ColorUtil.getColorArgb(R.color.tomorrow_night_theme_line_number_stroke)
     )
+
+    fun resolve(context: Context): CodeTheme {
+        val isNightMode =
+            context.obtainStyledAttributes(intArrayOf(R.attr.isNightMode)).use {
+                it.getBoolean(0, false)
+            }
+
+        return if (isNightMode) {
+            TomorrowNight
+        } else {
+            Light
+        }
+    }
 }
