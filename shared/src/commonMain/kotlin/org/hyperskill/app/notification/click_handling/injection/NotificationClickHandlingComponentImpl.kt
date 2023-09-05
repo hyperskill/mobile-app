@@ -13,6 +13,7 @@ class NotificationClickHandlingComponentImpl(private val appGraph: AppGraph) : N
             ActionDispatcherOptions(),
             appGraph.analyticComponent.analyticInteractor,
             appGraph.profileDataComponent.currentProfileStateRepository,
+            appGraph.buildBadgesDataComponent().badgesRepository,
             appGraph.sentryComponent.sentryInteractor
         )
 }

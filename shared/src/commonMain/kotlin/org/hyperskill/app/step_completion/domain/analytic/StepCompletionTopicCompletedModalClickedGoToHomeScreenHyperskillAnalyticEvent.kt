@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz.domain.analytic
+package org.hyperskill.app.step_completion.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the daily step completed modal.
+ * Represents click on the "Go to homescreen" button analytic event.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "shown",
- *     "part": "modal",
- *     "target": "daily_step_completed_modal"
+ *     "action": "click",
+ *     "part": "topic_completed_modal",
+ *     "target": "go_to_home_screen"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepQuizDailyStepCompletedModalShownHyperskillAnalyticEvent(
+class StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.DAILY_STEP_COMPLETED_MODAL
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.TOPIC_COMPLETED_MODAL,
+    HyperskillAnalyticTarget.GO_TO_HOME_SCREEN
 )

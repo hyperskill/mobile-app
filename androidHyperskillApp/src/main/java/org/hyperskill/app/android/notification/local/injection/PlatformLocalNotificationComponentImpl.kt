@@ -27,6 +27,7 @@ class PlatformLocalNotificationComponentImpl(
             hyperskillNotificationManager = notificationManager,
             context = context,
             notificationInteractor = notificationInteractor,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository
         )
 }

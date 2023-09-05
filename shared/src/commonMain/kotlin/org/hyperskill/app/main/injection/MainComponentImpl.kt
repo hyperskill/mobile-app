@@ -26,7 +26,8 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             streakRecoveryComponent.streakRecoveryReducer,
             streakRecoveryComponent.streakRecoveryActionDispatcher,
             clickedNotificationComponent.notificationClickHandlingReducer,
-            clickedNotificationComponent.notificationClickHandlingDispatcher
+            clickedNotificationComponent.notificationClickHandlingDispatcher,
+            appGraph.buildNotificationComponent().notificationInteractor
         )
 
     override fun appFeature(): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =

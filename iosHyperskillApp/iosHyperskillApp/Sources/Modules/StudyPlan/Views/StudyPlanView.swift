@@ -79,6 +79,11 @@ struct StudyPlanView: View {
                             .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
 
+                    ProblemsLimitView(
+                        stateKs: viewModel.problemsLimitViewStateKs,
+                        onReloadButtonTap: viewModel.doReloadProblemsLimit
+                    )
+
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
                             section: section,

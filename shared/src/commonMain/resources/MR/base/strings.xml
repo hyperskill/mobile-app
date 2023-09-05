@@ -17,6 +17,8 @@
     <string name="new_word">New</string>
     <string name="progress">Progress</string>
     <string name="completed">Completed</string>
+    <string name="minutes_short">%d m.</string>
+    <string name="hours_short">%d h.</string>
 
     <!-- Badge -->
     <string name="badge_ide_required_text">IDE required</string>
@@ -97,6 +99,7 @@
     <string name="step_quiz_hints_report_alert_title">Thank you for being active Hyperskill citizen!</string>
     <string name="step_quiz_hints_report_alert_text">Are you sure you want to report this hint for spoilers, abuse or spam?</string>
     <string name="step_quiz_hints_show_more_text">Show more</string>
+    <string name="step_quiz_hints_copy">Copy</string> <!-- Is used only on iOS -->
 
     <!-- Step quiz choice -->
     <string name="step_quiz_choice_single_choice_title">Select one option from the list</string>
@@ -151,8 +154,13 @@
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
 
-    <!-- Step quiz code -->
+    <!-- Step quiz sql -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>
+
+    <!-- Step quiz parsons -->
+    <string name="step_quiz_parsons_title">Rearrange the lines to make the code work. Use the “Tab” button on the left to add indentation.</string>
+    <string name="step_quiz_parsons_invalid_reply">Rearrange the lines</string>
+    <string name="step_quiz_parsons_tab_text">Tab</string>
 
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
@@ -383,8 +391,8 @@
     <string name="problems_limit_reached_modal_description">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
 
     <!--  Problems limit widget  -->
-    <string name="problems_limit_widget_problems_limit">%d/%d problems limit</string>
-    <string name="problems_limit_widget_update_in">Update in %s</string>
+    <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>
+    <string name="problems_limit_widget_update_in">Reset in %s</string>
 
     <!--Study plan-->
     <string name="study_plan_title">Study plan</string>
@@ -481,7 +489,7 @@
     <string name="badge_bounty_hunter">Bounty Hunter</string>
     <string name="badge_level">Level %d</string>
     <string name="badge_max_level">Level %d (Max)</string>
-    <string name="badge_max_level_description">Hooray! You’ve reached the maximum level!</string>
+    <string name="badge_max_level_description">Hooray! You\'ve reached the maximum level!</string>
     <string name="badge_project_master_description">Complete projects to upgrade this badge</string>
     <string name="badge_topic_master_description">Complete topics to upgrade this badge</string>
     <string name="badge_committed_learner_description">Achieve streaks to upgrade this badge</string>
@@ -495,4 +503,8 @@
     <string name="badge_master_level">Master</string>
     <string name="badge_legendary_level">Legendary</string>
     <string name="badge_locked">Locked</string>
+
+    <!-- Earned badge modal -->
+    <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
+    <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
 </resources>

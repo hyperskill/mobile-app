@@ -10,6 +10,9 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     private let viewDataMapper: StepViewDataMapper
 
+    private let notificationService: NotificationsService
+    private let notificationsRegistrationService: NotificationsRegistrationService
+
     var stateKs: StepFeatureStateKs { .init(state) }
 
     var isStageImplement: Bool { stepRoute is StepRouteStageImplement }
@@ -17,10 +20,14 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     init(
         stepRoute: StepRoute,
         viewDataMapper: StepViewDataMapper,
+        notificationService: NotificationsService,
+        notificationsRegistrationService: NotificationsRegistrationService,
         feature: Presentation_reduxFeature
     ) {
         self.stepRoute = stepRoute
         self.viewDataMapper = viewDataMapper
+        self.notificationService = notificationService
+        self.notificationsRegistrationService = notificationsRegistrationService
 
         super.init(feature: feature)
 
@@ -78,10 +85,58 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         }
     }
 
+    // MARK: Problem of day solved
+
+    func doGoBackProblemOfDaySolvedAction() {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageProblemOfDaySolvedModalGoBackClicked()
+            )
+        )
+    }
+
+    // MARK: Daily notifications request
+
+    func handleSendDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
+        let message = StepFeatureMessageStepCompletionMessage(
+            message: StepCompletionFeatureMessageRequestDailyStudyRemindersPermissionResult(
+                isGranted: isGranted
+            )
+        )
+
+        if isGranted {
+            Task(priority: .userInitiated) {
+                await notificationsRegistrationService.requestAuthorizationIfNeeded()
+
+                await MainActor.run {
+                    onNewMessage(message)
+                }
+            }
+        } else {
+            onNewMessage(message)
+        }
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(StepFeatureMessageViewedEventMessage())
+    }
+
+    func logDailyStepCompletedModalShownEvent() {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageDailyStepCompletedModalShownEventMessage()
+            )
+        )
+    }
+
+    func logDailyStepCompletedModalHiddenEvent() {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageDailyStepCompletedModalHiddenEventMessage()
+            )
+        )
     }
 }
 

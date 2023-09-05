@@ -112,6 +112,10 @@ struct StepView: View {
                 dismissPanModalAndNavigateBack()
                 TabBarRouter(tab: .home).route()
             }
+        case .requestDailyStudyRemindersPermission:
+            presentSendDailyStudyRemindersPermissionAlert()
+        case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
+            presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
         }
     }
 
@@ -137,6 +141,54 @@ extension StepView {
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(modal)
+    }
+
+    private func presentDailyStepCompletedModal(earnedGemsText: String) {
+        viewModel.logDailyStepCompletedModalShownEvent()
+
+        let panModal = ProblemOfDaySolvedModalViewController(
+            earnedGemsText: earnedGemsText,
+            onGoBackButtonTap: { [weak viewModel] in
+                viewModel?.doGoBackProblemOfDaySolvedAction()
+            }
+        )
+        panModal.onDisappear = { [weak viewModel] in
+            viewModel?.logDailyStepCompletedModalHiddenEvent()
+        }
+
+        panModalPresenter.presentPanModal(panModal)
+    }
+}
+
+// MARK: - StepView (Alerts) -
+
+extension StepView {
+    private func presentSendDailyStudyRemindersPermissionAlert() {
+        let alert = UIAlertController(
+            title: Strings.Step.RequestDailyNotificationsAlert.title,
+            message: Strings.Step.RequestDailyNotificationsAlert.text,
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.Common.ok,
+                style: .default,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: true)
+                }
+            )
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: Strings.Common.later,
+                style: .cancel,
+                handler: { [weak viewModel] _ in
+                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: false)
+                }
+            )
+        )
+
+        modalRouter.presentAlert(alert)
     }
 }
 

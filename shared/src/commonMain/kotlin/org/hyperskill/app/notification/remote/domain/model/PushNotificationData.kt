@@ -8,19 +8,24 @@ data class PushNotificationData(
     @SerialName("category")
     val typeString: String,
     @SerialName("thread-id")
-    val categoryString: String
+    val categoryString: String,
+    @SerialName("badge")
+    private val badgeIdString: String? = null
 ) {
-    val typeEnum: PushNotificationType =
-        try {
+    val typeEnum: PushNotificationType
+        get() = try {
             PushNotificationType.valueOf(typeString)
         } catch (e: Exception) {
             PushNotificationType.UNKNOWN
         }
 
-    val categoryEnum: PushNotificationCategory =
-        try {
+    val categoryEnum: PushNotificationCategory
+        get() = try {
             PushNotificationCategory.getByBackendName(categoryString)
         } catch (e: Exception) {
             PushNotificationCategory.UNKNOWN
         }
+
+    val badgeId: Long?
+        get() = badgeIdString?.toLongOrNull()
 }

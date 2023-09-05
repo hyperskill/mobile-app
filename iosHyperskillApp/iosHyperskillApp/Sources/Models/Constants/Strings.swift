@@ -74,6 +74,11 @@ enum Strings {
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
         static let theory = sharedStrings.step_theory_text.localized()
+
+        enum RequestDailyNotificationsAlert {
+            static let title = sharedStrings.after_daily_step_completed_dialog_title.localized()
+            static let text = sharedStrings.after_daily_step_completed_dialog_text.localized()
+        }
     }
 
     // MARK: - StepQuiz -
@@ -91,6 +96,11 @@ enum Strings {
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
         static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
 
+        enum ResetCodeAlert {
+            static let title = sharedStrings.reset_code_dialog_title.localized()
+            static let text = sharedStrings.reset_code_dialog_explanation.localized()
+        }
+
         enum Hints {
             static let showButton = sharedStrings.step_quiz_hints_show_button_text.localized()
             static let reportButton = sharedStrings.step_quiz_hints_report_button_text.localized()
@@ -100,6 +110,7 @@ enum Strings {
             static let reportAlertTitle = sharedStrings.step_quiz_hints_report_alert_title.localized()
             static let reportAlertText = sharedStrings.step_quiz_hints_report_alert_text.localized()
             static let showMore = sharedStrings.step_quiz_hints_show_more_text.localized()
+            static let copy = sharedStrings.step_quiz_hints_copy.localized()
         }
 
         enum ProblemOfDaySolvedModal {
@@ -207,8 +218,6 @@ enum Strings {
 
         static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
         static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()
-
-        static let continueLearningInWebButton = sharedStrings.home_continue_learning_on_web_text.localized()
     }
 
     // MARK: - Topics widget -
