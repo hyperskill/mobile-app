@@ -4,5 +4,6 @@ enum class HyperskillAnalyticAction(val actionName: String) {
     CLICK("click"),
     VIEW("view"),
     HIDDEN("hidden"),
-    SHOWN("shown")
+    SHOWN("shown"),
+    ORIENTATION_CHANGED("orientation_changed")
 }

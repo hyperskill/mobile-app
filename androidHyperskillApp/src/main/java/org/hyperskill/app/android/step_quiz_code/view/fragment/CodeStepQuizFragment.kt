@@ -113,6 +113,10 @@ class CodeStepQuizFragment :
         onRetryButtonClicked()
     }
 
+    override fun onOrientationChanged(isPortrait: Boolean) {
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.FullScreenCodeEditorOrientationChanged(isPortrait))
+    }
+
     private fun onFullScreenClicked(lang: String, code: String) {
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
