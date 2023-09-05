@@ -59,6 +59,8 @@ interface AppFeature {
             val pushNotificationData: PushNotificationData?
         ) : Action
 
+        object UpdateDailyLearningNotificationTime : Action
+
         /**
          * Action Wrappers
          */

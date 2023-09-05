@@ -2,7 +2,6 @@ package org.hyperskill.app.android.step.view.delegate
 
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
-import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
@@ -29,9 +28,6 @@ class StepDelegate<TFragment>(
 
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment)
-
-    private val platformNotificationComponent =
-        HyperskillApp.graph().platformLocalNotificationComponent
 
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
@@ -118,6 +114,5 @@ class StepDelegate<TFragment>(
             NotificationManagerCompat.from(context)
                 .checkNotificationChannelAvailability(context, HyperskillNotificationChannel.DailyReminder)
         }
-        platformNotificationComponent.dailyStudyReminderNotificationDelegate.scheduleDailyNotification()
     }
 }

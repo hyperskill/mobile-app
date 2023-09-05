@@ -11,6 +11,7 @@ import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingDispatcher
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
@@ -32,7 +33,8 @@ object AppFeatureBuilder {
         streakRecoveryReducer: StreakRecoveryReducer,
         streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher,
         clickedNotificationReducer: NotificationClickHandlingReducer,
-        notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher
+        notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher,
+        notificationsInteractor: NotificationInteractor
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer(
             streakRecoveryReducer,
@@ -44,7 +46,8 @@ object AppFeatureBuilder {
             authInteractor,
             currentProfileStateRepository,
             sentryInteractor,
-            stateRepositoriesComponent
+            stateRepositoriesComponent,
+            notificationsInteractor
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)
