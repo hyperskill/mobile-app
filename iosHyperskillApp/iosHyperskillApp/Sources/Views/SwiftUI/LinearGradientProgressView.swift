@@ -3,7 +3,7 @@ import SwiftUI
 extension LinearGradientProgressView {
     struct Appearance {
         let maxHeight: CGFloat = 8
-        let cornerRadius = ProfileView.Appearance().cornerRadius
+        let cornerRadius: CGFloat = 8
     }
 }
 
