@@ -33,7 +33,6 @@
         app:lottie_rawRes="@raw/parsons_problem_onboarding_animation"
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
-        app:lottie_speed="2"
         android:layout_marginTop="32dp"/>
 
     <TextView
