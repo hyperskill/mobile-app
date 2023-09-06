@@ -8,11 +8,8 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.extensions.openUrl
-import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
@@ -27,7 +24,6 @@ import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedSt
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
-import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
@@ -35,7 +31,6 @@ import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -112,9 +107,6 @@ class HomeFragment :
             homeScreenError.tryAgain.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.Initialize(forceUpdate = true))
             }
-            homeScreenKeepLearningInWebButton.setOnClickListener {
-                homeViewModel.onNewMessage(HomeFeature.Message.ClickedContinueLearningOnWeb)
-            }
 
             homeScreenTopicsRepetitionCard.root.setOnClickListener {
                 homeViewModel.onNewMessage(HomeFeature.Message.ClickedTopicsRepetitionsCard)
@@ -158,7 +150,6 @@ class HomeFragment :
                 viewBinding.homeScreenContainer,
                 viewBinding.homeScreenSkeleton.root,
                 viewBinding.homeScreenAppBar.root,
-                viewBinding.homeKeepLearningInWebButtonSkeleton
             )
             addState<HomeFeature.HomeState.NetworkError>(viewBinding.homeScreenError.root)
             addState<HomeFeature.HomeState.Content>(
@@ -166,8 +157,7 @@ class HomeFragment :
                 viewBinding.homeScreenContainer,
                 viewBinding.homeScreenKeepPracticingTextView,
                 viewBinding.homeScreenProblemOfDayCard.root,
-                viewBinding.homeScreenTopicsRepetitionCard.root,
-                viewBinding.homeScreenKeepLearningInWebButton
+                viewBinding.homeScreenTopicsRepetitionCard.root
             )
         }
     }
@@ -196,12 +186,6 @@ class HomeFragment :
 
     override fun onAction(action: HomeFeature.Action.ViewAction) {
         when (action) {
-            is HomeFeature.Action.ViewAction.OpenUrl -> {
-                requireContext().openUrl(action.url)
-            }
-            is HomeFeature.Action.ViewAction.ShowGetMagicLinkError -> {
-                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
-            }
             is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
                 requireRouter().navigateTo(TopicsRepetitionScreen())
             }
@@ -235,7 +219,6 @@ class HomeFragment :
 
         val homeState = state.homeState
         if (homeState is HomeFeature.HomeState.Content) {
-            renderMagicLinkState(homeState.isLoadingMagicLink)
             renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.isFreemiumEnabled)
             renderTopicsRepetition(homeState.repetitionsState, homeState.isFreemiumEnabled)
         }
@@ -254,16 +237,6 @@ class HomeFragment :
         }
     }
 
-    private fun renderMagicLinkState(isLoadingMagicLink: Boolean) {
-        if (isLoadingMagicLink) {
-            LoadingProgressDialogFragment.newInstance()
-                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
-        } else {
-            childFragmentManager
-                .dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
-        }
-    }
-
     private fun renderProblemOfDay(
         viewBinding: FragmentHomeBinding,
         state: HomeFeature.ProblemOfDayState,
@@ -275,8 +248,6 @@ class HomeFragment :
             state = state,
             isFreemiumEnabled = isFreemiumEnabled
         )
-        viewBinding.homeScreenKeepLearningInWebButton.isVisible =
-            state is HomeFeature.ProblemOfDayState.Solved || state is HomeFeature.ProblemOfDayState.Empty
     }
 
     private fun renderTopicsRepetition(

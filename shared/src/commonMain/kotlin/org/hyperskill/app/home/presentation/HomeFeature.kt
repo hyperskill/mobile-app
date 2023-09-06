@@ -1,7 +1,6 @@
 package org.hyperskill.app.home.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
@@ -50,8 +49,7 @@ interface HomeFeature {
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
             val isFreemiumEnabled: Boolean,
-            internal val isRefreshing: Boolean = false,
-            val isLoadingMagicLink: Boolean = false
+            internal val isRefreshing: Boolean = false
         ) : HomeState
 
         /**
@@ -114,19 +112,14 @@ interface HomeFeature {
         data class StepQuizSolved(val stepId: Long) : Message
         object TopicRepeated : Message
 
-        object ClickedContinueLearningOnWeb : Message
         object ClickedTopicsRepetitionsCard : Message
         object ClickedProblemOfDayCardReload : Message
-
-        data class GetMagicLinkReceiveSuccess(val url: String) : Message
-        object GetMagicLinkReceiveFailure : Message
 
         /**
          * Analytic
          */
         object ViewedEventMessage : Message
         object ClickedProblemOfDayCardEventMessage : Message
-        object ClickedContinueLearningOnWebEventMessage : Message
 
         /**
          * TODO: ALTAPPS-908 refactor this
@@ -148,8 +141,6 @@ interface HomeFeature {
         object FetchHomeScreenData : Action
         object LaunchTimer : Action
 
-        data class GetMagicLink(val path: HyperskillUrlPath) : Action
-
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         /**
@@ -160,8 +151,6 @@ interface HomeFeature {
         data class NextLearningActivityWidgetAction(val action: NextLearningActivityWidgetFeature.Action) : Action
 
         sealed interface ViewAction : Action {
-            data class OpenUrl(val url: String) : ViewAction
-            object ShowGetMagicLinkError : ViewAction
 
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction

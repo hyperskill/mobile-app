@@ -41,7 +41,9 @@
             android:id="@+id/fullScreenCodeTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabMaxWidth="0dp"
             app:tabGravity="fill"
+            app:tabMode="fixed"
             android:background="@color/color_background"/>
     </com.google.android.material.appbar.AppBarLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
