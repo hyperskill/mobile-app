@@ -19,7 +19,7 @@ struct StepQuizParsonsItemView: View {
     let level: Int
 
     var styledCode: String {
-        "<code style=\"border: 0; width: 100%; padding: 0; margin: 0\">\(code)</code>"
+        "<code style=\"border: 0; padding: 0; margin: 0; background: transparent\">\(code)</code>"
     }
 
     var body: some View {
