@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.android.coil.compose)
     implementation(libs.android.splashscreen)
     implementation(libs.android.timepicker)
+    implementation(libs.android.lottie)
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

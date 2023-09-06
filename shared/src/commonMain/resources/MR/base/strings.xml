@@ -161,6 +161,9 @@
     <string name="step_quiz_parsons_title">Rearrange the lines to make the code work. Use the “Tab” button on the left to add indentation.</string>
     <string name="step_quiz_parsons_invalid_reply">Rearrange the lines</string>
     <string name="step_quiz_parsons_tab_text">Tab</string>
+    <string name="step_quiz_parsons_onboarding_header">Great news!</string>
+    <string name="step_quiz_parsons_onboarding_title">You\'ve unlocked a new problem type!</string>
+    <string name="step_quiz_parsons_onboarding_description">Now you can rearrange the lines to make the code work. Use the “Tab” button to add indentation.</string>
 
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
