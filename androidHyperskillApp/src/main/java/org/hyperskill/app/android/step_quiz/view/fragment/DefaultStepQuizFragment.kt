@@ -293,6 +293,9 @@ abstract class DefaultStepQuizFragment :
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
+            StepQuizFeature.Action.ViewAction.ShowParsonsProblemOnboardingModal -> {
+                // TODO: ALTAPPS-953
+            }
         }
     }
 
