@@ -253,8 +253,8 @@ struct StepQuizView: View {
             ProgressHUD.showError(status: Strings.Common.connectionError)
         case .requestResetCode:
             presentResetCodePermissionAlert()
-        case .showProblemsLimitReachedModal:
-            presentProblemsLimitReachedModal()
+        case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
+            presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
         case .showParsonsProblemOnboardingModal:
             // TODO: ALTAPPS-952
             break
@@ -308,8 +308,9 @@ extension StepQuizView {
 // MARK: - StepQuizView (Modals) -
 
 extension StepQuizView {
-    private func presentProblemsLimitReachedModal() {
+    private func presentProblemsLimitReachedModal(modalText: String) {
         let panModal = ProblemsLimitReachedModalViewController(
+            modalText: modalText,
             delegate: viewModel
         )
 

@@ -47,6 +47,7 @@ class StepQuizTest {
                     attempt,
                     submissionState,
                     isProblemsLimitReached = true,
+                    problemsLimitReachedModalText = "",
                     isParsonsOnboardingShown = false
                 )
             )
@@ -87,12 +88,15 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = true,
+                problemsLimitReachedModalText = "",
                 isParsonsOnboardingShown = false
             )
         )
 
         assertEquals(expectedState, state)
-        assertContains(actions, StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal)
+        assertTrue {
+            actions.any { it is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal }
+        }
     }
 
     @Test
@@ -128,6 +132,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
+                problemsLimitReachedModalText = null,
                 isParsonsOnboardingShown = false
             )
         )
@@ -185,6 +190,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
+                problemsLimitReachedModalText = null,
                 isParsonsOnboardingShown = false
             )
         )

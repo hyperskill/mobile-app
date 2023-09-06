@@ -125,7 +125,6 @@ enum Strings {
 
         enum ProblemsLimitReachedModal {
             static let title = sharedStrings.problems_limit_reached_modal_title.localized()
-            static let description = sharedStrings.problems_limit_reached_modal_description.localized()
         }
     }
 

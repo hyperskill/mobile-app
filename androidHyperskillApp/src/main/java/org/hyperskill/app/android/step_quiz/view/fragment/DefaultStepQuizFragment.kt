@@ -288,8 +288,8 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.RequestResetCode -> {
                 requestResetCodeActionPermission()
             }
-            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
-                ProblemsLimitReachedBottomSheet.newInstance()
+            is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
+                ProblemsLimitReachedBottomSheet.newInstance(action.modalText)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
