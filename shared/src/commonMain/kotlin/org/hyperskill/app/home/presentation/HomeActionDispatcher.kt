@@ -16,14 +16,12 @@ import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.Message
-import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -41,7 +39,6 @@ class HomeActionDispatcher(
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val urlPathProcessor: UrlPathProcessor,
     private val dateFormatter: SharedDateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -132,8 +129,6 @@ class HomeActionDispatcher(
                     }
                     .launchIn(actionScope)
             }
-            is Action.GetMagicLink ->
-                getLink(action.path, ::onNewMessage)
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {
@@ -174,19 +169,4 @@ class HomeActionDispatcher(
                     HomeFeature.RepetitionsState.Empty
                 }
             }
-
-    private suspend fun getLink(
-        path: HyperskillUrlPath,
-        onNewMessage: (Message) -> Unit
-    ) {
-        urlPathProcessor.processUrlPath(path)
-            .fold(
-                onSuccess = { url ->
-                    onNewMessage(Message.GetMagicLinkReceiveSuccess(url))
-                },
-                onFailure = {
-                    onNewMessage(Message.GetMagicLinkReceiveFailure)
-                }
-            )
-    }
 }

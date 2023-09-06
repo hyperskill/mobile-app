@@ -34,4 +34,7 @@
 
     <string name="plus_hypercoins_award">+%d</string>
 
+    <!--Step quiz parsons-->
+    <string name="step_quiz_parsons_tab">". . . . "</string>
+
 </resources>

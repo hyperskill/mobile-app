@@ -61,10 +61,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         onNewMessage(HomeFeatureMessagePullToRefresh())
     }
 
-    func doContinueLearningOnWebPresentation() {
-        onNewMessage(HomeFeatureMessageClickedContinueLearningOnWeb())
-    }
-
     func doTopicsRepetitionsPresentation() {
         onNewMessage(HomeFeatureMessageClickedTopicsRepetitionsCard())
     }

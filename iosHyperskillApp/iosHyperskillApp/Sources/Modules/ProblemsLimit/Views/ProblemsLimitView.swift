@@ -24,8 +24,7 @@ struct ProblemsLimitView: View {
                 EmptyView()
             case .widget(let data):
                 ProblemsLimitWidgetView(
-                    stepsLimitLeft: Int(0), // TODO remove
-                    stepsLimitTotal: Int(0), // TODO remove
+                    stepsLimitProgress: data.progress,
                     stepsLimitLabel: data.stepsLimitLabel,
                     updateInLabel: data.updateInLabel
                 )
@@ -41,7 +40,7 @@ struct ProblemsLimitView_Previews: PreviewProvider {
                 ProblemsLimitFeatureViewStateContentWidget(
                     progress: 0.6,
                     stepsLimitLabel: "3/5 steps",
-                    updateInLabel: "12 hours"
+                    updateInLabel: "Update in 12 hours"
                 )
             ),
             onReloadButtonTap: {}
