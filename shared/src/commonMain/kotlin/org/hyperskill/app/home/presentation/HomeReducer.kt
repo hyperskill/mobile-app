@@ -2,10 +2,8 @@ package org.hyperskill.app.home.presentation
 
 import kotlin.math.max
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
-import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.home.domain.analytic.HomeClickedContinueLearningOnWebHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent
 import org.hyperskill.app.home.domain.analytic.HomeClickedPullToRefreshHyperskillAnalyticEvent
@@ -145,17 +143,6 @@ class HomeReducer(
                 } else {
                     null
                 }
-            // Click Messages
-            is Message.ClickedContinueLearningOnWeb -> {
-                if (state.homeState is HomeState.Content) {
-                    state.copy(homeState = state.homeState.copy(isLoadingMagicLink = true)) to setOf(
-                        Action.GetMagicLink(HyperskillUrlPath.Index()),
-                        Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent())
-                    )
-                } else {
-                    null
-                }
-            }
             is Message.ClickedTopicsRepetitionsCard ->
                 if (state.homeState is HomeState.Content) {
                     val isCompleted = state.homeState.repetitionsState is HomeFeature.RepetitionsState.Available &&
@@ -195,30 +182,9 @@ class HomeReducer(
                     null
                 }
             }
-            // MagicLinks Messages
-            is Message.GetMagicLinkReceiveSuccess -> {
-                if (state.homeState is HomeState.Content) {
-                    state.copy(homeState = state.homeState.copy(isLoadingMagicLink = false)) to setOf(
-                        Action.ViewAction.OpenUrl(message.url)
-                    )
-                } else {
-                    null
-                }
-            }
-            is Message.GetMagicLinkReceiveFailure -> {
-                if (state.homeState is HomeState.Content) {
-                    state.copy(homeState = state.homeState.copy(isLoadingMagicLink = false)) to setOf(
-                        Action.ViewAction.ShowGetMagicLinkError
-                    )
-                } else {
-                    null
-                }
-            }
             // Analytic Messages
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(HomeViewedHyperskillAnalyticEvent()))
-            is Message.ClickedContinueLearningOnWebEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(HomeClickedContinueLearningOnWebHyperskillAnalyticEvent()))
             is Message.ClickedProblemOfDayCardEventMessage -> {
                 if (state.homeState is HomeState.Content) {
                     when (state.homeState.problemOfDayState) {

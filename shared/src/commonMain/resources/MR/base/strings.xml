@@ -183,7 +183,6 @@
     <string name="home_next_learning_activity_title">Pick up where you left off</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
     <string name="home_repeat_unlimited">Repeat unlimited</string>
-    <string name="home_continue_learning_on_web_text">Continue learning on the web</string>
 
     <!-- Track -->
     <string name="track_title">Track</string>
@@ -193,7 +192,6 @@
     <string name="track_completed_topics_text">Completed topics</string>
     <string name="track_applied_core_topics_text">Applied core topics by completing project stages</string>
     <string name="track_about_text">About</string>
-    <string name="track_continue_in_web_text">Continue learning on the web</string>
     <string name="track_topics_to_discover_next_block_title">Theory to discover next</string>
     <string name="track_progress_block_title">Progress</string>
 
