@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.step_quiz_parsons.view.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,7 @@ class ParsonsStepQuizOnboardingBottomSheetDialogFragment : BottomSheetDialogFrag
             dialog.setOnShowListener {
                 dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 if (savedInstanceState == null) {
-                    // TODO: log shown event
+                    (parentFragment as? Callback)?.parsonsProblemOnboardingShown()
                 }
             }
         }
@@ -46,4 +47,14 @@ class ParsonsStepQuizOnboardingBottomSheetDialogFragment : BottomSheetDialogFrag
                 container,
                 false
             )
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        (parentFragment as? Callback)?.parsonsProblemOnboardingHidden()
+    }
+
+    interface Callback {
+        fun parsonsProblemOnboardingShown()
+        fun parsonsProblemOnboardingHidden()
+    }
 }
