@@ -122,7 +122,7 @@ extension SwiftUIProcessedContentView {
             textColor: UIColor = UIColor.primaryText
         ) -> Configuration {
             Configuration(
-                appearance: .init(labelFont: textFont),
+                appearance: .init(labelFont: textFont, backgroundColor: .clear),
                 contentProcessor: ContentProcessor(
                     injections: ContentProcessor.defaultInjections + [
                         FontInjection(font: textFont),
