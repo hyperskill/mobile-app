@@ -14,7 +14,7 @@ struct StepQuizParsonsView: View {
     var body: some View {
         VStack(spacing: appearance.containerSpacing) {
             VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-                ForEach(Array(viewModel.viewData.lines), id: \.self) { line in
+                ForEach(viewModel.viewData.lines, id: \.self) { line in
                     StepQuizParsonsItemView(
                         isSelected: line.lineNumber == viewModel.viewData.selectedLineNumber,
                         code: line.text,

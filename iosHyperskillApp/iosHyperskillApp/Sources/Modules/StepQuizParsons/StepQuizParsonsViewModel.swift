@@ -21,28 +21,29 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         self.dataset = dataset
         self.reply = reply
 
-        if let datasetLines = dataset.lines {
-            if let replyLines = reply?.lines {
-                self.viewData = StepQuizParsonsViewData(
-                    lines: replyLines.map {
-                        .init(
-                            lineNumber: Int($0.lineNumber),
-                            text: datasetLines[Int($0.lineNumber)],
-                            level: Int($0.level)
-                        )
-                    }
-                )
-            } else {
-                self.viewData = StepQuizParsonsViewData(
-                    lines: datasetLines
-                        .enumerated()
-                        .map {
-                            .init(lineNumber: $0, text: $1, level: 0)
-                        }
-                )
-            }
-        } else {
+        guard let datasetLines = dataset.lines else {
             self.viewData = StepQuizParsonsViewData(lines: [])
+            return
+        }
+
+        if let replyLines = reply?.lines {
+            self.viewData = StepQuizParsonsViewData(
+                lines: replyLines.map {
+                    .init(
+                        lineNumber: Int($0.lineNumber),
+                        text: datasetLines[Int($0.lineNumber)],
+                        level: Int($0.level)
+                    )
+                }
+            )
+        } else {
+            self.viewData = StepQuizParsonsViewData(
+                lines: datasetLines
+                    .enumerated()
+                    .map {
+                        .init(lineNumber: $0, text: $1, level: 0)
+                    }
+            )
         }
     }
 
@@ -51,69 +52,55 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
     }
 
     func doAddTab() {
-        guard let index = selectedLineNumberIndex else {
+        guard let selectedLineNumberIndex else {
             return
         }
-        viewData.lines[index].level += 1
+        viewData.lines[selectedLineNumberIndex].level += 1
         outputCurrentReply()
     }
 
     func isAddTabDisabled() -> Bool {
         guard let index = selectedLineNumberIndex else {
-            return false
+            return true
         }
         return viewData.lines[index].level == 3
     }
 
     func doRemoveTab() {
-        guard let index = selectedLineNumberIndex else {
+        guard let selectedLineNumberIndex else {
             return
         }
-        viewData.lines[index].level -= 1
+        viewData.lines[selectedLineNumberIndex].level -= 1
         outputCurrentReply()
     }
 
     func isRemoveTabDisabled() -> Bool {
-        guard let index = selectedLineNumberIndex else {
-            return false
+        guard let selectedLineNumberIndex else {
+            return true
         }
-        return viewData.lines[index].level == 0
+        return viewData.lines[selectedLineNumberIndex].level == 0
     }
 
     func doMoveUp() {
-        guard let index = selectedLineNumberIndex else {
-            return
-        }
-        let tmp = viewData.lines[index - 1]
-        viewData.lines[index - 1] = viewData.lines[index]
-        viewData.lines[index] = tmp
-
-        outputCurrentReply()
+        doMove(indexAddition: -1)
     }
 
     func isMoveUpDisabled() -> Bool {
-        guard let index = selectedLineNumberIndex else {
-            return false
+        guard let selectedLineNumberIndex else {
+            return true
         }
-        return index == 0
+        return selectedLineNumberIndex == 0
     }
 
     func doMoveDown() {
-        guard let index = selectedLineNumberIndex else {
-            return
-        }
-        let tmp = viewData.lines[index + 1]
-        viewData.lines[index + 1] = viewData.lines[index]
-        viewData.lines[index] = tmp
-
-        outputCurrentReply()
+        doMove(indexAddition: 1)
     }
 
     func isMoveDownDisabled() -> Bool {
-        guard let index = selectedLineNumberIndex else {
-            return false
+        guard let selectedLineNumberIndex else {
+            return true
         }
-        return index == viewData.lines.count - 1
+        return selectedLineNumberIndex == viewData.lines.count - 1
     }
 
     func createReply() -> Reply {
@@ -126,5 +113,16 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
 
     private func outputCurrentReply() {
         moduleOutput?.handleChildQuizSync(reply: createReply())
+    }
+
+    private func doMove(indexAddition: Int) {
+        guard let selectedLineNumberIndex else {
+            return
+        }
+        let tmp = viewData.lines[selectedLineNumberIndex + indexAddition]
+        viewData.lines[selectedLineNumberIndex + indexAddition] = viewData.lines[selectedLineNumberIndex]
+        viewData.lines[selectedLineNumberIndex] = tmp
+
+        outputCurrentReply()
     }
 }

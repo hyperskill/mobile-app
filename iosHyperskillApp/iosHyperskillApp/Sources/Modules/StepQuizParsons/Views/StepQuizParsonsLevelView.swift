@@ -2,7 +2,7 @@ import SwiftUI
 
 extension StepQuizParsonsLevelView {
     struct Appearance {
-        let textFont = Font.custom("Menlo", size: 14)
+        let textFont = Font(UIFont.monospacedSystemFont(ofSize: 14, weight: .regular))
     }
 }
 
@@ -11,17 +11,19 @@ struct StepQuizParsonsLevelView: View {
 
     var body: some View {
         HStack(spacing: LayoutInsets.smallInset) {
-            ForEach(0..<4) { _ in
-                Text(".")
-                    .font(appearance.textFont)
-                    .foregroundColor(.disabledText)
-            }
+            Text(". . . .")
+                .font(appearance.textFont)
+                .foregroundColor(.disabledText)
         }
     }
 }
 
 struct StepQuizParsonsLevelView_Previews: PreviewProvider {
     static var previews: some View {
-        StepQuizParsonsLevelView()
+        HStack {
+            ForEach(0..<4) { _ in
+                StepQuizParsonsLevelView()
+            }
+        }
     }
 }

@@ -31,21 +31,15 @@ struct StepQuizParsonsItemView: View {
                 text: .constant(styledCode),
                 configuration: .quizContent()
             )
-            .background(Color(ColorPalette.background))
         }
         .padding()
         .background(Color(ColorPalette.background))
         .cornerRadius(appearance.cornerRadius)
-        .if(isSelected) { view in
-            view.overlay(
-                RoundedRectangle(cornerRadius: appearance.cornerRadius)
-                    .inset(by: appearance.isSelectedInset)
-                    .stroke(
-                        Color(ColorPalette.primaryAlpha60),
-                        lineWidth: appearance.isSelectedLineWidth
-                    )
-            )
-        }
+        .addBorder(
+            color: isSelected ? Color(ColorPalette.primaryAlpha60) : .clear,
+            width: appearance.isSelectedLineWidth,
+            cornerRadius: appearance.cornerRadius
+        )
     }
 }
 
