@@ -74,7 +74,7 @@ abstract class DefaultStepQuizFragment :
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    protected val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
+    private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
 
     protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
 

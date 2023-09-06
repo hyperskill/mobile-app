@@ -3,7 +3,6 @@ package org.hyperskill.app.android.main.view.ui.activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -176,7 +175,6 @@ class MainActivity :
             savedInstanceState?.getBoolean(WAS_ORIENTATION_CHANGED_KEY, false) ?: false
         this.wasOrientationChanged = wasOrientationChanged
         if (!resources.getBoolean(R.bool.is_tablet) && !wasOrientationChanged) {
-            Log.d("MainActivity", "Request activity portrait orientation")
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
         val savedOrientation =

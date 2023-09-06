@@ -13,16 +13,16 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * {
  *     "route": "/learn/step/1",
  *     "action": "orientation_changed",
- *     "part": "problems_limit_reached_modal",
+ *     "part": "full_screen_code_editor",
  *     "context" :
  *     {
- *         "screen_orientation": "portrait_screen_orientation"
+ *         "screen_orientation": "portrait"
  *     }
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepQuizCodeFullScreenEditorOrientationChanghedAnalyticEvent(
+class StepQuizCodeFullScreenEditorOrientationChangedAnalyticEvent(
     route: HyperskillAnalyticRoute,
     private val isPortraitOrientation: Boolean
 ) : HyperskillAnalyticEvent(
@@ -32,8 +32,8 @@ class StepQuizCodeFullScreenEditorOrientationChanghedAnalyticEvent(
 ) {
     companion object {
         private const val SCREEN_ORIENTATION_KEY = "screen_orientation"
-        private const val PORTRAIT_SCREEN_ORIENTATION_KEY = "portrait_screen_orientation"
-        private const val LANDSCAPE_SCREEN_ORIENTATION_KEY = "landscape_screen_orientation"
+        private const val PORTRAIT_SCREEN_ORIENTATION_KEY = "portrait"
+        private const val LANDSCAPE_SCREEN_ORIENTATION_KEY = "landscape"
     }
 
     override val params: Map<String, Any>

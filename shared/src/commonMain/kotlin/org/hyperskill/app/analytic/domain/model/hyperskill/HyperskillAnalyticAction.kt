@@ -5,5 +5,5 @@ enum class HyperskillAnalyticAction(val actionName: String) {
     VIEW("view"),
     HIDDEN("hidden"),
     SHOWN("shown"),
-    ORIENTATION_CHANGED("orientation_changed")
+    ORIENTATION_CHANGED("screen_orientation_changed")
 }
