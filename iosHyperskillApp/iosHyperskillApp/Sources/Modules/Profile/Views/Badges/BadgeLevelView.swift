@@ -40,7 +40,10 @@ struct BadgeLevelView: View {
                 }
             }
 
-            BadgeLinearGradientProgressView(progress: progress)
+            LinearGradientProgressView(
+                progress: progress,
+                gradientStyle: .badge
+            )
 
             if let description {
                 Text(description)
