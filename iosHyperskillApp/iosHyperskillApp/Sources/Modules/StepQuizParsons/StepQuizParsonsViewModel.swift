@@ -5,6 +5,8 @@ import shared
 final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
+    private static let tabsMaxCount = 10
+
     private let dataset: Dataset
     private let reply: Reply?
 
@@ -63,7 +65,7 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         guard let index = selectedLineNumberIndex else {
             return true
         }
-        return viewData.lines[index].level == 3
+        return viewData.lines[index].level == Self.tabsMaxCount
     }
 
     func doRemoveTab() {

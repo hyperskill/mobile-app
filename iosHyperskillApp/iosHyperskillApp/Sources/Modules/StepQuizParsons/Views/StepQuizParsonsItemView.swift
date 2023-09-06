@@ -23,14 +23,17 @@ struct StepQuizParsonsItemView: View {
     }
 
     var body: some View {
-        HStack(spacing: LayoutInsets.smallInset) {
-            ForEach(0..<level, id: \.self) { _ in
-                StepQuizParsonsLevelView()
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: LayoutInsets.smallInset) {
+                ForEach(0..<level, id: \.self) { _ in
+                    StepQuizParsonsLevelView()
+                }
+                LatexView(
+                    text: .constant(styledCode),
+                    configuration: .quizContent()
+                )
+                .frame(width: CGFloat(code.count * 15))
             }
-            LatexView(
-                text: .constant(styledCode),
-                configuration: .quizContent()
-            )
         }
         .padding()
         .background(Color(ColorPalette.background))
