@@ -1,7 +1,6 @@
 package org.hyperskill.step_quiz
 
 import kotlin.test.Test
-import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
