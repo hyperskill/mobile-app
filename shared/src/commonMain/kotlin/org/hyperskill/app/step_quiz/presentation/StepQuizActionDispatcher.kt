@@ -7,7 +7,6 @@ import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -60,8 +59,7 @@ class StepQuizActionDispatcher(
                                         attempt = attempt,
                                         submissionState = it,
                                         isProblemsLimitReached = isProblemsLimitReached,
-                                        shouldShowParsonsModal = action.step.block.name == BlockName.PARSONS &&
-                                            !onboardingInteractor.isParsonsOnboardingShown()
+                                        isParsonsOnboardingShown = onboardingInteractor.isParsonsOnboardingShown()
                                     )
                                 },
                                 onFailure = {

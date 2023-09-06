@@ -47,7 +47,7 @@ class StepQuizTest {
                     attempt,
                     submissionState,
                     isProblemsLimitReached = true,
-                    shouldShowParsonsModal = false
+                    isParsonsOnboardingShown = false
                 )
             )
 
@@ -87,7 +87,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = true,
-                shouldShowParsonsModal = false
+                isParsonsOnboardingShown = false
             )
         )
 
@@ -128,7 +128,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
-                shouldShowParsonsModal = false
+                isParsonsOnboardingShown = false
             )
         )
 
@@ -185,7 +185,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
-                shouldShowParsonsModal = false
+                isParsonsOnboardingShown = false
             )
         )
 

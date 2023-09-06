@@ -240,7 +240,7 @@ class StepQuizReducer(
                         )
                     )
                 )
-            is Message.ParsonsProblemOnboardingModalShownEventMessage ->
+            is Message.ParsonsProblemOnboardingModalShownMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ParsonsProblemOnboardingModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -272,12 +272,13 @@ class StepQuizReducer(
                     else -> message.isProblemsLimitReached
                 }
 
-                val actions = if (isProblemsLimitReached) {
-                    setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
-                } else if (message.shouldShowParsonsModal) {
-                    setOf(Action.ViewAction.ShowParsonsProblemOnboardingModal)
-                } else {
-                    emptySet()
+                val actions = when {
+                    isProblemsLimitReached ->
+                        setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
+                    !message.isParsonsOnboardingShown && message.step.block.name == BlockName.PARSONS ->
+                        setOf(Action.ViewAction.ShowParsonsProblemOnboardingModal)
+                    else ->
+                        emptySet()
                 }
 
                 state.copy(

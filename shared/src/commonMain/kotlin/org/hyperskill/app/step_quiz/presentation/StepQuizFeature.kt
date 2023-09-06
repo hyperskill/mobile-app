@@ -46,7 +46,7 @@ interface StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
-            val shouldShowParsonsModal: Boolean
+            val isParsonsOnboardingShown: Boolean
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
 
@@ -87,6 +87,11 @@ interface StepQuizFeature {
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
 
         /**
+         * Parsons problem onboarding modal
+         */
+        object ParsonsProblemOnboardingModalShownMessage : Message
+
+        /**
          * Click on step theory topic in toolbar
          *
          * @see StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen
@@ -101,7 +106,6 @@ interface StepQuizFeature {
         object ProblemsLimitReachedModalShownEventMessage : Message
         object ProblemsLimitReachedModalHiddenEventMessage : Message
         data class FullScreenCodeEditorOrientationChanged(val isPortraitOrientation: Boolean) : Message
-        object ParsonsProblemOnboardingModalShownEventMessage : Message
         object ParsonsProblemOnboardingModalHiddenEventMessage : Message
 
         /**
