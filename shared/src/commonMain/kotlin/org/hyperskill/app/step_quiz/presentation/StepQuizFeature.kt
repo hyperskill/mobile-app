@@ -99,6 +99,7 @@ interface StepQuizFeature {
         object ClickedRetryEventMessage : Message
         object ProblemsLimitReachedModalShownEventMessage : Message
         object ProblemsLimitReachedModalHiddenEventMessage : Message
+        data class FullScreenCodeEditorOrientationChanged(val isPortraitOrientation: Boolean) : Message
 
         /**
          * Message Wrappers

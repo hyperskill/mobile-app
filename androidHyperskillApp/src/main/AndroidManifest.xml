@@ -26,7 +26,8 @@
             android:windowSoftInputMode="adjustResize"
             android:name="org.hyperskill.app.android.main.view.ui.activity.MainActivity"
             android:exported="true"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:configChanges="orientation|screenSize|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
