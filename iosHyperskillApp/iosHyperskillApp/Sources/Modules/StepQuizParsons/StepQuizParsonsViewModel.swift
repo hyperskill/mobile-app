@@ -3,9 +3,11 @@ import Foundation
 import shared
 
 final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
+    private static let tabsMaxCount = 10
+
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
-    private static let tabsMaxCount = 10
+    private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
 
     private let dataset: Dataset
     private let reply: Reply?
@@ -19,9 +21,14 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         return viewData.lines.firstIndex(where: { $0.lineNumber == selectedLineNumber })
     }
 
-    init(dataset: Dataset, reply: Reply?) {
+    init(
+        dataset: Dataset,
+        reply: Reply?,
+        provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void
+    ) {
         self.dataset = dataset
         self.reply = reply
+        self.provideModuleInputCallback = provideModuleInputCallback
 
         guard let datasetLines = dataset.lines else {
             self.viewData = StepQuizParsonsViewData(lines: [])
@@ -47,6 +54,10 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
                     }
             )
         }
+    }
+
+    func doProvideModuleInput() {
+        provideModuleInputCallback(self)
     }
 
     func doSelectLine(lineNumber: Int) {

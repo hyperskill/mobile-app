@@ -2,10 +2,10 @@ import SwiftUI
 
 extension StepQuizParsonsItemView {
     struct Appearance {
-        let cornerRadius: CGFloat = 4
+        let tabTextFont = Font(UIFont.monospacedSystemFont(ofSize: 14, weight: .regular))
 
-        let isSelectedLineWidth: CGFloat = 2
-        let isSelectedInset: CGFloat = 1
+        let borderWidth: CGFloat = 2
+        let borderCornerRadius: CGFloat = 4
     }
 }
 
@@ -13,12 +13,10 @@ struct StepQuizParsonsItemView: View {
     private(set) var appearance = Appearance()
 
     let isSelected: Bool
-
     let code: String
-
     let level: Int
 
-    var styledCode: String {
+    private var styledCode: String {
         "<code style=\"border: 0; padding: 0; margin: 0; background: transparent\">\(code)</code>"
     }
 
@@ -26,22 +24,24 @@ struct StepQuizParsonsItemView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: LayoutInsets.smallInset) {
                 ForEach(0..<level, id: \.self) { _ in
-                    StepQuizParsonsLevelView()
+                    Text(". . . .")
+                        .font(appearance.tabTextFont)
+                        .foregroundColor(.disabledText)
                 }
+
                 LatexView(
                     text: .constant(styledCode),
-                    configuration: .quizContent()
+                    configuration: .quizContent(backgroundColor: .clear)
                 )
                 .frame(width: CGFloat(code.count * 15))
             }
         }
         .padding()
         .background(Color(ColorPalette.background))
-        .cornerRadius(appearance.cornerRadius)
         .addBorder(
             color: isSelected ? Color(ColorPalette.primaryAlpha60) : .clear,
-            width: appearance.isSelectedLineWidth,
-            cornerRadius: appearance.cornerRadius
+            width: appearance.borderWidth,
+            cornerRadius: appearance.borderCornerRadius
         )
     }
 }

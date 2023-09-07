@@ -2,11 +2,7 @@ import shared
 import SwiftUI
 
 final class StepQuizParsonsAssembly: StepQuizChildQuizAssembly {
-    var moduleInput: StepQuizChildQuizInputProtocol? {
-        didSet {
-            provideModuleInputCallback(moduleInput)
-        }
-    }
+    var moduleInput: StepQuizChildQuizInputProtocol?
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
@@ -30,7 +26,11 @@ final class StepQuizParsonsAssembly: StepQuizChildQuizAssembly {
     }
 
     func makeModule() -> StepQuizParsonsView {
-        let viewModel = StepQuizParsonsViewModel(dataset: dataset, reply: reply)
+        let viewModel = StepQuizParsonsViewModel(
+            dataset: dataset,
+            reply: reply,
+            provideModuleInputCallback: provideModuleInputCallback
+        )
 
         moduleInput = viewModel
         viewModel.moduleOutput = moduleOutput

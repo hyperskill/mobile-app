@@ -424,7 +424,6 @@
 		E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */; };
 		E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */; };
 		E94B7E6C29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94B7E6B29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift */; };
-		E94BB0422A9DDAB200736B7C /* StepQuizParsonsLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0412A9DDAB200736B7C /* StepQuizParsonsLevelView.swift */; };
 		E94BB0442A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */; };
 		E94BB0462A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0452A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift */; };
 		E94BB0482A9DF9DD00736B7C /* StepQuizParsonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */; };
@@ -970,7 +969,6 @@
 		E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakIcon.swift; sourceTree = "<group>"; };
 		E94B7E6B29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitWidgetView.swift; sourceTree = "<group>"; };
-		E94BB0412A9DDAB200736B7C /* StepQuizParsonsLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsLevelView.swift; sourceTree = "<group>"; };
 		E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsSkeletonView.swift; sourceTree = "<group>"; };
 		E94BB0452A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsControlsView.swift; sourceTree = "<group>"; };
 		E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsView.swift; sourceTree = "<group>"; };
@@ -3039,7 +3037,6 @@
 			children = (
 				E94BB0452A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift */,
 				E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */,
-				E94BB0412A9DDAB200736B7C /* StepQuizParsonsLevelView.swift */,
 				E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */,
 				E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */,
 			);
@@ -3930,7 +3927,6 @@
 				2C4FBD8C2876C39C00ACA5C8 /* ProfileAboutView.swift in Sources */,
 				2C023C88285D928100D2D5A9 /* StepQuizTableViewModel.swift in Sources */,
 				E99B21872887E9C5006A6154 /* StepQuizSortingSkeletonView.swift in Sources */,
-				E94BB0422A9DDAB200736B7C /* StepQuizParsonsLevelView.swift in Sources */,
 				E98BE36D2A374394000B430F /* StreakRecoveryModalView.swift in Sources */,
 				2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */,
 				2C079681285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift in Sources */,
