@@ -112,7 +112,8 @@ class AndroidStepQuizTest {
                         step,
                         attempt,
                         submissionState,
-                        isProblemsLimitReached = false
+                        isProblemsLimitReached = false,
+                        isParsonsOnboardingShown = false
                     )
                 )
 

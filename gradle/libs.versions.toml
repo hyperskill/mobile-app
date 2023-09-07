@@ -13,6 +13,7 @@ flipper = '0.148.0'
 dokka = '1.7.20'
 androidxLifecycle = "2.6.0-alpha01"
 coil = '2.2.0'
+lottie = '6.1.0'
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"
@@ -105,6 +106,7 @@ android-coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 android-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 android-splashscreen = { module = "androidx.core:core-splashscreen", version = "1.0.0" }
 android-timepicker = { module = "io.github.ShawnLin013:number-picker", version = "2.4.13" }
+android-lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 
 android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version = "1.1.5" }
 

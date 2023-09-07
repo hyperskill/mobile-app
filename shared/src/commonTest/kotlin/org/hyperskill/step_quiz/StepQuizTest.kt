@@ -46,7 +46,8 @@ class StepQuizTest {
                     step,
                     attempt,
                     submissionState,
-                    isProblemsLimitReached = true
+                    isProblemsLimitReached = true,
+                    isParsonsOnboardingShown = false
                 )
             )
 
@@ -85,7 +86,8 @@ class StepQuizTest {
                 step,
                 attempt,
                 submissionState,
-                isProblemsLimitReached = true
+                isProblemsLimitReached = true,
+                isParsonsOnboardingShown = false
             )
         )
 
@@ -125,7 +127,8 @@ class StepQuizTest {
                 step,
                 attempt,
                 submissionState,
-                isProblemsLimitReached = false
+                isProblemsLimitReached = false,
+                isParsonsOnboardingShown = false
             )
         )
 
@@ -181,7 +184,8 @@ class StepQuizTest {
                 step,
                 attempt,
                 submissionState,
-                isProblemsLimitReached = false
+                isProblemsLimitReached = false,
+                isParsonsOnboardingShown = false
             )
         )
 

@@ -255,6 +255,9 @@ struct StepQuizView: View {
             presentResetCodePermissionAlert()
         case .showProblemsLimitReachedModal:
             presentProblemsLimitReachedModal()
+        case .showParsonsProblemOnboardingModal:
+            // TODO: ALTAPPS-952
+            break
         case .problemsLimitViewAction:
             break
         case .navigateTo(let viewActionNavigateTo):
