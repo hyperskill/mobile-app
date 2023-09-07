@@ -99,6 +99,15 @@ enum StepQuizChildQuizViewFactory {
                 moduleOutput: moduleOutput
             )
             .makeModule()
+        case .parsons:
+            StepQuizParsonsAssembly(
+                step: step,
+                dataset: dataset,
+                reply: reply,
+                provideModuleInputCallback: provideModuleInputCallback,
+                moduleOutput: moduleOutput
+            )
+            .makeModule()
         case .unsupported(let blockName):
             fatalError("Unsupported quiz = \(blockName)")
         }
