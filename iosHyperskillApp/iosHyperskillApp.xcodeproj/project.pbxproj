@@ -313,6 +313,8 @@
 		2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */; };
 		2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */; };
 		2CAA3C6A2AA9C7B6004F6CE6 /* LottieAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */; };
+		2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */; };
+		2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */; };
 		2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */; };
 		2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF1280525C900E6C83D /* StepView.swift */; };
 		2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF3280525D400E6C83D /* StepAssembly.swift */; };
@@ -858,6 +860,8 @@
 		2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
 		2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
 		2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimations.swift; sourceTree = "<group>"; };
+		2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsOnboardingModalViewController.swift; sourceTree = "<group>"; };
+		2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsOnboardingModalView.swift; sourceTree = "<group>"; };
 		2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewModel.swift; sourceTree = "<group>"; };
 		2CAE8CF1280525C900E6C83D /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		2CAE8CF3280525D400E6C83D /* StepAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAssembly.swift; sourceTree = "<group>"; };
@@ -2466,6 +2470,15 @@
 			path = LottieAnimations;
 			sourceTree = "<group>";
 		};
+		2CAA3C6B2AA9CA6F004F6CE6 /* OnboardingModal */ = {
+			isa = PBXGroup;
+			children = (
+				2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */,
+				2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */,
+			);
+			path = OnboardingModal;
+			sourceTree = "<group>";
+		};
 		2CAE8CEE280525A100E6C83D /* Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -3059,6 +3072,7 @@
 				E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */,
 				E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */,
 				E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */,
+				2CAA3C6B2AA9CA6F004F6CE6 /* OnboardingModal */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3780,6 +3794,7 @@
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,
 				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,
 				2CBD1919291D399500F5FB0B /* UIKitBounceButton.swift in Sources */,
+				2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift in Sources */,
 				E9523BF029DA933C0013A661 /* StudyPlanViewModel.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
@@ -3984,6 +3999,7 @@
 				E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */,
 				2C9EB95D2861BABC007DDE44 /* ProfileView.swift in Sources */,
 				2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */,
+				2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift in Sources */,
 				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				2C93AF2129B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift in Sources */,

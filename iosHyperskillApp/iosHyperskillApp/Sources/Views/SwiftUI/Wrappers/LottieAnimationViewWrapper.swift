@@ -25,7 +25,8 @@ struct LottieAnimationViewWrapper: UIViewRepresentable {
 
         animationView.translatesAutoresizingMaskIntoConstraints = false
         animationView.snp.makeConstraints { make in
-            make.width.height.equalTo(view)
+            make.edges.equalToSuperview()
+            make.width.height.equalToSuperview()
         }
 
         return view
