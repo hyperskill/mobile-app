@@ -192,6 +192,12 @@ enum Strings {
 
     enum StepQuizParsons {
         static let tab = sharedStrings.step_quiz_parsons_tab_text.localized()
+
+        enum OnboardingModal {
+            static let header = sharedStrings.step_quiz_parsons_onboarding_header.localized()
+            static let title = sharedStrings.step_quiz_parsons_onboarding_title.localized()
+            static let description = sharedStrings.step_quiz_parsons_onboarding_description.localized()
+        }
     }
 
     // MARK: - StageImplement -
