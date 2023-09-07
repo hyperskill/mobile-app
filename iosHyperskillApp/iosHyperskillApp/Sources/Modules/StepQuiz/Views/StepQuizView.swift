@@ -303,16 +303,16 @@ private extension StepQuizView {
         modalRouter.presentAlert(alert)
     }
 
-    func presentProblemsLimitReachedModal() {
-        let panModal = ProblemsLimitReachedModalViewController(delegate: viewModel)
-        panModalPresenter.presentPanModal(panModal)
-    }
-
-    func presentParsonsProblemOnboardingModal() {
+    func presentProblemsLimitReachedModal(modalText: String) {
         let panModal = ProblemsLimitReachedModalViewController(
             modalText: modalText,
             delegate: viewModel
         )
+        panModalPresenter.presentPanModal(panModal)
+    }
+
+    func presentParsonsProblemOnboardingModal() {
+        let panModal = StepQuizParsonsOnboardingModalViewController(delegate: viewModel)
         panModalPresenter.presentPanModal(panModal)
     }
 }
