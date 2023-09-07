@@ -41,6 +41,7 @@ import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelega
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
+import org.hyperskill.app.android.step_quiz_parsons.view.dialog.ParsonsStepQuizOnboardingBottomSheetDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
@@ -66,7 +67,8 @@ abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
-    MenuProvider {
+    MenuProvider,
+    ParsonsStepQuizOnboardingBottomSheetDialogFragment.Callback {
 
     companion object {
         private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
@@ -292,7 +294,16 @@ abstract class DefaultStepQuizFragment :
                 ProblemsLimitReachedBottomSheet.newInstance()
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
-            is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
+            is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction ->
+                when (action.viewAction) {
+                    else -> {
+                        // no op
+                    }
+                }
+            StepQuizFeature.Action.ViewAction.ShowParsonsProblemOnboardingModal -> {
+                ParsonsStepQuizOnboardingBottomSheetDialogFragment.newInstance()
+                    .showIfNotExists(childFragmentManager, ParsonsStepQuizOnboardingBottomSheetDialogFragment.TAG)
+            }
         }
     }
 
@@ -423,6 +434,14 @@ abstract class DefaultStepQuizFragment :
                 stepQuizButtons.stepQuizContinueButton.isEnabled = !isPracticingLoading
             }
         }
+    }
+
+    override fun parsonsProblemOnboardingShown() {
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ParsonsProblemOnboardingModalShownMessage)
+    }
+
+    override fun parsonsProblemOnboardingHidden() {
+        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ParsonsProblemOnboardingModalHiddenEventMessage)
     }
 
     protected fun syncReplyState(reply: Reply) {

@@ -11,7 +11,6 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
-import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetActionDispatcher
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
@@ -38,7 +37,6 @@ internal object HomeFeatureBuilder {
         freemiumInteractor: FreemiumInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        urlPathProcessor: UrlPathProcessor,
         dateFormatter: SharedDateFormatter,
         topicRepeatedFlow: TopicRepeatedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
@@ -62,7 +60,6 @@ internal object HomeFeatureBuilder {
             freemiumInteractor,
             analyticInteractor,
             sentryInteractor,
-            urlPathProcessor,
             dateFormatter,
             topicRepeatedFlow
         )

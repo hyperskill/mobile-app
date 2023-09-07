@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/parsonsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/parsonsAddTabButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.Button.OutlinedButton"
+        app:strokeColor="@color/color_step_quiz_parsons_control_stroke"
+        app:icon="@drawable/ic_parsons_add_tab"
+        app:iconTint="@color/color_step_quiz_parsons_control_content"
+        android:text="@string/step_quiz_parsons_tab_text"
+        android:textColor="@color/color_step_quiz_parsons_control_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/parsonsRecycler"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/parsonsRemoveTabButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.Button.OutlinedButton.Icon.Square"
+        app:strokeColor="@color/color_step_quiz_parsons_control_stroke"
+        app:icon="@drawable/ic_parsons_remove_tab"
+        app:iconTint="@color/color_step_quiz_parsons_control_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toEndOf="@+id/parsonsAddTabButton"
+        app:layout_constraintTop_toTopOf="@+id/parsonsAddTabButton"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/parsonsDropDownLineButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.Button.OutlinedButton.Icon.Square"
+        app:strokeColor="@color/color_step_quiz_parsons_control_stroke"
+        app:icon="@drawable/ic_parsons_drop_down_line"
+        app:iconTint="@color/color_step_quiz_parsons_control_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/parsonsRaiseUpLineButton"
+        app:layout_constraintTop_toTopOf="@+id/parsonsAddTabButton"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/parsonsRaiseUpLineButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.Button.OutlinedButton.Icon.Square"
+        app:strokeColor="@color/color_step_quiz_parsons_control_stroke"
+        app:icon="@drawable/ic_parsons_raise_up_line"
+        app:iconTint="@color/color_step_quiz_parsons_control_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/parsonsAddTabButton"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

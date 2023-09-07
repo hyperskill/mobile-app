@@ -5,6 +5,8 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz.domain.analytic.ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.ParsonsProblemOnboardingModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
@@ -13,6 +15,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperski
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeFullScreenEditorOrientationChangedAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -228,6 +231,28 @@ class StepQuizReducer(
                         ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
+            is Message.FullScreenCodeEditorOrientationChanged ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepQuizCodeFullScreenEditorOrientationChangedAnalyticEvent(
+                            stepRoute.analyticRoute,
+                            message.isPortraitOrientation
+                        )
+                    )
+                )
+            is Message.ParsonsProblemOnboardingModalShownMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ParsonsProblemOnboardingModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    ),
+                    Action.SaveParsonsProblemOnboardingModalShownCacheFlag
+                )
+            is Message.ParsonsProblemOnboardingModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
             // Wrapper Messages
             is Message.ProblemsLimitMessage -> {
                 val (problemsLimitState, problemsLimitActions) =
@@ -247,10 +272,13 @@ class StepQuizReducer(
                     else -> message.isProblemsLimitReached
                 }
 
-                val actions = if (isProblemsLimitReached) {
-                    setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
-                } else {
-                    emptySet()
+                val actions = when {
+                    isProblemsLimitReached ->
+                        setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
+                    !message.isParsonsOnboardingShown && message.step.block.name == BlockName.PARSONS ->
+                        setOf(Action.ViewAction.ShowParsonsProblemOnboardingModal)
+                    else ->
+                        emptySet()
                 }
 
                 state.copy(

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="32dp">
+
+    <ImageView
+        android:id="@+id/parsonsOnboardingSwipeIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bottom_sheet_swipe_indicator"
+        android:layout_gravity="center_horizontal"
+        tools:ignore="ContentDescription"/>
+
+    <TextView
+        android:id="@+id/parsonsOnboardingHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
+        android:text="@string/step_quiz_parsons_onboarding_header"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="20dp"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/parsonsOnboardingAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:lottie_rawRes="@raw/parsons_problem_onboarding_animation"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:id="@+id/parsonsOnboardingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
+        android:textSize="18sp"
+        android:text="@string/step_quiz_parsons_onboarding_title"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="32dp"/>
+
+    <TextView
+        android:id="@+id/parsonsOnboardingDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/color_on_surface_alpha_60"
+        android:text="@string/step_quiz_parsons_onboarding_description"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="12dp"/>
+
+</LinearLayout>
