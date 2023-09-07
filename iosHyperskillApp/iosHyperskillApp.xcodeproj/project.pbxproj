@@ -309,6 +309,12 @@
 		2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */; };
 		2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */; };
 		2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E092281039EB00154088 /* BounceButtonStyle.swift */; };
+		2CAA3C632AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */; };
+		2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */; };
+		2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */; };
+		2CAA3C6A2AA9C7B6004F6CE6 /* LottieAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */; };
+		2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */; };
+		2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */; };
 		2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */; };
 		2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF1280525C900E6C83D /* StepView.swift */; };
 		2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF3280525D400E6C83D /* StepAssembly.swift */; };
@@ -424,6 +430,12 @@
 		E9470C6B29810AB7008ACF9A /* StepQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */; };
 		E94A6D0B28748C3E005F9ACC /* StreakIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */; };
 		E94B7E6C29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94B7E6B29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift */; };
+		E94BB0442A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */; };
+		E94BB0462A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0452A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift */; };
+		E94BB0482A9DF9DD00736B7C /* StepQuizParsonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */; };
+		E94BB04A2A9DFAD700736B7C /* StepQuizParsonsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB0492A9DFAD700736B7C /* StepQuizParsonsViewModel.swift */; };
+		E94BB04C2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB04B2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift */; };
+		E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BB04D2A9E034700736B7C /* StepQuizParsonsAssembly.swift */; };
 		E94BC942291E89D6000B18D3 /* TopicsRepetitionsCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */; };
 		E94BC944291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BC943291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift */; };
 		E94BC946291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94BC945291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift */; };
@@ -435,6 +447,7 @@
 		E9523BF229DA966C0013A661 /* StudyPlanAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9523BF129DA966C0013A661 /* StudyPlanAssembly.swift */; };
 		E9523BF429DAA5690013A661 /* StudyPlanSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9523BF329DAA5690013A661 /* StudyPlanSkeletonView.swift */; };
 		E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */; };
+		E96D493B2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */; };
 		E97EDAFC2A8F504D00CABF8E /* BadgeEarnedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97EDAFB2A8F504D00CABF8E /* BadgeEarnedModalView.swift */; };
@@ -843,6 +856,12 @@
 		2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E092281039EB00154088 /* BounceButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceButtonStyle.swift; sourceTree = "<group>"; };
+		2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationViewWrapper.swift; sourceTree = "<group>"; };
+		2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
+		2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
+		2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimations.swift; sourceTree = "<group>"; };
+		2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsOnboardingModalViewController.swift; sourceTree = "<group>"; };
+		2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsOnboardingModalView.swift; sourceTree = "<group>"; };
 		2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewModel.swift; sourceTree = "<group>"; };
 		2CAE8CF1280525C900E6C83D /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		2CAE8CF3280525D400E6C83D /* StepAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAssembly.swift; sourceTree = "<group>"; };
@@ -962,6 +981,12 @@
 		E9470C6A29810AB7008ACF9A /* StepQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		E94A6D0A28748C3E005F9ACC /* StreakIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakIcon.swift; sourceTree = "<group>"; };
 		E94B7E6B29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitWidgetView.swift; sourceTree = "<group>"; };
+		E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsSkeletonView.swift; sourceTree = "<group>"; };
+		E94BB0452A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsControlsView.swift; sourceTree = "<group>"; };
+		E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsView.swift; sourceTree = "<group>"; };
+		E94BB0492A9DFAD700736B7C /* StepQuizParsonsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsViewModel.swift; sourceTree = "<group>"; };
+		E94BB04B2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsViewData.swift; sourceTree = "<group>"; };
+		E94BB04D2A9E034700736B7C /* StepQuizParsonsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsAssembly.swift; sourceTree = "<group>"; };
 		E94BC941291E89D6000B18D3 /* TopicsRepetitionsCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCountView.swift; sourceTree = "<group>"; };
 		E94BC943291E8BF5000B18D3 /* TopicsRepetitionsInfoBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsInfoBlock.swift; sourceTree = "<group>"; };
 		E94BC945291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsChartBlock.swift; sourceTree = "<group>"; };
@@ -973,6 +998,7 @@
 		E9523BF129DA966C0013A661 /* StudyPlanAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanAssembly.swift; sourceTree = "<group>"; };
 		E9523BF329DAA5690013A661 /* StudyPlanSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSkeletonView.swift; sourceTree = "<group>"; };
 		E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsStatusBlock.swift; sourceTree = "<group>"; };
+		E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsItemView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewController.swift; sourceTree = "<group>"; };
 		E97EDAFB2A8F504D00CABF8E /* BadgeEarnedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeEarnedModalView.swift; sourceTree = "<group>"; };
@@ -1360,6 +1386,7 @@
 				2CBFB94828897D970044D1BA /* StepQuizCodeFullScreen */,
 				E9F27D7629064456007F16D7 /* StepQuizHints */,
 				E9D2D66E284E0A5D000757AC /* StepQuizMatching */,
+				E96D49382A9CCE9A00BD78FE /* StepQuizParsons */,
 				2C93AF1D29B349AC004639E0 /* StepQuizPyCharm */,
 				E993E9A728426FD5005988EC /* StepQuizSorting */,
 				2C5CBBDE2948EB9400113007 /* StepQuizSQL */,
@@ -1804,6 +1831,7 @@
 		2C46D0612807E4A600B3636E /* Wrappers */ = {
 			isa = PBXGroup;
 			children = (
+				2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */,
 				2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */,
 				2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */,
 			);
@@ -2432,6 +2460,25 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
+		2CAA3C642AA9C40C004F6CE6 /* LottieAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */,
+				2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */,
+				2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */,
+			);
+			path = LottieAnimations;
+			sourceTree = "<group>";
+		};
+		2CAA3C6B2AA9CA6F004F6CE6 /* OnboardingModal */ = {
+			isa = PBXGroup;
+			children = (
+				2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */,
+				2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */,
+			);
+			path = OnboardingModal;
+			sourceTree = "<group>";
+		};
 		2CAE8CEE280525A100E6C83D /* Step */ = {
 			isa = PBXGroup;
 			children = (
@@ -2733,6 +2780,7 @@
 				E9954646288EC11000013FA6 /* LaunchScreen.storyboard */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				2C42EFAA27F2C03D00B4648B /* Localizable.strings */,
+				2CAA3C642AA9C40C004F6CE6 /* LottieAnimations */,
 				2CAFD38D27FC515200F88B0B /* Theme */,
 			);
 			name = Resources;
@@ -3002,6 +3050,29 @@
 				E9B55A5829C8A0760066900E /* ProblemsLimitView.swift */,
 				E94B7E6B29D1BBCE000E1D3A /* ProblemsLimitWidgetView.swift */,
 				E9E964862A0B8D8200841DF6 /* StepQuizProblemsLimitView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E96D49382A9CCE9A00BD78FE /* StepQuizParsons */ = {
+			isa = PBXGroup;
+			children = (
+				E94BB04D2A9E034700736B7C /* StepQuizParsonsAssembly.swift */,
+				E94BB04B2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift */,
+				E94BB0492A9DFAD700736B7C /* StepQuizParsonsViewModel.swift */,
+				E96D49392A9CCF1800BD78FE /* Views */,
+			);
+			path = StepQuizParsons;
+			sourceTree = "<group>";
+		};
+		E96D49392A9CCF1800BD78FE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E94BB0452A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift */,
+				E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */,
+				E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */,
+				E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */,
+				2CAA3C6B2AA9CA6F004F6CE6 /* OnboardingModal */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3424,6 +3495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C98C7A92850B93100857783 /* highlight.css in Resources */,
+				2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */,
 				2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
@@ -3436,6 +3508,7 @@
 				2C98C7A72850B93100857783 /* fonts.css in Resources */,
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
+				2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
 				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
@@ -3572,9 +3645,11 @@
 				E94BC946291E8F40000B18D3 /* TopicsRepetitionsChartBlock.swift in Sources */,
 				E996D41229221F6200A47498 /* ShowMoreButton.swift in Sources */,
 				2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */,
+				E94BB04C2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift in Sources */,
 				2CDA984929445C0A00ADE539 /* ProfileStatisticsItemView.swift in Sources */,
 				E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */,
 				E99CD0BC292B9A2D00620259 /* TopicsRepetitionsViewModel.swift in Sources */,
+				2CAA3C632AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift in Sources */,
 				2CD3652828797D3600D61855 /* Formatter.swift in Sources */,
 				2C0DB90328643C47001EA35E /* CodeTextView.swift in Sources */,
 				2C45E7C32A0FEC2B00DFF32D /* ProjectSelectionListGridCellHeaderView.swift in Sources */,
@@ -3714,10 +3789,12 @@
 				E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */,
 				E9F2CC552922694F00691540 /* TopicsRepetitionsChartBar.swift in Sources */,
 				2C97B0CD298124C1001DF1A0 /* StepQuizHintsFeatureViewStateKsExtensions.swift in Sources */,
+				E94BB04A2A9DFAD700736B7C /* StepQuizParsonsViewModel.swift in Sources */,
 				2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */,
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,
 				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,
 				2CBD1919291D399500F5FB0B /* UIKitBounceButton.swift in Sources */,
+				2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift in Sources */,
 				E9523BF029DA933C0013A661 /* StudyPlanViewModel.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
@@ -3754,6 +3831,7 @@
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
+				E94BB0462A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift in Sources */,
 				2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */,
 				2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */,
 				2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */,
@@ -3789,6 +3867,7 @@
 				2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */,
 				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
 				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
+				E94BB0442A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift in Sources */,
 				2CB45764288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift in Sources */,
 				2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
@@ -3822,6 +3901,7 @@
 				E9F0A2B029D4428C00C4A61E /* StudyPlanView.swift in Sources */,
 				2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */,
 				2C5B2A21286596030097B270 /* Reusable.swift in Sources */,
+				E96D493B2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift in Sources */,
 				2C7994AF2A1299B800874C16 /* TrackSelectionListView.swift in Sources */,
 				2CB1962428EF27F30075F7EF /* UIKitViewControllerPreview.swift in Sources */,
 				2C8EBE512A4D3DF700A77205 /* ProgressScreenCardView.swift in Sources */,
@@ -3830,6 +3910,7 @@
 				2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
+				E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */,
 				E9B642012A6BCC16001A9653 /* NextLearningActivityView.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
@@ -3906,6 +3987,7 @@
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				2C66720D2A5299C30040EA2F /* ProgressScreenCardSkeletonView.swift in Sources */,
 				2C55E1902A056AFC00FE58D7 /* ProblemsLimitSkeletonView.swift in Sources */,
+				E94BB0482A9DF9DD00736B7C /* StepQuizParsonsView.swift in Sources */,
 				E99CCB0B287E945300898BBF /* HomeViewModel.swift in Sources */,
 				2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */,
 				2C1061AA285C3C3300EBD614 /* StepQuizChoiceAssembly.swift in Sources */,
@@ -3917,6 +3999,7 @@
 				E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */,
 				2C9EB95D2861BABC007DDE44 /* ProfileView.swift in Sources */,
 				2CF41A8E28505D2C000736D6 /* SwiftUIProcessedContentView.swift in Sources */,
+				2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift in Sources */,
 				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				2C93AF2129B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift in Sources */,
@@ -3974,6 +4057,7 @@
 				2CF7C1B12A8355D3006B07ED /* BadgeLockedImageView.swift in Sources */,
 				2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */,
 				2C406C372A440E8200FA838E /* BuildVariant+Current.swift in Sources */,
+				2CAA3C6A2AA9C7B6004F6CE6 /* LottieAnimations.swift in Sources */,
 				2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */,
 				E97EDAFC2A8F504D00CABF8E /* BadgeEarnedModalView.swift in Sources */,
 				E9102759288D1BDB00FF4564 /* ProblemOfDayViewDataMapper.swift in Sources */,
