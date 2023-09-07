@@ -239,7 +239,10 @@ platform :ios do
       cocoapods(try_repo_update_on_error: true)
     end
 
-    scan()
+    scan(
+        skip_detect_devices: true,
+        skip_build: true
+    )
   end
 
   # Code Signing
