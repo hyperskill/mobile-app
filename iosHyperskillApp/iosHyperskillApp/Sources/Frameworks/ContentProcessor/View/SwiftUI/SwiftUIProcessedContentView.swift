@@ -119,10 +119,14 @@ extension SwiftUIProcessedContentView {
 
         static func quizContent(
             textFont: UIFont = UIFont.preferredFont(forTextStyle: .body),
-            textColor: UIColor = UIColor.primaryText
+            textColor: UIColor = UIColor.primaryText,
+            backgroundColor: UIColor = UIColor.systemBackground
         ) -> Configuration {
             Configuration(
-                appearance: .init(labelFont: textFont),
+                appearance: .init(
+                    labelFont: textFont,
+                    backgroundColor: backgroundColor
+                ),
                 contentProcessor: ContentProcessor(
                     injections: ContentProcessor.defaultInjections + [
                         FontInjection(font: textFont),
