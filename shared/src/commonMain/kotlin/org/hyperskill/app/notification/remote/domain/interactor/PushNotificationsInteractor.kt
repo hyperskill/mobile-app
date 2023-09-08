@@ -8,6 +8,7 @@ import org.hyperskill.app.devices.domain.model.Device
 import org.hyperskill.app.devices.domain.model.toDeviceType
 import org.hyperskill.app.devices.domain.repository.DevicesRepository
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
+import org.hyperskill.app.notification.remote.domain.repository.FCMTokenRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 
 class PushNotificationsInteractor(
@@ -15,7 +16,8 @@ class PushNotificationsInteractor(
     private val devicesRepository: DevicesRepository,
     private val authInteractor: AuthInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val json: Json
+    private val json: Json,
+    private val fcmTokenRepository: FCMTokenRepository
 ) {
     suspend fun handleNewFCMToken(fcmToken: String): Result<Device> {
         val isAuthorized = authInteractor.isAuthorized().getOrNull() ?: false
@@ -30,6 +32,17 @@ class PushNotificationsInteractor(
         } else {
             activateFCMToken(fcmToken)
         }.onFailure { sentryInteractor.captureErrorMessage("PushNotificationsInteractor: $it") }
+    }
+
+    internal suspend fun renewFCMToken() {
+        val token = fcmTokenRepository.getToken()
+            .onFailure { e ->
+                sentryInteractor.captureErrorMessage("PushNotificationsInteractor failed to fetch token: $e")
+            }
+            .getOrNull()
+        if (token != null) {
+            handleNewFCMToken(token)
+        }
     }
 
     internal suspend fun handleUserSignedOut() {

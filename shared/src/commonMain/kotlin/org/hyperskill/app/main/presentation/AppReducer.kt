@@ -45,10 +45,8 @@ class AppReducer(
                         Action.ViewAction.NavigateTo.HomeScreen
                     }
 
-                    State.Ready(isAuthorized = true) to setOf(
-                        Action.IdentifyUserInSentry(message.profile.id),
-                        navigateToViewAction
-                    )
+                    State.Ready(isAuthorized = true) to
+                        getOnAuthActions(profileId = message.profile.id) + navigateToViewAction
                 } else {
                     null
                 }
@@ -180,4 +178,12 @@ class AppReducer(
             }
         }.toSet()
     }
+
+    private fun getOnAuthActions(
+        profileId: Long
+    ): Set<Action> =
+        setOf(
+            Action.IdentifyUserInSentry(userId = profileId),
+            Action.SendPushNotificationsToken
+        )
 }

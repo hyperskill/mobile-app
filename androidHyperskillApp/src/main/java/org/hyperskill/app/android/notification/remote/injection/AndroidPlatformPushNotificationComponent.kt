@@ -2,9 +2,8 @@ package org.hyperskill.app.android.notification.remote.injection
 
 import org.hyperskill.app.android.notification.remote.FcmNotificationParser
 import org.hyperskill.app.android.notification.remote.PushNotificationHandler
-import org.hyperskill.app.push_notifications.injection.PlatformPushNotificationsComponent
 
-interface AndroidPlatformPushNotificationComponent : PlatformPushNotificationsComponent {
+interface AndroidPlatformPushNotificationComponent {
     val fcmNotificationParser: FcmNotificationParser
     val pushNotificationHandler: PushNotificationHandler
 }
