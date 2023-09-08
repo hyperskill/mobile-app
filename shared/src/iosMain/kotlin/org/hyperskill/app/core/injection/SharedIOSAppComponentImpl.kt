@@ -8,7 +8,7 @@ import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 
-class iOSAppComponentImpl(
+abstract class SharedIOSAppComponentImpl(
     userAgentInfo: UserAgentInfo,
     buildVariant: BuildVariant,
     sentryManager: SentryManager
@@ -21,5 +21,7 @@ class iOSAppComponentImpl(
         SentryComponentImpl(sentryManager)
 
     override fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent =
-        IosPlatformPushNotificationsDataComponent()
+        IosPlatformPushNotificationsDataComponent(
+            iosFCMTokenProvider = getIosFCMTokenProvider()
+        )
 }

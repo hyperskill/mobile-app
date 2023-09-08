@@ -1,8 +1,14 @@
 import Foundation
 import shared
 
+class IOSAppComponentImpl: shared.SharedIOSAppComponentImpl {
+    override func getIosFCMTokenProvider() -> IosFCMTokenProvider {
+        IosFCMTokenProviderImpl()
+    }
+}
+
 enum AppGraphBridge {
-    static let sharedAppGraph: iOSAppComponent = iOSAppComponentImpl(
+    static let sharedAppGraph: iOSAppComponent = IOSAppComponentImpl(
         userAgentInfo: UserAgentBuilder.userAgentInfo,
         buildVariant: BuildVariant.current,
         sentryManager: SentryManager.shared

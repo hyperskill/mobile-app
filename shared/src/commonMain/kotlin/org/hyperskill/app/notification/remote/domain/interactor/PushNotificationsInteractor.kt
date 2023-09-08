@@ -39,6 +39,9 @@ class PushNotificationsInteractor(
             .onFailure { e ->
                 sentryInteractor.captureErrorMessage("PushNotificationsInteractor failed to fetch token: $e")
             }
+            .onSuccess {
+                println("RenewFCMToken: token = $it")
+            }
             .getOrNull()
         if (token != null) {
             handleNewFCMToken(token)
