@@ -85,12 +85,6 @@ class AppReducer(
             val actions: Set<Action> =
                 buildSet {
                     if (isAuthorized) {
-                        add(Action.IdentifyUserInSentry(message.profile.id))
-                    } else {
-                        add(Action.ClearUserInSentry)
-                    }
-
-                    if (isAuthorized) {
                         when {
                             message.notificationData != null ->
                                 addAll(
@@ -107,7 +101,7 @@ class AppReducer(
                             else ->
                                 add(Action.ViewAction.NavigateTo.HomeScreen)
                         }
-                        add(Action.UpdateDailyLearningNotificationTime)
+                        addAll(getOnAuthorizedAppStartUpActions(message.profile.id))
                     } else {
                         if (message.notificationData != null) {
                             addAll(
@@ -120,6 +114,7 @@ class AppReducer(
                                 )
                             )
                         }
+                        addAll(getNotAuthorizedAppStartUpActions())
                         add(Action.ViewAction.NavigateTo.OnboardingScreen)
                     }
 
@@ -187,4 +182,16 @@ class AppReducer(
             Action.UpdateDailyLearningNotificationTime,
             Action.SendPushNotificationsToken
         )
+
+    private fun getOnAuthorizedAppStartUpActions(
+        profileId: Long
+    ): Set<Action> =
+        setOf(
+            Action.IdentifyUserInSentry(userId = profileId),
+            Action.UpdateDailyLearningNotificationTime,
+            Action.SendPushNotificationsToken
+        )
+
+    private fun getNotAuthorizedAppStartUpActions(): Set<Action> =
+        setOf(Action.ClearUserInSentry)
 }
