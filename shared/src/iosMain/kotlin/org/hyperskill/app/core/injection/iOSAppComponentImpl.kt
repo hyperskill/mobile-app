@@ -20,6 +20,6 @@ class iOSAppComponentImpl(
     override val sentryComponent: SentryComponent =
         SentryComponentImpl(sentryManager)
 
-    override fun buildPlatformPushNotificationComponent(): PlatformPushNotificationsDataComponent =
+    override fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent =
         IosPlatformPushNotificationsDataComponent()
 }
