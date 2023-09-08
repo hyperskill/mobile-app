@@ -184,6 +184,7 @@ class AppReducer(
     ): Set<Action> =
         setOf(
             Action.IdentifyUserInSentry(userId = profileId),
+            Action.UpdateDailyLearningNotificationTime,
             Action.SendPushNotificationsToken
         )
 }
