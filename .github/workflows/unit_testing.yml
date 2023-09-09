@@ -86,7 +86,7 @@ jobs:
 
   ios-unit-testing:
     needs: files-changed
-    if: ${{ inputs.force_ios || needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_ios || needs.files-changed.outputs.ios == 'true' }}
     name: Run iOS unit tests
     runs-on: macos-13
     timeout-minutes: 60
