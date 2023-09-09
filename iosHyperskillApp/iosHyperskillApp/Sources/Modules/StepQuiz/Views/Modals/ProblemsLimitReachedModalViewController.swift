@@ -31,6 +31,8 @@ extension ProblemsLimitReachedModalViewController {
 final class ProblemsLimitReachedModalViewController: PanModalPresentableViewController {
     private(set) var appearance = Appearance()
 
+    private let modalText: String
+
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -50,7 +52,8 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
 
     private weak var delegate: ProblemsLimitReachedModalViewControllerDelegate?
 
-    init(delegate: ProblemsLimitReachedModalViewControllerDelegate?) {
+    init(modalText: String, delegate: ProblemsLimitReachedModalViewControllerDelegate?) {
+        self.modalText = modalText
         self.delegate = delegate
         super.init()
     }
@@ -135,7 +138,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
         containerStackView.addArrangedSubview(titleLabel)
 
         let textLabel = UILabel()
-        textLabel.text = Strings.StepQuiz.ProblemsLimitReachedModal.description
+        textLabel.text = modalText
         textLabel.font = .preferredFont(forTextStyle: .body)
         textLabel.textColor = .primaryText
         textLabel.lineBreakMode = .byWordWrapping

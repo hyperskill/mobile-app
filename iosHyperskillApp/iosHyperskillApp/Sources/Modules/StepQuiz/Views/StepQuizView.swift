@@ -253,8 +253,8 @@ struct StepQuizView: View {
             ProgressHUD.showError(status: Strings.Common.connectionError)
         case .requestResetCode:
             presentResetCodePermissionAlert()
-        case .showProblemsLimitReachedModal:
-            presentProblemsLimitReachedModal()
+        case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
+            presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
         case .showParsonsProblemOnboardingModal:
             presentParsonsProblemOnboardingModal()
         case .problemsLimitViewAction:
@@ -303,8 +303,11 @@ private extension StepQuizView {
         modalRouter.presentAlert(alert)
     }
 
-    func presentProblemsLimitReachedModal() {
-        let panModal = ProblemsLimitReachedModalViewController(delegate: viewModel)
+    func presentProblemsLimitReachedModal(modalText: String) {
+        let panModal = ProblemsLimitReachedModalViewController(
+            modalText: modalText,
+            delegate: viewModel
+        )
         panModalPresenter.presentPanModal(panModal)
     }
 

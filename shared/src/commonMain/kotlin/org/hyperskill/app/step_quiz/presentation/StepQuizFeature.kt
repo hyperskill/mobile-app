@@ -46,6 +46,7 @@ interface StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
+            val problemsLimitReachedModalText: String?,
             val isParsonsOnboardingShown: Boolean
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
@@ -150,7 +151,7 @@ interface StepQuizFeature {
 
             object RequestResetCode : ViewAction
 
-            object ShowProblemsLimitReachedModal : ViewAction
+            data class ShowProblemsLimitReachedModal(val modalText: String) : ViewAction
 
             object ShowParsonsProblemOnboardingModal : ViewAction
 
