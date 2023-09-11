@@ -1,13 +1,15 @@
 package org.hyperskill.app.android.step_quiz_parsons.view.mapper
 
-import android.text.Spanned
+import android.text.Spannable
 import androidx.core.text.HtmlCompat
 import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 
 object ParsonsLinesMapper {
     fun mapToParsonsLines(
+        step: Step,
         attempt: Attempt,
         submission: Submission?,
         selectedLinePosition: Int?,
@@ -18,7 +20,9 @@ object ParsonsLinesMapper {
             linesDataset?.mapIndexed { index, text ->
                 UiParsonsLine(
                     lineNumber = index,
-                    text = parseLineText(text),
+                    formattedText = parseLineText(text),
+                    originText = text,
+                    langName = step.block.options.language ?: "",
                     tabsCount = 0,
                     isSelected = isEnabled && index == selectedLinePosition,
                     isClickable = isEnabled
@@ -31,7 +35,9 @@ object ParsonsLinesMapper {
                     linesDataset?.getOrNull(replyLine.lineNumber) ?: ""
                 UiParsonsLine(
                     lineNumber = replyLine.lineNumber,
-                    text = parseLineText(text),
+                    formattedText = parseLineText(text),
+                    originText = text,
+                    langName = step.block.options.language ?: "",
                     tabsCount = replyLine.level,
                     isSelected = isEnabled && index == selectedLinePosition,
                     isClickable = isEnabled
@@ -43,6 +49,6 @@ object ParsonsLinesMapper {
     /**
      * Html parsing is used to handle symbols like `&gt`
      */
-    private fun parseLineText(text: String): Spanned =
-        HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_COMPACT)
+    private fun parseLineText(text: String): Spannable =
+        HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_COMPACT) as Spannable
 }

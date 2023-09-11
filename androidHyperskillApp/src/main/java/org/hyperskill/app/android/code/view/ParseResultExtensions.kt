@@ -13,7 +13,7 @@ fun Spannable.applyPrettifyParseResults(
     start: Int,
     end: Int,
     theme: CodeTheme
-) {
+): Spannable {
     filterParseResult(start, end, prettifyParseResults, theme)
         .forEach { parseResult ->
             val codeSyntaxSpan = mapParseResultToSpan(parseResult, theme)
@@ -26,6 +26,7 @@ fun Spannable.applyPrettifyParseResults(
                 )
             }
         }
+    return this
 }
 
 private fun filterParseResult(

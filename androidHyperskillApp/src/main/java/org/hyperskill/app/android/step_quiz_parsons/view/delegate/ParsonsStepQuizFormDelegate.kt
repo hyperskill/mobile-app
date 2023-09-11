@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.step_quiz_parsons.view.delegate
 
+import org.hyperskill.app.step_quiz.domain.model.submissions.ParsonsLine as DomainParsonsLine
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -20,7 +21,6 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.swap
-import org.hyperskill.app.step_quiz.domain.model.submissions.ParsonsLine as DomainParsonsLine
 
 class ParsonsStepQuizFormDelegate(
     context: Context,
@@ -40,7 +40,7 @@ class ParsonsStepQuizFormDelegate(
     private val linesAdapter = DefaultDelegateAdapter<UiParsonsLine>().apply {
         addDelegate(
             ParsonsLinesAdapterDelegate(
-                codeTextColor = codeTheme.syntax.plain,
+                codeTheme = codeTheme,
                 onLineClick = ::onLineClick
             )
         )
@@ -75,6 +75,7 @@ class ParsonsStepQuizFormDelegate(
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         val lines = ParsonsLinesMapper.mapToParsonsLines(
+            step = state.step,
             attempt = state.attempt,
             submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission,
             selectedLinePosition = selectedLinePosition,
