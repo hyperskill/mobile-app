@@ -253,11 +253,10 @@ struct StepQuizView: View {
             ProgressHUD.showError(status: Strings.Common.connectionError)
         case .requestResetCode:
             presentResetCodePermissionAlert()
-        case .showProblemsLimitReachedModal:
-            presentProblemsLimitReachedModal()
+        case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
+            presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
         case .showParsonsProblemOnboardingModal:
-            // TODO: ALTAPPS-952
-            break
+            presentParsonsProblemOnboardingModal()
         case .problemsLimitViewAction:
             break
         case .navigateTo(let viewActionNavigateTo):
@@ -273,10 +272,10 @@ struct StepQuizView: View {
     }
 }
 
-// MARK: - StepQuizView (StepQuizUserPermissionRequest Alerts) -
+// MARK: - StepQuizView (Modals) -
 
-extension StepQuizView {
-    private func presentResetCodePermissionAlert() {
+private extension StepQuizView {
+    func presentResetCodePermissionAlert() {
         let alert = UIAlertController(
             title: Strings.StepQuiz.ResetCodeAlert.title,
             message: Strings.StepQuiz.ResetCodeAlert.text,
@@ -303,16 +302,17 @@ extension StepQuizView {
 
         modalRouter.presentAlert(alert)
     }
-}
 
-// MARK: - StepQuizView (Modals) -
-
-extension StepQuizView {
-    private func presentProblemsLimitReachedModal() {
+    func presentProblemsLimitReachedModal(modalText: String) {
         let panModal = ProblemsLimitReachedModalViewController(
+            modalText: modalText,
             delegate: viewModel
         )
+        panModalPresenter.presentPanModal(panModal)
+    }
 
+    func presentParsonsProblemOnboardingModal() {
+        let panModal = StepQuizParsonsOnboardingModalViewController(delegate: viewModel)
         panModalPresenter.presentPanModal(panModal)
     }
 }

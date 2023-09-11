@@ -16,6 +16,7 @@ import org.hyperskill.app.android.databinding.FragmentProblemsLimitReachedBindin
 import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
+import ru.nobird.android.view.base.ui.extension.argument
 
 class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
 
@@ -23,9 +24,13 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
 
         const val TAG = "ProblemsLimitReachedBottomSheet"
 
-        fun newInstance(): ProblemsLimitReachedBottomSheet =
-            ProblemsLimitReachedBottomSheet()
+        fun newInstance(modalText: String): ProblemsLimitReachedBottomSheet =
+            ProblemsLimitReachedBottomSheet().apply {
+                this.modalText = modalText
+            }
     }
+
+    private var modalText: String by argument()
 
     private val viewBinding: FragmentProblemsLimitReachedBinding by viewBinding(
         FragmentProblemsLimitReachedBinding::bind
@@ -62,8 +67,11 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
             )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewBinding.problemsLimitReachedHomeButton.setOnClickListener {
-            viewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitReachedModalGoToHomeScreenClicked)
+        with(viewBinding) {
+            problemsLimitReachedHomeButton.setOnClickListener {
+                viewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitReachedModalGoToHomeScreenClicked)
+            }
+            problemsLimitReachedDescription.text = modalText
         }
     }
 

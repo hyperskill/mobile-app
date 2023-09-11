@@ -273,8 +273,10 @@ class StepQuizReducer(
                 }
 
                 val actions = when {
-                    isProblemsLimitReached ->
-                        setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
+                    isProblemsLimitReached && message.problemsLimitReachedModalText != null ->
+                        setOf(
+                            Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalText)
+                        )
                     !message.isParsonsOnboardingShown && message.step.block.name == BlockName.PARSONS ->
                         setOf(Action.ViewAction.ShowParsonsProblemOnboardingModal)
                     else ->

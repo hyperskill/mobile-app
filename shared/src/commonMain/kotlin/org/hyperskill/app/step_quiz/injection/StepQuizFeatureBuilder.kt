@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
@@ -32,7 +33,8 @@ object StepQuizFeatureBuilder {
         freemiumInteractor: FreemiumInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        onboardingInteractor: OnboardingInteractor
+        onboardingInteractor: OnboardingInteractor,
+        resourceProvider: ResourceProvider
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer = StepQuizReducer(stepRoute, problemsLimitReducer)
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
@@ -43,7 +45,8 @@ object StepQuizFeatureBuilder {
             freemiumInteractor,
             analyticInteractor,
             sentryInteractor,
-            onboardingInteractor
+            onboardingInteractor,
+            resourceProvider
         )
 
         return ReduxFeature(

@@ -21,7 +21,6 @@ final class StepQuizAssembly: Assembly {
     }
 
     func makeModule() -> StepQuizView {
-        let commonComponent = AppGraphBridge.sharedAppGraph.commonComponent
         let stepQuizComponent = AppGraphBridge.sharedAppGraph.buildStepQuizComponent(stepRoute: self.stepRoute)
 
         let viewDataMapper = StepQuizViewDataMapper(

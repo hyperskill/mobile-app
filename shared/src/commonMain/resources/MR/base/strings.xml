@@ -163,7 +163,7 @@
     <string name="step_quiz_parsons_tab_text">Tab</string>
     <string name="step_quiz_parsons_onboarding_header">Great news!</string>
     <string name="step_quiz_parsons_onboarding_title">You\'ve unlocked a new problem type!</string>
-    <string name="step_quiz_parsons_onboarding_description">Now you can rearrange the lines to make the code work. Use the “Tab” button to add indentation.</string>
+    <string name="step_quiz_parsons_onboarding_description">Now you can rearrange the lines to make the code work. Use the "Tab" button to add indentation.</string>
 
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
@@ -389,7 +389,7 @@
 
     <!--  Problems limit reached modal  -->
     <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
-    <string name="problems_limit_reached_modal_description">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
+    <string name="problems_limit_reached_modal_description">You\'ve solved %d problems today. Great job! Tomorrow new problems will be available to you.</string>
 
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>
