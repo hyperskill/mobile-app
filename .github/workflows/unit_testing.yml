@@ -62,7 +62,7 @@ jobs:
 
   android-unit-testing:
     needs: files-changed
-    if: ${{ inputs.force_android || needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ inputs.force_android || needs.files-changed.outputs.android == 'true' }}
     name: Run Android unit tests
     runs-on: ubuntu-22.04
     timeout-minutes: 60
