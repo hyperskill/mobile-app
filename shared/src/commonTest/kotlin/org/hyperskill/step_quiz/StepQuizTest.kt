@@ -1,7 +1,6 @@
 package org.hyperskill.step_quiz
 
 import kotlin.test.Test
-import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
@@ -47,6 +46,7 @@ class StepQuizTest {
                     attempt,
                     submissionState,
                     isProblemsLimitReached = true,
+                    problemsLimitReachedModalText = "",
                     isParsonsOnboardingShown = false
                 )
             )
@@ -87,12 +87,15 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = true,
+                problemsLimitReachedModalText = "",
                 isParsonsOnboardingShown = false
             )
         )
 
         assertEquals(expectedState, state)
-        assertContains(actions, StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal)
+        assertTrue {
+            actions.any { it is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal }
+        }
     }
 
     @Test
@@ -128,6 +131,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
+                problemsLimitReachedModalText = null,
                 isParsonsOnboardingShown = false
             )
         )
@@ -185,6 +189,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
+                problemsLimitReachedModalText = null,
                 isParsonsOnboardingShown = false
             )
         )
