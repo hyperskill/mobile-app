@@ -8,11 +8,11 @@ import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 
-abstract class SharedIOSAppComponentImpl(
+abstract class IosAppComponentImpl(
     userAgentInfo: UserAgentInfo,
     buildVariant: BuildVariant,
     sentryManager: SentryManager
-) : iOSAppComponent, BaseAppGraph() {
+) : IosAppComponent, BaseAppGraph() {
 
     override val commonComponent: CommonComponent =
         CommonComponentImpl(buildVariant, userAgentInfo)

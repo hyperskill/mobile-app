@@ -3,30 +3,6 @@ import Foundation
 import shared
 import UserNotifications
 
-final class IosFCMTokenProviderImpl: IosFCMTokenProvider {
-    func getFCMToken() async throws -> String? {
-        #if DEBUG
-        print("NotificationsRegistrationService: \(#function)")
-        #endif
-
-        return try await withCheckedThrowingContinuation { continuation in
-            Messaging.messaging().token { fcmToken, error in
-                if let error {
-                    #if DEBUG
-                    print("NotificationsRegistrationService: fetch FCM token error: \(error)")
-                    #endif
-                    continuation.resume(with: Result.success(nil))
-                } else if let fcmToken {
-                    #if DEBUG
-                    print("NotificationsRegistrationService: fetched FCM token: \(fcmToken)")
-                    #endif
-                    continuation.resume(with: Result.success(fcmToken))
-                }
-            }
-        }
-    }
-}
-
 final class NotificationsRegistrationService: NSObject {
     static let shared: NotificationsRegistrationService = {
         let appGraph = AppGraphBridge.sharedAppGraph
