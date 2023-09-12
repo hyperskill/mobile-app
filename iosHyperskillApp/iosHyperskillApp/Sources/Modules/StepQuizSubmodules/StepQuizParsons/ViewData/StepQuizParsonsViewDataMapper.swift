@@ -69,10 +69,15 @@ StepQuizParsonsViewDataMapper :: unable to parse language from step.block.option
         rawText: String,
         language: CodeLanguage?
     ) -> StepQuizParsonsViewData.CodeContent {
-        if let attributedString = highlight(code: rawText, language: language?.highlightr) {
+        let unescaped = HTMLString.unescape(string: rawText)
+
+        if let attributedString = highlight(code: unescaped, language: language?.highlightr) {
             return .attributedString(attributedString)
         }
-        return .htmlText("<code style=\"border: 0; padding: 0; margin: 0; background: transparent\">\(rawText)</code>")
+
+        return .htmlText(
+            "<code style=\"border: 0; padding: 0; margin: 0; background: transparent\">\(rawText)</code>"
+        )
     }
 
     private func highlight(code: String, language: String?) -> NSAttributedString? {
