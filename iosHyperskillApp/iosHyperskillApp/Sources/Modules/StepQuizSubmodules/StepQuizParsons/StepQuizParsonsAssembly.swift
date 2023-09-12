@@ -27,8 +27,10 @@ final class StepQuizParsonsAssembly: StepQuizChildQuizAssembly {
 
     func makeModule() -> StepQuizParsonsView {
         let viewModel = StepQuizParsonsViewModel(
+            step: step,
             dataset: dataset,
             reply: reply,
+            viewDataMapper: StepQuizParsonsViewDataMapper(),
             provideModuleInputCallback: provideModuleInputCallback
         )
 

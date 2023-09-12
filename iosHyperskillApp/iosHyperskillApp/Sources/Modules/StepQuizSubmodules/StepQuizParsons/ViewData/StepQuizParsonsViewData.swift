@@ -7,7 +7,12 @@ struct StepQuizParsonsViewData: Equatable {
 
     struct Line: Hashable {
         let lineNumber: Int
-        let text: String
+        let code: CodeContent
         var level: Int
+    }
+
+    enum CodeContent: Hashable {
+        case attributedString(NSAttributedString)
+        case htmlText(String)
     }
 }

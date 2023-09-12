@@ -9,9 +9,6 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
 
     private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
 
-    private let dataset: Dataset
-    private let reply: Reply?
-
     @Published private(set) var viewData: StepQuizParsonsViewData
 
     private var selectedLineNumberIndex: Int? {
@@ -22,38 +19,14 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
     }
 
     init(
+        step: Step,
         dataset: Dataset,
         reply: Reply?,
+        viewDataMapper: StepQuizParsonsViewDataMapper,
         provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void
     ) {
-        self.dataset = dataset
-        self.reply = reply
         self.provideModuleInputCallback = provideModuleInputCallback
-
-        guard let datasetLines = dataset.lines else {
-            self.viewData = StepQuizParsonsViewData(lines: [])
-            return
-        }
-
-        if let replyLines = reply?.lines {
-            self.viewData = StepQuizParsonsViewData(
-                lines: replyLines.map {
-                    .init(
-                        lineNumber: Int($0.lineNumber),
-                        text: datasetLines[Int($0.lineNumber)],
-                        level: Int($0.level)
-                    )
-                }
-            )
-        } else {
-            self.viewData = StepQuizParsonsViewData(
-                lines: datasetLines
-                    .enumerated()
-                    .map {
-                        .init(lineNumber: $0, text: $1, level: 0)
-                    }
-            )
-        }
+        self.viewData = viewDataMapper.mapToViewData(step: step, dataset: dataset, reply: reply)
     }
 
     func doProvideModuleInput() {

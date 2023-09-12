@@ -18,7 +18,7 @@ struct StepQuizParsonsView: View {
                 ForEach(viewModel.viewData.lines, id: \.self) { line in
                     StepQuizParsonsItemView(
                         isSelected: line.lineNumber == viewModel.viewData.selectedLineNumber,
-                        code: line.text,
+                        code: line.code,
                         level: line.level
                     )
                     .onTapGesture {
