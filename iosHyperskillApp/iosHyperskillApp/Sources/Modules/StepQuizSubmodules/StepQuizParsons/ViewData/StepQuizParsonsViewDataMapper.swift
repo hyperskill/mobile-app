@@ -5,7 +5,14 @@ import shared
 final class StepQuizParsonsViewDataMapper {
     private let highlightr: Highlightr?
 
-    init(highlightr: Highlightr? = Highlightr()) {
+    init(
+        highlightr: Highlightr? = Highlightr(),
+        codeEditorThemeService: CodeEditorThemeServiceProtocol = CodeEditorThemeService()
+    ) {
+        let theme = codeEditorThemeService.theme
+        highlightr?.setTheme(to: theme.name)
+        highlightr?.theme.setCodeFont(theme.font)
+
         self.highlightr = highlightr
     }
 

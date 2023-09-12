@@ -2,7 +2,7 @@ import SwiftUI
 
 extension StepQuizParsonsItemView {
     struct Appearance {
-        let tabTextFont = Font(UIFont.monospacedSystemFont(ofSize: 14, weight: .regular))
+        let tabTextFont = UIFont.monospacedSystemFont(ofSize: 14, weight: .regular)
 
         let borderWidth: CGFloat = 2
         let borderCornerRadius: CGFloat = 4
@@ -21,8 +21,9 @@ struct StepQuizParsonsItemView: View {
             HStack(spacing: LayoutInsets.smallInset) {
                 ForEach(0..<level, id: \.self) { _ in
                     Text(". . . .")
-                        .font(appearance.tabTextFont)
+                        .font(Font(appearance.tabTextFont))
                         .foregroundColor(.disabledText)
+                        .frame(height: appearance.tabTextFont.pointSize)
                 }
 
                 switch code {
