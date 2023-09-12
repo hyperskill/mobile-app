@@ -1383,18 +1383,7 @@
 				2C9E5E8229B211DD003AEC16 /* StageImplement */,
 				2CAE8CEE280525A100E6C83D /* Step */,
 				2C41127428376DE3004948A3 /* StepQuiz */,
-				E9802D03281BB5A500CF3AC1 /* StepQuizChoice */,
-				2C96742C288823EB0091B6C9 /* StepQuizCode */,
-				2CBFB94828897D970044D1BA /* StepQuizCodeFullScreen */,
-				E9F27D7629064456007F16D7 /* StepQuizHints */,
-				E9D2D66E284E0A5D000757AC /* StepQuizMatching */,
-				E96D49382A9CCE9A00BD78FE /* StepQuizParsons */,
-				2C93AF1D29B349AC004639E0 /* StepQuizPyCharm */,
-				E993E9A728426FD5005988EC /* StepQuizSorting */,
-				2C5CBBDE2948EB9400113007 /* StepQuizSQL */,
-				2CCCA3972862D57100D98089 /* StepQuizString */,
-				2CF72AA12847755100E1C192 /* StepQuizTable */,
-				2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */,
+				2CE7B4852AB05AA300DCBE4D /* StepQuizSubmodules */,
 				E9F655CE2875B30B00291143 /* Streak */,
 				E9F0A2A729D416AC00C4A61E /* StudyPlan */,
 				E9A022AB291D0E1C004317DB /* TopicsRepetitions */,
@@ -2798,6 +2787,25 @@
 				2CDF14D328EEFA850060D972 /* ViewControllers */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		2CE7B4852AB05AA300DCBE4D /* StepQuizSubmodules */ = {
+			isa = PBXGroup;
+			children = (
+				E9802D03281BB5A500CF3AC1 /* StepQuizChoice */,
+				2C96742C288823EB0091B6C9 /* StepQuizCode */,
+				2CBFB94828897D970044D1BA /* StepQuizCodeFullScreen */,
+				E9F27D7629064456007F16D7 /* StepQuizHints */,
+				E9D2D66E284E0A5D000757AC /* StepQuizMatching */,
+				E96D49382A9CCE9A00BD78FE /* StepQuizParsons */,
+				2C93AF1D29B349AC004639E0 /* StepQuizPyCharm */,
+				E993E9A728426FD5005988EC /* StepQuizSorting */,
+				2C5CBBDE2948EB9400113007 /* StepQuizSQL */,
+				2CCCA3972862D57100D98089 /* StepQuizString */,
+				2CF72AA12847755100E1C192 /* StepQuizTable */,
+				2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */,
+			);
+			path = StepQuizSubmodules;
 			sourceTree = "<group>";
 		};
 		2CEB33782949933A00B9E437 /* Views */ = {
