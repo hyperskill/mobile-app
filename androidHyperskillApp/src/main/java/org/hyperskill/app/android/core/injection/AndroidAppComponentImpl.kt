@@ -56,13 +56,7 @@ class AndroidAppComponentImpl(
     }
 
     override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
-        AndroidPlatformPushNotificationsComponentImpl(
-            pushNotificationsComponent = buildPushNotificationsComponent(),
-            playServicesCheckerComponent = buildPlayServicesCheckerComponent(),
-            commonComponent = commonComponent,
-            platformLocalNotificationComponent = platformLocalNotificationComponent,
-            analyticInteractor = analyticComponent.analyticInteractor
-        )
+        AndroidPlatformPushNotificationsComponentImpl(this)
 
     override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =
         PlayServicesCheckerComponentImpl(context, sentryComponent)
