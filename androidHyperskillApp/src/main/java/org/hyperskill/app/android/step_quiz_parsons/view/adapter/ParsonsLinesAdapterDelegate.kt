@@ -5,6 +5,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -17,6 +18,7 @@ import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class ParsonsLinesAdapterDelegate(
+    @ColorInt private val codeTextColor: Int,
     private val onLineClick: (Int) -> Unit
 ) : AdapterDelegate<UiParsonsLine, DelegateViewHolder<UiParsonsLine>>() {
 
@@ -59,6 +61,7 @@ class ParsonsLinesAdapterDelegate(
             with(viewBinding.root) {
                 isVerticalScrollBarEnabled = false
                 isHorizontalScrollBarEnabled = false
+                viewBinding.stepQuizParsonsLineTextView.setTextColor(codeTextColor)
             }
         }
 

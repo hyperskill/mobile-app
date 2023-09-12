@@ -39,7 +39,10 @@ class ParsonsStepQuizFormDelegate(
 
     private val linesAdapter = DefaultDelegateAdapter<UiParsonsLine>().apply {
         addDelegate(
-            ParsonsLinesAdapterDelegate(onLineClick = ::onLineClick)
+            ParsonsLinesAdapterDelegate(
+                codeTextColor = codeTheme.syntax.plain,
+                onLineClick = ::onLineClick
+            )
         )
     }
 
