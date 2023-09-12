@@ -7,7 +7,6 @@ data class UiParsonsLine(
     val lineNumber: Int,
     val formattedText: Spannable,
     val originText: String,
-    val langName: String,
     val tabsCount: Int,
     val isSelected: Boolean,
     val isClickable: Boolean
