@@ -10,5 +10,5 @@ data class PushNotification(
     @SerialName("body")
     val body: String,
     @SerialName("image")
-    val image: String?
+    val image: String? = null
 )
