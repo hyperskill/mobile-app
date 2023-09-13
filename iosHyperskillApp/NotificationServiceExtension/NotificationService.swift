@@ -14,12 +14,9 @@ final class NotificationService: UNNotificationServiceExtension {
         guard let bestAttemptContent else {
             return
         }
-        
-        // Modify the notification content here...
-        bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
 
-        guard let fcmOptions = request.content.userInfo["fcm_options"] as? [AnyHashable : Any],
-              let imageString = fcmOptions["image"] as? String,
+        guard let fcmOptions = request.content.userInfo[PayloadKey.fcmOptions.rawValue] as? [AnyHashable: Any],
+              let imageString = fcmOptions[PayloadKey.image.rawValue] as? String,
               let imageURL = URL(string: imageString) else {
             return contentHandler(bestAttemptContent)
         }
@@ -40,7 +37,7 @@ final class NotificationService: UNNotificationServiceExtension {
                 contentHandler(bestAttemptContent)
             } catch {
                 #if DEBUG
-                print("NotificationService :: image attachment error = \(error)")
+                print("NotificationService: image attachment error = \(error)")
                 #endif
             }
         }
@@ -50,5 +47,10 @@ final class NotificationService: UNNotificationServiceExtension {
         if let contentHandler, let bestAttemptContent {
             contentHandler(bestAttemptContent)
         }
+    }
+
+    enum PayloadKey: String {
+        case image
+        case fcmOptions = "fcm_options"
     }
 }

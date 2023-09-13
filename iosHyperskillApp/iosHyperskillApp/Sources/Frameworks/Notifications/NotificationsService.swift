@@ -137,6 +137,8 @@ extension NotificationsService {
         case aps
         case badge
         case pushNotificationData
+        case image
+        case fcmOptions = "fcm_options"
     }
 }
 
@@ -174,8 +176,13 @@ extension NotificationsService {
             return nil
         }
 
+        // Set necessary keys to aps dict (see shared PushNotificationData.kt)
         if let badgeID = userInfo[PayloadKey.badge.rawValue] {
             apsDict[PayloadKey.badge.rawValue] = badgeID
+        }
+        if let fcmOptions = userInfo[PayloadKey.fcmOptions.rawValue] as? [AnyHashable: Any],
+           let imageString = fcmOptions[PayloadKey.image.rawValue] as? String {
+            apsDict[PayloadKey.image.rawValue] = imageString
         }
 
         let pushNotificationData = pushNotificationsInteractor.parsePushNotificationData(rawNotificationData: apsDict)
