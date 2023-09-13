@@ -59,7 +59,12 @@ enum HTMLString {
     //    decodeNumeric("20ac", 16) --> "€"
     private static func decodeNumeric(_ string: String, base: Int32) -> Character? {
         let code = UInt32(strtoul(string, nil, base))
-        return Character(UnicodeScalar(code).require())
+
+        guard let unicodeScalar = UnicodeScalar(code) else {
+            return nil
+        }
+
+        return Character(unicodeScalar)
     }
 }
 
