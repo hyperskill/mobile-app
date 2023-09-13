@@ -12,6 +12,8 @@ struct StepQuizParsonsView: View {
 
     @StateObject var viewModel: StepQuizParsonsViewModel
 
+    @Environment(\.isEnabled) private var isEnabled
+
     var body: some View {
         VStack(spacing: appearance.containerSpacing) {
             VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
@@ -48,6 +50,7 @@ struct StepQuizParsonsView: View {
             )
         }
         .onAppear(perform: viewModel.doProvideModuleInput)
+        .opacity(isEnabled ? 1 : 0.5)
     }
 }
 

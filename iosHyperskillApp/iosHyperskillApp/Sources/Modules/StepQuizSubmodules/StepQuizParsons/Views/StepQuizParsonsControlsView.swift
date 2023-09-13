@@ -2,12 +2,12 @@ import SwiftUI
 
 extension StepQuizParsonsControlsView {
     struct Appearance {
-        let buttonStyle = OutlineButtonStyle(
-            foregroundColor: Color(ColorPalette.primary),
-            minHeight: 46,
-            maxWidth: nil,
-            borderColor: Color(ColorPalette.primaryAlpha38)
-        )
+        let buttonStyle: OutlineButtonStyle = {
+            var style = OutlineButtonStyle(style: .violet)
+            style.maxWidth = nil
+            style.opacityDisabled = 0.5
+            return style
+        }()
     }
 }
 
@@ -74,16 +74,30 @@ struct StepQuizParsonsControlsView: View {
 
 struct StepQuizParsonsControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        let controlConfigurationPlaceHolder = StepQuizParsonsControlsView.ControlConfiguration(
+        let enabledConfiguration = StepQuizParsonsControlsView.ControlConfiguration(
             action: {},
             isDisabled: false
         )
-
-        StepQuizParsonsControlsView(
-            addTabControlConfiguration: controlConfigurationPlaceHolder,
-            removeTabControlConfiguration: controlConfigurationPlaceHolder,
-            downControlConfiguration: controlConfigurationPlaceHolder,
-            upControlConfiguration: controlConfigurationPlaceHolder
+        let disabledConfiguration = StepQuizParsonsControlsView.ControlConfiguration(
+            action: {},
+            isDisabled: true
         )
+
+        VStack {
+            StepQuizParsonsControlsView(
+                addTabControlConfiguration: enabledConfiguration,
+                removeTabControlConfiguration: enabledConfiguration,
+                downControlConfiguration: enabledConfiguration,
+                upControlConfiguration: enabledConfiguration
+            )
+
+            StepQuizParsonsControlsView(
+                addTabControlConfiguration: disabledConfiguration,
+                removeTabControlConfiguration: disabledConfiguration,
+                downControlConfiguration: disabledConfiguration,
+                upControlConfiguration: disabledConfiguration
+            )
+        }
+        .padding()
     }
 }
