@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.main.view.ui.activity
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +26,6 @@ import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
 import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
-import org.hyperskill.app.android.main.view.ui.OrientationHost
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.click_handling.delegate.NotificationClickHandlingDelegate
@@ -56,17 +54,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class MainActivity :
     AppCompatActivity(),
     AppNavigationContainer,
-    ReduxView<AppFeature.State, AppFeature.Action.ViewAction>,
-    OrientationHost {
-
-    companion object {
-        private const val INITIAL_ORIENTATION_KEY = "INITIAL_ORIENTATION_KEY"
-        private const val WAS_ORIENTATION_CHANGED_KEY = "WAS_ORIENTATION_CHANGED_KEY"
-        private const val DEFAULT_SAVED_ORIENTATION = Int.MIN_VALUE
-    }
-
-    private var wasOrientationChanged: Boolean = false
-    private var initialOrientation: Int? = null
+    ReduxView<AppFeature.State, AppFeature.Action.ViewAction> {
 
     private lateinit var viewBinding: ActivityMainBinding
 
@@ -137,8 +125,6 @@ class MainActivity :
                 }
         }
 
-        setupOrientation(savedInstanceState)
-
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
         logNotificationAvailability()
@@ -170,33 +156,6 @@ class MainActivity :
         }
     }
 
-    private fun setupOrientation(savedInstanceState: Bundle?) {
-        val wasOrientationChanged =
-            savedInstanceState?.getBoolean(WAS_ORIENTATION_CHANGED_KEY, false) ?: false
-        this.wasOrientationChanged = wasOrientationChanged
-        if (!resources.getBoolean(R.bool.is_tablet) && !wasOrientationChanged) {
-            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-        }
-        val savedOrientation =
-            savedInstanceState
-                ?.getInt(INITIAL_ORIENTATION_KEY, DEFAULT_SAVED_ORIENTATION)?.let { savedOrientation ->
-                    if (savedOrientation == DEFAULT_SAVED_ORIENTATION) {
-                        null
-                    } else {
-                        savedOrientation
-                    }
-                }
-        this.initialOrientation = savedOrientation ?: requestedOrientation
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        initialOrientation?.let {
-            outState.putInt(INITIAL_ORIENTATION_KEY, it)
-        }
-        outState.putBoolean(WAS_ORIENTATION_CHANGED_KEY, wasOrientationChanged)
-    }
-
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
@@ -218,22 +177,6 @@ class MainActivity :
     override fun onPause() {
         localCicerone.getNavigatorHolder().removeNavigator()
         super.onPause()
-    }
-
-    override fun requestOrientation(orientation: Int) {
-        if (requestedOrientation != orientation) {
-            wasOrientationChanged = true
-            requestedOrientation = orientation
-        }
-    }
-
-    override fun backToInitialOrientation() {
-        if (!isChangingConfigurations) {
-            wasOrientationChanged = false
-            initialOrientation?.let {
-                requestedOrientation = it
-            }
-        }
     }
 
     override fun onAction(action: AppFeature.Action.ViewAction) {
