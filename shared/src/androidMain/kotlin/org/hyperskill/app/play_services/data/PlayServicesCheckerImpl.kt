@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.play_services.domain.model
+package org.hyperskill.app.play_services.data
 
 import android.content.Context
 import com.google.android.gms.common.ConnectionResult
