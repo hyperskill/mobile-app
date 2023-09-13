@@ -2,15 +2,12 @@ import Combine
 import Foundation
 import shared
 
-final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputProtocol {
+final class StepQuizParsonsViewModel: ObservableObject {
     private static let tabsMaxCount = 10
 
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
 
     private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
-
-    private let dataset: Dataset
-    private let reply: Reply?
 
     @Published private(set) var viewData: StepQuizParsonsViewData
 
@@ -22,38 +19,14 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
     }
 
     init(
+        step: Step,
         dataset: Dataset,
         reply: Reply?,
+        viewDataMapper: StepQuizParsonsViewDataMapper,
         provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void
     ) {
-        self.dataset = dataset
-        self.reply = reply
         self.provideModuleInputCallback = provideModuleInputCallback
-
-        guard let datasetLines = dataset.lines else {
-            self.viewData = StepQuizParsonsViewData(lines: [])
-            return
-        }
-
-        if let replyLines = reply?.lines {
-            self.viewData = StepQuizParsonsViewData(
-                lines: replyLines.map {
-                    .init(
-                        lineNumber: Int($0.lineNumber),
-                        text: datasetLines[Int($0.lineNumber)],
-                        level: Int($0.level)
-                    )
-                }
-            )
-        } else {
-            self.viewData = StepQuizParsonsViewData(
-                lines: datasetLines
-                    .enumerated()
-                    .map {
-                        .init(lineNumber: $0, text: $1, level: 0)
-                    }
-            )
-        }
+        self.viewData = viewDataMapper.mapToViewData(step: step, dataset: dataset, reply: reply)
     }
 
     func doProvideModuleInput() {
@@ -61,13 +34,18 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
     }
 
     func doSelectLine(lineNumber: Int) {
-        viewData.selectedLineNumber = lineNumber
+        if viewData.selectedLineNumber == lineNumber {
+            viewData.selectedLineNumber = nil
+        } else {
+            viewData.selectedLineNumber = lineNumber
+        }
     }
 
     func doAddTab() {
         guard let selectedLineNumberIndex else {
             return
         }
+
         viewData.lines[selectedLineNumberIndex].level += 1
         outputCurrentReply()
     }
@@ -76,6 +54,7 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         guard let index = selectedLineNumberIndex else {
             return true
         }
+
         return viewData.lines[index].level == Self.tabsMaxCount
     }
 
@@ -83,6 +62,7 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         guard let selectedLineNumberIndex else {
             return
         }
+
         viewData.lines[selectedLineNumberIndex].level -= 1
         outputCurrentReply()
     }
@@ -91,6 +71,7 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         guard let selectedLineNumberIndex else {
             return true
         }
+
         return viewData.lines[selectedLineNumberIndex].level == 0
     }
 
@@ -102,6 +83,7 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         guard let selectedLineNumberIndex else {
             return true
         }
+
         return selectedLineNumberIndex == 0
     }
 
@@ -113,29 +95,35 @@ final class StepQuizParsonsViewModel: ObservableObject, StepQuizChildQuizInputPr
         guard let selectedLineNumberIndex else {
             return true
         }
+
         return selectedLineNumberIndex == viewData.lines.count - 1
-    }
-
-    func createReply() -> Reply {
-        Reply.companion.parsons(
-            lines: viewData.lines.map {
-                .init(level: Int32($0.level), lineNumber: Int32($0.lineNumber))
-            }
-        )
-    }
-
-    private func outputCurrentReply() {
-        moduleOutput?.handleChildQuizSync(reply: createReply())
     }
 
     private func doMove(indexAddition: Int) {
         guard let selectedLineNumberIndex else {
             return
         }
+
         let tmp = viewData.lines[selectedLineNumberIndex + indexAddition]
         viewData.lines[selectedLineNumberIndex + indexAddition] = viewData.lines[selectedLineNumberIndex]
         viewData.lines[selectedLineNumberIndex] = tmp
 
         outputCurrentReply()
+    }
+
+    private func outputCurrentReply() {
+        moduleOutput?.handleChildQuizSync(reply: createReply())
+    }
+}
+
+// MARK: - StepQuizParsonsViewModel: StepQuizChildQuizInputProtocol -
+
+extension StepQuizParsonsViewModel: StepQuizChildQuizInputProtocol {
+    func createReply() -> Reply {
+        Reply.companion.parsons(
+            lines: viewData.lines.map {
+                .init(level: Int32($0.level), lineNumber: Int32($0.lineNumber))
+            }
+        )
     }
 }

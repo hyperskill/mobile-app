@@ -74,7 +74,16 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func syncReply(_ reply: Reply) {
-        onNewMessage(StepQuizFeatureMessageSyncReply(reply: reply))
+        #warning("TODO: refactor state menagment")
+        let shouldSyncReply = StepQuizResolver.shared.shouldSyncReply(state: state.stepQuizState)
+
+        #if DEBUG
+        print("StepQuizViewModel: shouldSyncReply = \(shouldSyncReply)")
+        #endif
+
+        if shouldSyncReply {
+            onNewMessage(StepQuizFeatureMessageSyncReply(reply: reply))
+        }
     }
 
     func doMainQuizAction() {
