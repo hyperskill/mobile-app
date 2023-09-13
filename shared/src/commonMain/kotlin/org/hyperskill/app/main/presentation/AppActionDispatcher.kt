@@ -13,6 +13,7 @@ import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -28,7 +29,8 @@ class AppActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val stateRepositoriesComponent: StateRepositoriesComponent,
-    private val notificationsInteractor: NotificationInteractor
+    private val notificationsInteractor: NotificationInteractor,
+    private val pushNotificationsInteractor: PushNotificationsInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -109,6 +111,9 @@ class AppActionDispatcher(
                 sentryInteractor.clearCurrentUser()
             is Action.UpdateDailyLearningNotificationTime ->
                 handleUpdateDailyLearningNotificationTime()
+            is Action.SendPushNotificationsToken -> {
+                pushNotificationsInteractor.renewFCMToken()
+            }
             else -> {}
         }
     }

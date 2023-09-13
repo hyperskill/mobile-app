@@ -32,7 +32,7 @@ import java.util.List;
  * 
  * @author Chan Wai Shing <cws1989@gmail.com>
  */
-public class ParseResult {
+public class PrettifyParseResult {
 
   /**
    * The start position of the content.
@@ -55,7 +55,7 @@ public class ParseResult {
    * @param length the length of the content
    * @param styleKeys the style keys of the content
    */
-  public ParseResult(int offset, int length, List<String> styleKeys) {
+  public PrettifyParseResult(int offset, int length, List<String> styleKeys) {
     this.offset = offset;
     this.length = length;
     this.styleKeys = new ArrayList<String>(styleKeys);

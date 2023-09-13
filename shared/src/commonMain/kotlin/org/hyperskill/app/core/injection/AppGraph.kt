@@ -24,6 +24,7 @@ import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningAc
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
+import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
@@ -138,6 +139,7 @@ interface AppGraph {
     fun buildStreakRecoveryComponent(): StreakRecoveryComponent
     fun buildDevicesDataComponent(): DevicesDataComponent
     fun buildPushNotificationsComponent(): PushNotificationsComponent
+    fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent
     fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
     fun buildProgressScreenComponent(): ProgressScreenComponent
     fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent

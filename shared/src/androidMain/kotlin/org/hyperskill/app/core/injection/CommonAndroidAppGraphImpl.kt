@@ -14,9 +14,13 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.notification.remote.injection.AndroidPlatformPushNotificationsPlatformDataComponent
+import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
+import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
+import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -191,4 +195,12 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
 
     override fun buildPlatformProgressScreenComponent(): PlatformProgressScreenComponent =
         PlatformProgressScreenComponentImpl(buildProgressScreenComponent())
+
+    override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =
+        PlayServicesCheckerComponentImpl(context, sentryComponent)
+
+    override fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent =
+        AndroidPlatformPushNotificationsPlatformDataComponent(
+            playServicesCheckerComponent = buildPlayServicesCheckerComponent(),
+        )
 }
