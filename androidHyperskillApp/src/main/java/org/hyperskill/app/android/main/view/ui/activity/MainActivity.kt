@@ -23,6 +23,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
+import org.hyperskill.app.android.core.extensions.screenOrientation
 import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
@@ -127,6 +128,7 @@ class MainActivity :
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
+        mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
         logNotificationAvailability()
     }
 

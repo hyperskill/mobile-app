@@ -73,7 +73,8 @@ class AndroidAppComponentImpl(
     override val platformMainComponent: PlatformMainComponent =
         PlatformMainComponentImpl(
             mainComponent = mainComponent,
-            platformPushNotificationsComponent = buildPlatformPushNotificationsComponent()
+            platformPushNotificationsComponent = buildPlatformPushNotificationsComponent(),
+            analyticComponent = analyticComponent
         )
 
     /**
