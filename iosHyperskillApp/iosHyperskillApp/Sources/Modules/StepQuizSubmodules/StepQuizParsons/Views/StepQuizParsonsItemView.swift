@@ -2,7 +2,7 @@ import SwiftUI
 
 extension StepQuizParsonsItemView {
     struct Appearance {
-        let tabTextFont = Font(UIFont.monospacedSystemFont(ofSize: 14, weight: .regular))
+        let tabTextFont = UIFont.monospacedSystemFont(ofSize: 14, weight: .regular)
 
         let borderWidth: CGFloat = 2
         let borderCornerRadius: CGFloat = 4
@@ -13,27 +13,31 @@ struct StepQuizParsonsItemView: View {
     private(set) var appearance = Appearance()
 
     let isSelected: Bool
-    let code: String
+    let code: StepQuizParsonsViewData.CodeContent
     let level: Int
-
-    private var styledCode: String {
-        "<code style=\"border: 0; padding: 0; margin: 0; background: transparent\">\(code)</code>"
-    }
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: LayoutInsets.smallInset) {
                 ForEach(0..<level, id: \.self) { _ in
                     Text(". . . .")
-                        .font(appearance.tabTextFont)
+                        .font(Font(appearance.tabTextFont))
                         .foregroundColor(.disabledText)
+                        .frame(height: appearance.tabTextFont.pointSize)
                 }
 
-                LatexView(
-                    text: .constant(styledCode),
-                    configuration: .quizContent(backgroundColor: .clear)
-                )
-                .frame(width: CGFloat(code.count * 15))
+                switch code {
+                case .attributedString(let attributedText):
+                    AttributedTextLabelWrapper(
+                        attributedText: attributedText
+                    )
+                case .htmlText(let string):
+                    LatexView(
+                        text: .constant(string),
+                        configuration: .quizContent(backgroundColor: .clear)
+                    )
+                    .frame(width: CGFloat(string.count * 15))
+                }
             }
         }
         .padding()
@@ -51,13 +55,13 @@ struct StepQuizParsonsItemView_Previews: PreviewProvider {
         Group {
             StepQuizParsonsItemView(
                 isSelected: true,
-                code: "if b &lt; minimum:",
+                code: .htmlText("if b &lt; minimum:"),
                 level: 1
             )
 
             StepQuizParsonsItemView(
                 isSelected: false,
-                code: "if b &lt; minimum:",
+                code: .htmlText("if b &lt; minimum:"),
                 level: 0
             )
         }

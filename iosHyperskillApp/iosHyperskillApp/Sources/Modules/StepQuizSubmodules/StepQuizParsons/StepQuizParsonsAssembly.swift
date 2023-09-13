@@ -1,3 +1,4 @@
+import Highlightr
 import shared
 import SwiftUI
 
@@ -27,8 +28,14 @@ final class StepQuizParsonsAssembly: StepQuizChildQuizAssembly {
 
     func makeModule() -> StepQuizParsonsView {
         let viewModel = StepQuizParsonsViewModel(
+            step: step,
             dataset: dataset,
             reply: reply,
+            viewDataMapper: StepQuizParsonsViewDataMapper(
+                highlightr: Highlightr(),
+                codeEditorThemeService: CodeEditorThemeService(),
+                codeContentCache: StepQuizParsonsViewDataMapperCodeContentCache.shared
+            ),
             provideModuleInputCallback: provideModuleInputCallback
         )
 

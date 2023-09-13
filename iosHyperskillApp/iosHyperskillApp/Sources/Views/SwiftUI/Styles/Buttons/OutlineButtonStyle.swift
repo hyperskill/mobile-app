@@ -19,6 +19,11 @@ struct OutlineButtonStyle: ButtonStyle {
 
     var backgroundColor: Color = .clear
 
+    var opacityDisabled = 0.38
+    var opacityDuration: TimeInterval = 0.33
+
+    @Environment(\.isEnabled) private var isEnabled
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(foregroundColor)
@@ -29,8 +34,10 @@ struct OutlineButtonStyle: ButtonStyle {
             .background(backgroundColor)
             .cornerRadius(cornerRadius)
             .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(borderColor, lineWidth: borderWidth))
+            .opacity(isEnabled ? 1 : opacityDisabled)
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
             .animation(.easeOut(duration: bounceDuration), value: configuration.isPressed)
+            .animation(.easeInOut(duration: opacityDuration), value: isEnabled)
     }
 
     enum Style {
