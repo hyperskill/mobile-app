@@ -6,7 +6,6 @@ import ru.nobird.app.core.model.Identifiable
 data class UiParsonsLine(
     val lineNumber: Int,
     val formattedText: Spannable,
-    val originText: String,
     val tabsCount: Int,
     val isSelected: Boolean,
     val isClickable: Boolean

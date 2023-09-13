@@ -38,7 +38,6 @@ class ParsonsLinesMapper(
                         codeTheme = codeTheme,
                         linesCache = linesCache
                     ),
-                    originText = text,
                     tabsCount = 0,
                     isSelected = isEnabled && index == selectedLinePosition,
                     isClickable = isEnabled
@@ -58,7 +57,6 @@ class ParsonsLinesMapper(
                         codeTheme = codeTheme,
                         linesCache = linesCache
                     ),
-                    originText = text,
                     tabsCount = replyLine.level,
                     isSelected = isEnabled && index == selectedLinePosition,
                     isClickable = isEnabled
