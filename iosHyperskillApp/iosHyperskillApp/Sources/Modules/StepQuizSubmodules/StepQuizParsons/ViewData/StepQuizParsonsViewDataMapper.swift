@@ -72,7 +72,7 @@ StepQuizParsonsViewDataMapper: unable to parse language from step.block.options.
         rawText: String,
         language: CodeLanguage?
     ) -> StepQuizParsonsViewData.CodeContent {
-        let hash = rawText.hashValue
+        let hash = rawText.hashValue ^ UITraitCollection.current.userInterfaceStyle.hashValue
 
         if let cachedCodeContent = codeContentCache.get(for: hash) {
             #if DEBUG
