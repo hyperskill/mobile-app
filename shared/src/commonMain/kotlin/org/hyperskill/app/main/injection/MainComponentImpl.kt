@@ -28,7 +28,8 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             clickedNotificationComponent.notificationClickHandlingReducer,
             clickedNotificationComponent.notificationClickHandlingDispatcher,
             appGraph.buildNotificationComponent().notificationInteractor,
-            appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
+            appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
+            appGraph.commonComponent.platform
         )
 
     override fun appFeature(): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =

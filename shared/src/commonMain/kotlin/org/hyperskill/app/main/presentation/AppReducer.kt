@@ -1,6 +1,7 @@
 package org.hyperskill.app.main.presentation
 
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
@@ -15,7 +16,8 @@ private typealias ReducerResult = Pair<State, Set<Action>>
 
 class AppReducer(
     private val streakRecoveryReducer: StreakRecoveryReducer,
-    private val notificationClickHandlingReducer: NotificationClickHandlingReducer
+    private val notificationClickHandlingReducer: NotificationClickHandlingReducer,
+    private val platformType: PlatformType
 ) : StateReducer<State, Message, Action> {
     override fun reduce(
         state: State,
@@ -101,7 +103,7 @@ class AppReducer(
                             else ->
                                 add(Action.ViewAction.NavigateTo.HomeScreen)
                         }
-                        addAll(getOnAuthorizedAppStartUpActions(message.profile.id))
+                        addAll(getOnAuthorizedAppStartUpActions(message.profile.id, platformType))
                     } else {
                         if (message.notificationData != null) {
                             addAll(
@@ -184,12 +186,19 @@ class AppReducer(
         )
 
     private fun getOnAuthorizedAppStartUpActions(
-        profileId: Long
+        profileId: Long,
+        platformType: PlatformType
     ): Set<Action> =
-        setOf(
+        setOfNotNull(
             Action.IdentifyUserInSentry(userId = profileId),
             Action.UpdateDailyLearningNotificationTime,
-            Action.SendPushNotificationsToken
+            if (platformType == PlatformType.ANDROID) {
+                // Don't send push token on app startup for IOS
+                // because of custom token sending logic on IOS on app startup
+                Action.SendPushNotificationsToken
+            } else {
+                null
+            }
         )
 
     private fun getNotAuthorizedAppStartUpActions(): Set<Action> =
