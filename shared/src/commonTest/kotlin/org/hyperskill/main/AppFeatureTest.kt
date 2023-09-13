@@ -2,6 +2,7 @@ package org.hyperskill.main
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
@@ -16,7 +17,8 @@ import org.hyperskill.profile.stub
 class AppFeatureTest {
     private val appReducer = AppReducer(
         StreakRecoveryReducer(),
-        NotificationClickHandlingReducer()
+        NotificationClickHandlingReducer(),
+        PlatformType.ANDROID
     )
 
     @Test
