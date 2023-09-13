@@ -36,5 +36,5 @@ public interface Parser {
      * @param content the content
      * @return the parsed result
      */
-    List<ParseResult> parse(String fileExtension, String content);
+    List<PrettifyParseResult> parse(String fileExtension, String content);
 }
