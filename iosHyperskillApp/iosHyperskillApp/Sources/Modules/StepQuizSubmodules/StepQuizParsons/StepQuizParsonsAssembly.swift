@@ -1,3 +1,4 @@
+import Highlightr
 import shared
 import SwiftUI
 
@@ -30,7 +31,11 @@ final class StepQuizParsonsAssembly: StepQuizChildQuizAssembly {
             step: step,
             dataset: dataset,
             reply: reply,
-            viewDataMapper: StepQuizParsonsViewDataMapper(),
+            viewDataMapper: StepQuizParsonsViewDataMapper(
+                highlightr: Highlightr(),
+                codeEditorThemeService: CodeEditorThemeService(),
+                codeContentCache: StepQuizParsonsViewDataMapperCodeContentCache.shared
+            ),
             provideModuleInputCallback: provideModuleInputCallback
         )
 

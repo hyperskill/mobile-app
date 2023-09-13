@@ -4,16 +4,19 @@ import shared
 
 final class StepQuizParsonsViewDataMapper {
     private let highlightr: Highlightr?
+    private let codeContentCache: StepQuizParsonsViewDataMapperCodeContentCacheProtocol
 
     init(
-        highlightr: Highlightr? = Highlightr(),
-        codeEditorThemeService: CodeEditorThemeServiceProtocol = CodeEditorThemeService()
+        highlightr: Highlightr?,
+        codeEditorThemeService: CodeEditorThemeServiceProtocol,
+        codeContentCache: StepQuizParsonsViewDataMapperCodeContentCacheProtocol
     ) {
         let theme = codeEditorThemeService.theme
         highlightr?.setTheme(to: theme.name)
         highlightr?.theme.setCodeFont(theme.font)
 
         self.highlightr = highlightr
+        self.codeContentCache = codeContentCache
     }
 
     func mapToViewData(step: Step, dataset: Dataset, reply: Reply?) -> StepQuizParsonsViewData {
@@ -32,7 +35,7 @@ final class StepQuizParsonsViewDataMapper {
         if language == nil {
             print(
                 """
-StepQuizParsonsViewDataMapper :: unable to parse language from step.block.options.language = \
+StepQuizParsonsViewDataMapper: unable to parse language from step.block.options.language = \
 \(String(describing: languageStringValue))
 """
             )
@@ -69,15 +72,33 @@ StepQuizParsonsViewDataMapper :: unable to parse language from step.block.option
         rawText: String,
         language: CodeLanguage?
     ) -> StepQuizParsonsViewData.CodeContent {
+        let hash = rawText.hashValue
+
+        if let cachedCodeContent = codeContentCache.get(for: hash) {
+            #if DEBUG
+            print("StepQuizParsonsViewDataMapper: cache hit")
+            #endif
+            return cachedCodeContent
+        }
+        #if DEBUG
+        print("StepQuizParsonsViewDataMapper: cache miss")
+        #endif
+
+        let result: StepQuizParsonsViewData.CodeContent
+
         let unescaped = HTMLString.unescape(string: rawText)
 
         if let attributedString = highlight(code: unescaped, language: language?.highlightr) {
-            return .attributedString(attributedString)
+            result = .attributedString(attributedString)
+        } else {
+            result = .htmlText(
+                "<code style=\"border: 0; padding: 0; margin: 0; background: transparent\">\(rawText)</code>"
+            )
         }
 
-        return .htmlText(
-            "<code style=\"border: 0; padding: 0; margin: 0; background: transparent\">\(rawText)</code>"
-        )
+        codeContentCache.set(codeContent: result, for: hash)
+
+        return result
     }
 
     private func highlight(code: String, language: String?) -> NSAttributedString? {
