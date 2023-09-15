@@ -54,11 +54,7 @@ class AndroidAppComponentImpl(
     }
 
     override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
-        AndroidPlatformPushNotificationsComponentImpl(
-            commonComponent = commonComponent,
-            platformLocalNotificationComponent = platformLocalNotificationComponent,
-            analyticInteractor = analyticComponent.analyticInteractor
-        )
+        AndroidPlatformPushNotificationsComponentImpl(this)
 
     /**
      * Main component
