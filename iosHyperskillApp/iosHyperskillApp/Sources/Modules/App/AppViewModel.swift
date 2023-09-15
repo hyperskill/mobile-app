@@ -149,6 +149,13 @@ private extension AppViewModel {
             name: .remoteNotificationClicked,
             object: nil
         )
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleDeviceOrientationDidChange),
+            name: UIDevice.orientationDidChangeNotification,
+            object: nil
+        )
     }
 
     @objc
@@ -177,6 +184,17 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
         }
 
         onNewMessage(AppFeatureMessageNotificationClicked(notificationData: pushNotificationData))
+    }
+
+    @objc
+    private func handleDeviceOrientationDidChange() {
+        let screenOrientation: ScreenOrientation = DeviceInfo.current.orientation.isLandscape ? .landscape : .portrait
+
+        #if DEBUG
+        print("AppViewModel: screenOrientation = \(screenOrientation)")
+        #endif
+
+        analytic.setScreenOrientation(screenOrientation: screenOrientation)
     }
 }
 

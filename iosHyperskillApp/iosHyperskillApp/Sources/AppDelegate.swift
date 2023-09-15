@@ -13,8 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var notificationPermissionStatusSettingsObserver = NotificationPermissionStatusSettingsObserver.default
     private lazy var notificationsRegistrationService = NotificationsRegistrationService.shared
 
-    private lazy var interfaceOrientationManager = InterfaceOrientationManager()
-
     // MARK: Initializing the App
 
     func application(
@@ -101,14 +99,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return true
-    }
-
-    // MARK: Managing interface geometry
-
-    func application(
-        _ application: UIApplication,
-        supportedInterfaceOrientationsFor window: UIWindow?
-    ) -> UIInterfaceOrientationMask {
-        interfaceOrientationManager.supportedInterfaceOrientations
     }
 }
