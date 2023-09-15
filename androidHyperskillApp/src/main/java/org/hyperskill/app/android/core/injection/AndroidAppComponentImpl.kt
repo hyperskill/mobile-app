@@ -60,7 +60,10 @@ class AndroidAppComponentImpl(
      * Main component
      */
     override val platformMainComponent: PlatformMainComponent =
-        PlatformMainComponentImpl(mainComponent = mainComponent)
+        PlatformMainComponentImpl(
+            mainComponent = mainComponent,
+            analyticComponent = analyticComponent
+        )
 
     /**
      * Latex component

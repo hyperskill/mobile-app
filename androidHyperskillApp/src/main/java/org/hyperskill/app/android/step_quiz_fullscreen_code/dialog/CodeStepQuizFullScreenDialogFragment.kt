@@ -1,9 +1,6 @@
 package org.hyperskill.app.android.step_quiz_fullscreen_code.dialog
 
 import android.app.Dialog
-import android.content.DialogInterface
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +26,6 @@ import org.hyperskill.app.android.core.extensions.setTintList
 import org.hyperskill.app.android.databinding.DialogStepQuizCodeFullscreenBinding
 import org.hyperskill.app.android.latex.view.widget.LatexView
 import org.hyperskill.app.android.latex.view.widget.LatexWebView
-import org.hyperskill.app.android.main.view.ui.OrientationHost
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
@@ -120,8 +116,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (requireActivity() as OrientationHost)
-            .requestOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
         setStyle(STYLE_NO_TITLE, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
         injectComponent()
     }
@@ -221,13 +215,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         viewBinding.fullScreenCodeViewPager.setCurrentItem(CODE_TAB, false)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        // sync code before calling onOrientationChanged to get updated code in onNewCode callback
-        syncCodeStateWithParent()
-        callback?.onOrientationChanged(newConfig.orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-    }
-
     private fun onResetClick() {
         syncCodeStateWithParent()
         callback?.onResetCodeClick()
@@ -272,11 +259,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             syncCodeStateWithParent()
         }
         super.onPause()
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        (requireActivity() as OrientationHost).backToInitialOrientation()
     }
 
     /**
@@ -382,7 +364,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     interface Callback {
-        fun onOrientationChanged(isPortrait: Boolean)
         fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean = false)
         fun onResetCodeClick()
     }
