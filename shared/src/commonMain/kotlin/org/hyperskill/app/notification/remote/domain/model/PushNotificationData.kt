@@ -10,7 +10,9 @@ data class PushNotificationData(
     @SerialName("thread-id")
     val categoryString: String,
     @SerialName("badge")
-    private val badgeIdString: String? = null
+    private val badgeIdString: String? = null,
+    @SerialName("image")
+    val image: String? = null
 ) {
     val typeEnum: PushNotificationType
         get() = try {

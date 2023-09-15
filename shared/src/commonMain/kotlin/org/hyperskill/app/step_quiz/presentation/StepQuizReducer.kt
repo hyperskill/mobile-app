@@ -15,7 +15,6 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperski
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeFullScreenEditorOrientationChangedAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -229,15 +228,6 @@ class StepQuizReducer(
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
-            is Message.FullScreenCodeEditorOrientationChanged ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepQuizCodeFullScreenEditorOrientationChangedAnalyticEvent(
-                            stepRoute.analyticRoute,
-                            message.isPortraitOrientation
-                        )
                     )
                 )
             is Message.ParsonsProblemOnboardingModalShownMessage ->

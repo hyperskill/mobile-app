@@ -104,10 +104,6 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
         onRetryButtonClicked()
     }
 
-    override fun onOrientationChanged(isPortrait: Boolean) {
-        logAnalyticEventMessage(StepQuizFeature.Message.FullScreenCodeEditorOrientationChanged(isPortrait))
-    }
-
     private fun getSqlCodeTemplate(step: Step): String =
         step.block.options.codeTemplates?.get(SqlLangName) ?: ""
 }
