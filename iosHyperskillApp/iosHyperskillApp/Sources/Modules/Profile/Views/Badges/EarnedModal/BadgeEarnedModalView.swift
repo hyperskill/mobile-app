@@ -39,8 +39,8 @@ struct BadgeEarnedModalView: View {
                 Text(earnedBadgeModalViewState.description_)
                     .font(.subheadline)
                     .foregroundColor(.secondaryText)
-                    .multilineTextAlignment(.center)
             }
+            .multilineTextAlignment(.center)
         }
         .padding()
     }
