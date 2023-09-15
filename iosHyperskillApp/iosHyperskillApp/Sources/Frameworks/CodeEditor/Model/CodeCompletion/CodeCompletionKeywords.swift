@@ -24,7 +24,7 @@ enum CodeCompletionKeywords {
     static func autocomplete(for text: String, language: CodeLanguage) -> [String] {
         let keywords: [String] = { () -> [String]? in
             switch language {
-            case .python, .python31:
+            case .python, .python3, .python31:
                 return python
             case .cpp, .cpp11, .c, .cValgrind:
                 return cpp

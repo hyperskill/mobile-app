@@ -2,17 +2,14 @@ package org.hyperskill.app.main.presentation
 
 import android.os.Bundle
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import com.chrynan.parcelable.core.Parcelable
 import com.chrynan.parcelable.core.decodeFromBundle
 import com.chrynan.parcelable.core.encodeToBundle
-import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
-import org.hyperskill.app.push_notifications.domain.PushNotificationDeviceRegistrar
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.core.model.Cancellable
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
@@ -28,7 +25,6 @@ class MainViewModel(
     reduxViewContainer: ReduxViewContainer<AppFeature.State, AppFeature.Message, AppFeature.Action.ViewAction>,
     feature: Feature<AppFeature.State, AppFeature.Message, AppFeature.Action>,
     private val savedStateHandle: SavedStateHandle,
-    private val pushNotificationDeviceRegistrar: PushNotificationDeviceRegistrar,
     private val analyticInteractor: AnalyticInteractor
 ) : ReduxViewModel<AppFeature.State, AppFeature.Message, AppFeature.Action.ViewAction>(reduxViewContainer) {
     companion object {
@@ -66,9 +62,6 @@ class MainViewModel(
     fun startup(pushNotificationData: PushNotificationData? = null) {
         if (!wasStateSaved) {
             onNewMessage(AppFeature.Message.Initialize(pushNotificationData))
-            viewModelScope.launch {
-                pushNotificationDeviceRegistrar.registerDeviceToPushes()
-            }
         } else if (pushNotificationData != null) {
             onNewMessage(AppFeature.Message.NotificationClicked(pushNotificationData))
         }

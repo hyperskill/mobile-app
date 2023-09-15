@@ -1,7 +1,8 @@
 import Foundation
 
 enum CodeLanguage: String, CaseIterable {
-    case python = "python3"
+    case python = "python"
+    case python3 = "python3"
     case python31 = "python3.10"
     case cpp11 = "c++11"
     case cpp = "c++"
@@ -41,7 +42,7 @@ enum CodeLanguage: String, CaseIterable {
 
     var highlightr: String {
         switch self {
-        case .python, .python31:
+        case .python, .python3, .python31:
             return "python"
         case .cpp, .cpp11, .c, .cValgrind:
             return "cpp"
@@ -92,7 +93,7 @@ enum CodeLanguage: String, CaseIterable {
 
     var humanReadableName: String {
         switch self {
-        case .python, .python31:
+        case .python, .python3, .python31:
             return "Python"
         case .cpp, .cpp11, .c:
             return "C++"

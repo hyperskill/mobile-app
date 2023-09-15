@@ -80,7 +80,7 @@ final class CodePlaygroundManager {
         language: CodeLanguage
     ) -> (shouldMakeNewLine: Bool, paired: Bool) {
         switch language {
-        case .python, .python31:
+        case .python, .python3, .python31:
             return symbol == ":"
                 ? (shouldMakeNewLine: true, paired: false)
                 : (shouldMakeNewLine: false, paired: false)
