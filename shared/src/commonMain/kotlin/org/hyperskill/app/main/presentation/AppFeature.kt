@@ -61,6 +61,8 @@ interface AppFeature {
 
         object UpdateDailyLearningNotificationTime : Action
 
+        object SendPushNotificationsToken : Action
+
         /**
          * Action Wrappers
          */

@@ -110,7 +110,7 @@
 		2C2B7DD22946EF2800FAB55D /* WebViewNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */; };
 		2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */; };
 		2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */; };
-		2C2D4932281154CB00753F16 /* Injection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D4931281154CB00753F16 /* Injection.swift */; };
+		2C2D4932281154CB00753F16 /* AppGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D4931281154CB00753F16 /* AppGraph.swift */; };
 		2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2ECCA4288C0661008DDCBA /* StepQuizRetryButton.swift */; };
 		2C2ECCA7288C0BF7008DDCBA /* View+ConditionalViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2ECCA6288C0BF7008DDCBA /* View+ConditionalViewModifier.swift */; };
 		2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FD61D28191EC0004E7AF6 /* SentryManager.swift */; };
@@ -119,6 +119,7 @@
 		2C2FD62428192123004E7AF6 /* BundlePropertyListDeserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */; };
 		2C2FF9C928506FDE0069C092 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FF9C828506FDE0069C092 /* LatexView.swift */; };
 		2C306A0E29B4590C0068FF4F /* StageImplementFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C306A0D29B4590C0068FF4F /* StageImplementFeatureViewStateKsExtensions.swift */; };
+		2C3100532AB194A200C09BFB /* StepQuizParsonsViewDataMapperCodeContentCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C3100522AB194A200C09BFB /* StepQuizParsonsViewDataMapperCodeContentCache.swift */; };
 		2C32374D2837F7190062CAF6 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32374C2837F7190062CAF6 /* Images.swift */; };
 		2C32375328380C340062CAF6 /* NavigationToolbarInfoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */; };
 		2C334D112939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C334D102939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift */; };
@@ -381,6 +382,10 @@
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
+		2CE7B4842AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7B4832AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift */; };
+		2CE7B4872AB05D0400DCBE4D /* StepQuizParsonsViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7B4862AB05D0400DCBE4D /* StepQuizParsonsViewDataMapper.swift */; };
+		2CE7B48A2AB0973D00DCBE4D /* HTMLString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7B4892AB0973D00DCBE4D /* HTMLString.swift */; };
+		2CE7B48F2AB0A09100DCBE4D /* HTMLStringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7B48E2AB0A09100DCBE4D /* HTMLStringTests.swift */; };
 		2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */; };
 		2CEB50C6288A92820044F9AB /* StepExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C5288A92820044F9AB /* StepExtensions.swift */; };
 		2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50C7288A94050044F9AB /* BlockExtensions.swift */; };
@@ -406,6 +411,8 @@
 		2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA129B718800092FF83 /* IntrospectViewController.swift */; };
 		2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */; };
 		2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */; };
+		2CFD32442AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */; };
+		2CFD32462AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD32452AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift */; };
 		2CFD7C68292542FB00902748 /* StepFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */; };
 		2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
@@ -655,7 +662,7 @@
 		2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewNavigationController.swift; sourceTree = "<group>"; };
 		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
 		2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsViewModel.swift; sourceTree = "<group>"; };
-		2C2D4931281154CB00753F16 /* Injection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injection.swift; sourceTree = "<group>"; };
+		2C2D4931281154CB00753F16 /* AppGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGraph.swift; sourceTree = "<group>"; };
 		2C2ECCA4288C0661008DDCBA /* StepQuizRetryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizRetryButton.swift; sourceTree = "<group>"; };
 		2C2ECCA6288C0BF7008DDCBA /* View+ConditionalViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConditionalViewModifier.swift"; sourceTree = "<group>"; };
 		2C2FD61D28191EC0004E7AF6 /* SentryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryManager.swift; sourceTree = "<group>"; };
@@ -664,6 +671,7 @@
 		2C2FD62328192123004E7AF6 /* BundlePropertyListDeserializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundlePropertyListDeserializer.swift; sourceTree = "<group>"; };
 		2C2FF9C828506FDE0069C092 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2C306A0D29B4590C0068FF4F /* StageImplementFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C3100522AB194A200C09BFB /* StepQuizParsonsViewDataMapperCodeContentCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsViewDataMapperCodeContentCache.swift; sourceTree = "<group>"; };
 		2C32374C2837F7190062CAF6 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationToolbarInfoItem.swift; sourceTree = "<group>"; };
 		2C334D102939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformHyperskillSentryTransaction.swift; sourceTree = "<group>"; };
@@ -928,6 +936,10 @@
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
+		2CE7B4832AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedTextLabelWrapper.swift; sourceTree = "<group>"; };
+		2CE7B4862AB05D0400DCBE4D /* StepQuizParsonsViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsViewDataMapper.swift; sourceTree = "<group>"; };
+		2CE7B4892AB0973D00DCBE4D /* HTMLString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLString.swift; sourceTree = "<group>"; };
+		2CE7B48E2AB0A09100DCBE4D /* HTMLStringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLStringTests.swift; sourceTree = "<group>"; };
 		2CEB33762949930B00B9E437 /* StepQuizSQLSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLSkeletonView.swift; sourceTree = "<group>"; };
 		2CEB50C5288A92820044F9AB /* StepExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepExtensions.swift; sourceTree = "<group>"; };
 		2CEB50C7288A94050044F9AB /* BlockExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockExtensions.swift; sourceTree = "<group>"; };
@@ -953,6 +965,8 @@
 		2CF87DA129B718800092FF83 /* IntrospectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewController.swift; sourceTree = "<group>"; };
 		2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectTestUtils.swift; sourceTree = "<group>"; };
 		2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewControllerTests.swift; sourceTree = "<group>"; };
+		2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosFCMTokenProviderImpl.swift; sourceTree = "<group>"; };
+		2CFD32452AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppGraph+DefaultInstances.swift"; sourceTree = "<group>"; };
 		2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1381,18 +1395,7 @@
 				2C9E5E8229B211DD003AEC16 /* StageImplement */,
 				2CAE8CEE280525A100E6C83D /* Step */,
 				2C41127428376DE3004948A3 /* StepQuiz */,
-				E9802D03281BB5A500CF3AC1 /* StepQuizChoice */,
-				2C96742C288823EB0091B6C9 /* StepQuizCode */,
-				2CBFB94828897D970044D1BA /* StepQuizCodeFullScreen */,
-				E9F27D7629064456007F16D7 /* StepQuizHints */,
-				E9D2D66E284E0A5D000757AC /* StepQuizMatching */,
-				E96D49382A9CCE9A00BD78FE /* StepQuizParsons */,
-				2C93AF1D29B349AC004639E0 /* StepQuizPyCharm */,
-				E993E9A728426FD5005988EC /* StepQuizSorting */,
-				2C5CBBDE2948EB9400113007 /* StepQuizSQL */,
-				2CCCA3972862D57100D98089 /* StepQuizString */,
-				2CF72AA12847755100E1C192 /* StepQuizTable */,
-				2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */,
+				2CE7B4852AB05AA300DCBE4D /* StepQuizSubmodules */,
 				E9F655CE2875B30B00291143 /* Streak */,
 				E9F0A2A729D416AC00C4A61E /* StudyPlan */,
 				E9A022AB291D0E1C004317DB /* TopicsRepetitions */,
@@ -1512,6 +1515,7 @@
 				2C20FBA7284F193A006D879E /* ContentProcessingRule.swift */,
 				2C20FBA9284F1951006D879E /* ContentProcessor.swift */,
 				2C20FBAB284F1964006D879E /* HTMLExtractor.swift */,
+				2CE7B4892AB0973D00DCBE4D /* HTMLString.swift */,
 				2C20FBA3284F165A006D879E /* ProcessedContent.swift */,
 			);
 			path = Processing;
@@ -1831,6 +1835,7 @@
 		2C46D0612807E4A600B3636E /* Wrappers */ = {
 			isa = PBXGroup;
 			children = (
+				2CE7B4832AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift */,
 				2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */,
 				2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */,
 				2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */,
@@ -2169,6 +2174,7 @@
 			children = (
 				2C1F587F280D305C00372A37 /* CollectionsTests */,
 				2C1F587C280D2F6600372A37 /* ExtensionsTests */,
+				2CE7B48C2AB0A06000DCBE4D /* FrameworksTests */,
 				2CF87DA329B71BB50092FF83 /* IntrospectTests */,
 			);
 			path = iosHyperskillAppTests;
@@ -2797,6 +2803,51 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		2CE7B4852AB05AA300DCBE4D /* StepQuizSubmodules */ = {
+			isa = PBXGroup;
+			children = (
+				E9802D03281BB5A500CF3AC1 /* StepQuizChoice */,
+				2C96742C288823EB0091B6C9 /* StepQuizCode */,
+				2CBFB94828897D970044D1BA /* StepQuizCodeFullScreen */,
+				E9F27D7629064456007F16D7 /* StepQuizHints */,
+				E9D2D66E284E0A5D000757AC /* StepQuizMatching */,
+				E96D49382A9CCE9A00BD78FE /* StepQuizParsons */,
+				2C93AF1D29B349AC004639E0 /* StepQuizPyCharm */,
+				E993E9A728426FD5005988EC /* StepQuizSorting */,
+				2C5CBBDE2948EB9400113007 /* StepQuizSQL */,
+				2CCCA3972862D57100D98089 /* StepQuizString */,
+				2CF72AA12847755100E1C192 /* StepQuizTable */,
+				2C8E4F9D2848BE420011ADFA /* StepQuizTableSelectColumns */,
+			);
+			path = StepQuizSubmodules;
+			sourceTree = "<group>";
+		};
+		2CE7B4882AB05D1E00DCBE4D /* ViewData */ = {
+			isa = PBXGroup;
+			children = (
+				E94BB04B2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift */,
+				2CE7B4862AB05D0400DCBE4D /* StepQuizParsonsViewDataMapper.swift */,
+				2C3100522AB194A200C09BFB /* StepQuizParsonsViewDataMapperCodeContentCache.swift */,
+			);
+			path = ViewData;
+			sourceTree = "<group>";
+		};
+		2CE7B48C2AB0A06000DCBE4D /* FrameworksTests */ = {
+			isa = PBXGroup;
+			children = (
+				2CE7B48D2AB0A07300DCBE4D /* ContentProcessor */,
+			);
+			path = FrameworksTests;
+			sourceTree = "<group>";
+		};
+		2CE7B48D2AB0A07300DCBE4D /* ContentProcessor */ = {
+			isa = PBXGroup;
+			children = (
+				2CE7B48E2AB0A09100DCBE4D /* HTMLStringTests.swift */,
+			);
+			path = ContentProcessor;
+			sourceTree = "<group>";
+		};
 		2CEB33782949933A00B9E437 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -2887,7 +2938,7 @@
 			children = (
 				2CF2DA3927EC5B2D0055426D /* Assembly.swift */,
 				2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */,
-				2C2D4931281154CB00753F16 /* Injection.swift */,
+				2CFD32422AAEFC2E00B9B6EA /* Injection */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -2965,6 +3016,16 @@
 				2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */,
 			);
 			path = IntrospectTests;
+			sourceTree = "<group>";
+		};
+		2CFD32422AAEFC2E00B9B6EA /* Injection */ = {
+			isa = PBXGroup;
+			children = (
+				2C2D4931281154CB00753F16 /* AppGraph.swift */,
+				2CFD32452AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift */,
+				2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */,
+			);
+			path = Injection;
 			sourceTree = "<group>";
 		};
 		46D884ECAA31C3DB83AF8E56 /* Details */ = {
@@ -3058,8 +3119,8 @@
 			isa = PBXGroup;
 			children = (
 				E94BB04D2A9E034700736B7C /* StepQuizParsonsAssembly.swift */,
-				E94BB04B2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift */,
 				E94BB0492A9DFAD700736B7C /* StepQuizParsonsViewModel.swift */,
+				2CE7B4882AB05D1E00DCBE4D /* ViewData */,
 				E96D49392A9CCF1800BD78FE /* Views */,
 			);
 			path = StepQuizParsons;
@@ -3594,6 +3655,7 @@
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
 				2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */,
 				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
+				2CE7B48F2AB0A09100DCBE4D /* HTMLStringTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3646,6 +3708,7 @@
 				E996D41229221F6200A47498 /* ShowMoreButton.swift in Sources */,
 				2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */,
 				E94BB04C2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift in Sources */,
+				2C3100532AB194A200C09BFB /* StepQuizParsonsViewDataMapperCodeContentCache.swift in Sources */,
 				2CDA984929445C0A00ADE539 /* ProfileStatisticsItemView.swift in Sources */,
 				E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */,
 				E99CD0BC292B9A2D00620259 /* TopicsRepetitionsViewModel.swift in Sources */,
@@ -3728,6 +3791,7 @@
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
 				2C5CA2412A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift in Sources */,
 				2C5CA23E2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift in Sources */,
+				2CFD32442AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift in Sources */,
 				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
 				E94BC942291E89D6000B18D3 /* TopicsRepetitionsCountView.swift in Sources */,
@@ -3821,6 +3885,7 @@
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */,
+				2CFD32462AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift in Sources */,
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
 				2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */,
 				2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */,
@@ -3866,7 +3931,7 @@
 				2C20FBBE284F658E006D879E /* ProcessedContentTextView.swift in Sources */,
 				2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */,
 				2C20FBAE284F1D05006D879E /* FontWeightNameMapping.swift in Sources */,
-				2C2D4932281154CB00753F16 /* Injection.swift in Sources */,
+				2C2D4932281154CB00753F16 /* AppGraph.swift in Sources */,
 				E94BB0442A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift in Sources */,
 				2CB45764288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift in Sources */,
 				2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */,
@@ -3921,6 +3986,7 @@
 				2CBC97C62A55435E0078E445 /* StageImplementStageCompletedModalView.swift in Sources */,
 				E9F0A2AE29D4390400C4A61E /* StudyPlanSectionView.swift in Sources */,
 				2C43CDF928B55CC600E74762 /* HyperskillLogoView.swift in Sources */,
+				2CE7B48A2AB0973D00DCBE4D /* HTMLString.swift in Sources */,
 				2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */,
 				2CF0B4E629F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift in Sources */,
 				E927EC372876BFF30000B898 /* ProblemOfDayTitle.swift in Sources */,
@@ -4051,6 +4117,7 @@
 				E9FB89B02893EA900011EFFB /* UserNotificationsCenterDelegate.swift in Sources */,
 				E9FAF38F299F61AE001FC596 /* View+MeasureSize.swift in Sources */,
 				2C96744428883E710091B6C9 /* BlockOptionsExtensions.swift in Sources */,
+				2CE7B4872AB05D0400DCBE4D /* StepQuizParsonsViewDataMapper.swift in Sources */,
 				E97EDAFE2A8F52A500CABF8E /* BadgeRankExtensions.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2CD4148329A8C98000ACA855 /* OpaqueUIPasteControl.swift in Sources */,
@@ -4099,6 +4166,7 @@
 				AE0B2D1D267B8904498FA371 /* ProjectSelectionDetailsViewModel.swift in Sources */,
 				0809817CFCC9D4C45457B3C8 /* ProgressScreenAssembly.swift in Sources */,
 				59B66CD4D1508049555D35AE /* ProgressScreenView.swift in Sources */,
+				2CE7B4842AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift in Sources */,
 				F759010A5FC990E99AAF0D76 /* ProgressScreenViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

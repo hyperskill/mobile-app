@@ -1,6 +1,7 @@
 package org.hyperskill.app.main.injection
 
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
@@ -12,6 +13,7 @@ import org.hyperskill.app.main.presentation.AppReducer
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingDispatcher
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
+import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
@@ -34,11 +36,14 @@ object AppFeatureBuilder {
         streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher,
         clickedNotificationReducer: NotificationClickHandlingReducer,
         notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher,
-        notificationsInteractor: NotificationInteractor
+        notificationsInteractor: NotificationInteractor,
+        pushNotificationsInteractor: PushNotificationsInteractor,
+        platform: Platform
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer(
             streakRecoveryReducer,
-            clickedNotificationReducer
+            clickedNotificationReducer,
+            platformType = platform.platformType
         )
         val appActionDispatcher = AppActionDispatcher(
             ActionDispatcherOptions(),
@@ -47,7 +52,8 @@ object AppFeatureBuilder {
             currentProfileStateRepository,
             sentryInteractor,
             stateRepositoriesComponent,
-            notificationsInteractor
+            notificationsInteractor,
+            pushNotificationsInteractor
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)

@@ -46,6 +46,8 @@ class ParsonsStepQuizFormDelegate(
         )
     }
 
+    private val parsonsLinesMapper: ParsonsLinesMapper = ParsonsLinesMapper(codeTheme)
+
     init {
         with(binding.parsonsStepContent.parsonsRecycler) {
             adapter = linesAdapter
@@ -74,7 +76,8 @@ class ParsonsStepQuizFormDelegate(
 
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
-        val lines = ParsonsLinesMapper.mapToParsonsLines(
+        val lines = parsonsLinesMapper.mapToParsonsLines(
+            step = state.step,
             attempt = state.attempt,
             submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission,
             selectedLinePosition = selectedLinePosition,

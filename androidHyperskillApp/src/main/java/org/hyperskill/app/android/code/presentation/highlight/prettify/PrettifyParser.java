@@ -2,8 +2,8 @@ package org.hyperskill.app.android.code.presentation.highlight.prettify;
 
 import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Job;
 import org.hyperskill.app.android.code.presentation.highlight.prettify.parser.Prettify;
-import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.ParseResult;
 import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.Parser;
+import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.PrettifyParseResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,19 +28,19 @@ public class PrettifyParser implements Parser {
     }
 
     @Override
-    public List<ParseResult> parse(String fileExtension, String content) {
+    public List<PrettifyParseResult> parse(String fileExtension, String content) {
         Job job = new Job(0, content);
         prettify.langHandlerForExtension(fileExtension, content).decorate(job);
         List<Object> decorations = job.getDecorations();
 
 
-        List<ParseResult> returnList = new ArrayList<>();
+        List<PrettifyParseResult> returnList = new ArrayList<>();
 
         // apply style according to the style list
         for (int i = 0, iEnd = decorations.size(); i < iEnd; i += 2) {
             int endPos = i + 2 < iEnd ? (Integer) decorations.get(i + 2) : content.length();
             int startPos = (Integer) decorations.get(i);
-            returnList.add(new ParseResult(startPos, endPos - startPos, Collections.singletonList((String) decorations.get(i + 1))));
+            returnList.add(new PrettifyParseResult(startPos, endPos - startPos, Collections.singletonList((String) decorations.get(i + 1))));
         }
 
         return returnList;
