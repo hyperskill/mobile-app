@@ -11,7 +11,6 @@ import android.text.Layout
 import android.text.Spannable
 import android.text.TextWatcher
 import android.text.style.BackgroundColorSpan
-import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.ViewTreeObserver
 import androidx.annotation.ColorInt
@@ -24,11 +23,12 @@ import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import kotlin.math.max
-import kotlin.math.min
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.code.presentation.highlight.prettify.PrettifyParser
-import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.ParseResult
+import org.hyperskill.app.android.code.presentation.highlight.syntaxhighlight.PrettifyParseResult
+import org.hyperskill.app.android.code.view.CodeSyntaxSpan
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
+import org.hyperskill.app.android.code.view.applyPrettifyParseResults
 import org.hyperskill.app.android.code.view.model.themes.CodeTheme
 import org.hyperskill.app.android.code.view.model.themes.CodeThemes
 import org.hyperskill.app.android.core.extensions.RxEmpty
@@ -58,7 +58,7 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     }
 
     private val highlightPublisher = PublishSubject.create<Editable>()
-    private val spanPublisher = BehaviorSubject.create<List<ParseResult>>()
+    private val spanPublisher = BehaviorSubject.create<List<PrettifyParseResult>>()
     private val layoutChangesPublisher = PublishSubject.create<Any>()
 
     private val onGlobalLayoutListener =
@@ -376,12 +376,17 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
             return@let layout.getLineForVertical(max(0, it.scrollY + it.height - top))
         } ?: (lineCount - 1)
 
-    private fun updateHighlight(results: List<ParseResult>) =
+    private fun updateHighlight(results: List<PrettifyParseResult>) =
         layout?.let { layout ->
             val start = layout.getLineStart(getFirstVisibleLine())
             val end = layout.getLineEnd(getLastVisibleLine())
             removeSpans(CodeSyntaxSpan::class.java)
-            setSpans(start, end, results)
+            editableText.applyPrettifyParseResults(
+                prettifyParseResults = results,
+                start = start,
+                end = end,
+                theme = theme
+            )
         }
 
     private fun removeSpans(spanClass: Class<*>) =
@@ -389,30 +394,11 @@ constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
             editableText.removeSpan(it)
         }
 
-    private fun setSpans(start: Int, end: Int, parseResults: List<ParseResult>) {
-        parseResults
-            .filterNot { it.offset + it.length < start || it.offset > end }
-            .filter { theme.syntax.shouldBePainted(it.styleKeysString) }
-            .forEach { pr ->
-                theme.syntax.colorMap[pr.styleKeysString]?.let {
-                    editableText.setSpan(
-                        CodeSyntaxSpan(it),
-                        pr.offset,
-                        min(pr.offset + pr.length, editableText.length),
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            }
-    }
-
     inline fun withoutAnalyze(block: (CodeEditor) -> Unit) {
         isCodeAnalyzerEnabled = false
         block(this)
         isCodeAnalyzerEnabled = true
     }
-
-    private class CodeSyntaxSpan(@ColorInt color: Int) :
-        ForegroundColorSpan(color) // classes to distinct internal spans from non CodeEditor spans
 
     private class CodeHighlightSpan(@ColorInt color: Int) : BackgroundColorSpan(color)
 }

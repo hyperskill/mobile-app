@@ -38,7 +38,8 @@ class PushNotificationClickedHyperskillAnalyticEvent(
         get() = super.params + mapOf(
             PARAM_CONTEXT to mapOf(
                 PushNotificationHyperskillAnalyticParams.PARAM_TYPE to pushNotificationData.typeString,
-                PushNotificationHyperskillAnalyticParams.PARAM_CATEGORY to pushNotificationData.categoryString
+                PushNotificationHyperskillAnalyticParams.PARAM_CATEGORY to pushNotificationData.categoryString,
+                PushNotificationHyperskillAnalyticParams.PARAM_IMAGE to pushNotificationData.image
             )
         )
 }
