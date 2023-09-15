@@ -15,6 +15,7 @@ import org.hyperskill.app.android.databinding.ItemStepQuizParsonsLineBinding
 import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
+import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class ParsonsLinesAdapterDelegate(
     @ColorInt private val codeTextColor: Int,
@@ -60,8 +61,8 @@ class ParsonsLinesAdapterDelegate(
             with(viewBinding.root) {
                 isVerticalScrollBarEnabled = false
                 isHorizontalScrollBarEnabled = false
+                viewBinding.stepQuizParsonsLineTextView.setTextColor(codeTextColor)
             }
-            viewBinding.stepQuizParsonsLineTextView.setTextColor(codeTextColor)
         }
 
         override fun onBind(data: UiParsonsLine) {
@@ -74,7 +75,7 @@ class ParsonsLinesAdapterDelegate(
                         append(tabString)
                     }
                 }
-                stepQuizParsonsLineTextView.text = data.text
+                stepQuizParsonsLineTextView.setTextIfChanged(data.formattedText)
                 root.background = if (data.isSelected) {
                     selectedBackground
                 } else {

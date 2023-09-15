@@ -16,7 +16,7 @@ enum CodeInputAccessorySymbols {
 
     static func symbols(for language: CodeLanguage) -> [String] {
         switch language {
-        case .python, .python31:
+        case .python, .python3, .python31:
             return python
         case .java, .java8, .java9, .java11, .java17:
             return java

@@ -76,7 +76,7 @@ runs:
 
     # Cache Gradle dependencies
     - name: Setup Gradle Dependencies Cache
-      uses: actions/cache@v3.3.1
+      uses: actions/cache@v3.3.2
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
@@ -85,7 +85,7 @@ runs:
 
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v3.3.1
+      uses: actions/cache@v3.3.2
       with:
         path: ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
@@ -94,7 +94,7 @@ runs:
 
     # Cache Kotlin/Native compiler
     - name: Setup Kotlin/Native Compiler Cache
-      uses: actions/cache@v3.3.1
+      uses: actions/cache@v3.3.2
       with:
         path: ~/.konan
         key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}
