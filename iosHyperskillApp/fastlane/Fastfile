@@ -260,7 +260,7 @@ platform :ios do
   desc "Options: scheme, read_only"
   lane :match_all do |options|
     params = {
-      :scheme => options.key?(:scheme) ? options[:scheme] : "iosHyperskillApp",
+      scheme: options[:scheme],
       :read_only => options.key?(:read_only) ? options[:read_only] : true,
     }
 
@@ -300,7 +300,9 @@ platform :ios do
   end
 
   private_lane :match_scheme do |options|
-    scheme = options[:scheme]
+    UI.message "No scheme specified. Using default scheme iosHyperskillApp" if options[:scheme].nil?
+
+    scheme = options[:scheme] || "iosHyperskillApp"
     type = options[:type]
     read_only = options.key?(:read_only) ? options[:read_only] : true
 
