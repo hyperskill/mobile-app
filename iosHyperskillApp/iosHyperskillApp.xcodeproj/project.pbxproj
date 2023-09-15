@@ -195,6 +195,7 @@
 		2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */; };
 		2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */; };
 		2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F4A592971C71200677530 /* GamificationToolbarContent.swift */; };
+		2C62AD582AB43A8F00F3DD5B /* BadgeRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C62AD572AB43A8F00F3DD5B /* BadgeRankView.swift */; };
 		2C6672062A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6672052A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift */; };
 		2C6672092A5297250040EA2F /* ProgressScreenProjectProgressSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6672082A5297250040EA2F /* ProgressScreenProjectProgressSkeletonView.swift */; };
 		2C66720B2A52974A0040EA2F /* ProgressScreenSectionTitleSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66720A2A52974A0040EA2F /* ProgressScreenSectionTitleSkeletonView.swift */; };
@@ -458,7 +459,6 @@
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
 		E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */; };
 		E97EDAFC2A8F504D00CABF8E /* BadgeEarnedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97EDAFB2A8F504D00CABF8E /* BadgeEarnedModalView.swift */; };
-		E97EDAFE2A8F52A500CABF8E /* BadgeRankExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97EDAFD2A8F52A500CABF8E /* BadgeRankExtensions.swift */; };
 		E97EDB002A8F595E00CABF8E /* BadgeEarnedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97EDAFF2A8F595E00CABF8E /* BadgeEarnedModalViewController.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
 		E9859B91292E414300857679 /* RepeatButtonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9859B90292E414300857679 /* RepeatButtonInfo.swift */; };
@@ -748,6 +748,7 @@
 		2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLAssembly.swift; sourceTree = "<group>"; };
 		2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLView.swift; sourceTree = "<group>"; };
 		2C5F4A592971C71200677530 /* GamificationToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationToolbarContent.swift; sourceTree = "<group>"; };
+		2C62AD572AB43A8F00F3DD5B /* BadgeRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeRankView.swift; sourceTree = "<group>"; };
 		2C6672052A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenSectionTitleView.swift; sourceTree = "<group>"; };
 		2C6672082A5297250040EA2F /* ProgressScreenProjectProgressSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenProjectProgressSkeletonView.swift; sourceTree = "<group>"; };
 		2C66720A2A52974A0040EA2F /* ProgressScreenSectionTitleSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenSectionTitleSkeletonView.swift; sourceTree = "<group>"; };
@@ -1016,7 +1017,6 @@
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
 		E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewController.swift; sourceTree = "<group>"; };
 		E97EDAFB2A8F504D00CABF8E /* BadgeEarnedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeEarnedModalView.swift; sourceTree = "<group>"; };
-		E97EDAFD2A8F52A500CABF8E /* BadgeRankExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeRankExtensions.swift; sourceTree = "<group>"; };
 		E97EDAFF2A8F595E00CABF8E /* BadgeEarnedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeEarnedModalViewController.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
 		E9859B90292E414300857679 /* RepeatButtonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatButtonInfo.swift; sourceTree = "<group>"; };
@@ -2202,7 +2202,6 @@
 		2C93C2CF292E56E0004D1861 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E97EDAFD2A8F52A500CABF8E /* BadgeRankExtensions.swift */,
 				2CEB50C7288A94050044F9AB /* BlockExtensions.swift */,
 				2C96744328883E710091B6C9 /* BlockOptionsExtensions.swift */,
 				2C406C362A440E8200FA838E /* BuildVariant+Current.swift */,
@@ -3341,6 +3340,7 @@
 			isa = PBXGroup;
 			children = (
 				2C0F3CFE2A80AAA100947C35 /* BadgeLevelView.swift */,
+				2C62AD572AB43A8F00F3DD5B /* BadgeRankView.swift */,
 				2CF7C1AF2A83556E006B07ED /* BadgeImage */,
 				2C0F3CFD2A80A48300947C35 /* DetailsModal */,
 				E97EDAFA2A8F501700CABF8E /* EarnedModal */,
@@ -4070,6 +4070,7 @@
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				2C93AF2129B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift in Sources */,
 				E9B2CF5F2822979400B2DC6F /* StepQuizShowHintButton.swift in Sources */,
+				2C62AD582AB43A8F00F3DD5B /* BadgeRankView.swift in Sources */,
 				2CA3B0332888818C00EEF716 /* StepQuizCodeSampleItemView.swift in Sources */,
 				2C42EFB527F2EAB300B4648B /* GraphicsColor+UIColor.swift in Sources */,
 				2CDF14D828EF1E080060D972 /* UINavigationControllerExtensions.swift in Sources */,
@@ -4118,7 +4119,6 @@
 				E9FAF38F299F61AE001FC596 /* View+MeasureSize.swift in Sources */,
 				2C96744428883E710091B6C9 /* BlockOptionsExtensions.swift in Sources */,
 				2CE7B4872AB05D0400DCBE4D /* StepQuizParsonsViewDataMapper.swift in Sources */,
-				E97EDAFE2A8F52A500CABF8E /* BadgeRankExtensions.swift in Sources */,
 				2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */,
 				2CD4148329A8C98000ACA855 /* OpaqueUIPasteControl.swift in Sources */,
 				2CF7C1B12A8355D3006B07ED /* BadgeLockedImageView.swift in Sources */,
