@@ -9,6 +9,10 @@ final class DeviceInfo {
         UIDevice.current.userInterfaceIdiom == .pad
     }
 
+    var orientation: UIDeviceOrientation {
+        UIDevice.current.orientation
+    }
+
     var operatingSystemVersion: (major: Int, minor: Int, patch: Int) {
         (
             major: ProcessInfo.processInfo.operatingSystemVersion.majorVersion,

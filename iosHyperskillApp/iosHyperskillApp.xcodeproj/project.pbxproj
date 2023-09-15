@@ -292,9 +292,6 @@
 		2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9EB95E2861BAD4007DDE44 /* ProfileAssembly.swift */; };
 		2C9ECBA3284736090015CFD2 /* StepViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */; };
 		2C9F59A729267A530008ADC5 /* StepTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9F59A629267A530008ADC5 /* StepTextView.swift */; };
-		2CA182A12A7CCDBB0086183D /* InterfaceOrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA182A02A7CCDBB0086183D /* InterfaceOrientationManager.swift */; };
-		2CA182A32A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA182A22A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift */; };
-		2CA182A52A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA182A42A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift */; };
 		2CA368E528EEAC39004F7FD8 /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA368E428EEAC39004F7FD8 /* AppViewController.swift */; };
 		2CA368E728EEAE09004F7FD8 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA368E628EEAE09004F7FD8 /* AppView.swift */; };
 		2CA3B0332888818C00EEF716 /* StepQuizCodeSampleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */; };
@@ -393,6 +390,8 @@
 		2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift */; };
 		2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50CF288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift */; };
 		2CEB50D6288ACBD10044F9AB /* HSTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */; };
+		2CEBF0852AAF1EBF00EAE0BE /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEBF0842AAF1EBF00EAE0BE /* NotificationService.swift */; };
+		2CEBF0892AAF1EBF00EAE0BE /* NotificationServiceExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2CEBF0822AAF1EBF00EAE0BE /* NotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2CEDE70729965B4D0032D399 /* RestartApplicationLocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEDE70629965B4D0032D399 /* RestartApplicationLocalNotification.swift */; };
 		2CEEE03128916A3100282849 /* ProblemOfDayAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03028916A3100282849 /* ProblemOfDayAssembly.swift */; };
 		2CEEE03328916A3D00282849 /* ProblemOfDayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */; };
@@ -553,7 +552,28 @@
 			remoteGlobalIDString = 7555FF7A242A565900829871;
 			remoteInfo = iosHyperskillApp;
 		};
+		2CEBF0872AAF1EBF00EAE0BE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7555FF73242A565900829871 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CEBF0812AAF1EBF00EAE0BE;
+			remoteInfo = NotificationServiceExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2CEBF08D2AAF1EBF00EAE0BE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2CEBF0892AAF1EBF00EAE0BE /* NotificationServiceExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -660,6 +680,7 @@
 		2C27C77B28772F8A006A641A /* ImageDecoders+SVG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDecoders+SVG.swift"; sourceTree = "<group>"; };
 		2C27C77D28773042006A641A /* NukeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NukeManager.swift; sourceTree = "<group>"; };
 		2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewNavigationController.swift; sourceTree = "<group>"; };
+		2C2CD8A52AB44CD5007B2581 /* NotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
 		2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsViewModel.swift; sourceTree = "<group>"; };
 		2C2D4931281154CB00753F16 /* AppGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGraph.swift; sourceTree = "<group>"; };
@@ -846,9 +867,6 @@
 		2C9EB95E2861BAD4007DDE44 /* ProfileAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileAssembly.swift; sourceTree = "<group>"; };
 		2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewDataMapper.swift; sourceTree = "<group>"; };
 		2C9F59A629267A530008ADC5 /* StepTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTextView.swift; sourceTree = "<group>"; };
-		2CA182A02A7CCDBB0086183D /* InterfaceOrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceOrientationManager.swift; sourceTree = "<group>"; };
-		2CA182A22A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SupportedInterfaceOrientations.swift"; sourceTree = "<group>"; };
-		2CA182A42A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceOrientationChangesPublisher.swift; sourceTree = "<group>"; };
 		2CA368E428EEAC39004F7FD8 /* AppViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		2CA368E628EEAE09004F7FD8 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSampleItemView.swift; sourceTree = "<group>"; };
@@ -947,6 +965,9 @@
 		2CEB50CD288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenTab.swift; sourceTree = "<group>"; };
 		2CEB50CF288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenDetailsView.swift; sourceTree = "<group>"; };
 		2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HSTabBar.swift; sourceTree = "<group>"; };
+		2CEBF0822AAF1EBF00EAE0BE /* NotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CEBF0842AAF1EBF00EAE0BE /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		2CEBF0862AAF1EBF00EAE0BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CEDE70629965B4D0032D399 /* RestartApplicationLocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestartApplicationLocalNotification.swift; sourceTree = "<group>"; };
 		2CEEE03028916A3100282849 /* ProblemOfDayAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayAssembly.swift; sourceTree = "<group>"; };
 		2CEEE03228916A3D00282849 /* ProblemOfDayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayViewModel.swift; sourceTree = "<group>"; };
@@ -1104,6 +1125,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		2C919DEA27EEF5BC0022A2F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CEBF07F2AAF1EBF00EAE0BE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2154,7 +2182,6 @@
 				2C27C77D28773042006A641A /* NukeManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
 				2C11D5C82A1130F300C59238 /* FeedbackGenerator */,
-				2CA1829F2A7CCD640086183D /* InterfaceOrientation */,
 				2C334D0F2939E0FC008593F1 /* Sentry */,
 			);
 			path = Systems;
@@ -2396,16 +2423,6 @@
 				2C9ECBA2284736090015CFD2 /* StepViewDataMapper.swift */,
 			);
 			path = ViewData;
-			sourceTree = "<group>";
-		};
-		2CA1829F2A7CCD640086183D /* InterfaceOrientation */ = {
-			isa = PBXGroup;
-			children = (
-				2CA182A42A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift */,
-				2CA182A02A7CCDBB0086183D /* InterfaceOrientationManager.swift */,
-				2CA182A22A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift */,
-			);
-			path = InterfaceOrientation;
 			sourceTree = "<group>";
 		};
 		2CA3B0342888819200EEF716 /* Samples */ = {
@@ -2876,6 +2893,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		2CEBF0832AAF1EBF00EAE0BE /* NotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				2C2CD8A52AB44CD5007B2581 /* NotificationServiceExtension.entitlements */,
+				2CEBF0862AAF1EBF00EAE0BE /* Info.plist */,
+				2CEBF0842AAF1EBF00EAE0BE /* NotificationService.swift */,
+			);
+			path = NotificationServiceExtension;
+			sourceTree = "<group>";
+		};
 		2CEEE02C2891667800282849 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -3062,6 +3089,7 @@
 			children = (
 				7555FF7D242A565900829871 /* iosHyperskillApp */,
 				2C919DEE27EEF5BC0022A2F2 /* iosHyperskillAppTests */,
+				2CEBF0832AAF1EBF00EAE0BE /* NotificationServiceExtension */,
 				7555FF7C242A565900829871 /* Products */,
 				69078482427C2E9AB934883B /* Pods */,
 				B8010B219C413E7A3E9D6D35 /* Frameworks */,
@@ -3073,6 +3101,7 @@
 			children = (
 				7555FF7B242A565900829871 /* iosHyperskillApp.app */,
 				2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */,
+				2CEBF0822AAF1EBF00EAE0BE /* NotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3484,6 +3513,23 @@
 			productReference = 2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		2CEBF0812AAF1EBF00EAE0BE /* NotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CEBF08A2AAF1EBF00EAE0BE /* Build configuration list for PBXNativeTarget "NotificationServiceExtension" */;
+			buildPhases = (
+				2CEBF07E2AAF1EBF00EAE0BE /* Sources */,
+				2CEBF07F2AAF1EBF00EAE0BE /* Frameworks */,
+				2CEBF0802AAF1EBF00EAE0BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NotificationServiceExtension;
+			productName = NotificationServiceExtension;
+			productReference = 2CEBF0822AAF1EBF00EAE0BE /* NotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		7555FF7A242A565900829871 /* iosHyperskillApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "iosHyperskillApp" */;
@@ -3494,10 +3540,12 @@
 				7555FF78242A565900829871 /* Frameworks */,
 				7555FF79242A565900829871 /* Resources */,
 				0D4BC362535EFE1EB9C06A42 /* [CP] Embed Pods Frameworks */,
+				2CEBF08D2AAF1EBF00EAE0BE /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2CEBF0882AAF1EBF00EAE0BE /* PBXTargetDependency */,
 			);
 			name = iosHyperskillApp;
 			productName = iosHyperskillApp;
@@ -3510,13 +3558,16 @@
 		7555FF73242A565900829871 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Stepik Technologies s.r.o.";
 				TargetAttributes = {
 					2C919DEC27EEF5BC0022A2F2 = {
 						CreatedOnToolsVersion = 13.3;
 						TestTargetID = 7555FF7A242A565900829871;
+					};
+					2CEBF0812AAF1EBF00EAE0BE = {
+						CreatedOnToolsVersion = 14.3.1;
 					};
 					7555FF7A242A565900829871 = {
 						CreatedOnToolsVersion = 11.3.1;
@@ -3539,12 +3590,20 @@
 			targets = (
 				7555FF7A242A565900829871 /* iosHyperskillApp */,
 				2C919DEC27EEF5BC0022A2F2 /* iosHyperskillAppTests */,
+				2CEBF0812AAF1EBF00EAE0BE /* NotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2C919DEB27EEF5BC0022A2F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CEBF0802AAF1EBF00EAE0BE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -3659,6 +3718,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2CEBF07E2AAF1EBF00EAE0BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CEBF0852AAF1EBF00EAE0BE /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7555FF77242A565900829871 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3732,7 +3799,6 @@
 				2CEB50CE288AACEA0044F9AB /* StepQuizCodeFullScreenTab.swift in Sources */,
 				2CEB50C8288A94050044F9AB /* BlockExtensions.swift in Sources */,
 				2C54E4282A1F717F003406B9 /* CardView.swift in Sources */,
-				2CA182A52A7CD22D0086183D /* InterfaceOrientationChangesPublisher.swift in Sources */,
 				E9D2D675284E0B30000757AC /* StepQuizMatchingView.swift in Sources */,
 				2CBC97CD2A555AA20078E445 /* StageImplementProjectCompletedModalView.swift in Sources */,
 				2CC95C0E2A4EBB970036C73E /* ProjectLevelAvatarView.swift in Sources */,
@@ -3771,7 +3837,6 @@
 				E9B55A5D29C978E40066900E /* ProblemsLimitReachedModalViewController.swift in Sources */,
 				2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */,
 				2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */,
-				2CA182A32A7CCEE00086183D /* View+SupportedInterfaceOrientations.swift in Sources */,
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,
 				E9B55A5529C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
@@ -3980,7 +4045,6 @@
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
-				2CA182A12A7CCDBB0086183D /* InterfaceOrientationManager.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
 				2C3E65702A127F2300BC8DC0 /* BrandLinearGradient.swift in Sources */,
 				2CBC97C62A55435E0078E445 /* StageImplementStageCompletedModalView.swift in Sources */,
@@ -4179,6 +4243,11 @@
 			target = 7555FF7A242A565900829871 /* iosHyperskillApp */;
 			targetProxy = 2C919DF127EEF5BC0022A2F2 /* PBXContainerItemProxy */;
 		};
+		2CEBF0882AAF1EBF00EAE0BE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CEBF0812AAF1EBF00EAE0BE /* NotificationServiceExtension */;
+			targetProxy = 2CEBF0872AAF1EBF00EAE0BE /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -4203,7 +4272,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.AppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4223,7 +4292,7 @@
 				CURRENT_PROJECT_VERSION = 185;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.AppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -4231,6 +4300,67 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iosHyperskillApp.app/iosHyperskillApp";
+			};
+			name = Release;
+		};
+		2CEBF08B2AAF1EBF00EAE0BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 182;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3DWS674B2M;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Stepik Technologies s.r.o. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.32;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App.NotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2CEBF08C2AAF1EBF00EAE0BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 182;
+				DEVELOPMENT_TEAM = 3DWS674B2M;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = NotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2023 Stepik Technologies s.r.o. All rights reserved.";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.32;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App.NotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -4354,6 +4484,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
@@ -4388,6 +4519,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 515FEBC2A5D8EFBA7FB80795 /* Pods-iosHyperskillApp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
@@ -4426,6 +4558,15 @@
 			buildConfigurations = (
 				2C919DF427EEF5BC0022A2F2 /* Debug */,
 				2C919DF527EEF5BC0022A2F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CEBF08A2AAF1EBF00EAE0BE /* Build configuration list for PBXNativeTarget "NotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CEBF08B2AAF1EBF00EAE0BE /* Debug */,
+				2CEBF08C2AAF1EBF00EAE0BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

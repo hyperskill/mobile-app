@@ -142,7 +142,7 @@ platform :ios do
       load_app_store_connect_api_token
     end
 
-    # sync_device_info()
+    sync_device_info()
     match_adhoc()
 
     # Disable automatic code signing -> build -> enable again
@@ -240,11 +240,7 @@ platform :ios do
     end
 
     scan(
-      skip_build: true,
       skip_package_dependencies_resolution: true,
-      device: "iPhone SE (3rd generation)",
-      skip_detect_devices: true,
-      prelaunch_simulator: true,
     )
   end
 
