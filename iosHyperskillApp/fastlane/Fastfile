@@ -240,11 +240,7 @@ platform :ios do
     end
 
     scan(
-      skip_build: true,
       skip_package_dependencies_resolution: true,
-      device: "iPhone SE (3rd generation)",
-      skip_detect_devices: true,
-      prelaunch_simulator: true,
     )
   end
 
