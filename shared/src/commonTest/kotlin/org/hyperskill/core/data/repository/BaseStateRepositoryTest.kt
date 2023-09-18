@@ -11,7 +11,7 @@ import kotlinx.coroutines.runBlocking
 class BaseStateRepositoryTest {
 
     @Test
-    fun `Single request should be executed`() =
+    fun `Single request should be executed`(): Unit =
         runBlocking {
             val expectedResult = TestStateRepository.DEFAULT_RESPONSE
             var loadStateCallsCount = 0
@@ -27,7 +27,7 @@ class BaseStateRepositoryTest {
         }
 
     @Test
-    fun `Concurrent forceUpdate call should trigger only one state loading`() =
+    fun `Concurrent forceUpdate call should trigger only one state loading`(): Unit =
         runBlocking {
             var loadStateCallsCount = 0
             val repository = TestStateRepository(
@@ -47,7 +47,7 @@ class BaseStateRepositoryTest {
         }
 
     @Test
-    fun `Concurrent cached and forceUpdate call should returns expected results`() =
+    fun `Concurrent cached and forceUpdate call should returns expected results`(): Unit =
         runBlocking {
             val expectedCachedCallResult = "CacheResult"
             val expectedForceUpdateCallResult = "ForceUpdateResult"
