@@ -35,8 +35,16 @@ interface AppFeature {
         ) : Message
         object UserAccountStatusError : Message
 
-        data class UserAuthorized(val profile: Profile) : Message
+        data class UserAuthorized(
+            val profile: Profile,
+            val isNotificationPermissionGranted: Boolean
+        ) : Message
         data class UserDeauthorized(val reason: Reason) : Message
+
+        data class NotificationOnboardingDataFetched(
+            val profile: Profile,
+            val wasNotificationOnBoardingShown: Boolean
+        ) : Message
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
 
@@ -63,6 +71,8 @@ interface AppFeature {
 
         object SendPushNotificationsToken : Action
 
+        data class FetchNotificationOnboardingData(val profile: Profile) : Action
+
         /**
          * Action Wrappers
          */
@@ -84,6 +94,8 @@ interface AppFeature {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object TrackSelectionScreen : NavigateTo
                 object OnboardingScreen : NavigateTo
+
+                object NotificationOnBoardingScreen : NavigateTo
             }
 
             /**

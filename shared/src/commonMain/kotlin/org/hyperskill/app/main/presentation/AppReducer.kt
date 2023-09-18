@@ -7,6 +7,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
@@ -40,18 +41,7 @@ class AppReducer(
                     null
                 }
             is Message.UserAuthorized ->
-                if (state is State.Ready && !state.isAuthorized) {
-                    val navigateToViewAction = if (message.profile.isNewUser) {
-                        Action.ViewAction.NavigateTo.TrackSelectionScreen
-                    } else {
-                        Action.ViewAction.NavigateTo.HomeScreen
-                    }
-
-                    State.Ready(isAuthorized = true) to
-                        getOnAuthActions(profileId = message.profile.id) + navigateToViewAction
-                } else {
-                    null
-                }
+                handleUserAuthorized(state, message)
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
@@ -65,6 +55,8 @@ class AppReducer(
                 } else {
                     null
                 }
+            is Message.NotificationOnboardingDataFetched ->
+                handleNotificationOnboardingDataFetched(state, message)
             is Message.OpenAuthScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
@@ -130,6 +122,45 @@ class AppReducer(
             state to emptySet()
         }
 
+    private fun handleUserAuthorized(
+        state: State,
+        message: Message.UserAuthorized
+    ): ReducerResult =
+        if (state is State.Ready && !state.isAuthorized) {
+            val navigationLogicAction = if (message.isNotificationPermissionGranted) {
+                getAuthorizedUserNavigationAction(message.profile)
+            } else {
+                Action.FetchNotificationOnboardingData(message.profile)
+            }
+            State.Ready(isAuthorized = true) to
+                setOf(
+                    Action.IdentifyUserInSentry(userId = message.profile.id),
+                    Action.UpdateDailyLearningNotificationTime,
+                    Action.SendPushNotificationsToken
+                ) + navigationLogicAction
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleNotificationOnboardingDataFetched(
+        state: State,
+        message: Message.NotificationOnboardingDataFetched
+    ): ReducerResult {
+        val navigationAction = if (!message.wasNotificationOnBoardingShown) {
+            Action.ViewAction.NavigateTo.NotificationOnBoardingScreen
+        } else {
+            getAuthorizedUserNavigationAction(message.profile)
+        }
+        return state to setOf(navigationAction)
+    }
+
+    private fun getAuthorizedUserNavigationAction(profile: Profile): Action =
+        if (profile.isNewUser) {
+            Action.ViewAction.NavigateTo.TrackSelectionScreen
+        } else {
+            Action.ViewAction.NavigateTo.HomeScreen
+        }
+
     private fun reduceStreakRecoveryMessage(
         message: StreakRecoveryFeature.Message
     ): Set<Action> {
@@ -175,15 +206,6 @@ class AppReducer(
             }
         }.toSet()
     }
-
-    private fun getOnAuthActions(
-        profileId: Long
-    ): Set<Action> =
-        setOf(
-            Action.IdentifyUserInSentry(userId = profileId),
-            Action.UpdateDailyLearningNotificationTime,
-            Action.SendPushNotificationsToken
-        )
 
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,

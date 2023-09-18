@@ -19,4 +19,11 @@ class OnboardingCacheDataSourceImpl(
     override fun setParsonsOnboardingShown(isShown: Boolean) {
         settings.putBoolean(OnboardingCacheKeyValues.IS_PARSONS_ONBOARDING_SHOWN, isShown)
     }
+
+    override fun wasNotificationOnboardingShown(): Boolean =
+        settings.getBoolean(OnboardingCacheKeyValues.IS_NOTIFICATIONS_ONBOARDING_SHOWN, defaultValue = false)
+
+    override fun setNotificationOnboardingWasShown(wasShown: Boolean) {
+        settings.getBoolean(OnboardingCacheKeyValues.IS_NOTIFICATIONS_ONBOARDING_SHOWN, wasShown)
+    }
 }

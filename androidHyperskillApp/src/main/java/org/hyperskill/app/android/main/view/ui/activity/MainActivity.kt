@@ -1,6 +1,8 @@
 package org.hyperskill.app.android.main.view.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -87,6 +89,7 @@ class MainActivity :
         )
     }
 
+    @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -116,15 +119,7 @@ class MainActivity :
 
         startupViewModel(intent)
 
-        lifecycleScope.launch {
-            router
-                .observeResult(AuthFragment.AUTH_SUCCESS)
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    val profile = (it as? Profile) ?: return@collectLatest
-                    mainViewModel.onNewMessage(AppFeature.Message.UserAuthorized(profile))
-                }
-        }
+        observeAuthFlowSuccess()
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
@@ -158,6 +153,27 @@ class MainActivity :
         }
     }
 
+    @SuppressLint("InlinedApi")
+    private fun observeAuthFlowSuccess() {
+        lifecycleScope.launch {
+            router
+                .observeResult(AuthFragment.AUTH_SUCCESS)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    val profile = (it as? Profile) ?: return@collectLatest
+                    mainViewModel.onNewMessage(
+                        AppFeature.Message.UserAuthorized(
+                            profile = profile,
+                            isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
+                                this@MainActivity,
+                                android.Manifest.permission.POST_NOTIFICATIONS
+                            ) == PackageManager.PERMISSION_GRANTED
+                        )
+                    )
+                }
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
@@ -181,6 +197,7 @@ class MainActivity :
         super.onPause()
     }
 
+
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
             is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
@@ -195,6 +212,8 @@ class MainActivity :
                         TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
+            is AppFeature.Action.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
+                TODO("Screen is going to be implemented in ALTAPPS-970")
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
                     fragmentManager = supportFragmentManager,

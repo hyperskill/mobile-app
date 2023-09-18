@@ -92,7 +92,12 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
 extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(profile: Profile) {
-        onNewMessage(AppFeatureMessageUserAuthorized(profile: profile))
+        onNewMessage(
+            AppFeatureMessageUserAuthorized(
+                profile: profile,
+                isNotificationPermissionGranted: false
+            )
+        )
     }
 }
 
