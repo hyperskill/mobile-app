@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 ruby "3.1.0"
 
-gem "fastlane", "2.215.1"
+gem "fastlane", "2.214.0"
 
 eval_gemfile("fastlane/Pluginfile")

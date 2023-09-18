@@ -1,4 +1,4 @@
-fastlane_version "2.215.1"
+fastlane_version "2.214.0"
 
 default_platform(:android)
 
@@ -62,12 +62,12 @@ platform :android do
       gradle_path: gradle_path,
     )
 
-    ENV["SUPPLY_UPLOAD_MAX_RETRIES"] = 5
-
     upload_to_play_store(
       release_status: "completed",
       track: track,
       json_key: json_key,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
