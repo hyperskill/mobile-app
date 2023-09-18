@@ -57,6 +57,7 @@ class StepQuizComponentImpl(
             appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
-            appGraph.buildOnboardingComponent().onboardingInteractor
+            appGraph.buildOnboardingComponent().onboardingInteractor,
+            appGraph.commonComponent.resourceProvider
         )
 }

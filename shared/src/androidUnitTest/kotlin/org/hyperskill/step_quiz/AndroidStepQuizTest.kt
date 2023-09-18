@@ -113,6 +113,7 @@ class AndroidStepQuizTest {
                         attempt,
                         submissionState,
                         isProblemsLimitReached = false,
+                        problemsLimitReachedModalText = null,
                         isParsonsOnboardingShown = false
                     )
                 )

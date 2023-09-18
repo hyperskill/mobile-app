@@ -389,7 +389,7 @@
 
     <!--  Problems limit reached modal  -->
     <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
-    <string name="problems_limit_reached_modal_description">You\'ve solved 5 problems today. Great job! Tomorrow new problems will be available to you.</string>
+    <string name="problems_limit_reached_modal_description">You\'ve solved %d problems today. Great job! Tomorrow new problems will be available to you.</string>
 
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>

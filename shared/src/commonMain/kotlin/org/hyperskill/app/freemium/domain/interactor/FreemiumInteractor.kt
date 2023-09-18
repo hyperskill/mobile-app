@@ -9,6 +9,9 @@ class FreemiumInteractor(
     suspend fun isFreemiumEnabled(): Result<Boolean> =
         currentSubscriptionStateRepository.getState().map { it.isFreemium }
 
+    suspend fun getStepsLimitTotal(): Result<Int?> =
+        currentSubscriptionStateRepository.getState().map { it.stepsLimitTotal }
+
     suspend fun isProblemsLimitReached(): Result<Boolean> =
         kotlin.runCatching {
             if (isFreemiumEnabled().getOrThrow()) {

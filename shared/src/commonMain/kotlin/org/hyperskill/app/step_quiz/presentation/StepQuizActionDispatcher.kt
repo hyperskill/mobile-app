@@ -1,7 +1,9 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -24,7 +26,8 @@ class StepQuizActionDispatcher(
     private val freemiumInteractor: FreemiumInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val onboardingInteractor: OnboardingInteractor
+    private val onboardingInteractor: OnboardingInteractor,
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -48,6 +51,22 @@ class StepQuizActionDispatcher(
                         return
                     }
 
+                val problemsLimitReachedModalText = freemiumInteractor
+                    .getStepsLimitTotal()
+                    .map {
+                        it?.let { stepsLimitTotal ->
+                            resourceProvider.getString(
+                                SharedResources.strings.problems_limit_reached_modal_description,
+                                stepsLimitTotal
+                            )
+                        }
+                    }
+                    .getOrElse {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        onNewMessage(Message.FetchAttemptError(it))
+                        return
+                    }
+
                 val message = stepQuizInteractor
                     .getAttempt(action.step.id, currentProfile.id)
                     .fold(
@@ -59,6 +78,7 @@ class StepQuizActionDispatcher(
                                         attempt = attempt,
                                         submissionState = it,
                                         isProblemsLimitReached = isProblemsLimitReached,
+                                        problemsLimitReachedModalText = problemsLimitReachedModalText,
                                         isParsonsOnboardingShown = onboardingInteractor.isParsonsOnboardingShown()
                                     )
                                 },

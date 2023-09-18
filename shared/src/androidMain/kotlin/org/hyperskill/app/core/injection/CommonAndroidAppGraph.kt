@@ -1,5 +1,6 @@
 package org.hyperskill.app.core.injection
 
+import android.content.Context
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -12,6 +13,7 @@ import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
+import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
@@ -37,6 +39,8 @@ import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionL
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 
 interface CommonAndroidAppGraph : AppGraph {
+    val context: Context
+
     val platformMainComponent: PlatformMainComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
@@ -86,4 +90,6 @@ interface CommonAndroidAppGraph : AppGraph {
     ): PlatformTrackSelectionDetailsComponent
 
     fun buildPlatformProgressScreenComponent(): PlatformProgressScreenComponent
+
+    fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent
 }

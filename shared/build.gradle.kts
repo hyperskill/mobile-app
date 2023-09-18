@@ -82,6 +82,8 @@ kotlin {
                 implementation(libs.android.sentry.okhttp)
                 implementation(libs.android.lifecycle.runtime)
                 implementation(libs.android.parcelable)
+                implementation(project.dependencies.platform(libs.firebase.bom))
+                implementation(libs.firebase.messaging)
             }
         }
         val androidUnitTest by getting {

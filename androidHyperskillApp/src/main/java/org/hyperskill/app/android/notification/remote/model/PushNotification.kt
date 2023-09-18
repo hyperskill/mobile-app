@@ -8,5 +8,7 @@ data class PushNotification(
     @SerialName("title")
     val title: String,
     @SerialName("body")
-    val body: String
+    val body: String,
+    @SerialName("image")
+    val image: String? = null
 )

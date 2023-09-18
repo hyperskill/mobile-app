@@ -23,6 +23,7 @@ platform :ios do
   schemes = {
     "iosHyperskillApp" => [
       "iosHyperskillApp",
+      "NotificationServiceExtension",
     ],
   }
 
@@ -239,7 +240,9 @@ platform :ios do
       cocoapods(try_repo_update_on_error: true)
     end
 
-    scan()
+    scan(
+      skip_package_dependencies_resolution: true,
+    )
   end
 
   # Code Signing
@@ -257,6 +260,7 @@ platform :ios do
   desc "Options: scheme, read_only"
   lane :match_all do |options|
     params = {
+      scheme: options[:scheme],
       :read_only => options.key?(:read_only) ? options[:read_only] : true,
     }
 
@@ -270,6 +274,7 @@ platform :ios do
   lane :match_dev do |options|
     match_scheme(
       type: "development",
+      scheme: options[:scheme],
       read_only: options.key?(:read_only) ? options[:read_only] : true,
     )
   end
@@ -279,6 +284,7 @@ platform :ios do
   lane :match_adhoc do |options|
     match_scheme(
       type: "adhoc",
+      scheme: options[:scheme],
       read_only: options.key?(:read_only) ? options[:read_only] : true,
     )
   end
@@ -288,18 +294,27 @@ platform :ios do
   lane :match_release do |options|
     match_scheme(
       type: "appstore",
+      scheme: options[:scheme],
       read_only: options.key?(:read_only) ? options[:read_only] : true,
     )
   end
 
   private_lane :match_scheme do |options|
+    UI.message "No scheme specified. Using default scheme iosHyperskillApp" if options[:scheme].nil?
+
+    scheme = options[:scheme] || "iosHyperskillApp"
     type = options[:type]
     read_only = options.key?(:read_only) ? options[:read_only] : true
+
+    UI.user_error!("Wrong parameters") if scheme.nil? || type.nil?
+
+    dependent_targets = schemes[scheme]
+    identifiers = dependent_targets.map { |target| get_bundle_id(target: target) }
 
     match(
       type: type,
       readonly: read_only,
-      app_identifier: app_identifier,
+      app_identifier: identifiers,
       team_id: team_id,
       team_name: team_name,
       keychain_name: keychain_name || nil,

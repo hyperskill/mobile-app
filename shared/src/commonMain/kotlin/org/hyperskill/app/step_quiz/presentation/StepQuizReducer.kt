@@ -15,7 +15,6 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperski
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeFullScreenEditorOrientationChangedAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -231,15 +230,6 @@ class StepQuizReducer(
                         ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
-            is Message.FullScreenCodeEditorOrientationChanged ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepQuizCodeFullScreenEditorOrientationChangedAnalyticEvent(
-                            stepRoute.analyticRoute,
-                            message.isPortraitOrientation
-                        )
-                    )
-                )
             is Message.ParsonsProblemOnboardingModalShownMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
@@ -273,8 +263,10 @@ class StepQuizReducer(
                 }
 
                 val actions = when {
-                    isProblemsLimitReached ->
-                        setOf(Action.ViewAction.ShowProblemsLimitReachedModal)
+                    isProblemsLimitReached && message.problemsLimitReachedModalText != null ->
+                        setOf(
+                            Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalText)
+                        )
                     !message.isParsonsOnboardingShown && message.step.block.name == BlockName.PARSONS ->
                         setOf(Action.ViewAction.ShowParsonsProblemOnboardingModal)
                     else ->
