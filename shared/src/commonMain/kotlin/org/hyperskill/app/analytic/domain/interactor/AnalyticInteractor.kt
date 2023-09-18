@@ -15,6 +15,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -32,6 +33,8 @@ class AnalyticInteractor(
     }
 
     private var flushEventsJob: Job? = null
+
+    private var screenOrientation: ScreenOrientation? = null
 
     override fun reportEvent(event: AnalyticEvent, forceReportEvent: Boolean) {
         MainScope().launch {
@@ -51,6 +54,10 @@ class AnalyticInteractor(
         eventMonitor?.analyticDidReportEvent(event)
     }
 
+    override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
+        this.screenOrientation = screenOrientation
+    }
+
     private suspend fun logHyperskillEvent(event: AnalyticEvent, forceLogEvent: Boolean) {
         kotlin.runCatching {
             if (event !is HyperskillAnalyticEvent) {
@@ -62,9 +69,10 @@ class AnalyticInteractor(
                 currentProfileStateRepository.getState().getOrElse { return }
 
             val processedEvent = hyperskillEventProcessor.processEvent(
-                event,
-                currentProfile.id,
-                notificationInteractor.isNotificationsPermissionGranted()
+                event = event,
+                userId = currentProfile.id,
+                isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
+                screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT
             )
             hyperskillRepository.logEvent(processedEvent)
 

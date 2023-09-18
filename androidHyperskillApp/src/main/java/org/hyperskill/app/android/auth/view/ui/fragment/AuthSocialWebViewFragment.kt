@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.auth.view.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -80,13 +81,16 @@ class AuthSocialWebViewFragment :
                     authSocialWebViewViewModel::onNewMessage
                 )
                 it.settings.apply {
+                    @SuppressLint("SetJavaScriptEnabled")
                     javaScriptEnabled = true
 
                     /**
                      * Google disable authentication from webView
-                     * Remove "wv" substring (means "webView") from userAgent to be able to login via Google
+                     * Remove "wv" substring (means "webView") from userAgent to be able to log in via Google
                      * */
                     userAgentString = userAgentString?.replace("wv", "")
+
+                    domStorageEnabled = true
                 }
             }
         }
