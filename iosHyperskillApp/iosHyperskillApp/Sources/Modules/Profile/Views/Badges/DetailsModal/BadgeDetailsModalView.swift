@@ -33,9 +33,10 @@ struct BadgeDetailsModalView: View {
             }
 
             VStack(alignment: .center, spacing: appearance.interitemSpacing) {
-                Text(badgeDetailsViewState.formattedRank)
-                    .foregroundColor(Color(badgeDetailsViewState.rank.foregroundColor))
-                    .font(.headline)
+                BadgeRankView(
+                    text: badgeDetailsViewState.formattedRank,
+                    rank: badgeDetailsViewState.rank
+                )
 
                 BadgeImageView(
                     kind: badgeDetailsViewState.kind,
