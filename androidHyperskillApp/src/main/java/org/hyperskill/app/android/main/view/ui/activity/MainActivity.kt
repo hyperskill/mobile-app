@@ -197,7 +197,6 @@ class MainActivity :
         super.onPause()
     }
 
-
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
             is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
