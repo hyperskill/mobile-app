@@ -19,8 +19,17 @@ interface AppFeature {
         @Serializable
         object NetworkError : State
 
+        /**
+         * [profile] is used to temporarily store profile
+         * while handling [Action.ViewAction.NavigateTo.NotificationOnBoardingScreen].
+         *
+         * @see [AppReducer] for [Message.UserAuthorized] & [Message.NotificationOnboardingCompleted] handling.
+         */
         @Serializable
-        data class Ready(val isAuthorized: Boolean) : State
+        data class Ready(
+            val isAuthorized: Boolean,
+            val profile: Profile? = null
+        ) : State
     }
 
     sealed interface Message {
@@ -41,10 +50,9 @@ interface AppFeature {
         ) : Message
         data class UserDeauthorized(val reason: Reason) : Message
 
-        data class NotificationOnboardingDataFetched(
-            val profile: Profile,
-            val wasNotificationOnBoardingShown: Boolean
-        ) : Message
+        data class NotificationOnboardingDataFetched(val wasNotificationOnBoardingShown: Boolean) : Message
+        object NotificationOnboardingCompleted : Message
+
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
 
@@ -71,7 +79,7 @@ interface AppFeature {
 
         object SendPushNotificationsToken : Action
 
-        data class FetchNotificationOnboardingData(val profile: Profile) : Action
+        object FetchNotificationOnboardingData : Action
 
         /**
          * Action Wrappers

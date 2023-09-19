@@ -110,8 +110,7 @@ class AppActionDispatcher(
             is Action.FetchNotificationOnboardingData -> {
                 onNewMessage(
                     Message.NotificationOnboardingDataFetched(
-                        wasNotificationOnBoardingShown = onboardingInteractor.wasNotificationOnboardingShown(),
-                        profile = action.profile
+                        wasNotificationOnBoardingShown = onboardingInteractor.wasNotificationOnboardingShown()
                     )
                 )
             }

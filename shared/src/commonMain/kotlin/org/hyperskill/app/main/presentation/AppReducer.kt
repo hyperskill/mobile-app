@@ -57,6 +57,8 @@ class AppReducer(
                 }
             is Message.NotificationOnboardingDataFetched ->
                 handleNotificationOnboardingDataFetched(state, message)
+            is Message.NotificationOnboardingCompleted ->
+                handleNotificationOnboardingCompleted(state)
             is Message.OpenAuthScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
@@ -117,7 +119,7 @@ class AppReducer(
                     }
                 }
 
-            State.Ready(isAuthorized) to actions
+            State.Ready(isAuthorized = isAuthorized) to actions
         } else {
             state to emptySet()
         }
@@ -130,14 +132,12 @@ class AppReducer(
             val navigationLogicAction = if (message.isNotificationPermissionGranted) {
                 getAuthorizedUserNavigationAction(message.profile)
             } else {
-                Action.FetchNotificationOnboardingData(message.profile)
+                Action.FetchNotificationOnboardingData
             }
-            State.Ready(isAuthorized = true) to
-                setOf(
-                    Action.IdentifyUserInSentry(userId = message.profile.id),
-                    Action.UpdateDailyLearningNotificationTime,
-                    Action.SendPushNotificationsToken
-                ) + navigationLogicAction
+            State.Ready(
+                isAuthorized = true,
+                profile = if (!message.isNotificationPermissionGranted) message.profile else null
+            ) to getAuthorizedUserActions(message.profile) + navigationLogicAction
         } else {
             state to emptySet()
         }
@@ -145,14 +145,28 @@ class AppReducer(
     private fun handleNotificationOnboardingDataFetched(
         state: State,
         message: Message.NotificationOnboardingDataFetched
-    ): ReducerResult {
-        val navigationAction = if (!message.wasNotificationOnBoardingShown) {
-            Action.ViewAction.NavigateTo.NotificationOnBoardingScreen
+    ): ReducerResult =
+        if (state is State.Ready && state.profile != null) {
+            if (!message.wasNotificationOnBoardingShown) {
+                state to setOf(Action.ViewAction.NavigateTo.NotificationOnBoardingScreen)
+            } else {
+                navigateUserAfterNotificationOnboarding(state.profile)
+            }
         } else {
-            getAuthorizedUserNavigationAction(message.profile)
+            state to emptySet()
         }
-        return state to setOf(navigationAction)
-    }
+
+    private fun handleNotificationOnboardingCompleted(
+        state: State
+    ): ReducerResult =
+        if (state is State.Ready && state.profile != null) {
+            navigateUserAfterNotificationOnboarding(state.profile)
+        } else {
+            state to emptySet()
+        }
+
+    private fun navigateUserAfterNotificationOnboarding(profile: Profile): ReducerResult =
+        State.Ready(isAuthorized = true) to setOf(getAuthorizedUserNavigationAction(profile))
 
     private fun getAuthorizedUserNavigationAction(profile: Profile): Action =
         if (profile.isNewUser) {
@@ -225,4 +239,11 @@ class AppReducer(
 
     private fun getNotAuthorizedAppStartUpActions(): Set<Action> =
         setOf(Action.ClearUserInSentry)
+
+    private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
+        setOf(
+            Action.IdentifyUserInSentry(userId = profile.id),
+            Action.UpdateDailyLearningNotificationTime,
+            Action.SendPushNotificationsToken
+        )
 }
