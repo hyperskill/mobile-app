@@ -5,7 +5,7 @@ package org.hyperskill.app.core.domain.repository
  * Default implementation is [InMemoryStateHolder]
  */
 interface StateHolder<State : Any?> {
-    fun getState(): State?
-    fun setState(newState: State)
+    suspend fun getState(): State?
+    suspend fun setState(newState: State)
     fun resetState()
 }
