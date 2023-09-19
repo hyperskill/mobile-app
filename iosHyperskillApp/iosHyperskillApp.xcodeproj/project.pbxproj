@@ -322,6 +322,7 @@
 		2CAE8D07280576C600E6C83D /* StepBottomControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D06280576C500E6C83D /* StepBottomControlsView.swift */; };
 		2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D082805789100E6C83D /* StepCommentsStatisticsView.swift */; };
 		2CAE8D0C2805829A00E6C83D /* StepViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8D0B2805829A00E6C83D /* StepViewData.swift */; };
+		2CAF254C2AB9C2E500595582 /* ShineEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF254B2AB9C2E500595582 /* ShineEffect.swift */; };
 		2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */; };
 		2CAFD39127FC5D5D00F88B0B /* Color+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */; };
 		2CB1962428EF27F30075F7EF /* UIKitViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */; };
@@ -897,6 +898,7 @@
 		2CAE8D06280576C500E6C83D /* StepBottomControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepBottomControlsView.swift; sourceTree = "<group>"; };
 		2CAE8D082805789100E6C83D /* StepCommentsStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepCommentsStatisticsView.swift; sourceTree = "<group>"; };
 		2CAE8D0B2805829A00E6C83D /* StepViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewData.swift; sourceTree = "<group>"; };
+		2CAF254B2AB9C2E500595582 /* ShineEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShineEffect.swift; sourceTree = "<group>"; };
 		2CAFD38E27FC517D00F88B0B /* ColorPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		2CAFD39027FC5D5D00F88B0B /* Color+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+DesignSystem.swift"; sourceTree = "<group>"; };
 		2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerPreview.swift; sourceTree = "<group>"; };
@@ -2600,14 +2602,15 @@
 			children = (
 				2C95BAD82A4AED4300371C17 /* BackgroundProgressView.swift */,
 				2C725B622809198000A49043 /* BackgroundView.swift */,
-				E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */,
 				2C54E4272A1F717F003406B9 /* CardView.swift */,
 				E91017142832975C002E70F5 /* CheckboxButton.swift */,
 				2CEB50D5288ACBD10044F9AB /* HSTabBar.swift */,
 				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
+				E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
+				2CAF254B2AB9C2E500595582 /* ShineEffect.swift */,
 				E996D41129221F6200A47498 /* ShowMoreButton.swift */,
 				2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */,
 				2C8E66D8287896CF00D3928D /* TabNavigationLazyView.swift */,
@@ -3953,6 +3956,7 @@
 				2CFD32462AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift in Sources */,
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
 				2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */,
+				2CAF254C2AB9C2E500595582 /* ShineEffect.swift in Sources */,
 				2C0EC2DF28F9E92D004A36B2 /* ModalRouter.swift in Sources */,
 				2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */,
 				2CC7833E295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift in Sources */,
