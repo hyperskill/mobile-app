@@ -49,6 +49,8 @@ import org.hyperskill.app.notification.local.injection.NotificationFlowDataCompo
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponentImpl
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponentImpl
+import org.hyperskill.app.notification_onboarding.injection.NotificationOnboardingComponent
+import org.hyperskill.app.notification_onboarding.injection.NotificationOnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
@@ -409,4 +411,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildBadgesDataComponent(): BadgesDataComponent =
         BadgesDataComponentImpl(this)
+
+    override fun buildNotificationOnboardingComponent(): NotificationOnboardingComponent =
+        NotificationOnboardingComponentImpl()
 }

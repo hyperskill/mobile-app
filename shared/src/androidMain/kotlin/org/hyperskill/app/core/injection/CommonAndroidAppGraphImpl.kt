@@ -16,6 +16,8 @@ import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
 import org.hyperskill.app.notification.remote.injection.AndroidPlatformPushNotificationsPlatformDataComponent
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
+import org.hyperskill.app.notification_onboarding.injection.PlatformNotificationOnboardingComponent
+import org.hyperskill.app.notification_onboarding.injection.PlatformNotificationOnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
@@ -202,5 +204,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent =
         AndroidPlatformPushNotificationsPlatformDataComponent(
             playServicesCheckerComponent = buildPlayServicesCheckerComponent(),
+        )
+
+    override fun buildPlatformNotificationOnboardingComponent(): PlatformNotificationOnboardingComponent =
+        PlatformNotificationOnboardingComponentImpl(
+            notificationOnboardingComponent = buildNotificationOnboardingComponent()
         )
 }
