@@ -4,7 +4,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.Clock
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -151,9 +150,7 @@ class StepCompletionActionDispatcher(
     }
 
     private fun handlePostponeDailyStudyReminderAction() {
-        notificationInteractor.setLastTimeUserAskedToEnableDailyReminders(
-            Clock.System.now().toEpochMilliseconds()
-        )
+        notificationInteractor.updateLastTimeUserAskedToEnableDailyReminders()
     }
 
     private suspend fun handleStepSolved(stepId: Long) {

@@ -11,7 +11,7 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
-import org.hyperskill.app.notification_onboarding.injection.PlatformNotificationOnboardingComponent
+import org.hyperskill.app.notification_onboarding.injection.PlatformNotificationsOnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
@@ -94,5 +94,5 @@ interface CommonAndroidAppGraph : AppGraph {
 
     fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent
 
-    fun buildPlatformNotificationOnboardingComponent(): PlatformNotificationOnboardingComponent
+    fun buildPlatformNotificationOnboardingComponent(): PlatformNotificationsOnboardingComponent
 }
