@@ -17,7 +17,7 @@ object NotificationsOnboardingFeature {
         data class LogAnalyticsEvent(val event: HyperskillAnalyticEvent) : Action
         object UpdateLastNotificationPermissionRequestTime : Action
         sealed interface ViewAction : Action {
-            object RequestNotificationPermission : Action
+            object RequestNotificationPermission : ViewAction
             object CompleteNotificationOnboarding : ViewAction
         }
     }
