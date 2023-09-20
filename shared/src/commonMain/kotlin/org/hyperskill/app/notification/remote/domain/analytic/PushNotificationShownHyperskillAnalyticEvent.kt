@@ -20,7 +20,9 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
  *     "context":
  *     {
  *         "type": "STREAK_THREE" || "SELECT_FIRST_TRACK" || ...,
- *         "group": "Routine learning" || "Re-engagement" || ...
+ *         "category": "Routine learning" || "Re-engagement" || ...,
+ *         "image": "https://hyperskill.org/image.png",
+ *         "notification_id": "12345"
  *     }
  * }
  * ```
@@ -36,9 +38,6 @@ class PushNotificationShownHyperskillAnalyticEvent(
 ) {
     override val params: Map<String, Any>
         get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(
-                PushNotificationHyperskillAnalyticParams.PARAM_TYPE to pushNotificationData.typeString,
-                PushNotificationHyperskillAnalyticParams.PARAM_CATEGORY to pushNotificationData.categoryString
-            )
+            PARAM_CONTEXT to PushNotificationDataAnalyticContextMapper.map(pushNotificationData)
         )
 }
