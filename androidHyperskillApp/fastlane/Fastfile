@@ -1,4 +1,4 @@
-fastlane_version "2.214.0"
+fastlane_version "2.215.1"
 
 default_platform(:android)
 
@@ -61,6 +61,8 @@ platform :android do
       task: "clean bundleRelease",
       gradle_path: gradle_path,
     )
+
+    ENV["SUPPLY_UPLOAD_MAX_RETRIES"] = "5"
 
     upload_to_play_store(
       release_status: "completed",
