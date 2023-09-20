@@ -20,7 +20,7 @@ object NotificationsOnboardingFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticsEvent(val event: HyperskillAnalyticEvent) : Action
-        object UpdateLastNotificationPermissionRequestTime : Action
+        data class LogAnalyticsEvent(val event: HyperskillAnalyticEvent) : InternalAction
+        object UpdateLastNotificationPermissionRequestTime : InternalAction
     }
 }
