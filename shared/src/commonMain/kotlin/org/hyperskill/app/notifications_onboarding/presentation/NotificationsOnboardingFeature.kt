@@ -8,7 +8,7 @@ object NotificationsOnboardingFeature {
     sealed interface Message {
         object AllowNotificationClicked : Message
         object RemindMeLaterClicked : Message
-        data class NotificationPermissionRequestResult(val isGranted: Boolean) : Message
+        data class NotificationPermissionRequestResult(val isPermissionGranted: Boolean) : Message
         object ViewedEventMessage : Message
     }
 
