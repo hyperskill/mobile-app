@@ -1,4 +1,4 @@
-package org.hyperskill.app.notification_onboarding.domain.analytics
+package org.hyperskill.app.notifications_onboarding.domain.analytics
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent

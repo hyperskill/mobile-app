@@ -26,7 +26,7 @@ import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
-import org.hyperskill.app.notification_onboarding.injection.NotificationsOnboardingComponent
+import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent

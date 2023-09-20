@@ -28,7 +28,7 @@ interface AppFeature {
         @Serializable
         data class Ready(
             val isAuthorized: Boolean,
-            val profile: Profile? = null
+            internal val profile: Profile? = null
         ) : State
     }
 

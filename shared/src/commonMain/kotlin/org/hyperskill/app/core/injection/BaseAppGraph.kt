@@ -49,8 +49,8 @@ import org.hyperskill.app.notification.local.injection.NotificationFlowDataCompo
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponentImpl
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponentImpl
-import org.hyperskill.app.notification_onboarding.injection.NotificationsOnboardingComponent
-import org.hyperskill.app.notification_onboarding.injection.NotificationsOnboardingComponentImpl
+import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
+import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
