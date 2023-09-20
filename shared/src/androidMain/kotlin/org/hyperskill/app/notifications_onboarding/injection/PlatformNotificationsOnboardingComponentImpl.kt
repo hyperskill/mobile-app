@@ -1,7 +1,7 @@
-package org.hyperskill.app.notification_onboarding.injection
+package org.hyperskill.app.notifications_onboarding.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
-import org.hyperskill.app.notification_onboarding.presentation.NotificationOnboardingViewModel
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationOnboardingViewModel
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformNotificationsOnboardingComponentImpl(
@@ -12,7 +12,7 @@ class PlatformNotificationsOnboardingComponentImpl(
             mapOf(
                 NotificationOnboardingViewModel::class.java to {
                     NotificationOnboardingViewModel(
-                        notificationsOnboardingComponent.notificationOnboardingFeature.wrapWithViewContainer()
+                        notificationsOnboardingComponent.notificationsOnboardingFeature.wrapWithViewContainer()
                     )
                 }
             )

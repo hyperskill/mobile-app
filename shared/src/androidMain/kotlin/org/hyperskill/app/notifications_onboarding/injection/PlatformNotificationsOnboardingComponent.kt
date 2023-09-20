@@ -1,4 +1,4 @@
-package org.hyperskill.app.notification_onboarding.injection
+package org.hyperskill.app.notifications_onboarding.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 

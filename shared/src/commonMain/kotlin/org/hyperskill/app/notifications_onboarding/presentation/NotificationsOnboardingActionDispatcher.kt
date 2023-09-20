@@ -1,13 +1,14 @@
-package org.hyperskill.app.notification_onboarding.presentation
+package org.hyperskill.app.notifications_onboarding.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
-import org.hyperskill.app.notification_onboarding.presentation.NotificationsOnboardingFeature.Action
-import org.hyperskill.app.notification_onboarding.presentation.NotificationsOnboardingFeature.Message
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.InternalAction
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class NotificationsOnboardingActionDispatcher(
+internal class NotificationsOnboardingActionDispatcher(
     config: ActionDispatcherOptions,
     private val notificationInteractor: NotificationInteractor,
     private val analyticInteractor: AnalyticInteractor
@@ -15,9 +16,9 @@ class NotificationsOnboardingActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            Action.UpdateLastNotificationPermissionRequestTime ->
+            InternalAction.UpdateLastNotificationPermissionRequestTime ->
                 notificationInteractor.updateLastTimeUserAskedToEnableDailyReminders()
-            is Action.LogAnalyticsEvent ->
+            is InternalAction.LogAnalyticsEvent ->
                 analyticInteractor.logEvent(action.event)
             else -> {
                 // no op

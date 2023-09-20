@@ -24,6 +24,6 @@ class OnboardingCacheDataSourceImpl(
         settings.getBoolean(OnboardingCacheKeyValues.IS_NOTIFICATIONS_ONBOARDING_SHOWN, defaultValue = false)
 
     override fun setNotificationOnboardingWasShown(wasShown: Boolean) {
-        settings.getBoolean(OnboardingCacheKeyValues.IS_NOTIFICATIONS_ONBOARDING_SHOWN, wasShown)
+        settings.putBoolean(OnboardingCacheKeyValues.IS_NOTIFICATIONS_ONBOARDING_SHOWN, wasShown)
     }
 }

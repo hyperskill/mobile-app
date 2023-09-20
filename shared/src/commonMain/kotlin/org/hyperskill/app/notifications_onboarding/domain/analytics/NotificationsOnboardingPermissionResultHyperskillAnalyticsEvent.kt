@@ -1,4 +1,4 @@
-package org.hyperskill.app.notification_onboarding.domain.analytics
+package org.hyperskill.app.notifications_onboarding.domain.analytics
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,22 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Remind me later" button analytic event.
+ * Represents allowing or denying of the system notification permission.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/onboarding/notifications",
  *     "action": "click",
- *     "part": "main",
- *     "target": "remind_me_later"
+ *     "part": "notifications_system_notice",
+ *     "target": "allow"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-object NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
+class NotificationsOnboardingPermissionResultHyperskillAnalyticsEvent(
+    isPermissionGranted: Boolean
+) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
     action = HyperskillAnalyticAction.CLICK,
-    part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.REMIND_ME_LATER
+    part = HyperskillAnalyticPart.NOTIFICATIONS_SYSTEM_NOTICE,
+    target = if (isPermissionGranted) HyperskillAnalyticTarget.ALLOW else HyperskillAnalyticTarget.DENY
 )
