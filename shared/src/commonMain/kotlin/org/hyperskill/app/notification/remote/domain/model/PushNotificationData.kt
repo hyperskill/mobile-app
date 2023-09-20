@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PushNotificationData(
     @SerialName("notification_id")
-    val backendId: String? = null,
+    val notificationId: String? = null,
     @SerialName("category")
     val typeString: String,
     @SerialName("thread-id")

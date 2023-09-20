@@ -9,6 +9,6 @@ internal object PushNotificationDataAnalyticContextMapper {
             PushNotificationHyperskillAnalyticParams.PARAM_TYPE to pushNotificationData.typeString,
             PushNotificationHyperskillAnalyticParams.PARAM_CATEGORY to pushNotificationData.categoryString,
             PushNotificationHyperskillAnalyticParams.PARAM_IMAGE to pushNotificationData.image,
-            PushNotificationHyperskillAnalyticParams.PARAM_NOTIFICATION_ID to pushNotificationData.backendId
+            PushNotificationHyperskillAnalyticParams.PARAM_NOTIFICATION_ID to pushNotificationData.notificationId
         )
 }
