@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,6 +30,15 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTextButt
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingViewModel
 
+object NotificationsOnboardingDefaults {
+    val ContentPadding = PaddingValues(
+        start = 20.dp,
+        end = 20.dp,
+        top = 24.dp,
+        bottom = 32.dp
+    )
+}
+
 @Composable
 fun NotificationsOnboardingScreen(
     viewModel: NotificationsOnboardingViewModel
@@ -49,12 +59,7 @@ fun NotificationsOnboardingScreen(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .padding(
-                start = 20.dp,
-                end = 20.dp,
-                top = 24.dp,
-                bottom = 32.dp
-            ),
+            .padding(NotificationsOnboardingDefaults.ContentPadding),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         NotificationsOnboardingHeader()
