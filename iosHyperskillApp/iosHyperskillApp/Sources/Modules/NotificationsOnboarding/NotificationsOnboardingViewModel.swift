@@ -6,6 +6,8 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
   NotificationsOnboardingFeatureMessage,
   NotificationsOnboardingFeatureActionViewAction
 > {
+    weak var moduleOutput: NotificationsOnboardingOutputProtocol?
+
     private let notificationsRegistrationService: NotificationsRegistrationService
 
     init(
@@ -43,6 +45,10 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
                 )
             }
         }
+    }
+
+    func doCompleteOnboarding() {
+        moduleOutput?.handleNotificationsOnboardingCompleted()
     }
 
     // MARK: Analytic

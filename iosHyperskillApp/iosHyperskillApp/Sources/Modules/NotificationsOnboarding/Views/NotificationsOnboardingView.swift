@@ -42,7 +42,7 @@ private extension NotificationsOnboardingView {
     ) {
         switch NotificationsOnboardingFeatureActionViewActionKs(viewAction) {
         case .completeNotificationOnboarding:
-            #warning("TODO")
+            viewModel.doCompleteOnboarding()
         case .requestNotificationPermission:
             viewModel.doRequestNotificationPermission()
         }
@@ -54,7 +54,7 @@ private extension NotificationsOnboardingView {
 struct NotificationsOnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            NotificationsOnboardingAssembly().makeModule()
+            NotificationsOnboardingAssembly(output: nil).makeModule()
         }
     }
 }

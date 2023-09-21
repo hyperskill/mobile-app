@@ -2,6 +2,12 @@ import shared
 import SwiftUI
 
 final class NotificationsOnboardingAssembly: UIKitAssembly {
+    private weak var moduleOutput: NotificationsOnboardingOutputProtocol?
+
+    init(output: NotificationsOnboardingOutputProtocol?) {
+        self.moduleOutput = output
+    }
+
     func makeModule() -> UIViewController {
         let notificationsOnboardingComponent = AppGraphBridge.sharedAppGraph.buildNotificationsOnboardingComponent()
 
@@ -9,6 +15,7 @@ final class NotificationsOnboardingAssembly: UIKitAssembly {
             notificationsRegistrationService: .shared,
             feature: notificationsOnboardingComponent.notificationsOnboardingFeature
         )
+        notificationsOnboardingViewModel.moduleOutput = moduleOutput
 
         let notificationsOnboardingView = NotificationsOnboardingView(
             viewModel: notificationsOnboardingViewModel

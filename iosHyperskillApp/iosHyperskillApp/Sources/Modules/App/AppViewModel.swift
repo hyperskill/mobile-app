@@ -123,6 +123,14 @@ extension AppViewModel: OnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: NotificationsOnboardingOutputProtocol -
+
+extension AppViewModel: NotificationsOnboardingOutputProtocol {
+    func handleNotificationsOnboardingCompleted() {
+        onNewMessage(AppFeatureMessageNotificationOnboardingCompleted())
+    }
+}
+
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
