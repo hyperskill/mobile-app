@@ -4,17 +4,13 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
@@ -28,7 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.R
-import org.hyperskill.app.android.core.view.ui.widget.compose.textButton
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTextButton
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingViewModel
 
@@ -108,27 +105,19 @@ fun NotificationsOnboardingButtons(
     onRemindMeLaterClick: () -> Unit
 ) {
     Column(modifier = modifier) {
-        Button(
+        HyperskillButton(
             onClick = onAllowNotificationsClick,
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                backgroundColor = colorResource(id = R.color.color_button_primary)
-            ),
-            contentPadding = PaddingValues(
-                vertical = 14.dp,
-                horizontal = 16.dp
-            )
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = stringResource(id = R.string.notifications_onboarding_allow_notifications_button))
         }
         Spacer(modifier = Modifier.height(8.dp))
-        TextButton(
+        HyperskillTextButton(
             onClick = onRemindMeLaterClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = stringResource(id = R.string.notifications_onboarding_remind_me_later_button),
-                style = MaterialTheme.typography.textButton
+                text = stringResource(id = R.string.notifications_onboarding_remind_me_later_button)
             )
         }
     }
