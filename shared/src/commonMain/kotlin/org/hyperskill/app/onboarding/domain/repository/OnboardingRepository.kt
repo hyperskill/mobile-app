@@ -5,4 +5,8 @@ interface OnboardingRepository {
     fun setOnboardingShown(isShown: Boolean)
     fun isParsonsOnboardingShown(): Boolean
     fun setParsonsOnboardingShown(isShown: Boolean)
+
+    fun wasNotificationOnboardingShown(): Boolean
+
+    fun setNotificationOnboardingWasShown(wasShown: Boolean)
 }

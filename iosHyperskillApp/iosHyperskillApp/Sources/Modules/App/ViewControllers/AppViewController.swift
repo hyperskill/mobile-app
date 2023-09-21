@@ -112,6 +112,9 @@ extension AppViewController: AppViewControllerProtocol {
                 )
                 navigationController.navigationBar.prefersLargeTitles = true
                 return navigationController
+            case .notificationOnBoardingScreen:
+                #warning("ALTAPPS-971: Route to the NotificationOnBoardingScreen")
+                fatalError("NotificationOnBoardingScreen is not implemented yet!")
             }
         }()
 

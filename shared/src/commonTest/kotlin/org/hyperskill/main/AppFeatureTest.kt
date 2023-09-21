@@ -54,8 +54,8 @@ class AppFeatureTest {
             AppFeature.Message.UserAccountStatus(
                 Profile.stub(isGuest = true, trackId = 1),
                 PushNotificationData(
-                    PushNotificationType.STREAK_NEW.name,
-                    PushNotificationCategory.CONTINUE_LEARNING.backendName!!
+                    typeString = PushNotificationType.STREAK_NEW.name,
+                    categoryString = PushNotificationCategory.CONTINUE_LEARNING.backendName!!
                 )
             )
         )

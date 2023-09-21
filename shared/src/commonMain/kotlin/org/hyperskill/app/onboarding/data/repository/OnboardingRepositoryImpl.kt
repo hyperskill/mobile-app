@@ -19,4 +19,11 @@ class OnboardingRepositoryImpl(
     override fun setParsonsOnboardingShown(isShown: Boolean) {
         onboardingCacheDataSource.setParsonsOnboardingShown(isShown)
     }
+
+    override fun wasNotificationOnboardingShown(): Boolean =
+        onboardingCacheDataSource.wasNotificationOnboardingShown()
+
+    override fun setNotificationOnboardingWasShown(wasShown: Boolean) {
+        onboardingCacheDataSource.setNotificationOnboardingWasShown(wasShown)
+    }
 }

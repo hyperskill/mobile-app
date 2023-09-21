@@ -50,6 +50,8 @@ CommitAndroidBuildNumber() {
 
 CommitIOSBuildNumber() {
     git add iosHyperskillApp/iosHyperskillApp/Info.plist
+    git add iosHyperskillApp/iosHyperskillAppTests/Info.plist
+    git add iosHyperskillApp/NotificationServiceExtension/Info.plist
     git add iosHyperskillApp/iosHyperskillApp.xcodeproj/project.pbxproj
     git commit -m "iOS: Bump build number"
 }
@@ -57,6 +59,8 @@ CommitIOSBuildNumber() {
 CommitAndroidAndIOSBuildNumber() {
     git add gradle/app.versions.toml
     git add iosHyperskillApp/iosHyperskillApp/Info.plist
+    git add iosHyperskillApp/iosHyperskillAppTests/Info.plist
+    git add iosHyperskillApp/NotificationServiceExtension/Info.plist
     git add iosHyperskillApp/iosHyperskillApp.xcodeproj/project.pbxproj
     git commit -m "Bump build number"
 }
