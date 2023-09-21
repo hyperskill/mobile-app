@@ -273,13 +273,16 @@
     </color>
     <color name="text_on_color">#FFFFFF</color>
 
-    <color name="button_primary">
-        <light>#566BE4</light>
-        <dark>#566BE4</dark>
-    </color>
+    <color name="button_primary">#566BE4</color>
+    <color name="button_primary_active">#3A4AD6</color>
+
     <color name="button_ghost">
         <light>#455BD9</light>
         <dark>#C1D5FE</dark>
+    </color>
+    <color name="button_ghost_active">
+        <light>#1C2898</light>
+        <dark>#819EF8</dark>
     </color>
 
     <color name="layer_1">
