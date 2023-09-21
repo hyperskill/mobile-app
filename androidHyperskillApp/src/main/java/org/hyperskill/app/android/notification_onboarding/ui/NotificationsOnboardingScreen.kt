@@ -13,6 +13,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -22,9 +24,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.R
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingViewModel
 
 @Composable
-fun NotificationsOnboardingScreen() {
+fun NotificationsOnboardingScreen(
+    viewModel: NotificationsOnboardingViewModel
+) {
+    NotificationsOnboardingScreen(viewModel::onNewMessage)
+}
+
+@Composable
+fun NotificationsOnboardingScreen(
+    onNewMessage: (NotificationsOnboardingFeature.Message) -> Unit
+) {
+    val onAllowNotificationsClick by rememberUpdatedState {
+        onNewMessage(NotificationsOnboardingFeature.Message.AllowNotificationClicked)
+    }
+    val onRemindMeLaterClick by rememberUpdatedState {
+        onNewMessage(NotificationsOnboardingFeature.Message.RemindMeLaterClicked)
+    }
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -40,9 +59,15 @@ fun NotificationsOnboardingScreen() {
         Image(
             painter = painterResource(id = org.hyperskill.app.android.R.drawable.img_notifications_onboarding),
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
         )
-        NotificationsOnboardingButtons(modifier = Modifier.weight(1f, fill = false))
+        NotificationsOnboardingButtons(
+            modifier = Modifier.weight(1f, fill = false),
+            onAllowNotificationsClick = onAllowNotificationsClick,
+            onRemindMeLaterClick = onRemindMeLaterClick
+        )
     }
 }
 
@@ -68,18 +93,20 @@ private fun NotificationsOnboardingHeader(
 
 @Composable
 fun NotificationsOnboardingButtons(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAllowNotificationsClick: () -> Unit,
+    onRemindMeLaterClick: () -> Unit
 ) {
     Column(modifier = modifier) {
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onAllowNotificationsClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = stringResource(id = R.string.notifications_onboarding_allow_notifications_button))
         }
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(
-            onClick = { /*TODO*/ },
+            onClick = onRemindMeLaterClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = stringResource(id = R.string.notifications_onboarding_remind_me_later_button))
@@ -91,7 +118,7 @@ fun NotificationsOnboardingButtons(
 @Composable
 fun NotificationsOnboardingScreenLightModePreview() {
     MdcTheme {
-        NotificationsOnboardingScreen()
+        NotificationsOnboardingScreen {}
     }
 }
 
@@ -104,6 +131,6 @@ fun NotificationsOnboardingScreenLightModePreview() {
 @Composable
 fun NotificationsOnboardingScreenDarkModePreview() {
     MdcTheme {
-        NotificationsOnboardingScreen()
+        NotificationsOnboardingScreen {}
     }
 }
