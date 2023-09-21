@@ -53,7 +53,10 @@ class NotificationsOnboardingFragment : Fragment() {
     ): View =
         ComposeView(requireContext()).apply {
             setContent {
-                MdcTheme {
+                MdcTheme(
+                    setTextColors = true,
+                    setDefaultFontFamily = true
+                ) {
                     NotificationsOnboardingScreen(notificationsOnboardingViewModel)
                 }
             }

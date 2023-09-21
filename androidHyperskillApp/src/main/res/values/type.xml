@@ -57,7 +57,12 @@
         <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Button" parent="TextAppearance.AppTheme.Body1" />
+    <style name="TextAppearance.AppTheme.Button" parent="TextAppearance.AppTheme.Body1">
+        <item name="android:textColor">@color/color_text_on_color</item>
+    </style>
+    <style name="TextAppearance.AppTheme.TextButton" parent="TextAppearance.AppTheme.Body1">
+        <item name="android:textColor">@color/color_button_ghost</item>
+    </style>
 
     <style name="TextAppearance.AppTheme.CollapsingTitle" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="android:textAllCaps">false</item>

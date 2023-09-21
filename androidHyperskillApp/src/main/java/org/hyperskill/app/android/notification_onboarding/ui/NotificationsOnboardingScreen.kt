@@ -4,12 +4,15 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -17,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.textButton
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingViewModel
 
@@ -81,12 +86,17 @@ private fun NotificationsOnboardingHeader(
     ) {
         Text(
             text = stringResource(id = R.string.notifications_onboarding_title),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.h6
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(id = R.string.notifications_onboarding_subtitle),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body1,
+            // Can't use color_text_secondary in TextAppearance.AppTheme.Body1
+            // because it is used in many other components
+            color = colorResource(id = R.color.color_text_secondary)
         )
     }
 }
@@ -100,7 +110,14 @@ fun NotificationsOnboardingButtons(
     Column(modifier = modifier) {
         Button(
             onClick = onAllowNotificationsClick,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = colorResource(id = R.color.color_button_primary)
+            ),
+            contentPadding = PaddingValues(
+                vertical = 14.dp,
+                horizontal = 16.dp
+            )
         ) {
             Text(text = stringResource(id = R.string.notifications_onboarding_allow_notifications_button))
         }
@@ -109,7 +126,10 @@ fun NotificationsOnboardingButtons(
             onClick = onRemindMeLaterClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = stringResource(id = R.string.notifications_onboarding_remind_me_later_button))
+            Text(
+                text = stringResource(id = R.string.notifications_onboarding_remind_me_later_button),
+                style = MaterialTheme.typography.textButton
+            )
         }
     }
 }
@@ -117,7 +137,10 @@ fun NotificationsOnboardingButtons(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun NotificationsOnboardingScreenLightModePreview() {
-    MdcTheme {
+    MdcTheme(
+        setTextColors = true,
+        setDefaultFontFamily = true
+    ) {
         NotificationsOnboardingScreen {}
     }
 }
@@ -130,7 +153,10 @@ fun NotificationsOnboardingScreenLightModePreview() {
 )
 @Composable
 fun NotificationsOnboardingScreenDarkModePreview() {
-    MdcTheme {
+    MdcTheme(
+        setTextColors = true,
+        setDefaultFontFamily = true
+    ) {
         NotificationsOnboardingScreen {}
     }
 }
