@@ -6,7 +6,8 @@ final class NotificationsOnboardingAssembly: UIKitAssembly {
         let notificationsOnboardingComponent = AppGraphBridge.sharedAppGraph.buildNotificationsOnboardingComponent()
 
         let notificationsOnboardingViewModel = NotificationsOnboardingViewModel(
-            feature: notificationsOnboardingComponent.notificationOnboardingFeature
+            notificationsRegistrationService: .shared,
+            feature: notificationsOnboardingComponent.notificationsOnboardingFeature
         )
 
         let notificationsOnboardingView = NotificationsOnboardingView(

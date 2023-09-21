@@ -92,13 +92,18 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
 extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(profile: Profile) {
-        #warning("ALTAPPS-971: Provide isNotificationPermissionGranted")
-        onNewMessage(
-            AppFeatureMessageUserAuthorized(
-                profile: profile,
-                isNotificationPermissionGranted: false
-            )
-        )
+        Task(priority: .userInitiated) {
+            let currentAuthorizationStatus = await NotificationPermissionStatus.current
+
+            await MainActor.run {
+                onNewMessage(
+                    AppFeatureMessageUserAuthorized(
+                        profile: profile,
+                        isNotificationPermissionGranted: currentAuthorizationStatus.isRegistered
+                    )
+                )
+            }
+        }
     }
 }
 

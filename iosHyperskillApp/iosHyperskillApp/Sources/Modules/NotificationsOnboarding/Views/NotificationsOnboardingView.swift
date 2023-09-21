@@ -18,7 +18,10 @@ struct NotificationsOnboardingView: View {
 
             BackgroundView(color: appearance.backgroundColor)
 
-            buildBody()
+            NotificationsOnboardingContentView(
+                onPrimaryButtonTap: viewModel.doPrimaryAction,
+                onSecondaryButtonTap: viewModel.doSecondaryAction
+            )
         }
         .onAppear {
             viewModel.startListening()
@@ -28,13 +31,6 @@ struct NotificationsOnboardingView: View {
             viewModel.stopListening()
             viewModel.onViewAction = nil
         }
-    }
-
-    // MARK: Private API
-
-    @ViewBuilder
-    private func buildBody() -> some View {
-        Text("Hello, World!")
     }
 }
 
@@ -48,7 +44,7 @@ private extension NotificationsOnboardingView {
         case .completeNotificationOnboarding:
             #warning("TODO")
         case .requestNotificationPermission:
-            #warning("TODO")
+            viewModel.doRequestNotificationPermission()
         }
     }
 }

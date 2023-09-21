@@ -203,6 +203,7 @@
 		2C66720F2A529A7C0040EA2F /* ProgressScreenTrackProgressSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C66720E2A529A7C0040EA2F /* ProgressScreenTrackProgressSkeletonView.swift */; };
 		2C688C032A4E8F900061AFFD /* ProgressScreenTrackProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C688C022A4E8F900061AFFD /* ProgressScreenTrackProgressView.swift */; };
 		2C688C052A4E97750061AFFD /* ProgressScreenProjectProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C688C042A4E97750061AFFD /* ProgressScreenProjectProgressView.swift */; };
+		2C68FD7C2ABC1FF700D9EBE2 /* NotificationsOnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C68FD7B2ABC1FF700D9EBE2 /* NotificationsOnboardingContentView.swift */; };
 		2C7036E82943A2A800775E87 /* ProblemOfDaySkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */; };
 		2C7036EA2943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */; };
 		2C708D3228E5AA700061A8DB /* KotlinThrowable+AsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */; };
@@ -782,6 +783,7 @@
 		2C66720E2A529A7C0040EA2F /* ProgressScreenTrackProgressSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenTrackProgressSkeletonView.swift; sourceTree = "<group>"; };
 		2C688C022A4E8F900061AFFD /* ProgressScreenTrackProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenTrackProgressView.swift; sourceTree = "<group>"; };
 		2C688C042A4E97750061AFFD /* ProgressScreenProjectProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenProjectProgressView.swift; sourceTree = "<group>"; };
+		2C68FD7B2ABC1FF700D9EBE2 /* NotificationsOnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingContentView.swift; sourceTree = "<group>"; };
 		2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDaySkeletonView.swift; sourceTree = "<group>"; };
 		2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCardSkeletonView.swift; sourceTree = "<group>"; };
 		2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinThrowable+AsError.swift"; sourceTree = "<group>"; };
@@ -2066,6 +2068,15 @@
 			path = Skeleton;
 			sourceTree = "<group>";
 		};
+		2C68FD7D2ABC351D00D9EBE2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C68FD7B2ABC1FF700D9EBE2 /* NotificationsOnboardingContentView.swift */,
+				3944E4546DEF47A28B2E7292 /* NotificationsOnboardingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3131,8 +3142,8 @@
 			isa = PBXGroup;
 			children = (
 				C2D19C8A442CF9C4F00370B8 /* NotificationsOnboardingAssembly.swift */,
-				3944E4546DEF47A28B2E7292 /* NotificationsOnboardingView.swift */,
 				E3570563AEEEEF2F5495BCA6 /* NotificationsOnboardingViewModel.swift */,
+				2C68FD7D2ABC351D00D9EBE2 /* Views */,
 			);
 			path = NotificationsOnboarding;
 			sourceTree = "<group>";
@@ -3951,6 +3962,7 @@
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
 				2C93C2D8292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift in Sources */,
 				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
+				2C68FD7C2ABC1FF700D9EBE2 /* NotificationsOnboardingContentView.swift in Sources */,
 				2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */,
 				2C20B28A286C350C000F458A /* CodeEditor.swift in Sources */,
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
