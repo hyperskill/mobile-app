@@ -62,18 +62,18 @@ fun HyperskillButton(
     contentPadding: PaddingValues = HyperskillButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit
 ) {
-   Button(
-       onClick = onClick,
-       modifier = modifier,
-       enabled = enabled,
-       interactionSource = interactionSource,
-       elevation = elevation,
-       shape = shape,
-       border = border,
-       colors = colors,
-       contentPadding = contentPadding,
-       content = content
-   )
+    Button(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        elevation = elevation,
+        shape = shape,
+        border = border,
+        colors = colors,
+        contentPadding = contentPadding,
+        content = content
+    )
 }
 
 @Composable
