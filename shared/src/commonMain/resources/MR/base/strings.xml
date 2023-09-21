@@ -517,9 +517,4 @@
     <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
     <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
 
-    <!--Notifications onboarding-->
-    <string name="notifications_onboarding_title">Track your progress</string>
-    <string name="notifications_onboarding_subtitle">Enable notifications to keep your streak alive and stay consistently on top of your learning.</string>
-    <string name="notifications_onboarding_allow_notifications_button">Allow notifications</string>
-    <string name="notifications_onboarding_remind_me_later_button">Remind me later</string>
 </resources>

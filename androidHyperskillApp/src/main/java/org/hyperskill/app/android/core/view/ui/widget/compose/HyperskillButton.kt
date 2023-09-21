@@ -38,7 +38,7 @@ object HyperskillButtonDefaults {
 
     @Composable
     fun buttonColors(
-        backgroundColor: Color = colorResource(id = R.color.color_button_primary)
+        backgroundColor: Color = colorResource(id = R.color.button_primary)
     ): ButtonColors =
         ButtonDefaults.buttonColors(
             backgroundColor = backgroundColor

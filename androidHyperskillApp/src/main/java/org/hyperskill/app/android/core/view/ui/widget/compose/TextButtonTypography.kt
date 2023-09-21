@@ -8,5 +8,5 @@ import androidx.compose.ui.text.TextStyle
 val Typography.textButton: TextStyle
     @Composable
     get() = button.copy(
-        color = colorResource(id = org.hyperskill.app.R.color.color_button_ghost)
+        color = colorResource(id = org.hyperskill.app.R.color.button_ghost)
     )

@@ -2,11 +2,12 @@ package org.hyperskill.app.android.notification_onboarding.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -58,7 +59,8 @@ fun NotificationsOnboardingScreen(
     }
     Column(
         modifier = Modifier
-            .fillMaxHeight()
+            .fillMaxSize()
+            .background(colorResource(id = R.color.layer_1))
             .padding(NotificationsOnboardingDefaults.ContentPadding),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
@@ -93,12 +95,12 @@ private fun NotificationsOnboardingHeader(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = stringResource(id = R.string.notifications_onboarding_subtitle),
+            text = stringResource(id = R.string.notifications_onboarding_description),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.body1,
             // Can't use color_text_secondary in TextAppearance.AppTheme.Body1
             // because it is used in many other components
-            color = colorResource(id = R.color.color_text_secondary)
+            color = colorResource(id = R.color.text_secondary)
         )
     }
 }
@@ -114,7 +116,7 @@ fun NotificationsOnboardingButtons(
             onClick = onAllowNotificationsClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = stringResource(id = R.string.notifications_onboarding_allow_notifications_button))
+            Text(text = stringResource(id = R.string.notifications_onboarding_button_allow))
         }
         Spacer(modifier = Modifier.height(8.dp))
         HyperskillTextButton(
@@ -122,7 +124,7 @@ fun NotificationsOnboardingButtons(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = stringResource(id = R.string.notifications_onboarding_remind_me_later_button)
+                text = stringResource(id = R.string.notifications_onboarding_button_later)
             )
         }
     }

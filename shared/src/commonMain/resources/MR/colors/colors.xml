@@ -77,54 +77,6 @@
     <color name="color_violet_200_alpha_12">#BFA3FF1F</color>
     <color name="color_violet_200_alpha_7">#BFA3FF12</color>
 
-    <!--Text colors-->
-    <color name="color_text_primary">
-        <light>#121619</light>
-        <dark>#F2F4F8</dark>
-    </color>
-
-    <color name="color_text_secondary">
-        <light>#4D5358</light>
-        <dark>#C1C7CD</dark>
-    </color>
-
-    <color name="color_text_placeholder">
-        <light>#697077</light>
-        <dark>#878D96</dark>
-    </color>
-
-    <color name="color_text_on_color">
-        <light>#FFFFFF</light>
-        <dark>#FFFFFF</dark>
-    </color>
-
-    <color name="color_text_helper">
-        <light>#697077</light>
-        <dark>#4D5358</dark>
-    </color>
-
-    <color name="color_text_error">
-        <light>#DC2B19</light>
-        <dark>#FF756C</dark>
-    </color>
-
-    <color name="color_text_disabled">
-        <light>#A2A9B0</light>
-        <dark>#878D96</dark>
-    </color>
-
-    <!--Buttons-->
-    <color name="color_button_ghost">
-        <light>#566BE4</light>
-        <dark>#C1D5FE</dark>
-    </color>
-
-    <color name="color_button_primary">
-        <light>#566BE4</light>
-        <dark>#566BE4</dark>
-    </color>
-
-
     <!-- AppTheme -->
 
     <color name="color_background">
