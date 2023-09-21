@@ -260,4 +260,30 @@
         <light>@color/color_black_900_alpha_60</light>
         <dark>@color/color_black_900</dark>
     </color>
+
+    <!-- New colors -->
+
+    <color name="text_primary">
+        <light>#121619</light>
+        <dark>#F2F4F8</dark>
+    </color>
+    <color name="text_secondary">
+        <light>#4D5358</light>
+        <dark>#C1C7CD</dark>
+    </color>
+    <color name="text_on_color">#FFFFFF</color>
+
+    <color name="button_primary">
+        <light>#566BE4</light>
+        <dark>#566BE4</dark>
+    </color>
+    <color name="button_ghost">
+        <light>#455BD9</light>
+        <dark>#C1D5FE</dark>
+    </color>
+
+    <color name="layer_1">
+        <light>#FFFFFF</light>
+        <dark>#1F2427</dark>
+    </color>
 </resources>
