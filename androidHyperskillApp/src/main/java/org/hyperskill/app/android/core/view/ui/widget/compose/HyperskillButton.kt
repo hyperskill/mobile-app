@@ -55,7 +55,7 @@ fun HyperskillButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    elevation: ButtonElevation? = ButtonDefaults.elevation(),
+    elevation: ButtonElevation? = null,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = HyperskillButtonDefaults.buttonColors(),
