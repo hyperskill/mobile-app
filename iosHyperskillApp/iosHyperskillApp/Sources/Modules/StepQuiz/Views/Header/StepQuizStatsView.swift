@@ -2,7 +2,7 @@ import SwiftUI
 
 extension StepQuizStatsView {
     struct Appearance {
-        let primaryColor = Color.disabledText
+        let primaryColor = Color.tertiaryText
     }
 }
 

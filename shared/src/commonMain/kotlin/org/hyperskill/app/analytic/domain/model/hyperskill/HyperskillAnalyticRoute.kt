@@ -3,8 +3,13 @@ package org.hyperskill.app.analytic.domain.model.hyperskill
 sealed class HyperskillAnalyticRoute {
     abstract val path: String
 
-    class Onboarding : HyperskillAnalyticRoute() {
+    open class Onboarding : HyperskillAnalyticRoute() {
         override val path: String = "/onboarding"
+
+        object Notifications : Onboarding() {
+            override val path: String
+                get() = "${super.path}/notifications"
+        }
     }
 
     open class Login : HyperskillAnalyticRoute() {

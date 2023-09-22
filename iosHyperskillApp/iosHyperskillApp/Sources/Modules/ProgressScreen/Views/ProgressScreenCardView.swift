@@ -33,7 +33,7 @@ struct ProgressScreenCardView: View {
                     .foregroundColor(.primaryText) +
                 Text(titleSecondaryText)
                     .font(.callout)
-                    .foregroundColor(.disabledText)
+                    .foregroundColor(.tertiaryText)
 
                 Spacer()
 

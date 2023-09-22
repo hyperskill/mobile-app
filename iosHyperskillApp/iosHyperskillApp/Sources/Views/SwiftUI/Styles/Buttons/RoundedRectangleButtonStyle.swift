@@ -7,6 +7,7 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
     var minHeight: CGFloat = 44
 
     var backgroundColor = Color(ColorPalette.secondary)
+    var backgroundPressedColor = Color(ColorPalette.secondary)
     var backgroundDisabledOpacity = 0.38
     var cornerRadius: CGFloat = 8
 
@@ -32,9 +33,15 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
                     alignment: overlayImage.require().alignment
                 )
             })
-            .background(backgroundColor.cornerRadius(cornerRadius).opacity(isEnabled ? 1 : backgroundDisabledOpacity))
+            .background(makeBackground(configuration: configuration))
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
             .animation(.easeOut(duration: bounceDuration), value: configuration.isPressed)
+    }
+
+    private func makeBackground(configuration: Configuration) -> some View {
+        (configuration.isPressed ? backgroundPressedColor : backgroundColor)
+            .cornerRadius(cornerRadius)
+            .opacity(isEnabled ? 1 : backgroundDisabledOpacity)
     }
 
     struct OverlayImage {
@@ -47,6 +54,7 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
     enum Style {
         case green
         case violet
+        case newViolet
 
         fileprivate var foregroundColor: Color {
             switch self {
@@ -54,6 +62,8 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
                 return Color(ColorPalette.onSecondary)
             case .violet:
                 return Color(ColorPalette.onPrimary)
+            case .newViolet:
+                return Color(ColorPalette.newTextOnColor)
             }
         }
 
@@ -63,6 +73,19 @@ struct RoundedRectangleButtonStyle: ButtonStyle {
                 return Color(ColorPalette.secondary)
             case .violet:
                 return Color(ColorPalette.primary)
+            case .newViolet:
+                return Color(ColorPalette.newButtonPrimary)
+            }
+        }
+
+        fileprivate var backgroundPressedColor: Color {
+            switch self {
+            case .green:
+                return Color(ColorPalette.secondary)
+            case .violet:
+                return Color(ColorPalette.primary)
+            case .newViolet:
+                return Color(ColorPalette.newButtonPrimaryActive)
             }
         }
     }
@@ -73,6 +96,7 @@ extension RoundedRectangleButtonStyle {
         self.init(
             foregroundColor: style.foregroundColor,
             backgroundColor: style.backgroundColor,
+            backgroundPressedColor: style.backgroundPressedColor,
             overlayImage: overlayImage
         )
     }
@@ -86,6 +110,9 @@ struct RoundedRectangleButtonStyle_Previews: PreviewProvider {
 
             Button("Press Me", action: {})
                 .buttonStyle(RoundedRectangleButtonStyle(overlayImage: .init(imageSystemName: "play")))
+
+            Button("Press Me", action: {})
+                .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
         }
         .previewLayout(.sizeThatFits)
         .padding()

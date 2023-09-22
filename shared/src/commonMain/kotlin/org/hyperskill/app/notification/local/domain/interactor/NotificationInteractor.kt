@@ -78,8 +78,10 @@ class NotificationInteractor(
         return isTwoDaysPassed && isNotReachedMaxUserAskedCount
     }
 
-    fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long) {
-        notificationRepository.setLastTimeUserAskedToEnableDailyReminders(timestamp)
+    fun updateLastTimeUserAskedToEnableDailyReminders() {
+        notificationRepository.setLastTimeUserAskedToEnableDailyReminders(
+            Clock.System.now().toEpochMilliseconds()
+        )
     }
 
     private fun getUserAskedToEnableDailyRemindersCount(): Long =

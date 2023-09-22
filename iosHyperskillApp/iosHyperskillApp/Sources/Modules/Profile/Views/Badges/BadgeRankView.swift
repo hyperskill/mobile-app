@@ -13,9 +13,9 @@ extension BadgeRankView {
                 case .legendary:
                     return .primaryText
                 case .locked, .unknown:
-                    return .disabledText
+                    return .tertiaryText
                 default:
-                    return .disabledText
+                    return .tertiaryText
                 }
             }()
 
