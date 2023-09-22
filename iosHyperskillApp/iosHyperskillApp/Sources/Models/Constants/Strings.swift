@@ -432,13 +432,11 @@ enum Strings {
     // MARK: - NotificationsOnboarding -
 
     enum NotificationsOnboarding {
-        static let title = "Track your progress"
-        static let subtitle = """
-Enable notifications to keep your streak alive and stay consistently on top of your learning
-"""
+        static let title = sharedStrings.notifications_onboarding_title.localized()
+        static let subtitle = sharedStrings.notifications_onboarding_description.localized()
 
-        static let buttonPrimary = "Allow notifications"
-        static let buttonSecondary = "Remind me later"
+        static let buttonPrimary = sharedStrings.notifications_onboarding_button_allow.localized()
+        static let buttonSecondary = sharedStrings.notifications_onboarding_button_later.localized()
     }
 
     // MARK: - ProjectSelectionList -
