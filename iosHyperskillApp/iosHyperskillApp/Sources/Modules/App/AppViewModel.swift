@@ -92,7 +92,18 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
 
 extension AppViewModel: AuthOutputProtocol {
     func handleUserAuthorized(profile: Profile) {
-        onNewMessage(AppFeatureMessageUserAuthorized(profile: profile))
+        Task(priority: .userInitiated) {
+            let currentAuthorizationStatus = await NotificationPermissionStatus.current
+
+            await MainActor.run {
+                onNewMessage(
+                    AppFeatureMessageUserAuthorized(
+                        profile: profile,
+                        isNotificationPermissionGranted: currentAuthorizationStatus.isRegistered
+                    )
+                )
+            }
+        }
     }
 }
 
@@ -109,6 +120,14 @@ extension AppViewModel: OnboardingOutputProtocol {
         } else {
             onViewAction?(AppFeatureActionViewActionNavigateToTrackSelectionScreen())
         }
+    }
+}
+
+// MARK: - AppViewModel: NotificationsOnboardingOutputProtocol -
+
+extension AppViewModel: NotificationsOnboardingOutputProtocol {
+    func handleNotificationsOnboardingCompleted() {
+        onNewMessage(AppFeatureMessageNotificationOnboardingCompleted())
     }
 }
 

@@ -7,6 +7,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
@@ -40,18 +41,7 @@ class AppReducer(
                     null
                 }
             is Message.UserAuthorized ->
-                if (state is State.Ready && !state.isAuthorized) {
-                    val navigateToViewAction = if (message.profile.isNewUser) {
-                        Action.ViewAction.NavigateTo.TrackSelectionScreen
-                    } else {
-                        Action.ViewAction.NavigateTo.HomeScreen
-                    }
-
-                    State.Ready(isAuthorized = true) to
-                        getOnAuthActions(profileId = message.profile.id) + navigateToViewAction
-                } else {
-                    null
-                }
+                handleUserAuthorized(state, message)
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
@@ -65,6 +55,10 @@ class AppReducer(
                 } else {
                     null
                 }
+            is Message.NotificationOnboardingDataFetched ->
+                handleNotificationOnboardingDataFetched(state, message)
+            is Message.NotificationOnboardingCompleted ->
+                handleNotificationOnboardingCompleted(state)
             is Message.OpenAuthScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
@@ -125,9 +119,60 @@ class AppReducer(
                     }
                 }
 
-            State.Ready(isAuthorized) to actions
+            State.Ready(isAuthorized = isAuthorized) to actions
         } else {
             state to emptySet()
+        }
+
+    private fun handleUserAuthorized(
+        state: State,
+        message: Message.UserAuthorized
+    ): ReducerResult =
+        if (state is State.Ready && !state.isAuthorized) {
+            val navigationLogicAction = if (message.isNotificationPermissionGranted) {
+                getAuthorizedUserNavigationAction(message.profile)
+            } else {
+                Action.FetchNotificationOnboardingData
+            }
+            State.Ready(
+                isAuthorized = true,
+                profile = if (!message.isNotificationPermissionGranted) message.profile else null
+            ) to getAuthorizedUserActions(message.profile) + navigationLogicAction
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleNotificationOnboardingDataFetched(
+        state: State,
+        message: Message.NotificationOnboardingDataFetched
+    ): ReducerResult =
+        if (state is State.Ready && state.profile != null) {
+            if (!message.wasNotificationOnBoardingShown) {
+                state to setOf(Action.ViewAction.NavigateTo.NotificationOnBoardingScreen)
+            } else {
+                navigateUserAfterNotificationOnboarding(state.profile)
+            }
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleNotificationOnboardingCompleted(
+        state: State
+    ): ReducerResult =
+        if (state is State.Ready && state.profile != null) {
+            navigateUserAfterNotificationOnboarding(state.profile)
+        } else {
+            state to emptySet()
+        }
+
+    private fun navigateUserAfterNotificationOnboarding(profile: Profile): ReducerResult =
+        State.Ready(isAuthorized = true) to setOf(getAuthorizedUserNavigationAction(profile))
+
+    private fun getAuthorizedUserNavigationAction(profile: Profile): Action =
+        if (profile.isNewUser) {
+            Action.ViewAction.NavigateTo.TrackSelectionScreen
+        } else {
+            Action.ViewAction.NavigateTo.HomeScreen
         }
 
     private fun reduceStreakRecoveryMessage(
@@ -176,15 +221,6 @@ class AppReducer(
         }.toSet()
     }
 
-    private fun getOnAuthActions(
-        profileId: Long
-    ): Set<Action> =
-        setOf(
-            Action.IdentifyUserInSentry(userId = profileId),
-            Action.UpdateDailyLearningNotificationTime,
-            Action.SendPushNotificationsToken
-        )
-
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,
         platformType: PlatformType
@@ -203,4 +239,11 @@ class AppReducer(
 
     private fun getNotAuthorizedAppStartUpActions(): Set<Action> =
         setOf(Action.ClearUserInSentry)
+
+    private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
+        setOf(
+            Action.IdentifyUserInSentry(userId = profile.id),
+            Action.UpdateDailyLearningNotificationTime,
+            Action.SendPushNotificationsToken
+        )
 }

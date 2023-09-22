@@ -13,6 +13,7 @@ struct VerticalCenteredScrollView<Content>: View where Content: View {
                     .frame(width: geometry.size.width)
                     .frame(minHeight: geometry.size.height)
             }
+            .scrollBounceBehaviorBasedOnSize()
         }
     }
 }

@@ -47,7 +47,7 @@ struct StreakRecoveryModalView: View {
 
             VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
                 Text(Strings.Streak.RecoverModal.warning)
-                    .foregroundColor(.disabledText)
+                    .foregroundColor(.tertiaryText)
                     .font(.body)
                     .padding(.bottom, appearance.warningBottomPadding)
 
