@@ -36,6 +36,8 @@ import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
+import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
+import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
@@ -120,6 +122,7 @@ class MainActivity :
         startupViewModel(intent)
 
         observeAuthFlowSuccess()
+        observeNotificationsOnboardingFlowFinished()
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
@@ -174,6 +177,17 @@ class MainActivity :
         }
     }
 
+    private fun observeNotificationsOnboardingFlowFinished() {
+        lifecycleScope.launch {
+            router
+                .observeResult(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    mainViewModel.onNewMessage(AppFeature.Message.NotificationOnboardingCompleted)
+                }
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
@@ -212,7 +226,7 @@ class MainActivity :
                     )
                 )
             is AppFeature.Action.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
-                TODO("Screen is going to be implemented in ALTAPPS-970")
+                router.newRootScreen(NotificationsOnboardingScreen)
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
                     fragmentManager = supportFragmentManager,
