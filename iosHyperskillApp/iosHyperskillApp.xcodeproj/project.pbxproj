@@ -152,6 +152,7 @@
 		2C45E7C12A0FE9E100DFF32D /* ProjectSelectionListGridCellProjectGraduateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListGridCellProjectGraduateView.swift */; };
 		2C45E7C32A0FEC2B00DFF32D /* ProjectSelectionListGridCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListGridCellHeaderView.swift */; };
 		2C45E7C52A0FEE7A00DFF32D /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */; };
+		2C4605B12ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C4F639B2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639A2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift */; };
@@ -732,6 +733,7 @@
 		2C45E7C02A0FE9E100DFF32D /* ProjectSelectionListGridCellProjectGraduateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridCellProjectGraduateView.swift; sourceTree = "<group>"; };
 		2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListGridCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridCellHeaderView.swift; sourceTree = "<group>"; };
 		2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
+		2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScrollBounceBehavior.swift"; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
@@ -1654,6 +1656,7 @@
 				2CF4341128126C79002893CD /* View+EndEditing.swift */,
 				2C177EC22837B65500D841DB /* View+Frame.swift */,
 				E9FAF38E299F61AE001FC596 /* View+MeasureSize.swift */,
+				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -4069,6 +4072,7 @@
 				E9F0A2B029D4428C00C4A61E /* StudyPlanView.swift in Sources */,
 				2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */,
 				2C5B2A21286596030097B270 /* Reusable.swift in Sources */,
+				2C4605B12ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift in Sources */,
 				E96D493B2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift in Sources */,
 				2C7994AF2A1299B800874C16 /* TrackSelectionListView.swift in Sources */,
 				2CB1962428EF27F30075F7EF /* UIKitViewControllerPreview.swift in Sources */,
