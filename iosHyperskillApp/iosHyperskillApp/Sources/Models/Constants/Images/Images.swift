@@ -177,6 +177,12 @@ enum Images {
         static let problemOfDayCard = "onboarding-problem-of-day-card"
     }
 
+    // MARK: - NotificationsOnboarding -
+
+    enum NotificationsOnboarding {
+        static let illustration = "notifications-onboarding-illustration"
+    }
+
     // MARK: - TopicsRepetitions -
 
     enum TopicsRepetitions {

@@ -6,7 +6,7 @@ struct StepQuizNameView: View {
     var body: some View {
         Text(text)
             .font(.caption)
-            .foregroundColor(.disabledText)
+            .foregroundColor(.tertiaryText)
     }
 }
 
