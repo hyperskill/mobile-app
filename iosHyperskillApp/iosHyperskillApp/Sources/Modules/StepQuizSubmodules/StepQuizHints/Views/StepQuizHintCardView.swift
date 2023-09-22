@@ -42,7 +42,7 @@ struct StepQuizHintCardView: View {
 
                 Text(authorName)
                     .font(.caption)
-                    .foregroundColor(.disabledText)
+                    .foregroundColor(.tertiaryText)
 
                 Spacer()
 

@@ -284,6 +284,11 @@
         <dark>#819EF8</dark>
     </color>
 
+    <color name="button_disabled">
+        <light>#DDE1E6</light>
+        <dark>#4D5358</dark>
+    </color>
+
     <color name="layer_1">
         <light>#FFFFFF</light>
         <dark>#1F2427</dark>

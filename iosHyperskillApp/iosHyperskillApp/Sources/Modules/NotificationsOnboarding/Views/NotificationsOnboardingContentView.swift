@@ -7,8 +7,6 @@ extension NotificationsOnboardingContentView {
         let illustrationHeight: CGFloat = 320
 
         let maxWidth: CGFloat = DeviceInfo.current.isPad ? 400 : .infinity
-
-        let primaryButtonStyle = RoundedRectangleButtonStyle(style: .violet)
     }
 }
 
@@ -62,11 +60,11 @@ struct NotificationsOnboardingContentView: View {
         VStack(alignment: .center, spacing: appearance.interitemSpacing) {
             Text(Strings.NotificationsOnboarding.title)
                 .font(.title).bold()
-                .foregroundColor(.primaryText)
+                .foregroundColor(.newPrimaryText)
 
             Text(Strings.NotificationsOnboarding.subtitle)
                 .font(.body)
-                .foregroundColor(.secondaryText)
+                .foregroundColor(.newSecondaryText)
         }
         .multilineTextAlignment(.center)
     }
@@ -90,7 +88,7 @@ struct NotificationsOnboardingContentView: View {
                     onPrimaryButtonTap()
                 }
             )
-            .buttonStyle(appearance.primaryButtonStyle)
+            .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
             .shineEffect()
 
             Button(
@@ -100,11 +98,7 @@ struct NotificationsOnboardingContentView: View {
                     onSecondaryButtonTap()
                 }
             )
-            .frame(
-                maxWidth: .infinity,
-                minHeight: appearance.primaryButtonStyle.minHeight,
-                alignment: .center
-            )
+            .buttonStyle(GhostButtonStyle())
         }
     }
 }

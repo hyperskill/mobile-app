@@ -3,7 +3,7 @@ import SwiftUI
 
 extension NotificationsOnboardingView {
     struct Appearance {
-        let backgroundColor = Color.background
+        let backgroundColor = Color(ColorPalette.newLayer1)
     }
 }
 

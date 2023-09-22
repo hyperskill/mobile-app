@@ -16,10 +16,16 @@ extension Color {
     /// `OnSurface_0.6`
     static var secondaryText: Color { Color(UIColor.secondaryText) }
 
-    /// The material color for text labels that contain disabled content.
+    /// The material color for text labels that contain tertiary content.
     ///
     /// `OnSurface_0.38`
-    static var disabledText: Color { Color(UIColor.disabledText) }
+    static var tertiaryText: Color { Color(UIColor.tertiaryText) }
+
+    /// The new color for text labels that contain primary content.
+    static var newPrimaryText: Color { Color(UIColor.newPrimaryText) }
+
+    /// The new color for text labels that contain secondary content.
+    static var newSecondaryText: Color { Color(UIColor.newSecondaryText) }
 
     /// The system color for text labels that contain primary content.
     static var systemPrimaryText: Color { Color(UIColor.label) }
