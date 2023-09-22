@@ -22,7 +22,7 @@ struct StepQuizParsonsItemView: View {
                 ForEach(0..<level, id: \.self) { _ in
                     Text(". . . .")
                         .font(Font(appearance.tabTextFont))
-                        .foregroundColor(.disabledText)
+                        .foregroundColor(.tertiaryText)
                         .frame(height: appearance.tabTextFont.pointSize)
                 }
 

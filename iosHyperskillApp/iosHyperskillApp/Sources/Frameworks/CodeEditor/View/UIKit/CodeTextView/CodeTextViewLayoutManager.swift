@@ -10,7 +10,7 @@ extension CodeTextViewLayoutManager {
         var lineNumberInsets = LayoutInsets(trailing: 4)
 
         var currentLineNumberTextColor = UIColor.primaryText
-        var currentLineColor = UIColor.disabledText
+        var currentLineColor = UIColor.tertiaryText
         var currentLineWidth: CGFloat = 24.0
     }
 }

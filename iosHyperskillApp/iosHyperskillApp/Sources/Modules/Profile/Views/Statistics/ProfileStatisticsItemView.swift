@@ -30,7 +30,7 @@ struct ProfileStatisticsItemView: View {
 
             Text(subtitle)
                 .font(.caption)
-                .foregroundColor(.disabledText)
+                .foregroundColor(.tertiaryText)
         }
         .frame(maxWidth: .infinity)
         .padding()

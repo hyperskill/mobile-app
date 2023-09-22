@@ -376,6 +376,14 @@
     <string name="onboarding_sign_in">Sign in</string>
     <string name="onboarding_sign_up">Sign up</string>
 
+    <!--  Notifications onboarding  -->
+    <string name="notifications_onboarding_title">Track your progress</string>
+    <string name="notifications_onboarding_description">Enable notifications to keep your streak alive and stay
+        consistently on top of your learning
+    </string>
+    <string name="notifications_onboarding_button_allow">Allow notifications</string>
+    <string name="notifications_onboarding_button_later">Remind me later</string>
+
     <!-- Text for receiving notification after daily step is complete -->
     <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
     <string name="after_daily_step_completed_dialog_text">The app will send you notifications to practice everyday and keep up your learning streak</string>
@@ -508,4 +516,5 @@
     <!-- Earned badge modal -->
     <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
     <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
+
 </resources>

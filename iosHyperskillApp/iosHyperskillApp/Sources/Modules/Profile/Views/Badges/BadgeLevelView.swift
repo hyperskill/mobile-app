@@ -10,7 +10,7 @@ extension BadgeLevelView {
         let currentLevelForegroundColor = Color.primaryText
 
         var nextLevelFont = Font.caption2
-        let nextLevelForegroundColor = Color.disabledText
+        let nextLevelForegroundColor = Color.tertiaryText
     }
 }
 
