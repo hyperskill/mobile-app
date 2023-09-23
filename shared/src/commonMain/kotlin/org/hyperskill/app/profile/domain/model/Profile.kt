@@ -50,6 +50,8 @@ data class Profile(
     val trackTitle: String?,
     @SerialName("is_beta")
     val isBeta: Boolean = false,
+    @SerialName("timezone")
+    val timeZone: TimeZone? = null,
     @SerialName("notification_hour")
     private val utcNotificationHour: Int? = null,
     @SerialName("features")

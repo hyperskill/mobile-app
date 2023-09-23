@@ -1,5 +1,6 @@
 package org.hyperskill.app.profile.data.repository
 
+import kotlinx.datetime.TimeZone
 import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
@@ -12,4 +13,7 @@ class ProfileRepositoryImpl(
 
     override suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile> =
         profileRemoteDataSource.selectTrack(profileId, trackId)
+
+    override suspend fun setTimeZone(profileId: Long, timeZone: TimeZone): Result<Profile> =
+        profileRemoteDataSource.setTimeZone(profileId, timeZone)
 }
