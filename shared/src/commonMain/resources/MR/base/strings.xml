@@ -145,7 +145,6 @@
     <string name="step_quiz_code_detail_execution_memory_limit_title">Memory limit:</string>
     <string name="step_quiz_code_detail_execution_memory_limit_value">%d MB</string>
     <string name="step_quiz_code_details">Input / Output Info</string>
-    <string name="step_quiz_code_write_program_text">Write a program</string>
     <string name="step_quiz_code_run_solution_button_text">Run solution</string>
     <string name="reset_code_dialog_title">Are you sure?</string>
     <string name="reset_code_dialog_explanation">Your code will be lost</string>
