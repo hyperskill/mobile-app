@@ -14,7 +14,7 @@ extension CodeTextView {
         var lineSpacing: CGFloat = 1.2
 
         var currentLineNumberTextColor = UIColor.primaryText
-        var currentLineColor = UIColor.disabledText
+        var currentLineColor = UIColor.tertiaryText
         var currentLineWidth: CGFloat = 24
 
         var colorsUpdateStrategy = ColorsUpdateStrategy.invertThemeBackgroundColor()

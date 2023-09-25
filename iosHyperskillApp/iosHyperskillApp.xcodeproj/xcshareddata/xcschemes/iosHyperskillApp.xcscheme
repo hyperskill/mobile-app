@@ -39,6 +39,17 @@
                ReferencedContainer = "container:iosHyperskillApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "2C4823252AC172600047999B"
+               BuildableName = "iosHyperskillAppUITests.xctest"
+               BlueprintName = "iosHyperskillAppUITests"
+               ReferencedContainer = "container:iosHyperskillApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

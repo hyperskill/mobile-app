@@ -9,7 +9,7 @@ class CurrentProfileStateHolderImpl(
     private val json: Json,
     private val settings: Settings
 ) : CurrentProfileStateHolder {
-    override fun getState(): Profile? {
+    override suspend fun getState(): Profile? {
         val key =
             when {
                 settings.hasKey(ProfileCacheKeyValues.CURRENT_PROFILE) ->
@@ -26,7 +26,7 @@ class CurrentProfileStateHolderImpl(
         )
     }
 
-    override fun setState(newState: Profile) {
+    override suspend fun setState(newState: Profile) {
         val key =
             if (newState.isGuest) {
                 ProfileCacheKeyValues.GUEST_PROFILE

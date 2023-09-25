@@ -42,7 +42,7 @@ struct StepQuizHintCardView: View {
 
                 Text(authorName)
                     .font(.caption)
-                    .foregroundColor(.disabledText)
+                    .foregroundColor(.tertiaryText)
 
                 Spacer()
 
@@ -66,7 +66,7 @@ struct StepQuizHintCardView: View {
             // .textSelection(.enabled) is available only for iOS 15
             // this is the simpliest solution
             .contextMenu(ContextMenu(menuItems: {
-                Button("Copy", action: {
+                Button(Strings.StepQuiz.Hints.copy, action: {
                     UIPasteboard.general.string = hintText
                 })
             }))

@@ -12,7 +12,6 @@ final class ProfileViewModel: FeatureViewModel<
 
     private let badgesViewStateMapper: BadgesViewStateMapper
 
-    private let notificationService: NotificationsService
     private let notificationsRegistrationService: NotificationsRegistrationService
     private let notificationInteractor: NotificationInteractor
 
@@ -31,7 +30,6 @@ final class ProfileViewModel: FeatureViewModel<
         presentationDescription: ProfilePresentationDescription,
         profileViewDataMapper: ProfileViewDataMapper,
         badgesViewStateMapper: BadgesViewStateMapper,
-        notificationService: NotificationsService,
         notificationsRegistrationService: NotificationsRegistrationService,
         notificationInteractor: NotificationInteractor,
         feature: Presentation_reduxFeature
@@ -39,7 +37,6 @@ final class ProfileViewModel: FeatureViewModel<
         self.presentationDescription = presentationDescription
         self.profileViewDataMapper = profileViewDataMapper
         self.badgesViewStateMapper = badgesViewStateMapper
-        self.notificationService = notificationService
         self.notificationsRegistrationService = notificationsRegistrationService
         self.notificationInteractor = notificationInteractor
 

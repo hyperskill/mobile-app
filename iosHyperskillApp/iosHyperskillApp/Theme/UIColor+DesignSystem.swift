@@ -13,8 +13,14 @@ extension UIColor {
     /// `OnSurface_0.6`
     static var secondaryText: UIColor { ColorPalette.onSurfaceAlpha60 }
 
-    /// The material color for text labels that contain disabled content.
+    /// The material color for text labels that contain tertiary content.
     ///
     /// `OnSurface_0.38`
-    static var disabledText: UIColor { ColorPalette.onSurfaceAlpha38 }
+    static var tertiaryText: UIColor { ColorPalette.onSurfaceAlpha38 }
+
+    /// The new color for text labels that contain primary content.
+    static var newPrimaryText: UIColor { ColorPalette.newTextPrimary }
+
+    /// The new color for text labels that contain secondary content.
+    static var newSecondaryText: UIColor { ColorPalette.newTextSecondary }
 }

@@ -18,9 +18,10 @@ struct BadgeEarnedModalView: View {
     var body: some View {
         VStack(alignment: .center, spacing: appearance.spacing) {
             VStack(alignment: .center, spacing: appearance.interitemSpacing) {
-                Text(earnedBadgeModalViewState.formattedRank)
-                    .foregroundColor(Color(earnedBadgeModalViewState.rank.foregroundColor))
-                    .font(.headline)
+                BadgeRankView(
+                    text: earnedBadgeModalViewState.formattedRank,
+                    rank: earnedBadgeModalViewState.rank
+                )
 
                 BadgeImageView(
                     kind: earnedBadgeModalViewState.kind,
@@ -38,8 +39,8 @@ struct BadgeEarnedModalView: View {
                 Text(earnedBadgeModalViewState.description_)
                     .font(.subheadline)
                     .foregroundColor(.secondaryText)
-                    .multilineTextAlignment(.center)
             }
+            .multilineTextAlignment(.center)
         }
         .padding()
     }

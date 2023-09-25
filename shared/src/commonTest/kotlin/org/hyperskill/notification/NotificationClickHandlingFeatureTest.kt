@@ -18,8 +18,8 @@ class NotificationClickHandlingFeatureTest {
             NotificationClickHandlingFeature.State,
             NotificationClickHandlingFeature.Message.NotificationClicked(
                 PushNotificationData(
-                    PushNotificationType.STREAK_NEW.name,
-                    PushNotificationCategory.CONTINUE_LEARNING.backendName!!
+                    typeString = PushNotificationType.STREAK_NEW.name,
+                    categoryString = PushNotificationCategory.CONTINUE_LEARNING.backendName!!
                 ),
                 isUserAuthorized = false,
                 notificationLaunchedApp = true
@@ -38,8 +38,8 @@ class NotificationClickHandlingFeatureTest {
             NotificationClickHandlingFeature.State,
             NotificationClickHandlingFeature.Message.NotificationClicked(
                 PushNotificationData(
-                    PushNotificationType.STREAK_NEW.name,
-                    PushNotificationCategory.CONTINUE_LEARNING.backendName!!
+                    typeString = PushNotificationType.STREAK_NEW.name,
+                    categoryString = PushNotificationCategory.CONTINUE_LEARNING.backendName!!
                 ),
                 isUserAuthorized = true,
                 notificationLaunchedApp = true
