@@ -31,7 +31,7 @@ final class StepQuizViewDataMapper {
         }
 
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
-            solvedByUsersCount: step.solvedBy,
+            solvedByCount: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
