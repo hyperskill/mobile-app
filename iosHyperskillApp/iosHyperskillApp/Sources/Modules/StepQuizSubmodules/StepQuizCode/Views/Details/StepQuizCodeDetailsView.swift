@@ -11,9 +11,6 @@ struct StepQuizCodeDetailsView: View {
 
     let samples: [StepQuizCodeViewData.Sample]
 
-    let executionTimeLimit: String?
-    let executionMemoryLimit: String?
-
     private(set) var isAlwaysExpanded = false
     var onExpandTapped: (() -> Void)?
     @State private var isExpanded = false
@@ -40,9 +37,7 @@ struct StepQuizCodeDetailsView: View {
 
             if isExpanded || isAlwaysExpanded {
                 StepQuizCodeSamplesView(
-                    samples: samples,
-                    executionTimeLimit: executionTimeLimit,
-                    executionMemoryLimit: executionMemoryLimit
+                    samples: samples
                 )
             }
         }
@@ -85,9 +80,7 @@ struct StepQuizCodeDetailsView_Previews: PreviewProvider {
                         outputTitle: "Sample Output 1",
                         outputValue: "true"
                     )
-                ],
-                executionTimeLimit: "Time limit: 8 seconds",
-                executionMemoryLimit: "Memory limit: 256 MB"
+                ]
             )
 
             StepQuizCodeDetailsView(
@@ -99,8 +92,6 @@ struct StepQuizCodeDetailsView_Previews: PreviewProvider {
                         outputValue: "true"
                     )
                 ],
-                executionTimeLimit: "Time limit: 8 seconds",
-                executionMemoryLimit: "Memory limit: 256 MB",
                 isAlwaysExpanded: true
             )
         }

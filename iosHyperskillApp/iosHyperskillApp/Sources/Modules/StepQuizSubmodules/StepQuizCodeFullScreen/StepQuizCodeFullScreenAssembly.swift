@@ -60,8 +60,6 @@ extension StepQuizCodeFullScreenAssembly {
                         outputValue: "true"
                     )
                 ],
-                executionTimeLimit: "Time limit: 8 seconds",
-                executionMemoryLimit: "Memory limit: 256 MB",
                 stepText: """
 Enter only the name of the found functional interface with/without the package. Don't write any generic parameters.
 """

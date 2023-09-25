@@ -9,9 +9,6 @@ struct StepQuizCodeViewData {
 
     let samples: [Sample]
 
-    let executionTimeLimit: String?
-    let executionMemoryLimit: String?
-
     let stepText: String
 
     struct Sample: Hashable {

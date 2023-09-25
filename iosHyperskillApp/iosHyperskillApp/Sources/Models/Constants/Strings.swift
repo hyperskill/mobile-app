@@ -143,9 +143,6 @@ enum Strings {
         static let detailsTitle = sharedStrings.step_quiz_code_details.localized()
         static let sampleInputTitleResource = sharedStrings.step_quiz_code_detail_sample_input_title
         static let sampleOutputTitleResource = sharedStrings.step_quiz_code_detail_sample_output_title
-        static let timeLimitTitle = sharedStrings.step_quiz_code_detail_execution_time_limit_title.localized()
-        static let memoryLimitTitle = sharedStrings.step_quiz_code_detail_execution_memory_limit_title.localized()
-        static let memoryLimitValueResource = sharedStrings.step_quiz_code_detail_execution_memory_limit_value
 
         static let runSolutionButton = sharedStrings.step_quiz_code_run_solution_button_text.localized()
         static let fullScreenDetailsTab = sharedStrings.step_quiz_code_full_screen_details_tab.localized()

@@ -15,23 +15,15 @@ struct StepQuizCodeFullScreenDetailsView: View {
     let stepText: String
 
     let samples: [StepQuizCodeViewData.Sample]
-    let executionTimeLimit: String?
-    let executionMemoryLimit: String?
-
-    private var isDetailsEmpty: Bool {
-        samples.isEmpty && executionTimeLimit == nil && executionMemoryLimit == nil
-    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
                 StepTextView(text: stepText)
 
-                if !isDetailsEmpty {
+                if !samples.isEmpty {
                     StepQuizCodeDetailsView(
                         samples: samples,
-                        executionTimeLimit: executionTimeLimit,
-                        executionMemoryLimit: executionMemoryLimit,
                         isAlwaysExpanded: true
                     )
                     .padding(.horizontal, -appearance.spacing)
@@ -55,9 +47,7 @@ Enter only the name of the found functional interface with/without the package. 
                     outputTitle: "Sample Output 1",
                     outputValue: "true"
                 )
-            ],
-            executionTimeLimit: "Time limit: 8 seconds",
-            executionMemoryLimit: "Memory limit: 256 MB"
+            ]
         )
     }
 }

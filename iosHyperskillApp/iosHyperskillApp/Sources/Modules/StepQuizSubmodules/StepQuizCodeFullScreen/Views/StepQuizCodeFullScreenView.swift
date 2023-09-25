@@ -29,9 +29,7 @@ struct StepQuizCodeFullScreenView: View {
                     TabNavigationLazyView(
                         StepQuizCodeFullScreenDetailsView(
                             stepText: viewData.stepText,
-                            samples: viewData.samples,
-                            executionTimeLimit: viewData.executionTimeLimit,
-                            executionMemoryLimit: viewData.executionMemoryLimit
+                            samples: viewData.samples
                         )
                     )
                     .tag(StepQuizCodeFullScreenTab.details)
