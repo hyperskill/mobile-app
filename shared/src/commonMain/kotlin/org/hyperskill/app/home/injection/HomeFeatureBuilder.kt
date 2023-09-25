@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
@@ -11,6 +12,7 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetActionDispatcher
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
 import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
@@ -29,6 +31,9 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object HomeFeatureBuilder {
+
+    private const val LOG_TAG = "HomeFeature"
+
     fun build(
         homeInteractor: HomeInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
@@ -44,7 +49,8 @@ internal object HomeFeatureBuilder {
         problemsLimitReducer: ProblemsLimitReducer,
         problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer,
-        nextLearningActivityWidgetActionDispatcher: NextLearningActivityWidgetActionDispatcher
+        nextLearningActivityWidgetActionDispatcher: NextLearningActivityWidgetActionDispatcher,
+        logger: Logger
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
             gamificationToolbarReducer,
@@ -71,7 +77,7 @@ internal object HomeFeatureBuilder {
                 problemsLimitState = ProblemsLimitFeature.State.Idle,
                 nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.initialState()
             ),
-            homeReducer
+            homeReducer.wrapWithLogger(logger, LOG_TAG)
         )
             .wrapWithActionDispatcher(homeActionDispatcher)
             .wrapWithActionDispatcher(
