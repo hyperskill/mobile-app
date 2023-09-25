@@ -154,6 +154,8 @@
 		2C45E7C52A0FEE7A00DFF32D /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */; };
 		2C4605B12ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
+		2C48232B2AC172600047999B /* LaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C48232A2AC172600047999B /* LaunchTests.swift */; };
+		2C4823322AC1768A0047999B /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4823312AC1768A0047999B /* LaunchPerformanceTests.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
 		2C4F639B2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639A2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift */; };
 		2C4F639E2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639D2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift */; };
@@ -553,6 +555,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2C48232C2AC172600047999B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7555FF73242A565900829871 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7555FF7A242A565900829871;
+			remoteInfo = iosHyperskillApp;
+		};
 		2C919DF127EEF5BC0022A2F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7555FF73242A565900829871 /* Project object */;
@@ -736,6 +745,10 @@
 		2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScrollBounceBehavior.swift"; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
+		2C4823262AC172600047999B /* iosHyperskillAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C48232A2AC172600047999B /* LaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchTests.swift; sourceTree = "<group>"; };
+		2C4823312AC1768A0047999B /* LaunchPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchPerformanceTests.swift; sourceTree = "<group>"; };
+		2C4823332AC177AF0047999B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
 		2C4F639A2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridView.swift; sourceTree = "<group>"; };
@@ -1141,6 +1154,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2C4823232AC172600047999B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2C919DEA27EEF5BC0022A2F2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1888,6 +1908,16 @@
 				2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */,
 			);
 			path = Wrappers;
+			sourceTree = "<group>";
+		};
+		2C4823272AC172600047999B /* iosHyperskillAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2C4823332AC177AF0047999B /* Info.plist */,
+				2C4823312AC1768A0047999B /* LaunchPerformanceTests.swift */,
+				2C48232A2AC172600047999B /* LaunchTests.swift */,
+			);
+			path = iosHyperskillAppUITests;
 			sourceTree = "<group>";
 		};
 		2C4F63992A1018CD00D4EE39 /* Skeleton */ = {
@@ -3119,6 +3149,7 @@
 			children = (
 				7555FF7D242A565900829871 /* iosHyperskillApp */,
 				2C919DEE27EEF5BC0022A2F2 /* iosHyperskillAppTests */,
+				2C4823272AC172600047999B /* iosHyperskillAppUITests */,
 				2CEBF0832AAF1EBF00EAE0BE /* NotificationServiceExtension */,
 				7555FF7C242A565900829871 /* Products */,
 				69078482427C2E9AB934883B /* Pods */,
@@ -3132,6 +3163,7 @@
 				7555FF7B242A565900829871 /* iosHyperskillApp.app */,
 				2C919DED27EEF5BC0022A2F2 /* iosHyperskillAppTests.xctest */,
 				2CEBF0822AAF1EBF00EAE0BE /* NotificationServiceExtension.appex */,
+				2C4823262AC172600047999B /* iosHyperskillAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -3537,6 +3569,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2C4823252AC172600047999B /* iosHyperskillAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C4823302AC172600047999B /* Build configuration list for PBXNativeTarget "iosHyperskillAppUITests" */;
+			buildPhases = (
+				2C4823222AC172600047999B /* Sources */,
+				2C4823232AC172600047999B /* Frameworks */,
+				2C4823242AC172600047999B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C48232D2AC172600047999B /* PBXTargetDependency */,
+			);
+			name = iosHyperskillAppUITests;
+			productName = iosHyperskillAppUITests;
+			productReference = 2C4823262AC172600047999B /* iosHyperskillAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		2C919DEC27EEF5BC0022A2F2 /* iosHyperskillAppTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C919DF327EEF5BC0022A2F2 /* Build configuration list for PBXNativeTarget "iosHyperskillAppTests" */;
@@ -3604,6 +3654,10 @@
 				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Stepik Technologies s.r.o.";
 				TargetAttributes = {
+					2C4823252AC172600047999B = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 7555FF7A242A565900829871;
+					};
 					2C919DEC27EEF5BC0022A2F2 = {
 						CreatedOnToolsVersion = 13.3;
 						TestTargetID = 7555FF7A242A565900829871;
@@ -3633,11 +3687,19 @@
 				7555FF7A242A565900829871 /* iosHyperskillApp */,
 				2C919DEC27EEF5BC0022A2F2 /* iosHyperskillAppTests */,
 				2CEBF0812AAF1EBF00EAE0BE /* NotificationServiceExtension */,
+				2C4823252AC172600047999B /* iosHyperskillAppUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2C4823242AC172600047999B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2C919DEB27EEF5BC0022A2F2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3747,6 +3809,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2C4823222AC172600047999B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C4823322AC1768A0047999B /* LaunchPerformanceTests.swift in Sources */,
+				2C48232B2AC172600047999B /* LaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2C919DE927EEF5BC0022A2F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4288,6 +4359,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2C48232D2AC172600047999B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7555FF7A242A565900829871 /* iosHyperskillApp */;
+			targetProxy = 2C48232C2AC172600047999B /* PBXContainerItemProxy */;
+		};
 		2C919DF227EEF5BC0022A2F2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7555FF7A242A565900829871 /* iosHyperskillApp */;
@@ -4312,6 +4388,47 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2C48232E2AC172600047999B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 191;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 3DWS674B2M;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = iosHyperskillApp;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		2C48232F2AC172600047999B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 191;
+				DEVELOPMENT_TEAM = 3DWS674B2M;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App.UITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = iosHyperskillApp;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
 		2C919DF427EEF5BC0022A2F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4323,7 +4440,7 @@
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.AppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App.UnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -4343,7 +4460,7 @@
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.AppTests;
+				PRODUCT_BUNDLE_IDENTIFIER = org.hyperskill.App.UnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -4599,6 +4716,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2C4823302AC172600047999B /* Build configuration list for PBXNativeTarget "iosHyperskillAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C48232E2AC172600047999B /* Debug */,
+				2C48232F2AC172600047999B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2C919DF327EEF5BC0022A2F2 /* Build configuration list for PBXNativeTarget "iosHyperskillAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
