@@ -14,6 +14,7 @@ dokka = '1.7.20'
 androidxLifecycle = "2.6.0-alpha01"
 coil = '2.2.0'
 lottie = '6.1.0'
+kermit = '2.0.0-RC4'
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"
@@ -55,6 +56,8 @@ kit-view-navigation = { module = "ru.nobird.android.view:navigation", version = 
 kit-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "adapters" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version = "0.8.1" }
+
+kermit-common = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.0" }
