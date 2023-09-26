@@ -18,7 +18,7 @@ object LoggerBuilder {
             config = StaticConfig(
                 logWriterList = listOf(
                     platformLogWriter(),
-                    SentryLogWriter(buildVariant, sentryInteractor)
+                    SentryLogWriter(sentryInteractor)
                 ),
                 minSeverity = if (buildVariant == BuildVariant.RELEASE) {
                     Severity.Info

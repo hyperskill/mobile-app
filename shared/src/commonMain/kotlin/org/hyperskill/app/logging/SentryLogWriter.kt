@@ -6,33 +6,22 @@ import co.touchlab.kermit.Message
 import co.touchlab.kermit.MessageStringFormatter
 import co.touchlab.kermit.Severity
 import co.touchlab.kermit.Tag
-import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 
 class SentryLogWriter(
-    private val buildVariant: BuildVariant,
     private val sentryInteractor: SentryInteractor,
     private val messageStringFormatter: MessageStringFormatter = DefaultFormatter
 ) : LogWriter() {
 
     override fun isLoggable(tag: String, severity: Severity): Boolean =
-        when (buildVariant) {
-            BuildVariant.DEBUG,
-            BuildVariant.INTERNAL_RELEASE ->
-                when (severity) {
-                    Severity.Verbose, Severity.Assert -> false
-                    else -> true
-                }
-            BuildVariant.RELEASE ->
-                when (severity) {
-                    Severity.Verbose,
-                    Severity.Debug,
-                    Severity.Assert -> false
-                    Severity.Info,
-                    Severity.Warn,
-                    Severity.Error -> true
-                }
+        when (severity) {
+            Severity.Verbose,
+            Severity.Debug,
+            Severity.Assert -> false
+            Severity.Info,
+            Severity.Warn,
+            Severity.Error -> true
         }
 
     override fun log(severity: Severity, message: String, tag: String, throwable: Throwable?) {
