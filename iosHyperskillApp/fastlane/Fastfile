@@ -242,6 +242,24 @@ platform :ios do
 
     scan(
       skip_package_dependencies_resolution: true,
+      testplan: "UnitTests",
+    )
+  end
+
+  desc "Run all UI tests for scheme"
+  desc "Options: install_pods"
+  lane :run_ui_tests do |options|
+    install_pods = options.key?(:install_pods) ? options[:install_pods] : true
+
+    clear_derived_data
+
+    if install_pods
+      cocoapods(try_repo_update_on_error: true)
+    end
+
+    scan(
+      skip_package_dependencies_resolution: true,
+      testplan: "UITests",
     )
   end
 

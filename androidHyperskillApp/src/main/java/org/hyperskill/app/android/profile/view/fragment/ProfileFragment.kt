@@ -94,14 +94,14 @@ class ProfileFragment :
             if (!isChecked) {
                 onDailyLearningSwitchNotificationPermissionGranted(false)
             } else {
-                notificationPermissionDelegate?.requestNotificationPermission(::onNotificationPermissionResult)
+                notificationPermissionDelegate?.requestNotificationPermission()
             }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponents()
-        notificationPermissionDelegate = NotificationPermissionDelegate(this)
+        notificationPermissionDelegate = NotificationPermissionDelegate(this, ::onNotificationPermissionResult)
     }
 
     private fun injectComponents() {
