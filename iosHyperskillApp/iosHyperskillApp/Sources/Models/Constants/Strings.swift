@@ -88,13 +88,18 @@ enum Strings {
         static let quizStatusWrong = sharedStrings.step_quiz_status_wrong_text.localized()
         static let quizStatusEvaluation = sharedStrings.step_quiz_status_evaluation_text.localized()
         static let quizStatusLoading = sharedStrings.step_quiz_status_loading_text.localized()
+
         static let feedbackTitle = sharedStrings.step_quiz_feedback_title.localized()
+
         static let continueButton = sharedStrings.step_quiz_continue_button_text.localized()
         static let retryButton = sharedStrings.step_quiz_retry_button_text.localized()
         static let sendButton = sharedStrings.step_quiz_send_button_text.localized()
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
+
         static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
+
+        static let stepTextHeaderTitle = sharedStrings.step_quiz_step_text_header_title.localized()
 
         enum ResetCodeAlert {
             static let title = sharedStrings.reset_code_dialog_title.localized()

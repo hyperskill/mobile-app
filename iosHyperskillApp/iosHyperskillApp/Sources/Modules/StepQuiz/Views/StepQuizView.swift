@@ -53,7 +53,14 @@ struct StepQuizView: View {
 
                         StepTextView(text: viewData.stepText)
                     } else {
-                        StepTextView(text: viewData.stepText)
+                        if viewData.quizType.isCodeRelated {
+                            CollapsableStepTextView(
+                                text: viewData.stepText,
+                                isCollapsed: false
+                            )
+                        } else {
+                            StepTextView(text: viewData.stepText)
+                        }
 
                         if viewData.stepHasHints {
                             StepQuizHintsAssembly(
