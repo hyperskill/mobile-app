@@ -1,8 +1,5 @@
 package org.hyperskill.app.auth.injection
 
-import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Action as WebViewAction
-import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Message as WebViewMessage
-import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.State as WebViewState
 import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
@@ -13,6 +10,9 @@ import org.hyperskill.app.logging.inject.LoggerComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import ru.nobird.app.presentation.redux.feature.Feature
+import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Action as WebViewAction
+import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Message as WebViewMessage
+import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.State as WebViewState
 
 class AuthSocialComponentImpl(
     private val commonComponent: CommonComponent,
