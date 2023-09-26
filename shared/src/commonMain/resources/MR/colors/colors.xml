@@ -77,7 +77,6 @@
     <color name="color_violet_200_alpha_12">#BFA3FF1F</color>
     <color name="color_violet_200_alpha_7">#BFA3FF12</color>
 
-
     <!-- AppTheme -->
 
     <color name="color_background">
@@ -259,5 +258,39 @@
     <color name="home_screen_dark_arrow_color">
         <light>@color/color_black_900_alpha_60</light>
         <dark>@color/color_black_900</dark>
+    </color>
+
+    <!-- New colors -->
+
+    <color name="text_primary">
+        <light>#121619</light>
+        <dark>#F2F4F8</dark>
+    </color>
+    <color name="text_secondary">
+        <light>#4D5358</light>
+        <dark>#C1C7CD</dark>
+    </color>
+    <color name="text_on_color">#FFFFFF</color>
+
+    <color name="button_primary">#566BE4</color>
+    <color name="button_primary_active">#3A4AD6</color>
+
+    <color name="button_ghost">
+        <light>#455BD9</light>
+        <dark>#C1D5FE</dark>
+    </color>
+    <color name="button_ghost_active">
+        <light>#1C2898</light>
+        <dark>#819EF8</dark>
+    </color>
+
+    <color name="button_disabled">
+        <light>#DDE1E6</light>
+        <dark>#4D5358</dark>
+    </color>
+
+    <color name="layer_1">
+        <light>#FFFFFF</light>
+        <dark>#1F2427</dark>
     </color>
 </resources>

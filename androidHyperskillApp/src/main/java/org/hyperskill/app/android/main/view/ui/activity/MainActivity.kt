@@ -1,6 +1,8 @@
 package org.hyperskill.app.android.main.view.ui.activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +36,8 @@ import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
+import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
+import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
@@ -87,6 +91,7 @@ class MainActivity :
         )
     }
 
+    @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
 
@@ -116,15 +121,8 @@ class MainActivity :
 
         startupViewModel(intent)
 
-        lifecycleScope.launch {
-            router
-                .observeResult(AuthFragment.AUTH_SUCCESS)
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    val profile = (it as? Profile) ?: return@collectLatest
-                    mainViewModel.onNewMessage(AppFeature.Message.UserAuthorized(profile))
-                }
-        }
+        observeAuthFlowSuccess()
+        observeNotificationsOnboardingFlowFinished()
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
@@ -155,6 +153,38 @@ class MainActivity :
             }
         } else {
             mainViewModel.startup()
+        }
+    }
+
+    @SuppressLint("InlinedApi")
+    private fun observeAuthFlowSuccess() {
+        lifecycleScope.launch {
+            router
+                .observeResult(AuthFragment.AUTH_SUCCESS)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    val profile = (it as? Profile) ?: return@collectLatest
+                    mainViewModel.onNewMessage(
+                        AppFeature.Message.UserAuthorized(
+                            profile = profile,
+                            isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
+                                this@MainActivity,
+                                android.Manifest.permission.POST_NOTIFICATIONS
+                            ) == PackageManager.PERMISSION_GRANTED
+                        )
+                    )
+                }
+        }
+    }
+
+    private fun observeNotificationsOnboardingFlowFinished() {
+        lifecycleScope.launch {
+            router
+                .observeResult(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    mainViewModel.onNewMessage(AppFeature.Message.NotificationOnboardingCompleted)
+                }
         }
     }
 
@@ -195,6 +225,8 @@ class MainActivity :
                         TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
+            is AppFeature.Action.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
+                router.newRootScreen(NotificationsOnboardingScreen)
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
                     fragmentManager = supportFragmentManager,

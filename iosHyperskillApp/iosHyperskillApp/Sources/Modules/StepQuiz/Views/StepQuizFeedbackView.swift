@@ -32,7 +32,7 @@ That's right! Since any comparison results in a boolean value, there is no need 
 extension StepQuizFeedbackUIKitView {
     struct Appearance {
         let titleLabelTextFont = UIFont.preferredFont(forTextStyle: .caption1)
-        let titleLabelTextColor = UIColor.disabledText
+        let titleLabelTextColor = UIColor.tertiaryText
 
         let processedContentTextFont = UIFont.monospacedSystemFont(ofSize: 14, weight: .regular)
         let processedContentTextColor = UIColor.primaryText

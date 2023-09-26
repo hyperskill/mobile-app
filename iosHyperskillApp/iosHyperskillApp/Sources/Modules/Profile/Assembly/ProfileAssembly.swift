@@ -25,9 +25,6 @@ final class ProfileAssembly: Assembly {
             presentationDescription: presentationDescription,
             profileViewDataMapper: ProfileViewDataMapper(),
             badgesViewStateMapper: profileComponent.badgesViewStateMapper,
-            notificationService: NotificationsService(
-                notificationInteractor: notificationComponent.notificationInteractor
-            ),
             notificationsRegistrationService: .shared,
             notificationInteractor: notificationComponent.notificationInteractor,
             feature: profileComponent.profileFeature

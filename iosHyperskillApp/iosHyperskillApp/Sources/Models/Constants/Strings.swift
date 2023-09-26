@@ -429,6 +429,16 @@ enum Strings {
         static let signUp = sharedStrings.onboarding_sign_up.localized()
     }
 
+    // MARK: - NotificationsOnboarding -
+
+    enum NotificationsOnboarding {
+        static let title = sharedStrings.notifications_onboarding_title.localized()
+        static let subtitle = sharedStrings.notifications_onboarding_description.localized()
+
+        static let buttonPrimary = sharedStrings.notifications_onboarding_button_allow.localized()
+        static let buttonSecondary = sharedStrings.notifications_onboarding_button_later.localized()
+    }
+
     // MARK: - ProjectSelectionList -
 
     enum ProjectSelectionList {
