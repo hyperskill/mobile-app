@@ -378,6 +378,9 @@
 		2CDA98452944590800ADE539 /* ProfileStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98442944590800ADE539 /* ProfileStatisticsView.swift */; };
 		2CDA984929445C0A00ADE539 /* ProfileStatisticsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA984829445C0A00ADE539 /* ProfileStatisticsItemView.swift */; };
 		2CDBE6F528C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */; };
+		2CDCC16B2AC2BE8F00BB309D /* UnitTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 2CDCC16A2AC2BE8F00BB309D /* UnitTests.xctestplan */; };
+		2CDCC16D2AC2BF4D00BB309D /* UITests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 2CDCC16C2AC2BF4D00BB309D /* UITests.xctestplan */; };
+		2CDCC16F2AC2BFF000BB309D /* AllTests.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 2CDCC16E2AC2BFF000BB309D /* AllTests.xctestplan */; };
 		2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D128EEF9690060D972 /* AppTabBarController.swift */; };
 		2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D528EF02740060D972 /* StackRouter.swift */; };
 		2CDF14D828EF1E080060D972 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */; };
@@ -973,6 +976,9 @@
 		2CDA98442944590800ADE539 /* ProfileStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStatisticsView.swift; sourceTree = "<group>"; };
 		2CDA984829445C0A00ADE539 /* ProfileStatisticsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileStatisticsItemView.swift; sourceTree = "<group>"; };
 		2CDBE6F428C10DCE00033679 /* NotificationPermissionStatusSettingsObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationPermissionStatusSettingsObserver.swift; sourceTree = "<group>"; };
+		2CDCC16A2AC2BE8F00BB309D /* UnitTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
+		2CDCC16C2AC2BF4D00BB309D /* UITests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UITests.xctestplan; sourceTree = "<group>"; };
+		2CDCC16E2AC2BFF000BB309D /* AllTests.xctestplan */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AllTests.xctestplan; sourceTree = "<group>"; };
 		2CDF14D128EEF9690060D972 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 		2CDF14D528EF02740060D972 /* StackRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackRouter.swift; sourceTree = "<group>"; };
 		2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
@@ -2820,6 +2826,16 @@
 			path = Statistics;
 			sourceTree = "<group>";
 		};
+		2CDCC1692AC2BE8F00BB309D /* TestPlans */ = {
+			isa = PBXGroup;
+			children = (
+				2CDCC16E2AC2BFF000BB309D /* AllTests.xctestplan */,
+				2CDCC16C2AC2BF4D00BB309D /* UITests.xctestplan */,
+				2CDCC16A2AC2BE8F00BB309D /* UnitTests.xctestplan */,
+			);
+			path = TestPlans;
+			sourceTree = "<group>";
+		};
 		2CDF14D328EEFA850060D972 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -3151,6 +3167,7 @@
 				2C919DEE27EEF5BC0022A2F2 /* iosHyperskillAppTests */,
 				2C4823272AC172600047999B /* iosHyperskillAppUITests */,
 				2CEBF0832AAF1EBF00EAE0BE /* NotificationServiceExtension */,
+				2CDCC1692AC2BE8F00BB309D /* TestPlans */,
 				7555FF7C242A565900829871 /* Products */,
 				69078482427C2E9AB934883B /* Pods */,
 				B8010B219C413E7A3E9D6D35 /* Frameworks */,
@@ -3719,7 +3736,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C98C7A92850B93100857783 /* highlight.css in Resources */,
+				2CDCC16D2AC2BF4D00BB309D /* UITests.xctestplan in Resources */,
 				2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */,
+				2CDCC16B2AC2BE8F00BB309D /* UnitTests.xctestplan in Resources */,
 				2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
@@ -3733,6 +3752,7 @@
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
 				2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */,
+				2CDCC16F2AC2BFF000BB309D /* AllTests.xctestplan in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
 				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,

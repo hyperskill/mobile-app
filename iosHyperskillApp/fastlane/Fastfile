@@ -242,7 +242,7 @@ platform :ios do
 
     scan(
       skip_package_dependencies_resolution: true,
-      scheme: "iosHyperskillAppTests",
+      testplan: "UnitTests",
     )
   end
 
@@ -259,7 +259,7 @@ platform :ios do
 
     scan(
       skip_package_dependencies_resolution: true,
-      scheme: "iosHyperskillAppUITests",
+      testplan: "UITests",
     )
   end
 
