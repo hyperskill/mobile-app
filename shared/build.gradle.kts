@@ -43,6 +43,9 @@ kotlin {
             framework {
                 baseName = "shared"
                 isStatic = false
+                // Delete options passed to a system linker after upgrading to the Kotlin 1.9.10
+                // https://youtrack.jetbrains.com/issue/KT-60230
+                linkerOpts += "-ld64"
             }
         }
     }
