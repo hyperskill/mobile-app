@@ -50,9 +50,9 @@ private class LoggableStateReducer<State, Message, Action>(
     ) {
         logger.logBlock(severity, tag, throwable = null) {
             if (initialState == newState) {
-                "reduce(\nstate=$initialState,\nmessage=$message\n)\nNew state = SAME\nActions=$actions"
+                "reduce(\nmessage=$message,\nstate=$initialState\n)\nActions=$actions\nNew state = SAME"
             } else {
-                "reduce(\nstate=PREVIOUS,\nmessage=$message)\nNew state = $newState\nActions=$actions"
+                "reduce(\nmessage=$message,\nstate=PREVIOUS\n)\nActions=$actions\nNew state = $newState"
             }
         }
     }
