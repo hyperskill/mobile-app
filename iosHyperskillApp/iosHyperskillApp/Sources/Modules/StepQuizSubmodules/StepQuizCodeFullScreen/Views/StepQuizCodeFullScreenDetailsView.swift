@@ -19,15 +19,15 @@ struct StepQuizCodeFullScreenDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
-                StepTextView(text: stepText)
+                CollapsableStepTextView(
+                    text: stepText,
+                    isCollapsed: false
+                )
 
-                if !samples.isEmpty {
-                    StepQuizCodeDetailsView(
-                        samples: samples,
-                        isAlwaysExpanded: true
-                    )
-                    .padding(.horizontal, -appearance.spacing)
-                }
+                StepQuizCodeDetailsView(
+                    samples: samples,
+                    isExpanded: true
+                )
             }
             .padding()
         }

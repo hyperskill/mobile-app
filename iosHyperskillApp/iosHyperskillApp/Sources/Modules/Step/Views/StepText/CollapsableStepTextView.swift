@@ -2,7 +2,7 @@ import SwiftUI
 
 extension CollapsableStepTextView {
     struct Appearance {
-        let spacing = LayoutInsets.smallInset
+        let spacing = LayoutInsets.defaultInset
 
         var stepTextViewAppearance = StepTextUIKitView.Appearance()
     }
@@ -19,6 +19,7 @@ struct CollapsableStepTextView: View {
         VStack(alignment: .center, spacing: appearance.spacing) {
             Button(
                 action: {
+                    #warning("log clicked event")
                     withAnimation {
                         isCollapsed.toggle()
                     }

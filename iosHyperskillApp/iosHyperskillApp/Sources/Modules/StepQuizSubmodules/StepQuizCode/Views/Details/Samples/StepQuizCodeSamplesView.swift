@@ -4,16 +4,28 @@ struct StepQuizCodeSamplesView: View {
     let samples: [StepQuizCodeViewData.Sample]
 
     var body: some View {
-        if samples.isEmpty {
-            EmptyView()
-        } else {
-            VStack(spacing: 0) {
-                ForEach(samples, id: \.self) { sample in
-                    StepQuizCodeSampleItemView(title: sample.inputTitle, subtitle: sample.inputValue)
-                    StepQuizCodeSampleItemView(title: sample.outputTitle, subtitle: sample.outputValue)
+        VStack(spacing: 0) {
+            ForEach(Array(zip(samples.indices, samples)), id: \.0) { index, sample in
+                StepQuizCodeSampleItemView(
+                    title: sample.inputTitle,
+                    subtitle: sample.inputValue
+                )
+
+                Divider()
+                    .padding(.horizontal)
+
+                StepQuizCodeSampleItemView(
+                    title: sample.outputTitle,
+                    subtitle: sample.outputValue
+                )
+
+                if index != samples.endIndex - 1 {
+                    Divider()
+                        .padding(.horizontal)
                 }
             }
         }
+        .addBorder()
     }
 }
 
@@ -25,6 +37,12 @@ struct StepQuizCodeSamplesView_Previews: PreviewProvider {
                     inputTitle: "Sample Input 1",
                     inputValue: "3\n3\n3",
                     outputTitle: "Sample Output 1",
+                    outputValue: "true"
+                ),
+                .init(
+                    inputTitle: "Sample Input 2",
+                    inputValue: "3\n3\n3",
+                    outputTitle: "Sample Output 2",
                     outputValue: "true"
                 )
             ]

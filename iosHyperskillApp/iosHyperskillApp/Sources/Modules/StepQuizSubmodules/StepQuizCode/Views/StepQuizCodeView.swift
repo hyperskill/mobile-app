@@ -22,7 +22,6 @@ struct StepQuizCodeView: View {
                 samples: viewData.samples,
                 onExpandTapped: viewModel.logClickedCodeDetailsEvent
             )
-            .padding(.horizontal, -LayoutInsets.defaultInset)
 
             CodeEditor(
                 code: .constant(viewData.code),
