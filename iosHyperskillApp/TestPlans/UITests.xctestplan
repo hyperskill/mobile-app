@@ -1,0 +1,32 @@
+{
+  "configurations" : [
+    {
+      "id" : "8B2217D6-BAAE-487E-9164-38E07D315D1F",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "enabled" : false,
+      "target" : {
+        "containerPath" : "container:iosHyperskillApp.xcodeproj",
+        "identifier" : "2C919DEC27EEF5BC0022A2F2",
+        "name" : "iosHyperskillAppTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:iosHyperskillApp.xcodeproj",
+        "identifier" : "2C4823252AC172600047999B",
+        "name" : "iosHyperskillAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
