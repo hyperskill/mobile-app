@@ -20,6 +20,8 @@ class StageImplementComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.resourceProvider,
             appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.submissionDataComponent.submissionRepository
+            appGraph.submissionDataComponent.submissionRepository,
+            appGraph.loggerComponent.logger,
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

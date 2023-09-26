@@ -58,7 +58,7 @@ internal object HomeFeatureBuilder {
             gamificationToolbarReducer,
             problemsLimitReducer,
             nextLearningActivityWidgetReducer
-        )
+        ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
             homeInteractor,
@@ -79,7 +79,7 @@ internal object HomeFeatureBuilder {
                 problemsLimitState = ProblemsLimitFeature.State.Idle,
                 nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.initialState()
             ),
-            homeReducer.wrapWithLogger(buildVariant, logger, LOG_TAG)
+            homeReducer
         )
             .wrapWithActionDispatcher(homeActionDispatcher)
             .wrapWithActionDispatcher(

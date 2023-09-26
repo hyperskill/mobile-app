@@ -58,6 +58,8 @@ class StepQuizComponentImpl(
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildOnboardingComponent().onboardingInteractor,
-            appGraph.commonComponent.resourceProvider
+            appGraph.commonComponent.resourceProvider,
+            appGraph.loggerComponent.logger,
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

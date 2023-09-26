@@ -1,8 +1,11 @@
 package org.hyperskill.app.profile.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.badges.domain.repository.BadgesRepository
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
@@ -22,6 +25,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object ProfileFeatureBuilder {
+    private const val LOG_TAG = "ProfileFeatureBuilder"
     fun build(
         profileInteractor: ProfileInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
@@ -33,9 +37,11 @@ object ProfileFeatureBuilder {
         urlPathProcessor: UrlPathProcessor,
         streakFlow: StreakFlow,
         dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
-        badgesRepository: BadgesRepository
+        badgesRepository: BadgesRepository,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
-        val profileReducer = ProfileReducer()
+        val profileReducer = ProfileReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
         val profileActionDispatcher = ProfileActionDispatcher(
             ActionDispatcherOptions(),
             profileInteractor,

@@ -1,11 +1,14 @@
 package org.hyperskill.app.project_selection.details.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
@@ -26,6 +29,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object ProjectSelectionDetailsFeatureBuilder {
+    private const val LOG_TAG = "ProjectSelectionDetailsFeature"
     fun build(
         params: ProjectSelectionDetailsParams,
         trackRepository: TrackRepository,
@@ -38,9 +42,12 @@ object ProjectSelectionDetailsFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         resourceProvider: ResourceProvider,
         numbersFormatter: NumbersFormatter,
-        dateFormatter: SharedDateFormatter
+        dateFormatter: SharedDateFormatter,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
-        val projectSelectionDetailsReducer = ProjectSelectionDetailsReducer()
+        val projectSelectionDetailsReducer =
+            ProjectSelectionDetailsReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val projectSelectionDetailsInteractor = ProjectSelectionDetailsInteractor(
             trackRepository = trackRepository,

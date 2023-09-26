@@ -1,7 +1,10 @@
 package org.hyperskill.app.topics_repetitions.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
@@ -17,15 +20,18 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object TopicsRepetitionsFeatureBuilder {
+    private const val LOG_TAG = "TopicsRepetitionsFeature"
     fun build(
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         topicRepeatedFlow: TopicRepeatedFlow,
-        submissionRepository: SubmissionRepository
+        submissionRepository: SubmissionRepository,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
-        val topicsRepetitionsReducer = TopicsRepetitionsReducer()
+        val topicsRepetitionsReducer = TopicsRepetitionsReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val topicsRepetitionsActionDispatcher = TopicsRepetitionsActionDispatcher(
             ActionDispatcherOptions(),

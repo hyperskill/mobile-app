@@ -1,9 +1,12 @@
 package org.hyperskill.app.main.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppActionDispatcher
 import org.hyperskill.app.main.presentation.AppFeature.Action
@@ -26,6 +29,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object AppFeatureBuilder {
+    private const val LOG_TAG = "AppFeature"
     fun build(
         initialState: State?,
         appInteractor: AppInteractor,
@@ -40,13 +44,15 @@ object AppFeatureBuilder {
         notificationsInteractor: NotificationInteractor,
         pushNotificationsInteractor: PushNotificationsInteractor,
         onboardingInteractor: OnboardingInteractor,
-        platform: Platform
+        platform: Platform,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer(
             streakRecoveryReducer,
             clickedNotificationReducer,
             platformType = platform.platformType
-        )
+        ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val appActionDispatcher = AppActionDispatcher(
             ActionDispatcherOptions(),
             appInteractor,

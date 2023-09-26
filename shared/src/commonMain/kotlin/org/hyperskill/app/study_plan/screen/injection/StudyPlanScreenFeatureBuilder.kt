@@ -1,12 +1,15 @@
 package org.hyperskill.app.study_plan.screen.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
@@ -26,6 +29,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object StudyPlanScreenFeatureBuilder {
+    private const val LOG_TAG = "StudyPlanScreenFeature"
     fun build(
         analyticInteractor: AnalyticInteractor,
         toolbarReducer: GamificationToolbarReducer,
@@ -36,13 +40,15 @@ internal object StudyPlanScreenFeatureBuilder {
         studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher,
         problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
-        resourceProvider: ResourceProvider
+        resourceProvider: ResourceProvider,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<StudyPlanScreenFeature.ViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
         val studyPlanScreenReducer = StudyPlanScreenReducer(
             toolbarReducer = toolbarReducer,
             problemsLimitReducer = problemsLimitReducer,
             studyPlanWidgetReducer = studyPlanWidgetReducer
-        )
+        ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val studyPlanScreenActionDispatcher = StudyPlanScreenActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor

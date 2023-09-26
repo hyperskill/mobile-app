@@ -1,8 +1,11 @@
 package org.hyperskill.app.step.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -20,6 +23,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object StepFeatureBuilder {
+    private const val LOG_TAG = "StepFeature"
     fun build(
         stepRoute: StepRoute,
         stepInteractor: StepInteractor,
@@ -27,9 +31,11 @@ object StepFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         stepCompletionReducer: StepCompletionReducer,
-        stepCompletionActionDispatcher: StepCompletionActionDispatcher
+        stepCompletionActionDispatcher: StepCompletionActionDispatcher,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
-        val stepReducer = StepReducer(stepRoute, stepCompletionReducer)
+        val stepReducer = StepReducer(stepRoute, stepCompletionReducer).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val stepActionDispatcher = StepActionDispatcher(
             ActionDispatcherOptions(),
             stepInteractor,

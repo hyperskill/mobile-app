@@ -207,7 +207,8 @@ abstract class BaseAppGraph : AppGraph {
             authComponent,
             profileDataComponent,
             analyticComponent,
-            sentryComponent
+            sentryComponent,
+            loggerComponent
         )
 
     /**
@@ -220,7 +221,8 @@ abstract class BaseAppGraph : AppGraph {
             profileDataComponent,
             buildMagicLinksDataComponent(),
             analyticComponent,
-            sentryComponent
+            sentryComponent,
+            loggerComponent
         )
 
     /**

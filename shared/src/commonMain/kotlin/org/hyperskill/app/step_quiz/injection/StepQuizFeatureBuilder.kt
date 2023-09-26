@@ -1,9 +1,12 @@
 package org.hyperskill.app.step_quiz.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
@@ -23,6 +26,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object StepQuizFeatureBuilder {
+    private const val LOG_TAG = "StepQuizFeature"
     fun build(
         stepRoute: StepRoute,
         problemsLimitReducer: ProblemsLimitReducer,
@@ -34,9 +38,13 @@ object StepQuizFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
-        resourceProvider: ResourceProvider
+        resourceProvider: ResourceProvider,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
-        val stepQuizReducer = StepQuizReducer(stepRoute, problemsLimitReducer)
+        val stepQuizReducer =
+            StepQuizReducer(stepRoute, problemsLimitReducer)
+                .wrapWithLogger(buildVariant, logger, LOG_TAG)
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
             ActionDispatcherOptions(),
             stepQuizInteractor,

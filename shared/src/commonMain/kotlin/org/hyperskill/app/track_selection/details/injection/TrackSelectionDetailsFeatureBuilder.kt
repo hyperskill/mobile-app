@@ -1,10 +1,13 @@
 package org.hyperskill.app.track_selection.details.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
@@ -22,6 +25,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object TrackSelectionDetailsFeatureBuilder {
+    private const val LOG_TAG = "TrackSelectionDetailsFeature"
     fun build(
         params: TrackSelectionDetailsParams,
         resourceProvider: ResourceProvider,
@@ -31,9 +35,11 @@ object TrackSelectionDetailsFeatureBuilder {
         sentryInteractor: SentryInteractor,
         profileRepository: ProfileRepository,
         currentProfileStateRepository: CurrentProfileStateRepository,
-        analyticInteractor: AnalyticInteractor
+        analyticInteractor: AnalyticInteractor,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
-        val reducer = TrackSelectionDetailsReducer()
+        val reducer = TrackSelectionDetailsReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
         val actionDispatcher = TrackSelectionDetailsActionDispatcher(
             config = ActionDispatcherOptions(),
             providersRepository = providersRepository,

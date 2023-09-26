@@ -1,8 +1,11 @@
 package org.hyperskill.app.progress_screen.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenActionDispatcher
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
@@ -19,6 +22,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object ProgressScreenFeatureBuilder {
+    private const val LOG_TAG = "ProgressScreenFeature"
     fun build(
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         currentProfileStateRepository: CurrentProfileStateRepository,
@@ -27,7 +31,9 @@ internal object ProgressScreenFeatureBuilder {
         progressesInteractor: ProgressesInteractor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
-        viewStateMapper: ProgressScreenViewStateMapper
+        viewStateMapper: ProgressScreenViewStateMapper,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<ProgressScreenViewState, ProgressScreenFeature.Message, ProgressScreenFeature.Action> {
         val actionDispatcher = ProgressScreenActionDispatcher(
             config = ActionDispatcherOptions(),
@@ -46,10 +52,9 @@ internal object ProgressScreenFeatureBuilder {
                 isTrackProgressRefreshing = false,
                 isProjectProgressRefreshing = false
             ),
-            reducer = ProgressScreenReducer()
-        ).wrapWithActionDispatcher(actionDispatcher)
-            .transformState {
-                viewStateMapper.map(it)
-            }
+            reducer = ProgressScreenReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
+        )
+            .wrapWithActionDispatcher(actionDispatcher)
+            .transformState(viewStateMapper::map)
     }
 }
