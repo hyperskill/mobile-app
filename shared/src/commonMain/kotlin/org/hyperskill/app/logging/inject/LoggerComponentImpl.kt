@@ -5,5 +5,8 @@ import org.hyperskill.app.core.injection.AppGraph
 
 class LoggerComponentImpl(private val appGraph: AppGraph) : LoggerComponent {
     override val logger: Logger
-        get() = LoggerBuilder.build(appGraph.sentryComponent.sentryInteractor)
+        get() = LoggerBuilder.build(
+            appGraph.commonComponent.buildKonfig.buildVariant,
+            appGraph.sentryComponent.sentryInteractor
+        )
 }
