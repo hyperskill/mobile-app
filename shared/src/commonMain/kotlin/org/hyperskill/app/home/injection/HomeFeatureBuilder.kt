@@ -2,6 +2,7 @@ package org.hyperskill.app.home.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
@@ -50,7 +51,8 @@ internal object HomeFeatureBuilder {
         problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer,
         nextLearningActivityWidgetActionDispatcher: NextLearningActivityWidgetActionDispatcher,
-        logger: Logger
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
             gamificationToolbarReducer,
@@ -77,7 +79,7 @@ internal object HomeFeatureBuilder {
                 problemsLimitState = ProblemsLimitFeature.State.Idle,
                 nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.initialState()
             ),
-            homeReducer.wrapWithLogger(logger, LOG_TAG)
+            homeReducer.wrapWithLogger(buildVariant, logger, LOG_TAG)
         )
             .wrapWithActionDispatcher(homeActionDispatcher)
             .wrapWithActionDispatcher(

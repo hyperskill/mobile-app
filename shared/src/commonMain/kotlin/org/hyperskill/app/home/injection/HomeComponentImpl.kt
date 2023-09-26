@@ -40,6 +40,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
             problemsLimitComponent.problemsLimitActionDispatcher,
             nextLearningActivityWidgetComponent.nextLearningActivityWidgetReducer,
             nextLearningActivityWidgetComponent.nextLearningActivityWidgetActionDispatcher,
-            appGraph.loggerComponent.logger
+            appGraph.loggerComponent.logger,
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

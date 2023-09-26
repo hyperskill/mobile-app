@@ -1,52 +1,59 @@
 package org.hyperskill.app.logging.presentation
 
 import co.touchlab.kermit.Logger
-import co.touchlab.kermit.Message
 import co.touchlab.kermit.Severity
-import ru.nobird.app.presentation.redux.feature.Feature
+import org.hyperskill.app.core.domain.BuildVariant
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-fun <State, Message, Action> Feature<State, Message, Action>.wrapWithLogger(
+/**
+ * Log reduce results (new state & actions) when application is not in the release mode
+ */
+fun <State, Message, Action> StateReducer<State, Message, Action>.wrapWithLogger(
+    buildVariant: BuildVariant,
     logger: Logger,
     tag: String,
-    severity: Severity = Severity.Info
-): Feature<State, Message, Action> =
-    object : Feature<State, Message, Action> by this {
-        override fun onNewMessage(message: Message) {
-            this@wrapWithLogger.onNewMessage(message)
-            val logMessage = "onNewMessage(message=$message)"
-            logger.log(severity, tag, throwable = null, message = logMessage)
-        }
+    severity: Severity = Severity.Debug
+): StateReducer<State, Message, Action> =
+    if (buildVariant == BuildVariant.RELEASE) {
+        this
+    } else {
+        LoggableStateReducer(
+            origin = this,
+            logger = logger,
+            tag = tag,
+            severity = severity
+        )
     }
 
-fun <State, Message, Action> StateReducer<State, Message, Action>.wrapWithLogger(
-    logger: Logger,
-    tag: String,
-    severity: Severity = Severity.Info
-): StateReducer<State, Message, Action> =
-    object : StateReducer<State, Message, Action> {
-        override fun reduce(state: State, message: Message): Pair<State, Set<Action>> {
-            val (newState, actions) = this@wrapWithLogger.reduce(state, message)
-            logChanges(
-                message = message,
-                initialState = state,
-                newState = newState,
-                actions = actions
-            )
-            return newState to actions
-        }
+private class LoggableStateReducer<State, Message, Action>(
+    private val origin: StateReducer<State, Message, Action>,
+    private val logger: Logger,
+    private val tag: String,
+    private val severity: Severity = Severity.Info
+) : StateReducer<State, Message, Action> {
+    override fun reduce(state: State, message: Message): Pair<State, Set<Action>> {
+        val (newState, actions) = origin.reduce(state, message)
+        logChanges(
+            message = message,
+            initialState = state,
+            newState = newState,
+            actions = actions
+        )
+        return newState to actions
+    }
 
-        private fun logChanges(
-            message: Message,
-            initialState: State,
-            newState: State,
-            actions: Set<Action>
-        ) {
-            val logMessage = if(initialState == newState) {
+    private fun logChanges(
+        message: Message,
+        initialState: State,
+        newState: State,
+        actions: Set<Action>
+    ) {
+        logger.logBlock(severity, tag, throwable = null) {
+            if (initialState == newState) {
                 "reduce(\nstate=$initialState,\nmessage=$message\n)\nNew state = SAME\nActions=$actions"
             } else {
                 "reduce(\nstate=PREVIOUS,\nmessage=$message)\nNew state = $newState\nActions=$actions"
             }
-            logger.log(severity, tag, throwable = null, logMessage)
         }
     }
+}
