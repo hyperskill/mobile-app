@@ -27,7 +27,7 @@ class StepDelegate<TFragment>(
           TFragment : RequestDailyStudyReminderDialogFragment.Callback {
 
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
-        NotificationPermissionDelegate(fragment)
+        NotificationPermissionDelegate(fragment, ::onNotificationPermissionResult)
 
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
@@ -87,9 +87,7 @@ class StepDelegate<TFragment>(
 
     override fun onPermissionResult(isGranted: Boolean) {
         if (isGranted) {
-            notificationPermissionDelegate.requestNotificationPermission { result ->
-                onNotificationPermissionResult(result)
-            }
+            notificationPermissionDelegate.requestNotificationPermission()
         } else {
             onRequestDailyStudyRemindersPermissionResult(false)
         }
