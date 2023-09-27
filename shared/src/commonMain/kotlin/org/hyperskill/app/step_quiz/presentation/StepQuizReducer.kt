@@ -1,8 +1,6 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent
@@ -28,8 +26,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
 
 class StepQuizReducer(
-    private val stepRoute: StepRoute,
-    private val problemsLimitReducer: ProblemsLimitReducer
+    private val stepRoute: StepRoute
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StepQuizReducerResult =
         when (message) {
@@ -243,12 +240,6 @@ class StepQuizReducer(
                         ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
-            // Wrapper Messages
-            is Message.ProblemsLimitMessage -> {
-                val (problemsLimitState, problemsLimitActions) =
-                    reduceProblemsLimitMessage(state.problemsLimitState, message.message)
-                state.copy(problemsLimitState = problemsLimitState) to problemsLimitActions
-            }
         } ?: (state to emptySet())
 
     private fun handleFetchAttemptSuccess(state: State, message: Message.FetchAttemptSuccess): StepQuizReducerResult =
@@ -287,26 +278,6 @@ class StepQuizReducer(
             state to emptySet()
         }
 
-    private fun reduceProblemsLimitMessage(
-        state: ProblemsLimitFeature.State,
-        message: ProblemsLimitFeature.Message
-    ): Pair<ProblemsLimitFeature.State, Set<Action>> {
-        val (problemsLimitState, problemsLimitActions) =
-            problemsLimitReducer.reduce(state, message)
-
-        val actions = problemsLimitActions
-            .map {
-                if (it is ProblemsLimitFeature.Action.ViewAction) {
-                    Action.ViewAction.ProblemsLimitViewAction(it)
-                } else {
-                    Action.ProblemsLimitAction(it)
-                }
-            }
-            .toSet()
-
-        return problemsLimitState to actions
-    }
-
     private fun initialize(state: State, message: Message.InitWithStep): StepQuizReducerResult {
         val needReloadStepQuiz =
             state.stepQuizState is StepQuizState.Idle ||
@@ -318,20 +289,7 @@ class StepQuizReducer(
                 state.stepQuizState to emptySet()
             }
 
-        val (problemsLimitState, problemsLimitActions) =
-            if (stepRoute is StepRoute.Learn) {
-                reduceProblemsLimitMessage(
-                    state.problemsLimitState,
-                    ProblemsLimitFeature.Message.Initialize(message.forceUpdate)
-                )
-            } else {
-                state.problemsLimitState to emptySet()
-            }
-
-        return state.copy(
-            stepQuizState = stepQuizState,
-            problemsLimitState = problemsLimitState
-        ) to stepQuizActions + problemsLimitActions
+        return state.copy(stepQuizState = stepQuizState) to stepQuizActions
     }
 
     private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =

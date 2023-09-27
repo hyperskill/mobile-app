@@ -128,11 +128,6 @@ struct StepQuizView: View {
                     StepQuizStatsView(text: formattedStats)
                 }
 
-                StepQuizProblemsLimitView(
-                    stateKs: viewModel.problemsLimitViewStateKs,
-                    onReloadButtonTap: viewModel.doReloadProblemsLimit
-                )
-
                 buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
 
                 if let feedbackHintText {
@@ -264,8 +259,6 @@ struct StepQuizView: View {
             presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
         case .showParsonsProblemOnboardingModal:
             presentParsonsProblemOnboardingModal()
-        case .problemsLimitViewAction:
-            break
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .home:

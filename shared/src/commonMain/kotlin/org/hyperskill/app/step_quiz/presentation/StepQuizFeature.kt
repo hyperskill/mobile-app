@@ -1,7 +1,6 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -12,8 +11,7 @@ import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 
 interface StepQuizFeature {
     data class State(
-        val stepQuizState: StepQuizState,
-        val problemsLimitState: ProblemsLimitFeature.State
+        val stepQuizState: StepQuizState
     )
 
     sealed interface StepQuizState {
@@ -107,11 +105,6 @@ interface StepQuizFeature {
         object ProblemsLimitReachedModalShownEventMessage : Message
         object ProblemsLimitReachedModalHiddenEventMessage : Message
         object ParsonsProblemOnboardingModalHiddenEventMessage : Message
-
-        /**
-         * Message Wrappers
-         */
-        data class ProblemsLimitMessage(val message: ProblemsLimitFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -140,11 +133,6 @@ interface StepQuizFeature {
          */
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
-        /**
-         * Action Wrappers
-         */
-        data class ProblemsLimitAction(val action: ProblemsLimitFeature.Action) : Action
-
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
 
@@ -153,10 +141,6 @@ interface StepQuizFeature {
             data class ShowProblemsLimitReachedModal(val modalText: String) : ViewAction
 
             object ShowParsonsProblemOnboardingModal : ViewAction
-
-            data class ProblemsLimitViewAction(
-                val viewAction: ProblemsLimitFeature.Action.ViewAction
-            ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Home : NavigateTo
