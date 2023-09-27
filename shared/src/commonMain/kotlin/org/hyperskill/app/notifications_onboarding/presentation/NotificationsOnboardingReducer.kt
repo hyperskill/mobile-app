@@ -25,6 +25,7 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                             HyperskillAnalyticRoute.Onboarding.Notifications
                         )
                     ),
+                    InternalAction.UpdateLastNotificationPermissionRequestTime,
                     Action.ViewAction.RequestNotificationPermission
                 )
             is Message.NotificationPermissionRequestResult ->
@@ -35,7 +36,6 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                             isAllowed = message.isPermissionGranted
                         )
                     ),
-                    InternalAction.UpdateLastNotificationPermissionRequestTime,
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
             Message.RemindMeLaterClicked ->
@@ -43,6 +43,7 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                     InternalAction.LogAnalyticsEvent(
                         NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent
                     ),
+                    InternalAction.UpdateLastNotificationPermissionRequestTime,
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
             Message.ViewedEventMessage ->

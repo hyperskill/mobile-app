@@ -65,17 +65,15 @@ class NotificationInteractor(
             return false
         }
 
-        if (submissionRepository.getSolvedStepsCount() <= 1L) {
-            return true
-        }
+        val isFirstStepSolved = submissionRepository.getSolvedStepsCount() >= 1L
 
         val lastTimeAsked = notificationRepository.getLastTimeUserAskedToEnableDailyReminders() ?: return true
-        val isTwoDaysPassed = (lastTimeAsked + TWO_DAYS_IN_MILLIS) <= Clock.System.now().toEpochMilliseconds()
+        val isAskedAtLeastTwoDaysAgo = (lastTimeAsked + TWO_DAYS_IN_MILLIS) <= Clock.System.now().toEpochMilliseconds()
 
         val isNotReachedMaxUserAskedCount =
             getUserAskedToEnableDailyRemindersCount() < MAX_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT
 
-        return isTwoDaysPassed && isNotReachedMaxUserAskedCount
+        return isFirstStepSolved && isAskedAtLeastTwoDaysAgo && isNotReachedMaxUserAskedCount
     }
 
     fun updateLastTimeUserAskedToEnableDailyReminders() {
