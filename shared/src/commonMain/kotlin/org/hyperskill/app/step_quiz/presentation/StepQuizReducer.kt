@@ -12,7 +12,10 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHy
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -206,6 +209,34 @@ class StepQuizReducer(
                 } else {
                     null
                 }
+            is Message.FullScreenCodeEditorClickedCodeDetailsEventMessage -> {
+                if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+                    val event = StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent(
+                        stepRoute.analyticRoute
+                    )
+                    state to setOf(Action.LogAnalyticEvent(event))
+                } else {
+                    null
+                }
+            }
+            is Message.ClickedStepTextDetailsEventMessage -> {
+                if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+                    val event = StepQuizClickedStepTextDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    state to setOf(Action.LogAnalyticEvent(event))
+                } else {
+                    null
+                }
+            }
+            is Message.FullScreenCodeEditorClickedStepTextDetailsEventMessage -> {
+                if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+                    val event = StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent(
+                        stepRoute.analyticRoute
+                    )
+                    state to setOf(Action.LogAnalyticEvent(event))
+                } else {
+                    null
+                }
+            }
             is Message.TheoryToolbarItemClicked ->
                 handleTheoryToolbarItemClicked(state)
             is Message.ClickedRetryEventMessage ->

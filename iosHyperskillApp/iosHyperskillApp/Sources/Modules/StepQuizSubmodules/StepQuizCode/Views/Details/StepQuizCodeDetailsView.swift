@@ -5,7 +5,7 @@ struct StepQuizCodeDetailsView: View {
 
     @State var isExpanded = false
 
-    var onExpandTapped: (() -> Void)?
+    var onExpandTapped: () -> Void
 
     var body: some View {
         if samples.isEmpty {
@@ -19,7 +19,7 @@ struct StepQuizCodeDetailsView: View {
         VStack(alignment: .center, spacing: LayoutInsets.defaultInset) {
             Button(
                 action: {
-                    onExpandTapped?()
+                    onExpandTapped()
 
                     withAnimation {
                         isExpanded.toggle()
@@ -63,7 +63,8 @@ struct StepQuizCodeDetailsView_Previews: PreviewProvider {
                         outputValue: "true"
                     )
                 ],
-                isExpanded: false
+                isExpanded: false,
+                onExpandTapped: {}
             )
 
             StepQuizCodeDetailsView(
@@ -75,7 +76,8 @@ struct StepQuizCodeDetailsView_Previews: PreviewProvider {
                         outputValue: "true"
                     )
                 ],
-                isExpanded: true
+                isExpanded: true,
+                onExpandTapped: {}
             )
         }
         .previewLayout(.sizeThatFits)

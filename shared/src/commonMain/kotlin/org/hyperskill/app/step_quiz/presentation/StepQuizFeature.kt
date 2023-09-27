@@ -101,9 +101,16 @@ interface StepQuizFeature {
          * Analytic
          */
         object ClickedCodeDetailsEventMessage : Message
+        object FullScreenCodeEditorClickedCodeDetailsEventMessage : Message
+
+        object ClickedStepTextDetailsEventMessage : Message
+        object FullScreenCodeEditorClickedStepTextDetailsEventMessage : Message
+
         object ClickedRetryEventMessage : Message
+
         object ProblemsLimitReachedModalShownEventMessage : Message
         object ProblemsLimitReachedModalHiddenEventMessage : Message
+
         object ParsonsProblemOnboardingModalHiddenEventMessage : Message
     }
 

@@ -136,6 +136,10 @@ final class StepQuizViewModel: FeatureViewModel<
     private func logClickedRetryEvent() {
         onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
     }
+
+    func logClickedStepTextDetailsEvent() {
+        onNewMessage(StepQuizFeatureMessageClickedStepTextDetailsEventMessage())
+    }
 }
 
 // MARK: - StepQuizViewModel: StepQuizChildQuizDelegate -

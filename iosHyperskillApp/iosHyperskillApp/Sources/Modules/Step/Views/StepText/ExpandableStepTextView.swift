@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension CollapsableStepTextView {
+extension ExpandableStepTextView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
 
@@ -8,20 +8,23 @@ extension CollapsableStepTextView {
     }
 }
 
-struct CollapsableStepTextView: View {
+struct ExpandableStepTextView: View {
     private(set) var appearance = Appearance()
 
     var text: String
 
-    @State var isCollapsed = false
+    @State var isExpanded = true
+
+    let onExpandButtonTap: () -> Void
 
     var body: some View {
         VStack(alignment: .center, spacing: appearance.spacing) {
             Button(
                 action: {
-                    #warning("log clicked event")
+                    onExpandButtonTap()
+
                     withAnimation {
-                        isCollapsed.toggle()
+                        isExpanded.toggle()
                     }
                 },
                 label: {
@@ -35,13 +38,13 @@ struct CollapsableStepTextView: View {
                         Image(systemName: "chevron.right")
                             .imageScale(.small)
                             .aspectRatio(contentMode: .fit)
-                            .rotationEffect(.radians(isCollapsed ? .zero : (.pi / 2)))
+                            .rotationEffect(.radians(isExpanded ? (.pi / 2) : .zero))
                     }
                     .font(.headline)
                 }
             )
 
-            if !isCollapsed {
+            if isExpanded {
                 StepTextView(
                     text: text,
                     appearance: appearance.stepTextViewAppearance,
@@ -52,12 +55,13 @@ struct CollapsableStepTextView: View {
     }
 }
 
-struct CollapsableStepTextView_Previews: PreviewProvider {
+struct ExpandableStepTextView_Previews: PreviewProvider {
     static var previews: some View {
-        CollapsableStepTextView(
+        ExpandableStepTextView(
             text: """
 <p>Despite the fact that the syntax for different databases may differ, most of them have common standards.</p>
-"""
+""",
+            onExpandButtonTap: {}
         )
         .padding()
         .frame(height: 200)

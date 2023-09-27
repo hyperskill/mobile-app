@@ -54,9 +54,10 @@ struct StepQuizView: View {
                         StepTextView(text: viewData.stepText)
                     } else {
                         if viewData.quizType.isCodeRelated {
-                            CollapsableStepTextView(
+                            ExpandableStepTextView(
                                 text: viewData.stepText,
-                                isCollapsed: false
+                                isExpanded: true,
+                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
                             )
                         } else {
                             StepTextView(text: viewData.stepText)

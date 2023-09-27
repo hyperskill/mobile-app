@@ -110,6 +110,18 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
         }
     }
 
+    func handleStepQuizCodeFullScreenToggledStepTextDetails() {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageFullScreenCodeEditorClickedStepTextDetailsEventMessage()
+        )
+    }
+
+    func handleStepQuizCodeFullScreenToggledCodeDetails() {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageFullScreenCodeEditorClickedCodeDetailsEventMessage()
+        )
+    }
+
     @objc
     func syncReply(code: String?) {
         let reply = Reply(language: viewData.languageStringValue, code: code)

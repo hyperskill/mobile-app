@@ -16,17 +16,22 @@ struct StepQuizCodeFullScreenDetailsView: View {
 
     let samples: [StepQuizCodeViewData.Sample]
 
+    let onExpandStepTextButtonTap: () -> Void
+    let onExpandCodeDetailsButtonTap: () -> Void
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
-                CollapsableStepTextView(
+                ExpandableStepTextView(
                     text: stepText,
-                    isCollapsed: false
+                    isExpanded: true,
+                    onExpandButtonTap: onExpandStepTextButtonTap
                 )
 
                 StepQuizCodeDetailsView(
                     samples: samples,
-                    isExpanded: true
+                    isExpanded: true,
+                    onExpandTapped: onExpandCodeDetailsButtonTap
                 )
             }
             .padding()
@@ -47,7 +52,9 @@ Enter only the name of the found functional interface with/without the package. 
                     outputTitle: "Sample Output 1",
                     outputValue: "true"
                 )
-            ]
+            ],
+            onExpandStepTextButtonTap: {},
+            onExpandCodeDetailsButtonTap: {}
         )
     }
 }
