@@ -10,5 +10,13 @@ interface ProfileRemoteDataSource {
 
     suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile>
 
+    suspend fun setDailyStudyReminderNotificationHour(
+        profileId: Long,
+        notificationHour: Int,
+        timeZone: TimeZone
+    ): Result<Profile>
+
+    suspend fun setDailyStudyReminderNotificationHour(profileId: Long, notificationHour: Int?): Result<Profile>
+
     suspend fun setTimeZone(profileId: Long, timeZone: TimeZone): Result<Profile>
 }
