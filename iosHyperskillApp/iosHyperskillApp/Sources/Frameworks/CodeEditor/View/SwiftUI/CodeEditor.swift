@@ -28,6 +28,8 @@ struct CodeEditor: UIViewRepresentable {
 
     var onDidEndEditing: (() -> Void)?
 
+    var onDidChangeHeight: ((CGFloat) -> Void)?
+
     // MARK: UIViewRepresentable
 
     static func dismantleUIView(_ uiView: CodeEditorView, coordinator: Coordinator) {
@@ -36,6 +38,7 @@ struct CodeEditor: UIViewRepresentable {
         coordinator.onCodeDidChange = nil
         coordinator.onDidBeginEditing = nil
         coordinator.onDidEndEditing = nil
+        coordinator.onDidChangeHeight = nil
         coordinator.suggestionsPresentationContextProvider = nil
     }
 
@@ -89,6 +92,7 @@ struct CodeEditor: UIViewRepresentable {
 
             onDidEndEditing?()
         }
+        context.coordinator.onDidChangeHeight = onDidChangeHeight
     }
 }
 
@@ -103,6 +107,8 @@ extension CodeEditor {
         var onDidBeginEditing: (() -> Void)?
 
         var onDidEndEditing: (() -> Void)?
+
+        var onDidChangeHeight: ((CGFloat) -> Void)?
 
         init(suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?) {
             self.suggestionsPresentationContextProvider = suggestionsPresentationContextProvider
@@ -126,6 +132,10 @@ extension CodeEditor {
             _ codeEditorView: CodeEditorView
         ) -> UIViewController? {
             suggestionsPresentationContextProvider?.presentationController(for: codeEditorView)
+        }
+
+        func codeEditorViewDidChangeHeight(_ codeEditorView: CodeEditorView, height: CGFloat) {
+            onDidChangeHeight?(height)
         }
     }
 }

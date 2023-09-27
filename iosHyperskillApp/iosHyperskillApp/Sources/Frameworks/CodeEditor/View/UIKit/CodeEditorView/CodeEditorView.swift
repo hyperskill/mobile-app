@@ -198,9 +198,13 @@ extension CodeEditorView: ProgrammaticallyInitializableViewProtocol {
     }
 }
 
-// MARK: - CodeEditorView: UITextViewDelegate -
+// MARK: - CodeEditorView: CodeTextViewDelegate -
 
-extension CodeEditorView: UITextViewDelegate {
+extension CodeEditorView: CodeTextViewDelegate {
+    func codeTextViewDidChangeHeight(_ textView: CodeTextView, height: CGFloat) {
+        delegate?.codeEditorViewDidChangeHeight(self, height: height)
+    }
+
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         delegate?.codeEditorView(self, beginEditing: isEditable)
         return isEditable
