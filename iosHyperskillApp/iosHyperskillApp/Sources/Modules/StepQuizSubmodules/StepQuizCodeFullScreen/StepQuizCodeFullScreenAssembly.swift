@@ -58,6 +58,18 @@ extension StepQuizCodeFullScreenAssembly {
                         inputValue: "3\n3\n3",
                         outputTitle: "Sample Output 1",
                         outputValue: "true"
+                    ),
+                    .init(
+                        inputTitle: "Sample Input 1",
+                        inputValue: "3\n3\n3",
+                        outputTitle: "Sample Output 1",
+                        outputValue: "true"
+                    ),
+                    .init(
+                        inputTitle: "Sample Input 1",
+                        inputValue: "3\n3\n3",
+                        outputTitle: "Sample Output 1",
+                        outputValue: "true"
                     )
                 ],
                 stepText: """

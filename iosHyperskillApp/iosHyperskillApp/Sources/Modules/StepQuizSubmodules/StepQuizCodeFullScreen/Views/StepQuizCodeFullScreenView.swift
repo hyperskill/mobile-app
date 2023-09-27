@@ -65,6 +65,7 @@ struct StepQuizCodeFullScreenView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(navigationTitle)
             .toolbar(content: buildToolbarContent)
+            .edgesIgnoringSafeArea(.bottom)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
