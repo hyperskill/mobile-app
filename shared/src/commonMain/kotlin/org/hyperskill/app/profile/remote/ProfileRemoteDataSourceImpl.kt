@@ -62,7 +62,10 @@ class ProfileRemoteDataSourceImpl(
                 )
         }
 
-    override suspend fun setDailyStudyReminderNotificationHour(profileId: Long, notificationHour: Int?): Result<Profile> =
+    override suspend fun setDailyStudyReminderNotificationHour(
+        profileId: Long,
+        notificationHour: Int?
+    ): Result<Profile> =
         runCatching {
             httpClient
                 .putProfile(
