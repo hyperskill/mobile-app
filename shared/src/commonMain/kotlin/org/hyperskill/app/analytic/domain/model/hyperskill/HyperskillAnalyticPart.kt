@@ -33,5 +33,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     STAGE_COMPLETED_MODAL("stage_completed_modal"),
     PROJECT_COMPLETED_MODAL("project_completed_modal"),
     NEXT_LEARNING_ACTIVITY_WIDGET("next_learning_activity_widget"),
-    FULL_SCREEN_CODE_EDITOR("full_screen_code_editor")
+    FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
+    CODE_EDITOR("code_editor")
 }

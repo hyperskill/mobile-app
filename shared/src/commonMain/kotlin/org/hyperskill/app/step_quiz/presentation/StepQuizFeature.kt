@@ -106,6 +106,8 @@ interface StepQuizFeature {
         object ClickedStepTextDetailsEventMessage : Message
         object FullScreenCodeEditorClickedStepTextDetailsEventMessage : Message
 
+        object ClickedOpenFullScreenCodeEditorEventMessage : Message
+
         object ClickedRetryEventMessage : Message
 
         object ProblemsLimitReachedModalShownEventMessage : Message

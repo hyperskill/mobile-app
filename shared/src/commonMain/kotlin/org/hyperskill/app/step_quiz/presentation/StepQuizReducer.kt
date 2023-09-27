@@ -9,6 +9,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalCli
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedOpenFullScreenCodeEditorHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
@@ -232,6 +233,14 @@ class StepQuizReducer(
                     val event = StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent(
                         stepRoute.analyticRoute
                     )
+                    state to setOf(Action.LogAnalyticEvent(event))
+                } else {
+                    null
+                }
+            }
+            is Message.ClickedOpenFullScreenCodeEditorEventMessage -> {
+                if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+                    val event = StepQuizClickedOpenFullScreenCodeEditorHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     state to setOf(Action.LogAnalyticEvent(event))
                 } else {
                     null

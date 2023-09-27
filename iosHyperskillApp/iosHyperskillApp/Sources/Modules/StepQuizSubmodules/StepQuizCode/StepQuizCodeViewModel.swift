@@ -44,8 +44,12 @@ class StepQuizCodeViewModel: ObservableObject {
         provideModuleInputCallback(self)
     }
 
-    func logClickedCodeDetailsEvent() {
-        moduleOutput?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
+    func doFullScreenCodeEditorPresentation() {
+        navigationState.presentingFullScreen = true
+
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageClickedOpenFullScreenCodeEditorEventMessage()
+        )
     }
 
     func handleCodeDidChange(_ newCode: String?) {
@@ -54,6 +58,10 @@ class StepQuizCodeViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.syncReply(code: newCode)
         }
+    }
+
+    func logClickedCodeDetailsEvent() {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
     }
 }
 

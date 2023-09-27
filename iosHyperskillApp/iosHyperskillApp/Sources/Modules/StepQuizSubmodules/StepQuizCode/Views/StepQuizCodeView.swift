@@ -21,9 +21,7 @@ struct StepQuizCodeView: View {
                 ),
                 codeTemplate: viewData.codeTemplate,
                 language: viewData.language,
-                onExpandButtonTap: {
-                    viewModel.navigationState.presentingFullScreen = true
-                }
+                onExpandButtonTap: viewModel.doFullScreenCodeEditorPresentation
             )
             .padding(.horizontal, -LayoutInsets.defaultInset)
         }
