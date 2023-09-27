@@ -150,6 +150,7 @@
     <string name="step_quiz_code_full_screen_code_tab">Code</string>
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
+    <string name="step_quiz_code_editor_title">Code editor</string>
 
     <!-- Step quiz sql -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>

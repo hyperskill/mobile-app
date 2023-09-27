@@ -65,6 +65,7 @@ enum Images {
         static let discussions = "step-quiz-discussions"
         static let info = "step-quiz-info"
         static let lightning = "step-quiz-lightning"
+        static let expand = "step-quiz-code-editor-expand"
 
         enum Hints {
             static let helpfulReaction = "step_quiz_hints_helpful_reaction"

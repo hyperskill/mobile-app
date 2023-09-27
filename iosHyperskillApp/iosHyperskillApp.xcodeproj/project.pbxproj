@@ -197,6 +197,7 @@
 		2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */; };
 		2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */; };
 		2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */; };
+		2C5EC2C82AC41CAF0098D126 /* StepQuizCodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5EC2C72AC41CAF0098D126 /* StepQuizCodeEditorView.swift */; };
 		2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5F4A592971C71200677530 /* GamificationToolbarContent.swift */; };
 		2C62AD582AB43A8F00F3DD5B /* BadgeRankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C62AD572AB43A8F00F3DD5B /* BadgeRankView.swift */; };
 		2C6672062A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6672052A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift */; };
@@ -795,6 +796,7 @@
 		2C5CBBE22948F4B600113007 /* StepQuizSQLViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLViewModel.swift; sourceTree = "<group>"; };
 		2C5CBBE42948FA7400113007 /* StepQuizSQLAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLAssembly.swift; sourceTree = "<group>"; };
 		2C5CBBE62948FC7A00113007 /* StepQuizSQLView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSQLView.swift; sourceTree = "<group>"; };
+		2C5EC2C72AC41CAF0098D126 /* StepQuizCodeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeEditorView.swift; sourceTree = "<group>"; };
 		2C5F4A592971C71200677530 /* GamificationToolbarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationToolbarContent.swift; sourceTree = "<group>"; };
 		2C62AD572AB43A8F00F3DD5B /* BadgeRankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeRankView.swift; sourceTree = "<group>"; };
 		2C6672052A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressScreenSectionTitleView.swift; sourceTree = "<group>"; };
@@ -2352,6 +2354,7 @@
 		2C967435288829E40091B6C9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C5EC2C72AC41CAF0098D126 /* StepQuizCodeEditorView.swift */,
 				2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */,
 				2C967433288824450091B6C9 /* StepQuizCodeView.swift */,
 				2C96743828882A130091B6C9 /* Details */,
@@ -4187,6 +4190,7 @@
 				2C7994B12A129D6100874C16 /* TrackSelectionListSkeletonView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
 				2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */,
+				2C5EC2C82AC41CAF0098D126 /* StepQuizCodeEditorView.swift in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
 				E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */,

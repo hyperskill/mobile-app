@@ -47,6 +47,14 @@ class StepQuizCodeViewModel: ObservableObject {
     func logClickedCodeDetailsEvent() {
         moduleOutput?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
     }
+
+    func handleCodeDidChange(_ newCode: String?) {
+        viewData.code = newCode
+
+        DispatchQueue.main.async {
+            self.syncReply(code: newCode)
+        }
+    }
 }
 
 // MARK: - StepQuizCodeViewModel: StepQuizChildQuizInputProtocol -
@@ -85,11 +93,7 @@ extension StepQuizCodeViewModel: StepQuizChildQuizInputProtocol {
 
 extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
     func handleStepQuizCodeFullScreenUpdatedCode(_ code: String?) {
-        viewData.code = code
-
-        DispatchQueue.main.async {
-            self.syncReply(code: code)
-        }
+        handleCodeDidChange(code)
     }
 
     func handleStepQuizCodeFullScreenRetryRequested() {

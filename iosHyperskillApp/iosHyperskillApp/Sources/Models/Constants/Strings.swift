@@ -154,6 +154,8 @@ enum Strings {
         static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
         static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()
         static let reset = sharedStrings.step_quiz_code_reset.localized()
+
+        static let codeEditorTitle = sharedStrings.step_quiz_code_editor_title.localized()
     }
 
     // MARK: - StepQuizSQL -

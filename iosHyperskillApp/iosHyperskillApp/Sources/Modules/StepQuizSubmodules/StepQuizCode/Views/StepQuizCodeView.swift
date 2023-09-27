@@ -1,15 +1,6 @@
 import SwiftUI
 
-extension StepQuizCodeView {
-    struct Appearance {
-        let codeEditorInsets = LayoutInsets(vertical: LayoutInsets.defaultInset)
-        let codeEditorHeight: CGFloat = 128
-    }
-}
-
 struct StepQuizCodeView: View {
-    private(set) var appearance = Appearance()
-
     @StateObject var viewModel: StepQuizCodeViewModel
 
     @Environment(\.isEnabled) private var isEnabled
@@ -23,21 +14,18 @@ struct StepQuizCodeView: View {
                 onExpandTapped: viewModel.logClickedCodeDetailsEvent
             )
 
-            CodeEditor(
-                code: .constant(viewData.code),
+            StepQuizCodeEditorView(
+                code: Binding(
+                    get: { viewModel.viewData.code },
+                    set: { viewModel.handleCodeDidChange($0) }
+                ),
                 codeTemplate: viewData.codeTemplate,
                 language: viewData.language,
-                isEditable: false,
-                textInsets: appearance.codeEditorInsets.uiEdgeInsets
-            )
-            .frame(height: appearance.codeEditorHeight)
-            .frame(maxWidth: .infinity)
-            .addBorder()
-            .onTapGesture {
-                if isEnabled {
+                onExpandButtonTap: {
                     viewModel.navigationState.presentingFullScreen = true
                 }
-            }
+            )
+            .padding(.horizontal, -LayoutInsets.defaultInset)
         }
         .fullScreenCover(isPresented: $viewModel.navigationState.presentingFullScreen) {
             StepQuizCodeFullScreenAssembly(
