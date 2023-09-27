@@ -1,32 +1,32 @@
 package org.hyperskill.app.notification.local.domain.interactor
 
-import kotlin.time.Duration.Companion.hours
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import org.hyperskill.app.core.domain.repository.awaitNextFreshState
 import org.hyperskill.app.notification.local.data.model.NotificationDescription
 import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnabledFlow
 import org.hyperskill.app.notification.local.domain.repository.NotificationRepository
-import org.hyperskill.app.notification.remote.domain.repository.NotificationTimeRepository
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository,
     private val submissionRepository: SubmissionRepository,
     private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
-    private val notificationTimeRepository: NotificationTimeRepository,
-    private val currentProfileStateRepository: CurrentProfileStateRepository
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val profileRepository: ProfileRepository
 ) {
     companion object {
         private val TWO_DAYS_IN_MILLIS = 2.toDuration(DurationUnit.DAYS).inWholeMilliseconds
         private const val MAX_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT = 3
+        private const val UTC_TIME_ZONE_ID = "UTC"
     }
 
     val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
@@ -88,64 +88,81 @@ class NotificationInteractor(
         notificationRepository.getUserAskedToEnableDailyRemindersCount()
 
     /**
-     * Sets the daily study reminder notification time.
+     * Sets the daily study reminder notification time & set current timeZone
      *
      * @param notificationHour the hour of the day in 24-hour format (0-23) at which the notification should be shown.
      */
-    internal suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> {
-        notificationRepository.setDailyStudyRemindersIntervalStartHour(notificationHour)
-        val utcNotificationHour = getUtcDailyStudyReminderNotificationHour(notificationHour)
-        return notificationTimeRepository
-            .setDailyStudyReminderNotificationTime(notificationHour = utcNotificationHour)
-    }
+    internal suspend fun setDailyStudyReminderNotificationTime(notificationHour: Int): Result<Unit> =
+        setDailyStudyReminderNotificationHourInternal(notificationHour)
 
     suspend fun setSavedDailyStudyReminderNotificationTime(): Result<Unit> =
-        setDailyStudyReminderNotificationTime(getDailyStudyRemindersIntervalStartHour())
+        setDailyStudyReminderNotificationHourInternal(getDailyStudyRemindersIntervalStartHour())
 
     /**
-     * Updates notification time on the server-side to keep the user timezone up to date
+     * Updates timezone to keep user notification time up to date
      */
-    internal suspend fun updateDailyStudyReminderNotificationTime(): Result<Unit> {
-        // Wait for the first emitted value, to get the fresh value without an additional network call
-        val notificationHour = currentProfileStateRepository
-            .changes
-            .first()
-            .dailyLearningNotificationHour
-        return when {
-            notificationHour != null -> {
-                setDailyStudyReminderNotificationTime(notificationHour)
-            }
-            isDailyStudyRemindersEnabled() -> {
-                setSavedDailyStudyReminderNotificationTime()
-            }
-
-            else -> {
-                Result.success(Unit)
+    internal suspend fun updateTimeZone(): Result<Unit> =
+        runCatching {
+            val profile = currentProfileStateRepository.awaitNextFreshState()
+            when {
+                profile.notificationHour == null -> {
+                    if (isDailyStudyRemindersEnabled()) {
+                        setDailyStudyReminderNotificationHourInternal(getDailyStudyRemindersIntervalStartHour())
+                    }
+                }
+                // If timezone is not set or the default UTC timezone is set,
+                // then convert notificationHour from UTC to local timezone
+                profile.timeZone == null || profile.timeZone.id == UTC_TIME_ZONE_ID -> {
+                    val currentTimeZoneNotificationHour = convertFromUtcToCurrentTimeZone(profile.notificationHour)
+                    setDailyStudyReminderNotificationHourInternal(currentTimeZoneNotificationHour)
+                }
+                else -> {
+                    updateTimeZone(profile.id)
+                }
             }
         }
+
+    private fun convertFromUtcToCurrentTimeZone(utcNotificationHour: Int): Int {
+        val currentTimeZone = TimeZone.currentSystemDefault()
+        val utcTimeZone = TimeZone.UTC
+        val utcNotificationTime =
+            Clock.System.now()
+                .toLocalDateTime(utcTimeZone)
+                .date
+                .atTime(hour = utcNotificationHour, minute = 0)
+                .toInstant(utcTimeZone)
+        val currentTimeZoneNotificationTime = utcNotificationTime.toLocalDateTime(currentTimeZone)
+        return currentTimeZoneNotificationTime.hour
     }
 
-    private fun getUtcDailyStudyReminderNotificationHour(notificationHour: Int): Int {
-        val currentTimeZone = TimeZone.currentSystemDefault()
-        val currentTimeZoneNotificationTime =
-            Clock.System.now()
-                .toLocalDateTime(currentTimeZone)
-                .date
-                .atTime(hour = notificationHour, minute = 0)
-                .toInstant(currentTimeZone)
-        val utcNotificationTime = currentTimeZoneNotificationTime.toLocalDateTime(TimeZone.UTC)
-        return if (utcNotificationTime.minute > 0) {
-            // In case the time zone contains minutes, add 1 hour
-            // to have notification hour at the beginning of the next hour
-            currentTimeZoneNotificationTime
-                .plus(1.hours)
-                .toLocalDateTime(TimeZone.UTC)
-                .hour
-        } else {
-            utcNotificationTime.hour
+    private suspend fun setDailyStudyReminderNotificationHourInternal(notificationHour: Int): Result<Unit> =
+        runCatching {
+            notificationRepository.setDailyStudyRemindersIntervalStartHour(notificationHour)
+            val profileId = getProfileId().getOrThrow()
+            val newProfile = profileRepository.setDailyStudyReminderNotificationHour(
+                profileId = profileId,
+                notificationHour = notificationHour,
+                timeZone = TimeZone.currentSystemDefault()
+            ).getOrThrow()
+            currentProfileStateRepository.updateState(newProfile)
         }
+
+    private suspend fun updateTimeZone(profileId: Long? = null) {
+        val nonNullProfileId = profileId ?: getProfileId().getOrThrow()
+        val newProfile = profileRepository.setTimeZone(
+            profileId = nonNullProfileId,
+            timeZone = TimeZone.currentSystemDefault()
+        ).getOrThrow()
+        currentProfileStateRepository.updateState(newProfile)
     }
 
     internal suspend fun disableDailyStudyReminderNotification(): Result<Unit> =
-        notificationTimeRepository.disableDailyStudyReminderNotification()
+        runCatching {
+            val profileId = getProfileId().getOrThrow()
+            val newProfile = profileRepository.disableDailyStudyReminderNotification(profileId).getOrThrow()
+            currentProfileStateRepository.updateState(newProfile)
+        }
+
+    private suspend fun getProfileId(): Result<Long> =
+        currentProfileStateRepository.getState(forceUpdate = false).map { it.id }
 }

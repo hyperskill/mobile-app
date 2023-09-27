@@ -1,10 +1,6 @@
 package org.hyperskill.app.profile.domain.model
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atTime
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -53,7 +49,7 @@ data class Profile(
     @SerialName("timezone")
     val timeZone: TimeZone? = null,
     @SerialName("notification_hour")
-    private val utcNotificationHour: Int? = null,
+    val notificationHour: Int? = null,
     @SerialName("features")
     private val featuresMap: Map<String, Boolean> = emptyMap()
 ) {
@@ -63,22 +59,7 @@ data class Profile(
         get() = FeaturesMap(featuresMap)
 
     val isDailyLearningNotificationEnabled: Boolean
-        get() = utcNotificationHour != null
-
-    internal val dailyLearningNotificationHour: Int?
-        get() {
-            if (utcNotificationHour == null) return null
-            val currentTimeZone = TimeZone.currentSystemDefault()
-            val utcTimeZone = TimeZone.UTC
-            val utcNotificationTime =
-                Clock.System.now()
-                    .toLocalDateTime(utcTimeZone)
-                    .date
-                    .atTime(hour = utcNotificationHour, minute = 0)
-                    .toInstant(utcTimeZone)
-            val currentTimeZoneNotificationTime = utcNotificationTime.toLocalDateTime(currentTimeZone)
-            return currentTimeZoneNotificationTime.hour
-        }
+        get() = notificationHour != null
 }
 
 internal val Profile.isNewUser: Boolean
