@@ -9,7 +9,7 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 object StepQuizViewStateDelegateFactory {
     fun create(
         fragmentStepQuizBinding: FragmentStepQuizBinding,
-        descriptionBinding: LayoutStepQuizDescriptionBinding,
+        descriptionBinding: LayoutStepQuizDescriptionBinding?,
         skeletonView: View,
         vararg quizViews: View
     ): ViewStateDelegate<StepQuizFeature.StepQuizState> =
@@ -20,20 +20,26 @@ object StepQuizViewStateDelegateFactory {
                     fragmentStepQuizBinding.stepQuizFeedbackBlocks.root
                 )
                 addState<StepQuizFeature.StepQuizState.Loading>(
-                    skeletonView,
-                    descriptionBinding.stepQuizDescriptionSkeleton
+                    *listOfNotNull(
+                        skeletonView,
+                        descriptionBinding?.stepQuizDescriptionSkeleton
+                    ).toTypedArray()
                 )
                 addState<StepQuizFeature.StepQuizState.AttemptLoading>(
-                    skeletonView,
-                    descriptionBinding.stepQuizDescriptionSkeleton
+                    *listOfNotNull(
+                        skeletonView,
+                        descriptionBinding?.stepQuizDescriptionSkeleton
+                    ).toTypedArray()
                 )
                 addState<StepQuizFeature.StepQuizState.AttemptLoaded>(
-                    fragmentStepQuizBinding.stepQuizFeedbackBlocks.root,
-                    descriptionBinding.stepQuizDescription,
-                    fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton,
-                    fragmentStepQuizBinding.stepQuizStatistics,
-                    fragmentStepQuizBinding.stepQuizProblemsLimit.root,
-                    *quizViews
+                    *listOfNotNull(
+                        fragmentStepQuizBinding.stepQuizFeedbackBlocks.root,
+                        descriptionBinding?.stepQuizDescription,
+                        fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton,
+                        fragmentStepQuizBinding.stepQuizStatistics,
+                        fragmentStepQuizBinding.stepQuizProblemsLimit.root,
+                        *quizViews
+                    ).toTypedArray()
                 )
                 addState<StepQuizFeature.StepQuizState.NetworkError>(fragmentStepQuizBinding.stepQuizNetworkError.root)
             }

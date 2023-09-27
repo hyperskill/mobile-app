@@ -49,8 +49,7 @@ class CodeStepQuizFragment :
     override val skeletonView: View
         get() = binding.stepQuizCodeSkeleton.root
 
-    override val descriptionBinding: LayoutStepQuizDescriptionBinding
-        get() = binding.codeStepDescription
+    override val descriptionBinding: LayoutStepQuizDescriptionBinding? = null
 
     override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
         val binding = LayoutStepQuizCodeBinding.inflate(layoutInflater, parent, false).also {

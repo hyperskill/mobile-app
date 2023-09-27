@@ -100,7 +100,7 @@ abstract class DefaultStepQuizFragment :
 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
-    protected abstract val descriptionBinding: LayoutStepQuizDescriptionBinding
+    protected abstract val descriptionBinding: LayoutStepQuizDescriptionBinding?
 
     protected var step: Step by argument(serializer = Step.serializer())
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
@@ -371,7 +371,7 @@ abstract class DefaultStepQuizFragment :
     }
 
     private fun renderAttemptLoaded(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
-        descriptionBinding.stepQuizDescription.text =
+        descriptionBinding?.stepQuizDescription?.text =
             stepQuizTitleMapper?.getStepQuizTitle(
                 blockName = step.block.name,
                 isMultipleChoice = state.attempt.dataset?.isMultipleChoice,

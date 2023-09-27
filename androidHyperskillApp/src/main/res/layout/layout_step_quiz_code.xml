@@ -21,16 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/layout_step_quiz_code_details"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             />
-
-        <include
-            android:id="@+id/codeStepDescription"
-            layout="@layout/layout_step_quiz_description"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginBottom="20dp"/>
 
         <include layout="@layout/view_divider_vertical" />
 
