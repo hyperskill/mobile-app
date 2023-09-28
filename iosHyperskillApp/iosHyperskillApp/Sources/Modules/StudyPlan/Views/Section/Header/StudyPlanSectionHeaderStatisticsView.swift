@@ -23,19 +23,19 @@ struct StudyPlanSectionHeaderStatisticsView: View {
         } else {
             HStack(spacing: LayoutInsets.defaultInset) {
                 if let formattedTopicsCount {
-                    buildItemView(imageName: Images.Common.topic, title: formattedTopicsCount)
+                    buildItemView(imageResource: .topic, title: formattedTopicsCount)
                 }
                 if let formattedTimeToComplete {
-                    buildItemView(imageName: Images.Step.clock, title: formattedTimeToComplete)
+                    buildItemView(imageResource: .stepTimeToComplete, title: formattedTimeToComplete)
                 }
             }
         }
     }
 
     @ViewBuilder
-    private func buildItemView(imageName: String, title: String) -> some View {
+    private func buildItemView(imageResource: ImageResource, title: String) -> some View {
         HStack(spacing: appearance.statisticIconsSpacing) {
-            Image(imageName)
+            Image(imageResource)
                 .resizable()
                 .renderingMode(.template)
                 .aspectRatio(contentMode: .fit)
@@ -48,8 +48,8 @@ struct StudyPlanSectionHeaderStatisticsView: View {
     }
 }
 
-struct StudyPlanSectionHeaderStatisticsView_Previews: PreviewProvider {
-    static var previews: some View {
+#Preview {
+    Group {
         StudyPlanSectionHeaderStatisticsView(
             formattedTopicsCount: "5/12",
             formattedTimeToComplete: "13 hours"

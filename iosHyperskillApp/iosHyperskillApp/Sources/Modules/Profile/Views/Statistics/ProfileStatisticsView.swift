@@ -19,21 +19,21 @@ struct ProfileStatisticsView: View {
         HStack {
             ProfileStatisticsItemView(
                 appearance: .init(cornerRadius: appearance.cornerRadius),
-                icon: .init(imageName: Images.Common.project, renderingMode: .circleBackground),
+                icon: .init(imageResource: .project, renderingMode: .circleBackground),
                 title: "\(passedProjectsCount)",
                 subtitle: Strings.Profile.Statistics.passedProjects
             )
 
             ProfileStatisticsItemView(
                 appearance: .init(cornerRadius: appearance.cornerRadius),
-                icon: .init(imageName: Images.Track.track, renderingMode: .circleBackground),
+                icon: .init(imageResource: .track, renderingMode: .circleBackground),
                 title: "\(passedTracksCount)",
                 subtitle: Strings.Profile.Statistics.passedTracks
             )
 
             ProfileStatisticsItemView(
                 appearance: .init(cornerRadius: appearance.cornerRadius),
-                icon: .init(imageName: Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge, renderingMode: .original),
+                icon: .init(imageResource: .problemOfDaySolvedModalGemsBadge, renderingMode: .original),
                 title: "\(hypercoinsBalance)",
                 subtitle: Strings.Profile.Statistics.hypercoinsBalance
             )
@@ -41,14 +41,12 @@ struct ProfileStatisticsView: View {
     }
 }
 
-struct ProfileStatisticsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileStatisticsView(
-            passedProjectsCount: 3,
-            passedTracksCount: 3,
-            hypercoinsBalance: 3456
-        )
-        .padding()
-        .background(Color.background)
-    }
+#Preview {
+    ProfileStatisticsView(
+        passedProjectsCount: 3,
+        passedTracksCount: 3,
+        hypercoinsBalance: 3456
+    )
+    .padding()
+    .background(Color.background)
 }
