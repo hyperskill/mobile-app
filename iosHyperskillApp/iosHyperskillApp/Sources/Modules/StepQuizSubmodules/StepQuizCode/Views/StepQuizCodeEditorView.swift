@@ -83,13 +83,21 @@ struct StepQuizCodeEditorView: View {
     }
 }
 
-struct StepQuizCodeEditorView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizCodeEditorView(
-            code: .constant(CodeLanguageSamples.sample(for: .java)),
-            codeTemplate: nil,
-            language: .java,
-            onExpandButtonTap: {}
-        )
-    }
+#Preview("Light") {
+    StepQuizCodeEditorView(
+        code: .constant(CodeLanguageSamples.sample(for: .java)),
+        codeTemplate: nil,
+        language: .java,
+        onExpandButtonTap: {}
+    )
+}
+
+#Preview("Dark") {
+    StepQuizCodeEditorView(
+        code: .constant(CodeLanguageSamples.sample(for: .java)),
+        codeTemplate: nil,
+        language: .java,
+        onExpandButtonTap: {}
+    )
+    .preferredColorScheme(.dark)
 }

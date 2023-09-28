@@ -39,22 +39,20 @@ struct StepQuizCodeFullScreenDetailsView: View {
     }
 }
 
-struct StepQuizCodeFullScreenDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizCodeFullScreenDetailsView(
-            stepText: """
+#Preview {
+    StepQuizCodeFullScreenDetailsView(
+        stepText: """
 Enter only the name of the found functional interface with/without the package. Don't write any generic parameters.
 """,
-            samples: [
-                .init(
-                    inputTitle: "Sample Input 1",
-                    inputValue: "3\n3\n3",
-                    outputTitle: "Sample Output 1",
-                    outputValue: "true"
-                )
-            ],
-            onExpandStepTextButtonTap: {},
-            onExpandCodeDetailsButtonTap: {}
-        )
-    }
+        samples: [
+            .init(
+                inputTitle: "Sample Input 1",
+                inputValue: "3\n3\n3",
+                outputTitle: "Sample Output 1",
+                outputValue: "true"
+            )
+        ],
+        onExpandStepTextButtonTap: {},
+        onExpandCodeDetailsButtonTap: {}
+    )
 }

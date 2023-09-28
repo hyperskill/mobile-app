@@ -33,13 +33,10 @@ struct StepQuizPyCharmView: View {
 }
 
 #if DEBUG
-struct StepQuizPyCharmView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizPyCharmAssembly
-            .makePlaceholder()
-            .makeModule()
-            .previewLayout(.sizeThatFits)
-            .padding()
-    }
+#Preview {
+    StepQuizPyCharmAssembly
+        .makePlaceholder()
+        .makeModule()
+        .padding()
 }
 #endif

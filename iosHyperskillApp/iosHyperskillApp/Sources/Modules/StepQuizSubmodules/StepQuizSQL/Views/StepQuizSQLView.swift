@@ -34,20 +34,18 @@ struct StepQuizSQLView: View {
 }
 
 #if DEBUG
-struct StepQuizSQLView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StepQuizSQLAssembly
-                .makePlaceholder()
-                .makeModule()
-
-            StepQuizSQLAssembly
-                .makePlaceholder()
-                .makeModule()
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+#Preview("Light") {
+    StepQuizSQLAssembly
+        .makePlaceholder()
+        .makeModule()
         .padding()
-    }
+}
+
+#Preview("Dark") {
+    StepQuizSQLAssembly
+        .makePlaceholder()
+        .makeModule()
+        .preferredColorScheme(.dark)
+        .padding()
 }
 #endif

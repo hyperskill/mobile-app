@@ -55,15 +55,13 @@ struct ExpandableStepTextView: View {
     }
 }
 
-struct ExpandableStepTextView_Previews: PreviewProvider {
-    static var previews: some View {
-        ExpandableStepTextView(
-            text: """
+#Preview {
+    ExpandableStepTextView(
+        text: """
 <p>Despite the fact that the syntax for different databases may differ, most of them have common standards.</p>
 """,
-            onExpandButtonTap: {}
-        )
-        .padding()
-        .frame(height: 200)
-    }
+        onExpandButtonTap: {}
+    )
+    .padding()
+    .frame(height: 200)
 }

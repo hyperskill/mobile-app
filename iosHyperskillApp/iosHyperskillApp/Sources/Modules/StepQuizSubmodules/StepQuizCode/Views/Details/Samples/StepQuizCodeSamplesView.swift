@@ -29,25 +29,22 @@ struct StepQuizCodeSamplesView: View {
     }
 }
 
-struct StepQuizCodeSamplesView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizCodeSamplesView(
-            samples: [
-                .init(
-                    inputTitle: "Sample Input 1",
-                    inputValue: "3\n3\n3",
-                    outputTitle: "Sample Output 1",
-                    outputValue: "true"
-                ),
-                .init(
-                    inputTitle: "Sample Input 2",
-                    inputValue: "3\n3\n3",
-                    outputTitle: "Sample Output 2",
-                    outputValue: "true"
-                )
-            ]
-        )
-        .previewLayout(.sizeThatFits)
-        .padding()
-    }
+#Preview {
+    StepQuizCodeSamplesView(
+        samples: [
+            .init(
+                inputTitle: "Sample Input 1",
+                inputValue: "3\n3\n3",
+                outputTitle: "Sample Output 1",
+                outputValue: "true"
+            ),
+            .init(
+                inputTitle: "Sample Input 2",
+                inputValue: "3\n3\n3",
+                outputTitle: "Sample Output 2",
+                outputValue: "true"
+            )
+        ]
+    )
+    .padding()
 }

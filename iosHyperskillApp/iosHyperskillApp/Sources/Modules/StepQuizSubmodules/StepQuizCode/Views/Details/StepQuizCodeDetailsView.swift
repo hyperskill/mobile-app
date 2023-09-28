@@ -51,36 +51,33 @@ struct StepQuizCodeDetailsView: View {
     }
 }
 
-struct StepQuizCodeDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StepQuizCodeDetailsView(
-                samples: [
-                    .init(
-                        inputTitle: "Sample Input 1",
-                        inputValue: "3\n3\n3",
-                        outputTitle: "Sample Output 1",
-                        outputValue: "true"
-                    )
-                ],
-                isExpanded: false,
-                onExpandTapped: {}
-            )
+#Preview {
+    Group {
+        StepQuizCodeDetailsView(
+            samples: [
+                .init(
+                    inputTitle: "Sample Input 1",
+                    inputValue: "3\n3\n3",
+                    outputTitle: "Sample Output 1",
+                    outputValue: "true"
+                )
+            ],
+            isExpanded: false,
+            onExpandTapped: {}
+        )
 
-            StepQuizCodeDetailsView(
-                samples: [
-                    .init(
-                        inputTitle: "Sample Input 1",
-                        inputValue: "3\n3\n3",
-                        outputTitle: "Sample Output 1",
-                        outputValue: "true"
-                    )
-                ],
-                isExpanded: true,
-                onExpandTapped: {}
-            )
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
+        StepQuizCodeDetailsView(
+            samples: [
+                .init(
+                    inputTitle: "Sample Input 1",
+                    inputValue: "3\n3\n3",
+                    outputTitle: "Sample Output 1",
+                    outputValue: "true"
+                )
+            ],
+            isExpanded: true,
+            onExpandTapped: {}
+        )
     }
+    .padding()
 }
