@@ -2,8 +2,9 @@ import SwiftUI
 
 extension StepQuizCodeEditorView {
     struct Appearance {
+        static let codeEditorMinHeight: CGFloat = 80
+
         let codeEditorInsets = LayoutInsets(vertical: LayoutInsets.defaultInset)
-        let codeEditorMinHeight: CGFloat = 300
     }
 }
 
@@ -19,7 +20,7 @@ struct StepQuizCodeEditorView: View {
 
     @Environment(\.isEnabled) private var isEnabled
 
-    @State private var height: CGFloat = 300
+    @State private var height: CGFloat = Self.Appearance.codeEditorMinHeight
 
     var body: some View {
         VStack(spacing: 0) {
@@ -41,7 +42,7 @@ struct StepQuizCodeEditorView: View {
                 Button(
                     action: onExpandButtonTap,
                     label: {
-                        Image(Images.StepQuiz.expand)
+                        Image(.stepQuizCodeEditorExpand)
                             .renderingMode(.template)
                             .font(.headline)
                             .foregroundColor(.secondaryText)
@@ -63,7 +64,7 @@ struct StepQuizCodeEditorView: View {
                 isEditable: true,
                 textInsets: appearance.codeEditorInsets.uiEdgeInsets,
                 onDidChangeHeight: { newHeight in
-                    let constrainMinimumHeight = max(newHeight, appearance.codeEditorMinHeight)
+                    let constrainMinimumHeight = max(newHeight, Self.Appearance.codeEditorMinHeight)
                     guard constrainMinimumHeight != height else {
                         return
                     }
