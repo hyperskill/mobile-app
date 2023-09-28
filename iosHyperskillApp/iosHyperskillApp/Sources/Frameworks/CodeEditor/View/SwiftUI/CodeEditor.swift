@@ -168,15 +168,13 @@ private extension CodeEditorView.Appearance {
     }
 }
 
-// MARK: - CodeEditor_Previews: PreviewProvider -
+// MARK: - Preview -
 
-struct CodeEditor_Previews: PreviewProvider {
-    static var previews: some View {
-        CodeEditor(
-            code: .constant(CodeLanguageSamples.sample(for: .java)),
-            language: .java
-        )
-        .frame(height: 236)
-        .frame(maxWidth: .infinity)
-    }
+#Preview {
+    CodeEditor(
+        code: .constant(CodeLanguageSamples.sample(for: .java)),
+        language: .java
+    )
+    .frame(height: 236)
+    .frame(maxWidth: .infinity)
 }

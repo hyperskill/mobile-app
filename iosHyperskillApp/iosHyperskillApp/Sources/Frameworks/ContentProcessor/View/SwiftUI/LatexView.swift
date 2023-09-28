@@ -39,14 +39,16 @@ struct LatexView: View {
     }
 }
 
-struct LatexView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            LatexView(text: .constant("Plain text"))
+#Preview("Plain text") {
+    LatexView(
+        text: .constant("Plain text")
+    )
+    .padding()
+}
 
-            LatexView(text: .constant("Rich <b>text</b>!!!"))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-    }
+#Preview("Rich text") {
+    LatexView(
+        text: .constant("Rich <b>text</b>!!!")
+    )
+    .padding()
 }

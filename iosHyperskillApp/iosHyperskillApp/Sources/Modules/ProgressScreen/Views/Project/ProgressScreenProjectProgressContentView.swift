@@ -60,7 +60,7 @@ struct ProgressScreenProjectProgressContentView: View {
                         appearance: appearance.cardAppearance,
                         title: timeToCompleteLabel,
                         titleSecondaryText: nil,
-                        imageName: Images.Step.clock,
+                        imageResource: .stepTimeToComplete,
                         progress: nil,
                         subtitle: Strings.ProgressScreen.Project.timeToCompleteProject
                     )
@@ -70,7 +70,7 @@ struct ProgressScreenProjectProgressContentView: View {
                     appearance: appearance.cardAppearance,
                     title: completedStagesLabel,
                     titleSecondaryText: nil,
-                    imageName: "",
+                    imageResource: nil,
                     progress: .init(value: completedStagesProgress, isCompleted: isCompleted),
                     subtitle: Strings.ProgressScreen.Project.stages
                 )

@@ -97,36 +97,35 @@ struct AuthCredentialsFormView: View {
     }
 }
 
-struct AuthEmailFormView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            Group {
-                AuthCredentialsFormView(
-                    emailText: .constant(""),
-                    passwordText: .constant("")
-                )
+#Preview("Light") {
+    Group {
+        AuthCredentialsFormView(
+            emailText: .constant(""),
+            passwordText: .constant("")
+        )
 
-                AuthCredentialsFormView(
-                    emailText: .constant(""),
-                    passwordText: .constant(""),
-                    errorMessage: "error"
-                )
-            }
-
-            Group {
-                AuthCredentialsFormView(
-                    emailText: .constant(""),
-                    passwordText: .constant("")
-                )
-
-                AuthCredentialsFormView(
-                    emailText: .constant(""),
-                    passwordText: .constant(""),
-                    errorMessage: "error"
-                )
-            }
-            .preferredColorScheme(.dark)
-        }
-        .padding(.horizontal)
+        AuthCredentialsFormView(
+            emailText: .constant(""),
+            passwordText: .constant(""),
+            errorMessage: "error"
+        )
     }
+    .padding(.horizontal)
+}
+
+#Preview("Dark") {
+    Group {
+        AuthCredentialsFormView(
+            emailText: .constant(""),
+            passwordText: .constant("")
+        )
+
+        AuthCredentialsFormView(
+            emailText: .constant(""),
+            passwordText: .constant(""),
+            errorMessage: "error"
+        )
+    }
+    .preferredColorScheme(.dark)
+    .padding(.horizontal)
 }
