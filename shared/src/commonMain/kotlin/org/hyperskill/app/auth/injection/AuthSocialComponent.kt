@@ -6,8 +6,6 @@ import org.hyperskill.app.auth.presentation.AuthSocialFeature.State as AuthSocia
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Action as AuthSocialWebViewAction
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.Message as AuthSocialWebViewMessage
 import org.hyperskill.app.auth.presentation.AuthSocialWebViewFeature.State as AuthSocialWebViewState
-import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
-import ru.nobird.app.presentation.redux.feature.Feature
 
 interface AuthSocialComponent {
     val authSocialFeature: Feature<AuthSocialState, AuthSocialMessage, AuthSocialAction>
