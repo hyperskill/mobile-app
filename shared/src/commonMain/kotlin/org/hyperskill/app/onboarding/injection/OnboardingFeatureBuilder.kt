@@ -18,6 +18,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object OnboardingFeatureBuilder {
     private const val LOG_TAG = "OnboardingFeature"
+
     fun build(
         onboardingInteractor: OnboardingInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,

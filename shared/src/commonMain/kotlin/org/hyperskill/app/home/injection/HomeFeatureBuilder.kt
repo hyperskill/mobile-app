@@ -32,7 +32,6 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object HomeFeatureBuilder {
-
     private const val LOG_TAG = "HomeFeature"
 
     fun build(

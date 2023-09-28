@@ -30,6 +30,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object ProjectSelectionDetailsFeatureBuilder {
     private const val LOG_TAG = "ProjectSelectionDetailsFeature"
+
     fun build(
         params: ProjectSelectionDetailsParams,
         trackRepository: TrackRepository,

@@ -10,14 +10,15 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 
 object LoggerBuilder {
     private const val LOG_TAG = "HYPERSKILL_APP"
+
     fun build(
         buildVariant: BuildVariant,
         sentryInteractor: SentryInteractor
     ): Logger =
         Logger(
             config = StaticConfig(
-                logWriterList = listOf(
-                    platformLogWriter(),
+                logWriterList = listOfNotNull(
+                    if (buildVariant == BuildVariant.RELEASE) null else platformLogWriter(),
                     SentryLogWriter(sentryInteractor)
                 ),
                 minSeverity = if (buildVariant == BuildVariant.RELEASE) {

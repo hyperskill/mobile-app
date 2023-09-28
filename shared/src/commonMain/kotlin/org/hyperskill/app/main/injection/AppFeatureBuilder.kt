@@ -30,6 +30,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object AppFeatureBuilder {
     private const val LOG_TAG = "AppFeature"
+
     fun build(
         initialState: State?,
         appInteractor: AppInteractor,

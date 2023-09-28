@@ -24,6 +24,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object ProfileSettingsFeatureBuilder {
     private const val LOG_TAG = "ProfileSettingsFeature"
+
     fun build(
         profileSettingsInteractor: ProfileSettingsInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,

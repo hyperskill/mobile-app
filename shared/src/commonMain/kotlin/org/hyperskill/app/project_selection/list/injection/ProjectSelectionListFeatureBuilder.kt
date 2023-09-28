@@ -25,6 +25,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object ProjectSelectionListFeatureBuilder {
     private const val LOG_TAG = "ProjectSelectionListFeature"
+
     fun build(
         params: ProjectSelectionListParams,
         trackRepository: TrackRepository,

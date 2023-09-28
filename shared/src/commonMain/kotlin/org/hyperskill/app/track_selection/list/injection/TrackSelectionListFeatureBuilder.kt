@@ -22,6 +22,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object TrackSelectionListFeatureBuilder {
     private const val LOG_TAG = "TrackSelectionListFeature"
+
     fun build(
         params: TrackSelectionListParams,
         analyticInteractor: AnalyticInteractor,

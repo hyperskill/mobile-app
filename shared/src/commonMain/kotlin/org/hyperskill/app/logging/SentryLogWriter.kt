@@ -30,8 +30,7 @@ class SentryLogWriter(
             Severity.Info -> sentryInteractor.captureMessage(formattedMessage, HyperskillSentryLevel.INFO)
             Severity.Warn -> sentryInteractor.captureMessage(formattedMessage, HyperskillSentryLevel.WARNING)
             Severity.Error -> sentryInteractor.captureMessage(formattedMessage, HyperskillSentryLevel.ERROR)
-            Severity.Debug -> sentryInteractor.captureMessage(formattedMessage, HyperskillSentryLevel.DEBUG)
-            Severity.Verbose, Severity.Assert -> {
+            Severity.Debug, Severity.Verbose, Severity.Assert -> {
                 // no op
             }
         }

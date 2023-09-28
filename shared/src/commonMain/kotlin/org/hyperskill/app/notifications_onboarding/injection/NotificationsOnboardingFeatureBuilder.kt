@@ -17,6 +17,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object NotificationsOnboardingFeatureBuilder {
     private const val LOG_TAG = "NotificationsOnboardingFeature"
+
     fun build(
         analyticInteractor: AnalyticInteractor,
         notificationInteractor: NotificationInteractor,

@@ -30,6 +30,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object StudyPlanScreenFeatureBuilder {
     private const val LOG_TAG = "StudyPlanScreenFeature"
+
     fun build(
         analyticInteractor: AnalyticInteractor,
         toolbarReducer: GamificationToolbarReducer,

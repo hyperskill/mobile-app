@@ -52,7 +52,7 @@ private class LoggableStateReducer<State, Message, Action>(
             if (initialState == newState) {
                 "reduce(\nmessage=$message,\nstate=$initialState\n)\nActions=$actions\nNew state = SAME"
             } else {
-                "reduce(\nmessage=$message,\nstate=PREVIOUS\n)\nActions=$actions\nNew state = $newState"
+                "reduce(\nmessage=$message,\nstate=$initialState\n)\nActions=$actions\nNew state = $newState"
             }
         }
     }

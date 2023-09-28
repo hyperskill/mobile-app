@@ -23,6 +23,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object ProgressScreenFeatureBuilder {
     private const val LOG_TAG = "ProgressScreenFeature"
+
     fun build(
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         currentProfileStateRepository: CurrentProfileStateRepository,

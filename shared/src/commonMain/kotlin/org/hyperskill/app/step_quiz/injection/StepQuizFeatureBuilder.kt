@@ -27,6 +27,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object StepQuizFeatureBuilder {
     private const val LOG_TAG = "StepQuizFeature"
+
     fun build(
         stepRoute: StepRoute,
         problemsLimitReducer: ProblemsLimitReducer,

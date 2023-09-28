@@ -23,6 +23,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object StageImplementFeatureBuilder {
     private const val LOG_TAG = "StageImplementFeature"
+
     fun build(
         projectId: Long,
         stageId: Long,

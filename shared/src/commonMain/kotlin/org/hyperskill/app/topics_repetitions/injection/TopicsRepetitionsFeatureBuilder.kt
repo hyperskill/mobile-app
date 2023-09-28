@@ -21,6 +21,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object TopicsRepetitionsFeatureBuilder {
     private const val LOG_TAG = "TopicsRepetitionsFeature"
+
     fun build(
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,

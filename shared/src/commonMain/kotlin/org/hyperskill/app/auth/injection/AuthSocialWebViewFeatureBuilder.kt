@@ -15,6 +15,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object AuthSocialWebViewFeatureBuilder {
     private const val LOG_TAG = "AuthSocialWebViewFeature"
+
     fun build(
         logger: Logger,
         buildVariant: BuildVariant

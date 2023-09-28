@@ -17,6 +17,7 @@ import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 object DebugFeatureBuilder {
     private const val LOG_TAG = "DebugFeature"
+
     fun build(
         debugInteractor: DebugInteractor,
         appInteractor: AppInteractor,
