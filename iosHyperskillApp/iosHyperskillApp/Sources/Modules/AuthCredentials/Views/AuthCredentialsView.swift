@@ -91,18 +91,18 @@ struct AuthCredentialsView: View {
     }
 }
 
-struct AuthCredentialsView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            AuthCredentialsAssembly().makeModule()
-                .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
+#Preview("iPhone 15 Pro") {
+    AuthCredentialsAssembly().makeModule()
+        .previewDevice(PreviewDevice(rawValue: "iPhone 15 Pro"))
+}
 
-            AuthCredentialsAssembly().makeModule()
-                .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
-                .preferredColorScheme(.dark)
+#Preview("iPhone SE (Dark)") {
+    AuthCredentialsAssembly().makeModule()
+        .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
+        .preferredColorScheme(.dark)
+}
 
-            AuthCredentialsAssembly().makeModule()
-                .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
-        }
-    }
+#Preview("iPad") {
+    AuthCredentialsAssembly().makeModule()
+        .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
 }
