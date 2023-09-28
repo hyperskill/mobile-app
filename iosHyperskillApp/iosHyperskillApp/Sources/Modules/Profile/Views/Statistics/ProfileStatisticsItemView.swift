@@ -41,13 +41,13 @@ struct ProfileStatisticsItemView: View {
     @ViewBuilder private var image: some View {
         switch icon.renderingMode {
         case .original:
-            Image(icon.imageName)
+            Image(icon.imageResource)
                 .resizable()
                 .renderingMode(.original)
                 .aspectRatio(contentMode: .fit)
                 .frame(widthHeight: appearance.iconWidthHeight)
         case .circleBackground:
-            Image(icon.imageName)
+            Image(icon.imageResource)
                 .resizable()
                 .renderingMode(.template)
                 .aspectRatio(contentMode: .fit)
@@ -60,7 +60,7 @@ struct ProfileStatisticsItemView: View {
     }
 
     struct Icon {
-        let imageName: String
+        let imageResource: ImageResource
         let renderingMode: RenderingMode
 
         enum RenderingMode {
@@ -70,28 +70,26 @@ struct ProfileStatisticsItemView: View {
     }
 }
 
-struct ProfileStatisticsItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ProfileStatisticsItemView(
-                icon: .init(imageName: Images.Common.project, renderingMode: .circleBackground),
-                title: "3",
-                subtitle: Strings.Profile.Statistics.passedProjects
-            )
+#Preview {
+    Group {
+        ProfileStatisticsItemView(
+            icon: .init(imageResource: .project, renderingMode: .circleBackground),
+            title: "3",
+            subtitle: Strings.Profile.Statistics.passedProjects
+        )
 
-            ProfileStatisticsItemView(
-                icon: .init(imageName: Images.Track.track, renderingMode: .circleBackground),
-                title: "3",
-                subtitle: Strings.Profile.Statistics.passedTracks
-            )
+        ProfileStatisticsItemView(
+            icon: .init(imageResource: .track, renderingMode: .circleBackground),
+            title: "3",
+            subtitle: Strings.Profile.Statistics.passedTracks
+        )
 
-            ProfileStatisticsItemView(
-                icon: .init(imageName: Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge, renderingMode: .original),
-                title: "3456",
-                subtitle: Strings.Profile.Statistics.hypercoinsBalance
-            )
-        }
-        .padding()
-        .background(Color.background)
+        ProfileStatisticsItemView(
+            icon: .init(imageResource: .problemOfDaySolvedModalGemsBadge, renderingMode: .original),
+            title: "3456",
+            subtitle: Strings.Profile.Statistics.hypercoinsBalance
+        )
     }
+    .padding()
+    .background(Color.background)
 }
