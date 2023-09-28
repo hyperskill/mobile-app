@@ -1,17 +1,11 @@
 import Foundation
 
+@available(*, deprecated, message: "Use Xcode 15 image resources instead")
 enum Images {
     // MARK: - Common -
 
     enum Common {
-        static let hyperskillLogo = "hyperskill-logo"
-
         static let skip = "skip"
-        static let trophy = "trophy"
-        static let hammer = "hammer"
-
-        static let topic = "topic"
-        static let project = "project"
     }
 
     // MARK: - TabBar -
