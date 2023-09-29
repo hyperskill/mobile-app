@@ -2,12 +2,12 @@ name: iOS unit testing
 
 on:
   workflow_dispatch:
-  # Runs at 00:00 UTC every sunday
+  # Runs at 00:00 UTC every Sunday
   schedule:
     - cron: "0 0 * * 0"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref_name }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 defaults:
