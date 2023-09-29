@@ -66,7 +66,7 @@ class StepQuizCodeViewModel: ObservableObject {
 
     func logClickedInputAccessoryButton(symbol: String) {
         moduleOutput?.handleChildQuizAnalyticEventMessage(
-            StepQuizFeatureMessageCodeEditorClickedInputAccessoryButtonEvent(symbol: symbol)
+            StepQuizFeatureMessageCodeEditorClickedInputAccessoryButtonEventMessage(symbol: symbol)
         )
     }
 }
