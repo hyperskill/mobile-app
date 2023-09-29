@@ -1,0 +1,17 @@
+name: Auto Author Assign
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  assign-author:
+    runs-on: ubuntu-22.04
+    if: ${{ !github.event.pull_request.assignee }}
+    steps:
+      - uses: toshimaru/auto-author-assign@v2.0.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
