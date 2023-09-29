@@ -1,4 +1,4 @@
-name: iOS unit testing
+name: iOS Unit Testing
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ defaults:
     shell: bash
 
 jobs:
-  unit-testing:
+  test:
     name: Run iOS unit tests
     runs-on: macos-13
     timeout-minutes: 60
