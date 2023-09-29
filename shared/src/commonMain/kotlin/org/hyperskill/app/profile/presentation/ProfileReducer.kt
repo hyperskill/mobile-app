@@ -285,7 +285,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
     ): ProfileFeature.DailyStudyRemindersState =
         ProfileFeature.DailyStudyRemindersState(
             isEnabled = profile.isDailyLearningNotificationEnabled,
-            startHour = profile.dailyLearningNotificationHour ?: defaultDailyStudyReminderHour
+            startHour = profile.notificationHour ?: defaultDailyStudyReminderHour
         )
 
     private fun handleBadgesVisibilityButtonClicked(
