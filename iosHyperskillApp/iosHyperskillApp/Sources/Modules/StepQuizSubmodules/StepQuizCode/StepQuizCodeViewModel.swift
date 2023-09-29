@@ -63,6 +63,12 @@ class StepQuizCodeViewModel: ObservableObject {
     func logClickedCodeDetailsEvent() {
         moduleOutput?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
     }
+
+    func logClickedInputAccessoryButton(symbol: String) {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageCodeEditorClickedInputAccessoryButtonEvent(symbol: symbol)
+        )
+    }
 }
 
 // MARK: - StepQuizCodeViewModel: StepQuizChildQuizInputProtocol -
@@ -128,6 +134,10 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
         moduleOutput?.handleChildQuizAnalyticEventMessage(
             StepQuizFeatureMessageFullScreenCodeEditorClickedCodeDetailsEventMessage()
         )
+    }
+
+    func handleStepQuizCodeFullScreenTappedInputAccessoryButton(symbol: String) {
+        logClickedInputAccessoryButton(symbol: symbol)
     }
 
     @objc

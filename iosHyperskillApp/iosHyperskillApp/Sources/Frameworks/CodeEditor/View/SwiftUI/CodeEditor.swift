@@ -30,6 +30,8 @@ struct CodeEditor: UIViewRepresentable {
 
     var onDidChangeHeight: ((CGFloat) -> Void)?
 
+    var onDidTapInputAccessoryButton: ((String) -> Void)?
+
     // MARK: UIViewRepresentable
 
     static func dismantleUIView(_ uiView: CodeEditorView, coordinator: Coordinator) {
@@ -39,6 +41,7 @@ struct CodeEditor: UIViewRepresentable {
         coordinator.onDidBeginEditing = nil
         coordinator.onDidEndEditing = nil
         coordinator.onDidChangeHeight = nil
+        coordinator.onDidTapInputAccessoryButton = nil
         coordinator.suggestionsPresentationContextProvider = nil
     }
 
@@ -93,6 +96,7 @@ struct CodeEditor: UIViewRepresentable {
             onDidEndEditing?()
         }
         context.coordinator.onDidChangeHeight = onDidChangeHeight
+        context.coordinator.onDidTapInputAccessoryButton = onDidTapInputAccessoryButton
     }
 }
 
@@ -109,6 +113,8 @@ extension CodeEditor {
         var onDidEndEditing: (() -> Void)?
 
         var onDidChangeHeight: ((CGFloat) -> Void)?
+
+        var onDidTapInputAccessoryButton: ((String) -> Void)?
 
         init(suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?) {
             self.suggestionsPresentationContextProvider = suggestionsPresentationContextProvider
@@ -136,6 +142,18 @@ extension CodeEditor {
 
         func codeEditorViewDidChangeHeight(_ codeEditorView: CodeEditorView, height: CGFloat) {
             onDidChangeHeight?(height)
+        }
+
+        func codeEditorViewDidTapTabInputAccessoryButton(_ codeEditorView: CodeEditorView) {
+            onDidTapInputAccessoryButton?("tab")
+        }
+
+        func codeEditorViewDidTapHideKeyboardInputAccessoryButton(_ codeEditorView: CodeEditorView) {
+            onDidTapInputAccessoryButton?("hide")
+        }
+
+        func codeEditorView(_ codeEditorView: CodeEditorView, didTapInputAccessoryButton symbol: String) {
+            onDidTapInputAccessoryButton?(symbol)
         }
     }
 }

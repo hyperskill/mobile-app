@@ -93,5 +93,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     EARNED_BADGE_MODAL("earned_badge_modal"),
     ALLOW_NOTIFICATIONS("allow_notifications"),
     REMIND_ME_LATER("remind_me_later"),
-    FULL_SCREEN_CODE_EDITOR("full_screen_code_editor")
+    FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
+    CODE_INPUT_ACCESSORY_BUTTON("code_input_accessory_button")
 }

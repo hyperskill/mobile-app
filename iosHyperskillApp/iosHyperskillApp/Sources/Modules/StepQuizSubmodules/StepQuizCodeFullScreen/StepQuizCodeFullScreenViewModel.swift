@@ -48,6 +48,10 @@ final class StepQuizCodeFullScreenViewModel: ObservableObject {
     func logClickedCodeDetailsEvent() {
         moduleOutput?.handleStepQuizCodeFullScreenToggledCodeDetails()
     }
+
+    func logClickedInputAccessoryButton(symbol: String) {
+        moduleOutput?.handleStepQuizCodeFullScreenTappedInputAccessoryButton(symbol: symbol)
+    }
 }
 
 // MARK: - StepQuizCodeFullScreenViewModel: StepQuizCodeFullScreenInputProtocol -

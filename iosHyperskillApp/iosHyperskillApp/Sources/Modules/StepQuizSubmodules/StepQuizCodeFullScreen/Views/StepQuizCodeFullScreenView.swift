@@ -55,7 +55,8 @@ struct StepQuizCodeFullScreenView: View {
                             }
                         },
                         onTapRetry: viewModel.doRetry,
-                        onTapRunCode: viewModel.doRunCode
+                        onTapRunCode: viewModel.doRunCode,
+                        onDidTapInputAccessoryButton: viewModel.logClickedInputAccessoryButton(symbol:)
                     )
                     .onChange(of: viewModel.codeQuizViewData.code, perform: viewModel.doCodeUpdate(code:))
                     .tag(StepQuizCodeFullScreenTab.code)

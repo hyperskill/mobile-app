@@ -108,6 +108,8 @@ interface StepQuizFeature {
 
         object ClickedOpenFullScreenCodeEditorEventMessage : Message
 
+        data class CodeEditorClickedInputAccessoryButtonEventMessage(val symbol: String) : Message
+
         object ClickedRetryEventMessage : Message
 
         object ProblemsLimitReachedModalShownEventMessage : Message

@@ -16,7 +16,8 @@ struct StepQuizSQLView: View {
                 ),
                 codeTemplate: viewData.codeTemplate,
                 language: viewData.language,
-                onExpandButtonTap: viewModel.doFullScreenCodeEditorPresentation
+                onExpandButtonTap: viewModel.doFullScreenCodeEditorPresentation,
+                onInputAccessoryButtonTap: viewModel.logClickedInputAccessoryButton(symbol:)
             )
             .padding(.horizontal, -LayoutInsets.defaultInset)
         }

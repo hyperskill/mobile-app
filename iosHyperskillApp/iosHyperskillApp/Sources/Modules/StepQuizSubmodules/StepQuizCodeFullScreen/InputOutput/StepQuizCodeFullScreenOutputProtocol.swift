@@ -7,4 +7,5 @@ protocol StepQuizCodeFullScreenOutputProtocol: AnyObject {
     // Analytic
     func handleStepQuizCodeFullScreenToggledStepTextDetails()
     func handleStepQuizCodeFullScreenToggledCodeDetails()
+    func handleStepQuizCodeFullScreenTappedInputAccessoryButton(symbol: String)
 }

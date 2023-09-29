@@ -18,6 +18,8 @@ struct StepQuizCodeEditorView: View {
 
     let onExpandButtonTap: () -> Void
 
+    let onInputAccessoryButtonTap: (String) -> Void
+
     @Environment(\.isEnabled) private var isEnabled
 
     @State private var height: CGFloat = Self.Appearance.codeEditorMinHeight
@@ -73,7 +75,8 @@ struct StepQuizCodeEditorView: View {
                         height = constrainMinimumHeight
                         KeyboardManager.reloadLayoutIfNeeded()
                     }
-                }
+                },
+                onDidTapInputAccessoryButton: onInputAccessoryButtonTap
             )
             .frame(height: height)
             .frame(maxWidth: .infinity)
@@ -88,7 +91,8 @@ struct StepQuizCodeEditorView: View {
         code: .constant(CodeLanguageSamples.sample(for: .java)),
         codeTemplate: nil,
         language: .java,
-        onExpandButtonTap: {}
+        onExpandButtonTap: {},
+        onInputAccessoryButtonTap: { _ in }
     )
 }
 
@@ -97,7 +101,8 @@ struct StepQuizCodeEditorView: View {
         code: .constant(CodeLanguageSamples.sample(for: .java)),
         codeTemplate: nil,
         language: .java,
-        onExpandButtonTap: {}
+        onExpandButtonTap: {},
+        onInputAccessoryButtonTap: { _ in }
     )
     .preferredColorScheme(.dark)
 }
