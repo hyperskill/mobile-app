@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
-import android.widget.RelativeLayout
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
-import org.hyperskill.app.android.code.util.CodeToolbarUtil
+import org.hyperskill.app.android.code.util.CodeEditorKeyboardExtensionUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.core.extensions.argument
@@ -31,7 +31,6 @@ import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructi
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
-import org.hyperskill.app.android.view.base.ui.extension.setOnKeyboardOpenListener
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import ru.nobird.android.view.base.ui.extension.argument
@@ -74,10 +73,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private lateinit var codeSubmitButton: MaterialButton
     private lateinit var retryButton: View
 
-    private lateinit var codeToolbarAdapter: CodeToolbarAdapter
-
-    // Flag is necessary, because keyboard listener is constantly invoked (probably global layout listener reacts to view changes)
-    private var keyboardShown: Boolean = false
+    private var codeToolbarAdapter: CodeToolbarAdapter? = null
 
     private var lang: String by argument()
     private var code: String by argument()
@@ -97,13 +93,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     private val callback: Callback?
         get() = parentFragment as? Callback
 
-    private fun injectComponent() {
-        stepQuizStatsTextMapper = StepQuizStatsTextMapper(
-            HyperskillApp.graph().commonComponent.resourceProvider,
-            HyperskillApp.graph().commonComponent.dateFormatter
-        )
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
 
@@ -118,6 +107,18 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
         injectComponent()
+        initCodeToolbarAdapter()
+    }
+
+    private fun injectComponent() {
+        stepQuizStatsTextMapper = StepQuizStatsTextMapper(
+            HyperskillApp.graph().commonComponent.resourceProvider,
+            HyperskillApp.graph().commonComponent.dateFormatter
+        )
+    }
+
+    private fun initCodeToolbarAdapter() {
+        codeToolbarAdapter = CodeToolbarAdapter(requireContext())
     }
 
     override fun onCreateView(
@@ -196,8 +197,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             retryButton.visibility = View.VISIBLE
         }
 
-        setupCodeToolbarAdapter()
-        setupKeyboardExtension()
+        setupCodeEditorKeyboardExtension()
 
         codeLayoutDelegate = CodeLayoutDelegate(
             codeLayout = codeLayout,
@@ -261,6 +261,11 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         super.onPause()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        codeToolbarAdapter = null
+    }
+
     /**
      * Called receiving new state from feature (calling [Callback] methods).
      */
@@ -269,75 +274,32 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         codeLayoutDelegate.setLanguage(lang, code)
     }
 
-    private fun setupCodeToolbarAdapter() {
-        codeToolbarAdapter = CodeToolbarAdapter(requireContext())
-            .apply {
-                onSymbolClickListener = object : CodeToolbarAdapter.OnSymbolClickListener {
-                    override fun onSymbolClick(symbol: String, offset: Int) {
-                        codeLayout.insertText(
-                            CodeToolbarUtil.mapToolbarSymbolToPrintable(
-                                symbol,
-                                codeLayout.indentSize
-                            ),
-                            offset
-                        )
-                    }
-                }
-            }
-    }
-
-    /**
-     * Keyboard extension
-     */
-    private fun setupKeyboardExtension() {
-        with(viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension) {
-            adapter = codeToolbarAdapter
-            layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        }
-        codeLayout.codeToolbarAdapter = codeToolbarAdapter
-
-        setOnKeyboardOpenListener(
-            viewBinding.coordinator,
-            onKeyboardHidden = {
-                if (keyboardShown) {
-                    viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.visibility =
-                        View.GONE
-                    codeLayout.isNestedScrollingEnabled = true
-                    codeLayout.layoutParams =
-                        (codeLayout.layoutParams as RelativeLayout.LayoutParams)
-                            .apply {
-                                bottomMargin = 0
-                            }
-                    codeLayout.setPadding(
-                        0,
-                        0,
-                        0,
-                        requireContext().resources
-                            .getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_bottom_padding)
-                    )
-                    setViewsVisibility(needShow = true)
-                    keyboardShown = false
-                }
+    private fun setupCodeEditorKeyboardExtension() {
+        CodeEditorKeyboardExtensionUtil.setupKeyboardExtension(
+            context = requireContext(),
+            rootView = viewBinding.coordinator,
+            recyclerView = viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtensionRecycler,
+            codeLayout = codeLayout,
+            codeToolbarAdapter = requireNotNull(codeToolbarAdapter),
+            isToolbarEnabled = {
+                // We show the keyboard extension only when "Code" tab is opened
+                viewBinding.fullScreenCodeViewPager.currentItem == CODE_TAB
             },
-            onKeyboardShown = {
-                if (!keyboardShown) {
-                    // We show the keyboard extension only when "Code" tab is opened
-                    if (viewBinding.fullScreenCodeViewPager.currentItem == CODE_TAB) {
-                        viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.visibility =
-                            View.VISIBLE
+            codeEditorKeyboardListener = { isKeyboardShown, toolbarHeight ->
+                with(codeLayout) {
+                    updatePadding(
+                        bottom = if (isKeyboardShown) {
+                            0
+                        } else {
+                            requireContext().resources
+                                .getDimensionPixelSize(R.dimen.step_quiz_fullscreen_code_layout_bottom_padding)
+                        }
+                    )
+                    codeLayout.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = toolbarHeight
                     }
-                    codeLayout.isNestedScrollingEnabled = false
-                    codeLayout.layoutParams =
-                        (codeLayout.layoutParams as RelativeLayout.LayoutParams)
-                            .apply {
-                                bottomMargin =
-                                    viewBinding.fullScreenCodeKeyboardExtension.stepQuizCodeKeyboardExtension.height
-                            }
-                    codeLayout.setPadding(0, 0, 0, 0)
-                    setViewsVisibility(needShow = false)
-                    keyboardShown = true
                 }
+                setViewsVisibility(!isKeyboardShown)
             }
         )
     }

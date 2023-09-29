@@ -23,8 +23,8 @@ class CodeToolbarAdapter(private val context: Context) :
         private const val ELEMENT_VIEW_TYPE = 0
     }
 
-    interface OnSymbolClickListener {
-        fun onSymbolClick(symbol: String, offset: Int = 0)
+    fun interface OnSymbolClickListener {
+        fun onSymbolClick(symbol: String, offset: Int)
     }
 
     private val autocompletePrefixBackgroundSpan =
@@ -54,7 +54,7 @@ class CodeToolbarAdapter(private val context: Context) :
         ) {
             onSymbolClickListener?.onSymbolClick("$word ", autocomplete.prefix.length)
         } else {
-            onSymbolClickListener?.onSymbolClick(word)
+            onSymbolClickListener?.onSymbolClick(word, 0)
         }
     }
 

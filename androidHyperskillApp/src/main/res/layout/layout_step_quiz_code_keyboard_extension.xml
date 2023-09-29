@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.recyclerview.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/stepQuizCodeKeyboardExtension"
-    android:background="@color/color_elevation_overlay_2dp"
+    android:id="@+id/stepQuizCodeKeyboardExtensionRecycler"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:clipToPadding="false"
-    android:scrollbarStyle="outsideOverlay"
-    android:splitMotionEvents="false"
-    android:visibility="gone" />
+    android:layout_gravity="bottom" />
