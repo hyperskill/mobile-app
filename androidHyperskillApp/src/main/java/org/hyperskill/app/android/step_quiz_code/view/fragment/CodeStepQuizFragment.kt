@@ -1,11 +1,15 @@
 package org.hyperskill.app.android.step_quiz_code.view.fragment
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import org.hyperskill.app.android.code.util.CodeEditorKeyboardExtensionUtil
+import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizCodeKeyboardExtensionBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -27,7 +31,10 @@ class CodeStepQuizFragment :
     CodeStepQuizFullScreenDialogFragment.Callback {
 
     companion object {
-        fun newInstance(step: Step, stepRoute: StepRoute): Fragment =
+        fun newInstance(
+            step: Step,
+            stepRoute: StepRoute
+        ): Fragment =
             CodeStepQuizFragment().apply {
                 this.step = step
                 this.stepRoute = stepRoute
@@ -42,6 +49,7 @@ class CodeStepQuizFragment :
     }
 
     private var codeStepQuizFormDelegate: CodeStepQuizFormDelegate? = null
+    private var codeToolbarAdapter: CodeToolbarAdapter? = null
 
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizCodeContainer)
@@ -51,11 +59,35 @@ class CodeStepQuizFragment :
 
     override val descriptionBinding: LayoutStepQuizDescriptionBinding? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        codeToolbarAdapter = CodeToolbarAdapter(requireContext())
+    }
+
     override fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
         val binding = LayoutStepQuizCodeBinding.inflate(layoutInflater, parent, false).also {
             _binding = it
         }
+        setupKeyboardExtensionView(layoutInflater, binding)
         return binding.root
+    }
+
+    private fun setupKeyboardExtensionView(layoutInflater: LayoutInflater, viewBinding: LayoutStepQuizCodeBinding) {
+        val parentFragmentViewGroup = requireParentFragment().requireView() as ViewGroup
+        val keyboardExtensionViewBinding = LayoutStepQuizCodeKeyboardExtensionBinding.inflate(
+            layoutInflater,
+            parentFragmentViewGroup,
+            false
+        )
+        parentFragmentViewGroup.addView(keyboardExtensionViewBinding.root)
+
+        CodeEditorKeyboardExtensionUtil.setupKeyboardExtension(
+            context = requireContext(),
+            rootView = parentFragmentViewGroup,
+            recyclerView = keyboardExtensionViewBinding.stepQuizCodeKeyboardExtensionRecycler,
+            codeLayout = viewBinding.codeStepLayout,
+            codeToolbarAdapter = requireNotNull(codeToolbarAdapter)
+        )
     }
 
     override fun onDestroyView() {
@@ -64,8 +96,25 @@ class CodeStepQuizFragment :
         super.onDestroyView()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        codeToolbarAdapter = null
+    }
+
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
-        val codeLayoutDelegate = CodeLayoutDelegate(
+        val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
+            codeLayout = binding.codeStepLayout,
+            codeLayoutDelegate = createCodeLayoutDelegate(),
+            codeStepQuizConfig = config,
+            onQuizChanged = ::syncReplyState
+        )
+        this.codeStepQuizFormDelegate = codeStepQuizFormDelegate
+
+        return codeStepQuizFormDelegate
+    }
+
+    private fun createCodeLayoutDelegate(): CodeLayoutDelegate =
+        CodeLayoutDelegate(
             codeLayout = binding.codeStepLayout,
             config = config,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
@@ -75,20 +124,8 @@ class CodeStepQuizFragment :
                     logAnalyticEventMessage(StepQuizFeature.Message.ClickedCodeDetailsEventMessage)
                 }
             ),
-            codeToolbarAdapter = null
+            codeToolbarAdapter = codeToolbarAdapter
         )
-
-        val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
-            codeLayout = binding.codeStepLayout,
-            codeLayoutDelegate = codeLayoutDelegate,
-            codeStepQuizConfig = config,
-            onFullscreenClicked = ::onFullScreenClicked,
-            onQuizChanged = ::syncReplyState
-        )
-        this.codeStepQuizFormDelegate = codeStepQuizFormDelegate
-
-        return codeStepQuizFormDelegate
-    }
 
     override fun onNewState(state: StepQuizFeature.State) {
         (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.let { attemptLoadedState ->

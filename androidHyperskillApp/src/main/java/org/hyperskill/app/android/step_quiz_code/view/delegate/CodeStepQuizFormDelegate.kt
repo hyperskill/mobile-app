@@ -16,7 +16,6 @@ class CodeStepQuizFormDelegate(
     private val codeLayout: CodeEditorLayout,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val codeStepQuizConfig: CodeStepQuizConfig,
-    private val onFullscreenClicked: (lang: String, code: String) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
 
@@ -39,16 +38,7 @@ class CodeStepQuizFormDelegate(
             setDetailsContentData(codeStepQuizConfig.langName)
         }
 
-        with(codeLayout.codeEditor) {
-            isFocusable = false
-            addTextChangedListener(textWatcher)
-            codeLayout.codeEditor.setOnClickListener {
-                onFullscreenClicked(
-                    codeStepQuizConfig.langName,
-                    this@CodeStepQuizFormDelegate.code ?: codeStepQuizConfig.initialCode
-                )
-            }
-        }
+        codeLayout.codeEditor.addTextChangedListener(textWatcher)
     }
 
     override fun customizeSubmissionButton(button: MaterialButton) {

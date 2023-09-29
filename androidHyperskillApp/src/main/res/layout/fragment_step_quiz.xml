@@ -93,5 +93,4 @@
         app:layout_constraintStart_toStartOf="parent"
         layout="@layout/layout_quiz_buttons" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
