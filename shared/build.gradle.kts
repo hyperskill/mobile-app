@@ -58,6 +58,7 @@ kotlin {
                 implementation(libs.kit.model)
                 implementation(libs.kotlin.datetime)
                 implementation(libs.kit.presentation.reduxCoroutines)
+                implementation(libs.kermit.common)
 
                 api(libs.kit.presentation.redux)
                 api(libs.mokoResources.main)
