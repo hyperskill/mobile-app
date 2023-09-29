@@ -12,6 +12,8 @@ internal class NotificationsOnboardingComponentImpl(
     override val notificationsOnboardingFeature: Feature<State, Message, Action>
         get() = NotificationsOnboardingFeatureBuilder.build(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
-            notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor
+            notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }
