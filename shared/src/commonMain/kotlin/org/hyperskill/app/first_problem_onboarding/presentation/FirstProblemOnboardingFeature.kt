@@ -9,7 +9,13 @@ object FirstProblemOnboardingFeature {
     internal data class State(
         val profileState: ProfileState,
         val nextLearningActivityState: NextLearningActivityState,
+        /**
+         * Field to differ new and existing users to change screen texts/icons
+         */
         val isNewUserMode: Boolean,
+        /**
+         * Flag for displaying loading animation (after click on CTA button)
+         */
         val isLearningActivityLoading: Boolean = false
     )
 

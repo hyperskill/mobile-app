@@ -33,10 +33,13 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
         if (state.profileState is ProfileState.Idle &&
             state.nextLearningActivityState is NextLearningActivityState.Idle
         ) {
-            state.updateProfileState(ProfileState.Loading) to setOf(
-                InternalAction.FetchProfile,
-                InternalAction.FetchNextLearningActivity
-            )
+            state
+                .updateProfileState(ProfileState.Loading)
+                .updateNextLearningActivityState(NextLearningActivityState.Loading) to
+                setOf(
+                    InternalAction.FetchProfile,
+                    InternalAction.FetchNextLearningActivity
+                )
         } else {
             null
         }
@@ -71,11 +74,12 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
             FirstProblemOnboardingFeature.FetchNextLearningActivityResult.Error ->
                 state
                     .copy(isLearningActivityLoading = false)
-                    .updateNextLearningActivityState(NextLearningActivityState.Error) to buildSet {
-                    if (state.isLearningActivityLoading) {
-                        add(Action.ViewAction.ShowNetworkError)
+                    .updateNextLearningActivityState(NextLearningActivityState.Error) to
+                    buildSet {
+                        if (state.isLearningActivityLoading) {
+                            add(Action.ViewAction.ShowNetworkError)
+                        }
                     }
-                }
             is FirstProblemOnboardingFeature.FetchNextLearningActivityResult.Success ->
                 if (state.isLearningActivityLoading) {
                     state.copy(isLearningActivityLoading = false) to setOf(
