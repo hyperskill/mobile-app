@@ -9,8 +9,6 @@ final class StepQuizSQLViewDataMapper: StepQuizCodeViewDataMapper {
             code: reply?.solveSql,
             codeTemplate: nil,
             samples: [],
-            executionTimeLimit: nil,
-            executionMemoryLimit: nil,
             stepText: step.block.text
         )
     }

@@ -8,9 +8,6 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -19,8 +16,6 @@ import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizActionDispatcher
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
-import ru.nobird.app.core.model.safeCast
-import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -30,8 +25,6 @@ object StepQuizFeatureBuilder {
 
     fun build(
         stepRoute: StepRoute,
-        problemsLimitReducer: ProblemsLimitReducer,
-        problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         stepQuizInteractor: StepQuizInteractor,
         stepQuizReplyValidator: StepQuizReplyValidator,
         currentProfileStateRepository: CurrentProfileStateRepository,
@@ -44,7 +37,7 @@ object StepQuizFeatureBuilder {
         buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer =
-            StepQuizReducer(stepRoute, problemsLimitReducer)
+            StepQuizReducer(stepRoute)
                 .wrapWithLogger(buildVariant, logger, LOG_TAG)
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
             ActionDispatcherOptions(),
@@ -60,17 +53,9 @@ object StepQuizFeatureBuilder {
 
         return ReduxFeature(
             StepQuizFeature.State(
-                stepQuizState = StepQuizFeature.StepQuizState.Idle,
-                problemsLimitState = ProblemsLimitFeature.State.Idle
+                stepQuizState = StepQuizFeature.StepQuizState.Idle
             ),
             stepQuizReducer
-        )
-            .wrapWithActionDispatcher(stepQuizActionDispatcher)
-            .wrapWithActionDispatcher(
-                problemsLimitActionDispatcher.transform(
-                    transformAction = { it.safeCast<StepQuizFeature.Action.ProblemsLimitAction>()?.action },
-                    transformMessage = StepQuizFeature.Message::ProblemsLimitMessage
-                )
-            )
+        ).wrapWithActionDispatcher(stepQuizActionDispatcher)
     }
 }

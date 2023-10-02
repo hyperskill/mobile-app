@@ -50,8 +50,6 @@ final class StepQuizCodeAssembly: StepQuizChildQuizAssembly {
 extension StepQuizCodeAssembly {
     static func makePlaceholder() -> StepQuizCodeAssembly {
         let blockOptions = Block.Options(
-            executionTimeLimit: 5,
-            executionMemoryLimit: 256,
             limits: [
                 "kotlin": .init(time: 8, memory: 256)
             ],

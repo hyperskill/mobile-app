@@ -8,6 +8,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DEBUG("debug"),
     SEND("send"),
     INPUT_OUTPUT_INFO("input_output_info"),
+    STEP_TEXT_DESCRIPTION("step_text_description"),
     RESET("reset"),
     RUN("run"),
     ALLOW("allow"),
@@ -91,5 +92,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     BADGE_MODAL("badge_modal"),
     EARNED_BADGE_MODAL("earned_badge_modal"),
     ALLOW_NOTIFICATIONS("allow_notifications"),
-    REMIND_ME_LATER("remind_me_later")
+    REMIND_ME_LATER("remind_me_later"),
+    FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
+    CODE_INPUT_ACCESSORY_BUTTON("code_input_accessory_button")
 }
