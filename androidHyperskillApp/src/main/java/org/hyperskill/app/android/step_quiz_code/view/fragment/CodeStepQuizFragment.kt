@@ -85,7 +85,7 @@ class CodeStepQuizFragment :
             context = requireContext(),
             rootView = parentFragmentViewGroup,
             recyclerView = keyboardExtensionViewBinding.stepQuizCodeKeyboardExtensionRecycler,
-            codeLayout = viewBinding.codeStepLayout,
+            codeLayout = viewBinding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             codeToolbarAdapter = requireNotNull(codeToolbarAdapter)
         )
     }
@@ -103,9 +103,10 @@ class CodeStepQuizFragment :
 
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
         val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
-            codeLayout = binding.codeStepLayout,
+            viewBinding = binding.stepQuizCodeEmbeddedEditor,
             codeLayoutDelegate = createCodeLayoutDelegate(),
             codeStepQuizConfig = config,
+            onFullscreenClicked = ::onFullScreenClicked,
             onQuizChanged = ::syncReplyState
         )
         this.codeStepQuizFormDelegate = codeStepQuizFormDelegate
@@ -115,7 +116,7 @@ class CodeStepQuizFragment :
 
     private fun createCodeLayoutDelegate(): CodeLayoutDelegate =
         CodeLayoutDelegate(
-            codeLayout = binding.codeStepLayout,
+            codeLayout = binding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             config = config,
             codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
                 binding.codeStepSamples.root,

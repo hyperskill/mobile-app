@@ -24,15 +24,10 @@
             android:layout_marginBottom="16dp"
             />
 
-        <include layout="@layout/view_divider_vertical" />
-
-        <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
-            android:id="@+id/codeStepLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/embedded_code_editor_height"
-            android:fillViewport="true" />
-
-        <include layout="@layout/view_divider_vertical" />
+        <include
+            android:id="@+id/stepQuizCodeEmbeddedEditor"
+            layout="@layout/layout_embedded_code_editor"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

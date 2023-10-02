@@ -4,8 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
+import org.hyperskill.app.android.databinding.LayoutEmbeddedCodeEditorBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -13,9 +13,10 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 
 class CodeStepQuizFormDelegate(
-    private val codeLayout: CodeEditorLayout,
+    private val viewBinding: LayoutEmbeddedCodeEditorBinding,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val codeStepQuizConfig: CodeStepQuizConfig,
+    private val onFullscreenClicked: (lang: String, code: String) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
 
@@ -37,8 +38,15 @@ class CodeStepQuizFormDelegate(
             setLanguage(codeStepQuizConfig.langName, code)
             setDetailsContentData(codeStepQuizConfig.langName)
         }
-
-        codeLayout.codeEditor.addTextChangedListener(textWatcher)
+        with(viewBinding) {
+            embeddedCodeEditorExpand.setOnClickListener {
+                onFullscreenClicked(
+                    codeStepQuizConfig.langName,
+                    this@CodeStepQuizFormDelegate.code ?: codeStepQuizConfig.initialCode
+                )
+            }
+            codeStepLayout.codeEditor.addTextChangedListener(textWatcher)
+        }
     }
 
     override fun customizeSubmissionButton(button: MaterialButton) {
@@ -64,7 +72,7 @@ class CodeStepQuizFormDelegate(
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         codeLayoutDelegate.setEnabled(isEnabled)
 
-        codeLayout.withoutTextChangeCallback(textWatcher) {
+        viewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
             codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, replyCode)
             codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
         }
@@ -73,7 +81,7 @@ class CodeStepQuizFormDelegate(
     fun updateCodeLayoutFromDialog(newCode: String, onSubmitClicked: Boolean) {
         this.code = newCode
         if (onSubmitClicked) {
-            codeLayout.withoutTextChangeCallback(textWatcher) {
+            viewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
                 codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, code)
                 codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
             }
