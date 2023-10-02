@@ -62,6 +62,7 @@ class StepQuizFeedbackBlocksDelegate(
 
     fun setState(state: StepQuizFeedbackState) {
         viewStateDelegate.switchState(state)
+        layoutStepQuizFeedbackBlockBinding.root.isVisible = state !is StepQuizFeedbackState.Idle
         when (state) {
             is StepQuizFeedbackState.Correct -> {
                 setHint(layoutStepQuizFeedbackBlockBinding, state.hint)

@@ -421,7 +421,8 @@ abstract class DefaultStepQuizFragment :
         this.isKeyboardShown = isKeyboardShown
         with(viewBinding) {
             stepQuizButtons.root.isVisible = !isKeyboardShown
-            stepQuizFeedbackBlocks.root.isVisible = !isKeyboardShown
+            stepQuizFeedbackBlocks.root.isVisible =
+                !isKeyboardShown && stepQuizFeedbackBlocks.root.children.any { it.isVisible }
             updateStatisticsVisibility()
         }
     }

@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
+import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.util.CodeEditorKeyboardExtensionUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
@@ -88,7 +90,17 @@ class CodeStepQuizFragment :
             codeLayout = viewBinding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             codeToolbarAdapter = requireNotNull(codeToolbarAdapter),
             codeEditorKeyboardListener = { isKeyboardShown, toolbarHeight ->
-                onKeyboardStateChanged(isKeyboardShown)
+                if (isResumed) {
+                    onKeyboardStateChanged(isKeyboardShown)
+                    viewBinding.root.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                        bottomMargin = if (isKeyboardShown) {
+                            toolbarHeight
+                        } else {
+                            context?.resources
+                                ?.getDimensionPixelOffset(R.dimen.step_quiz_content_vertical_padding) ?: 0
+                        }
+                    }
+                }
             }
         )
     }

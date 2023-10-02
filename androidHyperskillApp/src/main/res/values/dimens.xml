@@ -47,7 +47,6 @@
 
 
     <!-- Step quiz screen -->
-
     <dimen name="step_quiz_toolbar_height">56dp</dimen>
     <dimen name="step_quiz_toolbar_margin_horizontal">56dp</dimen>
     <dimen name="step_quiz_toolbar_padding_vertical">16dp</dimen>
@@ -56,6 +55,7 @@
     <dimen name="step_quiz_discussion_button_height">48dp</dimen>
     <dimen name="step_quiz_hint_button_height">32dp</dimen>
     <dimen name="item_choice_skeleton_height">21dp</dimen>
+    <dimen name="step_quiz_content_vertical_padding">20dp</dimen>
 
     <!-- Sorting quiz -->
     <dimen name="step_quiz_sorting_item_elevation">1dp</dimen>
