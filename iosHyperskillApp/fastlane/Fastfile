@@ -243,6 +243,7 @@ platform :ios do
     scan(
       skip_package_dependencies_resolution: true,
       testplan: "UnitTests",
+      skip_slack: true,
     )
   end
 
