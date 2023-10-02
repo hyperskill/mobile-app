@@ -86,7 +86,10 @@ class CodeStepQuizFragment :
             rootView = parentFragmentViewGroup,
             recyclerView = keyboardExtensionViewBinding.stepQuizCodeKeyboardExtensionRecycler,
             codeLayout = viewBinding.stepQuizCodeEmbeddedEditor.codeStepLayout,
-            codeToolbarAdapter = requireNotNull(codeToolbarAdapter)
+            codeToolbarAdapter = requireNotNull(codeToolbarAdapter),
+            codeEditorKeyboardListener = { isKeyboardShown, toolbarHeight ->
+                onKeyboardStateChanged(isKeyboardShown)
+            }
         )
     }
 

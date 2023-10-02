@@ -31,7 +31,6 @@ import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
-import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.screen.StepScreen
@@ -43,7 +42,6 @@ import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.android.step_quiz_parsons.view.dialog.ParsonsStepQuizOnboardingBottomSheetDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -80,10 +78,6 @@ abstract class DefaultStepQuizFragment :
 
     private var stepQuizStateDelegate: ViewStateDelegate<StepQuizFeature.StepQuizState>? = null
 
-    // TODO: ALTAPPS-950 delete problems limit UI
-    private var problemsLimitDelegate: ProblemsLimitDelegate? = null
-    private var problemsLimitViewStateMapper: ProblemsLimitViewStateMapper? = null
-
     private var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate? = null
     private var stepQuizFormDelegate: StepQuizFormDelegate? = null
     private var stepQuizButtonsViewStateDelegate: ViewStateDelegate<StepQuizButtonsState>? = null
@@ -105,6 +99,8 @@ abstract class DefaultStepQuizFragment :
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     private var theoryButtonState: TheoryButtonState? = null
+
+    private var isKeyboardShown: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,8 +127,6 @@ abstract class DefaultStepQuizFragment :
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
 
-        initProblemsLimitDelegate()
-
         stepQuizStateDelegate = StepQuizViewStateDelegateFactory.create(
             fragmentStepQuizBinding = viewBinding,
             descriptionBinding = descriptionBinding,
@@ -155,22 +149,11 @@ abstract class DefaultStepQuizFragment :
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
     }
 
-    // TODO: ALTAPPS-950 delete problems limit UI
-    private fun initProblemsLimitDelegate() {
-//        problemsLimitDelegate = ProblemsLimitDelegate(
-//            viewBinding = viewBinding.stepQuizProblemsLimit,
-//            onNewMessage = {
-//                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitMessage(it))
-//            }
-//        )
-//        problemsLimitDelegate?.setup()
-    }
-
     private fun renderStatistics(textView: TextView, step: Step) {
         val stepQuizStats =
             stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
         textView.text = stepQuizStats
-        textView.isVisible = stepQuizStats != null
+        textView.isVisible = stepQuizStats != null && !isKeyboardShown
     }
 
     private fun initButtonsViewStateDelegate() {
@@ -215,8 +198,6 @@ abstract class DefaultStepQuizFragment :
         stepQuizButtonsViewStateDelegate = null
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
-        problemsLimitDelegate?.cleanup()
-        problemsLimitDelegate = null
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -319,6 +300,8 @@ abstract class DefaultStepQuizFragment :
     override fun render(state: StepQuizFeature.State) {
         stepQuizStateDelegate?.switchState(state.stepQuizState)
 
+        updateStatisticsVisibility()
+
         val stepQuizButtonsLinearLayout = view?.findViewById<LinearLayout>(R.id.stepQuizButtons)
         if (stepQuizButtonsLinearLayout != null) {
             for (childView in stepQuizButtonsLinearLayout.children) {
@@ -334,13 +317,6 @@ abstract class DefaultStepQuizFragment :
                 setStepHintsFragment(step)
                 renderAttemptLoaded(stepQuizState)
 
-                // TODO: ALTAPPS-950 delete problems limit UI
-//                problemsLimitViewStateMapper?.let { mapper ->
-//                    val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
-//                    viewBinding.problemsLimitDivider.root.isVisible =
-//                        problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
-//                    problemsLimitDelegate?.render(problemsLimitViewState)
-//                }
             }
             else -> {
                 // no op
@@ -439,6 +415,22 @@ abstract class DefaultStepQuizFragment :
 
     protected fun syncReplyState(reply: Reply) {
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.SyncReply(reply))
+    }
+
+    protected fun onKeyboardStateChanged(isKeyboardShown: Boolean) {
+        this.isKeyboardShown = isKeyboardShown
+        with(viewBinding) {
+            stepQuizButtons.root.isVisible = !isKeyboardShown
+            stepQuizFeedbackBlocks.root.isVisible = !isKeyboardShown
+            updateStatisticsVisibility()
+        }
+    }
+
+    private fun updateStatisticsVisibility() {
+        with(viewBinding) {
+            stepQuizStatistics.isVisible =
+                !isKeyboardShown && stepQuizStatistics.text != null
+        }
     }
 
     /**
