@@ -303,6 +303,8 @@
 		2CA368E728EEAE09004F7FD8 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA368E628EEAE09004F7FD8 /* AppView.swift */; };
 		2CA3B0332888818C00EEF716 /* StepQuizCodeSampleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */; };
 		2CA3B0362888955F00EEF716 /* StepQuizCodeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */; };
+		2CA542252ACAE18500EF24B5 /* IntrospectScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA542242ACAE18500EF24B5 /* IntrospectScrollView.swift */; };
+		2CA542272ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA542262ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift */; };
 		2CA5F8EC2994C3AB0013B854 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8EB2994C3AB0013B854 /* DebugView.swift */; };
 		2CA5F8EE2994C3D00013B854 /* DebugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */; };
 		2CA5F8F02994C4A90013B854 /* DebugAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */; };
@@ -903,6 +905,8 @@
 		2CA368E628EEAE09004F7FD8 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		2CA3B0322888818C00EEF716 /* StepQuizCodeSampleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSampleItemView.swift; sourceTree = "<group>"; };
 		2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSkeletonView.swift; sourceTree = "<group>"; };
+		2CA542242ACAE18500EF24B5 /* IntrospectScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectScrollView.swift; sourceTree = "<group>"; };
+		2CA542262ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectScrollViewTests.swift; sourceTree = "<group>"; };
 		2CA5F8EB2994C3AB0013B854 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewModel.swift; sourceTree = "<group>"; };
 		2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAssembly.swift; sourceTree = "<group>"; };
@@ -3120,6 +3124,7 @@
 		2CF87DA029B717E20092FF83 /* Introspect */ = {
 			isa = PBXGroup;
 			children = (
+				2CA542242ACAE18500EF24B5 /* IntrospectScrollView.swift */,
 				2CF87DA129B718800092FF83 /* IntrospectViewController.swift */,
 				2C5215A9291E5B63006C2427 /* PullToRefresh.swift */,
 			);
@@ -3129,6 +3134,7 @@
 		2CF87DA329B71BB50092FF83 /* IntrospectTests */ = {
 			isa = PBXGroup;
 			children = (
+				2CA542262ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift */,
 				2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */,
 				2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */,
 			);
@@ -3861,6 +3867,7 @@
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
 				2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */,
 				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
+				2CA542272ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift in Sources */,
 				2CE7B48F2AB0A09100DCBE4D /* HTMLStringTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4151,6 +4158,7 @@
 				E94BB0442A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift in Sources */,
 				2CB45764288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift in Sources */,
 				2C5B2A25286596A80097B270 /* UICollectionView+RegisterReusable.swift in Sources */,
+				2CA542252ACAE18500EF24B5 /* IntrospectScrollView.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
 				2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */,
 				E99B21852887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift in Sources */,

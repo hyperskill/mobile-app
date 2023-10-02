@@ -81,6 +81,9 @@ struct StepQuizView: View {
                     }
                 }
                 .padding()
+                .introspectScrollView { scrollView in
+                    scrollView.shouldIgnoreScrollingAdjustment = true
+                }
             }
             .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
                 $0.toolbar {
