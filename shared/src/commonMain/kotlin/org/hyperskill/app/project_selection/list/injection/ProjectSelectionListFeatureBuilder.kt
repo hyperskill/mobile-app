@@ -1,8 +1,11 @@
 package org.hyperskill.app.project_selection.list.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListActionDispatcher
@@ -21,6 +24,8 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object ProjectSelectionListFeatureBuilder {
+    private const val LOG_TAG = "ProjectSelectionListFeature"
+
     fun build(
         params: ProjectSelectionListParams,
         trackRepository: TrackRepository,
@@ -30,7 +35,9 @@ internal object ProjectSelectionListFeatureBuilder {
         currentProfileStateRepository: CurrentProfileStateRepository,
         viewStateMapper: ProjectSelectionListViewStateMapper,
         sentryInteractor: SentryInteractor,
-        analyticInteractor: AnalyticInteractor
+        analyticInteractor: AnalyticInteractor,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
         val actionDispatcher = ProjectSelectionListActionDispatcher(
             config = ActionDispatcherOptions(),
@@ -47,8 +54,9 @@ internal object ProjectSelectionListFeatureBuilder {
                 trackId = params.trackId,
                 isNewUserMode = params.isNewUserMode
             ),
-            reducer = ProjectSelectionListReducer()
-        ).wrapWithActionDispatcher(actionDispatcher)
+            reducer = ProjectSelectionListReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
+        )
+            .wrapWithActionDispatcher(actionDispatcher)
             .transformState {
                 viewStateMapper.map(it.content)
             }

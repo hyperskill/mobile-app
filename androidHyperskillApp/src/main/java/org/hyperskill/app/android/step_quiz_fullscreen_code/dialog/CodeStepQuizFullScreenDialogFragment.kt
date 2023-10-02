@@ -340,7 +340,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
             get() = if (lang == ProgrammingLanguage.SQL.serverPrintableName) {
                 org.hyperskill.app.R.string.step_quiz_sql_title
             } else {
-                org.hyperskill.app.R.string.step_quiz_code_write_program_text
+                org.hyperskill.app.R.string.step_quiz_code_title
             }
     }
 }

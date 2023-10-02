@@ -15,49 +15,44 @@ struct StepQuizCodeFullScreenDetailsView: View {
     let stepText: String
 
     let samples: [StepQuizCodeViewData.Sample]
-    let executionTimeLimit: String?
-    let executionMemoryLimit: String?
 
-    private var isDetailsEmpty: Bool {
-        samples.isEmpty && executionTimeLimit == nil && executionMemoryLimit == nil
-    }
+    let onExpandStepTextButtonTap: () -> Void
+    let onExpandCodeDetailsButtonTap: () -> Void
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
-                StepTextView(text: stepText)
+                ExpandableStepTextView(
+                    text: stepText,
+                    isExpanded: true,
+                    onExpandButtonTap: onExpandStepTextButtonTap
+                )
 
-                if !isDetailsEmpty {
-                    StepQuizCodeDetailsView(
-                        samples: samples,
-                        executionTimeLimit: executionTimeLimit,
-                        executionMemoryLimit: executionMemoryLimit,
-                        isAlwaysExpanded: true
-                    )
-                    .padding(.horizontal, -appearance.spacing)
-                }
+                StepQuizCodeDetailsView(
+                    samples: samples,
+                    isExpanded: true,
+                    onExpandTapped: onExpandCodeDetailsButtonTap
+                )
             }
             .padding()
         }
     }
 }
 
-struct StepQuizCodeFullScreenDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizCodeFullScreenDetailsView(
-            stepText: """
+#Preview {
+    StepQuizCodeFullScreenDetailsView(
+        stepText: """
 Enter only the name of the found functional interface with/without the package. Don't write any generic parameters.
 """,
-            samples: [
-                .init(
-                    inputTitle: "Sample Input 1",
-                    inputValue: "3\n3\n3",
-                    outputTitle: "Sample Output 1",
-                    outputValue: "true"
-                )
-            ],
-            executionTimeLimit: "Time limit: 8 seconds",
-            executionMemoryLimit: "Memory limit: 256 MB"
-        )
-    }
+        samples: [
+            .init(
+                inputTitle: "Sample Input 1",
+                inputValue: "3\n3\n3",
+                outputTitle: "Sample Output 1",
+                outputValue: "true"
+            )
+        ],
+        onExpandStepTextButtonTap: {},
+        onExpandCodeDetailsButtonTap: {}
+    )
 }

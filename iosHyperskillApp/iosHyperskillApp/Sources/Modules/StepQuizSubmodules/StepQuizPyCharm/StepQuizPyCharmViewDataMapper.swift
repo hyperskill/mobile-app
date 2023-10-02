@@ -27,8 +27,6 @@ final class StepQuizPyCharmViewDataMapper: StepQuizCodeViewDataMapper {
             code: code,
             codeTemplate: codeTemplate,
             samples: [],
-            executionTimeLimit: nil,
-            executionMemoryLimit: nil,
             stepText: step.block.text
         )
     }

@@ -17,16 +17,14 @@ struct StepQuizCodeSampleItemView: View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
                 Text(title)
-                    .font(appearance.textFont)
                     .foregroundColor(.secondaryText)
 
                 Text(subtitle)
-                    .font(appearance.textFont)
                     .foregroundColor(.primaryText)
             }
+            .font(appearance.textFont)
             .padding()
-
-            Divider()
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .background(BackgroundView())
     }

@@ -89,6 +89,7 @@
     <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
     <string name="step_quiz_topic_completed_modal_text">You completed %s</string>
     <string name="step_quiz_topic_completed_continue_with_next_topic_button_text">Continue with next topic</string>
+    <string name="step_quiz_step_text_header_title">Description</string>
 
     <!-- Step quiz hint -->
     <string name="step_quiz_hints_show_button_text">See hint</string>
@@ -141,11 +142,7 @@
     <string name="step_quiz_code_title">Write a program</string>
     <string name="step_quiz_code_detail_sample_input_title">Sample Input %d:</string>
     <string name="step_quiz_code_detail_sample_output_title">Sample Output %d:</string>
-    <string name="step_quiz_code_detail_execution_time_limit_title">Time limit:</string>
-    <string name="step_quiz_code_detail_execution_memory_limit_title">Memory limit:</string>
-    <string name="step_quiz_code_detail_execution_memory_limit_value">%d MB</string>
-    <string name="step_quiz_code_details">Input / Output Info</string>
-    <string name="step_quiz_code_write_program_text">Write a program</string>
+    <string name="step_quiz_code_details">Example</string>
     <string name="step_quiz_code_run_solution_button_text">Run solution</string>
     <string name="reset_code_dialog_title">Are you sure?</string>
     <string name="reset_code_dialog_explanation">Your code will be lost</string>
@@ -153,6 +150,7 @@
     <string name="step_quiz_code_full_screen_code_tab">Code</string>
     <string name="step_quiz_code_empty_lang">No lang</string>
     <string name="step_quiz_code_reset">Reset</string>
+    <string name="step_quiz_code_editor_title">Code editor</string>
 
     <!-- Step quiz sql -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>

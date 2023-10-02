@@ -25,6 +25,8 @@ class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : Projec
                 dateFormatter = appGraph.commonComponent.dateFormatter
             ),
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

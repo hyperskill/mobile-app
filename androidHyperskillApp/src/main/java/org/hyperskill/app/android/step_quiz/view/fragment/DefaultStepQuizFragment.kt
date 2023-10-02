@@ -43,8 +43,6 @@ import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.android.step_quiz_parsons.view.dialog.ParsonsStepQuizOnboardingBottomSheetDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -82,6 +80,7 @@ abstract class DefaultStepQuizFragment :
 
     private var stepQuizStateDelegate: ViewStateDelegate<StepQuizFeature.StepQuizState>? = null
 
+    // TODO: ALTAPPS-950 delete problems limit UI
     private var problemsLimitDelegate: ProblemsLimitDelegate? = null
     private var problemsLimitViewStateMapper: ProblemsLimitViewStateMapper? = null
 
@@ -115,11 +114,9 @@ abstract class DefaultStepQuizFragment :
     private fun injectComponent() {
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(stepRoute)
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
-        val problemsLimitComponent = HyperskillApp.graph().buildProblemsLimitComponent(ProblemsLimitScreen.STEP_QUIZ)
         stepQuizStatsTextMapper = stepQuizComponent.stepQuizStatsTextMapper
         stepQuizTitleMapper = stepQuizComponent.stepQuizTitleMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
-        problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper
     }
 
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -158,14 +155,15 @@ abstract class DefaultStepQuizFragment :
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
     }
 
+    // TODO: ALTAPPS-950 delete problems limit UI
     private fun initProblemsLimitDelegate() {
-        problemsLimitDelegate = ProblemsLimitDelegate(
-            viewBinding = viewBinding.stepQuizProblemsLimit,
-            onNewMessage = {
-                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitMessage(it))
-            }
-        )
-        problemsLimitDelegate?.setup()
+//        problemsLimitDelegate = ProblemsLimitDelegate(
+//            viewBinding = viewBinding.stepQuizProblemsLimit,
+//            onNewMessage = {
+//                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitMessage(it))
+//            }
+//        )
+//        problemsLimitDelegate?.setup()
     }
 
     private fun renderStatistics(textView: TextView, step: Step) {
@@ -294,12 +292,6 @@ abstract class DefaultStepQuizFragment :
                 ProblemsLimitReachedBottomSheet.newInstance(action.modalText)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
-            is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction ->
-                when (action.viewAction) {
-                    else -> {
-                        // no op
-                    }
-                }
             StepQuizFeature.Action.ViewAction.ShowParsonsProblemOnboardingModal -> {
                 ParsonsStepQuizOnboardingBottomSheetDialogFragment.newInstance()
                     .showIfNotExists(childFragmentManager, ParsonsStepQuizOnboardingBottomSheetDialogFragment.TAG)
@@ -342,12 +334,13 @@ abstract class DefaultStepQuizFragment :
                 setStepHintsFragment(step)
                 renderAttemptLoaded(stepQuizState)
 
-                problemsLimitViewStateMapper?.let { mapper ->
-                    val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
-                    viewBinding.problemsLimitDivider.root.isVisible =
-                        problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
-                    problemsLimitDelegate?.render(problemsLimitViewState)
-                }
+                // TODO: ALTAPPS-950 delete problems limit UI
+//                problemsLimitViewStateMapper?.let { mapper ->
+//                    val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
+//                    viewBinding.problemsLimitDivider.root.isVisible =
+//                        problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
+//                    problemsLimitDelegate?.render(problemsLimitViewState)
+//                }
             }
             else -> {
                 // no op

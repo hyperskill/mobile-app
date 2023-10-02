@@ -22,7 +22,9 @@ class TrackSelectionDetailsComponentImpl(
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             profileRepository = profileComponent.profileRepository,
             currentProfileStateRepository = profileComponent.currentProfileStateRepository,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
     }
 }

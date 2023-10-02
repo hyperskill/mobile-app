@@ -34,6 +34,8 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             appGraph.commonComponent.platform,
             appGraph.commonComponent.userAgentInfo,
             appGraph.commonComponent.resourceProvider,
-            urlPathProcessor
+            urlPathProcessor,
+            appGraph.loggerComponent.logger,
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

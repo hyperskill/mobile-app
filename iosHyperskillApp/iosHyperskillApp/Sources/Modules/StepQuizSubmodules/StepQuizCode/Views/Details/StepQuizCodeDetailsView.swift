@@ -1,110 +1,83 @@
 import SwiftUI
 
-extension StepQuizCodeDetailsView {
-    struct Appearance {
-        let primaryActionButtonImageWidthHeight: CGFloat = 20
-    }
-}
-
 struct StepQuizCodeDetailsView: View {
-    private(set) var appearance = Appearance()
-
     let samples: [StepQuizCodeViewData.Sample]
 
-    let executionTimeLimit: String?
-    let executionMemoryLimit: String?
+    @State var isExpanded = false
 
-    private(set) var isAlwaysExpanded = false
-    var onExpandTapped: (() -> Void)?
-    @State private var isExpanded = false
+    var onExpandTapped: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Divider()
-            if isAlwaysExpanded {
-                headerContent
-            } else {
-                Button(
-                    action: {
-                        onExpandTapped?()
-                        withAnimation {
-                            isExpanded.toggle()
-                        }
-                    },
-                    label: {
-                        headerContent
-                    }
-                )
-            }
-            Divider()
-
-            if isExpanded || isAlwaysExpanded {
-                StepQuizCodeSamplesView(
-                    samples: samples,
-                    executionTimeLimit: executionTimeLimit,
-                    executionMemoryLimit: executionMemoryLimit
-                )
-            }
+        if samples.isEmpty {
+            EmptyView()
+        } else {
+            contentView
         }
     }
 
-    private var headerContent: some View {
-        HStack(spacing: LayoutInsets.defaultInset) {
-            Image(systemName: "info.circle")
-                .resizable()
-                .renderingMode(.template)
-                .aspectRatio(contentMode: .fit)
-                .frame(widthHeight: appearance.primaryActionButtonImageWidthHeight)
+    private var contentView: some View {
+        VStack(alignment: .center, spacing: LayoutInsets.defaultInset) {
+            Button(
+                action: {
+                    onExpandTapped()
 
-            Text(Strings.StepQuizCode.detailsTitle)
-                .font(.body)
+                    withAnimation {
+                        isExpanded.toggle()
+                    }
+                },
+                label: {
+                    HStack(alignment: .center) {
+                        Text(Strings.StepQuizCode.detailsTitle)
+                            .foregroundColor(.primaryText)
+                            .frame(maxWidth: .infinity, alignment: .leading)
 
-            Spacer()
+                        Spacer()
 
-            if !isAlwaysExpanded {
-                Image(systemName: "chevron.down")
-                    .imageScale(.small)
-                    .aspectRatio(contentMode: .fit)
-                    .rotationEffect(.radians(isExpanded ? .pi : .zero))
+                        Image(systemName: "chevron.right")
+                            .imageScale(.small)
+                            .aspectRatio(contentMode: .fit)
+                            .rotationEffect(.radians(isExpanded ? (.pi / 2) : .zero))
+                    }
+                    .font(.headline)
+                }
+            )
+
+            if isExpanded {
+                StepQuizCodeSamplesView(
+                    samples: samples
+                )
             }
         }
-        .foregroundColor(.secondaryText)
-        .padding()
-        .background(BackgroundView())
     }
 }
 
-struct StepQuizCodeDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StepQuizCodeDetailsView(
-                samples: [
-                    .init(
-                        inputTitle: "Sample Input 1",
-                        inputValue: "3\n3\n3",
-                        outputTitle: "Sample Output 1",
-                        outputValue: "true"
-                    )
-                ],
-                executionTimeLimit: "Time limit: 8 seconds",
-                executionMemoryLimit: "Memory limit: 256 MB"
-            )
+#Preview {
+    Group {
+        StepQuizCodeDetailsView(
+            samples: [
+                .init(
+                    inputTitle: "Sample Input 1",
+                    inputValue: "3\n3\n3",
+                    outputTitle: "Sample Output 1",
+                    outputValue: "true"
+                )
+            ],
+            isExpanded: false,
+            onExpandTapped: {}
+        )
 
-            StepQuizCodeDetailsView(
-                samples: [
-                    .init(
-                        inputTitle: "Sample Input 1",
-                        inputValue: "3\n3\n3",
-                        outputTitle: "Sample Output 1",
-                        outputValue: "true"
-                    )
-                ],
-                executionTimeLimit: "Time limit: 8 seconds",
-                executionMemoryLimit: "Memory limit: 256 MB",
-                isAlwaysExpanded: true
-            )
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
+        StepQuizCodeDetailsView(
+            samples: [
+                .init(
+                    inputTitle: "Sample Input 1",
+                    inputValue: "3\n3\n3",
+                    outputTitle: "Sample Output 1",
+                    outputValue: "true"
+                )
+            ],
+            isExpanded: true,
+            onExpandTapped: {}
+        )
     }
+    .padding()
 }

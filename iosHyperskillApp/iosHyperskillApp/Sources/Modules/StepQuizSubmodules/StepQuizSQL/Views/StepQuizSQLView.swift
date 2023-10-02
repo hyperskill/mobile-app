@@ -1,15 +1,6 @@
 import SwiftUI
 
-extension StepQuizSQLView {
-    struct Appearance {
-        let codeEditorInsets = LayoutInsets(vertical: LayoutInsets.defaultInset)
-        let codeEditorHeight: CGFloat = 128
-    }
-}
-
 struct StepQuizSQLView: View {
-    private(set) var appearance = Appearance()
-
     @StateObject var viewModel: StepQuizSQLViewModel
 
     @Environment(\.isEnabled) private var isEnabled
@@ -18,21 +9,17 @@ struct StepQuizSQLView: View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             let viewData = viewModel.viewData
 
-            CodeEditor(
-                code: .constant(viewData.code),
+            StepQuizCodeEditorView(
+                code: Binding(
+                    get: { viewModel.viewData.code },
+                    set: { viewModel.handleCodeDidChange($0) }
+                ),
                 codeTemplate: viewData.codeTemplate,
                 language: viewData.language,
-                isEditable: false,
-                textInsets: appearance.codeEditorInsets.uiEdgeInsets
+                onExpandButtonTap: viewModel.doFullScreenCodeEditorPresentation,
+                onInputAccessoryButtonTap: viewModel.logClickedInputAccessoryButton(symbol:)
             )
-            .frame(height: appearance.codeEditorHeight)
-            .frame(maxWidth: .infinity)
-            .addBorder()
-            .onTapGesture {
-                if isEnabled {
-                    viewModel.navigationState.presentingFullScreen = true
-                }
-            }
+            .padding(.horizontal, -LayoutInsets.defaultInset)
         }
         .fullScreenCover(isPresented: $viewModel.navigationState.presentingFullScreen) {
             StepQuizCodeFullScreenAssembly(
@@ -48,20 +35,18 @@ struct StepQuizSQLView: View {
 }
 
 #if DEBUG
-struct StepQuizSQLView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StepQuizSQLAssembly
-                .makePlaceholder()
-                .makeModule()
-
-            StepQuizSQLAssembly
-                .makePlaceholder()
-                .makeModule()
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+#Preview("Light") {
+    StepQuizSQLAssembly
+        .makePlaceholder()
+        .makeModule()
         .padding()
-    }
+}
+
+#Preview("Dark") {
+    StepQuizSQLAssembly
+        .makePlaceholder()
+        .makeModule()
+        .preferredColorScheme(.dark)
+        .padding()
 }
 #endif

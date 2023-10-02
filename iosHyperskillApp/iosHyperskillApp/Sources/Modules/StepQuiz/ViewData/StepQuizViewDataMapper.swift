@@ -31,7 +31,7 @@ final class StepQuizViewDataMapper {
         }
 
         let formattedStats = stepQuizStatsTextMapper.getFormattedStepQuizStats(
-            solvedByUsersCount: step.solvedBy,
+            solvedByCount: step.solvedBy,
             millisSinceLastCompleted: step.millisSinceLastCompleted
         )
 
@@ -48,11 +48,6 @@ final class StepQuizViewDataMapper {
 
         let quizName: String? = {
             guard let dataset = attemptLoadedState?.attempt.dataset else {
-                return nil
-            }
-
-            // Custom title rendering by code quiz
-            if step.block.name == BlockName.shared.CODE {
                 return nil
             }
 

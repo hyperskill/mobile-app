@@ -20,6 +20,8 @@ class DebugComponentImpl(private val appGraph: AppGraph) : DebugComponent {
     override val debugFeature: Feature<DebugFeature.ViewState, DebugFeature.Message, DebugFeature.Action>
         get() = DebugFeatureBuilder.build(
             debugInteractor,
-            appGraph.buildMainDataComponent().appInteractor
+            appGraph.buildMainDataComponent().appInteractor,
+            appGraph.loggerComponent.logger,
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 }
