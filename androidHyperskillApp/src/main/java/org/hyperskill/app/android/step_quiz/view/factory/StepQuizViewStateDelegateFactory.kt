@@ -37,7 +37,6 @@ object StepQuizViewStateDelegateFactory {
                         descriptionBinding?.stepQuizDescription,
                         fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton,
                         fragmentStepQuizBinding.stepQuizStatistics,
-                        fragmentStepQuizBinding.stepQuizProblemsLimit.root,
                         *quizViews
                     ).toTypedArray()
                 )
