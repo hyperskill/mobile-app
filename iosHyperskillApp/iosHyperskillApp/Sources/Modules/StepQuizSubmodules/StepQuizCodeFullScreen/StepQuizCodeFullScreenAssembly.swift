@@ -58,10 +58,20 @@ extension StepQuizCodeFullScreenAssembly {
                         inputValue: "3\n3\n3",
                         outputTitle: "Sample Output 1",
                         outputValue: "true"
+                    ),
+                    .init(
+                        inputTitle: "Sample Input 1",
+                        inputValue: "3\n3\n3",
+                        outputTitle: "Sample Output 1",
+                        outputValue: "true"
+                    ),
+                    .init(
+                        inputTitle: "Sample Input 1",
+                        inputValue: "3\n3\n3",
+                        outputTitle: "Sample Output 1",
+                        outputValue: "true"
                     )
                 ],
-                executionTimeLimit: "Time limit: 8 seconds",
-                executionMemoryLimit: "Memory limit: 256 MB",
                 stepText: """
 Enter only the name of the found functional interface with/without the package. Don't write any generic parameters.
 """

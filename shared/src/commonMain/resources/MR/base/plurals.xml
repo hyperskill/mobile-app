@@ -44,6 +44,10 @@
         <item quantity="one">%d user</item>
         <item quantity="other">%d users</item>
     </plural>
+    <plural name="learners">
+        <item quantity="one">%d learner</item>
+        <item quantity="other">%d learners</item>
+    </plural>
     <plural name="projects">
         <item quantity="one">%d project</item>
         <item quantity="other">%d projects</item>

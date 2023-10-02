@@ -31,6 +31,8 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
             appGraph.buildOnboardingComponent().onboardingInteractor,
             appGraph.commonComponent.platform,
+            appGraph.loggerComponent.logger,
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 
     override fun appFeature(): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =

@@ -44,8 +44,30 @@ class StepQuizCodeViewModel: ObservableObject {
         provideModuleInputCallback(self)
     }
 
+    func doFullScreenCodeEditorPresentation() {
+        navigationState.presentingFullScreen = true
+
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageClickedOpenFullScreenCodeEditorEventMessage()
+        )
+    }
+
+    func handleCodeDidChange(_ newCode: String?) {
+        viewData.code = newCode
+
+        DispatchQueue.main.async {
+            self.syncReply(code: newCode)
+        }
+    }
+
     func logClickedCodeDetailsEvent() {
         moduleOutput?.handleChildQuizAnalyticEventMessage(StepQuizFeatureMessageClickedCodeDetailsEventMessage())
+    }
+
+    func logClickedInputAccessoryButton(symbol: String) {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageCodeEditorClickedInputAccessoryButtonEventMessage(symbol: symbol)
+        )
     }
 }
 
@@ -85,11 +107,7 @@ extension StepQuizCodeViewModel: StepQuizChildQuizInputProtocol {
 
 extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
     func handleStepQuizCodeFullScreenUpdatedCode(_ code: String?) {
-        viewData.code = code
-
-        DispatchQueue.main.async {
-            self.syncReply(code: code)
-        }
+        handleCodeDidChange(code)
     }
 
     func handleStepQuizCodeFullScreenRetryRequested() {
@@ -104,6 +122,22 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
         DispatchQueue.main.async {
             self.moduleOutput?.handleChildQuizSubmitCurrentReply()
         }
+    }
+
+    func handleStepQuizCodeFullScreenToggledStepTextDetails() {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageFullScreenCodeEditorClickedStepTextDetailsEventMessage()
+        )
+    }
+
+    func handleStepQuizCodeFullScreenToggledCodeDetails() {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageFullScreenCodeEditorClickedCodeDetailsEventMessage()
+        )
+    }
+
+    func handleStepQuizCodeFullScreenTappedInputAccessoryButton(symbol: String) {
+        logClickedInputAccessoryButton(symbol: symbol)
     }
 
     @objc

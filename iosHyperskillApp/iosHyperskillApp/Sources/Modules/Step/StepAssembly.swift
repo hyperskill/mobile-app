@@ -42,6 +42,7 @@ final class StepAssembly: Assembly, UIKitAssembly {
             panModalPresenter: PanModalPresenter()
         )
         let hostingController = StyledHostingController(rootView: stepView, appearance: .withoutBackButtonTitle)
+        hostingController.hidesBottomBarWhenPushed = true
         // Fixes an issue with that SwiftUI view content layout unexpectedly pop/jumps on appear
         hostingController.navigationItem.largeTitleDisplayMode = .never
 

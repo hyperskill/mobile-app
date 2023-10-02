@@ -6,6 +6,11 @@ protocol CodeEditorViewDelegate: AnyObject {
     func codeEditorViewDidBeginEditing(_ codeEditorView: CodeEditorView)
     func codeEditorViewDidEndEditing(_ codeEditorView: CodeEditorView)
     func codeEditorViewDidRequestSuggestionPresentationController(_ codeEditorView: CodeEditorView) -> UIViewController?
+    func codeEditorViewDidChangeHeight(_ codeEditorView: CodeEditorView, height: CGFloat)
+
+    func codeEditorViewDidTapTabInputAccessoryButton(_ codeEditorView: CodeEditorView)
+    func codeEditorViewDidTapHideKeyboardInputAccessoryButton(_ codeEditorView: CodeEditorView)
+    func codeEditorView(_ codeEditorView: CodeEditorView, didTapInputAccessoryButton symbol: String)
 }
 
 extension CodeEditorViewDelegate {
@@ -22,4 +27,10 @@ extension CodeEditorViewDelegate {
     ) -> UIViewController? {
         nil
     }
+
+    func codeEditorViewDidTapTabInputAccessoryButton(_ codeEditorView: CodeEditorView) {}
+
+    func codeEditorViewDidTapHideKeyboardInputAccessoryButton(_ codeEditorView: CodeEditorView) {}
+
+    func codeEditorView(_ codeEditorView: CodeEditorView, didTapInputAccessoryButton symbol: String) {}
 }

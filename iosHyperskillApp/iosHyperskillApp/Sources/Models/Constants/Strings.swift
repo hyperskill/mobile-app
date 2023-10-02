@@ -88,13 +88,18 @@ enum Strings {
         static let quizStatusWrong = sharedStrings.step_quiz_status_wrong_text.localized()
         static let quizStatusEvaluation = sharedStrings.step_quiz_status_evaluation_text.localized()
         static let quizStatusLoading = sharedStrings.step_quiz_status_loading_text.localized()
+
         static let feedbackTitle = sharedStrings.step_quiz_feedback_title.localized()
+
         static let continueButton = sharedStrings.step_quiz_continue_button_text.localized()
         static let retryButton = sharedStrings.step_quiz_retry_button_text.localized()
         static let sendButton = sharedStrings.step_quiz_send_button_text.localized()
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
+
         static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
+
+        static let stepTextHeaderTitle = sharedStrings.step_quiz_step_text_header_title.localized()
 
         enum ResetCodeAlert {
             static let title = sharedStrings.reset_code_dialog_title.localized()
@@ -143,15 +148,14 @@ enum Strings {
         static let detailsTitle = sharedStrings.step_quiz_code_details.localized()
         static let sampleInputTitleResource = sharedStrings.step_quiz_code_detail_sample_input_title
         static let sampleOutputTitleResource = sharedStrings.step_quiz_code_detail_sample_output_title
-        static let timeLimitTitle = sharedStrings.step_quiz_code_detail_execution_time_limit_title.localized()
-        static let memoryLimitTitle = sharedStrings.step_quiz_code_detail_execution_memory_limit_title.localized()
-        static let memoryLimitValueResource = sharedStrings.step_quiz_code_detail_execution_memory_limit_value
 
         static let runSolutionButton = sharedStrings.step_quiz_code_run_solution_button_text.localized()
         static let fullScreenDetailsTab = sharedStrings.step_quiz_code_full_screen_details_tab.localized()
         static let fullScreenCodeTab = sharedStrings.step_quiz_code_full_screen_code_tab.localized()
         static let emptyLang = sharedStrings.step_quiz_code_empty_lang.localized()
         static let reset = sharedStrings.step_quiz_code_reset.localized()
+
+        static let codeEditorTitle = sharedStrings.step_quiz_code_editor_title.localized()
     }
 
     // MARK: - StepQuizSQL -

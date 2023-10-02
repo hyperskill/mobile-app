@@ -17,12 +17,7 @@ final class StepQuizViewModel: FeatureViewModel<
     private var updateChildQuizSubscription: AnyCancellable?
 
     private let stepQuizViewDataMapper: StepQuizViewDataMapper
-    private let problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
-
     var stepQuizStateKs: StepQuizFeatureStepQuizStateKs { .init(state.stepQuizState) }
-    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
-        .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
-    }
 
     @Published var isPracticingLoading = false
 
@@ -32,7 +27,6 @@ final class StepQuizViewModel: FeatureViewModel<
         moduleOutput: StepQuizOutputProtocol?,
         provideModuleInputCallback: @escaping (StepQuizInputProtocol?) -> Void,
         viewDataMapper: StepQuizViewDataMapper,
-        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         feature: Presentation_reduxFeature
     ) {
         self.step = step
@@ -40,7 +34,6 @@ final class StepQuizViewModel: FeatureViewModel<
         self.moduleOutput = moduleOutput
         self.provideModuleInputCallback = provideModuleInputCallback
         self.stepQuizViewDataMapper = viewDataMapper
-        self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
 
         super.init(feature: feature)
 
@@ -134,14 +127,6 @@ final class StepQuizViewModel: FeatureViewModel<
         )
     }
 
-    func doReloadProblemsLimit() {
-        onNewMessage(
-            StepQuizFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
-            )
-        )
-    }
-
     func doTheoryToolbarAction() {
         onNewMessage(StepQuizFeatureMessageTheoryToolbarItemClicked())
     }
@@ -150,6 +135,10 @@ final class StepQuizViewModel: FeatureViewModel<
 
     private func logClickedRetryEvent() {
         onNewMessage(StepQuizFeatureMessageClickedRetryEventMessage())
+    }
+
+    func logClickedStepTextDetailsEvent() {
+        onNewMessage(StepQuizFeatureMessageClickedStepTextDetailsEventMessage())
     }
 }
 

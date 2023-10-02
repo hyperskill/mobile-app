@@ -63,7 +63,7 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParam
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
-        PlatformAuthSocialWebViewComponentImpl()
+        PlatformAuthSocialWebViewComponentImpl(authSocialComponent = buildAuthSocialComponent())
 
     /**
      * Auth social component

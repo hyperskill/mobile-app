@@ -1,15 +1,6 @@
 import SwiftUI
 
-extension StepQuizCodeView {
-    struct Appearance {
-        let codeEditorInsets = LayoutInsets(vertical: LayoutInsets.defaultInset)
-        let codeEditorHeight: CGFloat = 128
-    }
-}
-
 struct StepQuizCodeView: View {
-    private(set) var appearance = Appearance()
-
     @StateObject var viewModel: StepQuizCodeViewModel
 
     @Environment(\.isEnabled) private var isEnabled
@@ -20,29 +11,20 @@ struct StepQuizCodeView: View {
 
             StepQuizCodeDetailsView(
                 samples: viewData.samples,
-                executionTimeLimit: viewData.executionTimeLimit,
-                executionMemoryLimit: viewData.executionMemoryLimit,
                 onExpandTapped: viewModel.logClickedCodeDetailsEvent
             )
-            .padding(.horizontal, -LayoutInsets.defaultInset)
 
-            StepQuizNameView(text: Strings.StepQuizCode.title)
-
-            CodeEditor(
-                code: .constant(viewData.code),
+            StepQuizCodeEditorView(
+                code: Binding(
+                    get: { viewModel.viewData.code },
+                    set: { viewModel.handleCodeDidChange($0) }
+                ),
                 codeTemplate: viewData.codeTemplate,
                 language: viewData.language,
-                isEditable: false,
-                textInsets: appearance.codeEditorInsets.uiEdgeInsets
+                onExpandButtonTap: viewModel.doFullScreenCodeEditorPresentation,
+                onInputAccessoryButtonTap: viewModel.logClickedInputAccessoryButton(symbol:)
             )
-            .frame(height: appearance.codeEditorHeight)
-            .frame(maxWidth: .infinity)
-            .addBorder()
-            .onTapGesture {
-                if isEnabled {
-                    viewModel.navigationState.presentingFullScreen = true
-                }
-            }
+            .padding(.horizontal, -LayoutInsets.defaultInset)
         }
         .fullScreenCover(isPresented: $viewModel.navigationState.presentingFullScreen) {
             StepQuizCodeFullScreenAssembly(
@@ -57,20 +39,18 @@ struct StepQuizCodeView: View {
 }
 
 #if DEBUG
-struct StepQuizCodeView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StepQuizCodeAssembly
-                .makePlaceholder()
-                .makeModule()
-
-            StepQuizCodeAssembly
-                .makePlaceholder()
-                .makeModule()
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+#Preview("Light") {
+    StepQuizCodeAssembly
+        .makePlaceholder()
+        .makeModule()
         .padding()
-    }
+}
+
+#Preview("Dark") {
+    StepQuizCodeAssembly
+        .makePlaceholder()
+        .makeModule()
+        .padding()
+        .preferredColorScheme(.dark)
 }
 #endif
