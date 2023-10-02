@@ -45,6 +45,7 @@ class CodeStepQuizFormDelegate(
                     this@CodeStepQuizFormDelegate.code ?: codeStepQuizConfig.initialCode
                 )
             }
+            codeStepLayout.codeEditor.minLines = 5
             codeStepLayout.codeEditor.addTextChangedListener(textWatcher)
         }
     }

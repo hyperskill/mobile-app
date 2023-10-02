@@ -51,7 +51,7 @@
     <org.hyperskill.app.android.code.view.widget.CodeEditorLayout
         android:id="@+id/codeStepLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/embedded_code_editor_height"
+        android:layout_height="wrap_content"
         android:fillViewport="true" />
 
     <include layout="@layout/view_divider_vertical" />
