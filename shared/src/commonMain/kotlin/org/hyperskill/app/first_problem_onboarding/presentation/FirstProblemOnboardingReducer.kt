@@ -1,5 +1,7 @@
 package org.hyperskill.app.first_problem_onboarding.presentation
 
+import org.hyperskill.app.first_problem_onboarding.domain.analytics.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent
+import org.hyperskill.app.first_problem_onboarding.domain.analytics.FirstProblemOnboardingViewedHyperskillAnalyticsEvent
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.InternalAction
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Message
@@ -26,7 +28,7 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
             Message.LearningActionButtonClicked ->
                 handleLearningActionButtonClicked(state)
             Message.ViewedEventMessage ->
-                TODO()
+                handleViewedEvent(state)
         } ?: (state to emptySet())
 
     private fun handleInitialize(state: State): FirstProblemOnboardingReducerResult? =
@@ -94,21 +96,32 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
 
     private fun handleLearningActionButtonClicked(state: State): FirstProblemOnboardingReducerResult? =
         if (state.profileState is ProfileState.Content) {
-            when (state.nextLearningActivityState) {
+            val result = when (state.nextLearningActivityState) {
                 NextLearningActivityState.Idle ->
-                    null
+                    state to emptySet()
                 NextLearningActivityState.Error ->
                     state.copy(isLearningActivityLoading = true) to setOf(InternalAction.FetchNextLearningActivity)
                 NextLearningActivityState.Loading ->
                     state.copy(isLearningActivityLoading = true) to emptySet()
                 is NextLearningActivityState.Content ->
                     state to setOf(
-                        getNavigateActionByLearningActivity(state.nextLearningActivityState.nextLearningActivity)
+                        getNavigateActionByLearningActivity(state.nextLearningActivityState.nextLearningActivity),
                     )
             }
+
+            result.copy(
+                second = result.second + setOf(
+                    InternalAction.LogAnalyticsEvent(
+                        FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent
+                    )
+                )
+            )
         } else {
             null
         }
+
+    private fun handleViewedEvent(state: State): FirstProblemOnboardingReducerResult =
+        state to setOf(InternalAction.LogAnalyticsEvent(FirstProblemOnboardingViewedHyperskillAnalyticsEvent))
 
     private fun getNavigateActionByLearningActivity(learningActivity: LearningActivity?) =
         learningActivity?.targetId?.let { stepId ->

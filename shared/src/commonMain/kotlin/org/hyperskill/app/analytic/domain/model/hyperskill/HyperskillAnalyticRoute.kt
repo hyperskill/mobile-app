@@ -10,6 +10,11 @@ sealed class HyperskillAnalyticRoute {
             override val path: String
                 get() = "${super.path}/notifications"
         }
+
+        object FirstProblem : Onboarding() {
+            override val path: String
+                get() = "${super.path}/first_problem"
+        }
     }
 
     open class Login : HyperskillAnalyticRoute() {
