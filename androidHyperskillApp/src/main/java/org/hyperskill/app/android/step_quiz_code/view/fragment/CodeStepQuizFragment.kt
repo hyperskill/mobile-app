@@ -97,7 +97,7 @@ class CodeStepQuizFragment :
                             toolbarHeight
                         } else {
                             context?.resources
-                                ?.getDimensionPixelOffset(R.dimen.step_quiz_content_vertical_padding) ?: 0
+                                ?.getDimensionPixelOffset(R.dimen.step_quiz_content_padding_bottom) ?: 0
                         }
                     }
                 }

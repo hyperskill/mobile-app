@@ -1,70 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <include
-        android:id="@+id/stepQuizCodeDetailsTopDivider"
-        layout="@layout/view_divider_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="?dividerVerticalSize"/>
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/stepQuizCodeDetailsFrameLayout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/color_background"
-        android:layout_below="@+id/stepQuizCodeDetailsTopDivider">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
-            app:srcCompat="@drawable/ic_info_outline_24px"
-            app:tint="@color/color_on_surface_alpha_60" />
+        android:layout_height="@dimen/step_quiz_collapsible_block_header_height">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="48dp"
-
-            android:layout_marginLeft="48dp"
-            android:layout_marginEnd="48dp"
-            android:layout_marginRight="48dp"
-
-            android:gravity="center_vertical|start"
             android:text="@string/step_quiz_code_details"
-            android:textAppearance="?textAppearanceBody1"
-            android:textColor="@color/color_on_surface_alpha_60" />
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="64dp"
+            android:gravity="center_vertical|start"/>
 
         <org.hyperskill.app.android.ui.custom.ArrowImageView
             android:id="@+id/stepQuizCodeDetailsArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="16dp"
-            app:tint="@color/color_on_surface_alpha_60" />
+            android:layout_marginEnd="24dp"
+            app:tint="@color/color_primary" />
+
     </FrameLayout>
 
-    <include
-        android:id="@+id/stepQuizCodeDetailsDivider"
-        layout="@layout/view_divider_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="?dividerVerticalSize"
-        android:layout_below="@+id/stepQuizCodeDetailsFrameLayout" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stepQuizCodeDetailsContent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/stepQuizCodeDetailsMaterialCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/stepQuizCodeDetailsDivider"
+        android:layout_marginHorizontal="20dp"
+        style="@style/OutlinedCard"
         android:background="@color/color_background"
         android:visibility="gone"
-        tools:visibility="visible"
-        tools:itemCount="1"
-        tools:listitem="@layout/item_step_quiz_code_detail_sample" />
+        tools:visibility="visible">
 
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stepQuizCodeDetailsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:itemCount="1"
+            tools:listitem="@layout/item_step_quiz_code_detail_sample" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

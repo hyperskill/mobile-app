@@ -47,8 +47,8 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
     }
 
     private fun initStepTheoryFragment(step: Step) {
-        setChildFragment(R.id.stepTheoryContainer, STEP_CONTENT_FRAGMENT_TAG) {
-            TextStepContentFragment.newInstance(step)
+        setChildFragment(R.id.stepPracticeDescriptionContainer, STEP_CONTENT_FRAGMENT_TAG) {
+            StepPracticeDetailsFragment.newInstance(step)
         }
     }
 
