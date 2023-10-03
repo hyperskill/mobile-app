@@ -33,7 +33,7 @@ class TableColumnMultipleSelectionItemAdapterDelegate(
             root.setOnClickListener {
                 onClick(itemData as Cell)
             }
-            tableColumnText.webViewClient = ProgressableWebViewClient(tableColumnTextProgress, tableColumnText.webView)
+            tableColumnText.webViewClient = ProgressableWebViewClient(tableColumnTextProgress)
         }
 
         override fun onBind(data: Cell) {

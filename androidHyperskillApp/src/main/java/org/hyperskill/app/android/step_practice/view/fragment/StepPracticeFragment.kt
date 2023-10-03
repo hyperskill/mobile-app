@@ -11,7 +11,6 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute

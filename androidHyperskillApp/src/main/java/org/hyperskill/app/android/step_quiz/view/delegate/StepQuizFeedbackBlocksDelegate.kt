@@ -54,8 +54,8 @@ class StepQuizFeedbackBlocksDelegate(
 
         with(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody) {
             webViewClient =
-                ProgressableWebViewClient(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackProgress, webView)
-            textView.typeface =
+                ProgressableWebViewClient(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackProgress)
+            textView?.typeface =
                 ResourcesCompat.getFont(context, R.font.pt_mono)
         }
     }

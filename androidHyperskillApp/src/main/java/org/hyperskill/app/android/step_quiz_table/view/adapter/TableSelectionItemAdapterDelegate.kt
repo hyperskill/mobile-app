@@ -43,9 +43,9 @@ class TableSelectionItemAdapterDelegate(
                 )
             }
             stepQuizTableTitle.webViewClient =
-                ProgressableWebViewClient(stepQuizTableTitleProgress, stepQuizTableTitle.webView)
+                ProgressableWebViewClient(stepQuizTableTitleProgress)
             stepQuizTableChoice.webViewClient =
-                ProgressableWebViewClient(stepQuizTableChoiceProgress, stepQuizTableChoice.webView)
+                ProgressableWebViewClient(stepQuizTableChoiceProgress)
         }
 
         override fun onBind(data: TableSelectionItem) {

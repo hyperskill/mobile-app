@@ -8,18 +8,17 @@ import androidx.core.view.isVisible
 
 class ProgressableWebViewClient(
     private val progressView: View,
-    private val webView: View,
     context: Context = progressView.context
 ) : ExternalLinkWebViewClient(context) {
     override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
         progressView.isVisible = true
-        webView.isVisible = false
+        view?.isVisible = false
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
         progressView.isVisible = false
-        webView.isVisible = true
+        view?.isVisible = true
         super.onPageFinished(view, url)
     }
 }

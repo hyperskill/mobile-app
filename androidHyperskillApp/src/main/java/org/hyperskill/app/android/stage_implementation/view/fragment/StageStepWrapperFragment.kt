@@ -16,7 +16,7 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.fragment.StepFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
+import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeDetailsFragment
 import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
@@ -138,7 +138,7 @@ class StageStepWrapperFragment :
 
     private fun initStepTheoryFragment(step: Step) {
         setChildFragment(R.id.stageDescriptionContainer, STEP_DESCRIPTION_FRAGMENT_TAG) {
-            TextStepContentFragment.newInstance(step)
+            StepPracticeDetailsFragment.newInstance(step)
         }
     }
 
