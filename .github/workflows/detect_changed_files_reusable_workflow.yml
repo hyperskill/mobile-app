@@ -8,6 +8,26 @@ on:
         default: 'develop'
         required: false
         type: string
+      force_android:
+        description: 'Force Android changes'
+        required: false
+        default: false
+        type: boolean
+      force_shared:
+        description: 'Force shared changes'
+        required: false
+        default: false
+        type: boolean
+      force_ios:
+        description: 'Force iOS changes'
+        required: false
+        default: false
+        type: boolean
+      force_analytic:
+        description: 'Force analytic changes'
+        required: false
+        default: false
+        type: boolean
     # Map the workflow outputs to job outputs
     outputs:
       android: 
@@ -22,12 +42,13 @@ on:
 jobs:
   files-changed:
     runs-on: ubuntu-22.04
+    timeout-minutes: 5
     # Map a step output to a job output
     outputs:
-      android: ${{ steps.changes.outputs.android }}
-      shared: ${{ steps.changes.outputs.shared }}
-      ios: ${{ steps.changes.outputs.ios }}
-      analytic: ${{ steps.changes.outputs.analytic }}
+      android: ${{ inputs.force_android || steps.changes.outputs.android }}
+      shared: ${{ inputs.force_shared || steps.changes.outputs.shared }}
+      ios: ${{ inputs.force_ios || steps.changes.outputs.ios }}
+      analytic: ${{ inputs.force_analytic || steps.changes.outputs.analytic }}
 
     steps:
     - name: Checkout
