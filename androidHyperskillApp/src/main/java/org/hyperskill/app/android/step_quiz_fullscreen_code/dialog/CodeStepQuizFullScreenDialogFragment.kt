@@ -24,8 +24,10 @@ import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.setTintList
 import org.hyperskill.app.android.databinding.DialogStepQuizCodeFullscreenBinding
+import org.hyperskill.app.android.databinding.FragmentStepPracticeDescriptionBinding
 import org.hyperskill.app.android.latex.view.widget.LatexView
 import org.hyperskill.app.android.latex.view.widget.LatexWebView
+import org.hyperskill.app.android.step_content_text.view.delegate.TextStepContentDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
@@ -87,6 +89,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var latexWebView: LatexWebView? = null
+    private lateinit var textStepContentDelegate: TextStepContentDelegate
 
     private var isCodeSyncedAfterSubmissionClick: Boolean = false
 
@@ -107,6 +110,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
         injectComponent()
+        textStepContentDelegate = TextStepContentDelegate(lifecycle)
         initCodeToolbarAdapter()
     }
 
@@ -152,29 +156,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
         initViewPager()
 
-        val text = step
-            .block
-            .text
-            .takeIf(String::isNotEmpty)
-
-        val textHeader =
-            instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
-        if (latexWebView == null) {
-            latexWebView = LayoutInflater
-                .from(requireContext().applicationContext)
-                .inflate(
-                    R.layout.layout_latex_webview,
-                    textHeader as ViewGroup,
-                    false
-                ) as LatexWebView
-        }
-
-        latexWebView?.let {
-            (textHeader as ViewGroup).addView(it)
-        }
-
-        instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
-            .setText(text)
+        setupDescription()
+        setupCodeDetails()
 
         /**
          *  Code play ground view binding
@@ -199,19 +182,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
 
         setupCodeEditorKeyboardExtension()
 
-        codeLayoutDelegate = CodeLayoutDelegate(
-            codeLayout = codeLayout,
-            config = config,
-            codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
-                instructionsLayout.findViewById(R.id.stepQuizCodeFullscreenInstructionDetails),
-                false,
-                onDetailsIsExpandedStateChanged = {}
-            ),
-            codeToolbarAdapter = codeToolbarAdapter
-        )
-
-        codeLayoutDelegate.setLanguage(lang, code)
-        codeLayoutDelegate.setDetailsContentData(lang)
         viewBinding.fullScreenCodeViewPager.setCurrentItem(CODE_TAB, false)
     }
 
@@ -238,6 +208,38 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         instructionsLayout = pagerAdapter.getViewAt(INSTRUCTION_TAB)
         playgroundLayout = pagerAdapter.getViewAt(CODE_TAB)
         codeLayout = playgroundLayout.findViewById(R.id.codeStepLayout)
+    }
+
+    private fun setupDescription() {
+        val descriptionBinding = FragmentStepPracticeDescriptionBinding.bind(
+            instructionsLayout.findViewById<LatexView>(R.id.stepQuizCodeFullscreenInstructionTextHeader)
+        )
+        textStepContentDelegate.setup(
+            context = requireContext(),
+            latexView = descriptionBinding.stepPracticeDetailsContent.root,
+            step = step,
+            viewLifecycle = viewLifecycleOwner.lifecycle
+        )
+        with(descriptionBinding) {
+            stepPracticeDetailsArrow.isVisible = false
+            stepPracticeDetailsContent.root.isVisible = true
+        }
+    }
+
+    private fun setupCodeDetails() {
+        codeLayoutDelegate = CodeLayoutDelegate(
+            codeLayout = codeLayout,
+            config = config,
+            codeQuizInstructionDelegate = CodeQuizInstructionDelegate(
+                instructionsLayout.findViewById(R.id.stepQuizCodeFullscreenInstructionDetails),
+                false,
+                onDetailsIsExpandedStateChanged = {}
+            ),
+            codeToolbarAdapter = codeToolbarAdapter
+        )
+
+        codeLayoutDelegate.setLanguage(lang, code)
+        codeLayoutDelegate.setDetailsContentData(lang)
     }
 
     override fun onStart() {

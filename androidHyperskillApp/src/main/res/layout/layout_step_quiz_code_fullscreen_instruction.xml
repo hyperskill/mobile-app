@@ -13,8 +13,8 @@
             android:id="@+id/stepQuizCodeFullscreenInstructionTextHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            layout="@layout/step_text_header" />
+            android:layout_marginVertical="20dp"
+            layout="@layout/fragment_step_practice_description" />
 
         <include
             android:id="@+id/stepQuizCodeFullscreenInstructionDetails"
