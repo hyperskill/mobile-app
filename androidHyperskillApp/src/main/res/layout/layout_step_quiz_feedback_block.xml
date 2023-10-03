@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:maxWidth="@dimen/auth_button_max_width"
         app:drawableStartCompat="@drawable/ic_info_outline_24px"
-        android:text="@string/step_quiz_status_wrong_text" />
+        android:text="@string/step_quiz_status_wrong_text"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/stepQuizFeedbackEvaluation"
@@ -41,34 +41,34 @@
         android:text="@string/step_quiz_status_correct_text" />
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_marginTop="20dp"
         android:id="@+id/stepQuizFeedback"
-        style="@style/StepQuizFeedback.Feedback"
         android:layout_height="wrap_content"
-        android:maxWidth="@dimen/auth_button_max_width">
+        style="@style/StepQuizFeedback.Feedback"
+        android:background="@color/color_background"
+        android:maxWidth="@dimen/auth_button_max_width"
+        android:layout_marginTop="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="14dp"
-            android:layout_marginVertical="12dp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="16dp">
 
             <TextView
                 android:id="@+id/stepQuizTitleTextView"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:textColor="@color/color_on_surface_alpha_38"
-                android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/step_quiz_feedback_title" />
+                android:textColor="@color/color_on_surface_alpha_60"
+                android:textSize="14sp"
+                android:text="@string/step_quiz_feedback_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <org.hyperskill.app.android.latex.view.widget.LatexView
                 android:id="@+id/stepQuizFeedbackBody"
                 android:layout_width="0dp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/color_on_surface_alpha_87"
                 android:layout_height="wrap_content"
+                android:textColor="@color/color_on_surface_alpha_87"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/stepQuizTitleTextView">
 
@@ -81,11 +81,11 @@
                     android:indeterminate="true"
                     android:visibility="gone"
                     tools:visibility="visible" />
+
             </org.hyperskill.app.android.latex.view.widget.LatexView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -78,13 +78,13 @@
     </style>
 
     <style name="StepQuizFeedback.Correct">
-        <item name="backgroundTint">@color/color_green_200_alpha_12</item>
+        <item name="backgroundTint">@color/color_overlay_green_alpha_12</item>
         <item name="android:textColor">@color/color_secondary</item>
         <item name="drawableTint">@color/color_secondary</item>
     </style>
 
     <style name="StepQuizFeedback.Wrong">
-        <item name="backgroundTint">@color/color_blue_200_alpha_12</item>
+        <item name="backgroundTint">@color/color_overlay_blue_alpha_12</item>
         <item name="android:textColor">@color/color_primary</item>
         <item name="drawableTint">@color/color_primary</item>
     </style>
@@ -92,7 +92,7 @@
     <style name="StepQuizFeedback.Feedback">
         <item name="strokeColor">@color/color_on_surface_alpha_12</item>
         <item name="strokeWidth">1dp</item>
-        <item name="background">@color/color_background</item>
+        <item name="cardBackgroundColor">@color/color_background</item>
     </style>
 
     <style name="StepQuizDescription">
