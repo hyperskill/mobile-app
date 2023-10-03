@@ -7,9 +7,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentStepPracticeDescriptionBinding
+import org.hyperskill.app.android.step.view.delegate.CollapsibleStepBlockDelegate
 import org.hyperskill.app.android.step_content_text.view.delegate.TextStepContentDelegate
-import org.hyperskill.app.android.view.base.ui.extension.collapse
-import org.hyperskill.app.android.view.base.ui.extension.expand
 import org.hyperskill.app.step.domain.model.Step
 
 class StepPracticeDetailsFragment : Fragment(R.layout.fragment_step_practice_description) {
@@ -47,14 +46,11 @@ class StepPracticeDetailsFragment : Fragment(R.layout.fragment_step_practice_des
         )
         with(viewBinding) {
             stepPracticeDetailsArrow.setIsExpanded(true)
-            stepPracticeDetailsFrameLayout.setOnClickListener {
-                stepPracticeDetailsArrow.changeState()
-                if (stepPracticeDetailsArrow.isExpanded()) {
-                    stepPracticeDetailsContent.root.expand()
-                } else {
-                    stepPracticeDetailsContent.root.collapse()
-                }
-            }
+            CollapsibleStepBlockDelegate.setupCollapsibleBlock(
+                arrowView = stepPracticeDetailsArrow,
+                headerView = stepPracticeDetailsFrameLayout,
+                contentView = stepPracticeDetailsContent.root
+            )
         }
     }
 }

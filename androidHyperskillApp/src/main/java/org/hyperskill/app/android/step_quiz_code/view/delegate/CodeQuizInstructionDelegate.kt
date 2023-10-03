@@ -10,11 +10,10 @@ import com.google.android.material.card.MaterialCardView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
+import org.hyperskill.app.android.step.view.delegate.CollapsibleStepBlockDelegate
 import org.hyperskill.app.android.step_quiz_code.view.adapter.CodeDetailSampleAdapterDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
 import org.hyperskill.app.android.ui.custom.ArrowImageView
-import org.hyperskill.app.android.view.base.ui.extension.collapse
-import org.hyperskill.app.android.view.base.ui.extension.expand
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class CodeQuizInstructionDelegate(
@@ -50,15 +49,12 @@ class CodeQuizInstructionDelegate(
         }
 
         if (isCollapsible) {
-            stepQuizCodeDetails.setOnClickListener {
-                stepQuizCodeDetailsArrow.changeState()
-                if (stepQuizCodeDetailsArrow.isExpanded()) {
-                    detailsCard.expand()
-                } else {
-                    detailsCard.collapse()
-                }
-                onDetailsIsExpandedStateChanged()
-            }
+            CollapsibleStepBlockDelegate.setupCollapsibleBlock(
+                arrowView = stepQuizCodeDetailsArrow,
+                headerView = stepQuizCodeDetails,
+                contentView = detailsCard,
+                onContentExpandChanged = onDetailsIsExpandedStateChanged
+            )
         } else {
             stepQuizCodeDetailsArrow.isVisible = false
             detailsCard.isVisible = true
