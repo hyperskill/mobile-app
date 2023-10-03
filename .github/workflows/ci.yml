@@ -75,7 +75,7 @@ jobs:
   
   swiftlint:
     needs: files-changed
-    if: ${{ needs.files-changed.outputs.ios == 'true' }}
+    if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run SwiftLint
     runs-on: macos-13
     timeout-minutes: 10
@@ -158,11 +158,7 @@ jobs:
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-ios:
-    needs: [files-changed, swiftlint]
-    if: |
-        ${{ always()
-            && needs.swiftlint.result != 'failure'
-            && (needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true') }}
+    needs: swiftlint
     name: Build iOS
     runs-on: macos-13
     timeout-minutes: 30
