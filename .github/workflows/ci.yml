@@ -159,7 +159,7 @@ jobs:
 
   build-ios:
     needs: [files-changed, swiftlint]
-    if: ${{ needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    if: ${{ always() && needs.swiftlint.result != 'failure' && (needs.files-changed.outputs.ios == 'true' || needs.files-changed.outputs.shared == 'true') }}
     name: Build iOS
     runs-on: macos-13
     timeout-minutes: 30
