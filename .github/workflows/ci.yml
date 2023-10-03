@@ -49,9 +49,9 @@ jobs:
     needs: gradle-wrapper-validation
     uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
     with:
-      force_android: ${{ inputs.force_android }}
-      force_shared: ${{ inputs.force_shared }}
-      force_ios: ${{ inputs.force_ios }}
+      force_android: ${{ inputs.force_android || false }}
+      force_shared: ${{ inputs.force_shared || false }}
+      force_ios: ${{ inputs.force_ios || false }}
 
   ktlint:
     needs: files-changed
