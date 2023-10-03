@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 
 /**
  * Represents click on the tab bar item analytic event.
- *test
+ *
  * JSON payload:
  * ```
  * {
