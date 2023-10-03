@@ -216,6 +216,7 @@ platform :ios do
       skip_archive: true,
       skip_codesigning: true,
       suppress_xcode_output: false,
+      skip_package_dependencies_resolution: true,
     )
 
     vs = make_version_string(
