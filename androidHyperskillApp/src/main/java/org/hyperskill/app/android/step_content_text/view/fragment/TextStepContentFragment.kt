@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.databinding.TheoryStepTextHeaderBinding
+import org.hyperskill.app.android.databinding.StepTextHeaderBinding
 import org.hyperskill.app.android.step_content_text.view.delegate.TextStepContentDelegate
 import org.hyperskill.app.step.domain.model.Step
 
@@ -18,7 +18,7 @@ class TextStepContentFragment : Fragment(R.layout.step_text_header) {
             }
     }
 
-    private val viewBinding: TheoryStepTextHeaderBinding by viewBinding(TheoryStepTextHeaderBinding::bind)
+    private val viewBinding: StepTextHeaderBinding by viewBinding(StepTextHeaderBinding::bind)
 
     private var step: Step by argument(Step.serializer())
 
