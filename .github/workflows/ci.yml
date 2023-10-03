@@ -177,7 +177,7 @@ jobs:
         working-directory: './iosHyperskillApp'
         run: bundle exec fastlane build install_pods:false
         env:
-          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 60
+          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
           IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
           GITHUB_USER: ${{ github.actor }}
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
