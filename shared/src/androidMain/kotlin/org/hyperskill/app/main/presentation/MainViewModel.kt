@@ -12,7 +12,7 @@ import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.core.model.Cancellable
-import ru.nobird.app.presentation.redux.container.ReduxViewContainer
+import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 import ru.nobird.app.presentation.redux.feature.Feature
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -22,11 +22,10 @@ import ru.nobird.app.presentation.redux.feature.Feature
  * @see [PlatformMainComponentImpl], [MainViewModel.decodeState]
  */
 class MainViewModel(
-    reduxViewContainer: ReduxViewContainer<AppFeature.State, AppFeature.Message, AppFeature.Action.ViewAction>,
     feature: Feature<AppFeature.State, AppFeature.Message, AppFeature.Action>,
     private val savedStateHandle: SavedStateHandle,
     private val analyticInteractor: AnalyticInteractor
-) : ReduxViewModel<AppFeature.State, AppFeature.Message, AppFeature.Action.ViewAction>(reduxViewContainer) {
+) : ReduxViewModel<AppFeature.State, AppFeature.Message, AppFeature.Action.ViewAction>(feature.wrapWithViewContainer()) {
     companion object {
         private const val STATE_KEY = "AppFeatureState"
 

@@ -4,7 +4,6 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.core.injection.SavedStateReduxViewModelFactory
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
-import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformMainComponentImpl(
     private val mainComponent: MainComponent,
@@ -20,7 +19,6 @@ class PlatformMainComponentImpl(
                     val initialState = MainViewModel.decodeState(savedStateHandle)
                     val feature = mainComponent.appFeature(initialState)
                     MainViewModel(
-                        feature.wrapWithViewContainer(),
                         feature,
                         savedStateHandle,
                         analyticComponent.analyticInteractor

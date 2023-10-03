@@ -414,7 +414,7 @@ abstract class DefaultStepQuizFragment :
     }
 
     protected fun syncReplyState(reply: Reply) {
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.SyncReply(reply))
+        stepQuizViewModel.syncReply(reply)
     }
 
     protected fun onKeyboardStateChanged(isKeyboardShown: Boolean) {
