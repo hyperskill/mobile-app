@@ -16,8 +16,16 @@ object FirstProblemOnboardingFeature {
         /**
          * Flag for displaying loading animation (after click on CTA button)
          */
-        val isLearningActivityLoading: Boolean = false
+        val isLearningActivityLoading: Boolean
     )
+
+    internal fun initialState(isNewUserMode: Boolean): State =
+        State(
+            profileState = ProfileState.Idle,
+            nextLearningActivityState = NextLearningActivityState.Idle,
+            isNewUserMode = isNewUserMode,
+            isLearningActivityLoading = false
+        )
 
     internal sealed interface ProfileState {
         object Idle : ProfileState
@@ -31,6 +39,17 @@ object FirstProblemOnboardingFeature {
         object Loading : NextLearningActivityState
         object Error : NextLearningActivityState
         data class Content(val nextLearningActivity: LearningActivity?) : NextLearningActivityState
+    }
+
+    sealed interface ViewState {
+        object Idle : ViewState
+        object Loading : ViewState
+        object Error : ViewState
+        data class Content(
+            val subtitle: String,
+            val isNewUserMode: Boolean,
+            val isLearningActivityLoading: Boolean
+        ) : ViewState
     }
 
     sealed interface Message {

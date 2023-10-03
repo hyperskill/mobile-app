@@ -6,6 +6,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesRequest
+import org.hyperskill.app.learning_activities.remote.model.NextLearningActivityRequest
 
 class LearningActivitiesRepositoryImpl(
     private val learningActivitiesRemoteDataSource: LearningActivitiesRemoteDataSource
@@ -34,6 +35,15 @@ class LearningActivitiesRepositoryImpl(
                 activitiesIds = activitiesIds,
                 types = types,
                 states = states
+            )
+        )
+
+    override suspend fun getNextLearningActivity(
+        types: Set<LearningActivityType>
+    ): Result<LearningActivity?> =
+        learningActivitiesRemoteDataSource.getNextLearningActivity(
+            NextLearningActivityRequest(
+                types = types
             )
         )
 }

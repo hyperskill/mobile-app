@@ -16,4 +16,8 @@ interface LearningActivitiesRepository {
         types: Set<LearningActivityType>,
         states: Set<LearningActivityState>
     ): Result<List<LearningActivity>>
+
+    suspend fun getNextLearningActivity(
+        types: Set<LearningActivityType>
+    ): Result<LearningActivity?>
 }
