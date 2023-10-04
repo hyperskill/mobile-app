@@ -121,7 +121,6 @@ class CodeStepQuizFragment :
         val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
             context = requireContext(),
             viewBinding = binding.stepQuizCodeEmbeddedEditor,
-            step = step,
             codeLayoutDelegate = createCodeLayoutDelegate(),
             codeStepQuizConfig = config,
             onFullscreenClicked = ::onFullScreenClicked,

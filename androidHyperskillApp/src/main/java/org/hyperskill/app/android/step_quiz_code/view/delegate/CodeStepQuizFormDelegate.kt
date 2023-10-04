@@ -3,23 +3,20 @@ package org.hyperskill.app.android.step_quiz_code.view.delegate
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
 import org.hyperskill.app.android.databinding.LayoutEmbeddedCodeEditorBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
-import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
-import org.hyperskill.app.step_quiz.view.displayLanguage
 
 class CodeStepQuizFormDelegate(
     private val context: Context,
     private val viewBinding: LayoutEmbeddedCodeEditorBinding,
-    private val step: Step,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val codeStepQuizConfig: CodeStepQuizConfig,
     private val onFullscreenClicked: (lang: String, code: String) -> Unit,
@@ -51,12 +48,12 @@ class CodeStepQuizFormDelegate(
                     this@CodeStepQuizFormDelegate.code ?: codeStepQuizConfig.initialCode
                 )
             }
-            val displayLanguage = step.displayLanguage
-            embeddedCodeEditorLanguageTextView.isVisible = displayLanguage != null
-            if (displayLanguage != null) {
+            val displayedLangName = codeStepQuizConfig.displayedLangName
+            embeddedCodeEditorLanguageTextView.isInvisible = displayedLangName == null
+            if (displayedLangName != null) {
                 embeddedCodeEditorLanguageTextView.text = context.resources.getString(
                     org.hyperskill.app.R.string.step_quiz_code_language_template,
-                    displayLanguage
+                    displayedLangName
                 )
             }
             codeStepLayout.codeEditor.minLines = 5

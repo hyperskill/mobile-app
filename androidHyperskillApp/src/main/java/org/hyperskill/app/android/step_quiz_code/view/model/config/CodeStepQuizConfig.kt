@@ -8,6 +8,8 @@ interface CodeStepQuizConfig {
 
     val langName: String
 
+    val displayedLangName: String?
+
     val initialCode: String
 
     val codeDetails: List<CodeDetail>
