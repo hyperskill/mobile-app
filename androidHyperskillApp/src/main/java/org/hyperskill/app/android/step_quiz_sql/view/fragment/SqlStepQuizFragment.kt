@@ -104,6 +104,10 @@ class SqlStepQuizFragment : DefaultStepQuizFragment(), CodeStepQuizFullScreenDia
         onRetryButtonClicked()
     }
 
+    override fun onKeyboardExtensionSymbolClicked(symbol: String) {
+        // no op
+    }
+
     private fun getSqlCodeTemplate(step: Step): String =
         step.block.options.codeTemplates?.get(SqlLangName) ?: ""
 }

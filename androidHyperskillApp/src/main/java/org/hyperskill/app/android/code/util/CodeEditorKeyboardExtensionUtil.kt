@@ -26,9 +26,11 @@ object CodeEditorKeyboardExtensionUtil {
         codeLayout: CodeEditorLayout,
         codeToolbarAdapter: CodeToolbarAdapter,
         isToolbarEnabled: () -> Boolean = { true },
+        onToolbarSymbolClicked: ((String) -> Unit)? = null,
         codeEditorKeyboardListener: CodeEditorKeyboardListener? = null
     ) {
         codeToolbarAdapter.onSymbolClickListener = CodeToolbarAdapter.OnSymbolClickListener { symbol, offset ->
+            onToolbarSymbolClicked?.invoke(symbol)
             applySymbolTo(codeLayout, symbol, offset)
         }
 

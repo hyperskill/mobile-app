@@ -131,14 +131,14 @@ class StageStepWrapperFragment :
         if (state is StepFeature.State.Data) {
             (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
                 ?.render(state.stepCompletionState.isPracticingLoading)
-            initStepTheoryFragment(state.step)
+            initStepTheoryFragment(state.step, stepRoute)
             initStepQuizFragment(state.step, stepRoute)
         }
     }
 
-    private fun initStepTheoryFragment(step: Step) {
+    private fun initStepTheoryFragment(step: Step, stepRoute: StepRoute) {
         setChildFragment(R.id.stageDescriptionContainer, STEP_DESCRIPTION_FRAGMENT_TAG) {
-            StepPracticeDetailsFragment.newInstance(step)
+            StepPracticeDetailsFragment.newInstance(step, stepRoute)
         }
     }
 

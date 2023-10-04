@@ -10,7 +10,7 @@ object CollapsibleStepBlockDelegate {
         arrowView: ArrowImageView,
         headerView: View,
         contentView: View,
-        onContentExpandChanged: () -> Unit = {}
+        onContentExpandChanged: (Boolean) -> Unit = {}
     ) {
         headerView.setOnClickListener {
             arrowView.changeState()
@@ -19,7 +19,7 @@ object CollapsibleStepBlockDelegate {
             } else {
                 contentView.collapse()
             }
-            onContentExpandChanged()
+            onContentExpandChanged(arrowView.isExpanded())
         }
     }
 }

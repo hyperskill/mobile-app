@@ -42,13 +42,13 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
             }
             stepQuizToolbarTitle.text = step.title
         }
-        initStepTheoryFragment(step)
+        initStepTheoryFragment(step, stepRoute)
         setStepQuizFragment(step, stepRoute)
     }
 
-    private fun initStepTheoryFragment(step: Step) {
+    private fun initStepTheoryFragment(step: Step, stepRoute: StepRoute) {
         setChildFragment(R.id.stepPracticeDescriptionContainer, STEP_CONTENT_FRAGMENT_TAG) {
-            StepPracticeDetailsFragment.newInstance(step)
+            StepPracticeDetailsFragment.newInstance(step, stepRoute)
         }
     }
 

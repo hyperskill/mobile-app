@@ -26,7 +26,6 @@ import org.hyperskill.app.android.core.extensions.setTintList
 import org.hyperskill.app.android.databinding.DialogStepQuizCodeFullscreenBinding
 import org.hyperskill.app.android.databinding.FragmentStepPracticeDescriptionBinding
 import org.hyperskill.app.android.latex.view.widget.LatexView
-import org.hyperskill.app.android.latex.view.widget.LatexWebView
 import org.hyperskill.app.android.step_content_text.view.delegate.TextStepContentDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeLayoutDelegate
 import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructionDelegate
@@ -88,7 +87,6 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
-    private var latexWebView: LatexWebView? = null
     private lateinit var textStepContentDelegate: TextStepContentDelegate
 
     private var isCodeSyncedAfterSubmissionClick: Boolean = false
@@ -287,6 +285,9 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                 // We show the keyboard extension only when "Code" tab is opened
                 viewBinding.fullScreenCodeViewPager.currentItem == CODE_TAB
             },
+            onToolbarSymbolClicked = { symbol ->
+                callback?.onKeyboardExtensionSymbolClicked(symbol)
+            },
             codeEditorKeyboardListener = { isKeyboardShown, toolbarHeight ->
                 with(codeLayout) {
                     updatePadding(
@@ -330,6 +331,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     interface Callback {
         fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean = false)
         fun onResetCodeClick()
+
+        fun onKeyboardExtensionSymbolClicked(symbol: String)
     }
 
     data class Params(
