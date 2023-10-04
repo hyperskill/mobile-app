@@ -37,7 +37,7 @@ object StepQuizFragmentFactory {
 
                 BlockName.CODE,
                 BlockName.PYCHARM,
-                BlockName.SQL-> CodeStepQuizFragment.newInstance(step, stepRoute)
+                BlockName.SQL -> CodeStepQuizFragment.newInstance(step, stepRoute)
 
                 BlockName.PARSONS ->
                     ParsonsStepQuizFragment.newInstance(step, stepRoute)
