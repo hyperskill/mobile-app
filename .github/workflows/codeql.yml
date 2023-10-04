@@ -1,0 +1,61 @@
+name: CodeQL
+
+on:
+  push:
+    branches: ["develop", "main"]
+  pull_request:
+    branches: ["develop"]
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
+  schedule:
+    - cron: "20 6 * * 1"
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-13') || 'ubuntu-22.04' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['java-kotlin', 'javascript-typescript', 'ruby']
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.0
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-extended,security-and-quality
+    
+    - if: matrix.language == 'java-kotlin'
+      name: Setup Android
+      id: setup-android
+      uses: ./.github/actions/setup-android
+      with:
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - if: matrix.language == 'java-kotlin'
+      name: Build Android
+      run: ./gradlew assembleDebug
+      env:
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup-android.outputs.is-git-crypt-unlocked }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - if: matrix.language == 'swift'
+      name: Build Swift
+      run: echo "Build Swift"
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
