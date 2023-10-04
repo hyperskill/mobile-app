@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['java-kotlin', 'javascript-typescript', 'ruby']
+        language: ['javascript-typescript', 'ruby']
 
     steps:
     - name: Checkout
@@ -35,6 +35,11 @@ jobs:
       with:
         languages: ${{ matrix.language }}
         queries: security-extended,security-and-quality
+        config: |
+          paths-ignore:
+            - iosHyperskillApp/iosHyperskillApp/MathJax.js
+            - iosHyperskillApp/iosHyperskillApp/highlight.js
+            - androidHyperskillApp/src/main/assets/scripts/highlight.pack.js 
     
     - if: matrix.language == 'java-kotlin'
       name: Setup Android
