@@ -9,13 +9,12 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
-import org.hyperskill.app.main.presentation.AppFeature.Action.ViewAction
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.core.model.Cancellable
-import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
+import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 import ru.nobird.app.presentation.redux.feature.Feature
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -25,10 +24,11 @@ import ru.nobird.app.presentation.redux.feature.Feature
  * @see [PlatformMainComponentImpl], [MainViewModel.decodeState]
  */
 class MainViewModel(
+    reduxViewContainer: ReduxViewContainer<State, Message, AppFeature.Action.ViewAction>,
     feature: Feature<State, Message, AppFeature.Action>,
     private val savedStateHandle: SavedStateHandle,
     private val analyticInteractor: AnalyticInteractor
-) : ReduxViewModel<State, Message, ViewAction>(feature.wrapWithViewContainer()) {
+) : ReduxViewModel<State, Message, AppFeature.Action.ViewAction>(reduxViewContainer) {
     companion object {
         private const val STATE_KEY = "AppFeatureState"
 
