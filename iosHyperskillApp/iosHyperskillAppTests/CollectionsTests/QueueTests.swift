@@ -1,7 +1,6 @@
-@testable
-import iosHyperskillApp
-
 import XCTest
+
+@testable import iosHyperskillApp
 
 class QueueTest: XCTestCase {
     func testEmpty() {

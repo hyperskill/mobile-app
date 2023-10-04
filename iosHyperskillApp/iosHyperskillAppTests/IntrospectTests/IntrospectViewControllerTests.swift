@@ -13,7 +13,7 @@ final class IntrospectViewControllerTests: XCTestCase {
                     EmptyView()
                 }
             }
-            .introspectViewController { viewController in
+            .introspectViewController { _ in
                 self.spy()
             }
         }
@@ -28,7 +28,7 @@ final class IntrospectViewControllerTests: XCTestCase {
                     EmptyView()
                 }
             }
-            .introspectHostingController { (hostingController: UIHostingController<HostingControllerTestView>) in
+            .introspectHostingController { (_: UIHostingController<HostingControllerTestView>) in
                 self.spy()
             }
         }
