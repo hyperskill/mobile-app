@@ -13,7 +13,7 @@ final class IntrospectScrollViewTests: XCTestCase {
                     VStack {
                         EmptyView()
                     }
-                    .introspectScrollView { scrollView in
+                    .introspectScrollView { _ in
                         self.spy()
                     }
                 }

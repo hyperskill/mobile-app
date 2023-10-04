@@ -42,7 +42,7 @@ final class NotificationService: UNNotificationServiceExtension {
             }
         }
     }
-    
+
     override func serviceExtensionTimeWillExpire() {
         if let contentHandler, let bestAttemptContent {
             contentHandler(bestAttemptContent)
