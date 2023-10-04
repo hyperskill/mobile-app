@@ -112,6 +112,13 @@ class AppActionDispatcher(
                     )
                 )
             }
+            is Action.FetchFirstProblemOnboardingData -> {
+                onNewMessage(
+                    Message.FirstProblemOnboardingDataFetched(
+                        wasFirstProblemOnboardingShown = onboardingInteractor.wasFirstProblemOnboardingShown()
+                    )
+                )
+            }
             is Action.IdentifyUserInSentry ->
                 sentryInteractor.setUsedId(action.userId)
             is Action.ClearUserInSentry ->

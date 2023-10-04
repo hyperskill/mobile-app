@@ -155,7 +155,7 @@ class TrackSelectionDetailsTest {
     }
 
     @Test
-    fun `Successful track selection should trigger navigation to StudyPlan or Home screen`() {
+    fun `Successful track selection should trigger navigation to StudyPlan or FirstProblemOnboarding`() {
         listOf(true, false).forEach { isNewUserMode ->
             val (state, actions) = reducer.reduce(
                 TrackSelectionDetailsFeature.State(
@@ -179,9 +179,7 @@ class TrackSelectionDetailsTest {
             assertContains(
                 actions,
                 if (isNewUserMode) {
-                    ViewAction.NavigateTo.Home(
-                        ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
-                    )
+                    ViewAction.NavigateTo.FirstProblemOnboarding(isNewUserMode = true)
                 } else {
                     ViewAction.NavigateTo.StudyPlan
                 }
@@ -190,7 +188,7 @@ class TrackSelectionDetailsTest {
     }
 
     @Test
-    fun `Successful track selection should trigger navigation to ProjectSelection or Home for users with subscription`() { // ktlint-disable max-line-length
+    fun `Successful track selection should trigger navigation to ProjectSelection or FirstProblemOnboarding for users with subscription`() { // ktlint-disable max-line-length
         listOf(
             SubscriptionType.PREMIUM,
             SubscriptionType.PERSONAL,
@@ -229,9 +227,7 @@ class TrackSelectionDetailsTest {
                 assertContains(
                     actions,
                     if (projects.isEmpty()) {
-                        ViewAction.NavigateTo.Home(
-                            ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
-                        )
+                        ViewAction.NavigateTo.FirstProblemOnboarding(isNewUserMode = true)
                     } else {
                         ViewAction.NavigateTo.ProjectSelectionList(
                             trackId = trackId,

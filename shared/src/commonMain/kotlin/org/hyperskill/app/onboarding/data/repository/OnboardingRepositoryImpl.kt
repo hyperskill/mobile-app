@@ -26,4 +26,11 @@ class OnboardingRepositoryImpl(
     override fun setNotificationOnboardingWasShown(wasShown: Boolean) {
         onboardingCacheDataSource.setNotificationOnboardingWasShown(wasShown)
     }
+
+    override fun wasFirstProblemOnboardingShown(): Boolean =
+        onboardingCacheDataSource.wasFirstProblemOnboardingShown()
+
+    override fun setFirstProblemOnboardingWasShown(wasShown: Boolean) {
+        onboardingCacheDataSource.setFirstProblemOnboardingWasShown(wasShown)
+    }
 }

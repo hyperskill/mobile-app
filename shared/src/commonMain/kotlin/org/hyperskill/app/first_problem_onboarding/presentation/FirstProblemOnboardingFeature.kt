@@ -77,9 +77,9 @@ object FirstProblemOnboardingFeature {
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction
 
-            sealed interface NavigateTo : ViewAction {
-                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
-                object StudyPlanScreen : NavigateTo
+            sealed interface CompleteFirstProblemOnboarding : ViewAction {
+                data class FirstProblemLoaded(val stepRoute: StepRoute) : CompleteFirstProblemOnboarding
+                object FirstProblemEmpty : CompleteFirstProblemOnboarding
             }
         }
     }
@@ -88,5 +88,6 @@ object FirstProblemOnboardingFeature {
         data class LogAnalyticsEvent(val event: HyperskillAnalyticEvent) : InternalAction
         object FetchProfile : InternalAction
         object FetchNextLearningActivity : InternalAction
+        object SetFirstProblemOnboardingShownFlag : InternalAction
     }
 }

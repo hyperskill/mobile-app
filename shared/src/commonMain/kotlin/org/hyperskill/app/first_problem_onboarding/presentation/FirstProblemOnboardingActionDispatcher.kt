@@ -9,6 +9,7 @@ import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnbo
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Message
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
+import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -16,6 +17,7 @@ internal class FirstProblemOnboardingActionDispatcher(
     config: ActionDispatcherOptions,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val learningActivityRepository: LearningActivitiesRepository,
+    private val onboardingInteractor: OnboardingInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -40,6 +42,8 @@ internal class FirstProblemOnboardingActionDispatcher(
 
                 onNewMessage(message)
             }
+            is InternalAction.SetFirstProblemOnboardingShownFlag ->
+                onboardingInteractor.setFirstProblemOnboardingWasShown(wasShown = true)
             is InternalAction.LogAnalyticsEvent ->
                 analyticInteractor.logEvent(action.event)
             else -> {

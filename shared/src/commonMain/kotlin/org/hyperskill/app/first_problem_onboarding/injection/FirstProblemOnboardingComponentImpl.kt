@@ -15,6 +15,7 @@ internal class FirstProblemOnboardingComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             learningActivitiesRepository = appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
+            onboardingInteractor = appGraph.buildOnboardingComponent().onboardingInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant

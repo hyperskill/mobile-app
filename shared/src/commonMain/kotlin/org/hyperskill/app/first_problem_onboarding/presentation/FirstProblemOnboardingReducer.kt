@@ -121,12 +121,15 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
         }
 
     private fun handleViewedEvent(state: State): FirstProblemOnboardingReducerResult =
-        state to setOf(InternalAction.LogAnalyticsEvent(FirstProblemOnboardingViewedHyperskillAnalyticsEvent))
+        state to setOf(
+            InternalAction.SetFirstProblemOnboardingShownFlag,
+            InternalAction.LogAnalyticsEvent(FirstProblemOnboardingViewedHyperskillAnalyticsEvent)
+        )
 
     private fun getNavigateActionByLearningActivity(learningActivity: LearningActivity?) =
         learningActivity?.targetId?.let { stepId ->
-            Action.ViewAction.NavigateTo.StepScreen(StepRoute.Learn.Step(stepId))
-        } ?: Action.ViewAction.NavigateTo.StudyPlanScreen
+            Action.ViewAction.CompleteFirstProblemOnboarding.FirstProblemLoaded(StepRoute.Learn.Step(stepId))
+        } ?: Action.ViewAction.CompleteFirstProblemOnboarding.FirstProblemEmpty
 
     private fun State.updateProfileState(profileState: ProfileState): State =
         copy(profileState = profileState)

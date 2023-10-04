@@ -5,6 +5,7 @@ import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 
 interface AppFeature {
@@ -53,6 +54,12 @@ interface AppFeature {
         data class NotificationOnboardingDataFetched(val wasNotificationOnBoardingShown: Boolean) : Message
         object NotificationOnboardingCompleted : Message
 
+        data class FirstProblemOnboardingDataFetched(val wasFirstProblemOnboardingShown: Boolean) : Message
+        sealed interface FirstProblemOnboardingCompleted : Message {
+            data class FirstProblemLoaded(val firstProblemStepRoute: StepRoute) : FirstProblemOnboardingCompleted
+            object FirstProblemEmpty : FirstProblemOnboardingCompleted
+        }
+
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
 
@@ -80,6 +87,7 @@ interface AppFeature {
         object SendPushNotificationsToken : Action
 
         object FetchNotificationOnboardingData : Action
+        object FetchFirstProblemOnboardingData : Action
 
         /**
          * Action Wrappers
@@ -104,6 +112,10 @@ interface AppFeature {
                 object OnboardingScreen : NavigateTo
 
                 object NotificationOnBoardingScreen : NavigateTo
+
+                data class FirstProblemOnBoardingScreen(val isNewUserMode: Boolean) : NavigateTo
+                data class HomeScreenWithStep(val stepRoute: StepRoute) : NavigateTo
+                object StudyPlan : NavigateTo
             }
 
             /**

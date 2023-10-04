@@ -22,5 +22,4 @@ internal class FirstProblemOnboardingViewStateMapper(
                     isLearningActivityLoading = state.isLearningActivityLoading
                 )
         }
-
 }

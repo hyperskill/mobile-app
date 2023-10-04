@@ -115,6 +115,9 @@ extension AppViewController: AppViewControllerProtocol {
             case .notificationOnBoardingScreen:
                 let assembly = NotificationsOnboardingAssembly(output: viewModel)
                 return assembly.makeModule()
+            case .firstProblemOnBoardingScreen, .homeScreenWithStep, .studyPlan:
+                #warning("TODO")
+                exit(0)
             }
         }()
 

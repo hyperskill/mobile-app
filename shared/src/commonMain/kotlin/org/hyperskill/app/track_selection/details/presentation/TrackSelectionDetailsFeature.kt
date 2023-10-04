@@ -109,12 +109,7 @@ object TrackSelectionDetailsFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
-                data class Home(val command: NavigationCommand) : NavigateTo {
-                    enum class NavigationCommand {
-                        BackTo,
-                        NewRootScreen
-                    }
-                }
+                data class FirstProblemOnboarding(val isNewUserMode: Boolean) : NavigateTo
                 data class ProjectSelectionList(
                     val trackId: Long,
                     val isNewUserMode: Boolean
