@@ -23,6 +23,7 @@
             android:layout_marginVertical="8dp"/>
 
         <TextView
+            android:id="@+id/embeddedCodeEditorLanguageTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
