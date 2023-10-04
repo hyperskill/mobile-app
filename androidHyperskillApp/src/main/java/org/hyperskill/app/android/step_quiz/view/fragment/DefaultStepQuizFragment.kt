@@ -316,7 +316,6 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 setStepHintsFragment(step)
                 renderAttemptLoaded(stepQuizState)
-
             }
             else -> {
                 // no op

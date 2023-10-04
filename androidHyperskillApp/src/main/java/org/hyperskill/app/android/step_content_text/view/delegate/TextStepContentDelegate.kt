@@ -13,7 +13,7 @@ import org.hyperskill.app.step.domain.model.Step
 
 class TextStepContentDelegate(
     fragmentLifecycle: Lifecycle
-): LifecycleObserver {
+) : LifecycleObserver {
 
     private var latexWebView: LatexWebView? = null
 
