@@ -1,7 +1,6 @@
-@testable
-import iosHyperskillApp
-
 import XCTest
+
+@testable import iosHyperskillApp
 
 final class HTMLStringTests: XCTestCase {
     private let givenStrings = [
@@ -24,7 +23,7 @@ final class HTMLStringTests: XCTestCase {
         "else:",
         "if population > 1000000:"
     ]
-    
+
     func testUnescape() throws {
         for (given, expected) in zip(givenStrings, expectedStrings) {
             let actual = HTMLString.unescape(string: given)

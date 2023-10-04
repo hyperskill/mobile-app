@@ -1,8 +1,8 @@
-@testable
-import iosHyperskillApp
-
 import XCTest
 
+@testable import iosHyperskillApp
+
+// swiftlint:disable force_unwrapping
 class LinkedListTest: XCTestCase {
     private let numbers = [8, 2, 10, 9, 7, 5]
 
