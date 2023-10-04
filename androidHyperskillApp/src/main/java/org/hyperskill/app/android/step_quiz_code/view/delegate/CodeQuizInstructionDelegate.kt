@@ -19,7 +19,7 @@ import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 class CodeQuizInstructionDelegate(
     private val detailsContainerView: View,
     isCollapsible: Boolean,
-    onDetailsIsExpandedStateChanged: () -> Unit
+    onDetailsIsExpandedStateChanged: (Boolean) -> Unit
 ) {
     private val stepQuizCodeDetails: FrameLayout =
         detailsContainerView.findViewById(R.id.stepQuizCodeDetailsFrameLayout)
