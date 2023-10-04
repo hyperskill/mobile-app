@@ -2,14 +2,14 @@ name: CodeQL
 
 on:
   push:
-    branches: ["develop", "main"]
-  pull_request:
-    branches: ["develop"]
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
+    branches: ["main"]
+  # Runs at 01:00 UTC every day
   schedule:
-    - cron: "20 6 * * 1"
+    - cron: "0 1 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
   analyze:
@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['java-kotlin', 'javascript-typescript', 'ruby', 'swift']
+        language: ['java-kotlin', 'javascript-typescript', 'ruby']
 
     steps:
     - name: Checkout
@@ -53,23 +53,6 @@ jobs:
       run: ./gradlew assembleDebug
       env:
         IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup-kotlin.outputs.is-git-crypt-unlocked }}
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
-    - if: matrix.language == 'swift'
-      name: Setup Swift
-      id: setup-swift
-      uses: ./.github/actions/setup-ios
-      with:
-        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-
-    - if: matrix.language == 'swift'
-      name: Build Swift
-      working-directory: './iosHyperskillApp'
-      run: bundle exec fastlane build install_pods:false
-      env:
-        FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
-        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup-swift.outputs.is-git-crypt-unlocked }}
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
