@@ -32,11 +32,11 @@ platform :ios do
   }
 
   after_all do |lane, options|
-    clean_build_artifacts
+    clean_build_artifacts unless is_ci
   end
 
   error do |lane, exception|
-    clean_build_artifacts
+    clean_build_artifacts unless is_ci
   end
 
   # Building and Releasing
