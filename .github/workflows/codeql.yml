@@ -3,8 +3,6 @@ name: CodeQL
 on:
   push:
     branches: ["main"]
-  pull_request:
-    types: [opened, reopened, synchronize]
   # Runs at 01:00 UTC every day
   schedule:
     - cron: "0 1 * * *"
@@ -15,10 +13,6 @@ concurrency:
 
 jobs:
   analyze:
-    if: |
-        ${{ !cancelled()
-            && (github.event_name == 'pull_request' && contains(github.event.*.labels.*.name, 'codeql'))
-            ||  github.event_name != 'pull_request' }}
     name: Analyze
     runs-on: ${{ (matrix.language == 'swift' && 'macos-13') || 'ubuntu-22.04' }}
     timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
