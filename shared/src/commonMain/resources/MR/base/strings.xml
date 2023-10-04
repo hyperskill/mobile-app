@@ -382,6 +382,14 @@
     <string name="notifications_onboarding_button_allow">Allow notifications</string>
     <string name="notifications_onboarding_button_later">Remind me later</string>
 
+    <!--  First problem onboarding  -->
+    <string name="first_problem_onboarding_existing_user_title">Let\'s keep going!</string>
+    <string name="first_problem_onboarding_existing_user_subtitle">It seems you\'ve already made progress. Continue learning on %s!</string>
+    <string name="first_problem_onboarding_existing_user_button_text">Keep learning</string>
+    <string name="first_problem_onboarding_new_user_title">Great choice!</string>
+    <string name="first_problem_onboarding_new_user_subtitle">Embark on your journey in %s right now!</string>
+    <string name="first_problem_onboarding_new_user_button_text">Start learning</string>
+
     <!-- Text for receiving notification after daily step is complete -->
     <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
     <string name="after_daily_step_completed_dialog_text">The app will send you notifications to practice everyday and keep up your learning streak</string>

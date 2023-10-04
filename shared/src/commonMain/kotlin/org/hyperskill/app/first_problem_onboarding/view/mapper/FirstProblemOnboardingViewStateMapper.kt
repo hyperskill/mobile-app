@@ -17,7 +17,14 @@ internal class FirstProblemOnboardingViewStateMapper(
                 FirstProblemOnboardingFeature.ViewState.Error
             is FirstProblemOnboardingFeature.ProfileState.Content ->
                 FirstProblemOnboardingFeature.ViewState.Content(
-                    subtitle = resourceProvider.getString(SharedResources.strings.step_quiz_string_title),
+                    subtitle = resourceProvider.getString(
+                        if (state.isNewUserMode) {
+                            SharedResources.strings.first_problem_onboarding_new_user_subtitle
+                        } else {
+                            SharedResources.strings.first_problem_onboarding_existing_user_subtitle
+                        },
+                        state.profileState.profile.trackTitle ?: ""
+                    ),
                     isNewUserMode = state.isNewUserMode,
                     isLearningActivityLoading = state.isLearningActivityLoading
                 )
