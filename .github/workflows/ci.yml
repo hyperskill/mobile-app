@@ -6,6 +6,8 @@ on:
       - '**'
       - '!main'
       - '!develop'
+      - '!hotfix/**'
+      - '!release/**'
   workflow_dispatch:
     inputs:
       force_android:
