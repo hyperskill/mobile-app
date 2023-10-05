@@ -96,25 +96,22 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
 
     private fun handleLearningActionButtonClicked(state: State): FirstProblemOnboardingReducerResult? =
         if (state.profileState is ProfileState.Content) {
-            val result = when (state.nextLearningActivityState) {
-                NextLearningActivityState.Idle ->
-                    state to emptySet()
+            val actions = when (state.nextLearningActivityState) {
+                NextLearningActivityState.Idle, NextLearningActivityState.Loading ->
+                    emptySet()
                 NextLearningActivityState.Error ->
-                    state.copy(isLearningActivityLoading = true) to setOf(InternalAction.FetchNextLearningActivity)
-                NextLearningActivityState.Loading ->
-                    state.copy(isLearningActivityLoading = true) to emptySet()
+                    setOf(InternalAction.FetchNextLearningActivity)
                 is NextLearningActivityState.Content ->
-                    state to setOf(
+                    setOf(
                         getNavigateActionByLearningActivity(state.nextLearningActivityState.nextLearningActivity),
                     )
             }
 
-            result.copy(
-                second = result.second + setOf(
-                    InternalAction.LogAnalyticsEvent(
-                        FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent
-                    )
-                )
+            state.copy(
+                isLearningActivityLoading = state.nextLearningActivityState is NextLearningActivityState.Error ||
+                    state.nextLearningActivityState is NextLearningActivityState.Loading
+            ) to actions + setOf(
+                InternalAction.LogAnalyticsEvent(FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent)
             )
         } else {
             null
