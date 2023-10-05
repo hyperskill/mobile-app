@@ -37,7 +37,6 @@ class CodeStepQuizFormDelegate(
 
     init {
         with(codeLayoutDelegate) {
-            setEnabled(true)
             setLanguage(codeStepQuizConfig.langName, code)
             setDetailsContentData(codeStepQuizConfig.langName)
         }
@@ -83,6 +82,7 @@ class CodeStepQuizFormDelegate(
 
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         codeLayoutDelegate.setEnabled(isEnabled)
+        viewBinding.embeddedCodeEditorExpand.isEnabled = false
 
         viewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
             codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, replyCode)
