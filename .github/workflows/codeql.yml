@@ -1,0 +1,62 @@
+name: CodeQL
+
+on:
+  push:
+    branches: ["main"]
+  # Runs at 01:00 UTC every day
+  schedule:
+    - cron: "0 1 * * *"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-13') || 'ubuntu-22.04' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['java-kotlin', 'javascript-typescript', 'ruby']
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.0
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+        queries: security-extended,security-and-quality
+        config: |
+          paths-ignore:
+            - iosHyperskillApp/iosHyperskillApp/MathJax.js
+            - iosHyperskillApp/iosHyperskillApp/highlight.js
+            - androidHyperskillApp/src/main/assets/scripts/highlight.pack.js 
+
+    - if: matrix.language == 'java-kotlin'
+      name: Setup Kotlin
+      id: setup-kotlin
+      uses: ./.github/actions/setup-android
+      with:
+        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+
+    - if: matrix.language == 'java-kotlin'
+      name: Build Kotlin
+      run: ./gradlew assembleDebug
+      env:
+        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup-kotlin.outputs.is-git-crypt-unlocked }}
+        GITHUB_USER: ${{ github.actor }}
+        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"
