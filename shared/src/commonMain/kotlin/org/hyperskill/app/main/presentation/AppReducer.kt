@@ -191,12 +191,9 @@ class AppReducer(
     ): ReducerResult =
         if (state is State.Ready && state.profile != null) {
             state to setOf(
-                when (message) {
-                    is Message.FirstProblemOnboardingCompleted.FirstProblemLoaded ->
-                        Action.ViewAction.NavigateTo.HomeScreenWithStep(message.firstProblemStepRoute)
-                    Message.FirstProblemOnboardingCompleted.FirstProblemEmpty ->
-                        Action.ViewAction.NavigateTo.StudyPlan
-                }
+                message.firstProblemStepRoute?.let { stepRoute ->
+                    Action.ViewAction.NavigateTo.HomeScreenWithStep(stepRoute)
+                } ?: Action.ViewAction.NavigateTo.StudyPlan
             )
         } else {
             state to emptySet()

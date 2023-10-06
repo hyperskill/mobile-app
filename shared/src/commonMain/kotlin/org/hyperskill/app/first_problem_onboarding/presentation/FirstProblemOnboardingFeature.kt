@@ -77,10 +77,7 @@ object FirstProblemOnboardingFeature {
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction
 
-            sealed interface CompleteFirstProblemOnboarding : ViewAction {
-                data class FirstProblemLoaded(val stepRoute: StepRoute) : CompleteFirstProblemOnboarding
-                object FirstProblemEmpty : CompleteFirstProblemOnboarding
-            }
+            data class CompleteFirstProblemOnboarding(val stepRoute: StepRoute?) : ViewAction
         }
     }
 

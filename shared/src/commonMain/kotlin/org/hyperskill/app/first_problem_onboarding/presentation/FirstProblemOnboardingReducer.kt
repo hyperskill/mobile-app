@@ -124,9 +124,11 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
         )
 
     private fun getNavigateActionByLearningActivity(learningActivity: LearningActivity?) =
-        learningActivity?.targetId?.let { stepId ->
-            Action.ViewAction.CompleteFirstProblemOnboarding.FirstProblemLoaded(StepRoute.Learn.Step(stepId))
-        } ?: Action.ViewAction.CompleteFirstProblemOnboarding.FirstProblemEmpty
+        Action.ViewAction.CompleteFirstProblemOnboarding(
+            learningActivity?.targetId?.let { stepId ->
+                StepRoute.Learn.Step(stepId)
+            }
+        )
 
     private fun State.updateProfileState(profileState: ProfileState): State =
         copy(profileState = profileState)
