@@ -50,6 +50,7 @@ extension StepQuizCodeFullScreenAssembly {
             codeQuizViewData: StepQuizCodeViewData(
                 language: .kotlin,
                 languageStringValue: "kotlin",
+                languageHumanReadableName: CodeLanguage.kotlin.humanReadableName,
                 code: "fun main() {\n    // put your code here\n}",
                 codeTemplate: "fun main() {\n    // put your code here\n}",
                 samples: [

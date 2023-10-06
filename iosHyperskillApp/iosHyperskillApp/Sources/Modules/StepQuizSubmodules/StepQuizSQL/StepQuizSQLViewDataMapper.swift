@@ -6,6 +6,7 @@ final class StepQuizSQLViewDataMapper: StepQuizCodeViewDataMapper {
         StepQuizCodeViewData(
             language: .sql,
             languageStringValue: CodeLanguage.sql.rawValue,
+            languageHumanReadableName: CodeLanguage.sql.humanReadableName,
             code: reply?.solveSql,
             codeTemplate: nil,
             samples: [],

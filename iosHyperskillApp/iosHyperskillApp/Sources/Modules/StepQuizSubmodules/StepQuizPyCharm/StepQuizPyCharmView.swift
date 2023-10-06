@@ -16,6 +16,7 @@ struct StepQuizPyCharmView: View {
                 ),
                 codeTemplate: viewData.codeTemplate,
                 language: viewData.language,
+                languageHumanReadableName: viewData.languageHumanReadableName,
                 onExpandButtonTap: viewModel.doFullScreenCodeEditorPresentation,
                 onInputAccessoryButtonTap: viewModel.logClickedInputAccessoryButton(symbol:)
             )
