@@ -9,6 +9,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
+import org.hyperskill.app.main.presentation.AppFeature.Message
+import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.core.model.Cancellable
@@ -22,27 +24,27 @@ import ru.nobird.app.presentation.redux.feature.Feature
  * @see [PlatformMainComponentImpl], [MainViewModel.decodeState]
  */
 class MainViewModel(
-    reduxViewContainer: ReduxViewContainer<AppFeature.State, AppFeature.Message, AppFeature.Action.ViewAction>,
-    feature: Feature<AppFeature.State, AppFeature.Message, AppFeature.Action>,
+    reduxViewContainer: ReduxViewContainer<State, Message, AppFeature.Action.ViewAction>,
+    feature: Feature<State, Message, AppFeature.Action>,
     private val savedStateHandle: SavedStateHandle,
     private val analyticInteractor: AnalyticInteractor
-) : ReduxViewModel<AppFeature.State, AppFeature.Message, AppFeature.Action.ViewAction>(reduxViewContainer) {
+) : ReduxViewModel<State, Message, AppFeature.Action.ViewAction>(reduxViewContainer) {
     companion object {
         private const val STATE_KEY = "AppFeatureState"
 
-        fun encodeState(state: AppFeature.State): Bundle =
-            Parcelable.Default.encodeToBundle(state, AppFeature.State.serializer())
+        fun encodeState(state: State): Bundle =
+            Parcelable.Default.encodeToBundle(state, State.serializer())
 
         /**
          * Decodes state from [SavedStateHandle]
          * @return [AppFeature.State] or null if state is not saved
          */
-        fun decodeState(savedStateHandle: SavedStateHandle): AppFeature.State? {
+        fun decodeState(savedStateHandle: SavedStateHandle): State? {
             val savedStateBundle: Bundle? = savedStateHandle[STATE_KEY]
             return savedStateBundle?.let {
                 Parcelable.Default.decodeFromBundle(
                     bundle = it,
-                    deserializer = AppFeature.State.serializer()
+                    deserializer = State.serializer()
                 )
             }
         }
@@ -61,9 +63,9 @@ class MainViewModel(
 
     fun startup(pushNotificationData: PushNotificationData? = null) {
         if (!wasStateSaved) {
-            onNewMessage(AppFeature.Message.Initialize(pushNotificationData))
+            onNewMessage(Message.Initialize(pushNotificationData))
         } else if (pushNotificationData != null) {
-            onNewMessage(AppFeature.Message.NotificationClicked(pushNotificationData))
+            onNewMessage(Message.NotificationClicked(pushNotificationData))
         }
     }
 

@@ -37,7 +37,7 @@ class MatchingItemTitleAdapterDelegate : AdapterDelegate<MatchingItem, DelegateV
                 }
 
             stepQuizSortingOption.webViewClient =
-                ProgressableWebViewClient(stepQuizSortingOptionProgress, stepQuizSortingOption.webView)
+                ProgressableWebViewClient(stepQuizSortingOptionProgress)
         }
 
         override fun onBind(data: MatchingItem) {
