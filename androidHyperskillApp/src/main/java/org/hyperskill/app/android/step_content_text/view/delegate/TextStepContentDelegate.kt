@@ -2,8 +2,8 @@ package org.hyperskill.app.android.step_content_text.view.delegate
 
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import org.hyperskill.app.android.R
@@ -19,8 +19,8 @@ class TextStepContentDelegate(
 
     init {
         fragmentLifecycle.addObserver(
-            LifecycleEventObserver { _, event ->
-                if (event.targetState == Lifecycle.State.DESTROYED) {
+            object : DefaultLifecycleObserver {
+                override fun onDestroy(owner: LifecycleOwner) {
                     latexWebView = null
                 }
             }
@@ -38,12 +38,10 @@ class TextStepContentDelegate(
         latexView.addView(webView)
         latexView.setText(step.block.text)
         viewLifecycle.addObserver(
-            object : LifecycleEventObserver {
-                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    if (event.targetState == Lifecycle.State.DESTROYED) {
-                        latexView.removeView(latexWebView)
-                    }
-                    viewLifecycle.removeObserver(this)
+            object : DefaultLifecycleObserver {
+                override fun onDestroy(owner: LifecycleOwner) {
+                    latexView.removeView(latexWebView)
+                    owner.lifecycle.removeObserver(this)
                 }
             }
         )
