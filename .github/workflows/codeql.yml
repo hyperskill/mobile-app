@@ -39,7 +39,8 @@ jobs:
           paths-ignore:
             - iosHyperskillApp/iosHyperskillApp/MathJax.js
             - iosHyperskillApp/iosHyperskillApp/highlight.js
-            - androidHyperskillApp/src/main/assets/scripts/highlight.pack.js 
+            - androidHyperskillApp/src/main/assets/scripts/highlight.pack.js
+            - androidHyperskillApp/build/**/*
 
     - if: matrix.language == 'java-kotlin'
       name: Setup Kotlin
