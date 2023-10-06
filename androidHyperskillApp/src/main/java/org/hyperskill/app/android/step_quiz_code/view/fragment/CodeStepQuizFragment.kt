@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.util.CodeEditorKeyboardExtensionUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
@@ -82,6 +84,13 @@ class CodeStepQuizFragment :
             false
         )
         parentFragmentViewGroup.addView(keyboardExtensionViewBinding.root)
+        viewLifecycleOwner.lifecycle.addObserver(
+            object : DefaultLifecycleObserver {
+                override fun onDestroy(owner: LifecycleOwner) {
+                    parentFragmentViewGroup.removeView(keyboardExtensionViewBinding.root)
+                }
+            }
+        )
 
         CodeEditorKeyboardExtensionUtil.setupKeyboardExtension(
             context = requireContext(),
