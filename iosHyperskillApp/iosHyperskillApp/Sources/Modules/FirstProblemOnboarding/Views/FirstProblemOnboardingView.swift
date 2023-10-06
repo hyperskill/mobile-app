@@ -42,7 +42,7 @@ private extension FirstProblemOnboardingView {
         switch FirstProblemOnboardingFeatureActionViewActionKs(viewAction) {
         case .completeFirstProblemOnboarding(let completeFirstProblemOnboardingViewAction):
             viewModel.doCompleteOnboarding(
-                stepRoute: (completeFirstProblemOnboardingViewAction as? FirstProblemOnboardingFeatureActionViewActionCompleteFirstProblemOnboardingFirstProblemLoaded)?.stepRoute
+                stepRoute: completeFirstProblemOnboardingViewAction.stepRoute
             )
         case .showNetworkError:
             ProgressHUD.showError(status: Strings.FirstProblemOnboarding.networkError)
@@ -55,7 +55,11 @@ private extension FirstProblemOnboardingView {
 struct FirstProblemOnboardingView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            NotificationsOnboardingAssembly(output: nil).makeModule()
+            FirstProblemOnboardingAssembly(isNewUserMode: true, output: nil).makeModule()
+        }
+
+        UIKitViewControllerPreview {
+            FirstProblemOnboardingAssembly(isNewUserMode: false, output: nil).makeModule()
         }
     }
 }

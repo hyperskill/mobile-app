@@ -504,6 +504,7 @@
 		E9A1DA6C2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA6B2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift */; };
 		E9A1DA6E2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA6D2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift */; };
 		E9A1DA702ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA6F2ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift */; };
+		E9A1DA722AD00D41006A9D4B /* FirstProblemOnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA712AD00D41006A9D4B /* FirstProblemOnboardingContentView.swift */; };
 		E9A22BA0295081BD001700B7 /* StreakFreezeModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A22B9F295081BD001700B7 /* StreakFreezeModalViewController.swift */; };
 		E9A3435029113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A3434F29113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift */; };
 		E9A6250D28ABAE30009423EE /* OnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */; };
@@ -1114,6 +1115,7 @@
 		E9A1DA6B2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingAssembly.swift; sourceTree = "<group>"; };
 		E9A1DA6D2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E9A1DA6F2ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
+		E9A1DA712AD00D41006A9D4B /* FirstProblemOnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingContentView.swift; sourceTree = "<group>"; };
 		E9A22B9F295081BD001700B7 /* StreakFreezeModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakFreezeModalViewController.swift; sourceTree = "<group>"; };
 		E9A3434F29113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintReactionButtonView.swift; sourceTree = "<group>"; };
 		E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAssembly.swift; sourceTree = "<group>"; };
@@ -3381,6 +3383,7 @@
 		E9A1DA652ACFF11B006A9D4B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9A1DA712AD00D41006A9D4B /* FirstProblemOnboardingContentView.swift */,
 				E9A1DA662ACFF180006A9D4B /* FirstProblemOnboardingView.swift */,
 			);
 			path = Views;
@@ -4410,6 +4413,7 @@
 				E9E964872A0B8D8200841DF6 /* StepQuizProblemsLimitView.swift in Sources */,
 				2C8CD9AE2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift in Sources */,
 				2C967432288824370091B6C9 /* StepQuizCodeViewModel.swift in Sources */,
+				E9A1DA722AD00D41006A9D4B /* FirstProblemOnboardingContentView.swift in Sources */,
 				2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */,
 				D64BC006B49702DFDA107FA5 /* TrackSelectionDetailsAssembly.swift in Sources */,
 				E9D537D42A71393A00F21828 /* ProfileBadgesGridView.swift in Sources */,

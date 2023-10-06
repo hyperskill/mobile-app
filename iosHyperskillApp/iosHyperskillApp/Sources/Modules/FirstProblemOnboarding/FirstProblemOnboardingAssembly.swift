@@ -22,12 +22,12 @@ final class FirstProblemOnboardingAssembly: UIKitAssembly {
         )
         viewModel.moduleOutput = moduleOutput
 
-        let notificationsOnboardingView = FirstProblemOnboardingView(
+        let firstProblemOnboardingView = FirstProblemOnboardingView(
             viewModel: viewModel
         )
 
         let hostingController = StyledHostingController(
-            rootView: notificationsOnboardingView
+            rootView: firstProblemOnboardingView
         )
         hostingController.navigationItem.largeTitleDisplayMode = .never
 
