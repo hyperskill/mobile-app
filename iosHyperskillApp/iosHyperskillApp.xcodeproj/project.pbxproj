@@ -499,6 +499,11 @@
 		E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEC2826A37400B49D52 /* AppAppearance.swift */; };
 		E99D4CEF2826B91100B49D52 /* StepQuizStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */; };
 		E9A022AE291D0E3F004317DB /* TopicsRepetitionsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A022AD291D0E3F004317DB /* TopicsRepetitionsCardView.swift */; };
+		E9A1DA672ACFF180006A9D4B /* FirstProblemOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA662ACFF180006A9D4B /* FirstProblemOnboardingView.swift */; };
+		E9A1DA6A2ACFF31D006A9D4B /* FirstProblemOnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA692ACFF31D006A9D4B /* FirstProblemOnboardingOutputProtocol.swift */; };
+		E9A1DA6C2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA6B2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift */; };
+		E9A1DA6E2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA6D2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift */; };
+		E9A1DA702ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A1DA6F2ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift */; };
 		E9A22BA0295081BD001700B7 /* StreakFreezeModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A22B9F295081BD001700B7 /* StreakFreezeModalViewController.swift */; };
 		E9A3435029113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A3434F29113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift */; };
 		E9A6250D28ABAE30009423EE /* OnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */; };
@@ -1104,6 +1109,11 @@
 		E99D4CEC2826A37400B49D52 /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStatusView.swift; sourceTree = "<group>"; };
 		E9A022AD291D0E3F004317DB /* TopicsRepetitionsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCardView.swift; sourceTree = "<group>"; };
+		E9A1DA662ACFF180006A9D4B /* FirstProblemOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingView.swift; sourceTree = "<group>"; };
+		E9A1DA692ACFF31D006A9D4B /* FirstProblemOnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingOutputProtocol.swift; sourceTree = "<group>"; };
+		E9A1DA6B2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingAssembly.swift; sourceTree = "<group>"; };
+		E9A1DA6D2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingViewModel.swift; sourceTree = "<group>"; };
+		E9A1DA6F2ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstProblemOnboardingFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		E9A22B9F295081BD001700B7 /* StreakFreezeModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakFreezeModalViewController.swift; sourceTree = "<group>"; };
 		E9A3434F29113FA400E0C0A4 /* StepQuizHintReactionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintReactionButtonView.swift; sourceTree = "<group>"; };
 		E9A6250C28ABAE30009423EE /* OnboardingAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAssembly.swift; sourceTree = "<group>"; };
@@ -1429,6 +1439,7 @@
 				E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */,
 				2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */,
 				2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */,
+				E9A1DA6F2ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1457,6 +1468,7 @@
 				2C725B6428091ACF00A49043 /* AuthCredentials */,
 				2C005DD027EF5C4800DC6503 /* AuthSocial */,
 				2CA5F8EA2994C3880013B854 /* Debug */,
+				E9A1DA642ACFF10D006A9D4B /* FirstProblemOnboarding */,
 				2C5F4A582971C6C500677530 /* GamificationToolbar */,
 				2C963BC32812D16C0036DD53 /* Home */,
 				E9B641FE2A6BCBCA001A9653 /* NextLearningActivity */,
@@ -3355,6 +3367,25 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		E9A1DA642ACFF10D006A9D4B /* FirstProblemOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E9A1DA6B2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift */,
+				E9A1DA692ACFF31D006A9D4B /* FirstProblemOnboardingOutputProtocol.swift */,
+				E9A1DA6D2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift */,
+				E9A1DA652ACFF11B006A9D4B /* Views */,
+			);
+			path = FirstProblemOnboarding;
+			sourceTree = "<group>";
+		};
+		E9A1DA652ACFF11B006A9D4B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E9A1DA662ACFF180006A9D4B /* FirstProblemOnboardingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		E9A3434E29113F8A00E0C0A4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -4041,6 +4072,7 @@
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
 				2C27C77C28772F8A006A641A /* ImageDecoders+SVG.swift in Sources */,
 				2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */,
+				E9A1DA702ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift in Sources */,
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
 				2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
@@ -4089,6 +4121,7 @@
 				2C336D102865BF4200C91342 /* CodeEditorThemeService.swift in Sources */,
 				2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */,
 				2C08A939287866A200F1DCA2 /* LazyAvatarView.swift in Sources */,
+				E9A1DA6A2ACFF31D006A9D4B /* FirstProblemOnboardingOutputProtocol.swift in Sources */,
 				2CAFD38F27FC517D00F88B0B /* ColorPalette.swift in Sources */,
 				2C05AC642A0EDFD80039C7EF /* ProjectSelectionListGridCellBadgesView.swift in Sources */,
 				2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */,
@@ -4155,6 +4188,8 @@
 				2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */,
 				E99B21852887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift in Sources */,
 				E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */,
+				E9A1DA6C2ACFF38C006A9D4B /* FirstProblemOnboardingAssembly.swift in Sources */,
+				E9A1DA672ACFF180006A9D4B /* FirstProblemOnboardingView.swift in Sources */,
 				2CAE8D0528055D8300E6C83D /* StepActionButton.swift in Sources */,
 				2C45E7BD2A0FD9D600DFF32D /* ProjectSelectionListGridCellProjectLevelView.swift in Sources */,
 				2C37960F2876F36F00C197E2 /* ProfileViewData.swift in Sources */,
@@ -4254,6 +4289,7 @@
 				E9AD65AA292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift in Sources */,
 				2C23C00D2879F2290083709F /* StreakView.swift in Sources */,
 				2C20FBCB284F7A45006D879E /* ProcessedContentView.swift in Sources */,
+				E9A1DA6E2ACFF428006A9D4B /* FirstProblemOnboardingViewModel.swift in Sources */,
 				2C1F587B280D2E5100372A37 /* URLExtensions.swift in Sources */,
 				2C7036E82943A2A800775E87 /* ProblemOfDaySkeletonView.swift in Sources */,
 				2C6672062A527C0D0040EA2F /* ProgressScreenSectionTitleView.swift in Sources */,

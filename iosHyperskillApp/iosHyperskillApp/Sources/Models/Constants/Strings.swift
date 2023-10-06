@@ -443,6 +443,18 @@ enum Strings {
         static let buttonSecondary = sharedStrings.notifications_onboarding_button_later.localized()
     }
 
+    // MARK: - FirstProblemOnboarding -
+
+    enum FirstProblemOnboarding {
+        static let existingUserTitle = sharedStrings.first_problem_onboarding_existing_user_title.localized()
+        static let existingUserButtonText = sharedStrings.first_problem_onboarding_existing_user_button_text.localized()
+
+        static let newUserTitle = sharedStrings.first_problem_onboarding_new_user_title.localized()
+        static let newUserButtonText = sharedStrings.first_problem_onboarding_new_user_button_text.localized()
+
+        static let networkError = sharedStrings.first_problem_onboarding_network_error.localized()
+    }
+
     // MARK: - ProjectSelectionList -
 
     enum ProjectSelectionList {
