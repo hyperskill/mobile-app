@@ -55,10 +55,7 @@ interface AppFeature {
         object NotificationOnboardingCompleted : Message
 
         data class FirstProblemOnboardingDataFetched(val wasFirstProblemOnboardingShown: Boolean) : Message
-        sealed interface FirstProblemOnboardingCompleted : Message {
-            data class FirstProblemLoaded(val firstProblemStepRoute: StepRoute) : FirstProblemOnboardingCompleted
-            object FirstProblemEmpty : FirstProblemOnboardingCompleted
-        }
+        data class FirstProblemOnboardingCompleted(val firstProblemStepRoute: StepRoute?) : Message
 
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
