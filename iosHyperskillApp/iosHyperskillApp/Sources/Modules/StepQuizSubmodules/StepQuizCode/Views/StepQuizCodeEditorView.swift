@@ -15,6 +15,7 @@ struct StepQuizCodeEditorView: View {
     let codeTemplate: String?
 
     let language: CodeLanguage?
+    let languageHumanReadableName: String?
 
     let onExpandButtonTap: () -> Void
 
@@ -33,8 +34,8 @@ struct StepQuizCodeEditorView: View {
                     .font(.headline)
                     .foregroundColor(.primaryText)
 
-                if let languageName = language?.humanReadableName {
-                    Text("(\(languageName))")
+                if let languageHumanReadableName {
+                    Text("(\(languageHumanReadableName))")
                         .font(.subheadline)
                         .foregroundColor(.tertiaryText)
                 }
@@ -91,6 +92,7 @@ struct StepQuizCodeEditorView: View {
         code: .constant(CodeLanguageSamples.sample(for: .java)),
         codeTemplate: nil,
         language: .java,
+        languageHumanReadableName: CodeLanguage.java.humanReadableName,
         onExpandButtonTap: {},
         onInputAccessoryButtonTap: { _ in }
     )
@@ -101,6 +103,7 @@ struct StepQuizCodeEditorView: View {
         code: .constant(CodeLanguageSamples.sample(for: .java)),
         codeTemplate: nil,
         language: .java,
+        languageHumanReadableName: CodeLanguage.java.humanReadableName,
         onExpandButtonTap: {},
         onInputAccessoryButtonTap: { _ in }
     )

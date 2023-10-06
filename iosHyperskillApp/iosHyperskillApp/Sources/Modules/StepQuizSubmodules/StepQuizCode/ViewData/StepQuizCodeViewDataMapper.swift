@@ -23,6 +23,7 @@ class StepQuizCodeViewDataMapper {
             }
             return nil
         }()
+        let languageHumanReadableName = step.displayLanguage ?? language?.humanReadableName
 
         let codeTemplate: String? = {
             guard let languageStringValue = languageStringValue else {
@@ -43,6 +44,7 @@ class StepQuizCodeViewDataMapper {
         return StepQuizCodeViewData(
             language: language,
             languageStringValue: languageStringValue,
+            languageHumanReadableName: languageHumanReadableName,
             code: reply?.code ?? codeTemplate,
             codeTemplate: codeTemplate,
             samples: samples,
