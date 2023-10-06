@@ -1,11 +1,13 @@
 package org.hyperskill.app.android.step_quiz_code.view.delegate
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.core.view.isInvisible
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
+import org.hyperskill.app.android.databinding.LayoutEmbeddedCodeEditorBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -13,7 +15,8 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 
 class CodeStepQuizFormDelegate(
-    private val codeLayout: CodeEditorLayout,
+    private val context: Context,
+    private val viewBinding: LayoutEmbeddedCodeEditorBinding,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val codeStepQuizConfig: CodeStepQuizConfig,
     private val onFullscreenClicked: (lang: String, code: String) -> Unit,
@@ -34,20 +37,26 @@ class CodeStepQuizFormDelegate(
 
     init {
         with(codeLayoutDelegate) {
-            setEnabled(true)
             setLanguage(codeStepQuizConfig.langName, code)
             setDetailsContentData(codeStepQuizConfig.langName)
         }
-
-        with(codeLayout.codeEditor) {
-            isFocusable = false
-            addTextChangedListener(textWatcher)
-            codeLayout.codeEditor.setOnClickListener {
+        with(viewBinding) {
+            embeddedCodeEditorExpand.setOnClickListener {
                 onFullscreenClicked(
                     codeStepQuizConfig.langName,
                     this@CodeStepQuizFormDelegate.code ?: codeStepQuizConfig.initialCode
                 )
             }
+            val displayedLangName = codeStepQuizConfig.displayedLangName
+            embeddedCodeEditorLanguageTextView.isInvisible = displayedLangName == null
+            if (displayedLangName != null) {
+                embeddedCodeEditorLanguageTextView.text = context.resources.getString(
+                    org.hyperskill.app.R.string.step_quiz_code_language_template,
+                    displayedLangName
+                )
+            }
+            codeStepLayout.codeEditor.minLines = 5
+            codeStepLayout.codeEditor.addTextChangedListener(textWatcher)
         }
     }
 
@@ -73,8 +82,9 @@ class CodeStepQuizFormDelegate(
 
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         codeLayoutDelegate.setEnabled(isEnabled)
+        viewBinding.embeddedCodeEditorExpand.isEnabled = isEnabled
 
-        codeLayout.withoutTextChangeCallback(textWatcher) {
+        viewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
             codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, replyCode)
             codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
         }
@@ -83,7 +93,7 @@ class CodeStepQuizFormDelegate(
     fun updateCodeLayoutFromDialog(newCode: String, onSubmitClicked: Boolean) {
         this.code = newCode
         if (onSubmitClicked) {
-            codeLayout.withoutTextChangeCallback(textWatcher) {
+            viewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
                 codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, code)
                 codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
             }

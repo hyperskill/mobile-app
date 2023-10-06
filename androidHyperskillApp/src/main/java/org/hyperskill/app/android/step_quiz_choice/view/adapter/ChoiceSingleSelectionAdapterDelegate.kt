@@ -33,7 +33,7 @@ class ChoiceSingleSelectionAdapterDelegate(
 
         init {
             itemView.setOnClickListener { itemData?.let(onClick) }
-            choiceText.webViewClient = ProgressableWebViewClient(choiceTextProgress, choiceText.webView)
+            choiceText.webViewClient = ProgressableWebViewClient(choiceTextProgress)
         }
 
         override fun onBind(data: Choice) {

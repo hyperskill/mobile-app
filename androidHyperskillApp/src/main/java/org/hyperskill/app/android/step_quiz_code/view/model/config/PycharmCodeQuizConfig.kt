@@ -11,6 +11,9 @@ class PycharmCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
     override val langName: String =
         step.block.options.language ?: ""
 
+    override val displayedLangName: String?
+        get() = null
+
     override val initialCode: String =
         step.pycharmCode() ?: ""
 

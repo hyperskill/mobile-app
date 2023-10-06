@@ -16,7 +16,7 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.fragment.StepFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
+import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeDetailsFragment
 import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
@@ -131,14 +131,14 @@ class StageStepWrapperFragment :
         if (state is StepFeature.State.Data) {
             (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
                 ?.render(state.stepCompletionState.isPracticingLoading)
-            initStepTheoryFragment(state.step)
+            initStepTheoryFragment(state.step, stepRoute)
             initStepQuizFragment(state.step, stepRoute)
         }
     }
 
-    private fun initStepTheoryFragment(step: Step) {
+    private fun initStepTheoryFragment(step: Step, stepRoute: StepRoute) {
         setChildFragment(R.id.stageDescriptionContainer, STEP_DESCRIPTION_FRAGMENT_TAG) {
-            TextStepContentFragment.newInstance(step)
+            StepPracticeDetailsFragment.newInstance(step, stepRoute)
         }
     }
 

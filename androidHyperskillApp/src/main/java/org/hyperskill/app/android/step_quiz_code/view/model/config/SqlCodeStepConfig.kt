@@ -11,6 +11,9 @@ class SqlCodeStepConfig(private val step: Step) : CodeStepQuizConfig {
     override val langName: String
         get() = ProgrammingLanguage.SQL.serverPrintableName
 
+    override val displayedLangName: String?
+        get() = null
+
     override val initialCode: String
         get() = step.block.options.codeTemplates?.get(langName) ?: ""
 
