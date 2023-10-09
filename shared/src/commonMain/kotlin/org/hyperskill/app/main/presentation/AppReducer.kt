@@ -174,7 +174,7 @@ class AppReducer(
         message: Message.FirstProblemOnboardingDataFetched
     ): ReducerResult =
         if (state is State.Ready && state.profile != null && !state.profile.isNewUser) {
-            state to setOf(
+            State.Ready(isAuthorized = true) to setOf(
                 if (!message.wasFirstProblemOnboardingShown) {
                     Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen(isNewUserMode = false)
                 } else {
@@ -189,7 +189,7 @@ class AppReducer(
         state: State,
         message: Message.FirstProblemOnboardingCompleted
     ): ReducerResult =
-        if (state is State.Ready && state.profile != null) {
+        if (state is State.Ready) {
             state to setOf(
                 message.firstProblemStepRoute?.let { stepRoute ->
                     Action.ViewAction.NavigateTo.HomeScreenWithStep(stepRoute)

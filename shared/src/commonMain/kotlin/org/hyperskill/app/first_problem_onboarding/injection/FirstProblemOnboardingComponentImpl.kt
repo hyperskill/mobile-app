@@ -13,6 +13,7 @@ internal class FirstProblemOnboardingComponentImpl(
         FirstProblemOnboardingFeatureBuilder.build(
             isNewUserMode = isNewUserMode,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             learningActivitiesRepository = appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
             onboardingInteractor = appGraph.buildOnboardingComponent().onboardingInteractor,

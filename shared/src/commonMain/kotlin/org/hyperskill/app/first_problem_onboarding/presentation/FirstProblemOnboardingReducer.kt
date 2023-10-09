@@ -1,7 +1,8 @@
 package org.hyperskill.app.first_problem_onboarding.presentation
 
-import org.hyperskill.app.first_problem_onboarding.domain.analytics.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent
-import org.hyperskill.app.first_problem_onboarding.domain.analytics.FirstProblemOnboardingViewedHyperskillAnalyticsEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent
+import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingViewedHyperskillAnalyticsEvent
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.InternalAction
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Message
@@ -9,6 +10,7 @@ import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnbo
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.ProfileState
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.State
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -25,7 +27,7 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
                 handleFetchProfileResult(state, message)
             is FirstProblemOnboardingFeature.FetchNextLearningActivityResult ->
                 handleNextLearningActivityResult(state, message)
-            Message.LearningActionButtonClicked ->
+            Message.CallToActionButtonClicked ->
                 handleLearningActionButtonClicked(state)
             Message.ViewedEventMessage ->
                 handleViewedEvent(state)
@@ -46,11 +48,21 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
             null
         }
 
-    private fun handleRetryContentLoading(state: State): FirstProblemOnboardingReducerResult? =
-        if (state.profileState is ProfileState.Error) {
-            state.updateProfileState(ProfileState.Loading) to setOf(InternalAction.FetchProfile)
-        } else {
-            null
+    private fun handleRetryContentLoading(state: State): FirstProblemOnboardingReducerResult =
+        state.apply {
+            if (state.profileState is ProfileState.Error) {
+                updateProfileState(ProfileState.Loading)
+            }
+            if (state.nextLearningActivityState is NextLearningActivityState.Error) {
+                updateNextLearningActivityState(NextLearningActivityState.Loading)
+            }
+        } to buildSet {
+            if (state.profileState is ProfileState.Error) {
+                add(InternalAction.FetchProfile)
+            }
+            if (state.nextLearningActivityState is NextLearningActivityState.Error) {
+                add(InternalAction.FetchNextLearningActivity)
+            }
         }
 
     private fun handleFetchProfileResult(
@@ -73,15 +85,17 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
         message: FirstProblemOnboardingFeature.FetchNextLearningActivityResult
     ): FirstProblemOnboardingReducerResult =
         when (message) {
-            FirstProblemOnboardingFeature.FetchNextLearningActivityResult.Error ->
+            FirstProblemOnboardingFeature.FetchNextLearningActivityResult.Error -> {
+                val actions = if (state.isLearningActivityLoading) {
+                    setOf(Action.ViewAction.ShowNetworkError)
+                } else {
+                    emptySet()
+                }
+
                 state
                     .copy(isLearningActivityLoading = false)
-                    .updateNextLearningActivityState(NextLearningActivityState.Error) to
-                    buildSet {
-                        if (state.isLearningActivityLoading) {
-                            add(Action.ViewAction.ShowNetworkError)
-                        }
-                    }
+                    .updateNextLearningActivityState(NextLearningActivityState.Error) to actions
+            }
             is FirstProblemOnboardingFeature.FetchNextLearningActivityResult.Success ->
                 if (state.isLearningActivityLoading) {
                     state.copy(isLearningActivityLoading = false) to setOf(
@@ -111,7 +125,15 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
                 isLearningActivityLoading = state.nextLearningActivityState is NextLearningActivityState.Error ||
                     state.nextLearningActivityState is NextLearningActivityState.Loading
             ) to actions + setOf(
-                InternalAction.LogAnalyticsEvent(FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent)
+                InternalAction.LogAnalyticEvent(
+                    FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent(
+                        if (state.isNewUserMode) {
+                            HyperskillAnalyticTarget.START_LEARNING
+                        } else {
+                            HyperskillAnalyticTarget.KEEP_LEARNING
+                        }
+                    )
+                )
             )
         } else {
             null
@@ -120,19 +142,23 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
     private fun handleViewedEvent(state: State): FirstProblemOnboardingReducerResult =
         state to setOf(
             InternalAction.SetFirstProblemOnboardingShownFlag,
-            InternalAction.LogAnalyticsEvent(FirstProblemOnboardingViewedHyperskillAnalyticsEvent)
+            InternalAction.LogAnalyticEvent(FirstProblemOnboardingViewedHyperskillAnalyticsEvent)
         )
 
     private fun getNavigateActionByLearningActivity(learningActivity: LearningActivity?) =
         Action.ViewAction.CompleteFirstProblemOnboarding(
-            learningActivity?.targetId?.let { stepId ->
-                StepRoute.Learn.Step(stepId)
+            if (learningActivity?.targetType == LearningActivityTargetType.STEP) {
+                learningActivity.targetId?.let { stepId ->
+                    StepRoute.Learn.Step(stepId)
+                }
+            } else {
+                null
             }
         )
 
-    private fun State.updateProfileState(profileState: ProfileState): State =
-        copy(profileState = profileState)
+    private fun State.updateProfileState(newProfileState: ProfileState): State =
+        copy(profileState = newProfileState)
 
-    private fun State.updateNextLearningActivityState(learningActivityState: NextLearningActivityState): State =
-        copy(nextLearningActivityState = learningActivityState)
+    private fun State.updateNextLearningActivityState(newNextLearningActivityState: NextLearningActivityState): State =
+        copy(nextLearningActivityState = newNextLearningActivityState)
 }
