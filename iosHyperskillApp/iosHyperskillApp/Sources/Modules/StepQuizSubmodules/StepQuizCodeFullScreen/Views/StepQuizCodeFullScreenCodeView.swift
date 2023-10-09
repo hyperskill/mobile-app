@@ -29,6 +29,8 @@ struct StepQuizCodeFullScreenCodeView: View {
     let onTapRetry: () -> Void
     let onTapRunCode: () -> Void
 
+    let onDidTapInputAccessoryButton: (String) -> Void
+
     var body: some View {
         ZStack(alignment: .bottom) {
             CodeEditor(
@@ -37,7 +39,8 @@ struct StepQuizCodeFullScreenCodeView: View {
                 language: language,
                 textInsets: appearance.codeEditorTextInsets,
                 onDidBeginEditing: onDidBeginEditingCode,
-                onDidEndEditing: onDidEndEditingCode
+                onDidEndEditing: onDidEndEditingCode,
+                onDidTapInputAccessoryButton: onDidTapInputAccessoryButton
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
@@ -57,17 +60,16 @@ struct StepQuizCodeFullScreenCodeView: View {
     }
 }
 
-struct StepQuizCodeFullScreenCodeView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizCodeFullScreenCodeView(
-            code: .constant("fun main() {\n    // put your code here\n}"),
-            codeTemplate: "fun main() {\n    // put your code here\n}",
-            language: .kotlin,
-            isActionButtonsVisible: true,
-            onDidBeginEditingCode: {},
-            onDidEndEditingCode: {},
-            onTapRetry: {},
-            onTapRunCode: {}
-        )
-    }
+#Preview {
+    StepQuizCodeFullScreenCodeView(
+        code: .constant("fun main() {\n    // put your code here\n}"),
+        codeTemplate: "fun main() {\n    // put your code here\n}",
+        language: .kotlin,
+        isActionButtonsVisible: true,
+        onDidBeginEditingCode: {},
+        onDidEndEditingCode: {},
+        onTapRetry: {},
+        onTapRunCode: {},
+        onDidTapInputAccessoryButton: { _ in }
+    )
 }

@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.sentry.domain.model.manager
 
 import io.sentry.Sentry
-import io.sentry.SentryLevel
 import io.sentry.SpanStatus
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
@@ -18,7 +17,10 @@ import org.hyperskill.app.sentry.domain.model.manager.SentryManager
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionKeyValues
 
-class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
+class SentryManagerImpl(
+    private val buildKonfig: BuildKonfig,
+    private val minLogLevel: HyperskillSentryLevel = HyperskillSentryLevel.min(buildKonfig.buildVariant)
+) : SentryManager {
     private val currentTransactionsMap = mutableMapOf<Int, PlatformHyperskillSentryTransaction>()
 
     override fun setup() {
@@ -35,10 +37,10 @@ class SentryManagerImpl(private val buildKonfig: BuildKonfig) : SentryManager {
                     enableAutoFragmentLifecycleTracing = true
                 )
             )
+            options.setDiagnosticLevel(minLogLevel.toSentryLevel())
 
             if (BuildConfig.DEBUG) {
                 options.setDebug(true)
-                options.setDiagnosticLevel(SentryLevel.WARNING)
                 options.tracesSampleRate = 1.0
             } else {
                 options.setDebug(false)

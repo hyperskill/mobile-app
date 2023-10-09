@@ -4,14 +4,16 @@ import org.hyperskill.app.auth.presentation.AuthSocialWebViewViewModel
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
-class PlatformAuthSocialWebViewComponentImpl : PlatformAuthSocialWebViewComponent {
+class PlatformAuthSocialWebViewComponentImpl(
+    private val authSocialComponent: AuthSocialComponent
+) : PlatformAuthSocialWebViewComponent {
 
     override val reduxViewModelFactory: ReduxViewModelFactory
         get() = ReduxViewModelFactory(
             mapOf(
                 AuthSocialWebViewViewModel::class.java to {
                     AuthSocialWebViewViewModel(
-                        AuthSocialWebViewFeatureBuilder.build().wrapWithViewContainer()
+                        authSocialComponent.authSocialWebViewFeature.wrapWithViewContainer()
                     )
                 }
             )

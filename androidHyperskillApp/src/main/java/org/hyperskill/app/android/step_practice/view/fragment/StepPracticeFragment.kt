@@ -11,7 +11,6 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -43,13 +42,13 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
             }
             stepQuizToolbarTitle.text = step.title
         }
-        initStepTheoryFragment(step)
+        initStepTheoryFragment(step, stepRoute)
         setStepQuizFragment(step, stepRoute)
     }
 
-    private fun initStepTheoryFragment(step: Step) {
-        setChildFragment(R.id.stepTheoryContainer, STEP_CONTENT_FRAGMENT_TAG) {
-            TextStepContentFragment.newInstance(step)
+    private fun initStepTheoryFragment(step: Step, stepRoute: StepRoute) {
+        setChildFragment(R.id.stepPracticeDescriptionContainer, STEP_CONTENT_FRAGMENT_TAG) {
+            StepPracticeDetailsFragment.newInstance(step, stepRoute)
         }
     }
 

@@ -12,6 +12,7 @@ final class StepQuizPyCharmViewDataMapper: StepQuizCodeViewDataMapper {
             }
             return nil
         }()
+        let languageHumanReadableName = step.displayLanguage ?? language?.humanReadableName
 
         let codeTemplate = blockOptions.files?.first(where: { $0.isVisible })?.text
         let code: String? = {
@@ -24,11 +25,10 @@ final class StepQuizPyCharmViewDataMapper: StepQuizCodeViewDataMapper {
         return StepQuizCodeViewData(
             language: language,
             languageStringValue: languageStringValue,
+            languageHumanReadableName: languageHumanReadableName,
             code: code,
             codeTemplate: codeTemplate,
             samples: [],
-            executionTimeLimit: nil,
-            executionMemoryLimit: nil,
             stepText: step.block.text
         )
     }

@@ -65,10 +65,10 @@ struct TrackSelectionDetailsTrackOverviewView: View {
                             )
                         }
 
-                        buildItemView(imageName: Images.Step.clock, text: timeToComplete)
-                        buildItemView(imageName: Images.Common.topic, text: topicsCount)
-                        buildItemView(imageName: Images.Common.project, text: projectsCount)
-                        buildItemView(imageName: Images.Common.trophy, text: certificateText)
+                        buildItemView(imageResource: .stepTimeToComplete, text: timeToComplete)
+                        buildItemView(imageResource: .topic, text: topicsCount)
+                        buildItemView(imageResource: .project, text: projectsCount)
+                        buildItemView(imageResource: .trophy, text: certificateText)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -77,7 +77,7 @@ struct TrackSelectionDetailsTrackOverviewView: View {
     }
 
     @ViewBuilder
-    private func buildItemView(imageName: String, text: String?) -> some View {
+    private func buildItemView(imageResource: ImageResource, text: String?) -> some View {
         if let text, !text.isEmpty {
             Label(
                 title: {
@@ -86,7 +86,7 @@ struct TrackSelectionDetailsTrackOverviewView: View {
                         .foregroundColor(appearance.itemForegroundColor)
                 },
                 icon: {
-                    Image(imageName)
+                    Image(imageResource)
                         .resizable()
                         .renderingMode(.template)
                         .aspectRatio(contentMode: .fill)
@@ -98,18 +98,14 @@ struct TrackSelectionDetailsTrackOverviewView: View {
     }
 }
 
-#if DEBUG
-struct TrackSelectionDetailsTrackOverviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        TrackSelectionDetailsTrackOverviewView(
-            rating: "It's new track, no rating yet",
-            timeToComplete: "249 hours for all learning activities",
-            topicsCount: "154 topics with theory and practice adapted to you level",
-            projectsCount: "13 projects to choose from for your portfolio",
-            isCertificateAvailable: true
-        )
-        .padding()
-        .background(Color.systemGroupedBackground)
-    }
+#Preview {
+    TrackSelectionDetailsTrackOverviewView(
+        rating: "It's new track, no rating yet",
+        timeToComplete: "249 hours for all learning activities",
+        topicsCount: "154 topics with theory and practice adapted to you level",
+        projectsCount: "13 projects to choose from for your portfolio",
+        isCertificateAvailable: true
+    )
+    .padding()
+    .background(Color.systemGroupedBackground)
 }
-#endif

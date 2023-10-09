@@ -23,6 +23,7 @@ class StepQuizCodeViewDataMapper {
             }
             return nil
         }()
+        let languageHumanReadableName = step.displayLanguage ?? language?.humanReadableName
 
         let codeTemplate: String? = {
             guard let languageStringValue = languageStringValue else {
@@ -40,39 +41,13 @@ class StepQuizCodeViewDataMapper {
 
         let samples = mapSamples(blockOptions.samples)
 
-        let languageLimits: Limit? = {
-            guard let languageStringValue = languageStringValue else {
-                return nil
-            }
-
-            return blockOptions.limits?[languageStringValue]
-        }()
-        let executionTimeLimit: String? = {
-            guard let timeLimit = languageLimits?.time ?? blockOptions.executionTimeLimit?.int32Value else {
-                return nil
-            }
-
-            return formatter.secondsCount(timeLimit)
-        }()
-        let executionMemoryLimit: String? = {
-            guard let memoryLimit = languageLimits?.memory ?? blockOptions.executionMemoryLimit?.int32Value else {
-                return nil
-            }
-
-            return resourceProvider.getString(
-                stringResource: Strings.StepQuizCode.memoryLimitValueResource,
-                args: KotlinArray(size: 1, init: { _ in NSNumber(value: memoryLimit) })
-            )
-        }()
-
         return StepQuizCodeViewData(
             language: language,
             languageStringValue: languageStringValue,
+            languageHumanReadableName: languageHumanReadableName,
             code: reply?.code ?? codeTemplate,
             codeTemplate: codeTemplate,
             samples: samples,
-            executionTimeLimit: executionTimeLimit,
-            executionMemoryLimit: executionMemoryLimit,
             stepText: step.block.text
         )
     }

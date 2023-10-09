@@ -20,10 +20,6 @@ data class Block(
         val language: String? = null,
         @SerialName("is_checkbox")
         val isCheckbox: Boolean? = null,
-        @SerialName("execution_time_limit")
-        val executionTimeLimit: Int? = null,
-        @SerialName("execution_memory_limit")
-        val executionMemoryLimit: Int? = null,
         @SerialName("limits")
         val limits: Map<String, Limit>? = null,
         @SerialName("code_templates")

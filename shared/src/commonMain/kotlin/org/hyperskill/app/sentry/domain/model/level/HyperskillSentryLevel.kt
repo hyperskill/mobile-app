@@ -1,5 +1,7 @@
 package org.hyperskill.app.sentry.domain.model.level
 
+import org.hyperskill.app.core.domain.BuildVariant
+
 /**
  * Represents the severity level of an event.
  *
@@ -11,5 +13,14 @@ enum class HyperskillSentryLevel {
     INFO,
     WARNING,
     ERROR,
-    FATAL
+    FATAL;
+
+    companion object {
+        fun min(buildVariant: BuildVariant): HyperskillSentryLevel =
+            if (buildVariant == BuildVariant.RELEASE) {
+                INFO
+            } else {
+                DEBUG
+            }
+    }
 }

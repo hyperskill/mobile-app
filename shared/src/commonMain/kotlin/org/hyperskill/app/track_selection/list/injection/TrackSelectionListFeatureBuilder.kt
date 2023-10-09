@@ -1,8 +1,11 @@
 package org.hyperskill.app.track_selection.list.injection
 
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
@@ -18,6 +21,8 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 internal object TrackSelectionListFeatureBuilder {
+    private const val LOG_TAG = "TrackSelectionListFeature"
+
     fun build(
         params: TrackSelectionListParams,
         analyticInteractor: AnalyticInteractor,
@@ -25,9 +30,11 @@ internal object TrackSelectionListFeatureBuilder {
         trackInteractor: TrackInteractor,
         progressesInteractor: ProgressesInteractor,
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
-        trackListViewStateMapper: TrackSelectionListViewStateMapper
+        trackListViewStateMapper: TrackSelectionListViewStateMapper,
+        logger: Logger,
+        buildVariant: BuildVariant
     ): Feature<TrackSelectionListFeature.ViewState, Message, Action> {
-        val trackSelectionListReducer = TrackSelectionListReducer(params)
+        val trackSelectionListReducer = TrackSelectionListReducer(params).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val trackSelectionListActionDispatcher = TrackSelectionListActionDispatcher(
             ActionDispatcherOptions(),
             analyticInteractor,

@@ -21,6 +21,8 @@ class TrackSelectionListComponentImpl(
             trackListViewStateMapper = TrackSelectionListViewStateMapper(
                 numbersFormatter = appGraph.commonComponent.numbersFormatter,
                 dateFormatter = appGraph.commonComponent.dateFormatter
-            )
+            ),
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

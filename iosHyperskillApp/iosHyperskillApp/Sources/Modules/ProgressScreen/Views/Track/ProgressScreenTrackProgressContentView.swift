@@ -71,7 +71,7 @@ struct ProgressScreenTrackProgressContentView: View {
                 appearance: appearance.cardAppearance,
                 title: completedTopicsCountLabel,
                 titleSecondaryText: completedTopicsPercentageLabel,
-                imageName: Images.Common.topic,
+                imageResource: .topic,
                 progress: .init(value: completedTopicsPercentageProgress, isCompleted: isCompleted),
                 subtitle: Strings.ProgressScreen.Track.completedTopics
             )
@@ -80,7 +80,7 @@ struct ProgressScreenTrackProgressContentView: View {
                 appearance: appearance.cardAppearance,
                 title: appliedTopicsCountLabel,
                 titleSecondaryText: appliedTopicsPercentageLabel,
-                imageName: Images.Common.hammer,
+                imageResource: .hammer,
                 progress: .init(value: appliedTopicsPercentageProgress, isCompleted: isCompleted),
                 subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
             )
@@ -91,7 +91,7 @@ struct ProgressScreenTrackProgressContentView: View {
                         appearance: appearance.cardAppearance,
                         title: timeToCompleteLabel,
                         titleSecondaryText: nil,
-                        imageName: Images.Step.clock,
+                        imageResource: .stepTimeToComplete,
                         progress: nil,
                         subtitle: Strings.ProgressScreen.Track.timeToCompleteTrack
                     )
@@ -101,7 +101,7 @@ struct ProgressScreenTrackProgressContentView: View {
                     appearance: appearance.cardAppearance,
                     title: "\(completedGraduateProjectsCount)",
                     titleSecondaryText: nil,
-                    imageName: Images.ProjectSelectionList.projectGraduate,
+                    imageResource: .projectSelectionListProjectGraduate,
                     imageRenderingMode: .original,
                     progress: nil,
                     subtitle: Strings.ProgressScreen.Track.completedGraduateProject
@@ -111,29 +111,27 @@ struct ProgressScreenTrackProgressContentView: View {
     }
 }
 
-struct ProgressScreenTrackProgressContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProgressScreenTrackProgressContentView(
-            appearance: .init(
-                spacing: LayoutInsets.defaultInset,
-                interitemSpacing: LayoutInsets.smallInset,
-                cardBackgroundColor: Color(ColorPalette.surface),
-                cardCornerRadius: 8
-            ),
-            avatarImageSource: "https://hyperskill.azureedge.net/media/tracks/9368deaab97441f192fd4c8db42cb9bc/python.svg",
-            title: "Python Core",
-            completedTopicsCountLabel: "0 / 149",
-            completedTopicsPercentageLabel: "• 98%",
-            completedTopicsPercentageProgress: 0,
-            appliedTopicsCountLabel: "0 / 138",
-            appliedTopicsPercentageLabel: "• 0%",
-            appliedTopicsPercentageProgress: 0,
-            timeToCompleteLabel: "~ 56 h",
-            completedGraduateProjectsCount: 0,
-            isCompleted: false,
-            onChangeTrackTap: {}
-        )
-        .padding()
-        .background(Color.systemGroupedBackground)
-    }
+#Preview {
+    ProgressScreenTrackProgressContentView(
+        appearance: .init(
+            spacing: LayoutInsets.defaultInset,
+            interitemSpacing: LayoutInsets.smallInset,
+            cardBackgroundColor: Color(ColorPalette.surface),
+            cardCornerRadius: 8
+        ),
+        avatarImageSource: "https://hyperskill.azureedge.net/media/tracks/9368deaab97441f192fd4c8db42cb9bc/python.svg",
+        title: "Python Core",
+        completedTopicsCountLabel: "0 / 149",
+        completedTopicsPercentageLabel: "• 98%",
+        completedTopicsPercentageProgress: 0,
+        appliedTopicsCountLabel: "0 / 138",
+        appliedTopicsPercentageLabel: "• 0%",
+        appliedTopicsPercentageProgress: 0,
+        timeToCompleteLabel: "~ 56 h",
+        completedGraduateProjectsCount: 0,
+        isCompleted: false,
+        onChangeTrackTap: {}
+    )
+    .padding()
+    .background(Color.systemGroupedBackground)
 }

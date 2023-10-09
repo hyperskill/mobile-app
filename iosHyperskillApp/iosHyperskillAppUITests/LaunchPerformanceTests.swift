@@ -2,6 +2,7 @@ import XCTest
 
 final class LaunchPerformanceTests: XCTestCase {
     override func setUpWithError() throws {
+        try super.setUpWithError()
         continueAfterFailure = false
     }
 

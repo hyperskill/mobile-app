@@ -14,6 +14,7 @@ dokka = '1.7.20'
 androidxLifecycle = "2.6.0-alpha01"
 coil = '2.2.0'
 lottie = '6.1.0'
+kermit = '2.0.0-RC4'
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"
@@ -26,7 +27,7 @@ plugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serializati
 plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 plugin-dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
-plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "10.2.0" }
+plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "11.1.0" }
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.47.0" }
 plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.13.3" }
 plugin-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
@@ -55,6 +56,8 @@ kit-view-navigation = { module = "ru.nobird.android.view:navigation", version = 
 kit-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "adapters" }
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version = "0.8.1" }
+
+kermit-common = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.0" }

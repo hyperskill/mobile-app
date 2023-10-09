@@ -30,23 +30,23 @@ class ArrowImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         setImageResourceByState(IS_ARROW_BOTTOM_DEFAULT)
     }
 
-    fun setImageResourceByState(isArrowBottomInternal: Boolean) {
-        val defaultDrawableRes = if (isArrowBottomInternal) {
-            arrowBottomToTopRes
-        } else {
-            arrowTopToBottomRes
-        }
-        setImageResource(defaultDrawableRes)
-    }
+    fun isExpanded(): Boolean =
+        !isArrowBottom
 
     /**
-     * change expand/collapse state
+     * Changes expand/collapse state
      */
     @MainThread
     fun changeState() {
         setImageResourceByState(isArrowBottom)
         (drawable as Animatable).start()
         isArrowBottom = !isArrowBottom
+    }
+
+    fun setIsExpanded(isExpanded: Boolean) {
+        val isArrowBottom = !isExpanded
+        setImageResourceByState(isArrowBottom)
+        this.isArrowBottom = isArrowBottom
     }
 
     override fun onSaveInstanceState(): Parcelable {
@@ -68,6 +68,12 @@ class ArrowImageView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) 
         }
     }
 
-    fun isExpanded(): Boolean =
-        !isArrowBottom
+    private fun setImageResourceByState(isArrowBottomInternal: Boolean) {
+        val defaultDrawableRes = if (isArrowBottomInternal) {
+            arrowBottomToTopRes
+        } else {
+            arrowTopToBottomRes
+        }
+        setImageResource(defaultDrawableRes)
+    }
 }

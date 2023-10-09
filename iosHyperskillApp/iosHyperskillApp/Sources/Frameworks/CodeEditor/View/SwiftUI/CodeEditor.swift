@@ -28,6 +28,10 @@ struct CodeEditor: UIViewRepresentable {
 
     var onDidEndEditing: (() -> Void)?
 
+    var onDidChangeHeight: ((CGFloat) -> Void)?
+
+    var onDidTapInputAccessoryButton: ((String) -> Void)?
+
     // MARK: UIViewRepresentable
 
     static func dismantleUIView(_ uiView: CodeEditorView, coordinator: Coordinator) {
@@ -36,6 +40,8 @@ struct CodeEditor: UIViewRepresentable {
         coordinator.onCodeDidChange = nil
         coordinator.onDidBeginEditing = nil
         coordinator.onDidEndEditing = nil
+        coordinator.onDidChangeHeight = nil
+        coordinator.onDidTapInputAccessoryButton = nil
         coordinator.suggestionsPresentationContextProvider = nil
     }
 
@@ -89,6 +95,8 @@ struct CodeEditor: UIViewRepresentable {
 
             onDidEndEditing?()
         }
+        context.coordinator.onDidChangeHeight = onDidChangeHeight
+        context.coordinator.onDidTapInputAccessoryButton = onDidTapInputAccessoryButton
     }
 }
 
@@ -103,6 +111,10 @@ extension CodeEditor {
         var onDidBeginEditing: (() -> Void)?
 
         var onDidEndEditing: (() -> Void)?
+
+        var onDidChangeHeight: ((CGFloat) -> Void)?
+
+        var onDidTapInputAccessoryButton: ((String) -> Void)?
 
         init(suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?) {
             self.suggestionsPresentationContextProvider = suggestionsPresentationContextProvider
@@ -126,6 +138,22 @@ extension CodeEditor {
             _ codeEditorView: CodeEditorView
         ) -> UIViewController? {
             suggestionsPresentationContextProvider?.presentationController(for: codeEditorView)
+        }
+
+        func codeEditorViewDidChangeHeight(_ codeEditorView: CodeEditorView, height: CGFloat) {
+            onDidChangeHeight?(height)
+        }
+
+        func codeEditorViewDidTapTabInputAccessoryButton(_ codeEditorView: CodeEditorView) {
+            onDidTapInputAccessoryButton?("tab")
+        }
+
+        func codeEditorViewDidTapHideKeyboardInputAccessoryButton(_ codeEditorView: CodeEditorView) {
+            onDidTapInputAccessoryButton?("hide")
+        }
+
+        func codeEditorView(_ codeEditorView: CodeEditorView, didTapInputAccessoryButton symbol: String) {
+            onDidTapInputAccessoryButton?(symbol)
         }
     }
 }
@@ -158,15 +186,13 @@ private extension CodeEditorView.Appearance {
     }
 }
 
-// MARK: - CodeEditor_Previews: PreviewProvider -
+// MARK: - Preview -
 
-struct CodeEditor_Previews: PreviewProvider {
-    static var previews: some View {
-        CodeEditor(
-            code: .constant(CodeLanguageSamples.sample(for: .java)),
-            language: .java
-        )
-        .frame(height: 236)
-        .frame(maxWidth: .infinity)
-    }
+#Preview {
+    CodeEditor(
+        code: .constant(CodeLanguageSamples.sample(for: .java)),
+        language: .java
+    )
+    .frame(height: 236)
+    .frame(maxWidth: .infinity)
 }

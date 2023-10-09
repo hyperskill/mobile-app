@@ -25,7 +25,9 @@ class ProjectSelectionDetailsComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             numbersFormatter = appGraph.commonComponent.numbersFormatter,
-            dateFormatter = appGraph.commonComponent.dateFormatter
+            dateFormatter = appGraph.commonComponent.dateFormatter,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
     }
 }

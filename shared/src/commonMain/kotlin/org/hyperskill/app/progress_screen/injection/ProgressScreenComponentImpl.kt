@@ -22,6 +22,8 @@ class ProgressScreenComponentImpl(
             viewStateMapper = ProgressScreenViewStateMapper(
                 dateFormatter = appGraph.commonComponent.dateFormatter,
                 resourceProvider = appGraph.commonComponent.resourceProvider
-            )
+            ),
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

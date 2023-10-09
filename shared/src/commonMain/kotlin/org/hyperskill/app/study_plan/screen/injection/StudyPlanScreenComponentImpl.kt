@@ -32,6 +32,8 @@ class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanSc
             studyPlanWidgetReducer = studyPlanWidgetComponent.studyPlanWidgetReducer,
             studyPlanWidgetDispatcher = studyPlanWidgetComponent.studyPlanWidgetDispatcher,
             studyPlanWidgetViewStateMapper = studyPlanWidgetComponent.studyPlanWidgetViewStateMapper,
-            resourceProvider = appGraph.commonComponent.resourceProvider
+            resourceProvider = appGraph.commonComponent.resourceProvider,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

@@ -1,0 +1,43 @@
+{
+  "configurations" : [
+    {
+      "id" : "5F19C829-1DEB-4D15-AAA5-647FD0C6548C",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "addressSanitizer" : {
+      "enabled" : true
+    },
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:iosHyperskillApp.xcodeproj",
+      "identifier" : "7555FF7A242A565900829871",
+      "name" : "iosHyperskillApp"
+    },
+    "testExecutionOrdering" : "random",
+    "undefinedBehaviorSanitizerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:iosHyperskillApp.xcodeproj",
+        "identifier" : "2C919DEC27EEF5BC0022A2F2",
+        "name" : "iosHyperskillAppTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:iosHyperskillApp.xcodeproj",
+        "identifier" : "2C4823252AC172600047999B",
+        "name" : "iosHyperskillAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

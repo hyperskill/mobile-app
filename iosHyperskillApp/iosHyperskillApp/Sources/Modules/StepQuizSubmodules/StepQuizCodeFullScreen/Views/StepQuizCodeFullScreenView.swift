@@ -30,8 +30,8 @@ struct StepQuizCodeFullScreenView: View {
                         StepQuizCodeFullScreenDetailsView(
                             stepText: viewData.stepText,
                             samples: viewData.samples,
-                            executionTimeLimit: viewData.executionTimeLimit,
-                            executionMemoryLimit: viewData.executionMemoryLimit
+                            onExpandStepTextButtonTap: viewModel.logClickedStepTextDetailsEvent,
+                            onExpandCodeDetailsButtonTap: viewModel.logClickedCodeDetailsEvent
                         )
                     )
                     .tag(StepQuizCodeFullScreenTab.details)
@@ -55,7 +55,8 @@ struct StepQuizCodeFullScreenView: View {
                             }
                         },
                         onTapRetry: viewModel.doRetry,
-                        onTapRunCode: viewModel.doRunCode
+                        onTapRunCode: viewModel.doRunCode,
+                        onDidTapInputAccessoryButton: viewModel.logClickedInputAccessoryButton(symbol:)
                     )
                     .onChange(of: viewModel.codeQuizViewData.code, perform: viewModel.doCodeUpdate(code:))
                     .tag(StepQuizCodeFullScreenTab.code)
@@ -65,6 +66,7 @@ struct StepQuizCodeFullScreenView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(navigationTitle)
             .toolbar(content: buildToolbarContent)
+            .edgesIgnoringSafeArea(.bottom)
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
@@ -104,11 +106,9 @@ struct StepQuizCodeFullScreenView: View {
 }
 
 #if DEBUG
-struct StepQuizCodeFullScreenView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizCodeFullScreenAssembly
-            .makePlaceholder()
-            .makeModule()
-    }
+#Preview {
+    StepQuizCodeFullScreenAssembly
+        .makePlaceholder()
+        .makeModule()
 }
 #endif

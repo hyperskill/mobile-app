@@ -22,4 +22,8 @@ enum KeyboardManager {
     static func setEnabled(_ isEnabled: Bool) {
         IQKeyboardManager.shared.enable = isEnabled
     }
+
+    static func reloadLayoutIfNeeded() {
+        IQKeyboardManager.shared.reloadLayoutIfNeeded()
+    }
 }

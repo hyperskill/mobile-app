@@ -39,7 +39,7 @@ class SortingOptionAdapterDelegate(
             }
 
             stepQuizSortingOption.webViewClient =
-                ProgressableWebViewClient(stepQuizSortingOptionProgress, stepQuizSortingOption.webView)
+                ProgressableWebViewClient(stepQuizSortingOptionProgress)
         }
 
         override fun onBind(data: SortingOption) {

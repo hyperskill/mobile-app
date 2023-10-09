@@ -139,6 +139,8 @@ final class CodeEditorView: UIView {
                     return
                 }
 
+                strongSelf.delegate?.codeEditorViewDidTapTabInputAccessoryButton(strongSelf)
+
                 strongSelf.codePlaygroundManager.insertAtCurrentPosition(
                     symbols: String(repeating: " ", count: strongSelf.tabSize),
                     textView: strongSelf.codeTextView
@@ -149,6 +151,8 @@ final class CodeEditorView: UIView {
                     return
                 }
 
+                strongSelf.delegate?.codeEditorView(strongSelf, didTapInputAccessoryButton: symbols)
+
                 strongSelf.codePlaygroundManager.insertAtCurrentPosition(
                     symbols: symbols,
                     textView: strongSelf.codeTextView
@@ -156,7 +160,13 @@ final class CodeEditorView: UIView {
                 strongSelf.analyzeCodeAndComplete()
             },
             hideKeyboardAction: { [weak self] in
-                self?.codeTextView.resignFirstResponder()
+                guard let strongSelf = self else {
+                    return
+                }
+
+                strongSelf.delegate?.codeEditorViewDidTapHideKeyboardInputAccessoryButton(strongSelf)
+
+                strongSelf.codeTextView.resignFirstResponder()
             },
             pasteConfigurationSupporting: codeTextView
         )
@@ -198,9 +208,13 @@ extension CodeEditorView: ProgrammaticallyInitializableViewProtocol {
     }
 }
 
-// MARK: - CodeEditorView: UITextViewDelegate -
+// MARK: - CodeEditorView: CodeTextViewDelegate -
 
-extension CodeEditorView: UITextViewDelegate {
+extension CodeEditorView: CodeTextViewDelegate {
+    func codeTextViewDidChangeHeight(_ textView: CodeTextView, height: CGFloat) {
+        delegate?.codeEditorViewDidChangeHeight(self, height: height)
+    }
+
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         delegate?.codeEditorView(self, beginEditing: isEditable)
         return isEditable

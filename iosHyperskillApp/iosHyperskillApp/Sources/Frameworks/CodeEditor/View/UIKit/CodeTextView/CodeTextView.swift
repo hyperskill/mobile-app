@@ -1,6 +1,10 @@
 import Highlightr
 import UIKit
 
+protocol CodeTextViewDelegate: UITextViewDelegate {
+    func codeTextViewDidChangeHeight(_ textView: CodeTextView, height: CGFloat)
+}
+
 extension CodeTextView {
     struct Appearance {
         var gutterWidth: CGFloat = 24
@@ -38,6 +42,10 @@ final class CodeTextView: UITextView {
 
     private lazy var codeTextViewLayoutManager = layoutManager as? CodeTextViewLayoutManager
     private lazy var codeAttributedString = textStorage as? CodeAttributedString
+
+    // Calculate textview's height
+    private var oldText: String = ""
+    private var oldSize: CGSize = .zero
 
     var language: String? {
         didSet {
@@ -121,6 +129,7 @@ final class CodeTextView: UITextView {
     override func layoutSubviews() {
         super.layoutSubviews()
         codeTextViewLayoutManager?.appearance.currentLineWidth = bounds.width
+        calculateBestFitsSize()
     }
 
     override func draw(_ rect: CGRect) {
@@ -230,6 +239,23 @@ final class CodeTextView: UITextView {
         color.getRed(&r, green: &g, blue: &b, alpha: nil)
 
         return UIColor(red: 1.0 - r, green: 1.0 - g, blue: 1.0 - b, alpha: 1)
+    }
+
+    private func calculateBestFitsSize() {
+        guard bounds.size.width > 0,
+              let delegate = delegate as? CodeTextViewDelegate else {
+            return
+        }
+
+        if text == oldText && bounds.size == oldSize {
+            return
+        }
+
+        oldText = text
+        oldSize = bounds.size
+
+        let size = sizeThatFits(CGSize(width: bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
+        delegate.codeTextViewDidChangeHeight(self, height: size.height)
     }
 }
 

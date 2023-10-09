@@ -57,6 +57,16 @@ Run all unit tests for scheme
 
 Options: install_pods
 
+### ios run_ui_tests
+
+```sh
+[bundle exec] fastlane ios run_ui_tests
+```
+
+Run all UI tests for scheme
+
+Options: install_pods
+
 ### ios sync_device_info
 
 ```sh

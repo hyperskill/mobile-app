@@ -53,7 +53,15 @@ struct StepQuizView: View {
 
                         StepTextView(text: viewData.stepText)
                     } else {
-                        StepTextView(text: viewData.stepText)
+                        if viewData.quizType.isCodeRelated {
+                            ExpandableStepTextView(
+                                text: viewData.stepText,
+                                isExpanded: true,
+                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                            )
+                        } else {
+                            StepTextView(text: viewData.stepText)
+                        }
 
                         if viewData.stepHasHints {
                             StepQuizHintsAssembly(
@@ -73,6 +81,9 @@ struct StepQuizView: View {
                     }
                 }
                 .padding()
+                .introspectScrollView { scrollView in
+                    scrollView.shouldIgnoreScrollingAdjustment = true
+                }
             }
             .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
                 $0.toolbar {
@@ -120,11 +131,6 @@ struct StepQuizView: View {
                 if let formattedStats {
                     StepQuizStatsView(text: formattedStats)
                 }
-
-                StepQuizProblemsLimitView(
-                    stateKs: viewModel.problemsLimitViewStateKs,
-                    onReloadButtonTap: viewModel.doReloadProblemsLimit
-                )
 
                 buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
 
@@ -257,8 +263,6 @@ struct StepQuizView: View {
             presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
         case .showParsonsProblemOnboardingModal:
             presentParsonsProblemOnboardingModal()
-        case .problemsLimitViewAction:
-            break
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .home:

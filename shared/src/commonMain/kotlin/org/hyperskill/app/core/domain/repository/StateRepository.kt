@@ -1,6 +1,7 @@
 package org.hyperskill.app.core.domain.repository
 
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.first
 
 interface StateRepository<State : Any?> {
     /**
@@ -63,3 +64,9 @@ suspend fun <State : Any> StateRepository<State>.updateState(transformState: (St
         updateState(newState)
     }
 }
+
+/**
+ * Wait for the first value in the changes flow and return it
+ */
+suspend fun <State : Any> StateRepository<State>.awaitNextFreshState(): State =
+    changes.first()

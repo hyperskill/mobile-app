@@ -3,9 +3,6 @@ package org.hyperskill.step_quiz
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
@@ -30,16 +27,14 @@ class StepQuizTest {
                 submissionState = submissionState,
                 isProblemsLimitReached = false,
                 isTheoryAvailable = false
-            ),
-            problemsLimitState = ProblemsLimitFeature.State.Idle
+            )
         )
 
         stepRoutes.forEach { stepRoute ->
-            val reducer = StepQuizReducer(stepRoute, ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ))
+            val reducer = StepQuizReducer(stepRoute)
             val (state, actions) = reducer.reduce(
                 StepQuizFeature.State(
-                    stepQuizState = StepQuizFeature.StepQuizState.Loading,
-                    problemsLimitState = ProblemsLimitFeature.State.Idle
+                    stepQuizState = StepQuizFeature.StepQuizState.Loading
                 ),
                 StepQuizFeature.Message.FetchAttemptSuccess(
                     step,
@@ -69,18 +64,15 @@ class StepQuizTest {
                 submissionState = submissionState,
                 isProblemsLimitReached = true,
                 isTheoryAvailable = false
-            ),
-            problemsLimitState = ProblemsLimitFeature.State.Idle
+            )
         )
 
         val reducer = StepQuizReducer(
-            stepRoute = StepRoute.Learn.Step(step.id),
-            problemsLimitReducer = ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ)
+            stepRoute = StepRoute.Learn.Step(step.id)
         )
         val (state, actions) = reducer.reduce(
             StepQuizFeature.State(
-                stepQuizState = StepQuizFeature.StepQuizState.Loading,
-                problemsLimitState = ProblemsLimitFeature.State.Idle
+                stepQuizState = StepQuizFeature.StepQuizState.Loading
             ),
             StepQuizFeature.Message.FetchAttemptSuccess(
                 step,
@@ -112,19 +104,16 @@ class StepQuizTest {
                 submissionState = submissionState,
                 isProblemsLimitReached = false,
                 isTheoryAvailable = true
-            ),
-            problemsLimitState = ProblemsLimitFeature.State.Idle
+            )
         )
 
         val reducer = StepQuizReducer(
-            StepRoute.Learn.Step(step.id),
-            ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ)
+            StepRoute.Learn.Step(step.id)
         )
 
         val (intermediateState, _) = reducer.reduce(
             StepQuizFeature.State(
-                stepQuizState = StepQuizFeature.StepQuizState.Loading,
-                problemsLimitState = ProblemsLimitFeature.State.Idle
+                stepQuizState = StepQuizFeature.StepQuizState.Loading
             ),
             StepQuizFeature.Message.FetchAttemptSuccess(
                 step,
@@ -170,19 +159,16 @@ class StepQuizTest {
                 submissionState = submissionState,
                 isProblemsLimitReached = false,
                 isTheoryAvailable = false
-            ),
-            problemsLimitState = ProblemsLimitFeature.State.Idle
+            )
         )
 
         val reducer = StepQuizReducer(
-            StepRoute.LearnDaily(step.id),
-            ProblemsLimitReducer(ProblemsLimitScreen.STEP_QUIZ)
+            StepRoute.LearnDaily(step.id)
         )
 
         val (intermediateState, _) = reducer.reduce(
             StepQuizFeature.State(
-                stepQuizState = StepQuizFeature.StepQuizState.Loading,
-                problemsLimitState = ProblemsLimitFeature.State.Idle
+                stepQuizState = StepQuizFeature.StepQuizState.Loading
             ),
             StepQuizFeature.Message.FetchAttemptSuccess(
                 step,

@@ -18,7 +18,7 @@ struct ProgressScreenCardView: View {
     let title: String
     let titleSecondaryText: String?
 
-    let imageName: String
+    let imageResource: ImageResource?
     var imageRenderingMode = Image.TemplateRenderingMode.template
 
     let progress: Progress?
@@ -37,12 +37,14 @@ struct ProgressScreenCardView: View {
 
                 Spacer()
 
-                Image(imageName)
-                    .resizable()
-                    .renderingMode(imageRenderingMode)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(widthHeight: appearance.imageWidthHeight)
-                    .foregroundColor(.primaryText)
+                if let imageResource {
+                    Image(imageResource)
+                        .resizable()
+                        .renderingMode(imageRenderingMode)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(widthHeight: appearance.imageWidthHeight)
+                        .foregroundColor(.primaryText)
+                }
             }
 
             if let progress {
@@ -73,45 +75,43 @@ struct ProgressScreenCardView: View {
     }
 }
 
-struct ProgressScreenTrackCardView_Previews: PreviewProvider {
-    static var previews: some View {
-        let appearance = ProgressScreenCardView.Appearance(
-            spacing: LayoutInsets.defaultInset,
-            interitemSpacing: LayoutInsets.smallInset,
-            backgroundColor: Color(ColorPalette.surface),
-            cornerRadius: 8
+#Preview {
+    let appearance = ProgressScreenCardView.Appearance(
+        spacing: LayoutInsets.defaultInset,
+        interitemSpacing: LayoutInsets.smallInset,
+        backgroundColor: Color(ColorPalette.surface),
+        cornerRadius: 8
+    )
+
+    return VStack {
+        ProgressScreenCardView(
+            appearance: appearance,
+            title: "48 / 149",
+            titleSecondaryText: "• 32%",
+            imageResource: .topic,
+            progress: .init(value: 0.322147651, isCompleted: false),
+            subtitle: "Completed topics"
         )
 
-        VStack {
-            ProgressScreenCardView(
-                appearance: appearance,
-                title: "48 / 149",
-                titleSecondaryText: "• 32%",
-                imageName: Images.Common.topic,
-                progress: .init(value: 0.322147651, isCompleted: false),
-                subtitle: "Completed topics"
-            )
+        ProgressScreenCardView(
+            appearance: appearance,
+            title: "131 / 149",
+            titleSecondaryText: "• 91%",
+            imageResource: .topic,
+            progress: .init(value: 0.91, isCompleted: true),
+            subtitle: "Completed topics"
+        )
 
-            ProgressScreenCardView(
-                appearance: appearance,
-                title: "131 / 149",
-                titleSecondaryText: "• 91%",
-                imageName: Images.Common.topic,
-                progress: .init(value: 0.91, isCompleted: true),
-                subtitle: "Completed topics"
-            )
-
-            ProgressScreenCardView(
-                appearance: appearance,
-                title: "~ 56 h",
-                titleSecondaryText: nil,
-                imageName: Images.Step.clock,
-                progress: nil,
-                subtitle: "Time to complete the track"
-            )
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
-        .background(Color.systemGroupedBackground)
+        ProgressScreenCardView(
+            appearance: appearance,
+            title: "~ 56 h",
+            titleSecondaryText: nil,
+            imageResource: .stepTimeToComplete,
+            progress: nil,
+            subtitle: "Time to complete the track"
+        )
     }
+    .previewLayout(.sizeThatFits)
+    .padding()
+    .background(Color.systemGroupedBackground)
 }

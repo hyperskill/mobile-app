@@ -16,6 +16,7 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponent
+import org.hyperskill.app.logging.inject.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
@@ -71,6 +72,7 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 interface AppGraph {
     val commonComponent: CommonComponent
     val networkComponent: NetworkComponent
+    val loggerComponent: LoggerComponent
     val authComponent: AuthComponent
     val mainComponent: MainComponent
     val analyticComponent: AnalyticComponent

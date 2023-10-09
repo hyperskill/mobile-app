@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature
 import org.hyperskill.app.auth.view.mapper.AuthCredentialsErrorMapper
 import org.hyperskill.app.core.injection.CommonComponent
+import org.hyperskill.app.logging.inject.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -15,7 +16,8 @@ class AuthCredentialsComponentImpl(
     private val profileDataComponent: ProfileDataComponent,
     private val magicLinkComponent: MagicLinksDataComponent,
     private val analyticComponent: AnalyticComponent,
-    private val sentryComponent: SentryComponent
+    private val sentryComponent: SentryComponent,
+    private val loggerComponent: LoggerComponent,
 ) : AuthCredentialsComponent {
     override val authCredentialsFeature: Feature<
         AuthCredentialsFeature.State, AuthCredentialsFeature.Message, AuthCredentialsFeature.Action>
@@ -24,7 +26,9 @@ class AuthCredentialsComponentImpl(
             profileDataComponent.currentProfileStateRepository,
             magicLinkComponent.urlPathProcessor,
             analyticComponent.analyticInteractor,
-            sentryComponent.sentryInteractor
+            sentryComponent.sentryInteractor,
+            loggerComponent.logger,
+            commonComponent.buildKonfig.buildVariant
         )
 
     override val authCredentialsErrorMapper: AuthCredentialsErrorMapper

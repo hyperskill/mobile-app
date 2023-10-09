@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/stepPracticeDetailsFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/step_quiz_code_full_screen_details_tab"
+            android:textAppearance="?textAppearanceSubtitle1"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="64dp"
+            android:gravity="center_vertical|start"/>
+
+        <org.hyperskill.app.android.ui.custom.ArrowImageView
+            android:id="@+id/stepPracticeDetailsArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="24dp"
+            app:tint="@color/color_primary" />
+
+    </FrameLayout>
+
+    <include
+        android:id="@+id/stepPracticeDetailsContent"
+        layout="@layout/step_text_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        />
+
+</LinearLayout>

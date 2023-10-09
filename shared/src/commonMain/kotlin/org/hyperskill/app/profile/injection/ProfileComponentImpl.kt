@@ -18,7 +18,9 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
             urlPathProcessor = appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             dailyStudyRemindersEnabledFlow = appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
-            badgesRepository = appGraph.buildBadgesDataComponent().badgesRepository
+            badgesRepository = appGraph.buildBadgesDataComponent().badgesRepository,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 
     override val badgesViewStateMapper: BadgesViewStateMapper

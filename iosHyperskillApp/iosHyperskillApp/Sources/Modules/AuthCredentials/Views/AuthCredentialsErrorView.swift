@@ -14,8 +14,9 @@ struct AuthCredentialsErrorView: View {
     }
 }
 
-struct AuthEmailErrorView_Previews: PreviewProvider {
-    static var previews: some View {
-        AuthCredentialsErrorView(message: "Error message")
-    }
+#Preview {
+    AuthCredentialsErrorView(
+        message: "Error message"
+    )
+    .padding()
 }

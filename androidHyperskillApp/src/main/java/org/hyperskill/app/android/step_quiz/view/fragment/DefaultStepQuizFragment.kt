@@ -31,7 +31,6 @@ import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
-import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.screen.StepScreen
@@ -43,9 +42,6 @@ import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
 import org.hyperskill.app.android.step_quiz_parsons.view.dialog.ParsonsStepQuizOnboardingBottomSheetDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -82,9 +78,6 @@ abstract class DefaultStepQuizFragment :
 
     private var stepQuizStateDelegate: ViewStateDelegate<StepQuizFeature.StepQuizState>? = null
 
-    private var problemsLimitDelegate: ProblemsLimitDelegate? = null
-    private var problemsLimitViewStateMapper: ProblemsLimitViewStateMapper? = null
-
     private var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate? = null
     private var stepQuizFormDelegate: StepQuizFormDelegate? = null
     private var stepQuizButtonsViewStateDelegate: ViewStateDelegate<StepQuizButtonsState>? = null
@@ -100,12 +93,14 @@ abstract class DefaultStepQuizFragment :
 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
-    protected abstract val descriptionBinding: LayoutStepQuizDescriptionBinding
+    protected abstract val descriptionBinding: LayoutStepQuizDescriptionBinding?
 
     protected var step: Step by argument(serializer = Step.serializer())
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     private var theoryButtonState: TheoryButtonState? = null
+
+    private var isKeyboardShown: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,11 +110,9 @@ abstract class DefaultStepQuizFragment :
     private fun injectComponent() {
         val stepQuizComponent = HyperskillApp.graph().buildStepQuizComponent(stepRoute)
         val platformStepQuizComponent = HyperskillApp.graph().buildPlatformStepQuizComponent(stepQuizComponent)
-        val problemsLimitComponent = HyperskillApp.graph().buildProblemsLimitComponent(ProblemsLimitScreen.STEP_QUIZ)
         stepQuizStatsTextMapper = stepQuizComponent.stepQuizStatsTextMapper
         stepQuizTitleMapper = stepQuizComponent.stepQuizTitleMapper
         viewModelFactory = platformStepQuizComponent.reduxViewModelFactory
-        problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper
     }
 
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -133,8 +126,6 @@ abstract class DefaultStepQuizFragment :
 
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
-
-        initProblemsLimitDelegate()
 
         stepQuizStateDelegate = StepQuizViewStateDelegateFactory.create(
             fragmentStepQuizBinding = viewBinding,
@@ -158,21 +149,11 @@ abstract class DefaultStepQuizFragment :
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.InitWithStep(step))
     }
 
-    private fun initProblemsLimitDelegate() {
-        problemsLimitDelegate = ProblemsLimitDelegate(
-            viewBinding = viewBinding.stepQuizProblemsLimit,
-            onNewMessage = {
-                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitMessage(it))
-            }
-        )
-        problemsLimitDelegate?.setup()
-    }
-
     private fun renderStatistics(textView: TextView, step: Step) {
         val stepQuizStats =
             stepQuizStatsTextMapper?.getFormattedStepQuizStats(step.solvedBy, step.millisSinceLastCompleted)
         textView.text = stepQuizStats
-        textView.isVisible = stepQuizStats != null
+        textView.isVisible = stepQuizStats != null && !isKeyboardShown
     }
 
     private fun initButtonsViewStateDelegate() {
@@ -217,8 +198,6 @@ abstract class DefaultStepQuizFragment :
         stepQuizButtonsViewStateDelegate = null
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
-        problemsLimitDelegate?.cleanup()
-        problemsLimitDelegate = null
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -294,12 +273,6 @@ abstract class DefaultStepQuizFragment :
                 ProblemsLimitReachedBottomSheet.newInstance(action.modalText)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
-            is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction ->
-                when (action.viewAction) {
-                    else -> {
-                        // no op
-                    }
-                }
             StepQuizFeature.Action.ViewAction.ShowParsonsProblemOnboardingModal -> {
                 ParsonsStepQuizOnboardingBottomSheetDialogFragment.newInstance()
                     .showIfNotExists(childFragmentManager, ParsonsStepQuizOnboardingBottomSheetDialogFragment.TAG)
@@ -327,6 +300,8 @@ abstract class DefaultStepQuizFragment :
     override fun render(state: StepQuizFeature.State) {
         stepQuizStateDelegate?.switchState(state.stepQuizState)
 
+        updateStatisticsVisibility()
+
         val stepQuizButtonsLinearLayout = view?.findViewById<LinearLayout>(R.id.stepQuizButtons)
         if (stepQuizButtonsLinearLayout != null) {
             for (childView in stepQuizButtonsLinearLayout.children) {
@@ -341,13 +316,6 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.StepQuizState.AttemptLoaded -> {
                 setStepHintsFragment(step)
                 renderAttemptLoaded(stepQuizState)
-
-                problemsLimitViewStateMapper?.let { mapper ->
-                    val problemsLimitViewState = mapper.mapState(state.problemsLimitState)
-                    viewBinding.problemsLimitDivider.root.isVisible =
-                        problemsLimitViewState is ProblemsLimitFeature.ViewState.Content.Widget
-                    problemsLimitDelegate?.render(problemsLimitViewState)
-                }
             }
             else -> {
                 // no op
@@ -371,7 +339,7 @@ abstract class DefaultStepQuizFragment :
     }
 
     private fun renderAttemptLoaded(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
-        descriptionBinding.stepQuizDescription.text =
+        descriptionBinding?.stepQuizDescription?.text =
             stepQuizTitleMapper?.getStepQuizTitle(
                 blockName = step.block.name,
                 isMultipleChoice = state.attempt.dataset?.isMultipleChoice,
@@ -446,6 +414,23 @@ abstract class DefaultStepQuizFragment :
 
     protected fun syncReplyState(reply: Reply) {
         stepQuizViewModel.onNewMessage(StepQuizFeature.Message.SyncReply(reply))
+    }
+
+    protected fun onKeyboardStateChanged(isKeyboardShown: Boolean) {
+        this.isKeyboardShown = isKeyboardShown
+        with(viewBinding) {
+            stepQuizButtons.root.isVisible = !isKeyboardShown
+            stepQuizFeedbackBlocks.root.isVisible =
+                !isKeyboardShown && stepQuizFeedbackBlocks.root.children.any { it.isVisible }
+            updateStatisticsVisibility()
+        }
+    }
+
+    private fun updateStatisticsVisibility() {
+        with(viewBinding) {
+            stepQuizStatistics.isVisible =
+                !isKeyboardShown && stepQuizStatistics.text != null
+        }
     }
 
     /**

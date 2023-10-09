@@ -49,23 +49,23 @@ constructor(
     @IdRes
     private val webViewId: Int
 
-    lateinit var textView: TextView
+    var textView: TextView? = null
         private set
 
-    lateinit var webView: LatexWebView
+    var webView: LatexWebView? = null
         private set
 
     var attributes = TextAttributes.fromAttributeSet(context, attrs)
         set(value) {
             field = value
-            textView.setAttributes(value)
-            webView.attributes = value
+            textView?.setAttributes(value)
+            webView?.attributes = value
         }
 
     var latexData: LatexData? = null
         set(value) {
-            textView.isVisible = value is LatexData.Text
-            webView.isVisible = value is LatexData.Web
+            textView?.isVisible = value is LatexData.Text
+            webView?.isVisible = value is LatexData.Web
 
             if (field == value) return
             field = value
@@ -74,20 +74,23 @@ constructor(
 
             when (value) {
                 is LatexData.Text ->
-                    textView.text = value.text
+                    textView?.text = value.text
 
                 is LatexData.Web -> {
-                    webView.text = latexWebViewMapper.mapLatexData(value, webView.attributes)
+                    webView?.apply {
+                        text = latexWebViewMapper.mapLatexData(value, attributes)
 
-                    // TODO Switch to WebViewAssetLoader
-                    /**
-                     * Allow WebView to open file://
-                     */
-                    webView.settings.allowFileAccess = true
-                    /**
-                     * Kotlin Playground downloads a file with Kotlin versions which generates a mistake, if allowUniversalAccessFromFileURLs is false
-                     */
-                    webView.settings.allowUniversalAccessFromFileURLs = value.settings.allowUniversalAccessFromFileURLs
+                        // TODO Switch to WebViewAssetLoader
+                        /**
+                         * Allow WebView to open file://
+                         */
+                        settings.allowFileAccess = true
+                        /**
+                         * Kotlin Playground downloads a file with Kotlin versions which generates a mistake,
+                         * if allowUniversalAccessFromFileURLs is false
+                         */
+                        settings.allowUniversalAccessFromFileURLs = value.settings.allowUniversalAccessFromFileURLs
+                    }
                 }
             }
         }
@@ -96,7 +99,7 @@ constructor(
         set(value) {
             field = value
             if (ViewCompat.isAttachedToWindow(this)) {
-                webView.webViewClient = requireNotNull(webViewClient)
+                webView?.webViewClient = requireNotNull(webViewClient)
             }
         }
 
@@ -131,14 +134,19 @@ constructor(
     override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
         when (child?.id) {
             textViewId -> {
-                textView = child as TextView
+                val textView = child as TextView
+                this.textView = textView
                 textView.setAttributes(attributes)
                 textView.movementMethod = LinkMovementMethod.getInstance()
             }
 
             webViewId -> {
-                webView = child as LatexWebView
+                val webView = child as LatexWebView
+                this.webView = webView
                 webView.attributes = attributes
+                if (ViewCompat.isAttachedToWindow(this)) {
+                    webView.webViewClient = getOrCreateWebViewClient()
+                }
             }
         }
         super.addView(child, index, params)
@@ -146,15 +154,18 @@ constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        webView.webViewClient = webViewClient ?: ExternalLinkWebViewClient(context)
+        webView?.webViewClient = getOrCreateWebViewClient()
     }
 
     override fun onDetachedFromWindow() {
-        webView.onImageClickListener = null
+        webView?.onImageClickListener = null
         super.onDetachedFromWindow()
     }
 
     fun setText(text: String?) {
         latexData = text?.let(latexTextMapper::mapToLatexText)
     }
+
+    private fun getOrCreateWebViewClient(): WebViewClient =
+        webViewClient ?: ExternalLinkWebViewClient(context)
 }

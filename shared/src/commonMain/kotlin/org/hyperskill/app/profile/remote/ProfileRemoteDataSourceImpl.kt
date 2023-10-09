@@ -7,11 +7,15 @@ import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import kotlinx.datetime.TimeZone
 import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.remote.model.ProfileResponse
 import org.hyperskill.app.profile.remote.model.ProfileSelectTrackRequest
 import org.hyperskill.app.profile.remote.model.ProfileSelectTrackWithProjectRequest
+import org.hyperskill.app.profile.remote.model.ProfileSetNotificationHourRequest
+import org.hyperskill.app.profile.remote.model.ProfileSetNotificationHourWithTimeZoneRequest
+import org.hyperskill.app.profile.remote.model.ProfileSetTimeZoneRequest
 
 class ProfileRemoteDataSourceImpl(
     private val httpClient: HttpClient
@@ -27,18 +31,61 @@ class ProfileRemoteDataSourceImpl(
     override suspend fun selectTrackWithProject(profileId: Long, trackId: Long, projectId: Long): Result<Profile> =
         kotlin.runCatching {
             httpClient
-                .put("/api/profiles/$profileId") {
-                    contentType(ContentType.Application.Json)
-                    setBody(ProfileSelectTrackWithProjectRequest(trackId, projectId))
-                }.body<ProfileResponse>().profiles.first()
+                .putProfile(
+                    profileId = profileId,
+                    body = ProfileSelectTrackWithProjectRequest(trackId, projectId)
+                )
         }
 
     override suspend fun selectTrack(profileId: Long, trackId: Long): Result<Profile> =
         kotlin.runCatching {
             httpClient
-                .put("/api/profiles/$profileId") {
-                    contentType(ContentType.Application.Json)
-                    setBody(ProfileSelectTrackRequest(trackId))
-                }.body<ProfileResponse>().profiles.first()
+                .putProfile(
+                    profileId = profileId,
+                    body = ProfileSelectTrackRequest(trackId)
+                )
         }
+
+    override suspend fun setDailyStudyReminderNotificationHour(
+        profileId: Long,
+        notificationHour: Int,
+        timeZone: TimeZone
+    ): Result<Profile> =
+        runCatching {
+            httpClient
+                .putProfile(
+                    profileId = profileId,
+                    body = ProfileSetNotificationHourWithTimeZoneRequest(
+                        notificationHour = notificationHour,
+                        timeZone = timeZone
+                    )
+                )
+        }
+
+    override suspend fun setDailyStudyReminderNotificationHour(
+        profileId: Long,
+        notificationHour: Int?
+    ): Result<Profile> =
+        runCatching {
+            httpClient
+                .putProfile(
+                    profileId = profileId,
+                    body = ProfileSetNotificationHourRequest(notificationHour = notificationHour)
+                )
+        }
+
+    override suspend fun setTimeZone(profileId: Long, timeZone: TimeZone): Result<Profile> =
+        runCatching {
+            httpClient
+                .putProfile(
+                    profileId = profileId,
+                    body = ProfileSetTimeZoneRequest(timeZone)
+                )
+        }
+
+    private suspend inline fun <reified T> HttpClient.putProfile(profileId: Long, body: T): Profile =
+        put("/api/profiles/$profileId") {
+            contentType(ContentType.Application.Json)
+            setBody(body)
+        }.body<ProfileResponse>().profiles.first()
 }

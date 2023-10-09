@@ -22,6 +22,8 @@ class StepComponentImpl(private val appGraph: AppGraph, private val stepRoute: S
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             stepCompletionComponent.stepCompletionReducer,
-            stepCompletionComponent.stepCompletionActionDispatcher
+            stepCompletionComponent.stepCompletionActionDispatcher,
+            appGraph.loggerComponent.logger,
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 }
