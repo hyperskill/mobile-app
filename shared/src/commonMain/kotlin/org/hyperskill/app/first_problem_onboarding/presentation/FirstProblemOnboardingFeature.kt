@@ -1,6 +1,6 @@
 package org.hyperskill.app.first_problem_onboarding.presentation
 
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -46,7 +46,9 @@ object FirstProblemOnboardingFeature {
         object Loading : ViewState
         object Error : ViewState
         data class Content(
+            val title: String,
             val subtitle: String,
+            val buttonText: String,
             val isNewUserMode: Boolean,
             val isLearningActivityLoading: Boolean
         ) : ViewState
@@ -55,7 +57,7 @@ object FirstProblemOnboardingFeature {
     sealed interface Message {
         object Initialize : Message
         object RetryContentLoading : Message
-        object LearningActionButtonClicked : Message
+        object CallToActionButtonClicked : Message
 
         /**
          * Analytic
@@ -82,7 +84,7 @@ object FirstProblemOnboardingFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticsEvent(val event: HyperskillAnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
         object FetchProfile : InternalAction
         object FetchNextLearningActivity : InternalAction
         object SetFirstProblemOnboardingShownFlag : InternalAction

@@ -11,6 +11,8 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class FirstProblemOnboardingActionDispatcher(
@@ -18,34 +20,55 @@ internal class FirstProblemOnboardingActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val learningActivityRepository: LearningActivitiesRepository,
     private val onboardingInteractor: OnboardingInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val analyticInteractor: AnalyticInteractor,
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             InternalAction.FetchProfile -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder
+                    .buildFirstProblemOnboardingFeatureProfileDataLoading()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val message = currentProfileStateRepository
-                    .getState()
+                    .getState(forceUpdate = false)
                     .fold(
-                        onSuccess = { FetchProfileResult.Success(it) },
-                        onFailure = { FetchProfileResult.Error }
+                        onSuccess = {
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            FetchProfileResult.Success(it)
+                        },
+                        onFailure = {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            FetchProfileResult.Error
+                        }
                     )
 
                 onNewMessage(message)
             }
             InternalAction.FetchNextLearningActivity -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder
+                    .buildFirstProblemOnboardingFeatureFetchNextLearningActivity()
+                sentryInteractor.startTransaction(sentryTransaction)
+
                 val message = learningActivityRepository
-                    .getNextLearningActivity(setOf(LearningActivityType.LEARN_TOPIC))
+                    .getNextLearningActivity(types = setOf(LearningActivityType.LEARN_TOPIC))
                     .fold(
-                        onSuccess = { FetchNextLearningActivityResult.Success(it) },
-                        onFailure = { FetchNextLearningActivityResult.Error }
+                        onSuccess = {
+                            sentryInteractor.finishTransaction(sentryTransaction)
+                            FetchNextLearningActivityResult.Success(it)
+                        },
+                        onFailure = {
+                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                            FetchNextLearningActivityResult.Error
+                        }
                     )
 
                 onNewMessage(message)
             }
             is InternalAction.SetFirstProblemOnboardingShownFlag ->
                 onboardingInteractor.setFirstProblemOnboardingWasShown(wasShown = true)
-            is InternalAction.LogAnalyticsEvent ->
-                analyticInteractor.logEvent(action.event)
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }

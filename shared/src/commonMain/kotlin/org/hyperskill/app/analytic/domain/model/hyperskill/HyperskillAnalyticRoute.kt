@@ -13,7 +13,7 @@ sealed class HyperskillAnalyticRoute {
 
         object FirstProblem : Onboarding() {
             override val path: String
-                get() = "${super.path}/first_problem"
+                get() = "${super.path}/first-problem"
         }
     }
 

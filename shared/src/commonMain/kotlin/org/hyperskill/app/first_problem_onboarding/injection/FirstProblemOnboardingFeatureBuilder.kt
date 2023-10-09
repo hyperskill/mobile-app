@@ -17,6 +17,7 @@ import org.hyperskill.app.learning_activities.domain.repository.LearningActiviti
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -27,6 +28,7 @@ internal object FirstProblemOnboardingFeatureBuilder {
     fun build(
         isNewUserMode: Boolean,
         analyticInteractor: AnalyticInteractor,
+        sentryInteractor: SentryInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
         learningActivitiesRepository: LearningActivitiesRepository,
         onboardingInteractor: OnboardingInteractor,
@@ -41,7 +43,8 @@ internal object FirstProblemOnboardingFeatureBuilder {
             analyticInteractor = analyticInteractor,
             currentProfileStateRepository = currentProfileStateRepository,
             learningActivityRepository = learningActivitiesRepository,
-            onboardingInteractor = onboardingInteractor
+            onboardingInteractor = onboardingInteractor,
+            sentryInteractor = sentryInteractor
         )
 
         val firstProblemOnboardingViewStateMapper = FirstProblemOnboardingViewStateMapper(resourceProvider)
