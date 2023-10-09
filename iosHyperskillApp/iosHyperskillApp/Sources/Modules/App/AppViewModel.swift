@@ -151,12 +151,6 @@ private extension AppViewModel {
 
         notificationCenter.addObserver(
             self,
-            selector: #selector(handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
-            name: .trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
-            object: nil
-        )
-        notificationCenter.addObserver(
-            self,
             selector: #selector(handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
             name: .projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
             object: nil
@@ -175,11 +169,6 @@ private extension AppViewModel {
             name: UIDevice.orientationDidChangeNotification,
             object: nil
         )
-    }
-
-    @objc
-    func handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
-        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
     }
 
     @objc

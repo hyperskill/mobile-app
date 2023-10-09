@@ -107,23 +107,8 @@ private extension TrackSelectionDetailsView {
             DispatchQueue.main.async {
                 stackRouter.popToRootViewController()
             }
-        case .home(let navigateToHomeViewAction):
-            switch navigateToHomeViewAction.command {
-            case .backto:
-                TabBarRouter(
-                    tab: .home,
-                    popToRoot: true
-                )
-                .route()
-
-                DispatchQueue.main.async {
-                    stackRouter.popToRootViewController()
-                }
-            case .newrootscreen:
-                viewModel.doNavigateToHomeAsNewRootScreenPresentation()
-            default:
-                assertionFailure("Did receive unexpected command: \(navigateToHomeViewAction.command)")
-            }
+        case .firstProblemOnboarding:
+            #warning("TODO")
         case .projectSelectionList(let navigateToProjectSelectionListViewAction):
             let assembly = ProjectSelectionListAssembly(
                 isNewUserMode: navigateToProjectSelectionListViewAction.isNewUserMode,

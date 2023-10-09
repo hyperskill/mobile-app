@@ -118,13 +118,9 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
                                 isNewUserMode = state.isNewUserMode
                             )
                         else ->
-                            ViewAction.NavigateTo.Home(
-                                command = if (state.isNewUserMode) {
-                                    ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen
-                                } else {
-                                    ViewAction.NavigateTo.Home.NavigationCommand.BackTo
-                                }
-                            )
+                            // navigate to first problem onboarding
+                            // if user is new and no projects to select
+                            ViewAction.NavigateTo.FirstProblemOnboarding(isNewUserMode = true)
                     }
                     setOf(
                         ViewAction.ShowTrackSelectionStatus.Success,

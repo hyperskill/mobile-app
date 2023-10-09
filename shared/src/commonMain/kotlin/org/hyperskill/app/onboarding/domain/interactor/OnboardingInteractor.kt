@@ -25,4 +25,11 @@ class OnboardingInteractor(
     fun setNotificationOnboardingWasShown(wasShown: Boolean) {
         onboardingRepository.setNotificationOnboardingWasShown(wasShown)
     }
+
+    fun wasFirstProblemOnboardingShown(): Boolean =
+        onboardingRepository.wasFirstProblemOnboardingShown()
+
+    fun setFirstProblemOnboardingWasShown(wasShown: Boolean) {
+        onboardingRepository.setFirstProblemOnboardingWasShown(wasShown)
+    }
 }

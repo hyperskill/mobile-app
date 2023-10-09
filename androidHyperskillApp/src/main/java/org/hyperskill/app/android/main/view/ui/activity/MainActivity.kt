@@ -250,6 +250,9 @@ class MainActivity :
                     }
                 }
             }
+            is AppFeature.Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen -> TODO()
+            is AppFeature.Action.ViewAction.NavigateTo.HomeScreenWithStep -> TODO()
+            AppFeature.Action.ViewAction.NavigateTo.StudyPlan -> TODO()
         }
     }
 
