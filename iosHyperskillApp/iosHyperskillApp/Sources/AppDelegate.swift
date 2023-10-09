@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppAppearance.themeApplication(window: window.require())
         ApplicationThemeService.default.applyDefaultTheme()
 
+        AppsFlyerManager.shared.configure()
         FirebaseApp.configure()
         ProgressHUD.configure()
         KeyboardManager.configure()
@@ -57,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        AppsFlyerManager.shared.start()
         notificationsService.removeDailyStudyReminderLocalNotifications()
     }
 

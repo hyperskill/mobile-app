@@ -425,6 +425,7 @@
 		2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA129B718800092FF83 /* IntrospectViewController.swift */; };
 		2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */; };
 		2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */; };
+		2CFBFC152AD4264900D4935D /* AppsFlyerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBFC142AD4264900D4935D /* AppsFlyerManager.swift */; };
 		2CFBFC172AD42CED00D4935D /* AppsFlyer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CFBFC162AD42CED00D4935D /* AppsFlyer-Info.plist */; };
 		2CFBFC192AD42D6400D4935D /* AppsFlyerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBFC182AD42D6400D4935D /* AppsFlyerInfo.swift */; };
 		2CFD32442AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */; };
@@ -1030,6 +1031,7 @@
 		2CF87DA129B718800092FF83 /* IntrospectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewController.swift; sourceTree = "<group>"; };
 		2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectTestUtils.swift; sourceTree = "<group>"; };
 		2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewControllerTests.swift; sourceTree = "<group>"; };
+		2CFBFC142AD4264900D4935D /* AppsFlyerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerManager.swift; sourceTree = "<group>"; };
 		2CFBFC162AD42CED00D4935D /* AppsFlyer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppsFlyer-Info.plist"; sourceTree = "<group>"; };
 		2CFBFC182AD42D6400D4935D /* AppsFlyerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerInfo.swift; sourceTree = "<group>"; };
 		2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosFCMTokenProviderImpl.swift; sourceTree = "<group>"; };
@@ -2257,6 +2259,7 @@
 				2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */,
 				2C27C77D28773042006A641A /* NukeManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
+				2CFBFC132AD4262D00D4935D /* AppsFlyer */,
 				2C11D5C82A1130F300C59238 /* FeedbackGenerator */,
 				2C334D0F2939E0FC008593F1 /* Sentry */,
 			);
@@ -3147,6 +3150,14 @@
 			path = IntrospectTests;
 			sourceTree = "<group>";
 		};
+		2CFBFC132AD4262D00D4935D /* AppsFlyer */ = {
+			isa = PBXGroup;
+			children = (
+				2CFBFC142AD4264900D4935D /* AppsFlyerManager.swift */,
+			);
+			path = AppsFlyer;
+			sourceTree = "<group>";
+		};
 		2CFD32422AAEFC2E00B9B6EA /* Injection */ = {
 			isa = PBXGroup;
 			children = (
@@ -3979,6 +3990,7 @@
 				2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */,
 				2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */,
 				E9FB89A32893CCAF0011EFFB /* LocalNotificationProtocol.swift in Sources */,
+				2CFBFC152AD4264900D4935D /* AppsFlyerManager.swift in Sources */,
 				E9B55A5529C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift in Sources */,
 				E99D4CED2826A37400B49D52 /* AppAppearance.swift in Sources */,
 				2C0F3CFF2A80AAA100947C35 /* BadgeLevelView.swift in Sources */,
