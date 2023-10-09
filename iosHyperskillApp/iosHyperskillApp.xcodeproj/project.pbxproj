@@ -425,6 +425,8 @@
 		2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA129B718800092FF83 /* IntrospectViewController.swift */; };
 		2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */; };
 		2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */; };
+		2CFBFC172AD42CED00D4935D /* AppsFlyer-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CFBFC162AD42CED00D4935D /* AppsFlyer-Info.plist */; };
+		2CFBFC192AD42D6400D4935D /* AppsFlyerInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFBFC182AD42D6400D4935D /* AppsFlyerInfo.swift */; };
 		2CFD32442AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */; };
 		2CFD32462AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD32452AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift */; };
 		2CFD7C68292542FB00902748 /* StepFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */; };
@@ -1028,6 +1030,8 @@
 		2CF87DA129B718800092FF83 /* IntrospectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewController.swift; sourceTree = "<group>"; };
 		2CF87DA629B71D150092FF83 /* IntrospectTestUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectTestUtils.swift; sourceTree = "<group>"; };
 		2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectViewControllerTests.swift; sourceTree = "<group>"; };
+		2CFBFC162AD42CED00D4935D /* AppsFlyer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AppsFlyer-Info.plist"; sourceTree = "<group>"; };
+		2CFBFC182AD42D6400D4935D /* AppsFlyerInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsFlyerInfo.swift; sourceTree = "<group>"; };
 		2CFD32432AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IosFCMTokenProviderImpl.swift; sourceTree = "<group>"; };
 		2CFD32452AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppGraph+DefaultInstances.swift"; sourceTree = "<group>"; };
 		2CFD7C67292542FB00902748 /* StepFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
@@ -2891,6 +2895,7 @@
 				2C20FBB3284F5145006D879E /* kotlin-playground-1.21.1.min.js */,
 				E9D458E329927C8900AAEBD9 /* lines_wrapper.js */,
 				2C20FBB7284F630C006D879E /* MathJax.js */,
+				2CFBFC162AD42CED00D4935D /* AppsFlyer-Info.plist */,
 				2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */,
@@ -3030,6 +3035,7 @@
 			isa = PBXGroup;
 			children = (
 				2C1F5876280D2B4800372A37 /* ApplicationInfo.swift */,
+				2CFBFC182AD42D6400D4935D /* AppsFlyerInfo.swift */,
 				2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */,
 				2C2FD621281920B1004E7AF6 /* SentryInfo.swift */,
 				2C42EFAC27F2C29500B4648B /* Strings.swift */,
@@ -3771,6 +3777,7 @@
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
 				2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */,
+				2CFBFC172AD42CED00D4935D /* AppsFlyer-Info.plist in Resources */,
 				2CDCC16F2AC2BFF000BB309D /* AllTests.xctestplan in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
@@ -4174,6 +4181,7 @@
 				E96D493B2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift in Sources */,
 				2C7994AF2A1299B800874C16 /* TrackSelectionListView.swift in Sources */,
 				2CB1962428EF27F30075F7EF /* UIKitViewControllerPreview.swift in Sources */,
+				2CFBFC192AD42D6400D4935D /* AppsFlyerInfo.swift in Sources */,
 				2C8EBE512A4D3DF700A77205 /* ProgressScreenCardView.swift in Sources */,
 				2C7994B12A129D6100874C16 /* TrackSelectionListSkeletonView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
