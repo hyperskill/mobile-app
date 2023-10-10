@@ -28,6 +28,7 @@ object FirstProblemOnboardingDefaults {
     @Composable
     fun ContentRootColumn(
         modifier: Modifier = Modifier,
+        verticalArrangement: Arrangement.Vertical = Arrangement.SpaceBetween,
         content: @Composable ColumnScope.() -> Unit
     ) {
         Column(
@@ -35,7 +36,7 @@ object FirstProblemOnboardingDefaults {
                 .fillMaxSize()
                 .background(colorResource(id = R.color.layer_1))
                 .padding(ContentPadding),
-            verticalArrangement = Arrangement.spacedBy(ImageBottomPadding),
+            verticalArrangement = verticalArrangement,
             content = content
         )
     }

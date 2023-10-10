@@ -54,33 +54,28 @@ fun FirstProblemOnboardingContent(
 ) {
     FirstProblemOnboardingDefaults.ContentRootColumn {
         Column(
-            verticalArrangement = Arrangement.spacedBy(FirstProblemOnboardingDefaults.ImageTopPadding),
-            modifier = Modifier.weight(1f)
+            verticalArrangement = Arrangement.spacedBy(FirstProblemOnboardingDefaults.HeaderBottomPadding)
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(FirstProblemOnboardingDefaults.HeaderBottomPadding)
-            ) {
-                Text(
-                    text = title,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.h5,
-                    fontSize = 24.sp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-                Text(
-                    text = subtitle,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.body1,
-                    color = colorResource(id = R.color.text_secondary),
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-            }
-            Image(
-                painter = image,
-                contentDescription = null,
+            Text(
+                text = title,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h5,
+                fontSize = 24.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Text(
+                text = subtitle,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.body1,
+                color = colorResource(id = R.color.text_secondary),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
+        Image(
+            painter = image,
+            contentDescription = null,
+            modifier = Modifier.fillMaxWidth()
+        )
         HyperskillButton(
             onClick = onButtonClicked,
             modifier = Modifier.fillMaxWidth()
