@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.first_problem_onboarding.ui.FirstProblemOnboardingScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingViewModel
@@ -52,7 +53,7 @@ class FirstProblemOnboardingFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-                    // TODO: add your compose UI here
+                    FirstProblemOnboardingScreen(viewModel = firstProblemOnboardingViewModel)
                 }
             }
         }

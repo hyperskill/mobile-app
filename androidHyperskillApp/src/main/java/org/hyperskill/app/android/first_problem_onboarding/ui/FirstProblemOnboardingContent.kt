@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,27 +21,24 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature
 
-object FirstProblemOnboardingDefaults {
-    val ContentPadding: PaddingValues = PaddingValues(
-        top = 24.dp,
-        bottom = 32.dp,
-        start = 20.dp,
-        end = 20.dp
+@Composable
+fun FirstProblemOnboardingContent(content: FirstProblemOnboardingFeature.ViewState.Content) {
+    FirstProblemOnboardingContent(
+        title = content.title,
+        subtitle = content.subtitle,
+        image = painterResource(id = getImage(content.isNewUserMode)),
+        buttonText = content.buttonText
     )
-    val ImageBottomPadding: Dp = 20.dp
-    val ImageTopPadding: Dp = 32.dp
-    val HeaderBottomPadding: Dp = 8.dp
 }
 
 @Composable
-fun FirstProblemOnboardingScreen(
+fun FirstProblemOnboardingContent(
     title: String,
     subtitle: String,
     image: Painter,
@@ -92,6 +88,13 @@ fun FirstProblemOnboardingScreen(
     }
 }
 
+private fun getImage(isNewUserMode: Boolean) =
+    if (isNewUserMode) {
+        org.hyperskill.app.android.R.drawable.img_first_problem_onboarding_new_user
+    } else {
+        org.hyperskill.app.android.R.drawable.img_first_problem_onboarding_experienced_user
+    }
+
 private data class FirstProblemOnboardingData(
     val title: String,
     val subtitle: String,
@@ -106,13 +109,13 @@ private class SampleFirstProblemOnboardingPreviewDataProvider :
             title = "Let's keep going",
             subtitle = "It seems you've already made progress. Continue learning on '{project(or track).title}'!",
             buttonText = "Keep learning",
-            imageRes = org.hyperskill.app.android.R.drawable.img_first_problem_onboarding_experienced_user
+            imageRes = getImage(isNewUserMode = false)
         ),
         FirstProblemOnboardingData(
             title = "Great choice!",
             subtitle = "Embark on your journey in '{project(or track).title}' right now!",
             buttonText = "Start learning",
-            imageRes = org.hyperskill.app.android.R.drawable.img_first_problem_onboarding_new_user
+            imageRes = getImage(isNewUserMode = true)
         )
     )
 }
@@ -163,7 +166,7 @@ private fun FirstProblemOnboardingScreenPreview(
     onboardingData: FirstProblemOnboardingData
 ) {
     HyperskillTheme {
-        FirstProblemOnboardingScreen(
+        FirstProblemOnboardingContent(
             title = onboardingData.title,
             subtitle = onboardingData.subtitle,
             buttonText = onboardingData.buttonText,
