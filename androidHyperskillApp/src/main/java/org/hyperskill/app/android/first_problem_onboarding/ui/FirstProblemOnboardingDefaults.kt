@@ -21,8 +21,7 @@ object FirstProblemOnboardingDefaults {
         start = 20.dp,
         end = 20.dp
     )
-    val ImageBottomPadding: Dp = 20.dp
-    val ImageTopPadding: Dp = 32.dp
+
     val HeaderBottomPadding: Dp = 8.dp
 
     @Composable
