@@ -61,6 +61,7 @@ interface StepCompletionFeature {
 
         sealed interface CheckTopicCompletionStatus : Message {
             data class Completed(
+                val topicId: Long,
                 val modalText: String,
                 val nextLearningActivity: LearningActivity?
             ) : CheckTopicCompletionStatus
@@ -101,6 +102,7 @@ interface StepCompletionFeature {
         data class FetchNextRecommendedStep(val currentStep: Step) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+        data class LogTopicCompletedAnalyticEvent(val topicId: Long) : Action
 
         data class CheckTopicCompletionStatus(val topicId: Long) : Action
 

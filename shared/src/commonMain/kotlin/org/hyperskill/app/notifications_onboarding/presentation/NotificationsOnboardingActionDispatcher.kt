@@ -18,8 +18,8 @@ internal class NotificationsOnboardingActionDispatcher(
         when (action) {
             InternalAction.UpdateLastNotificationPermissionRequestTime ->
                 notificationInteractor.updateLastTimeUserAskedToEnableDailyReminders()
-            is InternalAction.LogAnalyticsEvent ->
-                analyticInteractor.logEvent(action.event)
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }

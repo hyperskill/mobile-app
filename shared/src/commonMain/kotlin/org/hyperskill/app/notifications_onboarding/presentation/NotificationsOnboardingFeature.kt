@@ -1,6 +1,6 @@
 package org.hyperskill.app.notifications_onboarding.presentation
 
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
 object NotificationsOnboardingFeature {
     object State
@@ -20,7 +20,7 @@ object NotificationsOnboardingFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticsEvent(val event: HyperskillAnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
         object UpdateLastNotificationPermissionRequestTime : InternalAction
     }
 }

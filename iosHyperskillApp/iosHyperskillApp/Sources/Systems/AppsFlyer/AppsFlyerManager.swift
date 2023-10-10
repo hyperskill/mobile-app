@@ -3,10 +3,12 @@ import AppTrackingTransparency
 import Foundation
 import shared
 
-final class AppsFlyerManager {
+final class AppsFlyerManager: AnalyticEngine {
     private static let waitForATTUserAuthorizationTimeoutInterval: TimeInterval = 60
 
     static let shared = AppsFlyerManager()
+
+    var targetSource = AnalyticSource.appsFlyer
 
     private init() {}
 
@@ -51,5 +53,37 @@ final class AppsFlyerManager {
             }
             #endif
         }
+    }
+
+    // MARK: AnalyticEngine
+
+    func flushEvents(completionHandler: @escaping (Error?) -> Void) {
+        completionHandler(nil)
+    }
+
+    func reportEvent(event: AnalyticEvent, force: Bool, completionHandler: @escaping (Error?) -> Void) {
+        let name = event.name
+        let values = event.params
+
+        #if DEBUG
+        print("AppsFlyerManager: logging event = \(name) with values = \(values)")
+        #endif
+
+        AppsFlyerLib.shared().logEvent(
+            name: name,
+            values: values,
+            completionHandler: { dictionary, error in
+                #if DEBUG
+                if let error {
+                    print("AppsFlyerManager: failed log event = \(name) with error =\(error)")
+                } else {
+                    print("""
+AppsFlyerManager: successfully logged event = \(name) with result = \(String(describing: dictionary))
+""")
+                }
+                #endif
+                completionHandler(error)
+            }
+        )
     }
 }

@@ -12,6 +12,6 @@ enum AppGraphBridge {
         userAgentInfo: UserAgentBuilder.userAgentInfo,
         buildVariant: BuildVariant.current,
         sentryManager: SentryManager.shared,
-        analyticEngines: []
+        analyticEngines: [AppsFlyerManager.shared]
     )
 }
