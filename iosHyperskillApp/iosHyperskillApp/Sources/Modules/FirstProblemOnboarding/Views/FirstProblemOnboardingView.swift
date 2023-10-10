@@ -18,9 +18,7 @@ struct FirstProblemOnboardingView: View {
 
             BackgroundView(color: appearance.backgroundColor)
 
-//            FirstProblemOnboardingContentView(
-//                onLearningActionButtonTap: viewModel.doLearningAction
-//            )
+            buildBody()
         }
         .onAppear {
             viewModel.startListening()
@@ -29,6 +27,43 @@ struct FirstProblemOnboardingView: View {
         .onDisappear {
             viewModel.stopListening()
             viewModel.onViewAction = nil
+        }
+    }
+
+    // MARK: Private API
+
+    @ViewBuilder
+    private func buildBody() -> some View {
+        switch viewModel.stateKs {
+        case .idle, .loading:
+            ProgressView()
+        case .error:
+            PlaceholderView(
+                configuration: .networkError(
+                    backgroundColor: .clear,
+                    action: viewModel.doRetryContentLoading
+                )
+            )
+        case .content(let content):
+            let _ = handleLearningActivityLoadingIndicatorVisibility(
+                isVisible: content.isLearningActivityLoading
+            )
+
+            FirstProblemOnboardingContentView(
+                title: content.title,
+                subtitle: content.subtitle,
+                buttonText: content.buttonText,
+                isNewUserMode: content.isNewUserMode,
+                onCallToActionButtonTap: viewModel.doCallToAction
+            )
+        }
+    }
+
+    private func handleLearningActivityLoadingIndicatorVisibility(isVisible: Bool) {
+        if isVisible {
+            ProgressHUD.show()
+        } else {
+            ProgressHUD.dismissWithDelay()
         }
     }
 }

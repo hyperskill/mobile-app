@@ -4,7 +4,7 @@ extension FirstProblemOnboardingContentView {
     struct Appearance {
         let interitemSpacing = LayoutInsets.smallInset
 
-        let illustrationHeight: CGFloat = 320
+        let illustrationHeight: CGFloat = 380
 
         let maxWidth: CGFloat = DeviceInfo.current.isPad ? 400 : .infinity
     }
@@ -17,11 +17,15 @@ struct FirstProblemOnboardingContentView: View {
 
     private let actionButtonsFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
-    let isNewUserMode: Bool
+    let title: String
 
     let subtitle: String
 
-    let onLearningActionButtonTap: () -> Void
+    let buttonText: String
+
+    let isNewUserMode: Bool
+
+    let onCallToActionButtonTap: () -> Void
 
     var body: some View {
         VerticalCenteredScrollView(showsIndicators: false) {
@@ -61,11 +65,11 @@ struct FirstProblemOnboardingContentView: View {
 
     private var header: some View {
         VStack(alignment: .center, spacing: appearance.interitemSpacing) {
-            Text(Strings.NotificationsOnboarding.title)
+            Text(title)
                 .font(.title).bold()
                 .foregroundColor(.newPrimaryText)
 
-            Text(Strings.NotificationsOnboarding.subtitle)
+            Text(subtitle)
                 .font(.body)
                 .foregroundColor(.newSecondaryText)
         }
@@ -73,22 +77,26 @@ struct FirstProblemOnboardingContentView: View {
     }
 
     private var illustration: some View {
-        Image(Images.NotificationsOnboarding.illustration)
-            .renderingMode(.original)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .infinity)
-            .frame(maxHeight: appearance.illustrationHeight)
+        Image(
+            isNewUserMode
+            ? ImageResource.firstProblemOnboardingNewUserIllustration
+            : ImageResource.firstProblemOnboardingExistingUserIllustration
+        )
+        .renderingMode(.original)
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(maxWidth: .infinity)
+        .frame(maxHeight: appearance.illustrationHeight)
     }
 
     @MainActor
     private var actionButton: some View {
         VStack(alignment: .center, spacing: appearance.interitemSpacing) {
             Button(
-                Strings.NotificationsOnboarding.buttonPrimary,
+                buttonText,
                 action: {
                     actionButtonsFeedbackGenerator.triggerFeedback()
-                    onPrimaryButtonTap()
+                    onCallToActionButtonTap()
                 }
             )
             .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
@@ -100,14 +108,20 @@ struct FirstProblemOnboardingContentView: View {
 struct FirstProblemOnboardingContentView_Previews: PreviewProvider {
     static var previews: some View {
         FirstProblemOnboardingContentView(
-            onPrimaryButtonTap: {},
-            onSecondaryButtonTap: {}
+            title: "Let's keep going!",
+            subtitle: "It seems you've already made progress. Continue learning on '{project(or track).title}'!",
+            buttonText: "Keep learning",
+            isNewUserMode: false,
+            onCallToActionButtonTap: {}
         )
         .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
 
         FirstProblemOnboardingContentView(
-            onPrimaryButtonTap: {},
-            onSecondaryButtonTap: {}
+            title: "Great choice!",
+            subtitle: "Embark on your journey in '{project(or track).title}' right now!",
+            buttonText: "Start learning",
+            isNewUserMode: true,
+            onCallToActionButtonTap: {}
         )
         .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
     }

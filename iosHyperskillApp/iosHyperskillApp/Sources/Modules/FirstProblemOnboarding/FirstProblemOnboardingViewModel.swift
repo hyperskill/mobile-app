@@ -1,3 +1,4 @@
+import CombineSchedulers
 import Foundation
 import shared
 
@@ -8,6 +9,8 @@ FirstProblemOnboardingFeatureActionViewAction
 > {
     weak var moduleOutput: FirstProblemOnboardingOutputProtocol?
 
+    var stateKs: FirstProblemOnboardingFeatureViewStateKs { .init(state) }
+
     override func shouldNotifyStateDidChange(
         oldState: FirstProblemOnboardingFeatureViewState,
         newState: FirstProblemOnboardingFeatureViewState
@@ -15,8 +18,18 @@ FirstProblemOnboardingFeatureActionViewAction
         FirstProblemOnboardingFeatureViewStateKs(oldState) != FirstProblemOnboardingFeatureViewStateKs(newState)
     }
 
-    func doPrimaryAction() {
-        onNewMessage(FirstProblemOnboardingFeatureMessageLearningActionButtonClicked())
+    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
+        super.init(feature: feature)
+
+        onNewMessage(FirstProblemOnboardingFeatureMessageInitialize())
+    }
+
+    func doRetryContentLoading() {
+        onNewMessage(FirstProblemOnboardingFeatureMessageRetryContentLoading())
+    }
+
+    func doCallToAction() {
+        onNewMessage(FirstProblemOnboardingFeatureMessageCallToActionButtonClicked())
     }
 
     func doCompleteOnboarding(stepRoute: StepRoute?) {

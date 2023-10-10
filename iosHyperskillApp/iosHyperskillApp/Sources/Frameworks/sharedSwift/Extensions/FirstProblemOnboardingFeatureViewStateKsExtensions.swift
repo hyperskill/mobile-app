@@ -2,7 +2,10 @@ import Foundation
 import shared
 
 extension FirstProblemOnboardingFeatureViewStateKs: Equatable {
-    public static func == (lhs: FirstProblemOnboardingFeatureViewStateKs, rhs: FirstProblemOnboardingFeatureViewStateKs) -> Bool {
+    public static func == (
+        lhs: FirstProblemOnboardingFeatureViewStateKs,
+        rhs: FirstProblemOnboardingFeatureViewStateKs
+    ) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true

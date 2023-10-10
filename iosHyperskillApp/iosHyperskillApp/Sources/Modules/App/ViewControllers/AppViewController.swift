@@ -98,7 +98,8 @@ extension AppViewController: AppViewControllerProtocol {
             switch viewAction {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
-            case .homeScreen:
+            case .homeScreen, .studyPlan, .homeScreenWithStep:
+                // TODO: We will implement navigation to study plan in ALTUX-2316
                 let controller = AppTabBarController()
                 controller.appTabBarControllerDelegate = viewModel
                 return controller
@@ -115,9 +116,9 @@ extension AppViewController: AppViewControllerProtocol {
             case .notificationOnBoardingScreen:
                 let assembly = NotificationsOnboardingAssembly(output: viewModel)
                 return assembly.makeModule()
-            case .firstProblemOnBoardingScreen, .homeScreenWithStep, .studyPlan:
-                #warning("TODO")
-                exit(0)
+            case .firstProblemOnBoardingScreen(let data):
+                let assembly = FirstProblemOnboardingAssembly(isNewUserMode: data.isNewUserMode, output: viewModel)
+                return assembly.makeModule()
             }
         }()
 
@@ -135,6 +136,8 @@ extension AppViewController: AppViewControllerProtocol {
         assert(children.count <= 2)
 
         swapRootViewController(from: fromViewController, to: viewControllerToPresent)
+
+        // TODO: implement pushing step to navigation controller of home screen
     }
 
     private func handleStreakRecoveryViewAction(_ viewAction: StreakRecoveryFeatureActionViewActionKs) {
