@@ -7,30 +7,41 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.google.accompanist.themeadapter.material.MdcTheme
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.core.view.handleActions
+import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action.ViewAction
+import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingViewModel
+import ru.nobird.android.view.base.ui.extension.argument
 
 class FirstProblemOnboardingFragment : Fragment() {
     companion object {
-        fun newInstance(): FirstProblemOnboardingFragment =
-            FirstProblemOnboardingFragment()
+        fun newInstance(isNewUserMode: Boolean): FirstProblemOnboardingFragment =
+            FirstProblemOnboardingFragment().apply {
+                this.isNewUserMode = isNewUserMode
+            }
     }
 
-    /*private var viewModelFactory: ViewModelProvider.Factory? = null
-    private val viewModel: FirstProblemOnboardingViewModel by viewModels {
+    private var isNewUserMode: Boolean by argument()
+
+    private var viewModelFactory: ViewModelProvider.Factory? = null
+    private val firstProblemOnboardingViewModel: FirstProblemOnboardingViewModel by viewModels {
         requireNotNull(viewModelFactory)
-    }*/
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*injectComponent()
-        viewModel.handleActions(this, block = ::onAction)*/
+        injectComponent()
+        firstProblemOnboardingViewModel.handleActions(this, block = ::onAction)
     }
 
-    /*private fun injectComponent() {
-        val component =
-            HyperskillApp.graph().buildPlatformFirstProblemOnboardingComponent()
-        viewModelFactory = component.reduxViewModelFactory
-    }*/
+    private fun injectComponent() {
+        val platformFirstProblemOnboardingComponent =
+            HyperskillApp.graph().buildPlatformFirstProblemOnboardingComponent(isNewUserMode)
+        viewModelFactory = platformFirstProblemOnboardingComponent.reduxViewModelFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,18 +51,16 @@ class FirstProblemOnboardingFragment : Fragment() {
         ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
-                MdcTheme(
-                    setTextColors = true,
-                    setDefaultFontFamily = true
-                ) {
+                HyperskillTheme {
                     // TODO: add your compose UI here
                 }
             }
         }
 
-    /*private fun onAction(action: ViewAction) {
+    private fun onAction(action: ViewAction) {
         when (action) {
-
+            is ViewAction.CompleteFirstProblemOnboarding -> TODO()
+            ViewAction.ShowNetworkError -> TODO()
         }
-    }*/
+    }
 }

@@ -5,7 +5,9 @@ import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 import org.hyperskill.app.android.first_problem_onboarding.fragment.FirstProblemOnboardingFragment
 
-object FirstProblemOnboardingScreen : FragmentScreen {
+class FirstProblemOnboardingScreen(
+    private val isNewUserMode: Boolean
+) : FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment =
-        FirstProblemOnboardingFragment.newInstance()
+        FirstProblemOnboardingFragment.newInstance(isNewUserMode)
 }
