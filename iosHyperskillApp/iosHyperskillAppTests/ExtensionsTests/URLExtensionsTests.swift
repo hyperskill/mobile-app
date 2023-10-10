@@ -1,8 +1,8 @@
-@testable
-import iosHyperskillApp
-
 import XCTest
 
+@testable import iosHyperskillApp
+
+// swiftlint:disable force_unwrapping
 class URLExtensionsTests: XCTestCase {
     var url = URL(string: "https://www.google.com")!
     let params = ["q": "search iosHyperskillApp"]

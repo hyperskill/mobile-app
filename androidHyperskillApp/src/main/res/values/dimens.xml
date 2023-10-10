@@ -47,7 +47,6 @@
 
 
     <!-- Step quiz screen -->
-
     <dimen name="step_quiz_toolbar_height">56dp</dimen>
     <dimen name="step_quiz_toolbar_margin_horizontal">56dp</dimen>
     <dimen name="step_quiz_toolbar_padding_vertical">16dp</dimen>
@@ -56,6 +55,10 @@
     <dimen name="step_quiz_discussion_button_height">48dp</dimen>
     <dimen name="step_quiz_hint_button_height">32dp</dimen>
     <dimen name="item_choice_skeleton_height">21dp</dimen>
+    <dimen name="step_quiz_content_padding_top">12dp</dimen>
+    <dimen name="step_quiz_content_padding_bottom">20dp</dimen>
+    <dimen name="step_quiz_collapsible_block_header_height">48dp</dimen>
+    <dimen name="step_quiz_description_padding_top">16dp</dimen>
 
     <!-- Sorting quiz -->
     <dimen name="step_quiz_sorting_item_elevation">1dp</dimen>
@@ -75,7 +78,7 @@
     <dimen name="streak_today_streak_card_stroke_width">2dp</dimen>
 
     <!-- Step quiz code -->
-    <dimen name="embedded_code_editor_height">96dp</dimen>
+    <dimen name="embedded_code_editor_height">90dp</dimen>
     <dimen name="step_quiz_fullscreen_code_layout_bottom_padding">80dp</dimen>
     <dimen name="step_quiz_fullscreen_code_layout_action_button_icon_padding">-13dp</dimen>
 

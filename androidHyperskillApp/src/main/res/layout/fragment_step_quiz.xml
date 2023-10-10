@@ -39,6 +39,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
         android:visibility="gone"
         />
 
@@ -46,32 +47,15 @@
         android:id="@+id/stepQuizStatistics"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textAppearance="?textAppearanceBody2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
         android:textColor="@color/color_on_surface_alpha_38"
-        android:layout_margin="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/problemsLimitDivider"
-        tools:text="2438 users solved this problem. Latest completion was about 13 hours ago." />
-
-    <include
-        android:id="@+id/problemsLimitDivider"
-        layout="@layout/view_divider_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:textSize="12sp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/stepQuizProblemsLimit"
-        android:visibility="gone"
-        />
-
-    <include
-        android:id="@+id/stepQuizProblemsLimit"
-        layout="@layout/layout_problems_limit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/stepQuizFeedbackBlocks"
-        android:layout_marginHorizontal="20dp"/>
+        tools:text="2438 users solved this problem. Latest completion was about 13 hours ago." />
 
     <include
         android:id="@+id/stepQuizFeedbackBlocks"
@@ -92,6 +76,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         layout="@layout/layout_quiz_buttons" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

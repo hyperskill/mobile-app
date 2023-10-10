@@ -24,10 +24,10 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:id="@+id/stepTheoryContainer"
+                android:id="@+id/stepPracticeDescriptionContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp"
+                android:paddingTop="@dimen/step_quiz_description_padding_top"
                 />
 
             <FrameLayout
@@ -39,4 +39,5 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

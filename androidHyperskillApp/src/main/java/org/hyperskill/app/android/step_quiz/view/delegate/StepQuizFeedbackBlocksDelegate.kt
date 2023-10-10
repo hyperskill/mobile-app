@@ -54,14 +54,15 @@ class StepQuizFeedbackBlocksDelegate(
 
         with(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackBody) {
             webViewClient =
-                ProgressableWebViewClient(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackProgress, webView)
-            textView.typeface =
+                ProgressableWebViewClient(layoutStepQuizFeedbackBlockBinding.stepQuizFeedbackProgress)
+            textView?.typeface =
                 ResourcesCompat.getFont(context, R.font.pt_mono)
         }
     }
 
     fun setState(state: StepQuizFeedbackState) {
         viewStateDelegate.switchState(state)
+        layoutStepQuizFeedbackBlockBinding.root.isVisible = state !is StepQuizFeedbackState.Idle
         when (state) {
             is StepQuizFeedbackState.Correct -> {
                 setHint(layoutStepQuizFeedbackBlockBinding, state.hint)

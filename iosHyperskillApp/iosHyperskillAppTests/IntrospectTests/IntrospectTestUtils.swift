@@ -6,7 +6,6 @@ enum IntrospectTestUtils {
     }
 
     static func present<ViewType: View>(view: ViewType) {
-
         let hostingController = UIHostingController(rootView: view)
 
         let application = UIApplication.shared
@@ -19,7 +18,7 @@ enum IntrospectTestUtils {
 
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.layer.speed = 10
-        
+
         hostingController.beginAppearanceTransition(true, animated: false)
         window.rootViewController = hostingController
         window.makeKeyAndVisible()
