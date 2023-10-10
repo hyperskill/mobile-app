@@ -51,4 +51,10 @@ class AnalyticInteractor(
             hyperskillAnalyticEngine.setScreenOrientation(screenOrientation)
         }
     }
+
+    override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
+        if (hyperskillAnalyticEngine is HyperskillAnalyticEngine) {
+            hyperskillAnalyticEngine.setAppTrackingTransparencyAuthorizationStatus(isAuthorized = isAuthorized)
+        }
+    }
 }

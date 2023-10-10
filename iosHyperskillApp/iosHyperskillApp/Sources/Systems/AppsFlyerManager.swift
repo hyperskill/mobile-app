@@ -52,6 +52,11 @@ final class AppsFlyerManager: AnalyticEngine {
                 print("AppsFlyerManager: @unknown default")
             }
             #endif
+
+            NotificationCenter.default.post(
+                name: .attAuthorizationStatusDidChange,
+                object: authorizationStatus
+            )
         }
     }
 
@@ -86,4 +91,10 @@ AppsFlyerManager: successfully logged event = \(name) with result = \(String(des
             }
         )
     }
+}
+
+// MARK: - NotificationCenter -
+
+extension Foundation.Notification.Name {
+    static let attAuthorizationStatusDidChange = Foundation.Notification.Name("attAuthorizationStatusDidChange")
 }

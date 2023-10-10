@@ -2256,10 +2256,10 @@
 			children = (
 				E99D4CEC2826A37400B49D52 /* AppAppearance.swift */,
 				2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */,
+				2CFBFC142AD4264900D4935D /* AppsFlyerManager.swift */,
 				2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */,
 				2C27C77D28773042006A641A /* NukeManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
-				2CFBFC132AD4262D00D4935D /* AppsFlyer */,
 				2C11D5C82A1130F300C59238 /* FeedbackGenerator */,
 				2C334D0F2939E0FC008593F1 /* Sentry */,
 			);
@@ -3148,14 +3148,6 @@
 				2CF87DA829B71D500092FF83 /* IntrospectViewControllerTests.swift */,
 			);
 			path = IntrospectTests;
-			sourceTree = "<group>";
-		};
-		2CFBFC132AD4262D00D4935D /* AppsFlyer */ = {
-			isa = PBXGroup;
-			children = (
-				2CFBFC142AD4264900D4935D /* AppsFlyerManager.swift */,
-			);
-			path = AppsFlyer;
 			sourceTree = "<group>";
 		};
 		2CFD32422AAEFC2E00B9B6EA /* Injection */ = {

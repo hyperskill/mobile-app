@@ -10,4 +10,5 @@ interface Analytic {
     suspend fun flushEvents()
 
     fun setScreenOrientation(screenOrientation: ScreenOrientation)
+    fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean)
 }

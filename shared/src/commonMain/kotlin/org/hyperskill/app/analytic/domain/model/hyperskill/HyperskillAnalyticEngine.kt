@@ -20,6 +20,7 @@ import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepositor
 
 interface HyperskillAnalyticEngine : AnalyticEngine {
     fun setScreenOrientation(screenOrientation: ScreenOrientation)
+    fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean)
 }
 
 internal class HyperskillAnalyticEngineImpl(
@@ -37,12 +38,17 @@ internal class HyperskillAnalyticEngineImpl(
     private var flushEventsJob: Job? = null
 
     private var screenOrientation: ScreenOrientation? = null
+    private var isATTPermissionGranted: Boolean = false
 
     override val targetSource: AnalyticSource =
         AnalyticSource.HYPERSKILL_API
 
     override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
         this.screenOrientation = screenOrientation
+    }
+
+    override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
+        this.isATTPermissionGranted = isAuthorized
     }
 
     override suspend fun reportEvent(event: AnalyticEvent, force: Boolean) {
@@ -66,6 +72,7 @@ internal class HyperskillAnalyticEngineImpl(
                 event = event,
                 userId = currentProfile.id,
                 isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
+                isATTPermissionGranted = isATTPermissionGranted,
                 screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT
             )
             analyticHyperskillRepository.logEvent(processedEvent)
