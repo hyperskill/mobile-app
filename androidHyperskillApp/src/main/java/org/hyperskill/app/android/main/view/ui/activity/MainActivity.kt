@@ -271,7 +271,9 @@ class MainActivity :
                 }
             }
             is AppFeature.Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen ->
-                FirstProblemOnboardingScreen(action.isNewUserMode)
+                router.newRootScreen(
+                    FirstProblemOnboardingScreen(action.isNewUserMode)
+                )
             is AppFeature.Action.ViewAction.NavigateTo.HomeScreenWithStep ->
                 router.newRootChain(
                     MainScreen(),
