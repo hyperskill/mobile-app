@@ -8,4 +8,8 @@ import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnbo
 
 class FirstProblemOnboardingViewModel(
     viewContainer: FlowView<ViewState, Message, ViewAction>
-) : ReduxFlowViewModel<ViewState, Message, ViewAction>(viewContainer)
+) : ReduxFlowViewModel<ViewState, Message, ViewAction>(viewContainer) {
+    init {
+        onNewMessage(Message.Initialize)
+    }
+}

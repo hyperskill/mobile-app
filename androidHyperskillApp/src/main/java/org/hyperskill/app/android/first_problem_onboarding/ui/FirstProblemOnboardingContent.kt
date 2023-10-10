@@ -3,15 +3,14 @@ package org.hyperskill.app.android.first_problem_onboarding.ui
 import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -25,15 +24,23 @@ import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature
+import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Message
+import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.ViewState
 
 @Composable
-fun FirstProblemOnboardingContent(content: FirstProblemOnboardingFeature.ViewState.Content) {
+fun FirstProblemOnboardingContent(
+    content: ViewState.Content,
+    onNewMessage: (Message) -> Unit
+) {
+    val onButtonClicked by rememberUpdatedState {
+        onNewMessage(Message.CallToActionButtonClicked)
+    }
     FirstProblemOnboardingContent(
         title = content.title,
         subtitle = content.subtitle,
         image = painterResource(id = getImage(content.isNewUserMode)),
-        buttonText = content.buttonText
+        buttonText = content.buttonText,
+        onButtonClicked = onButtonClicked
     )
 }
 
@@ -42,15 +49,10 @@ fun FirstProblemOnboardingContent(
     title: String,
     subtitle: String,
     image: Painter,
-    buttonText: String
+    buttonText: String,
+    onButtonClicked: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(colorResource(id = R.color.layer_1))
-            .padding(FirstProblemOnboardingDefaults.ContentPadding),
-        verticalArrangement = Arrangement.spacedBy(FirstProblemOnboardingDefaults.ImageBottomPadding)
-    ) {
+    FirstProblemOnboardingDefaults.ContentRootColumn {
         Column(
             verticalArrangement = Arrangement.spacedBy(FirstProblemOnboardingDefaults.ImageTopPadding),
             modifier = Modifier.weight(1f)
@@ -80,7 +82,7 @@ fun FirstProblemOnboardingContent(
             )
         }
         HyperskillButton(
-            onClick = {},
+            onClick = onButtonClicked,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = buttonText)
@@ -170,7 +172,8 @@ private fun FirstProblemOnboardingScreenPreview(
             title = onboardingData.title,
             subtitle = onboardingData.subtitle,
             buttonText = onboardingData.buttonText,
-            image = painterResource(id = onboardingData.imageRes)
+            image = painterResource(id = onboardingData.imageRes),
+            onButtonClicked = {}
         )
     }
 }

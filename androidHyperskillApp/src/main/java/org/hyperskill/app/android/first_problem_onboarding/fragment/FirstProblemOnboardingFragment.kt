@@ -10,15 +10,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.first_problem_onboarding.ui.FirstProblemOnboardingScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingViewModel
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.snackbar
 
 class FirstProblemOnboardingFragment : Fragment() {
     companion object {
+        const val FIRST_PROBLEM_ONBOARDING_FINISHED = "FIRST_PROBLEM_ONBOARDING_FINISHED"
         fun newInstance(isNewUserMode: Boolean): FirstProblemOnboardingFragment =
             FirstProblemOnboardingFragment().apply {
                 this.isNewUserMode = isNewUserMode
@@ -60,8 +63,12 @@ class FirstProblemOnboardingFragment : Fragment() {
 
     private fun onAction(action: ViewAction) {
         when (action) {
-            is ViewAction.CompleteFirstProblemOnboarding -> TODO()
-            ViewAction.ShowNetworkError -> TODO()
+            is ViewAction.CompleteFirstProblemOnboarding -> {
+                requireAppRouter().sendResult(FIRST_PROBLEM_ONBOARDING_FINISHED, action.stepRoute ?: Any())
+            }
+            ViewAction.ShowNetworkError -> {
+                requireView().snackbar(org.hyperskill.app.R.string.common_error)
+            }
         }
     }
 }
