@@ -11,6 +11,7 @@ enum AppGraphBridge {
     static let sharedAppGraph: IosAppComponent = AppGraph(
         userAgentInfo: UserAgentBuilder.userAgentInfo,
         buildVariant: BuildVariant.current,
-        sentryManager: SentryManager.shared
+        sentryManager: SentryManager.shared,
+        analyticEngines: []
     )
 }

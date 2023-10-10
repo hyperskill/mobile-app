@@ -4,6 +4,8 @@ import Foundation
 import shared
 
 final class AppsFlyerManager {
+    private static let waitForATTUserAuthorizationTimeoutInterval: TimeInterval = 60
+
     static let shared = AppsFlyerManager()
 
     private init() {}
@@ -13,7 +15,8 @@ final class AppsFlyerManager {
 
         lib.appsFlyerDevKey = BuildKonfig.companion.APPS_FLYER_DEV_KEY
         lib.appleAppID = AppsFlyerInfo.appleAppID
-        lib.waitForATTUserAuthorization(timeoutInterval: 60)
+        lib.waitForATTUserAuthorization(timeoutInterval: Self.waitForATTUserAuthorizationTimeoutInterval)
+
         #if DEBUG
         lib.isDebug = true
         #endif

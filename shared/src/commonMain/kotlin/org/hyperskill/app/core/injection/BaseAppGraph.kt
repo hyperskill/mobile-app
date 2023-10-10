@@ -1,7 +1,7 @@
 package org.hyperskill.app.core.injection
 
-import org.hyperskill.app.analytic.injection.AnalyticComponent
-import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
+import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponent
+import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -184,16 +184,8 @@ abstract class BaseAppGraph : AppGraph {
         )
     }
 
-    override val analyticComponent: AnalyticComponent by lazy {
-        AnalyticComponentImpl(
-            networkComponent = networkComponent,
-            commonComponent = commonComponent,
-            authComponent = authComponent,
-            profileDataComponent = profileDataComponent,
-            notificationComponent = buildNotificationComponent(),
-            sentryComponent = sentryComponent
-        )
-    }
+    override fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent =
+        HyperskillAnalyticEngineComponentImpl(this)
 
     override fun buildMainDataComponent(): MainDataComponent =
         MainDataComponentImpl(this)
