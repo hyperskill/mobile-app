@@ -77,17 +77,17 @@ final class AppsFlyerManager: AnalyticEngine {
         AppsFlyerLib.shared().logEvent(
             name: name,
             values: values,
-            completionHandler: { dictionary, error in
+            completionHandler: { dictionaryOrNil, errorOrNil in
                 #if DEBUG
-                if let error {
+                if let error = errorOrNil {
                     print("AppsFlyerManager: failed log event = \(name) with error =\(error)")
                 } else {
                     print("""
-AppsFlyerManager: successfully logged event = \(name) with result = \(String(describing: dictionary))
+AppsFlyerManager: successfully logged event = \(name) with result = \(String(describing: dictionaryOrNil))
 """)
                 }
                 #endif
-                completionHandler(error)
+                completionHandler(errorOrNil)
             }
         )
     }
