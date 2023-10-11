@@ -67,7 +67,7 @@ class FirstProblemOnboardingFragment : Fragment() {
                 requireAppRouter().sendResult(FIRST_PROBLEM_ONBOARDING_FINISHED, action.stepRoute ?: Any())
             }
             ViewAction.ShowNetworkError -> {
-                requireView().snackbar(org.hyperskill.app.R.string.common_error)
+                requireView().snackbar(org.hyperskill.app.R.string.first_problem_onboarding_network_error)
             }
         }
     }
