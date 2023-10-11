@@ -14,6 +14,7 @@ import org.hyperskill.app.projects.domain.model.projectId
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.track.domain.model.getAllProjects
 import org.hyperskill.app.track.domain.repository.TrackRepository
@@ -49,64 +50,31 @@ internal class ProjectSelectionListActionDispatcher(
         action: InternalAction.FetchContent,
         onNewMessage: (Message) -> Unit
     ) {
-        coroutineScope {
-            val transaction = HyperskillSentryTransactionBuilder
-                .buildProjectSelectionListScreenRemoteDataLoading()
-            sentryInteractor.startTransaction(transaction)
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildProjectSelectionListScreenRemoteDataLoading(),
+            onError = { ProjectSelectionListFeature.ContentFetchResult.Error }
+        ) {
+            coroutineScope {
+                val profile = currentProfileStateRepository.getState(forceUpdate = false).getOrThrow()
+                val track = trackRepository.getTrack(action.trackId, action.forceLoadFromNetwork).getOrThrow()
 
-            val profile = currentProfileStateRepository.getState(forceUpdate = false)
-                .getOrElse {
-                    sentryInteractor.finishTransaction(transaction, throwable = it)
-                    onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                    return@coroutineScope
+                val projectsIds = track.getAllProjects(profile.isBeta)
+
+                val studyPlanDeferred = async {
+                    currentStudyPlanStateRepository.getState(action.forceLoadFromNetwork)
+                }
+                val projectsDeferred = async {
+                    projectsRepository.getProjects(projectsIds, action.forceLoadFromNetwork)
+                }
+                val projectsProgressesDeferred = async {
+                    progressesRepository.getProjectsProgresses(projectsIds, action.forceLoadFromNetwork)
                 }
 
-            val track =
-                trackRepository.getTrack(action.trackId, action.forceLoadFromNetwork)
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(transaction, throwable = it)
-                        onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                        return@coroutineScope
-                    }
+                val studyPlan = studyPlanDeferred.await().getOrThrow()
+                val projects = projectsDeferred.await().getOrThrow()
+                val projectsProgresses: Map<Long, ProjectProgress> =
+                    projectsProgressesDeferred.await().map(::mapProgressesToMap).getOrThrow()
 
-            val projectsIds = track.getAllProjects(profile.isBeta)
-
-            val studyPlanDeferred = async {
-                currentStudyPlanStateRepository.getState(action.forceLoadFromNetwork)
-            }
-
-            val projectsDeferred = async {
-                projectsRepository.getProjects(projectsIds, action.forceLoadFromNetwork)
-            }
-
-            val projectsProgressesDeferred = async {
-                progressesRepository.getProjectsProgresses(projectsIds, action.forceLoadFromNetwork)
-            }
-
-            val studyPlan = studyPlanDeferred.await()
-                .getOrElse {
-                    sentryInteractor.finishTransaction(transaction, throwable = it)
-                    onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                    return@coroutineScope
-                }
-
-            val projects = projectsDeferred.await()
-                .getOrElse {
-                    sentryInteractor.finishTransaction(transaction, throwable = it)
-                    onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                    return@coroutineScope
-                }
-
-            val projectsProgresses: Map<Long, ProjectProgress> =
-                projectsProgressesDeferred.await().map(::mapProgressesToMap)
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(transaction, throwable = it)
-                        onNewMessage(ProjectSelectionListFeature.ContentFetchResult.Error)
-                        return@coroutineScope
-                    }
-
-            sentryInteractor.finishTransaction(transaction)
-            onNewMessage(
                 ProjectSelectionListFeature.ContentFetchResult.Success(
                     profile = profile,
                     track = track,
@@ -119,8 +87,8 @@ internal class ProjectSelectionListActionDispatcher(
                     },
                     currentProjectId = studyPlan.projectId
                 )
-            )
-        }
+            }
+        }.let(onNewMessage)
     }
 
     private fun mapProgressesToMap(progresses: List<ProjectProgress>): Map<Long, ProjectProgress> =
