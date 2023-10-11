@@ -34,7 +34,7 @@
         android:id="@+id/unsupportedStageTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/unsupported_stage_dialog_title"
+        android:text="@string/stage_implement_unsupported_modal_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:fontFamily="@font/roboto_bold"
         android:textSize="34sp"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:text="@string/unsupported_stage_dialog_description"
+        android:text="@string/stage_implement_unsupported_modal_description"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/unsupportedStageTitleTextView"
         />
@@ -58,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/action_button_height"
         style="@style/ThemeOverlay.Blue"
-        android:text="@string/go_to_homescreen"
+        android:text="@string/go_to_training"
         android:layout_marginTop="32dp"
         app:layout_constraintTop_toBottomOf="@+id/unsupportedStageDescriptionTextView"
         />

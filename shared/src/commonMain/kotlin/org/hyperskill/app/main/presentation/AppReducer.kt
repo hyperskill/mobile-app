@@ -99,7 +99,7 @@ class AppReducer(
                             message.profile.isNewUser ->
                                 add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
                             else ->
-                                add(Action.ViewAction.NavigateTo.HomeScreen)
+                                add(Action.ViewAction.NavigateTo.StudyPlan)
                         }
                         addAll(getOnAuthorizedAppStartUpActions(message.profile.id, platformType))
                     } else {
@@ -178,7 +178,7 @@ class AppReducer(
                 if (!message.wasFirstProblemOnboardingShown) {
                     Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen(isNewUserMode = false)
                 } else {
-                    Action.ViewAction.NavigateTo.HomeScreen
+                    Action.ViewAction.NavigateTo.StudyPlan
                 }
             )
         } else {
@@ -192,7 +192,7 @@ class AppReducer(
         if (state is State.Ready) {
             state to setOf(
                 message.firstProblemStepRoute?.let { stepRoute ->
-                    Action.ViewAction.NavigateTo.HomeScreenWithStep(stepRoute)
+                    Action.ViewAction.NavigateTo.StudyPlanWithStep(stepRoute)
                 } ?: Action.ViewAction.NavigateTo.StudyPlan
             )
         } else {
@@ -215,7 +215,7 @@ class AppReducer(
         if (profile.isNewUser) {
             Action.ViewAction.NavigateTo.TrackSelectionScreen
         } else {
-            Action.ViewAction.NavigateTo.HomeScreen
+            Action.ViewAction.NavigateTo.StudyPlan
         }
 
     private fun reduceStreakRecoveryMessage(

@@ -72,7 +72,7 @@
         android:layout_height="@dimen/action_button_height"
         style="@style/Widget.AppTheme.Button.OutlinedButton"
         app:strokeColor="?colorPrimary"
-        android:text="@string/go_to_homescreen"
+        android:text="@string/go_to_study_plan"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="20dp"
         app:layout_goneMarginBottom="20dp"

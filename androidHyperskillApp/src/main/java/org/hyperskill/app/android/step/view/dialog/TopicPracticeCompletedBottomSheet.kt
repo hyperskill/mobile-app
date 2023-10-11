@@ -78,14 +78,14 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
             completedDailyStepGoBackButton.isVisible = isNextStepAvailable
             completedDailyStepGoBackButton.setOnClickListener {
                 dismiss()
-                onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToHomeScreenClicked)
+                onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
             }
 
             completedDailyStepPrimaryButton.setText(
                 if (isNextStepAvailable) {
                     org.hyperskill.app.R.string.step_quiz_topic_completed_continue_with_next_topic_button_text
                 } else {
-                    org.hyperskill.app.R.string.go_to_homescreen
+                    org.hyperskill.app.R.string.go_to_study_plan
                 }
             )
             completedDailyStepPrimaryButton.setOnClickListener {
@@ -94,7 +94,7 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
                     if (isNextStepAvailable) {
                         StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked
                     } else {
-                        StepCompletionFeature.Message.TopicCompletedModalGoToHomeScreenClicked
+                        StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked
                     }
                 )
             }
