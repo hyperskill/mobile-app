@@ -98,11 +98,31 @@ extension AppViewController: AppViewControllerProtocol {
             switch viewAction {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
-            case .homeScreen, .studyPlan, .homeScreenWithStep:
-                // TODO: We will implement navigation to study plan in ALTAPPS-1004
-                let controller = AppTabBarController()
-                controller.appTabBarControllerDelegate = viewModel
-                return controller
+            case .homeScreen:
+                return AppTabBarController(initialTab: .home, appTabBarControllerDelegate: viewModel)
+            case .studyPlan:
+                return AppTabBarController(initialTab: .studyPlan, appTabBarControllerDelegate: viewModel)
+            case .homeScreenWithStep(let navigateToHomeScreenWithStepViewAction):
+                let tabBarController = AppTabBarController(
+                    initialTab: .home,
+                    appTabBarControllerDelegate: viewModel
+                )
+
+                if !tabBarController.isViewLoaded {
+                    _ = tabBarController.view
+                }
+
+                DispatchQueue.main.async {
+                    let index = tabBarController.selectedIndex
+                    guard let navigationController = tabBarController.children[index] as? UINavigationController else {
+                        return assertionFailure("Expected UINavigationController")
+                    }
+
+                    let stepAssembly = StepAssembly(stepRoute: navigateToHomeScreenWithStepViewAction.stepRoute)
+                    navigationController.pushViewController(stepAssembly.makeModule(), animated: false)
+                }
+
+                return tabBarController
             case .authScreen(let data):
                 let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
                 return UIHostingController(rootView: assembly.makeModule())
@@ -136,21 +156,6 @@ extension AppViewController: AppViewControllerProtocol {
         assert(children.count <= 2)
 
         swapRootViewController(from: fromViewController, to: viewControllerToPresent)
-
-        if case .homeScreenWithStep(let navigateToHomeScreenWithStepAction) = viewAction {
-            guard let tabBarController = viewControllerToPresent as? AppTabBarController else {
-                return
-            }
-
-            guard let navigationController = tabBarController.viewControllers?.first as? UINavigationController else {
-                return
-            }
-
-            navigationController.pushViewController(
-                StepAssembly(stepRoute: navigateToHomeScreenWithStepAction.stepRoute).makeModule(),
-                animated: true
-            )
-        }
     }
 
     private func handleStreakRecoveryViewAction(_ viewAction: StreakRecoveryFeatureActionViewActionKs) {

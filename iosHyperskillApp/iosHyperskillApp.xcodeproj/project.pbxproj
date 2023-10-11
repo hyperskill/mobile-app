@@ -1432,6 +1432,7 @@
 				2C1860FB2923C540007D4EBF /* AppFeatureStateKsExtensions.swift */,
 				2C93C2D7292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift */,
 				2C8CD9AD2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift */,
+				E9A1DA6F2ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift */,
 				2CC7833D295DAE3E00A867CD /* OnboardingFeatureStateKsExtensions.swift */,
 				E9B55A5429C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift */,
 				2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */,
@@ -1445,7 +1446,6 @@
 				E9AD65A9292DC0BE00E574F0 /* TopicsRepetitionsFeatureStateKsExtensions.swift */,
 				2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */,
 				2C0EB9532A151C2B006DC84B /* TrackSelectionListFeatureViewStateKsExtensions.swift */,
-				E9A1DA6F2ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
