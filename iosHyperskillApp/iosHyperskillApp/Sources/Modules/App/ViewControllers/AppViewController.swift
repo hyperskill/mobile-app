@@ -137,7 +137,20 @@ extension AppViewController: AppViewControllerProtocol {
 
         swapRootViewController(from: fromViewController, to: viewControllerToPresent)
 
-        // TODO: implement pushing step to navigation controller of home screen
+        if case .homeScreenWithStep(let navigateToHomeScreenWithStepAction) = viewAction {
+            guard let tabBarController = viewControllerToPresent as? AppTabBarController else {
+                return
+            }
+
+            guard let navigationController = tabBarController.viewControllers?.first as? UINavigationController else {
+                return
+            }
+
+            navigationController.pushViewController(
+                StepAssembly(stepRoute: navigateToHomeScreenWithStepAction.stepRoute).makeModule(),
+                animated: true
+            )
+        }
     }
 
     private func handleStreakRecoveryViewAction(_ viewAction: StreakRecoveryFeatureActionViewActionKs) {
