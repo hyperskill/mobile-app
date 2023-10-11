@@ -18,6 +18,8 @@ import org.hyperskill.app.devices.injection.DevicesDataComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
+import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponentImpl
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
@@ -422,4 +424,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildNotificationsOnboardingComponent(): NotificationsOnboardingComponent =
         NotificationsOnboardingComponentImpl(this)
+
+    override fun buildFirstProblemOnboardingComponent(): FirstProblemOnboardingComponent =
+        FirstProblemOnboardingComponentImpl(this)
 }

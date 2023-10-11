@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "first-problem-onboarding-existing-user-illustration.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

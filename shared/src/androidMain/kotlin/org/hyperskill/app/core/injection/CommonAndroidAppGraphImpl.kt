@@ -11,6 +11,8 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponentImpl
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponentImpl
+import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProblemOnboardingComponent
+import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProblemOnboardingComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
@@ -209,5 +211,13 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformNotificationOnboardingComponent(): PlatformNotificationsOnboardingComponent =
         PlatformNotificationsOnboardingComponentImpl(
             notificationsOnboardingComponent = buildNotificationsOnboardingComponent()
+        )
+
+    override fun buildPlatformFirstProblemOnboardingComponent(
+        isNewUserMode: Boolean
+    ): PlatformFirstProblemOnboardingComponent =
+        PlatformFirstProblemOnboardingComponentImpl(
+            isNewUserMode = isNewUserMode,
+            firstProblemOnboardingComponent = buildFirstProblemOnboardingComponent()
         )
 }

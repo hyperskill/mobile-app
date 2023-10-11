@@ -131,6 +131,14 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: FirstProblemOnboardingOutputProtocol -
+
+extension AppViewModel: FirstProblemOnboardingOutputProtocol {
+    func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
+        onNewMessage(AppFeatureMessageFirstProblemOnboardingCompleted(firstProblemStepRoute: stepRoute))
+    }
+}
+
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
@@ -151,10 +159,11 @@ private extension AppViewModel {
 
         notificationCenter.addObserver(
             self,
-            selector: #selector(handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
-            name: .trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            selector: #selector(handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding),
+            name: .trackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding,
             object: nil
         )
+
         notificationCenter.addObserver(
             self,
             selector: #selector(handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
@@ -178,13 +187,13 @@ private extension AppViewModel {
     }
 
     @objc
-    func handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
+    func handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
         onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
     }
 
     @objc
-    func handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
-        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+    func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
+        onViewAction?(AppFeatureActionViewActionNavigateToFirstProblemOnBoardingScreen(isNewUserMode: true))
     }
 
     @objc

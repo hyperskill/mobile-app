@@ -59,6 +59,10 @@ class AppReducer(
                 handleNotificationOnboardingDataFetched(state, message)
             is Message.NotificationOnboardingCompleted ->
                 handleNotificationOnboardingCompleted(state)
+            is Message.FirstProblemOnboardingDataFetched ->
+                handleFirstProblemOnboardingDataFetched(state, message)
+            is Message.FirstProblemOnboardingCompleted ->
+                handleFirstProblemOnboardingCompleted(state, message)
             is Message.OpenAuthScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
@@ -165,8 +169,47 @@ class AppReducer(
             state to emptySet()
         }
 
+    private fun handleFirstProblemOnboardingDataFetched(
+        state: State,
+        message: Message.FirstProblemOnboardingDataFetched
+    ): ReducerResult =
+        if (state is State.Ready && state.profile != null && !state.profile.isNewUser) {
+            State.Ready(isAuthorized = true) to setOf(
+                if (!message.wasFirstProblemOnboardingShown) {
+                    Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen(isNewUserMode = false)
+                } else {
+                    Action.ViewAction.NavigateTo.HomeScreen
+                }
+            )
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleFirstProblemOnboardingCompleted(
+        state: State,
+        message: Message.FirstProblemOnboardingCompleted
+    ): ReducerResult =
+        if (state is State.Ready) {
+            state to setOf(
+                message.firstProblemStepRoute?.let { stepRoute ->
+                    Action.ViewAction.NavigateTo.HomeScreenWithStep(stepRoute)
+                } ?: Action.ViewAction.NavigateTo.StudyPlan
+            )
+        } else {
+            state to emptySet()
+        }
+
     private fun navigateUserAfterNotificationOnboarding(profile: Profile): ReducerResult =
-        State.Ready(isAuthorized = true) to setOf(getAuthorizedUserNavigationAction(profile))
+        State.Ready(
+            isAuthorized = true,
+            profile = profile
+        ) to setOf(
+            if (profile.isNewUser) {
+                Action.ViewAction.NavigateTo.TrackSelectionScreen
+            } else {
+                Action.FetchFirstProblemOnboardingData
+            }
+        )
 
     private fun getAuthorizedUserNavigationAction(profile: Profile): Action =
         if (profile.isNewUser) {
