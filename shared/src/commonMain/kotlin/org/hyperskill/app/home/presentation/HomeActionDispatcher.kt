@@ -71,7 +71,7 @@ class HomeActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchHomeScreenData -> fetchHomeScreenData()
+            is Action.FetchHomeScreenData -> handleFetchHomeScreenData(::onNewMessage)
             is Action.LaunchTimer -> {
                 if (isTimerLaunched) {
                     return
@@ -107,7 +107,7 @@ class HomeActionDispatcher(
         }
     }
 
-    private suspend fun fetchHomeScreenData() {
+    private suspend fun handleFetchHomeScreenData(onNewMessage: (Message) -> Unit) {
         sentryInteractor.withTransaction(
             HyperskillSentryTransactionBuilder.buildHomeScreenRemoteDataLoading(),
             onError = { setOf(Message.HomeFailure) }
@@ -128,7 +128,7 @@ class HomeActionDispatcher(
                     Message.ReadyToLaunchNextProblemInTimer
                 )
             }
-        }.forEach(::onNewMessage)
+        }.forEach(onNewMessage)
     }
 
     private suspend fun getProblemOfDayState(dailyStepId: Long?): Result<HomeFeature.ProblemOfDayState> =
