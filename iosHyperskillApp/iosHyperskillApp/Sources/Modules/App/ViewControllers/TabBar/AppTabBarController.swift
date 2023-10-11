@@ -12,7 +12,7 @@ protocol AppTabBarControllerDelegate: AnyObject {
 final class AppTabBarController: UITabBarController {
     private weak var appTabBarControllerDelegate: AppTabBarControllerDelegate?
 
-    private var currentTabItem = AppTabItem.home
+    private var currentTabItem: AppTabItem
 
     init(
         initialTab: AppTabItem = .home,
