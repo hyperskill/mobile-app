@@ -15,7 +15,7 @@ enum Strings {
         static let ok = sharedStrings.ok.localized()
         static let later = sharedStrings.later.localized()
         static let goodJob = sharedStrings.good_job.localized()
-        static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
+        static let goToTraining = sharedStrings.go_to_training.localized()
         static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
         static let progress = sharedStrings.progress.localized()
         static let completed = sharedStrings.completed.localized()

@@ -167,8 +167,8 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
         let goToHomescreenButton = makeActionButton(
             style: isNextStepAvailable ? .outline : .violet,
-            title: Strings.Common.goToHomescreen,
-            action: #selector(goToHomescreenButtonTapped)
+            title: Strings.Common.goToStudyPlan,
+            action: #selector(goToStudyPlanButtonTapped)
         )
 
         containerStackView.addArrangedSubview(goToHomescreenButton)
@@ -195,8 +195,8 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
     }
 
     @objc
-    private func goToHomescreenButtonTapped() {
-        delegate?.topicCompletedModalViewControllerDidTapGoToHomescreenButton(self)
+    private func goToStudyPlanButtonTapped() {
+        delegate?.topicCompletedModalViewControllerDidTapGoToStudyPlanButton(self)
     }
 
     @objc
