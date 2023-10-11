@@ -1,9 +1,0 @@
-package org.hyperskill.app.next_learning_activity_widget.injection
-
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetActionDispatcher
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
-
-interface NextLearningActivityWidgetComponent {
-    val nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer
-    val nextLearningActivityWidgetActionDispatcher: NextLearningActivityWidgetActionDispatcher
-}
