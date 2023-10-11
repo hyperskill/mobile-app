@@ -5,6 +5,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 
 /**
  * Execute a block of code within a Sentry transaction.
+ * Automatically starts and finish the [transaction].
  *
  * @param transaction The transaction to be started.
  * @param onError Callback function to create a result in case of an error.
