@@ -12,6 +12,7 @@ import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.domain.model.TrackWithProgress
@@ -50,59 +51,39 @@ internal class ProgressScreenActionDispatcher(
         action: InternalAction.FetchTrackWithProgress,
         onNewMessage: (Message) -> Unit
     ) {
-        coroutineScope {
-            val transaction = HyperskillSentryTransactionBuilder
-                .buildProgressScreenRemoteTrackWithProgressLoading()
-            sentryInteractor.startTransaction(transaction)
-
-            val profileDeferred = async {
-                currentProfileStateRepository
-                    .getState(forceUpdate = action.forceLoadFromNetwork)
-            }
-            val studyPlanDeferred = async {
-                currentStudyPlanStateRepository
-                    .getState(forceUpdate = action.forceLoadFromNetwork)
-            }
-
-            val profile = profileDeferred.await().getOrElse {
-                sentryInteractor.finishTransaction(transaction, throwable = it)
-                onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
-                return@coroutineScope
-            }
-            val studyPlan = studyPlanDeferred.await().getOrElse {
-                sentryInteractor.finishTransaction(transaction, throwable = it)
-                onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
-                return@coroutineScope
-            }
-
-            if (studyPlan.trackId == null) {
-                sentryInteractor.finishTransaction(transaction)
-                onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
-                return@coroutineScope
-            }
-
-            val trackWithProgress = fetchTrackWithProgress(studyPlan.trackId, action.forceLoadFromNetwork)
-                .getOrElse {
-                    sentryInteractor.finishTransaction(transaction, throwable = it)
-                    onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
-                    return@coroutineScope
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildProgressScreenRemoteTrackWithProgressLoading(),
+            onError = { ProgressScreenFeature.TrackWithProgressFetchResult.Error }
+        ) {
+            coroutineScope {
+                val profileDeferred = async {
+                    currentProfileStateRepository
+                        .getState(forceUpdate = action.forceLoadFromNetwork)
+                }
+                val studyPlanDeferred = async {
+                    currentStudyPlanStateRepository
+                        .getState(forceUpdate = action.forceLoadFromNetwork)
                 }
 
-            if (trackWithProgress == null) {
-                sentryInteractor.finishTransaction(transaction)
-                onNewMessage(ProgressScreenFeature.TrackWithProgressFetchResult.Error)
-                return@coroutineScope
-            }
+                val profile = profileDeferred.await().getOrThrow()
+                val studyPlan = studyPlanDeferred.await().getOrThrow()
 
-            sentryInteractor.finishTransaction(transaction)
-            onNewMessage(
+                if (studyPlan.trackId == null) {
+                    return@coroutineScope ProgressScreenFeature.TrackWithProgressFetchResult.Error
+                }
+
+                val trackWithProgress =
+                    fetchTrackWithProgress(studyPlan.trackId, action.forceLoadFromNetwork)
+                        .getOrThrow()
+                        ?: return@coroutineScope ProgressScreenFeature.TrackWithProgressFetchResult.Error
+
                 ProgressScreenFeature.TrackWithProgressFetchResult.Success(
                     trackWithProgress = trackWithProgress,
                     studyPlan = studyPlan,
                     profile = profile
                 )
-            )
-        }
+            }
+        }.let(onNewMessage)
     }
 
     private suspend fun handleFetchProjectWithProgressAction(
