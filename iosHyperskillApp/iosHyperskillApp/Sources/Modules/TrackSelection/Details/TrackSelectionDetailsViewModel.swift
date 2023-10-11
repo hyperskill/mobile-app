@@ -29,9 +29,9 @@ final class TrackSelectionDetailsViewModel: FeatureViewModel<
         onNewMessage(TrackSelectionDetailsFeatureMessageSelectTrackButtonClicked())
     }
 
-    func doNavigateToHomeAsNewRootScreenPresentation() {
+    func doNavigateToFirstProblemOnboardingScreenPresentation() {
         NotificationCenter.default.post(
-            name: .trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            name: .trackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding,
             object: nil
         )
     }
@@ -46,6 +46,6 @@ final class TrackSelectionDetailsViewModel: FeatureViewModel<
 // MARK: - TrackSelectionDetailsViewModel (NSNotification.Name) -
 
 extension NSNotification.Name {
-    static let trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen =
-      NSNotification.Name("TrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen")
+    static let trackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding =
+      NSNotification.Name("TrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding")
 }
