@@ -131,6 +131,14 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: FirstProblemOnboardingOutputProtocol -
+
+extension AppViewModel: FirstProblemOnboardingOutputProtocol {
+    func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
+        onNewMessage(AppFeatureMessageFirstProblemOnboardingCompleted(firstProblemStepRoute: stepRoute))
+    }
+}
+
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
@@ -148,6 +156,13 @@ extension AppViewModel: AppTabBarControllerDelegate {
 private extension AppViewModel {
     func subscribeForNotifications() {
         let notificationCenter = NotificationCenter.default
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding),
+            name: .trackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding,
+            object: nil
+        )
 
         notificationCenter.addObserver(
             self,
@@ -174,6 +189,11 @@ private extension AppViewModel {
     @objc
     func handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
         onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+    }
+
+    @objc
+    func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
+        onViewAction?(AppFeatureActionViewActionNavigateToFirstProblemOnBoardingScreen(isNewUserMode: true))
     }
 
     @objc

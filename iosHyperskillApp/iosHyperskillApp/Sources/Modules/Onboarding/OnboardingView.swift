@@ -78,6 +78,7 @@ struct OnboardingView: View {
 
                 Button(Strings.Onboarding.signIn, action: viewModel.doSignPresentation)
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                    .shineEffect()
 
                 Button(Strings.Onboarding.signUp, action: viewModel.doClickedSignUpAction)
                     .buttonStyle(OutlineButtonStyle(style: .violet))

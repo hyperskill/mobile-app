@@ -108,7 +108,7 @@ private extension TrackSelectionDetailsView {
                 stackRouter.popToRootViewController()
             }
         case .firstProblemOnboarding:
-            #warning("TODO")
+            viewModel.doNavigateToFirstProblemOnboardingScreenPresentation()
         case .projectSelectionList(let navigateToProjectSelectionListViewAction):
             let assembly = ProjectSelectionListAssembly(
                 isNewUserMode: navigateToProjectSelectionListViewAction.isNewUserMode,

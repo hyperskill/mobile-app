@@ -390,6 +390,7 @@
     <string name="first_problem_onboarding_new_user_title">Great choice!</string>
     <string name="first_problem_onboarding_new_user_subtitle">Embark on your journey in %s right now!</string>
     <string name="first_problem_onboarding_new_user_button_text">Start learning</string>
+    <string name="first_problem_onboarding_network_error">Failed to load first problem</string>
 
     <!-- Text for receiving notification after daily step is complete -->
     <string name="after_daily_step_completed_dialog_title">Stay motivated with daily reminders</string>
