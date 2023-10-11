@@ -99,7 +99,7 @@ extension AppViewController: AppViewControllerProtocol {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
             case .homeScreen, .studyPlan, .homeScreenWithStep:
-                // TODO: We will implement navigation to study plan in ALTUX-2316
+                // TODO: We will implement navigation to study plan in ALTAPPS-1004
                 let controller = AppTabBarController()
                 controller.appTabBarControllerDelegate = viewModel
                 return controller

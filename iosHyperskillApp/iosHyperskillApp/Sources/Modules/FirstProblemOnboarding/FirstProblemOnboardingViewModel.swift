@@ -3,9 +3,9 @@ import Foundation
 import shared
 
 final class FirstProblemOnboardingViewModel: FeatureViewModel<
-FirstProblemOnboardingFeatureViewState,
-FirstProblemOnboardingFeatureMessage,
-FirstProblemOnboardingFeatureActionViewAction
+  FirstProblemOnboardingFeatureViewState,
+  FirstProblemOnboardingFeatureMessage,
+  FirstProblemOnboardingFeatureActionViewAction
 > {
     weak var moduleOutput: FirstProblemOnboardingOutputProtocol?
 
