@@ -10,14 +10,36 @@ protocol AppTabBarControllerDelegate: AnyObject {
 }
 
 final class AppTabBarController: UITabBarController {
-    weak var appTabBarControllerDelegate: AppTabBarControllerDelegate?
+    private weak var appTabBarControllerDelegate: AppTabBarControllerDelegate?
 
-    private var currentTabItem = AppTabItem.home
+    private var currentTabItem: AppTabItem
+
+    init(
+        initialTab: AppTabItem = .home,
+        appTabBarControllerDelegate: AppTabBarControllerDelegate?
+    ) {
+        self.currentTabItem = initialTab
+        self.appTabBarControllerDelegate = appTabBarControllerDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = self
+
         setViewControllers()
+
+        if let initialTabIndex = AppTabItem.availableItems.firstIndex(of: currentTabItem) {
+            selectedIndex = initialTabIndex
+        } else {
+            selectedIndex = 0
+        }
+
+        delegate = self
     }
 
     private func setViewControllers() {
