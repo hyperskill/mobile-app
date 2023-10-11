@@ -29,9 +29,23 @@ final class TrackSelectionDetailsViewModel: FeatureViewModel<
         onNewMessage(TrackSelectionDetailsFeatureMessageSelectTrackButtonClicked())
     }
 
+    func doNavigateToFirstProblemOnboardingScreenPresentation() {
+        NotificationCenter.default.post(
+            name: .trackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding,
+            object: nil
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {
         onNewMessage(TrackSelectionDetailsFeatureMessageViewedEventMessage())
     }
+}
+
+// MARK: - TrackSelectionDetailsViewModel (NSNotification.Name) -
+
+extension NSNotification.Name {
+    static let trackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding =
+      NSNotification.Name("TrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding")
 }
