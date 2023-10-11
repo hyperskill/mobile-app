@@ -3,6 +3,7 @@ package org.hyperskill.app.home.presentation
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -25,6 +26,7 @@ import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
@@ -69,39 +71,7 @@ class HomeActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchHomeScreenData -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildHomeScreenRemoteDataLoading()
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                val currentProfile = currentProfileStateRepository
-                    .getState(forceUpdate = true) // ALTAPPS-303: Get from remote to get relevant problem of the day
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(Message.HomeFailure)
-                    }
-
-                val problemOfDayStateResult = actionScope.async { getProblemOfDayState(currentProfile.dailyStep) }
-                val repetitionsStateResult = actionScope.async { getRepetitionsState() }
-                val isFreemiumEnabledResult = actionScope.async { freemiumInteractor.isFreemiumEnabled() }
-
-                val problemOfDayState = problemOfDayStateResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.HomeFailure)
-                }
-                val repetitionsState = repetitionsStateResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.HomeFailure)
-                }
-                val isFreemiumEnabled = isFreemiumEnabledResult.await().getOrElse {
-                    sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                    return onNewMessage(Message.HomeFailure)
-                }
-
-                sentryInteractor.finishTransaction(sentryTransaction)
-
-                onNewMessage(Message.HomeSuccess(problemOfDayState, repetitionsState, isFreemiumEnabled))
-                onNewMessage(Message.ReadyToLaunchNextProblemInTimer)
-            }
+            is Action.FetchHomeScreenData -> handleFetchHomeScreenData(::onNewMessage)
             is Action.LaunchTimer -> {
                 if (isTimerLaunched) {
                     return
@@ -135,6 +105,30 @@ class HomeActionDispatcher(
                 // no op
             }
         }
+    }
+
+    private suspend fun handleFetchHomeScreenData(onNewMessage: (Message) -> Unit) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildHomeScreenRemoteDataLoading(),
+            onError = { setOf(Message.HomeFailure) }
+        ) {
+            coroutineScope {
+                val currentProfile = currentProfileStateRepository
+                    .getState(forceUpdate = true) // ALTAPPS-303: Get from remote to get a relevant problem of the day
+                    .getOrThrow()
+                val problemOfDayStateResult = async { getProblemOfDayState(currentProfile.dailyStep) }
+                val repetitionsStateResult = async { getRepetitionsState() }
+                val isFreemiumEnabledResult = async { freemiumInteractor.isFreemiumEnabled() }
+                setOf(
+                    Message.HomeSuccess(
+                        problemOfDayState = problemOfDayStateResult.await().getOrThrow(),
+                        repetitionsState = repetitionsStateResult.await().getOrThrow(),
+                        isFreemiumEnabled = isFreemiumEnabledResult.await().getOrThrow()
+                    ),
+                    Message.ReadyToLaunchNextProblemInTimer
+                )
+            }
+        }.forEach(onNewMessage)
     }
 
     private suspend fun getProblemOfDayState(dailyStepId: Long?): Result<HomeFeature.ProblemOfDayState> =

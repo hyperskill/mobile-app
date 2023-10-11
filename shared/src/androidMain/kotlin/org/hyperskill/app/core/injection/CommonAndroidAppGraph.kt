@@ -8,6 +8,7 @@ import org.hyperskill.app.auth.injection.PlatformAuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthSocialWebViewComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.debug.injection.PlatformDebugComponent
+import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProblemOnboardingComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
@@ -95,4 +96,6 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent
 
     fun buildPlatformNotificationOnboardingComponent(): PlatformNotificationsOnboardingComponent
+
+    fun buildPlatformFirstProblemOnboardingComponent(isNewUserMode: Boolean): PlatformFirstProblemOnboardingComponent
 }

@@ -15,7 +15,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/onboarding/notifications",
  *     "action": "click",
  *     "part": "main",
- *     "target": "allow_notifications_button"
+ *     "target": "allow_notifications"
  * }
  * ```
  * @see HyperskillAnalyticEvent

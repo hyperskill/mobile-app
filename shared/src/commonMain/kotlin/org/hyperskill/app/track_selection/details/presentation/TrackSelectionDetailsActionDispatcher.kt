@@ -47,10 +47,12 @@ class TrackSelectionDetailsActionDispatcher(
                         return
                     }
 
-                profileRepository.selectTrack(currentProfile.id, action.trackId)
+                val newProfile = profileRepository.selectTrack(currentProfile.id, action.trackId)
                     .getOrElse {
                         return onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Error)
                     }
+
+                currentProfileStateRepository.updateState(newProfile)
 
                 onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Success)
             }
