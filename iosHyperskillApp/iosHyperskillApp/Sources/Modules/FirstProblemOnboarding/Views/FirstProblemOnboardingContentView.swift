@@ -4,7 +4,7 @@ extension FirstProblemOnboardingContentView {
     struct Appearance {
         let interitemSpacing = LayoutInsets.smallInset
 
-        let illustrationHeight: CGFloat = 380
+        let illustrationMaxHeight: CGFloat = 380
 
         let maxWidth: CGFloat = DeviceInfo.current.isPad ? 400 : .infinity
     }
@@ -79,50 +79,50 @@ struct FirstProblemOnboardingContentView: View {
     private var illustration: some View {
         Image(
             isNewUserMode
-            ? ImageResource.firstProblemOnboardingNewUserIllustration
-            : ImageResource.firstProblemOnboardingExistingUserIllustration
+              ? ImageResource.firstProblemOnboardingNewUserIllustration
+              : ImageResource.firstProblemOnboardingExistingUserIllustration
         )
         .renderingMode(.original)
         .resizable()
         .aspectRatio(contentMode: .fit)
         .frame(maxWidth: .infinity)
-        .frame(maxHeight: appearance.illustrationHeight)
+        .frame(maxHeight: appearance.illustrationMaxHeight)
     }
 
     @MainActor
     private var actionButton: some View {
-        VStack(alignment: .center, spacing: appearance.interitemSpacing) {
-            Button(
-                buttonText,
-                action: {
-                    actionButtonsFeedbackGenerator.triggerFeedback()
-                    onCallToActionButtonTap()
-                }
-            )
-            .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
-            .shineEffect()
-        }
+        Button(
+            buttonText,
+            action: {
+                actionButtonsFeedbackGenerator.triggerFeedback()
+                onCallToActionButtonTap()
+            }
+        )
+        .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
+        .shineEffect()
     }
 }
 
-struct FirstProblemOnboardingContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        FirstProblemOnboardingContentView(
-            title: "Let's keep going!",
-            subtitle: "It seems you've already made progress. Continue learning on '{project(or track).title}'!",
-            buttonText: "Keep learning",
-            isNewUserMode: false,
-            onCallToActionButtonTap: {}
-        )
-        .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+// MARK: - FirstProblemOnboardingContentView (Previews) -
 
-        FirstProblemOnboardingContentView(
-            title: "Great choice!",
-            subtitle: "Embark on your journey in '{project(or track).title}' right now!",
-            buttonText: "Start learning",
-            isNewUserMode: true,
-            onCallToActionButtonTap: {}
-        )
-        .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
-    }
+#Preview("Mobile device") {
+    FirstProblemOnboardingContentView(
+        title: "Let's keep going!",
+        subtitle: "It seems you've already made progress. Continue learning on '{project(or track).title}'!",
+        buttonText: "Keep learning",
+        isNewUserMode: false,
+        onCallToActionButtonTap: {}
+    )
+    .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
+}
+
+#Preview("Tablet device") {
+    FirstProblemOnboardingContentView(
+        title: "Great choice!",
+        subtitle: "Embark on your journey in '{project(or track).title}' right now!",
+        buttonText: "Start learning",
+        isNewUserMode: true,
+        onCallToActionButtonTap: {}
+    )
+    .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
 }

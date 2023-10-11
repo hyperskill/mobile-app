@@ -1,4 +1,3 @@
-import CombineSchedulers
 import Foundation
 import shared
 
@@ -18,9 +17,8 @@ final class FirstProblemOnboardingViewModel: FeatureViewModel<
         FirstProblemOnboardingFeatureViewStateKs(oldState) != FirstProblemOnboardingFeatureViewStateKs(newState)
     }
 
-    override init(feature: Presentation_reduxFeature, mainScheduler: AnySchedulerOf<RunLoop> = .main) {
+    init(feature: Presentation_reduxFeature) {
         super.init(feature: feature)
-
         onNewMessage(FirstProblemOnboardingFeatureMessageInitialize())
     }
 

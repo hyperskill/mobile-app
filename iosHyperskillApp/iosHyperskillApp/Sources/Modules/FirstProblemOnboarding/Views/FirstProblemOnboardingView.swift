@@ -85,16 +85,16 @@ private extension FirstProblemOnboardingView {
     }
 }
 
-// MARK: - FirstProblemOnboardingView_Previews: PreviewProvider -
+// MARK: - FirstProblemOnboardingView (Previews) -
 
-struct FirstProblemOnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitViewControllerPreview {
-            FirstProblemOnboardingAssembly(isNewUserMode: true, output: nil).makeModule()
-        }
+#Preview("New user") {
+    UIKitViewControllerPreview {
+        FirstProblemOnboardingAssembly(isNewUserMode: true, output: nil).makeModule()
+    }
+}
 
-        UIKitViewControllerPreview {
-            FirstProblemOnboardingAssembly(isNewUserMode: false, output: nil).makeModule()
-        }
+#Preview("Existed user") {
+    UIKitViewControllerPreview {
+        FirstProblemOnboardingAssembly(isNewUserMode: false, output: nil).makeModule()
     }
 }
