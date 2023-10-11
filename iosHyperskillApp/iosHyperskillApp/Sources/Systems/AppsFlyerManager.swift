@@ -12,19 +12,19 @@ final class AppsFlyerManager: AnalyticEngine {
 
     private init() {}
 
-    func configure() {
+    static func configure() {
         let lib = AppsFlyerLib.shared()
 
         lib.appsFlyerDevKey = BuildKonfig.companion.APPS_FLYER_DEV_KEY
         lib.appleAppID = AppsFlyerInfo.appleAppID
-        lib.waitForATTUserAuthorization(timeoutInterval: Self.waitForATTUserAuthorizationTimeoutInterval)
+        lib.waitForATTUserAuthorization(timeoutInterval: waitForATTUserAuthorizationTimeoutInterval)
 
         #if DEBUG
         lib.isDebug = true
         #endif
     }
 
-    func start() {
+    static func start() {
         #if DEBUG
         AppsFlyerLib.shared().start { dictionary, error in
             if let error {
