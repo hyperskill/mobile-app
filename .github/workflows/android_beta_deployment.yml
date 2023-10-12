@@ -3,8 +3,8 @@ name: Android Beta Deployment
 on:
   push:
     branches:
-      - 'release/**'
-      - 'hotfix/**'
+      - "release/**"
+      - "hotfix/**"
 
 concurrency:
   group: ${{ github.workflow }}
@@ -15,14 +15,20 @@ defaults:
     shell: bash
 
 jobs:
+  files-changed:
+    name: Detect changes
+    uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
+
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
   gradle-wrapper-validation:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Gradle Wrapper Validation
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.0
-        
+
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1.1.0
 
@@ -35,33 +41,33 @@ jobs:
     timeout-minutes: 60
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4.1.0
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
 
-    - name: Setup CI
-      id: setup
-      uses: ./.github/actions/setup-android
-      with:
-        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-        release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
-        setup-ruby: true
+      - name: Setup CI
+        id: setup
+        uses: ./.github/actions/setup-android
+        with:
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+          release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
+          setup-ruby: true
 
-    - name: Submit a new Beta Build to Firebase App Distribution
-      working-directory: './androidHyperskillApp'
-      run: |
-        bundle exec fastlane beta \
-          firebase_app_id:"${{ secrets.FIREBASE_APP_ID }}" \
-          firebase_cli_token:"${{ secrets.FIREBASE_TOKEN }}"
-      env:
-        HYPERSKILL_IS_INTERNAL_TESTING: true
-        HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
-        HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
-        HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
-        HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
-        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  
+      - name: Submit a new Beta Build to Firebase App Distribution
+        working-directory: "./androidHyperskillApp"
+        run: |
+          bundle exec fastlane beta \
+            firebase_app_id:"${{ secrets.FIREBASE_APP_ID }}" \
+            firebase_cli_token:"${{ secrets.FIREBASE_TOKEN }}"
+        env:
+          HYPERSKILL_IS_INTERNAL_TESTING: true
+          HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
+          HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
+          HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
+          HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
+          IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   # Build and submit to the Google Play
   google-play-deployment:
     name: Deploy to Google Play
@@ -71,29 +77,29 @@ jobs:
     timeout-minutes: 60
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4.1.0
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
 
-    - name: Setup CI
-      id: setup
-      uses: ./.github/actions/setup-android
-      with:
-        setup-ruby: true
-        git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
-        release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
-        service-account-content: ${{ secrets.SERVICE_ACCOUNT_CONTENT }}
+      - name: Setup CI
+        id: setup
+        uses: ./.github/actions/setup-android
+        with:
+          setup-ruby: true
+          git-crypt-key: ${{ secrets.GIT_CRYPT_KEY }}
+          release-keystore-content: ${{ secrets.HYPERSKILL_RELEASE_KEYSTORE_CONTENT }}
+          service-account-content: ${{ secrets.SERVICE_ACCOUNT_CONTENT }}
 
-    - name: Submit a new Release Build to the Google Play
-      working-directory: './androidHyperskillApp'
-      run: |
-        bundle exec fastlane release \
-          json_key:"${{ steps.setup.outputs.service-account-path }}" \
-          track:"internal"
-      env:
-        IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
-        HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
-        HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
-        HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
-        HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
-        GITHUB_USER: ${{ github.actor }}
-        GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Submit a new Release Build to the Google Play
+        working-directory: "./androidHyperskillApp"
+        run: |
+          bundle exec fastlane release \
+            json_key:"${{ steps.setup.outputs.service-account-path }}" \
+            track:"internal"
+        env:
+          IS_GIT_CRYPT_UNLOCKED: ${{ steps.setup.outputs.is-git-crypt-unlocked }}
+          HYPERSKILL_KEYSTORE_PATH: ${{ steps.setup.outputs.release-keystore-path }}
+          HYPERSKILL_RELEASE_STORE_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_STORE_PASSWORD }}
+          HYPERSKILL_RELEASE_KEY_ALIAS: ${{ secrets.HYPERSKILL_RELEASE_KEY_ALIAS }}
+          HYPERSKILL_RELEASE_KEY_PASSWORD: ${{ secrets.HYPERSKILL_RELEASE_KEY_PASSWORD }}
+          GITHUB_USER: ${{ github.actor }}
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
