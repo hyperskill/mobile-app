@@ -54,6 +54,10 @@ jobs:
           next_version_number=$(echo $current_version_number | awk -F. -v OFS=. '{$NF++;print}')
           echo "Next version number is $next_version_number"
 
+          # Set commiter identity
+          git config user.name ${{ github.actor }}
+          git config user.email ${{ github.event.pusher.email }}
+
           echo "Checking for existing release branch with next version number $next_version_number..."
           if [ -n "$(git ls-remote --heads origin release/$next_version_number)" ]; then
               echo "Found existing release/$next_version_number branch"
