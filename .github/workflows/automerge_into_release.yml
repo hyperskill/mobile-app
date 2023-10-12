@@ -34,9 +34,9 @@ jobs:
         uses: actions/checkout@v4.1.0
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_PAT }}
 
-      - name: Setup Ruby for iOS
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1.150.0
         with:
           ruby-version: "3.1.0"
@@ -54,16 +54,15 @@ jobs:
           next_version_number=$(echo $current_version_number | awk -F. -v OFS=. '{$NF++;print}')
           echo "Next version number is $next_version_number"
 
-          # Set commiter identity
-          git config user.name ${{ github.actor }}
-          git config user.email ${{ github.event.pusher.email }}
+          git config user.name github-actions
+          git config user.email github-actions@github.com
 
           echo "Checking for existing release branch with next version number $next_version_number..."
           if [ -n "$(git ls-remote --heads origin release/$next_version_number)" ]; then
               echo "Found existing release/$next_version_number branch"
 
               git checkout release/$next_version_number
-              git merge --no-ff --no-edit origin/develop
+              git merge --no-edit origin/develop
 
               if [ ${{ needs.files-changed.outputs.shared }} == 'true' ]
               then
