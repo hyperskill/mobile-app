@@ -13,10 +13,6 @@ import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.HomeState
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
@@ -25,9 +21,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias HomeReducerResult = Pair<State, Set<Action>>
 
 class HomeReducer(
-    private val gamificationToolbarReducer: GamificationToolbarReducer,
-    private val problemsLimitReducer: ProblemsLimitReducer,
-    private val nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer
+    private val gamificationToolbarReducer: GamificationToolbarReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): HomeReducerResult =
         when (message) {
@@ -244,18 +238,6 @@ class HomeReducer(
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
                 state.copy(toolbarState = toolbarState) to toolbarActions
             }
-            is Message.ProblemsLimitMessage -> {
-                val (problemsLimitState, problemsLimitActions) =
-                    reduceProblemsLimitMessage(state.problemsLimitState, message.message)
-                state.copy(problemsLimitState = problemsLimitState) to problemsLimitActions
-            }
-            is Message.NextLearningActivityWidgetMessage -> {
-                val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
-                    reduceNextLearningActivityWidgetMessage(state.nextLearningActivityWidgetState, message.message)
-                state.copy(
-                    nextLearningActivityWidgetState = nextLearningActivityWidgetState
-                ) to nextLearningActivityWidgetActions
-            }
         } ?: (state to emptySet())
 
     private fun initialize(state: State, forceUpdate: Boolean): HomeReducerResult {
@@ -275,24 +257,10 @@ class HomeReducer(
                 GamificationToolbarFeature.Message.Initialize(forceUpdate)
             )
 
-        val (problemsLimitState, problemsLimitActions) =
-            reduceProblemsLimitMessage(
-                state.problemsLimitState,
-                ProblemsLimitFeature.Message.Initialize(forceUpdate)
-            )
-
-        val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
-            reduceNextLearningActivityWidgetMessage(
-                state.nextLearningActivityWidgetState,
-                NextLearningActivityWidgetFeature.InternalMessage.Initialize(forceUpdate)
-            )
-
         return state.copy(
             homeState = homeState,
-            toolbarState = toolbarState,
-            problemsLimitState = problemsLimitState,
-            nextLearningActivityWidgetState = nextLearningActivityWidgetState
-        ) to homeActions + toolbarActions + problemsLimitActions + nextLearningActivityWidgetActions
+            toolbarState = toolbarState
+        ) to homeActions + toolbarActions
     }
 
     private fun handlePullToRefresh(state: State): HomeReducerResult {
@@ -312,23 +280,10 @@ class HomeReducer(
             GamificationToolbarFeature.Message.PullToRefresh
         )
 
-        val (problemsLimitState, problemsLimitActions) = reduceProblemsLimitMessage(
-            state.problemsLimitState,
-            ProblemsLimitFeature.Message.PullToRefresh
-        )
-
-        val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
-            reduceNextLearningActivityWidgetMessage(
-                state.nextLearningActivityWidgetState,
-                NextLearningActivityWidgetFeature.InternalMessage.PullToRefresh
-            )
-
         return state.copy(
             homeState = homeState,
-            toolbarState = toolbarState,
-            problemsLimitState = problemsLimitState,
-            nextLearningActivityWidgetState = nextLearningActivityWidgetState
-        ) to homeActions + toolbarActions + problemsLimitActions + nextLearningActivityWidgetActions
+            toolbarState = toolbarState
+        ) to homeActions + toolbarActions
     }
 
     private fun reduceGamificationToolbarMessage(
@@ -348,45 +303,5 @@ class HomeReducer(
             .toSet()
 
         return gamificationToolbarState to actions
-    }
-
-    private fun reduceProblemsLimitMessage(
-        state: ProblemsLimitFeature.State,
-        message: ProblemsLimitFeature.Message
-    ): Pair<ProblemsLimitFeature.State, Set<Action>> {
-        val (problemsLimitState, problemsLimitActions) =
-            problemsLimitReducer.reduce(state, message)
-
-        val actions = problemsLimitActions
-            .map {
-                if (it is ProblemsLimitFeature.Action.ViewAction) {
-                    Action.ViewAction.ProblemsLimitViewAction(it)
-                } else {
-                    Action.ProblemsLimitAction(it)
-                }
-            }
-            .toSet()
-
-        return problemsLimitState to actions
-    }
-
-    private fun reduceNextLearningActivityWidgetMessage(
-        state: NextLearningActivityWidgetFeature.State,
-        message: NextLearningActivityWidgetFeature.Message
-    ): Pair<NextLearningActivityWidgetFeature.State, Set<Action>> {
-        val (nextLearningActivityWidgetState, nextLearningActivityWidgetActions) =
-            nextLearningActivityWidgetReducer.reduce(state, message)
-
-        val actions = nextLearningActivityWidgetActions
-            .map {
-                if (it is NextLearningActivityWidgetFeature.Action.ViewAction) {
-                    Action.ViewAction.NextLearningActivityWidgetViewAction(it)
-                } else {
-                    Action.NextLearningActivityWidgetAction(it)
-                }
-            }
-            .toSet()
-
-        return nextLearningActivityWidgetState to actions
     }
 }
