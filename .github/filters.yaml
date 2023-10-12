@@ -1,5 +1,6 @@
 android:
   - 'androidHyperskillApp/**'
+  - 'gradle/app.versions.toml'
 shared:
   - 'shared/**'
 ios:
