@@ -18,6 +18,8 @@ jobs:
   files-changed:
     name: Detect changes
     uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
+    with:
+      base: ${{ github.ref }}
 
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
   gradle-wrapper-validation:
