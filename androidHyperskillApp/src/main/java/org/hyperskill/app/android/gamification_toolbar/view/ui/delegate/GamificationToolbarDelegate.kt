@@ -9,7 +9,8 @@ import com.google.android.material.appbar.AppBarLayout
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutGamificationToolbarBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.progress.navigation.ProgressScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
@@ -88,7 +89,7 @@ class GamificationToolbarDelegate(
     ) {
         when (action) {
             is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
-                mainScreenRouter.switch(ProfileScreen(isInitCurrent = true))
+                mainScreenRouter.switch(Tabs.PROFILE)
             GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen ->
                 router.navigateTo(ProgressScreen)
         }

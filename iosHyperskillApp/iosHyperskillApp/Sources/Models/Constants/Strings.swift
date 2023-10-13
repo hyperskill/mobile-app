@@ -15,7 +15,7 @@ enum Strings {
         static let ok = sharedStrings.ok.localized()
         static let later = sharedStrings.later.localized()
         static let goodJob = sharedStrings.good_job.localized()
-        static let goToHomescreen = sharedStrings.go_to_homescreen.localized()
+        static let goToTraining = sharedStrings.go_to_training.localized()
         static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
         static let progress = sharedStrings.progress.localized()
         static let completed = sharedStrings.completed.localized()
@@ -37,7 +37,7 @@ enum Strings {
     // MARK: - TabBar -
 
     enum TabBar {
-        static let home = sharedStrings.tab_bar_home_title.localized()
+        static let home = sharedStrings.tab_bar_training_title.localized()
         static let studyPlan = sharedStrings.tab_bar_study_plan_title.localized()
         static let profile = sharedStrings.tab_bar_profile_title.localized()
         static let debug = sharedStrings.tab_bar_debug_title.localized()
@@ -228,8 +228,6 @@ enum Strings {
     enum Home {
         static let title = sharedStrings.home_title.localized()
         static let keepPracticing = sharedStrings.home_keep_practicing_text.localized()
-
-        static let nextLearningActivityTitle = sharedStrings.home_next_learning_activity_title.localized()
 
         static let solveUnlimited = sharedStrings.home_solve_unlimited.localized()
         static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()

@@ -15,7 +15,7 @@ final class AppTabBarController: UITabBarController {
     private var currentTabItem: AppTabItem
 
     init(
-        initialTab: AppTabItem = .home,
+        initialTab: AppTabItem = .studyPlan,
         appTabBarControllerDelegate: AppTabBarControllerDelegate?
     ) {
         self.currentTabItem = initialTab
@@ -101,13 +101,13 @@ private extension AppTabItem {
 
     var tabBarItem: UITabBarItem {
         switch self {
-        case .home, .studyPlan, .profile:
+        case .studyPlan:
             return UITabBarItem(
                 title: title,
                 image: UIImage(named: imageName),
                 selectedImage: UIImage(named: selectedImageName)
             )
-        case .debug:
+        case .home, .profile, .debug:
             return UITabBarItem(
                 title: title,
                 image: UIImage(systemName: imageName),

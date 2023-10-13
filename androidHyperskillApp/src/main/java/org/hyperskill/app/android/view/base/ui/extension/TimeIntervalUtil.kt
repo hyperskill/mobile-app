@@ -1,7 +1,5 @@
 package org.hyperskill.app.android.view.base.ui.extension
 
-import java.util.ArrayList
-
 object TimeIntervalUtil {
     val values: Array<String>
 

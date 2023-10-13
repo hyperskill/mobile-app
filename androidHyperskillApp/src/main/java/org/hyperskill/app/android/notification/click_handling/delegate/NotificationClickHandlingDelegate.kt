@@ -16,8 +16,6 @@ object NotificationClickHandlingDelegate {
         navigateTo: NotificationClickHandlingFeature.Action.ViewAction.NavigateTo
     ) {
         when (navigateTo) {
-            NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.Home ->
-                router.newRootScreen(MainScreen(initialTab = Tabs.HOME))
             NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.Profile ->
                 router.newRootScreen(MainScreen(initialTab = Tabs.PROFILE))
             NotificationClickHandlingFeature.Action.ViewAction.NavigateTo.StudyPlan ->

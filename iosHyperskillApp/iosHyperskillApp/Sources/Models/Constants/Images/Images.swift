@@ -8,19 +8,6 @@ enum Images {
         static let skip = "skip"
     }
 
-    // MARK: - TabBar -
-
-    enum TabBar {
-        static let home = "tab-bar-home"
-        static let homeFilled = "tab-bar-home-filled"
-
-        static let studyPlan = "tab-bar-study-plan"
-        static let studyPlanFilled = "tab-bar-study-plan-filled"
-
-        static let profile = "tab-bar-profile"
-        static let profileFilled = "tab-bar-profile-filled"
-    }
-
     // MARK: - NavigationBar -
 
     enum NavigationBar {

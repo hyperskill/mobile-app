@@ -3,7 +3,6 @@ package org.hyperskill.app.android.view.base.ui.extension
 import android.content.Context
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
-import org.hyperskill.app.android.R
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 
 object ColorExtensions {

@@ -1,7 +1,7 @@
 import Foundation
 
 protocol TopicCompletedModalViewControllerDelegate: AnyObject {
-    func topicCompletedModalViewControllerDidTapGoToHomescreenButton(
+    func topicCompletedModalViewControllerDidTapGoToStudyPlanButton(
         _ viewController: TopicCompletedModalViewController
     )
 

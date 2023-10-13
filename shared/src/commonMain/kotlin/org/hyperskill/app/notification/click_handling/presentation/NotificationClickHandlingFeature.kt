@@ -49,8 +49,6 @@ object NotificationClickHandlingFeature {
             sealed interface NavigateTo : ViewAction {
                 object TopicRepetition : NavigateTo
 
-                object Home : NavigateTo
-
                 object Profile : NavigateTo
 
                 object StudyPlan : NavigateTo

@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Go to homescreen" button analytic event.
+ * Represents click on the "Go to study plan" button analytic event.
  *
  * JSON payload:
  * ```
@@ -15,16 +15,16 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "click",
  *     "part": "topic_completed_modal",
- *     "target": "go_to_home_screen"
+ *     "target": "go_to_study_plan"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+class StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.TOPIC_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.GO_TO_HOME_SCREEN
+    HyperskillAnalyticTarget.GO_TO_STUDY_PLAN
 )

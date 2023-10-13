@@ -155,12 +155,12 @@ extension StepViewModel: StepQuizOutputProtocol {
 // MARK: - StepViewModel: TopicCompletedModalViewControllerDelegate -
 
 extension StepViewModel: TopicCompletedModalViewControllerDelegate {
-    func topicCompletedModalViewControllerDidTapGoToHomescreenButton(
+    func topicCompletedModalViewControllerDidTapGoToStudyPlanButton(
         _ viewController: TopicCompletedModalViewController
     ) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageTopicCompletedModalGoToHomeScreenClicked()
+                message: StepCompletionFeatureMessageTopicCompletedModalGoToStudyPlanClicked()
             )
         )
 
