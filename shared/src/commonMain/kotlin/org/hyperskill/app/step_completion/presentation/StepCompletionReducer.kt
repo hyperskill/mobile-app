@@ -12,7 +12,7 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailySte
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
@@ -35,14 +35,14 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                             is ContinueButtonAction.CheckTopicCompletion ->
                                 true
                             ContinueButtonAction.NavigateToBack,
-                            ContinueButtonAction.NavigateToHomeScreen ->
+                            ContinueButtonAction.NavigateToStudyPlan ->
                                 false
                         }
                     ) to setOf(
                         Action.LogAnalyticEvent(analyticEvent),
                         when (state.continueButtonAction) {
                             ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
-                            ContinueButtonAction.NavigateToHomeScreen -> Action.ViewAction.NavigateTo.HomeScreen
+                            ContinueButtonAction.NavigateToStudyPlan -> Action.ViewAction.NavigateTo.StudyPlan
                             ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(
                                 currentStep = state.currentStep
                             )
@@ -81,7 +81,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             is Message.CheckTopicCompletionStatus.Completed -> {
                 val nextStepRoute = getNextStepRouteForLearningActivity(message.nextLearningActivity)
                 state.copy(
-                    continueButtonAction = ContinueButtonAction.NavigateToHomeScreen,
+                    continueButtonAction = ContinueButtonAction.NavigateToStudyPlan,
                     isPracticingLoading = false,
                     nextStepRoute = nextStepRoute
                 ) to setOf(
@@ -99,11 +99,11 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     continueButtonAction = ContinueButtonAction.CheckTopicCompletion,
                     isPracticingLoading = false
                 ) to emptySet()
-            is Message.TopicCompletedModalGoToHomeScreenClicked ->
+            is Message.TopicCompletedModalGoToStudyPlanClicked ->
                 state to setOf(
-                    Action.ViewAction.NavigateTo.HomeScreen,
+                    Action.ViewAction.NavigateTo.StudyPlan,
                     Action.LogAnalyticEvent(
-                        StepCompletionTopicCompletedModalClickedGoToHomeScreenHyperskillAnalyticEvent(
+                        StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(
                             route = stepRoute.analyticRoute
                         )
                     )

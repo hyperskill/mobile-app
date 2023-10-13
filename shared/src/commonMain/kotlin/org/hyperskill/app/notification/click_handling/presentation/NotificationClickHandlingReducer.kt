@@ -83,7 +83,7 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
                 }
 
             PushNotificationType.UNKNOWN ->
-                setOf(Action.ViewAction.NavigateTo.Home)
+                setOf(Action.ViewAction.NavigateTo.StudyPlan)
         }
 
         return actions + analyticsAction

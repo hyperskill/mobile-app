@@ -26,6 +26,7 @@ import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizF
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import ru.nobird.android.view.base.ui.extension.hideKeyboard
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -184,6 +185,10 @@ class CodeStepQuizFragment :
 
     private fun onFullScreenClicked(lang: String, code: String) {
         logAnalyticEventMessage(StepQuizFeature.Message.ClickedOpenFullScreenCodeEditorEventMessage)
+        with(binding.stepQuizCodeEmbeddedEditor.codeStepLayout.codeEditor) {
+            hideKeyboard()
+            clearFocus()
+        }
         CodeStepQuizFullScreenDialogFragment
             .newInstance(
                 CodeStepQuizFullScreenDialogFragment.Params(

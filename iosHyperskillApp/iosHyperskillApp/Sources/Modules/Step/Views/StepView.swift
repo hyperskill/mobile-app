@@ -108,9 +108,9 @@ struct StepView: View {
             switch StepCompletionFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .back:
                 dismissPanModalAndNavigateBack()
-            case .homeScreen:
+            case .studyPlan:
                 dismissPanModalAndNavigateBack()
-                TabBarRouter(tab: .home).route()
+                TabBarRouter(tab: .studyPlan).route()
             }
         case .requestDailyStudyRemindersPermission:
             presentSendDailyStudyRemindersPermissionAlert()

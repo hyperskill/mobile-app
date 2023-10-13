@@ -6,9 +6,6 @@ struct HomeSkeletonView: View {
             HomeSubheadlineView()
                 .hidden()
 
-            ProblemsLimitSkeletonView()
-                .padding(.top, LayoutInsets.smallInset)
-
             ProblemOfDaySkeletonView()
 
             TopicsRepetitionsCardSkeletonView()
@@ -19,8 +16,6 @@ struct HomeSkeletonView: View {
     }
 }
 
-struct HomeSkeletonView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeSkeletonView()
-    }
+#Preview {
+    HomeSkeletonView()
 }

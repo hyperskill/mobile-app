@@ -1,0 +1,88 @@
+name: Automerge develop into release
+
+on:
+  push:
+    branches:
+      - "develop"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  files-changed:
+    if: ${{ vars.IS_AUTOMERGE_ENABLED == 'true' }}
+    name: Detect changes
+    uses: ./.github/workflows/detect_changed_files_reusable_workflow.yml
+    with:
+      base: ${{ github.ref }}
+
+  automerge:
+    needs: files-changed
+    name: Automerge
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1.150.0
+        with:
+          ruby-version: "3.1.0"
+          bundler-cache: true
+          working-directory: "./iosHyperskillApp"
+
+      - name: Merge
+        run: |
+          set -e
+
+          echo "Getting latest tag without v* prefix..."
+          current_version_number=$(git describe --tags --abbrev=0 | cut -c 2-)
+          echo "Current version number is $current_version_number"
+
+          next_version_number=$(echo $current_version_number | awk -F. -v OFS=. '{$NF++;print}')
+          echo "Next version number is $next_version_number"
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          echo "Checking for existing release branch with next version number $next_version_number..."
+          if [ -n "$(git ls-remote --heads origin release/$next_version_number)" ]; then
+              echo "Found existing release/$next_version_number branch"
+
+              git checkout release/$next_version_number
+              git merge --no-edit origin/develop
+
+              if [ ${{ needs.files-changed.outputs.shared }} == 'true' ]
+              then
+                echo "Shared files changed"
+                ./increment_build_number.sh --both
+              elif [ ${{ needs.files-changed.outputs.android }} == 'true' ]
+              then
+                echo "Android files changed"
+                ./increment_build_number.sh --android
+              elif [ ${{ needs.files-changed.outputs.ios }} == 'true' ]
+              then
+                echo "iOS files changed"
+                ./increment_build_number.sh --ios
+              else
+                echo "No files changed"
+                ./increment_build_number.sh --both
+              fi
+
+              git push origin release/$next_version_number
+          else
+              echo "No existing release/$next_version_number branch found"
+              echo "Not yet implemented"
+          fi

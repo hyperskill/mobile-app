@@ -11,9 +11,10 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageImplementationBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.stage_implementation.view.dialog.ProjectCompletedBottomSheet
 import org.hyperskill.app.android.stage_implementation.view.dialog.StageCompletedBottomSheet
-import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implementation.presentation.StageImplementationViewModel
@@ -97,7 +98,7 @@ class StageImplementationFragment :
         when (action) {
             StageImplementFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
                 requireRouter().backTo(MainScreen())
-                mainScreenRouter.switch(StudyPlanScreen)
+                mainScreenRouter.switch(Tabs.STUDY_PLAN)
             }
             is StageImplementFeature.Action.ViewAction.ShowProjectCompletedModal -> {
                 ProjectCompletedBottomSheet.newInstance(

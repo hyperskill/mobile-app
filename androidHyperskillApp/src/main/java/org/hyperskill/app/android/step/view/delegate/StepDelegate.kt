@@ -5,9 +5,10 @@ import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
@@ -47,9 +48,9 @@ class StepDelegate<TFragment>(
                         fragment.requireRouter().exit()
                     }
 
-                    StepCompletionFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                        fragment.requireRouter().backTo(MainScreen())
-                        mainScreenRouter.switch(HomeScreen)
+                    StepCompletionFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
+                        fragment.requireRouter().backTo(MainScreen(Tabs.STUDY_PLAN))
+                        mainScreenRouter.switch(Tabs.STUDY_PLAN)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {

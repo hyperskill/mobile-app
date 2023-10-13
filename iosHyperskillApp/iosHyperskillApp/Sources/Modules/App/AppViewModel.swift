@@ -167,8 +167,8 @@ private extension AppViewModel {
 
         notificationCenter.addObserver(
             self,
-            selector: #selector(handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
-            name: .projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            selector: #selector(handleProjectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen),
+            name: .projectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen,
             object: nil
         )
 
@@ -194,8 +194,8 @@ private extension AppViewModel {
     }
 
     @objc
-    func handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
-        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+    func handleProjectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen() {
+        onViewAction?(AppFeatureActionViewActionNavigateToStudyPlan())
     }
 
     @objc

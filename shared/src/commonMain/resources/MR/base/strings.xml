@@ -12,7 +12,7 @@
     <string name="back">Back</string>
     <string name="later">Later</string>
     <string name="good_job">Good job!</string>
-    <string name="go_to_homescreen">Go to home</string>
+    <string name="go_to_training">Go to training</string>
     <string name="go_to_study_plan">Go to study plan</string>
     <string name="new_word">New</string>
     <string name="progress">Progress</string>
@@ -168,12 +168,12 @@
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
     <string name="stage_implement_unsupported_modal_title">IDE required</string>
     <string name="stage_implement_unsupported_modal_description">To proceed, you need an IDE. Please continue learning
-        on a computer.\n\nIf this is not an option for you right now, check out the available activities on your home
+        on a computer.\n\nIf this is not an option for you right now, check out the available activities on your training
         screen.
     </string>
 
     <!-- Tab bar -->
-    <string name="tab_bar_home_title">Home</string>
+    <string name="tab_bar_training_title">Training</string>
     <string name="tab_bar_track_title">Track</string>
     <string name="tab_bar_study_plan_title">Study Plan</string>
     <string name="tab_bar_profile_title">Profile</string>
@@ -182,7 +182,6 @@
     <!-- Home -->
     <string name="home_title">Hello!</string>
     <string name="home_keep_practicing_text">Keep practicing to achieve your learning goal</string>
-    <string name="home_next_learning_activity_title">Pick up where you left off</string>
     <string name="home_solve_unlimited">Solve unlimited</string>
     <string name="home_repeat_unlimited">Repeat unlimited</string>
 
@@ -398,10 +397,6 @@
 
     <!--Topics widget-->
     <string name="topics_widget_learn_next_badge">Learn next</string>
-
-    <!--Unsupported stage bottom sheet-->
-    <string name="unsupported_stage_dialog_title">IDE required</string>
-    <string name="unsupported_stage_dialog_description">To proceed, you need an IDE. Please continue learning on a computer.\n\n If this is not an option for you right now, check out the available activities on your home screen.</string>
 
     <!--  Problems limit reached modal  -->
     <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>

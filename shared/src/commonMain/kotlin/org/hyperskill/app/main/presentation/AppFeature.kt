@@ -103,7 +103,6 @@ interface AppFeature {
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object HomeScreen : NavigateTo
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object TrackSelectionScreen : NavigateTo
                 object OnboardingScreen : NavigateTo
@@ -111,7 +110,7 @@ interface AppFeature {
                 object NotificationOnBoardingScreen : NavigateTo
 
                 data class FirstProblemOnBoardingScreen(val isNewUserMode: Boolean) : NavigateTo
-                data class HomeScreenWithStep(val stepRoute: StepRoute) : NavigateTo
+                data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
                 object StudyPlan : NavigateTo
             }
 
