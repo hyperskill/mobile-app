@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -18,7 +17,6 @@ import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
-import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
@@ -32,8 +30,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class HomeFragment :
     Fragment(R.layout.fragment_home),
-    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction>,
-    UnsupportedStageBottomSheet.Callback {
+    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction> {
     companion object {
         fun newInstance(): Fragment =
             HomeFragment()
@@ -220,20 +217,5 @@ class HomeFragment :
                 isFreemiumEnabled = isFreemiumEnabled
             )
         }
-    }
-
-    // UnsupportedStageBottomSheet.Callback methods
-    override fun onShow() {
-        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalShownEventMessage)
-    }
-
-    override fun onDismiss() {
-        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalHiddenEventMessage)
-    }
-
-    override fun onHomeClick() {
-        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalGoToHomeClicked)
-        childFragmentManager
-            .dismissDialogFragmentIfExists(UnsupportedStageBottomSheet.TAG)
     }
 }
