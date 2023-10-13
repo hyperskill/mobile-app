@@ -98,13 +98,11 @@ extension AppViewController: AppViewControllerProtocol {
             switch viewAction {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
-            case .homeScreen:
-                return AppTabBarController(initialTab: .home, appTabBarControllerDelegate: viewModel)
             case .studyPlan:
                 return AppTabBarController(initialTab: .studyPlan, appTabBarControllerDelegate: viewModel)
-            case .homeScreenWithStep(let navigateToHomeScreenWithStepViewAction):
+            case .studyPlanWithStep(let navigateToStudyPlanWithStepViewAction):
                 let tabBarController = AppTabBarController(
-                    initialTab: .home,
+                    initialTab: .studyPlan,
                     appTabBarControllerDelegate: viewModel
                 )
 
@@ -118,7 +116,7 @@ extension AppViewController: AppViewControllerProtocol {
                         return assertionFailure("Expected UINavigationController")
                     }
 
-                    let stepAssembly = StepAssembly(stepRoute: navigateToHomeScreenWithStepViewAction.stepRoute)
+                    let stepAssembly = StepAssembly(stepRoute: navigateToStudyPlanWithStepViewAction.stepRoute)
                     navigationController.pushViewController(stepAssembly.makeModule(), animated: false)
                 }
 
@@ -210,12 +208,10 @@ extension AppViewController: AppViewControllerProtocol {
     ) {
         func route() {
             switch viewAction {
-            case .home:
-                TabBarRouter(tab: .home).route()
             case .profile:
                 TabBarRouter(tab: .profile).route()
             case .stepScreen(let navigateToStepScreenViewAction):
-                navigateToHomeAndPresent {
+                navigate(to: .studyPlan) {
                     let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
 
                     let sourcelessRouter = SourcelessRouter()
@@ -224,7 +220,7 @@ extension AppViewController: AppViewControllerProtocol {
             case .studyPlan:
                 TabBarRouter(tab: .studyPlan).route()
             case .topicRepetition:
-                navigateToHomeAndPresent {
+                navigate(to: .home) {
                     let assembly = TopicsRepetitionsAssembly()
 
                     let sourcelessRouter = SourcelessRouter()
@@ -233,16 +229,19 @@ extension AppViewController: AppViewControllerProtocol {
             }
         }
 
-        func navigateToHomeAndPresent(_ navigateToHomeCompletionHandler: @escaping () -> Void) {
-            TabBarRouter(tab: .home).route()
+        func navigate(
+            to targetTab: TabBarRouter.Tab,
+            andPerformTargetNavigation targetNavigationBlock: @escaping () -> Void
+        ) {
+            TabBarRouter(tab: targetTab).route()
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + Animation.clickedNotificationViewActionNavigateToHomeCompletionDelay,
-                execute: navigateToHomeCompletionHandler
+                execute: targetNavigationBlock
             )
         }
 
-        // Display home screen if needed
-        handleNavigateToViewAction(.homeScreen)
+        // Add AppTabBarController into view hierarchy if needed
+        handleNavigateToViewAction(.studyPlan)
 
         DispatchQueue.main.async {
             route()

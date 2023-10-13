@@ -22,26 +22,26 @@ enum AppTabItem: CaseIterable {
     var imageName: String {
         switch self {
         case .home:
-            return Images.TabBar.home
+            return "dumbbell"
         case .studyPlan:
-            return Images.TabBar.studyPlan
+            return "tab-bar-study-plan"
         case .profile:
-            return Images.TabBar.profile
+            return "person"
         case .debug:
-            return Images.SystemSymbol.Hammer.hammerCircle
+            return "hammer.circle"
         }
     }
 
     var selectedImageName: String {
         switch self {
         case .home:
-            return Images.TabBar.homeFilled
+            return "dumbbell.fill"
         case .studyPlan:
-            return Images.TabBar.studyPlanFilled
+            return "tab-bar-study-plan-filled"
         case .profile:
-            return Images.TabBar.profileFilled
+            return "person.fill"
         case .debug:
-            return Images.SystemSymbol.Hammer.hammerCircleFill
+            return "hammer.circle.fill"
         }
     }
 }

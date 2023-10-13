@@ -119,7 +119,7 @@ private extension ProjectSelectionDetailsView {
                 stackRouter.popToRootViewController()
             }
         case .newrootscreen:
-            viewModel.doNavigateToHomeAsNewRootScreenPresentation()
+            viewModel.doNavigateToStudyPlanAsNewRootScreenPresentation()
         default:
             assertionFailure("Did receive unexpected command: \(viewAction.command)")
         }

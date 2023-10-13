@@ -8,11 +8,5 @@ extension Images {
 
             static let down = "chevron.down"
         }
-
-        enum Hammer {
-            static let hammerCircle = "hammer.circle"
-
-            static let hammerCircleFill = "hammer.circle.fill"
-        }
     }
 }
