@@ -10,7 +10,6 @@ final class HomeAssembly: UIKitAssembly {
         )
 
         let viewModel = HomeViewModel(
-            problemsLimitViewStateMapper: problemsLimitComponent.problemsLimitViewStateMapper,
             feature: homeComponent.homeFeature
         )
 

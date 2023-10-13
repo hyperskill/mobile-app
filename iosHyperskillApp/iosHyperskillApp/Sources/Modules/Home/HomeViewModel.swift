@@ -1,4 +1,3 @@
-import CombineSchedulers
 import shared
 import UIKit
 
@@ -6,28 +5,11 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
-    private let problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
-
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
-    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs {
-        .init(problemsLimitViewStateMapper.mapState(state: state.problemsLimitState))
-    }
-    var nextLearningActivityViewStateKs: NextLearningActivityWidgetFeatureViewStateKs {
-        .init(
-            NextLearningActivityWidgetViewStateMapper.shared.map(
-                state: state.nextLearningActivityWidgetState.contentState
-            )
-        )
-    }
 
-    init(
-        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
-        feature: Presentation_reduxFeature,
-        mainScheduler: AnySchedulerOf<RunLoop> = .main
-    ) {
-        self.problemsLimitViewStateMapper = problemsLimitViewStateMapper
-        super.init(feature: feature, mainScheduler: mainScheduler)
+    init(feature: Presentation_reduxFeature) {
+        super.init(feature: feature)
 
         NotificationCenter.default.addObserver(
             self,
@@ -89,30 +71,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
-    func doReloadProblemsLimit() {
-        onNewMessage(
-            HomeFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
-            )
-        )
-    }
-
-    func doNextLearningActivityPresentation() {
-        onNewMessage(
-            HomeFeatureMessageNextLearningActivityWidgetMessage(
-                message: NextLearningActivityWidgetFeatureMessageNextLearningActivityClicked()
-            )
-        )
-    }
-
-    func doReloadNextLearningActivity() {
-        onNewMessage(
-            HomeFeatureMessageNextLearningActivityWidgetMessage(
-                message: NextLearningActivityWidgetFeatureMessageRetryContentLoading()
-            )
-        )
-    }
-
     // MARK: Analytic
 
     func logViewedEvent() {
@@ -160,35 +118,5 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
                 )
             )
         }
-    }
-}
-
-// MARK: - StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelegate -
-
-extension HomeViewModel: StageImplementUnsupportedModalViewControllerDelegate {
-    func stageImplementUnsupportedModalViewControllerDidAppear(
-        _ viewController: StageImplementUnsupportedModalViewController
-    ) {
-        onNewMessage(
-            HomeFeatureMessageStageImplementUnsupportedModalShownEventMessage()
-        )
-    }
-
-    func stageImplementUnsupportedModalViewControllerDidDisappear(
-        _ viewController: StageImplementUnsupportedModalViewController
-    ) {
-        onNewMessage(
-            HomeFeatureMessageStageImplementUnsupportedModalHiddenEventMessage()
-        )
-    }
-
-    func stageImplementUnsupportedModalViewControllerDidTapGoToHomescreenButton(
-        _ viewController: StageImplementUnsupportedModalViewController
-    ) {
-        viewController.dismiss(animated: true)
-
-        onNewMessage(
-            HomeFeatureMessageStageImplementUnsupportedModalGoToHomeClicked()
-        )
     }
 }

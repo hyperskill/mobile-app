@@ -187,8 +187,8 @@ struct ProfileView: View {
             panModalPresenter.dismissPanModal()
         case .navigateTo(let actionNavigateTo):
             switch ProfileFeatureActionViewActionNavigateToKs(actionNavigateTo) {
-            case .homeScreen:
-                TabBarRouter(tab: .home).route()
+            case .studyPlan:
+                TabBarRouter(tab: .studyPlan).route()
             }
         case .showBadgeDetailsModal(let showBadgeDetailsModalViewAction):
             displayBadgeDetailsModal(details: showBadgeDetailsModalViewAction.details)
