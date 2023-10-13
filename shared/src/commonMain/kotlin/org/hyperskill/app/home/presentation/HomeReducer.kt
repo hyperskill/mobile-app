@@ -31,9 +31,9 @@ class HomeReducer(
             is Message.HomeSuccess ->
                 state.copy(
                     homeState = HomeState.Content(
-                        problemOfDayState = message.problemOfDayState,
-                        repetitionsState = message.repetitionsState,
-                        isFreemiumEnabled = message.isFreemiumEnabled
+                        message.problemOfDayState,
+                        message.repetitionsState,
+                        message.isFreemiumEnabled
                     )
                 ) to emptySet()
             is Message.HomeFailure ->
