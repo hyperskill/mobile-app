@@ -46,6 +46,7 @@ final class ProjectSelectionDetailsViewModel: FeatureViewModel<
 // MARK: - ProjectSelectionDetailsViewModel (NSNotification.Name) -
 
 extension NSNotification.Name {
+    // swiftlint:disable:next identifier_name
     static let projectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen =
       NSNotification.Name("ProjectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen")
 }
