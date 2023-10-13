@@ -9,7 +9,7 @@ import org.hyperskill.app.android.main.view.ui.fragment.MainFragment
  * Represent the main screen with the bottom app bar.
  * @param initialTab means the tab which will be opened during the first screen show
  */
-data class MainScreen(private val initialTab: Tabs = Tabs.HOME) : FragmentScreen {
+data class MainScreen(private val initialTab: Tabs = Tabs.STUDY_PLAN) : FragmentScreen {
     override fun createFragment(factory: FragmentFactory): Fragment =
         MainFragment.newInstance(initialTab)
 }

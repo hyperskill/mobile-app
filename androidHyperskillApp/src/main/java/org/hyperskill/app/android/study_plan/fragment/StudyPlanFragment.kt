@@ -12,8 +12,9 @@ import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentStudyPlanBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
@@ -159,7 +160,7 @@ class StudyPlanFragment :
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
                 when (val studyPlanWidgetViewAction = action.viewAction) {
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
-                        mainScreenRouter.switch(HomeScreen)
+                        mainScreenRouter.switch(Tabs.HOME)
                     }
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget -> {
                         LearningActivityTargetViewActionHandler.handle(
