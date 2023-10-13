@@ -40,6 +40,7 @@ interface HomeFeature {
         data class Content(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
+            val isFreemiumEnabled: Boolean,
             internal val isRefreshing: Boolean = false
         ) : HomeState
 
