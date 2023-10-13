@@ -262,7 +262,7 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> {
                 requireRouter().backTo(MainScreen())
-                mainScreenRouter.switch(Tabs.HOME)
+                mainScreenRouter.switch(Tabs.TRAINING)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                 requireRouter().navigateTo(StepScreen(action.stepRoute))

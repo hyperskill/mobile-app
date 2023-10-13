@@ -42,8 +42,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             onScreenChanged = { screenKey ->
                 viewBinding.mainBottomNavigation.selectedItemId =
                     when (Tabs.valueOf(screenKey)) {
-                        Tabs.HOME ->
-                            R.id.home_tab
+                        Tabs.TRAINING ->
+                            R.id.training_tab
                         Tabs.STUDY_PLAN ->
                             R.id.study_plan_tab
                         Tabs.PROFILE ->
@@ -93,8 +93,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
 
             when (item.itemId) {
-                R.id.home_tab -> {
-                    localCicerone.router.switch(Tabs.HOME)
+                R.id.training_tab -> {
+                    localCicerone.router.switch(Tabs.TRAINING)
                 }
                 R.id.profile_tab -> {
                     localCicerone.router.switch(Tabs.PROFILE)
@@ -136,7 +136,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         itemId: Int
     ): AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem? =
         when (itemId) {
-            R.id.home_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.HOME
+            R.id.training_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.HOME
             R.id.study_plan_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.STUDY_PLAN
             R.id.profile_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.PROFILE
             R.id.debug_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.DEBUG

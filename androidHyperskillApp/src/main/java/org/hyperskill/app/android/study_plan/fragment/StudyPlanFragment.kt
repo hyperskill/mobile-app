@@ -160,7 +160,7 @@ class StudyPlanFragment :
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
                 when (val studyPlanWidgetViewAction = action.viewAction) {
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {
-                        mainScreenRouter.switch(Tabs.HOME)
+                        mainScreenRouter.switch(Tabs.TRAINING)
                     }
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget -> {
                         LearningActivityTargetViewActionHandler.handle(
