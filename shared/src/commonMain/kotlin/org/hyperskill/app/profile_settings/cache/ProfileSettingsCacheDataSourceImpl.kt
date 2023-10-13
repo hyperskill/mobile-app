@@ -1,7 +1,6 @@
 package org.hyperskill.app.profile_settings.cache
 
 import com.russhwolf.settings.Settings
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataSource

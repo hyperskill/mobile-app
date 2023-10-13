@@ -142,7 +142,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                                     )
                                 ),
                                 Action.ViewAction.HideStreakFreezeModal,
-                                Action.ViewAction.NavigateTo.HomeScreen
+                                Action.ViewAction.NavigateTo.StudyPlan
                             )
                     }
                 } else {

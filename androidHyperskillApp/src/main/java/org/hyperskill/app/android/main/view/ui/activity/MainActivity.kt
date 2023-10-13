@@ -237,8 +237,6 @@ class MainActivity :
                 router.newRootScreen(OnboardingScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
-            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
-                router.newRootScreen(MainScreen())
             is AppFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->
                 router.newRootScreen(
                     TrackSelectionListScreen(
@@ -274,9 +272,9 @@ class MainActivity :
                 router.newRootScreen(
                     FirstProblemOnboardingScreen(action.isNewUserMode)
                 )
-            is AppFeature.Action.ViewAction.NavigateTo.HomeScreenWithStep ->
+            is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep ->
                 router.newRootChain(
-                    MainScreen(),
+                    MainScreen(Tabs.STUDY_PLAN),
                     StepScreen(action.stepRoute)
                 )
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->

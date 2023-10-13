@@ -42,7 +42,7 @@ interface StepCompletionFeature {
     }
 
     sealed interface ContinueButtonAction {
-        object NavigateToHomeScreen : ContinueButtonAction
+        object NavigateToStudyPlan : ContinueButtonAction
         object NavigateToBack : ContinueButtonAction
         object FetchNextStepQuiz : ContinueButtonAction
         object CheckTopicCompletion : ContinueButtonAction
@@ -68,7 +68,7 @@ interface StepCompletionFeature {
             object Error : CheckTopicCompletionStatus
         }
 
-        object TopicCompletedModalGoToHomeScreenClicked : Message
+        object TopicCompletedModalGoToStudyPlanClicked : Message
         object TopicCompletedModalContinueNextTopicClicked : Message
 
         sealed interface FetchNextRecommendedStepResult : Message {
@@ -122,7 +122,7 @@ interface StepCompletionFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
-                object HomeScreen : NavigateTo
+                object StudyPlan : NavigateTo
             }
         }
     }

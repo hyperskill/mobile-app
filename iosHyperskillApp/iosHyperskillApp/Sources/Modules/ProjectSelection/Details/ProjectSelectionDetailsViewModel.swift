@@ -29,9 +29,9 @@ final class ProjectSelectionDetailsViewModel: FeatureViewModel<
         onNewMessage(ProjectSelectionDetailsFeatureMessageSelectProjectButtonClicked())
     }
 
-    func doNavigateToHomeAsNewRootScreenPresentation() {
+    func doNavigateToStudyPlanAsNewRootScreenPresentation() {
         NotificationCenter.default.post(
-            name: .projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            name: .projectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen,
             object: nil
         )
     }
@@ -46,6 +46,7 @@ final class ProjectSelectionDetailsViewModel: FeatureViewModel<
 // MARK: - ProjectSelectionDetailsViewModel (NSNotification.Name) -
 
 extension NSNotification.Name {
-    static let projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen =
-      NSNotification.Name("ProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen")
+    // swiftlint:disable:next identifier_name
+    static let projectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen =
+      NSNotification.Name("ProjectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen")
 }

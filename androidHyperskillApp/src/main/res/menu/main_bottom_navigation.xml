@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home_tab"
-        android:icon="@drawable/ic_navigation_home"
-        android:title="@string/tab_bar_home_title" />
+        android:id="@+id/training_tab"
+        android:icon="@drawable/ic_navigation_training"
+        android:title="@string/tab_bar_training_title" />
     <item
         android:id="@+id/study_plan_tab"
         android:icon="@drawable/ic_navigation_study_plan"

@@ -14,12 +14,6 @@ import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.logging.presentation.wrapWithLogger
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetActionDispatcher
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetReducer
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
@@ -46,17 +40,11 @@ internal object HomeFeatureBuilder {
         topicRepeatedFlow: TopicRepeatedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
-        problemsLimitReducer: ProblemsLimitReducer,
-        problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
-        nextLearningActivityWidgetReducer: NextLearningActivityWidgetReducer,
-        nextLearningActivityWidgetActionDispatcher: NextLearningActivityWidgetActionDispatcher,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
-            gamificationToolbarReducer,
-            problemsLimitReducer,
-            nextLearningActivityWidgetReducer
+            gamificationToolbarReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
@@ -74,9 +62,7 @@ internal object HomeFeatureBuilder {
         return ReduxFeature(
             HomeFeature.State(
                 homeState = HomeFeature.HomeState.Idle,
-                toolbarState = GamificationToolbarFeature.State.Idle,
-                problemsLimitState = ProblemsLimitFeature.State.Idle,
-                nextLearningActivityWidgetState = NextLearningActivityWidgetFeature.initialState()
+                toolbarState = GamificationToolbarFeature.State.Idle
             ),
             homeReducer
         )
@@ -85,18 +71,6 @@ internal object HomeFeatureBuilder {
                 gamificationToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<HomeFeature.Action.GamificationToolbarAction>()?.action },
                     transformMessage = HomeFeature.Message::GamificationToolbarMessage
-                )
-            )
-            .wrapWithActionDispatcher(
-                problemsLimitActionDispatcher.transform(
-                    transformAction = { it.safeCast<HomeFeature.Action.ProblemsLimitAction>()?.action },
-                    transformMessage = HomeFeature.Message::ProblemsLimitMessage
-                )
-            )
-            .wrapWithActionDispatcher(
-                nextLearningActivityWidgetActionDispatcher.transform(
-                    transformAction = { it.safeCast<HomeFeature.Action.NextLearningActivityWidgetAction>()?.action },
-                    transformMessage = HomeFeature.Message::NextLearningActivityWidgetMessage
                 )
             )
     }

@@ -1,8 +1,6 @@
 package org.hyperskill.app.user_storage.cache
 
 import com.russhwolf.settings.Settings
-import com.russhwolf.settings.get
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.user_storage.data.source.UserStorageCacheDataSource
