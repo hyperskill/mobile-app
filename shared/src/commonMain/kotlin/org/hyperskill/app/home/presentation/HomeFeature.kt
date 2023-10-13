@@ -33,13 +33,16 @@ interface HomeFeature {
          *
          * @property problemOfDayState Problem of the day state.
          * @property repetitionsState Topics repetitions state.
+         * @property isFreemiumEnabled A boolean flag that indicates about is freemium enabled.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
+         *
          * @see Streak
          * @see ProblemOfDayState
          */
         data class Content(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
+            val isFreemiumEnabled: Boolean,
             internal val isRefreshing: Boolean = false
         ) : HomeState
 

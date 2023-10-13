@@ -28,14 +28,15 @@ class HomeReducer(
             is Message.Initialize -> {
                 initialize(state, message.forceUpdate)
             }
-            is Message.HomeSuccess ->
+            is Message.HomeSuccess -> {
                 state.copy(
                     homeState = HomeState.Content(
-                        message.problemOfDayState,
-                        message.repetitionsState,
-                        message.isFreemiumEnabled
+                        problemOfDayState = message.problemOfDayState,
+                        repetitionsState = message.repetitionsState,
+                        isFreemiumEnabled = message.isFreemiumEnabled
                     )
                 ) to emptySet()
+            }
             is Message.HomeFailure ->
                 state.copy(homeState = HomeState.NetworkError) to emptySet()
             is Message.PullToRefresh -> {
