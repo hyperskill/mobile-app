@@ -27,9 +27,10 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -261,7 +262,7 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> {
                 requireRouter().backTo(MainScreen())
-                mainScreenRouter.switch(HomeScreen)
+                mainScreenRouter.switch(Tabs.TRAINING)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                 requireRouter().navigateTo(StepScreen(action.stepRoute))
