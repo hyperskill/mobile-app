@@ -211,7 +211,7 @@ extension AppViewController: AppViewControllerProtocol {
             case .profile:
                 TabBarRouter(tab: .profile).route()
             case .stepScreen(let navigateToStepScreenViewAction):
-                navigateToStudyPlanAndPresent {
+                navigate(to: .studyPlan) {
                     let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
 
                     let sourcelessRouter = SourcelessRouter()
@@ -220,7 +220,7 @@ extension AppViewController: AppViewControllerProtocol {
             case .studyPlan:
                 TabBarRouter(tab: .studyPlan).route()
             case .topicRepetition:
-                navigateToStudyPlanAndPresent {
+                navigate(to: .home) {
                     let assembly = TopicsRepetitionsAssembly()
 
                     let sourcelessRouter = SourcelessRouter()
@@ -229,15 +229,18 @@ extension AppViewController: AppViewControllerProtocol {
             }
         }
 
-        func navigateToStudyPlanAndPresent(_ navigateToStudyPlanCompletionHandler: @escaping () -> Void) {
-            TabBarRouter(tab: .studyPlan).route()
+        func navigate(
+            to targetTab: TabBarRouter.Tab,
+            andPerformTargetNavigation targetNavigationBlock: @escaping () -> Void
+        ) {
+            TabBarRouter(tab: targetTab).route()
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + Animation.clickedNotificationViewActionNavigateToHomeCompletionDelay,
-                execute: navigateToStudyPlanCompletionHandler
+                execute: targetNavigationBlock
             )
         }
 
-        // Display study plan screen if needed
+        // Add AppTabBarController into view hierarchy if needed
         handleNavigateToViewAction(.studyPlan)
 
         DispatchQueue.main.async {
