@@ -8,9 +8,9 @@ data class Component(
     @SerialName("type")
     val type: Type,
     @SerialName("text")
-    val text: String?,
+    val text: String? = null,
     @SerialName("options")
-    val options: List<String>?
+    val options: List<String>? = null
 ) {
     @Serializable
     enum class Type {
