@@ -12,8 +12,10 @@ class FillBlanksResolverTest {
 
     companion object {
         private val TWO_BLANKS_TEXT =
-            """Begin of the text ${FillBlanksResolver.BLANK_FIELD_CHAR}
-                        and the rest ${FillBlanksResolver.BLANK_FIELD_CHAR}""".trimIndent()
+            """
+                Begin of the text ${FillBlanksResolver.BLANK_FIELD_CHAR}
+                and the rest ${FillBlanksResolver.BLANK_FIELD_CHAR}
+            """.trimIndent()
     }
     @Test
     fun `Data set with empty components must fail resolving`() {

@@ -12,6 +12,7 @@ import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMappe
 import org.hyperskill.step_quiz.domain.model.stub
 
 class FillBlanksMapperTest {
+    /* ktlint-disable */
     companion object {
         private const val LANGUAGE_NAME = "typescript"
         private const val TEXT = "<p>def function1() [...]:<br></p><pre><code class=\"language-$LANGUAGE_NAME\">Mark the following function's return type as string:\\n\\ndef function1() ▭:\\n    return \"This function should return a string!\" \\n\\nMark the following function's return type as a set of floats:\\n\\ndef function2() ▭:\\n    return {1, 2, 3, 4} </code></pre>"
