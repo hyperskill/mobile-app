@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz_fill_blanks.presentation
 
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import ru.nobird.app.core.model.slice
 
@@ -10,19 +11,18 @@ object FillBlanksItemMapper {
     private val contentRegex: Regex =
         "<pre><code(.*?)>(.*?)</code></pre>".toRegex()
 
-    fun map(attempt: Attempt, submission: Submission): List<FillBlanksItem> {
-        val componentsDataset = attempt.dataset?.components ?: return emptyList()
+    fun map(attempt: Attempt, submission: Submission): FillBlanksData? {
+        val componentsDataset = attempt.dataset?.components ?: return null
         val replyBlanks = submission.reply?.blanks
 
         val textComponent = componentsDataset.first()
-        val rawText = textComponent.text ?: return emptyList()
+        val rawText = textComponent.text ?: return null
 
         val match = contentRegex.find(rawText)
         return if (match != null) {
             val (langClass, content) = match.destructured
-            val language = parseLanguage(langClass)
 
-            buildList {
+            val fillBlanks = buildList {
                 val blanksIndices = content.allIndicesOf(FillBlanksResolver.BLANK_FIELD_CHAR)
                 val inputComponent = componentsDataset.slice(from = 1)
                 var startIndex = 0
@@ -48,8 +48,9 @@ object FillBlanksItemMapper {
                     )
                 }
             }
+            FillBlanksData(fillBlanks, parseLanguage(langClass))
         } else {
-            emptyList()
+            null
         }
     }
 

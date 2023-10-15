@@ -13,7 +13,8 @@ import org.hyperskill.step_quiz.domain.model.stub
 
 class FillBlanksMapperTest {
     companion object {
-        private val TEXT = "<p>def function1() [...]:<br></p><pre><code class=\"language-typescript\">Mark the following function's return type as string:\\n\\ndef function1() ▭:\\n    return \"This function should return a string!\" \\n\\nMark the following function's return type as a set of floats:\\n\\ndef function2() ▭:\\n    return {1, 2, 3, 4} </code></pre>"
+        private const val LANGUAGE_NAME = "typescript"
+        private const val TEXT = "<p>def function1() [...]:<br></p><pre><code class=\"language-$LANGUAGE_NAME\">Mark the following function's return type as string:\\n\\ndef function1() ▭:\\n    return \"This function should return a string!\" \\n\\nMark the following function's return type as a set of floats:\\n\\ndef function2() ▭:\\n    return {1, 2, 3, 4} </code></pre>"
         private const val FIRST_TEXT_PART = "Mark the following function's return type as string:\\n\\ndef function1() "
         private const val SECOND_TEXT_PART = ":\\n    return \"This function should return a string!\" \\n\\nMark the following function's return type as a set of floats:\\n\\ndef function2() "
         private const val THIRD_TEXT_PART = ":\\n    return {1, 2, 3, 4} "
@@ -47,7 +48,7 @@ class FillBlanksMapperTest {
             FillBlanksItem.Input(null),
             FillBlanksItem.Text(THIRD_TEXT_PART)
         )
-        assertEquals(expectedResult, result)
+        assertEquals(expectedResult, result?.fillBlanks)
     }
 
     @Test
@@ -82,6 +83,24 @@ class FillBlanksMapperTest {
             FillBlanksItem.Input("2"),
             FillBlanksItem.Text(THIRD_TEXT_PART)
         )
-        assertEquals(expectedResult, result)
+        assertEquals(expectedResult, result?.fillBlanks)
+    }
+
+    @Test
+    fun `FillBlanksMapper should extract language name from the CODE tag`() {
+        val result = FillBlanksItemMapper.map(
+            Attempt.Companion.stub(
+                dataset = Dataset(
+                    components = listOf(
+                        Component(
+                            type = Component.Type.TEXT,
+                            text = TEXT
+                        )
+                    )
+                )
+            ),
+            Submission()
+        )
+        assertEquals(LANGUAGE_NAME, result?.language)
     }
 }
