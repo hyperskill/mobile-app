@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz_fill_blanks.presentation
 
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import ru.nobird.app.core.model.slice
@@ -23,7 +24,7 @@ object FillBlanksItemMapper {
             val (langClass, content) = match.destructured
 
             val fillBlanks = buildList {
-                val blanksIndices = content.allIndicesOf(FillBlanksResolver.BLANK_FIELD_CHAR)
+                val blanksIndices = content.allIndicesOf(FillBlanksConfig.BLANK_FIELD_CHAR)
                 val inputComponent = componentsDataset.slice(from = 1)
                 var startIndex = 0
                 blanksIndices.forEachIndexed { blankIndex, blankIndexInString ->

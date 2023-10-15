@@ -2,11 +2,11 @@ package org.hyperskill.app.step_quiz_fill_blanks.presentation
 
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.InvalidFillBlanksConfigException
 import ru.nobird.app.core.model.slice
 
 object FillBlanksResolver {
-    internal const val BLANK_FIELD_CHAR = '▭'
 
     @Throws(InvalidFillBlanksConfigException::class)
     fun resolve(dataset: Dataset) {
@@ -26,10 +26,10 @@ object FillBlanksResolver {
             throw InvalidFillBlanksConfigException("All components except the first must be of type \"input\"")
         }
 
-        val blankFieldsCount = textComponent.text?.count { it == BLANK_FIELD_CHAR }
+        val blankFieldsCount = textComponent.text?.count { it == FillBlanksConfig.BLANK_FIELD_CHAR }
         if (blanksComponents.count() != blankFieldsCount) {
             throw InvalidFillBlanksConfigException(
-                """Number of blanks \"$BLANK_FIELD_CHAR\" in text component 
+                """Number of blanks \"$FillBlanksConfig.BLANK_FIELD_CHAR\" in text component 
                     must be equal to number of components of type \"select\" or \"input\"
                     """.trimMargin()
             )

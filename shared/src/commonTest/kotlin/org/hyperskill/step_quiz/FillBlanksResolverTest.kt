@@ -5,6 +5,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.InvalidFillBlanksConfigException
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 
@@ -13,8 +14,8 @@ class FillBlanksResolverTest {
     companion object {
         private val TWO_BLANKS_TEXT =
             """
-                Begin of the text ${FillBlanksResolver.BLANK_FIELD_CHAR}
-                and the rest ${FillBlanksResolver.BLANK_FIELD_CHAR}
+                Begin of the text ${FillBlanksConfig.BLANK_FIELD_CHAR}
+                and the rest ${FillBlanksConfig.BLANK_FIELD_CHAR}
             """.trimIndent()
     }
     @Test
