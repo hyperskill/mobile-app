@@ -12,5 +12,6 @@ actual val BlockName.supportedBlocksNames: Set<String>
         STRING,
         MATH,
         NUMBER,
-        PARSONS
+        PARSONS,
+        FILL_BLANKS
     )
