@@ -10,25 +10,19 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.next_learning_activity.view.delegate.NextLearningActivityDelegate
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
-import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
-import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
-import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
-import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -36,8 +30,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class HomeFragment :
     Fragment(R.layout.fragment_home),
-    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction>,
-    UnsupportedStageBottomSheet.Callback {
+    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction> {
     companion object {
         fun newInstance(): Fragment =
             HomeFragment()
@@ -50,9 +43,6 @@ class HomeFragment :
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
     private val homeViewStateDelegate: ViewStateDelegate<HomeFeature.HomeState> = ViewStateDelegate()
 
-    private var problemsLimitDelegate: ProblemsLimitDelegate? = null
-    private var problemsLimitViewStateMapper: ProblemsLimitViewStateMapper? = null
-
     private val problemOfDayCardFormDelegate: ProblemOfDayCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         ProblemOfDayCardFormDelegate(
             onCardClicked = ::onProblemOfDayCardActionButtonClicked,
@@ -63,14 +53,6 @@ class HomeFragment :
     }
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         TopicsRepetitionCardFormDelegate()
-    }
-
-    private val nextLearningActivityDelegate: NextLearningActivityDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        NextLearningActivityDelegate(requireContext()) { nextLearningActivityMessage ->
-            homeViewModel.onNewMessage(
-                HomeFeature.Message.NextLearningActivityWidgetMessage(nextLearningActivityMessage)
-            )
-        }
     }
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
@@ -96,9 +78,7 @@ class HomeFragment :
         super.onViewCreated(view, savedInstanceState)
         initViewStateDelegate()
         initGamificationToolbarDelegate()
-        initProblemsLimitDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
-        nextLearningActivityDelegate.setup(requireContext(), viewBinding.homeNextLearningActivity)
         with(viewBinding) {
             homeScreenSwipeRefreshLayout.setHyperskillColors()
             homeScreenSwipeRefreshLayout.setOnRefreshListener {
@@ -120,8 +100,6 @@ class HomeFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         gamificationToolbarDelegate = null
-        problemsLimitDelegate?.cleanup()
-        problemsLimitDelegate = null
     }
 
     override fun onDestroy() {
@@ -132,9 +110,7 @@ class HomeFragment :
     private fun injectComponents() {
         val homeComponent = HyperskillApp.graph().buildHomeComponent()
         val platformHomeComponent = HyperskillApp.graph().buildPlatformHomeComponent(homeComponent)
-        val problemsLimitComponent = HyperskillApp.graph().buildProblemsLimitComponent(ProblemsLimitScreen.HOME)
         viewModelFactory = platformHomeComponent.reduxViewModelFactory
-        problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper
         dateFormatter = HyperskillApp.graph().commonComponent.dateFormatter
     }
 
@@ -174,16 +150,6 @@ class HomeFragment :
         }
     }
 
-    private fun initProblemsLimitDelegate() {
-        problemsLimitDelegate = ProblemsLimitDelegate(
-            viewBinding = viewBinding.homeProblemsLimit,
-            onNewMessage = {
-                homeViewModel.onNewMessage(HomeFeature.Message.ProblemsLimitMessage(it))
-            }
-        )
-        problemsLimitDelegate?.setup()
-    }
-
     override fun onAction(action: HomeFeature.Action.ViewAction) {
         when (action) {
             is HomeFeature.Action.ViewAction.NavigateTo.TopicsRepetitionsScreen -> {
@@ -198,15 +164,6 @@ class HomeFragment :
             is HomeFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                 requireRouter().navigateTo(
                     StepScreen(action.stepRoute)
-                )
-            }
-            is HomeFeature.Action.ViewAction.ProblemsLimitViewAction -> {
-                // no op
-            }
-            is HomeFeature.Action.ViewAction.NextLearningActivityWidgetViewAction -> {
-                nextLearningActivityDelegate.handleAction(
-                    fragment = this,
-                    action = action.viewAction
                 )
             }
         }
@@ -224,10 +181,6 @@ class HomeFragment :
         }
 
         gamificationToolbarDelegate?.render(state.toolbarState)
-        problemsLimitViewStateMapper?.let { mapper ->
-            problemsLimitDelegate?.render(mapper.mapState(state.problemsLimitState))
-        }
-        nextLearningActivityDelegate.render(state.nextLearningActivityWidgetState)
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.State) {
@@ -264,20 +217,5 @@ class HomeFragment :
                 isFreemiumEnabled = isFreemiumEnabled
             )
         }
-    }
-
-    // UnsupportedStageBottomSheet.Callback methods
-    override fun onShow() {
-        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalShownEventMessage)
-    }
-
-    override fun onDismiss() {
-        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalHiddenEventMessage)
-    }
-
-    override fun onHomeClick() {
-        homeViewModel.onNewMessage(HomeFeature.Message.StageImplementUnsupportedModalGoToHomeClicked)
-        childFragmentManager
-            .dismissDialogFragmentIfExists(UnsupportedStageBottomSheet.TAG)
     }
 }

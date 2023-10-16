@@ -6,8 +6,9 @@ import androidx.fragment.app.FragmentManager
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
+import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.profile.view.dialog.BadgeDetailsDialogFragment
 import org.hyperskill.app.android.profile.view.dialog.StreakFreezeDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
@@ -49,8 +50,8 @@ object ProfileViewActionDelegate {
             ProfileFeature.Action.ViewAction.ShowStreakFreezeBuyingStatus.Error ->
                 view.snackbar(org.hyperskill.app.R.string.streak_freeze_bought_error)
 
-            ProfileFeature.Action.ViewAction.NavigateTo.HomeScreen -> {
-                mainScreenRouter.switch(HomeScreen)
+            ProfileFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
+                mainScreenRouter.switch(Tabs.STUDY_PLAN)
             }
             is ProfileFeature.Action.ViewAction.ShowBadgeDetailsModal -> {
                 BadgeDetailsDialogFragment.newInstance(action.details)

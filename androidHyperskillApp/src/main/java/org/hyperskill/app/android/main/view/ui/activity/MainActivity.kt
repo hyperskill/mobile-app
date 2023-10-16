@@ -29,7 +29,10 @@ import org.hyperskill.app.android.core.extensions.screenOrientation
 import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
+import org.hyperskill.app.android.first_problem_onboarding.fragment.FirstProblemOnboardingFragment
+import org.hyperskill.app.android.first_problem_onboarding.navigation.FirstProblemOnboardingScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
 import org.hyperskill.app.android.notification.click_handling.delegate.NotificationClickHandlingDelegate
 import org.hyperskill.app.android.notification.model.ClickedNotificationData
@@ -40,6 +43,7 @@ import org.hyperskill.app.android.notification_onboarding.fragment.Notifications
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
+import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.main.presentation.AppFeature
@@ -48,12 +52,14 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
 import ru.nobird.android.view.navigation.router.observeResult
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
+import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.container.ReduxView
 
 class MainActivity :
@@ -123,6 +129,7 @@ class MainActivity :
 
         observeAuthFlowSuccess()
         observeNotificationsOnboardingFlowFinished()
+        observeFirstProblemOnboardingFlowFinished()
 
         AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
 
@@ -188,6 +195,19 @@ class MainActivity :
         }
     }
 
+    private fun observeFirstProblemOnboardingFlowFinished() {
+        lifecycleScope.launch {
+            router
+                .observeResult(FirstProblemOnboardingFragment.FIRST_PROBLEM_ONBOARDING_FINISHED)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    mainViewModel.onNewMessage(
+                        AppFeature.Message.FirstProblemOnboardingCompleted(it.safeCast<StepRoute>())
+                    )
+                }
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
@@ -217,8 +237,6 @@ class MainActivity :
                 router.newRootScreen(OnboardingScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
-            is AppFeature.Action.ViewAction.NavigateTo.HomeScreen ->
-                router.newRootScreen(MainScreen())
             is AppFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->
                 router.newRootScreen(
                     TrackSelectionListScreen(
@@ -250,6 +268,17 @@ class MainActivity :
                     }
                 }
             }
+            is AppFeature.Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen ->
+                router.newRootScreen(
+                    FirstProblemOnboardingScreen(action.isNewUserMode)
+                )
+            is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep ->
+                router.newRootChain(
+                    MainScreen(Tabs.STUDY_PLAN),
+                    StepScreen(action.stepRoute)
+                )
+            AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
+                router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
         }
     }
 

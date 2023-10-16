@@ -20,6 +20,8 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAppsFlyerAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
@@ -96,6 +98,20 @@ class StepCompletionActionDispatcher(
             is Action.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }
+            is Action.LogTopicCompletedAnalyticEvent -> {
+                val trackTitle = currentProfileStateRepository
+                    .getState(forceUpdate = false)
+                    .map { it.trackTitle }
+                    .getOrNull()
+
+                analyticInteractor.logEvent(
+                    StepCompletionTopicCompletedAppsFlyerAnalyticEvent(
+                        topicId = action.topicId,
+                        trackTitle = trackTitle,
+                        trackIsCompleted = false
+                    )
+                )
+            }
             else -> {
                 // no op
             }
@@ -128,6 +144,7 @@ class StepCompletionActionDispatcher(
 
                 onNewMessage(
                     Message.CheckTopicCompletionStatus.Completed(
+                        topicId = action.topicId,
                         modalText = resourceProvider.getString(
                             SharedResources.strings.step_quiz_topic_completed_modal_text,
                             topic.title
@@ -160,6 +177,13 @@ class StepCompletionActionDispatcher(
         val cachedProfile = currentProfileStateRepository
             .getState(forceUpdate = false)
             .getOrElse { return }
+
+        analyticInteractor.logEvent(
+            StepCompletionStepSolvedAppsFlyerAnalyticEvent(
+                stepId = stepId,
+                trackTitle = cachedProfile.trackTitle
+            )
+        )
 
         val currentProfileHypercoinsBalance = currentProfileStateRepository
             .getState(forceUpdate = true)

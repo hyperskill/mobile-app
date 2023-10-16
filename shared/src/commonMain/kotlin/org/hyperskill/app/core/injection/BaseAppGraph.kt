@@ -1,7 +1,7 @@
 package org.hyperskill.app.core.injection
 
-import org.hyperskill.app.analytic.injection.AnalyticComponent
-import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
+import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponent
+import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponentImpl
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
@@ -18,6 +18,8 @@ import org.hyperskill.app.devices.injection.DevicesDataComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponentImpl
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
+import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
+import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponentImpl
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
@@ -41,8 +43,6 @@ import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
-import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponent
-import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponentImpl
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponentImpl
 import org.hyperskill.app.notification.local.injection.NotificationComponent
@@ -184,16 +184,8 @@ abstract class BaseAppGraph : AppGraph {
         )
     }
 
-    override val analyticComponent: AnalyticComponent by lazy {
-        AnalyticComponentImpl(
-            networkComponent = networkComponent,
-            commonComponent = commonComponent,
-            authComponent = authComponent,
-            profileDataComponent = profileDataComponent,
-            notificationComponent = buildNotificationComponent(),
-            sentryComponent = sentryComponent
-        )
-    }
+    override fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent =
+        HyperskillAnalyticEngineComponentImpl(this)
 
     override fun buildMainDataComponent(): MainDataComponent =
         MainDataComponentImpl(this)
@@ -339,12 +331,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildTrackSelectionDetailsComponent(): TrackSelectionDetailsComponent =
         TrackSelectionDetailsComponentImpl(this)
 
-    /**
-     * Next learning activity widget component
-     */
-    override fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent =
-        NextLearningActivityWidgetComponentImpl(this)
-
     override fun buildStudyPlanScreenComponent(): StudyPlanScreenComponent =
         StudyPlanScreenComponentImpl(this)
 
@@ -422,4 +408,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildNotificationsOnboardingComponent(): NotificationsOnboardingComponent =
         NotificationsOnboardingComponentImpl(this)
+
+    override fun buildFirstProblemOnboardingComponent(): FirstProblemOnboardingComponent =
+        FirstProblemOnboardingComponentImpl(this)
 }

@@ -282,11 +282,17 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
-     * NextLearningActivityWidgetFeature
+     * FirstProblemOnboardingFeature
      */
-    fun buildNextLearningActivityWidgetFetchNextLearningActivity(): HyperskillSentryTransaction =
+    fun buildFirstProblemOnboardingFeatureProfileDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
-            name = "next-learning-activity-widget-feature-fetch-next-learning-activity",
+            name = "first-problem-onboarding-feature-profile-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildFirstProblemOnboardingFeatureFetchNextLearningActivity(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "first-problem-onboarding-feature-fetch-next-learning-activity",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }

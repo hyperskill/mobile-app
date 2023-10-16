@@ -42,7 +42,7 @@ interface StepCompletionFeature {
     }
 
     sealed interface ContinueButtonAction {
-        object NavigateToHomeScreen : ContinueButtonAction
+        object NavigateToStudyPlan : ContinueButtonAction
         object NavigateToBack : ContinueButtonAction
         object FetchNextStepQuiz : ContinueButtonAction
         object CheckTopicCompletion : ContinueButtonAction
@@ -61,6 +61,7 @@ interface StepCompletionFeature {
 
         sealed interface CheckTopicCompletionStatus : Message {
             data class Completed(
+                val topicId: Long,
                 val modalText: String,
                 val nextLearningActivity: LearningActivity?
             ) : CheckTopicCompletionStatus
@@ -68,7 +69,7 @@ interface StepCompletionFeature {
             object Error : CheckTopicCompletionStatus
         }
 
-        object TopicCompletedModalGoToHomeScreenClicked : Message
+        object TopicCompletedModalGoToStudyPlanClicked : Message
         object TopicCompletedModalContinueNextTopicClicked : Message
 
         sealed interface FetchNextRecommendedStepResult : Message {
@@ -101,6 +102,7 @@ interface StepCompletionFeature {
         data class FetchNextRecommendedStep(val currentStep: Step) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+        data class LogTopicCompletedAnalyticEvent(val topicId: Long) : Action
 
         data class CheckTopicCompletionStatus(val topicId: Long) : Action
 
@@ -122,7 +124,7 @@ interface StepCompletionFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
-                object HomeScreen : NavigateTo
+                object StudyPlan : NavigateTo
             }
         }
     }

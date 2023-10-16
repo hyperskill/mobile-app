@@ -7,7 +7,6 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
-import org.hyperskill.app.android.R
 import ru.nobird.android.view.base.ui.extension.Dp
 import ru.nobird.android.view.base.ui.extension.toPx
 

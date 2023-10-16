@@ -98,10 +98,29 @@ extension AppViewController: AppViewControllerProtocol {
             switch viewAction {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
-            case .homeScreen:
-                let controller = AppTabBarController()
-                controller.appTabBarControllerDelegate = viewModel
-                return controller
+            case .studyPlan:
+                return AppTabBarController(initialTab: .studyPlan, appTabBarControllerDelegate: viewModel)
+            case .studyPlanWithStep(let navigateToStudyPlanWithStepViewAction):
+                let tabBarController = AppTabBarController(
+                    initialTab: .studyPlan,
+                    appTabBarControllerDelegate: viewModel
+                )
+
+                if !tabBarController.isViewLoaded {
+                    _ = tabBarController.view
+                }
+
+                DispatchQueue.main.async {
+                    let index = tabBarController.selectedIndex
+                    guard let navigationController = tabBarController.children[index] as? UINavigationController else {
+                        return assertionFailure("Expected UINavigationController")
+                    }
+
+                    let stepAssembly = StepAssembly(stepRoute: navigateToStudyPlanWithStepViewAction.stepRoute)
+                    navigationController.pushViewController(stepAssembly.makeModule(), animated: false)
+                }
+
+                return tabBarController
             case .authScreen(let data):
                 let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
                 return UIHostingController(rootView: assembly.makeModule())
@@ -114,6 +133,9 @@ extension AppViewController: AppViewControllerProtocol {
                 return navigationController
             case .notificationOnBoardingScreen:
                 let assembly = NotificationsOnboardingAssembly(output: viewModel)
+                return assembly.makeModule()
+            case .firstProblemOnBoardingScreen(let data):
+                let assembly = FirstProblemOnboardingAssembly(isNewUserMode: data.isNewUserMode, output: viewModel)
                 return assembly.makeModule()
             }
         }()
@@ -186,12 +208,10 @@ extension AppViewController: AppViewControllerProtocol {
     ) {
         func route() {
             switch viewAction {
-            case .home:
-                TabBarRouter(tab: .home).route()
             case .profile:
                 TabBarRouter(tab: .profile).route()
             case .stepScreen(let navigateToStepScreenViewAction):
-                navigateToHomeAndPresent {
+                navigate(to: .studyPlan) {
                     let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
 
                     let sourcelessRouter = SourcelessRouter()
@@ -200,7 +220,7 @@ extension AppViewController: AppViewControllerProtocol {
             case .studyPlan:
                 TabBarRouter(tab: .studyPlan).route()
             case .topicRepetition:
-                navigateToHomeAndPresent {
+                navigate(to: .home) {
                     let assembly = TopicsRepetitionsAssembly()
 
                     let sourcelessRouter = SourcelessRouter()
@@ -209,16 +229,19 @@ extension AppViewController: AppViewControllerProtocol {
             }
         }
 
-        func navigateToHomeAndPresent(_ navigateToHomeCompletionHandler: @escaping () -> Void) {
-            TabBarRouter(tab: .home).route()
+        func navigate(
+            to targetTab: TabBarRouter.Tab,
+            andPerformTargetNavigation targetNavigationBlock: @escaping () -> Void
+        ) {
+            TabBarRouter(tab: targetTab).route()
             DispatchQueue.main.asyncAfter(
                 deadline: .now() + Animation.clickedNotificationViewActionNavigateToHomeCompletionDelay,
-                execute: navigateToHomeCompletionHandler
+                execute: targetNavigationBlock
             )
         }
 
-        // Display home screen if needed
-        handleNavigateToViewAction(.homeScreen)
+        // Add AppTabBarController into view hierarchy if needed
+        handleNavigateToViewAction(.studyPlan)
 
         DispatchQueue.main.async {
             route()

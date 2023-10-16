@@ -1,6 +1,7 @@
 package org.hyperskill.app.core.injection
 
 import org.hyperskill.app.analytic.injection.AnalyticComponent
+import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponent
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
@@ -9,6 +10,7 @@ import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
+import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
@@ -21,7 +23,6 @@ import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.network.injection.NetworkComponent
-import org.hyperskill.app.next_learning_activity_widget.injection.NextLearningActivityWidgetComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
 import org.hyperskill.app.notification.local.injection.NotificationFlowDataComponent
@@ -86,6 +87,8 @@ interface AppGraph {
     val stateRepositoriesComponent: StateRepositoriesComponent
     val profileDataComponent: ProfileDataComponent
 
+    fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent
+
     /**
      * Auth components
      */
@@ -145,7 +148,7 @@ interface AppGraph {
     fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent
     fun buildClickedNotificationComponent(): NotificationClickHandlingComponent
     fun buildProgressScreenComponent(): ProgressScreenComponent
-    fun buildNextLearningActivityWidgetComponent(): NextLearningActivityWidgetComponent
     fun buildBadgesDataComponent(): BadgesDataComponent
     fun buildNotificationsOnboardingComponent(): NotificationsOnboardingComponent
+    fun buildFirstProblemOnboardingComponent(): FirstProblemOnboardingComponent
 }

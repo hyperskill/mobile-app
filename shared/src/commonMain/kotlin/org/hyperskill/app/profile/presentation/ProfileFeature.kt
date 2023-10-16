@@ -280,7 +280,7 @@ interface ProfileFeature {
             }
 
             sealed interface NavigateTo : ViewAction {
-                object HomeScreen : NavigateTo
+                object StudyPlan : NavigateTo
             }
         }
     }

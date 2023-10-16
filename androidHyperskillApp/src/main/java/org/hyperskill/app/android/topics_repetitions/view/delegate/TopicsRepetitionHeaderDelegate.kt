@@ -2,7 +2,6 @@ package org.hyperskill.app.android.topics_repetitions.view.delegate
 
 import android.content.Context
 import androidx.core.view.isVisible
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutTopicsRepetitionHeaderBinding
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature
 import org.hyperskill.app.topics_repetitions.view.model.RepetitionsStatus

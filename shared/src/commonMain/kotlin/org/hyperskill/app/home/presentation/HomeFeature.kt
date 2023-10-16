@@ -3,9 +3,6 @@ package org.hyperskill.app.home.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
-import org.hyperskill.app.next_learning_activity_widget.presentation.NextLearningActivityWidgetFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
@@ -13,15 +10,11 @@ import org.hyperskill.app.streaks.domain.model.Streak
 interface HomeFeature {
     data class State(
         val homeState: HomeState,
-        val toolbarState: GamificationToolbarFeature.State,
-        val problemsLimitState: ProblemsLimitFeature.State,
-        val nextLearningActivityWidgetState: NextLearningActivityWidgetFeature.State
+        val toolbarState: GamificationToolbarFeature.State
     ) {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
-                toolbarState.isRefreshing ||
-                problemsLimitState.isRefreshing ||
-                nextLearningActivityWidgetState.isRefreshing
+                toolbarState.isRefreshing
     }
 
     sealed interface HomeState {
@@ -40,8 +33,9 @@ interface HomeFeature {
          *
          * @property problemOfDayState Problem of the day state.
          * @property repetitionsState Topics repetitions state.
+         * @property isFreemiumEnabled A boolean flag that indicates about is freemium enabled.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
-         * @property isLoadingMagicLink A boolean flag that indicates about magic link loading.
+         *
          * @see Streak
          * @see ProblemOfDayState
          */
@@ -122,19 +116,9 @@ interface HomeFeature {
         object ClickedProblemOfDayCardEventMessage : Message
 
         /**
-         * TODO: ALTAPPS-908 refactor this
-         * Stage implementation unsupported modal
-         */
-        object StageImplementUnsupportedModalGoToHomeClicked : Message
-        object StageImplementUnsupportedModalShownEventMessage : Message
-        object StageImplementUnsupportedModalHiddenEventMessage : Message
-
-        /**
          * Message Wrappers
          */
         data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
-        data class ProblemsLimitMessage(val message: ProblemsLimitFeature.Message) : Message
-        data class NextLearningActivityWidgetMessage(val message: NextLearningActivityWidgetFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -147,21 +131,11 @@ interface HomeFeature {
          * Action Wrappers
          */
         data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
-        data class ProblemsLimitAction(val action: ProblemsLimitFeature.Action) : Action
-        data class NextLearningActivityWidgetAction(val action: NextLearningActivityWidgetFeature.Action) : Action
 
         sealed interface ViewAction : Action {
 
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
-            ) : ViewAction
-
-            data class ProblemsLimitViewAction(
-                val viewAction: ProblemsLimitFeature.Action.ViewAction
-            ) : ViewAction
-
-            data class NextLearningActivityWidgetViewAction(
-                val viewAction: NextLearningActivityWidgetFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {

@@ -11,11 +11,11 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTrackSelectionDetailsBinding
-import org.hyperskill.app.android.home.view.ui.screen.HomeScreen
+import org.hyperskill.app.android.first_problem_onboarding.navigation.FirstProblemOnboardingScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
-import org.hyperskill.app.android.study_plan.screen.StudyPlanScreen
 import org.hyperskill.app.android.track_selection.details.delegate.TrackSelectionDetailsDelegate
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
@@ -113,19 +113,12 @@ class TrackSelectionDetailsFragment :
     override fun onAction(action: ViewAction) {
         when (action) {
             ViewAction.NavigateTo.StudyPlan -> {
-                requireRouter().backTo(MainScreen())
-                mainScreenRouter.switch(StudyPlanScreen)
+                requireRouter().backTo(MainScreen(Tabs.STUDY_PLAN))
             }
-            is ViewAction.NavigateTo.Home -> {
-                when (action.command) {
-                    ViewAction.NavigateTo.Home.NavigationCommand.BackTo -> {
-                        requireRouter().backTo(MainScreen())
-                        mainScreenRouter.switch(HomeScreen)
-                    }
-                    ViewAction.NavigateTo.Home.NavigationCommand.NewRootScreen ->
-                        requireRouter().newRootScreen(MainScreen())
-                }
-            }
+            is ViewAction.NavigateTo.FirstProblemOnboarding ->
+                requireRouter().newRootScreen(
+                    FirstProblemOnboardingScreen(action.isNewUserMode)
+                )
             is ViewAction.NavigateTo.ProjectSelectionList ->
                 requireRouter().newRootScreen(
                     ProjectSelectionListScreen(

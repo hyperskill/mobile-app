@@ -74,12 +74,6 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     HomeSubheadlineView()
 
-                    ProblemsLimitView(
-                        stateKs: viewModel.problemsLimitViewStateKs,
-                        onReloadButtonTap: viewModel.doReloadProblemsLimit
-                    )
-                    .padding(.top, LayoutInsets.smallInset)
-
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
                         isFreemiumEnabled: data.isFreemiumEnabled,
@@ -94,14 +88,6 @@ struct HomeView: View {
                             isFreemiumEnabled: data.isFreemiumEnabled
                         )
                     }
-
-                    NextLearningActivityView(
-                        appearance: .init(spacing: appearance.spacingBetweenContainers),
-                        stateKs: viewModel.nextLearningActivityViewStateKs,
-                        onActivityTap: viewModel.doNextLearningActivityPresentation,
-                        onReloadButtonTap: viewModel.doReloadNextLearningActivity
-                    )
-                    .padding(.top)
                 }
                 .padding([.horizontal, .bottom])
                 .pullToRefresh(
@@ -121,7 +107,8 @@ struct HomeView: View {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .stepScreen(let data):
-                displayStep(stepRoute: data.stepRoute)
+                let assembly = StepAssembly(stepRoute: data.stepRoute)
+                stackRouter.pushViewController(assembly.makeModule())
             case .topicsRepetitionsScreen:
                 let assembly = TopicsRepetitionsAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
@@ -134,67 +121,12 @@ struct HomeView: View {
                 let assembly = ProgressScreenAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
-        case .problemsLimitViewAction:
-            break
-        case .nextLearningActivityWidgetViewAction(let nextLearningActivityWidgetViewAction):
-            handleNextLearningActivityWidgetViewAction(
-                NextLearningActivityWidgetFeatureActionViewActionKs(nextLearningActivityWidgetViewAction.viewAction)
-            )
         }
-    }
-
-    #warning("ALTAPPS-909: Refactor this")
-    private func handleNextLearningActivityWidgetViewAction(
-        _ viewActionKs: NextLearningActivityWidgetFeatureActionViewActionKs
-    ) {
-        switch viewActionKs {
-        case .navigateTo(let nextLearningActivityWidgetNavigateToViewAction):
-            switch NextLearningActivityWidgetFeatureActionViewActionNavigateToKs(
-                nextLearningActivityWidgetNavigateToViewAction
-            ) {
-            case .learningActivityTarget(let navigateToLearningActivityTargetViewAction):
-                switch LearningActivityTargetViewActionKs(navigateToLearningActivityTargetViewAction.viewAction) {
-                case .showStageImplementIDERequiredModal:
-                    let panModal = StageImplementUnsupportedModalViewController(delegate: viewModel)
-                    panModalPresenter.presentPanModal(panModal)
-                case .navigateTo(let navigateToViewAction):
-                    switch LearningActivityTargetViewActionNavigateToKs(navigateToViewAction) {
-                    case .selectProject(let navigateToSelectProjectViewAction):
-                        let assembly = ProjectSelectionListAssembly(
-                            isNewUserMode: false,
-                            trackID: navigateToSelectProjectViewAction.trackId
-                        )
-                        stackRouter.pushViewController(assembly.makeModule())
-                    case .selectTrack:
-                        let assembly = TrackSelectionListAssembly(isNewUserMode: false)
-                        stackRouter.pushViewController(assembly.makeModule())
-                    case .stageImplement(let navigateToStageImplementViewAction):
-                        let assembly = StageImplementAssembly(
-                            projectID: navigateToStageImplementViewAction.projectId,
-                            stageID: navigateToStageImplementViewAction.stageId
-                        )
-                        stackRouter.pushViewController(assembly.makeModule())
-                    case .step(let navigateToStepViewAction):
-                        let assembly = StepAssembly(
-                            stepRoute: navigateToStepViewAction.stepRoute
-                        )
-                        stackRouter.pushViewController(assembly.makeModule())
-                    }
-                }
-            }
-        }
-    }
-
-    private func displayStep(stepRoute: StepRoute) {
-        let assembly = StepAssembly(stepRoute: stepRoute)
-        stackRouter.pushViewController(assembly.makeModule())
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitViewControllerPreview {
-            HomeAssembly().makeModule()
-        }
+#Preview {
+    UIKitViewControllerPreview {
+        HomeAssembly().makeModule()
     }
 }

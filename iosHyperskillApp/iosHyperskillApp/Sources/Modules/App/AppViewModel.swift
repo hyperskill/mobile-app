@@ -1,3 +1,4 @@
+import AppTrackingTransparency
 import Combine
 import Foundation
 import shared
@@ -131,6 +132,14 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: FirstProblemOnboardingOutputProtocol -
+
+extension AppViewModel: FirstProblemOnboardingOutputProtocol {
+    func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
+        onNewMessage(AppFeatureMessageFirstProblemOnboardingCompleted(firstProblemStepRoute: stepRoute))
+    }
+}
+
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
@@ -151,14 +160,15 @@ private extension AppViewModel {
 
         notificationCenter.addObserver(
             self,
-            selector: #selector(handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
-            name: .trackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            selector: #selector(handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding),
+            name: .trackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding,
             object: nil
         )
+
         notificationCenter.addObserver(
             self,
-            selector: #selector(handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen),
-            name: .projectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen,
+            selector: #selector(handleProjectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen),
+            name: .projectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen,
             object: nil
         )
 
@@ -175,16 +185,22 @@ private extension AppViewModel {
             name: UIDevice.orientationDidChangeNotification,
             object: nil
         )
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleAppTrackingTransparencyAuthorizationStatusDidChange(notification:)),
+            name: .attAuthorizationStatusDidChange,
+            object: nil
+        )
     }
 
     @objc
-    func handleTrackSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
-        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+    func handleProjectSelectionDetailsDidRequestNavigateToStudyPlanAsNewRootScreen() {
+        onViewAction?(AppFeatureActionViewActionNavigateToStudyPlan())
     }
 
     @objc
-    func handleProjectSelectionDetailsDidRequestNavigateToHomeAsNewRootScreen() {
-        onViewAction?(AppFeatureActionViewActionNavigateToHomeScreen())
+    func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
+        onViewAction?(AppFeatureActionViewActionNavigateToFirstProblemOnBoardingScreen(isNewUserMode: true))
     }
 
     @objc
@@ -214,6 +230,20 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
         #endif
 
         analytic.setScreenOrientation(screenOrientation: screenOrientation)
+    }
+
+    @objc
+    private func handleAppTrackingTransparencyAuthorizationStatusDidChange(notification: Foundation.Notification) {
+        guard let authorizationStatus = notification.object as? ATTrackingManager.AuthorizationStatus else {
+            return assertionFailure("ATTrackingManager.AuthorizationStatus")
+        }
+
+        #if DEBUG
+        print("AppViewModel: attAuthorizationStatus = \(authorizationStatus)")
+        #endif
+
+        let isAuthorized = authorizationStatus == .authorized
+        analytic.setAppTrackingTransparencyAuthorizationStatus(isAuthorized: isAuthorized)
     }
 }
 
