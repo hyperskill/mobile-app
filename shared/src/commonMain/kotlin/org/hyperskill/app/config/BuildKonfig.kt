@@ -9,6 +9,7 @@ class BuildKonfig(
 ) {
     companion object {
         val IS_INTERNAL_TESTING: Boolean? = InternalBuildKonfig.IS_INTERNAL_TESTING
+        const val APPS_FLYER_DEV_KEY: String = InternalBuildKonfig.PRODUCTION_APPS_FLYER_DEV_KEY
     }
 
     val flavor: String =

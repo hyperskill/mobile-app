@@ -16,6 +16,9 @@ target "iosHyperskillApp" do
   pod "Firebase/CoreOnly", "10.11.0"
   pod "Firebase/Messaging", "10.11.0"
 
+  # Analytics
+  pod "AppsFlyerFramework", "6.12.2"
+
   # Social SDKs
   pod "GoogleSignIn", "6.1.0"
 
