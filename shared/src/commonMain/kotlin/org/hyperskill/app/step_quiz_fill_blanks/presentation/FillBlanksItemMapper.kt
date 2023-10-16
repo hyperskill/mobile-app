@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_quiz_fill_blanks.presentation
 
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
@@ -12,10 +13,18 @@ object FillBlanksItemMapper {
     private val contentRegex: Regex =
         "<pre><code(.*?)>(.*?)</code></pre>".toRegex()
 
-    fun map(attempt: Attempt, submission: Submission): FillBlanksData? {
-        val componentsDataset = attempt.dataset?.components ?: return null
-        val replyBlanks = submission.reply?.blanks
+    fun map(attempt: Attempt, submission: Submission): FillBlanksData? =
+        attempt.dataset?.components?.let {
+            mapInternal(
+                componentsDataset = it,
+                replyBlanks = submission.reply?.blanks
+            )
+        }
 
+    internal fun mapInternal(
+        componentsDataset: List<Component>,
+        replyBlanks: List<String>?
+    ): FillBlanksData? {
         val textComponent = componentsDataset.first()
         val rawText = textComponent.text ?: return null
 
