@@ -18,10 +18,7 @@ import org.hyperskill.app.notification.local.domain.interactor.NotificationInter
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 
-interface HyperskillAnalyticEngine : AnalyticEngine {
-    fun setScreenOrientation(screenOrientation: ScreenOrientation)
-    fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean)
-}
+interface HyperskillAnalyticEngine : AnalyticEngine
 
 internal class HyperskillAnalyticEngineImpl(
     private val authInteractor: AuthInteractor,

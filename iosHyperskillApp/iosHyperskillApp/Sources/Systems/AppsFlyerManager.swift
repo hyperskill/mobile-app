@@ -91,6 +91,10 @@ AppsFlyerManager: successfully logged event = \(name) with result = \(String(des
             }
         )
     }
+
+    func setScreenOrientation(screenOrientation: ScreenOrientation) {}
+
+    func setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Bool) {}
 }
 
 // MARK: - NotificationCenter -
