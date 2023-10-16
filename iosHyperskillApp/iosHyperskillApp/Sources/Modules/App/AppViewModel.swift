@@ -1,3 +1,4 @@
+import AppTrackingTransparency
 import Combine
 import Foundation
 import shared
@@ -184,6 +185,12 @@ private extension AppViewModel {
             name: UIDevice.orientationDidChangeNotification,
             object: nil
         )
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleAppTrackingTransparencyAuthorizationStatusDidChange(notification:)),
+            name: .attAuthorizationStatusDidChange,
+            object: nil
+        )
     }
 
     @objc
@@ -223,6 +230,20 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
         #endif
 
         analytic.setScreenOrientation(screenOrientation: screenOrientation)
+    }
+
+    @objc
+    private func handleAppTrackingTransparencyAuthorizationStatusDidChange(notification: Foundation.Notification) {
+        guard let authorizationStatus = notification.object as? ATTrackingManager.AuthorizationStatus else {
+            return assertionFailure("ATTrackingManager.AuthorizationStatus")
+        }
+
+        #if DEBUG
+        print("AppViewModel: attAuthorizationStatus = \(authorizationStatus)")
+        #endif
+
+        let isAuthorized = authorizationStatus == .authorized
+        analytic.setAppTrackingTransparencyAuthorizationStatus(isAuthorized: isAuthorized)
     }
 }
 

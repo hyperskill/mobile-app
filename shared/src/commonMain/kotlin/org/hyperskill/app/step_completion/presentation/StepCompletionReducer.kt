@@ -85,6 +85,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     isPracticingLoading = false,
                     nextStepRoute = nextStepRoute
                 ) to setOf(
+                    Action.LogTopicCompletedAnalyticEvent(topicId = message.topicId),
                     Action.ViewAction.ShowTopicCompletedModal(
                         modalText = message.modalText,
                         isNextStepAvailable = nextStepRoute != null

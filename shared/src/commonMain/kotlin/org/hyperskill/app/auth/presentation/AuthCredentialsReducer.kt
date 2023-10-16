@@ -4,11 +4,14 @@ import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedContinueWit
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedSignInHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsViewedHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSignInAppsFlyerAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSignUpAppsFlyerAnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Message
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.State
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -68,6 +71,11 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             is Message.AuthSuccess -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
                     state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(
+                        if (message.profile.isNewUser) {
+                            Action.LogAnalyticEvent(AuthSignUpAppsFlyerAnalyticEvent)
+                        } else {
+                            Action.LogAnalyticEvent(AuthSignInAppsFlyerAnalyticEvent)
+                        },
                         Action.AddSentryBreadcrumb(
                             HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignedInSuccessfully()
                         ),

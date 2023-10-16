@@ -1,5 +1,7 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.auth.domain.analytic.AuthSignInAppsFlyerAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSignUpAppsFlyerAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialViewedHyperskillAnalyticEvent
@@ -7,6 +9,7 @@ import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Message
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.State
+import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -29,6 +32,11 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             is Message.AuthSuccess -> {
                 if (state is State.Loading) {
                     State.Authenticated to setOf(
+                        if (message.profile.isNewUser) {
+                            Action.LogAnalyticEvent(AuthSignUpAppsFlyerAnalyticEvent)
+                        } else {
+                            Action.LogAnalyticEvent(AuthSignInAppsFlyerAnalyticEvent)
+                        },
                         Action.AddSentryBreadcrumb(
                             HyperskillSentryBreadcrumbBuilder.buildAuthSocialSignedInSuccessfully(
                                 message.socialAuthProvider
