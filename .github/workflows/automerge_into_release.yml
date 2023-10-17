@@ -84,5 +84,7 @@ jobs:
               git push origin release/$next_version_number
           else
               echo "No existing release/$next_version_number branch found"
-              echo "Not yet implemented"
+              echo "Creating new release/$next_version_number branch"
+
+              ./setup_new_release_branch.sh $next_version_number
           fi

@@ -23,6 +23,7 @@ fi
 if [ -n "$(git status --porcelain)" ]; then
     echo "Error: There are unstaged changes in git"
     echo "Please commit or stash them before running this script"
+    echo "$(git status --porcelain)"
     exit 1
 fi
 
@@ -76,6 +77,9 @@ echo "Committing version number changes..."
 
 git add gradle/app.versions.toml
 git add iosHyperskillApp/iosHyperskillApp/Info.plist
+git add iosHyperskillApp/iosHyperskillAppTests/Info.plist
+git add iosHyperskillApp/iosHyperskillAppUITests/Info.plist
+git add iosHyperskillApp/NotificationServiceExtension/Info.plist
 
 git commit -m "Set version number to $version_number"
 echo "Committed version number changes"

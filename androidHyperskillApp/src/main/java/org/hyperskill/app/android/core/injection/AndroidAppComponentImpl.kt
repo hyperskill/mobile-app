@@ -2,6 +2,9 @@ package org.hyperskill.app.android.core.injection
 
 import android.app.Application
 import android.content.Context
+import org.hyperskill.app.analytic.domain.model.AnalyticEngine
+import org.hyperskill.app.analytic.injection.AnalyticComponent
+import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
 import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
@@ -28,7 +31,8 @@ import org.hyperskill.app.sentry.injection.SentryComponentImpl
 class AndroidAppComponentImpl(
     private val application: Application,
     userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant
+    buildVariant: BuildVariant,
+    analyticEngines: List<AnalyticEngine> = emptyList()
 ) : AndroidAppComponent, CommonAndroidAppGraphImpl() {
     override val context: Context
         get() = application
@@ -47,6 +51,13 @@ class AndroidAppComponentImpl(
 
     override val sentryComponent: SentryComponent by lazy {
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
+    }
+
+    override val analyticComponent: AnalyticComponent by lazy {
+        AnalyticComponentImpl(
+            appGraph = this,
+            platformAnalyticEngines = analyticEngines
+        )
     }
 
     override val platformLocalNotificationComponent: PlatformLocalNotificationComponent by lazy {
