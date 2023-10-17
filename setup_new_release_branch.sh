@@ -23,6 +23,7 @@ fi
 if [ -n "$(git status --porcelain)" ]; then
     echo "Error: There are unstaged changes in git"
     echo "Please commit or stash them before running this script"
+    echo "$(git status --porcelain)"
     exit 1
 fi
 
