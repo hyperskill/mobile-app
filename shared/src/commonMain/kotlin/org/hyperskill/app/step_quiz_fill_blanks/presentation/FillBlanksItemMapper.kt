@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz_fill_blanks.presentation
 
+import org.hyperskill.app.core.utils.DotMatchesAllRegexOption
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -11,7 +12,7 @@ import ru.nobird.app.core.model.slice
 object FillBlanksItemMapper {
     private const val LANGUAGE_CLASS_PREFIX = "class=\"language-"
     private val contentRegex: Regex =
-        "<pre><code(.*?)>(.*?)</code></pre>".toRegex()
+        "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
 
     fun map(attempt: Attempt, submission: Submission): FillBlanksData? =
         attempt.dataset?.components?.let {
