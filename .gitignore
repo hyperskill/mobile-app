@@ -29,8 +29,9 @@ local.properties
 *.dSYM
 
 iosHyperskillApp/.build/
-
 iosHyperskillApp/.idea/
+iosHyperskillApp/.bundle/
+iosHyperskillApp/vendor/
 
 ## moko-kswift
 iosHyperskillApp/iosHyperskillApp/Sources/Frameworks/sharedSwift/Hyperskill-Mobile_shared.swift
