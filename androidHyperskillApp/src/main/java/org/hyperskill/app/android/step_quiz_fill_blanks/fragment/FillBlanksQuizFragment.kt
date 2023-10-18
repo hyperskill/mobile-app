@@ -8,10 +8,13 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBindingBin
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_fill_blanks.delegate.FillBlanksStepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz_fill_blanks.dialog.FillBlanksInputDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 
-class FillBlanksQuizFragment : DefaultStepQuizFragment() {
+class FillBlanksQuizFragment :
+    DefaultStepQuizFragment(),
+    FillBlanksInputDialogFragment.Callback {
 
     companion object {
         fun newInstance(
@@ -28,6 +31,8 @@ class FillBlanksQuizFragment : DefaultStepQuizFragment() {
     private val binding: LayoutStepQuizFillBlanksBindingBinding
         get() = requireNotNull(_binding)
 
+    private var fillBlanksStepQuizFormDelegate: FillBlanksStepQuizFormDelegate? = null
+
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizFillBlanksContainer)
     override val skeletonView: View
@@ -42,10 +47,21 @@ class FillBlanksQuizFragment : DefaultStepQuizFragment() {
     }
 
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
-        FillBlanksStepQuizFormDelegate(binding)
+        FillBlanksStepQuizFormDelegate(
+            binding = binding,
+            fragmentManager = childFragmentManager,
+            onQuizChanged = ::syncReplyState
+        ).also {
+            this.fillBlanksStepQuizFormDelegate = it
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        fillBlanksStepQuizFormDelegate = null
+    }
+
+    override fun onSyncInputItemWithParent(index: Int, text: String) {
+        fillBlanksStepQuizFormDelegate?.onInputItemModified(index, text)
     }
 }
