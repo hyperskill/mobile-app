@@ -30,6 +30,7 @@ final class StepQuizFillBlanksAssembly: StepQuizChildQuizAssembly {
             step: step,
             dataset: dataset,
             reply: reply,
+            viewDataMapper: StepQuizFillBlanksViewDataMapper(),
             provideModuleInputCallback: provideModuleInputCallback
         )
 
