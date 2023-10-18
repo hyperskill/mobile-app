@@ -228,6 +228,7 @@
 		2C7CB66B2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */; };
 		2C7CB66D2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */; };
 		2C7CB66F2ADFB96F006F78DA /* StepQuizFillBlanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB66E2ADFB96F006F78DA /* StepQuizFillBlanksView.swift */; };
+		2C7CB6732ADFC941006F78DA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB6722ADFC941006F78DA /* LeftAlignedCollectionViewFlowLayout.swift */; };
 		2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */; };
 		2C80D4FF288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */; };
 		2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */; };
@@ -839,6 +840,7 @@
 		2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksAssembly.swift; sourceTree = "<group>"; };
 		2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksViewModel.swift; sourceTree = "<group>"; };
 		2C7CB66E2ADFB96F006F78DA /* StepQuizFillBlanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksView.swift; sourceTree = "<group>"; };
+		2C7CB6722ADFC941006F78DA /* LeftAlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftAlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenViewModel.swift; sourceTree = "<group>"; };
 		2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenOutputProtocol.swift; sourceTree = "<group>"; };
 		2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeNavigationState.swift; sourceTree = "<group>"; };
@@ -2223,6 +2225,7 @@
 			children = (
 				2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */,
 				2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */,
+				2C7CB6742ADFCB1E006F78DA /* ViewData */,
 				2C7CB6702ADFB985006F78DA /* Views */,
 			);
 			path = StepQuizFillBlanks;
@@ -2234,6 +2237,21 @@
 				2C7CB66E2ADFB96F006F78DA /* StepQuizFillBlanksView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2C7CB6712ADFC923006F78DA /* CollectionViewLayouts */ = {
+			isa = PBXGroup;
+			children = (
+				2C7CB6722ADFC941006F78DA /* LeftAlignedCollectionViewFlowLayout.swift */,
+			);
+			path = CollectionViewLayouts;
+			sourceTree = "<group>";
+		};
+		2C7CB6742ADFCB1E006F78DA /* ViewData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewData;
 			sourceTree = "<group>";
 		};
 		2C82BA302844AFED004C9013 /* PlaceholderView */ = {
@@ -2715,6 +2733,7 @@
 				2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */,
 				2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */,
 				2CBD191C291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift */,
+				2C7CB6712ADFC923006F78DA /* CollectionViewLayouts */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -4321,6 +4340,7 @@
 				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */,
 				2C32374D2837F7190062CAF6 /* Images.swift in Sources */,
+				2C7CB6732ADFC941006F78DA /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				2C23C00A2879EB1E0083709F /* StreakViewBuilder.swift in Sources */,
 				2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */,
 				E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */,
