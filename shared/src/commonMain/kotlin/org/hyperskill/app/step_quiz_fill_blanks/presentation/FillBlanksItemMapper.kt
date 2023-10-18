@@ -14,11 +14,11 @@ object FillBlanksItemMapper {
     private val contentRegex: Regex =
         "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
 
-    fun map(attempt: Attempt, submission: Submission): FillBlanksData? =
+    fun map(attempt: Attempt, submission: Submission?): FillBlanksData? =
         attempt.dataset?.components?.let {
             mapInternal(
                 componentsDataset = it,
-                replyBlanks = submission.reply?.blanks
+                replyBlanks = submission?.reply?.blanks
             )
         }
 

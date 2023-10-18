@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/stepQuizFillBlanksText"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/step_quiz_fill_blanks_height"
+    android:maxWidth="@dimen/step_quiz_fill_blanks_max_width"
+    android:minWidth="@dimen/step_quiz_fill_blanks_min_width"
+    app:fontFamily="@font/pt_mono"
+    android:textSize="14sp"
+    android:textColor="@color/color_on_surface_alpha_87"
+    android:singleLine="true"
+    android:maxLines="1"
+    android:lines="1"
+    android:ellipsize="end"
+    android:gravity="center"
+    android:background="@drawable/bg_step_quiz_fill_blanks_input"
+    android:paddingLeft="@dimen/step_quiz_fill_blanks_padding"
+    android:paddingRight="@dimen/step_quiz_fill_blanks_padding"
+    />

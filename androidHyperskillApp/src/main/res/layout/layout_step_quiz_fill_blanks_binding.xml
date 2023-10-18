@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/stepQuizFillBlanksContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/view_divider_vertical" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+            android:background="@color/color_background"
+            android:text="@string/step_quiz_fill_blanks_title"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="20dp"/>
+
+        <include layout="@layout/view_divider_vertical" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/stepQuizFillBlanksRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <include layout="@layout/view_divider_vertical" />
+
+    </LinearLayout>
+
+    <org.hyperskill.app.android.ui.custom.LoadingView
+        android:id="@+id/stepQuizFillBlanksSkeleton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/embedded_code_editor_height" />
+
+</FrameLayout>
