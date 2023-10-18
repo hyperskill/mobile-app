@@ -16,6 +16,8 @@
     android:ellipsize="end"
     android:gravity="center"
     android:background="@drawable/bg_step_quiz_fill_blanks_input_item"
+    android:clickable="true"
+    android:focusable="true"
     android:paddingLeft="@dimen/step_quiz_fill_blanks_padding"
     android:paddingRight="@dimen/step_quiz_fill_blanks_padding"
     android:layout_marginTop="@dimen/step_quiz_fill_blanks_item_top_margin"
