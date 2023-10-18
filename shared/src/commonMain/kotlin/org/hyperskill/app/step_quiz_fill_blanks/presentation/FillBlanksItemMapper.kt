@@ -103,13 +103,13 @@ object FillBlanksItemMapper {
                 previousDelimiterIsLineBreak = delimiter == LINE_BREAK_CHAR
                 currentOffset = nextDelimiterIndex + 1 // skip delimiter, start with the next index
                 nextDelimiterIndex = content.indexOfAny(DELIMITERS, currentOffset)
-            } while(nextDelimiterIndex != -1)
+            } while (nextDelimiterIndex != -1)
             add(
-               FillBlanksItem.Text(
-                   id = id,
-                   text = content.substring(currentOffset, content.length),
-                   startsWithNewLine = previousDelimiterIsLineBreak
-               )
+                FillBlanksItem.Text(
+                    id = id,
+                    text = content.substring(currentOffset, content.length),
+                    startsWithNewLine = previousDelimiterIsLineBreak
+                )
             )
         }
     }
