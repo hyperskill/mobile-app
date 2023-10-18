@@ -23,6 +23,7 @@
     <color name="color_brown">#EDEDED</color>
     
     <color name="color_gray_50">#F7F9FA</color>
+    <color name="color_gray_50_alpha_60">#F7F9FA99</color>
 
     <color name="color_red_500">#EF341E</color>
     <color name="color_red_500_alpha_12">#EF341E1F</color>
@@ -61,6 +62,7 @@
     <color name="color_black_850">#121212</color>
     <color name="color_black_500">#1E1E1E</color>
     <color name="color_black_300">#C4C4C4</color>
+    <color name="color_black_850_alpha_60">#12121299</color>
     <color name="color_black_900_alpha_87">#000000DE</color>
     <color name="color_black_900_alpha_60">#00000099</color>
     <color name="color_black_900_alpha_38">#00000061</color>
@@ -82,6 +84,10 @@
     <color name="color_background">
         <light>@color/color_gray_50</light>
         <dark>@color/color_black_850</dark>
+    </color>
+    <color name="color_background_alpha_60">
+        <light>@color/color_gray_50_alpha_60</light>
+        <dark>@color/color_black_850_alpha_60</dark>
     </color>
     <color name="color_on_background">
         <light>@color/color_black_900</light>

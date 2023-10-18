@@ -35,7 +35,7 @@ object FillBlanksItemMapper {
             )
         }
 
-    private fun map(
+    internal fun map(
         componentsDataset: List<Component>,
         replyBlanks: List<String>?
     ): FillBlanksData? {

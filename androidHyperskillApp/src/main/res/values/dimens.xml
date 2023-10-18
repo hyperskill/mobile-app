@@ -90,6 +90,8 @@
     <dimen name="step_quiz_fill_blanks_min_width">48dp</dimen>
     <dimen name="step_quiz_fill_blanks_max_width">180dp</dimen>
     <dimen name="step_quiz_fill_blanks_padding">8dp</dimen>
+    <dimen name="step_quiz_fill_blanks_item_top_margin">16dp</dimen>
+    <dimen name="step_quiz_fill_blanks_input_item_horizontal_margin">8dp</dimen>
 
     <!-- Onboarding -->
     <dimen name="onboarding_splash_icon_width">48dp</dimen>

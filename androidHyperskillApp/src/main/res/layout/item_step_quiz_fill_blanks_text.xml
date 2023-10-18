@@ -9,5 +9,6 @@
     android:textSize="14sp"
     android:textColor="@color/color_on_surface_alpha_87"
     android:gravity="center_vertical"
+    android:layout_marginTop="@dimen/step_quiz_fill_blanks_item_top_margin"
     tools:text="This function should return a string!"
     />
