@@ -16,22 +16,23 @@ class FillBlanksMapperTest {
 
     private fun expectedItems(firstReply: String? = null, secondReply: String? = null) =
         listOf(
-            FillBlanksItem.Text("Mark the following function's return type as string:", false),
-            FillBlanksItem.Text("", true),
-            FillBlanksItem.Text("def function1() ", true),
-            FillBlanksItem.Input(firstReply),
-            FillBlanksItem.Text(":", startsWithNewLine = false),
-            FillBlanksItem.Text("    return \"This function should return a string!\" ", true),
-            FillBlanksItem.Text(text = "", startsWithNewLine = true),
+            FillBlanksItem.Text(0, "Mark the following function's return type as string:", false),
+            FillBlanksItem.Text(1, "", true),
+            FillBlanksItem.Text(2, "def function1() ", true),
+            FillBlanksItem.Input(3, firstReply),
+            FillBlanksItem.Text(4, ":", startsWithNewLine = false),
+            FillBlanksItem.Text(5, "    return \"This function should return a string!\" ", true),
+            FillBlanksItem.Text(6, text = "", startsWithNewLine = true),
             FillBlanksItem.Text(
+                7,
                 text = "Mark the following function's return type as a set of floats:",
                 startsWithNewLine = true
             ),
-            FillBlanksItem.Text(text = "", startsWithNewLine = true),
-            FillBlanksItem.Text(text = "def function2() ", startsWithNewLine = true),
-            FillBlanksItem.Input(secondReply),
-            FillBlanksItem.Text(":", startsWithNewLine = false),
-            FillBlanksItem.Text("    return {1, 2, 3, 4} ", startsWithNewLine = true)
+            FillBlanksItem.Text(8, text = "", startsWithNewLine = true),
+            FillBlanksItem.Text(9, text = "def function2() ", startsWithNewLine = true),
+            FillBlanksItem.Input(10, secondReply),
+            FillBlanksItem.Text(11, ":", startsWithNewLine = false),
+            FillBlanksItem.Text(12,"    return {1, 2, 3, 4} ", startsWithNewLine = true)
         )
 
     @Test

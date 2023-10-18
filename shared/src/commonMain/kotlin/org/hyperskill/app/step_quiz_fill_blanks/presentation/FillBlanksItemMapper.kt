@@ -36,8 +36,9 @@ object FillBlanksItemMapper {
         return if (match != null) {
             val inputComponents = componentsDataset.slice(from = 1)
             val (langClass, content) = match.destructured
-            val fillBlanks = splitContent(content) { inputIndex ->
+            val fillBlanks = splitContent(content) { id, inputIndex ->
                 FillBlanksItem.Input(
+                    id = id,
                     inputText = replyBlanks?.getOrNull(inputIndex)
                         ?: inputComponents.getOrNull(inputIndex)?.text,
                 )
@@ -56,21 +57,27 @@ object FillBlanksItemMapper {
 
     private fun splitContent(
         content: String,
-        produceInputItem: (Int) -> FillBlanksItem.Input
+        produceInputItem: (id: Int, inputIndex: Int) -> FillBlanksItem.Input
     ): List<FillBlanksItem> {
         var nextDelimiterIndex = content.indexOfAny(DELIMITERS)
         if (nextDelimiterIndex == -1) {
             return listOf(
-                FillBlanksItem.Text(content, startsWithNewLine = false)
+                FillBlanksItem.Text(
+                    id = 0,
+                    text = content,
+                    startsWithNewLine = false
+                )
             )
         }
         return buildList {
             var currentOffset = 0
             var previousDelimiterIsLineBreak = false
-            var blankIndex = 0
+            var inputIndex = 0
+            var id = 0
             do {
                 add(
                     FillBlanksItem.Text(
+                        id = id++,
                         text = content.substring(currentOffset, nextDelimiterIndex),
                         startsWithNewLine = previousDelimiterIsLineBreak
                     )
@@ -79,7 +86,7 @@ object FillBlanksItemMapper {
                 val delimiter = content[nextDelimiterIndex]
                 if (delimiter == FillBlanksConfig.BLANK_FIELD_CHAR) {
                     add(
-                        produceInputItem(blankIndex++)
+                        produceInputItem(id++, inputIndex++)
                     )
                 }
 
@@ -89,6 +96,7 @@ object FillBlanksItemMapper {
             } while(nextDelimiterIndex != -1)
             add(
                FillBlanksItem.Text(
+                   id = id,
                    text = content.substring(currentOffset, content.length),
                    startsWithNewLine = previousDelimiterIsLineBreak
                )
