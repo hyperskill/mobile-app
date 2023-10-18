@@ -30,21 +30,19 @@ struct GamificationToolbarContent: ToolbarContent {
                 HStack {}
             case .content(let data):
                 HStack {
-                    if let trackWithProgress = data.trackWithProgress {
+                    if let trackProgress = data.trackProgress {
                         ProgressBarButtonItem(
-                            progress: Float(trackWithProgress.averageProgress) / 100,
-                            isCompleted: trackWithProgress.trackProgress.isCompleted,
+                            progress: Float(trackProgress.averageProgress) / 100,
+                            isCompleted: trackProgress.isCompleted,
                             onTap: onProgressTap
                         )
                     }
 
-                    if let streak = data.streak {
-                        StreakBarButtonItem(
-                            currentStreak: Int(streak.currentStreak),
-                            isCompletedToday: streak.history.first?.isCompleted == true,
-                            onTap: onStreakTap
-                        )
-                    }
+                    StreakBarButtonItem(
+                        currentStreak: Int(data.currentStreak),
+                        isCompletedToday: data.historicalStreak.isCompleted,
+                        onTap: onStreakTap
+                    )
 
                     GemsBarButtonItem(
                         hypercoinsBalance: Int(data.hypercoinsBalance),

@@ -7,6 +7,8 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.State
+import org.hyperskill.app.streaks.domain.model.HistoricalStreak
+import org.hyperskill.app.streaks.domain.model.StreakState
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 class GamificationToolbarReducer(
@@ -26,9 +28,10 @@ class GamificationToolbarReducer(
                 State.Error to emptySet()
             is Message.FetchGamificationToolbarDataSuccess ->
                 State.Content(
-                    streak = message.streak,
-                    hypercoinsBalance = message.hypercoinsBalance,
-                    trackWithProgress = message.trackWithProgress
+                    trackProgress = message.gamificationToolbarData.trackProgress,
+                    currentStreak = message.gamificationToolbarData.currentStreak,
+                    historicalStreak = HistoricalStreak(message.gamificationToolbarData.streakState),
+                    hypercoinsBalance = message.gamificationToolbarData.hypercoinsBalance
                 ) to emptySet()
             is Message.PullToRefresh ->
                 when (state) {
@@ -44,29 +47,31 @@ class GamificationToolbarReducer(
                     else ->
                         null
                 }
-            is Message.FetchTrackWithProgressResult -> {
-                if (state is State.Content && message is Message.FetchTrackWithProgressResult.Success) {
-                    state.copy(trackWithProgress = message.trackWithProgress) to emptySet()
-                } else {
-                    null
-                }
-            }
             // Flow Messages
             is Message.StepSolved ->
-                if (state is State.Content) {
-                    state.copy(streak = state.streak?.getStreakWithTodaySolved()) to emptySet()
+                if (state is State.Content && state.historicalStreak.state == StreakState.NOTHING) {
+                    state.copy(
+                        historicalStreak = HistoricalStreak(StreakState.COMPLETED),
+                        currentStreak = state.currentStreak + 1
+                    ) to emptySet()
                 } else {
                     null
                 }
             is Message.HypercoinsBalanceChanged ->
                 if (state is State.Content) {
-                    state.copy(hypercoinsBalance = message.hypercoinsBalance) to emptySet()
+                    state.copy(
+                        hypercoinsBalance = message.hypercoinsBalance
+                    ) to emptySet()
                 } else {
                     null
                 }
             is Message.StreakChanged ->
-                if (state is State.Content) {
-                    state.copy(streak = message.streak) to emptySet()
+                if (state is State.Content && message.streak != null) {
+                    state.copy(
+                        currentStreak = message.streak.currentStreak,
+                        historicalStreak = message.streak.history.firstOrNull()?.state?.let { HistoricalStreak(it) }
+                            ?: state.historicalStreak
+                    ) to emptySet()
                 } else {
                     null
                 }
@@ -74,13 +79,10 @@ class GamificationToolbarReducer(
                 if (state is State.Content) {
                     if (message.studyPlan.trackId != null) {
                         state to setOf(
-                            Action.FetchTrackWithProgress(
-                                message.studyPlan.trackId,
-                                screen.fetchTrackProgressSentryTransaction
-                            )
+                            Action.FetchGamificationToolbarData(screen, forceUpdate = true)
                         )
                     } else {
-                        state.copy(trackWithProgress = null) to emptySet()
+                        state.copy(trackProgress = null) to emptySet()
                     }
                 } else {
                     null
@@ -88,17 +90,9 @@ class GamificationToolbarReducer(
             }
             is Message.TopicCompleted -> {
                 if (state is State.Content) {
-                    val trackId = state.trackWithProgress?.track?.id
-                    if (trackId != null) {
-                        state to setOf(
-                            Action.FetchTrackWithProgress(
-                                trackId,
-                                screen.fetchTrackProgressSentryTransaction
-                            )
-                        )
-                    } else {
-                        state to emptySet()
-                    }
+                    state to setOf(
+                        Action.FetchGamificationToolbarData(screen, forceUpdate = true)
+                    )
                 } else {
                     null
                 }
