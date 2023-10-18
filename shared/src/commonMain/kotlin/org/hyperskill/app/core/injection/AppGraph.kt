@@ -1,6 +1,7 @@
 package org.hyperskill.app.core.injection
 
 import org.hyperskill.app.analytic.injection.AnalyticComponent
+import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponent
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
@@ -85,6 +86,8 @@ interface AppGraph {
     val notificationFlowDataComponent: NotificationFlowDataComponent
     val stateRepositoriesComponent: StateRepositoriesComponent
     val profileDataComponent: ProfileDataComponent
+
+    fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent
 
     /**
      * Auth components

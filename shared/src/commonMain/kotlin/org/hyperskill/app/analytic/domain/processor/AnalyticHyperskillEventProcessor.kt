@@ -15,6 +15,7 @@ class AnalyticHyperskillEventProcessor(
         private const val PARAM_PLATFORM = "platform"
         private const val PARAM_USER = "user"
         private const val PARAM_IS_NOTIFICATIONS_ALLOW = "is_notifications_allow"
+        private const val PARAM_IS_ATT_ALLOW = "is_att_allow"
         private const val PARAM_SCREEN_ORIENTATION = "screen_orientation"
         private const val SCREEN_ORIENTATION_VALUE_PORTRAIT = "portrait"
         private const val SCREEN_ORIENTATION_VALUE_LANDSCAPE = "landscape"
@@ -24,6 +25,7 @@ class AnalyticHyperskillEventProcessor(
         event: AnalyticEvent,
         userId: Long,
         isNotificationsPermissionGranted: Boolean,
+        isATTPermissionGranted: Boolean,
         screenOrientation: ScreenOrientation
     ): HyperskillProcessedAnalyticEvent {
         val resultParams = event.params.toMutableMap()
@@ -36,6 +38,7 @@ class AnalyticHyperskillEventProcessor(
             if (contextMap != null) {
                 contextMap[PARAM_PLATFORM] = platform.analyticName
                 contextMap[PARAM_IS_NOTIFICATIONS_ALLOW] = isNotificationsPermissionGranted
+                contextMap[PARAM_IS_ATT_ALLOW] = isATTPermissionGranted
                 contextMap[PARAM_SCREEN_ORIENTATION] = getScreenOrientationValue(screenOrientation)
                 resultParams[PARAM_CONTEXT] = contextMap
             }
@@ -43,6 +46,7 @@ class AnalyticHyperskillEventProcessor(
             resultParams[PARAM_CONTEXT] = mapOfNotNull(
                 PARAM_PLATFORM to platform.analyticName,
                 PARAM_IS_NOTIFICATIONS_ALLOW to isNotificationsPermissionGranted,
+                PARAM_IS_ATT_ALLOW to isATTPermissionGranted,
                 PARAM_SCREEN_ORIENTATION to getScreenOrientationValue(screenOrientation)
             )
         }

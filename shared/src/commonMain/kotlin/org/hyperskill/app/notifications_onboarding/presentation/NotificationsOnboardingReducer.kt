@@ -5,6 +5,7 @@ import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemN
 import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingCompletionAppsFlyerAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingViewedHyperskillAnalyticsEvent
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.InternalAction
@@ -17,10 +18,10 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
         state to when (message) {
             Message.AllowNotificationClicked ->
                 setOf(
-                    InternalAction.LogAnalyticsEvent(
+                    InternalAction.LogAnalyticEvent(
                         NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent
                     ),
-                    InternalAction.LogAnalyticsEvent(
+                    InternalAction.LogAnalyticEvent(
                         NotificationSystemNoticeShownHyperskillAnalyticEvent(
                             HyperskillAnalyticRoute.Onboarding.Notifications
                         )
@@ -30,23 +31,31 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                 )
             is Message.NotificationPermissionRequestResult ->
                 setOf(
-                    InternalAction.LogAnalyticsEvent(
+                    InternalAction.LogAnalyticEvent(
                         NotificationSystemNoticeHiddenHyperskillAnalyticEvent(
                             route = HyperskillAnalyticRoute.Onboarding.Notifications,
                             isAllowed = message.isPermissionGranted
+                        )
+                    ),
+                    InternalAction.LogAnalyticEvent(
+                        NotificationsOnboardingCompletionAppsFlyerAnalyticEvent(
+                            isSuccess = message.isPermissionGranted
                         )
                     ),
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
             Message.RemindMeLaterClicked ->
                 setOf(
-                    InternalAction.LogAnalyticsEvent(
+                    InternalAction.LogAnalyticEvent(
                         NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent
+                    ),
+                    InternalAction.LogAnalyticEvent(
+                        NotificationsOnboardingCompletionAppsFlyerAnalyticEvent(isSuccess = false)
                     ),
                     InternalAction.UpdateLastNotificationPermissionRequestTime,
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
             Message.ViewedEventMessage ->
-                setOf(InternalAction.LogAnalyticsEvent(NotificationsOnboardingViewedHyperskillAnalyticsEvent))
+                setOf(InternalAction.LogAnalyticEvent(NotificationsOnboardingViewedHyperskillAnalyticsEvent))
         }
 }

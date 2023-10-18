@@ -261,7 +261,7 @@ abstract class DefaultStepQuizFragment :
                 view?.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> {
-                requireRouter().backTo(MainScreen())
+                requireRouter().backTo(MainScreen(Tabs.TRAINING))
                 mainScreenRouter.switch(Tabs.TRAINING)
             }
             is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
