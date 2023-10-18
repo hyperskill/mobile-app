@@ -3,6 +3,8 @@ package org.hyperskill.app.step_quiz_fill_blanks.presentation
 import org.hyperskill.app.core.utils.DotMatchesAllRegexOption
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
+import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
+import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
@@ -19,13 +21,21 @@ object FillBlanksItemMapper {
 
     fun map(attempt: Attempt, submission: Submission): FillBlanksData? =
         attempt.dataset?.components?.let {
-            mapInternal(
+            map(
                 componentsDataset = it,
                 replyBlanks = submission.reply?.blanks
             )
         }
 
-    internal fun mapInternal(
+    fun map(dataset: Dataset, reply: Reply?): FillBlanksData? =
+        dataset.components?.let {
+            map(
+                componentsDataset = it,
+                replyBlanks = reply?.blanks
+            )
+        }
+
+    private fun map(
         componentsDataset: List<Component>,
         replyBlanks: List<String>?
     ): FillBlanksData? {

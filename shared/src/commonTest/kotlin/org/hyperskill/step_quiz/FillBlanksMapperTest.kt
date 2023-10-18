@@ -37,7 +37,7 @@ class FillBlanksMapperTest {
 
     @Test
     fun `FillBlanksMapper should correctly split text`() {
-        val result = FillBlanksItemMapper.mapInternal(
+        val result = FillBlanksItemMapper.map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -59,7 +59,7 @@ class FillBlanksMapperTest {
     fun `FillBlanksMapper should use reply for inputs`() {
         val firstReply = "1"
         val secondReply = "2"
-        val result = FillBlanksItemMapper.mapInternal(
+        val result = FillBlanksItemMapper.map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -82,7 +82,7 @@ class FillBlanksMapperTest {
 
     @Test
     fun `FillBlanksMapper should extract language name from the CODE tag`() {
-        val result = FillBlanksItemMapper.mapInternal(
+        val result = FillBlanksItemMapper.map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
