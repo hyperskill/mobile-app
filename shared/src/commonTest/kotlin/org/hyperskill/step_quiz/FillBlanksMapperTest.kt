@@ -2,105 +2,93 @@ package org.hyperskill.step_quiz
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
-import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper
-import org.hyperskill.step_quiz.domain.model.stub
 
 class FillBlanksMapperTest {
     /* ktlint-disable */
     companion object {
         private const val LANGUAGE_NAME = "typescript"
-        private const val TEXT = "<p>def function1() [...]:<br></p><pre><code class=\"language-$LANGUAGE_NAME\">Mark the following function's return type as string:\n\ndef function1() ▭:\n    return \"This function should return a string!\" \n\nMark the following function's return type as a set of floats:\n\ndef function2() ▭:\n    return {1, 2, 3, 4} </code></pre>"
-        private const val FIRST_TEXT_PART = "Mark the following function's return type as string:\n\ndef function1() "
-        private const val SECOND_TEXT_PART = ":\n    return \"This function should return a string!\" \n\nMark the following function's return type as a set of floats:\n\ndef function2() "
-        private const val THIRD_TEXT_PART = ":\n    return {1, 2, 3, 4} "
+        private const val CONTENT = "Mark the following function's return type as string:\n\ndef function1() ▭:\n    return \"This function should return a string!\" \n\nMark the following function's return type as a set of floats:\n\ndef function2() ▭:\n    return {1, 2, 3, 4} "
+        private const val TEXT = "<p>def function1() [...]:<br></p><pre><code class=\"language-$LANGUAGE_NAME\">$CONTENT</code></pre>"
     }
+
+    private fun expectedItems(firstReply: String? = null, secondReply: String? = null) =
+        listOf(
+            FillBlanksItem.Text("Mark the following function's return type as string:", false),
+            FillBlanksItem.Text("", true),
+            FillBlanksItem.Text("def function1() ", true),
+            FillBlanksItem.Input(firstReply),
+            FillBlanksItem.Text(":", startsWithNewLine = false),
+            FillBlanksItem.Text("    return \"This function should return a string!\" ", true),
+            FillBlanksItem.Text(text = "", startsWithNewLine = true),
+            FillBlanksItem.Text(
+                text = "Mark the following function's return type as a set of floats:",
+                startsWithNewLine = true
+            ),
+            FillBlanksItem.Text(text = "", startsWithNewLine = true),
+            FillBlanksItem.Text(text = "def function2() ", startsWithNewLine = true),
+            FillBlanksItem.Input(secondReply),
+            FillBlanksItem.Text(":", startsWithNewLine = false),
+            FillBlanksItem.Text("    return {1, 2, 3, 4} ", startsWithNewLine = true)
+        )
 
     @Test
     fun `FillBlanksMapper should correctly split text`() {
-        val result = FillBlanksItemMapper.map(
-            Attempt.Companion.stub(
-                dataset = Dataset(
-                    components = listOf(
-                        Component(
-                            type = Component.Type.TEXT,
-                            text = TEXT
-                        ),
-                        Component(
-                            type = Component.Type.INPUT
-                        ),
-                        Component(
-                            type = Component.Type.INPUT
-                        )
-                    )
+        val result = FillBlanksItemMapper.mapInternal(
+            componentsDataset = listOf(
+                Component(
+                    type = Component.Type.TEXT,
+                    text = TEXT
+                ),
+                Component(
+                    type = Component.Type.INPUT
+                ),
+                Component(
+                    type = Component.Type.INPUT
                 )
             ),
-            Submission()
+            replyBlanks = null
         )
-        val expectedResult = listOf(
-            FillBlanksItem.Text(FIRST_TEXT_PART),
-            FillBlanksItem.Input(null),
-            FillBlanksItem.Text(SECOND_TEXT_PART),
-            FillBlanksItem.Input(null),
-            FillBlanksItem.Text(THIRD_TEXT_PART)
-        )
-        assertEquals(expectedResult, result?.fillBlanks)
+        assertEquals(expectedItems(), result?.fillBlanks)
     }
 
     @Test
     fun `FillBlanksMapper should use reply for inputs`() {
-        val result = FillBlanksItemMapper.map(
-            Attempt.Companion.stub(
-                dataset = Dataset(
-                    components = listOf(
-                        Component(
-                            type = Component.Type.TEXT,
-                            text = TEXT
-                        ),
-                        Component(
-                            type = Component.Type.INPUT
-                        ),
-                        Component(
-                            type = Component.Type.INPUT
-                        )
-                    )
+        val firstReply = "1"
+        val secondReply = "2"
+        val result = FillBlanksItemMapper.mapInternal(
+            componentsDataset = listOf(
+                Component(
+                    type = Component.Type.TEXT,
+                    text = TEXT
+                ),
+                Component(
+                    type = Component.Type.INPUT
+                ),
+                Component(
+                    type = Component.Type.INPUT
                 )
             ),
-            Submission(
-                reply = Reply(
-                    blanks = listOf("1", "2")
-                )
-            )
+            replyBlanks = listOf(firstReply, secondReply)
         )
-        val expectedResult = listOf(
-            FillBlanksItem.Text(FIRST_TEXT_PART),
-            FillBlanksItem.Input("1"),
-            FillBlanksItem.Text(SECOND_TEXT_PART),
-            FillBlanksItem.Input("2"),
-            FillBlanksItem.Text(THIRD_TEXT_PART)
+        assertEquals(
+            expectedItems(firstReply, secondReply),
+            result?.fillBlanks
         )
-        assertEquals(expectedResult, result?.fillBlanks)
     }
 
     @Test
     fun `FillBlanksMapper should extract language name from the CODE tag`() {
-        val result = FillBlanksItemMapper.map(
-            Attempt.Companion.stub(
-                dataset = Dataset(
-                    components = listOf(
-                        Component(
-                            type = Component.Type.TEXT,
-                            text = TEXT
-                        )
-                    )
+        val result = FillBlanksItemMapper.mapInternal(
+            componentsDataset = listOf(
+                Component(
+                    type = Component.Type.TEXT,
+                    text = TEXT
                 )
             ),
-            Submission()
+            replyBlanks = null
         )
         assertEquals(LANGUAGE_NAME, result?.language)
     }

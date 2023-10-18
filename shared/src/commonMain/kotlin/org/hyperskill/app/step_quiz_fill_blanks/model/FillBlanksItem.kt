@@ -2,7 +2,8 @@ package org.hyperskill.app.step_quiz_fill_blanks.model
 
 sealed interface FillBlanksItem {
     data class Text(
-        val text: String
+        val text: String,
+        val startsWithNewLine: Boolean
     ) : FillBlanksItem
 
     data class Input(
