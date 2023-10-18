@@ -51,8 +51,7 @@ class GamificationToolbarDelegate(
         if (state is GamificationToolbarFeature.State.Content) {
             with(viewBinding.gamificationStreakDurationTextView) {
                 isVisible = true
-                val streakDuration = state.currentStreak
-                text = streakDuration.toString()
+                text = state.currentStreak.toString()
                 setCompoundDrawablesWithIntrinsicBounds(
                     /* left = */ when {
                         state.historicalStreak.state == StreakState.RECOVERED -> R.drawable.ic_menu_recovered_streak

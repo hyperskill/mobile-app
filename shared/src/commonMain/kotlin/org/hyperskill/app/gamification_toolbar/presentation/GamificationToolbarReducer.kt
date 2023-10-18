@@ -69,8 +69,7 @@ class GamificationToolbarReducer(
                 if (state is State.Content && message.streak != null) {
                     state.copy(
                         currentStreak = message.streak.currentStreak,
-                        historicalStreak = message.streak.history.firstOrNull()?.state?.let { HistoricalStreak(it) }
-                            ?: state.historicalStreak
+                        historicalStreak = message.streak.history.firstOrNull() ?: state.historicalStreak
                     ) to emptySet()
                 } else {
                     null
