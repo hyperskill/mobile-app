@@ -46,7 +46,8 @@ class FillBlanksStepQuizFormDelegate(
     }
 
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
-        resolve(state)
+        val resolveState = resolve(resolveState, state)
+        this.resolveState = resolveState
         if (resolveState == ResolveState.RESOLVE_SUCCEED) {
             val fillBlanksData = FillBlanksItemMapper.map(
                 state.attempt,
@@ -57,10 +58,13 @@ class FillBlanksStepQuizFormDelegate(
         }
     }
 
-    private fun resolve(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
-        if (resolveState == ResolveState.NOT_RESOLVED) {
+    private fun resolve(
+        currentResolveState: ResolveState,
+        state: StepQuizFeature.StepQuizState.AttemptLoaded
+    ): ResolveState =
+        if (currentResolveState == ResolveState.NOT_RESOLVED) {
             val dataset = state.attempt.dataset
-            resolveState = if (dataset != null) {
+            if (dataset != null) {
                 try {
                     FillBlanksResolver.resolve(dataset)
                     ResolveState.RESOLVE_SUCCEED
@@ -70,8 +74,9 @@ class FillBlanksStepQuizFormDelegate(
             } else {
                 ResolveState.RESOLVE_FAILED
             }
+        } else {
+            currentResolveState
         }
-    }
 
     override fun createReply(): Reply =
         Reply.fillBlanks(
