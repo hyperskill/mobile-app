@@ -36,7 +36,7 @@ class FillBlanksQuizFragment :
     override val quizViews: Array<View>
         get() = arrayOf(binding.stepQuizFillBlanksContainer)
     override val skeletonView: View
-        get() = binding.stepQuizFillBlanksSkeleton
+        get() = binding.stepQuizFillBlanksSkeleton.root
 
     override val descriptionBinding: LayoutStepQuizDescriptionBinding? = null
 

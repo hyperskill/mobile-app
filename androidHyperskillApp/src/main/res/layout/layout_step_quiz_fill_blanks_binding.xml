@@ -35,16 +35,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/color_background_alpha_60"
-            android:padding="20dp"
+            android:padding="@dimen/step_quiz_fill_blanks_content_padding"
             />
 
         <include layout="@layout/view_divider_vertical" />
 
     </LinearLayout>
 
-    <org.hyperskill.app.android.ui.custom.LoadingView
+    <include
         android:id="@+id/stepQuizFillBlanksSkeleton"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/embedded_code_editor_height" />
+        layout="@layout/layout_fill_blanks_skeleton"/>
 
 </FrameLayout>
