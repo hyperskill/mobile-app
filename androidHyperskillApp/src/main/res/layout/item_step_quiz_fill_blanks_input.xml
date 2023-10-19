@@ -19,6 +19,5 @@
     android:paddingLeft="@dimen/step_quiz_fill_blanks_padding"
     android:paddingRight="@dimen/step_quiz_fill_blanks_padding"
     android:layout_marginTop="@dimen/step_quiz_fill_blanks_item_top_margin"
-    android:layout_marginHorizontal="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
     tools:text="List[Int]"
     />

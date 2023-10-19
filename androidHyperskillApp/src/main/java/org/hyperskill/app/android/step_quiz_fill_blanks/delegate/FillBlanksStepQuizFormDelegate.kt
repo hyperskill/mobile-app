@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step_quiz_fill_blanks.delegate
 
-import android.util.Log
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import androidx.core.view.updateLayoutParams
@@ -103,7 +102,6 @@ class FillBlanksStepQuizFormDelegate(
         adapterDelegate<FillBlanksItem, FillBlanksItem.Text>(R.layout.item_step_quiz_fill_blanks_text) {
             val textView = itemView as TextView
             onBind { textItem ->
-                Log.d("FillBlanksStepQuizFormDelegate", "textAdapterDelegate.onBing")
                 textView.updateLayoutParams<FlexboxLayoutManager.LayoutParams> {
                     isWrapBefore = textItem.startsWithNewLine
                 }
