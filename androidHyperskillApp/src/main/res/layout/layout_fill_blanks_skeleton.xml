@@ -24,7 +24,8 @@
         android:layout_height="wrap_content"
         app:flexWrap="wrap"
         app:alignItems="center"
-        android:padding="@dimen/step_quiz_fill_blanks_content_padding">
+        android:padding="@dimen/step_quiz_fill_blanks_content_padding"
+        android:background="@color/color_background_alpha_60">
 
         <org.hyperskill.app.android.ui.custom.LoadingView
             android:layout_width="70dp"
