@@ -21,7 +21,7 @@ class FillBlanksMapperTest {
             FillBlanksItem.Text(2, "def function1() ", true),
             FillBlanksItem.Input(3, firstReply),
             FillBlanksItem.Text(4, ":", startsWithNewLine = false),
-            FillBlanksItem.Text(5, "    return \"This function should return a string!\" ", true),
+            FillBlanksItem.Text(5, "&nbsp;&nbsp;&nbsp;&nbsp;return \"This function should return a string!\" ", true),
             FillBlanksItem.Text(6, text = "", startsWithNewLine = true),
             FillBlanksItem.Text(
                 7,
@@ -32,7 +32,7 @@ class FillBlanksMapperTest {
             FillBlanksItem.Text(9, text = "def function2() ", startsWithNewLine = true),
             FillBlanksItem.Input(10, secondReply),
             FillBlanksItem.Text(11, ":", startsWithNewLine = false),
-            FillBlanksItem.Text(12,"    return {1, 2, 3, 4} ", startsWithNewLine = true)
+            FillBlanksItem.Text(12,"&nbsp;&nbsp;&nbsp;&nbsp;return {1, 2, 3, 4} ", startsWithNewLine = true)
         )
 
     @Test

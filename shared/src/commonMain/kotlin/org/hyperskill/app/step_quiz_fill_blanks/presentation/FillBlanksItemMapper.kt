@@ -13,17 +13,19 @@ import ru.nobird.app.core.model.slice
 
 object FillBlanksItemMapper {
     private const val LINE_BREAK_CHAR = '\n'
-    private val DELIMITERS = charArrayOf(LINE_BREAK_CHAR, FillBlanksConfig.BLANK_FIELD_CHAR)
-
     private const val LANGUAGE_CLASS_PREFIX = "class=\"language-"
+    private const val WHITE_SPACE_HTML_STRING = "&nbsp;"
+
+    private val DELIMITERS = charArrayOf(LINE_BREAK_CHAR, FillBlanksConfig.BLANK_FIELD_CHAR)
     private val contentRegex: Regex =
         "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
 
-    fun map(attempt: Attempt, submission: Submission): FillBlanksData? =
+
+    fun map(attempt: Attempt, submission: Submission?): FillBlanksData? =
         attempt.dataset?.components?.let {
             map(
                 componentsDataset = it,
-                replyBlanks = submission.reply?.blanks
+                replyBlanks = submission?.reply?.blanks
             )
         }
 
@@ -72,10 +74,10 @@ object FillBlanksItemMapper {
         var nextDelimiterIndex = content.indexOfAny(DELIMITERS)
         if (nextDelimiterIndex == -1) {
             return listOf(
-                FillBlanksItem.Text(
+                getTextItem(
                     id = 0,
                     text = content,
-                    startsWithNewLine = false
+                    startsWithNewLine = false,
                 )
             )
         }
@@ -86,7 +88,7 @@ object FillBlanksItemMapper {
             var id = 0
             do {
                 add(
-                    FillBlanksItem.Text(
+                    getTextItem(
                         id = id++,
                         text = content.substring(currentOffset, nextDelimiterIndex),
                         startsWithNewLine = previousDelimiterIsLineBreak
@@ -105,12 +107,32 @@ object FillBlanksItemMapper {
                 nextDelimiterIndex = content.indexOfAny(DELIMITERS, currentOffset)
             } while (nextDelimiterIndex != -1)
             add(
-                FillBlanksItem.Text(
+                getTextItem(
                     id = id,
                     text = content.substring(currentOffset, content.length),
                     startsWithNewLine = previousDelimiterIsLineBreak
                 )
             )
         }
+    }
+
+    private fun getTextItem(
+        id: Int,
+        text: String,
+        startsWithNewLine: Boolean
+    ): FillBlanksItem.Text {
+        val startWhiteSpacesAmount = text
+            .indexOfFirst { !it.isWhitespace() }
+            .let { if (it == -1) text.length else it }
+        return FillBlanksItem.Text(
+            id = id,
+            text = buildString {
+                repeat(startWhiteSpacesAmount) {
+                    append(WHITE_SPACE_HTML_STRING)
+                }
+                append(text.trimStart())
+            },
+            startsWithNewLine = startsWithNewLine
+        )
     }
 }
