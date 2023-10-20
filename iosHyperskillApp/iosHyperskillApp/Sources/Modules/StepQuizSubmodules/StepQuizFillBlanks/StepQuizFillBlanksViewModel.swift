@@ -18,12 +18,25 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
         self.provideModuleInputCallback = provideModuleInputCallback
         self.viewData = viewDataMapper.mapToViewData(dataset: dataset, reply: reply)
     }
+
+    func doProvideModuleInput() {
+        provideModuleInputCallback(self)
+    }
 }
 
 // MARK: - StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol -
 
 extension StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol {
     func createReply() -> Reply {
-        Reply.companion.fillBlanks(blanks: [])
+        let blanks: [String] = viewData.components.compactMap { component in
+            switch component.type {
+            case .text:
+                return nil
+            case .input:
+                return component.text ?? ""
+            }
+        }
+
+        return Reply.companion.fillBlanks(blanks: blanks)
     }
 }

@@ -22,6 +22,7 @@ final class FillBlanksTextCollectionViewCell: UICollectionViewCell, Reusable {
             if let text = self.text {
                 #warning("TODO")
                 //self.textLabel.setTextWithHTMLString(text)
+                self.textLabel.text = text
             } else {
                 self.textLabel.text = nil
             }
@@ -57,6 +58,7 @@ final class FillBlanksTextCollectionViewCell: UICollectionViewCell, Reusable {
 
         #warning("TODO")
         //label.setTextWithHTMLString(text)
+        label.text = text
         label.sizeToFit()
 
         var size = label.bounds.size

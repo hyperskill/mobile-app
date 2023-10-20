@@ -1,14 +1,14 @@
 import SnapKit
 import UIKit
 
-extension FillBlanksInputContainerView {
+extension FillBlanksQuizInputContainerView {
     struct Appearance {
         var cornerRadius: CGFloat = 18
         let borderWidth: CGFloat = 1
     }
 }
 
-final class FillBlanksInputContainerView: UIView {
+final class FillBlanksQuizInputContainerView: UIView {
     let appearance: Appearance
 
     var state = State.default {
@@ -54,7 +54,7 @@ final class FillBlanksInputContainerView: UIView {
 
         var borderColor: UIColor {
             #warning("TODO")
-            return .black
+            return ColorPalette.onSurfaceAlpha12
 
 //            switch self {
 //            case .default:
@@ -68,7 +68,7 @@ final class FillBlanksInputContainerView: UIView {
 
         var backgroundColor: UIColor {
             #warning("TODO")
-            return .black
+            return .clear
 
 //            switch self {
 //            case .default:

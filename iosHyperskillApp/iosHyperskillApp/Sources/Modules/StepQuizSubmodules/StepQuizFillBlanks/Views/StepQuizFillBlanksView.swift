@@ -4,7 +4,10 @@ struct StepQuizFillBlanksView: View {
     @StateObject var viewModel: StepQuizFillBlanksViewModel
 
     var body: some View {
-        Text("Hello, World!")
+        FillBlanksQuizViewWrapper(
+            viewData: viewModel.viewData
+        )
+        .onAppear(perform: viewModel.doProvideModuleInput)
     }
 }
 

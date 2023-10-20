@@ -4,23 +4,31 @@ import shared
 final class StepQuizFillBlanksViewDataMapper {
     func mapToViewData(dataset: Dataset, reply: Reply?) -> StepQuizFillBlanksViewData {
         guard let fillBlanksData = FillBlanksItemMapper.shared.map(dataset: dataset, reply: reply) else {
-            return .init(items: [])
+            return .init(components: [])
         }
 
         return mapFillBlanksDataToViewData(fillBlanksData)
     }
 
     private func mapFillBlanksDataToViewData(_ fillBlanksData: FillBlanksData) -> StepQuizFillBlanksViewData {
-        let items = fillBlanksData.fillBlanks.map(mapFillBlanksItem(_:))
-        return StepQuizFillBlanksViewData(items: items)
+        let components = fillBlanksData.fillBlanks.map(mapFillBlanksItem(_:))
+        return StepQuizFillBlanksViewData(components: components)
     }
 
-    private func mapFillBlanksItem(_ fillBlanksItem: FillBlanksItem) -> StepQuizFillBlankItem {
+    private func mapFillBlanksItem(_ fillBlanksItem: FillBlanksItem) -> StepQuizFillBlankComponent {
         switch FillBlanksItemKs(fillBlanksItem) {
         case .text(let data):
-            return StepQuizFillBlankItem.text(data.text)
+            return StepQuizFillBlankComponent(
+                id: data.id.intValue,
+                type: .text,
+                text: data.text
+            )
         case .input(let data):
-            return StepQuizFillBlankItem.input(data.inputText)
+            return StepQuizFillBlankComponent(
+                id: data.id.intValue,
+                type: .input,
+                text: data.inputText
+            )
         }
     }
 }

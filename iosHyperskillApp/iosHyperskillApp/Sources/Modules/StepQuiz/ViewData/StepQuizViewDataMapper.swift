@@ -102,13 +102,13 @@ final class StepQuizViewDataMapper {
             return unsupportedChildQuizType
         }
 
-        guard let dataset = attemptLoadedState?.attempt.dataset else {
-            return unsupportedChildQuizType
-        }
-
         let childQuizType = StepQuizChildQuizType(step: step)
 
         if case .fillBlanks = childQuizType {
+            guard let dataset = attemptLoadedState?.attempt.dataset else {
+                return childQuizType
+            }
+
             do {
                 try FillBlanksResolver.shared.resolve(dataset: dataset)
             } catch {

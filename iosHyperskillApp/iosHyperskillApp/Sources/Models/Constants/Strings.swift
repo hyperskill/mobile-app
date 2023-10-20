@@ -203,6 +203,13 @@ enum Strings {
         }
     }
 
+    // MARK: - StepQuizFillBlanks-
+
+    enum StepQuizFillBlanks {
+        #warning("TODO")
+        static let title = "Fill in the gaps"
+    }
+
     // MARK: - StageImplement -
 
     enum StageImplement {
