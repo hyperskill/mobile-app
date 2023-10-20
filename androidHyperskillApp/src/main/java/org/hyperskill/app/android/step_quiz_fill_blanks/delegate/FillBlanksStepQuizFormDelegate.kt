@@ -37,6 +37,8 @@ class FillBlanksStepQuizFormDelegate(
         )
     }
 
+    private val fillBlanksMapper: FillBlanksItemMapper = FillBlanksItemMapper()
+
     private var resolveState: ResolveState = ResolveState.NOT_RESOLVED
 
     init {
@@ -60,7 +62,7 @@ class FillBlanksStepQuizFormDelegate(
         val resolveState = resolve(resolveState, state)
         this.resolveState = resolveState
         if (resolveState == ResolveState.RESOLVE_SUCCEED) {
-            val fillBlanksData = FillBlanksItemMapper.map(
+            val fillBlanksData = fillBlanksMapper.map(
                 state.attempt,
                 (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
             )
