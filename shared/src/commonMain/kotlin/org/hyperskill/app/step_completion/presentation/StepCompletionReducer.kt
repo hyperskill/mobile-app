@@ -31,7 +31,6 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     )
                     state.copy(
                         isPracticingLoading = when (state.continueButtonAction) {
-                            is ContinueButtonAction.FetchNextStepQuiz,
                             is ContinueButtonAction.CheckTopicCompletion ->
                                 true
                             ContinueButtonAction.NavigateToBack,
@@ -43,9 +42,6 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                         when (state.continueButtonAction) {
                             ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
                             ContinueButtonAction.NavigateToStudyPlan -> Action.ViewAction.NavigateTo.StudyPlan
-                            ContinueButtonAction.FetchNextStepQuiz -> Action.FetchNextRecommendedStep(
-                                currentStep = state.currentStep
-                            )
                             ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
                                 Action.CheckTopicCompletionStatus(it)
                             } ?: Action.ViewAction.NavigateTo.Back
@@ -93,12 +89,11 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             }
             is Message.CheckTopicCompletionStatus.Uncompleted ->
-                state.copy(isPracticingLoading = false) to emptySet()
+                state to setOf(Action.FetchNextRecommendedStep(currentStep = state.currentStep))
             is Message.CheckTopicCompletionStatus.Error ->
-                state.copy(
-                    continueButtonAction = ContinueButtonAction.CheckTopicCompletion,
-                    isPracticingLoading = false
-                ) to emptySet()
+                state.copy(isPracticingLoading = false) to setOf(
+                    Action.ViewAction.ShowStartPracticingError(message.errorMessage)
+                )
             is Message.TopicCompletedModalGoToStudyPlanClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.StudyPlan,
@@ -134,15 +129,10 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             }
             is Message.StepSolved ->
-                if (!state.isPracticingLoading &&
-                    stepRoute is StepRoute.Learn &&
-                    message.stepId == state.currentStep.id &&
-                    state.currentStep.topic != null
+                if (stepRoute is StepRoute.Learn &&
+                    message.stepId == state.currentStep.id
                 ) {
-                    state.copy(isPracticingLoading = true) to setOf(
-                        Action.CheckTopicCompletionStatus(state.currentStep.topic),
-                        Action.UpdateProblemsLimit
-                    )
+                    state to setOf(Action.UpdateProblemsLimit)
                 } else {
                     null
                 }
