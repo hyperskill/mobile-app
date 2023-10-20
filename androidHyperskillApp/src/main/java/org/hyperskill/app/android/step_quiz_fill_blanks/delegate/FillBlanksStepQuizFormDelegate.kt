@@ -1,10 +1,12 @@
 package org.hyperskill.app.android.step_quiz_fill_blanks.delegate
 
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBindingBinding
@@ -43,6 +45,14 @@ class FillBlanksStepQuizFormDelegate(
             adapter = fillBlanksAdapter
             isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
+            addItemDecoration(
+                FlexboxItemDecoration(context).apply {
+                    setOrientation(FlexboxItemDecoration.HORIZONTAL)
+                    setDrawable(
+                        ContextCompat.getDrawable(context, R.drawable.bg_step_quiz_fill_blanks_item_vertical_divider)
+                    )
+                }
+            )
         }
     }
 

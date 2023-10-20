@@ -6,6 +6,5 @@
     android:layout_height="wrap_content"
     android:textAppearance="@style/TextAppearance.AppTheme.Code.Medium"
     android:gravity="center_vertical"
-    android:layout_marginTop="@dimen/step_quiz_fill_blanks_item_top_margin"
     tools:text="This function should return a string!"
     />

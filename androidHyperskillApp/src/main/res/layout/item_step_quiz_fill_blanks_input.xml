@@ -18,6 +18,5 @@
     android:focusable="true"
     android:paddingLeft="@dimen/step_quiz_fill_blanks_padding"
     android:paddingRight="@dimen/step_quiz_fill_blanks_padding"
-    android:layout_marginTop="@dimen/step_quiz_fill_blanks_item_top_margin"
     tools:text="List[Int]"
     />
