@@ -3,8 +3,8 @@ import UIKit
 
 extension FillBlanksTextCollectionViewCell {
     struct Appearance {
-        let font = UIFont.systemFont(ofSize: 16)
-        let textColor = UIColor.newPrimaryText
+        let font = UIFont.preferredFont(forTextStyle: .body)
+        let textColor = UIColor.primaryText
     }
 }
 
@@ -17,14 +17,12 @@ final class FillBlanksTextCollectionViewCell: UICollectionViewCell, Reusable {
 
     var appearance = Appearance()
 
-    var text: String? {
+    var attributedText: NSAttributedString? {
         didSet {
-            if let text = self.text {
-                #warning("TODO")
-                //self.textLabel.setTextWithHTMLString(text)
-                self.textLabel.text = text
+            if let attributedText = self.attributedText {
+                self.textLabel.attributedText = attributedText
             } else {
-                self.textLabel.text = nil
+                self.textLabel.attributedText = nil
             }
         }
     }
@@ -45,7 +43,7 @@ final class FillBlanksTextCollectionViewCell: UICollectionViewCell, Reusable {
         Self.prototypeTextLabel = nil
     }
 
-    static func calculatePreferredContentSize(text: String, maxWidth: CGFloat) -> CGSize {
+    static func calculatePreferredContentSize(attributedText: NSAttributedString?, maxWidth: CGFloat) -> CGSize {
         if Self.prototypeTextLabel == nil {
             Self.prototypeTextLabel = Self.makeTextLabel()
         }
@@ -56,9 +54,7 @@ final class FillBlanksTextCollectionViewCell: UICollectionViewCell, Reusable {
 
         label.frame = CGRect(x: 0, y: 0, width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
 
-        #warning("TODO")
-        //label.setTextWithHTMLString(text)
-        label.text = text
+        label.attributedText = attributedText
         label.sizeToFit()
 
         var size = label.bounds.size

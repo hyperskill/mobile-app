@@ -46,9 +46,8 @@ final class FillBlanksQuizView: UIView {
             self.appearance.collectionViewMinHeight,
             self.collectionView.collectionViewLayout.collectionViewContentSize.height
         )
-        let height = titleViewHeight + collectionViewHeight
 
-        print("FillBlanksQuizView: intrinsic content height = \(height)")
+        let height = titleViewHeight + collectionViewHeight
 
         return CGSize(width: UIView.noIntrinsicMetric, height: height)
     }
@@ -120,7 +119,6 @@ extension FillBlanksQuizView: ProgrammaticallyInitializableViewProtocol {
         }
     }
 }
-
 
 @available(iOS 17, *)
 #Preview {

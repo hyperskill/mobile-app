@@ -1,13 +1,14 @@
 import Foundation
 
 struct StepQuizFillBlanksViewData: Hashable {
-    let components: [StepQuizFillBlankComponent]
+    var components: [StepQuizFillBlankComponent]
 }
 
 struct StepQuizFillBlankComponent: Hashable, Identifiable {
     let id: Int
     let type: StepQuizFillBlankComponentType
-    let text: String?
+    var attributedText: NSAttributedString?
+    var inputText: String?
 }
 
 enum StepQuizFillBlankComponentType {

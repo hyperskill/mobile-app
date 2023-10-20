@@ -3,15 +3,14 @@ import UIKit
 
 extension FillBlanksInputCollectionViewCell {
     struct Appearance {
-        let height: CGFloat = 36
-        let minWidth: CGFloat = 90
+        let minWidth: CGFloat = 48
 
-        let cornerRadius: CGFloat = 18
+        let cornerRadius: CGFloat = 8
 
-        let insets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        let insets = LayoutInsets.small.uiEdgeInsets
 
-        let font = UIFont.systemFont(ofSize: 16)
-        let textColor = UIColor.newPrimaryText
+        static let font = CodeEditorThemeService().theme.font
+        let textColor = UIColor.primaryText
     }
 }
 
@@ -27,10 +26,17 @@ final class FillBlanksInputCollectionViewCell: UICollectionViewCell, Reusable {
 
     private lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.font = self.appearance.font
+        textField.font = Appearance.font
         textField.textColor = self.appearance.textColor
         textField.textAlignment = .center
         textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        // Disable features
+        textField.autocapitalizationType = .none
+        textField.autocorrectionType = .no
+        textField.spellCheckingType = .no
+        textField.smartDashesType = .no
+        textField.smartQuotesType = .no
+        textField.smartInsertDeleteType = .no
         return textField
     }()
 
@@ -81,12 +87,13 @@ final class FillBlanksInputCollectionViewCell: UICollectionViewCell, Reusable {
     static func calculatePreferredContentSize(text: String, maxWidth: CGFloat) -> CGSize {
         let appearance = Appearance()
 
-        let sizeOfString = appearance.font.sizeOfString(string: text, constrainedToWidth: Double(maxWidth))
+        let sizeOfString = Appearance.font.sizeOfString(string: text, constrainedToWidth: Double(maxWidth))
         let widthOfStringWithInsets = appearance.insets.left + sizeOfString.width.rounded(.up) + appearance.insets.right
 
         let width = max(appearance.minWidth, min(maxWidth, widthOfStringWithInsets))
+        let height = (appearance.insets.top + Appearance.font.pointSize + appearance.insets.bottom).rounded(.up)
 
-        return CGSize(width: width, height: appearance.height)
+        return CGSize(width: width, height: height)
     }
 }
 

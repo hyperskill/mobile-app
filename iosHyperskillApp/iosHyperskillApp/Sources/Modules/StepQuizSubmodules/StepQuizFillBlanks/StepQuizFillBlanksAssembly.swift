@@ -1,3 +1,4 @@
+import Highlightr
 import shared
 import SwiftUI
 
@@ -30,7 +31,11 @@ final class StepQuizFillBlanksAssembly: StepQuizChildQuizAssembly {
             step: step,
             dataset: dataset,
             reply: reply,
-            viewDataMapper: StepQuizFillBlanksViewDataMapper(),
+            viewDataMapper: StepQuizFillBlanksViewDataMapper(
+                highlightr: Highlightr().require(),
+                codeEditorThemeService: CodeEditorThemeService(),
+                cache: StepQuizFillBlanksViewDataMapperCache.shared
+            ),
             provideModuleInputCallback: provideModuleInputCallback
         )
 

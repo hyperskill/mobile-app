@@ -22,6 +22,17 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
     func doProvideModuleInput() {
         provideModuleInputCallback(self)
     }
+
+    func doInputTextUpdate(_ inputText: String, for component: StepQuizFillBlankComponent) {
+        guard let index = viewData.components.firstIndex(
+            where: { $0.id == component.id }
+        ) else {
+            return
+        }
+
+        viewData.components[index].inputText = inputText
+        outputCurrentReply()
+    }
 }
 
 // MARK: - StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol -
@@ -33,10 +44,14 @@ extension StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol {
             case .text:
                 return nil
             case .input:
-                return component.text ?? ""
+                return component.inputText ?? ""
             }
         }
 
         return Reply.companion.fillBlanks(blanks: blanks)
+    }
+
+    private func outputCurrentReply() {
+        moduleOutput?.handleChildQuizSync(reply: createReply())
     }
 }
