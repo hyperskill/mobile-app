@@ -37,7 +37,7 @@ class FillBlanksMapperTest {
 
     @Test
     fun `FillBlanksMapper should correctly split text`() {
-        val result = FillBlanksItemMapper.map(
+        val result = FillBlanksItemMapper().map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -59,7 +59,7 @@ class FillBlanksMapperTest {
     fun `FillBlanksMapper should use reply for inputs`() {
         val firstReply = "1"
         val secondReply = "2"
-        val result = FillBlanksItemMapper.map(
+        val result = FillBlanksItemMapper().map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -82,7 +82,7 @@ class FillBlanksMapperTest {
 
     @Test
     fun `FillBlanksMapper should extract language name from the CODE tag`() {
-        val result = FillBlanksItemMapper.map(
+        val result = FillBlanksItemMapper().map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -92,5 +92,57 @@ class FillBlanksMapperTest {
             replyBlanks = null
         )
         assertEquals(LANGUAGE_NAME, result?.language)
+    }
+
+    @Test
+    fun `Second call to the FillBlanksMapper should return correct result`() {
+        val mapper = FillBlanksItemMapper()
+        val components = listOf(
+            Component(
+                type = Component.Type.TEXT,
+                text = TEXT
+            ),
+            Component(
+                type = Component.Type.INPUT
+            ),
+            Component(
+                type = Component.Type.INPUT
+            )
+        )
+        mapper.map(
+            componentsDataset = components,
+            replyBlanks = listOf("1", "2")
+        )
+
+        val firstExpectedInput = "3"
+        val secondExpectedInput = "4"
+        val actualResult = mapper.map(
+            componentsDataset = components,
+            replyBlanks = listOf(firstExpectedInput, secondExpectedInput)
+        )
+        assertEquals(
+            expectedItems(firstExpectedInput, secondExpectedInput),
+            actualResult?.fillBlanks
+        )
+    }
+
+    @Test
+    fun `Second call to the FillBlanksMapper should return the same language`() {
+        val mapper = FillBlanksItemMapper()
+        val componentsDataset = listOf(
+            Component(
+                type = Component.Type.TEXT,
+                text = TEXT
+            )
+        )
+        mapper.map(
+            componentsDataset = componentsDataset,
+            replyBlanks = null
+        )
+        val secondResult = mapper.map(
+            componentsDataset = componentsDataset,
+            replyBlanks = null
+        )
+        assertEquals(LANGUAGE_NAME, secondResult?.language)
     }
 }
