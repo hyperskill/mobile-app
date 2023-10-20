@@ -12,7 +12,7 @@ import org.hyperskill.app.android.step_quiz_fill_blanks.dialog.FillBlanksInputDi
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 
-class FillBlanksQuizFragment :
+class FillBlanksStepQuizFragment :
     DefaultStepQuizFragment(),
     FillBlanksInputDialogFragment.Callback {
 
@@ -20,8 +20,8 @@ class FillBlanksQuizFragment :
         fun newInstance(
             step: Step,
             stepRoute: StepRoute
-        ): FillBlanksQuizFragment =
-            FillBlanksQuizFragment().apply {
+        ): FillBlanksStepQuizFragment =
+            FillBlanksStepQuizFragment().apply {
                 this.step = step
                 this.stepRoute = stepRoute
             }
