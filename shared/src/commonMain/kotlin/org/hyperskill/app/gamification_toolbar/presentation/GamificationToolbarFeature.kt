@@ -1,11 +1,12 @@
 package org.hyperskill.app.gamification_toolbar.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarData
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
-import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarTrackProgress
+import org.hyperskill.app.streaks.domain.model.HistoricalStreak
 import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
-import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 object GamificationToolbarFeature {
     sealed interface State {
@@ -13,9 +14,10 @@ object GamificationToolbarFeature {
         object Loading : State
         object Error : State
         data class Content(
-            val streak: Streak?,
+            val trackProgress: GamificationToolbarTrackProgress?,
+            val currentStreak: Int,
+            val historicalStreak: HistoricalStreak,
             val hypercoinsBalance: Int,
-            val trackWithProgress: TrackWithProgress?,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -31,15 +33,8 @@ object GamificationToolbarFeature {
 
         object FetchGamificationToolbarDataError : Message
         data class FetchGamificationToolbarDataSuccess(
-            val streak: Streak?,
-            val hypercoinsBalance: Int,
-            val trackWithProgress: TrackWithProgress?
+            val gamificationToolbarData: GamificationToolbarData
         ) : Message
-
-        sealed interface FetchTrackWithProgressResult : Message {
-            data class Success(val trackWithProgress: TrackWithProgress?) : FetchTrackWithProgressResult
-            object Error : FetchTrackWithProgressResult
-        }
 
         object PullToRefresh : Message
 
@@ -64,11 +59,6 @@ object GamificationToolbarFeature {
         data class FetchGamificationToolbarData(
             val screen: GamificationToolbarScreen,
             val forceUpdate: Boolean
-        ) : Action
-
-        data class FetchTrackWithProgress(
-            val trackId: Long,
-            val transaction: HyperskillSentryTransaction
         ) : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action

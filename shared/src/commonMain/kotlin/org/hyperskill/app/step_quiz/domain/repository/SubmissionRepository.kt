@@ -1,12 +1,16 @@
 package org.hyperskill.app.step_quiz.domain.repository
 
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 
 interface SubmissionRepository {
     val solvedStepsMutableSharedFlow: MutableSharedFlow<Long>
+
+    val solvedStepsSharedFlow: SharedFlow<Long>
+        get() = solvedStepsMutableSharedFlow
 
     suspend fun getSubmissionsForStep(
         stepId: Long,
