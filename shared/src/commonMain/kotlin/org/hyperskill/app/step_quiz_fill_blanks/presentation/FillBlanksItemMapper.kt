@@ -9,9 +9,26 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
+import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper.Companion.WHITE_SPACE_HTML_STRING
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.slice
 
+/**
+ * Extracts content from <pre><code>...</code><pre> HTML tags.
+ * Extracts the language name from the <code class="language-...">, if present.
+ *
+ * Maps content into a list of [FillBlanksItem],
+ * replacing the '▭' with [FillBlanksItem.Input], and the rest of the text with [FillBlanksItem.Text].
+ *
+ * Splits the text by '\n'.
+ * It is necessary to make text items smaller, and not occupy the whole width of the widget.
+ * This way, there will be enough space for input items,
+ * so that they will be placed next to the text item, not on the next line.
+ *
+ * Replace the leading whitespaces with the [WHITE_SPACE_HTML_STRING] so that HTML parser keeps them as is.
+ *
+ * Fill the [FillBlanksItem.Input] with the data from [Reply].blanks or [Component].text with the type == "input".
+ */
 class FillBlanksItemMapper {
     companion object {
         private const val LINE_BREAK_CHAR = '\n'
