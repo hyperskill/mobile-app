@@ -9,16 +9,23 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
+import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.slice
 
-object FillBlanksItemMapper {
-    private const val LINE_BREAK_CHAR = '\n'
-    private const val LANGUAGE_CLASS_PREFIX = "class=\"language-"
-    private const val WHITE_SPACE_HTML_STRING = "&nbsp;"
+class FillBlanksItemMapper {
+    companion object {
+        private const val LINE_BREAK_CHAR = '\n'
+        private const val LANGUAGE_CLASS_PREFIX = "class=\"language-"
+        private const val WHITE_SPACE_HTML_STRING = "&nbsp;"
 
-    private val DELIMITERS = charArrayOf(LINE_BREAK_CHAR, FillBlanksConfig.BLANK_FIELD_CHAR)
-    private val contentRegex: Regex =
-        "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
+        private val DELIMITERS = charArrayOf(LINE_BREAK_CHAR, FillBlanksConfig.BLANK_FIELD_CHAR)
+        private val contentRegex: Regex =
+            "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
+    }
+
+    private var cachedLanguage: String? = null
+    private var cachedItems: List<FillBlanksItem> = emptyList()
+    private var inputItemIndices: List<Int> = emptyList()
 
     fun map(attempt: Attempt, submission: Submission?): FillBlanksData? =
         attempt.dataset?.components?.let {
@@ -40,25 +47,67 @@ object FillBlanksItemMapper {
         componentsDataset: List<Component>,
         replyBlanks: List<String>?
     ): FillBlanksData? {
+        if (cachedItems.isNotEmpty()) {
+            return FillBlanksData(
+                fillBlanks = getCachedItems(cachedItems, componentsDataset, replyBlanks),
+                language = cachedLanguage
+            )
+        }
+
         val textComponent = componentsDataset.first()
         val rawText = textComponent.text ?: return null
 
         val match = contentRegex.find(rawText)
         return if (match != null) {
-            val inputComponents = componentsDataset.slice(from = 1)
             val (langClass, content) = match.destructured
-            val fillBlanks = splitContent(content) { id, inputIndex ->
+            val inputComponents = componentsDataset.slice(from = 1)
+            val fillBlanksItems = splitContent(content) { id, inputIndex ->
                 FillBlanksItem.Input(
                     id = id,
-                    inputText = replyBlanks?.getOrNull(inputIndex)
-                        ?: inputComponents.getOrNull(inputIndex)?.text,
+                    inputText = getInputText(replyBlanks, inputComponents, inputIndex),
                 )
             }
-            FillBlanksData(fillBlanks, parseLanguage(langClass))
+            val language = parseLanguage(langClass)
+            this.cachedItems = fillBlanksItems
+            this.cachedLanguage = langClass
+            this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                if (fillBlanksItem is FillBlanksItem.Input) index else null
+            }
+            this.cachedLanguage = language
+            FillBlanksData(fillBlanksItems, language)
         } else {
             null
         }
     }
+
+    private fun getCachedItems(
+        cachedItems: List<FillBlanksItem>,
+        components: List<Component>,
+        replyBlanks: List<String>?
+    ): List<FillBlanksItem> =
+        cachedItems.mutate {
+            inputItemIndices.forEachIndexed { inputIndex, itemIndex ->
+                set(
+                    itemIndex,
+                    FillBlanksItem.Input(
+                        id = itemIndex,
+                        inputText = getInputText(
+                            replyBlanks = replyBlanks,
+                            inputComponents = components.slice(from = 1),
+                            inputIndex = inputIndex
+                        )
+                    )
+                )
+            }
+        }
+
+    private fun getInputText(
+        replyBlanks: List<String>?,
+        inputComponents: List<Component>,
+        inputIndex: Int
+    ): String? =
+        replyBlanks?.getOrNull(inputIndex)
+            ?: inputComponents.getOrNull(inputIndex)?.text
 
     private fun parseLanguage(langClass: String): String? =
         langClass
