@@ -9,21 +9,29 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
+import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.slice
 
-object FillBlanksItemMapper {
-    private const val LINE_BREAK_CHAR = '\n'
-    private val DELIMITERS = charArrayOf(LINE_BREAK_CHAR, FillBlanksConfig.BLANK_FIELD_CHAR)
+class FillBlanksItemMapper {
+    companion object {
+        private const val LINE_BREAK_CHAR = '\n'
+        private const val LANGUAGE_CLASS_PREFIX = "class=\"language-"
+        private const val WHITE_SPACE_HTML_STRING = "&nbsp;"
 
-    private const val LANGUAGE_CLASS_PREFIX = "class=\"language-"
-    private val contentRegex: Regex =
-        "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
+        private val DELIMITERS = charArrayOf(LINE_BREAK_CHAR, FillBlanksConfig.BLANK_FIELD_CHAR)
+        private val contentRegex: Regex =
+            "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
+    }
 
-    fun map(attempt: Attempt, submission: Submission): FillBlanksData? =
+    private var cachedLanguage: String? = null
+    private var cachedItems: List<FillBlanksItem> = emptyList()
+    private var inputItemIndices: List<Int> = emptyList()
+
+    fun map(attempt: Attempt, submission: Submission?): FillBlanksData? =
         attempt.dataset?.components?.let {
             map(
                 componentsDataset = it,
-                replyBlanks = submission.reply?.blanks
+                replyBlanks = submission?.reply?.blanks
             )
         }
 
@@ -35,29 +43,71 @@ object FillBlanksItemMapper {
             )
         }
 
-    private fun map(
+    internal fun map(
         componentsDataset: List<Component>,
         replyBlanks: List<String>?
     ): FillBlanksData? {
+        if (cachedItems.isNotEmpty()) {
+            return FillBlanksData(
+                fillBlanks = getCachedItems(cachedItems, componentsDataset, replyBlanks),
+                language = cachedLanguage
+            )
+        }
+
         val textComponent = componentsDataset.first()
         val rawText = textComponent.text ?: return null
 
         val match = contentRegex.find(rawText)
         return if (match != null) {
-            val inputComponents = componentsDataset.slice(from = 1)
             val (langClass, content) = match.destructured
-            val fillBlanks = splitContent(content) { id, inputIndex ->
+            val inputComponents = componentsDataset.slice(from = 1)
+            val fillBlanksItems = splitContent(content) { id, inputIndex ->
                 FillBlanksItem.Input(
                     id = id,
-                    inputText = replyBlanks?.getOrNull(inputIndex)
-                        ?: inputComponents.getOrNull(inputIndex)?.text,
+                    inputText = getInputText(replyBlanks, inputComponents, inputIndex),
                 )
             }
-            FillBlanksData(fillBlanks, parseLanguage(langClass))
+            val language = parseLanguage(langClass)
+            this.cachedItems = fillBlanksItems
+            this.cachedLanguage = langClass
+            this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                if (fillBlanksItem is FillBlanksItem.Input) index else null
+            }
+            this.cachedLanguage = language
+            FillBlanksData(fillBlanksItems, language)
         } else {
             null
         }
     }
+
+    private fun getCachedItems(
+        cachedItems: List<FillBlanksItem>,
+        components: List<Component>,
+        replyBlanks: List<String>?
+    ): List<FillBlanksItem> =
+        cachedItems.mutate {
+            inputItemIndices.forEachIndexed { inputIndex, itemIndex ->
+                set(
+                    itemIndex,
+                    FillBlanksItem.Input(
+                        id = itemIndex,
+                        inputText = getInputText(
+                            replyBlanks = replyBlanks,
+                            inputComponents = components.slice(from = 1),
+                            inputIndex = inputIndex
+                        )
+                    )
+                )
+            }
+        }
+
+    private fun getInputText(
+        replyBlanks: List<String>?,
+        inputComponents: List<Component>,
+        inputIndex: Int
+    ): String? =
+        replyBlanks?.getOrNull(inputIndex)
+            ?: inputComponents.getOrNull(inputIndex)?.text
 
     private fun parseLanguage(langClass: String): String? =
         langClass
@@ -72,10 +122,10 @@ object FillBlanksItemMapper {
         var nextDelimiterIndex = content.indexOfAny(DELIMITERS)
         if (nextDelimiterIndex == -1) {
             return listOf(
-                FillBlanksItem.Text(
+                getTextItem(
                     id = 0,
                     text = content,
-                    startsWithNewLine = false
+                    startsWithNewLine = false,
                 )
             )
         }
@@ -86,7 +136,7 @@ object FillBlanksItemMapper {
             var id = 0
             do {
                 add(
-                    FillBlanksItem.Text(
+                    getTextItem(
                         id = id++,
                         text = content.substring(currentOffset, nextDelimiterIndex),
                         startsWithNewLine = previousDelimiterIsLineBreak
@@ -103,14 +153,34 @@ object FillBlanksItemMapper {
                 previousDelimiterIsLineBreak = delimiter == LINE_BREAK_CHAR
                 currentOffset = nextDelimiterIndex + 1 // skip delimiter, start with the next index
                 nextDelimiterIndex = content.indexOfAny(DELIMITERS, currentOffset)
-            } while(nextDelimiterIndex != -1)
+            } while (nextDelimiterIndex != -1)
             add(
-               FillBlanksItem.Text(
-                   id = id,
-                   text = content.substring(currentOffset, content.length),
-                   startsWithNewLine = previousDelimiterIsLineBreak
-               )
+                getTextItem(
+                    id = id,
+                    text = content.substring(currentOffset, content.length),
+                    startsWithNewLine = previousDelimiterIsLineBreak
+                )
             )
         }
+    }
+
+    private fun getTextItem(
+        id: Int,
+        text: String,
+        startsWithNewLine: Boolean
+    ): FillBlanksItem.Text {
+        val startWhiteSpacesAmount = text
+            .indexOfFirst { !it.isWhitespace() }
+            .let { if (it == -1) text.length else it }
+        return FillBlanksItem.Text(
+            id = id,
+            text = buildString {
+                repeat(startWhiteSpacesAmount) {
+                    append(WHITE_SPACE_HTML_STRING)
+                }
+                append(text.trimStart())
+            },
+            startsWithNewLine = startsWithNewLine
+        )
     }
 }
