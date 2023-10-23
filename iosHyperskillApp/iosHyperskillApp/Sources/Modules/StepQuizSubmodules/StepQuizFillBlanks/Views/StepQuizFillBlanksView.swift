@@ -13,11 +13,13 @@ struct StepQuizFillBlanksView: View {
             onDidSelectComponent: viewModel.doSelectComponent(at:),
             onDidDeselectComponent: viewModel.doDeselectComponent(at:)
         )
-        .onAppear(perform: viewModel.doProvideModuleInput)
+        .onAppear {
+            viewModel.doProvideModuleInput()
+            KeyboardManager.setEnableAutoToolbar(true)
+        }
+        .onDisappear {
+            KeyboardManager.setEnableAutoToolbar(false)
+        }
         .opacity(isEnabled ? 1 : 0.5)
     }
 }
-
-//#Preview {
-//    StepQuizFillBlanksView()
-//}

@@ -206,8 +206,7 @@ enum Strings {
     // MARK: - StepQuizFillBlanks-
 
     enum StepQuizFillBlanks {
-        #warning("TODO")
-        static let title = "Fill in the gaps"
+        static let title = sharedStrings.step_quiz_fill_blanks_title.localized()
     }
 
     // MARK: - StageImplement -

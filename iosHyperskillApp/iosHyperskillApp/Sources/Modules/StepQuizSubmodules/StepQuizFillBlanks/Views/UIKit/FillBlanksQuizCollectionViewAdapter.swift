@@ -116,10 +116,7 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDelegateFlowLayou
 
         switch component.type {
         case .lineBreak:
-            return CGSize(
-                width: maxWidth,
-                height: FillBlanksInputCollectionViewCell.Appearance.font.pointSize
-            )
+            return CGSize(width: maxWidth, height: flowLayout.minimumLineSpacing)
         case .text:
             return FillBlanksTextCollectionViewCell.calculatePreferredContentSize(
                 attributedText: component.attributedText,

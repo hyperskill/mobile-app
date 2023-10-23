@@ -40,6 +40,8 @@ final class FillBlanksQuizView: UIView {
         return collectionView
     }()
 
+    private lazy var bottomSeparatorView = UIKitSeparatorView()
+
     override var intrinsicContentSize: CGSize {
         let titleViewHeight = self.titleView.intrinsicContentSize.height
         let collectionViewHeight = max(
@@ -100,6 +102,7 @@ extension FillBlanksQuizView: ProgrammaticallyInitializableViewProtocol {
     func addSubviews() {
         self.addSubview(self.titleView)
         self.addSubview(self.collectionView)
+        self.addSubview(self.bottomSeparatorView)
     }
 
     func makeConstraints() {
@@ -115,6 +118,13 @@ extension FillBlanksQuizView: ProgrammaticallyInitializableViewProtocol {
             make.top.equalTo(self.titleView.snp.bottom)
             make.leading.equalToSuperview().offset(-self.appearance.horizontalInset)
             make.bottom.equalToSuperview()
+            make.trailing.equalToSuperview().offset(self.appearance.horizontalInset)
+        }
+
+        self.bottomSeparatorView.translatesAutoresizingMaskIntoConstraints = false
+        self.bottomSeparatorView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(-self.appearance.horizontalInset)
             make.trailing.equalToSuperview().offset(self.appearance.horizontalInset)
         }
     }
