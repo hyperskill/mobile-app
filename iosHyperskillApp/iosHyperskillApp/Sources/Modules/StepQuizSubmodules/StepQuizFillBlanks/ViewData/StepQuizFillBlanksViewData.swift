@@ -5,16 +5,17 @@ struct StepQuizFillBlanksViewData: Hashable {
 }
 
 struct StepQuizFillBlankComponent: Hashable, Identifiable {
-    let id: Int
-    let type: StepQuizFillBlankComponentType
+    var id: Int = 0
+    let type: ComponentType
     // text
     var attributedText: NSAttributedString?
     // input
     var inputText: String?
     var isFirstResponder = false
-}
 
-enum StepQuizFillBlankComponentType {
-    case text
-    case input
+    enum ComponentType {
+        case text
+        case input
+        case lineBreak
+    }
 }

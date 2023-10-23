@@ -7,7 +7,7 @@ extension FillBlanksQuizView {
 
         let collectionViewMinHeight: CGFloat = 44
         let collectionViewMinLineSpacing: CGFloat = 4
-        let collectionViewMinInteritemSpacing: CGFloat = 8
+        let collectionViewMinInteritemSpacing: CGFloat = 4
         let collectionViewSectionInset = LayoutInsets.default.uiEdgeInsets
 
         let backgroundColor = ColorPalette.background

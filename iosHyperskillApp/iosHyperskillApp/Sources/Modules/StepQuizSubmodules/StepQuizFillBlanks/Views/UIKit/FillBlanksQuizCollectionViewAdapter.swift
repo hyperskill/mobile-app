@@ -43,7 +43,7 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDataSource {
         let component = self.components[indexPath.row]
 
         switch component.type {
-        case .text:
+        case .text, .lineBreak:
             let cell: FillBlanksTextCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
             cell.attributedText = component.attributedText
             return cell
@@ -115,6 +115,11 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDelegateFlowLayou
         let component = self.components[indexPath.row]
 
         switch component.type {
+        case .lineBreak:
+            return CGSize(
+                width: maxWidth,
+                height: FillBlanksInputCollectionViewCell.Appearance.font.pointSize
+            )
         case .text:
             return FillBlanksTextCollectionViewCell.calculatePreferredContentSize(
                 attributedText: component.attributedText,
@@ -134,7 +139,7 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDelegateFlowLayou
         }
 
         switch self.components[indexPath.row].type {
-        case .text:
+        case .text, .lineBreak:
             return false
         case .input:
             return true

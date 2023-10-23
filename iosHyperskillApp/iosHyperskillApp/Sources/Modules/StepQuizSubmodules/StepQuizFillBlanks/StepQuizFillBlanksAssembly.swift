@@ -32,6 +32,7 @@ final class StepQuizFillBlanksAssembly: StepQuizChildQuizAssembly {
             dataset: dataset,
             reply: reply,
             viewDataMapper: StepQuizFillBlanksViewDataMapper(
+                fillBlanksItemMapper: FillBlanksItemMapper(),
                 highlightr: Highlightr().require(),
                 codeEditorThemeService: CodeEditorThemeService(),
                 cache: StepQuizFillBlanksViewDataMapperCache.shared

@@ -3,11 +3,13 @@ import Highlightr
 import shared
 
 final class StepQuizFillBlanksViewDataMapper {
+    private let fillBlanksItemMapper: FillBlanksItemMapper
     private let highlightr: Highlightr
     private let codeEditorThemeService: CodeEditorThemeServiceProtocol
     private let cache: StepQuizFillBlanksViewDataMapperCacheProtocol
 
     init(
+        fillBlanksItemMapper: FillBlanksItemMapper,
         highlightr: Highlightr,
         codeEditorThemeService: CodeEditorThemeServiceProtocol,
         cache: StepQuizFillBlanksViewDataMapperCacheProtocol
@@ -19,10 +21,11 @@ final class StepQuizFillBlanksViewDataMapper {
         self.highlightr = highlightr
         self.codeEditorThemeService = codeEditorThemeService
         self.cache = cache
+        self.fillBlanksItemMapper = fillBlanksItemMapper
     }
 
     func mapToViewData(dataset: Dataset, reply: Reply?) -> StepQuizFillBlanksViewData {
-        guard let fillBlanksData = FillBlanksItemMapper.shared.map(dataset: dataset, reply: reply) else {
+        guard let fillBlanksData = fillBlanksItemMapper.map(dataset: dataset, reply: reply) else {
             return .init(components: [])
         }
 
@@ -31,55 +34,52 @@ final class StepQuizFillBlanksViewDataMapper {
 
     private func mapFillBlanksDataToViewData(_ fillBlanksData: FillBlanksData) -> StepQuizFillBlanksViewData {
         let language = fillBlanksData.language
-        let components = fillBlanksData.fillBlanks.map { mapFillBlanksItem($0, language: language) }
+
+        var components = fillBlanksData.fillBlanks
+            .map { mapFillBlanksItem($0, language: language) }
+            .flatMap { $0 }
+        for index in components.indices {
+            components[index].id = index
+        }
+
         return StepQuizFillBlanksViewData(components: components)
     }
 
     private func mapFillBlanksItem(
         _ fillBlanksItem: FillBlanksItem,
         language: String?
-    ) -> StepQuizFillBlankComponent {
+    ) -> [StepQuizFillBlankComponent] {
         switch FillBlanksItemKs(fillBlanksItem) {
         case .text(let data):
+            var result = [StepQuizFillBlankComponent]()
+
+            if data.startsWithNewLine {
+                result.append(StepQuizFillBlankComponent(type: .lineBreak))
+            }
+
             let hash = data.text.hashValue ^ UITraitCollection.current.userInterfaceStyle.hashValue
 
             if let cachedCode = cache.getHighlightedCode(for: hash) {
-                return StepQuizFillBlankComponent(
-                    id: data.id.intValue,
-                    type: .text,
-                    attributedText: cachedCode
-                )
+                result.append(StepQuizFillBlankComponent(type: .text, attributedText: cachedCode))
             } else {
                 let unescaped = HTMLString.unescape(string: data.text)
 
                 if let highlightedCode = highlight(code: unescaped, language: language) {
                     cache.setHighlightedCode(highlightedCode, for: hash)
-                    return StepQuizFillBlankComponent(
-                        id: data.id.intValue,
-                        type: .text,
-                        attributedText: highlightedCode
-                    )
+                    result.append(StepQuizFillBlankComponent(type: .text, attributedText: highlightedCode))
                 } else {
                     let attributedText = NSAttributedString(
                         string: unescaped,
-                        attributes: [
-                            .font: codeEditorThemeService.theme.font
-                        ]
+                        attributes: [.font: codeEditorThemeService.theme.font]
                     )
                     cache.setHighlightedCode(attributedText, for: hash)
-                    return StepQuizFillBlankComponent(
-                        id: data.id.intValue,
-                        type: .text,
-                        attributedText: attributedText
-                    )
+                    result.append(StepQuizFillBlankComponent(type: .text, attributedText: attributedText))
                 }
             }
+
+            return result
         case .input(let data):
-            return StepQuizFillBlankComponent(
-                id: data.id.intValue,
-                type: .input,
-                inputText: data.inputText
-            )
+            return [StepQuizFillBlankComponent(type: .input, inputText: data.inputText)]
         }
     }
 

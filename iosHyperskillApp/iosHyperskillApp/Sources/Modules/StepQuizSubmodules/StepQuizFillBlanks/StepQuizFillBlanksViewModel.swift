@@ -57,7 +57,7 @@ extension StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol {
     func createReply() -> Reply {
         let blanks: [String] = viewData.components.compactMap { component in
             switch component.type {
-            case .text:
+            case .text, .lineBreak:
                 return nil
             case .input:
                 return component.inputText ?? ""

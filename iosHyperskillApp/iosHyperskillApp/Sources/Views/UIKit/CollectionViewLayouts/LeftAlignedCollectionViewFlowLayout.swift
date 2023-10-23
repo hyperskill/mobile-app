@@ -2,10 +2,7 @@ import UIKit
 
 class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let attributesCopy = NSArray(
-            array: super.layoutAttributesForElements(in: rect) ?? [],
-            copyItems: true
-        )
+        let attributesCopy = NSArray(array: super.layoutAttributesForElements(in: rect) ?? [], copyItems: true)
         let attributes = attributesCopy as? [UICollectionViewLayoutAttributes]
 
         var leftMargin = self.sectionInset.left
