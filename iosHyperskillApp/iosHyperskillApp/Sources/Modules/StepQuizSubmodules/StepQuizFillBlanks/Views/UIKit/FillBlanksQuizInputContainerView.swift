@@ -5,6 +5,8 @@ extension FillBlanksQuizInputContainerView {
     struct Appearance {
         var cornerRadius: CGFloat = 18
         let borderWidth: CGFloat = 1
+
+        let backgroundColor = UIColor.clear
     }
 }
 
@@ -26,6 +28,7 @@ final class FillBlanksQuizInputContainerView: UIView {
 
         self.clipsToBounds = true
         self.layer.cornerRadius = self.appearance.cornerRadius
+        self.backgroundColor = self.appearance.backgroundColor
 
         self.updateState()
     }
@@ -41,43 +44,21 @@ final class FillBlanksQuizInputContainerView: UIView {
     }
 
     private func updateState() {
-        self.backgroundColor = self.state.backgroundColor
-
         self.layer.borderColor = self.state.borderColor.cgColor
         self.layer.borderWidth = self.appearance.borderWidth
     }
 
     enum State {
         case `default`
-        case correct
-        case wrong
+        case firstResponder
 
-        var borderColor: UIColor {
-            #warning("TODO")
-            return ColorPalette.onSurfaceAlpha12
-
-//            switch self {
-//            case .default:
-//                return .quizElementSelectedBorder
-//            case .correct:
-//                return .quizElementCorrectBorder
-//            case .wrong:
-//                return .quizElementWrongBorder
-//            }
-        }
-
-        var backgroundColor: UIColor {
-            #warning("TODO")
-            return .clear
-
-//            switch self {
-//            case .default:
-//                return .quizElementSelectedBackground
-//            case .correct:
-//                return .quizElementCorrectBackground
-//            case .wrong:
-//                return .quizElementWrongBackground
-//            }
+        fileprivate var borderColor: UIColor {
+            switch self {
+            case .default:
+                return ColorPalette.onSurfaceAlpha12
+            case .firstResponder:
+                return ColorPalette.primary
+            }
         }
     }
 }

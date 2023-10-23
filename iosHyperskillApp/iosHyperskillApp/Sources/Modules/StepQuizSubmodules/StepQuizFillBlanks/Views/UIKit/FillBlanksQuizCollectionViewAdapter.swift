@@ -6,9 +6,14 @@ protocol FillBlanksQuizCollectionViewAdapterDelegate: AnyObject {
         inputDidChange inputText: String,
         forComponent component: StepQuizFillBlankComponent
     )
+
     func fillBlanksQuizCollectionViewAdapter(
         _ adapter: FillBlanksQuizCollectionViewAdapter,
         didSelectComponentAt indexPath: IndexPath
+    )
+    func fillBlanksQuizCollectionViewAdapter(
+        _ adapter: FillBlanksQuizCollectionViewAdapter,
+        didDeselectComponentAt indexPath: IndexPath
     )
 }
 
@@ -16,22 +21,7 @@ final class FillBlanksQuizCollectionViewAdapter: NSObject {
     weak var delegate: FillBlanksQuizCollectionViewAdapterDelegate?
 
     var components: [StepQuizFillBlankComponent]
-    //var finalState: FillBlanksQuizViewModel.State?
-
-    private var isUserInteractionEnabled: Bool {
-//        if let finalState = self.finalState {
-//            if finalState == .correct || finalState == .evaluation {
-//                return false
-//            }
-//        }
-        return true
-    }
-
-//    init(components: [StepQuizFillBlankItem] = [], finalState: FillBlanksQuizViewModel.State? = nil) {
-//        self.components = components
-//        self.finalState = finalState
-//        super.init()
-//    }
+    var isUserInteractionEnabled = true
 
     init(components: [StepQuizFillBlankComponent] = []) {
         self.components = components
@@ -52,14 +42,6 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         let component = self.components[indexPath.row]
 
-//        let cellState: FillBlanksQuizInputContainerView.State = {
-//            guard let isCorrect = component.isCorrect else {
-//                return .default
-//            }
-//
-//            return isCorrect ? .correct : .wrong
-//        }()
-
         switch component.type {
         case .text:
             let cell: FillBlanksTextCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
@@ -69,7 +51,7 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDataSource {
             let cell: FillBlanksInputCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
             cell.text = component.inputText
             cell.isEnabled = self.isUserInteractionEnabled
-            //cell.state = cellState
+            cell.state = component.isFirstResponder ? .firstResponder : .default
             cell.onInputChanged = { [weak self] text in
                 guard let strongSelf = self else {
                     return
@@ -79,6 +61,34 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDataSource {
                     strongSelf,
                     inputDidChange: text,
                     forComponent: component
+                )
+            }
+            cell.onBecameFirstResponder = { [weak self, weak cell] in
+                guard let strongSelf = self,
+                      let strongCell = cell else {
+                    return
+                }
+
+                strongCell.state = .firstResponder
+                strongSelf.components[indexPath.row].isFirstResponder = true
+
+                strongSelf.delegate?.fillBlanksQuizCollectionViewAdapter(
+                    strongSelf,
+                    didSelectComponentAt: indexPath
+                )
+            }
+            cell.onResignedFirstResponder = { [weak self, weak cell] in
+                guard let strongSelf = self,
+                      let strongCell = cell else {
+                    return
+                }
+
+                strongCell.state = .default
+                strongSelf.components[indexPath.row].isFirstResponder = false
+
+                strongSelf.delegate?.fillBlanksQuizCollectionViewAdapter(
+                    strongSelf,
+                    didDeselectComponentAt: indexPath
                 )
             }
             return cell
@@ -132,10 +142,9 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDelegateFlowLayou
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if case .input = self.components[indexPath.row].type {
-            if let cell = collectionView.cellForItem(at: indexPath) as? FillBlanksInputCollectionViewCell {
-                _ = cell.becomeFirstResponder()
-            }
+        if self.components[indexPath.row].type == .input,
+           let cell = collectionView.cellForItem(at: indexPath) as? FillBlanksInputCollectionViewCell {
+            _ = cell.becomeFirstResponder()
         }
 
         self.delegate?.fillBlanksQuizCollectionViewAdapter(self, didSelectComponentAt: indexPath)

@@ -33,6 +33,22 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
         viewData.components[index].inputText = inputText
         outputCurrentReply()
     }
+
+    func doSelectComponent(at indexPath: IndexPath) {
+        setIsFirstResponder(true, forComponentAt: indexPath)
+    }
+
+    func doDeselectComponent(at indexPath: IndexPath) {
+        setIsFirstResponder(false, forComponentAt: indexPath)
+    }
+
+    private func setIsFirstResponder(_ isFirstResponder: Bool, forComponentAt indexPath: IndexPath) {
+        guard viewData.components[indexPath.row].type == .input else {
+            return
+        }
+
+        viewData.components[indexPath.row].isFirstResponder = isFirstResponder
+    }
 }
 
 // MARK: - StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol -

@@ -29,6 +29,7 @@ final class FillBlanksInputCollectionViewCell: UICollectionViewCell, Reusable {
         textField.font = Appearance.font
         textField.textColor = self.appearance.textColor
         textField.textAlignment = .center
+        textField.delegate = self
         textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
         // Disable features
         textField.autocapitalizationType = .none
@@ -62,6 +63,9 @@ final class FillBlanksInputCollectionViewCell: UICollectionViewCell, Reusable {
     }
 
     var onInputChanged: ((String) -> Void)?
+
+    var onBecameFirstResponder: (() -> Void)?
+    var onResignedFirstResponder: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -113,5 +117,17 @@ extension FillBlanksInputCollectionViewCell: ProgrammaticallyInitializableViewPr
         self.textField.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(self.appearance.insets)
         }
+    }
+}
+
+// MARK: - FillBlanksInputCollectionViewCell: UITextFieldDelegate -
+
+extension FillBlanksInputCollectionViewCell: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        onBecameFirstResponder?()
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        onResignedFirstResponder?()
     }
 }

@@ -7,8 +7,11 @@ struct StepQuizFillBlanksViewData: Hashable {
 struct StepQuizFillBlankComponent: Hashable, Identifiable {
     let id: Int
     let type: StepQuizFillBlankComponentType
+    // text
     var attributedText: NSAttributedString?
+    // input
     var inputText: String?
+    var isFirstResponder = false
 }
 
 enum StepQuizFillBlankComponentType {

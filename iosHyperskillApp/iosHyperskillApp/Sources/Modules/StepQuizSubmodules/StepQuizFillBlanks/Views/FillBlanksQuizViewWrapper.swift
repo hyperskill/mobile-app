@@ -4,11 +4,17 @@ import UIKit
 
 struct FillBlanksQuizViewWrapper: UIViewRepresentable {
     let components: [StepQuizFillBlankComponent]
+    let isUserInteractionEnabled: Bool
 
     var onInputDidChange: ((String, StepQuizFillBlankComponent) -> Void)?
 
+    var onDidSelectComponent: ((IndexPath) -> Void)?
+    var onDidDeselectComponent: ((IndexPath) -> Void)?
+
     static func dismantleUIView(_ uiView: FillBlanksQuizView, coordinator: Coordinator) {
         coordinator.onInputDidChange = nil
+        coordinator.onDidSelectComponent = nil
+        coordinator.onDidDeselectComponent = nil
         coordinator.collectionViewAdapter.delegate = nil
     }
 
@@ -21,6 +27,7 @@ struct FillBlanksQuizViewWrapper: UIViewRepresentable {
         let shouldUpdateCollectionViewData = collectionViewAdapter.components != components
 
         collectionViewAdapter.components = components
+        collectionViewAdapter.isUserInteractionEnabled = isUserInteractionEnabled
 
         if shouldUpdateCollectionViewData {
             uiView.updateCollectionViewData(
@@ -45,6 +52,8 @@ struct FillBlanksQuizViewWrapper: UIViewRepresentable {
 
             uiView.invalidateCollectionViewLayout()
         }
+        context.coordinator.onDidSelectComponent = onDidSelectComponent
+        context.coordinator.onDidDeselectComponent = onDidDeselectComponent
     }
 
     func makeCoordinator() -> Coordinator {
@@ -57,6 +66,9 @@ extension FillBlanksQuizViewWrapper {
         private(set) var collectionViewAdapter = FillBlanksQuizCollectionViewAdapter()
 
         var onInputDidChange: ((String, StepQuizFillBlankComponent) -> Void)?
+
+        var onDidSelectComponent: ((IndexPath) -> Void)?
+        var onDidDeselectComponent: ((IndexPath) -> Void)?
 
         override init() {
             super.init()
@@ -74,6 +86,15 @@ extension FillBlanksQuizViewWrapper {
         func fillBlanksQuizCollectionViewAdapter(
             _ adapter: FillBlanksQuizCollectionViewAdapter,
             didSelectComponentAt indexPath: IndexPath
-        ) {}
+        ) {
+            onDidSelectComponent?(indexPath)
+        }
+
+        func fillBlanksQuizCollectionViewAdapter(
+            _ adapter: FillBlanksQuizCollectionViewAdapter,
+            didDeselectComponentAt indexPath: IndexPath
+        ) {
+            onDidDeselectComponent?(indexPath)
+        }
     }
 }
