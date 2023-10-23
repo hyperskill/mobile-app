@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_divider_vertical" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+        android:background="@color/color_background"
+        android:text="@string/step_quiz_fill_blanks_title"
+        android:paddingVertical="8dp"
+        android:paddingHorizontal="20dp"/>
+
+    <include layout="@layout/view_divider_vertical" />
+
+    <com.google.android.flexbox.FlexboxLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:flexWrap="wrap"
+        app:alignItems="center"
+        android:padding="@dimen/step_quiz_fill_blanks_content_padding"
+        android:background="@color/color_background_alpha_60">
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="70dp"
+            android:layout_height="14dp"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+            />
+
+        <include
+            layout="@layout/item_step_quiz_fill_blanks_input"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/step_quiz_fill_blanks_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+            />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="25dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+             />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="90dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+             />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="17dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+             />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/step_quiz_fill_blanks_item_top_margin"
+            app:layout_wrapBefore="true"/>
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="60dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+            app:layout_wrapBefore="true"
+            />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="25dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+             />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="70dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+             />
+
+        <include
+            layout="@layout/item_step_quiz_fill_blanks_input"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/step_quiz_fill_blanks_height"
+            />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/step_quiz_fill_blanks_item_top_margin"
+            app:layout_wrapBefore="true"/>
+
+        <include
+            layout="@layout/item_step_quiz_fill_blanks_input"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/step_quiz_fill_blanks_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+            app:layout_wrapBefore="true"
+            />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="25dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"
+            />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="120dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"/>
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:layout_width="25dp"
+            android:layout_height="@dimen/step_quiz_fill_blanks_text_skeleton_height"
+            android:layout_marginEnd="@dimen/step_quiz_fill_blanks_input_item_horizontal_margin"/>
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <include layout="@layout/view_divider_vertical" />
+
+</LinearLayout>

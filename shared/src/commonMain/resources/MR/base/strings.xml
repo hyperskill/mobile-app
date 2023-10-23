@@ -164,6 +164,10 @@
     <string name="step_quiz_parsons_onboarding_title">You\'ve unlocked a new problem type!</string>
     <string name="step_quiz_parsons_onboarding_description">Now you can rearrange the lines to make the code work. Use the "Tab" button to add indentation.</string>
 
+    <!-- Step quiz fill in the blanks -->
+
+    <string name="step_quiz_fill_blanks_title">Fill in the gaps</string>
+
     <!-- Stage implement -->
     <string name="stage_implement_title">Work on project. Stage %d/%d</string>
     <string name="stage_implement_unsupported_modal_title">IDE required</string>
