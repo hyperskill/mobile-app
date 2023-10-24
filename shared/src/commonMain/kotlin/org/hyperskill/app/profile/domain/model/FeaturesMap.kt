@@ -10,3 +10,6 @@ val FeaturesMap.isRecommendationsKotlinProjectsFeatureEnabled: Boolean
 
 val FeaturesMap.isRecommendationsPythonProjectsFeatureEnabled: Boolean
     get() = get(FeatureKeys.RECOMMENDATIONS_PYTHON_PROJECTS) ?: false
+
+val FeaturesMap.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled: Boolean
+    get() = get(FeatureKeys.FREEMIUM_INCREASE_LIMITS_FOR_FIRST_STEP_COMPLETION) ?: false
