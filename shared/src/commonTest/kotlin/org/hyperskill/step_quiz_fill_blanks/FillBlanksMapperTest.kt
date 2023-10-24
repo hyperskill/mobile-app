@@ -1,4 +1,4 @@
-package org.hyperskill.step_quiz
+package org.hyperskill.step_quiz_fill_blanks
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -32,7 +32,7 @@ class FillBlanksMapperTest {
             FillBlanksItem.Text(9, text = "def function2() ", startsWithNewLine = true),
             FillBlanksItem.Input(10, secondReply),
             FillBlanksItem.Text(11, ":", startsWithNewLine = false),
-            FillBlanksItem.Text(12,"&nbsp;&nbsp;&nbsp;&nbsp;return {1, 2, 3, 4} ", startsWithNewLine = true)
+            FillBlanksItem.Text(12, "&nbsp;&nbsp;&nbsp;&nbsp;return {1, 2, 3, 4} ", startsWithNewLine = true)
         )
 
     @Test

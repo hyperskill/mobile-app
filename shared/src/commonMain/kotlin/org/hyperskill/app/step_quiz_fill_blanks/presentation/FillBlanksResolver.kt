@@ -22,8 +22,12 @@ object FillBlanksResolver {
         val blanksComponents = dataset.components.slice(from = 1)
 
         val isInputMode = blanksComponents.all { it.type == Component.Type.INPUT }
-        if (!isInputMode) {
-            throw InvalidFillBlanksConfigException("All components except the first must be of type \"input\"")
+        val isSelectMode = blanksComponents.all { it.type == Component.Type.SELECT }
+
+        if (!isInputMode && !isSelectMode) {
+            throw InvalidFillBlanksConfigException(
+                "All components except the first must be of type \"select\" or \"input\""
+            )
         }
 
         val blankFieldsCount = textComponent.text?.count { it == FillBlanksConfig.BLANK_FIELD_CHAR }
@@ -33,6 +37,24 @@ object FillBlanksResolver {
                     must be equal to number of components of type \"select\" or \"input\"
                     """.trimMargin()
             )
+        }
+
+        if (isSelectMode) {
+            val blankOptions = blanksComponents.first().options?.toSet() ?: emptySet()
+
+            if (blankOptions.count() < blankFieldsCount) {
+                throw InvalidFillBlanksConfigException(
+                    """"Number of options in component of type \"select\" must be greater or equal to number of blanks 
+                        \"$FillBlanksConfig.BLANK_FIELD_CHAR\" in text component"    
+                    """.trimMargin()
+                )
+            }
+
+            if (blanksComponents.any { it.options?.toSet() != blankOptions }) {
+                throw InvalidFillBlanksConfigException(
+                    "All components of type \"select\" must have the same options"
+                )
+            }
         }
     }
 }
