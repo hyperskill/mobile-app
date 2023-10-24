@@ -13,6 +13,7 @@ enum StepQuizChildQuizType {
     case number
     case math
     case parsons
+    case fillBlanks
     case unsupported(blockName: String)
 
     var isCodeRelated: Bool {
@@ -49,6 +50,8 @@ enum StepQuizChildQuizType {
                 self = .math
             case BlockName.shared.PARSONS:
                 self = .parsons
+            case BlockName.shared.FILL_BLANKS:
+                self = .fillBlanks
             default:
                 self = .unsupported(blockName: step.block.name)
             }
