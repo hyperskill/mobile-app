@@ -1,10 +1,14 @@
 package org.hyperskill.app.freemium.domain.interactor
 
+import org.hyperskill.app.core.domain.repository.updateState
+import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
 class FreemiumInteractor(
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository
 ) {
     suspend fun isFreemiumEnabled(): Result<Boolean> =
         currentSubscriptionStateRepository.getState().map { it.isFreemium }
@@ -31,6 +35,16 @@ class FreemiumInteractor(
                 currentSubscriptionStateRepository.updateState(
                     it.copy(stepsLimitLeft = it.stepsLimitLeft?.dec())
                 )
+            }
+        }
+        currentProfileStateRepository.getState().onSuccess { currentProfile ->
+            if (currentProfile.features.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled &&
+                currentProfile.gamification.passedProblems == 0
+            ) {
+                currentSubscriptionStateRepository.reloadState()
+                currentProfileStateRepository.updateState {
+                    it.copy(gamification = it.gamification.copy(passedProblems = it.gamification.passedProblems + 1))
+                }
             }
         }
     }
