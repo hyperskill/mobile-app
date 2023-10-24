@@ -108,6 +108,15 @@ enum StepQuizChildQuizViewFactory {
                 moduleOutput: moduleOutput
             )
             .makeModule()
+        case .fillBlanks:
+            StepQuizFillBlanksAssembly(
+                step: step,
+                dataset: dataset,
+                reply: reply,
+                provideModuleInputCallback: provideModuleInputCallback,
+                moduleOutput: moduleOutput
+            )
+            .makeModule()
         case .unsupported(let blockName):
             fatalError("Unsupported quiz = \(blockName)")
         }
