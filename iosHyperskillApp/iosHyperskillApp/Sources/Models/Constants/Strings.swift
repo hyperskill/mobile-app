@@ -203,6 +203,12 @@ enum Strings {
         }
     }
 
+    // MARK: - StepQuizFillBlanks-
+
+    enum StepQuizFillBlanks {
+        static let title = sharedStrings.step_quiz_fill_blanks_title.localized()
+    }
+
     // MARK: - StageImplement -
 
     enum StageImplement {

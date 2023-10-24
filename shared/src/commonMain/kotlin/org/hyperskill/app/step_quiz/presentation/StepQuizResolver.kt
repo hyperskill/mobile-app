@@ -65,7 +65,8 @@ object StepQuizResolver {
             BlockName.CODE,
             BlockName.SQL,
             BlockName.PYCHARM,
-            BlockName.MATH ->
+            BlockName.MATH,
+            BlockName.FILL_BLANKS ->
                 true
             else ->
                 false

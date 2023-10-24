@@ -124,7 +124,15 @@ class StepCompletionActionDispatcher(
     ) {
         val topicProgress = progressesInteractor
             .getTopicProgress(action.topicId)
-            .getOrElse { return onNewMessage(Message.CheckTopicCompletionStatus.Error) }
+            .getOrElse {
+                return onNewMessage(
+                    Message.CheckTopicCompletionStatus.Error(
+                        resourceProvider.getString(
+                            SharedResources.strings.step_theory_failed_to_continue_practicing
+                        )
+                    )
+                )
+            }
 
         if (topicProgress.isCompleted) {
             topicCompletedFlow.notifyDataChanged(action.topicId)
@@ -138,7 +146,15 @@ class StepCompletionActionDispatcher(
                 }
 
                 val topic = topicDeferred.await()
-                    .getOrElse { return@coroutineScope onNewMessage(Message.CheckTopicCompletionStatus.Error) }
+                    .getOrElse {
+                        return@coroutineScope onNewMessage(
+                            Message.CheckTopicCompletionStatus.Error(
+                                resourceProvider.getString(
+                                    SharedResources.strings.step_theory_failed_to_continue_practicing
+                                )
+                            )
+                        )
+                    }
                 val nextLearningActivity = nextLearningActivityDeferred.await()
                     .getOrNull()
 

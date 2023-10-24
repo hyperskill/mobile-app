@@ -60,6 +60,9 @@ data class Reply(
 
         fun parsons(lines: List<ParsonsLine>): Reply =
             Reply(lines = lines)
+
+        fun fillBlanks(blanks: List<String>): Reply =
+            Reply(blanks = blanks)
     }
 }
 

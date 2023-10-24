@@ -21,7 +21,7 @@ interface StepCompletionFeature {
                         StartPracticingButtonAction.FetchNextStepQuiz
                 },
                 continueButtonAction = if (stepRoute is StepRoute.Learn) {
-                    ContinueButtonAction.FetchNextStepQuiz
+                    ContinueButtonAction.CheckTopicCompletion
                 } else {
                     ContinueButtonAction.NavigateToBack
                 }
@@ -44,7 +44,6 @@ interface StepCompletionFeature {
     sealed interface ContinueButtonAction {
         object NavigateToStudyPlan : ContinueButtonAction
         object NavigateToBack : ContinueButtonAction
-        object FetchNextStepQuiz : ContinueButtonAction
         object CheckTopicCompletion : ContinueButtonAction
     }
 
@@ -66,7 +65,7 @@ interface StepCompletionFeature {
                 val nextLearningActivity: LearningActivity?
             ) : CheckTopicCompletionStatus
             object Uncompleted : CheckTopicCompletionStatus
-            object Error : CheckTopicCompletionStatus
+            data class Error(val errorMessage: String) : CheckTopicCompletionStatus
         }
 
         object TopicCompletedModalGoToStudyPlanClicked : Message

@@ -85,6 +85,18 @@
     <!-- Step quiz parsons -->
     <dimen name="step_quiz_parsons_line_gap">8dp</dimen>
 
+    <!-- Step quiz fill blanks -->
+    <dimen name="step_quiz_fill_blanks_input_radius">8dp</dimen>
+    <dimen name="step_quiz_fill_blanks_height">32dp</dimen>
+    <dimen name="step_quiz_fill_blanks_min_width">48dp</dimen>
+    <dimen name="step_quiz_fill_blanks_max_width">180dp</dimen>
+    <dimen name="step_quiz_fill_blanks_padding">8dp</dimen>
+    <dimen name="step_quiz_fill_blanks_item_top_margin">16dp</dimen>
+    <dimen name="step_quiz_fill_blanks_input_item_horizontal_margin">8dp</dimen>
+    <dimen name="step_quiz_fill_blanks_input_text_min_height">56dp</dimen>
+    <dimen name="step_quiz_fill_blanks_text_skeleton_height">14sp</dimen>
+    <dimen name="step_quiz_fill_blanks_content_padding">20dp</dimen>
+
     <!-- Onboarding -->
     <dimen name="onboarding_splash_icon_width">48dp</dimen>
     <dimen name="onboarding_splash_icon_height">45dp</dimen>

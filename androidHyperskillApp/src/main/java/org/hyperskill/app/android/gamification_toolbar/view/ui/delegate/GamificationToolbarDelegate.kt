@@ -51,13 +51,11 @@ class GamificationToolbarDelegate(
         if (state is GamificationToolbarFeature.State.Content) {
             with(viewBinding.gamificationStreakDurationTextView) {
                 isVisible = true
-                val streakDuration = state.streak?.currentStreak ?: 0
-                text = streakDuration.toString()
-                val historicalStreak = state.streak?.history?.firstOrNull()
+                text = state.currentStreak.toString()
                 setCompoundDrawablesWithIntrinsicBounds(
                     /* left = */ when {
-                        historicalStreak?.state == StreakState.RECOVERED -> R.drawable.ic_menu_recovered_streak
-                        historicalStreak?.isCompleted == true -> R.drawable.ic_menu_enabled_streak
+                        state.historicalStreak.state == StreakState.RECOVERED -> R.drawable.ic_menu_recovered_streak
+                        state.historicalStreak.isCompleted -> R.drawable.ic_menu_enabled_streak
                         else -> R.drawable.ic_menu_empty_streak
                     },
                     /* top = */ 0,
@@ -70,12 +68,12 @@ class GamificationToolbarDelegate(
                 text = state.hypercoinsBalance.toString()
             }
 
-            state.trackWithProgress.let { trackProgress ->
+            state.trackProgress.let { trackProgress ->
                 viewBinding.gamificationTrackProgressLinearLayout.isVisible = trackProgress != null
                 if (trackProgress != null) {
                     viewBinding.gamificationTrackProgressView.setProgress(
                         trackProgress.averageProgress,
-                        trackProgress.trackProgress.isCompleted
+                        trackProgress.isCompleted
                     )
                 }
             }
