@@ -23,6 +23,10 @@ enum KeyboardManager {
         IQKeyboardManager.shared.enable = isEnabled
     }
 
+    static func setEnableAutoToolbar(_ enableAutoToolbar: Bool) {
+        IQKeyboardManager.shared.enableAutoToolbar = enableAutoToolbar
+    }
+
     static func reloadLayoutIfNeeded() {
         IQKeyboardManager.shared.reloadLayoutIfNeeded()
     }
