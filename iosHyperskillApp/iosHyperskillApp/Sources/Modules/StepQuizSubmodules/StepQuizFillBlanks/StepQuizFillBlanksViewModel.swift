@@ -6,15 +6,19 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
     private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
 
+    private let mode: FillBlanksModeWrapper
+
     @Published private(set) var viewData: StepQuizFillBlanksViewData
 
     init(
         step: Step,
         dataset: Dataset,
         reply: Reply?,
+        mode: FillBlanksModeWrapper,
         viewDataMapper: StepQuizFillBlanksViewDataMapper,
         provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void
     ) {
+        self.mode = mode
         self.provideModuleInputCallback = provideModuleInputCallback
         self.viewData = viewDataMapper.mapToViewData(dataset: dataset, reply: reply)
     }

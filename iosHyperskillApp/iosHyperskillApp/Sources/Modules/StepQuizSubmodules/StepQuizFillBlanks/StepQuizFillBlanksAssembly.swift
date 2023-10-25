@@ -27,12 +27,16 @@ final class StepQuizFillBlanksAssembly: StepQuizChildQuizAssembly {
     }
 
     func makeModule() -> StepQuizFillBlanksView {
+        // It's safe to call require() here, because we are resolving quiz type in StepQuizViewDataMapper
+        let mode = (try? FillBlanksResolver.shared.resolve(dataset: dataset)).require()
+
         let viewModel = StepQuizFillBlanksViewModel(
             step: step,
             dataset: dataset,
             reply: reply,
+            mode: mode.wrapped.require(),
             viewDataMapper: StepQuizFillBlanksViewDataMapper(
-                fillBlanksItemMapper: FillBlanksItemMapper(mode: .input),
+                fillBlanksItemMapper: FillBlanksItemMapper(mode: mode),
                 highlightr: Highlightr().require(),
                 codeEditorThemeService: CodeEditorThemeService(),
                 cache: StepQuizFillBlanksViewDataMapperCache.shared
