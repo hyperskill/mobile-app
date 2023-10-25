@@ -110,7 +110,17 @@ final class StepQuizViewDataMapper {
             }
 
             do {
-                try FillBlanksResolver.shared.resolve(dataset: dataset)
+                let mode = try FillBlanksResolver.shared.resolve(dataset: dataset)
+
+                switch mode {
+                case .input:
+                    return childQuizType
+                case .select:
+                    return unsupportedChildQuizType
+                default:
+                    assertionFailure("StepQuizViewDataMapper: unsupported fill blanks mode \(mode)")
+                    return unsupportedChildQuizType
+                }
             } catch {
                 #if DEBUG
                 print("StepQuizViewDataMapper: failed to resolve fill blanks quiz type, error = \(error)")

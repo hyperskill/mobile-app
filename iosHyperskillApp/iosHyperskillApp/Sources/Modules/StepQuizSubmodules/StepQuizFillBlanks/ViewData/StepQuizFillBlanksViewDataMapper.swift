@@ -80,6 +80,9 @@ final class StepQuizFillBlanksViewDataMapper {
             return result
         case .input(let data):
             return [StepQuizFillBlankComponent(type: .input, inputText: data.inputText)]
+        case .select(let data):
+            print(data)
+            return []
         }
     }
 
