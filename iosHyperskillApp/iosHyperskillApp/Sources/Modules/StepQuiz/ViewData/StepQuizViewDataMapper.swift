@@ -96,36 +96,13 @@ final class StepQuizViewDataMapper {
         state: StepQuizFeatureStepQuizStateKs,
         attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded?
     ) -> StepQuizChildQuizType {
-        let unsupportedChildQuizType = StepQuizChildQuizType.unsupported(blockName: step.block.name)
-
         if state == .unsupported {
-            return unsupportedChildQuizType
+            return .unsupported(blockName: step.block.name)
         }
 
-        let childQuizType = StepQuizChildQuizType(step: step)
-
-        if case .fillBlanks = childQuizType {
-            guard let dataset = attemptLoadedState?.attempt.dataset else {
-                return childQuizType
-            }
-
-            do {
-                let mode = try FillBlanksResolver.shared.resolve(dataset: dataset)
-
-                switch FillBlanksModeWrapper(shared: mode) {
-                case .input, .select:
-                    return childQuizType
-                default:
-                    return unsupportedChildQuizType
-                }
-            } catch {
-                #if DEBUG
-                print("StepQuizViewDataMapper: failed to resolve fill blanks quiz type, error = \(error)")
-                #endif
-                return unsupportedChildQuizType
-            }
-        }
-
-        return childQuizType
+        return StepQuizChildQuizType.resolve(
+            step: step,
+            datasetOrNil: attemptLoadedState?.attempt.dataset
+        )
     }
 }

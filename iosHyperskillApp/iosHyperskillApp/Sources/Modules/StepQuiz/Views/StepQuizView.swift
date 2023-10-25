@@ -53,15 +53,11 @@ struct StepQuizView: View {
 
                         StepTextView(text: viewData.stepText)
                     } else {
-                        if viewData.quizType.isCodeRelated {
-                            ExpandableStepTextView(
-                                text: viewData.stepText,
-                                isExpanded: true,
-                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
-                            )
-                        } else {
-                            StepTextView(text: viewData.stepText)
-                        }
+                        ExpandableStepTextView(
+                            text: viewData.stepText,
+                            isExpanded: true,
+                            onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                        )
 
                         if viewData.stepHasHints {
                             StepQuizHintsAssembly(
@@ -124,22 +120,19 @@ struct StepQuizView: View {
         }()
 
         if let attemptLoadedState {
-            if case .unsupported = quizType {
-                // it's rendered before step text
-            } else {
-                buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
-                if let formattedStats {
-                    StepQuizStatsView(text: formattedStats)
-                }
+            buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
 
-                buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
-
-                if let feedbackHintText {
-                    StepQuizFeedbackView(text: feedbackHintText)
-                }
-
-                buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
+            if let formattedStats {
+                StepQuizStatsView(text: formattedStats)
             }
+
+            buildQuizStatusView(state: state.stepQuizState, attemptLoadedState: attemptLoadedState)
+
+            if let feedbackHintText {
+                StepQuizFeedbackView(text: feedbackHintText)
+            }
+
+            buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
         }

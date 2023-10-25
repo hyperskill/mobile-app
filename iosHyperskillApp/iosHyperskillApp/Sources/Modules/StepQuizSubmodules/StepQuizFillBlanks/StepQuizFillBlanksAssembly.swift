@@ -12,13 +12,17 @@ final class StepQuizFillBlanksAssembly: StepQuizChildQuizAssembly {
     private let dataset: Dataset
     private let reply: Reply?
 
+    private let mode: FillBlanksModeWrapper
+
     init(
+        mode: FillBlanksModeWrapper,
         step: Step,
         dataset: Dataset,
         reply: Reply?,
         provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
         moduleOutput: StepQuizChildQuizOutputProtocol?
     ) {
+        self.mode = mode
         self.step = step
         self.dataset = dataset
         self.reply = reply
@@ -26,17 +30,25 @@ final class StepQuizFillBlanksAssembly: StepQuizChildQuizAssembly {
         self.moduleOutput = moduleOutput
     }
 
-    func makeModule() -> StepQuizFillBlanksView {
-        // It's safe to call require() here, because we are resolving quiz type in StepQuizViewDataMapper
-        let mode = (try? FillBlanksResolver.shared.resolve(dataset: dataset)).require()
+    // swiftlint:disable:next unavailable_function
+    init(
+        step: Step,
+        dataset: Dataset,
+        reply: Reply?,
+        provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
+        moduleOutput: StepQuizChildQuizOutputProtocol?
+    ) {
+        fatalError("init(step:dataset:reply:provideModuleInputCallback:moduleOutput:) has not been implemented")
+    }
 
+    func makeModule() -> StepQuizFillBlanksView {
         let viewModel = StepQuizFillBlanksViewModel(
             step: step,
             dataset: dataset,
             reply: reply,
-            mode: mode.wrapped.require(),
+            mode: mode,
             viewDataMapper: StepQuizFillBlanksViewDataMapper(
-                fillBlanksItemMapper: FillBlanksItemMapper(mode: mode),
+                fillBlanksItemMapper: FillBlanksItemMapper(mode: mode.sharedValue),
                 highlightr: Highlightr().require(),
                 codeEditorThemeService: CodeEditorThemeService(),
                 cache: StepQuizFillBlanksViewDataMapperCache.shared

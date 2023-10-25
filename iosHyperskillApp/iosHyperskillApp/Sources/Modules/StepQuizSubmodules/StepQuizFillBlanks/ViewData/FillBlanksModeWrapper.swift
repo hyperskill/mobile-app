@@ -7,6 +7,15 @@ enum FillBlanksModeWrapper {
 }
 
 extension FillBlanksModeWrapper {
+    var sharedValue: FillBlanksMode {
+        switch self {
+        case .input:
+            .input
+        case .select:
+            .select
+        }
+    }
+
     init?(shared: FillBlanksMode) {
         switch shared {
         case .input:
@@ -17,11 +26,5 @@ extension FillBlanksModeWrapper {
             assertionFailure("FillBlanksModeWrapper: Did receive unsupported FillBlanksMode = \(shared)")
             return nil
         }
-    }
-}
-
-extension FillBlanksMode {
-    var wrapped: FillBlanksModeWrapper? {
-        FillBlanksModeWrapper(shared: self)
     }
 }
