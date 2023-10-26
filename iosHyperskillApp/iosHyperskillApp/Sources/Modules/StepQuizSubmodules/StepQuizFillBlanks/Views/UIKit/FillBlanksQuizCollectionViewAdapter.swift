@@ -21,10 +21,13 @@ final class FillBlanksQuizCollectionViewAdapter: NSObject {
     weak var delegate: FillBlanksQuizCollectionViewAdapterDelegate?
 
     var components: [StepQuizFillBlankComponent]
+    var options: [StepQuizFillBlankOption]
+
     var isUserInteractionEnabled = true
 
-    init(components: [StepQuizFillBlankComponent] = []) {
+    init(components: [StepQuizFillBlankComponent] = [], options: [StepQuizFillBlankOption] = []) {
         self.components = components
+        self.options = options
         super.init()
     }
 }
@@ -92,6 +95,20 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDataSource {
                 )
             }
             return cell
+        case .select:
+            let cell: FillBlanksSelectCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
+
+            if let selectedOptionID = component.selectedOptionID {
+                cell.text = self.options[selectedOptionID].displayText
+                cell.state = .filled
+            } else {
+                cell.text = nil
+                cell.state = component.isFirstResponder ? .firstResponder : .default
+            }
+
+            cell.isEnabled = self.isUserInteractionEnabled
+
+            return cell
         }
     }
 }
@@ -127,6 +144,15 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDelegateFlowLayou
                 text: component.inputText ?? "",
                 maxWidth: maxWidth
             )
+        case .select:
+            if let selectedOptionID = component.selectedOptionID {
+                return FillBlanksSelectCollectionViewCell.calculatePreferredContentSize(
+                    text: self.options[selectedOptionID].displayText,
+                    maxWidth: maxWidth
+                )
+            } else {
+                return FillBlanksSelectCollectionViewCell.Appearance.defaultSize
+            }
         }
     }
 
@@ -138,7 +164,7 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDelegateFlowLayou
         switch self.components[indexPath.row].type {
         case .text, .lineBreak:
             return false
-        case .input:
+        case .input, .select:
             return true
         }
     }

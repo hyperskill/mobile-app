@@ -65,6 +65,12 @@ extension StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol {
                 return nil
             case .input:
                 return component.inputText ?? ""
+            case .select:
+                guard let selectedOptionID = component.selectedOptionID else {
+                    return nil
+                }
+
+                return viewData.options[selectedOptionID].originalText
             }
         }
 

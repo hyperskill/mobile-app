@@ -36,6 +36,7 @@ final class FillBlanksQuizView: UIView {
         collectionView.isScrollEnabled = false
         collectionView.register(cellClass: FillBlanksInputCollectionViewCell.self)
         collectionView.register(cellClass: FillBlanksTextCollectionViewCell.self)
+        collectionView.register(cellClass: FillBlanksSelectCollectionViewCell.self)
 
         return collectionView
     }()

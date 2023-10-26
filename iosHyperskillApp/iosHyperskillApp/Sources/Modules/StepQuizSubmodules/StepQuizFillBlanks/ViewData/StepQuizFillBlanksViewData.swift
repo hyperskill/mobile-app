@@ -2,6 +2,7 @@ import Foundation
 
 struct StepQuizFillBlanksViewData: Hashable {
     var components: [StepQuizFillBlankComponent]
+    var options: [StepQuizFillBlankOption]
 }
 
 struct StepQuizFillBlankComponent: Hashable, Identifiable {
@@ -12,10 +13,18 @@ struct StepQuizFillBlankComponent: Hashable, Identifiable {
     // input
     var inputText: String?
     var isFirstResponder = false
+    // select
+    var selectedOptionID: Int?
 
     enum ComponentType {
         case text
         case input
+        case select
         case lineBreak
     }
+}
+
+struct StepQuizFillBlankOption: Hashable {
+    let originalText: String
+    let displayText: String
 }
