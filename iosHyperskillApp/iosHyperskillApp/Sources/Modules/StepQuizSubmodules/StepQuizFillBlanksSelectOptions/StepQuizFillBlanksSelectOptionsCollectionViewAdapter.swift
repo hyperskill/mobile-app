@@ -1,6 +1,15 @@
 import UIKit
 
+protocol StepQuizFillBlanksSelectOptionsCollectionViewAdapterDelegate: AnyObject {
+    func fillBlanksSelectOptionsCollectionViewAdapter(
+        _ adapter: StepQuizFillBlanksSelectOptionsCollectionViewAdapter,
+        didSelectComponentAt indexPath: IndexPath
+    )
+}
+
 final class StepQuizFillBlanksSelectOptionsCollectionViewAdapter: NSObject {
+    weak var delegate: StepQuizFillBlanksSelectOptionsCollectionViewAdapterDelegate?
+
     var options: [StepQuizFillBlankOption]
     var selectedIndices = Set<Int>()
 
@@ -54,16 +63,11 @@ extension StepQuizFillBlanksSelectOptionsCollectionViewAdapter: UICollectionView
           - flowLayout.sectionInset.right
 
         let option = self.options[indexPath.row]
-        let isSelected = selectedIndices.contains(indexPath.row)
 
-        if isSelected {
-            return StepQuizFillBlanksSelectOptionsCollectionViewCell.Appearance.defaultSize
-        } else {
-            return StepQuizFillBlanksSelectOptionsCollectionViewCell.calculatePreferredContentSize(
-                text: option.displayText,
-                maxWidth: maxWidth
-            )
-        }
+        return StepQuizFillBlanksSelectOptionsCollectionViewCell.calculatePreferredContentSize(
+            text: option.displayText,
+            maxWidth: maxWidth
+        )
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -74,5 +78,7 @@ extension StepQuizFillBlanksSelectOptionsCollectionViewAdapter: UICollectionView
         return !selectedIndices.contains(indexPath.row)
     }
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {}
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.fillBlanksSelectOptionsCollectionViewAdapter(self, didSelectComponentAt: indexPath)
+    }
 }

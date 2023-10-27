@@ -80,13 +80,17 @@ final class FillBlanksSelectCollectionViewCell: UICollectionViewCell, Reusable {
             return .zero
         }
 
+        let appearance = Appearance()
+
+        var maxWidth = maxWidth
+        maxWidth -= appearance.insets.leading + appearance.insets.trailing
+
         label.frame = CGRect(x: 0, y: 0, width: maxWidth, height: CGFloat.greatestFiniteMagnitude)
 
         label.text = text
         label.sizeToFit()
 
         let labelSize = label.bounds.size
-        let appearance = Appearance()
 
         let widthWithInsets = appearance.insets.leading
           + labelSize.width.rounded(.up)

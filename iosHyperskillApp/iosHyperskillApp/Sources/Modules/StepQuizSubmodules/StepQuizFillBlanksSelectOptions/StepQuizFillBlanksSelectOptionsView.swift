@@ -3,8 +3,6 @@ import UIKit
 
 extension StepQuizFillBlanksSelectOptionsView {
     struct Appearance {
-        let horizontalInset = LayoutInsets.defaultInset
-
         var collectionViewMaxHeight: CGFloat { UIScreen.main.bounds.height / 3 }
         let collectionViewMinHeight: CGFloat = 44
         let collectionViewMinLineSpacing = LayoutInsets.defaultInset
@@ -41,11 +39,15 @@ final class StepQuizFillBlanksSelectOptionsView: UIView {
     var onNewHeight: ((CGFloat) -> Void)?
 
     override var intrinsicContentSize: CGSize {
+        let collectionViewContentSize = self.collectionView.collectionViewLayout.collectionViewContentSize
         let collectionViewHeight = max(
             self.appearance.collectionViewMinHeight,
-            self.collectionView.collectionViewLayout.collectionViewContentSize.height
+            min(self.appearance.collectionViewMaxHeight, collectionViewContentSize.height)
         )
+
         onNewHeight?(collectionViewHeight)
+        self.collectionView.isScrollEnabled = collectionViewContentSize.height > self.appearance.collectionViewMaxHeight
+
         return CGSize(width: UIView.noIntrinsicMetric, height: collectionViewHeight)
     }
 

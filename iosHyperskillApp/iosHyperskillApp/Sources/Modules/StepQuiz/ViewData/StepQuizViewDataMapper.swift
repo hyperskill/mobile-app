@@ -12,16 +12,7 @@ final class StepQuizViewDataMapper {
     }
 
     func mapStepDataToViewData(step: Step, state: StepQuizFeatureStepQuizStateKs) -> StepQuizViewData {
-        let attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded? = {
-            switch state {
-            case .attemptLoading(let attemptLoadingState):
-                return attemptLoadingState.oldState
-            case .attemptLoaded(let attemptLoadedState):
-                return attemptLoadedState
-            default:
-                return nil
-            }
-        }()
+        let attemptLoadedState = StepQuizStateExtentionsKt.attemptLoadedState(state.sealed)
 
         let quizType = resolveQuizType(
             step: step,

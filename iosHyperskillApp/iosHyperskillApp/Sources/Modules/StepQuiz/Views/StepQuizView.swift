@@ -17,6 +17,8 @@ struct StepQuizView: View {
     @EnvironmentObject private var stackRouter: SwiftUIStackRouter
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
+    @State private var fillBlanksSelectOptionsViewHeight: CGFloat = 0
+
     var body: some View {
         buildBody()
             .navigationBarTitleDisplayMode(.inline)
@@ -46,40 +48,47 @@ struct StepQuizView: View {
         } else {
             let viewData = viewModel.makeViewData()
 
-            ScrollView {
-                VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
-                    if case .unsupported = viewData.quizType {
-                        StepQuizStatusView(state: .unsupportedQuiz)
+            ZStack(alignment: .bottom) {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+                        if case .unsupported = viewData.quizType {
+                            StepQuizStatusView(state: .unsupportedQuiz)
 
-                        StepTextView(text: viewData.stepText)
-                    } else {
-                        ExpandableStepTextView(
-                            text: viewData.stepText,
-                            isExpanded: true,
-                            onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
-                        )
+                            StepTextView(text: viewData.stepText)
+                        } else {
+                            ExpandableStepTextView(
+                                text: viewData.stepText,
+                                isExpanded: true,
+                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                            )
 
-                        if viewData.stepHasHints {
-                            StepQuizHintsAssembly(
-                                stepID: viewModel.step.id,
-                                stepRoute: viewModel.stepRoute
-                            ).makeModule()
+                            if viewData.stepHasHints {
+                                StepQuizHintsAssembly(
+                                    stepID: viewModel.step.id,
+                                    stepRoute: viewModel.stepRoute
+                                ).makeModule()
+                            }
+
+                            buildQuizContent(
+                                state: viewModel.state,
+                                step: viewModel.step,
+                                quizName: viewData.quizName,
+                                quizType: viewData.quizType,
+                                formattedStats: viewData.formattedStats,
+                                feedbackHintText: viewData.feedbackHintText
+                            )
                         }
-
-                        buildQuizContent(
-                            state: viewModel.state,
-                            step: viewModel.step,
-                            quizName: viewData.quizName,
-                            quizType: viewData.quizType,
-                            formattedStats: viewData.formattedStats,
-                            feedbackHintText: viewData.feedbackHintText
-                        )
+                    }
+                    .padding()
+                    .introspectScrollView { scrollView in
+                        scrollView.shouldIgnoreScrollingAdjustment = true
                     }
                 }
-                .padding()
-                .introspectScrollView { scrollView in
-                    scrollView.shouldIgnoreScrollingAdjustment = true
-                }
+
+                buildFillBlanksSelectOptionsView(
+                    quizType: viewData.quizType,
+                    attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
+                )
             }
             .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
                 $0.toolbar {
@@ -97,6 +106,36 @@ struct StepQuizView: View {
     }
 
     @ViewBuilder
+    private func buildFillBlanksSelectOptionsView(
+        quizType: StepQuizChildQuizType,
+        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded?
+    ) -> some View {
+        if case .fillBlanks(let mode) = quizType, mode == .select,
+           let attemptLoadedState {
+            StepQuizFillBlanksSelectOptionsViewWrapper(
+                moduleOutput: viewModel.childQuizModuleInput as? StepQuizFillBlanksSelectOptionsOutputProtocol,
+                moduleInput: { [weak viewModel] moduleInput in
+                    guard let viewModel else {
+                        return
+                    }
+
+                    viewModel.fillBlanksSelectOptionsModuleInput = moduleInput
+                },
+                isUserInteractionEnabled: StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState),
+                onNewHeight: { height in
+                    if fillBlanksSelectOptionsViewHeight != height {
+                        DispatchQueue.main.async {
+                            fillBlanksSelectOptionsViewHeight = height
+                        }
+                    }
+                }
+            )
+            .edgesIgnoringSafeArea(.all)
+            .frame(height: fillBlanksSelectOptionsViewHeight)
+        }
+    }
+
+    @ViewBuilder
     private func buildQuizContent(
         state: StepQuizFeatureState,
         step: Step,
@@ -110,16 +149,7 @@ struct StepQuizView: View {
                 .padding(.top)
         }
 
-        let attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded? = {
-            if let attemptLoadedState = state.stepQuizState as? StepQuizFeatureStepQuizStateAttemptLoaded {
-                return attemptLoadedState
-            } else if let attemptLoadingState = state.stepQuizState as? StepQuizFeatureStepQuizStateAttemptLoading {
-                return attemptLoadingState.oldState
-            }
-            return nil
-        }()
-
-        if let attemptLoadedState {
+        if let attemptLoadedState = StepQuizStateExtentionsKt.attemptLoadedState(state.stepQuizState) {
             buildChildQuiz(quizType: quizType, step: step, attemptLoadedState: attemptLoadedState)
 
             if let formattedStats {
@@ -133,6 +163,8 @@ struct StepQuizView: View {
             }
 
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
+
+            Color.clear.padding(.bottom, fillBlanksSelectOptionsViewHeight)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
         }

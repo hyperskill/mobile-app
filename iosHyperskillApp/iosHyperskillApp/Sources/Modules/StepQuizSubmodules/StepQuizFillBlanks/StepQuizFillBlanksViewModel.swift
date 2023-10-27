@@ -10,6 +10,8 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
 
     @Published private(set) var viewData: StepQuizFillBlanksViewData
 
+    private var currentSelectBlankComponentIndex: Int?
+
     init(
         step: Step,
         dataset: Dataset,
@@ -20,11 +22,21 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
     ) {
         self.mode = mode
         self.provideModuleInputCallback = provideModuleInputCallback
-        self.viewData = viewDataMapper.mapToViewData(dataset: dataset, reply: reply)
+
+        var viewData = viewDataMapper.mapToViewData(dataset: dataset, reply: reply)
+
+        if mode == .select,
+           let index = Self.getFirstSelectBlankComponentIndex(components: viewData.components) {
+            self.currentSelectBlankComponentIndex = index
+            viewData.components[index].isFirstResponder = true
+        }
+
+        self.viewData = viewData
     }
 
     func doProvideModuleInput() {
         provideModuleInputCallback(self)
+        outputCurrentSelectModeState()
     }
 
     func doInputTextUpdate(_ inputText: String, for component: StepQuizFillBlankComponent) {
@@ -39,14 +51,21 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
     }
 
     func doSelectComponent(at indexPath: IndexPath) {
-        setIsFirstResponder(true, forComponentAt: indexPath)
+        switch viewData.components[indexPath.row].type {
+        case .input:
+            inputModeSetIsFirstResponder(true, forComponentAt: indexPath)
+        case .select:
+            selectModeHandleDidSelectComponent(at: indexPath)
+        default:
+            break
+        }
     }
 
     func doDeselectComponent(at indexPath: IndexPath) {
-        setIsFirstResponder(false, forComponentAt: indexPath)
+        inputModeSetIsFirstResponder(false, forComponentAt: indexPath)
     }
 
-    private func setIsFirstResponder(_ isFirstResponder: Bool, forComponentAt indexPath: IndexPath) {
+    private func inputModeSetIsFirstResponder(_ isFirstResponder: Bool, forComponentAt indexPath: IndexPath) {
         guard viewData.components[indexPath.row].type == .input else {
             return
         }
@@ -79,5 +98,82 @@ extension StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol {
 
     private func outputCurrentReply() {
         moduleOutput?.handleChildQuizSync(reply: createReply())
+    }
+}
+
+// MARK: - StepQuizFillBlanksViewModel (Select Mode) -
+
+extension StepQuizFillBlanksViewModel {
+    private func outputCurrentSelectModeState() {
+        guard mode == .select else {
+            return
+        }
+
+        guard let fillBlanksModuleOutput = moduleOutput as? StepQuizFillBlanksOutputProtocol else {
+            assertionFailure("""
+StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String(describing: moduleOutput))
+""")
+            return
+        }
+
+        let options = viewData.options
+        let selectedIndices = Set(viewData.components.compactMap(\.selectedOptionID))
+        let blanksCount = viewData.components.filter({ $0.type == .select }).count
+
+        fillBlanksModuleOutput.handleStepQuizFillBlanksCurrentSelectModeState(
+            options: options,
+            selectedIndices: selectedIndices,
+            blanksCount: blanksCount
+        )
+    }
+
+    private func selectModeHandleDidSelectComponent(at indexPath: IndexPath) {
+        var components = viewData.components
+
+        if let selectedOptionID = viewData.components[indexPath.row].selectedOptionID {
+            components[indexPath.row].selectedOptionID = nil
+        }
+
+        currentSelectBlankComponentIndex = indexPath.row
+
+        viewData.components = components.enumerated().map { index, component in
+            var component = component
+            component.isFirstResponder = index == indexPath.row
+            return component
+        }
+
+        outputCurrentReply()
+        outputCurrentSelectModeState()
+    }
+
+    private static func getFirstSelectBlankComponentIndex(components: [StepQuizFillBlankComponent]) -> Int? {
+        components.firstIndex(where: { $0.type == .select && $0.selectedOptionID == nil })
+    }
+}
+
+extension StepQuizFillBlanksViewModel: StepQuizFillBlanksSelectOptionsOutputProtocol {
+    func handleStepQuizFillBlanksSelectOptionsDidSelectOption(option: StepQuizFillBlankOption, at index: Int) {
+        guard mode == .select else {
+            return assertionFailure("StepQuizFillBlanksViewModel: unexpected state")
+        }
+
+        guard let currentSelectBlankComponentIndex else {
+            return assertionFailure("StepQuizFillBlanksViewModel: currentSelectBlankComponentIndex is nil")
+        }
+
+        var components = viewData.components
+
+        components[currentSelectBlankComponentIndex].selectedOptionID = index
+        components[currentSelectBlankComponentIndex].isFirstResponder = false
+
+        if let index = Self.getFirstSelectBlankComponentIndex(components: components) {
+            components[index].isFirstResponder = true
+            self.currentSelectBlankComponentIndex = index
+        } else {
+            self.currentSelectBlankComponentIndex = nil
+        }
+
+        viewData.components = components
+        outputCurrentReply()
     }
 }
