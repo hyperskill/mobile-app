@@ -4,6 +4,8 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState.TrackProgressViewState.Content.AppliedTopicsState
+import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 import ru.nobird.app.core.model.safeCast
@@ -50,6 +52,7 @@ internal class ProgressScreenViewStateMapper(
     ): ProgressScreenViewState.TrackProgressViewState.Content {
         val track = trackProgressContent.trackWithProgress.track
         val trackProgress = trackProgressContent.trackWithProgress.trackProgress
+        val isFreemiumUser = trackProgressContent.subscription.isFreemium
 
         return ProgressScreenViewState.TrackProgressViewState.Content(
             title = track.title,
@@ -57,11 +60,21 @@ internal class ProgressScreenViewStateMapper(
             completedTopicsCountLabel = "${trackProgress.completedTopics} / ${track.topicsCount}",
             completedTopicsPercentageLabel = "• ${trackProgressContent.trackWithProgress.completedTopicsProgress}%",
             completedTopicsPercentageProgress = trackProgressContent.trackWithProgress.completedTopicsProgress / 100f,
-            appliedTopicsCountLabel = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}",
-            appliedTopicsPercentageLabel = "• ${trackProgressContent.trackWithProgress.appliedTopicsProgress}%",
-            appliedTopicsPercentageProgress = trackProgressContent.trackWithProgress.appliedTopicsProgress / 100f,
+            appliedTopicsState = if (isFreemiumUser) {
+                AppliedTopicsState.Empty
+            } else {
+                AppliedTopicsState.Content(
+                    countLabel = "${trackProgress.appliedCapstoneTopicsCount} / ${track.capstoneTopicsCount}",
+                    percentageLabel = "• ${trackProgressContent.trackWithProgress.appliedTopicsProgress}%",
+                    percentageProgress = trackProgressContent.trackWithProgress.appliedTopicsProgress / 100f,
+                )
+            },
             timeToCompleteLabel = formatTrackTimeToComplete(trackProgressContent),
-            completedGraduateProjectsCount = trackProgress.completedCapstoneProjects.size,
+            completedGraduateProjectsCount = if (isFreemiumUser) {
+                null
+            } else {
+                trackProgress.completedCapstoneProjects.size
+            },
             isCompleted = trackProgress.isCompleted
         )
     }

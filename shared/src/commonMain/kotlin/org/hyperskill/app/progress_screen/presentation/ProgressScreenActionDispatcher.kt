@@ -14,6 +14,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -22,6 +23,7 @@ internal class ProgressScreenActionDispatcher(
     config: ActionDispatcherOptions,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val trackInteractor: TrackInteractor,
     private val projectsRepository: ProjectsRepository,
     private val progressesInteractor: ProgressesInteractor,
@@ -60,12 +62,18 @@ internal class ProgressScreenActionDispatcher(
                     currentProfileStateRepository
                         .getState(forceUpdate = action.forceLoadFromNetwork)
                 }
+
+                val subscriptionDeferred = async {
+                    currentSubscriptionStateRepository
+                        .getState(forceUpdate = action.forceLoadFromNetwork)
+                }
                 val studyPlanDeferred = async {
                     currentStudyPlanStateRepository
                         .getState(forceUpdate = action.forceLoadFromNetwork)
                 }
 
                 val profile = profileDeferred.await().getOrThrow()
+                val subscription = subscriptionDeferred.await().getOrThrow()
                 val studyPlan = studyPlanDeferred.await().getOrThrow()
 
                 if (studyPlan.trackId == null) {
@@ -80,7 +88,8 @@ internal class ProgressScreenActionDispatcher(
                 ProgressScreenFeature.TrackWithProgressFetchResult.Success(
                     trackWithProgress = trackWithProgress,
                     studyPlan = studyPlan,
-                    profile = profile
+                    profile = profile,
+                    subscription = subscription
                 )
             }
         }.let(onNewMessage)

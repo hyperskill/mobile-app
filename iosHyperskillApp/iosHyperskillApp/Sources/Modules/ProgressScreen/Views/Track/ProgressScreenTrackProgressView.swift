@@ -50,11 +50,9 @@ struct ProgressScreenTrackProgressView: View {
                 completedTopicsCountLabel: data.completedTopicsCountLabel,
                 completedTopicsPercentageLabel: data.completedTopicsPercentageLabel,
                 completedTopicsPercentageProgress: data.completedTopicsPercentageProgress,
-                appliedTopicsCountLabel: data.appliedTopicsCountLabel,
-                appliedTopicsPercentageLabel: data.appliedTopicsPercentageLabel,
-                appliedTopicsPercentageProgress: data.appliedTopicsPercentageProgress,
+                appliedTopicsState: .init(data.appliedTopicsState),
                 timeToCompleteLabel: data.timeToCompleteLabel,
-                completedGraduateProjectsCount: Int(data.completedGraduateProjectsCount),
+                completedGraduateProjectsCount: data.completedGraduateProjectsCount?.intValue,
                 isCompleted: data.isCompleted,
                 onChangeTrackTap: onChangeTrackTap
             )

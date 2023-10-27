@@ -21,6 +21,7 @@ import org.hyperskill.app.android.progress.ui.ProgressDefaults
 import org.hyperskill.app.android.progress.ui.ProgressPreview
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState.TrackProgressViewState.Content.AppliedTopicsState
 
 @Composable
 fun TrackProgressContent(
@@ -48,14 +49,17 @@ fun TrackProgressContent(
             icon = painterResource(id = R.drawable.ic_track_progress_topics)
         )
         Spacer(modifier = Modifier.height(ProgressDefaults.SmallSpaceDp))
-        TrackTopicsStatistics(
-            countString = viewState.appliedTopicsCountLabel,
-            percentageString = viewState.appliedTopicsPercentageLabel,
-            description = stringResource(id = org.hyperskill.app.R.string.progress_screen_applied_core_topics),
-            progressPercent = viewState.appliedTopicsPercentageProgress,
-            isTrackCompleted = viewState.isCompleted,
-            icon = painterResource(id = R.drawable.ic_track_progress_core_topics)
-        )
+        (viewState.appliedTopicsState as? AppliedTopicsState.Content)?.let { appliedTopicsStateContentState ->
+            TrackTopicsStatistics(
+                countString = appliedTopicsStateContentState.countLabel,
+                percentageString = appliedTopicsStateContentState.percentageLabel,
+                description = stringResource(id = org.hyperskill.app.R.string.progress_screen_applied_core_topics),
+                progressPercent = appliedTopicsStateContentState.percentageProgress,
+                isTrackCompleted = viewState.isCompleted,
+                icon = painterResource(id = R.drawable.ic_track_progress_core_topics)
+            )
+        }
+
         Spacer(modifier = Modifier.height(ProgressDefaults.SmallSpaceDp))
         Row(horizontalArrangement = Arrangement.spacedBy(ProgressDefaults.SmallSpaceDp)) {
             val timeToCompleteLabel = viewState.timeToCompleteLabel
@@ -69,15 +73,17 @@ fun TrackProgressContent(
                     modifier = Modifier.weight(1f)
                 )
             }
-            if (viewState.completedGraduateProjectsCount > 0) {
-                GeneralStatistics(
-                    title = viewState.completedGraduateProjectsCount.toString(),
-                    icon = painterResource(id = R.drawable.ic_track_progress_graduate_projects),
-                    description = stringResource(
-                        id = org.hyperskill.app.R.string.progress_screen_completed_graduate_project
-                    ),
-                    modifier = Modifier.weight(1f)
-                )
+            viewState.completedGraduateProjectsCount?.let { completedGraduateProjectsCount ->
+                if (completedGraduateProjectsCount > 0) {
+                    GeneralStatistics(
+                        title = viewState.completedGraduateProjectsCount.toString(),
+                        icon = painterResource(id = R.drawable.ic_track_progress_graduate_projects),
+                        description = stringResource(
+                            id = org.hyperskill.app.R.string.progress_screen_completed_graduate_project
+                        ),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
         }
         Spacer(modifier = Modifier.height(ProgressDefaults.BigSpaceDp))
