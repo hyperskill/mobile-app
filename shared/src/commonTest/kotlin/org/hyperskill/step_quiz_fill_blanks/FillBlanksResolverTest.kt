@@ -137,6 +137,20 @@ class FillBlanksResolverTest {
                 )
             )
         ).let(::assertResolvingFailed)
+
+        Dataset(
+            components = listOf(
+                correctTextComponent,
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1", "1")
+                ),
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1", "1")
+                )
+            )
+        ).let(::assertResolvingPassed)
     }
 
     private fun getComponentsDataSet(vararg componentTypes: Component.Type): Dataset =
