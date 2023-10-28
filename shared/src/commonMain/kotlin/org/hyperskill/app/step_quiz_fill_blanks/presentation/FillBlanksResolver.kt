@@ -41,7 +41,8 @@ object FillBlanksResolver {
         }
 
         if (isSelectMode) {
-            val blankOptions = blanksComponents.first().options?.toSet() ?: emptySet()
+            // It's impossible to use Set here because there could be duplicate options
+            val blankOptions = blanksComponents.first().options?.sorted() ?: emptyList()
 
             if (blankOptions.count() < blankFieldsCount) {
                 throw InvalidFillBlanksConfigException(
@@ -51,7 +52,7 @@ object FillBlanksResolver {
                 )
             }
 
-            if (blanksComponents.any { it.options?.toSet() != blankOptions }) {
+            if (blanksComponents.any { it.options?.sorted() != blankOptions }) {
                 throw InvalidFillBlanksConfigException(
                     "All components of type \"select\" must have the same options"
                 )
