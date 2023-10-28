@@ -29,6 +29,7 @@ final class StepQuizFillBlanksSelectOptionsView: UIView {
         )
         collectionView.backgroundColor = self.appearance.backgroundColor
         collectionView.isScrollEnabled = false
+        collectionView.automaticallyAdjustsScrollIndicatorInsets = false
         collectionView.register(cellClass: StepQuizFillBlanksSelectOptionsCollectionViewCell.self)
 
         return collectionView

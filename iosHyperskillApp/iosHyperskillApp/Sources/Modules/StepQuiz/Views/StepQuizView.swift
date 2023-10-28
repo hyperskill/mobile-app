@@ -18,6 +18,13 @@ struct StepQuizView: View {
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
     @State private var fillBlanksSelectOptionsViewHeight: CGFloat = 0
+    private var shouldRenderFillBlanksSpacer: Bool {
+        if #available(iOS 15.0, *) {
+            return false
+        } else {
+            return true
+        }
+    }
 
     var body: some View {
         buildBody()
@@ -48,48 +55,51 @@ struct StepQuizView: View {
         } else {
             let viewData = viewModel.makeViewData()
 
-            ZStack(alignment: .bottom) {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
-                        if case .unsupported = viewData.quizType {
-                            StepQuizStatusView(state: .unsupportedQuiz)
+            ScrollView {
+                VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+                    if case .unsupported = viewData.quizType {
+                        StepQuizStatusView(state: .unsupportedQuiz)
 
-                            StepTextView(text: viewData.stepText)
-                        } else {
-                            ExpandableStepTextView(
-                                text: viewData.stepText,
-                                isExpanded: true,
-                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
-                            )
+                        StepTextView(text: viewData.stepText)
+                    } else {
+                        ExpandableStepTextView(
+                            text: viewData.stepText,
+                            isExpanded: true,
+                            onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                        )
 
-                            if viewData.stepHasHints {
-                                StepQuizHintsAssembly(
-                                    stepID: viewModel.step.id,
-                                    stepRoute: viewModel.stepRoute
-                                ).makeModule()
-                            }
-
-                            buildQuizContent(
-                                state: viewModel.state,
-                                step: viewModel.step,
-                                quizName: viewData.quizName,
-                                quizType: viewData.quizType,
-                                formattedStats: viewData.formattedStats,
-                                feedbackHintText: viewData.feedbackHintText
-                            )
+                        if viewData.stepHasHints {
+                            StepQuizHintsAssembly(
+                                stepID: viewModel.step.id,
+                                stepRoute: viewModel.stepRoute
+                            ).makeModule()
                         }
-                    }
-                    .padding()
-                    .introspectScrollView { scrollView in
-                        scrollView.shouldIgnoreScrollingAdjustment = true
+
+                        buildQuizContent(
+                            state: viewModel.state,
+                            step: viewModel.step,
+                            quizName: viewData.quizName,
+                            quizType: viewData.quizType,
+                            formattedStats: viewData.formattedStats,
+                            feedbackHintText: viewData.feedbackHintText
+                        )
                     }
                 }
+                .padding()
+                .introspectScrollView { scrollView in
+                    scrollView.shouldIgnoreScrollingAdjustment = true
+                }
 
+                if shouldRenderFillBlanksSpacer {
+                    Spacer(minLength: fillBlanksSelectOptionsViewHeight)
+                }
+            }
+            .bottomFillBlanksSelectOptionsView(
                 buildFillBlanksSelectOptionsView(
                     quizType: viewData.quizType,
                     attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
                 )
-            }
+            )
             .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
                 $0.toolbar {
                     // buildIf is only available in iOS 16.0 or newer
@@ -163,8 +173,6 @@ struct StepQuizView: View {
             }
 
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
-
-            Color.clear.padding(.bottom, fillBlanksSelectOptionsViewHeight)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
         }
@@ -343,5 +351,24 @@ private extension StepQuizView {
     func presentParsonsProblemOnboardingModal() {
         let panModal = StepQuizParsonsOnboardingModalViewController(delegate: viewModel)
         panModalPresenter.presentPanModal(panModal)
+    }
+}
+
+// MARK: - View (bottomFillBlanksSelectOptionsView) -
+
+@available(iOS, introduced: 13, deprecated: 15, message: "Use .safeAreaInset() directly")
+private extension View {
+    @ViewBuilder
+    func bottomFillBlanksSelectOptionsView<OverlayContent: View>(_ overlayContent: OverlayContent) -> some View {
+        if #available(iOS 15.0, *) {
+            self.safeAreaInset(
+                edge: .bottom,
+                alignment: .center,
+                spacing: 0,
+                content: { overlayContent }
+            )
+        } else {
+            self.overlay(overlayContent, alignment: .bottom)
+        }
     }
 }
