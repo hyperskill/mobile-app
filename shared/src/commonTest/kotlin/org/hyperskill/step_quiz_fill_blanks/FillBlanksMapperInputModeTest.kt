@@ -7,7 +7,7 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper
 
-class FillBlanksMapperTest {
+class FillBlanksMapperInputModeTest {
     /* ktlint-disable */
     companion object {
         private const val LANGUAGE_NAME = "typescript"

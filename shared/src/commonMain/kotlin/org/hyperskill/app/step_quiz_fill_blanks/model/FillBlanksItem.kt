@@ -33,12 +33,12 @@ sealed interface FillBlanksItem : Identifiable<Int> {
      * Represents a select fill-in-the-blank item in a quiz.
      *
      * @property id The order number in a list of items.
-     * @property selectedOptionId The order number in a list of options. Null if no option is selected.
+     * @property selectedOptionIndex The order number in a list of options. Null if no option is selected.
      *
      * @see FillBlanksData.options
      */
     data class Select(
         override val id: Int,
-        val selectedOptionId: Int?
+        val selectedOptionIndex: Int?
     ) : FillBlanksItem
 }
