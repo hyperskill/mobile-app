@@ -3,6 +3,7 @@ import UIKit
 enum AppAppearance {
     static func themeApplication(window: UIWindow) {
         window.tintColor = ColorPalette.primary
+        KeyboardManager.setToolbarTintColor(window.tintColor)
         themeNavigationBar()
     }
 

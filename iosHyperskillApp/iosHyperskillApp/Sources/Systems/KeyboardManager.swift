@@ -27,6 +27,10 @@ enum KeyboardManager {
         IQKeyboardManager.shared.enableAutoToolbar = enableAutoToolbar
     }
 
+    static func setToolbarTintColor(_ toolbarTintColor: UIColor?) {
+        IQKeyboardManager.shared.toolbarTintColor = toolbarTintColor
+    }
+
     static func reloadLayoutIfNeeded() {
         IQKeyboardManager.shared.reloadLayoutIfNeeded()
     }

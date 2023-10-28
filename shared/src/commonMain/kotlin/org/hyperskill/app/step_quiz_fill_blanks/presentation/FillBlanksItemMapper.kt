@@ -47,6 +47,8 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
     private var cachedLanguage: String? = null
     private var cachedItems: List<FillBlanksItem> = emptyList()
     private var inputItemIndices: List<Int> = emptyList()
+    private var selectItemIndices: List<Int> = emptyList()
+    private var cachedOptions: List<FillBlanksOption> = emptyList()
 
     fun map(attempt: Attempt, submission: Submission?): FillBlanksData? =
         attempt.dataset?.components?.let {
@@ -68,12 +70,11 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
         componentsDataset: List<Component>,
         replyBlanks: List<String>?
     ): FillBlanksData? {
-        // TODO: cache for select mode
-        if (cachedItems.isNotEmpty() && mode == FillBlanksMode.INPUT) {
+        if (cachedItems.isNotEmpty()) {
             return FillBlanksData(
                 fillBlanks = getCachedItems(cachedItems, componentsDataset, replyBlanks),
                 language = cachedLanguage,
-                options = emptyList()
+                options = cachedOptions
             )
         }
 
@@ -98,7 +99,7 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
                 produceSelectItem = { id, optionIndex ->
                     FillBlanksItem.Select(
                         id = id,
-                        selectedOptionId = getSelectedOptionId(replyBlanks, blankOptions, optionIndex)
+                        selectedOptionIndex = getSelectedOptionIndex(replyBlanks, blankOptions, optionIndex)
                     )
                 }
             )
@@ -106,11 +107,20 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
             val language = parseLanguage(langClass)
 
             this.cachedItems = fillBlanksItems
-            this.cachedLanguage = langClass
-            this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
-                if (fillBlanksItem is FillBlanksItem.Input) index else null
+            when (mode) {
+                FillBlanksMode.INPUT -> {
+                    this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                        if (fillBlanksItem is FillBlanksItem.Input) index else null
+                    }
+                }
+                FillBlanksMode.SELECT -> {
+                    this.selectItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                        if (fillBlanksItem is FillBlanksItem.Select) index else null
+                    }
+                }
             }
             this.cachedLanguage = language
+            this.cachedOptions = blankOptions
 
             FillBlanksData(
                 fillBlanks = fillBlanksItems,
@@ -128,18 +138,37 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
         replyBlanks: List<String>?
     ): List<FillBlanksItem> =
         cachedItems.mutate {
-            inputItemIndices.forEachIndexed { inputIndex, itemIndex ->
-                set(
-                    itemIndex,
-                    FillBlanksItem.Input(
-                        id = itemIndex,
-                        inputText = getInputText(
-                            replyBlanks = replyBlanks,
-                            inputComponents = components.slice(from = 1),
-                            inputIndex = inputIndex
+            when (mode) {
+                FillBlanksMode.INPUT -> {
+                    inputItemIndices.forEachIndexed { inputIndex, itemIndex ->
+                        set(
+                            itemIndex,
+                            FillBlanksItem.Input(
+                                id = itemIndex,
+                                inputText = getInputText(
+                                    replyBlanks = replyBlanks,
+                                    inputComponents = components.slice(from = 1),
+                                    inputIndex = inputIndex
+                                )
+                            )
                         )
-                    )
-                )
+                    }
+                }
+                FillBlanksMode.SELECT -> {
+                    selectItemIndices.forEachIndexed { optionIndex, itemIndex ->
+                        set(
+                            itemIndex,
+                            FillBlanksItem.Select(
+                                id = itemIndex,
+                                selectedOptionIndex = getSelectedOptionIndex(
+                                    replyBlanks = replyBlanks,
+                                    blankOptions = cachedOptions,
+                                    optionIndex = optionIndex
+                                )
+                            )
+                        )
+                    }
+                }
             }
         }
 
@@ -151,7 +180,7 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
         replyBlanks?.getOrNull(inputIndex)
             ?: inputComponents.getOrNull(inputIndex)?.text
 
-    private fun getSelectedOptionId(
+    private fun getSelectedOptionIndex(
         replyBlanks: List<String>?,
         blankOptions: List<FillBlanksOption>,
         optionIndex: Int
