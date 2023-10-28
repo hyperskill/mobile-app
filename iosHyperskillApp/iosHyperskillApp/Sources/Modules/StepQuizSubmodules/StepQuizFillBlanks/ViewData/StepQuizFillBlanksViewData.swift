@@ -14,7 +14,7 @@ struct StepQuizFillBlankComponent: Hashable, Identifiable {
     var inputText: String?
     var isFirstResponder = false
     // select
-    var selectedOptionID: Int?
+    var selectedOptionIndex: Int?
 
     enum ComponentType {
         case text

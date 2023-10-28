@@ -98,8 +98,8 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDataSource {
         case .select:
             let cell: FillBlanksSelectCollectionViewCell = collectionView.dequeueReusableCell(for: indexPath)
 
-            if let selectedOptionID = component.selectedOptionID {
-                cell.text = self.options[selectedOptionID].displayText
+            if let selectedOptionIndex = component.selectedOptionIndex {
+                cell.text = self.options[selectedOptionIndex].displayText
                 cell.state = .filled
             } else {
                 cell.text = nil
@@ -145,9 +145,9 @@ extension FillBlanksQuizCollectionViewAdapter: UICollectionViewDelegateFlowLayou
                 maxWidth: maxWidth
             )
         case .select:
-            if let selectedOptionID = component.selectedOptionID {
+            if let selectedOptionIndex = component.selectedOptionIndex {
                 return FillBlanksSelectCollectionViewCell.calculatePreferredContentSize(
-                    text: self.options[selectedOptionID].displayText,
+                    text: self.options[selectedOptionIndex].displayText,
                     maxWidth: maxWidth
                 )
             } else {

@@ -86,11 +86,11 @@ extension StepQuizFillBlanksViewModel: StepQuizChildQuizInputProtocol {
             case .input:
                 return component.inputText ?? ""
             case .select:
-                guard let selectedOptionID = component.selectedOptionID else {
+                guard let selectedOptionIndex = component.selectedOptionIndex else {
                     return nil
                 }
 
-                return viewData.options[selectedOptionID].originalText
+                return viewData.options[selectedOptionIndex].originalText
             }
         }
 
@@ -118,7 +118,7 @@ StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String
         }
 
         let options = viewData.options
-        let selectedIndices = Set(viewData.components.compactMap(\.selectedOptionID))
+        let selectedIndices = Set(viewData.components.compactMap(\.selectedOptionIndex))
         let blanksCount = viewData.components.filter({ $0.type == .select }).count
 
         fillBlanksModuleOutput.handleStepQuizFillBlanksCurrentSelectModeState(
@@ -134,8 +134,8 @@ StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String
 
         let feedbackType: FeedbackGenerator.FeedbackType
 
-        if viewData.components[indexPath.row].selectedOptionID != nil {
-            components[indexPath.row].selectedOptionID = nil
+        if viewData.components[indexPath.row].selectedOptionIndex != nil {
+            components[indexPath.row].selectedOptionIndex = nil
             feedbackType = .impact(.light)
         } else {
             feedbackType = .selection
@@ -156,7 +156,7 @@ StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String
     }
 
     private static func getFirstSelectBlankComponentIndex(components: [StepQuizFillBlankComponent]) -> Int? {
-        components.firstIndex(where: { $0.type == .select && $0.selectedOptionID == nil })
+        components.firstIndex(where: { $0.type == .select && $0.selectedOptionIndex == nil })
     }
 }
 
@@ -172,7 +172,7 @@ extension StepQuizFillBlanksViewModel: StepQuizFillBlanksSelectOptionsOutputProt
 
         var components = viewData.components
 
-        components[currentSelectBlankComponentIndex].selectedOptionID = index
+        components[currentSelectBlankComponentIndex].selectedOptionIndex = index
         components[currentSelectBlankComponentIndex].isFirstResponder = false
 
         if let index = Self.getFirstSelectBlankComponentIndex(components: components) {

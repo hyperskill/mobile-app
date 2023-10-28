@@ -85,7 +85,7 @@ final class StepQuizFillBlanksViewDataMapper {
         case .input(let data):
             return [StepQuizFillBlankComponent(type: .input, inputText: data.inputText)]
         case .select(let data):
-            return [StepQuizFillBlankComponent(type: .select, selectedOptionID: data.selectedOptionId?.intValue)]
+            return [StepQuizFillBlankComponent(type: .select, selectedOptionIndex: data.selectedOptionIndex?.intValue)]
         }
     }
 
