@@ -1518,11 +1518,8 @@
 		2C198DFF2AEA831C00DCD35A /* StepQuizFillBlanksSelectOptions */ = {
 			isa = PBXGroup;
 			children = (
-				2C198E072AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift */,
-				2C198E002AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift */,
-				2C198E092AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift */,
-				2C198E062AEA86E800DCD35A /* Cell */,
 				2C6770972AEBDF2000E832AC /* InputOutput */,
+				2C44B32E2AECFF9600AE8C2B /* Views */,
 			);
 			path = StepQuizFillBlanksSelectOptions;
 			sourceTree = "<group>";
@@ -2002,6 +1999,33 @@
 			path = MokoResources;
 			sourceTree = "<group>";
 		};
+		2C44B32E2AECFF9600AE8C2B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C198E092AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift */,
+				2C44B32F2AECFF9D00AE8C2B /* UIKit */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2C44B32F2AECFF9D00AE8C2B /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				2C198E072AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift */,
+				2C198E002AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift */,
+				2C198E062AEA86E800DCD35A /* Cell */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		2C44B3302AECFFFC00AE8C2B /* InputOutput */ = {
+			isa = PBXGroup;
+			children = (
+				2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */,
+			);
+			path = InputOutput;
+			sourceTree = "<group>";
+		};
 		2C45E7C62A0FF7C900DFF32D /* Header */ = {
 			isa = PBXGroup;
 			children = (
@@ -2326,8 +2350,8 @@
 			isa = PBXGroup;
 			children = (
 				2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */,
-				2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */,
 				2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */,
+				2C44B3302AECFFFC00AE8C2B /* InputOutput */,
 				2C7CB6742ADFCB1E006F78DA /* ViewData */,
 				2C7CB6702ADFB985006F78DA /* Views */,
 			);

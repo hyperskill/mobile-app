@@ -173,8 +173,7 @@ extension StepQuizViewModel: StepQuizFillBlanksOutputProtocol {
         blanksCount: Int
     ) {
         guard let fillBlanksSelectOptionsModuleInput else {
-            assertionFailure("StepQuizViewModel: fillBlanksSelectOptionsModuleInput is nil")
-            return
+            return assertionFailure("StepQuizViewModel: fillBlanksSelectOptionsModuleInput is nil")
         }
 
         fillBlanksSelectOptionsModuleInput.update(

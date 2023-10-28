@@ -94,7 +94,7 @@ struct StepQuizView: View {
                     Spacer(minLength: fillBlanksSelectOptionsViewHeight)
                 }
             }
-            .bottomFillBlanksSelectOptionsView(
+            .bottomFillBlanksSelectOptionsOverlay(
                 buildFillBlanksSelectOptionsView(
                     quizType: viewData.quizType,
                     attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
@@ -112,36 +112,6 @@ struct StepQuizView: View {
                     }
                 }
             }
-        }
-    }
-
-    @ViewBuilder
-    private func buildFillBlanksSelectOptionsView(
-        quizType: StepQuizChildQuizType,
-        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded?
-    ) -> some View {
-        if case .fillBlanks(let mode) = quizType, mode == .select,
-           let attemptLoadedState {
-            StepQuizFillBlanksSelectOptionsViewWrapper(
-                moduleOutput: viewModel.childQuizModuleInput as? StepQuizFillBlanksSelectOptionsOutputProtocol,
-                moduleInput: { [weak viewModel] moduleInput in
-                    guard let viewModel else {
-                        return
-                    }
-
-                    viewModel.fillBlanksSelectOptionsModuleInput = moduleInput
-                },
-                isUserInteractionEnabled: StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState),
-                onNewHeight: { height in
-                    if fillBlanksSelectOptionsViewHeight != height {
-                        DispatchQueue.main.async {
-                            fillBlanksSelectOptionsViewHeight = height
-                        }
-                    }
-                }
-            )
-            .edgesIgnoringSafeArea(.all)
-            .frame(height: fillBlanksSelectOptionsViewHeight)
         }
     }
 
@@ -286,6 +256,37 @@ struct StepQuizView: View {
         }
     }
 
+    @ViewBuilder
+    private func buildFillBlanksSelectOptionsView(
+        quizType: StepQuizChildQuizType,
+        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded?
+    ) -> some View {
+        if case .fillBlanks(let mode) = quizType, mode == .select,
+           let attemptLoadedState {
+            StepQuizFillBlanksSelectOptionsViewWrapper(
+                moduleOutput: viewModel.childQuizModuleInput as? StepQuizFillBlanksSelectOptionsOutputProtocol,
+                moduleInput: { [weak viewModel] moduleInput in
+                    guard let viewModel else {
+                        return
+                    }
+
+                    viewModel.fillBlanksSelectOptionsModuleInput = moduleInput
+                },
+                isUserInteractionEnabled: StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState),
+                onNewHeight: { height in
+                    if fillBlanksSelectOptionsViewHeight != height {
+                        DispatchQueue.main.async {
+                            fillBlanksSelectOptionsViewHeight = height
+                        }
+                    }
+                }
+            )
+            .edgesIgnoringSafeArea(.all)
+            .frame(height: fillBlanksSelectOptionsViewHeight)
+            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+        }
+    }
+
     private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
         switch StepQuizFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
@@ -354,12 +355,12 @@ private extension StepQuizView {
     }
 }
 
-// MARK: - View (bottomFillBlanksSelectOptionsView) -
+// MARK: - View (bottomFillBlanksSelectOptionsOverlay) -
 
 @available(iOS, introduced: 13, deprecated: 15, message: "Use .safeAreaInset() directly")
 private extension View {
     @ViewBuilder
-    func bottomFillBlanksSelectOptionsView<OverlayContent: View>(_ overlayContent: OverlayContent) -> some View {
+    func bottomFillBlanksSelectOptionsOverlay<OverlayContent: View>(_ overlayContent: OverlayContent) -> some View {
         if #available(iOS 15.0, *) {
             self.safeAreaInset(
                 edge: .bottom,
