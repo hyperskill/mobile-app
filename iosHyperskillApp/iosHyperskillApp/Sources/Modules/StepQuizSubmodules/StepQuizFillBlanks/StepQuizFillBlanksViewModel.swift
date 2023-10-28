@@ -50,6 +50,7 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
         outputCurrentReply()
     }
 
+    @MainActor
     func doSelectComponent(at indexPath: IndexPath) {
         switch viewData.components[indexPath.row].type {
         case .input:
@@ -127,11 +128,17 @@ StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String
         )
     }
 
+    @MainActor
     private func selectModeHandleDidSelectComponent(at indexPath: IndexPath) {
         var components = viewData.components
 
-        if let selectedOptionID = viewData.components[indexPath.row].selectedOptionID {
+        let feedbackType: FeedbackGenerator.FeedbackType
+
+        if viewData.components[indexPath.row].selectedOptionID != nil {
             components[indexPath.row].selectedOptionID = nil
+            feedbackType = .impact(.light)
+        } else {
+            feedbackType = .selection
         }
 
         currentSelectBlankComponentIndex = indexPath.row
@@ -144,6 +151,8 @@ StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String
 
         outputCurrentReply()
         outputCurrentSelectModeState()
+
+        FeedbackGenerator(feedbackType: feedbackType).triggerFeedback()
     }
 
     private static func getFirstSelectBlankComponentIndex(components: [StepQuizFillBlankComponent]) -> Int? {

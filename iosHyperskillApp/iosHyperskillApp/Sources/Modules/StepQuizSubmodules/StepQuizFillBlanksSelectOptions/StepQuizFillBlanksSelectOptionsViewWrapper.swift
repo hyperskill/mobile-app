@@ -59,6 +59,8 @@ struct StepQuizFillBlanksSelectOptionsViewWrapper: UIViewRepresentable {
                 option: collectionViewAdapter.options[indexPath.row],
                 at: indexPath.row
             )
+
+            FeedbackGenerator(feedbackType: .selection).triggerFeedback()
         }
     }
 
