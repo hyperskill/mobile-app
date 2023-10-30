@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 
 object ProgressScreenFeature {
@@ -21,7 +22,8 @@ object ProgressScreenFeature {
         data class Content(
             val trackWithProgress: TrackWithProgress,
             val studyPlan: StudyPlan,
-            val profile: Profile
+            val profile: Profile,
+            val subscription: Subscription
         ) : TrackProgressState
     }
 
@@ -56,7 +58,8 @@ object ProgressScreenFeature {
         data class Success(
             val trackWithProgress: TrackWithProgress,
             val studyPlan: StudyPlan,
-            val profile: Profile
+            val profile: Profile,
+            val subscription: Subscription
         ) : TrackWithProgressFetchResult
     }
 

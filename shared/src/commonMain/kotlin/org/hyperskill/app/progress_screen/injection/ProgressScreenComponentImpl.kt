@@ -14,6 +14,7 @@ class ProgressScreenComponentImpl(
         get() = ProgressScreenFeatureBuilder.build(
             appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             appGraph.profileDataComponent.currentProfileStateRepository,
+            appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             trackInteractor = appGraph.buildTrackDataComponent().trackInteractor,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             progressesInteractor = appGraph.buildProgressesDataComponent().progressesInteractor,

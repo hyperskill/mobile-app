@@ -16,6 +16,7 @@ import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -27,6 +28,7 @@ internal object ProgressScreenFeatureBuilder {
     fun build(
         currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
         currentProfileStateRepository: CurrentProfileStateRepository,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         trackInteractor: TrackInteractor,
         projectsRepository: ProjectsRepository,
         progressesInteractor: ProgressesInteractor,
@@ -40,6 +42,7 @@ internal object ProgressScreenFeatureBuilder {
             config = ActionDispatcherOptions(),
             currentStudyPlanStateRepository = currentStudyPlanStateRepository,
             currentProfileStateRepository = currentProfileStateRepository,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             trackInteractor = trackInteractor,
             projectsRepository = projectsRepository,
             progressesInteractor = progressesInteractor,

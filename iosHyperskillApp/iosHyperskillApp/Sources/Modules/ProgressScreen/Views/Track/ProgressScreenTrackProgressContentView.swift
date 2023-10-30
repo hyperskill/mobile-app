@@ -31,13 +31,13 @@ struct ProgressScreenTrackProgressContentView: View {
     let completedTopicsPercentageLabel: String
     let completedTopicsPercentageProgress: Float
 
-    let appliedTopicsCountLabel: String
-    let appliedTopicsPercentageLabel: String
-    let appliedTopicsPercentageProgress: Float
+    let appliedTopicsCountLabel: String?
+    let appliedTopicsPercentageLabel: String?
+    let appliedTopicsPercentageProgress: Float?
 
     let timeToCompleteLabel: String?
 
-    let completedGraduateProjectsCount: Int
+    let completedGraduateProjectsCount: Int?
 
     let isCompleted: Bool
 
@@ -76,14 +76,18 @@ struct ProgressScreenTrackProgressContentView: View {
                 subtitle: Strings.ProgressScreen.Track.completedTopics
             )
 
-            ProgressScreenCardView(
-                appearance: appearance.cardAppearance,
-                title: appliedTopicsCountLabel,
-                titleSecondaryText: appliedTopicsPercentageLabel,
-                imageResource: .hammer,
-                progress: .init(value: appliedTopicsPercentageProgress, isCompleted: isCompleted),
-                subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
-            )
+            if let appliedTopicsCountLabel,
+               let appliedTopicsPercentageLabel,
+               let appliedTopicsPercentageProgress {
+                ProgressScreenCardView(
+                    appearance: appearance.cardAppearance,
+                    title: appliedTopicsCountLabel,
+                    titleSecondaryText: appliedTopicsPercentageLabel,
+                    imageResource: .hammer,
+                    progress: .init(value: appliedTopicsPercentageProgress, isCompleted: isCompleted),
+                    subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
+                )
+            }
 
             HStack(alignment: .top, spacing: appearance.interitemSpacing) {
                 if let timeToCompleteLabel {
@@ -97,15 +101,17 @@ struct ProgressScreenTrackProgressContentView: View {
                     )
                 }
 
-                ProgressScreenCardView(
-                    appearance: appearance.cardAppearance,
-                    title: "\(completedGraduateProjectsCount)",
-                    titleSecondaryText: nil,
-                    imageResource: .projectSelectionListProjectGraduate,
-                    imageRenderingMode: .original,
-                    progress: nil,
-                    subtitle: Strings.ProgressScreen.Track.completedGraduateProject
-                )
+                if let completedGraduateProjectsCount {
+                    ProgressScreenCardView(
+                        appearance: appearance.cardAppearance,
+                        title: "\(completedGraduateProjectsCount)",
+                        titleSecondaryText: nil,
+                        imageResource: .projectSelectionListProjectGraduate,
+                        imageRenderingMode: .original,
+                        progress: nil,
+                        subtitle: Strings.ProgressScreen.Track.completedGraduateProject
+                    )
+                }
             }
         }
     }
