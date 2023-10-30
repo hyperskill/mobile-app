@@ -30,35 +30,25 @@ struct StepQuizFillBlanksSkeletonView: View {
     private var content: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             HStack(spacing: appearance.interitemSpacing) {
-                textView
-                    .frame(width: appearance.textWidthDefault)
+                textView(width: appearance.textWidthDefault)
                 blankView
-                textView
-                    .frame(width: appearance.textWidthSmall)
-                textView
-                    .frame(width: appearance.textWidthLarge)
-                textView
-                    .frame(width: appearance.textWidthSmall)
+                textView(width: appearance.textWidthSmall)
+                textView(width: appearance.textWidthLarge)
+                textView(width: appearance.textWidthSmall)
             }
 
             HStack(spacing: appearance.interitemSpacing) {
-                textView
-                    .frame(width: appearance.textWidthLarge)
-                textView
-                    .frame(width: appearance.textWidthSmall)
-                textView
-                    .frame(width: appearance.textWidthLarge)
+                textView(width: appearance.textWidthLarge)
+                textView(width: appearance.textWidthSmall)
+                textView(width: appearance.textWidthLarge)
                 blankView
             }
 
             HStack(spacing: appearance.interitemSpacing) {
                 blankView
-                textView
-                    .frame(width: appearance.textWidthSmall)
-                textView
-                    .frame(width: appearance.textWidthExtraLarge)
-                textView
-                    .frame(width: appearance.textWidthSmall)
+                textView(width: appearance.textWidthSmall)
+                textView(width: appearance.textWidthExtraLarge)
+                textView(width: appearance.textWidthSmall)
                 Spacer()
             }
         }
@@ -66,15 +56,15 @@ struct StepQuizFillBlanksSkeletonView: View {
         .background(BackgroundView())
     }
 
-    private var textView: some View {
-        SkeletonRoundedView()
-            .frame(height: appearance.textHeight)
-    }
-
     private var blankView: some View {
         Color.clear
             .frame(size: appearance.blankSize)
             .addBorder()
+    }
+
+    private func textView(width: CGFloat) -> some View {
+        SkeletonRoundedView()
+            .frame(width: width, height: appearance.textHeight)
     }
 }
 
