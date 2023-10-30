@@ -8,6 +8,7 @@ struct StepQuizFillBlanksView: View {
     var body: some View {
         FillBlanksQuizViewWrapper(
             components: viewModel.viewData.components,
+            options: viewModel.viewData.options,
             isUserInteractionEnabled: isEnabled,
             onInputDidChange: viewModel.doInputTextUpdate(_:for:),
             onDidSelectComponent: viewModel.doSelectComponent(at:),

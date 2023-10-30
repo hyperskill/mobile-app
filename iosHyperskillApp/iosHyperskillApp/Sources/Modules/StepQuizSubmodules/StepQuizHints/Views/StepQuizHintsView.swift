@@ -4,8 +4,8 @@ import SwiftUI
 
 extension StepQuizHintsView {
     struct Appearance {
-        var skeletonInitialHeight: CGFloat = 34
-        var skeletonHintHeight: CGFloat = 152
+        let skeletonInitialSize = CGSize(width: 146, height: 34)
+        let skeletonHintHeight: CGFloat = 152
     }
 }
 
@@ -31,10 +31,10 @@ struct StepQuizHintsView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.stateKs {
-        case .idle:
+        case .idle, .initialLoading:
             SkeletonRoundedView()
-                .frame(height: appearance.skeletonInitialHeight)
-        case .initialLoading, .hintLoading:
+                .frame(size: appearance.skeletonInitialSize)
+        case .hintLoading:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonHintHeight)
         case .error:

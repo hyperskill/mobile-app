@@ -26,7 +26,7 @@ final class StepQuizFillBlanksViewDataMapper {
 
     func mapToViewData(dataset: Dataset, reply: Reply?) -> StepQuizFillBlanksViewData {
         guard let fillBlanksData = fillBlanksItemMapper.map(dataset: dataset, reply: reply) else {
-            return .init(components: [])
+            return .init(components: [], options: [])
         }
 
         return mapFillBlanksDataToViewData(fillBlanksData)
@@ -42,7 +42,11 @@ final class StepQuizFillBlanksViewDataMapper {
             components[index].id = index
         }
 
-        return StepQuizFillBlanksViewData(components: components)
+        let options = fillBlanksData.options.map {
+            StepQuizFillBlankOption(originalText: $0.originalText, displayText: $0.displayText)
+        }
+
+        return StepQuizFillBlanksViewData(components: components, options: options)
     }
 
     private func mapFillBlanksItem(
@@ -80,6 +84,8 @@ final class StepQuizFillBlanksViewDataMapper {
             return result
         case .input(let data):
             return [StepQuizFillBlankComponent(type: .input, inputText: data.inputText)]
+        case .select(let data):
+            return [StepQuizFillBlankComponent(type: .select, selectedOptionIndex: data.selectedOptionIndex?.intValue)]
         }
     }
 

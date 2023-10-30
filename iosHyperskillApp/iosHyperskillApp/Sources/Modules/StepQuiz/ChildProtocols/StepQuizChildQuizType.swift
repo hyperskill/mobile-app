@@ -13,7 +13,7 @@ enum StepQuizChildQuizType {
     case number
     case math
     case parsons
-    case fillBlanks
+    case fillBlanks(mode: FillBlanksModeWrapper?)
     case unsupported(blockName: String)
 
     var isCodeRelated: Bool {
@@ -25,7 +25,13 @@ enum StepQuizChildQuizType {
         }
     }
 
-    init(step: Step) {
+    static func resolve(step: Step, datasetOrNil: Dataset?) -> StepQuizChildQuizType {
+        StepQuizChildQuizType(step: step, datasetOrNil: datasetOrNil)
+    }
+
+    private init(step: Step, datasetOrNil: Dataset?) {
+        let unsupportedQuizType = StepQuizChildQuizType.unsupported(blockName: step.block.name)
+
         if StepQuizResolver.shared.isQuizSupportable(step: step) {
             switch step.block.name {
             case BlockName.shared.CHOICE:
@@ -51,12 +57,31 @@ enum StepQuizChildQuizType {
             case BlockName.shared.PARSONS:
                 self = .parsons
             case BlockName.shared.FILL_BLANKS:
-                self = .fillBlanks
+                guard let dataset = datasetOrNil else {
+                    self = .fillBlanks(mode: nil)
+                    return
+                }
+
+                do {
+                    let sharedMode = try FillBlanksResolver.shared.resolve(dataset: dataset)
+
+                    switch FillBlanksModeWrapper(shared: sharedMode) {
+                    case .input:
+                        self = .fillBlanks(mode: .input)
+                    case .select:
+                        self = .fillBlanks(mode: .select)
+                    default:
+                        self = unsupportedQuizType
+                    }
+                } catch {
+                    assertionFailure("FillBlanksResolver: failed to resolve fill blanks with error = \(error)")
+                    self = unsupportedQuizType
+                }
             default:
-                self = .unsupported(blockName: step.block.name)
+                self = unsupportedQuizType
             }
         } else {
-            self = .unsupported(blockName: step.block.name)
+            self = unsupportedQuizType
         }
     }
 }

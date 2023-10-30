@@ -1,4 +1,4 @@
-package org.hyperskill.step_quiz
+package org.hyperskill.step_quiz_fill_blanks
 
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
@@ -18,6 +18,7 @@ class FillBlanksResolverTest {
                 and the rest ${FillBlanksConfig.BLANK_FIELD_CHAR}
             """.trimIndent()
     }
+
     @Test
     fun `Data set with empty components must fail resolving`() {
         assertResolvingFailed(
@@ -78,6 +79,78 @@ class FillBlanksResolverTest {
                 )
             )
         )
+    }
+
+    @Test
+    fun `All components of type SELECT must have the same options`() {
+        val correctTextComponent = Component(
+            type = Component.Type.TEXT,
+            text = TWO_BLANKS_TEXT
+        )
+
+        Dataset(
+            components = listOf(
+                correctTextComponent,
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1", "2")
+                ),
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("2", "1")
+                )
+            )
+        ).let(::assertResolvingPassed)
+
+        Dataset(
+            components = listOf(
+                correctTextComponent,
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1", "2")
+                ),
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1")
+                )
+            )
+        ).let(::assertResolvingFailed)
+    }
+
+    @Test
+    fun `Number of options in SELECT component must be greater or equal to number of blanks`() {
+        val correctTextComponent = Component(
+            type = Component.Type.TEXT,
+            text = TWO_BLANKS_TEXT
+        )
+
+        Dataset(
+            components = listOf(
+                correctTextComponent,
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1")
+                ),
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1")
+                )
+            )
+        ).let(::assertResolvingFailed)
+
+        Dataset(
+            components = listOf(
+                correctTextComponent,
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1", "1")
+                ),
+                Component(
+                    type = Component.Type.SELECT,
+                    options = listOf("1", "1")
+                )
+            )
+        ).let(::assertResolvingPassed)
     }
 
     private fun getComponentsDataSet(vararg componentTypes: Component.Type): Dataset =

@@ -28,4 +28,17 @@ sealed interface FillBlanksItem : Identifiable<Int> {
         override val id: Int,
         val inputText: String?
     ) : FillBlanksItem
+
+    /**
+     * Represents a select fill-in-the-blank item in a quiz.
+     *
+     * @property id The order number in a list of items.
+     * @property selectedOptionIndex The order number in a list of options. Null if no option is selected.
+     *
+     * @see FillBlanksData.options
+     */
+    data class Select(
+        override val id: Int,
+        val selectedOptionIndex: Int?
+    ) : FillBlanksItem
 }
