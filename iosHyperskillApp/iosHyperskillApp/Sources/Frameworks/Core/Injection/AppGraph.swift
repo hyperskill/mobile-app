@@ -3,7 +3,7 @@ import shared
 
 private final class AppGraph: IosAppComponentImpl {
     override func getIosFCMTokenProvider() -> IosFCMTokenProvider {
-        IosFCMTokenProviderImpl()
+        IosFCMTokenProviderImpl.shared
     }
 }
 

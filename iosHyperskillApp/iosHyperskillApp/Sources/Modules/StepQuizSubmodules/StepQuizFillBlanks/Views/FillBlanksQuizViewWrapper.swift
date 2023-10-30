@@ -4,6 +4,7 @@ import UIKit
 
 struct FillBlanksQuizViewWrapper: UIViewRepresentable {
     let components: [StepQuizFillBlankComponent]
+    let options: [StepQuizFillBlankOption]
     let isUserInteractionEnabled: Bool
 
     var onInputDidChange: ((String, StepQuizFillBlankComponent) -> Void)?
@@ -29,6 +30,7 @@ struct FillBlanksQuizViewWrapper: UIViewRepresentable {
         let shouldUpdateCollectionViewData = collectionViewAdapter.components != components
 
         collectionViewAdapter.components = components
+        collectionViewAdapter.options = options
         collectionViewAdapter.isUserInteractionEnabled = isUserInteractionEnabled
 
         if shouldUpdateCollectionViewData {
