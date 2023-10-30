@@ -31,7 +31,9 @@ struct ProgressScreenTrackProgressContentView: View {
     let completedTopicsPercentageLabel: String
     let completedTopicsPercentageProgress: Float
 
-    let appliedTopicsState: ProgressScreenViewStateTrackProgressViewStateContentAppliedTopicsStateKs
+    let appliedTopicsCountLabel: String?
+    let appliedTopicsPercentageLabel: String?
+    let appliedTopicsPercentageProgress: Float?
 
     let timeToCompleteLabel: String?
 
@@ -74,13 +76,15 @@ struct ProgressScreenTrackProgressContentView: View {
                 subtitle: Strings.ProgressScreen.Track.completedTopics
             )
 
-            if case .content(let appliedTopicsStateContent) = appliedTopicsState {
+            if let appliedTopicsCountLabel,
+               let appliedTopicsPercentageLabel,
+               let appliedTopicsPercentageProgress {
                 ProgressScreenCardView(
                     appearance: appearance.cardAppearance,
-                    title: appliedTopicsStateContent.countLabel,
-                    titleSecondaryText: appliedTopicsStateContent.percentageLabel,
+                    title: appliedTopicsCountLabel,
+                    titleSecondaryText: appliedTopicsPercentageLabel,
                     imageResource: .hammer,
-                    progress: .init(value: appliedTopicsStateContent.percentageProgress, isCompleted: isCompleted),
+                    progress: .init(value: appliedTopicsPercentageProgress, isCompleted: isCompleted),
                     subtitle: Strings.ProgressScreen.Track.appliedCoreTopics
                 )
             }
@@ -126,13 +130,9 @@ struct ProgressScreenTrackProgressContentView: View {
         completedTopicsCountLabel: "0 / 149",
         completedTopicsPercentageLabel: "• 98%",
         completedTopicsPercentageProgress: 0,
-        appliedTopicsState: .content(
-            .init(
-                countLabel: "0 / 138",
-                percentageLabel: "• 0%",
-                percentageProgress: 0
-            )
-        ),
+        appliedTopicsCountLabel: "0 / 138",
+        appliedTopicsPercentageLabel: "• 0%",
+        appliedTopicsPercentageProgress: 0,
         timeToCompleteLabel: "~ 56 h",
         completedGraduateProjectsCount: 0,
         isCompleted: false,
