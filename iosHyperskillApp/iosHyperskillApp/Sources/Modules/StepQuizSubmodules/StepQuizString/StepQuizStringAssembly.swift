@@ -15,7 +15,7 @@ final class StepQuizStringAssembly: StepQuizChildQuizAssembly {
     private let dataset: Dataset
     private let reply: Reply?
 
-    private var dataType = StepQuizStringDataType.string
+    private let dataType: StepQuizStringDataType
 
     init(
         dataType: StepQuizStringDataType,
@@ -33,6 +33,7 @@ final class StepQuizStringAssembly: StepQuizChildQuizAssembly {
         self.moduleOutput = moduleOutput
     }
 
+    // swiftlint:disable:next unavailable_function
     init(
         step: Step,
         dataset: Dataset,
@@ -40,11 +41,7 @@ final class StepQuizStringAssembly: StepQuizChildQuizAssembly {
         provideModuleInputCallback: @escaping (StepQuizChildQuizInputProtocol?) -> Void,
         moduleOutput: StepQuizChildQuizOutputProtocol?
     ) {
-        self.step = step
-        self.dataset = dataset
-        self.reply = reply
-        self.provideModuleInputCallback = provideModuleInputCallback
-        self.moduleOutput = moduleOutput
+        fatalError("init(step:dataset:reply:provideModuleInputCallback:moduleOutput:) has not been implemented")
     }
 
     func makeModule() -> StepQuizStringView {
