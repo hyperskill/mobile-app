@@ -1,4 +1,3 @@
-import shared
 import SwiftUI
 
 extension ProgressScreenTrackProgressContentView {
@@ -128,7 +127,7 @@ struct ProgressScreenTrackProgressContentView: View {
         completedTopicsPercentageLabel: "• 98%",
         completedTopicsPercentageProgress: 0,
         appliedTopicsState: .content(
-            ProgressScreenViewStateTrackProgressViewStateContentAppliedTopicsStateContent(
+            .init(
                 countLabel: "0 / 138",
                 percentageLabel: "• 0%",
                 percentageProgress: 0
