@@ -21,8 +21,7 @@ enum StepQuizSkeletonViewFactory {
         case .parsons:
             StepQuizParsonsSkeletonView()
         case .fillBlanks:
-            #warning("TODO: FillBlanks skeleton view")
-            StepQuizParsonsSkeletonView()
+            StepQuizFillBlanksSkeletonView()
         case .unsupported:
             SkeletonRoundedView()
                 .frame(height: 100)

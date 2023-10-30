@@ -166,6 +166,7 @@
 		2C48232B2AC172600047999B /* LaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C48232A2AC172600047999B /* LaunchTests.swift */; };
 		2C4823322AC1768A0047999B /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4823312AC1768A0047999B /* LaunchPerformanceTests.swift */; };
 		2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */ = {isa = PBXBuildFile; fileRef = 2C49CC912851D4AC0040BA7F /* altcontent.css */; };
+		2C4D6EF42AEF9ECC000064C7 /* StepQuizFillBlanksSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4D6EF32AEF9ECC000064C7 /* StepQuizFillBlanksSkeletonView.swift */; };
 		2C4F639B2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639A2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift */; };
 		2C4F639E2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F639D2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift */; };
 		2C4F63A12A102D3300D4EE39 /* SharedProjectLevelWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F63A02A102D3300D4EE39 /* SharedProjectLevelWrapper.swift */; };
@@ -801,6 +802,7 @@
 		2C4823332AC177AF0047999B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C49CC912851D4AC0040BA7F /* altcontent.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = altcontent.css; sourceTree = "<group>"; };
 		2C4D3CB2289689F40079B461 /* iosHyperskillApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iosHyperskillApp.entitlements; sourceTree = "<group>"; };
+		2C4D6EF32AEF9ECC000064C7 /* StepQuizFillBlanksSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSkeletonView.swift; sourceTree = "<group>"; };
 		2C4F639A2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridView.swift; sourceTree = "<group>"; };
 		2C4F639D2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridSectionView.swift; sourceTree = "<group>"; };
 		2C4F63A02A102D3300D4EE39 /* SharedProjectLevelWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedProjectLevelWrapper.swift; sourceTree = "<group>"; };
@@ -2362,6 +2364,7 @@
 			isa = PBXGroup;
 			children = (
 				2C7CB6872ADFF57D006F78DA /* FillBlanksQuizViewWrapper.swift */,
+				2C4D6EF32AEF9ECC000064C7 /* StepQuizFillBlanksSkeletonView.swift */,
 				2C7CB66E2ADFB96F006F78DA /* StepQuizFillBlanksView.swift */,
 				2C7CB6792ADFD985006F78DA /* UIKit */,
 			);
@@ -4291,6 +4294,7 @@
 				2C6770992AEBDF3A00E832AC /* StepQuizFillBlanksSelectOptionsInputProtocol.swift in Sources */,
 				2C078CE52AE26CB400D97E24 /* FillBlanksQuizTitleView.swift in Sources */,
 				2C93C2D8292EBBB5004D1861 /* AuthSocialFeatureStateKsExtensions.swift in Sources */,
+				2C4D6EF42AEF9ECC000064C7 /* StepQuizFillBlanksSkeletonView.swift in Sources */,
 				E9101713283296F3002E70F5 /* RadioButton.swift in Sources */,
 				2C68FD7C2ABC1FF700D9EBE2 /* NotificationsOnboardingContentView.swift in Sources */,
 				2C20FBC2284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift in Sources */,
