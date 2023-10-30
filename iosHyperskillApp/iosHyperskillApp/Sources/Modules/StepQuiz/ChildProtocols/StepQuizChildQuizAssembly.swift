@@ -108,8 +108,9 @@ enum StepQuizChildQuizViewFactory {
                 moduleOutput: moduleOutput
             )
             .makeModule()
-        case .fillBlanks:
+        case .fillBlanks(let mode):
             StepQuizFillBlanksAssembly(
+                mode: mode.require(),
                 step: step,
                 dataset: dataset,
                 reply: reply,

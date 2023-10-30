@@ -38,6 +38,9 @@ struct ProgressScreenTrackProgressView: View {
             )
             .cornerRadius(appearance.cardCornerRadius)
         case .content(let data):
+            let appliedTopicsContentState =
+              data.appliedTopicsState as? ProgressScreenViewStateTrackProgressViewStateContentAppliedTopicsStateContent
+
             ProgressScreenTrackProgressContentView(
                 appearance: .init(
                     spacing: appearance.spacing,
@@ -50,11 +53,11 @@ struct ProgressScreenTrackProgressView: View {
                 completedTopicsCountLabel: data.completedTopicsCountLabel,
                 completedTopicsPercentageLabel: data.completedTopicsPercentageLabel,
                 completedTopicsPercentageProgress: data.completedTopicsPercentageProgress,
-                appliedTopicsCountLabel: data.appliedTopicsCountLabel,
-                appliedTopicsPercentageLabel: data.appliedTopicsPercentageLabel,
-                appliedTopicsPercentageProgress: data.appliedTopicsPercentageProgress,
+                appliedTopicsCountLabel: appliedTopicsContentState?.countLabel,
+                appliedTopicsPercentageLabel: appliedTopicsContentState?.percentageLabel,
+                appliedTopicsPercentageProgress: appliedTopicsContentState?.percentageProgress,
                 timeToCompleteLabel: data.timeToCompleteLabel,
-                completedGraduateProjectsCount: Int(data.completedGraduateProjectsCount),
+                completedGraduateProjectsCount: data.completedGraduateProjectsCount?.intValue,
                 isCompleted: data.isCompleted,
                 onChangeTrackTap: onChangeTrackTap
             )

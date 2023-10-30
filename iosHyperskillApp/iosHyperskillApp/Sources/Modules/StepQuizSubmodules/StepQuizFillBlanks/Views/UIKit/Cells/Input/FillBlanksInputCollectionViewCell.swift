@@ -17,8 +17,8 @@ extension FillBlanksInputCollectionViewCell {
 final class FillBlanksInputCollectionViewCell: UICollectionViewCell, Reusable {
     var appearance = Appearance()
 
-    private lazy var inputContainerView: FillBlanksQuizInputContainerView = {
-        let view = FillBlanksQuizInputContainerView(
+    private lazy var inputContainerView: FillBlanksInputContainerView = {
+        let view = FillBlanksInputContainerView(
             appearance: .init(cornerRadius: self.appearance.cornerRadius)
         )
         return view
@@ -53,7 +53,7 @@ final class FillBlanksInputCollectionViewCell: UICollectionViewCell, Reusable {
         }
     }
 
-    var state: FillBlanksQuizInputContainerView.State {
+    var state: FillBlanksInputContainerView.State {
         get {
             self.inputContainerView.state
         }

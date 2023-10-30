@@ -24,16 +24,24 @@ data class ProgressScreenViewState(
             val completedTopicsPercentageLabel: String,
             val completedTopicsPercentageProgress: Float,
 
-            val appliedTopicsCountLabel: String,
-            val appliedTopicsPercentageLabel: String,
-            val appliedTopicsPercentageProgress: Float,
+            val appliedTopicsState: AppliedTopicsState,
 
             val timeToCompleteLabel: String?,
 
-            val completedGraduateProjectsCount: Int,
+            val completedGraduateProjectsCount: Int?,
 
             val isCompleted: Boolean
-        ) : TrackProgressViewState
+        ) : TrackProgressViewState {
+            sealed interface AppliedTopicsState {
+                data class Content(
+                    val countLabel: String,
+                    val percentageLabel: String,
+                    val percentageProgress: Float
+                ) : AppliedTopicsState
+
+                object Empty : AppliedTopicsState
+            }
+        }
     }
 
     sealed interface ProjectProgressViewState {

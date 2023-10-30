@@ -15,6 +15,7 @@ import org.hyperskill.app.android.step_quiz_fill_blanks.dialog.FillBlanksInputDi
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.model.InvalidFillBlanksConfigException
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
@@ -37,7 +38,8 @@ class FillBlanksStepQuizFormDelegate(
         )
     }
 
-    private val fillBlanksMapper: FillBlanksItemMapper = FillBlanksItemMapper()
+    // TODO: ALTAPPS-1021 provide corresponding mode
+    private val fillBlanksMapper: FillBlanksItemMapper = FillBlanksItemMapper(mode = FillBlanksMode.INPUT)
 
     private var resolveState: ResolveState = ResolveState.NOT_RESOLVED
 
@@ -79,8 +81,11 @@ class FillBlanksStepQuizFormDelegate(
             val dataset = state.attempt.dataset
             if (dataset != null) {
                 try {
-                    FillBlanksResolver.resolve(dataset)
-                    ResolveState.RESOLVE_SUCCEED
+                    // TODO: ALTAPPS-1021 handle resolve state
+                    when (FillBlanksResolver.resolve(dataset)) {
+                        FillBlanksMode.INPUT -> ResolveState.RESOLVE_SUCCEED
+                        FillBlanksMode.SELECT -> ResolveState.RESOLVE_FAILED
+                    }
                 } catch (e: InvalidFillBlanksConfigException) {
                     ResolveState.RESOLVE_FAILED
                 }
@@ -97,6 +102,10 @@ class FillBlanksStepQuizFormDelegate(
                 when (item) {
                     is FillBlanksItem.Input -> item.inputText
                     is FillBlanksItem.Text -> null
+                    is FillBlanksItem.Select -> {
+                        // TODO: ALTAPPS-1021 provide reply blanks for select mode
+                        null
+                    }
                 }
             }
         )
