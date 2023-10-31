@@ -42,6 +42,8 @@ data class Profile(
     val isStaff: Boolean,
     @SerialName("track_id")
     val trackId: Long?,
+    @SerialName("project")
+    val projectId: Long?,
     @SerialName("track_title")
     val trackTitle: String?,
     @SerialName("is_beta")
