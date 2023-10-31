@@ -1,12 +1,13 @@
-package org.hyperskill.step_quiz
+package org.hyperskill.step_quiz_fill_blanks
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper
 
-class FillBlanksMapperTest {
+class FillBlanksMapperInputModeTest {
     /* ktlint-disable */
     companion object {
         private const val LANGUAGE_NAME = "typescript"
@@ -32,12 +33,12 @@ class FillBlanksMapperTest {
             FillBlanksItem.Text(9, text = "def function2() ", startsWithNewLine = true),
             FillBlanksItem.Input(10, secondReply),
             FillBlanksItem.Text(11, ":", startsWithNewLine = false),
-            FillBlanksItem.Text(12,"&nbsp;&nbsp;&nbsp;&nbsp;return {1, 2, 3, 4} ", startsWithNewLine = true)
+            FillBlanksItem.Text(12, "&nbsp;&nbsp;&nbsp;&nbsp;return {1, 2, 3, 4} ", startsWithNewLine = true)
         )
 
     @Test
     fun `FillBlanksMapper should correctly split text`() {
-        val result = FillBlanksItemMapper().map(
+        val result = FillBlanksItemMapper(FillBlanksMode.INPUT).map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -59,7 +60,7 @@ class FillBlanksMapperTest {
     fun `FillBlanksMapper should use reply for inputs`() {
         val firstReply = "1"
         val secondReply = "2"
-        val result = FillBlanksItemMapper().map(
+        val result = FillBlanksItemMapper(FillBlanksMode.INPUT).map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -82,7 +83,7 @@ class FillBlanksMapperTest {
 
     @Test
     fun `FillBlanksMapper should extract language name from the CODE tag`() {
-        val result = FillBlanksItemMapper().map(
+        val result = FillBlanksItemMapper(FillBlanksMode.INPUT).map(
             componentsDataset = listOf(
                 Component(
                     type = Component.Type.TEXT,
@@ -96,7 +97,7 @@ class FillBlanksMapperTest {
 
     @Test
     fun `Second call to the FillBlanksMapper should return correct result`() {
-        val mapper = FillBlanksItemMapper()
+        val mapper = FillBlanksItemMapper(FillBlanksMode.INPUT)
         val components = listOf(
             Component(
                 type = Component.Type.TEXT,
@@ -128,7 +129,7 @@ class FillBlanksMapperTest {
 
     @Test
     fun `Second call to the FillBlanksMapper should return the same language`() {
-        val mapper = FillBlanksItemMapper()
+        val mapper = FillBlanksItemMapper(FillBlanksMode.INPUT)
         val componentsDataset = listOf(
             Component(
                 type = Component.Type.TEXT,

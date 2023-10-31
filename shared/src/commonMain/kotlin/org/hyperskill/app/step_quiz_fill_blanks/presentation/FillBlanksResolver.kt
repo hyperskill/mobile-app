@@ -3,13 +3,14 @@ package org.hyperskill.app.step_quiz_fill_blanks.presentation
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.model.InvalidFillBlanksConfigException
 import ru.nobird.app.core.model.slice
 
 object FillBlanksResolver {
 
     @Throws(InvalidFillBlanksConfigException::class)
-    fun resolve(dataset: Dataset) {
+    fun resolve(dataset: Dataset): FillBlanksMode {
         if (dataset.components.isNullOrEmpty()) {
             throw InvalidFillBlanksConfigException("Components should not be empty")
         }
@@ -22,17 +23,44 @@ object FillBlanksResolver {
         val blanksComponents = dataset.components.slice(from = 1)
 
         val isInputMode = blanksComponents.all { it.type == Component.Type.INPUT }
-        if (!isInputMode) {
-            throw InvalidFillBlanksConfigException("All components except the first must be of type \"input\"")
+        val isSelectMode = blanksComponents.all { it.type == Component.Type.SELECT }
+
+        if (!isInputMode && !isSelectMode) {
+            throw InvalidFillBlanksConfigException(
+                "All components except the first must be of type \"select\" or \"input\""
+            )
         }
 
         val blankFieldsCount = textComponent.text?.count { it == FillBlanksConfig.BLANK_FIELD_CHAR }
         if (blanksComponents.count() != blankFieldsCount) {
             throw InvalidFillBlanksConfigException(
-                """Number of blanks \"$FillBlanksConfig.BLANK_FIELD_CHAR\" in text component 
+                """Number of blanks \"${FillBlanksConfig.BLANK_FIELD_CHAR}\" in text component 
                     must be equal to number of components of type \"select\" or \"input\"
                     """.trimMargin()
             )
         }
+
+        if (isSelectMode) {
+            // It's impossible to use Set here because there could be duplicate options
+            val blankOptions = blanksComponents.first().options?.sorted() ?: emptyList()
+
+            if (blankOptions.count() < blankFieldsCount) {
+                throw InvalidFillBlanksConfigException(
+                    """"Number of options in component of type \"select\" must be greater or equal to number of blanks 
+                        \"${FillBlanksConfig.BLANK_FIELD_CHAR}\" in text component"    
+                    """.trimMargin()
+                )
+            }
+
+            if (blanksComponents.any { it.options?.sorted() != blankOptions }) {
+                throw InvalidFillBlanksConfigException(
+                    "All components of type \"select\" must have the same options"
+                )
+            }
+
+            return FillBlanksMode.SELECT
+        }
+
+        return FillBlanksMode.INPUT
     }
 }

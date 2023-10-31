@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-extension FillBlanksQuizInputContainerView {
+extension FillBlanksInputContainerView {
     struct Appearance {
         var cornerRadius: CGFloat = 18
         let borderWidth: CGFloat = 1
@@ -10,7 +10,7 @@ extension FillBlanksQuizInputContainerView {
     }
 }
 
-final class FillBlanksQuizInputContainerView: UIView {
+final class FillBlanksInputContainerView: UIView {
     let appearance: Appearance
 
     var state = State.default {

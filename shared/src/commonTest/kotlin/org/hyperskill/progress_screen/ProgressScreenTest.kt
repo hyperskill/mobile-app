@@ -3,6 +3,7 @@ package org.hyperskill.progress_screen
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
@@ -11,17 +12,21 @@ import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedC
 import org.hyperskill.app.progress_screen.domain.analytic.ProgressScreenClickedChangeTrackHyperskillAnalyticEvent
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenReducer
+import org.hyperskill.app.progress_screen.view.ProgressScreenViewState.TrackProgressViewState
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewStateMapper
 import org.hyperskill.app.projects.domain.model.Project
 import org.hyperskill.app.projects.domain.model.ProjectProgress
 import org.hyperskill.app.projects.domain.model.ProjectWithProgress
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.TrackProgress
 import org.hyperskill.app.track.domain.model.TrackWithProgress
 import org.hyperskill.profile.stub
 import org.hyperskill.projects_selection.stub
 import org.hyperskill.study_plan.domain.model.stub
+import org.hyperskill.subscriptions.stub
 import org.hyperskill.track.stub
 import org.hyperskill.track_selection.stub
 
@@ -60,7 +65,8 @@ class ProgressScreenTest {
             ProgressScreenFeature.TrackWithProgressFetchResult.Success(
                 TrackWithProgress(Track.stub(1), TrackProgress.stub(1)),
                 StudyPlan.stub(),
-                Profile.stub()
+                Profile.stub(),
+                Subscription.stub()
             )
         )
 
@@ -131,7 +137,8 @@ class ProgressScreenTest {
             trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
                 trackWithProgress = TrackWithProgress.stub(),
                 studyPlan = studyPlan,
-                profile = Profile.stub()
+                profile = Profile.stub(),
+                subscription = Subscription.stub()
             ),
             projectProgressState = ProgressScreenFeature.ProjectProgressState.Content(
                 projectWithProgress = ProjectWithProgress.stub(),
@@ -163,7 +170,8 @@ class ProgressScreenTest {
             trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
                 trackWithProgress = TrackWithProgress.stub(trackId = trackId),
                 studyPlan = studyPlan,
-                profile = Profile.stub()
+                profile = Profile.stub(),
+                subscription = Subscription.stub()
             ),
             projectProgressState = ProgressScreenFeature.ProjectProgressState.Content(
                 projectWithProgress = ProjectWithProgress.stub(),
@@ -185,5 +193,57 @@ class ProgressScreenTest {
                     it.analyticEvent is ProgressScreenClickedChangeProjectHyperskillAnalyticEvent
             }
         }
+    }
+
+    @Test
+    fun `User on freemium doesn't see applied topics and graduated projects`() {
+        val state = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
+                trackWithProgress = TrackWithProgress.stub(trackId = 1L, projects = listOf(1, 2, 3)),
+                studyPlan = StudyPlan.stub(),
+                profile = Profile.stub(),
+                subscription = Subscription.stub(type = SubscriptionType.FREEMIUM)
+            ),
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Empty,
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+
+        val viewState = viewStateMapper.map(state)
+
+        val trackProgressContentState = viewState.trackProgressViewState as TrackProgressViewState.Content
+
+        assertEquals(
+            TrackProgressViewState.Content.AppliedTopicsState.Empty,
+            trackProgressContentState.appliedTopicsState
+        )
+
+        assertNull(trackProgressContentState.completedGraduateProjectsCount)
+    }
+
+    @Test
+    fun `User on track without project doesn't see applied topics and graduated projects`() {
+        val state = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
+                trackWithProgress = TrackWithProgress.stub(trackId = 1L),
+                studyPlan = StudyPlan.stub(),
+                profile = Profile.stub(),
+                subscription = Subscription.stub()
+            ),
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Empty,
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+
+        val viewState = viewStateMapper.map(state)
+
+        val trackProgressContentState = viewState.trackProgressViewState as TrackProgressViewState.Content
+
+        assertEquals(
+            TrackProgressViewState.Content.AppliedTopicsState.Empty,
+            trackProgressContentState.appliedTopicsState
+        )
+
+        assertNull(trackProgressContentState.completedGraduateProjectsCount)
     }
 }

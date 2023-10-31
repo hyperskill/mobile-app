@@ -9,6 +9,8 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksOption
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper.Companion.WHITE_SPACE_HTML_STRING
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.slice
@@ -29,7 +31,7 @@ import ru.nobird.app.core.model.slice
  *
  * Fill the [FillBlanksItem.Input] with the data from [Reply].blanks or [Component].text with the type == "input".
  */
-class FillBlanksItemMapper {
+class FillBlanksItemMapper(private val mode: FillBlanksMode) {
     companion object {
         private const val LINE_BREAK_CHAR = '\n'
         private const val LANGUAGE_CLASS_PREFIX = "class=\"language-"
@@ -38,11 +40,15 @@ class FillBlanksItemMapper {
         private val DELIMITERS = charArrayOf(LINE_BREAK_CHAR, FillBlanksConfig.BLANK_FIELD_CHAR)
         private val contentRegex: Regex =
             "<pre><code(.*?)>(.*?)</code></pre>".toRegex(DotMatchesAllRegexOption)
+        private val blankOptionRegex: Regex =
+            "<code>(.*?)</code>".toRegex(DotMatchesAllRegexOption)
     }
 
     private var cachedLanguage: String? = null
     private var cachedItems: List<FillBlanksItem> = emptyList()
     private var inputItemIndices: List<Int> = emptyList()
+    private var selectItemIndices: List<Int> = emptyList()
+    private var cachedOptions: List<FillBlanksOption> = emptyList()
 
     fun map(attempt: Attempt, submission: Submission?): FillBlanksData? =
         attempt.dataset?.components?.let {
@@ -67,33 +73,67 @@ class FillBlanksItemMapper {
         if (cachedItems.isNotEmpty()) {
             return FillBlanksData(
                 fillBlanks = getCachedItems(cachedItems, componentsDataset, replyBlanks),
-                language = cachedLanguage
+                language = cachedLanguage,
+                options = cachedOptions
             )
         }
 
         val textComponent = componentsDataset.first()
         val rawText = textComponent.text ?: return null
 
+        val (langClass, content) = parseRawText(rawText)
+        val blanksComponents = componentsDataset.slice(from = 1)
+
+        val blankOptions = getBlankOptions(blanksComponents)
+
+        val fillBlanksItems = splitContent(
+            content = content,
+            produceInputItem = { id, inputIndex ->
+                FillBlanksItem.Input(
+                    id = id,
+                    inputText = getInputText(replyBlanks, blanksComponents, inputIndex),
+                )
+            },
+            produceSelectItem = { id, optionIndex ->
+                FillBlanksItem.Select(
+                    id = id,
+                    selectedOptionIndex = getSelectedOptionIndex(replyBlanks, blankOptions, optionIndex)
+                )
+            }
+        )
+
+        val language = langClass?.let(::parseLanguage)
+
+        this.cachedItems = fillBlanksItems
+        when (mode) {
+            FillBlanksMode.INPUT -> {
+                this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                    if (fillBlanksItem is FillBlanksItem.Input) index else null
+                }
+            }
+            FillBlanksMode.SELECT -> {
+                this.selectItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                    if (fillBlanksItem is FillBlanksItem.Select) index else null
+                }
+            }
+        }
+        this.cachedLanguage = language
+        this.cachedOptions = blankOptions
+
+        return FillBlanksData(
+            fillBlanks = fillBlanksItems,
+            language = language,
+            options = blankOptions
+        )
+    }
+
+    private fun parseRawText(rawText: String): Pair<String?, String> {
         val match = contentRegex.find(rawText)
         return if (match != null) {
             val (langClass, content) = match.destructured
-            val inputComponents = componentsDataset.slice(from = 1)
-            val fillBlanksItems = splitContent(content) { id, inputIndex ->
-                FillBlanksItem.Input(
-                    id = id,
-                    inputText = getInputText(replyBlanks, inputComponents, inputIndex),
-                )
-            }
-            val language = parseLanguage(langClass)
-            this.cachedItems = fillBlanksItems
-            this.cachedLanguage = langClass
-            this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
-                if (fillBlanksItem is FillBlanksItem.Input) index else null
-            }
-            this.cachedLanguage = language
-            FillBlanksData(fillBlanksItems, language)
+            Pair(langClass, content)
         } else {
-            null
+            Pair(null, rawText)
         }
     }
 
@@ -103,18 +143,37 @@ class FillBlanksItemMapper {
         replyBlanks: List<String>?
     ): List<FillBlanksItem> =
         cachedItems.mutate {
-            inputItemIndices.forEachIndexed { inputIndex, itemIndex ->
-                set(
-                    itemIndex,
-                    FillBlanksItem.Input(
-                        id = itemIndex,
-                        inputText = getInputText(
-                            replyBlanks = replyBlanks,
-                            inputComponents = components.slice(from = 1),
-                            inputIndex = inputIndex
+            when (mode) {
+                FillBlanksMode.INPUT -> {
+                    inputItemIndices.forEachIndexed { inputIndex, itemIndex ->
+                        set(
+                            itemIndex,
+                            FillBlanksItem.Input(
+                                id = itemIndex,
+                                inputText = getInputText(
+                                    replyBlanks = replyBlanks,
+                                    inputComponents = components.slice(from = 1),
+                                    inputIndex = inputIndex
+                                )
+                            )
                         )
-                    )
-                )
+                    }
+                }
+                FillBlanksMode.SELECT -> {
+                    selectItemIndices.forEachIndexed { optionIndex, itemIndex ->
+                        set(
+                            itemIndex,
+                            FillBlanksItem.Select(
+                                id = itemIndex,
+                                selectedOptionIndex = getSelectedOptionIndex(
+                                    replyBlanks = replyBlanks,
+                                    blankOptions = cachedOptions,
+                                    optionIndex = optionIndex
+                                )
+                            )
+                        )
+                    }
+                }
             }
         }
 
@@ -126,6 +185,17 @@ class FillBlanksItemMapper {
         replyBlanks?.getOrNull(inputIndex)
             ?: inputComponents.getOrNull(inputIndex)?.text
 
+    private fun getSelectedOptionIndex(
+        replyBlanks: List<String>?,
+        blankOptions: List<FillBlanksOption>,
+        optionIndex: Int
+    ): Int? {
+        val replyOption = replyBlanks?.getOrNull(optionIndex) ?: return null
+        return blankOptions
+            .indexOfFirst { it.originalText == replyOption }
+            .takeIf { it != -1 }
+    }
+
     private fun parseLanguage(langClass: String): String? =
         langClass
             .trimIndent()
@@ -134,7 +204,8 @@ class FillBlanksItemMapper {
 
     private fun splitContent(
         content: String,
-        produceInputItem: (id: Int, inputIndex: Int) -> FillBlanksItem.Input
+        produceInputItem: (id: Int, inputIndex: Int) -> FillBlanksItem.Input,
+        produceSelectItem: (id: Int, optionIndex: Int) -> FillBlanksItem.Select
     ): List<FillBlanksItem> {
         var nextDelimiterIndex = content.indexOfAny(DELIMITERS)
         if (nextDelimiterIndex == -1) {
@@ -149,7 +220,7 @@ class FillBlanksItemMapper {
         return buildList {
             var currentOffset = 0
             var previousDelimiterIsLineBreak = false
-            var inputIndex = 0
+            var blankIndex = 0
             var id = 0
             do {
                 add(
@@ -159,14 +230,17 @@ class FillBlanksItemMapper {
                         startsWithNewLine = previousDelimiterIsLineBreak
                     )
                 )
-
                 val delimiter = content[nextDelimiterIndex]
                 if (delimiter == FillBlanksConfig.BLANK_FIELD_CHAR) {
-                    add(
-                        produceInputItem(id++, inputIndex++)
-                    )
+                    when (mode) {
+                        FillBlanksMode.INPUT -> {
+                            add(produceInputItem(id++, blankIndex++))
+                        }
+                        FillBlanksMode.SELECT -> {
+                            add(produceSelectItem(id++, blankIndex++))
+                        }
+                    }
                 }
-
                 previousDelimiterIsLineBreak = delimiter == LINE_BREAK_CHAR
                 currentOffset = nextDelimiterIndex + 1 // skip delimiter, start with the next index
                 nextDelimiterIndex = content.indexOfAny(DELIMITERS, currentOffset)
@@ -198,6 +272,30 @@ class FillBlanksItemMapper {
                 append(text.trimStart())
             },
             startsWithNewLine = startsWithNewLine
+        )
+    }
+
+    private fun getBlankOptions(blanksComponents: List<Component>): List<FillBlanksOption> =
+        when (mode) {
+            FillBlanksMode.INPUT -> emptyList()
+            FillBlanksMode.SELECT -> {
+                val blankOptions = blanksComponents.first().options ?: emptyList()
+                blankOptions.map(::mapBlankOption)
+            }
+        }
+
+    private fun mapBlankOption(originalText: String): FillBlanksOption {
+        var displayText = originalText
+
+        val match = blankOptionRegex.find(originalText)
+        if (match != null) {
+            val (option) = match.destructured
+            displayText = option
+        }
+
+        return FillBlanksOption(
+            originalText = originalText,
+            displayText = displayText
         )
     }
 }

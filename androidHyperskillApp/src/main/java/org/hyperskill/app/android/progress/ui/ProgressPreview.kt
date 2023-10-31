@@ -13,9 +13,11 @@ object ProgressPreview {
             completedTopicsCountLabel = "0 / 147",
             completedTopicsPercentageLabel = "34%",
             completedTopicsPercentageProgress = 0.34f,
-            appliedTopicsCountLabel = "34 / 150",
-            appliedTopicsPercentageLabel = "67",
-            appliedTopicsPercentageProgress = 0.67f,
+            appliedTopicsState = ProgressScreenViewState.TrackProgressViewState.Content.AppliedTopicsState.Content(
+                countLabel = "34 / 150",
+                percentageLabel = "67",
+                percentageProgress = 0.67f
+            ),
             timeToCompleteLabel = "~ 56h",
             completedGraduateProjectsCount = 50,
             isCompleted = isCompleted

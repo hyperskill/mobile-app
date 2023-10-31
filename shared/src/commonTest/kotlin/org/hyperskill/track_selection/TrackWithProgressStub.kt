@@ -13,7 +13,8 @@ fun TrackWithProgress.Companion.stub(
     skippedTopicsCount: Int = 0,
     topicsCount: Int = 1,
     appliedCapstoneTopicsCount: Int = 0,
-    capstoneTopicsCount: Int = 0
+    capstoneTopicsCount: Int = 0,
+    projects: List<Long> = emptyList()
 ): TrackWithProgress =
     TrackWithProgress(
         track = Track.stub(
@@ -21,7 +22,8 @@ fun TrackWithProgress.Companion.stub(
             canIssueCertificate = canIssueCertificate,
             topicProviders = topicsProviders,
             topicsCount = topicsCount,
-            capstoneTopicsCount = capstoneTopicsCount
+            capstoneTopicsCount = capstoneTopicsCount,
+            projects = projects
         ),
         trackProgress = TrackProgress.stub(
             trackId,

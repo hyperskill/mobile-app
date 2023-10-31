@@ -121,7 +121,8 @@ internal class ProgressScreenReducer : StateReducer<State, Message, Action> {
                     TrackProgressState.Content(
                         trackWithProgress = message.trackWithProgress,
                         studyPlan = message.studyPlan,
-                        profile = message.profile
+                        profile = message.profile,
+                        subscription = message.subscription
                     )
             },
             isTrackProgressRefreshing = false

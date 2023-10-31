@@ -10,5 +10,7 @@ data class Gamification(
     @SerialName("passed_projects")
     val passedProjectsCount: Int = 0,
     @SerialName("passed_topics")
-    val passedTopicsCount: Int = 0
+    val passedTopicsCount: Int = 0,
+    @SerialName("passed_problems")
+    val passedProblems: Int = 0
 )
