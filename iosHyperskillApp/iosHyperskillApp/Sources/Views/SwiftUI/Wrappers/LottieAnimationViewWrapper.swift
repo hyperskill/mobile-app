@@ -10,13 +10,13 @@ struct LottieAnimationFileName {
 struct LottieAnimationViewWrapper: UIViewRepresentable {
     let fileName: LottieAnimationFileName
 
+    @Environment(\.colorScheme) var colorScheme
+
     func makeUIView(context: Context) -> some UIView {
         let view = UIView(frame: .zero)
 
-        let fileNameForCurrentInterfaceStyle = view.isDarkInterfaceStyle ? fileName.dark : fileName.light
-
         let animationView = LottieAnimationView()
-        animationView.animation = LottieAnimation.named(fileNameForCurrentInterfaceStyle)
+        animationView.animation = getLottieAnimationForCurrentColorScheme()
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = .autoReverse
         animationView.play()
@@ -32,20 +32,55 @@ struct LottieAnimationViewWrapper: UIViewRepresentable {
         return view
     }
 
-    func updateUIView(_ uiView: UIViewType, context: Context) {}
+    func updateUIView(_ uiView: UIViewType, context: Context) {
+        guard let animationView = uiView.subviews.first as? LottieAnimationView else {
+            return assertionFailure("LottieAnimationViewWrapper: animationView is not found")
+        }
+
+        if context.coordinator.previousColorScheme != colorScheme {
+            animationView.animation = getLottieAnimationForCurrentColorScheme()
+            animationView.play()
+        }
+
+        context.coordinator.previousColorScheme = colorScheme
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(initialColorScheme: colorScheme)
+    }
+
+    private func getLottieAnimationForCurrentColorScheme() -> LottieAnimation? {
+        switch colorScheme {
+        case .dark:
+            LottieAnimation.named(fileName.dark)
+        default:
+            LottieAnimation.named(fileName.light)
+        }
+    }
 }
 
-struct LottieAnimationViewWrapper_Previews: PreviewProvider {
-    static var previews: some View {
-        LottieAnimationViewWrapper(
-            fileName: LottieAnimations.parsonsProblemOnboarding
-        )
-        .padding()
+extension LottieAnimationViewWrapper {
+    class Coordinator {
+        var previousColorScheme: ColorScheme?
 
-        LottieAnimationViewWrapper(
-            fileName: LottieAnimations.parsonsProblemOnboarding
-        )
-        .padding()
-        .preferredColorScheme(.dark)
+        init(initialColorScheme: ColorScheme) {
+            self.previousColorScheme = initialColorScheme
+        }
     }
+}
+
+#Preview("Light") {
+    LottieAnimationViewWrapper(
+        fileName: LottieAnimations.parsonsProblemOnboarding
+    )
+    .padding()
+    .preferredColorScheme(.light)
+}
+
+#Preview("Dark") {
+    LottieAnimationViewWrapper(
+        fileName: LottieAnimations.parsonsProblemOnboarding
+    )
+    .padding()
+    .preferredColorScheme(.dark)
 }
