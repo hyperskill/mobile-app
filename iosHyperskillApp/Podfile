@@ -24,7 +24,7 @@ target "iosHyperskillApp" do
 
   pod "IQKeyboardManagerSwift", "6.5.9"
   pod "SVProgressHUD", "2.2.5"
-  pod "SkeletonUI", "1.0.9"
+  pod "SkeletonUI", "1.0.11"
   pod "lottie-ios", "4.2.0"
 
   pod "PanModal", :git => "https://github.com/ivan-magda/PanModal.git", :branch => "remove-presenting-appearance-transitions"

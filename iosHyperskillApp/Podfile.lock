@@ -90,7 +90,7 @@ PODS:
     - SentryPrivate (= 8.14.2)
   - SentryPrivate (8.14.2)
   - shared (1.0)
-  - SkeletonUI (1.0.9)
+  - SkeletonUI (1.0.11)
   - SnapKit (5.6.0)
   - STRegex (2.1.1)
   - SVGKit (3.1.0):
@@ -113,7 +113,7 @@ DEPENDENCIES:
   - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
   - Sentry (= 8.14.2)
   - shared (from `../shared`)
-  - SkeletonUI (= 1.0.9)
+  - SkeletonUI (= 1.0.11)
   - SnapKit (= 5.6.0)
   - STRegex (= 2.1.1)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
@@ -216,13 +216,13 @@ SPEC CHECKSUMS:
   Sentry: e0ea366f95ebb68f26d6030d8c22d6b2e6d23dd0
   SentryPrivate: 949a21fa59872427edc73b524c3ec8456761d97f
   shared: 210f065b47c10083f8ccc49e665dec6d32c5b2d3
-  SkeletonUI: b5c868e6917123e3d442d6cef9c71fe048175f3b
+  SkeletonUI: a5514a3877d39f28229c852a567660d0f7542330
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   STRegex: d49e88d0fe58538d3175fdd989bc1243b9be2a07
   SVGKit: 3c8468aab0026048532a3b27a0c81cdd939f0649
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: 5ce4d6a8ff83f1b5fd5ad5dbf30965d35af65e44
 
-PODFILE CHECKSUM: b9e769a1025c38d52b1e35467867d08c891b873d
+PODFILE CHECKSUM: c1ce817cae36b568716d65f334a41419b7012b05
 
 COCOAPODS: 1.14.2
