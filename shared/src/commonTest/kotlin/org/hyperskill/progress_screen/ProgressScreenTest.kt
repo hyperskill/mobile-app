@@ -199,10 +199,36 @@ class ProgressScreenTest {
     fun `User on freemium doesn't see applied topics and graduated projects`() {
         val state = ProgressScreenFeature.State(
             trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
-                trackWithProgress = TrackWithProgress.stub(trackId = 1L),
+                trackWithProgress = TrackWithProgress.stub(trackId = 1L, projects = listOf(1, 2, 3)),
                 studyPlan = StudyPlan.stub(),
                 profile = Profile.stub(),
                 subscription = Subscription.stub(type = SubscriptionType.FREEMIUM)
+            ),
+            projectProgressState = ProgressScreenFeature.ProjectProgressState.Empty,
+            isTrackProgressRefreshing = false,
+            isProjectProgressRefreshing = false
+        )
+
+        val viewState = viewStateMapper.map(state)
+
+        val trackProgressContentState = viewState.trackProgressViewState as TrackProgressViewState.Content
+
+        assertEquals(
+            TrackProgressViewState.Content.AppliedTopicsState.Empty,
+            trackProgressContentState.appliedTopicsState
+        )
+
+        assertNull(trackProgressContentState.completedGraduateProjectsCount)
+    }
+
+    @Test
+    fun `User on track without project doesn't see applied topics and graduated projects`() {
+        val state = ProgressScreenFeature.State(
+            trackProgressState = ProgressScreenFeature.TrackProgressState.Content(
+                trackWithProgress = TrackWithProgress.stub(trackId = 1L),
+                studyPlan = StudyPlan.stub(),
+                profile = Profile.stub(),
+                subscription = Subscription.stub()
             ),
             projectProgressState = ProgressScreenFeature.ProjectProgressState.Empty,
             isTrackProgressRefreshing = false,
