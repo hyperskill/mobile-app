@@ -11,7 +11,6 @@ analyzer_rules:
   - unused_import
 
 only_rules:
-  - anyobject_protocol
   - attributes
   - block_based_kvo
   - class_delegate_protocol
@@ -159,11 +158,9 @@ only_rules:
   - yoda_condition
 
 # settings
-anyobject_protocol:
-  severity: error
-
 attributes:
   severity: error
+  attributes_with_arguments_always_on_line_above: false
 
 block_based_kvo:
   severity: error

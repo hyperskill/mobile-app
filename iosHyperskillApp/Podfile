@@ -9,7 +9,7 @@ target "iosHyperskillApp" do
 
   pod "shared", :path => "../shared"
 
-  pod "SwiftLint", "0.50.1"
+  pod "SwiftLint", "0.53.0"
   pod "Sentry", "8.5.0"
 
   # Firebase

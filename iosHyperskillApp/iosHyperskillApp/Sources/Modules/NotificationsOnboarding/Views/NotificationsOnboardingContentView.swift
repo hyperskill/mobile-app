@@ -78,8 +78,7 @@ struct NotificationsOnboardingContentView: View {
             .frame(maxHeight: appearance.illustrationHeight)
     }
 
-    @MainActor
-    private var actionButtons: some View {
+    @MainActor private var actionButtons: some View {
         VStack(alignment: .center, spacing: appearance.interitemSpacing) {
             Button(
                 Strings.NotificationsOnboarding.buttonPrimary,
