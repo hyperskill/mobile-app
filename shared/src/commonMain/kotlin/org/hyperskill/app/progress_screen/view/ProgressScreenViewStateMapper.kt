@@ -52,7 +52,7 @@ internal class ProgressScreenViewStateMapper(
     ): ProgressScreenViewState.TrackProgressViewState.Content {
         val track = trackProgressContent.trackWithProgress.track
         val trackProgress = trackProgressContent.trackWithProgress.trackProgress
-        val isFreemiumUser = trackProgressContent.subscription.isFreemium
+        val isProjectUnavailable = trackProgressContent.subscription.isFreemium || track.projects.isEmpty()
 
         return ProgressScreenViewState.TrackProgressViewState.Content(
             title = track.title,
@@ -60,7 +60,7 @@ internal class ProgressScreenViewStateMapper(
             completedTopicsCountLabel = "${trackProgress.completedTopics} / ${track.topicsCount}",
             completedTopicsPercentageLabel = "• ${trackProgressContent.trackWithProgress.completedTopicsProgress}%",
             completedTopicsPercentageProgress = trackProgressContent.trackWithProgress.completedTopicsProgress / 100f,
-            appliedTopicsState = if (isFreemiumUser) {
+            appliedTopicsState = if (isProjectUnavailable) {
                 AppliedTopicsState.Empty
             } else {
                 AppliedTopicsState.Content(
@@ -70,7 +70,7 @@ internal class ProgressScreenViewStateMapper(
                 )
             },
             timeToCompleteLabel = formatTrackTimeToComplete(trackProgressContent),
-            completedGraduateProjectsCount = if (isFreemiumUser) {
+            completedGraduateProjectsCount = if (isProjectUnavailable) {
                 null
             } else {
                 trackProgress.completedCapstoneProjects.size
