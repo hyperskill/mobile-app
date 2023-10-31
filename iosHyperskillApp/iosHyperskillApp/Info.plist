@@ -23,7 +23,7 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.39</string>
+	<string>1.40</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
