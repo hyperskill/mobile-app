@@ -81,54 +81,59 @@ class FillBlanksItemMapper(private val mode: FillBlanksMode) {
         val textComponent = componentsDataset.first()
         val rawText = textComponent.text ?: return null
 
+        val (langClass, content) = parseRawText(rawText)
+        val blanksComponents = componentsDataset.slice(from = 1)
+
+        val blankOptions = getBlankOptions(blanksComponents)
+
+        val fillBlanksItems = splitContent(
+            content = content,
+            produceInputItem = { id, inputIndex ->
+                FillBlanksItem.Input(
+                    id = id,
+                    inputText = getInputText(replyBlanks, blanksComponents, inputIndex),
+                )
+            },
+            produceSelectItem = { id, optionIndex ->
+                FillBlanksItem.Select(
+                    id = id,
+                    selectedOptionIndex = getSelectedOptionIndex(replyBlanks, blankOptions, optionIndex)
+                )
+            }
+        )
+
+        val language = langClass?.let(::parseLanguage)
+
+        this.cachedItems = fillBlanksItems
+        when (mode) {
+            FillBlanksMode.INPUT -> {
+                this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                    if (fillBlanksItem is FillBlanksItem.Input) index else null
+                }
+            }
+            FillBlanksMode.SELECT -> {
+                this.selectItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
+                    if (fillBlanksItem is FillBlanksItem.Select) index else null
+                }
+            }
+        }
+        this.cachedLanguage = language
+        this.cachedOptions = blankOptions
+
+        return FillBlanksData(
+            fillBlanks = fillBlanksItems,
+            language = language,
+            options = blankOptions
+        )
+    }
+
+    private fun parseRawText(rawText: String): Pair<String?, String> {
         val match = contentRegex.find(rawText)
         return if (match != null) {
             val (langClass, content) = match.destructured
-            val blanksComponents = componentsDataset.slice(from = 1)
-
-            val blankOptions = getBlankOptions(blanksComponents)
-
-            val fillBlanksItems = splitContent(
-                content = content,
-                produceInputItem = { id, inputIndex ->
-                    FillBlanksItem.Input(
-                        id = id,
-                        inputText = getInputText(replyBlanks, blanksComponents, inputIndex),
-                    )
-                },
-                produceSelectItem = { id, optionIndex ->
-                    FillBlanksItem.Select(
-                        id = id,
-                        selectedOptionIndex = getSelectedOptionIndex(replyBlanks, blankOptions, optionIndex)
-                    )
-                }
-            )
-
-            val language = parseLanguage(langClass)
-
-            this.cachedItems = fillBlanksItems
-            when (mode) {
-                FillBlanksMode.INPUT -> {
-                    this.inputItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
-                        if (fillBlanksItem is FillBlanksItem.Input) index else null
-                    }
-                }
-                FillBlanksMode.SELECT -> {
-                    this.selectItemIndices = fillBlanksItems.mapIndexedNotNull { index, fillBlanksItem ->
-                        if (fillBlanksItem is FillBlanksItem.Select) index else null
-                    }
-                }
-            }
-            this.cachedLanguage = language
-            this.cachedOptions = blankOptions
-
-            FillBlanksData(
-                fillBlanks = fillBlanksItems,
-                language = language,
-                options = blankOptions
-            )
+            Pair(langClass, content)
         } else {
-            null
+            Pair(null, rawText)
         }
     }
 
