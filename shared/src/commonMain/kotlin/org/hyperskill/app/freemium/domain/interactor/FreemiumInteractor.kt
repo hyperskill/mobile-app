@@ -10,6 +10,10 @@ class FreemiumInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository
 ) {
+    companion object {
+        private const val SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE = 10
+    }
+
     suspend fun isFreemiumEnabled(): Result<Boolean> =
         currentSubscriptionStateRepository.getState().map { it.isFreemium }
 
@@ -41,7 +45,12 @@ class FreemiumInteractor(
             if (currentProfile.features.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled &&
                 currentProfile.gamification.passedProblems == 0
             ) {
-                currentSubscriptionStateRepository.reloadState()
+                currentSubscriptionStateRepository.updateState {
+                    it.copy(
+                        stepsLimitTotal = it.stepsLimitTotal?.plus(SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE),
+                        stepsLimitLeft = it.stepsLimitLeft?.plus(SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE)
+                    )
+                }
                 currentProfileStateRepository.updateState {
                     it.copy(gamification = it.gamification.copy(passedProblems = it.gamification.passedProblems + 1))
                 }
