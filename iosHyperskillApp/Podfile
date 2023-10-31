@@ -13,8 +13,8 @@ target "iosHyperskillApp" do
   pod "Sentry", "8.14.2"
 
   # Firebase
-  pod "Firebase/CoreOnly", "10.11.0"
-  pod "Firebase/Messaging", "10.11.0"
+  pod "Firebase/CoreOnly", "10.17.0"
+  pod "Firebase/Messaging", "10.17.0"
 
   # Analytics
   pod "AppsFlyerFramework", "6.12.2"
