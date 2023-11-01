@@ -29,9 +29,10 @@ struct StepQuizHintsView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewStateKs {
-        case .idle, .initialLoading:
-            SkeletonRoundedView()
-                .frame(size: appearance.skeletonInitialSize)
+        case .idle:
+            EmptyView()
+        case .initialLoading:
+            SkeletonRoundedView(appearance: .init(size: appearance.skeletonInitialSize))
         case .hintLoading:
             SkeletonRoundedView()
                 .frame(height: appearance.skeletonHintHeight)
@@ -92,4 +93,26 @@ extension StepQuizHintsView: Equatable {
     static func == (lhs: StepQuizHintsView, rhs: StepQuizHintsView) -> Bool {
         StepQuizHintsFeatureStateKs(lhs.state) == StepQuizHintsFeatureStateKs(rhs.state)
     }
+}
+
+#Preview {
+    StepQuizHintsView(
+        state: StepQuizHintsFeatureStateIdle(),
+        onNewMessage: { _ in }
+    )
+}
+
+#Preview {
+    StepQuizHintsView(
+        state: StepQuizHintsFeatureStateLoading(isInitialLoading: true),
+        onNewMessage: { _ in }
+    )
+}
+
+#Preview {
+    StepQuizHintsView(
+        state: StepQuizHintsFeatureStateLoading(isInitialLoading: false),
+        onNewMessage: { _ in }
+    )
+    .padding()
 }
