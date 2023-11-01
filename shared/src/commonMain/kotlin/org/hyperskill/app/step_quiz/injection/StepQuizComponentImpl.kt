@@ -11,6 +11,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.remote.AttemptRemoteDataSourceImpl
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
+import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class StepQuizComponentImpl(
@@ -41,6 +42,9 @@ class StepQuizComponentImpl(
             appGraph.submissionDataComponent.submissionRepository
         )
 
+    private val stepQuizHintsComponent: StepQuizHintsComponent =
+        appGraph.buildStepQuizHintsComponent(stepRoute)
+
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() = StepQuizFeatureBuilder.build(
             stepRoute,
@@ -51,6 +55,8 @@ class StepQuizComponentImpl(
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildOnboardingComponent().onboardingInteractor,
+            stepQuizHintsComponent.stepQuizHintsReducer,
+            stepQuizHintsComponent.stepQuizHintsActionDispatcher,
             appGraph.commonComponent.resourceProvider,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant

@@ -10,7 +10,7 @@ object StepQuizHintsFeature {
     fun isHintsFeatureAvailable(step: Step): Boolean =
         step.commentsStatistics.any { it.thread == CommentThread.HINT && it.totalCount > 0 }
 
-    internal sealed interface State {
+    sealed interface State {
         object Idle : State
 
         /**
