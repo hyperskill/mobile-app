@@ -89,8 +89,7 @@ struct FirstProblemOnboardingContentView: View {
         .frame(maxHeight: appearance.illustrationMaxHeight)
     }
 
-    @MainActor
-    private var actionButton: some View {
+    @MainActor private var actionButton: some View {
         Button(
             buttonText,
             action: {
