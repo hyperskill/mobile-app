@@ -68,12 +68,17 @@ struct StepQuizView: View {
                             onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
                         )
 
-                        if viewData.stepHasHints {
-                            StepQuizHintsAssembly(
-                                stepID: viewModel.step.id,
-                                stepRoute: viewModel.stepRoute
-                            ).makeModule()
-                        }
+                        StepQuizHintsView(
+                            state: viewModel.state.stepQuizHintsState,
+                            onNewMessage: { [weak viewModel] message in
+                                guard let viewModel else {
+                                    return
+                                }
+
+                                viewModel.onNewMessage(StepQuizFeatureMessageStepQuizHintsMessage(message: message))
+                            }
+                        )
+                        .equatable()
 
                         buildQuizContent(
                             state: viewModel.state,
@@ -305,6 +310,11 @@ struct StepQuizView: View {
             case .stepScreen(let navigateToStepScreenViewAction):
                 let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                 stackRouter.pushViewController(assembly.makeModule())
+            }
+        case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
+            switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {
+            case .showNetworkError:
+                ProgressHUD.showError(status: Strings.Common.connectionError)
             }
         }
     }
