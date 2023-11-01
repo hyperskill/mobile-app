@@ -6,6 +6,8 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
 import org.junit.Test
@@ -38,27 +40,31 @@ class AndroidStepQuizTest {
                                 "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
                             )
                         }
-                    )
+                    ),
+                    stepQuizHintsState = StepQuizHintsFeature.State.Idle
                 )
 
+                val stepRoute = when (concreteStepRouteClass) {
+                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id)
+                    StepRoute.Learn.TheoryOpenedFromPractice::class ->
+                        StepRoute.Learn.TheoryOpenedFromPractice(step.id)
+                    StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
+                    StepRoute.Repeat.Practice::class -> StepRoute.Repeat.Practice(step.id)
+                    StepRoute.Repeat.Theory::class -> StepRoute.Repeat.Theory(step.id)
+                    StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
+                    else -> throw IllegalStateException(
+                        "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
+                    )
+                }
                 val reducer = StepQuizReducer(
-                    when (concreteStepRouteClass) {
-                        StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id)
-                        StepRoute.Learn.TheoryOpenedFromPractice::class ->
-                            StepRoute.Learn.TheoryOpenedFromPractice(step.id)
-                        StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
-                        StepRoute.Repeat.Practice::class -> StepRoute.Repeat.Practice(step.id)
-                        StepRoute.Repeat.Theory::class -> StepRoute.Repeat.Theory(step.id)
-                        StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
-                        else -> throw IllegalStateException(
-                            "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
-                        )
-                    }
+                    stepRoute = stepRoute,
+                    stepQuizHintsReducer = StepQuizHintsReducer(stepRoute)
                 )
 
                 val (state, _) = reducer.reduce(
                     StepQuizFeature.State(
-                        stepQuizState = StepQuizFeature.StepQuizState.Loading
+                        stepQuizState = StepQuizFeature.StepQuizState.Loading,
+                        stepQuizHintsState = StepQuizHintsFeature.State.Idle
                     ),
                     StepQuizFeature.Message.FetchAttemptSuccess(
                         step,
