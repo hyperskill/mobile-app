@@ -12,6 +12,7 @@ import org.hyperskill.app.reactions.domain.model.ReactionType
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
+import ru.nobird.android.view.base.ui.extension.snackbar
 
 class StepQuizHintsDelegate(
     private val binding: LayoutStepQuizHintsBinding,
@@ -56,6 +57,13 @@ class StepQuizHintsDelegate(
         addState<StepQuizHintsFeature.ViewState.Content.SeeHintButton>(binding.stepQuizSeeHintsButton.root)
         addState<StepQuizHintsFeature.ViewState.Content.HintCard>(binding.stepQuizHintCard.root)
         addState<StepQuizHintsFeature.ViewState.Error>(binding.stepQuizHintsRetryButton)
+    }
+
+    fun onAction(action: StepQuizHintsFeature.Action.ViewAction) {
+        when (action) {
+            StepQuizHintsFeature.Action.ViewAction.ShowNetworkError ->
+                binding.root.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
+        }
     }
 
     fun render(context: Context, state: StepQuizHintsFeature.ViewState) {
