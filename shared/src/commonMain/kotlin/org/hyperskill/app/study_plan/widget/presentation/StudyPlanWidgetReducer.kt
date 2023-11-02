@@ -4,6 +4,7 @@ import kotlin.math.max
 import kotlin.math.min
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
+import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
@@ -73,6 +74,15 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is StudyPlanWidgetFeature.TrackFetchResult.Failed -> {
                 null
             }
+            is StudyPlanWidgetFeature.ProfileFetchResult.Success -> {
+                state.copy(
+                    isLearningPathDividedTrackTopicsEnabled =
+                    message.profile.features.isLearningPathDividedTrackTopicsEnabled
+                ) to emptySet()
+            }
+            is StudyPlanWidgetFeature.ProfileFetchResult.Failed -> {
+                null
+            }
             is Message.SectionClicked ->
                 changeSectionExpanse(state, message.sectionId, shouldLogAnalyticEvent = true)
             is Message.ActivityClicked ->
@@ -108,8 +118,8 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
             state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
         ) {
-            State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
-                setOf(InternalAction.FetchStudyPlan())
+            state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
+                setOf(InternalAction.FetchStudyPlan(), InternalAction.FetchProfile)
         } else {
             state to emptySet()
         }
@@ -133,7 +143,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         }
 
         return if (message.showLoadingIndicators) {
-            State(
+            state.copy(
                 studyPlan = message.studyPlan,
                 sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
             ) to actions
@@ -249,7 +259,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         ) to setOf(
             InternalAction.FetchActivities(
                 sectionId = message.sectionId,
-                activitiesIds = getPaginatedActivitiesIds(section),
+                activitiesIds = getPaginatedActivitiesIds(section, state.isLearningPathDividedTrackTopicsEnabled),
                 sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
                     isCurrentSection = message.sectionId == state.getCurrentSection()?.id
                 )
@@ -294,7 +304,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                     updateSectionState(StudyPlanWidgetFeature.ContentStatus.LOADING) to setOfNotNull(
                         InternalAction.FetchActivities(
                             sectionId = sectionId,
-                            activitiesIds = getPaginatedActivitiesIds(section),
+                            activitiesIds = getPaginatedActivitiesIds(
+                                section = section,
+                                isLearningPathDividedTrackTopicsEnabled = state.isLearningPathDividedTrackTopicsEnabled
+                            ),
                             sentryTransaction = sentryTransaction
                         ),
                         logAnalyticEventAction
@@ -312,9 +325,13 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         }
     }
 
-    internal fun getPaginatedActivitiesIds(section: StudyPlanWidgetFeature.StudyPlanSectionInfo): List<Long> =
+    internal fun getPaginatedActivitiesIds(
+        section: StudyPlanWidgetFeature.StudyPlanSectionInfo,
+        isLearningPathDividedTrackTopicsEnabled: Boolean
+    ): List<Long> =
         if (section.studyPlanSection.type == StudyPlanSectionType.ROOT_TOPICS &&
-            section.studyPlanSection.nextActivityId != null
+            section.studyPlanSection.nextActivityId != null &&
+            !isLearningPathDividedTrackTopicsEnabled
         ) {
             val startIndex =
                 max(0, section.studyPlanSection.activities.indexOf(section.studyPlanSection.nextActivityId))

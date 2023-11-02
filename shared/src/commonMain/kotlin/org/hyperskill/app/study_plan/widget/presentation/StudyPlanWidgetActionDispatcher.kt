@@ -4,6 +4,7 @@ import kotlinx.coroutines.delay
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
@@ -18,6 +19,7 @@ class StudyPlanWidgetActionDispatcher(
     private val studyPlanInteractor: StudyPlanInteractor,
     private val trackInteractor: TrackInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -95,6 +97,23 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.TrackFetchResult.Failed)
                     }
             }
+            is InternalAction.FetchProfile -> {
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchProfile()
+                sentryInteractor.startTransaction(sentryTransaction)
+
+                currentProfileStateRepository.getState()
+                    .onSuccess {
+                        sentryInteractor.finishTransaction(sentryTransaction)
+                        onNewMessage(
+                            StudyPlanWidgetFeature.ProfileFetchResult.Success(it)
+                        )
+                    }
+                    .onFailure {
+                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
+                        onNewMessage(StudyPlanWidgetFeature.ProfileFetchResult.Failed)
+                    }
+            }
+
             is InternalAction.UpdateNextLearningActivityState -> {
                 nextLearningActivityStateRepository.updateState(newState = action.learningActivity)
             }
