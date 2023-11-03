@@ -26,8 +26,7 @@ final class StepQuizViewDataMapper {
                 stepText: step.block.text,
                 quizType: quizType,
                 quizName: nil,
-                feedbackHintText: nil,
-                stepHasHints: false
+                feedbackHintText: nil
             )
         }
 
@@ -65,20 +64,12 @@ final class StepQuizViewDataMapper {
             }
         }()
 
-        let stepHasHints: Bool = {
-            guard let hintsStatistic = step.commentsStatistics.first(where: { $0.thread == CommentThread.hint }) else {
-                return false
-            }
-            return hintsStatistic.totalCount > 0
-        }()
-
         return StepQuizViewData(
             formattedStats: formattedStats,
             stepText: step.block.text,
             quizType: quizType,
             quizName: quizName,
-            feedbackHintText: feedbackHintText,
-            stepHasHints: stepHasHints
+            feedbackHintText: feedbackHintText
         )
     }
 

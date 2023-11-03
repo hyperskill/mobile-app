@@ -18,12 +18,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import coil.ImageLoader
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
-import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
@@ -40,7 +40,7 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
-import org.hyperskill.app.android.step_quiz_hints.fragment.StepQuizHintsFragment
+import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.android.step_quiz_parsons.view.dialog.ParsonsStepQuizOnboardingBottomSheetDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.BlockName
@@ -56,6 +56,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_hints.view.mapper.StepQuizHintsViewStateMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -66,10 +67,6 @@ abstract class DefaultStepQuizFragment :
     StepCompletionView,
     MenuProvider,
     ParsonsStepQuizOnboardingBottomSheetDialogFragment.Callback {
-
-    companion object {
-        private const val STEP_HINTS_FRAGMENT_TAG = "step_hints"
-    }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -82,6 +79,8 @@ abstract class DefaultStepQuizFragment :
     private var stepQuizFeedbackBlocksDelegate: StepQuizFeedbackBlocksDelegate? = null
     private var stepQuizFormDelegate: StepQuizFormDelegate? = null
     private var stepQuizButtonsViewStateDelegate: ViewStateDelegate<StepQuizButtonsState>? = null
+
+    private var stepQuizHintsDelegate: StepQuizHintsDelegate? = null
 
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var stepQuizTitleMapper: StepQuizTitleMapper? = null
@@ -102,6 +101,10 @@ abstract class DefaultStepQuizFragment :
     private var theoryButtonState: TheoryButtonState? = null
 
     private var isKeyboardShown: Boolean = false
+
+    private val svgImageLoader: ImageLoader by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().imageLoadingComponent.imageLoader
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -139,6 +142,13 @@ abstract class DefaultStepQuizFragment :
         stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
             delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
         }
+        stepQuizHintsDelegate = StepQuizHintsDelegate(
+            binding = viewBinding.stepQuizHints,
+            imageLoader = svgImageLoader,
+            onNewMessage = { message ->
+                stepQuizViewModel.onNewMessage(StepQuizFeature.Message.StepQuizHintsMessage(message))
+            }
+        )
         renderStatistics(viewBinding.stepQuizStatistics, step)
         initButtonsViewStateDelegate()
         setupQuizButtons()
@@ -199,6 +209,7 @@ abstract class DefaultStepQuizFragment :
         stepQuizButtonsViewStateDelegate = null
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
+        stepQuizHintsDelegate = null
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -278,6 +289,9 @@ abstract class DefaultStepQuizFragment :
                 ParsonsStepQuizOnboardingBottomSheetDialogFragment.newInstance()
                     .showIfNotExists(childFragmentManager, ParsonsStepQuizOnboardingBottomSheetDialogFragment.TAG)
             }
+            is StepQuizFeature.Action.ViewAction.StepQuizHintsViewAction -> {
+                stepQuizHintsDelegate?.onAction(action.viewAction)
+            }
         }
     }
 
@@ -315,7 +329,6 @@ abstract class DefaultStepQuizFragment :
                 stepQuizFeedbackBlocksDelegate?.setState(StepQuizFeedbackState.Unsupported)
             }
             is StepQuizFeature.StepQuizState.AttemptLoaded -> {
-                setStepHintsFragment(step)
                 renderAttemptLoaded(stepQuizState)
             }
             else -> {
@@ -324,6 +337,7 @@ abstract class DefaultStepQuizFragment :
         }
 
         renderTheoryButton(state.stepQuizState)
+        renderHints(state.stepQuizHintsState)
 
         onNewState(state)
     }
@@ -386,14 +400,9 @@ abstract class DefaultStepQuizFragment :
         }
     }
 
-    private fun setStepHintsFragment(step: Step) {
-        val isFeatureEnabled = StepQuizHintsFeature.isHintsFeatureAvailable(step)
-        viewBinding.stepQuizHints.isVisible = isFeatureEnabled
-        if (isFeatureEnabled) {
-            setChildFragment(R.id.stepQuizHints, STEP_HINTS_FRAGMENT_TAG) {
-                StepQuizHintsFragment.newInstance(stepRoute, step)
-            }
-        }
+    private fun renderHints(state: StepQuizHintsFeature.State) {
+        val viewState = StepQuizHintsViewStateMapper.mapState(state)
+        stepQuizHintsDelegate?.render(requireContext(), viewState)
     }
 
     final override fun render(isPracticingLoading: Boolean) {

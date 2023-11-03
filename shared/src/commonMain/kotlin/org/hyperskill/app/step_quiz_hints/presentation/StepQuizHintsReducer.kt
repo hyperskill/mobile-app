@@ -11,7 +11,7 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Mess
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-internal class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
+class StepQuizHintsReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.InitWithStepId ->

@@ -2,7 +2,7 @@ package org.hyperskill.app.step_quiz_hints.view.mapper
 
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 
-internal object StepQuizHintsViewStateMapper {
+object StepQuizHintsViewStateMapper {
     fun mapState(state: StepQuizHintsFeature.State): StepQuizHintsFeature.ViewState =
         when (state) {
             is StepQuizHintsFeature.State.Idle -> StepQuizHintsFeature.ViewState.Idle
