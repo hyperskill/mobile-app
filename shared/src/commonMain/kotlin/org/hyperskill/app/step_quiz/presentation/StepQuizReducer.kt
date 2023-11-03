@@ -26,12 +26,15 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
 
 class StepQuizReducer(
-    private val stepRoute: StepRoute
+    private val stepRoute: StepRoute,
+    private val stepQuizHintsReducer: StepQuizHintsReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StepQuizReducerResult =
         when (message) {
@@ -292,6 +295,12 @@ class StepQuizReducer(
                         ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
+            // Wrapper Messages
+            is Message.StepQuizHintsMessage -> {
+                val (stepQuizHintsState, stepQuizHintsActions) =
+                    reduceStepQuizHintsMessage(state.stepQuizHintsState, message.message)
+                state.copy(stepQuizHintsState = stepQuizHintsState) to stepQuizHintsActions
+            }
         } ?: (state to emptySet())
 
     private fun handleFetchAttemptSuccess(state: State, message: Message.FetchAttemptSuccess): StepQuizReducerResult =
@@ -341,7 +350,20 @@ class StepQuizReducer(
                 state.stepQuizState to emptySet()
             }
 
-        return state.copy(stepQuizState = stepQuizState) to stepQuizActions
+        val (stepQuizHintsState, stepQuizHintsActions) =
+            if (StepQuizHintsFeature.isHintsFeatureAvailable(step = message.step)) {
+                reduceStepQuizHintsMessage(
+                    state.stepQuizHintsState,
+                    StepQuizHintsFeature.Message.InitWithStepId(message.step.id)
+                )
+            } else {
+                StepQuizHintsFeature.State.Idle to emptySet()
+            }
+
+        return state.copy(
+            stepQuizState = stepQuizState,
+            stepQuizHintsState = stepQuizHintsState
+        ) to stepQuizActions + stepQuizHintsActions
     }
 
     private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =
@@ -390,5 +412,24 @@ class StepQuizReducer(
             originalStatus = submission?.originalStatus ?: submission?.status,
             time = Clock.System.now().toString()
         )
+    }
+
+    private fun reduceStepQuizHintsMessage(
+        state: StepQuizHintsFeature.State,
+        message: StepQuizHintsFeature.Message
+    ): Pair<StepQuizHintsFeature.State, Set<Action>> {
+        val (stepQuizHintsState, stepQuizHintsActions) = stepQuizHintsReducer.reduce(state, message)
+
+        val actions = stepQuizHintsActions
+            .map {
+                if (it is StepQuizHintsFeature.Action.ViewAction) {
+                    Action.ViewAction.StepQuizHintsViewAction(it)
+                } else {
+                    Action.StepQuizHintsAction(it)
+                }
+            }
+            .toSet()
+
+        return stepQuizHintsState to actions
     }
 }
