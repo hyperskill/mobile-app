@@ -13,3 +13,6 @@ val FeaturesMap.isRecommendationsPythonProjectsFeatureEnabled: Boolean
 
 val FeaturesMap.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled: Boolean
     get() = get(FeatureKeys.FREEMIUM_INCREASE_LIMITS_FOR_FIRST_STEP_COMPLETION) ?: false
+
+val FeaturesMap.isLearningPathDividedTrackTopicsEnabled: Boolean
+    get() = get(FeatureKeys.LEARNING_PATH_DIVIDED_TRACK_TOPICS) ?: false

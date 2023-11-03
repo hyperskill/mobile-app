@@ -7,6 +7,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
@@ -35,7 +36,12 @@ object StudyPlanWidgetFeature {
         /**
          * Pull to refresh flag
          */
-        val isRefreshing: Boolean = false
+        val isRefreshing: Boolean = false,
+
+        /**
+         * Divided track topics feature enabled flag
+         */
+        val isLearningPathDividedTrackTopicsEnabled: Boolean = false
     )
 
     enum class ContentStatus {
@@ -107,6 +113,12 @@ object StudyPlanWidgetFeature {
         object Failed : TrackFetchResult
     }
 
+    internal sealed interface ProfileFetchResult : Message {
+        data class Success(val profile: Profile) : ProfileFetchResult
+
+        object Failed : ProfileFetchResult
+    }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
@@ -140,6 +152,8 @@ object StudyPlanWidgetFeature {
         ) : InternalAction
 
         data class FetchTrack(val trackId: Long) : InternalAction
+
+        object FetchProfile : InternalAction
 
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
