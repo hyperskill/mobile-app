@@ -10,6 +10,4 @@ struct StepQuizViewData {
     let quizName: String?
 
     let feedbackHintText: String?
-
-    let stepHasHints: Bool
 }

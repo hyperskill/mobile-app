@@ -1,9 +1,9 @@
 package org.hyperskill.app.step_quiz_hints.injection
 
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
-import ru.nobird.app.presentation.redux.feature.Feature
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 
 interface StepQuizHintsComponent {
-    val stepQuizHintsFeature: Feature<
-        StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
+    val stepQuizHintsReducer: StepQuizHintsReducer
+    val stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher
 }

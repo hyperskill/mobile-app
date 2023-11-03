@@ -17,7 +17,7 @@ import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 import org.hyperskill.app.user_storage.domain.model.UserStoragePathBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-internal class StepQuizHintsActionDispatcher(
+class StepQuizHintsActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizHintsInteractor: StepQuizHintsInteractor,
     private val likesInteractor: LikesInteractor,
