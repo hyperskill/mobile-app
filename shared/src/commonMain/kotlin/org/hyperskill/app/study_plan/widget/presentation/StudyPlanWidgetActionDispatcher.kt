@@ -7,6 +7,7 @@ import org.hyperskill.app.learning_activities.domain.repository.NextLearningActi
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -98,20 +99,15 @@ class StudyPlanWidgetActionDispatcher(
                     }
             }
             is InternalAction.FetchProfile -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchProfile()
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                currentProfileStateRepository.getState()
-                    .onSuccess {
-                        sentryInteractor.finishTransaction(sentryTransaction)
-                        onNewMessage(
-                            StudyPlanWidgetFeature.ProfileFetchResult.Success(it)
-                        )
-                    }
-                    .onFailure {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(StudyPlanWidgetFeature.ProfileFetchResult.Failed)
-                    }
+                sentryInteractor.withTransaction(
+                    HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchProfile(),
+                    onError = { StudyPlanWidgetFeature.ProfileFetchResult.Failed }
+                ) {
+                    currentProfileStateRepository
+                        .getState()
+                        .getOrThrow()
+                        .let(StudyPlanWidgetFeature.ProfileFetchResult::Success)
+                }.let(::onNewMessage)
             }
 
             is InternalAction.UpdateNextLearningActivityState -> {

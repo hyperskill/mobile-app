@@ -118,7 +118,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
             state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
         ) {
-            state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
+            State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
                 setOf(InternalAction.FetchStudyPlan(), InternalAction.FetchProfile)
         } else {
             state to emptySet()
@@ -259,7 +259,10 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         ) to setOf(
             InternalAction.FetchActivities(
                 sectionId = message.sectionId,
-                activitiesIds = getPaginatedActivitiesIds(section, state.isLearningPathDividedTrackTopicsEnabled),
+                activitiesIds = getPaginatedActivitiesIds(
+                    section = section,
+                    isLearningPathDividedTrackTopicsEnabled = state.isLearningPathDividedTrackTopicsEnabled
+                ),
                 sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(
                     isCurrentSection = message.sectionId == state.getCurrentSection()?.id
                 )
