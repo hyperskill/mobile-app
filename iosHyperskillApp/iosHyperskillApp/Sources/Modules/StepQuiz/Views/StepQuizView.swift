@@ -71,11 +71,7 @@ struct StepQuizView: View {
                         StepQuizHintsView(
                             state: viewModel.state.stepQuizHintsState,
                             onNewMessage: { [weak viewModel] message in
-                                guard let viewModel else {
-                                    return
-                                }
-
-                                viewModel.onNewMessage(StepQuizFeatureMessageStepQuizHintsMessage(message: message))
+                                viewModel?.handleStepQuizHints(message: message)
                             }
                         )
                         .equatable()
