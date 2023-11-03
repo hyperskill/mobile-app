@@ -4,8 +4,10 @@ import kotlinx.coroutines.delay
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
@@ -18,6 +20,7 @@ class StudyPlanWidgetActionDispatcher(
     private val studyPlanInteractor: StudyPlanInteractor,
     private val trackInteractor: TrackInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -95,6 +98,18 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.TrackFetchResult.Failed)
                     }
             }
+            is InternalAction.FetchProfile -> {
+                sentryInteractor.withTransaction(
+                    HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchProfile(),
+                    onError = { StudyPlanWidgetFeature.ProfileFetchResult.Failed }
+                ) {
+                    currentProfileStateRepository
+                        .getState()
+                        .getOrThrow()
+                        .let(StudyPlanWidgetFeature.ProfileFetchResult::Success)
+                }.let(::onNewMessage)
+            }
+
             is InternalAction.UpdateNextLearningActivityState -> {
                 nextLearningActivityStateRepository.updateState(newState = action.learningActivity)
             }

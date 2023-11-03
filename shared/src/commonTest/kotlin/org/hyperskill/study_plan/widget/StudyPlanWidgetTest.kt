@@ -1094,7 +1094,10 @@ class StudyPlanWidgetTest {
             contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
 
-        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+        assertEquals(
+            expectedActivitiesIds,
+            reducer.getPaginatedActivitiesIds(section, isLearningPathDividedTrackTopicsEnabled = false)
+        )
     }
 
     @Test
@@ -1110,7 +1113,10 @@ class StudyPlanWidgetTest {
             contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
 
-        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+        assertEquals(
+            expectedActivitiesIds,
+            reducer.getPaginatedActivitiesIds(section, isLearningPathDividedTrackTopicsEnabled = false)
+        )
     }
 
     @Test
@@ -1127,7 +1133,10 @@ class StudyPlanWidgetTest {
             contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
 
-        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+        assertEquals(
+            expectedActivitiesIds,
+            reducer.getPaginatedActivitiesIds(section, isLearningPathDividedTrackTopicsEnabled = false)
+        )
     }
 
     @Test
@@ -1144,7 +1153,10 @@ class StudyPlanWidgetTest {
             contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
 
-        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+        assertEquals(
+            expectedActivitiesIds,
+            reducer.getPaginatedActivitiesIds(section, isLearningPathDividedTrackTopicsEnabled = false)
+        )
     }
 
     @Test
@@ -1161,7 +1173,30 @@ class StudyPlanWidgetTest {
             contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
         )
 
-        assertEquals(expectedActivitiesIds, reducer.getPaginatedActivitiesIds(section))
+        assertEquals(
+            expectedActivitiesIds,
+            reducer.getPaginatedActivitiesIds(section, isLearningPathDividedTrackTopicsEnabled = false)
+        )
+    }
+
+    @Test
+    fun `Get not paginated activities ids in root topics section when DividedTrackTopics feature enabled`() {
+        val expectedActivitiesIds = (0L..50L).toList()
+        val section = StudyPlanWidgetFeature.StudyPlanSectionInfo(
+            studyPlanSection = studyPlanSectionStub(
+                id = 0,
+                type = StudyPlanSectionType.ROOT_TOPICS,
+                activities = expectedActivitiesIds,
+                nextActivityId = 5L
+            ),
+            isExpanded = false,
+            contentStatus = StudyPlanWidgetFeature.ContentStatus.LOADED
+        )
+
+        assertEquals(
+            expectedActivitiesIds,
+            reducer.getPaginatedActivitiesIds(section, isLearningPathDividedTrackTopicsEnabled = true)
+        )
     }
 
     @Test

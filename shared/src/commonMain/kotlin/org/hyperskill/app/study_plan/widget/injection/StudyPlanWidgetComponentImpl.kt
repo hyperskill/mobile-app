@@ -14,6 +14,7 @@ class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWi
             trackInteractor = appGraph.buildTrackDataComponent().trackInteractor,
             nextLearningActivityStateRepository = appGraph
                 .stateRepositoriesComponent.nextLearningActivityStateRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
