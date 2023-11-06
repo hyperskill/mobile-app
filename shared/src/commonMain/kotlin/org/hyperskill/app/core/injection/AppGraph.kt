@@ -14,7 +14,6 @@ import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboard
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
-import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarDataComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
@@ -46,6 +45,7 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.share_streak.injection.ShareStreakDataComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
 import org.hyperskill.app.stages.injection.StagesDataComponent
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -135,7 +135,6 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent
-    fun buildGamificationToolbarDataComponent(): GamificationToolbarDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildProjectSelectionListComponent(): ProjectSelectionListComponent
@@ -153,4 +152,5 @@ interface AppGraph {
     fun buildBadgesDataComponent(): BadgesDataComponent
     fun buildNotificationsOnboardingComponent(): NotificationsOnboardingComponent
     fun buildFirstProblemOnboardingComponent(): FirstProblemOnboardingComponent
+    fun buildShareStreakDataComponent(): ShareStreakDataComponent
 }

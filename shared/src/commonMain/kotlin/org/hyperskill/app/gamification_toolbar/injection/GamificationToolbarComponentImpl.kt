@@ -23,7 +23,7 @@ class GamificationToolbarComponentImpl(
                 profileComponent.currentProfileStateRepository,
                 appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
                 appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-                appGraph.buildGamificationToolbarDataComponent().currentGamificationToolbarDataStateRepository,
+                appGraph.stateRepositoriesComponent.currentGamificationToolbarDataStateRepository,
                 appGraph.analyticComponent.analyticInteractor,
                 appGraph.sentryComponent.sentryInteractor
             )

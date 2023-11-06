@@ -1,7 +1,0 @@
-package org.hyperskill.app.gamification_toolbar.injection
-
-import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
-
-interface GamificationToolbarDataComponent {
-    val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository
-}

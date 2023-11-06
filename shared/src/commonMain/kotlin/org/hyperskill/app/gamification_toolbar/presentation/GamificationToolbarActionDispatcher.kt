@@ -73,7 +73,7 @@ class GamificationToolbarActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.FetchGamificationToolbarData ->
-                handleFetchGamificationToolbarData(action, ::onNewMessage)
+                handleFetchGamificationToolbarDataAction(action, ::onNewMessage)
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {
@@ -82,7 +82,7 @@ class GamificationToolbarActionDispatcher(
         }
     }
 
-    private suspend fun handleFetchGamificationToolbarData(
+    private suspend fun handleFetchGamificationToolbarDataAction(
         action: InternalAction.FetchGamificationToolbarData,
         onNewMessage: (Message) -> Unit
     ) {
