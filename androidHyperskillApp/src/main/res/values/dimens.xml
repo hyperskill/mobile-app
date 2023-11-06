@@ -59,6 +59,7 @@
     <dimen name="step_quiz_content_padding_bottom">20dp</dimen>
     <dimen name="step_quiz_collapsible_block_header_height">48dp</dimen>
     <dimen name="step_quiz_description_padding_top">16dp</dimen>
+    <dimen name="step_quiz_hints_top_margin">20dp</dimen>
 
     <!-- Sorting quiz -->
     <dimen name="step_quiz_sorting_item_elevation">1dp</dimen>
