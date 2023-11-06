@@ -16,6 +16,7 @@ class StepCompletionComponentImpl(
     override val stepCompletionActionDispatcher: StepCompletionActionDispatcher
         get() = StepCompletionActionDispatcher(
             ActionDispatcherOptions(),
+            appGraph.submissionDataComponent.submissionRepository,
             appGraph.buildStepDataComponent().stepInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
             appGraph.buildTopicsDataComponent().topicsInteractor,

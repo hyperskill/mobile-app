@@ -25,11 +25,13 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCom
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
+import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
     config: ActionDispatcherOptions,
+    submissionRepository: SubmissionRepository,
     private val stepInteractor: StepInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val topicsInteractor: TopicsInteractor,
@@ -43,11 +45,10 @@ class StepCompletionActionDispatcher(
     private val topicProgressFlow: TopicProgressFlow,
     private val notificationInteractor: NotificationInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
     init {
-        notificationInteractor.solvedStepsSharedFlow
-            .onEach { solvedStepId ->
-                handleStepSolved(solvedStepId)
-            }
+        submissionRepository.solvedStepsSharedFlow
+            .onEach(::handleStepSolved)
             .launchIn(actionScope)
     }
 
