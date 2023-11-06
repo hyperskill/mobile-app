@@ -14,6 +14,7 @@ import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboard
 import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarDataComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
@@ -134,6 +135,7 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent
+    fun buildGamificationToolbarDataComponent(): GamificationToolbarDataComponent
     fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildProjectSelectionListComponent(): ProjectSelectionListComponent

@@ -5,12 +5,15 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.gamification_toolbar.domain.repository.GamificationToolbarRepository
+import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalAction
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalMessage
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.observeHypercoinsBalance
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
@@ -24,68 +27,73 @@ class GamificationToolbarActionDispatcher(
     currentProfileStateRepository: CurrentProfileStateRepository,
     currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     topicCompletedFlow: TopicCompletedFlow,
-    private val gamificationToolbarRepository: GamificationToolbarRepository,
+    private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
         submissionRepository.solvedStepsSharedFlow
-            .onEach { onNewMessage(Message.StepSolved) }
+            .onEach { onNewMessage(InternalMessage.StepSolved) }
             .launchIn(actionScope)
 
         currentProfileStateRepository.observeHypercoinsBalance()
             .onEach { hypercoinsBalance ->
-                onNewMessage(Message.HypercoinsBalanceChanged(hypercoinsBalance))
+                onNewMessage(InternalMessage.HypercoinsBalanceChanged(hypercoinsBalance))
             }
             .launchIn(actionScope)
 
         streakFlow.observe()
             .distinctUntilChanged()
             .onEach { streak ->
-                onNewMessage(Message.StreakChanged(streak))
+                onNewMessage(InternalMessage.StreakChanged(streak))
             }
             .launchIn(actionScope)
 
         currentStudyPlanStateRepository.changes
             .distinctUntilChanged()
             .onEach { studyPlan ->
-                onNewMessage(Message.StudyPlanChanged(studyPlan))
+                onNewMessage(InternalMessage.StudyPlanChanged(studyPlan))
             }
             .launchIn(actionScope)
 
         topicCompletedFlow.observe()
             .distinctUntilChanged()
             .onEach {
-                onNewMessage(Message.TopicCompleted)
+                onNewMessage(InternalMessage.TopicCompleted)
             }
+            .launchIn(actionScope)
+
+        currentGamificationToolbarDataStateRepository.changes
+            .distinctUntilChanged()
+            .onEach { onNewMessage(InternalMessage.GamificationToolbarDataChanged(it)) }
             .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchGamificationToolbarData -> {
-                val sentryTransaction = action.screen.fetchContentSentryTransaction
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                val gamificationToolbarData = gamificationToolbarRepository
-                    .getGamificationToolbarData()
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(Message.FetchGamificationToolbarDataError)
-                    }
-
-                sentryInteractor.finishTransaction(sentryTransaction)
-
-                onNewMessage(
-                    Message.FetchGamificationToolbarDataSuccess(gamificationToolbarData)
-                )
-            }
-            is Action.LogAnalyticEvent ->
+            is InternalAction.FetchGamificationToolbarData ->
+                handleFetchGamificationToolbarData(action, ::onNewMessage)
+            is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }
         }
+    }
+
+    private suspend fun handleFetchGamificationToolbarData(
+        action: InternalAction.FetchGamificationToolbarData,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            action.screen.fetchContentSentryTransaction,
+            onError = { InternalMessage.FetchGamificationToolbarDataError }
+        ) {
+            currentGamificationToolbarDataStateRepository
+                .getState(forceUpdate = action.forceUpdate)
+                .getOrThrow()
+                .let(InternalMessage::FetchGamificationToolbarDataSuccess)
+        }.let(onNewMessage)
     }
 }

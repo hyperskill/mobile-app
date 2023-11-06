@@ -25,6 +25,8 @@ import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarDataComponent
+import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarDataComponentImpl
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.items.injection.ItemsDataComponent
@@ -375,6 +377,9 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent =
         GamificationToolbarComponentImpl(this, screen)
+
+    override fun buildGamificationToolbarDataComponent(): GamificationToolbarDataComponent =
+        GamificationToolbarDataComponentImpl(this)
 
     override fun buildProjectsDataComponent(): ProjectsDataComponent =
         ProjectsDataComponentImpl(this)
