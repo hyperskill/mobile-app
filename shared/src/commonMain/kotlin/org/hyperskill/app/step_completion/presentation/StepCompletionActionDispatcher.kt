@@ -199,6 +199,8 @@ class StepCompletionActionDispatcher(
         // update problems limit
         onNewMessage(Message.StepSolved(stepId))
 
+        // We should load cached and current profile to update hypercoins balance in case of
+        // requesting study reminders permission
         val cachedProfile = currentProfileStateRepository
             .getState(forceUpdate = false)
             .getOrElse { return }
@@ -274,6 +276,8 @@ class StepCompletionActionDispatcher(
         if (shouldShareStreak && streakToShare != null) {
             shareStreakInteractor.setLastTimeShareStreakShown()
             onNewMessage(Message.ShareStreak(streak = streakToShare))
+
+            updateCurrentProfileHypercoinsBalanceRemotely()
         }
     }
 
