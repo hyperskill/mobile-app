@@ -6,10 +6,14 @@ import org.hyperskill.app.share_streak.domain.repository.ShareStreakRepository
 internal class ShareStreakRepositoryImpl(
     private val shareStreakCacheDataSource: ShareStreakCacheDataSource
 ) : ShareStreakRepository {
-    override fun getLastTimeModalShown(): Long? =
-        shareStreakCacheDataSource.getLastTimeModalShown()
+    override fun getLastTimeShareStreakShownEpochMilliseconds(): Long? =
+        shareStreakCacheDataSource.getLastTimeShareStreakShownEpochMilliseconds()
 
-    override fun setLastTimeModalShown(timestamp: Long) {
-        shareStreakCacheDataSource.setLastTimeModalShown(timestamp)
+    override fun setLastTimeShareStreakShown(epochMilliseconds: Long) {
+        shareStreakCacheDataSource.setLastTimeShareStreakShown(epochMilliseconds)
+    }
+
+    override fun clearCache() {
+        shareStreakCacheDataSource.clearCache()
     }
 }

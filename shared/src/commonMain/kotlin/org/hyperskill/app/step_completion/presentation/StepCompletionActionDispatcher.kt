@@ -9,6 +9,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
+import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
@@ -17,6 +18,7 @@ import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.share_streak.domain.interactor.ShareStreakInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -26,6 +28,7 @@ import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -39,8 +42,10 @@ class StepCompletionActionDispatcher(
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
     private val freemiumInteractor: FreemiumInteractor,
+    private val shareStreakInteractor: ShareStreakInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
     private val notificationInteractor: NotificationInteractor
@@ -95,6 +100,9 @@ class StepCompletionActionDispatcher(
             }
             is Action.PostponeDailyStudyReminder -> {
                 handlePostponeDailyStudyReminderAction()
+            }
+            is Action.UpdateLastTimeShareStreakShown -> {
+                shareStreakInteractor.setLastTimeShareStreakShown()
             }
             is Action.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
@@ -188,9 +196,9 @@ class StepCompletionActionDispatcher(
     }
 
     private suspend fun handleStepSolved(stepId: Long) {
-        // we should load cached and current profile
-        // to update hypercoins balance in case of
-        // requesting study reminders permission
+        // update problems limit
+        onNewMessage(Message.StepSolved(stepId))
+
         val cachedProfile = currentProfileStateRepository
             .getState(forceUpdate = false)
             .getOrElse { return }
@@ -202,30 +210,76 @@ class StepCompletionActionDispatcher(
             )
         )
 
-        val currentProfileHypercoinsBalance = currentProfileStateRepository
-            .getState(forceUpdate = true)
-            .map { it.gamification.hypercoinsBalance }
-            .getOrElse { return }
+        val currentGamificationToolbarData = currentGamificationToolbarDataStateRepository
+            .getState(forceUpdate = false)
+            .getOrNull()
+        val streakToShare = currentGamificationToolbarData?.let {
+            if (it.streakState == StreakState.NOTHING) {
+                it.currentStreak + 1
+            } else {
+                it.currentStreak
+            }
+        }
+        val shouldShareStreak = if (currentGamificationToolbarData != null && streakToShare != null) {
+            shareStreakInteractor.shouldShareStreakAfterStepSolved(
+                streak = streakToShare,
+                streakState = currentGamificationToolbarData.streakState
+            )
+        } else {
+            false
+        }
 
         // TODO: ALTUX-2415 Enhance the user experience of "Daily Study Reminders"
         if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
             onNewMessage(Message.RequestDailyStudyRemindersPermission)
-        } else {
-            if (cachedProfile.dailyStep == stepId) {
+            updateCurrentProfileHypercoinsBalanceRemotely()
+            return
+        }
+
+        if (cachedProfile.dailyStep == stepId) {
+            val currentProfileHypercoinsBalance = updateCurrentProfileHypercoinsBalanceRemotely()
+            if (currentProfileHypercoinsBalance != null) {
                 val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
+                val earnedGemsText = resourceProvider.getQuantityString(
+                    SharedResources.plurals.earned_gems,
+                    gemsEarned,
+                    gemsEarned
+                )
+
+                val streakText = if (shouldShareStreak && streakToShare != null) {
+                    val daysText = resourceProvider.getQuantityString(
+                        SharedResources.plurals.days,
+                        streakToShare,
+                        streakToShare
+                    )
+                    resourceProvider.getString(
+                        SharedResources.strings.step_quiz_problem_of_day_solved_modal_streak_text,
+                        daysText
+                    )
+                } else {
+                    null
+                }
+
                 onNewMessage(
                     Message.ProblemOfDaySolved(
-                        // TODO move formatting to the view state mapper
-                        earnedGemsText = resourceProvider.getQuantityString(
-                            SharedResources.plurals.earned_gems,
-                            gemsEarned,
-                            gemsEarned
-                        )
+                        earnedGemsText = earnedGemsText,
+                        streakText = streakText,
+                        streak = if (shouldShareStreak) streakToShare else null
                     )
                 )
-            } else {
-                onNewMessage(Message.StepSolved(stepId))
+                return
             }
         }
+
+        if (shouldShareStreak && streakToShare != null) {
+            shareStreakInteractor.setLastTimeShareStreakShown()
+            onNewMessage(Message.ShareStreak(streak = streakToShare))
+        }
     }
+
+    private suspend fun updateCurrentProfileHypercoinsBalanceRemotely(): Int? =
+        currentProfileStateRepository
+            .getState(forceUpdate = true)
+            .map { it.gamification.hypercoinsBalance }
+            .getOrNull()
 }

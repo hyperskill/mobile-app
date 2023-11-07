@@ -116,6 +116,8 @@ struct StepView: View {
             presentSendDailyStudyRemindersPermissionAlert()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
+        case .showShareStreakModal:
+            #warning("TODO: ALTAPPS-1027 Show share streak modal")
         }
     }
 

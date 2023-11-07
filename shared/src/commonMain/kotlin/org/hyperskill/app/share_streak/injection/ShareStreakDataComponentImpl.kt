@@ -7,16 +7,13 @@ import org.hyperskill.app.share_streak.data.source.ShareStreakCacheDataSource
 import org.hyperskill.app.share_streak.domain.interactor.ShareStreakInteractor
 import org.hyperskill.app.share_streak.domain.repository.ShareStreakRepository
 
-internal class ShareStreakDataComponentImpl(private val appGraph: AppGraph) : ShareStreakDataComponent {
+internal class ShareStreakDataComponentImpl(appGraph: AppGraph) : ShareStreakDataComponent {
     private val shareStreakCacheDataSource: ShareStreakCacheDataSource =
         ShareStreakCacheDataSourceImpl(appGraph.commonComponent.settings)
 
-    private val shareStreakRepository: ShareStreakRepository =
-        ShareStreakRepositoryImpl(shareStreakCacheDataSource)
+    override val shareStreakRepository: ShareStreakRepository
+        get() = ShareStreakRepositoryImpl(shareStreakCacheDataSource)
 
     override val shareStreakInteractor: ShareStreakInteractor
-        get() = ShareStreakInteractor(
-            shareStreakRepository,
-            appGraph.stateRepositoriesComponent.currentGamificationToolbarDataStateRepository
-        )
+        get() = ShareStreakInteractor(shareStreakRepository)
 }

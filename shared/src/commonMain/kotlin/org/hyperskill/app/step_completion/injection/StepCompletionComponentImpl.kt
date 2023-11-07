@@ -6,7 +6,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionActionDispatcher
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 
-class StepCompletionComponentImpl(
+internal class StepCompletionComponentImpl(
     private val appGraph: AppGraph,
     private val stepRoute: StepRoute
 ) : StepCompletionComponent {
@@ -24,8 +24,10 @@ class StepCompletionComponentImpl(
             appGraph.commonComponent.resourceProvider,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            appGraph.buildShareStreakDataComponent().shareStreakInteractor,
             appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
             appGraph.profileDataComponent.currentProfileStateRepository,
+            appGraph.stateRepositoriesComponent.currentGamificationToolbarDataStateRepository,
             appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             appGraph.progressesFlowDataComponent.topicProgressFlow,
             appGraph.buildNotificationComponent().notificationInteractor
