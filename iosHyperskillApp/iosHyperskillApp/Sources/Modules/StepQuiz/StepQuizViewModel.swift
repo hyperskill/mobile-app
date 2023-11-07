@@ -133,6 +133,12 @@ final class StepQuizViewModel: FeatureViewModel<
         onNewMessage(StepQuizFeatureMessageTheoryToolbarItemClicked())
     }
 
+    // MARK: StepQuizHints
+
+    func handleStepQuizHints(message: StepQuizHintsFeatureMessage) {
+        onNewMessage(StepQuizFeatureMessageStepQuizHintsMessage(message: message))
+    }
+
     // MARK: Analytic
 
     private func logClickedRetryEvent() {

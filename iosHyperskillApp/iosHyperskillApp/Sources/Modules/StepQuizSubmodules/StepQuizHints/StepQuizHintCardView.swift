@@ -35,6 +35,29 @@ struct StepQuizHintCardView: View {
     }
 
     var body: some View {
+        content
+            .alert(isPresented: $isPresentingReportAlert) {
+                Alert(
+                    title: Text(Strings.StepQuiz.Hints.reportAlertTitle),
+                    message: Text(Strings.StepQuiz.Hints.reportAlertText),
+                    primaryButton: .default(
+                        Text(Strings.Common.no),
+                        action: onReportAlertCanceled
+                    ),
+                    secondaryButton: .default(
+                        Text(Strings.Common.yes),
+                        action: onReportAlertConfirmed
+                    )
+                )
+            }
+            .onChange(of: isPresentingReportAlert) { newValue in
+                if newValue {
+                    onReportAlertAppeared()
+                }
+            }
+    }
+
+    private var content: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             HStack {
                 LazyAvatarView(authorAvatarSource)
@@ -84,13 +107,11 @@ struct StepQuizHintCardView: View {
                     isShowingMore = false
                     onNextHintTapped()
                 }
+            } else if hintState == .lastHint {
+                Text(Strings.StepQuiz.Hints.lastHint)
+                    .font(.caption)
+                    .foregroundColor(.secondaryText)
             } else {
-                if hintState == .lastHint {
-                    Text(Strings.StepQuiz.Hints.lastHint)
-                        .font(.caption)
-                        .foregroundColor(.secondaryText)
-                }
-
                 HStack(spacing: LayoutInsets.smallInset) {
                     Text(Strings.StepQuiz.Hints.helpfulQuestion)
                         .font(.caption)
@@ -115,25 +136,6 @@ struct StepQuizHintCardView: View {
         .padding()
         .background(Color.background)
         .addBorder(color: Color(ColorPalette.onSurfaceAlpha9))
-        .alert(isPresented: $isPresentingReportAlert) {
-            Alert(
-                title: Text(Strings.StepQuiz.Hints.reportAlertTitle),
-                message: Text(Strings.StepQuiz.Hints.reportAlertText),
-                primaryButton: .default(
-                    Text(Strings.Common.no),
-                    action: onReportAlertCanceled
-                ),
-                secondaryButton: .default(
-                    Text(Strings.Common.yes),
-                    action: onReportAlertConfirmed
-                )
-            )
-        }
-        .onChange(of: isPresentingReportAlert) { newValue in
-            if newValue {
-                onReportAlertAppeared()
-            }
-        }
     }
 }
 

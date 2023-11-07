@@ -1,10 +1,11 @@
 package org.hyperskill.app.step_quiz_hints.injection
 
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
-import ru.nobird.app.presentation.redux.feature.Feature
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 
 class StepQuizHintsComponentImpl(
     private val appGraph: AppGraph,
@@ -12,24 +13,24 @@ class StepQuizHintsComponentImpl(
 ) : StepQuizHintsComponent {
     private val stepQuizHintsInteractor: StepQuizHintsInteractor =
         StepQuizHintsInteractor(
-            appGraph.buildDiscussionsDataComponent().discussionsRepository,
-            appGraph.buildUserStorageComponent().userStorageRepository,
-            appGraph.buildCommentsDataComponent().commentsRepository
+            discussionsRepository = appGraph.buildDiscussionsDataComponent().discussionsRepository,
+            userStorageRepository = appGraph.buildUserStorageComponent().userStorageRepository,
+            commentsRepository = appGraph.buildCommentsDataComponent().commentsRepository
         )
 
-    override val stepQuizHintsFeature: Feature<
-        StepQuizHintsFeature.ViewState, StepQuizHintsFeature.Message, StepQuizHintsFeature.Action>
-        get() = StepQuizHintsFeatureBuilder.build(
-            stepRoute,
-            stepQuizHintsInteractor,
-            appGraph.buildLikesDataComponent().likesInteractor,
-            appGraph.buildCommentsDataComponent().commentsInteractor,
-            appGraph.buildReactionsDataComponent().reactionsInteractor,
-            appGraph.buildUserStorageComponent().userStorageInteractor,
-            appGraph.buildFreemiumDataComponent().freemiumInteractor,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+    override val stepQuizHintsReducer: StepQuizHintsReducer
+        get() = StepQuizHintsReducer(stepRoute = stepRoute)
+
+    override val stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher
+        get() = StepQuizHintsActionDispatcher(
+            config = ActionDispatcherOptions(),
+            stepQuizHintsInteractor = stepQuizHintsInteractor,
+            likesInteractor = appGraph.buildLikesDataComponent().likesInteractor,
+            commentsInteractor = appGraph.buildCommentsDataComponent().commentsInteractor,
+            reactionsInteractor = appGraph.buildReactionsDataComponent().reactionsInteractor,
+            userStorageInteractor = appGraph.buildUserStorageComponent().userStorageInteractor,
+            freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor
         )
 }

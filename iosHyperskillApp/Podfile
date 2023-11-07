@@ -9,23 +9,23 @@ target "iosHyperskillApp" do
 
   pod "shared", :path => "../shared"
 
-  pod "SwiftLint", "0.50.1"
-  pod "Sentry", "8.5.0"
+  pod "SwiftLint", "0.53.0"
+  pod "Sentry", "8.14.2"
 
   # Firebase
-  pod "Firebase/CoreOnly", "10.11.0"
-  pod "Firebase/Messaging", "10.11.0"
+  pod "Firebase/CoreOnly", "10.17.0"
+  pod "Firebase/Messaging", "10.17.0"
 
   # Analytics
   pod "AppsFlyerFramework", "6.12.2"
 
   # Social SDKs
-  pod "GoogleSignIn", "6.1.0"
+  pod "GoogleSignIn", "6.2.4"
 
   pod "IQKeyboardManagerSwift", "6.5.9"
   pod "SVProgressHUD", "2.2.5"
-  pod "SkeletonUI", "1.0.9"
-  pod "lottie-ios", "4.2.0"
+  pod "SkeletonUI", "1.0.11"
+  pod "lottie-ios", "4.3.3"
 
   pod "PanModal", :git => "https://github.com/ivan-magda/PanModal.git", :branch => "remove-presenting-appearance-transitions"
   pod "CombineSchedulers", :git => "https://github.com/ivan-magda/combine-schedulers.git", :branch => "main"

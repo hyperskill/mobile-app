@@ -16,6 +16,11 @@ import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizActionDispatcher
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import ru.nobird.app.core.model.safeCast
+import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -32,13 +37,16 @@ object StepQuizFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
+        stepQuizHintsReducer: StepQuizHintsReducer,
+        stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         resourceProvider: ResourceProvider,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
-        val stepQuizReducer =
-            StepQuizReducer(stepRoute)
-                .wrapWithLogger(buildVariant, logger, LOG_TAG)
+        val stepQuizReducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizHintsReducer = stepQuizHintsReducer
+        ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
             ActionDispatcherOptions(),
             stepQuizInteractor,
@@ -53,9 +61,17 @@ object StepQuizFeatureBuilder {
 
         return ReduxFeature(
             StepQuizFeature.State(
-                stepQuizState = StepQuizFeature.StepQuizState.Idle
+                stepQuizState = StepQuizFeature.StepQuizState.Idle,
+                stepQuizHintsState = StepQuizHintsFeature.State.Idle
             ),
             stepQuizReducer
-        ).wrapWithActionDispatcher(stepQuizActionDispatcher)
+        )
+            .wrapWithActionDispatcher(stepQuizActionDispatcher)
+            .wrapWithActionDispatcher(
+                stepQuizHintsActionDispatcher.transform(
+                    transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizHintsAction>()?.action },
+                    transformMessage = StepQuizFeature.Message::StepQuizHintsMessage
+                )
+            )
     }
 }
