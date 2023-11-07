@@ -1,21 +1,27 @@
 package org.hyperskill.app.android.step_quiz_fill_blanks.delegate
 
+import android.graphics.drawable.LayerDrawable
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBindingBinding
+import org.hyperskill.app.android.core.extensions.LayerListDrawableDelegate
+import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksOptionsBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.dialog.FillBlanksInputDialogFragment
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksOption
 import org.hyperskill.app.step_quiz_fill_blanks.model.InvalidFillBlanksConfigException
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
@@ -26,7 +32,8 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.core.model.mutate
 
 class FillBlanksStepQuizFormDelegate(
-    private val binding: LayoutStepQuizFillBlanksBindingBinding,
+    private val binding: LayoutStepQuizFillBlanksBinding,
+    private val optionsBinding: LayoutStepQuizFillBlanksOptionsBinding,
     private val fragmentManager: FragmentManager,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
@@ -38,10 +45,11 @@ class FillBlanksStepQuizFormDelegate(
         )
     }
 
-    // TODO: ALTAPPS-1021 provide corresponding mode
-    private val fillBlanksMapper: FillBlanksItemMapper = FillBlanksItemMapper(mode = FillBlanksMode.INPUT)
+    private var fillBlanksOptionsAdapter: DefaultDelegateAdapter<FillBlanksOption>? = null
 
-    private var resolveState: ResolveState = ResolveState.NOT_RESOLVED
+    private var fillBlanksMapper: FillBlanksItemMapper? = null
+
+    private var resolveState: ResolveState = ResolveState.NotResolved
 
     init {
         with(binding.stepQuizFillBlanksRecycler) {
@@ -63,13 +71,22 @@ class FillBlanksStepQuizFormDelegate(
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         val resolveState = resolve(resolveState, state)
         this.resolveState = resolveState
-        if (resolveState == ResolveState.RESOLVE_SUCCEED) {
-            val fillBlanksData = fillBlanksMapper.map(
-                state.attempt,
-                (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
+        if (resolveState is ResolveState.ResolveSucceed) {
+            if (fillBlanksMapper == null) {
+                fillBlanksMapper = FillBlanksItemMapper(mode = resolveState.mode)
+                if (resolveState.mode == FillBlanksMode.SELECT) {
+                    setupOptionsRecycler(optionsBinding)
+                }
+            }
+            val fillBlanksData = fillBlanksMapper?.map(
+                attempt = state.attempt,
+                submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
             )
+
             fillBlanksAdapter.items = fillBlanksData?.fillBlanks ?: emptyList()
             binding.root.post { binding.stepQuizFillBlanksRecycler.requestLayout() }
+
+            fillBlanksOptionsAdapter?.items = fillBlanksData?.options ?: emptyList()
         }
     }
 
@@ -77,24 +94,49 @@ class FillBlanksStepQuizFormDelegate(
         currentResolveState: ResolveState,
         state: StepQuizFeature.StepQuizState.AttemptLoaded
     ): ResolveState =
-        if (currentResolveState == ResolveState.NOT_RESOLVED) {
+        if (currentResolveState == ResolveState.NotResolved) {
             val dataset = state.attempt.dataset
             if (dataset != null) {
                 try {
-                    // TODO: ALTAPPS-1021 handle resolve state
-                    when (FillBlanksResolver.resolve(dataset)) {
-                        FillBlanksMode.INPUT -> ResolveState.RESOLVE_SUCCEED
-                        FillBlanksMode.SELECT -> ResolveState.RESOLVE_FAILED
-                    }
+                    val mode = FillBlanksResolver.resolve(dataset)
+                    ResolveState.ResolveSucceed(mode)
                 } catch (e: InvalidFillBlanksConfigException) {
-                    ResolveState.RESOLVE_FAILED
+                    ResolveState.ResolveFailed
                 }
             } else {
-                ResolveState.RESOLVE_FAILED
+                ResolveState.ResolveFailed
             }
         } else {
             currentResolveState
         }
+
+    private fun setupOptionsRecycler(optionsBinding: LayoutStepQuizFillBlanksOptionsBinding) {
+        fillBlanksOptionsAdapter = DefaultDelegateAdapter<FillBlanksOption>().apply {
+            addDelegate(optionAdapterDelegate())
+        }
+        with(optionsBinding.stepQuizFillBlanksOptionsRecycler) {
+            itemAnimator = null
+            adapter = fillBlanksOptionsAdapter
+            isNestedScrollingEnabled = false
+            layoutManager = FlexboxLayoutManager(context)
+            val dividerDrawable =
+                ContextCompat.getDrawable(context, R.drawable.bg_step_quiz_fill_blanks_options_vertical_divider)
+            addItemDecoration(
+                FlexboxItemDecoration(context).apply {
+                    setOrientation(FlexboxItemDecoration.HORIZONTAL)
+                    setDrawable(dividerDrawable)
+                }
+            )
+            addItemDecoration(
+                FlexboxItemDecoration(context).apply {
+                    setOrientation(FlexboxItemDecoration.VERTICAL)
+                    setDrawable(dividerDrawable)
+                }
+            )
+        }
+        optionsBinding.root.isVisible = true
+        TransitionManager.beginDelayedTransition(optionsBinding.root)
+    }
 
     override fun createReply(): Reply =
         Reply.fillBlanks(
@@ -152,9 +194,27 @@ class FillBlanksStepQuizFormDelegate(
             .showIfNotExists(fragmentManager, FillBlanksInputDialogFragment.TAG)
     }
 
-    private enum class ResolveState {
-        NOT_RESOLVED,
-        RESOLVE_SUCCEED,
-        RESOLVE_FAILED
+    private fun optionAdapterDelegate() =
+        adapterDelegate<FillBlanksOption, FillBlanksOption>(R.layout.item_step_quiz_fill_blanks_select) {
+            val textView = itemView as TextView
+            val layerListDrawableDelegate = LayerListDrawableDelegate(
+                listOf(
+                    R.id.step_quiz_fill_blanks_select_empty_layer,
+                    R.id.step_quiz_fill_blanks_select_filled_layer,
+                    R.id.step_quiz_fill_blanks_select_empty_selected_layer,
+                    R.id.step_quiz_fill_blanks_select_filled_selected_layer
+                ),
+                textView.background.mutate() as LayerDrawable
+            )
+            onBind { selectOption ->
+                textView.text = selectOption.displayText
+                layerListDrawableDelegate.showLayer(R.id.step_quiz_fill_blanks_select_filled_layer)
+            }
+        }
+
+    private sealed class ResolveState {
+        object NotResolved : ResolveState()
+        data class ResolveSucceed(val mode: FillBlanksMode) : ResolveState()
+        object ResolveFailed : ResolveState()
     }
 }
