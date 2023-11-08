@@ -34,6 +34,7 @@ struct ShareStreakModalView: View {
                     action: { onShareButtonTap?() }
                 )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+                .shineEffect()
 
                 Button(
                     Strings.StepQuiz.ShareStreakModal.noThanksButton,

@@ -29,6 +29,10 @@ enum ShareStreakAction {
         )
         activityViewController.excludedActivityTypes = [.airDrop]
 
+        if let popoverPresentationController = activityViewController.popoverPresentationController {
+            popoverPresentationController.sourceView = SourcelessRouter().currentPresentedViewController()?.view
+        }
+
         return activityViewController
     }
 }
