@@ -30,4 +30,7 @@ data class Challenge(
     val finishDate: LocalDate,
     @SerialName("current_interval")
     val currentInterval: Int?
-)
+) {
+    val status: ChallengeStatus?
+        get() = ChallengeStatus.getByValue(statusValue)
+}
