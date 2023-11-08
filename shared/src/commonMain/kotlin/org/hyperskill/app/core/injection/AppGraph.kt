@@ -6,6 +6,7 @@ import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.badges.injection.BadgesDataComponent
+import org.hyperskill.app.challenges.injection.ChallengesDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponent
@@ -151,4 +152,5 @@ interface AppGraph {
     fun buildBadgesDataComponent(): BadgesDataComponent
     fun buildNotificationsOnboardingComponent(): NotificationsOnboardingComponent
     fun buildFirstProblemOnboardingComponent(): FirstProblemOnboardingComponent
+    fun buildChallengesDataComponent(): ChallengesDataComponent
 }
