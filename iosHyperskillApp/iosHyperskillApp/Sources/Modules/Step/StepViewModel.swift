@@ -210,3 +210,45 @@ extension StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate {
         )
     }
 }
+
+// MARK: - StepViewModel: ShareStreakModalViewControllerDelegate -
+
+extension StepViewModel: ShareStreakModalViewControllerDelegate {
+    func shareStreakModalViewControllerDidAppear(_ viewController: ShareStreakModalViewController, streak: Int) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalShownEventMessage(streak: Int32(streak))
+            )
+        )
+    }
+
+    func shareStreakModalViewControllerDidDisappear(_ viewController: ShareStreakModalViewController, streak: Int) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalHiddenEventMessage(streak: Int32(streak))
+            )
+        )
+    }
+
+    func shareStreakModalViewControllerDidTapShareButton(
+        _ viewController: ShareStreakModalViewController,
+        streak: Int
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalShareClicked(streak: Int32(streak))
+            )
+        )
+    }
+
+    func shareStreakModalViewControllerDidTapNoThanksButton(
+        _ viewController: ShareStreakModalViewController,
+        streak: Int
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalNoThanksClickedEventMessage(streak: Int32(streak))
+            )
+        )
+    }
+}

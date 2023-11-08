@@ -120,10 +120,10 @@ struct StepView: View {
                 streakText: showProblemOfDaySolvedModalViewAction.streakText,
                 streak: showProblemOfDaySolvedModalViewAction.streak?.intValue
             )
-        case .showShareStreakModal:
-            #warning("TODO: ALTAPPS-1027 Show share streak modal")
-        case .showShareStreakSystemModal:
-            #warning("TODO: ALTAPPS-1027 Show system share streak modal")
+        case .showShareStreakModal(let showShareStreakModalViewAction):
+            presentShareStreakModal(streak: Int(showShareStreakModalViewAction.streak))
+        case .showShareStreakSystemModal(let showShareStreakSystemModalViewAction):
+            presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
         }
     }
 
@@ -163,6 +163,19 @@ extension StepView {
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(modal)
+    }
+
+    private func presentShareStreakModal(streak: Int) {
+        let modal = ShareStreakModalViewController(
+            streak: streak,
+            delegate: viewModel
+        )
+        panModalPresenter.presentPanModal(modal)
+    }
+
+    private func presentShareStreakSystemModal(streak: Int) {
+        let activityViewController = ShareStreakAction.makeActivityViewController(for: streak)
+        modalRouter.present(module: activityViewController, modalPresentationStyle: .automatic)
     }
 }
 

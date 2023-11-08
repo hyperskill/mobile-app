@@ -97,9 +97,9 @@ interface StepCompletionFeature {
          * Share streak
          */
         data class ShareStreak(val streak: Int) : Message
+        data class ShareStreakModalShareClicked(val streak: Int) : Message
         data class ShareStreakModalShownEventMessage(val streak: Int) : Message
         data class ShareStreakModalHiddenEventMessage(val streak: Int) : Message
-        data class ShareStreakModalShareClickedEventMessage(val streak: Int) : Message
         data class ShareStreakModalNoThanksClickedEventMessage(val streak: Int) : Message
 
         /**
