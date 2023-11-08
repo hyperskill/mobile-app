@@ -115,9 +115,15 @@ struct StepView: View {
         case .requestDailyStudyRemindersPermission:
             presentSendDailyStudyRemindersPermissionAlert()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
-            presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
+            presentDailyStepCompletedModal(
+                earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText,
+                streakText: showProblemOfDaySolvedModalViewAction.streakText,
+                streak: showProblemOfDaySolvedModalViewAction.streak?.intValue
+            )
         case .showShareStreakModal:
             #warning("TODO: ALTAPPS-1027 Show share streak modal")
+        case .showShareStreakSystemModal:
+            #warning("TODO: ALTAPPS-1027 Show system share streak modal")
         }
     }
 
@@ -145,20 +151,18 @@ extension StepView {
         panModalPresenter.presentPanModal(modal)
     }
 
-    private func presentDailyStepCompletedModal(earnedGemsText: String) {
-        viewModel.logDailyStepCompletedModalShownEvent()
-
-        let panModal = ProblemOfDaySolvedModalViewController(
+    private func presentDailyStepCompletedModal(
+        earnedGemsText: String,
+        streakText: String?,
+        streak: Int?
+    ) {
+        let modal = ProblemOfDaySolvedModalViewController(
             earnedGemsText: earnedGemsText,
-            onGoBackButtonTap: { [weak viewModel] in
-                viewModel?.doGoBackProblemOfDaySolvedAction()
-            }
+            streakText: streakText,
+            streak: streak,
+            delegate: viewModel
         )
-        panModal.onDisappear = { [weak viewModel] in
-            viewModel?.logDailyStepCompletedModalHiddenEvent()
-        }
-
-        panModalPresenter.presentPanModal(panModal)
+        panModalPresenter.presentPanModal(modal)
     }
 }
 

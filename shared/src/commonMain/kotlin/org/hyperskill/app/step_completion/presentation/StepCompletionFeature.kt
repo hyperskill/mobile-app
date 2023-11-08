@@ -139,6 +139,7 @@ interface StepCompletionFeature {
             ) : ViewAction
 
             data class ShowShareStreakModal(val streak: Int) : ViewAction
+            data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
 
             object RequestDailyStudyRemindersPermission : ViewAction
 

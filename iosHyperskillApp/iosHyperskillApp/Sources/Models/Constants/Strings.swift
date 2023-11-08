@@ -121,6 +121,9 @@ enum Strings {
         enum ProblemOfDaySolvedModal {
             static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
             static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
+
+            static let shareStreakButton =
+              sharedStrings.step_quiz_problem_of_day_solved_modal_share_streak_button_text.localized()
         }
 
         enum TopicCompletedModal {

@@ -147,7 +147,8 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                             route = stepRoute.analyticRoute,
                             streak = message.streak
                         )
-                    )
+                    ),
+                    Action.ViewAction.ShowShareStreakSystemModal(streak = message.streak)
                 )
             }
             is Message.StepSolved ->
