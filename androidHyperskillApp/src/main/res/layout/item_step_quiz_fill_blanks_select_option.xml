@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/stepQuizFillBlanksSelectOptionContainer"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textAppearance="@style/TextAppearance.AppTheme.Code.Medium"
     android:clickable="true"
     android:focusable="true"
     android:background="@drawable/bg_step_quiz_fill_blanks_select_item"
-    android:padding="8dp"
-    tools:text="tx.Create(artist)"
-    />
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/stepQuizFillBlanksSelectOptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Code.Medium"
+        tools:text="tx.Create(artist)"
+        />
+
+</FrameLayout>
