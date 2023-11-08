@@ -22,7 +22,7 @@
         android:scrollbars="vertical"
         android:padding="20dp"
         tools:itemCount="100"
-        tools:listitem="@layout/item_step_quiz_fill_blanks_select"
+        tools:listitem="@layout/item_step_quiz_fill_blanks_select_option"
         />
 
 </LinearLayout>

@@ -51,6 +51,13 @@ class FillBlanksStepQuizFormDelegate(
 
     private var resolveState: ResolveState = ResolveState.NotResolved
 
+    private val selectOptionLayers = listOf(
+        R.id.step_quiz_fill_blanks_select_empty_layer,
+        R.id.step_quiz_fill_blanks_select_filled_layer,
+        R.id.step_quiz_fill_blanks_select_empty_selected_layer,
+        R.id.step_quiz_fill_blanks_select_filled_selected_layer
+    )
+
     init {
         with(binding.stepQuizFillBlanksRecycler) {
             itemAnimator = null
@@ -82,6 +89,11 @@ class FillBlanksStepQuizFormDelegate(
                 attempt = state.attempt,
                 submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
             )
+
+            fillBlanksData?.options?.let { options ->
+                // addDelegate adds delegate only once under the hood
+                fillBlanksAdapter.addDelegate(selectAdapterDelegate(options))
+            }
 
             fillBlanksAdapter.items = fillBlanksData?.fillBlanks ?: emptyList()
             binding.root.post { binding.stepQuizFillBlanksRecycler.requestLayout() }
@@ -194,21 +206,40 @@ class FillBlanksStepQuizFormDelegate(
             .showIfNotExists(fragmentManager, FillBlanksInputDialogFragment.TAG)
     }
 
-    private fun optionAdapterDelegate() =
-        adapterDelegate<FillBlanksOption, FillBlanksOption>(R.layout.item_step_quiz_fill_blanks_select) {
+    private fun selectAdapterDelegate(options: List<FillBlanksOption>) =
+        adapterDelegate<FillBlanksItem, FillBlanksItem.Select>(R.layout.item_step_quiz_fill_blanks_select) {
             val textView = itemView as TextView
             val layerListDrawableDelegate = LayerListDrawableDelegate(
-                listOf(
-                    R.id.step_quiz_fill_blanks_select_empty_layer,
-                    R.id.step_quiz_fill_blanks_select_filled_layer,
-                    R.id.step_quiz_fill_blanks_select_empty_selected_layer,
-                    R.id.step_quiz_fill_blanks_select_filled_selected_layer
-                ),
+                selectOptionLayers,
+                textView.background.mutate() as LayerDrawable
+            )
+            onBind { selectItem ->
+                val selectedOptionIndex = selectItem.selectedOptionIndex
+                val text = if (selectedOptionIndex != null) {
+                    options.getOrNull(selectedOptionIndex)?.displayText
+                } else {
+                    null
+                }
+                textView.setTextIfChanged(text ?: "")
+                layerListDrawableDelegate.showLayer(
+                    when {
+                        text.isNullOrEmpty() -> R.id.step_quiz_fill_blanks_select_empty_layer
+                        text.isNotEmpty() -> R.id.step_quiz_fill_blanks_select_filled_layer
+                        else -> R.id.step_quiz_fill_blanks_select_empty_layer
+                    }
+                )
+            }
+        }
+
+    private fun optionAdapterDelegate() =
+        adapterDelegate<FillBlanksOption, FillBlanksOption>(R.layout.item_step_quiz_fill_blanks_select_option) {
+            val textView = itemView as TextView
+            val layerListDrawableDelegate = LayerListDrawableDelegate(
+                selectOptionLayers,
                 textView.background.mutate() as LayerDrawable
             )
             onBind { selectOption ->
-                textView.text = selectOption.displayText
-                layerListDrawableDelegate.showLayer(R.id.step_quiz_fill_blanks_select_filled_layer)
+                textView.setTextIfChanged(selectOption.displayText)
             }
         }
 
