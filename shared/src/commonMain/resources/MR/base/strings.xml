@@ -87,6 +87,8 @@
     <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
     <string name="step_quiz_problem_of_day_solved_modal_title">Problem of the day solved!</string>
     <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
+    <string name="step_quiz_problem_of_day_solved_modal_streak_text">%s streak</string>
+    <string name="step_quiz_problem_of_day_solved_modal_share_streak_button_text">Share your streak</string>
     <string name="step_quiz_topic_completed_modal_text">You completed %s</string>
     <string name="step_quiz_topic_completed_continue_with_next_topic_button_text">Continue with next topic</string>
     <string name="step_quiz_step_text_header_title">Description</string>
@@ -319,7 +321,6 @@
         repeat each topic three times within a month after you first complete it.
     </string>
 
-
     <!-- Placeholder for new users -->
     <string name="placeholder_new_user_title">What is your learning goal?</string>
     <string name="placeholder_new_user_text">
@@ -493,6 +494,13 @@
     <string name="project_completed_modal_title">Congratulations! Your project is completed!</string>
     <string name="project_completed_modal_text">You did a great job!</string>
     <string name="project_completed_modal_project_reward_text">gems for completing the whole project</string>
+
+    <!-- Share Streak modal -->
+    <string name="share_streak_modal_title">Share your progress</string>
+    <string name="share_streak_modal_share_button_text">Share</string>
+    <string name="share_streak_modal_no_thanks_button_text">No, thanks</string>
+    <string name="share_streak_sharing_text">Hyperskill – Level up your coding skills!</string>
+    <string name="share_streak_sharing_url">https://hi.hyperskill.org/my-hyperskill-app</string>
 
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>

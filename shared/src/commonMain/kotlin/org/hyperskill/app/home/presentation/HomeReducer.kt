@@ -227,7 +227,7 @@ class HomeReducer(
         val (toolbarState, toolbarActions) =
             reduceGamificationToolbarMessage(
                 state.toolbarState,
-                GamificationToolbarFeature.Message.Initialize(forceUpdate)
+                GamificationToolbarFeature.InternalMessage.Initialize(forceUpdate)
             )
 
         return state.copy(
@@ -250,7 +250,7 @@ class HomeReducer(
 
         val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
             state.toolbarState,
-            GamificationToolbarFeature.Message.PullToRefresh
+            GamificationToolbarFeature.InternalMessage.PullToRefresh
         )
 
         return state.copy(

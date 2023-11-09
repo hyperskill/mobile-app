@@ -1,0 +1,6 @@
+package org.hyperskill.app.gamification_toolbar.domain.repository
+
+import org.hyperskill.app.core.domain.repository.StateRepository
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarData
+
+interface CurrentGamificationToolbarDataStateRepository : StateRepository<GamificationToolbarData>

@@ -35,7 +35,7 @@ internal class StudyPlanScreenReducer(
 
                 val (toolbarState, toolbarActions) = reduceToolbarMessage(
                     state.toolbarState,
-                    GamificationToolbarFeature.Message.PullToRefresh
+                    GamificationToolbarFeature.InternalMessage.PullToRefresh
                 )
 
                 state.copy(
@@ -88,7 +88,7 @@ internal class StudyPlanScreenReducer(
         val (toolbarState, toolbarActions) =
             reduceToolbarMessage(
                 state.toolbarState,
-                GamificationToolbarFeature.Message.Initialize(forceUpdate = retryContentLoadingClicked)
+                GamificationToolbarFeature.InternalMessage.Initialize(forceUpdate = retryContentLoadingClicked)
             )
         val (problemsLimitState, problemsLimitActions) =
             reduceProblemsLimitMessage(
