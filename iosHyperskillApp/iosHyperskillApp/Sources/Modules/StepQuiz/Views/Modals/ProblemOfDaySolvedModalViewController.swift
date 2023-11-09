@@ -1,4 +1,5 @@
 import PanModal
+import shared
 import SnapKit
 import UIKit
 
@@ -40,8 +41,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     private(set) var appearance = Appearance()
 
     private let earnedGemsText: String
-    private let streakText: String?
-    private let streak: Int?
+    private let shareStreakData: StepCompletionFeatureShareStreakDataKs
 
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -62,13 +62,11 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     init(
         earnedGemsText: String,
-        streakText: String?,
-        streak: Int?,
+        shareStreakData: StepCompletionFeatureShareStreakDataKs,
         delegate: ProblemOfDaySolvedModalViewControllerDelegate?
     ) {
         self.earnedGemsText = earnedGemsText
-        self.streakText = streakText
-        self.streak = streak
+        self.shareStreakData = shareStreakData
         self.delegate = delegate
         super.init()
     }
@@ -198,13 +196,16 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
             )
         )
 
-        if let streakText {
+        switch shareStreakData {
+        case .content(let data):
             itemsStackView.addArrangedSubview(
                 makeItemView(
                     imageResource: .navigationBarStreakCompleted,
-                    text: streakText
+                    text: data.streakText
                 )
             )
+        case .empty:
+            break
         }
     }
 
@@ -232,19 +233,20 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
             make.height.equalTo(appearance.buttonHeight)
         }
 
-        guard streakText != nil && streak != nil else {
-            return
-        }
+        switch shareStreakData {
+        case .content:
+            let shareStreakButton = UIKitRoundedRectangleButton(style: .outline)
+            shareStreakButton.setTitle(Strings.StepQuiz.ProblemOfDaySolvedModal.shareStreakButton, for: .normal)
+            shareStreakButton.addTarget(self, action: #selector(shareStreakButtonTapped), for: .touchUpInside)
 
-        let shareStreakButton = UIKitRoundedRectangleButton(style: .outline)
-        shareStreakButton.setTitle(Strings.StepQuiz.ProblemOfDaySolvedModal.shareStreakButton, for: .normal)
-        shareStreakButton.addTarget(self, action: #selector(shareStreakButtonTapped), for: .touchUpInside)
-
-        stackView.addArrangedSubview(shareStreakButton)
-        shareStreakButton.translatesAutoresizingMaskIntoConstraints = false
-        shareStreakButton.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(appearance.buttonHeight)
+            stackView.addArrangedSubview(shareStreakButton)
+            shareStreakButton.translatesAutoresizingMaskIntoConstraints = false
+            shareStreakButton.snp.makeConstraints { make in
+                make.width.equalToSuperview()
+                make.height.equalTo(appearance.buttonHeight)
+            }
+        case .empty:
+            break
         }
     }
 
@@ -256,11 +258,12 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     @objc
     private func shareStreakButtonTapped() {
-        guard let streak else {
-            return assertionFailure("ProblemOfDaySolvedModalViewController: streak is nil")
+        switch shareStreakData {
+        case .content(let data):
+            delegate?.problemOfDaySolvedModalViewControllerDidTapShareStreakButton(self, streak: Int(data.streak))
+        case .empty:
+            assertionFailure("ProblemOfDaySolvedModalViewController: unexpected state")
         }
-
-        delegate?.problemOfDaySolvedModalViewControllerDidTapShareStreakButton(self, streak: streak)
     }
 }
 
@@ -268,8 +271,12 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 #Preview {
     ProblemOfDaySolvedModalViewController(
         earnedGemsText: "+3 gems",
-        streakText: "5 days streak",
-        streak: 5,
+        shareStreakData: .content(
+            StepCompletionFeatureShareStreakDataContent(
+                streakText: "5 days streak",
+                streak: 5
+            )
+        ),
         delegate: nil
     )
 }
@@ -278,8 +285,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 #Preview {
     ProblemOfDaySolvedModalViewController(
         earnedGemsText: "+3 gems",
-        streakText: nil,
-        streak: nil,
+        shareStreakData: .empty,
         delegate: nil
     )
 }

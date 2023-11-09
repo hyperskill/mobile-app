@@ -117,8 +117,7 @@ struct StepView: View {
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(
                 earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText,
-                streakText: showProblemOfDaySolvedModalViewAction.streakText,
-                streak: showProblemOfDaySolvedModalViewAction.streak?.intValue
+                shareStreakData: showProblemOfDaySolvedModalViewAction.shareStreakData
             )
         case .showShareStreakModal(let showShareStreakModalViewAction):
             presentShareStreakModal(streak: Int(showShareStreakModalViewAction.streak))
@@ -153,13 +152,11 @@ extension StepView {
 
     private func presentDailyStepCompletedModal(
         earnedGemsText: String,
-        streakText: String?,
-        streak: Int?
+        shareStreakData: StepCompletionFeatureShareStreakData
     ) {
         let modal = ProblemOfDaySolvedModalViewController(
             earnedGemsText: earnedGemsText,
-            streakText: streakText,
-            streak: streak,
+            shareStreakData: StepCompletionFeatureShareStreakDataKs(shareStreakData),
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(modal)
