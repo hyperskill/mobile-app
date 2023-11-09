@@ -56,6 +56,8 @@ class FillBlanksStepQuizFormDelegate(
 
     private var resolveState: ResolveState = ResolveState.NotResolved
 
+    private var selectOptions: List<FillBlanksOption>? = null
+
     private var selectItemIndices: List<Int> = emptyList()
     private var highlightedSelectItemIndex: Int? = null
 
@@ -111,6 +113,7 @@ class FillBlanksStepQuizFormDelegate(
                     }
             }
 
+            this.selectOptions = fillBlanksData?.options
             fillBlanksData?.options?.let { options ->
                 // addDelegate adds delegate only once under the hood
                 fillBlanksAdapter.addDelegate(
@@ -240,8 +243,11 @@ class FillBlanksStepQuizFormDelegate(
                     is FillBlanksUiItem.Input -> item.origin.inputText
                     is FillBlanksUiItem.Text -> null
                     is FillBlanksUiItem.Select -> {
-                        // TODO: ALTAPPS-1021 provide reply blanks for select mode
-                        null
+                        selectOptions?.let { options ->
+                            item.origin.selectedOptionIndex?.let { optionIndex ->
+                                options.getOrNull(optionIndex)?.originalText
+                            }
+                        }
                     }
                 }
             }
@@ -252,7 +258,6 @@ class FillBlanksStepQuizFormDelegate(
             val inputItem = get(index) as FillBlanksUiItem.Input
             set(index, inputItem.copy(inputText = text))
         }
-        fillBlanksAdapter.notifyItemChanged(index)
         onQuizChanged(createReply())
     }
 
@@ -419,6 +424,8 @@ class FillBlanksStepQuizFormDelegate(
                 FillBlanksSelectOptionUIItem(selectedOption, isUsed = true)
             )
         } ?: emptyList()
+
+        onQuizChanged(createReply())
     }
 
     private fun updateSelectItemsHighlighting(
