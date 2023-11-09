@@ -31,6 +31,9 @@ data class Challenge(
     @SerialName("current_interval")
     val currentInterval: Int?
 ) {
+    val targetType: ChallengeTargetType?
+        get() = ChallengeTargetType.getByValue(targetTypeValue)
+
     val status: ChallengeStatus?
         get() = ChallengeStatus.getByValue(statusValue)
 }
