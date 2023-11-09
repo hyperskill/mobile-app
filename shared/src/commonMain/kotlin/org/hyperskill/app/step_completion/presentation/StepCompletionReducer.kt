@@ -125,8 +125,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 state to setOf(
                     Action.ViewAction.ShowProblemOfDaySolvedModal(
                         earnedGemsText = message.earnedGemsText,
-                        streakText = message.streakText,
-                        streak = message.streak
+                        shareStreakData = message.shareStreakData
                     )
                 )
             is Message.ProblemOfDaySolvedModalGoBackClicked -> {

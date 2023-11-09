@@ -248,25 +248,27 @@ class StepCompletionActionDispatcher(
                     gemsEarned
                 )
 
-                val streakText = if (shouldShareStreak && streakToShare != null) {
+                val shareStreakData = if (shouldShareStreak && streakToShare != null) {
                     val daysText = resourceProvider.getQuantityString(
                         SharedResources.plurals.days,
                         streakToShare,
                         streakToShare
                     )
-                    resourceProvider.getString(
-                        SharedResources.strings.step_quiz_problem_of_day_solved_modal_streak_text,
-                        daysText
+                    StepCompletionFeature.ShareStreakData.Content(
+                        streakText = resourceProvider.getString(
+                            SharedResources.strings.step_quiz_problem_of_day_solved_modal_streak_text,
+                            daysText
+                        ),
+                        streak = streakToShare
                     )
                 } else {
-                    null
+                    StepCompletionFeature.ShareStreakData.Empty
                 }
 
                 onNewMessage(
                     Message.ProblemOfDaySolved(
                         earnedGemsText = earnedGemsText,
-                        streakText = streakText,
-                        streak = if (shouldShareStreak) streakToShare else null
+                        shareStreakData = shareStreakData
                     )
                 )
                 return

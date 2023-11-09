@@ -1,7 +1,6 @@
 package org.hyperskill.app.share_streak.domain.interactor
 
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.share_streak.domain.repository.ShareStreakRepository
@@ -13,8 +12,7 @@ class ShareStreakInteractor(private val shareStreakRepository: ShareStreakReposi
     }
 
     fun setLastTimeShareStreakShown() {
-        val nowEpochMilliseconds = Clock.System.now().toEpochMilliseconds()
-        shareStreakRepository.setLastTimeShareStreakShown(epochMilliseconds = nowEpochMilliseconds)
+        shareStreakRepository.setLastTimeShareStreakShown()
     }
 
     fun shouldShareStreakAfterStepSolved(streak: Int, streakState: StreakState): Boolean {
@@ -31,11 +29,8 @@ class ShareStreakInteractor(private val shareStreakRepository: ShareStreakReposi
     }
 
     private fun isUserSawShareStreakToday(): Boolean {
-        val lastTimeShownEpochMilliseconds =
-            shareStreakRepository.getLastTimeShareStreakShownEpochMilliseconds() ?: return false
-        val lastTimeShownLocalDateTime = Instant
-            .fromEpochMilliseconds(lastTimeShownEpochMilliseconds)
-            .toLocalDateTime(TimeZone.UTC)
+        val lastTimeShownLocalDateTime =
+            shareStreakRepository.getLastTimeShareStreakShown()?.toLocalDateTime(TimeZone.UTC) ?: return false
 
         val nowLocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
 
