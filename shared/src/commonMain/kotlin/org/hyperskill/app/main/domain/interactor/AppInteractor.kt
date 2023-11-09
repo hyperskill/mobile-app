@@ -7,6 +7,7 @@ import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepositor
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
+import org.hyperskill.app.share_streak.domain.repository.ShareStreakRepository
 import org.hyperskill.app.track.domain.repository.TrackRepository
 import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 
@@ -19,6 +20,7 @@ class AppInteractor(
     private val trackRepository: TrackRepository,
     private val providersRepository: ProvidersRepository,
     private val projectsRepository: ProjectsRepository,
+    private val shareStreakRepository: ShareStreakRepository,
     private val pushNotificationsInteractor: PushNotificationsInteractor
 ) {
     suspend fun doCurrentUserSignedOutCleanUp() {
@@ -36,5 +38,6 @@ class AppInteractor(
         trackRepository.clearCache()
         providersRepository.clearCache()
         projectsRepository.clearCache()
+        shareStreakRepository.clearCache()
     }
 }

@@ -46,6 +46,7 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
+import org.hyperskill.app.share_streak.injection.ShareStreakDataComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
 import org.hyperskill.app.stages.injection.StagesDataComponent
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -152,5 +153,6 @@ interface AppGraph {
     fun buildBadgesDataComponent(): BadgesDataComponent
     fun buildNotificationsOnboardingComponent(): NotificationsOnboardingComponent
     fun buildFirstProblemOnboardingComponent(): FirstProblemOnboardingComponent
+    fun buildShareStreakDataComponent(): ShareStreakDataComponent
     fun buildChallengesDataComponent(): ChallengesDataComponent
 }

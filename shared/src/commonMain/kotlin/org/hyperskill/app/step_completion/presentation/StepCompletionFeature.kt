@@ -47,6 +47,17 @@ interface StepCompletionFeature {
         object CheckTopicCompletion : ContinueButtonAction
     }
 
+    /**
+     * Helper class to show streak text and streak value
+     *
+     * @see Message.ProblemOfDaySolved
+     * @see Action.ViewAction.ShowProblemOfDaySolvedModal
+     */
+    sealed interface ShareStreakData {
+        object Empty : ShareStreakData
+        data class Content(val streakText: String, val streak: Int) : ShareStreakData
+    }
+
     sealed interface Message {
         object StartPracticingClicked : Message
 
@@ -57,7 +68,6 @@ interface StepCompletionFeature {
         /**
          * Topic completed modal
          */
-
         sealed interface CheckTopicCompletionStatus : Message {
             data class Completed(
                 val topicId: Long,
@@ -79,14 +89,27 @@ interface StepCompletionFeature {
         /**
          * Show problem of day solve modal
          */
-        data class ProblemOfDaySolved(val earnedGemsText: String) : Message
+        data class ProblemOfDaySolved(
+            val earnedGemsText: String,
+            val shareStreakData: ShareStreakData
+        ) : Message
         object ProblemOfDaySolvedModalGoBackClicked : Message
+        data class ProblemOfDaySolvedModalShareStreakClicked(val streak: Int) : Message
 
         /**
          * Daily study reminders
          */
         object RequestDailyStudyRemindersPermission : Message
         data class RequestDailyStudyRemindersPermissionResult(val isGranted: Boolean) : Message
+
+        /**
+         * Share streak
+         */
+        data class ShareStreak(val streak: Int) : Message
+        data class ShareStreakModalShareClicked(val streak: Int) : Message
+        data class ShareStreakModalShownEventMessage(val streak: Int) : Message
+        data class ShareStreakModalHiddenEventMessage(val streak: Int) : Message
+        data class ShareStreakModalNoThanksClickedEventMessage(val streak: Int) : Message
 
         /**
          * Analytic
@@ -110,10 +133,21 @@ interface StepCompletionFeature {
         object TurnOnDailyStudyReminder : Action
         object PostponeDailyStudyReminder : Action
 
-        sealed interface ViewAction : Action {
-            data class ShowTopicCompletedModal(val modalText: String, val isNextStepAvailable: Boolean) : ViewAction
+        object UpdateLastTimeShareStreakShown : Action
 
-            data class ShowProblemOfDaySolvedModal(val earnedGemsText: String) : ViewAction
+        sealed interface ViewAction : Action {
+            data class ShowTopicCompletedModal(
+                val modalText: String,
+                val isNextStepAvailable: Boolean
+            ) : ViewAction
+
+            data class ShowProblemOfDaySolvedModal(
+                val earnedGemsText: String,
+                val shareStreakData: ShareStreakData
+            ) : ViewAction
+
+            data class ShowShareStreakModal(val streak: Int) : ViewAction
+            data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
 
             object RequestDailyStudyRemindersPermission : ViewAction
 
