@@ -259,6 +259,9 @@
 		2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */; };
 		2C863D932804279E0021EFED /* Require.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C863D922804279E0021EFED /* Require.swift */; };
 		2C8CD9AE2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8CD9AD2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift */; };
+		2C8DD4092AFB7DFD00FD5359 /* ShareStreakModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8DD4082AFB7DFD00FD5359 /* ShareStreakModalViewController.swift */; };
+		2C8DD40C2AFB7E6A00FD5359 /* ShareStreakModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8DD40B2AFB7E6A00FD5359 /* ShareStreakModalView.swift */; };
+		2C8DD40E2AFB907000FD5359 /* ShareStreakAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8DD40D2AFB907000FD5359 /* ShareStreakAction.swift */; };
 		2C8E4F96284895A30011ADFA /* PanModalPresentableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F95284895A30011ADFA /* PanModalPresentableViewController.swift */; };
 		2C8E4F982848961C0011ADFA /* UIViewController+PresentPanModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */; };
 		2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */; };
@@ -893,6 +896,9 @@
 		2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTheoryContentView.swift; sourceTree = "<group>"; };
 		2C863D922804279E0021EFED /* Require.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Require.swift; sourceTree = "<group>"; };
 		2C8CD9AD2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C8DD4082AFB7DFD00FD5359 /* ShareStreakModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareStreakModalViewController.swift; sourceTree = "<group>"; };
+		2C8DD40B2AFB7E6A00FD5359 /* ShareStreakModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareStreakModalView.swift; sourceTree = "<group>"; };
+		2C8DD40D2AFB907000FD5359 /* ShareStreakAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareStreakAction.swift; sourceTree = "<group>"; };
 		2C8E4F95284895A30011ADFA /* PanModalPresentableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalPresentableViewController.swift; sourceTree = "<group>"; };
 		2C8E4F972848961C0011ADFA /* UIViewController+PresentPanModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+PresentPanModal.swift"; sourceTree = "<group>"; };
 		2C8E4F99284897360011ADFA /* PanModalSwiftUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanModalSwiftUIViewController.swift; sourceTree = "<group>"; };
@@ -2408,6 +2414,16 @@
 			path = PlaceholderView;
 			sourceTree = "<group>";
 		};
+		2C8DD40A2AFB7E3100FD5359 /* ShareStreak */ = {
+			isa = PBXGroup;
+			children = (
+				2C8DD40D2AFB907000FD5359 /* ShareStreakAction.swift */,
+				2C8DD40B2AFB7E6A00FD5359 /* ShareStreakModalView.swift */,
+				2C8DD4082AFB7DFD00FD5359 /* ShareStreakModalViewController.swift */,
+			);
+			path = ShareStreak;
+			sourceTree = "<group>";
+		};
 		2C8E4F032848788D0011ADFA /* PanModal */ = {
 			isa = PBXGroup;
 			children = (
@@ -3634,6 +3650,7 @@
 			children = (
 				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
 				E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */,
+				2C8DD40A2AFB7E3100FD5359 /* ShareStreak */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -4103,6 +4120,7 @@
 				2C5F19152AE667C90039414D /* LeftAlignedCollectionViewFlowLayout.swift in Sources */,
 				E993E9A928426FF2005988EC /* StepQuizSortingViewData.swift in Sources */,
 				E9F59B90289FE053001CEA02 /* ProfileSettingsViewModel.swift in Sources */,
+				2C8DD40C2AFB7E6A00FD5359 /* ShareStreakModalView.swift in Sources */,
 				2C967434288824450091B6C9 /* StepQuizCodeView.swift in Sources */,
 				E94D238F280585110003273F /* AuthCredentialsFormView.swift in Sources */,
 				2C5CBBE52948FA7400113007 /* StepQuizSQLAssembly.swift in Sources */,
@@ -4236,6 +4254,7 @@
 				2C5261A52993CBF100B4E8F6 /* TopicProgressExtensions.swift in Sources */,
 				2C0DB90728644F2C001EA35E /* CodeEditorView.swift in Sources */,
 				2CDA98452944590800ADE539 /* ProfileStatisticsView.swift in Sources */,
+				2C8DD40E2AFB907000FD5359 /* ShareStreakAction.swift in Sources */,
 				2C7CB6822ADFDB45006F78DA /* UIFont+SizeOfString.swift in Sources */,
 				2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */,
 				2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */,
@@ -4606,6 +4625,7 @@
 				ECD10958C8BA7D758D3D1F66 /* ProjectSelectionDetailsAssembly.swift in Sources */,
 				018CAC44EED7A992000ECF87 /* ProjectSelectionDetailsView.swift in Sources */,
 				AE0B2D1D267B8904498FA371 /* ProjectSelectionDetailsViewModel.swift in Sources */,
+				2C8DD4092AFB7DFD00FD5359 /* ShareStreakModalViewController.swift in Sources */,
 				0809817CFCC9D4C45457B3C8 /* ProgressScreenAssembly.swift in Sources */,
 				59B66CD4D1508049555D35AE /* ProgressScreenView.swift in Sources */,
 				2CE7B4842AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift in Sources */,

@@ -146,7 +146,8 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                             route = stepRoute.analyticRoute,
                             streak = message.streak
                         )
-                    )
+                    ),
+                    Action.ViewAction.ShowShareStreakSystemModal(streak = message.streak)
                 )
             }
             is Message.StepSolved ->
@@ -202,14 +203,15 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     )
                 )
             }
-            is Message.ShareStreakModalShareClickedEventMessage -> {
+            is Message.ShareStreakModalShareClicked -> {
                 state to setOf(
                     Action.LogAnalyticEvent(
                         StepCompletionShareStreakModalClickedShareHyperskillAnalyticEvent(
                             route = stepRoute.analyticRoute,
                             streak = message.streak
                         )
-                    )
+                    ),
+                    Action.ViewAction.ShowShareStreakSystemModal(streak = message.streak)
                 )
             }
             is Message.ShareStreakModalNoThanksClickedEventMessage -> {
