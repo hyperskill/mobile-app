@@ -2,7 +2,6 @@ package org.hyperskill.app.notification.local.domain.interactor
 
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
@@ -28,8 +27,6 @@ class NotificationInteractor(
         private const val MAX_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT = 3
         private const val UTC_TIME_ZONE_ID = "UTC"
     }
-
-    val solvedStepsSharedFlow: SharedFlow<Long> = submissionRepository.solvedStepsMutableSharedFlow
 
     fun isNotificationsPermissionGranted(): Boolean =
         notificationRepository.isNotificationsPermissionGranted()

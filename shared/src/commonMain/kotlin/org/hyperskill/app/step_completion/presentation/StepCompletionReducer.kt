@@ -7,9 +7,14 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedStartPracticingHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalClickedGoBackHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalClickedShareStreakHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedNoThanksHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedShareHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
@@ -117,7 +122,12 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     null
                 }
             is Message.ProblemOfDaySolved ->
-                state to setOf(Action.ViewAction.ShowProblemOfDaySolvedModal(message.earnedGemsText))
+                state to setOf(
+                    Action.ViewAction.ShowProblemOfDaySolvedModal(
+                        earnedGemsText = message.earnedGemsText,
+                        shareStreakData = message.shareStreakData
+                    )
+                )
             is Message.ProblemOfDaySolvedModalGoBackClicked -> {
                 state to setOf(
                     Action.LogAnalyticEvent(
@@ -126,6 +136,17 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                         )
                     ),
                     Action.ViewAction.NavigateTo.Back
+                )
+            }
+            is Message.ProblemOfDaySolvedModalShareStreakClicked -> {
+                state to setOf(
+                    Action.UpdateLastTimeShareStreakShown,
+                    Action.LogAnalyticEvent(
+                        StepCompletionDailyStepCompletedModalClickedShareStreakHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute,
+                            streak = message.streak
+                        )
+                    )
                 )
             }
             is Message.StepSolved ->
@@ -156,6 +177,49 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                         Action.PostponeDailyStudyReminder
                     },
                     Action.LogAnalyticEvent(analyticEvent)
+                )
+            }
+            is Message.ShareStreak -> {
+                state to setOf(Action.ViewAction.ShowShareStreakModal(streak = message.streak))
+            }
+            is Message.ShareStreakModalShownEventMessage -> {
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepCompletionShareStreakModalShownHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute,
+                            streak = message.streak
+                        )
+                    )
+                )
+            }
+            is Message.ShareStreakModalHiddenEventMessage -> {
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepCompletionShareStreakModalHiddenHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute,
+                            streak = message.streak
+                        )
+                    )
+                )
+            }
+            is Message.ShareStreakModalShareClickedEventMessage -> {
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepCompletionShareStreakModalClickedShareHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute,
+                            streak = message.streak
+                        )
+                    )
+                )
+            }
+            is Message.ShareStreakModalNoThanksClickedEventMessage -> {
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepCompletionShareStreakModalClickedNoThanksHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute,
+                            streak = message.streak
+                        )
+                    )
                 )
             }
             /**

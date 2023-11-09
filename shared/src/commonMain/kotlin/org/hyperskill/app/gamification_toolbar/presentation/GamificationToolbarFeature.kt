@@ -26,46 +26,49 @@ object GamificationToolbarFeature {
         get() = this is State.Content && isRefreshing
 
     sealed interface Message {
-        /**
-         * Initialization
-         */
-        data class Initialize(val forceUpdate: Boolean = false) : Message
-
-        object FetchGamificationToolbarDataError : Message
-        data class FetchGamificationToolbarDataSuccess(
-            val gamificationToolbarData: GamificationToolbarData
-        ) : Message
-
-        object PullToRefresh : Message
-
-        /**
-         * Flow Messages
-         */
-        object StepSolved : Message
-        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : Message
-        data class StreakChanged(val streak: Streak?) : Message
-        data class StudyPlanChanged(val studyPlan: StudyPlan) : Message
-        object TopicCompleted : Message
-
-        /**
-         * Clicks
-         */
         object ClickedGems : Message
         object ClickedStreak : Message
         object ClickedProgress : Message
     }
 
+    internal sealed interface InternalMessage : Message {
+        /**
+         * Initialization
+         */
+        data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
+        object FetchGamificationToolbarDataError : InternalMessage
+        data class FetchGamificationToolbarDataSuccess(
+            val gamificationToolbarData: GamificationToolbarData
+        ) : InternalMessage
+
+        object PullToRefresh : InternalMessage
+
+        /**
+         * Flow Messages
+         */
+        object StepSolved : InternalMessage
+        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : InternalMessage
+        data class StreakChanged(val streak: Streak?) : InternalMessage
+        data class StudyPlanChanged(val studyPlan: StudyPlan) : InternalMessage
+        object TopicCompleted : InternalMessage
+        data class GamificationToolbarDataChanged(
+            val gamificationToolbarData: GamificationToolbarData
+        ) : InternalMessage
+    }
+
     sealed interface Action {
-        data class FetchGamificationToolbarData(
-            val screen: GamificationToolbarScreen,
-            val forceUpdate: Boolean
-        ) : Action
-
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-
         sealed interface ViewAction : Action {
             object ShowProfileTab : ViewAction
             object ShowProgressScreen : ViewAction
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        data class FetchGamificationToolbarData(
+            val screen: GamificationToolbarScreen,
+            val forceUpdate: Boolean
+        ) : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }
