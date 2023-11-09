@@ -122,7 +122,8 @@ class FillBlanksStepQuizFormDelegate(
                             blankIndex = blankIndex,
                             selectedOptionIndex = selectedOptionIndex,
                             items = fillBlanksAdapter.items,
-                            selectItemIndices = selectItemIndices
+                            selectItemIndices = selectItemIndices,
+                            selectOptions = selectOptions
                         )
                     }
                 )
@@ -207,7 +208,8 @@ class FillBlanksStepQuizFormDelegate(
                         blankIndex = highlightedSelectItemIndex ?: return@optionAdapterDelegate,
                         selectedOption = option,
                         items = fillBlanksAdapter.items,
-                        selectItemIndices = selectItemIndices
+                        selectItemIndices = selectItemIndices,
+                        selectOptions = selectOptions
                     )
                 }
             )
@@ -237,28 +239,38 @@ class FillBlanksStepQuizFormDelegate(
     }
 
     override fun createReply(): Reply =
+        createReplyInternal(
+            items = fillBlanksAdapter.items,
+            selectOptions = selectOptions
+        )
+
+    private fun createReplyInternal(
+        items: List<FillBlanksUiItem>,
+        selectOptions: List<FillBlanksOption>? = null
+    ): Reply =
         Reply.fillBlanks(
-            blanks = fillBlanksAdapter.items.mapNotNull { item ->
+            blanks = items.mapNotNull { item ->
                 when (item) {
                     is FillBlanksUiItem.Input -> item.origin.inputText
                     is FillBlanksUiItem.Text -> null
                     is FillBlanksUiItem.Select -> {
-                        selectOptions?.let { options ->
+                        selectOptions?.let {
                             item.origin.selectedOptionIndex?.let { optionIndex ->
-                                options.getOrNull(optionIndex)?.originalText
+                                selectOptions.getOrNull(optionIndex)?.originalText
                             }
-                        }
+                        } ?: ""
                     }
                 }
             }
         )
 
     fun onInputItemModified(index: Int, text: String) {
-        fillBlanksAdapter.items = fillBlanksAdapter.items.mutate {
+        val updatedItems = fillBlanksAdapter.items.mutate {
             val inputItem = get(index) as FillBlanksUiItem.Input
             set(index, inputItem.copy(inputText = text))
         }
-        onQuizChanged(createReply())
+        fillBlanksAdapter.items = updatedItems
+        onQuizChanged(createReplyInternal(updatedItems))
     }
 
     private fun textAdapterDelegate() =
@@ -373,7 +385,8 @@ class FillBlanksStepQuizFormDelegate(
         blankIndex: Int,
         selectedOptionIndex: Int?,
         items: List<FillBlanksUiItem>,
-        selectItemIndices: List<Int>
+        selectItemIndices: List<Int>,
+        selectOptions: List<FillBlanksOption>?
     ) {
         val selectedItem = items.getOrNull(blankIndex) as? FillBlanksUiItem.Select ?: return
         val updatedItems = items.mutate {
@@ -397,6 +410,10 @@ class FillBlanksStepQuizFormDelegate(
                 set(selectedOptionIndex, get(selectedOptionIndex).copy(isUsed = false))
             } ?: emptyList()
         }
+
+        if (selectedItem.origin.selectedOptionIndex != null) {
+            onQuizChanged(createReplyInternal(highlightResult.updatedItems, selectOptions))
+        }
     }
 
     private fun onOptionClick(
@@ -405,6 +422,7 @@ class FillBlanksStepQuizFormDelegate(
         selectedOption: FillBlanksOption,
         items: List<FillBlanksUiItem>,
         selectItemIndices: List<Int>,
+        selectOptions: List<FillBlanksOption>?
     ) {
         val filledItems = fillNextBlank(
             selectedOptionIndex = selectedOptionIndex,
@@ -425,7 +443,7 @@ class FillBlanksStepQuizFormDelegate(
             )
         } ?: emptyList()
 
-        onQuizChanged(createReply())
+        onQuizChanged(createReplyInternal(highlightResult.updatedItems, selectOptions))
     }
 
     private fun updateSelectItemsHighlighting(
