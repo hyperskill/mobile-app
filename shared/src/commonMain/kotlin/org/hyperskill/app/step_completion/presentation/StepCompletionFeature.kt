@@ -47,6 +47,17 @@ interface StepCompletionFeature {
         object CheckTopicCompletion : ContinueButtonAction
     }
 
+    /**
+     * Helper class to show streak text and streak value
+     *
+     * @see Message.ProblemOfDaySolved
+     * @see Action.ViewAction.ShowProblemOfDaySolvedModal
+     */
+    sealed interface ShareStreakData {
+        object Empty : ShareStreakData
+        data class Content(val streakText: String, val streak: Int) : ShareStreakData
+    }
+
     sealed interface Message {
         object StartPracticingClicked : Message
 
@@ -57,7 +68,6 @@ interface StepCompletionFeature {
         /**
          * Topic completed modal
          */
-
         sealed interface CheckTopicCompletionStatus : Message {
             data class Completed(
                 val topicId: Long,
@@ -81,8 +91,7 @@ interface StepCompletionFeature {
          */
         data class ProblemOfDaySolved(
             val earnedGemsText: String,
-            val streakText: String?,
-            val streak: Int?
+            val shareStreakData: ShareStreakData
         ) : Message
         object ProblemOfDaySolvedModalGoBackClicked : Message
         data class ProblemOfDaySolvedModalShareStreakClicked(val streak: Int) : Message
@@ -134,8 +143,7 @@ interface StepCompletionFeature {
 
             data class ShowProblemOfDaySolvedModal(
                 val earnedGemsText: String,
-                val streakText: String?,
-                val streak: Int?
+                val shareStreakData: ShareStreakData
             ) : ViewAction
 
             data class ShowShareStreakModal(val streak: Int) : ViewAction

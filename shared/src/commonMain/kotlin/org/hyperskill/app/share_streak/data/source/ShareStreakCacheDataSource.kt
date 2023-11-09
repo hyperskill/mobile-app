@@ -1,7 +1,9 @@
 package org.hyperskill.app.share_streak.data.source
 
+import kotlinx.datetime.Instant
+
 internal interface ShareStreakCacheDataSource {
-    fun getLastTimeShareStreakShownEpochMilliseconds(): Long?
-    fun setLastTimeShareStreakShown(epochMilliseconds: Long)
+    fun getLastTimeShareStreakShown(): Instant?
+    fun setLastTimeShareStreakShown(instant: Instant)
     fun clearCache()
 }
