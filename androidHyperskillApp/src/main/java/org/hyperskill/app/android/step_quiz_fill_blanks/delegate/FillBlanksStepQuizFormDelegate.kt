@@ -23,6 +23,7 @@ import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksSelectOp
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksUiItem
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
@@ -129,10 +130,13 @@ class FillBlanksStepQuizFormDelegate(
                 )
             }
 
-            fillBlanksAdapter.items = mapItems(fillBlanksData, highlightedSelectItemIndex)
+            val isEnabled = StepQuizResolver.isQuizEnabled(state)
+
+            fillBlanksAdapter.items = mapItems(fillBlanksData, highlightedSelectItemIndex, isEnabled)
             binding.root.post { binding.stepQuizFillBlanksRecycler.requestLayout() }
 
-            fillBlanksOptionsAdapter?.items = mapBlankOptions(fillBlanksData)
+
+            fillBlanksOptionsAdapter?.items = mapBlankOptions(fillBlanksData, isEnabled)
         }
     }
 
@@ -158,28 +162,32 @@ class FillBlanksStepQuizFormDelegate(
 
     private fun mapItems(
         fillBlanksData: FillBlanksData?,
-        highlightedSelectItemIndex: Int?
+        highlightedSelectItemIndex: Int?,
+        isEnabled: Boolean
     ) =
         fillBlanksData?.fillBlanks?.mapIndexed { index, item ->
             when (item) {
-                is FillBlanksItem.Input -> FillBlanksUiItem.Input(item)
+                is FillBlanksItem.Input -> FillBlanksUiItem.Input(item, isEnabled)
                 is FillBlanksItem.Select -> FillBlanksUiItem.Select(
                     origin = item,
-                    isHighlighted = index == highlightedSelectItemIndex
+                    isHighlighted = index == highlightedSelectItemIndex,
+                    isEnabled = isEnabled
                 )
                 is FillBlanksItem.Text -> FillBlanksUiItem.Text(item)
             }
         } ?: emptyList()
 
     private fun mapBlankOptions(
-        fillBlanksData: FillBlanksData?
+        fillBlanksData: FillBlanksData?,
+        isEnabled: Boolean
     ): List<FillBlanksSelectOptionUIItem> {
         val selectedOptionIndices =
             getSelectedOptionsIndices(fillBlanksData?.fillBlanks, selectItemIndices)
         return fillBlanksData?.options?.mapIndexed { index, option ->
             FillBlanksSelectOptionUIItem(
                 option = option,
-                isUsed = index in selectedOptionIndices
+                isUsed = index in selectedOptionIndices,
+                isClickable = isEnabled
             )
         } ?: emptyList()
     }
@@ -296,6 +304,7 @@ class FillBlanksStepQuizFormDelegate(
                 }
             }
             onBind { inputItem ->
+                textView.isClickable = inputItem.isEnabled
                 textView.setTextIfChanged(inputItem.origin.inputText ?: "")
             }
         }
@@ -332,6 +341,7 @@ class FillBlanksStepQuizFormDelegate(
                 } else {
                     null
                 }
+                textView.isClickable = selectItem.isEnabled
                 textView.setTextIfChanged(text ?: "")
                 layerListDrawableDelegate.showLayer(
                     when {
@@ -370,7 +380,8 @@ class FillBlanksStepQuizFormDelegate(
                     isInvisible = selectOption.isUsed
                     setTextIfChanged(selectOption.option.displayText)
                 }
-                binding.stepQuizFillBlanksSelectOptionContainer.isClickable = !selectOption.isUsed
+                binding.stepQuizFillBlanksSelectOptionContainer.isClickable =
+                    selectOption.isClickable && !selectOption.isUsed
                 layerListDrawableDelegate.showLayer(
                     if (selectOption.isUsed) {
                         R.id.step_quiz_fill_blanks_select_empty_layer
@@ -407,7 +418,8 @@ class FillBlanksStepQuizFormDelegate(
 
         if (selectedOptionIndex != null) {
             fillBlanksOptionsAdapter?.items = fillBlanksOptionsAdapter?.items?.mutate {
-                set(selectedOptionIndex, get(selectedOptionIndex).copy(isUsed = false))
+                val optionItem = getOrNull(selectedOptionIndex) ?: return@mutate
+                set(selectedOptionIndex, optionItem.copy(isUsed = false))
             } ?: emptyList()
         }
 
@@ -437,9 +449,10 @@ class FillBlanksStepQuizFormDelegate(
         this.highlightedSelectItemIndex = highlightResult.newHighlightedSelectItemIndex
         fillBlanksAdapter.items = highlightResult.updatedItems
         fillBlanksOptionsAdapter?.items = fillBlanksOptionsAdapter?.items?.mutate {
+            val optionItem = getOrNull(selectedOptionIndex) ?: return
             set(
                 selectedOptionIndex,
-                FillBlanksSelectOptionUIItem(selectedOption, isUsed = true)
+                optionItem.copy(option = selectedOption, isUsed = true)
             )
         } ?: emptyList()
 

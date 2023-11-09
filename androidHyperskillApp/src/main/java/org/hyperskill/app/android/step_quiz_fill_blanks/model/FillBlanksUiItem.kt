@@ -12,22 +12,26 @@ sealed interface FillBlanksUiItem : Identifiable<Int> {
 
     data class Text(override val origin: FillBlanksItem.Text) : FillBlanksUiItem
 
-    data class Input(override val origin: FillBlanksItem.Input) : FillBlanksUiItem {
+    data class Input(
+        override val origin: FillBlanksItem.Input,
+        val isEnabled: Boolean
+    ) : FillBlanksUiItem {
         fun copy(inputText: String): Input =
-            Input(origin.copy(inputText = inputText))
+            copy(origin = origin.copy(inputText = inputText))
     }
 
     data class Select(
         override val origin: FillBlanksItem.Select,
-        val isHighlighted: Boolean
+        val isHighlighted: Boolean,
+        val isEnabled: Boolean
     ) : FillBlanksUiItem {
         fun copy(
             selectedOptionIndex: Int?,
             isHighlighted: Boolean = this.isHighlighted
         ): Select =
-            Select(
-                origin.copy(selectedOptionIndex = selectedOptionIndex),
-                isHighlighted
+            copy(
+                origin = origin.copy(selectedOptionIndex = selectedOptionIndex),
+                isHighlighted = isHighlighted
             )
     }
 }
