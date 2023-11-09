@@ -115,9 +115,14 @@ struct StepView: View {
         case .requestDailyStudyRemindersPermission:
             presentSendDailyStudyRemindersPermissionAlert()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
-            presentDailyStepCompletedModal(earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText)
-        case .showShareStreakModal:
-            #warning("TODO: ALTAPPS-1027 Show share streak modal")
+            presentDailyStepCompletedModal(
+                earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText,
+                shareStreakData: showProblemOfDaySolvedModalViewAction.shareStreakData
+            )
+        case .showShareStreakModal(let showShareStreakModalViewAction):
+            presentShareStreakModal(streak: Int(showShareStreakModalViewAction.streak))
+        case .showShareStreakSystemModal(let showShareStreakSystemModalViewAction):
+            presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
         }
     }
 
@@ -145,20 +150,29 @@ extension StepView {
         panModalPresenter.presentPanModal(modal)
     }
 
-    private func presentDailyStepCompletedModal(earnedGemsText: String) {
-        viewModel.logDailyStepCompletedModalShownEvent()
-
-        let panModal = ProblemOfDaySolvedModalViewController(
+    private func presentDailyStepCompletedModal(
+        earnedGemsText: String,
+        shareStreakData: StepCompletionFeatureShareStreakData
+    ) {
+        let modal = ProblemOfDaySolvedModalViewController(
             earnedGemsText: earnedGemsText,
-            onGoBackButtonTap: { [weak viewModel] in
-                viewModel?.doGoBackProblemOfDaySolvedAction()
-            }
+            shareStreakData: StepCompletionFeatureShareStreakDataKs(shareStreakData),
+            delegate: viewModel
         )
-        panModal.onDisappear = { [weak viewModel] in
-            viewModel?.logDailyStepCompletedModalHiddenEvent()
-        }
+        panModalPresenter.presentPanModal(modal)
+    }
 
-        panModalPresenter.presentPanModal(panModal)
+    private func presentShareStreakModal(streak: Int) {
+        let modal = ShareStreakModalViewController(
+            streak: streak,
+            delegate: viewModel
+        )
+        panModalPresenter.presentPanModal(modal)
+    }
+
+    private func presentShareStreakSystemModal(streak: Int) {
+        let activityViewController = ShareStreakAction.makeActivityViewController(for: streak)
+        modalRouter.present(module: activityViewController, modalPresentationStyle: .automatic)
     }
 }
 

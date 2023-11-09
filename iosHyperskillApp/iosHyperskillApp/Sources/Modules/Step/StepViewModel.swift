@@ -85,16 +85,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         }
     }
 
-    // MARK: Problem of day solved
-
-    func doGoBackProblemOfDaySolvedAction() {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageProblemOfDaySolvedModalGoBackClicked()
-            )
-        )
-    }
-
     // MARK: Daily notifications request
 
     func handleSendDailyStudyRemindersPermissionRequestResult(isGranted: Bool) {
@@ -121,22 +111,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     func logViewedEvent() {
         onNewMessage(StepFeatureMessageViewedEventMessage())
-    }
-
-    func logDailyStepCompletedModalShownEvent() {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageDailyStepCompletedModalShownEventMessage()
-            )
-        )
-    }
-
-    func logDailyStepCompletedModalHiddenEvent() {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageDailyStepCompletedModalHiddenEventMessage()
-            )
-        )
     }
 }
 
@@ -191,6 +165,89 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalHiddenEventMessage()
+            )
+        )
+    }
+}
+
+// MARK: - StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate -
+
+extension StepViewModel: ProblemOfDaySolvedModalViewControllerDelegate {
+    func problemOfDaySolvedModalViewControllerDidAppear(_ viewController: ProblemOfDaySolvedModalViewController) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageDailyStepCompletedModalShownEventMessage()
+            )
+        )
+    }
+
+    func problemOfDaySolvedModalViewControllerDidDisappear(_ viewController: ProblemOfDaySolvedModalViewController) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageDailyStepCompletedModalHiddenEventMessage()
+            )
+        )
+    }
+
+    func problemOfDaySolvedModalViewControllerDidTapGoBackButton(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageProblemOfDaySolvedModalGoBackClicked()
+            )
+        )
+    }
+
+    func problemOfDaySolvedModalViewControllerDidTapShareStreakButton(
+        _ viewController: ProblemOfDaySolvedModalViewController,
+        streak: Int
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageProblemOfDaySolvedModalShareStreakClicked(streak: Int32(streak))
+            )
+        )
+    }
+}
+
+// MARK: - StepViewModel: ShareStreakModalViewControllerDelegate -
+
+extension StepViewModel: ShareStreakModalViewControllerDelegate {
+    func shareStreakModalViewControllerDidAppear(_ viewController: ShareStreakModalViewController, streak: Int) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalShownEventMessage(streak: Int32(streak))
+            )
+        )
+    }
+
+    func shareStreakModalViewControllerDidDisappear(_ viewController: ShareStreakModalViewController, streak: Int) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalHiddenEventMessage(streak: Int32(streak))
+            )
+        )
+    }
+
+    func shareStreakModalViewControllerDidTapShareButton(
+        _ viewController: ShareStreakModalViewController,
+        streak: Int
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalShareClicked(streak: Int32(streak))
+            )
+        )
+    }
+
+    func shareStreakModalViewControllerDidTapNoThanksButton(
+        _ viewController: ShareStreakModalViewController,
+        streak: Int
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageShareStreakModalNoThanksClickedEventMessage(streak: Int32(streak))
             )
         )
     }
