@@ -459,7 +459,7 @@ class StepQuizReducer(
                 if (fillBlanksMode != null) {
                     setOf(
                         Action.ViewAction.ShowProblemOnboardingModal(
-                            modalType = StepQuizFeature.ProblemOnboardingModal.FillBlanks(FillBlanksMode.INPUT)
+                            modalType = StepQuizFeature.ProblemOnboardingModal.FillBlanks(fillBlanksMode)
                         )
                     )
                 } else {

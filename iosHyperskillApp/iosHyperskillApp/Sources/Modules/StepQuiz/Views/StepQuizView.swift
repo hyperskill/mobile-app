@@ -356,11 +356,11 @@ private extension StepQuizView {
     }
 
     func presentProblemOnboardingModal(modalType: StepQuizFeatureProblemOnboardingModal) {
-        let modalViewController = switch StepQuizFeatureProblemOnboardingModalKs(modalType) {
-            case .parsons: StepQuizParsonsOnboardingModalViewController(delegate: viewModel)
-            case .fillBlanks(let mode): fatalError("TODO: Implement \(mode)")
-        }
-        panModalPresenter.presentPanModal(modalViewController)
+        let panModal = StepQuizProblemOnboardingModalViewController(
+            modalType: StepQuizFeatureProblemOnboardingModalKs(modalType),
+            delegate: viewModel
+        )
+        panModalPresenter.presentPanModal(panModal)
     }
 }
 
