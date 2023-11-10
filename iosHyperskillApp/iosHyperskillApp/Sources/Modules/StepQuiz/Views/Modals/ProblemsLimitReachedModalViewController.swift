@@ -109,6 +109,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
     private func setupCubeImageView() {
         let image = UIImage(named: Images.StepQuiz.ProblemsLimitReachedModal.icon)?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
 
         contentStackView.addArrangedSubview(imageView)
 
@@ -165,4 +166,12 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
     private func goToHomescreenButtonTap() {
         delegate?.problemsLimitReachedModalViewControllerDidTapGoToHomescreenButton(self)
     }
+}
+
+@available(iOS 17, *)
+#Preview {
+    ProblemsLimitReachedModalViewController(
+        modalText: "Modal text goes here",
+        delegate: nil
+    )
 }

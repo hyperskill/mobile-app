@@ -18,6 +18,9 @@ struct StageImplementProjectCompletedModalView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             Image(Images.StageImplement.ProjectCompletedModal.icon)
+                .renderingMode(.original)
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
                 Text(Strings.StageImplement.ProjectCompletedModal.title)
