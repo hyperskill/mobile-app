@@ -25,24 +25,27 @@ struct StepQuizProblemOnboardingModalView: View {
 
     private var animationView: some View {
         let height: CGFloat = switch modalType {
-            case .parsons: 264
-            case .fillBlanks(let data):
-                switch FillBlanksModeWrapper(shared: data.mode).require() {
-                case .input: 110
-                case .select: 198
-                }
+        case .parsons:
+            264
+        case .fillBlanks(let data):
+            switch FillBlanksModeWrapper(shared: data.mode).require() {
+            case .input:
+                110
+            case .select:
+                198
+            }
         }
 
         let fileName = switch modalType {
-            case .parsons:
-                LottieAnimations.parsonsProblemOnboarding
-            case .fillBlanks(let data):
-                switch FillBlanksModeWrapper(shared: data.mode).require() {
-                case .input:
-                    LottieAnimations.fillBlanksInputProblemOnboarding
-                case .select:
-                    LottieAnimations.fillBlanksSelectProblemOnboarding
-                }
+        case .parsons:
+            LottieAnimations.parsonsProblemOnboarding
+        case .fillBlanks(let data):
+            switch FillBlanksModeWrapper(shared: data.mode).require() {
+            case .input:
+                LottieAnimations.fillBlanksInputProblemOnboarding
+            case .select:
+                LottieAnimations.fillBlanksSelectProblemOnboarding
+            }
         }
 
         return LottieAnimationViewWrapper(
