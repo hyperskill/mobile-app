@@ -3,6 +3,7 @@ package org.hyperskill.step_quiz
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
@@ -49,7 +50,11 @@ class StepQuizTest {
                     submissionState,
                     isProblemsLimitReached = true,
                     problemsLimitReachedModalText = "",
-                    isParsonsOnboardingShown = false
+                    problemsOnboardingFlags = ProblemsOnboardingFlags(
+                        isParsonsOnboardingShown = false,
+                        isFillBlanksInputModeOnboardingShown = false,
+                        isFillBlanksSelectModeOnboardingShown = false
+                    )
                 )
             )
 
@@ -90,7 +95,11 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = true,
                 problemsLimitReachedModalText = "",
-                isParsonsOnboardingShown = false
+                problemsOnboardingFlags = ProblemsOnboardingFlags(
+                    isParsonsOnboardingShown = false,
+                    isFillBlanksInputModeOnboardingShown = false,
+                    isFillBlanksSelectModeOnboardingShown = false
+                )
             )
         )
 
@@ -134,7 +143,11 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = false,
                 problemsLimitReachedModalText = null,
-                isParsonsOnboardingShown = false
+                problemsOnboardingFlags = ProblemsOnboardingFlags(
+                    isParsonsOnboardingShown = false,
+                    isFillBlanksInputModeOnboardingShown = false,
+                    isFillBlanksSelectModeOnboardingShown = false
+                )
             )
         )
 
@@ -192,7 +205,11 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = false,
                 problemsLimitReachedModalText = null,
-                isParsonsOnboardingShown = false
+                problemsOnboardingFlags = ProblemsOnboardingFlags(
+                    isParsonsOnboardingShown = false,
+                    isFillBlanksInputModeOnboardingShown = false,
+                    isFillBlanksSelectModeOnboardingShown = false
+                )
             )
         )
 
