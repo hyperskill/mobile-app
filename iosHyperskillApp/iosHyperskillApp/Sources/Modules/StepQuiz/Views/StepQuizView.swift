@@ -296,8 +296,8 @@ struct StepQuizView: View {
             presentResetCodePermissionAlert()
         case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
             presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
-        case .showParsonsProblemOnboardingModal:
-            presentParsonsProblemOnboardingModal()
+        case .showProblemOnboardingModal(let showProblemOnboardingModalViewAction):
+            presentProblemOnboardingModal(modalType: showProblemOnboardingModalViewAction.modalType)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .home:
@@ -355,9 +355,12 @@ private extension StepQuizView {
         panModalPresenter.presentPanModal(panModal)
     }
 
-    func presentParsonsProblemOnboardingModal() {
-        let panModal = StepQuizParsonsOnboardingModalViewController(delegate: viewModel)
-        panModalPresenter.presentPanModal(panModal)
+    func presentProblemOnboardingModal(modalType: StepQuizFeatureProblemOnboardingModal) {
+        let modalViewController = switch StepQuizFeatureProblemOnboardingModalKs(modalType) {
+            case .parsons: StepQuizParsonsOnboardingModalViewController(delegate: viewModel)
+            case .fillBlanks(let mode): fatalError("TODO: Implement \(mode)")
+        }
+        panModalPresenter.presentPanModal(modalViewController)
     }
 }
 

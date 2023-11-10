@@ -1,10 +1,12 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
+import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.BlockName
+import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step_quiz.domain.analytic.ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.ParsonsProblemOnboardingModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.ProblemOnboardingModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.ProblemOnboardingModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
@@ -18,6 +20,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbar
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
@@ -26,6 +29,8 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
+import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -282,19 +287,27 @@ class StepQuizReducer(
                         ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
-            is Message.ParsonsProblemOnboardingModalShownMessage ->
+            is Message.ProblemOnboardingModalShownMessage -> {
                 state to setOf(
+                    Action.SaveProblemOnboardingModalShownCacheFlag(modalType = message.modalType),
                     Action.LogAnalyticEvent(
-                        ParsonsProblemOnboardingModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    ),
-                    Action.SaveParsonsProblemOnboardingModalShownCacheFlag
-                )
-            is Message.ParsonsProblemOnboardingModalHiddenEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        ParsonsProblemOnboardingModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                        ProblemOnboardingModalShownHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute,
+                            modalType = message.modalType
+                        )
                     )
                 )
+            }
+            is Message.ProblemOnboardingModalHiddenMessage -> {
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProblemOnboardingModalHiddenHyperskillAnalyticEvent(
+                            route = stepRoute.analyticRoute,
+                            modalType = message.modalType
+                        )
+                    )
+                )
+            }
             // Wrapper Messages
             is Message.StepQuizHintsMessage -> {
                 val (stepQuizHintsState, stepQuizHintsActions) =
@@ -314,15 +327,16 @@ class StepQuizReducer(
                     else -> message.isProblemsLimitReached
                 }
 
-                val actions = when {
-                    isProblemsLimitReached && message.problemsLimitReachedModalText != null ->
-                        setOf(
-                            Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalText)
-                        )
-                    !message.isParsonsOnboardingShown && message.step.block.name == BlockName.PARSONS ->
-                        setOf(Action.ViewAction.ShowParsonsProblemOnboardingModal)
-                    else ->
-                        emptySet()
+                val actions = if (isProblemsLimitReached && message.problemsLimitReachedModalText != null) {
+                    setOf(
+                        Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalText)
+                    )
+                } else {
+                    getProblemOnboardingModalActions(
+                        step = message.step,
+                        attempt = message.attempt,
+                        problemsOnboardingFlags = message.problemsOnboardingFlags
+                    )
                 }
 
                 state.copy(
@@ -413,6 +427,47 @@ class StepQuizReducer(
             time = Clock.System.now().toString()
         )
     }
+
+    private fun getProblemOnboardingModalActions(
+        step: Step,
+        attempt: Attempt,
+        problemsOnboardingFlags: ProblemsOnboardingFlags
+    ): Set<Action> =
+        when (step.block.name) {
+            BlockName.PARSONS -> {
+                if (!problemsOnboardingFlags.isParsonsOnboardingShown) {
+                    setOf(
+                        Action.ViewAction.ShowProblemOnboardingModal(
+                            modalType = StepQuizFeature.ProblemOnboardingModal.Parsons
+                        )
+                    )
+                } else {
+                    emptySet()
+                }
+            }
+            BlockName.FILL_BLANKS -> {
+                val fillBlanksMode = kotlin.runCatching {
+                    val dataset = attempt.dataset ?: return@runCatching null
+                    FillBlanksResolver.resolve(dataset)
+                }.getOrNull()?.takeIf {
+                    when (it) {
+                        FillBlanksMode.INPUT -> !problemsOnboardingFlags.isFillBlanksInputModeOnboardingShown
+                        FillBlanksMode.SELECT -> !problemsOnboardingFlags.isFillBlanksSelectModeOnboardingShown
+                    }
+                }
+
+                if (fillBlanksMode != null) {
+                    setOf(
+                        Action.ViewAction.ShowProblemOnboardingModal(
+                            modalType = StepQuizFeature.ProblemOnboardingModal.FillBlanks(FillBlanksMode.INPUT)
+                        )
+                    )
+                } else {
+                    emptySet()
+                }
+            }
+            else -> emptySet()
+        }
 
     private fun reduceStepQuizHintsMessage(
         state: StepQuizHintsFeature.State,

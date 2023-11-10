@@ -225,12 +225,20 @@ extension StepQuizViewModel: StepQuizParsonsOnboardingModalViewControllerDelegat
     func stepQuizParsonsOnboardingModalViewControllerDidAppear(
         _ viewController: StepQuizParsonsOnboardingModalViewController
     ) {
-        onNewMessage(StepQuizFeatureMessageParsonsProblemOnboardingModalShownMessage())
+        onNewMessage(
+            StepQuizFeatureMessageProblemOnboardingModalShownMessage(
+                modalType: StepQuizFeatureProblemOnboardingModalParsons()
+            )
+        )
     }
 
     func stepQuizParsonsOnboardingModalViewControllerDidDisappear(
         _ viewController: StepQuizParsonsOnboardingModalViewController
     ) {
-        onNewMessage(StepQuizFeatureMessageParsonsProblemOnboardingModalHiddenEventMessage())
+        onNewMessage(
+            StepQuizFeatureMessageProblemOnboardingModalHiddenMessage(
+                modalType: StepQuizFeatureProblemOnboardingModalParsons()
+            )
+        )
     }
 }
