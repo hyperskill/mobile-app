@@ -20,26 +20,42 @@ final class ProcessedContentTextView: UIView {
 
     private let htmlToAttributedStringConverter: HTMLToAttributedStringConverterProtocol
 
-    private lazy var label: UILabel = {
-        let label = UILabel()
-        label.font = self.appearance.font
-        label.textColor = self.appearance.textColor
-        label.numberOfLines = 0
-        return label
+    private lazy var textView: UITextView = {
+        let textView = UITextView()
+
+        textView.font = self.appearance.font
+        textView.textColor = self.appearance.textColor
+
+        textView.textContainer.lineBreakMode = .byWordWrapping
+        textView.textContainer.maximumNumberOfLines = 0
+        textView.textContainer.lineFragmentPadding = 0
+
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
+
+        textView.textContainerInset = .zero
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.backgroundColor = nil
+
+        textView.dataDetectorTypes = [.link]
+
+        return textView
     }()
 
     private lazy var attributedLabel: AttributedLabel = {
         let attributedLabel = AttributedLabel()
         attributedLabel.font = self.appearance.font
         attributedLabel.textColor = self.appearance.textColor
+        attributedLabel.numberOfLines = 0
+        attributedLabel.isSelectable = true
         attributedLabel.onClick = { [weak self] (label, detection) in
             self?.handleAttributedLabelClicked(label: label, detection: detection)
         }
-        attributedLabel.numberOfLines = 0
         return attributedLabel
     }()
 
-    private var didSetupLabel = false
+    private var didSetupTextView = false
     private var didSetupAttributedLabel = false
 
     private var currentIntrinsicContentHeight: CGFloat = UIView.noIntrinsicMetric {
@@ -73,13 +89,12 @@ final class ProcessedContentTextView: UIView {
     }
 
     override var intrinsicContentSize: CGSize {
-        let height: CGFloat
-        if self.didSetupLabel && !self.label.isHidden {
-            height = self.label.intrinsicContentSize.height
+        let height: CGFloat = if self.didSetupTextView && !self.textView.isHidden {
+            self.textView.sizeThatFits(CGSize(width: self.bounds.width, height: .infinity)).height
         } else if self.didSetupAttributedLabel {
-            height = self.attributedLabel.sizeThatFits(CGSize(width: self.bounds.width, height: .infinity)).height
+            self.attributedLabel.sizeThatFits(CGSize(width: self.bounds.width, height: .infinity)).height
         } else {
-            height = UIView.noIntrinsicMetric
+            UIView.noIntrinsicMetric
         }
 
         self.currentIntrinsicContentHeight = height
@@ -103,21 +118,12 @@ final class ProcessedContentTextView: UIView {
     }
 
     override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let resSize: CGSize
-
-        if self.didSetupLabel && !self.label.isHidden {
-            let nsText = (self.label.text ?? "") as NSString
-            let boundingRect = nsText.boundingRect(
-                with: size,
-                options: .usesLineFragmentOrigin,
-                attributes: [.font: self.appearance.font],
-                context: nil
-            )
-            resSize = boundingRect.size
+        let resSize: CGSize = if self.didSetupTextView && !self.textView.isHidden {
+            self.textView.sizeThatFits(size)
         } else if self.didSetupAttributedLabel {
-            resSize = self.attributedLabel.sizeThatFits(size)
+            self.attributedLabel.sizeThatFits(size)
         } else {
-            return CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
+            CGSize(width: UIView.noIntrinsicMetric, height: UIView.noIntrinsicMetric)
         }
 
         return CGSize(
@@ -132,8 +138,8 @@ final class ProcessedContentTextView: UIView {
     }
 
     private func clearText() {
-        if self.didSetupLabel && !self.label.isHidden {
-            self.label.text = nil
+        if self.didSetupTextView && !self.textView.isHidden {
+            self.textView.text = nil
         } else {
             self.attributedLabel.attributedText = nil
         }
@@ -146,9 +152,9 @@ final class ProcessedContentTextView: UIView {
     }
 
     private func setLabelText(_ text: String) {
-        if !self.didSetupLabel {
-            self.didSetupLabel = true
-            self.setupLabel()
+        if !self.didSetupTextView {
+            self.didSetupTextView = true
+            self.setupTextView()
         }
 
         if self.didSetupAttributedLabel {
@@ -156,8 +162,8 @@ final class ProcessedContentTextView: UIView {
             self.attributedLabel.attributedText = nil
         }
 
-        self.label.isHidden = false
-        self.label.text = text
+        self.textView.isHidden = false
+        self.textView.text = text
     }
 
     private func setAttributedLabelText(_ text: String) {
@@ -166,9 +172,9 @@ final class ProcessedContentTextView: UIView {
             self.setupAttributedLabel()
         }
 
-        if self.didSetupLabel {
-            self.label.isHidden = true
-            self.label.text = nil
+        if self.didSetupTextView {
+            self.textView.isHidden = true
+            self.textView.text = nil
         }
 
         self.attributedLabel.isHidden = false
@@ -192,10 +198,10 @@ final class ProcessedContentTextView: UIView {
         }
     }
 
-    private func setupLabel() {
-        self.addSubview(self.label)
-        self.label.translatesAutoresizingMaskIntoConstraints = false
-        self.label.snp.makeConstraints { $0.edges.equalToSuperview() }
+    private func setupTextView() {
+        self.addSubview(self.textView)
+        self.textView.translatesAutoresizingMaskIntoConstraints = false
+        self.textView.snp.makeConstraints { $0.edges.equalToSuperview() }
     }
 
     private func setupAttributedLabel() {

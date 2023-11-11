@@ -42,28 +42,28 @@ struct StepQuizChoiceElementView: View {
 
 struct StepQuizChoiceElementView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        VStack {
             StepQuizChoiceElementView(
                 isSelected: true,
-                text: "Some option",
+                text: "Your program needs a value and can't work without one",
                 isMultipleChoice: true,
                 onTap: {}
             )
             StepQuizChoiceElementView(
                 isSelected: false,
-                text: "Some option",
+                text: "Your program needs three possible values for a variable, maybe use nullable Boolean?",
                 isMultipleChoice: true,
                 onTap: {}
             )
             StepQuizChoiceElementView(
                 isSelected: true,
-                text: "Some option",
+                text: "Your program can obtain a value in the future, but there is no reasonable value now",
                 isMultipleChoice: false,
                 onTap: {}
             )
             StepQuizChoiceElementView(
                 isSelected: false,
-                text: "Some option",
+                text: "Your program doesn't need a value",
                 isMultipleChoice: false,
                 onTap: {}
             )

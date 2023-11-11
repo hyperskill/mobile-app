@@ -1,5 +1,6 @@
 import SwiftUI
 
+// TODO: Incorrect height for step with id 7833, works correctly with `StepTextView`
 struct LatexView: View {
     @Binding var text: String
 
@@ -41,7 +42,7 @@ struct LatexView: View {
 
 #Preview("Plain text") {
     LatexView(
-        text: .constant("Plain text")
+        text: .constant("Plain text https://google.com/")
     )
     .padding()
 }
