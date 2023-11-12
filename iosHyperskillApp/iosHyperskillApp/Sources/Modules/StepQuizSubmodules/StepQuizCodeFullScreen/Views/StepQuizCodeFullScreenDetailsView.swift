@@ -22,7 +22,7 @@ struct StepQuizCodeFullScreenDetailsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.spacing) {
-                ExpandableStepTextView(
+                StepExpandableStepTextView(
                     text: stepText,
                     isExpanded: true,
                     onExpandButtonTap: onExpandStepTextButtonTap

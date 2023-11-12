@@ -60,9 +60,12 @@ struct StepQuizView: View {
                     if case .unsupported = viewData.quizType {
                         StepQuizStatusView(state: .unsupportedQuiz)
 
-                        StepTextView(text: viewData.stepText)
+                        LatexView(
+                            text: viewData.stepText,
+                            configuration: .stepText()
+                        )
                     } else {
-                        ExpandableStepTextView(
+                        StepExpandableStepTextView(
                             text: viewData.stepText,
                             isExpanded: true,
                             onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
