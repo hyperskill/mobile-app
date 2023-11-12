@@ -32,7 +32,10 @@ struct StepQuizChoiceElementView: View {
                         .frame(widthHeight: appearance.radioIndicatorWidthHeight)
                 }
 
-                LatexView(text: .constant(text), configuration: .quizContent())
+                LatexView(
+                    text: text,
+                    configuration: .quizContent()
+                )
             }
         }
         .frame(minHeight: appearance.minHeight)

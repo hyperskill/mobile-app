@@ -1,37 +1,61 @@
 import SwiftUI
+import UIKit
 
-// TODO: Incorrect height for step with id 7833, works correctly with `StepTextView`
-struct LatexView: View {
-    @Binding var text: String
+struct LatexView: UIViewRepresentable {
+    let text: String
 
-    var configuration = SwiftUIProcessedContentView.Configuration()
+    var configuration = Configuration()
 
     var onContentLoaded: (() -> Void)?
+    var onHeightUpdated: ((Int) -> Void)?
 
-    var onOpenImageURL: ((URL) -> Void)?
+    var onOpenImageURL: (URL) -> Void = Self.openURLInTheWeb(_:)
+    var onOpenLink: (URL) -> Void = Self.openURLInTheWeb(_:)
 
-    var onOpenLink: ((URL) -> Void)?
+    // MARK: UIViewRepresentable
 
-    @State private var height: CGFloat = 5
+    static func dismantleUIView(_ uiView: ProcessedContentView, coordinator: Coordinator) {
+        uiView.delegate = nil
 
-    var body: some View {
-        SwiftUIProcessedContentView(
-            text: $text,
-            configuration: configuration,
-            onContentLoaded: onContentLoaded,
-            onHeightUpdated: { newHeight in
-                height = CGFloat(newHeight)
-            },
-            onOpenImageURL: onOpenImageURL ?? openURLInTheWeb(_:),
-            onOpenLink: onOpenLink ?? openURLInTheWeb(_:)
-        )
-        .frame(height: height)
-        .frame(maxWidth: .infinity)
+        coordinator.onContentLoaded = nil
+        coordinator.onHeightUpdated = nil
+        coordinator.onOpenImageURL = nil
+        coordinator.onOpenLink = nil
     }
 
-    // MARK: Private API
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
 
-    private func openURLInTheWeb(_ url: URL) {
+    func makeUIView(context: Context) -> ProcessedContentView {
+        let processedContentView = ProcessedContentView(
+            appearance: self.configuration.appearance,
+            contentProcessor: self.configuration.contentProcessor,
+            htmlToAttributedStringConverter: self.configuration.htmlToAttributedStringConverter
+        )
+
+        processedContentView.delegate = context.coordinator
+
+        return processedContentView
+    }
+
+    func updateUIView(_ processedContentView: ProcessedContentView, context: Context) {
+        let coordinator = context.coordinator
+
+        if coordinator.currentTextHashValue != self.text.hashValue {
+            processedContentView.setText(self.text)
+        }
+        coordinator.currentTextHashValue = self.text.hashValue
+
+        coordinator.onContentLoaded = self.onContentLoaded
+        coordinator.onHeightUpdated = self.onHeightUpdated
+        coordinator.onOpenImageURL = self.onOpenImageURL
+        coordinator.onOpenLink = self.onOpenLink
+    }
+
+    // MARK: Private Helpers
+
+    private static func openURLInTheWeb(_ url: URL) {
         WebControllerManager.shared.presentWebControllerWithURL(
             url,
             withKey: .externalLink,
@@ -40,16 +64,139 @@ struct LatexView: View {
     }
 }
 
+// MARK: - LatexView (Coordinator) -
+
+extension LatexView {
+    class Coordinator: NSObject, ProcessedContentViewDelegate {
+        var onContentLoaded: (() -> Void)?
+        var onHeightUpdated: ((Int) -> Void)?
+
+        var onOpenImageURL: ((URL) -> Void)?
+        var onOpenLink: ((URL) -> Void)?
+
+        fileprivate var currentTextHashValue: Int?
+
+        func processedContentViewDidLoadContent(_ view: ProcessedContentView) {
+            invalidateProcessedContentViewLayout(view)
+            self.onContentLoaded?()
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didReportNewHeight height: Int) {
+            invalidateProcessedContentViewLayout(view)
+            self.onHeightUpdated?(height)
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didOpenImageURL url: URL) {
+            self.onOpenImageURL?(url)
+        }
+
+        func processedContentView(_ view: ProcessedContentView, didOpenLink url: URL) {
+            self.onOpenLink?(url)
+        }
+
+        private func invalidateProcessedContentViewLayout(_ view: ProcessedContentView) {
+            DispatchQueue.main.async {
+                view.layoutIfNeeded()
+                view.invalidateIntrinsicContentSize()
+            }
+        }
+    }
+}
+
+// MARK: - LatexView (Configuration) -
+
+extension LatexView {
+    struct Configuration {
+        let appearance: ProcessedContentView.Appearance
+
+        let contentProcessor: ContentProcessorProtocol
+
+        let htmlToAttributedStringConverter: HTMLToAttributedStringConverterProtocol
+
+        init(
+            appearance: ProcessedContentView.Appearance = ProcessedContentView.Appearance(),
+            contentProcessor: ContentProcessorProtocol = ContentProcessor(),
+            htmlToAttributedStringConverter: HTMLToAttributedStringConverterProtocol
+        ) {
+            self.appearance = appearance
+            self.contentProcessor = contentProcessor
+            self.htmlToAttributedStringConverter = htmlToAttributedStringConverter
+        }
+
+        init(
+            appearance: ProcessedContentView.Appearance = ProcessedContentView.Appearance(),
+            contentProcessor: ContentProcessorProtocol = ContentProcessor()
+        ) {
+            self.appearance = appearance
+            self.contentProcessor = contentProcessor
+            self.htmlToAttributedStringConverter = HTMLToAttributedStringConverter(font: appearance.labelFont)
+        }
+
+        static func quizContent(
+            textFont: UIFont = UIFont.preferredFont(forTextStyle: .body),
+            textColor: UIColor = UIColor.primaryText,
+            backgroundColor: UIColor = UIColor.systemBackground
+        ) -> Configuration {
+            Configuration(
+                appearance: .init(
+                    labelFont: textFont,
+                    backgroundColor: backgroundColor
+                ),
+                contentProcessor: ContentProcessor(
+                    injections: ContentProcessor.defaultInjections + [
+                        FontInjection(font: textFont),
+                        TextColorInjection(dynamicColor: textColor)
+                    ]
+                )
+            )
+        }
+
+        static func stepText(
+            textFont: UIFont = UIFont.preferredFont(forTextStyle: .body),
+            textColor: UIColor = UIColor.primaryText,
+            backgroundColor: UIColor = UIColor.clear
+        ) -> Configuration {
+            Configuration(
+                appearance: .init(
+                    labelFont: textFont,
+                    labelTextColor: textColor,
+                    backgroundColor: backgroundColor
+                ),
+                contentProcessor: ContentProcessor(
+                    injections: ContentProcessor.defaultInjections + [
+                        StepStylesInjection(),
+                        FontInjection(font: textFont),
+                        TextColorInjection(dynamicColor: textColor)
+                    ]
+                ),
+                htmlToAttributedStringConverter: HTMLToAttributedStringConverter(font: textFont)
+            )
+        }
+    }
+}
+
+// MARK: - Preview -
+
 #Preview("Plain text") {
     LatexView(
-        text: .constant("Plain text https://google.com/")
+        text: "Plain text https://google.com/"
     )
     .padding()
 }
 
 #Preview("Rich text") {
     LatexView(
-        text: .constant("Rich <b>text</b>!!!")
+        text: "Rich <b>text</b>!!!"
+    )
+    .padding()
+}
+
+#Preview("Step text") {
+    LatexView(
+        text: """
+<p>Despite the fact that the syntax for different databases may differ, most of them have common standards.</p>
+""",
+        configuration: .stepText()
     )
     .padding()
 }
