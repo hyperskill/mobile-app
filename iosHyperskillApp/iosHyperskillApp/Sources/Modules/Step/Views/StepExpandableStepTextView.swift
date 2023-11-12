@@ -1,14 +1,12 @@
 import SwiftUI
 
-extension ExpandableStepTextView {
+extension StepExpandableStepTextView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
-
-        var stepTextViewAppearance = StepTextUIKitView.Appearance()
     }
 }
 
-struct ExpandableStepTextView: View {
+struct StepExpandableStepTextView: View {
     private(set) var appearance = Appearance()
 
     var text: String
@@ -45,10 +43,9 @@ struct ExpandableStepTextView: View {
             )
 
             if isExpanded {
-                StepTextView(
+                LatexView(
                     text: text,
-                    appearance: appearance.stepTextViewAppearance,
-                    onContentLoaded: nil
+                    configuration: .stepText()
                 )
             }
         }
@@ -56,7 +53,7 @@ struct ExpandableStepTextView: View {
 }
 
 #Preview {
-    ExpandableStepTextView(
+    StepExpandableStepTextView(
         text: """
 <p>Despite the fact that the syntax for different databases may differ, most of them have common standards.</p>
 """,

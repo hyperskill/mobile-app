@@ -31,7 +31,7 @@ struct StepQuizTableRowView: View {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     Group {
                         LatexView(
-                            text: .constant(title),
+                            text: title,
                             configuration: .quizContent(
                                 textFont: appearance.titleFont,
                                 textColor: appearance.titleTextColor
@@ -40,7 +40,7 @@ struct StepQuizTableRowView: View {
 
                         if let subtitle = subtitle, !subtitle.isEmpty {
                             LatexView(
-                                text: .constant(subtitle),
+                                text: subtitle,
                                 configuration: .quizContent(
                                     textFont: appearance.subtitleFont,
                                     textColor: appearance.subtitleTextColor
