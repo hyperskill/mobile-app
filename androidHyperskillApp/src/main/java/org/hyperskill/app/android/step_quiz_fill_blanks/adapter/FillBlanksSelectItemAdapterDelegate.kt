@@ -15,7 +15,7 @@ import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class FillBlanksSelectItemAdapterDelegate(
     private val options: List<FillBlanksOption>,
-    private val onClick: (blankIndex: Int, selectedOptionIndex: Int?) -> Unit
+    private val onClick: (blankIndex: Int) -> Unit
 ) : AdapterDelegate<FillBlanksUiItem, DelegateViewHolder<FillBlanksUiItem>>() {
     override fun isForViewType(position: Int, data: FillBlanksUiItem): Boolean =
         data is FillBlanksUiItem.Select
@@ -38,10 +38,8 @@ class FillBlanksSelectItemAdapterDelegate(
         init {
             textView.setOnClickListener {
                 val position = bindingAdapterPosition
-                val item = itemData as? FillBlanksUiItem.Select ?: return@setOnClickListener
-                val selectedOptionIndex = item.origin.selectedOptionIndex
                 if (position != RecyclerView.NO_POSITION) {
-                    onClick(position, selectedOptionIndex)
+                    onClick(position)
                 }
             }
         }
