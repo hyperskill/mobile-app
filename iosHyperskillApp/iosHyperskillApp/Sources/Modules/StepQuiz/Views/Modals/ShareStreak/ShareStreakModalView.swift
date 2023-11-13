@@ -4,6 +4,8 @@ extension ShareStreakModalView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset * 2
         let actionButtonsSpacing = LayoutInsets.defaultInset
+
+        let imageCornerRadius: CGFloat = 16
     }
 }
 
@@ -27,6 +29,7 @@ struct ShareStreakModalView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity)
+                .cornerRadius(appearance.imageCornerRadius)
 
             VStack(spacing: appearance.actionButtonsSpacing) {
                 Button(
