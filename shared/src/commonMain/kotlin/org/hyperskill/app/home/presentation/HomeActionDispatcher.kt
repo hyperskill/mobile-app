@@ -22,6 +22,7 @@ import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
+import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -32,7 +33,7 @@ import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class HomeActionDispatcher(
+internal class HomeActionDispatcher(
     config: ActionDispatcherOptions,
     homeInteractor: HomeInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
@@ -71,8 +72,9 @@ class HomeActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchHomeScreenData -> handleFetchHomeScreenData(::onNewMessage)
-            is Action.LaunchTimer -> {
+            is InternalAction.FetchHomeScreenData ->
+                handleFetchHomeScreenData(::onNewMessage)
+            is InternalAction.LaunchTimer -> {
                 if (isTimerLaunched) {
                     return
                 }
@@ -99,7 +101,7 @@ class HomeActionDispatcher(
                     }
                     .launchIn(actionScope)
             }
-            is Action.LogAnalyticEvent ->
+            is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op

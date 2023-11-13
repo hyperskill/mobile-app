@@ -18,7 +18,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     private val challengeWidgetComponent: ChallengeWidgetComponent =
         appGraph.buildChallengeWidgetComponent()
 
-    override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
+    override val homeFeature: Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
             homeInteractor,
             appGraph.profileDataComponent.currentProfileStateRepository,
@@ -33,6 +33,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
             gamificationToolbarComponent.gamificationToolbarActionDispatcher,
             challengeWidgetComponent.challengeWidgetReducer,
             challengeWidgetComponent.challengeWidgetActionDispatcher,
+            challengeWidgetComponent.challengeWidgetViewStateMapper,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

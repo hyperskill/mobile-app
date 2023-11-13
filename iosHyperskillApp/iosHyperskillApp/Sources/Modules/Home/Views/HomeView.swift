@@ -127,8 +127,7 @@ struct HomeView: View {
     }
 }
 
+@available(iOS 17, *)
 #Preview {
-    UIKitViewControllerPreview {
-        HomeAssembly().makeModule()
-    }
+    HomeAssembly().makeModule()
 }

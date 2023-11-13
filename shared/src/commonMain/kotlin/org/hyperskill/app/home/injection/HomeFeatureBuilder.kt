@@ -5,8 +5,10 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetActionDispatcher
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetReducer
+import org.hyperskill.app.challenges.widget.view.mapper.ChallengeWidgetViewStateMapper
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
@@ -16,6 +18,7 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
+import org.hyperskill.app.home.view.mapper.HomeViewStateMapper
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -45,9 +48,10 @@ internal object HomeFeatureBuilder {
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         challengeWidgetReducer: ChallengeWidgetReducer,
         challengeWidgetActionDispatcher: ChallengeWidgetActionDispatcher,
+        challengeWidgetViewStateMapper: ChallengeWidgetViewStateMapper,
         logger: Logger,
         buildVariant: BuildVariant
-    ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
+    ): Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
             gamificationToolbarReducer = gamificationToolbarReducer,
             challengeWidgetReducer = challengeWidgetReducer
@@ -64,6 +68,9 @@ internal object HomeFeatureBuilder {
             dateFormatter,
             topicRepeatedFlow
         )
+        val homeViewStateMapper = HomeViewStateMapper(
+            challengeWidgetViewStateMapper = challengeWidgetViewStateMapper
+        )
 
         return ReduxFeature(
             HomeFeature.State(
@@ -73,16 +80,17 @@ internal object HomeFeatureBuilder {
             ),
             homeReducer
         )
+            .transformState(homeViewStateMapper::map)
             .wrapWithActionDispatcher(homeActionDispatcher)
             .wrapWithActionDispatcher(
                 gamificationToolbarActionDispatcher.transform(
-                    transformAction = { it.safeCast<HomeFeature.Action.GamificationToolbarAction>()?.action },
+                    transformAction = { it.safeCast<HomeFeature.InternalAction.GamificationToolbarAction>()?.action },
                     transformMessage = HomeFeature.Message::GamificationToolbarMessage
                 )
             )
             .wrapWithActionDispatcher(
                 challengeWidgetActionDispatcher.transform(
-                    transformAction = { it.safeCast<HomeFeature.Action.ChallengeWidgetAction>()?.action },
+                    transformAction = { it.safeCast<HomeFeature.InternalAction.ChallengeWidgetAction>()?.action },
                     transformMessage = HomeFeature.Message::ChallengeWidgetMessage
                 )
             )

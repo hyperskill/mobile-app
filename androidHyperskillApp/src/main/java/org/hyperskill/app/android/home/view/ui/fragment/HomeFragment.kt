@@ -30,7 +30,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class HomeFragment :
     Fragment(R.layout.fragment_home),
-    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction> {
+    ReduxView<HomeFeature.ViewState, HomeFeature.Action.ViewAction> {
     companion object {
         fun newInstance(): Fragment =
             HomeFragment()
@@ -172,7 +172,7 @@ class HomeFragment :
         }
     }
 
-    override fun render(state: HomeFeature.State) {
+    override fun render(state: HomeFeature.ViewState) {
         homeViewStateDelegate.switchState(state.homeState)
 
         renderSwipeRefresh(state)
@@ -186,7 +186,7 @@ class HomeFragment :
         gamificationToolbarDelegate?.render(state.toolbarState)
     }
 
-    private fun renderSwipeRefresh(state: HomeFeature.State) {
+    private fun renderSwipeRefresh(state: HomeFeature.ViewState) {
         with(viewBinding.homeScreenSwipeRefreshLayout) {
             isEnabled = state.homeState is HomeFeature.HomeState.Content
             updateIsRefreshing(state.isRefreshing)
