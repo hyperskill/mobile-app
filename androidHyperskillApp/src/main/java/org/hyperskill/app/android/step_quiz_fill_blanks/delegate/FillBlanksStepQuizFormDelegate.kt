@@ -242,7 +242,9 @@ class FillBlanksStepQuizFormDelegate(
         with(binding.stepQuizFillBlanksRecycler) {
             itemAnimator = null
             adapter = fillBlanksAdapter
-            isNestedScrollingEnabled = false
+            // Allow nested scrolling to avoid half rendered content.
+            // Fixme
+            isNestedScrollingEnabled = true
             layoutManager = FlexboxLayoutManager(context)
             addItemDecoration(
                 FlexboxItemDecoration(context).apply {
