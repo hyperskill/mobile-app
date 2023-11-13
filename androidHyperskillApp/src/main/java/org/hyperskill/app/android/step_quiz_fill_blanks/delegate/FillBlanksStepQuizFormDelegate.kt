@@ -223,15 +223,14 @@ class FillBlanksStepQuizFormDelegate(
         fillBlanksData: FillBlanksData?,
         usedOptionsIndices: List<Int>,
         isEnabled: Boolean
-    ): List<FillBlanksSelectOptionUIItem> {
-        return fillBlanksData?.options?.mapIndexed { index, option ->
+    ): List<FillBlanksSelectOptionUIItem> =
+        fillBlanksData?.options?.mapIndexed { index, option ->
             FillBlanksSelectOptionUIItem(
                 option = option,
                 isUsed = index in usedOptionsIndices,
                 isClickable = isEnabled
             )
         } ?: emptyList()
-    }
 
     private fun getSelectItemIndices(items: List<FillBlanksItem>?) =
         items?.mapIndexedNotNull { index, item ->
