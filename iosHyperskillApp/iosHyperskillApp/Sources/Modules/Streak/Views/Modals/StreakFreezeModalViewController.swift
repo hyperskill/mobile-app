@@ -95,6 +95,7 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
     private func setupImageView() {
         let image = UIImage(named: streakFreezeState.image)?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
 
         contentStackView.addArrangedSubview(imageView)
 
@@ -145,6 +146,7 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
             named: streakFreezeState.statusIcon
         )?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
 
         containerStackView.addArrangedSubview(imageView)
 
@@ -266,4 +268,12 @@ fileprivate extension ProfileFeatureStreakFreezeStateKs {
             return .outline
         }
     }
+}
+
+@available(iOS 17, *)
+#Preview {
+    StreakFreezeModalViewController(
+        streakFreezeState: .alreadyHave,
+        onActionButtonTap: {}
+    )
 }

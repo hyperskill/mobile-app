@@ -101,6 +101,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
     private func setupBookImageView() {
         let image = UIImage(named: Images.StepQuiz.ProblemOfDaySolvedModal.book)?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
 
         contentStackView.addArrangedSubview(imageView)
 
@@ -203,4 +204,13 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
     private func continueWithNextTopicButtonTapped() {
         delegate?.topicCompletedModalViewControllerDidTapContinueWithNextTopicButton(self)
     }
+}
+
+@available(iOS 17, *)
+#Preview {
+    TopicCompletedModalViewController(
+        modalText: "Modal text goes here",
+        isNextStepAvailable: true,
+        delegate: nil
+    )
 }

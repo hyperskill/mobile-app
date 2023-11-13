@@ -1,6 +1,20 @@
 import PanModal
+import shared
 import SnapKit
 import UIKit
+
+protocol ProblemOfDaySolvedModalViewControllerDelegate: AnyObject {
+    func problemOfDaySolvedModalViewControllerDidAppear(_ viewController: ProblemOfDaySolvedModalViewController)
+    func problemOfDaySolvedModalViewControllerDidDisappear(_ viewController: ProblemOfDaySolvedModalViewController)
+
+    func problemOfDaySolvedModalViewControllerDidTapGoBackButton(
+        _ viewController: ProblemOfDaySolvedModalViewController
+    )
+    func problemOfDaySolvedModalViewControllerDidTapShareStreakButton(
+        _ viewController: ProblemOfDaySolvedModalViewController,
+        streak: Int
+    )
+}
 
 extension ProblemOfDaySolvedModalViewController {
     struct Appearance {
@@ -14,15 +28,20 @@ extension ProblemOfDaySolvedModalViewController {
 
         let bookImageViewSizeRatio = CGSize(width: 0.63, height: 0.22)
 
-        let gemsBadgeImageWidthHeight: CGFloat = 36
-        let gemsBadgeSpacing: CGFloat = LayoutInsets.smallInset
+        let detailItemsImageWidthHeight: CGFloat = 36
+        let detailItemsSpacing: CGFloat = LayoutInsets.smallInset
 
-        let goBackButtonHeight: CGFloat = 44
+        let buttonHeight: CGFloat = 44
     }
 }
 
 final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewController {
+    weak var delegate: ProblemOfDaySolvedModalViewControllerDelegate?
+
     private(set) var appearance = Appearance()
+
+    private let earnedGemsText: String
+    private let shareStreakData: StepCompletionFeatureShareStreakDataKs
 
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -33,9 +52,6 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         return stackView
     }()
 
-    private let earnedGemsText: String
-    private let onGoBackButtonTap: () -> Void
-
     override var shortFormHeight: PanModalHeight {
         let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
         let height = appearance.contentStackViewInsets.top + contentStackViewSize.height
@@ -44,16 +60,19 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(earnedGemsText: String, onGoBackButtonTap: @escaping () -> Void) {
+    init(
+        earnedGemsText: String,
+        shareStreakData: StepCompletionFeatureShareStreakDataKs,
+        delegate: ProblemOfDaySolvedModalViewControllerDelegate?
+    ) {
         self.earnedGemsText = earnedGemsText
-        self.onGoBackButtonTap = onGoBackButtonTap
-
+        self.shareStreakData = shareStreakData
+        self.delegate = delegate
         super.init()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setup()
     }
 
@@ -66,6 +85,16 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.problemOfDaySolvedModalViewControllerDidAppear(self)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        delegate?.problemOfDaySolvedModalViewControllerDidDisappear(self)
+    }
+
     // MARK: Private API
 
     private func setup() {
@@ -75,8 +104,8 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         setupBookImageView()
         setupTitleView()
         setupTextView()
-        setupGemsView()
-        setupGoBackButton()
+        setupDetailItemsView()
+        setupActionButtons()
     }
 
     private func setupContentStackView() {
@@ -94,6 +123,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     private func setupBookImageView() {
         let image = UIImage(named: Images.StepQuiz.ProblemOfDaySolvedModal.book)?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
 
         contentStackView.addArrangedSubview(imageView)
 
@@ -126,50 +156,138 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
         contentStackView.addArrangedSubview(label)
     }
 
-    private func setupGemsView() {
-        let containerStackView = UIStackView()
-        containerStackView.axis = .horizontal
-        containerStackView.spacing = appearance.gemsBadgeSpacing
+    private func setupDetailItemsView() {
+        func makeItemView(imageResource: ImageResource, text: String) -> UIView {
+            let containerStackView = UIStackView()
+            containerStackView.axis = .horizontal
+            containerStackView.spacing = appearance.detailItemsSpacing
 
-        contentStackView.addArrangedSubview(containerStackView)
+            let image = UIImage(resource: imageResource).withRenderingMode(.alwaysOriginal)
+            let imageView = UIImageView(image: image)
+            imageView.contentMode = .scaleAspectFit
 
-        let image = UIImage(
-            named: Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge
-        )?.withRenderingMode(.alwaysOriginal)
-        let imageView = UIImageView(image: image)
+            containerStackView.addArrangedSubview(imageView)
 
-        containerStackView.addArrangedSubview(imageView)
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.snp.makeConstraints { make in
+                make.height.equalTo(appearance.detailItemsImageWidthHeight)
+                make.width.equalTo(appearance.detailItemsImageWidthHeight)
+            }
 
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.snp.makeConstraints { make in
-            make.height.equalTo(appearance.gemsBadgeImageWidthHeight)
-            make.width.equalTo(appearance.gemsBadgeImageWidthHeight)
+            let label = UILabel()
+            label.text = text
+            label.font = .preferredFont(forTextStyle: .title3)
+            label.textColor = .primaryText
+            containerStackView.addArrangedSubview(label)
+
+            return containerStackView
         }
 
-        let label = UILabel()
-        label.text = earnedGemsText
-        label.font = .preferredFont(forTextStyle: .title3)
-        label.textColor = .primaryText
-        containerStackView.addArrangedSubview(label)
+        let itemsStackView = UIStackView()
+        itemsStackView.axis = .vertical
+        itemsStackView.spacing = LayoutInsets.defaultInset
+        itemsStackView.alignment = .leading
+        itemsStackView.distribution = .fill
+
+        contentStackView.addArrangedSubview(itemsStackView)
+
+        itemsStackView.addArrangedSubview(
+            makeItemView(
+                imageResource: .problemOfDaySolvedModalGemsBadge,
+                text: earnedGemsText
+            )
+        )
+
+        switch shareStreakData {
+        case .content(let data):
+            itemsStackView.addArrangedSubview(
+                makeItemView(
+                    imageResource: .navigationBarStreakCompleted,
+                    text: data.streakText
+                )
+            )
+        case .empty:
+            break
+        }
     }
 
-    private func setupGoBackButton() {
-        let button = UIKitRoundedRectangleButton(style: .violet)
-        button.setTitle(Strings.Common.goToTraining, for: .normal)
-        button.addTarget(self, action: #selector(goBackButtonTapped), for: .touchUpInside)
+    private func setupActionButtons() {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = LayoutInsets.defaultInset
+        stackView.alignment = .leading
+        stackView.distribution = .fill
 
-        contentStackView.addArrangedSubview(button)
-
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.snp.makeConstraints { make in
+        contentStackView.addArrangedSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.height.equalTo(appearance.goBackButtonHeight)
+        }
+
+        let goBackButton = UIKitRoundedRectangleButton(style: .violet)
+        goBackButton.setTitle(Strings.Common.goToTraining, for: .normal)
+        goBackButton.addTarget(self, action: #selector(goBackButtonTapped), for: .touchUpInside)
+
+        stackView.addArrangedSubview(goBackButton)
+        goBackButton.translatesAutoresizingMaskIntoConstraints = false
+        goBackButton.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(appearance.buttonHeight)
+        }
+
+        switch shareStreakData {
+        case .content:
+            let shareStreakButton = UIKitRoundedRectangleButton(style: .outline)
+            shareStreakButton.setTitle(Strings.StepQuiz.ProblemOfDaySolvedModal.shareStreakButton, for: .normal)
+            shareStreakButton.addTarget(self, action: #selector(shareStreakButtonTapped), for: .touchUpInside)
+
+            stackView.addArrangedSubview(shareStreakButton)
+            shareStreakButton.translatesAutoresizingMaskIntoConstraints = false
+            shareStreakButton.snp.makeConstraints { make in
+                make.width.equalToSuperview()
+                make.height.equalTo(appearance.buttonHeight)
+            }
+        case .empty:
+            break
         }
     }
 
     @objc
     private func goBackButtonTapped() {
-        onGoBackButtonTap()
+        delegate?.problemOfDaySolvedModalViewControllerDidTapGoBackButton(self)
         dismiss(animated: true)
     }
+
+    @objc
+    private func shareStreakButtonTapped() {
+        switch shareStreakData {
+        case .content(let data):
+            delegate?.problemOfDaySolvedModalViewControllerDidTapShareStreakButton(self, streak: Int(data.streak))
+        case .empty:
+            assertionFailure("ProblemOfDaySolvedModalViewController: unexpected state")
+        }
+    }
+}
+
+@available(iOS 17, *)
+#Preview {
+    ProblemOfDaySolvedModalViewController(
+        earnedGemsText: "+3 gems",
+        shareStreakData: .content(
+            StepCompletionFeatureShareStreakDataContent(
+                streakText: "5 days streak",
+                streak: 5
+            )
+        ),
+        delegate: nil
+    )
+}
+
+@available(iOS 17, *)
+#Preview {
+    ProblemOfDaySolvedModalViewController(
+        earnedGemsText: "+3 gems",
+        shareStreakData: .empty,
+        delegate: nil
+    )
 }
