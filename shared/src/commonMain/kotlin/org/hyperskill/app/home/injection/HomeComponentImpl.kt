@@ -1,5 +1,6 @@
 package org.hyperskill.app.home.injection
 
+import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
@@ -14,6 +15,9 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     private val gamificationToolbarComponent: GamificationToolbarComponent =
         appGraph.buildGamificationToolbarComponent(GamificationToolbarScreen.HOME)
 
+    private val challengeWidgetComponent: ChallengeWidgetComponent =
+        appGraph.buildChallengeWidgetComponent()
+
     override val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
             homeInteractor,
@@ -27,6 +31,8 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
             appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,
             gamificationToolbarComponent.gamificationToolbarReducer,
             gamificationToolbarComponent.gamificationToolbarActionDispatcher,
+            challengeWidgetComponent.challengeWidgetReducer,
+            challengeWidgetComponent.challengeWidgetActionDispatcher,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

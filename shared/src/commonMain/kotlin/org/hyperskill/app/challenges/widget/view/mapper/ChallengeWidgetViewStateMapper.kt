@@ -9,7 +9,7 @@ class ChallengeWidgetViewStateMapper {
         when (state) {
             ChallengeWidgetFeature.State.Idle -> ChallengeWidgetViewState.Idle
             ChallengeWidgetFeature.State.Loading -> ChallengeWidgetViewState.Loading
-            ChallengeWidgetFeature.State.NetworkError -> ChallengeWidgetViewState.Error
+            ChallengeWidgetFeature.State.Error -> ChallengeWidgetViewState.Error
             is ChallengeWidgetFeature.State.Content -> getLoadedWidgetContent(state)
         }
 

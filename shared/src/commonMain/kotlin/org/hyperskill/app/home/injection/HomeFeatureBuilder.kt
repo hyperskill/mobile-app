@@ -2,6 +2,9 @@ package org.hyperskill.app.home.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetActionDispatcher
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetReducer
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.SharedDateFormatter
@@ -40,11 +43,14 @@ internal object HomeFeatureBuilder {
         topicRepeatedFlow: TopicRepeatedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
+        challengeWidgetReducer: ChallengeWidgetReducer,
+        challengeWidgetActionDispatcher: ChallengeWidgetActionDispatcher,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
-            gamificationToolbarReducer
+            gamificationToolbarReducer = gamificationToolbarReducer,
+            challengeWidgetReducer = challengeWidgetReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
@@ -62,7 +68,8 @@ internal object HomeFeatureBuilder {
         return ReduxFeature(
             HomeFeature.State(
                 homeState = HomeFeature.HomeState.Idle,
-                toolbarState = GamificationToolbarFeature.State.Idle
+                toolbarState = GamificationToolbarFeature.State.Idle,
+                challengeWidgetState = ChallengeWidgetFeature.State.Idle
             ),
             homeReducer
         )
@@ -71,6 +78,12 @@ internal object HomeFeatureBuilder {
                 gamificationToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<HomeFeature.Action.GamificationToolbarAction>()?.action },
                     transformMessage = HomeFeature.Message::GamificationToolbarMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                challengeWidgetActionDispatcher.transform(
+                    transformAction = { it.safeCast<HomeFeature.Action.ChallengeWidgetAction>()?.action },
+                    transformMessage = HomeFeature.Message::ChallengeWidgetMessage
                 )
             )
     }

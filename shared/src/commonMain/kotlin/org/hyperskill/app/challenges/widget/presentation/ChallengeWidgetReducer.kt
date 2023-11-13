@@ -1,6 +1,8 @@
 package org.hyperskill.app.challenges.widget.presentation
 
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.Action
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.InternalAction
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.InternalMessage
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.Message
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -9,5 +11,40 @@ private typealias ChallengeWidgetReducerResult = Pair<State, Set<Action>>
 
 class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ChallengeWidgetReducerResult =
-        TODO()
+        when (message) {
+            is InternalMessage.Initialize ->
+                handleInitializeMessage(state, message)
+            InternalMessage.FetchChallengesError ->
+                State.Error to emptySet()
+            is InternalMessage.FetchChallengesSuccess ->
+                State.Content(challenges = message.challenges) to emptySet()
+            InternalMessage.PullToRefresh ->
+                handlePullToRefreshMessage(state)
+        } ?: (state to emptySet())
+
+    private fun handleInitializeMessage(
+        state: State,
+        message: InternalMessage.Initialize
+    ): ChallengeWidgetReducerResult? =
+        if (state is State.Idle ||
+            (message.forceUpdate && (state is State.Content || state is State.Error))
+        ) {
+            State.Loading to setOf(InternalAction.FetchChallenges)
+        } else {
+            null
+        }
+
+    private fun handlePullToRefreshMessage(state: State): ChallengeWidgetReducerResult? =
+        when (state) {
+            is State.Content ->
+                if (state.isRefreshing) {
+                    null
+                } else {
+                    state.copy(isRefreshing = true) to setOf(InternalAction.FetchChallenges)
+                }
+            State.Error ->
+                State.Loading to setOf(InternalAction.FetchChallenges)
+            else ->
+                null
+        }
 }

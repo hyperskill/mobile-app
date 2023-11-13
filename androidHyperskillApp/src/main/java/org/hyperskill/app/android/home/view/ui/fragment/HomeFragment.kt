@@ -166,6 +166,9 @@ class HomeFragment :
                     StepScreen(action.stepRoute)
                 )
             }
+            is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
+                // TODO: Handle ChallengeWidgetViewAction
+            }
         }
     }
 

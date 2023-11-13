@@ -121,6 +121,8 @@ struct HomeView: View {
                 let assembly = ProgressScreenAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
+        case .challengeWidgetViewAction:
+            #warning("TODO: Handle challenge widget view action")
         }
     }
 }

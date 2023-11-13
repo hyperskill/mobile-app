@@ -1,6 +1,8 @@
 package org.hyperskill.app.home.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.isRefreshing
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.step.domain.model.Step
@@ -10,11 +12,13 @@ import org.hyperskill.app.streaks.domain.model.Streak
 interface HomeFeature {
     data class State(
         val homeState: HomeState,
-        val toolbarState: GamificationToolbarFeature.State
+        val toolbarState: GamificationToolbarFeature.State,
+        val challengeWidgetState: ChallengeWidgetFeature.State
     ) {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
-                toolbarState.isRefreshing
+                toolbarState.isRefreshing ||
+                challengeWidgetState.isRefreshing
     }
 
     sealed interface HomeState {
@@ -119,6 +123,7 @@ interface HomeFeature {
          * Message Wrappers
          */
         data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
+        data class ChallengeWidgetMessage(val message: ChallengeWidgetFeature.Message) : Message
     }
 
     sealed interface Action {
@@ -131,17 +136,23 @@ interface HomeFeature {
          * Action Wrappers
          */
         data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
+        data class ChallengeWidgetAction(val action: ChallengeWidgetFeature.Action) : Action
 
         sealed interface ViewAction : Action {
-
-            data class GamificationToolbarViewAction(
-                val viewAction: GamificationToolbarFeature.Action.ViewAction
-            ) : ViewAction
-
             sealed interface NavigateTo : ViewAction {
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }
+
+            /**
+             * ViewAction Wrappers
+             */
+            data class GamificationToolbarViewAction(
+                val viewAction: GamificationToolbarFeature.Action.ViewAction
+            ) : ViewAction
+            data class ChallengeWidgetViewAction(
+                val viewAction: ChallengeWidgetFeature.Action.ViewAction
+            ) : ViewAction
         }
     }
 }

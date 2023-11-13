@@ -1,6 +1,8 @@
 package org.hyperskill.app.home.presentation
 
 import kotlin.math.max
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetReducer
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
@@ -17,7 +19,8 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias HomeReducerResult = Pair<State, Set<Action>>
 
 class HomeReducer(
-    private val gamificationToolbarReducer: GamificationToolbarReducer
+    private val gamificationToolbarReducer: GamificationToolbarReducer,
+    private val challengeWidgetReducer: ChallengeWidgetReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): HomeReducerResult =
         when (message) {
@@ -211,6 +214,11 @@ class HomeReducer(
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
                 state.copy(toolbarState = toolbarState) to toolbarActions
             }
+            is Message.ChallengeWidgetMessage -> {
+                val (challengeWidgetState, challengeWidgetActions) =
+                    reduceChallengeWidgetMessage(state.challengeWidgetState, message.message)
+                state.copy(challengeWidgetState = challengeWidgetState) to challengeWidgetActions
+            }
         } ?: (state to emptySet())
 
     private fun initialize(state: State, forceUpdate: Boolean): HomeReducerResult {
@@ -230,10 +238,17 @@ class HomeReducer(
                 GamificationToolbarFeature.InternalMessage.Initialize(forceUpdate)
             )
 
+        val (challengeWidgetState, challengeWidgetActions) =
+            reduceChallengeWidgetMessage(
+                state.challengeWidgetState,
+                ChallengeWidgetFeature.InternalMessage.Initialize(forceUpdate)
+            )
+
         return state.copy(
             homeState = homeState,
-            toolbarState = toolbarState
-        ) to homeActions + toolbarActions
+            toolbarState = toolbarState,
+            challengeWidgetState = challengeWidgetState
+        ) to homeActions + toolbarActions + challengeWidgetActions
     }
 
     private fun handlePullToRefresh(state: State): HomeReducerResult {
@@ -248,15 +263,23 @@ class HomeReducer(
             state.homeState to emptySet()
         }
 
-        val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
-            state.toolbarState,
-            GamificationToolbarFeature.InternalMessage.PullToRefresh
-        )
+        val (toolbarState, toolbarActions) =
+            reduceGamificationToolbarMessage(
+                state.toolbarState,
+                GamificationToolbarFeature.InternalMessage.PullToRefresh
+            )
+
+        val (challengeWidgetState, challengeWidgetActions) =
+            reduceChallengeWidgetMessage(
+                state.challengeWidgetState,
+                ChallengeWidgetFeature.InternalMessage.PullToRefresh
+            )
 
         return state.copy(
             homeState = homeState,
-            toolbarState = toolbarState
-        ) to homeActions + toolbarActions
+            toolbarState = toolbarState,
+            challengeWidgetState = challengeWidgetState
+        ) to homeActions + toolbarActions + challengeWidgetActions
     }
 
     private fun reduceGamificationToolbarMessage(
@@ -276,5 +299,24 @@ class HomeReducer(
             .toSet()
 
         return gamificationToolbarState to actions
+    }
+
+    private fun reduceChallengeWidgetMessage(
+        state: ChallengeWidgetFeature.State,
+        message: ChallengeWidgetFeature.Message
+    ): Pair<ChallengeWidgetFeature.State, Set<Action>> {
+        val (challengeWidgetState, challengeWidgetActions) = challengeWidgetReducer.reduce(state, message)
+
+        val actions = challengeWidgetActions
+            .map {
+                if (it is ChallengeWidgetFeature.Action.ViewAction) {
+                    Action.ViewAction.ChallengeWidgetViewAction(it)
+                } else {
+                    Action.ChallengeWidgetAction(it)
+                }
+            }
+            .toSet()
+
+        return challengeWidgetState to actions
     }
 }
