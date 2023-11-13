@@ -33,7 +33,7 @@ struct StepQuizParsonsItemView: View {
                     )
                 case .htmlText(let string):
                     LatexView(
-                        text: .constant(string),
+                        text: string,
                         configuration: .quizContent(backgroundColor: .clear)
                     )
                     .frame(width: CGFloat(string.count * 15))

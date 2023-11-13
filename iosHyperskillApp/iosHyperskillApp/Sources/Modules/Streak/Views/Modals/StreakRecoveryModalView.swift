@@ -20,6 +20,9 @@ struct StreakRecoveryModalView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.largeSpacing) {
             Image(Images.Profile.Streak.RecoverModal.fire)
+                .renderingMode(.original)
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(alignment: .leading, spacing: LayoutInsets.largeInset) {
                 Text(Strings.Streak.RecoverModal.title)

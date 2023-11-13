@@ -123,6 +123,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     private func setupBookImageView() {
         let image = UIImage(named: Images.StepQuiz.ProblemOfDaySolvedModal.book)?.withRenderingMode(.alwaysOriginal)
         let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFit
 
         contentStackView.addArrangedSubview(imageView)
 
@@ -163,6 +164,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
             let image = UIImage(resource: imageResource).withRenderingMode(.alwaysOriginal)
             let imageView = UIImageView(image: image)
+            imageView.contentMode = .scaleAspectFit
 
             containerStackView.addArrangedSubview(imageView)
 
