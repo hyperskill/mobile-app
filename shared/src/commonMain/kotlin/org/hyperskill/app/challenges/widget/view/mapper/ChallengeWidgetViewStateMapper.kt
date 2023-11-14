@@ -32,19 +32,19 @@ class ChallengeWidgetViewStateMapper(
         }
 
     private fun getLoadedWidgetContent(state: ChallengeWidgetFeature.State.Content): ChallengeWidgetViewState {
-        val currentChallenge = state.getCurrentChallenge() ?: return ChallengeWidgetViewState.Empty
-        val currentChallengeStatus = currentChallenge.status ?: return ChallengeWidgetViewState.Empty
+        val challenge = state.getCurrentChallenge() ?: return ChallengeWidgetViewState.Empty
+        val challengeStatus = challenge.status ?: return ChallengeWidgetViewState.Empty
 
-        val title = currentChallenge.title
-        val description = currentChallenge.description
+        val challengeTitle = challenge.title
+        val challengeDescription = challenge.description
         val formattedDurationOfTime = getFormattedDurationOfTime(
-            startingDate = currentChallenge.startingDate,
-            finishDate = currentChallenge.finishDate
+            startingDate = challenge.startingDate,
+            finishDate = challenge.finishDate
         )
 
-        return when (currentChallengeStatus) {
+        return when (challengeStatus) {
             ChallengeStatus.NOT_STARTED -> {
-                val timeRemaining = calculateTimeRemaining(deadline = currentChallenge.startingDate)
+                val timeRemaining = calculateTimeRemaining(deadline = challenge.startingDate)
                 val startsInState = if (timeRemaining > 0) {
                     ChallengeWidgetViewState.Content.Announcement.StartsInState.TimeRemaining(
                         title = resourceProvider.getString(SharedResources.strings.challenge_widget_starts_in_text),
@@ -55,8 +55,8 @@ class ChallengeWidgetViewStateMapper(
                 }
 
                 ChallengeWidgetViewState.Content.Announcement(
-                    title = title,
-                    description = description,
+                    title = challengeTitle,
+                    description = challengeDescription,
                     formattedDurationOfTime = formattedDurationOfTime,
                     startsInState = startsInState
                 )
@@ -64,7 +64,13 @@ class ChallengeWidgetViewStateMapper(
             ChallengeStatus.STARTED -> TODO()
             ChallengeStatus.COMPLETED -> TODO()
             ChallengeStatus.PARTIAL_COMPLETED -> TODO()
-            ChallengeStatus.NOT_COMPLETED -> TODO()
+            ChallengeStatus.NOT_COMPLETED -> {
+                ChallengeWidgetViewState.Content.Ended(
+                    title = challengeTitle,
+                    description = challengeStatus.getTitle(resourceProvider),
+                    formattedDurationOfTime = formattedDurationOfTime
+                )
+            }
         }
     }
 
@@ -87,3 +93,17 @@ class ChallengeWidgetViewStateMapper(
         return (deadlineInstant - nowInNewYork).inWholeSeconds
     }
 }
+
+private fun ChallengeStatus.getTitle(resourceProvider: ResourceProvider): String =
+    when (this) {
+        ChallengeStatus.NOT_STARTED ->
+            resourceProvider.getString(SharedResources.strings.challenge_widget_status_not_started_title)
+        ChallengeStatus.STARTED ->
+            resourceProvider.getString(SharedResources.strings.challenge_widget_status_started_title)
+        ChallengeStatus.NOT_COMPLETED ->
+            resourceProvider.getString(SharedResources.strings.challenge_widget_status_not_completed_title)
+        ChallengeStatus.PARTIAL_COMPLETED ->
+            resourceProvider.getString(SharedResources.strings.challenge_widget_status_partial_completed_title)
+        ChallengeStatus.COMPLETED ->
+            resourceProvider.getString(SharedResources.strings.challenge_widget_status_completed_title)
+    }

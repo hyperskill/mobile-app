@@ -503,6 +503,12 @@
     <string name="share_streak_sharing_url">https://hi.hyperskill.org/my-hyperskill-app</string>
 
     <!-- Challenge widget -->
+    <string name="challenge_widget_status_not_started_title">Get ready to push your limits!</string>
+    <string name="challenge_widget_status_started_title">The challenge awaits!</string>
+    <string name="challenge_widget_status_completed_title">Well done, challenge completed!</string>
+    <string name="challenge_widget_status_partial_completed_title">Close to victory, bonus bounty!</string>
+    <string name="challenge_widget_status_not_completed_title">Give it another shot next time!</string>
+
     <string name="challenge_widget_starts_in_text">Starts in</string>
 
     <!--Badges-->

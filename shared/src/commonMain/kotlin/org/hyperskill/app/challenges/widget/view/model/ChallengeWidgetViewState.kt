@@ -35,7 +35,9 @@ sealed interface ChallengeWidgetViewState {
         ) : Content
 
         data class Ended(
-            val title: String
+            val title: String,
+            val description: String,
+            val formattedDurationOfTime: String
         ) : Content
     }
 }
