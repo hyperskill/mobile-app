@@ -11,7 +11,7 @@ import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.ResourceProviderImpl
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.network.injection.NetworkModule
 import platform.Foundation.NSUserDefaults
 

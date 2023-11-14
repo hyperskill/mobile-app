@@ -20,7 +20,7 @@ import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardF
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.step.domain.model.StepRoute

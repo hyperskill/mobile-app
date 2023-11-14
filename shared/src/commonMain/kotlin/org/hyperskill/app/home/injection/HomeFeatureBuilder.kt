@@ -9,7 +9,7 @@ import org.hyperskill.app.challenges.widget.view.mapper.ChallengeWidgetViewState
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature

@@ -1,4 +1,4 @@
-package org.hyperskill.challenges
+package org.hyperskill.challenges.domain.model
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

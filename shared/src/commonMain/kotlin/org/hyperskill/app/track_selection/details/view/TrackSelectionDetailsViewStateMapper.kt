@@ -3,7 +3,7 @@ package org.hyperskill.app.track_selection.details.view
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.progresses.domain.model.averageRating
 import org.hyperskill.app.track.domain.model.totalTopicsCount
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature

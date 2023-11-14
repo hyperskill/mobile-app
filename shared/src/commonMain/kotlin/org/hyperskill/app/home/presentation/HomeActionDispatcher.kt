@@ -18,7 +18,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action

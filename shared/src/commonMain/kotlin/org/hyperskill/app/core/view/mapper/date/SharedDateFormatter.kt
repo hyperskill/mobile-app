@@ -1,10 +1,12 @@
-package org.hyperskill.app.core.view.mapper
+package org.hyperskill.app.core.view.mapper.date
 
 import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.datetime.LocalDate
 import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 
 class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     companion object {
@@ -183,4 +185,15 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
             resourceProvider.getQuantityString(SharedResources.plurals.seconds, seconds, seconds)
         }
     }
+
+    /**
+     * Format month and day of local date;
+     *
+     * 2023-11-02 -> "2 Nov"
+     *
+     * @param localDate local date to format
+     * @return formatted month and day
+     */
+    fun formatDayNumericAndMonthShort(localDate: LocalDate): String =
+        "${localDate.dayOfMonth} ${MonthFormatter.formatMonthToShort(localDate.month)}"
 }

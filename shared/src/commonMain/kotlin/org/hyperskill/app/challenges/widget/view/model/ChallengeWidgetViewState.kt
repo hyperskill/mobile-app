@@ -1,13 +1,41 @@
 package org.hyperskill.app.challenges.widget.view.model
 
-import org.hyperskill.app.challenges.domain.model.Challenge
-
 sealed interface ChallengeWidgetViewState {
     object Idle : ChallengeWidgetViewState
     object Loading : ChallengeWidgetViewState
     object Error : ChallengeWidgetViewState
     object Empty : ChallengeWidgetViewState
-    data class Content(
-        val challenge: Challenge
-    ) : ChallengeWidgetViewState
+
+    sealed interface Content : ChallengeWidgetViewState {
+        data class Announcement(
+            val title: String,
+            val description: String,
+            val formattedDurationOfTime: String,
+            val startsInState: StartsInState
+        ) : Content {
+            sealed interface StartsInState {
+                object Deadline : StartsInState
+                data class TimeRemaining(
+                    val title: String,
+                    val subtitle: String
+                ) : StartsInState
+            }
+        }
+
+        data class HappeningNow(
+            val title: String
+        ) : Content
+
+        data class Completed(
+            val title: String
+        ) : Content
+
+        data class PartiallyCompleted(
+            val title: String
+        ) : Content
+
+        data class Ended(
+            val title: String
+        ) : Content
+    }
 }

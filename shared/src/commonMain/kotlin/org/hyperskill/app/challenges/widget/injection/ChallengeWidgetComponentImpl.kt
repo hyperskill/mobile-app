@@ -18,5 +18,8 @@ internal class ChallengeWidgetComponentImpl(private val appGraph: AppGraph) : Ch
         )
 
     override val challengeWidgetViewStateMapper: ChallengeWidgetViewStateMapper
-        get() = ChallengeWidgetViewStateMapper()
+        get() = ChallengeWidgetViewStateMapper(
+            dateFormatter = appGraph.commonComponent.dateFormatter,
+            resourceProvider = appGraph.commonComponent.resourceProvider
+        )
 }

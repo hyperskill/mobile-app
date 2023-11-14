@@ -502,6 +502,9 @@
     <string name="share_streak_sharing_text">Hyperskill – Level up your coding skills!</string>
     <string name="share_streak_sharing_url">https://hi.hyperskill.org/my-hyperskill-app</string>
 
+    <!-- Challenge widget -->
+    <string name="challenge_widget_starts_in_text">Starts in</string>
+
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>
     <string name="badge_topic_mastery">Topic Mastery</string>

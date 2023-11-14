@@ -7,7 +7,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
