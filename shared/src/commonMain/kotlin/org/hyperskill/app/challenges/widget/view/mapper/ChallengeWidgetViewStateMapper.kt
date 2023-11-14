@@ -37,11 +37,22 @@ class ChallengeWidgetViewStateMapper(
 
         val challengeTitle = challenge.title
         val challengeDescription = challenge.description
+
         val formattedDurationOfTime = getFormattedDurationOfTime(
             startingDate = challenge.startingDate,
             finishDate = challenge.finishDate
         )
-        val isRewardLinkAvailable = challenge.rewardLink.isNullOrEmpty().not()
+
+        val collectRewardButtonState = if (
+            (challengeStatus == ChallengeStatus.COMPLETED || challengeStatus == ChallengeStatus.PARTIAL_COMPLETED) &&
+            !challenge.rewardLink.isNullOrEmpty()
+        ) {
+            ChallengeWidgetViewState.Content.CollectRewardButtonState.Visible(
+                title = resourceProvider.getString(SharedResources.strings.challenge_widget_collect_reward_button_title)
+            )
+        } else {
+            ChallengeWidgetViewState.Content.CollectRewardButtonState.Hidden
+        }
 
         return when (challengeStatus) {
             ChallengeStatus.NOT_STARTED -> {
@@ -63,27 +74,32 @@ class ChallengeWidgetViewStateMapper(
                 )
             }
             ChallengeStatus.STARTED -> TODO()
-            ChallengeStatus.COMPLETED -> TODO()
+            ChallengeStatus.COMPLETED -> {
+                ChallengeWidgetViewState.Content.Completed(
+                    title = challengeTitle,
+                    description = resourceProvider.getString(
+                        SharedResources.strings.challenge_widget_status_completed_title
+                    ),
+                    formattedDurationOfTime = formattedDurationOfTime,
+                    collectRewardButtonState = collectRewardButtonState
+                )
+            }
             ChallengeStatus.PARTIAL_COMPLETED -> {
                 ChallengeWidgetViewState.Content.PartiallyCompleted(
                     title = challengeTitle,
-                    description = challengeStatus.getTitle(resourceProvider),
+                    description = resourceProvider.getString(
+                        SharedResources.strings.challenge_widget_status_partial_completed_title
+                    ),
                     formattedDurationOfTime = formattedDurationOfTime,
-                    collectRewardButtonState = if (isRewardLinkAvailable) {
-                        ChallengeWidgetViewState.Content.CollectRewardButtonState.Visible(
-                            title = resourceProvider.getString(
-                                SharedResources.strings.challenge_widget_collect_reward_button_title
-                            )
-                        )
-                    } else {
-                        ChallengeWidgetViewState.Content.CollectRewardButtonState.Hidden
-                    }
+                    collectRewardButtonState = collectRewardButtonState
                 )
             }
             ChallengeStatus.NOT_COMPLETED -> {
                 ChallengeWidgetViewState.Content.Ended(
                     title = challengeTitle,
-                    description = challengeStatus.getTitle(resourceProvider),
+                    description = resourceProvider.getString(
+                        SharedResources.strings.challenge_widget_status_not_completed_title
+                    ),
                     formattedDurationOfTime = formattedDurationOfTime
                 )
             }
@@ -109,17 +125,3 @@ class ChallengeWidgetViewStateMapper(
         return (deadlineInstant - nowInNewYork).inWholeSeconds
     }
 }
-
-private fun ChallengeStatus.getTitle(resourceProvider: ResourceProvider): String =
-    when (this) {
-        ChallengeStatus.NOT_STARTED ->
-            resourceProvider.getString(SharedResources.strings.challenge_widget_status_not_started_title)
-        ChallengeStatus.STARTED ->
-            resourceProvider.getString(SharedResources.strings.challenge_widget_status_started_title)
-        ChallengeStatus.NOT_COMPLETED ->
-            resourceProvider.getString(SharedResources.strings.challenge_widget_status_not_completed_title)
-        ChallengeStatus.PARTIAL_COMPLETED ->
-            resourceProvider.getString(SharedResources.strings.challenge_widget_status_partial_completed_title)
-        ChallengeStatus.COMPLETED ->
-            resourceProvider.getString(SharedResources.strings.challenge_widget_status_completed_title)
-    }

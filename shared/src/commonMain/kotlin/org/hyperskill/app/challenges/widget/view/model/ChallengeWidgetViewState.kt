@@ -27,7 +27,10 @@ sealed interface ChallengeWidgetViewState {
         ) : Content
 
         data class Completed(
-            val title: String
+            val title: String,
+            val description: String,
+            val formattedDurationOfTime: String,
+            val collectRewardButtonState: CollectRewardButtonState
         ) : Content
 
         data class PartiallyCompleted(
