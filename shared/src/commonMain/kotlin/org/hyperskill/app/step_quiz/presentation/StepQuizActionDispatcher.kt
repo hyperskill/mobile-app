@@ -16,6 +16,7 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepQuizActionDispatcher(
@@ -79,7 +80,7 @@ class StepQuizActionDispatcher(
                                         submissionState = it,
                                         isProblemsLimitReached = isProblemsLimitReached,
                                         problemsLimitReachedModalText = problemsLimitReachedModalText,
-                                        isParsonsOnboardingShown = onboardingInteractor.isParsonsOnboardingShown()
+                                        problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
                                     )
                                 },
                                 onFailure = {
@@ -193,8 +194,19 @@ class StepQuizActionDispatcher(
                         }
                     )
             }
-            is Action.SaveParsonsProblemOnboardingModalShownCacheFlag -> {
-                onboardingInteractor.setParsonsOnboardingShown(isShown = true)
+            is Action.SaveProblemOnboardingModalShownCacheFlag -> {
+                when (action.modalType) {
+                    StepQuizFeature.ProblemOnboardingModal.Parsons ->
+                        onboardingInteractor.setParsonsOnboardingShown(isShown = true)
+                    is StepQuizFeature.ProblemOnboardingModal.FillBlanks -> {
+                        when (action.modalType.mode) {
+                            FillBlanksMode.INPUT ->
+                                onboardingInteractor.setFillBlanksInputModeOnboardingShown(isShown = true)
+                            FillBlanksMode.SELECT ->
+                                onboardingInteractor.setFillBlanksSelectModeOnboardingShown(isShown = true)
+                        }
+                    }
+                }
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

@@ -219,18 +219,20 @@ extension StepQuizViewModel: ProblemsLimitReachedModalViewControllerDelegate {
     }
 }
 
-// MARK: - StepQuizViewModel: StepQuizParsonsOnboardingModalViewControllerDelegate -
+// MARK: - StepQuizViewModel: StepQuizProblemOnboardingModalViewControllerDelegate -
 
-extension StepQuizViewModel: StepQuizParsonsOnboardingModalViewControllerDelegate {
-    func stepQuizParsonsOnboardingModalViewControllerDidAppear(
-        _ viewController: StepQuizParsonsOnboardingModalViewController
+extension StepQuizViewModel: StepQuizProblemOnboardingModalViewControllerDelegate {
+    func stepQuizProblemOnboardingModalViewControllerDidAppear(
+        _ viewController: StepQuizProblemOnboardingModalViewController,
+        modalType: StepQuizFeatureProblemOnboardingModalKs
     ) {
-        onNewMessage(StepQuizFeatureMessageParsonsProblemOnboardingModalShownMessage())
+        onNewMessage(StepQuizFeatureMessageProblemOnboardingModalShownMessage(modalType: modalType.sealed))
     }
 
-    func stepQuizParsonsOnboardingModalViewControllerDidDisappear(
-        _ viewController: StepQuizParsonsOnboardingModalViewController
+    func stepQuizProblemOnboardingModalViewControllerDidDisappear(
+        _ viewController: StepQuizProblemOnboardingModalViewController,
+        modalType: StepQuizFeatureProblemOnboardingModalKs
     ) {
-        onNewMessage(StepQuizFeatureMessageParsonsProblemOnboardingModalHiddenEventMessage())
+        onNewMessage(StepQuizFeatureMessageProblemOnboardingModalHiddenMessage(modalType: modalType.sealed))
     }
 }
