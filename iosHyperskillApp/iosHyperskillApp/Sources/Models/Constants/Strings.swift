@@ -143,6 +143,16 @@ enum Strings {
             static let sharingText = sharedStrings.share_streak_sharing_text.localized()
             static let sharingURL = sharedStrings.share_streak_sharing_url.localized()
         }
+
+        enum ProblemOnboardingModal {
+            static let header = sharedStrings.step_quiz_problem_onboarding_modal_header.localized()
+            static let title = sharedStrings.step_quiz_problem_onboarding_modal_title.localized()
+
+            static let parsonsDescription =
+              sharedStrings.step_quiz_problem_onboarding_modal_parsons_description.localized()
+            static let fillBlanksDescription =
+              sharedStrings.step_quiz_problem_onboarding_modal_fill_blanks_description.localized()
+        }
     }
 
     // MARK: - StepQuizChoice -
@@ -207,12 +217,6 @@ enum Strings {
 
     enum StepQuizParsons {
         static let tab = sharedStrings.step_quiz_parsons_tab_text.localized()
-
-        enum OnboardingModal {
-            static let header = sharedStrings.step_quiz_parsons_onboarding_header.localized()
-            static let title = sharedStrings.step_quiz_parsons_onboarding_title.localized()
-            static let description = sharedStrings.step_quiz_parsons_onboarding_description.localized()
-        }
     }
 
     // MARK: - StepQuizFillBlanks-

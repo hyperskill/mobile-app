@@ -285,9 +285,18 @@ abstract class DefaultStepQuizFragment :
                 ProblemsLimitReachedBottomSheet.newInstance(action.modalText)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
-            StepQuizFeature.Action.ViewAction.ShowParsonsProblemOnboardingModal -> {
-                ParsonsStepQuizOnboardingBottomSheetDialogFragment.newInstance()
-                    .showIfNotExists(childFragmentManager, ParsonsStepQuizOnboardingBottomSheetDialogFragment.TAG)
+            is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {
+                when (action.modalType) {
+                    StepQuizFeature.ProblemOnboardingModal.Parsons ->
+                        ParsonsStepQuizOnboardingBottomSheetDialogFragment.newInstance()
+                            .showIfNotExists(
+                                childFragmentManager,
+                                ParsonsStepQuizOnboardingBottomSheetDialogFragment.TAG
+                            )
+                    is StepQuizFeature.ProblemOnboardingModal.FillBlanks -> {
+                        // TODO: ALTAPPS-1031 Implement FillBlanks onboarding modal
+                    }
+                }
             }
             is StepQuizFeature.Action.ViewAction.StepQuizHintsViewAction -> {
                 stepQuizHintsDelegate?.onAction(action.viewAction)
@@ -415,11 +424,19 @@ abstract class DefaultStepQuizFragment :
     }
 
     override fun parsonsProblemOnboardingShown() {
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ParsonsProblemOnboardingModalShownMessage)
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.ProblemOnboardingModalShownMessage(
+                modalType = StepQuizFeature.ProblemOnboardingModal.Parsons
+            )
+        )
     }
 
     override fun parsonsProblemOnboardingHidden() {
-        stepQuizViewModel.onNewMessage(StepQuizFeature.Message.ParsonsProblemOnboardingModalHiddenEventMessage)
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.ProblemOnboardingModalHiddenMessage(
+                modalType = StepQuizFeature.ProblemOnboardingModal.Parsons
+            )
+        )
     }
 
     protected fun syncReplyState(reply: Reply) {
