@@ -40,40 +40,18 @@ class ChallengeWidgetViewStateMapper(
 
         val challengeTitle = challenge.title
         val challengeDescription = challenge.description
-
         val formattedDurationOfTime = getFormattedDurationOfTime(
             startingDate = challenge.startingDate,
             finishDate = challenge.finishDate
         )
 
-        val collectRewardButtonState = if (
-            (challengeStatus == ChallengeStatus.COMPLETED || challengeStatus == ChallengeStatus.PARTIAL_COMPLETED) &&
-            !challenge.rewardLink.isNullOrEmpty()
-        ) {
-            ChallengeWidgetViewState.Content.CollectRewardButtonState.Visible(
-                title = resourceProvider.getString(SharedResources.strings.challenge_widget_collect_reward_button_title)
-            )
-        } else {
-            ChallengeWidgetViewState.Content.CollectRewardButtonState.Hidden
-        }
-
         return when (challengeStatus) {
             ChallengeStatus.NOT_STARTED -> {
-                val timeRemaining = calculateTimeRemaining(deadline = challenge.startingDate)
-                val startsInState = if (timeRemaining > 0) {
-                    ChallengeWidgetViewState.Content.Announcement.StartsInState.TimeRemaining(
-                        title = resourceProvider.getString(SharedResources.strings.challenge_widget_starts_in_text),
-                        subtitle = dateFormatter.formatHoursWithMinutesCount(seconds = timeRemaining)
-                    )
-                } else {
-                    ChallengeWidgetViewState.Content.Announcement.StartsInState.Deadline
-                }
-
                 ChallengeWidgetViewState.Content.Announcement(
                     title = challengeTitle,
                     description = challengeDescription,
                     formattedDurationOfTime = formattedDurationOfTime,
-                    startsInState = startsInState
+                    startsInState = getStartsInState(challenge)
                 )
             }
             ChallengeStatus.STARTED -> {
@@ -92,7 +70,10 @@ class ChallengeWidgetViewStateMapper(
                         SharedResources.strings.challenge_widget_status_completed_title
                     ),
                     formattedDurationOfTime = formattedDurationOfTime,
-                    collectRewardButtonState = collectRewardButtonState
+                    collectRewardButtonState = getCollectRewardButtonState(
+                        challengeStatus = challengeStatus,
+                        rewardLink = challenge.rewardLink
+                    )
                 )
             }
             ChallengeStatus.PARTIAL_COMPLETED -> {
@@ -102,7 +83,10 @@ class ChallengeWidgetViewStateMapper(
                         SharedResources.strings.challenge_widget_status_partial_completed_title
                     ),
                     formattedDurationOfTime = formattedDurationOfTime,
-                    collectRewardButtonState = collectRewardButtonState
+                    collectRewardButtonState = getCollectRewardButtonState(
+                        challengeStatus = challengeStatus,
+                        rewardLink = challenge.rewardLink
+                    )
                 )
             }
             ChallengeStatus.NOT_COMPLETED -> {
@@ -135,6 +119,33 @@ class ChallengeWidgetViewStateMapper(
 
         return (deadlineInstant - nowInNewYork).inWholeSeconds
     }
+
+    private fun getStartsInState(challenge: Challenge): ChallengeWidgetViewState.Content.Announcement.StartsInState {
+        val timeRemaining = calculateTimeRemaining(deadline = challenge.startingDate)
+        return if (timeRemaining > 0) {
+            ChallengeWidgetViewState.Content.Announcement.StartsInState.TimeRemaining(
+                title = resourceProvider.getString(SharedResources.strings.challenge_widget_starts_in_text),
+                subtitle = dateFormatter.formatHoursWithMinutesCount(seconds = timeRemaining)
+            )
+        } else {
+            ChallengeWidgetViewState.Content.Announcement.StartsInState.Deadline
+        }
+    }
+
+    private fun getCollectRewardButtonState(
+        challengeStatus: ChallengeStatus,
+        rewardLink: String?
+    ): ChallengeWidgetViewState.Content.CollectRewardButtonState =
+        if (
+            (challengeStatus == ChallengeStatus.COMPLETED || challengeStatus == ChallengeStatus.PARTIAL_COMPLETED) &&
+            !rewardLink.isNullOrEmpty()
+        ) {
+            ChallengeWidgetViewState.Content.CollectRewardButtonState.Visible(
+                title = resourceProvider.getString(SharedResources.strings.challenge_widget_collect_reward_button_title)
+            )
+        } else {
+            ChallengeWidgetViewState.Content.CollectRewardButtonState.Hidden
+        }
 
     private fun getCompleteInState(
         challenge: Challenge

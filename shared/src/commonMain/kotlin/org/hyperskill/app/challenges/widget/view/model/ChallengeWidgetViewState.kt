@@ -30,8 +30,8 @@ sealed interface ChallengeWidgetViewState {
             val progressStatuses: List<ProgressStatus>
         ) : Content {
             sealed interface CompleteInState {
-                object Deadline : CompleteInState
                 object Empty : CompleteInState
+                object Deadline : CompleteInState
                 data class TimeRemaining(
                     val title: String,
                     val subtitle: String
