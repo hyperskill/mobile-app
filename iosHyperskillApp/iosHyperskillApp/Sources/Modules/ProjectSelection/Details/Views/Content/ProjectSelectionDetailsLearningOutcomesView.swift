@@ -5,10 +5,8 @@ extension ProjectSelectionDetailsLearningOutcomesView {
         let spacing = LayoutInsets.defaultInset
         let interitemSpacing = LayoutInsets.smallInset
 
-        let stepTextViewAppearance = StepTextUIKitView.Appearance(
-            textFont: .preferredFont(forTextStyle: .body),
-            textColor: .primaryText
-        )
+        let descriptionTextFont = UIFont.preferredFont(forTextStyle: .body)
+        let descriptionTextColor = UIColor.primaryText
     }
 }
 
@@ -51,9 +49,12 @@ struct ProjectSelectionDetailsLearningOutcomesView: View {
                                 .font(.headline)
                                 .foregroundColor(.primaryText)
 
-                            StepTextView(
+                            LatexView(
                                 text: description,
-                                appearance: appearance.stepTextViewAppearance
+                                configuration: .stepText(
+                                    textFont: appearance.descriptionTextFont,
+                                    textColor: appearance.descriptionTextColor
+                                )
                             )
                         }
                     }
@@ -65,23 +66,21 @@ struct ProjectSelectionDetailsLearningOutcomesView: View {
 }
 
 #if DEBUG
-struct ProjectSelectionDetailsLearningOutcomesView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProjectSelectionDetailsLearningOutcomesView(
-            description: """
+#Preview {
+    ProjectSelectionDetailsLearningOutcomesView(
+        description: """
 <p>This project is aimed at our beginners. \
 It helps you understand some syntax basics and learn how to work with variables, data storage types such as lists, \
 and while loops.</p>
 """,
-            isSelected: true,
-            isIdeRequired: true,
-            isBeta: true,
-            isBestRated: true,
-            isFastestToComplete: true,
-            isBadgesVisible: true
-        )
-        .padding()
-        .background(Color.systemGroupedBackground)
-    }
+        isSelected: true,
+        isIdeRequired: true,
+        isBeta: true,
+        isBestRated: true,
+        isFastestToComplete: true,
+        isBadgesVisible: true
+    )
+    .padding()
+    .background(Color.systemGroupedBackground)
 }
 #endif

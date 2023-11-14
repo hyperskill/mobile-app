@@ -82,6 +82,8 @@ import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
+import org.hyperskill.app.share_streak.injection.ShareStreakDataComponent
+import org.hyperskill.app.share_streak.injection.ShareStreakDataComponentImpl
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponentImpl
 import org.hyperskill.app.stages.injection.StagesDataComponent
@@ -411,4 +413,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildFirstProblemOnboardingComponent(): FirstProblemOnboardingComponent =
         FirstProblemOnboardingComponentImpl(this)
+
+    override fun buildShareStreakDataComponent(): ShareStreakDataComponent =
+        ShareStreakDataComponentImpl(this)
 }

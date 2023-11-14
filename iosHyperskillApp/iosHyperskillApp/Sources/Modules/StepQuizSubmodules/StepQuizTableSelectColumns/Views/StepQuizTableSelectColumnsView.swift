@@ -39,7 +39,7 @@ struct StepQuizTableSelectColumnsView: View {
 
             VStack(alignment: .leading, spacing: 0) {
                 LatexView(
-                    text: .constant(title),
+                    text: title,
                     configuration: .quizContent()
                 )
                 .padding(.bottom, LayoutInsets.smallInset)

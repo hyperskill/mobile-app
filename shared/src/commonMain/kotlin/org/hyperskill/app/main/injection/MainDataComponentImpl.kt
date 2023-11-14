@@ -3,7 +3,7 @@ package org.hyperskill.app.main.injection
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 
-class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataComponent {
+internal class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataComponent {
     override val appInteractor: AppInteractor
         get() = AppInteractor(
             appGraph.authComponent.authInteractor,
@@ -14,6 +14,7 @@ class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataComponent 
             appGraph.buildTrackDataComponent().trackRepository,
             appGraph.buildProvidersDataComponent().providersRepository,
             appGraph.buildProjectsDataComponent().projectsRepository,
+            appGraph.buildShareStreakDataComponent().shareStreakRepository,
             appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
         )
 }

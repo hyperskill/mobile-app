@@ -23,8 +23,9 @@ struct StepTheoryContentView: View {
 
                 buildStartPracticingButton(isFilled: false)
 
-                StepTextView(
+                LatexView(
                     text: viewData.text,
+                    configuration: .stepText(),
                     onContentLoaded: {
                         isStepTextContentLoaded = true
                     }

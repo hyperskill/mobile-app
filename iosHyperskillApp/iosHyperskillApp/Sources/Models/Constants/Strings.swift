@@ -121,6 +121,9 @@ enum Strings {
         enum ProblemOfDaySolvedModal {
             static let title = sharedStrings.step_quiz_problem_of_day_solved_modal_title.localized()
             static let text = sharedStrings.step_quiz_problem_of_day_solved_modal_text.localized()
+
+            static let shareStreakButton =
+              sharedStrings.step_quiz_problem_of_day_solved_modal_share_streak_button_text.localized()
         }
 
         enum TopicCompletedModal {
@@ -130,6 +133,15 @@ enum Strings {
 
         enum ProblemsLimitReachedModal {
             static let title = sharedStrings.problems_limit_reached_modal_title.localized()
+        }
+
+        enum ShareStreakModal {
+            static let title = sharedStrings.share_streak_modal_title.localized()
+            static let shareButton = sharedStrings.share_streak_modal_share_button_text.localized()
+            static let noThanksButton = sharedStrings.share_streak_modal_no_thanks_button_text.localized()
+
+            static let sharingText = sharedStrings.share_streak_sharing_text.localized()
+            static let sharingURL = sharedStrings.share_streak_sharing_url.localized()
         }
     }
 

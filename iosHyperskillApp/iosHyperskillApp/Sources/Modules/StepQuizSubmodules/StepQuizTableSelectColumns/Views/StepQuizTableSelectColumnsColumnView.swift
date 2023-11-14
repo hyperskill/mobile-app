@@ -27,7 +27,10 @@ struct StepQuizTableSelectColumnsColumnView: View {
             HStack(spacing: appearance.interItemSpacing) {
                 buildIndicator(isSelected: isSelected, onTap: onTap)
 
-                LatexView(text: .constant(text), configuration: .quizContent())
+                LatexView(
+                    text: text,
+                    configuration: .quizContent()
+                )
             }
         }
         .frame(maxWidth: .infinity, minHeight: appearance.minHeight)

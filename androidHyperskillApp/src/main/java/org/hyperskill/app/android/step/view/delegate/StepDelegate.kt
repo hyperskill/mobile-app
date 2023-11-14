@@ -81,6 +81,13 @@ class StepDelegate<TFragment>(
                             .newInstance(earnedGemsText = stepCompletionAction.earnedGemsText)
                             .showIfNotExists(fragment.childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
                     }
+                    is StepCompletionFeature.Action.ViewAction.ShowShareStreakModal -> {
+                        // TODO: ALTAPPS-1028 Show share streak modal
+                    }
+                    is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
+                        // TODO: ALTAPPS-1028 Show system share streak modal (after "Share your streak" button clicked)
+                        // on the problem of day solved modal
+                    }
                 }
             }
         }
