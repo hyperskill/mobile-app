@@ -1,13 +1,16 @@
 package org.hyperskill.app.challenges.widget.view.mapper
 
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.SharedResources
+import org.hyperskill.app.challenges.domain.model.Challenge
 import org.hyperskill.app.challenges.domain.model.ChallengeStatus
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.presentation.getCurrentChallenge
@@ -73,7 +76,15 @@ class ChallengeWidgetViewStateMapper(
                     startsInState = startsInState
                 )
             }
-            ChallengeStatus.STARTED -> TODO()
+            ChallengeStatus.STARTED -> {
+                ChallengeWidgetViewState.Content.HappeningNow(
+                    title = challengeTitle,
+                    description = challengeDescription,
+                    formattedDurationOfTime = formattedDurationOfTime,
+                    completeInState = getCompleteInState(challenge),
+                    progressStatuses = getProgressStatuses(challenge)
+                )
+            }
             ChallengeStatus.COMPLETED -> {
                 ChallengeWidgetViewState.Content.Completed(
                     title = challengeTitle,
@@ -123,5 +134,53 @@ class ChallengeWidgetViewStateMapper(
             .toInstant(TIME_ZONE_NYC)
 
         return (deadlineInstant - nowInNewYork).inWholeSeconds
+    }
+
+    private fun getCompleteInState(
+        challenge: Challenge
+    ): ChallengeWidgetViewState.Content.HappeningNow.CompleteInState {
+        if (challenge.currentInterval == null) {
+            return ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.Empty
+        }
+
+        val nextDeadline =
+            challenge.startingDate.plus(DatePeriod(days = challenge.currentInterval * challenge.intervalDurationDays))
+        val timeRemaining = calculateTimeRemaining(deadline = nextDeadline)
+
+        return if (timeRemaining > 0) {
+            ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.TimeRemaining(
+                title = resourceProvider.getString(SharedResources.strings.challenge_widget_complete_in_text),
+                subtitle = dateFormatter.formatHoursWithMinutesCount(seconds = timeRemaining)
+            )
+        } else {
+            ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.Deadline
+        }
+    }
+
+    private fun getProgressStatuses(
+        challenge: Challenge
+    ): List<ChallengeWidgetViewState.Content.HappeningNow.ProgressStatus> {
+        if (challenge.currentInterval == null || challenge.intervalsCount != challenge.progress.size) {
+            return emptyList()
+        }
+
+        return challenge.progress.mapIndexed { index, progressBoolValue ->
+            val isPreviousInterval = index + 1 < challenge.currentInterval
+            val isCurrentInterval = index + 1 == challenge.currentInterval
+
+            when {
+                isPreviousInterval -> if (progressBoolValue) {
+                    ChallengeWidgetViewState.Content.HappeningNow.ProgressStatus.COMPLETED
+                } else {
+                    ChallengeWidgetViewState.Content.HappeningNow.ProgressStatus.MISSED
+                }
+                isCurrentInterval -> if (progressBoolValue) {
+                    ChallengeWidgetViewState.Content.HappeningNow.ProgressStatus.COMPLETED
+                } else {
+                    ChallengeWidgetViewState.Content.HappeningNow.ProgressStatus.ACTIVE
+                }
+                else -> ChallengeWidgetViewState.Content.HappeningNow.ProgressStatus.INACTIVE
+            }
+        }
     }
 }

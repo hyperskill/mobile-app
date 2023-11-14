@@ -23,8 +23,28 @@ sealed interface ChallengeWidgetViewState {
         }
 
         data class HappeningNow(
-            val title: String
-        ) : Content
+            val title: String,
+            val description: String,
+            val formattedDurationOfTime: String,
+            val completeInState: CompleteInState,
+            val progressStatuses: List<ProgressStatus>
+        ) : Content {
+            sealed interface CompleteInState {
+                object Deadline : CompleteInState
+                object Empty : CompleteInState
+                data class TimeRemaining(
+                    val title: String,
+                    val subtitle: String
+                ) : CompleteInState
+            }
+
+            enum class ProgressStatus {
+                INACTIVE,
+                ACTIVE,
+                COMPLETED,
+                MISSED
+            }
+        }
 
         data class Completed(
             val title: String,
