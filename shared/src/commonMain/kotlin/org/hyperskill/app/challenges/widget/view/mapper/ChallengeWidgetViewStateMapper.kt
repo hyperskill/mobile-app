@@ -41,6 +41,7 @@ class ChallengeWidgetViewStateMapper(
             startingDate = challenge.startingDate,
             finishDate = challenge.finishDate
         )
+        val isRewardLinkAvailable = challenge.rewardLink.isNullOrEmpty().not()
 
         return when (challengeStatus) {
             ChallengeStatus.NOT_STARTED -> {
@@ -63,7 +64,22 @@ class ChallengeWidgetViewStateMapper(
             }
             ChallengeStatus.STARTED -> TODO()
             ChallengeStatus.COMPLETED -> TODO()
-            ChallengeStatus.PARTIAL_COMPLETED -> TODO()
+            ChallengeStatus.PARTIAL_COMPLETED -> {
+                ChallengeWidgetViewState.Content.PartiallyCompleted(
+                    title = challengeTitle,
+                    description = challengeStatus.getTitle(resourceProvider),
+                    formattedDurationOfTime = formattedDurationOfTime,
+                    collectRewardButtonState = if (isRewardLinkAvailable) {
+                        ChallengeWidgetViewState.Content.CollectRewardButtonState.Visible(
+                            title = resourceProvider.getString(
+                                SharedResources.strings.challenge_widget_collect_reward_button_title
+                            )
+                        )
+                    } else {
+                        ChallengeWidgetViewState.Content.CollectRewardButtonState.Hidden
+                    }
+                )
+            }
             ChallengeStatus.NOT_COMPLETED -> {
                 ChallengeWidgetViewState.Content.Ended(
                     title = challengeTitle,
