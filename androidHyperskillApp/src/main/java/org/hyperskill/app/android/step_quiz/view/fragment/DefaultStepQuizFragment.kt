@@ -37,11 +37,11 @@ import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz.view.dialog.ProblemOnboardingBottomSheetDialogFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
-import org.hyperskill.app.android.step_quiz_parsons.view.dialog.ParsonsStepQuizOnboardingBottomSheetDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -66,7 +66,7 @@ abstract class DefaultStepQuizFragment :
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
     MenuProvider,
-    ParsonsStepQuizOnboardingBottomSheetDialogFragment.Callback {
+    ProblemOnboardingBottomSheetDialogFragment.Callback {
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -286,17 +286,11 @@ abstract class DefaultStepQuizFragment :
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {
-                when (action.modalType) {
-                    StepQuizFeature.ProblemOnboardingModal.Parsons ->
-                        ParsonsStepQuizOnboardingBottomSheetDialogFragment.newInstance()
-                            .showIfNotExists(
-                                childFragmentManager,
-                                ParsonsStepQuizOnboardingBottomSheetDialogFragment.TAG
-                            )
-                    is StepQuizFeature.ProblemOnboardingModal.FillBlanks -> {
-                        // TODO: ALTAPPS-1031 Implement FillBlanks onboarding modal
-                    }
-                }
+                ProblemOnboardingBottomSheetDialogFragment.newInstance(action.modalType)
+                    .showIfNotExists(
+                        childFragmentManager,
+                        ProblemOnboardingBottomSheetDialogFragment.TAG
+                    )
             }
             is StepQuizFeature.Action.ViewAction.StepQuizHintsViewAction -> {
                 stepQuizHintsDelegate?.onAction(action.viewAction)
@@ -423,19 +417,15 @@ abstract class DefaultStepQuizFragment :
         }
     }
 
-    override fun parsonsProblemOnboardingShown() {
+    override fun problemOnboardingShown(modalType: StepQuizFeature.ProblemOnboardingModal) {
         stepQuizViewModel.onNewMessage(
-            StepQuizFeature.Message.ProblemOnboardingModalShownMessage(
-                modalType = StepQuizFeature.ProblemOnboardingModal.Parsons
-            )
+            StepQuizFeature.Message.ProblemOnboardingModalShownMessage(modalType)
         )
     }
 
-    override fun parsonsProblemOnboardingHidden() {
+    override fun problemOnboardingHidden(modalType: StepQuizFeature.ProblemOnboardingModal) {
         stepQuizViewModel.onNewMessage(
-            StepQuizFeature.Message.ProblemOnboardingModalHiddenMessage(
-                modalType = StepQuizFeature.ProblemOnboardingModal.Parsons
-            )
+            StepQuizFeature.Message.ProblemOnboardingModalHiddenMessage(StepQuizFeature.ProblemOnboardingModal.Parsons)
         )
     }
 
