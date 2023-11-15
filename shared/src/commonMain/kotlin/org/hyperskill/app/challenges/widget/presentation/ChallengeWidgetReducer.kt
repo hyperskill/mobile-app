@@ -29,17 +29,29 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: InternalMessage.Initialize
     ): ChallengeWidgetReducerResult? =
-        if (state is State.Idle ||
-            (message.forceUpdate && (state is State.Content || state is State.Error))
-        ) {
-            State.Loading to setOf(InternalAction.FetchChallenges)
-        } else {
-            null
+        when (state) {
+            State.Idle ->
+                State.Loading(isLoadingSilently = false) to setOf(InternalAction.FetchChallenges)
+            State.Error ->
+                if (message.forceUpdate) {
+                    State.Loading(isLoadingSilently = false) to setOf(InternalAction.FetchChallenges)
+                } else {
+                    null
+                }
+            is State.Content ->
+                if (message.forceUpdate) {
+                    State.Loading(
+                        isLoadingSilently = state.challenges.isEmpty()
+                    ) to setOf(InternalAction.FetchChallenges)
+                } else {
+                    null
+                }
+            is State.Loading -> null
         }
 
     private fun handleRetryContentLoadingMessage(state: State): ChallengeWidgetReducerResult? =
         if (state is State.Error) {
-            State.Loading to setOf(
+            State.Loading(isLoadingSilently = false) to setOf(
                 InternalAction.FetchChallenges,
                 InternalAction.LogAnalyticEvent(ChallengeWidgetClickedRetryContentLoadingHyperskillAnalyticEvent)
             )
@@ -56,7 +68,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                     state.copy(isRefreshing = true) to setOf(InternalAction.FetchChallenges)
                 }
             State.Error ->
-                State.Loading to setOf(InternalAction.FetchChallenges)
+                State.Loading(isLoadingSilently = false) to setOf(InternalAction.FetchChallenges)
             else ->
                 null
         }

@@ -29,8 +29,9 @@ class ChallengeWidgetViewStateMapper(
     fun map(state: ChallengeWidgetFeature.State): ChallengeWidgetViewState =
         when (state) {
             ChallengeWidgetFeature.State.Idle -> ChallengeWidgetViewState.Idle
-            ChallengeWidgetFeature.State.Loading -> ChallengeWidgetViewState.Loading
             ChallengeWidgetFeature.State.Error -> ChallengeWidgetViewState.Error
+            is ChallengeWidgetFeature.State.Loading ->
+                ChallengeWidgetViewState.Loading(shouldShowSkeleton = !state.isLoadingSilently)
             is ChallengeWidgetFeature.State.Content -> getLoadedWidgetContent(state)
         }
 

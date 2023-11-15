@@ -2,7 +2,7 @@ package org.hyperskill.app.challenges.widget.view.model
 
 sealed interface ChallengeWidgetViewState {
     object Idle : ChallengeWidgetViewState
-    object Loading : ChallengeWidgetViewState
+    data class Loading(val shouldShowSkeleton: Boolean) : ChallengeWidgetViewState
     object Error : ChallengeWidgetViewState
     object Empty : ChallengeWidgetViewState
 

@@ -6,7 +6,7 @@ import org.hyperskill.app.challenges.domain.model.Challenge
 object ChallengeWidgetFeature {
     sealed interface State {
         object Idle : State
-        object Loading : State
+        data class Loading(val isLoadingSilently: Boolean) : State
         object Error : State
         data class Content(
             val challenges: List<Challenge>,
