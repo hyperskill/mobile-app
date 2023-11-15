@@ -1,7 +1,10 @@
 package org.hyperskill.app.android.step.view.delegate
 
+import android.content.Context
+import android.content.Intent
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
@@ -11,6 +14,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
+import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -25,7 +29,8 @@ class StepDelegate<TFragment>(
     private val onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
 ) : RequestDailyStudyReminderDialogFragment.Callback
     where TFragment : Fragment,
-          TFragment : RequestDailyStudyReminderDialogFragment.Callback {
+          TFragment : RequestDailyStudyReminderDialogFragment.Callback,
+          TFragment : ShareStreakDialogFragment.Callback {
 
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment, ::onNotificationPermissionResult)
@@ -82,7 +87,9 @@ class StepDelegate<TFragment>(
                             .showIfNotExists(fragment.childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakModal -> {
-                        // TODO: ALTAPPS-1028 Show share streak modal
+                        ShareStreakDialogFragment
+                            .newInstance(stepCompletionAction.streak)
+                            .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
                         // TODO: ALTAPPS-1028 Show system share streak modal (after "Share your streak" button clicked)
@@ -120,5 +127,11 @@ class StepDelegate<TFragment>(
             NotificationManagerCompat.from(context)
                 .checkNotificationChannelAvailability(context, HyperskillNotificationChannel.DailyReminder)
         }
+    }
+
+    private fun getShareStreakText(context: Context): String {
+        val title = context.getString(R.string.share_streak_sharing_text)
+        val link = context.getString(R.string.share_streak_sharing_url)
+        return "$title\n$link"
     }
 }
