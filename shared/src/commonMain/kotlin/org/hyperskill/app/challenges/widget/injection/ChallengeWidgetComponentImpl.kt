@@ -14,7 +14,8 @@ internal class ChallengeWidgetComponentImpl(private val appGraph: AppGraph) : Ch
         get() = ChallengeWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
             challengesRepository = appGraph.buildChallengesDataComponent().challengesRepository,
-            sentryInteractor = appGraph.sentryComponent.sentryInteractor
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
 
     override val challengeWidgetViewStateMapper: ChallengeWidgetViewStateMapper

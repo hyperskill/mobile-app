@@ -1,5 +1,6 @@
 package org.hyperskill.app.challenges.widget.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.challenges.domain.model.Challenge
 
 object ChallengeWidgetFeature {
@@ -16,7 +17,9 @@ object ChallengeWidgetFeature {
     internal val State.isRefreshing: Boolean
         get() = this is State.Content && isRefreshing
 
-    sealed interface Message
+    sealed interface Message {
+        object RetryContentLoading : Message
+    }
 
     internal sealed interface InternalMessage : Message {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
@@ -32,5 +35,7 @@ object ChallengeWidgetFeature {
 
     internal sealed interface InternalAction : Action {
         object FetchChallenges : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

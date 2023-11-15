@@ -512,6 +512,7 @@
     <string name="challenge_widget_starts_in_text">Starts in</string>
     <string name="challenge_widget_complete_in_text">Complete in</string>
     <string name="challenge_widget_collect_reward_button_title">Collect Reward</string>
+    <string name="challenge_widget_network_error_text">Oops! We were unable to load the challenge.</string>
 
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>
