@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
@@ -41,8 +42,12 @@ interface StepQuizFeature {
         ) : SubmissionState
     }
 
+    @Serializable
     sealed interface ProblemOnboardingModal {
+        @Serializable
         object Parsons : ProblemOnboardingModal
+
+        @Serializable
         data class FillBlanks(val mode: FillBlanksMode) : ProblemOnboardingModal
     }
 
