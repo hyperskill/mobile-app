@@ -102,8 +102,13 @@ class ChallengeWidgetViewStateMapper(
     }
 
     private fun getFormattedDurationOfTime(startingDate: LocalDate, finishDate: LocalDate): String {
+        if (startingDate == finishDate) {
+            return dateFormatter.formatDayNumericAndMonthShort(startingDate)
+        }
+
         val formattedStartingDate = dateFormatter.formatDayNumericAndMonthShort(startingDate)
         val formattedFinishDate = dateFormatter.formatDayNumericAndMonthShort(finishDate)
+
         return "$formattedStartingDate - $formattedFinishDate"
     }
 
