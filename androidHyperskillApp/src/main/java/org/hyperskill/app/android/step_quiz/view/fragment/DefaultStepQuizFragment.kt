@@ -425,7 +425,7 @@ abstract class DefaultStepQuizFragment :
 
     override fun problemOnboardingHidden(modalType: StepQuizFeature.ProblemOnboardingModal) {
         stepQuizViewModel.onNewMessage(
-            StepQuizFeature.Message.ProblemOnboardingModalHiddenMessage(StepQuizFeature.ProblemOnboardingModal.Parsons)
+            StepQuizFeature.Message.ProblemOnboardingModalHiddenMessage(modalType)
         )
     }
 
