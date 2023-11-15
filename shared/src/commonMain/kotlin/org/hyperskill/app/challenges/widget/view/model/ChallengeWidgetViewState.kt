@@ -72,3 +72,30 @@ sealed interface ChallengeWidgetViewState {
         }
     }
 }
+
+val ChallengeWidgetViewState.Content.title: String
+    get() = when (this) {
+        is ChallengeWidgetViewState.Content.Announcement -> title
+        is ChallengeWidgetViewState.Content.HappeningNow -> title
+        is ChallengeWidgetViewState.Content.Completed -> title
+        is ChallengeWidgetViewState.Content.PartiallyCompleted -> title
+        is ChallengeWidgetViewState.Content.Ended -> title
+    }
+
+val ChallengeWidgetViewState.Content.description: String
+    get() = when (this) {
+        is ChallengeWidgetViewState.Content.Announcement -> description
+        is ChallengeWidgetViewState.Content.HappeningNow -> description
+        is ChallengeWidgetViewState.Content.Completed -> description
+        is ChallengeWidgetViewState.Content.PartiallyCompleted -> description
+        is ChallengeWidgetViewState.Content.Ended -> description
+    }
+
+val ChallengeWidgetViewState.Content.formattedDurationOfTime: String
+    get() = when (this) {
+        is ChallengeWidgetViewState.Content.Announcement -> formattedDurationOfTime
+        is ChallengeWidgetViewState.Content.HappeningNow -> formattedDurationOfTime
+        is ChallengeWidgetViewState.Content.Completed -> formattedDurationOfTime
+        is ChallengeWidgetViewState.Content.PartiallyCompleted -> formattedDurationOfTime
+        is ChallengeWidgetViewState.Content.Ended -> formattedDurationOfTime
+    }
