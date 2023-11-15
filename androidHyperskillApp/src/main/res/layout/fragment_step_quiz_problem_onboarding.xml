@@ -30,10 +30,10 @@
         android:id="@+id/parsonsOnboardingAnimation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:lottie_rawRes="@raw/parsons_problem_onboarding_animation"
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
-        android:layout_marginTop="32dp"/>
+        android:layout_marginTop="32dp"
+        tools:lottie_rawRes="@raw/parsons_problem_onboarding_animation"/>
 
     <TextView
         android:id="@+id/parsonsOnboardingTitle"
