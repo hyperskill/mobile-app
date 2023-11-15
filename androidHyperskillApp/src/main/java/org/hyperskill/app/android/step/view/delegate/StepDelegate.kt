@@ -1,10 +1,13 @@
 package org.hyperskill.app.android.step.view.delegate
 
+import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
+import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import org.hyperskill.app.R
+import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
@@ -92,8 +95,17 @@ class StepDelegate<TFragment>(
                             .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
-                        // TODO: ALTAPPS-1028 Show system share streak modal (after "Share your streak" button clicked)
-                        // on the problem of day solved modal
+                        val shareIntent = ShareUtils.getShareDrawableIntent(
+                            fragment.requireContext(),
+                            getShareStreakDrawableRes(stepCompletionAction.streak),
+                            text = getShareStreakText(fragment.requireContext()),
+                            title = "Share your streak"
+                        )
+                        try {
+                            fragment.startActivity(shareIntent)
+                        } catch (e: ActivityNotFoundException) {
+                            Log.e("StepDelegate", "Unable to share streak. Activity not found!")
+                        }
                     }
                 }
             }
@@ -128,6 +140,18 @@ class StepDelegate<TFragment>(
                 .checkNotificationChannelAvailability(context, HyperskillNotificationChannel.DailyReminder)
         }
     }
+
+    @DrawableRes
+    private fun getShareStreakDrawableRes(streak: Int): Int =
+        when (streak) {
+            1 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_1
+            5 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_5
+            10 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_10
+            25 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_25
+            50 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_50
+            100 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_100
+            else -> org.hyperskill.app.android.R.drawable.img_share_streak_day_1
+        }
 
     private fun getShareStreakText(context: Context): String {
         val title = context.getString(R.string.share_streak_sharing_text)
