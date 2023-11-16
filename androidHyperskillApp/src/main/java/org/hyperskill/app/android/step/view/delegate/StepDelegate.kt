@@ -94,7 +94,10 @@ class StepDelegate<TFragment>(
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakModal -> {
                         ShareStreakDialogFragment
-                            .newInstance(stepCompletionAction.streak)
+                            .newInstance(
+                                streak = stepCompletionAction.streak,
+                                imageRes = getShareStreakDrawableRes(stepCompletionAction.streak)
+                            )
                             .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {

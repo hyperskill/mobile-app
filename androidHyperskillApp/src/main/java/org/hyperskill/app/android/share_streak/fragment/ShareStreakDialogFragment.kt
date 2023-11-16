@@ -23,13 +23,19 @@ class ShareStreakDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "ShareStreakBottomSheetTag"
 
-        fun newInstance(streak: Int): ShareStreakDialogFragment =
+        fun newInstance(
+            streak: Int,
+            @DrawableRes imageRes: Int
+        ): ShareStreakDialogFragment =
             ShareStreakDialogFragment().apply {
                 this.streak = streak
+                this.imageRes = imageRes
             }
     }
 
     private var streak: Int by argument()
+    @get:DrawableRes
+    private var imageRes: Int by argument()
 
     private val binding: FragmentShareStreakBinding by viewBinding(FragmentShareStreakBinding::bind)
 
@@ -62,7 +68,7 @@ class ShareStreakDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
-            shareStreakImage.load(getImageRes(streak)) {
+            shareStreakImage.load(imageRes) {
                 transformations(
                     RoundedCornersTransformation(
                         requireContext().resources.getDimension(R.dimen.corner_radius)
@@ -77,18 +83,6 @@ class ShareStreakDialogFragment : BottomSheetDialogFragment() {
             }
         }
     }
-
-    @DrawableRes
-    private fun getImageRes(streak: Int): Int =
-        when (streak) {
-            1 -> R.drawable.img_share_streak_day_1
-            5 -> R.drawable.img_share_streak_day_5
-            10 -> R.drawable.img_share_streak_day_10
-            25 -> R.drawable.img_share_streak_day_25
-            50 -> R.drawable.img_share_streak_day_50
-            100 -> R.drawable.img_share_streak_day_100
-            else -> R.drawable.img_share_streak_day_1
-        }
 
     interface Callback {
         fun onShareStreakBottomSheetShown(streak: Int)
