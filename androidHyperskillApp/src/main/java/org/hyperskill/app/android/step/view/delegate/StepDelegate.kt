@@ -86,7 +86,10 @@ class StepDelegate<TFragment>(
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
-                            .newInstance(earnedGemsText = stepCompletionAction.earnedGemsText)
+                            .newInstance(
+                                earnedGemsText = stepCompletionAction.earnedGemsText,
+                                shareStreakData = stepCompletionAction.shareStreakData
+                            )
                             .showIfNotExists(fragment.childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakModal -> {
@@ -95,17 +98,7 @@ class StepDelegate<TFragment>(
                             .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
-                        val shareIntent = ShareUtils.getShareDrawableIntent(
-                            fragment.requireContext(),
-                            getShareStreakDrawableRes(stepCompletionAction.streak),
-                            text = getShareStreakText(fragment.requireContext()),
-                            title = "Share your streak"
-                        )
-                        try {
-                            fragment.startActivity(shareIntent)
-                        } catch (e: ActivityNotFoundException) {
-                            Log.e("StepDelegate", "Unable to share streak. Activity not found!")
-                        }
+                        shareStreak(stepCompletionAction.streak)
                     }
                 }
             }
@@ -157,5 +150,19 @@ class StepDelegate<TFragment>(
         val title = context.getString(R.string.share_streak_sharing_text)
         val link = context.getString(R.string.share_streak_sharing_url)
         return "$title\n$link"
+    }
+
+    private fun shareStreak(streak: Int) {
+        val shareIntent = ShareUtils.getShareDrawableIntent(
+            fragment.requireContext(),
+            getShareStreakDrawableRes(streak),
+            text = getShareStreakText(fragment.requireContext()),
+            title = fragment.requireContext().getString(R.string.share_streak_modal_title)
+        )
+        try {
+            fragment.startActivity(shareIntent)
+        } catch (e: ActivityNotFoundException) {
+            Log.e("StepDelegate", "Unable to share streak. Activity not found!")
+        }
     }
 }

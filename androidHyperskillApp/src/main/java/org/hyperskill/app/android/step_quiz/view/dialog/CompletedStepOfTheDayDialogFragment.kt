@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentCompletedDailyStepBinding
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
@@ -23,9 +25,13 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "CompletedStepOfTheDayDialogFragment"
 
-        fun newInstance(earnedGemsText: String): CompletedStepOfTheDayDialogFragment =
+        fun newInstance(
+            earnedGemsText: String,
+            shareStreakData: StepCompletionFeature.ShareStreakData
+        ): CompletedStepOfTheDayDialogFragment =
             CompletedStepOfTheDayDialogFragment().apply {
                 this.earnedGemsText = earnedGemsText
+                this.shareStreakData = shareStreakData
             }
     }
 
@@ -35,6 +41,10 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     private val viewBinding: FragmentCompletedDailyStepBinding by viewBinding(FragmentCompletedDailyStepBinding::bind)
 
     private var earnedGemsText: String by argument()
+
+    private var shareStreakData: StepCompletionFeature.ShareStreakData by argument(
+        StepCompletionFeature.ShareStreakData.serializer()
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +81,12 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         with(viewBinding) {
             completedDailyStepEarnedGemsTextView.text = earnedGemsText
+
+            completedDailyStepStreakTextView.isVisible =
+                shareStreakData is StepCompletionFeature.ShareStreakData.Content
+            completedDailyStepStreakTextView.text =
+                (shareStreakData as? StepCompletionFeature.ShareStreakData.Content)?.streakText
+
             completedDailyStepGoBackButton.setOnClickListener {
                 stepViewModel.onNewMessage(
                     StepFeature.Message.StepCompletionMessage(
@@ -78,6 +94,18 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
                     )
                 )
                 dismiss()
+            }
+
+            completedDailyStepShareStreakButton.isVisible =
+                shareStreakData is StepCompletionFeature.ShareStreakData.Content
+            (shareStreakData as? StepCompletionFeature.ShareStreakData.Content)?.streak?.let { streak ->
+                completedDailyStepShareStreakButton.setOnClickListener {
+                    stepViewModel.onNewMessage(
+                        StepFeature.Message.StepCompletionMessage(
+                            StepCompletionFeature.Message.ProblemOfDaySolvedModalShareStreakClicked(streak)
+                        )
+                    )
+                }
             }
         }
     }
