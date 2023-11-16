@@ -33,6 +33,17 @@ object ChallengeWidgetFeature {
          * @see ChallengeWidgetViewState.Content.HappeningNow
          */
         data class LinkInTheDescriptionClicked(val url: String) : Message
+
+        /**
+         * When view state is [ChallengeWidgetViewState.Content.Announcement] or
+         * [ChallengeWidgetViewState.Content.HappeningNow] deadline can be reached (starts in and complete in).
+         *
+         * Send this message when user clicks on the reload button.
+         *
+         * @see ChallengeWidgetViewState.Content.Announcement
+         * @see ChallengeWidgetViewState.Content.HappeningNow
+         */
+        object DeadlineReachedReloadClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {

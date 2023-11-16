@@ -38,6 +38,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CONTINUE_TO_HYPERSKILL("continue_to_hyperskill"),
     CONTINUE("continue"),
     RELOAD("reload"),
+    DEADLINE_RELOAD("deadline_reload"),
     START_PRACTICING("start_practicing"),
     SIGN_IN("sign_in"),
     SIGN_UP("sign_up"),

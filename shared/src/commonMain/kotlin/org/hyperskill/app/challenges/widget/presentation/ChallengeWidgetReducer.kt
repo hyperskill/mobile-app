@@ -1,5 +1,6 @@
 package org.hyperskill.app.challenges.widget.presentation
 
+import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.Action
@@ -26,6 +27,8 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 handlePullToRefreshMessage(state)
             is Message.LinkInTheDescriptionClicked ->
                 handleLinkInTheDescriptionClickedMessage(state, message)
+            Message.DeadlineReachedReloadClicked ->
+                handleDeadlineReachedReloadClickedMessage(state)
         } ?: (state to emptySet())
 
     private fun handleInitializeMessage(
@@ -86,6 +89,21 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 InternalAction.LogAnalyticEvent(
                     ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent(url = message.url)
                 )
+            )
+        } else {
+            null
+        }
+
+    private fun handleDeadlineReachedReloadClickedMessage(state: State): ChallengeWidgetReducerResult? =
+        if (state is State.Content) {
+            val newState = if (state.isRefreshing) {
+                state
+            } else {
+                State.Loading(isLoadingSilently = false)
+            }
+
+            newState to setOf(
+                InternalAction.LogAnalyticEvent(ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent)
             )
         } else {
             null
