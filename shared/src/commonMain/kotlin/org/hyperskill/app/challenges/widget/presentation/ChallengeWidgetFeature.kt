@@ -2,6 +2,7 @@ package org.hyperskill.app.challenges.widget.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.challenges.domain.model.Challenge
+import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 
 object ChallengeWidgetFeature {
     sealed interface State {
@@ -19,6 +20,19 @@ object ChallengeWidgetFeature {
 
     sealed interface Message {
         object RetryContentLoading : Message
+
+        /**
+         * When view state is [ChallengeWidgetViewState.Content.Announcement] or
+         * [ChallengeWidgetViewState.Content.HappeningNow] description text can contain links.
+         *
+         * Send this message when user clicks on a link in the description text.
+         *
+         * @property url URL of the clicked link.
+         *
+         * @see ChallengeWidgetViewState.Content.Announcement
+         * @see ChallengeWidgetViewState.Content.HappeningNow
+         */
+        data class LinkInTheDescriptionClicked(val url: String) : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -30,7 +44,9 @@ object ChallengeWidgetFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            data class OpenUrl(val url: String) : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {

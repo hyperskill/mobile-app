@@ -1,5 +1,6 @@
 package org.hyperskill.app.challenges.widget.presentation
 
+import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.Action
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.InternalAction
@@ -23,6 +24,8 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 handleRetryContentLoadingMessage(state)
             InternalMessage.PullToRefresh ->
                 handlePullToRefreshMessage(state)
+            is Message.LinkInTheDescriptionClicked ->
+                handleLinkInTheDescriptionClickedMessage(state, message)
         } ?: (state to emptySet())
 
     private fun handleInitializeMessage(
@@ -71,5 +74,20 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 State.Loading(isLoadingSilently = false) to setOf(InternalAction.FetchChallenges)
             else ->
                 null
+        }
+
+    private fun handleLinkInTheDescriptionClickedMessage(
+        state: State,
+        message: Message.LinkInTheDescriptionClicked
+    ): ChallengeWidgetReducerResult? =
+        if (state is State.Content) {
+            state to setOf(
+                Action.ViewAction.OpenUrl(url = message.url),
+                InternalAction.LogAnalyticEvent(
+                    ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent(url = message.url)
+                )
+            )
+        } else {
+            null
         }
 }

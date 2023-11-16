@@ -99,5 +99,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CODE_INPUT_ACCESSORY_BUTTON("code_input_accessory_button"),
     SHARE_YOUR_STREAK("share_your_streak"),
     SHARE_STREAK_MODAL("share_streak_modal"),
-    SHARE("share")
+    SHARE("share"),
+    LINK("link")
 }
