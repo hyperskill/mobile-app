@@ -8,11 +8,9 @@ sealed interface ChallengeWidgetViewState {
 
     sealed interface Content : ChallengeWidgetViewState {
         data class Announcement(
-            val title: String,
-            val description: String,
-            val formattedDurationOfTime: String,
+            override val headerData: HeaderData,
             val startsInState: StartsInState
-        ) : Content {
+        ) : Content, WithHeaderData {
             sealed interface StartsInState {
                 object Deadline : StartsInState
                 data class TimeRemaining(
@@ -23,12 +21,10 @@ sealed interface ChallengeWidgetViewState {
         }
 
         data class HappeningNow(
-            val title: String,
-            val description: String,
-            val formattedDurationOfTime: String,
+            override val headerData: HeaderData,
             val completeInState: CompleteInState,
             val progressStatuses: List<ProgressStatus>
-        ) : Content {
+        ) : Content, WithHeaderData {
             sealed interface CompleteInState {
                 object Empty : CompleteInState
                 object Deadline : CompleteInState
@@ -47,24 +43,28 @@ sealed interface ChallengeWidgetViewState {
         }
 
         data class Completed(
-            val title: String,
-            val description: String,
-            val formattedDurationOfTime: String,
+            override val headerData: HeaderData,
             val collectRewardButtonState: CollectRewardButtonState
-        ) : Content
+        ) : Content, WithHeaderData
 
         data class PartiallyCompleted(
-            val title: String,
-            val description: String,
-            val formattedDurationOfTime: String,
+            override val headerData: HeaderData,
             val collectRewardButtonState: CollectRewardButtonState
-        ) : Content
+        ) : Content, WithHeaderData
 
         data class Ended(
+            override val headerData: HeaderData
+        ) : Content, WithHeaderData
+
+        data class HeaderData(
             val title: String,
             val description: String,
             val formattedDurationOfTime: String
-        ) : Content
+        )
+
+        interface WithHeaderData {
+            val headerData: HeaderData
+        }
 
         sealed interface CollectRewardButtonState {
             object Hidden : CollectRewardButtonState
@@ -73,29 +73,11 @@ sealed interface ChallengeWidgetViewState {
     }
 }
 
-val ChallengeWidgetViewState.Content.title: String
+val ChallengeWidgetViewState.Content.headerData: ChallengeWidgetViewState.Content.HeaderData
     get() = when (this) {
-        is ChallengeWidgetViewState.Content.Announcement -> title
-        is ChallengeWidgetViewState.Content.HappeningNow -> title
-        is ChallengeWidgetViewState.Content.Completed -> title
-        is ChallengeWidgetViewState.Content.PartiallyCompleted -> title
-        is ChallengeWidgetViewState.Content.Ended -> title
-    }
-
-val ChallengeWidgetViewState.Content.description: String
-    get() = when (this) {
-        is ChallengeWidgetViewState.Content.Announcement -> description
-        is ChallengeWidgetViewState.Content.HappeningNow -> description
-        is ChallengeWidgetViewState.Content.Completed -> description
-        is ChallengeWidgetViewState.Content.PartiallyCompleted -> description
-        is ChallengeWidgetViewState.Content.Ended -> description
-    }
-
-val ChallengeWidgetViewState.Content.formattedDurationOfTime: String
-    get() = when (this) {
-        is ChallengeWidgetViewState.Content.Announcement -> formattedDurationOfTime
-        is ChallengeWidgetViewState.Content.HappeningNow -> formattedDurationOfTime
-        is ChallengeWidgetViewState.Content.Completed -> formattedDurationOfTime
-        is ChallengeWidgetViewState.Content.PartiallyCompleted -> formattedDurationOfTime
-        is ChallengeWidgetViewState.Content.Ended -> formattedDurationOfTime
+        is ChallengeWidgetViewState.Content.Announcement -> headerData
+        is ChallengeWidgetViewState.Content.HappeningNow -> headerData
+        is ChallengeWidgetViewState.Content.Completed -> headerData
+        is ChallengeWidgetViewState.Content.PartiallyCompleted -> headerData
+        is ChallengeWidgetViewState.Content.Ended -> headerData
     }

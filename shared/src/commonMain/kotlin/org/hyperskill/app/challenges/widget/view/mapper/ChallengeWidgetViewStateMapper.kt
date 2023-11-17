@@ -39,38 +39,28 @@ class ChallengeWidgetViewStateMapper(
         val challenge = state.getCurrentChallenge() ?: return ChallengeWidgetViewState.Empty
         val challengeStatus = challenge.status ?: return ChallengeWidgetViewState.Empty
 
-        val challengeTitle = challenge.title
-        val challengeDescription = challenge.description
-        val formattedDurationOfTime = getFormattedDurationOfTime(
-            startingDate = challenge.startingDate,
-            finishDate = challenge.finishDate
+        val headerData = getHeaderData(
+            challenge = challenge,
+            challengeStatus = challengeStatus
         )
 
         return when (challengeStatus) {
             ChallengeStatus.NOT_STARTED -> {
                 ChallengeWidgetViewState.Content.Announcement(
-                    title = challengeTitle,
-                    description = challengeDescription,
-                    formattedDurationOfTime = formattedDurationOfTime,
+                    headerData = headerData,
                     startsInState = getStartsInState(challenge)
                 )
             }
             ChallengeStatus.STARTED -> {
                 ChallengeWidgetViewState.Content.HappeningNow(
-                    title = challengeTitle,
-                    description = challengeDescription,
-                    formattedDurationOfTime = formattedDurationOfTime,
+                    headerData = headerData,
                     completeInState = getCompleteInState(challenge),
                     progressStatuses = getProgressStatuses(challenge)
                 )
             }
             ChallengeStatus.COMPLETED -> {
                 ChallengeWidgetViewState.Content.Completed(
-                    title = challengeTitle,
-                    description = resourceProvider.getString(
-                        SharedResources.strings.challenge_widget_status_completed_title
-                    ),
-                    formattedDurationOfTime = formattedDurationOfTime,
+                    headerData = headerData,
                     collectRewardButtonState = getCollectRewardButtonState(
                         challengeStatus = challengeStatus,
                         rewardLink = challenge.rewardLink
@@ -79,11 +69,7 @@ class ChallengeWidgetViewStateMapper(
             }
             ChallengeStatus.PARTIAL_COMPLETED -> {
                 ChallengeWidgetViewState.Content.PartiallyCompleted(
-                    title = challengeTitle,
-                    description = resourceProvider.getString(
-                        SharedResources.strings.challenge_widget_status_partial_completed_title
-                    ),
-                    formattedDurationOfTime = formattedDurationOfTime,
+                    headerData = headerData,
                     collectRewardButtonState = getCollectRewardButtonState(
                         challengeStatus = challengeStatus,
                         rewardLink = challenge.rewardLink
@@ -91,15 +77,35 @@ class ChallengeWidgetViewStateMapper(
                 )
             }
             ChallengeStatus.NOT_COMPLETED -> {
-                ChallengeWidgetViewState.Content.Ended(
-                    title = challengeTitle,
-                    description = resourceProvider.getString(
-                        SharedResources.strings.challenge_widget_status_not_completed_title
-                    ),
-                    formattedDurationOfTime = formattedDurationOfTime
-                )
+                ChallengeWidgetViewState.Content.Ended(headerData = headerData)
             }
         }
+    }
+
+    private fun getHeaderData(
+        challenge: Challenge,
+        challengeStatus: ChallengeStatus
+    ): ChallengeWidgetViewState.Content.HeaderData {
+        val description = when (challengeStatus) {
+            ChallengeStatus.NOT_STARTED,
+            ChallengeStatus.STARTED ->
+                challenge.description
+            ChallengeStatus.COMPLETED ->
+                resourceProvider.getString(SharedResources.strings.challenge_widget_status_completed_title)
+            ChallengeStatus.PARTIAL_COMPLETED ->
+                resourceProvider.getString(SharedResources.strings.challenge_widget_status_partial_completed_title)
+            ChallengeStatus.NOT_COMPLETED ->
+                resourceProvider.getString(SharedResources.strings.challenge_widget_status_not_completed_title)
+        }
+
+        return ChallengeWidgetViewState.Content.HeaderData(
+            title = challenge.title,
+            description = description,
+            formattedDurationOfTime = getFormattedDurationOfTime(
+                startingDate = challenge.startingDate,
+                finishDate = challenge.finishDate
+            )
+        )
     }
 
     private fun getFormattedDurationOfTime(startingDate: LocalDate, finishDate: LocalDate): String {
