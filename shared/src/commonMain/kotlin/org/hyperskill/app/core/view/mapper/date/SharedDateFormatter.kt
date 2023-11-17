@@ -77,6 +77,41 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     }
 
     /**
+     * Format days, hours and minutes count with localized and pluralized suffix;
+     *
+     * @param seconds Seconds to format
+     * @return formatted days, hours and minutes count
+     */
+    fun formatDaysWithHoursAndMinutesCount(seconds: Long): String {
+        val duration = seconds.toDuration(DurationUnit.SECONDS)
+        val days = duration.inWholeDays.toInt()
+        val hours = duration.inWholeHours.toInt() % 24
+        val minutes = duration.inWholeMinutes.toInt() % 60
+
+        var result = ""
+
+        if (days > 0) {
+            result += "${resourceProvider.getQuantityString(SharedResources.plurals.days, days, days)} "
+        }
+
+        if (hours > 0) {
+            result += resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
+            if (minutes > 0) {
+                result += " ${resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutes, minutes)}"
+            }
+        } else {
+            val positiveMinutes = max(1, minutes)
+            result += resourceProvider.getQuantityString(
+                SharedResources.plurals.minutes,
+                positiveMinutes,
+                positiveMinutes
+            )
+        }
+
+        return result
+    }
+
+    /**
      * Format hours and minutes count with localized and pluralized suffix;
      * 7260 -> "2 hours 1 minute", 7320 -> "2 hours 2 minute", 21600 -> "6 hours"
      * @param seconds Seconds to format

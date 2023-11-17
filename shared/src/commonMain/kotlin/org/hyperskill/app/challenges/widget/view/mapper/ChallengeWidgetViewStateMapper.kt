@@ -139,7 +139,7 @@ class ChallengeWidgetViewStateMapper(
         return if (timeRemaining > 0) {
             ChallengeWidgetViewState.Content.Announcement.StartsInState.TimeRemaining(
                 title = resourceProvider.getString(SharedResources.strings.challenge_widget_starts_in_text),
-                subtitle = dateFormatter.formatHoursWithMinutesCount(seconds = timeRemaining)
+                subtitle = dateFormatter.formatDaysWithHoursAndMinutesCount(seconds = timeRemaining)
             )
         } else {
             ChallengeWidgetViewState.Content.Announcement.StartsInState.Deadline
@@ -175,7 +175,7 @@ class ChallengeWidgetViewStateMapper(
         return if (timeRemaining > 0) {
             ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.TimeRemaining(
                 title = resourceProvider.getString(SharedResources.strings.challenge_widget_complete_in_text),
-                subtitle = dateFormatter.formatHoursWithMinutesCount(seconds = timeRemaining)
+                subtitle = dateFormatter.formatDaysWithHoursAndMinutesCount(seconds = timeRemaining)
             )
         } else {
             ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.Deadline
