@@ -32,7 +32,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 handleDeadlineReachedReloadClickedMessage(state)
             Message.CollectRewardClicked ->
                 handleCollectRewardClickedMessage(state)
-            InternalMessage.CreateMagicLinkFailure ->
+            InternalMessage.CreateMagicLinkError ->
                 handleCreateMagicLinkFailureMessage(state)
             is InternalMessage.CreateMagicLinkSuccess ->
                 handleCreateMagicLinkSuccessMessage(state, message)

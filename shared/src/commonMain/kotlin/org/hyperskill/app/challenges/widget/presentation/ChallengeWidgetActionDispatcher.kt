@@ -57,7 +57,7 @@ class ChallengeWidgetActionDispatcher(
                     onNewMessage(InternalMessage.CreateMagicLinkSuccess(url = magicLink.url))
                 },
                 onFailure = {
-                    onNewMessage(InternalMessage.CreateMagicLinkFailure)
+                    onNewMessage(InternalMessage.CreateMagicLinkError)
                 }
             )
     }

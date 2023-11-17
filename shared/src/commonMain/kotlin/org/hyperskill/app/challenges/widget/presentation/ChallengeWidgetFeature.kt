@@ -65,7 +65,7 @@ object ChallengeWidgetFeature {
 
         object PullToRefresh : InternalMessage
 
-        object CreateMagicLinkFailure : InternalMessage
+        object CreateMagicLinkError : InternalMessage
         data class CreateMagicLinkSuccess(val url: String) : InternalMessage
     }
 

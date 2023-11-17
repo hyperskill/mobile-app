@@ -36,9 +36,11 @@ class ChallengeWidgetViewStateMapperTest {
         )
 
         val expected = ChallengeWidgetViewState.Content.Announcement(
-            title = "QA  ☾⋆",
-            description = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
-            formattedDurationOfTime = "2 Nov - 3 Nov",
+            headerData = ChallengeWidgetViewState.Content.HeaderData(
+                title = "QA  ☾⋆",
+                description = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
+                formattedDurationOfTime = "2 Nov - 3 Nov"
+            ),
             startsInState = ChallengeWidgetViewState.Content.Announcement.StartsInState.Deadline
         )
         val actual = viewStateMapper.map(ChallengeWidgetFeature.State.Content(challenges = listOf(given)))
