@@ -1,7 +1,13 @@
 package org.hyperskill.app.android.step.view.delegate
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
+import org.hyperskill.app.R
+import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
@@ -11,6 +17,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.notification.model.HyperskillNotificationChannel
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
+import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -25,7 +32,8 @@ class StepDelegate<TFragment>(
     private val onRequestDailyStudyRemindersPermissionResult: (Boolean) -> Unit
 ) : RequestDailyStudyReminderDialogFragment.Callback
     where TFragment : Fragment,
-          TFragment : RequestDailyStudyReminderDialogFragment.Callback {
+          TFragment : RequestDailyStudyReminderDialogFragment.Callback,
+          TFragment : ShareStreakDialogFragment.Callback {
 
     private val notificationPermissionDelegate: NotificationPermissionDelegate =
         NotificationPermissionDelegate(fragment, ::onNotificationPermissionResult)
@@ -78,15 +86,22 @@ class StepDelegate<TFragment>(
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
-                            .newInstance(earnedGemsText = stepCompletionAction.earnedGemsText)
+                            .newInstance(
+                                earnedGemsText = stepCompletionAction.earnedGemsText,
+                                shareStreakData = stepCompletionAction.shareStreakData
+                            )
                             .showIfNotExists(fragment.childFragmentManager, CompletedStepOfTheDayDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakModal -> {
-                        // TODO: ALTAPPS-1028 Show share streak modal
+                        ShareStreakDialogFragment
+                            .newInstance(
+                                streak = stepCompletionAction.streak,
+                                imageRes = getShareStreakDrawableRes(stepCompletionAction.streak)
+                            )
+                            .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
-                        // TODO: ALTAPPS-1028 Show system share streak modal (after "Share your streak" button clicked)
-                        // on the problem of day solved modal
+                        shareStreak(stepCompletionAction.streak)
                     }
                 }
             }
@@ -119,6 +134,38 @@ class StepDelegate<TFragment>(
         if (context != null) {
             NotificationManagerCompat.from(context)
                 .checkNotificationChannelAvailability(context, HyperskillNotificationChannel.DailyReminder)
+        }
+    }
+
+    @DrawableRes
+    private fun getShareStreakDrawableRes(streak: Int): Int =
+        when (streak) {
+            1 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_1
+            5 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_5
+            10 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_10
+            25 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_25
+            50 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_50
+            100 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_100
+            else -> org.hyperskill.app.android.R.drawable.img_share_streak_day_1
+        }
+
+    private fun getShareStreakText(context: Context): String {
+        val title = context.getString(R.string.share_streak_sharing_text)
+        val link = context.getString(R.string.share_streak_sharing_url)
+        return "$title\n$link"
+    }
+
+    private fun shareStreak(streak: Int) {
+        val shareIntent = ShareUtils.getShareDrawableIntent(
+            fragment.requireContext(),
+            getShareStreakDrawableRes(streak),
+            text = getShareStreakText(fragment.requireContext()),
+            title = fragment.requireContext().getString(R.string.share_streak_modal_title)
+        )
+        try {
+            fragment.startActivity(shareIntent)
+        } catch (e: ActivityNotFoundException) {
+            Log.e("StepDelegate", "Unable to share streak. Activity not found!")
         }
     }
 }

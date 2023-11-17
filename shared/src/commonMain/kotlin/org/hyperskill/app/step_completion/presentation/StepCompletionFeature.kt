@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_completion.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
@@ -53,8 +54,11 @@ interface StepCompletionFeature {
      * @see Message.ProblemOfDaySolved
      * @see Action.ViewAction.ShowProblemOfDaySolvedModal
      */
+    @Serializable
     sealed interface ShareStreakData {
+        @Serializable
         object Empty : ShareStreakData
+        @Serializable
         data class Content(val streakText: String, val streak: Int) : ShareStreakData
     }
 
