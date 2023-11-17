@@ -14,6 +14,7 @@ internal class ChallengeWidgetComponentImpl(private val appGraph: AppGraph) : Ch
         get() = ChallengeWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
             challengesRepository = appGraph.buildChallengesDataComponent().challengesRepository,
+            magicLinksInteractor = appGraph.buildMagicLinksDataComponent().magicLinksInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )

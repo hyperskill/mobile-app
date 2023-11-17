@@ -44,12 +44,14 @@ sealed interface ChallengeWidgetViewState {
 
         data class Completed(
             override val headerData: HeaderData,
-            val collectRewardButtonState: CollectRewardButtonState
+            val collectRewardButtonState: CollectRewardButtonState,
+            val isLoadingMagicLink: Boolean
         ) : Content, WithHeaderData
 
         data class PartiallyCompleted(
             override val headerData: HeaderData,
-            val collectRewardButtonState: CollectRewardButtonState
+            val collectRewardButtonState: CollectRewardButtonState,
+            val isLoadingMagicLink: Boolean
         ) : Content, WithHeaderData
 
         data class Ended(
@@ -72,6 +74,13 @@ sealed interface ChallengeWidgetViewState {
         }
     }
 }
+
+val ChallengeWidgetViewState.Content.isLoadingMagicLink: Boolean
+    get() = when (this) {
+        is ChallengeWidgetViewState.Content.Completed -> isLoadingMagicLink
+        is ChallengeWidgetViewState.Content.PartiallyCompleted -> isLoadingMagicLink
+        else -> false
+    }
 
 val ChallengeWidgetViewState.Content.headerData: ChallengeWidgetViewState.Content.HeaderData
     get() = when (this) {

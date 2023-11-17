@@ -1,5 +1,6 @@
 package org.hyperskill.app.challenges.widget.presentation
 
+import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedRetryContentLoadingHyperskillAnalyticEvent
@@ -29,6 +30,12 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 handleLinkInTheDescriptionClickedMessage(state, message)
             Message.DeadlineReachedReloadClicked ->
                 handleDeadlineReachedReloadClickedMessage(state)
+            Message.CollectRewardClicked ->
+                handleCollectRewardClickedMessage(state)
+            InternalMessage.CreateMagicLinkFailure ->
+                handleCreateMagicLinkFailureMessage(state)
+            is InternalMessage.CreateMagicLinkSuccess ->
+                handleCreateMagicLinkSuccessMessage(state, message)
         } ?: (state to emptySet())
 
     private fun handleInitializeMessage(
@@ -85,7 +92,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
     ): ChallengeWidgetReducerResult? =
         if (state is State.Content) {
             state to setOf(
-                Action.ViewAction.OpenUrl(url = message.url),
+                Action.ViewAction.OpenUrl(url = message.url, shouldOpenInApp = true),
                 InternalAction.LogAnalyticEvent(
                     ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent(url = message.url)
                 )
@@ -104,6 +111,33 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
 
             newState to setOf(
                 InternalAction.LogAnalyticEvent(ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent)
+            )
+        } else {
+            null
+        }
+
+    private fun handleCollectRewardClickedMessage(state: State): ChallengeWidgetReducerResult =
+        state to buildSet {
+            state.getCurrentChallenge()?.rewardLink?.let {
+                add(InternalAction.CreateMagicLink(nextUrl = it))
+            }
+            add(InternalAction.LogAnalyticEvent(ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent))
+        }
+
+    private fun handleCreateMagicLinkFailureMessage(state: State): ChallengeWidgetReducerResult? =
+        if (state is State.Content) {
+            state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowNetworkError)
+        } else {
+            null
+        }
+
+    private fun handleCreateMagicLinkSuccessMessage(
+        state: State,
+        message: InternalMessage.CreateMagicLinkSuccess
+    ): ChallengeWidgetReducerResult? =
+        if (state is State.Content) {
+            state.copy(isLoadingMagicLink = false) to setOf(
+                Action.ViewAction.OpenUrl(url = message.url, shouldOpenInApp = false)
             )
         } else {
             null

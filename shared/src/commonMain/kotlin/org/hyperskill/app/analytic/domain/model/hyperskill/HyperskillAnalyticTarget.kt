@@ -101,5 +101,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SHARE_YOUR_STREAK("share_your_streak"),
     SHARE_STREAK_MODAL("share_streak_modal"),
     SHARE("share"),
-    LINK("link")
+    LINK("link"),
+    COLLECT_REWARD("collect_reward")
 }

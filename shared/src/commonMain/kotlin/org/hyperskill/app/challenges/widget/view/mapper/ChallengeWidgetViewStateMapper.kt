@@ -64,7 +64,8 @@ class ChallengeWidgetViewStateMapper(
                     collectRewardButtonState = getCollectRewardButtonState(
                         challengeStatus = challengeStatus,
                         rewardLink = challenge.rewardLink
-                    )
+                    ),
+                    isLoadingMagicLink = state.isLoadingMagicLink
                 )
             }
             ChallengeStatus.PARTIAL_COMPLETED -> {
@@ -73,7 +74,8 @@ class ChallengeWidgetViewStateMapper(
                     collectRewardButtonState = getCollectRewardButtonState(
                         challengeStatus = challengeStatus,
                         rewardLink = challenge.rewardLink
-                    )
+                    ),
+                    isLoadingMagicLink = state.isLoadingMagicLink
                 )
             }
             ChallengeStatus.NOT_COMPLETED -> {
