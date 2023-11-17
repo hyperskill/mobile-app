@@ -251,6 +251,12 @@ enum Strings {
         static let repeatUnlimited = sharedStrings.home_repeat_unlimited.localized()
     }
 
+    // MARK: - Challenge widget -
+
+    enum ChallengeWidget {
+        static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
+    }
+
     // MARK: - Topics widget -
 
     enum TopicsWidget {

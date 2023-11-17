@@ -7,6 +7,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
 
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var challengeWidgetViewStateKs: ChallengeWidgetViewStateKs { .init(state.challengeWidgetViewState) }
 
     init(feature: Presentation_reduxFeature) {
         super.init(feature: feature)
@@ -121,5 +122,41 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
                 )
             )
         }
+    }
+}
+
+// MAKR: - HomeViewModel: ChallengeWidgetOutputProtocol -
+
+extension HomeViewModel: ChallengeWidgetOutputProtocol {
+    func handleChallengeWidgetRetryContentLoading() {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageRetryContentLoading()
+            )
+        )
+    }
+
+    func handleChallengeWidgetOpenDescriptionLink(url: URL) {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageLinkInTheDescriptionClicked(url: url.absoluteString)
+            )
+        )
+    }
+
+    func handleChallengeWidgetDeadlineReachedReload() {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageDeadlineReachedReloadClicked()
+            )
+        )
+    }
+
+    func handleChallengeWidgetCollectReward() {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageCollectRewardClicked()
+            )
+        )
     }
 }
