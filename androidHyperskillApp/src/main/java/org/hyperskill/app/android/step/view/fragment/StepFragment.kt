@@ -11,6 +11,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -30,7 +31,8 @@ class StepFragment :
     Fragment(R.layout.fragment_step),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
     StepCompletionHost,
-    RequestDailyStudyReminderDialogFragment.Callback {
+    RequestDailyStudyReminderDialogFragment.Callback,
+    ShareStreakDialogFragment.Callback {
 
     companion object {
         private const val STEP_TAG = "step"
@@ -101,6 +103,16 @@ class StepFragment :
         }
     }
 
+    private fun initStepContainer(data: StepFeature.State.Data) {
+        setChildFragment(R.id.stepContainer, STEP_TAG) {
+            if (data.step.type == Step.Type.PRACTICE) {
+                StepPracticeFragment.newInstance(data.step, stepRoute)
+            } else {
+                StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
@@ -121,13 +133,19 @@ class StepFragment :
         stepDelegate?.onPermissionResult(isGranted)
     }
 
-    private fun initStepContainer(data: StepFeature.State.Data) {
-        setChildFragment(R.id.stepContainer, STEP_TAG) {
-            if (data.step.type == Step.Type.PRACTICE) {
-                StepPracticeFragment.newInstance(data.step, stepRoute)
-            } else {
-                StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
-            }
-        }
+    override fun onShareStreakBottomSheetShown(streak: Int) {
+        stepViewModel.onShareStreakBottomSheetShown(streak)
+    }
+
+    override fun onShareStreakBottomSheetDismissed(streak: Int) {
+        stepViewModel.onShareStreakBottomSheetDismissed(streak)
+    }
+
+    override fun onRefuseStreakSharingClick(streak: Int) {
+        stepViewModel.onRefuseStreakSharingClick(streak)
+    }
+
+    override fun onShareClick(streak: Int) {
+        stepViewModel.onShareClick(streak)
     }
 }

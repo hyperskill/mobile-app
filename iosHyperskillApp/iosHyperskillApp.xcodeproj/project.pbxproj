@@ -347,8 +347,8 @@
 		2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */; };
 		2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */; };
 		2CAA3C6A2AA9C7B6004F6CE6 /* LottieAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */; };
-		2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */; };
-		2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */; };
+		2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift */; };
+		2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift */; };
 		2CAE8CF0280525BE00E6C83D /* StepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */; };
 		2CAE8CF2280525C900E6C83D /* StepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF1280525C900E6C83D /* StepView.swift */; };
 		2CAE8CF4280525D400E6C83D /* StepAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE8CF3280525D400E6C83D /* StepAssembly.swift */; };
@@ -442,6 +442,10 @@
 		2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */; };
 		2CEEE03728917F1100282849 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */; };
 		2CF0B4E629F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */; };
+		2CF270862AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270842AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json */; };
+		2CF270872AFE689500D696EC /* fill-blanks-input-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270852AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-light.json */; };
+		2CF2708A2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270882AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json */; };
+		2CF2708B2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270892AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
 		2CF41A8E28505D2C000736D6 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* LatexView.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
@@ -983,8 +987,8 @@
 		2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
 		2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
 		2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimations.swift; sourceTree = "<group>"; };
-		2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsOnboardingModalViewController.swift; sourceTree = "<group>"; };
-		2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsOnboardingModalView.swift; sourceTree = "<group>"; };
+		2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizProblemOnboardingModalViewController.swift; sourceTree = "<group>"; };
+		2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizProblemOnboardingModalView.swift; sourceTree = "<group>"; };
 		2CAE8CEF280525BE00E6C83D /* StepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepViewModel.swift; sourceTree = "<group>"; };
 		2CAE8CF1280525C900E6C83D /* StepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepView.swift; sourceTree = "<group>"; };
 		2CAE8CF3280525D400E6C83D /* StepAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepAssembly.swift; sourceTree = "<group>"; };
@@ -1079,6 +1083,10 @@
 		2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayOutputProtocol.swift; sourceTree = "<group>"; };
 		2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionActivitiesList.swift; sourceTree = "<group>"; };
+		2CF270842AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-input-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
+		2CF270852AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-input-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
+		2CF270882AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-select-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
+		2CF270892AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-select-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		2CF41A8D28505D2C000736D6 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
@@ -2776,6 +2784,10 @@
 		2CAA3C642AA9C40C004F6CE6 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
+				2CF270842AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json */,
+				2CF270852AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-light.json */,
+				2CF270882AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json */,
+				2CF270892AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json */,
 				2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */,
 				2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */,
 				2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */,
@@ -2783,13 +2795,13 @@
 			path = LottieAnimations;
 			sourceTree = "<group>";
 		};
-		2CAA3C6B2AA9CA6F004F6CE6 /* OnboardingModal */ = {
+		2CAA3C6B2AA9CA6F004F6CE6 /* ProblemOnboarding */ = {
 			isa = PBXGroup;
 			children = (
-				2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift */,
-				2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift */,
+				2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift */,
+				2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift */,
 			);
-			path = OnboardingModal;
+			path = ProblemOnboarding;
 			sourceTree = "<group>";
 		};
 		2CAE8CEE280525A100E6C83D /* Step */ = {
@@ -3484,7 +3496,6 @@
 				E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */,
 				E94BB0432A9DEEFC00736B7C /* StepQuizParsonsSkeletonView.swift */,
 				E94BB0472A9DF9DD00736B7C /* StepQuizParsonsView.swift */,
-				2CAA3C6B2AA9CA6F004F6CE6 /* OnboardingModal */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3636,6 +3647,7 @@
 			children = (
 				E9ACD3402937342F0005E05B /* ProblemOfDaySolvedModalViewController.swift */,
 				E9B55A5C29C978E40066900E /* ProblemsLimitReachedModalViewController.swift */,
+				2CAA3C6B2AA9CA6F004F6CE6 /* ProblemOnboarding */,
 				2C8DD40A2AFB7E3100FD5359 /* ShareStreak */,
 			);
 			path = Modals;
@@ -3971,8 +3983,10 @@
 				2C98C7A62850B93100857783 /* alt.css in Resources */,
 				E9954647288EC11000013FA6 /* LaunchScreen.storyboard in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
+				2CF2708A2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json in Resources */,
 				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
 				2C98C7AD2850B93100857783 /* icons.css in Resources */,
+				2CF270862AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json in Resources */,
 				2C98C7A72850B93100857783 /* fonts.css in Resources */,
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
@@ -3988,6 +4002,8 @@
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
 				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
 				2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */,
+				2CF2708B2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json in Resources */,
+				2CF270872AFE689500D696EC /* fill-blanks-input-problem-onboarding-animation-light.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4276,7 +4292,7 @@
 				2C27C77E28773042006A641A /* NukeManager.swift in Sources */,
 				2C0DB91028645332001EA35E /* CodeEditorTheme.swift in Sources */,
 				2CBD1919291D399500F5FB0B /* UIKitBounceButton.swift in Sources */,
-				2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizParsonsOnboardingModalViewController.swift in Sources */,
+				2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift in Sources */,
 				E9523BF029DA933C0013A661 /* StudyPlanViewModel.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
@@ -4505,7 +4521,7 @@
 				E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */,
 				2C9EB95D2861BABC007DDE44 /* ProfileView.swift in Sources */,
 				2CF41A8E28505D2C000736D6 /* LatexView.swift in Sources */,
-				2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizParsonsOnboardingModalView.swift in Sources */,
+				2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift in Sources */,
 				2CF72AA32847757300E1C192 /* StepQuizTableViewData.swift in Sources */,
 				E93B3745283E527000968DF0 /* PlaceholderView.swift in Sources */,
 				2C93AF2129B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift in Sources */,
@@ -4657,7 +4673,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -4678,7 +4694,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
@@ -4699,7 +4715,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
@@ -4720,7 +4736,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -4741,7 +4757,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -4769,7 +4785,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -4914,7 +4930,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				ENABLE_PREVIEWS = YES;
@@ -4950,7 +4966,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 228;
+				CURRENT_PROJECT_VERSION = 236;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = 3DWS674B2M;
 				ENABLE_PREVIEWS = YES;

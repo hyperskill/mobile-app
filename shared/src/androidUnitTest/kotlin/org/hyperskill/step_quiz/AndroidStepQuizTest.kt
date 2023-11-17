@@ -1,6 +1,7 @@
 package org.hyperskill.step_quiz
 
 import kotlin.test.assertEquals
+import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
@@ -72,7 +73,11 @@ class AndroidStepQuizTest {
                         submissionState,
                         isProblemsLimitReached = false,
                         problemsLimitReachedModalText = null,
-                        isParsonsOnboardingShown = false
+                        problemsOnboardingFlags = ProblemsOnboardingFlags(
+                            isParsonsOnboardingShown = false,
+                            isFillBlanksInputModeOnboardingShown = false,
+                            isFillBlanksSelectModeOnboardingShown = false
+                        )
                     )
                 )
 
