@@ -12,6 +12,7 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
+import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.fragment.StepFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
@@ -41,7 +42,8 @@ class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
     StepCompletionHost,
-    RequestDailyStudyReminderDialogFragment.Callback {
+    RequestDailyStudyReminderDialogFragment.Callback,
+    ShareStreakDialogFragment.Callback {
 
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
@@ -161,5 +163,21 @@ class StageStepWrapperFragment :
 
     override fun onPermissionResult(isGranted: Boolean) {
         stepDelegate?.onPermissionResult(isGranted)
+    }
+
+    override fun onShareStreakBottomSheetShown(streak: Int) {
+        stepViewModel.onShareStreakBottomSheetShown(streak)
+    }
+
+    override fun onShareStreakBottomSheetDismissed(streak: Int) {
+        stepViewModel.onShareStreakBottomSheetDismissed(streak)
+    }
+
+    override fun onShareClick(streak: Int) {
+        stepViewModel.onShareClick(streak)
+    }
+
+    override fun onRefuseStreakSharingClick(streak: Int) {
+        stepViewModel.onRefuseStreakSharingClick(streak)
     }
 }
