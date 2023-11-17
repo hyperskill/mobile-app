@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="20dp"
     >
 
     <ImageView
@@ -39,7 +40,7 @@
         android:fontFamily="@font/roboto_bold"
         android:textSize="34sp"
         android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@+id/completedDailyStepImage"
         />
 
@@ -51,7 +52,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="@string/step_quiz_problem_of_day_solved_modal_text"
         android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintTop_toBottomOf="@+id/completedDailyStepTitleTextView"
         />
 
@@ -68,8 +69,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/completedDailyStepDescriptionTextView"
         android:layout_marginTop="24dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
         tools:text="300"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/completedDailyStepStreakTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto_bold"
+        android:drawablePadding="6dp"
+        android:drawableStart="@drawable/ic_streak"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepEarnedGemsTextView"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        tools:text="300"
+        tools:visibility="visible"
+        android:visibility="gone"
         />
 
     <com.google.android.material.button.MaterialButton
@@ -79,10 +99,23 @@
         style="@style/ThemeOverlay.Blue"
         android:text="@string/go_to_training"
         android:layout_marginTop="32dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepStreakTextView"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/completedDailyStepShareStreakButton"
+        style="@style/Widget.AppTheme.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_button_height"
+        app:strokeColor="@color/color_primary_alpha_38"
+        android:text="@string/step_quiz_problem_of_day_solved_modal_share_streak_button_text"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepEarnedGemsTextView"
+        app:layout_constraintTop_toBottomOf="@+id/completedDailyStepGoBackButton"
+        tools:visibility="visible"
+        android:visibility="gone"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
