@@ -6,11 +6,15 @@ sealed interface ChallengeWidgetViewState {
     object Error : ChallengeWidgetViewState
     object Empty : ChallengeWidgetViewState
 
-    sealed interface Content : ChallengeWidgetViewState {
+    interface WithHeaderData {
+        val headerData: Content.HeaderData
+    }
+
+    sealed interface Content : ChallengeWidgetViewState, WithHeaderData {
         data class Announcement(
             override val headerData: HeaderData,
             val startsInState: StartsInState
-        ) : Content, WithHeaderData {
+        ) : Content {
             sealed interface StartsInState {
                 object Deadline : StartsInState
                 data class TimeRemaining(
@@ -24,7 +28,7 @@ sealed interface ChallengeWidgetViewState {
             override val headerData: HeaderData,
             val completeInState: CompleteInState,
             val progressStatuses: List<ProgressStatus>
-        ) : Content, WithHeaderData {
+        ) : Content {
             sealed interface CompleteInState {
                 object Empty : CompleteInState
                 object Deadline : CompleteInState
@@ -46,27 +50,23 @@ sealed interface ChallengeWidgetViewState {
             override val headerData: HeaderData,
             val collectRewardButtonState: CollectRewardButtonState,
             val isLoadingMagicLink: Boolean
-        ) : Content, WithHeaderData
+        ) : Content
 
         data class PartiallyCompleted(
             override val headerData: HeaderData,
             val collectRewardButtonState: CollectRewardButtonState,
             val isLoadingMagicLink: Boolean
-        ) : Content, WithHeaderData
+        ) : Content
 
         data class Ended(
             override val headerData: HeaderData
-        ) : Content, WithHeaderData
+        ) : Content
 
         data class HeaderData(
             val title: String,
             val description: String,
             val formattedDurationOfTime: String
         )
-
-        interface WithHeaderData {
-            val headerData: HeaderData
-        }
 
         sealed interface CollectRewardButtonState {
             object Hidden : CollectRewardButtonState
@@ -80,13 +80,4 @@ val ChallengeWidgetViewState.Content.isLoadingMagicLink: Boolean
         is ChallengeWidgetViewState.Content.Completed -> isLoadingMagicLink
         is ChallengeWidgetViewState.Content.PartiallyCompleted -> isLoadingMagicLink
         else -> false
-    }
-
-val ChallengeWidgetViewState.Content.headerData: ChallengeWidgetViewState.Content.HeaderData
-    get() = when (this) {
-        is ChallengeWidgetViewState.Content.Announcement -> headerData
-        is ChallengeWidgetViewState.Content.HappeningNow -> headerData
-        is ChallengeWidgetViewState.Content.Completed -> headerData
-        is ChallengeWidgetViewState.Content.PartiallyCompleted -> headerData
-        is ChallengeWidgetViewState.Content.Ended -> headerData
     }
