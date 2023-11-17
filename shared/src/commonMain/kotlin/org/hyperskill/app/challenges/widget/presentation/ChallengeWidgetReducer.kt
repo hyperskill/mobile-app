@@ -1,5 +1,6 @@
 package org.hyperskill.app.challenges.widget.presentation
 
+import org.hyperskill.app.challenges.domain.model.ChallengeTargetType
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent
@@ -36,6 +37,12 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 handleCreateMagicLinkFailureMessage(state)
             is InternalMessage.CreateMagicLinkSuccess ->
                 handleCreateMagicLinkSuccessMessage(state, message)
+            InternalMessage.StepSolved ->
+                handleStepSolvedMessage(state)
+            InternalMessage.DailyStepCompleted ->
+                handleDailyStepCompletedMessage(state)
+            InternalMessage.TopicCompleted ->
+                handleTopicCompletedMessage(state)
         } ?: (state to emptySet())
 
     private fun handleInitializeMessage(
@@ -139,6 +146,54 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             state.copy(isLoadingMagicLink = false) to setOf(
                 Action.ViewAction.OpenUrl(url = message.url, shouldOpenInApp = false)
             )
+        } else {
+            null
+        }
+
+    private fun handleStepSolvedMessage(state: State): ChallengeWidgetReducerResult? {
+        if (state is State.Content) {
+            val currentChallenge = state.getCurrentChallenge() ?: return null
+            val currentChallengeTargetType = currentChallenge.targetType
+
+            if (currentChallengeTargetType != null) {
+                return when (currentChallengeTargetType) {
+                    ChallengeTargetType.DAILY_STEP,
+                    ChallengeTargetType.TOPIC ->
+                        null
+                    ChallengeTargetType.PROJECT,
+                    ChallengeTargetType.STAGE ->
+                        state to setOf(InternalAction.FetchChallenges)
+                    ChallengeTargetType.STEP ->
+                        state.copy(
+                            challenges = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenges
+                        ) to emptySet()
+                }
+            } else {
+                return state to setOf(InternalAction.FetchChallenges)
+            }
+        } else {
+            return null
+        }
+    }
+
+    private fun handleDailyStepCompletedMessage(state: State): ChallengeWidgetReducerResult? =
+        if (state is State.Content &&
+            state.getCurrentChallenge()?.targetType == ChallengeTargetType.DAILY_STEP
+        ) {
+            state.copy(
+                challenges = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenges
+            ) to emptySet()
+        } else {
+            null
+        }
+
+    private fun handleTopicCompletedMessage(state: State): ChallengeWidgetReducerResult? =
+        if (state is State.Content &&
+            state.getCurrentChallenge()?.targetType == ChallengeTargetType.TOPIC
+        ) {
+            state.copy(
+                challenges = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenges
+            ) to emptySet()
         } else {
             null
         }

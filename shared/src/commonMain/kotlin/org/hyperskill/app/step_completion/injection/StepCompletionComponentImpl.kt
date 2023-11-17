@@ -28,6 +28,7 @@ internal class StepCompletionComponentImpl(
             appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
             appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.stateRepositoriesComponent.currentGamificationToolbarDataStateRepository,
+            appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
             appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             appGraph.progressesFlowDataComponent.topicProgressFlow,
             appGraph.buildNotificationComponent().notificationInteractor

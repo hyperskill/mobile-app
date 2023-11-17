@@ -67,6 +67,11 @@ object ChallengeWidgetFeature {
 
         object CreateMagicLinkError : InternalMessage
         data class CreateMagicLinkSuccess(val url: String) : InternalMessage
+
+        // Observe target types changes
+        object StepSolved : InternalMessage
+        object DailyStepCompleted : InternalMessage
+        object TopicCompleted : InternalMessage
     }
 
     sealed interface Action {
