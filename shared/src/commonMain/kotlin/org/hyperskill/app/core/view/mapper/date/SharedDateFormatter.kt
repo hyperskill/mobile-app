@@ -78,6 +78,7 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
 
     /**
      * Format days, hours and minutes count with localized and pluralized suffix;
+     * 86400 -> "1 day", 86460 -> "1 day 1 minute", 90000 -> "1 day 1 hour", 59 -> "1 minute"
      *
      * @param seconds Seconds to format
      * @return formatted days, hours and minutes count
@@ -88,24 +89,20 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
         val hours = duration.inWholeHours.toInt() % 24
         val minutes = duration.inWholeMinutes.toInt() % 60
 
+        if (days == 0 && hours == 0 && minutes == 0) {
+            return resourceProvider.getQuantityString(SharedResources.plurals.minutes, 1, 1)
+        }
+
         var result = ""
 
         if (days > 0) {
             result += "${resourceProvider.getQuantityString(SharedResources.plurals.days, days, days)} "
         }
-
         if (hours > 0) {
-            result += resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)
-            if (minutes > 0) {
-                result += " ${resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutes, minutes)}"
-            }
-        } else {
-            val positiveMinutes = max(1, minutes)
-            result += resourceProvider.getQuantityString(
-                SharedResources.plurals.minutes,
-                positiveMinutes,
-                positiveMinutes
-            )
+            result += "${resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)} "
+        }
+        if (minutes > 0) {
+            result += resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutes, minutes)
         }
 
         return result
@@ -115,7 +112,6 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
      * Format hours and minutes count with localized and pluralized suffix;
      * 7260 -> "2 hours 1 minute", 7320 -> "2 hours 2 minute", 21600 -> "6 hours"
      * @param seconds Seconds to format
-     *
      */
     fun formatHoursWithMinutesCount(seconds: Long): String {
         val duration = seconds.toDuration(DurationUnit.SECONDS)
