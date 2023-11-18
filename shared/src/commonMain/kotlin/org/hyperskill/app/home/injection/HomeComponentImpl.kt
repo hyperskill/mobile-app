@@ -8,7 +8,7 @@ import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
+internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
     private val homeInteractor: HomeInteractor =
         HomeInteractor(appGraph.submissionDataComponent.submissionRepository)
 
@@ -35,6 +35,7 @@ class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
             challengeWidgetComponent.challengeWidgetActionDispatcher,
             challengeWidgetComponent.challengeWidgetViewStateMapper,
             appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+            appGraph.commonComponent.buildKonfig.buildVariant,
+            appGraph.commonComponent.platform.platformType
         )
 }

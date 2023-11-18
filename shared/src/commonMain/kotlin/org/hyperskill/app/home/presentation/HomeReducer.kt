@@ -3,6 +3,7 @@ package org.hyperskill.app.home.presentation
 import kotlin.math.max
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetReducer
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
@@ -21,7 +22,8 @@ private typealias HomeReducerResult = Pair<State, Set<Action>>
 
 internal class HomeReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer,
-    private val challengeWidgetReducer: ChallengeWidgetReducer
+    private val challengeWidgetReducer: ChallengeWidgetReducer,
+    private val platformType: PlatformType
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): HomeReducerResult =
         when (message) {
@@ -306,6 +308,11 @@ internal class HomeReducer(
         state: ChallengeWidgetFeature.State,
         message: ChallengeWidgetFeature.Message
     ): Pair<ChallengeWidgetFeature.State, Set<Action>> {
+        // TODO: ALTAPPS-1036 Remove this when we will have Android version of Challenge Widget
+        if (platformType == PlatformType.ANDROID) {
+            return ChallengeWidgetFeature.State.Idle to emptySet()
+        }
+
         val (challengeWidgetState, challengeWidgetActions) = challengeWidgetReducer.reduce(state, message)
 
         val actions = challengeWidgetActions

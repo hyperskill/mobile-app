@@ -167,7 +167,7 @@ class HomeFragment :
                 )
             }
             is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
-                // TODO: Handle ChallengeWidgetViewAction
+                // TODO: ALTAPPS-1036 handle challenge widget view actions
             }
         }
     }
