@@ -19,9 +19,7 @@ struct HomeView: View {
     @StateObject var panModalPresenter: PanModalPresenter
 
     var body: some View {
-        let _ = print("HomeView: challengeWidgetViewStateKs = \(viewModel.challengeWidgetViewStateKs)")
-
-        return ZStack {
+        ZStack {
             UIViewControllerEventsWrapper(
                 onViewDidAppear: {
                     viewModel.logViewedEvent()
