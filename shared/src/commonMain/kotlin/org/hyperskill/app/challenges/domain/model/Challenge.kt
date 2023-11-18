@@ -13,7 +13,7 @@ data class Challenge(
     @SerialName("description")
     val description: String,
     @SerialName("target_type")
-    internal val targetTypeValue: Int,
+    internal val targetTypeValue: String,
     @SerialName("starting_date")
     val startingDate: LocalDate,
     @SerialName("interval_duration_days")

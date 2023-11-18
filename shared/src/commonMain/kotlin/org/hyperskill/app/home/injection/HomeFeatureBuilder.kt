@@ -7,6 +7,7 @@ import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetReducer
 import org.hyperskill.app.challenges.widget.view.mapper.ChallengeWidgetViewStateMapper
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
@@ -50,11 +51,13 @@ internal object HomeFeatureBuilder {
         challengeWidgetActionDispatcher: ChallengeWidgetActionDispatcher,
         challengeWidgetViewStateMapper: ChallengeWidgetViewStateMapper,
         logger: Logger,
-        buildVariant: BuildVariant
+        buildVariant: BuildVariant,
+        platformType: PlatformType
     ): Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
             gamificationToolbarReducer = gamificationToolbarReducer,
-            challengeWidgetReducer = challengeWidgetReducer
+            challengeWidgetReducer = challengeWidgetReducer,
+            platformType = platformType
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),

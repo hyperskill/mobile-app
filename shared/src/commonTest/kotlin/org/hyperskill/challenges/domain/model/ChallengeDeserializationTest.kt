@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.datetime.LocalDate
 import org.hyperskill.app.challenges.domain.model.Challenge
+import org.hyperskill.app.challenges.domain.model.ChallengeTargetType
 import org.hyperskill.app.network.injection.NetworkModule
 
 class ChallengeDeserializationTest {
@@ -13,7 +14,7 @@ class ChallengeDeserializationTest {
     "id": 6,
     "title": "QA  ☾⋆",
     "description": "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
-    "target_type": 14,
+    "target_type": "step",
     "starting_date": "2023-11-02",
     "interval_duration_days": 1,
     "intervals_count": 1,
@@ -36,7 +37,7 @@ class ChallengeDeserializationTest {
             id = 6,
             title = "QA  ☾⋆",
             description = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
-            targetTypeValue = 14,
+            targetTypeValue = ChallengeTargetType.STEP.value,
             startingDate = LocalDate.parse("2023-11-02"),
             intervalDurationDays = 1,
             intervalsCount = 1,
