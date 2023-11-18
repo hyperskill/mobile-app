@@ -101,7 +101,10 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             state to setOf(
                 Action.ViewAction.OpenUrl(url = message.url, shouldOpenInApp = true),
                 InternalAction.LogAnalyticEvent(
-                    ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent(url = message.url)
+                    ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent(
+                        challengeId = state.getCurrentChallenge()?.id,
+                        url = message.url
+                    )
                 )
             )
         } else {
@@ -117,7 +120,11 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             }
 
             newState to setOf(
-                InternalAction.LogAnalyticEvent(ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent)
+                InternalAction.LogAnalyticEvent(
+                    ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent(
+                        challengeId = state.getCurrentChallenge()?.id
+                    )
+                )
             )
         } else {
             null
@@ -128,7 +135,13 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             state.getCurrentChallenge()?.rewardLink?.let {
                 add(InternalAction.CreateMagicLink(nextUrl = it))
             }
-            add(InternalAction.LogAnalyticEvent(ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent))
+            add(
+                InternalAction.LogAnalyticEvent(
+                    ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent(
+                        challengeId = state.getCurrentChallenge()?.id
+                    )
+                )
+            )
         }
 
     private fun handleCreateMagicLinkFailureMessage(state: State): ChallengeWidgetReducerResult? =

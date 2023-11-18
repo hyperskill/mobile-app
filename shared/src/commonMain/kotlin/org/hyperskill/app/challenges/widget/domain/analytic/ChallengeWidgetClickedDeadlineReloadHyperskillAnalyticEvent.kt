@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import ru.nobird.app.core.model.mapOfNotNull
 
 /**
  * Represents a click analytic event on the "Reload" button.
@@ -15,15 +16,26 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/home",
  *     "action": "click",
  *     "part": "challenge_card",
- *     "target": "deadline_reload"
+ *     "target": "deadline_reload",
+ *     "context":
+ *     {
+ *         "challenge_id": 1
+ *     }
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-object ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent(
+    val challengeId: Long?
+) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Home(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.CHALLENGE_CARD,
     HyperskillAnalyticTarget.DEADLINE_RELOAD
-)
+) {
+    override val params: Map<String, Any>
+        get() = super.params + mapOf(
+            PARAM_CONTEXT to mapOfNotNull(ChallengeWidgetAnalyticParams.PARAM_CHALLENGE_ID to challengeId)
+        )
+}
