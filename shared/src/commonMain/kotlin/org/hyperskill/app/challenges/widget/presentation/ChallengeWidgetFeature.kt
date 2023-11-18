@@ -68,6 +68,8 @@ object ChallengeWidgetFeature {
         object CreateMagicLinkError : InternalMessage
         data class CreateMagicLinkSuccess(val url: String) : InternalMessage
 
+        object TimerTick : InternalMessage
+
         // Observe target types changes
         object StepSolved : InternalMessage
         object DailyStepCompleted : InternalMessage
@@ -87,6 +89,9 @@ object ChallengeWidgetFeature {
 
     internal sealed interface InternalAction : Action {
         object FetchChallenges : InternalAction
+
+        object LaunchTimer : InternalAction
+        object StopTimer : InternalAction
 
         data class CreateMagicLink(val nextUrl: String) : InternalAction
 

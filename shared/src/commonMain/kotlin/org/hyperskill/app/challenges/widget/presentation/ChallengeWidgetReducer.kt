@@ -1,5 +1,6 @@
 package org.hyperskill.app.challenges.widget.presentation
 
+import org.hyperskill.app.challenges.domain.model.ChallengeStatus
 import org.hyperskill.app.challenges.domain.model.ChallengeTargetType
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent
 import org.hyperskill.app.challenges.widget.domain.analytic.ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent
@@ -22,7 +23,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             InternalMessage.FetchChallengesError ->
                 State.Error to emptySet()
             is InternalMessage.FetchChallengesSuccess ->
-                State.Content(challenges = message.challenges) to emptySet()
+                handleFetchChallengesSuccessMessage(message)
             Message.RetryContentLoading ->
                 handleRetryContentLoadingMessage(state)
             InternalMessage.PullToRefresh ->
@@ -43,6 +44,8 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 handleDailyStepCompletedMessage(state)
             InternalMessage.TopicCompleted ->
                 handleTopicCompletedMessage(state)
+            InternalMessage.TimerTick ->
+                handleTimerTickMessage(state)
         } ?: (state to emptySet())
 
     private fun handleInitializeMessage(
@@ -68,6 +71,22 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 }
             is State.Loading -> null
         }
+
+    private fun handleFetchChallengesSuccessMessage(
+        message: InternalMessage.FetchChallengesSuccess
+    ): ChallengeWidgetReducerResult {
+        val newState = State.Content(challenges = message.challenges)
+
+        val actions = when (newState.getCurrentChallenge()?.status) {
+            ChallengeStatus.NOT_STARTED,
+            ChallengeStatus.STARTED ->
+                setOf(InternalAction.LaunchTimer)
+            else ->
+                emptySet()
+        }
+
+        return newState to actions
+    }
 
     private fun handleRetryContentLoadingMessage(state: State): ChallengeWidgetReducerResult? =
         if (state is State.Error) {
@@ -209,5 +228,25 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             ) to emptySet()
         } else {
             null
+        }
+
+    private fun handleTimerTickMessage(state: State): ChallengeWidgetReducerResult =
+        when (state) {
+            State.Idle,
+            State.Error,
+            is State.Loading ->
+                state to setOf(InternalAction.StopTimer)
+            is State.Content -> {
+                when (state.getCurrentChallenge()?.status) {
+                    null,
+                    ChallengeStatus.COMPLETED,
+                    ChallengeStatus.PARTIAL_COMPLETED,
+                    ChallengeStatus.NOT_COMPLETED ->
+                        state to setOf(InternalAction.StopTimer)
+                    ChallengeStatus.NOT_STARTED,
+                    ChallengeStatus.STARTED ->
+                        state to emptySet()
+                }
+            }
         }
 }
