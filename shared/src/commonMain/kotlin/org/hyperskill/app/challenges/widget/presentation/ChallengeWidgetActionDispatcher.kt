@@ -1,7 +1,12 @@
 package org.hyperskill.app.challenges.widget.presentation
 
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -29,6 +34,11 @@ class ChallengeWidgetActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+    private var timerJob: Job? = null
+
+    companion object {
+        private val TIMER_TICK_INTERVAL = 1.toDuration(DurationUnit.MINUTES)
+    }
 
     init {
         solvedStepsSharedFlow
@@ -61,6 +71,10 @@ class ChallengeWidgetActionDispatcher(
                 handleCreateMagicLinkAction(action, ::onNewMessage)
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
+            InternalAction.LaunchTimer ->
+                handleLaunchTimerAction(::onNewMessage)
+            InternalAction.StopTimer ->
+                handleStopTimerAction()
             else -> {
                 // no op
             }
@@ -93,5 +107,25 @@ class ChallengeWidgetActionDispatcher(
                     onNewMessage(InternalMessage.CreateMagicLinkError)
                 }
             )
+    }
+
+    private fun handleLaunchTimerAction(onNewMessage: (Message) -> Unit) {
+        if (timerJob != null) {
+            return
+        }
+
+        timerJob = flow {
+            while (true) {
+                delay(TIMER_TICK_INTERVAL)
+                emit(Unit)
+            }
+        }.onEach {
+            onNewMessage(InternalMessage.TimerTick)
+        }.launchIn(actionScope)
+    }
+
+    private fun handleStopTimerAction() {
+        timerJob?.cancel()
+        timerJob = null
     }
 }
