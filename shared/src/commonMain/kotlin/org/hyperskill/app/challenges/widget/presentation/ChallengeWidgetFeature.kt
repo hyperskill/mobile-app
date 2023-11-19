@@ -2,6 +2,8 @@ package org.hyperskill.app.challenges.widget.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.challenges.domain.model.Challenge
+import org.hyperskill.app.challenges.domain.model.ChallengeStatus
+import org.hyperskill.app.challenges.widget.view.mapper.ChallengeWidgetViewStateMapper
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 
 object ChallengeWidgetFeature {
@@ -10,7 +12,7 @@ object ChallengeWidgetFeature {
         data class Loading(val isLoadingSilently: Boolean) : State
         object Error : State
         data class Content(
-            val challenges: List<Challenge>,
+            val challenge: Challenge?,
             val isLoadingMagicLink: Boolean = false,
             internal val isRefreshing: Boolean = false
         ) : State
@@ -68,6 +70,22 @@ object ChallengeWidgetFeature {
         object CreateMagicLinkError : InternalMessage
         data class CreateMagicLinkSuccess(val url: String) : InternalMessage
 
+        /**
+         * In general this message is sent when the timer is started and when challenge status is
+         * [ChallengeStatus.NOT_STARTED] or [ChallengeStatus.STARTED].
+         *
+         * [ChallengeWidgetViewState.Content.Announcement] and [ChallengeWidgetViewState.Content.HappeningNow]
+         * view states has a formatted time remaining text ("Starts in" and "Complete in")
+         * and those texts should be updated every minute.
+         *
+         * When challenge status is [ChallengeStatus.NOT_STARTED] or [ChallengeStatus.STARTED] reducer handler function
+         * [ChallengeWidgetReducer.handleTimerTickMessage] don't changes state and don't produces any actions because
+         * formatting is done in the view state mapper [ChallengeWidgetViewStateMapper].
+         *
+         * @see InternalAction.LaunchTimer
+         * @see InternalAction.StopTimer
+         * @see ChallengeWidgetReducer.handleTimerTickMessage
+         */
         object TimerTick : InternalMessage
 
         // Observe target types changes

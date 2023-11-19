@@ -43,7 +43,7 @@ class ChallengeWidgetViewStateMapperTest {
             ),
             startsInState = ChallengeWidgetViewState.Content.Announcement.StartsInState.Deadline
         )
-        val actual = viewStateMapper.map(ChallengeWidgetFeature.State.Content(challenges = listOf(given)))
+        val actual = viewStateMapper.map(ChallengeWidgetFeature.State.Content(challenge = given))
 
         assertEquals(expected, actual)
     }

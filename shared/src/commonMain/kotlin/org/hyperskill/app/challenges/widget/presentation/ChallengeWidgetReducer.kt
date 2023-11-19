@@ -64,7 +64,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             is State.Content ->
                 if (message.forceUpdate) {
                     State.Loading(
-                        isLoadingSilently = state.challenges.isEmpty()
+                        isLoadingSilently = state.challenge == null
                     ) to setOf(InternalAction.FetchChallenges)
                 } else {
                     null
@@ -75,9 +75,11 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleFetchChallengesSuccessMessage(
         message: InternalMessage.FetchChallengesSuccess
     ): ChallengeWidgetReducerResult {
-        val newState = State.Content(challenges = message.challenges)
+        val newState = State.Content(
+            challenge = message.challenges.firstOrNull()
+        )
 
-        val actions = when (newState.getCurrentChallenge()?.status) {
+        val actions = when (newState.challenge?.status) {
             ChallengeStatus.NOT_STARTED,
             ChallengeStatus.STARTED ->
                 setOf(InternalAction.LaunchTimer)
@@ -121,7 +123,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                 Action.ViewAction.OpenUrl(url = message.url, shouldOpenInApp = true),
                 InternalAction.LogAnalyticEvent(
                     ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent(
-                        challengeId = state.getCurrentChallenge()?.id,
+                        challengeId = state.challenge?.id,
                         url = message.url
                     )
                 )
@@ -140,27 +142,29 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
 
             newState to setOf(
                 InternalAction.LogAnalyticEvent(
-                    ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent(
-                        challengeId = state.getCurrentChallenge()?.id
-                    )
+                    ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent(challengeId = state.challenge?.id)
                 )
             )
         } else {
             null
         }
 
-    private fun handleCollectRewardClickedMessage(state: State): ChallengeWidgetReducerResult =
-        state to buildSet {
-            state.getCurrentChallenge()?.rewardLink?.let {
-                add(InternalAction.CreateMagicLink(nextUrl = it))
-            }
-            add(
-                InternalAction.LogAnalyticEvent(
-                    ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent(
-                        challengeId = state.getCurrentChallenge()?.id
+    private fun handleCollectRewardClickedMessage(state: State): ChallengeWidgetReducerResult? =
+        if (state is State.Content) {
+            state.copy(isLoadingMagicLink = true) to buildSet {
+                state.challenge?.rewardLink?.let {
+                    add(InternalAction.CreateMagicLink(nextUrl = it))
+                }
+                add(
+                    InternalAction.LogAnalyticEvent(
+                        ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent(
+                            challengeId = state.challenge?.id
+                        )
                     )
                 )
-            )
+            }
+        } else {
+            null
         }
 
     private fun handleCreateMagicLinkFailureMessage(state: State): ChallengeWidgetReducerResult? =
@@ -184,7 +188,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleStepSolvedMessage(state: State): ChallengeWidgetReducerResult? {
         if (state is State.Content) {
-            val currentChallenge = state.getCurrentChallenge() ?: return null
+            val currentChallenge = state.challenge ?: return null
             val currentChallengeTargetType = currentChallenge.targetType
 
             if (currentChallengeTargetType != null) {
@@ -197,7 +201,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
                         state to setOf(InternalAction.FetchChallenges)
                     ChallengeTargetType.STEP ->
                         state.copy(
-                            challenges = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenges
+                            challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge
                         ) to emptySet()
                 }
             } else {
@@ -210,10 +214,10 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleDailyStepCompletedMessage(state: State): ChallengeWidgetReducerResult? =
         if (state is State.Content &&
-            state.getCurrentChallenge()?.targetType == ChallengeTargetType.DAILY_STEP
+            state.challenge?.targetType == ChallengeTargetType.DAILY_STEP
         ) {
             state.copy(
-                challenges = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenges
+                challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge
             ) to emptySet()
         } else {
             null
@@ -221,10 +225,10 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleTopicCompletedMessage(state: State): ChallengeWidgetReducerResult? =
         if (state is State.Content &&
-            state.getCurrentChallenge()?.targetType == ChallengeTargetType.TOPIC
+            state.challenge?.targetType == ChallengeTargetType.TOPIC
         ) {
             state.copy(
-                challenges = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenges
+                challenge = state.setCurrentChallengeIntervalProgressAsCompleted() ?: state.challenge
             ) to emptySet()
         } else {
             null
@@ -237,7 +241,7 @@ class ChallengeWidgetReducer : StateReducer<State, Message, Action> {
             is State.Loading ->
                 state to setOf(InternalAction.StopTimer)
             is State.Content -> {
-                when (state.getCurrentChallenge()?.status) {
+                when (state.challenge?.status) {
                     null,
                     ChallengeStatus.COMPLETED,
                     ChallengeStatus.PARTIAL_COMPLETED,
