@@ -13,7 +13,6 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.challenges.domain.model.Challenge
 import org.hyperskill.app.challenges.domain.model.ChallengeStatus
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
-import org.hyperskill.app.challenges.widget.presentation.getCurrentChallenge
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
@@ -36,7 +35,7 @@ class ChallengeWidgetViewStateMapper(
         }
 
     private fun getLoadedWidgetContent(state: ChallengeWidgetFeature.State.Content): ChallengeWidgetViewState {
-        val challenge = state.getCurrentChallenge() ?: return ChallengeWidgetViewState.Empty
+        val challenge = state.challenge ?: return ChallengeWidgetViewState.Empty
         val challengeStatus = challenge.status ?: return ChallengeWidgetViewState.Empty
 
         val headerData = getHeaderData(

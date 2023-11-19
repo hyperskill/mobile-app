@@ -101,12 +101,13 @@ class ChallengeWidgetActionDispatcher(
             .createMagicLink(nextUrl = action.nextUrl)
             .fold(
                 onSuccess = { magicLink ->
-                    onNewMessage(InternalMessage.CreateMagicLinkSuccess(url = magicLink.url))
+                    InternalMessage.CreateMagicLinkSuccess(url = magicLink.url)
                 },
                 onFailure = {
-                    onNewMessage(InternalMessage.CreateMagicLinkError)
+                    InternalMessage.CreateMagicLinkError
                 }
             )
+            .let(onNewMessage)
     }
 
     private fun handleLaunchTimerAction(onNewMessage: (Message) -> Unit) {

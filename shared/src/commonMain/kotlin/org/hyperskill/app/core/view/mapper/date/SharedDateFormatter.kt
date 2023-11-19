@@ -25,6 +25,9 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
         private const val DAYS_IN_YEAR = 365
         private const val MONTHS_IN_YEAR = 12
         private val DURATION_ONE_YEAR = DAYS_IN_YEAR.toDuration(DurationUnit.DAYS)
+
+        private const val HOURS_IN_DAY = 24
+        private const val MINUTES_IN_HOUR = 60
     }
 
     fun formatTimeDistance(millis: Long): String {
@@ -85,27 +88,26 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
      */
     fun formatDaysWithHoursAndMinutesCount(seconds: Long): String {
         val duration = seconds.toDuration(DurationUnit.SECONDS)
+
         val days = duration.inWholeDays.toInt()
-        val hours = duration.inWholeHours.toInt() % 24
-        val minutes = duration.inWholeMinutes.toInt() % 60
+        val hours = duration.inWholeHours.toInt() % HOURS_IN_DAY
+        val minutes = duration.inWholeMinutes.toInt() % MINUTES_IN_HOUR
 
         if (days == 0 && hours == 0 && minutes == 0) {
             return resourceProvider.getQuantityString(SharedResources.plurals.minutes, 1, 1)
         }
 
-        var result = ""
-
-        if (days > 0) {
-            result += "${resourceProvider.getQuantityString(SharedResources.plurals.days, days, days)} "
+        return buildString {
+            if (days > 0) {
+                append("${resourceProvider.getQuantityString(SharedResources.plurals.days, days, days)} ")
+            }
+            if (hours > 0) {
+                append("${resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)} ")
+            }
+            if (minutes > 0) {
+                append(resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutes, minutes))
+            }
         }
-        if (hours > 0) {
-            result += "${resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)} "
-        }
-        if (minutes > 0) {
-            result += resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutes, minutes)
-        }
-
-        return result
     }
 
     /**
