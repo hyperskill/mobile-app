@@ -1,6 +1,12 @@
 import shared
 import SwiftUI
 
+extension ChallengeWidgetContentStateProgressGridView {
+    enum Appearance {
+        static let columnsCount = 7
+    }
+}
+
 struct ChallengeWidgetContentStateProgressGridView: View {
     let progressStatuses: [ChallengeWidgetViewStateContentHappeningNow.ProgressStatus]
 
@@ -20,7 +26,7 @@ struct ChallengeWidgetContentStateProgressGridView: View {
                     spacing: LayoutInsets.smallInset,
                     alignment: .top
                 ),
-                count: 7
+                count: Appearance.columnsCount
             ),
             alignment: .leading,
             spacing: LayoutInsets.smallInset
