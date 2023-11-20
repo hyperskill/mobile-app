@@ -1,6 +1,12 @@
 import shared
 import SwiftUI
 
+extension ChallengeWidgetContentStateDeadlineView {
+    struct Appearance {
+        static let countDownStackSpacing: CGFloat = 4
+    }
+}
+
 struct ChallengeWidgetContentStateDeadlineView: View {
     let presentationContext: PresentationContext
 
@@ -15,12 +21,15 @@ struct ChallengeWidgetContentStateDeadlineView: View {
             )
             .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
         case .text(let title, let subtitle):
-            Text("\(title) ")
-                .font(.body)
-                .foregroundColor(.primaryText)
-            + Text(subtitle)
-                .font(.headline)
-                .foregroundColor(.primaryText)
+            HStack(spacing: Appearance.countDownStackSpacing) {
+                Text(title)
+                    .font(.body)
+
+                Text(subtitle)
+                    .font(.headline)
+                    .animation(.default, value: subtitle)
+            }
+            .foregroundColor(.primaryText)
         }
     }
 

@@ -15,8 +15,16 @@ struct GemsBarButtonItem: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
 
-                    Text("\(hypercoinsBalance)")
-                        .foregroundColor(.primaryText)
+                    if #available(iOS 17.0, *) {
+                        Text("\(hypercoinsBalance)")
+                            .foregroundColor(.primaryText)
+                            .animation(.default, value: hypercoinsBalance)
+                            .contentTransition(.numericText(value: Double(hypercoinsBalance)))
+                    } else {
+                        Text("\(hypercoinsBalance)")
+                            .foregroundColor(.primaryText)
+                            .animation(.default, value: hypercoinsBalance)
+                    }
                 }
             }
         )
