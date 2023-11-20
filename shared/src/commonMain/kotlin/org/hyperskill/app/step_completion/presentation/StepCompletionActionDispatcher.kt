@@ -24,6 +24,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAppsFlyerAnalyticEvent
+import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
@@ -46,6 +47,7 @@ class StepCompletionActionDispatcher(
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
+    private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
     private val notificationInteractor: NotificationInteractor
@@ -211,6 +213,10 @@ class StepCompletionActionDispatcher(
                 trackTitle = cachedProfile.trackTitle
             )
         )
+
+        if (cachedProfile.dailyStep == stepId) {
+            dailyStepCompletedFlow.notifyDataChanged(stepId)
+        }
 
         val currentGamificationToolbarData = currentGamificationToolbarDataStateRepository
             .getState(forceUpdate = false)

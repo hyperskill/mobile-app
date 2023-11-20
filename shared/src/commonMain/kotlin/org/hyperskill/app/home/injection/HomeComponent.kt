@@ -4,5 +4,5 @@ import org.hyperskill.app.home.presentation.HomeFeature
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface HomeComponent {
-    val homeFeature: Feature<HomeFeature.State, HomeFeature.Message, HomeFeature.Action>
+    val homeFeature: Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action>
 }
