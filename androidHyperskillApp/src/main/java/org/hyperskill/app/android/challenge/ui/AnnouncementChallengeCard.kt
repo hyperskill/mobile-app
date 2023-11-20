@@ -22,7 +22,7 @@ fun AnnouncementChallengeCard(
         ChallengeHeader(
             title = state.headerData.title,
             dateText = state.headerData.formattedDurationOfTime,
-            imageRes = org.hyperskill.app.android.R.drawable.img_challenge_progress,
+            imageRes = org.hyperskill.app.android.R.drawable.img_challenge_announcment,
             modifier = Modifier.fillMaxWidth()
         )
         ChallengeDescription(state.headerData.description)
