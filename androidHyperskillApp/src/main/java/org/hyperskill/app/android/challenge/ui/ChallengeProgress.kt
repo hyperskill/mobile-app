@@ -25,21 +25,15 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-
-enum class ProgressStatus {
-    INACTIVE,
-    ACTIVE,
-    COMPLETED,
-    MISSED
-}
+import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState.Content.HappeningNow.ProgressStatus
 
 @Composable
 fun ChallengeProgress(
-    progress: List<ProgressStatus>,
+    progressStatuses: List<ProgressStatus>,
     modifier: Modifier = Modifier
 ) {
-    val windowedProgresses = remember(progress) {
-        progress.windowed(size = 7, step = 7)
+    val windowedProgresses = remember(progressStatuses) {
+        progressStatuses.windowed(size = 7, step = 7)
     }
 
     /**

@@ -11,11 +11,12 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillCard
 @Composable
 fun ChallengeScaffold(
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
     HyperskillCard(
         contentPadding = ChallengeCardDefaults.paddingValues,
-        onClick = {},
+        onClick = onClick,
         modifier = modifier
     ) {
         Column(

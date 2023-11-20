@@ -1,45 +1,82 @@
 package org.hyperskill.app.android.challenge.ui
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import org.hyperskill.app.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
+import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState.Content.HappeningNow.CompleteInState
 
 @Composable
 fun HappeningNowChallengeCard(
-    title: String,
-    dateText: String,
-    description: String,
-    timeTitle: String,
-    timeSubtitle: String,
-    progress: List<ProgressStatus>,
+    state: ChallengeWidgetViewState.Content.HappeningNow,
+    onReloadClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     ChallengeScaffold(modifier) {
         ChallengeHeader(
-            title = title,
-            dateText = dateText,
+            title = state.headerData.title,
+            dateText = state.headerData.formattedDurationOfTime,
             imageRes = org.hyperskill.app.android.R.drawable.img_challenge_progress,
             modifier = Modifier.fillMaxWidth()
         )
-        ChallengeDescription(description)
-        ChallengeProgress(progress)
-        ChallengeTimeText(title = timeTitle, subtitle = timeSubtitle)
+        ChallengeDescription(state.headerData.description)
+        ChallengeProgress(state.progressStatuses)
+        when (val completeIn = state.completeInState) {
+            CompleteInState.Empty -> {
+                // no op
+            }
+            CompleteInState.Deadline -> {
+                HyperskillButton(
+                    onClick = onReloadClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(
+                            id = R.string.challenge_widget_reload_button
+                        )
+                    )
+                }
+            }
+            is CompleteInState.TimeRemaining -> {
+                ChallengeTimeText(title = completeIn.title, subtitle = completeIn.subtitle)
+            }
+        }
     }
+}
+
+private class HappeningNowChallengeCardPreviewProvider : PreviewParameterProvider<CompleteInState> {
+    override val values: Sequence<CompleteInState>
+        get() = sequenceOf(
+            CompleteInState.Empty,
+            CompleteInState.TimeRemaining(
+                title = ChallengeCardPreviewValues.TIME_TITLE,
+                subtitle = ChallengeCardPreviewValues.TIME_SUBTITLE
+            ),
+            CompleteInState.Deadline
+        )
 }
 
 @Preview
 @Composable
-fun HappeningNowChallengeCardPreview() {
+fun HappeningNowChallengeCardPreview(
+    @PreviewParameter(HappeningNowChallengeCardPreviewProvider::class) completeInState: CompleteInState
+) {
     HyperskillTheme {
         HappeningNowChallengeCard(
-            title = ChallengeCardPreviewValues.TITLE,
-            dateText = ChallengeCardPreviewValues.DATE_TEXT,
-            description = ChallengeCardPreviewValues.DESCRIPTION,
-            timeTitle = ChallengeCardPreviewValues.TIME_TITLE,
-            timeSubtitle = ChallengeCardPreviewValues.TIME_SUBTITLE,
-            progress = ChallengeCardPreviewValues.progress
+            state = ChallengeWidgetViewState.Content.HappeningNow(
+                headerData = ChallengeCardPreviewValues.headerData,
+                completeInState = completeInState,
+                progressStatuses = ChallengeCardPreviewValues.progress
+            ),
+            onReloadClick = {}
         )
     }
 }

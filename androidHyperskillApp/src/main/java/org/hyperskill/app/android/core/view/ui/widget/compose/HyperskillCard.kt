@@ -24,18 +24,22 @@ fun HyperskillCard(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = dimensionResource(id = R.dimen.corner_radius),
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    onClick: () -> Unit,
+    onClick: (() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(cornerRadius))
             .background(MaterialTheme.colors.surface)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = rememberRipple(),
-                onClick = onClick
-            )
+            .apply {
+                if (onClick != null) {
+                    clickable(
+                        interactionSource = interactionSource,
+                        indication = rememberRipple(),
+                        onClick = onClick
+                    )
+                }
+            }
             .padding(contentPadding),
         content = content
     )
