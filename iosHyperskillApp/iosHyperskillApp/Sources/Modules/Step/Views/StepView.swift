@@ -38,6 +38,7 @@ struct StepView: View {
         case .error:
             PlaceholderView(
                 configuration: .networkError(
+                    presentationMode: viewModel.isStageImplement ? .local : .fullscreen,
                     backgroundColor: .clear,
                     action: viewModel.doRetryLoadStep
                 )
