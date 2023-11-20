@@ -10,6 +10,10 @@ import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponentImpl
 import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.badges.injection.BadgesDataComponentImpl
+import org.hyperskill.app.challenges.injection.ChallengesDataComponent
+import org.hyperskill.app.challenges.injection.ChallengesDataComponentImpl
+import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
+import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponentImpl
 import org.hyperskill.app.comments.injection.CommentsDataComponent
 import org.hyperskill.app.comments.injection.CommentsDataComponentImpl
 import org.hyperskill.app.debug.injection.DebugComponent
@@ -416,4 +420,10 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildShareStreakDataComponent(): ShareStreakDataComponent =
         ShareStreakDataComponentImpl(this)
+
+    override fun buildChallengesDataComponent(): ChallengesDataComponent =
+        ChallengesDataComponentImpl(this)
+
+    override fun buildChallengeWidgetComponent(): ChallengeWidgetComponent =
+        ChallengeWidgetComponentImpl(this)
 }

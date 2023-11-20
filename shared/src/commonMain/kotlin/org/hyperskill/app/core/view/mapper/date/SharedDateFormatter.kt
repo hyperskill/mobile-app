@@ -1,10 +1,12 @@
-package org.hyperskill.app.core.view.mapper
+package org.hyperskill.app.core.view.mapper.date
 
 import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.datetime.LocalDate
 import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 
 class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     companion object {
@@ -23,6 +25,9 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
         private const val DAYS_IN_YEAR = 365
         private const val MONTHS_IN_YEAR = 12
         private val DURATION_ONE_YEAR = DAYS_IN_YEAR.toDuration(DurationUnit.DAYS)
+
+        private const val HOURS_IN_DAY = 24
+        private const val MINUTES_IN_HOUR = 60
     }
 
     fun formatTimeDistance(millis: Long): String {
@@ -75,10 +80,40 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     }
 
     /**
+     * Format days, hours and minutes count with localized and pluralized suffix;
+     * 86400 -> "1 day", 86460 -> "1 day 1 minute", 90000 -> "1 day 1 hour", 59 -> "1 minute"
+     *
+     * @param seconds Seconds to format
+     * @return formatted days, hours and minutes count
+     */
+    fun formatDaysWithHoursAndMinutesCount(seconds: Long): String {
+        val duration = seconds.toDuration(DurationUnit.SECONDS)
+
+        val days = duration.inWholeDays.toInt()
+        val hours = duration.inWholeHours.toInt() % HOURS_IN_DAY
+        val minutes = duration.inWholeMinutes.toInt() % MINUTES_IN_HOUR
+
+        if (days == 0 && hours == 0 && minutes == 0) {
+            return resourceProvider.getQuantityString(SharedResources.plurals.minutes, 1, 1)
+        }
+
+        return buildString {
+            if (days > 0) {
+                append("${resourceProvider.getQuantityString(SharedResources.plurals.days, days, days)} ")
+            }
+            if (hours > 0) {
+                append("${resourceProvider.getQuantityString(SharedResources.plurals.hours, hours, hours)} ")
+            }
+            if (minutes > 0) {
+                append(resourceProvider.getQuantityString(SharedResources.plurals.minutes, minutes, minutes))
+            }
+        }
+    }
+
+    /**
      * Format hours and minutes count with localized and pluralized suffix;
      * 7260 -> "2 hours 1 minute", 7320 -> "2 hours 2 minute", 21600 -> "6 hours"
      * @param seconds Seconds to format
-     *
      */
     fun formatHoursWithMinutesCount(seconds: Long): String {
         val duration = seconds.toDuration(DurationUnit.SECONDS)
@@ -183,4 +218,15 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
             resourceProvider.getQuantityString(SharedResources.plurals.seconds, seconds, seconds)
         }
     }
+
+    /**
+     * Format month and day of local date;
+     *
+     * 2023-11-02 -> "2 Nov"
+     *
+     * @param localDate local date to format
+     * @return formatted month and day
+     */
+    fun formatDayNumericAndMonthShort(localDate: LocalDate): String =
+        "${localDate.dayOfMonth} ${MonthFormatter.formatMonthToShort(localDate.month)}"
 }

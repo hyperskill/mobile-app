@@ -121,12 +121,13 @@ struct HomeView: View {
                 let assembly = ProgressScreenAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
+        case .challengeWidgetViewAction:
+            #warning("TODO: Handle challenge widget view action")
         }
     }
 }
 
+@available(iOS 17, *)
 #Preview {
-    UIKitViewControllerPreview {
-        HomeAssembly().makeModule()
-    }
+    HomeAssembly().makeModule()
 }

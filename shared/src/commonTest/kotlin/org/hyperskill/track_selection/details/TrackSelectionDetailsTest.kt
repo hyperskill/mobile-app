@@ -8,7 +8,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.ResourceProviderStub
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.providers.domain.model.Provider
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType

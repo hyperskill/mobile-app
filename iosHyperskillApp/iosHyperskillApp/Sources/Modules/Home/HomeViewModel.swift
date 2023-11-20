@@ -1,7 +1,7 @@
 import shared
 import UIKit
 
-final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage, HomeFeatureActionViewAction> {
+final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMessage, HomeFeatureActionViewAction> {
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
@@ -25,7 +25,10 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
-    override func shouldNotifyStateDidChange(oldState: HomeFeatureState, newState: HomeFeatureState) -> Bool {
+    override func shouldNotifyStateDidChange(
+        oldState: HomeFeature.ViewState,
+        newState: HomeFeature.ViewState
+    ) -> Bool {
         !oldState.isEqual(newState)
     }
 
