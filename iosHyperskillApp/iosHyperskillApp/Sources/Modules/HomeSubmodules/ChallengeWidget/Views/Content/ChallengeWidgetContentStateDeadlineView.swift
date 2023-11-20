@@ -2,7 +2,7 @@ import shared
 import SwiftUI
 
 extension ChallengeWidgetContentStateDeadlineView {
-    struct Appearance {
+    enum Appearance {
         static let countDownStackSpacing: CGFloat = 4
     }
 }
