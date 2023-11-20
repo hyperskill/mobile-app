@@ -301,4 +301,13 @@ object HyperskillSentryTransactionBuilder {
             name = "first-problem-onboarding-feature-fetch-next-learning-activity",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * ChallengeWidgetFeature
+     */
+    fun buildChallengeWidgetFeatureFetchChallenges(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "challenge-widget-feature-fetch-challenges",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

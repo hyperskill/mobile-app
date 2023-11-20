@@ -1,8 +1,12 @@
-package org.hyperskill
+package org.hyperskill.core.view.mapper.date
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import kotlinx.datetime.LocalDate
+import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
 class SharedDateFormatterTest {
     companion object {
@@ -99,4 +103,11 @@ class SharedDateFormatterTest {
 //            dateFormatter.formatTimeDistance(ONE_MINUTE_IN_MILLIS * 60 * 24 * 30 * 34)
 //        )
 //    }
+
+    @Test
+    fun `Format day numeric and month short`() {
+        val given = LocalDate.parse("2023-11-02")
+        val expected = "2 Nov"
+        assertEquals(expected, dateFormatter.formatDayNumericAndMonthShort(given))
+    }
 }
