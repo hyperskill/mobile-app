@@ -19,7 +19,7 @@ fun AnnouncementChallengeCard(
         ChallengeHeader(
             title = title,
             dateText = dateText,
-            imageRes = org.hyperskill.app.android.R.drawable.img_challenge_announcment,
+            imageRes = org.hyperskill.app.android.R.drawable.img_challenge_progress,
             modifier = Modifier.fillMaxWidth()
         )
         ChallengeDescription(description)
