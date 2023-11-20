@@ -28,7 +28,7 @@ extension PlaceholderView.Configuration {
     ) -> Self {
         .init(
             presentationMode: presentationMode,
-            image: .init(name: Images.Placeholder.reload, frame: .size(CGSize(width: 66, height: 66))),
+            image: .reload,
             title: .init(text: Strings.StudyPlan.activitiesError),
             button: .init(text: Strings.Placeholder.networkErrorButtonText, action: action, style: buttonStyle),
             primaryContentAlignment: primaryContentAlignment,

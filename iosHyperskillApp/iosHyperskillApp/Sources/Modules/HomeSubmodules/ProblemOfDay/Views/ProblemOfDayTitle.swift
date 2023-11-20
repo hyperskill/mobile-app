@@ -23,7 +23,7 @@ struct ProblemOfDayTitle: View {
                 .frame(widthHeight: appearance.titleIconSize)
 
             Text(titleText)
-                .font(.title3)
+                .font(.headline)
                 .foregroundColor(.primaryText)
 
             Spacer()

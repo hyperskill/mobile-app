@@ -21,8 +21,16 @@ struct StreakBarButtonItem: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
 
-                    Text("\(currentStreak)")
-                        .foregroundColor(.primaryText)
+                    if #available(iOS 17.0, *) {
+                        Text("\(currentStreak)")
+                            .foregroundColor(.primaryText)
+                            .animation(.default, value: currentStreak)
+                            .contentTransition(.numericText(value: Double(currentStreak)))
+                    } else {
+                        Text("\(currentStreak)")
+                            .foregroundColor(.primaryText)
+                            .animation(.default, value: currentStreak)
+                    }
                 }
             }
         )
