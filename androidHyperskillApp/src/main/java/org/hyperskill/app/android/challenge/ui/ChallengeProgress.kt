@@ -93,7 +93,7 @@ private fun Modifier.applyStatusModifiers(status: ProgressStatus): Modifier =
         when (status) {
             ProgressStatus.COMPLETED ->
                 background(colorResource(id = R.color.color_primary))
-            ProgressStatus.MISSED, ProgressStatus.INACTIVE->
+            ProgressStatus.MISSED, ProgressStatus.INACTIVE ->
                 background(colorResource(id = R.color.color_on_surface_alpha_9))
             ProgressStatus.ACTIVE ->
                 background(colorResource(id = R.color.color_on_surface_alpha_9))
@@ -102,14 +102,12 @@ private fun Modifier.applyStatusModifiers(status: ProgressStatus): Modifier =
                         color = colorResource(id = R.color.color_primary),
                         shape = RoundedCornerShape(4.dp)
                     )
-
         }
     }
 
 private class ChallengeProgressItemPreviewProvider : PreviewParameterProvider<ProgressStatus> {
     override val values: Sequence<ProgressStatus>
         get() = ProgressStatus.values().asSequence()
-
 }
 
 @Preview(showBackground = true)
