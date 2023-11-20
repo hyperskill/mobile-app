@@ -35,7 +35,6 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
             challengeWidgetComponent.challengeWidgetActionDispatcher,
             challengeWidgetComponent.challengeWidgetViewStateMapper,
             appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant,
-            appGraph.commonComponent.platform.platformType
+            appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

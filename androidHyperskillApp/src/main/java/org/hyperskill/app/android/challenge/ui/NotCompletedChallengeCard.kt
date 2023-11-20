@@ -25,7 +25,7 @@ fun NotCompletedChallengeCard(
 
 @Preview
 @Composable
-fun NotCompletedChallengeCardPreview() {
+private fun NotCompletedChallengeCardPreview() {
     HyperskillTheme {
         NotCompletedChallengeCard(
             ChallengeWidgetViewState.Content.Ended(

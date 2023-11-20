@@ -40,7 +40,7 @@ fun PartiallyCompletedChallengeCard(
 
 @Preview
 @Composable
-fun PartlyCompletedChallengeCardPreview() {
+private fun PartlyCompletedChallengeCardPreview() {
     HyperskillTheme {
         PartiallyCompletedChallengeCard(
             ChallengeWidgetViewState.Content.PartiallyCompleted(
