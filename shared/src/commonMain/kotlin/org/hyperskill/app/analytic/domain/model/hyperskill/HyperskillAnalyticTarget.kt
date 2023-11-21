@@ -38,6 +38,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CONTINUE_TO_HYPERSKILL("continue_to_hyperskill"),
     CONTINUE("continue"),
     RELOAD("reload"),
+    DEADLINE_RELOAD("deadline_reload"),
     START_PRACTICING("start_practicing"),
     SIGN_IN("sign_in"),
     SIGN_UP("sign_up"),
@@ -61,6 +62,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
     PARSONS_PROBLEM_ONBOARDING_MODAL("parsons_problem_onboarding_modal"),
+    FILL_BLANKS_INPUT_MODE_ONBOARDING_MODAL("fill_blanks_input_mode_onboarding_modal"),
+    FILL_BLANKS_SELECT_MODE_ONBOARDING_MODAL("fill_blanks_select_mode_onboarding_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     CLOSE("close"),
     STREAK("streak"),
@@ -99,5 +102,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CODE_INPUT_ACCESSORY_BUTTON("code_input_accessory_button"),
     SHARE_YOUR_STREAK("share_your_streak"),
     SHARE_STREAK_MODAL("share_streak_modal"),
-    SHARE("share")
+    SHARE("share"),
+    LINK("link"),
+    COLLECT_REWARD("collect_reward")
 }

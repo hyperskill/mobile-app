@@ -4,12 +4,14 @@ extension PlaceholderView.Configuration {
     static let defaultImageSize = CGSize(width: 122, height: 122)
 
     static func networkError(
+        presentationMode: PresentationMode = .fullscreen,
         titleText: String = Strings.Placeholder.networkErrorTitle,
         buttonText: String = Strings.Placeholder.networkErrorButtonText,
         backgroundColor: Color = Color(ColorPalette.surface),
         action: @escaping () -> Void
     ) -> Self {
         .init(
+            presentationMode: presentationMode,
             image: .init(name: Images.Placeholder.networkError, frame: .size(defaultImageSize)),
             title: .init(text: titleText),
             button: .init(text: buttonText, action: action),
@@ -26,7 +28,7 @@ extension PlaceholderView.Configuration {
     ) -> Self {
         .init(
             presentationMode: presentationMode,
-            image: .init(name: Images.Placeholder.reload, frame: .size(CGSize(width: 66, height: 66))),
+            image: .reload,
             title: .init(text: Strings.StudyPlan.activitiesError),
             button: .init(text: Strings.Placeholder.networkErrorButtonText, action: action, style: buttonStyle),
             primaryContentAlignment: primaryContentAlignment,

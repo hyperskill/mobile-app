@@ -1,12 +1,13 @@
 import shared
 import UIKit
 
-final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage, HomeFeatureActionViewAction> {
+final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMessage, HomeFeatureActionViewAction> {
     private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var challengeWidgetViewStateKs: ChallengeWidgetViewStateKs { .init(state.challengeWidgetViewState) }
 
     init(feature: Presentation_reduxFeature) {
         super.init(feature: feature)
@@ -25,7 +26,10 @@ final class HomeViewModel: FeatureViewModel<HomeFeatureState, HomeFeatureMessage
         )
     }
 
-    override func shouldNotifyStateDidChange(oldState: HomeFeatureState, newState: HomeFeatureState) -> Bool {
+    override func shouldNotifyStateDidChange(
+        oldState: HomeFeature.ViewState,
+        newState: HomeFeature.ViewState
+    ) -> Bool {
         !oldState.isEqual(newState)
     }
 
@@ -118,5 +122,41 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
                 )
             )
         }
+    }
+}
+
+// MAKR: - HomeViewModel: ChallengeWidgetOutputProtocol -
+
+extension HomeViewModel: ChallengeWidgetOutputProtocol {
+    func handleChallengeWidgetRetryContentLoading() {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageRetryContentLoading()
+            )
+        )
+    }
+
+    func handleChallengeWidgetOpenDescriptionLink(url: URL) {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageLinkInTheDescriptionClicked(url: url.absoluteString)
+            )
+        )
+    }
+
+    func handleChallengeWidgetDeadlineReachedReload() {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageDeadlineReachedReloadClicked()
+            )
+        )
+    }
+
+    func handleChallengeWidgetCollectReward() {
+        onNewMessage(
+            HomeFeatureMessageChallengeWidgetMessage(
+                message: ChallengeWidgetFeatureMessageCollectRewardClicked()
+            )
+        )
     }
 }

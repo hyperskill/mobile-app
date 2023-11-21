@@ -1,6 +1,8 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -8,6 +10,7 @@ import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
+import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 
 interface StepQuizFeature {
@@ -39,6 +42,15 @@ interface StepQuizFeature {
         ) : SubmissionState
     }
 
+    @Serializable
+    sealed interface ProblemOnboardingModal {
+        @Serializable
+        object Parsons : ProblemOnboardingModal
+
+        @Serializable
+        data class FillBlanks(val mode: FillBlanksMode) : ProblemOnboardingModal
+    }
+
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
         data class FetchAttemptSuccess(
@@ -47,7 +59,7 @@ interface StepQuizFeature {
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
             val problemsLimitReachedModalText: String?,
-            val isParsonsOnboardingShown: Boolean
+            val problemsOnboardingFlags: ProblemsOnboardingFlags
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
 
@@ -88,9 +100,10 @@ interface StepQuizFeature {
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
 
         /**
-         * Parsons problem onboarding modal
+         * Problem onboarding modal
          */
-        object ParsonsProblemOnboardingModalShownMessage : Message
+        data class ProblemOnboardingModalShownMessage(val modalType: ProblemOnboardingModal) : Message
+        data class ProblemOnboardingModalHiddenMessage(val modalType: ProblemOnboardingModal) : Message
 
         /**
          * Click on step theory topic in toolbar
@@ -117,8 +130,6 @@ interface StepQuizFeature {
         object ProblemsLimitReachedModalShownEventMessage : Message
         object ProblemsLimitReachedModalHiddenEventMessage : Message
 
-        object ParsonsProblemOnboardingModalHiddenEventMessage : Message
-
         /**
          * Message Wrappers
          */
@@ -144,7 +155,7 @@ interface StepQuizFeature {
             val submission: Submission
         ) : Action
 
-        object SaveParsonsProblemOnboardingModalShownCacheFlag : Action
+        data class SaveProblemOnboardingModalShownCacheFlag(val modalType: ProblemOnboardingModal) : Action
 
         /**
          * Analytic
@@ -163,7 +174,7 @@ interface StepQuizFeature {
 
             data class ShowProblemsLimitReachedModal(val modalText: String) : ViewAction
 
-            object ShowParsonsProblemOnboardingModal : ViewAction
+            data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction

@@ -20,7 +20,7 @@ import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardF
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -30,7 +30,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class HomeFragment :
     Fragment(R.layout.fragment_home),
-    ReduxView<HomeFeature.State, HomeFeature.Action.ViewAction> {
+    ReduxView<HomeFeature.ViewState, HomeFeature.Action.ViewAction> {
     companion object {
         fun newInstance(): Fragment =
             HomeFragment()
@@ -166,10 +166,13 @@ class HomeFragment :
                     StepScreen(action.stepRoute)
                 )
             }
+            is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
+                // TODO: ALTAPPS-1036 handle challenge widget view actions
+            }
         }
     }
 
-    override fun render(state: HomeFeature.State) {
+    override fun render(state: HomeFeature.ViewState) {
         homeViewStateDelegate.switchState(state.homeState)
 
         renderSwipeRefresh(state)
@@ -183,7 +186,7 @@ class HomeFragment :
         gamificationToolbarDelegate?.render(state.toolbarState)
     }
 
-    private fun renderSwipeRefresh(state: HomeFeature.State) {
+    private fun renderSwipeRefresh(state: HomeFeature.ViewState) {
         with(viewBinding.homeScreenSwipeRefreshLayout) {
             isEnabled = state.homeState is HomeFeature.HomeState.Content
             updateIsRefreshing(state.isRefreshing)

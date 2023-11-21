@@ -162,9 +162,16 @@
     <string name="step_quiz_parsons_title">Rearrange the lines to make the code work. Use the “Tab” button on the left to add indentation.</string>
     <string name="step_quiz_parsons_invalid_reply">Rearrange the lines</string>
     <string name="step_quiz_parsons_tab_text">Tab</string>
-    <string name="step_quiz_parsons_onboarding_header">Great news!</string>
-    <string name="step_quiz_parsons_onboarding_title">You\'ve unlocked a new problem type!</string>
-    <string name="step_quiz_parsons_onboarding_description">Now you can rearrange the lines to make the code work. Use the "Tab" button to add indentation.</string>
+
+    <!-- Step quiz onboarding modal -->
+    <string name="step_quiz_problem_onboarding_modal_header">Great news!</string>
+    <string name="step_quiz_problem_onboarding_modal_title">You\'ve unlocked a new problem type!</string>
+    <string name="step_quiz_problem_onboarding_modal_parsons_description">Now you can rearrange the lines to make the
+        code work. Use the "Tab" button to add indentation.
+    </string>
+    <string name="step_quiz_problem_onboarding_modal_fill_blanks_description">Fill in the gaps with the relevant code
+        elements.
+    </string>
 
     <!-- Step quiz fill in the blanks -->
 
@@ -501,6 +508,18 @@
     <string name="share_streak_modal_no_thanks_button_text">No, thanks</string>
     <string name="share_streak_sharing_text">Hyperskill – Level up your coding skills!</string>
     <string name="share_streak_sharing_url">https://hi.hyperskill.org/my-hyperskill-app</string>
+
+    <!-- Challenge widget -->
+    <string name="challenge_widget_status_not_started_title">Get ready to push your limits!</string>
+    <string name="challenge_widget_status_started_title">The challenge awaits!</string>
+    <string name="challenge_widget_status_completed_title">Well done, challenge completed!</string>
+    <string name="challenge_widget_status_partial_completed_title">Close to victory, bonus bounty!</string>
+    <string name="challenge_widget_status_not_completed_title">Give it another shot next time!</string>
+
+    <string name="challenge_widget_starts_in_text">Starts in</string>
+    <string name="challenge_widget_complete_in_text">Complete in</string>
+    <string name="challenge_widget_collect_reward_button_title">Collect Reward</string>
+    <string name="challenge_widget_network_error_text">Oops! We were unable to load the challenge.</string>
 
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>

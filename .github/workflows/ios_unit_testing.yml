@@ -16,6 +16,7 @@ defaults:
 
 jobs:
   test:
+    if: ${{ vars.IS_IOS_UNIT_TESTING_ENABLED == 'true' }}
     name: Run iOS unit tests
     runs-on: macos-13
     timeout-minutes: 60

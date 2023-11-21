@@ -3,7 +3,7 @@ package org.hyperskill.app.onboarding.data.repository
 import org.hyperskill.app.onboarding.data.source.OnboardingCacheDataSource
 import org.hyperskill.app.onboarding.domain.repository.OnboardingRepository
 
-class OnboardingRepositoryImpl(
+internal class OnboardingRepositoryImpl(
     private val onboardingCacheDataSource: OnboardingCacheDataSource
 ) : OnboardingRepository {
     override fun isOnboardingShown(): Boolean =
@@ -18,6 +18,20 @@ class OnboardingRepositoryImpl(
 
     override fun setParsonsOnboardingShown(isShown: Boolean) {
         onboardingCacheDataSource.setParsonsOnboardingShown(isShown)
+    }
+
+    override fun isFillBlanksInputModeOnboardingShown(): Boolean =
+        onboardingCacheDataSource.isFillBlanksInputModeOnboardingShown()
+
+    override fun setFillBlanksInputModeOnboardingShown(isShown: Boolean) {
+        onboardingCacheDataSource.setFillBlanksInputModeOnboardingShown(isShown)
+    }
+
+    override fun isFillBlanksSelectModeOnboardingShown(): Boolean =
+        onboardingCacheDataSource.isFillBlanksSelectModeOnboardingShown()
+
+    override fun setFillBlanksSelectModeOnboardingShown(isShown: Boolean) {
+        onboardingCacheDataSource.setFillBlanksSelectModeOnboardingShown(isShown)
     }
 
     override fun wasNotificationOnboardingShown(): Boolean =
