@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 object ChallengeCardDefaults {
+    val verticalSpacing: Dp = 16.dp
     val paddingValues: PaddingValues = PaddingValues(20.dp)
     val imageHeight: Dp = 48.dp
 }

@@ -49,8 +49,12 @@ fun HtmlText(
         text = annotatedString,
         style = style,
     ) { offset ->
-        annotatedString.getStringAnnotations(URL_TAG, offset, offset).firstOrNull()?.let {
-            onUrlClick?.let { click -> click(it.item) } ?: uriHandler.openUri(it.item)
+        annotatedString.getStringAnnotations(URL_TAG, offset, offset).firstOrNull()?.let { range ->
+            if (onUrlClick != null) {
+                onUrlClick(range.item)
+            } else {
+                uriHandler.openUri(range.item)
+            }
         }
     }
 }
