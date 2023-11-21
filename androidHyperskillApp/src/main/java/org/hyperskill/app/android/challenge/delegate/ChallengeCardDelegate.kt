@@ -6,7 +6,6 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.android.challenge.ui.ChallengeCard
-import org.hyperskill.app.android.challenge.ui.ChallengeCardPreviewValues
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
