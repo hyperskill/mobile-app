@@ -37,6 +37,9 @@ fun ChallengeCard(
                 state = viewState,
                 onReloadClick = {
                     onNewMessage(Message.DeadlineReachedReloadClicked)
+                },
+                onDescriptionLinkClick = {
+                    onNewMessage(Message.LinkInTheDescriptionClicked(it))
                 }
             )
         }
@@ -45,6 +48,9 @@ fun ChallengeCard(
                 state = viewState,
                 onReloadClick = {
                     onNewMessage(Message.DeadlineReachedReloadClicked)
+                },
+                onDescriptionLinkClick = {
+                    onNewMessage(Message.LinkInTheDescriptionClicked(it))
                 }
             )
         }

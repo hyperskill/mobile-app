@@ -7,7 +7,7 @@ object ChallengeCardPreviewValues {
     const val TITLE = "Advent Streak Challenge"
     const val DATE_TEXT = "6 Oct - 12 Oct"
     /*ktlint-disable*/
-    const val DESCRIPTION = "Get ready to push your limits! Thrilling daily programming competition designed to test your coding skills and problem-solving abilities. What to Expect"
+    const val DESCRIPTION = "Get ready to push your limits! <a href=\"https://developer.android.com/jetpack/androidx/releases/compose\">Thrilling daily programming competition designed to test your coding skills and problem-solving abilities</a>."
     const val TIME_TITLE = "Start in"
     const val TIME_SUBTITLE = DATE_TEXT
     val headerData: ChallengeWidgetViewState.Content.HeaderData =

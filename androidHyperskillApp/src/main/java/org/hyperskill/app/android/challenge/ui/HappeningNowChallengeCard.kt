@@ -18,6 +18,7 @@ import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState.
 fun HappeningNowChallengeCard(
     state: ChallengeWidgetViewState.Content.HappeningNow,
     onReloadClick: () -> Unit,
+    onDescriptionLinkClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     ChallengeScaffold(modifier) {
@@ -27,7 +28,10 @@ fun HappeningNowChallengeCard(
             imageRes = org.hyperskill.app.android.R.drawable.img_challenge_progress,
             modifier = Modifier.fillMaxWidth()
         )
-        ChallengeDescription(state.headerData.description)
+        ChallengeDescription(
+            description = state.headerData.description,
+            onLinkClick = onDescriptionLinkClick
+        )
         ChallengeProgress(state.progressStatuses)
         when (val completeIn = state.completeInState) {
             CompleteInState.Empty -> {
@@ -76,7 +80,8 @@ fun HappeningNowChallengeCardPreview(
                 completeInState = completeInState,
                 progressStatuses = ChallengeCardPreviewValues.progress
             ),
-            onReloadClick = {}
+            onReloadClick = {},
+            onDescriptionLinkClick = {}
         )
     }
 }

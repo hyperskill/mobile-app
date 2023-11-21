@@ -182,7 +182,7 @@ class HomeFragment :
                 )
             }
             is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
-                // TODO: ALTAPPS-1036 handle challenge widget view actions
+                challengeCardDelegate.handleAction(requireContext(), action.viewAction)
             }
         }
     }

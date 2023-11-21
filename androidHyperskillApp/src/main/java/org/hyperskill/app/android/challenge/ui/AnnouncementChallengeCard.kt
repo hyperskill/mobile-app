@@ -16,6 +16,7 @@ import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState.
 fun AnnouncementChallengeCard(
     state: Announcement,
     onReloadClick: () -> Unit,
+    onDescriptionLinkClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     ChallengeScaffold(modifier) {
@@ -25,7 +26,10 @@ fun AnnouncementChallengeCard(
             imageRes = org.hyperskill.app.android.R.drawable.img_challenge_announcment,
             modifier = Modifier.fillMaxWidth()
         )
-        ChallengeDescription(state.headerData.description)
+        ChallengeDescription(
+            description = state.headerData.description,
+            onLinkClick = onDescriptionLinkClick
+        )
         when (val startIn = state.startsInState) {
             Announcement.StartsInState.Deadline -> {
                 HyperskillButton(
@@ -68,7 +72,8 @@ private fun AnnouncementChallengeCardPreview(
                 headerData = ChallengeCardPreviewValues.headerData,
                 startsInState = startsIn
             ),
-            onReloadClick = {}
+            onReloadClick = {},
+            onDescriptionLinkClick = {}
         )
     }
 }
