@@ -199,7 +199,7 @@ class HomeFragment :
         }
 
         val challengeState = state.challengeWidgetViewState
-        challengeCardDelegate.render(challengeState)
+        challengeCardDelegate.render(childFragmentManager, challengeState)
         viewBinding.homeScreenChallengeCard.updateLayoutParams<MarginLayoutParams> {
             updateMargins(
                 top = when (challengeState) {
