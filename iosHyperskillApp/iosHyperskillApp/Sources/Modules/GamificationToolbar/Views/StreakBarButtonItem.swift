@@ -23,6 +23,7 @@ struct StreakBarButtonItem: View {
 
                     Text("\(currentStreak)")
                         .foregroundColor(.primaryText)
+                        .animation(.default, value: currentStreak)
                 }
             }
         )

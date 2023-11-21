@@ -17,6 +17,7 @@ struct GemsBarButtonItem: View {
 
                     Text("\(hypercoinsBalance)")
                         .foregroundColor(.primaryText)
+                        .animation(.default, value: hypercoinsBalance)
                 }
             }
         )

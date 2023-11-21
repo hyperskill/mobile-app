@@ -28,7 +28,7 @@ struct TopicsRepetitionsCardView: View {
                 VStack(alignment: .leading, spacing: appearance.spacing) {
                     HStack(spacing: LayoutInsets.smallInset) {
                         Text(state.titleText)
-                            .font(.title3)
+                            .font(.headline)
                             .foregroundColor(.primaryText)
 
                         Spacer()

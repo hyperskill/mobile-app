@@ -114,6 +114,10 @@ struct PlaceholderView: View {
                 case size(CGSize)
                 case scale(CGFloat)
             }
+
+            static var reload: Image {
+                .init(name: Images.Placeholder.reload, frame: .size(CGSize(width: 66, height: 66)))
+            }
         }
 
         struct Title {

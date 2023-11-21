@@ -112,12 +112,12 @@ struct ProblemOfDayCardView: View {
             HStack(spacing: appearance.nextProblemInTextSpacing) {
                 Text(Strings.ProblemOfDay.nextProblemIn)
                     .font(.body)
-                    .foregroundColor(.primaryText)
 
                 Text(nextProblemIn)
                     .font(.headline)
-                    .foregroundColor(.primaryText)
+                    .animation(.default, value: nextProblemIn)
             }
+            .foregroundColor(.primaryText)
         }
     }
 

@@ -74,6 +74,16 @@ struct HomeView: View {
                 VStack(alignment: .leading, spacing: appearance.spacingBetweenContainers) {
                     HomeSubheadlineView()
 
+                    let challengeWidgetViewStateKs = viewModel.challengeWidgetViewStateKs
+                    if challengeWidgetViewStateKs != .empty {
+                        ChallengeWidgetAssembly(
+                            challengeWidgetViewStateKs: challengeWidgetViewStateKs,
+                            moduleOutput: viewModel
+                        )
+                        .makeModule()
+                        .equatable()
+                    }
+
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
                         isFreemiumEnabled: data.isFreemiumEnabled,
@@ -101,8 +111,12 @@ struct HomeView: View {
             .frame(maxWidth: .infinity)
         }
     }
+}
 
-    private func handleViewAction(_ viewAction: HomeFeatureActionViewAction) {
+// MARK: - HomeView (ViewAction) -
+
+private extension HomeView {
+    func handleViewAction(_ viewAction: HomeFeatureActionViewAction) {
         switch HomeFeatureActionViewActionKs(viewAction) {
         case .navigateTo(let navigateToViewAction):
             switch HomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
@@ -121,8 +135,23 @@ struct HomeView: View {
                 let assembly = ProgressScreenAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
-        case .challengeWidgetViewAction:
-            #warning("TODO: Handle challenge widget view action")
+        case .challengeWidgetViewAction(let challengeWidgetViewAction):
+            handleChallengeWidgetViewAction(
+                viewAction: challengeWidgetViewAction.viewAction
+            )
+        }
+    }
+
+    func handleChallengeWidgetViewAction(viewAction: ChallengeWidgetFeatureActionViewAction) {
+        switch ChallengeWidgetFeatureActionViewActionKs(viewAction) {
+        case .openUrl(let openUrlViewAction):
+            WebControllerManager.shared.presentWebControllerWithURLString(
+                openUrlViewAction.url,
+                withKey: .externalLink,
+                controllerType: openUrlViewAction.shouldOpenInApp ? .inAppSafari : .safari
+            )
+        case .showNetworkError:
+            ProgressHUD.showError()
         }
     }
 }
