@@ -84,7 +84,9 @@ fun Spanned.toAnnotatedString(
                         SpanStyle(
                             textDecoration = if (underlineLinks) TextDecoration.Underline else null,
                             color = linkColor
-                        ), start, end
+                        ),
+                        start,
+                        end
                     )
                     addStringAnnotation(URL_TAG, span.url, start, end)
                 }
@@ -96,6 +98,7 @@ fun Spanned.toAnnotatedString(
 @Composable
 private fun LinksHtmlTextPreview() {
     HtmlText(
+        /*ktlint-disable*/
         text = "<b>Some text</b> \n<a href=\"https://developer.android.com/jetpack/androidx/releases/compose\" target=\"_blank\">" +
             "link text</a>, the rest of the text"
     )
