@@ -48,7 +48,7 @@ jobs:
           set -e
 
           echo "Getting latest tag without v* prefix..."
-          current_version_number=$(git describe --tags --abbrev=0 | cut -c 2-)
+          current_version_number=$(git tag --sort=committerdate | tail -1 | cut -c 2-)
           echo "Current version number is $current_version_number"
 
           next_version_number=$(echo $current_version_number | awk -F. -v OFS=. '{$NF++;print}')

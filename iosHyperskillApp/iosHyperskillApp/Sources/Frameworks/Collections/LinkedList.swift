@@ -1,12 +1,12 @@
 import Foundation
 
 final class LinkedList<T> {
-    class Node<T> {
-        var value: T
+    class Node<NodeValueType> {
+        var value: NodeValueType
         var next: Node?
         weak var previous: Node?
 
-        init(value: T) {
+        init(value: NodeValueType) {
             self.value = value
         }
     }
