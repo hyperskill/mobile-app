@@ -224,12 +224,6 @@ object HyperskillSentryTransactionBuilder {
             )
         )
 
-    fun buildStudyPlanWidgetFetchTrack(): HyperskillSentryTransaction =
-        HyperskillSentryTransaction(
-            name = "study-plan-widget-feature-fetch-track",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
-        )
-
     fun buildStudyPlanWidgetFetchProfile(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "study-plan-widget-feature-fetch-profile",

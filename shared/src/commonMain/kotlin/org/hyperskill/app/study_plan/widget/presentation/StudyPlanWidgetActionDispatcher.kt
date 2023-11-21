@@ -1,6 +1,9 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
@@ -11,19 +14,26 @@ import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.study_plan.domain.interactor.StudyPlanInteractor
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
+import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
-import org.hyperskill.app.track.domain.interactor.TrackInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StudyPlanWidgetActionDispatcher(
     config: ActionDispatcherOptions,
     private val studyPlanInteractor: StudyPlanInteractor,
-    private val trackInteractor: TrackInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        currentProfileStateRepository.changes
+            .distinctUntilChanged()
+            .onEach(InternalMessage::ProfileChanged)
+            .launchIn(actionScope)
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.FetchStudyPlan -> {
@@ -80,22 +90,6 @@ class StudyPlanWidgetActionDispatcher(
                     .onFailure {
                         sentryInteractor.finishTransaction(action.sentryTransaction, throwable = it)
                         onNewMessage(StudyPlanWidgetFeature.LearningActivitiesFetchResult.Failed(action.sectionId))
-                    }
-            }
-            is InternalAction.FetchTrack -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchTrack()
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                trackInteractor.getTrack(action.trackId, true)
-                    .onSuccess {
-                        sentryInteractor.finishTransaction(sentryTransaction)
-                        onNewMessage(
-                            StudyPlanWidgetFeature.TrackFetchResult.Success(it)
-                        )
-                    }
-                    .onFailure {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(StudyPlanWidgetFeature.TrackFetchResult.Failed)
                     }
             }
             is InternalAction.FetchProfile -> {

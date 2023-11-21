@@ -11,7 +11,6 @@ class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWi
         get() = StudyPlanWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
             studyPlanInteractor = appGraph.buildStudyPlanDataComponent().studyPlanInteractor,
-            trackInteractor = appGraph.buildTrackDataComponent().trackInteractor,
             nextLearningActivityStateRepository = appGraph
                 .stateRepositoriesComponent.nextLearningActivityStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,

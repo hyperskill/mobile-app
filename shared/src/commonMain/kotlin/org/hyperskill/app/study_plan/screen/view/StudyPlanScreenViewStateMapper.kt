@@ -13,15 +13,20 @@ internal class StudyPlanScreenViewStateMapper(
 ) {
     fun map(state: StudyPlanScreenFeature.State): StudyPlanScreenFeature.ViewState =
         StudyPlanScreenFeature.ViewState(
-            trackTitle = state.studyPlanWidgetState.track?.title?.let { title ->
-                resourceProvider.getString(
-                    SharedResources.strings.study_plan_track_title_template,
-                    title
-                )
-            },
+            trackTitle = getTrackTitle(state),
             toolbarState = state.toolbarState,
             problemsLimitViewState = problemsLimitViewStateMapper.mapState(state.problemsLimitState),
             studyPlanWidgetViewState = studyPlanWidgetViewStateMapper.map(state.studyPlanWidgetState),
             isRefreshing = state.isRefreshing
         )
+
+    private fun getTrackTitle(state: StudyPlanScreenFeature.State): String? =
+        state.studyPlanWidgetState.profile?.trackTitle
+            ?.takeIf { it.isNotBlank() }
+            ?.let { title ->
+                resourceProvider.getString(
+                    SharedResources.strings.study_plan_track_title_template,
+                    title
+                )
+            }
 }

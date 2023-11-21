@@ -4,7 +4,6 @@ import kotlin.math.max
 import kotlin.math.min
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
-import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent
@@ -68,20 +67,14 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             is StudyPlanWidgetFeature.SectionsFetchResult.Failed -> {
                 state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.ERROR) to emptySet()
             }
-            is StudyPlanWidgetFeature.TrackFetchResult.Success -> {
-                state.copy(track = message.track) to emptySet()
-            }
-            is StudyPlanWidgetFeature.TrackFetchResult.Failed -> {
-                null
-            }
             is StudyPlanWidgetFeature.ProfileFetchResult.Success -> {
-                state.copy(
-                    isLearningPathDividedTrackTopicsEnabled =
-                    message.profile.features.isLearningPathDividedTrackTopicsEnabled
-                ) to emptySet()
+                state.copy(profile = message.profile) to emptySet()
             }
             is StudyPlanWidgetFeature.ProfileFetchResult.Failed -> {
                 null
+            }
+            is StudyPlanWidgetFeature.InternalMessage.ProfileChanged -> {
+                state.copy(profile = message.profile) to emptySet()
             }
             is Message.SectionClicked ->
                 changeSectionExpanse(state, message.sectionId, shouldLogAnalyticEvent = true)
@@ -136,10 +129,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 )
             )
         } else {
-            setOfNotNull(
-                InternalAction.FetchSections(message.studyPlan.sections),
-                message.studyPlan.trackId?.let(InternalAction::FetchTrack)
-            )
+            setOf(InternalAction.FetchSections(message.studyPlan.sections))
         }
 
         return if (message.showLoadingIndicators) {
@@ -360,7 +350,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val activityTargetAction = LearningActivityTargetViewActionMapper
             .mapLearningActivityToTargetViewAction(
                 activity = activity,
-                trackId = state.track?.id ?: state.studyPlan?.trackId,
+                trackId = state.profile?.trackId ?: state.studyPlan?.trackId,
                 projectId = state.studyPlan?.projectId
             )
             .fold(

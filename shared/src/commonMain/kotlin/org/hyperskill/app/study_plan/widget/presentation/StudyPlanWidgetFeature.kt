@@ -8,10 +8,10 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
-import org.hyperskill.app.track.domain.model.Track
 
 object StudyPlanWidgetFeature {
     internal val STUDY_PLAN_FETCH_INTERVAL: Duration = 1.seconds
@@ -19,7 +19,7 @@ object StudyPlanWidgetFeature {
     data class State(
         val studyPlan: StudyPlan? = null,
 
-        val track: Track? = null,
+        val profile: Profile? = null,
 
         val studyPlanSections: Map<Long, StudyPlanSectionInfo> = emptyMap(),
 
@@ -36,13 +36,14 @@ object StudyPlanWidgetFeature {
         /**
          * Pull to refresh flag
          */
-        val isRefreshing: Boolean = false,
-
+        val isRefreshing: Boolean = false
+    ) {
         /**
          * Divided track topics feature enabled flag
          */
-        val isLearningPathDividedTrackTopicsEnabled: Boolean = false
-    )
+        val isLearningPathDividedTrackTopicsEnabled: Boolean
+            get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
+    }
 
     enum class ContentStatus {
         IDLE,
@@ -82,6 +83,10 @@ object StudyPlanWidgetFeature {
         object StageImplementUnsupportedModalHiddenEventMessage : Message
     }
 
+    internal sealed interface InternalMessage : Message {
+        data class ProfileChanged(val profile: Profile) : InternalMessage
+    }
+
     internal sealed interface StudyPlanFetchResult : Message {
         data class Success(
             val studyPlan: StudyPlan,
@@ -105,12 +110,6 @@ object StudyPlanWidgetFeature {
         ) : LearningActivitiesFetchResult
 
         data class Failed(val sectionId: Long) : LearningActivitiesFetchResult
-    }
-
-    internal sealed interface TrackFetchResult : Message {
-        data class Success(val track: Track) : TrackFetchResult
-
-        object Failed : TrackFetchResult
     }
 
     internal sealed interface ProfileFetchResult : Message {
@@ -150,8 +149,6 @@ object StudyPlanWidgetFeature {
             val states: Set<LearningActivityState> = setOf(LearningActivityState.TODO),
             val sentryTransaction: HyperskillSentryTransaction
         ) : InternalAction
-
-        data class FetchTrack(val trackId: Long) : InternalAction
 
         object FetchProfile : InternalAction
 
