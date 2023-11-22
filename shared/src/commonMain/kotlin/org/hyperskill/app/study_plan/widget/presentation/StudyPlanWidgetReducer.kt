@@ -28,7 +28,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
     override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult =
         when (message) {
-            is Message.Initialize ->
+            is InternalMessage.Initialize ->
                 coldContentFetch(state, message)
             is InternalMessage.FetchLearningActivitiesWithSectionsSuccess ->
                 handleLearningActivitiesWithSectionsFetchSuccess(state, message)
@@ -37,7 +37,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             }
             is Message.RetryActivitiesLoading ->
                 handleRetryActivitiesLoading(state, message)
-            is Message.ReloadContentInBackground -> {
+            is InternalMessage.ReloadContentInBackground -> {
                 val currentSectionId = state.getCurrentSection()?.id
                 state.copy(
                     studyPlanSections = state.studyPlanSections.mapValues { (sectionId, sectionInfo) ->
@@ -101,7 +101,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                 )
         } ?: (state to emptySet())
 
-    private fun coldContentFetch(state: State, message: Message.Initialize): StudyPlanWidgetReducerResult =
+    private fun coldContentFetch(state: State, message: InternalMessage.Initialize): StudyPlanWidgetReducerResult =
         if (state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.IDLE ||
             state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
         ) {

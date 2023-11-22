@@ -57,15 +57,11 @@ object StudyPlanWidgetFeature {
     )
 
     sealed interface Message {
-        data class Initialize(val forceUpdate: Boolean = false) : Message
-
         data class SectionClicked(val sectionId: Long) : Message
 
         data class ActivityClicked(val activityId: Long) : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
-
-        object ReloadContentInBackground : Message
 
         object PullToRefresh : Message
 
@@ -78,6 +74,10 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
+
+        object ReloadContentInBackground : InternalMessage
+
         object FetchLearningActivitiesWithSectionsFailed : InternalMessage
         data class FetchLearningActivitiesWithSectionsSuccess(
             val learningActivities: List<LearningActivity>,
