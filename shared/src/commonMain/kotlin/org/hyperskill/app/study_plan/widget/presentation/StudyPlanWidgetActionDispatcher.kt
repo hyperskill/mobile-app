@@ -74,6 +74,9 @@ class StudyPlanWidgetActionDispatcher(
                         onNewMessage(StudyPlanWidgetFeature.SectionsFetchResult.Failed)
                     }
             }
+            is InternalAction.FetchActivitiesWithSections -> {
+                handleFetchActivitiesWithSectionsAction(action, ::onNewMessage)
+            }
             is InternalAction.FetchActivities -> {
                 sentryInteractor.startTransaction(action.sentryTransaction)
 
@@ -117,5 +120,29 @@ class StudyPlanWidgetActionDispatcher(
                 // no op
             }
         }
+    }
+
+    private suspend fun handleFetchActivitiesWithSectionsAction(
+        action: InternalAction.FetchActivitiesWithSections,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivitiesWithSections(),
+            onError = { InternalMessage.FetchActivitiesWithSectionsFailed }
+        ) {
+            studyPlanInteractor
+                .getLearningActivitiesWithSections(
+                    studyPlanSectionTypes = action.studyPlanSectionTypes,
+                    learningActivityTypes = action.learningActivityTypes,
+                    learningActivityStates = action.learningActivityStates
+                )
+                .getOrThrow()
+                .let { response ->
+                    InternalMessage.FetchActivitiesWithSectionsSuccess(
+                        learningActivities = response.learningActivities,
+                        studyPlanSections = response.studyPlanSections
+                    )
+                }
+        }.let(onNewMessage)
     }
 }

@@ -4,8 +4,10 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
+import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesWithSectionsResponse
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.study_plan.domain.repository.StudyPlanSectionsRepository
 
@@ -26,4 +28,15 @@ class StudyPlanInteractor(
         states: Set<LearningActivityState>
     ): Result<List<LearningActivity>> =
         learningActivitiesRepository.getLearningActivities(activitiesIds, types, states)
+
+    suspend fun getLearningActivitiesWithSections(
+        studyPlanSectionTypes: Set<StudyPlanSectionType>,
+        learningActivityTypes: Set<LearningActivityType>,
+        learningActivityStates: Set<LearningActivityState>
+    ): Result<LearningActivitiesWithSectionsResponse> =
+        learningActivitiesRepository.getLearningActivitiesWithSections(
+            studyPlanSectionTypes = studyPlanSectionTypes,
+            learningActivityTypes = learningActivityTypes,
+            learningActivityStates = learningActivityStates
+        )
 }

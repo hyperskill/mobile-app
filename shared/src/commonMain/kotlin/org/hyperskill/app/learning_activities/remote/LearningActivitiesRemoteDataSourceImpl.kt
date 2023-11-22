@@ -13,9 +13,11 @@ import org.hyperskill.app.learning_activities.data.source.LearningActivitiesRemo
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesRequest
 import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesResponse
+import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesWithSectionsRequest
+import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesWithSectionsResponse
 import org.hyperskill.app.learning_activities.remote.model.NextLearningActivityRequest
 
-class LearningActivitiesRemoteDataSourceImpl(
+internal class LearningActivitiesRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : LearningActivitiesRemoteDataSource {
     override suspend fun getNextLearningActivity(request: NextLearningActivityRequest): Result<LearningActivity?> =
@@ -59,4 +61,18 @@ class LearningActivitiesRemoteDataSourceImpl(
                 }
             }
             .body<LearningActivitiesResponse>().learningActivities
+
+    override suspend fun getLearningActivitiesWithSections(
+        request: LearningActivitiesWithSectionsRequest
+    ): Result<LearningActivitiesWithSectionsResponse> =
+        kotlin.runCatching {
+            httpClient
+                .get("/api/learning-activities/with-sections") {
+                    contentType(ContentType.Application.Json)
+                    request.parameters.forEach { (key, value) ->
+                        parameter(key, value)
+                    }
+                }
+                .body()
+        }
 }

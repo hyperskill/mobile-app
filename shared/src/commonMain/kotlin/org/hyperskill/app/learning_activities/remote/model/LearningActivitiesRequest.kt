@@ -4,7 +4,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import ru.nobird.app.core.model.mapOfNotNull
 
-class LearningActivitiesRequest(
+internal class LearningActivitiesRequest(
     studyPlanId: Long? = null,
     pageSize: Int? = null,
     page: Int? = null,
@@ -27,9 +27,9 @@ class LearningActivitiesRequest(
                 STUDY_PLAN to studyPlanId,
                 PAGE_SIZE to pageSize,
                 PAGE to page,
-                LearningActivitiesRequestParams.STATE to
+                LearningActivitiesRequestParams.PARAM_STATE to
                     states.joinToString(",") { it.value.toString() }.ifEmpty { null },
-                LearningActivitiesRequestParams.TYPES to
+                LearningActivitiesRequestParams.PARAM_TYPES to
                     types.joinToString(",") { it.value.toString() }.ifEmpty { null },
                 IDS to ids.joinToString(separator = ",").ifEmpty { null }
             )
