@@ -2,7 +2,10 @@ package org.hyperskill.app.android.home.view.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updateMargins
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -10,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.challenge.delegate.ChallengeCardDelegate
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -20,6 +24,7 @@ import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardF
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
+import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
@@ -54,6 +59,9 @@ class HomeFragment :
     private val topicsRepetitionDelegate: TopicsRepetitionCardFormDelegate by lazy(LazyThreadSafetyMode.NONE) {
         TopicsRepetitionCardFormDelegate()
     }
+    private val challengeCardDelegate: ChallengeCardDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        ChallengeCardDelegate()
+    }
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
@@ -79,6 +87,12 @@ class HomeFragment :
         initViewStateDelegate()
         initGamificationToolbarDelegate()
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
+        challengeCardDelegate.setup(
+            viewBinding.homeScreenChallengeCard,
+            onNewMessage = {
+                homeViewModel.onNewMessage(HomeFeature.Message.ChallengeWidgetMessage(it))
+            }
+        )
         with(viewBinding) {
             homeScreenSwipeRefreshLayout.setHyperskillColors()
             homeScreenSwipeRefreshLayout.setOnRefreshListener {
@@ -133,7 +147,8 @@ class HomeFragment :
                 viewBinding.homeScreenContainer,
                 viewBinding.homeScreenKeepPracticingTextView,
                 viewBinding.homeScreenProblemOfDayCard.root,
-                viewBinding.homeScreenTopicsRepetitionCard.root
+                viewBinding.homeScreenTopicsRepetitionCard.root,
+                viewBinding.homeScreenChallengeCard
             )
         }
     }
@@ -167,7 +182,11 @@ class HomeFragment :
                 )
             }
             is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
-                // TODO: ALTAPPS-1036 handle challenge widget view actions
+                challengeCardDelegate.handleAction(
+                    context = requireContext(),
+                    activity = requireActivity(),
+                    action = action.viewAction
+                )
             }
         }
     }
@@ -181,6 +200,21 @@ class HomeFragment :
         if (homeState is HomeFeature.HomeState.Content) {
             renderProblemOfDay(viewBinding, homeState.problemOfDayState, homeState.isFreemiumEnabled)
             renderTopicsRepetition(homeState.repetitionsState, homeState.isFreemiumEnabled)
+        }
+
+        val challengeState = state.challengeWidgetViewState
+        challengeCardDelegate.render(childFragmentManager, challengeState)
+        viewBinding.homeScreenChallengeCard.updateLayoutParams<MarginLayoutParams> {
+            updateMargins(
+                top = when (challengeState) {
+                    ChallengeWidgetViewState.Idle, ChallengeWidgetViewState.Empty -> 0
+                    else -> {
+                        requireContext()
+                            .resources
+                            .getDimensionPixelOffset(R.dimen.home_screen_challenge_card_top_margin)
+                    }
+                }
+            )
         }
 
         gamificationToolbarDelegate?.render(state.toolbarState)
