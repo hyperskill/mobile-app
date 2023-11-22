@@ -15,6 +15,7 @@ androidxLifecycle = "2.6.0-alpha01"
 coil = '2.2.0'
 lottie = '6.1.0'
 kermit = '2.0.0-RC4'
+androidxBrowser = "1.5.0"
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"
@@ -70,6 +71,7 @@ android-ui-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.r
 android-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 android-lifecycle-viewmodel-savedstate = { module = "androidx.lifecycle:lifecycle-viewmodel-savedstate", version.ref = "androidxLifecycle" }
 android-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+android-browser = { module = "androidx.browser:browser", version.ref = "androidxBrowser" }
 
 android-test-junit = { module = "junit:junit", version = "4.13.2" }
 android-test-runner = { module = "androidx.test:runner", version = "1.4.0" }

@@ -182,7 +182,11 @@ class HomeFragment :
                 )
             }
             is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
-                challengeCardDelegate.handleAction(requireContext(), action.viewAction)
+                challengeCardDelegate.handleAction(
+                    context = requireContext(),
+                    activity = requireActivity(),
+                    action = action.viewAction
+                )
             }
         }
     }
@@ -203,7 +207,7 @@ class HomeFragment :
         viewBinding.homeScreenChallengeCard.updateLayoutParams<MarginLayoutParams> {
             updateMargins(
                 top = when (challengeState) {
-                    ChallengeWidgetViewState.Empty -> 0
+                    ChallengeWidgetViewState.Idle, ChallengeWidgetViewState.Empty -> 0
                     else -> {
                         requireContext()
                             .resources

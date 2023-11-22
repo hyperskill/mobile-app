@@ -1,7 +1,10 @@
 package org.hyperskill.app.android.challenge.delegate
 
+import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.FragmentManager
@@ -10,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.R
 import org.hyperskill.app.android.challenge.ui.ChallengeCard
 import org.hyperskill.app.android.core.extensions.openUrl
+import org.hyperskill.app.android.core.extensions.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
@@ -50,11 +54,19 @@ class ChallengeCardDelegate {
 
     fun handleAction(
         context: Context,
+        activity: Activity,
         action: ChallengeWidgetFeature.Action.ViewAction
     ) {
         when (action) {
             is ChallengeWidgetFeature.Action.ViewAction.OpenUrl -> {
-                context.openUrl(action.url)
+                if (action.shouldOpenInApp) {
+                    val intent = CustomTabsIntent.Builder()
+                        .setHyperskillColors(context)
+                        .build()
+                    intent.launchUrl(activity, Uri.parse(action.url))
+                } else {
+                    context.openUrl(action.url)
+                }
             }
             ChallengeWidgetFeature.Action.ViewAction.ShowNetworkError -> {
                 Toast
