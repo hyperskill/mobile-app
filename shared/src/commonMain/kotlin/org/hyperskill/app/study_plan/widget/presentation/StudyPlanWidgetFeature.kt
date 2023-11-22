@@ -1,7 +1,5 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
@@ -10,21 +8,17 @@ import org.hyperskill.app.learning_activities.presentation.model.LearningActivit
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
-import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 
 object StudyPlanWidgetFeature {
-    internal val STUDY_PLAN_FETCH_INTERVAL: Duration = 1.seconds
-
     data class State(
-        val studyPlan: StudyPlan? = null,
-
         val profile: Profile? = null,
 
         val studyPlanSections: Map<Long, StudyPlanSectionInfo> = emptyMap(),
 
         /**
-         * Describes status of sections loading, including [studyPlan] loading
+         * Describes status of sections loading
          */
         val sectionsStatus: ContentStatus = ContentStatus.IDLE,
 
@@ -84,23 +78,13 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        object FetchLearningActivitiesWithSectionsFailed : InternalMessage
+        data class FetchLearningActivitiesWithSectionsSuccess(
+            val learningActivities: List<LearningActivity>,
+            val studyPlanSections: List<StudyPlanSection>
+        ) : InternalMessage
+
         data class ProfileChanged(val profile: Profile) : InternalMessage
-    }
-
-    internal sealed interface StudyPlanFetchResult : Message {
-        data class Success(
-            val studyPlan: StudyPlan,
-            val attemptNumber: Int,
-            val showLoadingIndicators: Boolean
-        ) : StudyPlanFetchResult
-
-        object Failed : StudyPlanFetchResult
-    }
-
-    internal sealed interface SectionsFetchResult : Message {
-        data class Success(val sections: List<StudyPlanSection>) : SectionsFetchResult
-
-        object Failed : SectionsFetchResult
     }
 
     internal sealed interface LearningActivitiesFetchResult : Message {
@@ -128,21 +112,13 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        /**
-         * Triggers a study plan fetching.
-         * @param [delayBeforeFetching] is used to wait for definite duration before fetching.
-         * @param [attemptNumber] represents the number of current attempt of the StudyPlan fetching.
-         * [attemptNumber] should be passed back in the [StudyPlanFetchResult.Success.attemptNumber].
-         */
-        data class FetchStudyPlan(
-            val delayBeforeFetching: Duration? = null,
-            val attemptNumber: Int = 1,
-            val showLoadingIndicators: Boolean = true
+        data class FetchLearningActivitiesWithSections(
+            val studyPlanSectionTypes: Set<StudyPlanSectionType> = StudyPlanSectionType.supportedTypes(),
+            val learningActivityTypes: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
+            val learningActivityStates: Set<LearningActivityState> = setOf(LearningActivityState.TODO)
         ) : InternalAction
 
-        data class FetchSections(val sectionsIds: List<Long>) : InternalAction
-
-        data class FetchActivities(
+        data class FetchLearningActivities(
             val sectionId: Long,
             val activitiesIds: List<Long>,
             val types: Set<LearningActivityType> = LearningActivityType.supportedTypes(),

@@ -236,7 +236,7 @@ class StudyPlanWidgetTest {
         )
         assertContains(
             actions,
-            StudyPlanWidgetFeature.InternalAction.FetchActivities(
+            StudyPlanWidgetFeature.InternalAction.FetchLearningActivities(
                 sectionId = firstSection.id,
                 activitiesIds = firstSection.activities,
                 sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(true)
@@ -432,7 +432,7 @@ class StudyPlanWidgetTest {
 
         assertContains(
             actions,
-            StudyPlanWidgetFeature.InternalAction.FetchActivities(
+            StudyPlanWidgetFeature.InternalAction.FetchLearningActivities(
                 sectionId = section.id,
                 activitiesIds = activities,
                 sentryTransaction = HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivities(true)

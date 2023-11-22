@@ -203,18 +203,6 @@ object HyperskillSentryTransactionBuilder {
     /**
      * StudyPlanWidgetFeature
      */
-    fun buildStudyPlanWidgetFetchCurrentStudyPlan(): HyperskillSentryTransaction =
-        HyperskillSentryTransaction(
-            name = "study-plan-widget-feature-fetch-current-study-plan",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
-        )
-
-    fun buildStudyPlanWidgetFetchStudyPlanSections(): HyperskillSentryTransaction =
-        HyperskillSentryTransaction(
-            name = "study-plan-widget-feature-fetch-study-plan-sections",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
-        )
-
     fun buildStudyPlanWidgetFetchLearningActivities(isCurrentSection: Boolean): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "study-plan-widget-feature-fetch-learning-activities",
