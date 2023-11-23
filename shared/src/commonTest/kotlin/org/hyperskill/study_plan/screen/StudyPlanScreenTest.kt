@@ -1,7 +1,6 @@
 package org.hyperskill.study_plan.screen
 
 import kotlin.test.Test
-import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlin.test.fail
