@@ -5,7 +5,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import ru.nobird.app.core.model.mapOfNotNull
 
-internal class LearningActivitiesWithSectionsRequest(
+class LearningActivitiesWithSectionsRequest(
     studyPlanSectionTypes: Set<StudyPlanSectionType>,
     learningActivityTypes: Set<LearningActivityType>,
     learningActivityStates: Set<LearningActivityState>

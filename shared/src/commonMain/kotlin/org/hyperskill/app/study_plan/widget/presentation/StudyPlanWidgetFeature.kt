@@ -128,6 +128,7 @@ object StudyPlanWidgetFeature {
 
         object FetchProfile : InternalAction
 
+        data class UpdateCurrentStudyPlanState(val forceUpdate: Boolean) : InternalAction
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction

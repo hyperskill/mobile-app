@@ -11,6 +11,7 @@ import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepositor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
@@ -22,6 +23,7 @@ class StudyPlanWidgetActionDispatcher(
     private val learningActivitiesRepository: LearningActivitiesRepository,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -56,6 +58,9 @@ class StudyPlanWidgetActionDispatcher(
             }
             is InternalAction.UpdateNextLearningActivityState -> {
                 nextLearningActivityStateRepository.updateState(newState = action.learningActivity)
+            }
+            is InternalAction.UpdateCurrentStudyPlanState -> {
+                currentStudyPlanStateRepository.getState(forceUpdate = action.forceUpdate)
             }
             is InternalAction.CaptureSentryException -> {
                 sentryInteractor.captureException(action.throwable)

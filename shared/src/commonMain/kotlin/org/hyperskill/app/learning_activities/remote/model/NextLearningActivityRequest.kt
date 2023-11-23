@@ -3,7 +3,7 @@ package org.hyperskill.app.learning_activities.remote.model
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 
-internal class NextLearningActivityRequest(
+class NextLearningActivityRequest(
     state: LearningActivityState = LearningActivityState.TODO,
     types: Set<LearningActivityType> = LearningActivityType.supportedTypes()
 ) {

@@ -49,11 +49,11 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
                             }
                         )
                     }
-                ) to setOf(InternalAction.FetchLearningActivitiesWithSections())
+                ) to getContentFetchActions(forceUpdate = true)
             }
             is Message.PullToRefresh ->
                 if (!state.isRefreshing) {
-                    state.copy(isRefreshing = true) to setOf(InternalAction.FetchLearningActivitiesWithSections())
+                    state.copy(isRefreshing = true) to getContentFetchActions(forceUpdate = true)
                 } else {
                     null
                 }
@@ -106,10 +106,17 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             state.sectionsStatus == StudyPlanWidgetFeature.ContentStatus.ERROR && message.forceUpdate
         ) {
             State(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING) to
-                setOf(InternalAction.FetchLearningActivitiesWithSections(), InternalAction.FetchProfile)
+                getContentFetchActions(forceUpdate = message.forceUpdate)
         } else {
             state to emptySet()
         }
+
+    private fun getContentFetchActions(forceUpdate: Boolean): Set<Action> =
+        setOf(
+            InternalAction.FetchLearningActivitiesWithSections(),
+            InternalAction.FetchProfile,
+            InternalAction.UpdateCurrentStudyPlanState(forceUpdate)
+        )
 
     private fun handleLearningActivitiesWithSectionsFetchSuccess(
         state: State,

@@ -6,7 +6,7 @@ import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesWit
 import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesWithSectionsResponse
 import org.hyperskill.app.learning_activities.remote.model.NextLearningActivityRequest
 
-internal interface LearningActivitiesRemoteDataSource {
+interface LearningActivitiesRemoteDataSource {
     suspend fun getNextLearningActivity(
         request: NextLearningActivityRequest
     ): Result<LearningActivity?>
