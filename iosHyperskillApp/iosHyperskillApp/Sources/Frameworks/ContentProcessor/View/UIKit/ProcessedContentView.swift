@@ -300,7 +300,7 @@ extension ProcessedContentView: ProgrammaticallyInitializableViewProtocol {
         self.contentView.translatesAutoresizingMaskIntoConstraints = false
         self.contentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            self.contentViewHeightConstraint = make.height.equalTo(0).constraint
+            self.contentViewHeightConstraint = make.height.equalTo(0).priority(.low).constraint
         }
 
         self.activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
