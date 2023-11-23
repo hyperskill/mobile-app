@@ -29,7 +29,9 @@ class StudyPlanWidgetActionDispatcher(
     init {
         currentProfileStateRepository.changes
             .distinctUntilChanged()
-            .onEach(InternalMessage::ProfileChanged)
+            .onEach { profile ->
+                onNewMessage(InternalMessage.ProfileChanged(profile))
+            }
             .launchIn(actionScope)
     }
 
