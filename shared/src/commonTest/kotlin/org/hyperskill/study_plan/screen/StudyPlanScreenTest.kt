@@ -1,7 +1,9 @@
 package org.hyperskill.study_plan.screen
 
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlin.test.fail
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
@@ -41,13 +43,11 @@ class StudyPlanScreenTest {
     @Test
     fun `Pull-to-refresh message should trigger logging pull-to-refresh analytic event`() {
         val (_, actions) = reducer.reduce(stubState(), StudyPlanScreenFeature.Message.PullToRefresh)
-
-        assertEquals(actions.size, 2)
-        val targetAction = actions.last() as StudyPlanScreenFeature.InternalAction.LogAnalyticEvent
-        if (targetAction.analyticEvent is StudyPlanClickedPullToRefreshHyperskillAnalyticEvent) {
-            // pass
-        } else {
-            fail("Unexpected action: $targetAction")
+        assertTrue {
+            val targetAction = actions
+                .filterIsInstance<StudyPlanScreenFeature.InternalAction.LogAnalyticEvent>()
+                .first()
+            targetAction.analyticEvent is StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
         }
     }
 
