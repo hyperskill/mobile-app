@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +34,11 @@ fun ChallengeProgress(
     modifier: Modifier = Modifier
 ) {
     val windowedProgresses = remember(progressStatuses) {
-        progressStatuses.windowed(size = 7, step = 7)
+        progressStatuses.windowed(
+            size = ChallengeCardDefaults.PROGRESS_ITEMS_IN_ROW,
+            step = ChallengeCardDefaults.PROGRESS_ITEMS_IN_ROW,
+            partialWindows = true
+        )
     }
 
     /**
@@ -42,18 +47,22 @@ fun ChallengeProgress(
      * I was fixed in the androidx.compose.foundation:foundation:1.5.0.
      * For more details see https://issuetracker.google.com/issues/267942510
      */
-    Column(
-        verticalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = modifier
-    ) {
-        windowedProgresses.forEachIndexed { lineIndex, progressLine ->
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                progressLine.forEachIndexed { itemIndex, progressStatus ->
-                    key(lineIndex, itemIndex) {
-                        ChallengeProgressItem(status = progressStatus)
+    BoxWithConstraints(modifier = modifier) {
+        val consumedSizeInRow =
+            ChallengeCardDefaults.progressItemSize.width * ChallengeCardDefaults.PROGRESS_ITEMS_IN_ROW
+        val horizontalGapSize = (this.maxWidth - consumedSizeInRow) / (ChallengeCardDefaults.PROGRESS_ITEMS_IN_ROW - 1)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            windowedProgresses.forEachIndexed { lineIndex, progressLine ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(horizontalGapSize),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    progressLine.forEachIndexed { itemIndex, progressStatus ->
+                        key(lineIndex, itemIndex) {
+                            ChallengeProgressItem(status = progressStatus)
+                        }
                     }
                 }
             }
@@ -68,7 +77,7 @@ private fun ChallengeProgressItem(
 ) {
     Box(
         modifier = modifier
-            .requiredSize(width = 32.dp, height = 12.dp)
+            .requiredSize(ChallengeCardDefaults.progressItemSize)
             .clip(RoundedCornerShape(4.dp))
             .applyStatusModifiers(status)
     ) {
