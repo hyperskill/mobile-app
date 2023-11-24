@@ -86,6 +86,56 @@ class StudyPlanWidgetTest {
     }
 
     @Test
+    fun `Loaded visible sections should be removed if their position precedes current section`() {
+        val visibleSection = studyPlanSectionStub(
+            id = 0,
+            isVisible = true,
+            type = StudyPlanSectionType.STAGE
+        )
+        val currentSection = studyPlanSectionStub(
+            id = 1,
+            isVisible = true,
+            type = StudyPlanSectionType.STAGE,
+            activities = listOf(1L)
+        )
+
+        val (state, _) = reducer.reduce(
+            StudyPlanWidgetFeature.State(),
+            StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
+                learningActivities = listOf(stubLearningActivity(id = 1L)),
+                studyPlanSections = listOf(visibleSection, currentSection)
+            )
+        )
+
+        assertEquals(1, state.studyPlanSections.size)
+        assertEquals(currentSection, state.studyPlanSections[currentSection.id]?.studyPlanSection)
+
+        assertEquals(null, state.studyPlanSections[visibleSection.id])
+    }
+
+    @Test
+    fun `Study plan sections should be empty if loaded sections does not contains current section`() {
+        val expectedState = StudyPlanWidgetFeature.State(
+            studyPlanSections = emptyMap(),
+            sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+            isRefreshing = false
+        )
+
+        val (state, _) = reducer.reduce(
+            StudyPlanWidgetFeature.State(),
+            StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
+                learningActivities = emptyList(),
+                studyPlanSections = listOf(
+                    studyPlanSectionStub(id = 0),
+                    studyPlanSectionStub(id = 1, activities = listOf(1))
+                )
+            )
+        )
+
+        assertEquals(expectedState, state)
+    }
+
+    @Test
     fun `Sections in ViewState should be sorted by backend order`() {
         val expectedSectionsIds = listOf<Long>(3, 5, 2, 1, 4)
         val expectedViewState = StudyPlanWidgetViewState.Content(

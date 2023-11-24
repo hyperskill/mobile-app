@@ -17,6 +17,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
+import ru.nobird.app.core.model.slice
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StudyPlanWidgetReducerResult = Pair<State, Set<Action>>
@@ -122,8 +123,28 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success
     ): StudyPlanWidgetReducerResult {
-        val visibleSections = message.studyPlanSections.filter { it.isVisible }
-        val currentSectionId = visibleSections.firstOrNull()?.id
+        val learningActivitiesIds = message.learningActivities.map { it.id }.toSet()
+
+        /**
+         * The current section is the section that contains learning activities that were returned.
+         * There could be a situation when the API returns activities from not first visible section.
+         *
+         * So, we should hide all visible sections that above of current section.
+         * For example, the first visible section contains only not supported activities.
+         */
+        var visibleSections = message.studyPlanSections.filter { it.isVisible }
+        val currentSectionIndex = visibleSections
+            .indexOfFirst { studyPlanSection ->
+                studyPlanSection.activities.toSet().intersect(learningActivitiesIds).isNotEmpty()
+            }
+            .takeIf { it != -1 }
+            ?: return state.copy(
+                studyPlanSections = emptyMap(),
+                sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADED,
+                isRefreshing = false
+            ) to emptySet()
+        val currentSectionId = visibleSections[currentSectionIndex].id
+        visibleSections = visibleSections.slice(from = currentSectionIndex)
 
         val studyPlanSections = visibleSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
@@ -143,7 +164,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             isRefreshing = false
         )
 
-        return if (visibleSections.isNotEmpty() && currentSectionId != null) {
+        return if (visibleSections.isNotEmpty()) {
             handleLearningActivitiesFetchSuccess(
                 state = loadedSectionsState,
                 message = StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(
