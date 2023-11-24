@@ -6,9 +6,12 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesRequest
+import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesWithSectionsRequest
+import org.hyperskill.app.learning_activities.remote.model.LearningActivitiesWithSectionsResponse
 import org.hyperskill.app.learning_activities.remote.model.NextLearningActivityRequest
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 
-class LearningActivitiesRepositoryImpl(
+internal class LearningActivitiesRepositoryImpl(
     private val learningActivitiesRemoteDataSource: LearningActivitiesRemoteDataSource
 ) : LearningActivitiesRepository {
     override suspend fun getUncompletedTopicsLearningActivities(
@@ -44,6 +47,19 @@ class LearningActivitiesRepositoryImpl(
         learningActivitiesRemoteDataSource.getNextLearningActivity(
             NextLearningActivityRequest(
                 types = types
+            )
+        )
+
+    override suspend fun getLearningActivitiesWithSections(
+        studyPlanSectionTypes: Set<StudyPlanSectionType>,
+        learningActivityTypes: Set<LearningActivityType>,
+        learningActivityStates: Set<LearningActivityState>
+    ): Result<LearningActivitiesWithSectionsResponse> =
+        learningActivitiesRemoteDataSource.getLearningActivitiesWithSections(
+            LearningActivitiesWithSectionsRequest(
+                studyPlanSectionTypes = studyPlanSectionTypes,
+                learningActivityTypes = learningActivityTypes,
+                learningActivityStates = learningActivityStates
             )
         )
 }

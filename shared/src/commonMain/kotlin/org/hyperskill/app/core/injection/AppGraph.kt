@@ -61,7 +61,6 @@ import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
-import org.hyperskill.app.study_plan.injection.StudyPlanDataComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -137,7 +136,6 @@ interface AppGraph {
     fun buildItemsDataComponent(): ItemsDataComponent
     fun buildDebugComponent(): DebugComponent
     fun buildGamificationToolbarComponent(screen: GamificationToolbarScreen): GamificationToolbarComponent
-    fun buildStudyPlanDataComponent(): StudyPlanDataComponent
     fun buildProjectsDataComponent(): ProjectsDataComponent
     fun buildProjectSelectionListComponent(): ProjectSelectionListComponent
     fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent

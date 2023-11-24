@@ -9,7 +9,7 @@ class NextLearningActivityRequest(
 ) {
     val parameters: Map<String, String> =
         mapOf(
-            LearningActivitiesRequestParams.STATE to state.value.toString(),
-            LearningActivitiesRequestParams.TYPES to types.joinToString(",") { it.value.toString() }
+            LearningActivitiesRequestParams.PARAM_STATE to state.value.toString(),
+            LearningActivitiesRequestParams.PARAM_TYPES to types.joinToString(",") { it.value.toString() }
         )
 }

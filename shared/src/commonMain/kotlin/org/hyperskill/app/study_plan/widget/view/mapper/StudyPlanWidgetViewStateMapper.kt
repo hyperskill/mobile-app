@@ -26,8 +26,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         val currentActivityId = state.getCurrentActivity()?.id
 
         return StudyPlanWidgetViewState.Content(
-            sections = state.studyPlan?.sections?.mapNotNull { sectionId ->
-                val sectionInfo = state.studyPlanSections[sectionId] ?: return@mapNotNull null
+            sections = state.studyPlanSections.values.map { sectionInfo ->
                 val section = sectionInfo.studyPlanSection
 
                 val shouldShowSectionStatistics = currentSectionId == section.id || sectionInfo.isExpanded
@@ -59,7 +58,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         null
                     }
                 )
-            } ?: emptyList()
+            }
         )
     }
 
