@@ -77,7 +77,6 @@ class ShareStreakDialogFragment : BottomSheetDialogFragment() {
             }
             shareStreakShareButton.setOnClickListener {
                 (parentFragment as? Callback)?.onShareClick(streak)
-                dismiss()
             }
             shareStreakRefuseButton.setOnClickListener {
                 (parentFragment as? Callback)?.onRefuseStreakSharingClick(streak)
