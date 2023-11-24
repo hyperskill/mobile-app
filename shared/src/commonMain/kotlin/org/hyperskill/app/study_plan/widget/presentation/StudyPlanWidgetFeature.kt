@@ -78,13 +78,16 @@ object StudyPlanWidgetFeature {
 
         object ReloadContentInBackground : InternalMessage
 
-        object FetchLearningActivitiesWithSectionsFailed : InternalMessage
-        data class FetchLearningActivitiesWithSectionsSuccess(
+        data class ProfileChanged(val profile: Profile) : InternalMessage
+    }
+
+    internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {
+        data class Success(
             val learningActivities: List<LearningActivity>,
             val studyPlanSections: List<StudyPlanSection>
-        ) : InternalMessage
+        ) : LearningActivitiesWithSectionsFetchResult
 
-        data class ProfileChanged(val profile: Profile) : InternalMessage
+        object Failed : LearningActivitiesWithSectionsFetchResult
     }
 
     internal sealed interface LearningActivitiesFetchResult : Message {

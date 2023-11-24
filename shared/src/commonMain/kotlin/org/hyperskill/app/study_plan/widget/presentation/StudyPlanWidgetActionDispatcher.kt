@@ -80,7 +80,7 @@ class StudyPlanWidgetActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             HyperskillSentryTransactionBuilder.buildStudyPlanWidgetFetchLearningActivitiesWithSections(),
-            onError = { InternalMessage.FetchLearningActivitiesWithSectionsFailed }
+            onError = { StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Failed }
         ) {
             learningActivitiesRepository
                 .getLearningActivitiesWithSections(
@@ -90,7 +90,7 @@ class StudyPlanWidgetActionDispatcher(
                 )
                 .getOrThrow()
                 .let { response ->
-                    InternalMessage.FetchLearningActivitiesWithSectionsSuccess(
+                    StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                         learningActivities = response.learningActivities,
                         studyPlanSections = response.studyPlanSections
                     )

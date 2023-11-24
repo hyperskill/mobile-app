@@ -30,9 +30,9 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         when (message) {
             is InternalMessage.Initialize ->
                 coldContentFetch(state, message)
-            is InternalMessage.FetchLearningActivitiesWithSectionsSuccess ->
+            is StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success ->
                 handleLearningActivitiesWithSectionsFetchSuccess(state, message)
-            InternalMessage.FetchLearningActivitiesWithSectionsFailed -> {
+            StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Failed -> {
                 state.copy(sectionsStatus = StudyPlanWidgetFeature.ContentStatus.ERROR) to emptySet()
             }
             is Message.RetryActivitiesLoading ->
@@ -120,7 +120,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleLearningActivitiesWithSectionsFetchSuccess(
         state: State,
-        message: InternalMessage.FetchLearningActivitiesWithSectionsSuccess
+        message: StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success
     ): StudyPlanWidgetReducerResult {
         val visibleSections = message.studyPlanSections.filter { it.isVisible }
         val currentSectionId = visibleSections.firstOrNull()?.id

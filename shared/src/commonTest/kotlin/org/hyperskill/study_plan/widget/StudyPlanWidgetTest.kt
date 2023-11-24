@@ -48,7 +48,7 @@ class StudyPlanWidgetTest {
     fun `Sections status should be Loaded after loading finish`() {
         val (state, _) = reducer.reduce(
             StudyPlanWidgetFeature.State(),
-            StudyPlanWidgetFeature.InternalMessage.FetchLearningActivitiesWithSectionsSuccess(
+            StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = emptyList(),
                 studyPlanSections = emptyList()
             )
@@ -68,7 +68,7 @@ class StudyPlanWidgetTest {
 
         val (state, _) = reducer.reduce(
             StudyPlanWidgetFeature.State(),
-            StudyPlanWidgetFeature.InternalMessage.FetchLearningActivitiesWithSectionsSuccess(
+            StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = listOf(
                     stubLearningActivity(id = 1L)
                 ),
@@ -116,7 +116,7 @@ class StudyPlanWidgetTest {
 
         val (state, _) = reducer.reduce(
             StudyPlanWidgetFeature.State(),
-            StudyPlanWidgetFeature.InternalMessage.FetchLearningActivitiesWithSectionsSuccess(
+            StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = listOf(
                     stubLearningActivity(id = 1L)
                 ),
@@ -141,7 +141,7 @@ class StudyPlanWidgetTest {
 
         val (state, actions) = reducer.reduce(
             StudyPlanWidgetFeature.State(),
-            StudyPlanWidgetFeature.InternalMessage.FetchLearningActivitiesWithSectionsSuccess(
+            StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = listOf(
                     stubLearningActivity(id = 0),
                     stubLearningActivity(id = 1),
