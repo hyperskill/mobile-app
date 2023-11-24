@@ -27,9 +27,9 @@ class LearningActivitiesRequest(
                 STUDY_PLAN to studyPlanId,
                 PAGE_SIZE to pageSize,
                 PAGE to page,
-                LearningActivitiesRequestParams.STATE to
+                LearningActivitiesRequestParams.PARAM_STATE to
                     states.joinToString(",") { it.value.toString() }.ifEmpty { null },
-                LearningActivitiesRequestParams.TYPES to
+                LearningActivitiesRequestParams.PARAM_TYPES to
                     types.joinToString(",") { it.value.toString() }.ifEmpty { null },
                 IDS to ids.joinToString(separator = ",").ifEmpty { null }
             )

@@ -10,11 +10,11 @@ class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWi
     override val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
         get() = StudyPlanWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
-            studyPlanInteractor = appGraph.buildStudyPlanDataComponent().studyPlanInteractor,
-            trackInteractor = appGraph.buildTrackDataComponent().trackInteractor,
+            learningActivitiesRepository = appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
             nextLearningActivityStateRepository = appGraph
                 .stateRepositoriesComponent.nextLearningActivityStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
