@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.transition.TransitionManager
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksOptionsBinding
@@ -255,10 +256,9 @@ class FillBlanksStepQuizFormDelegate(
         with(binding.stepQuizFillBlanksRecycler) {
             itemAnimator = null
             adapter = fillBlanksAdapter
-            // Allow nested scrolling to avoid half rendered content.
-            // Fixme
-            isNestedScrollingEnabled = true
+            isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
+                .apply { justifyContent = JustifyContent.FLEX_START }
             addItemDecoration(
                 FlexboxItemDecoration(context).apply {
                     setOrientation(FlexboxItemDecoration.HORIZONTAL)
@@ -290,6 +290,7 @@ class FillBlanksStepQuizFormDelegate(
             adapter = fillBlanksOptionsAdapter
             isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
+                .apply { justifyContent = JustifyContent.FLEX_START }
         }
         optionsBinding.root.isVisible = true
         TransitionManager.beginDelayedTransition(optionsBinding.root)
