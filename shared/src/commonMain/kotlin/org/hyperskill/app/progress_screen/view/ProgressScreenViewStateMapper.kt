@@ -2,7 +2,7 @@ package org.hyperskill.app.progress_screen.view
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState.TrackProgressViewState.Content.AppliedTopicsState
 import org.hyperskill.app.subscriptions.domain.model.isFreemium

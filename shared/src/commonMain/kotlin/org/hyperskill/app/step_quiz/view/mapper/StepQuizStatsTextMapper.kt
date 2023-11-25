@@ -2,7 +2,7 @@ package org.hyperskill.app.step_quiz.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
 class StepQuizStatsTextMapper(
     private val resourceProvider: ResourceProvider,

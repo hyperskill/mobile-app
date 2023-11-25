@@ -1,7 +1,7 @@
 package org.hyperskill.app.study_plan.widget.view.mapper
 
 import kotlin.math.roundToLong
-import org.hyperskill.app.core.view.mapper.SharedDateFormatter
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.view.mapper.LearningActivityTextsMapper
@@ -26,8 +26,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
         val currentActivityId = state.getCurrentActivity()?.id
 
         return StudyPlanWidgetViewState.Content(
-            sections = state.studyPlan?.sections?.mapNotNull { sectionId ->
-                val sectionInfo = state.studyPlanSections[sectionId] ?: return@mapNotNull null
+            sections = state.studyPlanSections.values.map { sectionInfo ->
                 val section = sectionInfo.studyPlanSection
 
                 val shouldShowSectionStatistics = currentSectionId == section.id || sectionInfo.isExpanded
@@ -59,7 +58,7 @@ class StudyPlanWidgetViewStateMapper(private val dateFormatter: SharedDateFormat
                         null
                     }
                 )
-            } ?: emptyList()
+            }
         )
     }
 

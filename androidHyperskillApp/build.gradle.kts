@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.android.ui.fragment)
     implementation(libs.android.ui.fragment.ktx)
     implementation(libs.android.lifecycle.runtime)
+    implementation(libs.android.browser)
 
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)

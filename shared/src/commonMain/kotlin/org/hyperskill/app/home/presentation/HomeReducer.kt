@@ -1,6 +1,8 @@
 package org.hyperskill.app.home.presentation
 
 import kotlin.math.max
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetReducer
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.home.domain.analytic.HomeClickedProblemOfDayCardHyperskillAnalyticEvent
@@ -10,14 +12,16 @@ import org.hyperskill.app.home.domain.analytic.HomeClickedTopicsRepetitionsCardH
 import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.HomeState
+import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias HomeReducerResult = Pair<State, Set<Action>>
 
-class HomeReducer(
-    private val gamificationToolbarReducer: GamificationToolbarReducer
+internal class HomeReducer(
+    private val gamificationToolbarReducer: GamificationToolbarReducer,
+    private val challengeWidgetReducer: ChallengeWidgetReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): HomeReducerResult =
         when (message) {
@@ -41,7 +45,7 @@ class HomeReducer(
             // Timer Messages
             is Message.ReadyToLaunchNextProblemInTimer ->
                 if (state.homeState is HomeState.Content) {
-                    state to setOf(Action.LaunchTimer)
+                    state to setOf(InternalAction.LaunchTimer)
                 } else {
                     null
                 }
@@ -140,7 +144,7 @@ class HomeReducer(
                         state.homeState.repetitionsState.recommendedRepetitionsCount == 0
                     state to setOf(
                         Action.ViewAction.NavigateTo.TopicsRepetitionsScreen,
-                        Action.LogAnalyticEvent(
+                        InternalAction.LogAnalyticEvent(
                             HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(isCompleted = isCompleted)
                         )
                     )
@@ -164,7 +168,7 @@ class HomeReducer(
                         }
                     }
                     val logEventAction = if (analyticsEvent != null) {
-                        setOf(Action.LogAnalyticEvent(analyticsEvent))
+                        setOf(InternalAction.LogAnalyticEvent(analyticsEvent))
                     } else {
                         emptySet()
                     }
@@ -175,13 +179,13 @@ class HomeReducer(
             }
             // Analytic Messages
             is Message.ViewedEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(HomeViewedHyperskillAnalyticEvent()))
+                state to setOf(InternalAction.LogAnalyticEvent(HomeViewedHyperskillAnalyticEvent()))
             is Message.ClickedProblemOfDayCardEventMessage -> {
                 if (state.homeState is HomeState.Content) {
                     when (state.homeState.problemOfDayState) {
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                             state to setOf(
-                                Action.LogAnalyticEvent(
+                                InternalAction.LogAnalyticEvent(
                                     HomeClickedProblemOfDayCardHyperskillAnalyticEvent(
                                         isCompleted = false
                                     )
@@ -190,7 +194,7 @@ class HomeReducer(
                         }
                         is HomeFeature.ProblemOfDayState.Solved -> {
                             state to setOf(
-                                Action.LogAnalyticEvent(
+                                InternalAction.LogAnalyticEvent(
                                     HomeClickedProblemOfDayCardHyperskillAnalyticEvent(
                                         isCompleted = true
                                     )
@@ -211,6 +215,11 @@ class HomeReducer(
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
                 state.copy(toolbarState = toolbarState) to toolbarActions
             }
+            is Message.ChallengeWidgetMessage -> {
+                val (challengeWidgetState, challengeWidgetActions) =
+                    reduceChallengeWidgetMessage(state.challengeWidgetState, message.message)
+                state.copy(challengeWidgetState = challengeWidgetState) to challengeWidgetActions
+            }
         } ?: (state to emptySet())
 
     private fun initialize(state: State, forceUpdate: Boolean): HomeReducerResult {
@@ -219,7 +228,7 @@ class HomeReducer(
                 forceUpdate && (state.homeState is HomeState.Content || state.homeState is HomeState.NetworkError)
         val (homeState, homeActions) =
             if (shouldReloadHome) {
-                HomeState.Loading to setOf(Action.FetchHomeScreenData)
+                HomeState.Loading to setOf(InternalAction.FetchHomeScreenData)
             } else {
                 state.homeState to emptySet()
             }
@@ -230,10 +239,17 @@ class HomeReducer(
                 GamificationToolbarFeature.InternalMessage.Initialize(forceUpdate)
             )
 
+        val (challengeWidgetState, challengeWidgetActions) =
+            reduceChallengeWidgetMessage(
+                state.challengeWidgetState,
+                ChallengeWidgetFeature.InternalMessage.Initialize(forceUpdate)
+            )
+
         return state.copy(
             homeState = homeState,
-            toolbarState = toolbarState
-        ) to homeActions + toolbarActions
+            toolbarState = toolbarState,
+            challengeWidgetState = challengeWidgetState
+        ) to homeActions + toolbarActions + challengeWidgetActions
     }
 
     private fun handlePullToRefresh(state: State): HomeReducerResult {
@@ -241,22 +257,30 @@ class HomeReducer(
             state.homeState is HomeState.Content && !state.homeState.isRefreshing
         ) {
             state.homeState.copy(isRefreshing = true) to setOf(
-                Action.FetchHomeScreenData,
-                Action.LogAnalyticEvent(HomeClickedPullToRefreshHyperskillAnalyticEvent())
+                InternalAction.FetchHomeScreenData,
+                InternalAction.LogAnalyticEvent(HomeClickedPullToRefreshHyperskillAnalyticEvent())
             )
         } else {
             state.homeState to emptySet()
         }
 
-        val (toolbarState, toolbarActions) = reduceGamificationToolbarMessage(
-            state.toolbarState,
-            GamificationToolbarFeature.InternalMessage.PullToRefresh
-        )
+        val (toolbarState, toolbarActions) =
+            reduceGamificationToolbarMessage(
+                state.toolbarState,
+                GamificationToolbarFeature.InternalMessage.PullToRefresh
+            )
+
+        val (challengeWidgetState, challengeWidgetActions) =
+            reduceChallengeWidgetMessage(
+                state.challengeWidgetState,
+                ChallengeWidgetFeature.InternalMessage.PullToRefresh
+            )
 
         return state.copy(
             homeState = homeState,
-            toolbarState = toolbarState
-        ) to homeActions + toolbarActions
+            toolbarState = toolbarState,
+            challengeWidgetState = challengeWidgetState
+        ) to homeActions + toolbarActions + challengeWidgetActions
     }
 
     private fun reduceGamificationToolbarMessage(
@@ -270,11 +294,30 @@ class HomeReducer(
                 if (it is GamificationToolbarFeature.Action.ViewAction) {
                     Action.ViewAction.GamificationToolbarViewAction(it)
                 } else {
-                    Action.GamificationToolbarAction(it)
+                    InternalAction.GamificationToolbarAction(it)
                 }
             }
             .toSet()
 
         return gamificationToolbarState to actions
+    }
+
+    private fun reduceChallengeWidgetMessage(
+        state: ChallengeWidgetFeature.State,
+        message: ChallengeWidgetFeature.Message
+    ): Pair<ChallengeWidgetFeature.State, Set<Action>> {
+        val (challengeWidgetState, challengeWidgetActions) = challengeWidgetReducer.reduce(state, message)
+
+        val actions = challengeWidgetActions
+            .map {
+                if (it is ChallengeWidgetFeature.Action.ViewAction) {
+                    Action.ViewAction.ChallengeWidgetViewAction(it)
+                } else {
+                    InternalAction.ChallengeWidgetAction(it)
+                }
+            }
+            .toSet()
+
+        return challengeWidgetState to actions
     }
 }

@@ -46,6 +46,14 @@
                     android:layout_marginHorizontal="20dp"
                     />
 
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/homeScreenChallengeCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginHorizontal="20dp"
+                    />
+
                 <include
                     android:id="@+id/homeScreenProblemOfDayCard"
                     layout="@layout/layout_problem_of_the_day_card"

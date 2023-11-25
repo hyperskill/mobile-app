@@ -1,21 +1,33 @@
 package org.hyperskill.app.home.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
+import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature.isRefreshing
+import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
 
-interface HomeFeature {
-    data class State(
+object HomeFeature {
+    internal data class State(
         val homeState: HomeState,
-        val toolbarState: GamificationToolbarFeature.State
+        val toolbarState: GamificationToolbarFeature.State,
+        val challengeWidgetState: ChallengeWidgetFeature.State
     ) {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
-                toolbarState.isRefreshing
+                toolbarState.isRefreshing ||
+                challengeWidgetState.isRefreshing
     }
+
+    data class ViewState(
+        val homeState: HomeState,
+        val toolbarState: GamificationToolbarFeature.State,
+        val challengeWidgetViewState: ChallengeWidgetViewState,
+        val isRefreshing: Boolean
+    )
 
     sealed interface HomeState {
         /**
@@ -118,30 +130,50 @@ interface HomeFeature {
         /**
          * Message Wrappers
          */
-        data class GamificationToolbarMessage(val message: GamificationToolbarFeature.Message) : Message
+        data class GamificationToolbarMessage(
+            val message: GamificationToolbarFeature.Message
+        ) : Message
+
+        data class ChallengeWidgetMessage(
+            val message: ChallengeWidgetFeature.Message
+        ) : Message
     }
 
     sealed interface Action {
-        object FetchHomeScreenData : Action
-        object LaunchTimer : Action
-
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-
-        /**
-         * Action Wrappers
-         */
-        data class GamificationToolbarAction(val action: GamificationToolbarFeature.Action) : Action
-
         sealed interface ViewAction : Action {
-
-            data class GamificationToolbarViewAction(
-                val viewAction: GamificationToolbarFeature.Action.ViewAction
-            ) : ViewAction
-
             sealed interface NavigateTo : ViewAction {
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
                 object TopicsRepetitionsScreen : NavigateTo
             }
+
+            /**
+             * ViewAction Wrappers
+             */
+            data class GamificationToolbarViewAction(
+                val viewAction: GamificationToolbarFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class ChallengeWidgetViewAction(
+                val viewAction: ChallengeWidgetFeature.Action.ViewAction
+            ) : ViewAction
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        object FetchHomeScreenData : InternalAction
+        object LaunchTimer : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+
+        /**
+         * Action Wrappers
+         */
+        data class GamificationToolbarAction(
+            val action: GamificationToolbarFeature.Action
+        ) : InternalAction
+
+        data class ChallengeWidgetAction(
+            val action: ChallengeWidgetFeature.Action
+        ) : InternalAction
     }
 }
