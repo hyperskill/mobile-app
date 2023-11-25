@@ -102,6 +102,8 @@ class FillBlanksStepQuizFormDelegate(
         if (resolveState.mode != FillBlanksMode.SELECT || fillBlanksData == null) return
         if (wasSelectStateInitialized && isAllSelectItemsEmpty(fillBlanksData.fillBlanks, selectItemIndices)) {
             selectBlankToSelectOptionMap.clear()
+            this.highlightedSelectItemIndex =
+                getHighlightedSelectItemIndex(fillBlanksData.fillBlanks, selectItemIndices)
         }
         if (!wasSelectStateInitialized) {
             val selectItemIndices = getSelectItemIndices(fillBlanksData.fillBlanks)
