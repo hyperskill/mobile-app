@@ -290,20 +290,6 @@ class FillBlanksStepQuizFormDelegate(
             adapter = fillBlanksOptionsAdapter
             isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
-            val dividerDrawable =
-                ContextCompat.getDrawable(context, R.drawable.bg_step_quiz_fill_blanks_options_vertical_divider)
-            addItemDecoration(
-                FlexboxItemDecoration(context).apply {
-                    setOrientation(FlexboxItemDecoration.HORIZONTAL)
-                    setDrawable(dividerDrawable)
-                }
-            )
-            addItemDecoration(
-                FlexboxItemDecoration(context).apply {
-                    setOrientation(FlexboxItemDecoration.VERTICAL)
-                    setDrawable(dividerDrawable)
-                }
-            )
         }
         optionsBinding.root.isVisible = true
         TransitionManager.beginDelayedTransition(optionsBinding.root)
