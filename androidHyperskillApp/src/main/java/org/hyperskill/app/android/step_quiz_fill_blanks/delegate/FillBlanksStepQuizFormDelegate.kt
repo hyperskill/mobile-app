@@ -22,6 +22,7 @@ import org.hyperskill.app.android.step_quiz_fill_blanks.model.ResolveState
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.step_quiz.presentation.submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
@@ -76,7 +77,7 @@ class FillBlanksStepQuizFormDelegate(
 
             val fillBlanksData = fillBlanksMapper?.map(
                 attempt = state.attempt,
-                submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
+                submission = state.submission
             )
 
             initSelectedState(resolveState, fillBlanksData)
@@ -98,9 +99,11 @@ class FillBlanksStepQuizFormDelegate(
         resolveState: ResolveState.ResolveSucceed,
         fillBlanksData: FillBlanksData?
     ) {
-        if (resolveState.mode == FillBlanksMode.SELECT && !wasSelectStateInitialized) {
-            fillBlanksData ?: return
-
+        if (resolveState.mode != FillBlanksMode.SELECT || fillBlanksData == null) return
+        if (wasSelectStateInitialized && isAllSelectItemsEmpty(fillBlanksData.fillBlanks, selectItemIndices)) {
+            selectBlankToSelectOptionMap.clear()
+        }
+        if (!wasSelectStateInitialized) {
             val selectItemIndices = getSelectItemIndices(fillBlanksData.fillBlanks)
             this.selectItemIndices = selectItemIndices
             highlightedSelectItemIndex =
@@ -142,6 +145,15 @@ class FillBlanksStepQuizFormDelegate(
         selectItemIndices.firstOrNull { selectItemIndex ->
             val item = items.getOrNull(selectItemIndex) ?: return@firstOrNull false
             item is FillBlanksItem.Select && item.selectedOptionIndex == null
+        }
+
+    private fun isAllSelectItemsEmpty(
+        items: List<FillBlanksItem>,
+        selectItemIndices: List<Int>
+    ): Boolean =
+        selectItemIndices.all { selectItemIndex ->
+            (items.getOrNull(selectItemIndex) as? FillBlanksItem.Select)
+                ?.selectedOptionIndex == null
         }
 
     private fun getBlankToOptionMap(
