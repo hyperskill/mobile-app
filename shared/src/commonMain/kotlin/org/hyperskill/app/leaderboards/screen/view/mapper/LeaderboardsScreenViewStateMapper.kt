@@ -1,22 +1,22 @@
 package org.hyperskill.app.leaderboards.screen.view.mapper
 
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature
-import org.hyperskill.app.leaderboards.screen.view.model.LeaderboardsScreenViewState
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.LeaderboardState
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.LeaderboardViewState
 
 internal class LeaderboardsScreenViewStateMapper {
-    fun map(state: LeaderboardsScreenFeature.State): LeaderboardsScreenViewState =
-        when (state) {
-            LeaderboardsScreenFeature.State.Idle -> LeaderboardsScreenViewState.Idle
-            LeaderboardsScreenFeature.State.Loading -> LeaderboardsScreenViewState.Loading
-            LeaderboardsScreenFeature.State.Error -> LeaderboardsScreenViewState.Error
-            is LeaderboardsScreenFeature.State.Content -> getLoadedScreenContent(state)
-        }
-
-    private fun getLoadedScreenContent(
-        state: LeaderboardsScreenFeature.State.Content
-    ): LeaderboardsScreenViewState =
-        // TODO: Handle empty
-        LeaderboardsScreenViewState.Content(
+    fun map(state: LeaderboardsScreenFeature.State): LeaderboardsScreenFeature.ViewState =
+        LeaderboardsScreenFeature.ViewState(
+            leaderboardViewState = mapLeaderboardState(state.leaderboardState),
+            toolbarState = state.toolbarState,
             isRefreshing = state.isRefreshing
         )
+
+    private fun mapLeaderboardState(state: LeaderboardState): LeaderboardViewState =
+        when (state) {
+            LeaderboardState.Idle -> LeaderboardViewState.Idle
+            LeaderboardState.Loading -> LeaderboardViewState.Loading
+            LeaderboardState.Error -> LeaderboardViewState.Error
+            is LeaderboardState.Content -> LeaderboardViewState.Content
+        }
 }
