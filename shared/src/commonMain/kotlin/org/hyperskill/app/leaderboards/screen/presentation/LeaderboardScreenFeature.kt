@@ -3,45 +3,31 @@ package org.hyperskill.app.leaderboards.screen.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
+import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
+import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature.isRefreshing
 
 object LeaderboardScreenFeature {
     internal data class State(
-        val leaderboardState: LeaderboardState,
+        val leaderboardWidgetState: LeaderboardWidgetFeature.State,
         val toolbarState: GamificationToolbarFeature.State
     ) {
         val isRefreshing: Boolean
-            get() = leaderboardState is LeaderboardState.Content && leaderboardState.isRefreshing ||
-                toolbarState.isRefreshing
-    }
-
-    internal sealed interface LeaderboardState {
-        object Idle : LeaderboardState
-        object Loading : LeaderboardState
-        object Error : LeaderboardState
-        data class Content(
-            val isRefreshing: Boolean = false
-        ) : LeaderboardState
+            get() = leaderboardWidgetState.isRefreshing || toolbarState.isRefreshing
     }
 
     data class ViewState(
-        val leaderboardViewState: LeaderboardViewState,
+        val leaderboardWidgetViewState: LeaderboardWidgetFeature.ViewState,
         val toolbarState: GamificationToolbarFeature.State,
         val isRefreshing: Boolean
     )
-
-    sealed interface LeaderboardViewState {
-        object Idle : LeaderboardViewState
-        object Loading : LeaderboardViewState
-        object Error : LeaderboardViewState
-        object Empty : LeaderboardViewState
-        object Content : LeaderboardViewState
-    }
 
     sealed interface Message {
         object Initialize : Message
         object RetryContentLoading : Message
 
         object PullToRefresh : Message
+
+        object ScreenBecomesActive : Message
 
         /**
          * Analytic
@@ -51,14 +37,13 @@ object LeaderboardScreenFeature {
         /**
          * Message Wrappers
          */
+        data class LeaderboardWidgetMessage(
+            val message: LeaderboardWidgetFeature.Message
+        ) : Message
+
         data class GamificationToolbarMessage(
             val message: GamificationToolbarFeature.Message
         ) : Message
-    }
-
-    internal sealed interface InternalMessage : Message {
-        object FetchLeaderboardsError : InternalMessage
-        object FetchLeaderboardsSuccess : InternalMessage
     }
 
     sealed interface Action {
@@ -66,6 +51,10 @@ object LeaderboardScreenFeature {
             /**
              * ViewAction Wrappers
              */
+            data class LeaderboardWidgetViewAction(
+                val viewAction: LeaderboardWidgetFeature.Action.ViewAction
+            ) : ViewAction
+
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
             ) : ViewAction
@@ -73,13 +62,15 @@ object LeaderboardScreenFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        object FetchLeaderboards : InternalAction
-
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
 
         /**
          * Action Wrappers
          */
+        data class LeaderboardWidgetAction(
+            val action: LeaderboardWidgetFeature.Action
+        ) : InternalAction
+
         data class GamificationToolbarAction(
             val action: GamificationToolbarFeature.Action
         ) : InternalAction

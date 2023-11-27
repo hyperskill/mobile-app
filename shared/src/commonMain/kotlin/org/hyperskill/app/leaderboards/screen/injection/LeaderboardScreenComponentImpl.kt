@@ -6,6 +6,7 @@ import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComp
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Action
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Message
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.ViewState
+import org.hyperskill.app.leaderboards.widget.injection.LeaderboardWidgetComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class LeaderboardScreenComponentImpl(
@@ -14,8 +15,14 @@ internal class LeaderboardScreenComponentImpl(
     private val gamificationToolbarComponent: GamificationToolbarComponent =
         appGraph.buildGamificationToolbarComponent(GamificationToolbarScreen.LEADERBOARD)
 
+    private val leaderboardWidgetComponent: LeaderboardWidgetComponent =
+        appGraph.buildLeaderboardWidgetComponent()
+
     override val leaderboardScreenFeature: Feature<ViewState, Message, Action>
         get() = LeaderboardScreenFeatureBuilder.build(
+            leaderWidgetReducer = leaderboardWidgetComponent.leaderboardWidgetReducer,
+            leaderboardWidgetActionDispatcher = leaderboardWidgetComponent.leaderboardWidgetActionDispatcher,
+            leaderboardWidgetViewStateMapper = leaderboardWidgetComponent.leaderboardWidgetViewStateMapper,
             gamificationToolbarReducer = gamificationToolbarComponent.gamificationToolbarReducer,
             gamificationToolbarActionDispatcher = gamificationToolbarComponent.gamificationToolbarActionDispatcher,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,

@@ -16,6 +16,10 @@ import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeat
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.ViewState
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenReducer
 import org.hyperskill.app.leaderboards.screen.view.mapper.LeaderboardScreenViewStateMapper
+import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetActionDispatcher
+import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
+import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetReducer
+import org.hyperskill.app.leaderboards.widget.view.mapper.LeaderboardWidgetViewStateMapper
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
@@ -27,6 +31,9 @@ internal object LeaderboardScreenFeatureBuilder {
     private const val LOG_TAG = "LeaderboardScreenFeature"
 
     fun build(
+        leaderWidgetReducer: LeaderboardWidgetReducer,
+        leaderboardWidgetActionDispatcher: LeaderboardWidgetActionDispatcher,
+        leaderboardWidgetViewStateMapper: LeaderboardWidgetViewStateMapper,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         analyticInteractor: AnalyticInteractor,
@@ -34,6 +41,7 @@ internal object LeaderboardScreenFeatureBuilder {
         buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
         val leaderboardScreenReducer = LeaderboardScreenReducer(
+            leaderWidgetReducer = leaderWidgetReducer,
             gamificationToolbarReducer = gamificationToolbarReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val leaderboardScreenActionDispatcher = LeaderboardScreenActionDispatcher(
@@ -41,17 +49,25 @@ internal object LeaderboardScreenFeatureBuilder {
             analyticInteractor = analyticInteractor
         )
 
-        val leaderboardScreenViewStateMapper = LeaderboardScreenViewStateMapper()
+        val leaderboardScreenViewStateMapper = LeaderboardScreenViewStateMapper(
+            leaderboardWidgetViewStateMapper = leaderboardWidgetViewStateMapper
+        )
 
         return ReduxFeature(
             initialState = LeaderboardScreenFeature.State(
-                leaderboardState = LeaderboardScreenFeature.LeaderboardState.Idle,
+                leaderboardWidgetState = LeaderboardWidgetFeature.State.Idle,
                 toolbarState = GamificationToolbarFeature.State.Idle
             ),
             reducer = leaderboardScreenReducer
         )
             .transformState(leaderboardScreenViewStateMapper::map)
             .wrapWithActionDispatcher(leaderboardScreenActionDispatcher)
+            .wrapWithActionDispatcher(
+                leaderboardWidgetActionDispatcher.transform(
+                    transformAction = { it.safeCast<InternalAction.LeaderboardWidgetAction>()?.action },
+                    transformMessage = Message::LeaderboardWidgetMessage
+                )
+            )
             .wrapWithActionDispatcher(
                 gamificationToolbarActionDispatcher.transform(
                     transformAction = { it.safeCast<InternalAction.GamificationToolbarAction>()?.action },

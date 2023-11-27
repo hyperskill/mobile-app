@@ -7,14 +7,16 @@ import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardClicked
 import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardViewedHyperskillAnalyticEvent
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Action
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.InternalAction
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.LeaderboardState
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Message
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.State
+import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
+import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias LeaderboardScreenReducerResult = Pair<State, Set<Action>>
 
 internal class LeaderboardScreenReducer(
+    private val leaderWidgetReducer: LeaderboardWidgetReducer,
     private val gamificationToolbarReducer: GamificationToolbarReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): LeaderboardScreenReducerResult =
@@ -22,19 +24,29 @@ internal class LeaderboardScreenReducer(
             Message.Initialize -> {
                 initializeFeatures(state, retryContentLoadingClicked = false)
             }
-            Message.PullToRefresh -> {
-                // TODO: Handle pull to refresh
-                state to setOf(InternalAction.LogAnalyticEvent(LeaderboardClickedPullToRefreshHyperskillAnalyticEvent))
-            }
             Message.RetryContentLoading -> {
                 initializeFeatures(state, retryContentLoadingClicked = true)
             }
-            LeaderboardScreenFeature.InternalMessage.FetchLeaderboardsError -> TODO()
-            LeaderboardScreenFeature.InternalMessage.FetchLeaderboardsSuccess -> TODO()
+            Message.PullToRefresh -> {
+                handlePullToRefreshMessage(state)
+            }
+            Message.ScreenBecomesActive -> {
+                val (leaderboardWidgetState, leaderboardWidgetActions) =
+                    reduceLeaderboardWidgetMessage(
+                        state.leaderboardWidgetState,
+                        LeaderboardWidgetFeature.InternalMessage.ReloadContentInBackground
+                    )
+                state.copy(leaderboardWidgetState = leaderboardWidgetState) to leaderboardWidgetActions
+            }
             Message.ViewedEventMessage -> {
                 state to setOf(InternalAction.LogAnalyticEvent(LeaderboardViewedHyperskillAnalyticEvent))
             }
             // Wrapper Messages
+            is Message.LeaderboardWidgetMessage -> {
+                val (leaderboardWidgetState, leaderboardWidgetActions) =
+                    reduceLeaderboardWidgetMessage(state.leaderboardWidgetState, message.message)
+                state.copy(leaderboardWidgetState = leaderboardWidgetState) to leaderboardWidgetActions
+            }
             is Message.GamificationToolbarMessage -> {
                 val (toolbarState, toolbarActions) =
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
@@ -46,16 +58,11 @@ internal class LeaderboardScreenReducer(
         state: State,
         retryContentLoadingClicked: Boolean
     ): LeaderboardScreenReducerResult {
-        val shouldReloadLeaderboard =
-            state.leaderboardState is LeaderboardState.Idle ||
-                retryContentLoadingClicked &&
-                (state.leaderboardState is LeaderboardState.Content || state.leaderboardState is LeaderboardState.Error)
-        val (leaderboardState, leaderboardActions) =
-            if (shouldReloadLeaderboard) {
-                LeaderboardState.Loading to setOf(InternalAction.FetchLeaderboards)
-            } else {
-                state.leaderboardState to emptySet()
-            }
+        val (leaderboardWidgetState, leaderboardWidgetActions) =
+            reduceLeaderboardWidgetMessage(
+                state.leaderboardWidgetState,
+                LeaderboardWidgetFeature.InternalMessage.Initialize(forceUpdate = retryContentLoadingClicked)
+            )
 
         val (toolbarState, toolbarActions) =
             reduceGamificationToolbarMessage(
@@ -70,9 +77,50 @@ internal class LeaderboardScreenReducer(
         }
 
         return state.copy(
-            leaderboardState = leaderboardState,
+            leaderboardWidgetState = leaderboardWidgetState,
             toolbarState = toolbarState
-        ) to (leaderboardActions + toolbarActions + analyticActions)
+        ) to (leaderboardWidgetActions + toolbarActions + analyticActions)
+    }
+
+    private fun handlePullToRefreshMessage(state: State): LeaderboardScreenReducerResult {
+        val (leaderboardWidgetState, leaderboardWidgetActions) =
+            reduceLeaderboardWidgetMessage(
+                state.leaderboardWidgetState,
+                LeaderboardWidgetFeature.InternalMessage.PullToRefresh
+            )
+
+        val (toolbarState, toolbarActions) =
+            reduceGamificationToolbarMessage(
+                state.toolbarState,
+                GamificationToolbarFeature.InternalMessage.PullToRefresh
+            )
+
+        val analyticActions =
+            setOf(InternalAction.LogAnalyticEvent(LeaderboardClickedPullToRefreshHyperskillAnalyticEvent))
+
+        return state.copy(
+            leaderboardWidgetState = leaderboardWidgetState,
+            toolbarState = toolbarState
+        ) to (leaderboardWidgetActions + toolbarActions + analyticActions)
+    }
+
+    private fun reduceLeaderboardWidgetMessage(
+        state: LeaderboardWidgetFeature.State,
+        message: LeaderboardWidgetFeature.Message
+    ): Pair<LeaderboardWidgetFeature.State, Set<Action>> {
+        val (leaderboardWidgetState, leaderboardWidgetActions) = leaderWidgetReducer.reduce(state, message)
+
+        val actions = leaderboardWidgetActions
+            .map {
+                if (it is LeaderboardWidgetFeature.Action.ViewAction) {
+                    Action.ViewAction.LeaderboardWidgetViewAction(it)
+                } else {
+                    InternalAction.LeaderboardWidgetAction(it)
+                }
+            }
+            .toSet()
+
+        return leaderboardWidgetState to actions
     }
 
     private fun reduceGamificationToolbarMessage(
