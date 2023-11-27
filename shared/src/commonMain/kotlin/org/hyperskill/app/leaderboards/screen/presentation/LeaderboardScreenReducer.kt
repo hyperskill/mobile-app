@@ -5,19 +5,19 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarR
 import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardViewedHyperskillAnalyticEvent
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.Action
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.InternalAction
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.LeaderboardState
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.Message
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.State
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Action
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.InternalAction
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.LeaderboardState
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Message
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-private typealias LeaderboardsScreenReducerResult = Pair<State, Set<Action>>
+private typealias LeaderboardScreenReducerResult = Pair<State, Set<Action>>
 
-internal class LeaderboardsScreenReducer(
+internal class LeaderboardScreenReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer
 ) : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): LeaderboardsScreenReducerResult =
+    override fun reduce(state: State, message: Message): LeaderboardScreenReducerResult =
         when (message) {
             Message.Initialize -> {
                 initializeFeatures(state, retryContentLoadingClicked = false)
@@ -29,8 +29,8 @@ internal class LeaderboardsScreenReducer(
             Message.RetryContentLoading -> {
                 initializeFeatures(state, retryContentLoadingClicked = true)
             }
-            LeaderboardsScreenFeature.InternalMessage.FetchLeaderboardsError -> TODO()
-            LeaderboardsScreenFeature.InternalMessage.FetchLeaderboardsSuccess -> TODO()
+            LeaderboardScreenFeature.InternalMessage.FetchLeaderboardsError -> TODO()
+            LeaderboardScreenFeature.InternalMessage.FetchLeaderboardsSuccess -> TODO()
             Message.ViewedEventMessage -> {
                 state to setOf(InternalAction.LogAnalyticEvent(LeaderboardViewedHyperskillAnalyticEvent))
             }
@@ -45,7 +45,7 @@ internal class LeaderboardsScreenReducer(
     private fun initializeFeatures(
         state: State,
         retryContentLoadingClicked: Boolean
-    ): LeaderboardsScreenReducerResult {
+    ): LeaderboardScreenReducerResult {
         val shouldReloadLeaderboard =
             state.leaderboardState is LeaderboardState.Idle ||
                 retryContentLoadingClicked &&

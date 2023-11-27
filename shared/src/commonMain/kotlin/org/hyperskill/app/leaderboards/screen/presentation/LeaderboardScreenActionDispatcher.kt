@@ -2,12 +2,12 @@ package org.hyperskill.app.leaderboards.screen.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.Action
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.InternalAction
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.Message
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Action
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.InternalAction
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-internal class LeaderboardsScreenActionDispatcher(
+internal class LeaderboardScreenActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {

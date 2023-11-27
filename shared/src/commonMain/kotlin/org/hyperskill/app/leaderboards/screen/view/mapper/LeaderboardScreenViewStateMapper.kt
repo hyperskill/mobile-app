@@ -1,12 +1,12 @@
 package org.hyperskill.app.leaderboards.screen.view.mapper
 
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.LeaderboardState
-import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardsScreenFeature.LeaderboardViewState
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.LeaderboardState
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.LeaderboardViewState
 
-internal class LeaderboardsScreenViewStateMapper {
-    fun map(state: LeaderboardsScreenFeature.State): LeaderboardsScreenFeature.ViewState =
-        LeaderboardsScreenFeature.ViewState(
+internal class LeaderboardScreenViewStateMapper {
+    fun map(state: LeaderboardScreenFeature.State): LeaderboardScreenFeature.ViewState =
+        LeaderboardScreenFeature.ViewState(
             leaderboardViewState = mapLeaderboardState(state.leaderboardState),
             toolbarState = state.toolbarState,
             isRefreshing = state.isRefreshing

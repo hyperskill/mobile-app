@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 
-object LeaderboardsScreenFeature {
+object LeaderboardScreenFeature {
     internal data class State(
         val leaderboardState: LeaderboardState,
         val toolbarState: GamificationToolbarFeature.State
