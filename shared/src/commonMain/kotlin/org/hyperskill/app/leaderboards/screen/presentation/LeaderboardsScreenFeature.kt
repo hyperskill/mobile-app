@@ -21,7 +21,7 @@ object LeaderboardsScreenFeature {
         object ViewedEventMessage : Message
     }
 
-    internal sealed interface InternalMessage {
+    internal sealed interface InternalMessage : Message {
         object FetchLeaderboardsError : InternalMessage
         object FetchLeaderboardsSuccess : InternalMessage
     }
