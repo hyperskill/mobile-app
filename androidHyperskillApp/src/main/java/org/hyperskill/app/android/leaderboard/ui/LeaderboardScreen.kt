@@ -1,11 +1,13 @@
 package org.hyperskill.app.android.leaderboard.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.leaderboard.model.LeaderboardTab
@@ -19,10 +21,11 @@ fun LeaderboardScreen() {
         LeaderboardTabs(selectedTab) { newSelectedTab ->
             selectedTab = newSelectedTab
         }
+        LeaderboardStub(modifier = Modifier.fillMaxHeight())
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun LeaderboardScreenPreview() {
     HyperskillTheme {

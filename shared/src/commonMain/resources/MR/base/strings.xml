@@ -557,5 +557,6 @@
     <string name="leaderboard_title">Leaderboard</string>
     <string name="leaderboard_day_tab_title">Day</string>
     <string name="leaderboard_week_tab_title">Week</string>
+    <string name="leaderboard_stub_description">Solve a problem to get a place on the leaderboard</string>
 
 </resources>
