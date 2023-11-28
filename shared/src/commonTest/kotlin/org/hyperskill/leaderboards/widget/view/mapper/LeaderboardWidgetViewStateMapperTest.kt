@@ -4,8 +4,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.leaderboards.domain.model.LeaderboardItem
-import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboards.widget.view.mapper.LeaderboardWidgetViewStateMapper
+import org.hyperskill.app.leaderboards.widget.view.model.LeaderboardWidgetListItem
 import org.hyperskill.app.users.domain.model.User
 
 class LeaderboardWidgetViewStateMapperTest {
@@ -45,7 +45,7 @@ class LeaderboardWidgetViewStateMapperTest {
             )
         )
         val expected = listOf(
-            LeaderboardWidgetFeature.ViewState.Content.ListItem.UserInfo(
+            LeaderboardWidgetListItem.UserInfo(
                 position = 1,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
@@ -53,8 +53,8 @@ class LeaderboardWidgetViewStateMapperTest {
                 username = "User 1",
                 isCurrentUser = true
             ),
-            LeaderboardWidgetFeature.ViewState.Content.ListItem.Separator,
-            LeaderboardWidgetFeature.ViewState.Content.ListItem.UserInfo(
+            LeaderboardWidgetListItem.Separator,
+            LeaderboardWidgetListItem.UserInfo(
                 position = 3,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
@@ -62,7 +62,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 username = "User 2",
                 isCurrentUser = false
             ),
-            LeaderboardWidgetFeature.ViewState.Content.ListItem.UserInfo(
+            LeaderboardWidgetListItem.UserInfo(
                 position = 4,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
@@ -110,7 +110,7 @@ class LeaderboardWidgetViewStateMapperTest {
             )
         )
         val expected = listOf(
-            LeaderboardWidgetFeature.ViewState.Content.ListItem.UserInfo(
+            LeaderboardWidgetListItem.UserInfo(
                 position = 1,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
@@ -118,7 +118,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 username = "User 1",
                 isCurrentUser = true
             ),
-            LeaderboardWidgetFeature.ViewState.Content.ListItem.UserInfo(
+            LeaderboardWidgetListItem.UserInfo(
                 position = 2,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
@@ -126,7 +126,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 username = "User 2",
                 isCurrentUser = false
             ),
-            LeaderboardWidgetFeature.ViewState.Content.ListItem.UserInfo(
+            LeaderboardWidgetListItem.UserInfo(
                 position = 3,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",

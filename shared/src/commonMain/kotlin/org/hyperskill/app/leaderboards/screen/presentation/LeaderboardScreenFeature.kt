@@ -5,6 +5,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature.isRefreshing
+import org.hyperskill.app.leaderboards.widget.view.model.LeaderboardWidgetListItem
 
 object LeaderboardScreenFeature {
     internal data class State(
@@ -21,15 +22,15 @@ object LeaderboardScreenFeature {
         val listViewState: ListViewState,
         val toolbarState: GamificationToolbarFeature.State,
         val isRefreshing: Boolean
-    ) {
-        sealed interface ListViewState {
-            object Idle : ListViewState
-            object Loading : ListViewState
-            object Error : ListViewState
-            data class Content(
-                val list: List<LeaderboardWidgetFeature.ViewState.Content.ListItem>
-            ) : ListViewState
-        }
+    )
+
+    sealed interface ListViewState {
+        object Idle : ListViewState
+        object Loading : ListViewState
+        object Error : ListViewState
+        data class Content(
+            val list: List<LeaderboardWidgetListItem>
+        ) : ListViewState
     }
 
     enum class Tab {

@@ -21,17 +21,17 @@ internal class LeaderboardScreenViewStateMapper(
     private fun mapLeaderboardWidgetState(
         state: LeaderboardWidgetFeature.State,
         currentTab: LeaderboardScreenFeature.Tab
-    ): LeaderboardScreenFeature.ViewState.ListViewState =
+    ): LeaderboardScreenFeature.ListViewState =
         when (val viewState = leaderboardWidgetViewStateMapper.map(state)) {
-            LeaderboardWidgetFeature.ViewState.Idle -> LeaderboardScreenFeature.ViewState.ListViewState.Idle
-            LeaderboardWidgetFeature.ViewState.Loading -> LeaderboardScreenFeature.ViewState.ListViewState.Loading
-            LeaderboardWidgetFeature.ViewState.Error -> LeaderboardScreenFeature.ViewState.ListViewState.Error
+            LeaderboardWidgetFeature.ViewState.Idle -> LeaderboardScreenFeature.ListViewState.Idle
+            LeaderboardWidgetFeature.ViewState.Loading -> LeaderboardScreenFeature.ListViewState.Loading
+            LeaderboardWidgetFeature.ViewState.Error -> LeaderboardScreenFeature.ListViewState.Error
             is LeaderboardWidgetFeature.ViewState.Content -> {
                 val list = when (currentTab) {
                     LeaderboardScreenFeature.Tab.DAY -> viewState.dailyLeaderboard
                     LeaderboardScreenFeature.Tab.WEEK -> viewState.weeklyLeaderboard
                 }
-                LeaderboardScreenFeature.ViewState.ListViewState.Content(list)
+                LeaderboardScreenFeature.ListViewState.Content(list)
             }
         }
 }

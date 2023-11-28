@@ -4,6 +4,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.leaderboards.domain.model.LeaderboardItem
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
+import org.hyperskill.app.leaderboards.widget.view.model.LeaderboardWidgetListItem
 
 class LeaderboardWidgetViewStateMapper(
     private val resourceProvider: ResourceProvider
@@ -34,8 +35,8 @@ class LeaderboardWidgetViewStateMapper(
     internal fun mapLeaderboardList(
         list: List<LeaderboardItem>,
         currentUserId: Long
-    ): List<LeaderboardWidgetFeature.ViewState.Content.ListItem> {
-        val result = mutableListOf<LeaderboardWidgetFeature.ViewState.Content.ListItem>()
+    ): List<LeaderboardWidgetListItem> {
+        val result = mutableListOf<LeaderboardWidgetListItem>()
 
         for (index in list.indices) {
             val previousLeaderboardItem = list.getOrNull(index - 1)
@@ -44,10 +45,10 @@ class LeaderboardWidgetViewStateMapper(
             if (previousLeaderboardItem != null &&
                 previousLeaderboardItem.position != currentLeaderboardItem.position - 1
             ) {
-                result.add(LeaderboardWidgetFeature.ViewState.Content.ListItem.Separator)
+                result.add(LeaderboardWidgetListItem.Separator)
             }
 
-            val listItem = LeaderboardWidgetFeature.ViewState.Content.ListItem.UserInfo(
+            val listItem = LeaderboardWidgetListItem.UserInfo(
                 position = currentLeaderboardItem.position,
                 passedProblems = currentLeaderboardItem.passedProblems,
                 passedProblemsSubtitle = resourceProvider.getQuantityString(
