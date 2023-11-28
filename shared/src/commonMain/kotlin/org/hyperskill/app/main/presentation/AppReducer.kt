@@ -8,6 +8,7 @@ import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
@@ -51,7 +52,10 @@ class AppReducer(
                             Action.ViewAction.NavigateTo.AuthScreen()
                     }
 
-                    State.Ready(isAuthorized = false) to setOf(Action.ClearUserInSentry, navigateToViewAction)
+                    State.Ready(
+                        isAuthorized = false,
+                        isMobileLeaderboardsEnabled = false
+                    ) to setOf(Action.ClearUserInSentry, navigateToViewAction)
                 } else {
                     null
                 }
@@ -123,7 +127,10 @@ class AppReducer(
                     }
                 }
 
-            State.Ready(isAuthorized = isAuthorized) to actions
+            State.Ready(
+                isAuthorized = isAuthorized,
+                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled
+            ) to actions
         } else {
             state to emptySet()
         }
@@ -140,6 +147,7 @@ class AppReducer(
             }
             State.Ready(
                 isAuthorized = true,
+                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
                 profile = if (!message.isNotificationPermissionGranted) message.profile else null
             ) to getAuthorizedUserActions(message.profile) + navigationLogicAction
         } else {
@@ -174,7 +182,10 @@ class AppReducer(
         message: Message.FirstProblemOnboardingDataFetched
     ): ReducerResult =
         if (state is State.Ready && state.profile != null && !state.profile.isNewUser) {
-            State.Ready(isAuthorized = true) to setOf(
+            State.Ready(
+                isAuthorized = true,
+                isMobileLeaderboardsEnabled = state.profile.features.isMobileLeaderboardsEnabled
+            ) to setOf(
                 if (!message.wasFirstProblemOnboardingShown) {
                     Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen(isNewUserMode = false)
                 } else {
@@ -202,6 +213,7 @@ class AppReducer(
     private fun navigateUserAfterNotificationOnboarding(profile: Profile): ReducerResult =
         State.Ready(
             isAuthorized = true,
+            isMobileLeaderboardsEnabled = profile.features.isMobileLeaderboardsEnabled,
             profile = profile
         ) to setOf(
             if (profile.isNewUser) {

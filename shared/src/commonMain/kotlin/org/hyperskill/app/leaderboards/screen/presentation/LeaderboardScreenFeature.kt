@@ -1,20 +1,13 @@
 package org.hyperskill.app.leaderboards.screen.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature.isRefreshing
 import org.hyperskill.app.leaderboards.widget.view.model.LeaderboardWidgetListItem
-import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 
 object LeaderboardScreenFeature {
-    fun isAvailable(currentProfile: Profile, buildKonfig: BuildKonfig): Boolean =
-        currentProfile.features.isMobileLeaderboardsEnabled || buildKonfig.buildVariant == BuildVariant.DEBUG
-
     internal data class State(
         val currentTab: Tab,
         val leaderboardWidgetState: LeaderboardWidgetFeature.State,
