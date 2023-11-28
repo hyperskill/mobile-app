@@ -18,5 +18,7 @@ internal class LeaderboardWidgetComponentImpl(
         )
 
     override val leaderboardWidgetViewStateMapper: LeaderboardWidgetViewStateMapper
-        get() = LeaderboardWidgetViewStateMapper()
+        get() = LeaderboardWidgetViewStateMapper(
+            resourceProvider = appGraph.commonComponent.resourceProvider
+        )
 }

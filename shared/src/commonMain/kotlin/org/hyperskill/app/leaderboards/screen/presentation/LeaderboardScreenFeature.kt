@@ -18,10 +18,19 @@ object LeaderboardScreenFeature {
 
     data class ViewState(
         val currentTab: Tab,
-        val leaderboardWidgetViewState: LeaderboardWidgetFeature.ViewState,
+        val listViewState: ListViewState,
         val toolbarState: GamificationToolbarFeature.State,
         val isRefreshing: Boolean
-    )
+    ) {
+        sealed interface ListViewState {
+            object Idle : ListViewState
+            object Loading : ListViewState
+            object Error : ListViewState
+            data class Content(
+                val list: List<LeaderboardWidgetFeature.ViewState.Content.ListItem>
+            ) : ListViewState
+        }
+    }
 
     enum class Tab {
         DAY,

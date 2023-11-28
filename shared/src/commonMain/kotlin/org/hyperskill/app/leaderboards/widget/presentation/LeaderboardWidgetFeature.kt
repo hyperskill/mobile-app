@@ -1,11 +1,16 @@
 package org.hyperskill.app.leaderboards.widget.presentation
 
+import org.hyperskill.app.leaderboards.domain.model.LeaderboardItem
+
 object LeaderboardWidgetFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
         object Error : State
         data class Content(
+            val dailyLeaderboard: List<LeaderboardItem>,
+            val weeklyLeaderboard: List<LeaderboardItem>,
+            val currentUserId: Long,
             val isRefreshing: Boolean = false
         ) : State
     }
@@ -17,7 +22,23 @@ object LeaderboardWidgetFeature {
         object Idle : ViewState
         object Loading : ViewState
         object Error : ViewState
-        object Content : ViewState
+        data class Content(
+            val dailyLeaderboard: List<ListItem>,
+            val weeklyLeaderboard: List<ListItem>,
+            val isRefreshing: Boolean = false
+        ) : ViewState {
+            sealed interface ListItem {
+                object Separator : ListItem
+                data class UserInfo(
+                    val position: Int,
+                    val passedProblems: Int,
+                    val passedProblemsSubtitle: String,
+                    val userAvatar: String,
+                    val username: String,
+                    val isCurrentUser: Boolean
+                ) : ListItem
+            }
+        }
     }
 
     sealed interface Message
