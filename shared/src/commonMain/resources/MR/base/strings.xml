@@ -191,6 +191,7 @@
     <string name="tab_bar_study_plan_title">Study Plan</string>
     <string name="tab_bar_profile_title">Profile</string>
     <string name="tab_bar_debug_title">Debug</string>
+    <string name="leaderboard_bar_title">Leaderboard</string>
 
     <!-- Home -->
     <string name="home_title">Hello!</string>

@@ -46,6 +46,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                             R.id.training_tab
                         Tabs.STUDY_PLAN ->
                             R.id.study_plan_tab
+                        Tabs.LEADERBOARD ->
+                            R.id.leaderboard_tab
                         Tabs.PROFILE ->
                             R.id.profile_tab
                         Tabs.DEBUG ->
@@ -104,6 +106,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
                 R.id.study_plan_tab -> {
                     localCicerone.router.switch(Tabs.STUDY_PLAN)
+                }
+                R.id.leaderboard_tab -> {
+                    localCicerone.router.switch(Tabs.LEADERBOARD)
                 }
             }
             return@setOnItemSelectedListener true
