@@ -6,7 +6,6 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
-import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenActionDispatcher
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature
@@ -17,7 +16,6 @@ import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeat
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenReducer
 import org.hyperskill.app.leaderboards.screen.view.mapper.LeaderboardScreenViewStateMapper
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetActionDispatcher
-import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetReducer
 import org.hyperskill.app.leaderboards.widget.view.mapper.LeaderboardWidgetViewStateMapper
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -54,10 +52,7 @@ internal object LeaderboardScreenFeatureBuilder {
         )
 
         return ReduxFeature(
-            initialState = LeaderboardScreenFeature.State(
-                leaderboardWidgetState = LeaderboardWidgetFeature.State.Idle,
-                toolbarState = GamificationToolbarFeature.State.Idle
-            ),
+            initialState = LeaderboardScreenFeature.initialState(),
             reducer = leaderboardScreenReducer
         )
             .transformState(leaderboardScreenViewStateMapper::map)

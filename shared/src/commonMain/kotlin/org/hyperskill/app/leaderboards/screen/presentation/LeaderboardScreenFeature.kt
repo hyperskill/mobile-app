@@ -8,6 +8,7 @@ import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeat
 
 object LeaderboardScreenFeature {
     internal data class State(
+        val currentTab: Tab,
         val leaderboardWidgetState: LeaderboardWidgetFeature.State,
         val toolbarState: GamificationToolbarFeature.State
     ) {
@@ -16,10 +17,23 @@ object LeaderboardScreenFeature {
     }
 
     data class ViewState(
+        val currentTab: Tab,
         val leaderboardWidgetViewState: LeaderboardWidgetFeature.ViewState,
         val toolbarState: GamificationToolbarFeature.State,
         val isRefreshing: Boolean
     )
+
+    enum class Tab {
+        DAY,
+        WEEK
+    }
+
+    internal fun initialState(initialTab: Tab = Tab.DAY): State =
+        State(
+            currentTab = initialTab,
+            leaderboardWidgetState = LeaderboardWidgetFeature.State.Idle,
+            toolbarState = GamificationToolbarFeature.State.Idle,
+        )
 
     sealed interface Message {
         object Initialize : Message
@@ -28,6 +42,8 @@ object LeaderboardScreenFeature {
         object PullToRefresh : Message
 
         object ScreenBecomesActive : Message
+
+        data class TabClicked(val tab: Tab) : Message
 
         /**
          * Analytic

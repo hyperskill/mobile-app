@@ -17,7 +17,6 @@ object LeaderboardWidgetFeature {
         object Idle : ViewState
         object Loading : ViewState
         object Error : ViewState
-        object Empty : ViewState
         object Content : ViewState
     }
 

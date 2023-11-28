@@ -8,6 +8,7 @@ internal class LeaderboardScreenViewStateMapper(
 ) {
     fun map(state: LeaderboardScreenFeature.State): LeaderboardScreenFeature.ViewState =
         LeaderboardScreenFeature.ViewState(
+            currentTab = state.currentTab,
             leaderboardWidgetViewState = leaderboardWidgetViewStateMapper.map(state.leaderboardWidgetState),
             toolbarState = state.toolbarState,
             isRefreshing = state.isRefreshing

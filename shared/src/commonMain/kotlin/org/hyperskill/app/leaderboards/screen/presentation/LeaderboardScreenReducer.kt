@@ -4,6 +4,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardClickedRetryContentLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardClickedTabHyperskillAnalyticEvent
 import org.hyperskill.app.leaderboards.screen.domain.analytic.LeaderboardViewedHyperskillAnalyticEvent
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.Action
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.InternalAction
@@ -38,6 +39,15 @@ internal class LeaderboardScreenReducer(
                     )
                 state.copy(leaderboardWidgetState = leaderboardWidgetState) to leaderboardWidgetActions
             }
+            is Message.TabClicked -> {
+                if (state.currentTab != message.tab) {
+                    state.copy(currentTab = message.tab) to setOf(
+                        InternalAction.LogAnalyticEvent(LeaderboardClickedTabHyperskillAnalyticEvent(message.tab))
+                    )
+                } else {
+                    null
+                }
+            }
             Message.ViewedEventMessage -> {
                 state to setOf(InternalAction.LogAnalyticEvent(LeaderboardViewedHyperskillAnalyticEvent))
             }
@@ -52,7 +62,7 @@ internal class LeaderboardScreenReducer(
                     reduceGamificationToolbarMessage(state.toolbarState, message.message)
                 state.copy(toolbarState = toolbarState) to toolbarActions
             }
-        }
+        } ?: (state to emptySet())
 
     private fun initializeFeatures(
         state: State,
