@@ -12,6 +12,7 @@ import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeat
 import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature.State
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetReducer
+import org.hyperskill.app.leaderboards.widget.view.model.LeaderboardWidgetListItem
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias LeaderboardScreenReducerResult = Pair<State, Set<Action>>
@@ -47,6 +48,9 @@ internal class LeaderboardScreenReducer(
                 } else {
                     null
                 }
+            }
+            is Message.ListItemClicked -> {
+                handleListItemClickedMessage(state, message)
             }
             Message.ViewedEventMessage -> {
                 state to setOf(InternalAction.LogAnalyticEvent(LeaderboardViewedHyperskillAnalyticEvent))
@@ -113,6 +117,35 @@ internal class LeaderboardScreenReducer(
             toolbarState = toolbarState
         ) to (leaderboardWidgetActions + toolbarActions + analyticActions)
     }
+
+    private fun handleListItemClickedMessage(
+        state: State,
+        message: Message.ListItemClicked
+    ): LeaderboardScreenReducerResult? =
+        if (message.listItem is LeaderboardWidgetListItem.UserInfo &&
+            state.leaderboardWidgetState is LeaderboardWidgetFeature.State.Content
+        ) {
+            val targetLeaderboardItem = when (state.currentTab) {
+                LeaderboardScreenFeature.Tab.DAY -> state.leaderboardWidgetState.dailyLeaderboard
+                LeaderboardScreenFeature.Tab.WEEK -> state.leaderboardWidgetState.weeklyLeaderboard
+            }.firstOrNull { it.user.id == message.listItem.userId }
+
+            if (targetLeaderboardItem != null) {
+                val (leaderboardWidgetState, leaderboardWidgetActions) =
+                    reduceLeaderboardWidgetMessage(
+                        state.leaderboardWidgetState,
+                        LeaderboardWidgetFeature.InternalMessage.LeaderboardItemClickedEventMessage(
+                            currentTab = state.currentTab,
+                            leaderboardItem = targetLeaderboardItem
+                        )
+                    )
+                state.copy(leaderboardWidgetState = leaderboardWidgetState) to leaderboardWidgetActions
+            } else {
+                null
+            }
+        } else {
+            null
+        }
 
     private fun reduceLeaderboardWidgetMessage(
         state: LeaderboardWidgetFeature.State,

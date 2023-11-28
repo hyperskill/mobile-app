@@ -49,6 +49,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 position = 1,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
+                userId = 1,
                 userAvatar = "https://some.url",
                 username = "User 1",
                 isCurrentUser = true
@@ -58,6 +59,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 position = 3,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
+                userId = 2,
                 userAvatar = "https://some.url",
                 username = "User 2",
                 isCurrentUser = false
@@ -66,6 +68,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 position = 4,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
+                userId = 3,
                 userAvatar = "https://some.url",
                 username = "User 3",
                 isCurrentUser = false
@@ -114,6 +117,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 position = 1,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
+                userId = 1,
                 userAvatar = "https://some.url",
                 username = "User 1",
                 isCurrentUser = true
@@ -122,6 +126,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 position = 2,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
+                userId = 2,
                 userAvatar = "https://some.url",
                 username = "User 2",
                 isCurrentUser = false
@@ -130,6 +135,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 position = 3,
                 passedProblems = 1,
                 passedProblemsSubtitle = "",
+                userId = 3,
                 userAvatar = "https://some.url",
                 username = "User 3",
                 isCurrentUser = false

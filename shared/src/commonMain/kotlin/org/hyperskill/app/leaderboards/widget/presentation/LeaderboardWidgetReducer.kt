@@ -1,5 +1,6 @@
 package org.hyperskill.app.leaderboards.widget.presentation
 
+import org.hyperskill.app.leaderboards.widget.domain.analytic.LeaderboardWidgetClickedListItemHyperskillAnalyticEvent
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature.Action
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature.InternalAction
 import org.hyperskill.app.leaderboards.widget.presentation.LeaderboardWidgetFeature.Message
@@ -47,6 +48,16 @@ class LeaderboardWidgetReducer : StateReducer<State, Message, Action> {
                         State.Loading to setOf(InternalAction.FetchLeaderboardData)
                     State.Idle, State.Loading -> null
                 }
+            }
+            is LeaderboardWidgetFeature.InternalMessage.LeaderboardItemClickedEventMessage -> {
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        LeaderboardWidgetClickedListItemHyperskillAnalyticEvent(
+                            currentTab = message.currentTab,
+                            leaderboardItem = message.leaderboardItem
+                        )
+                    )
+                )
             }
         } ?: (state to emptySet())
 }

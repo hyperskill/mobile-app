@@ -56,6 +56,7 @@ class LeaderboardWidgetViewStateMapper(
                     currentLeaderboardItem.passedProblems,
                     currentLeaderboardItem.passedProblems
                 ),
+                userId = currentLeaderboardItem.user.id,
                 userAvatar = currentLeaderboardItem.user.avatar,
                 username = currentLeaderboardItem.user.fullname,
                 isCurrentUser = currentLeaderboardItem.user.id == currentUserId

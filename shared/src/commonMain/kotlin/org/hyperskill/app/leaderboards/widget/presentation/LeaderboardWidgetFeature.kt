@@ -1,6 +1,8 @@
 package org.hyperskill.app.leaderboards.widget.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.leaderboards.domain.model.LeaderboardItem
+import org.hyperskill.app.leaderboards.screen.presentation.LeaderboardScreenFeature
 import org.hyperskill.app.leaderboards.widget.view.model.LeaderboardWidgetListItem
 
 object LeaderboardWidgetFeature {
@@ -38,6 +40,11 @@ object LeaderboardWidgetFeature {
         object ReloadContentInBackground : InternalMessage
 
         object PullToRefresh : InternalMessage
+
+        data class LeaderboardItemClickedEventMessage(
+            val currentTab: LeaderboardScreenFeature.Tab,
+            val leaderboardItem: LeaderboardItem
+        ) : InternalMessage
     }
 
     sealed interface Action {
@@ -46,5 +53,7 @@ object LeaderboardWidgetFeature {
 
     internal sealed interface InternalAction : Action {
         object FetchLeaderboardData : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

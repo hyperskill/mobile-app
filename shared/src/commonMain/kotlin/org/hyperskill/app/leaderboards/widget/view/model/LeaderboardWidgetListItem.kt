@@ -5,6 +5,7 @@ sealed interface LeaderboardWidgetListItem {
         val position: Int,
         val passedProblems: Int,
         val passedProblemsSubtitle: String,
+        val userId: Long,
         val userAvatar: String,
         val username: String,
         val isCurrentUser: Boolean
