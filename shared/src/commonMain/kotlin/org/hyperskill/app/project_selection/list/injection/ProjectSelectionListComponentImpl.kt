@@ -7,7 +7,7 @@ import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionLi
 import org.hyperskill.app.project_selection.list.view.mapper.ProjectSelectionListViewStateMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : ProjectSelectionListComponent {
+internal class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : ProjectSelectionListComponent {
 
     override fun projectSelectionListFeature(
         params: ProjectSelectionListParams
@@ -15,7 +15,7 @@ class ProjectSelectionListComponentImpl(private val appGraph: AppGraph) : Projec
         ProjectSelectionListFeatureBuilder.build(
             params = params,
             trackRepository = appGraph.buildTrackDataComponent().trackRepository,
-            currentStudyPlanStateRepository = appGraph.buildStudyPlanDataComponent().currentStudyPlanStateRepository,
+            currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,

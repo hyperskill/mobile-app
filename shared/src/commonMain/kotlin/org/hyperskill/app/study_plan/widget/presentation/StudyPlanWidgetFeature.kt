@@ -1,30 +1,24 @@
 package org.hyperskill.app.study_plan.widget.presentation
 
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityState
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsEnabled
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
-import org.hyperskill.app.study_plan.domain.model.StudyPlan
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
-import org.hyperskill.app.track.domain.model.Track
+import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 
 object StudyPlanWidgetFeature {
-    internal val STUDY_PLAN_FETCH_INTERVAL: Duration = 1.seconds
-
     data class State(
-        val studyPlan: StudyPlan? = null,
-
-        val track: Track? = null,
+        val profile: Profile? = null,
 
         val studyPlanSections: Map<Long, StudyPlanSectionInfo> = emptyMap(),
 
         /**
-         * Describes status of sections loading, including [studyPlan] loading
+         * Describes status of sections loading
          */
         val sectionsStatus: ContentStatus = ContentStatus.IDLE,
 
@@ -36,13 +30,14 @@ object StudyPlanWidgetFeature {
         /**
          * Pull to refresh flag
          */
-        val isRefreshing: Boolean = false,
-
+        val isRefreshing: Boolean = false
+    ) {
         /**
          * Divided track topics feature enabled flag
          */
-        val isLearningPathDividedTrackTopicsEnabled: Boolean = false
-    )
+        val isLearningPathDividedTrackTopicsEnabled: Boolean
+            get() = profile?.features?.isLearningPathDividedTrackTopicsEnabled ?: false
+    }
 
     enum class ContentStatus {
         IDLE,
@@ -62,15 +57,11 @@ object StudyPlanWidgetFeature {
     )
 
     sealed interface Message {
-        data class Initialize(val forceUpdate: Boolean = false) : Message
-
         data class SectionClicked(val sectionId: Long) : Message
 
         data class ActivityClicked(val activityId: Long) : Message
 
         data class RetryActivitiesLoading(val sectionId: Long) : Message
-
-        object ReloadContentInBackground : Message
 
         object PullToRefresh : Message
 
@@ -82,20 +73,21 @@ object StudyPlanWidgetFeature {
         object StageImplementUnsupportedModalHiddenEventMessage : Message
     }
 
-    internal sealed interface StudyPlanFetchResult : Message {
-        data class Success(
-            val studyPlan: StudyPlan,
-            val attemptNumber: Int,
-            val showLoadingIndicators: Boolean
-        ) : StudyPlanFetchResult
+    internal sealed interface InternalMessage : Message {
+        data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
 
-        object Failed : StudyPlanFetchResult
+        object ReloadContentInBackground : InternalMessage
+
+        data class ProfileChanged(val profile: Profile) : InternalMessage
     }
 
-    internal sealed interface SectionsFetchResult : Message {
-        data class Success(val sections: List<StudyPlanSection>) : SectionsFetchResult
+    internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {
+        data class Success(
+            val learningActivities: List<LearningActivity>,
+            val studyPlanSections: List<StudyPlanSection>
+        ) : LearningActivitiesWithSectionsFetchResult
 
-        object Failed : SectionsFetchResult
+        object Failed : LearningActivitiesWithSectionsFetchResult
     }
 
     internal sealed interface LearningActivitiesFetchResult : Message {
@@ -105,12 +97,6 @@ object StudyPlanWidgetFeature {
         ) : LearningActivitiesFetchResult
 
         data class Failed(val sectionId: Long) : LearningActivitiesFetchResult
-    }
-
-    internal sealed interface TrackFetchResult : Message {
-        data class Success(val track: Track) : TrackFetchResult
-
-        object Failed : TrackFetchResult
     }
 
     internal sealed interface ProfileFetchResult : Message {
@@ -129,21 +115,13 @@ object StudyPlanWidgetFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        /**
-         * Triggers a study plan fetching.
-         * @param [delayBeforeFetching] is used to wait for definite duration before fetching.
-         * @param [attemptNumber] represents the number of current attempt of the StudyPlan fetching.
-         * [attemptNumber] should be passed back in the [StudyPlanFetchResult.Success.attemptNumber].
-         */
-        data class FetchStudyPlan(
-            val delayBeforeFetching: Duration? = null,
-            val attemptNumber: Int = 1,
-            val showLoadingIndicators: Boolean = true
+        data class FetchLearningActivitiesWithSections(
+            val studyPlanSectionTypes: Set<StudyPlanSectionType> = StudyPlanSectionType.supportedTypes(),
+            val learningActivityTypes: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
+            val learningActivityStates: Set<LearningActivityState> = setOf(LearningActivityState.TODO)
         ) : InternalAction
 
-        data class FetchSections(val sectionsIds: List<Long>) : InternalAction
-
-        data class FetchActivities(
+        data class FetchLearningActivities(
             val sectionId: Long,
             val activitiesIds: List<Long>,
             val types: Set<LearningActivityType> = LearningActivityType.supportedTypes(),
@@ -151,10 +129,9 @@ object StudyPlanWidgetFeature {
             val sentryTransaction: HyperskillSentryTransaction
         ) : InternalAction
 
-        data class FetchTrack(val trackId: Long) : InternalAction
-
         object FetchProfile : InternalAction
 
+        data class UpdateCurrentStudyPlanState(val forceUpdate: Boolean) : InternalAction
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
