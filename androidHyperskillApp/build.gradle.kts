@@ -15,11 +15,11 @@ plugins {
 
 dependencies {
     implementation(project(":shared"))
+    implementation(files("libs/flexbox-release.aar"))
     implementation(libs.android.ui.material)
     implementation(libs.android.ui.appcompat)
     implementation(libs.android.ui.constraintlayout)
     implementation(libs.android.ui.swiperefreshlayout)
-    implementation(libs.android.ui.flexbox)
     implementation(libs.android.ui.core.ktx)
     implementation(libs.android.ui.fragment)
     implementation(libs.android.ui.fragment.ktx)

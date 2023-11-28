@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.transition.TransitionManager
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksOptionsBinding
@@ -22,6 +23,7 @@ import org.hyperskill.app.android.step_quiz_fill_blanks.model.ResolveState
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.step_quiz.presentation.submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
@@ -76,7 +78,7 @@ class FillBlanksStepQuizFormDelegate(
 
             val fillBlanksData = fillBlanksMapper?.map(
                 attempt = state.attempt,
-                submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
+                submission = state.submission
             )
 
             initSelectedState(resolveState, fillBlanksData)
@@ -98,9 +100,13 @@ class FillBlanksStepQuizFormDelegate(
         resolveState: ResolveState.ResolveSucceed,
         fillBlanksData: FillBlanksData?
     ) {
-        if (resolveState.mode == FillBlanksMode.SELECT && !wasSelectStateInitialized) {
-            fillBlanksData ?: return
-
+        if (resolveState.mode != FillBlanksMode.SELECT || fillBlanksData == null) return
+        if (wasSelectStateInitialized && isAllSelectItemsEmpty(fillBlanksData.fillBlanks, selectItemIndices)) {
+            selectBlankToSelectOptionMap.clear()
+            this.highlightedSelectItemIndex =
+                getHighlightedSelectItemIndex(fillBlanksData.fillBlanks, selectItemIndices)
+        }
+        if (!wasSelectStateInitialized) {
             val selectItemIndices = getSelectItemIndices(fillBlanksData.fillBlanks)
             this.selectItemIndices = selectItemIndices
             highlightedSelectItemIndex =
@@ -142,6 +148,15 @@ class FillBlanksStepQuizFormDelegate(
         selectItemIndices.firstOrNull { selectItemIndex ->
             val item = items.getOrNull(selectItemIndex) ?: return@firstOrNull false
             item is FillBlanksItem.Select && item.selectedOptionIndex == null
+        }
+
+    private fun isAllSelectItemsEmpty(
+        items: List<FillBlanksItem>,
+        selectItemIndices: List<Int>
+    ): Boolean =
+        selectItemIndices.all { selectItemIndex ->
+            (items.getOrNull(selectItemIndex) as? FillBlanksItem.Select)
+                ?.selectedOptionIndex == null
         }
 
     private fun getBlankToOptionMap(
@@ -241,10 +256,9 @@ class FillBlanksStepQuizFormDelegate(
         with(binding.stepQuizFillBlanksRecycler) {
             itemAnimator = null
             adapter = fillBlanksAdapter
-            // Allow nested scrolling to avoid half rendered content.
-            // Fixme
-            isNestedScrollingEnabled = true
+            isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
+                .apply { justifyContent = JustifyContent.FLEX_START }
             addItemDecoration(
                 FlexboxItemDecoration(context).apply {
                     setOrientation(FlexboxItemDecoration.HORIZONTAL)
@@ -276,20 +290,7 @@ class FillBlanksStepQuizFormDelegate(
             adapter = fillBlanksOptionsAdapter
             isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
-            val dividerDrawable =
-                ContextCompat.getDrawable(context, R.drawable.bg_step_quiz_fill_blanks_options_vertical_divider)
-            addItemDecoration(
-                FlexboxItemDecoration(context).apply {
-                    setOrientation(FlexboxItemDecoration.HORIZONTAL)
-                    setDrawable(dividerDrawable)
-                }
-            )
-            addItemDecoration(
-                FlexboxItemDecoration(context).apply {
-                    setOrientation(FlexboxItemDecoration.VERTICAL)
-                    setDrawable(dividerDrawable)
-                }
-            )
+                .apply { justifyContent = JustifyContent.FLEX_START }
         }
         optionsBinding.root.isVisible = true
         TransitionManager.beginDelayedTransition(optionsBinding.root)

@@ -8,7 +8,7 @@
     android:layout_height="0dp"
     android:orientation="vertical"
     app:layout_constraintHeight_max="wrap"
-    app:layout_constraintHeight_percent="0.25"
+    app:layout_constraintHeight_percent="0.3"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/stepPracticeContainer"
     android:background="?colorSurface"
