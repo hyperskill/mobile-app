@@ -6,7 +6,9 @@ extension LeaderboardListRowView {
         let avatarSize = CGSize(width: 40, height: 40)
 
         static func backgroundColor(for item: LeaderboardListItem) -> Color {
-            item.isCurrentUser ? Color(ColorPalette.blue400Alpha7) : Color.clear
+            item.isCurrentUser
+              ? Color(UIColor.dynamic(light: ColorPalette.blue400Alpha7, dark: .tertiarySystemGroupedBackground))
+              : Color.systemSecondaryGroupedBackground
         }
 
         static func trophyForegroundColor(for item: LeaderboardListItem) -> Color {
@@ -37,8 +39,6 @@ struct LeaderboardListRowView: View {
             Spacer()
             passedProblemsView
         }
-        .padding()
-        .background(Appearance.backgroundColor(for: item))
     }
 
     private var positionView: some View {
@@ -47,10 +47,11 @@ struct LeaderboardListRowView: View {
                 .font(.footnote)
                 .foregroundColor(.secondaryText)
 
-            Image(systemName: "trophy")
-                .font(.body)
-                .foregroundColor(Appearance.trophyForegroundColor(for: item))
-                .opacity(item.position > 3 ? 0 : 1)
+            if (1...3).contains(item.position) {
+                Image(systemName: "trophy")
+                    .font(.body)
+                    .foregroundColor(Appearance.trophyForegroundColor(for: item))
+            }
         }
     }
 
@@ -141,4 +142,5 @@ struct LeaderboardListRowView: View {
             )
         )
     }
+    .padding()
 }
