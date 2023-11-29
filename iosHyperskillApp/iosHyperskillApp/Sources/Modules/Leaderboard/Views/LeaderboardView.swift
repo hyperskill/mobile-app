@@ -95,20 +95,10 @@ struct LeaderboardView: View {
                         action: viewModel.doRetryLoadLeaderboard
                     )
                 )
-            case .content(let viewData):
-                List {
-                    Section {
-                        ForEach(1..<4, id: \.self) { option in
-                            Text("\(option)")
-                        }
-                    }
-
-                    Section {
-                        ForEach(1..<100, id: \.self) { option in
-                            Text("\(option)")
-                        }
-                    }
-                }
+            case .content(let listViewState):
+                LeaderboardListView(
+                    items: listViewState.list
+                )
             }
         }
     }

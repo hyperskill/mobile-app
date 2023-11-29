@@ -257,6 +257,9 @@
 		2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */; };
 		2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C82BA312844B01D004C9013 /* PlaceholderView+Configurations.swift */; };
 		2C83FBBE2B177633007AD7E2 /* LeaderboardTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */; };
+		2C83FBC02B177F68007AD7E2 /* LeaderboardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83FBBF2B177F68007AD7E2 /* LeaderboardListView.swift */; };
+		2C83FBC22B1781FA007AD7E2 /* LeaderboardListRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83FBC12B1781FA007AD7E2 /* LeaderboardListRowView.swift */; };
+		2C83FBC62B178F0B007AD7E2 /* LeaderboardListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83FBC52B178F0B007AD7E2 /* LeaderboardListItem.swift */; };
 		2C84094F2805B28B009C6BE9 /* StepRatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C84094E2805B28B009C6BE9 /* StepRatingControl.swift */; };
 		2C8409532805BF3C009C6BE9 /* StepTheoryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */; };
 		2C863D932804279E0021EFED /* Require.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C863D922804279E0021EFED /* Require.swift */; };
@@ -915,6 +918,9 @@
 		2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeNavigationState.swift; sourceTree = "<group>"; };
 		2C82BA312844B01D004C9013 /* PlaceholderView+Configurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceholderView+Configurations.swift"; sourceTree = "<group>"; };
 		2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTab.swift; sourceTree = "<group>"; };
+		2C83FBBF2B177F68007AD7E2 /* LeaderboardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardListView.swift; sourceTree = "<group>"; };
+		2C83FBC12B1781FA007AD7E2 /* LeaderboardListRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardListRowView.swift; sourceTree = "<group>"; };
+		2C83FBC52B178F0B007AD7E2 /* LeaderboardListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardListItem.swift; sourceTree = "<group>"; };
 		2C84094E2805B28B009C6BE9 /* StepRatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepRatingControl.swift; sourceTree = "<group>"; };
 		2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTheoryContentView.swift; sourceTree = "<group>"; };
 		2C863D922804279E0021EFED /* Require.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Require.swift; sourceTree = "<group>"; };
@@ -2463,9 +2469,28 @@
 		2C83FBBC2B177617007AD7E2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2C83FBC52B178F0B007AD7E2 /* LeaderboardListItem.swift */,
 				2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2C83FBC32B178B0E007AD7E2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				522FFA89F67884772E338BD7 /* LeaderboardView.swift */,
+				2C83FBC42B178B29007AD7E2 /* List */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2C83FBC42B178B29007AD7E2 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				2C83FBC12B1781FA007AD7E2 /* LeaderboardListRowView.swift */,
+				2C83FBBF2B177F68007AD7E2 /* LeaderboardListView.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 		2C8DD40A2AFB7E3100FD5359 /* ShareStreak */ = {
@@ -3567,9 +3592,9 @@
 			isa = PBXGroup;
 			children = (
 				CCFDFC2C226D2B79DE30D811 /* LeaderboardAssembly.swift */,
-				522FFA89F67884772E338BD7 /* LeaderboardView.swift */,
 				2E205DEF27554501F7BE01AA /* LeaderboardViewModel.swift */,
 				2C83FBBC2B177617007AD7E2 /* Model */,
+				2C83FBC32B178B0E007AD7E2 /* Views */,
 			);
 			path = Leaderboard;
 			sourceTree = "<group>";
@@ -4382,6 +4407,7 @@
 				2CEB50D0288AADA40044F9AB /* StepQuizCodeFullScreenDetailsView.swift in Sources */,
 				E9A1DA702ACFF86B006A9D4B /* FirstProblemOnboardingFeatureViewStateKsExtensions.swift in Sources */,
 				2C8E4FB42848CB980011ADFA /* StepQuizTableSelectColumnsColumnView.swift in Sources */,
+				2C83FBC22B1781FA007AD7E2 /* LeaderboardListRowView.swift in Sources */,
 				2CB0ADF72B04CCBA0089D557 /* ChallengeWidgetSkeletonView.swift in Sources */,
 				2CEB33772949930B00B9E437 /* StepQuizSQLSkeletonView.swift in Sources */,
 				2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */,
@@ -4552,6 +4578,7 @@
 				2C5EC2C82AC41CAF0098D126 /* StepQuizCodeEditorView.swift in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
 				E9D2D673284E0A97000757AC /* StepQuizMatchingItemView.swift in Sources */,
+				2C83FBC62B178F0B007AD7E2 /* LeaderboardListItem.swift in Sources */,
 				E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
@@ -4746,6 +4773,7 @@
 				2C99B1002A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift in Sources */,
 				E9E964872A0B8D8200841DF6 /* StepQuizProblemsLimitView.swift in Sources */,
 				2C8CD9AE2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift in Sources */,
+				2C83FBC02B177F68007AD7E2 /* LeaderboardListView.swift in Sources */,
 				2C967432288824370091B6C9 /* StepQuizCodeViewModel.swift in Sources */,
 				E9A1DA722AD00D41006A9D4B /* FirstProblemOnboardingContentView.swift in Sources */,
 				2CF72AA5284775BF00E1C192 /* StepQuizTableView.swift in Sources */,
