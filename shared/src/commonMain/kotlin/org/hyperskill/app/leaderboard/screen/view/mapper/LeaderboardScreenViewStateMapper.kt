@@ -31,7 +31,11 @@ internal class LeaderboardScreenViewStateMapper(
                     LeaderboardScreenFeature.Tab.DAY -> viewState.dailyLeaderboard
                     LeaderboardScreenFeature.Tab.WEEK -> viewState.weeklyLeaderboard
                 }
-                LeaderboardScreenFeature.ListViewState.Content(list)
+                if (list.isEmpty()) {
+                    LeaderboardScreenFeature.ListViewState.Empty
+                } else {
+                    LeaderboardScreenFeature.ListViewState.Content(list)
+                }
             }
         }
 }

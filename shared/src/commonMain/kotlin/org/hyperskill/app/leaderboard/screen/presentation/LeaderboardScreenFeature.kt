@@ -28,6 +28,7 @@ object LeaderboardScreenFeature {
         object Idle : ListViewState
         object Loading : ListViewState
         object Error : ListViewState
+        object Empty : ListViewState
         data class Content(
             val list: List<LeaderboardWidgetListItem>
         ) : ListViewState
