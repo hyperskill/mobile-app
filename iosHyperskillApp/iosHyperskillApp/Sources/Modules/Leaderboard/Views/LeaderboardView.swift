@@ -95,6 +95,8 @@ struct LeaderboardView: View {
                         action: viewModel.doRetryLoadLeaderboard
                     )
                 )
+            case .empty:
+                EmptyView()
             case .content(let listViewState):
                 LeaderboardListView(
                     items: listViewState.list,
