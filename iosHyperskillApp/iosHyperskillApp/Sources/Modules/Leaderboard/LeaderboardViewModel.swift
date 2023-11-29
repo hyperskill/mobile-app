@@ -7,7 +7,7 @@ final class LeaderboardViewModel: FeatureViewModel<
   LeaderboardScreenFeatureActionViewAction
 > {
     private var isScreenBecomesActiveFirstTime = true
-    
+
     var listViewStateKs: LeaderboardScreenFeatureListViewStateKs { .init(state.listViewState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
 

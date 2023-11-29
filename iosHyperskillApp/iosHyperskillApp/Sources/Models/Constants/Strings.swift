@@ -39,6 +39,7 @@ enum Strings {
     enum TabBar {
         static let home = sharedStrings.tab_bar_training_title.localized()
         static let studyPlan = sharedStrings.tab_bar_study_plan_title.localized()
+        static let leaderboard = sharedStrings.tab_bar_leaderboard_title.localized()
         static let profile = sharedStrings.tab_bar_profile_title.localized()
         static let debug = sharedStrings.tab_bar_debug_title.localized()
     }

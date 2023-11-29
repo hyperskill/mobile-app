@@ -121,6 +121,7 @@
 		2C2D492E281151E100753F16 /* AuthCredentialsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */; };
 		2C2D4930281151EB00753F16 /* AuthCredentialsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */; };
 		2C2D4932281154CB00753F16 /* AppGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D4931281154CB00753F16 /* AppGraph.swift */; };
+		2C2D73442B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2D73432B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift */; };
 		2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2ECCA4288C0661008DDCBA /* StepQuizRetryButton.swift */; };
 		2C2ECCA7288C0BF7008DDCBA /* View+ConditionalViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2ECCA6288C0BF7008DDCBA /* View+ConditionalViewModifier.swift */; };
 		2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2FD61D28191EC0004E7AF6 /* SentryManager.swift */; };
@@ -774,6 +775,7 @@
 		2C2D492D281151E100753F16 /* AuthCredentialsAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsAssembly.swift; sourceTree = "<group>"; };
 		2C2D492F281151EB00753F16 /* AuthCredentialsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthCredentialsViewModel.swift; sourceTree = "<group>"; };
 		2C2D4931281154CB00753F16 /* AppGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGraph.swift; sourceTree = "<group>"; };
+		2C2D73432B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabItemsAvailabilityService.swift; sourceTree = "<group>"; };
 		2C2ECCA4288C0661008DDCBA /* StepQuizRetryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizRetryButton.swift; sourceTree = "<group>"; };
 		2C2ECCA6288C0BF7008DDCBA /* View+ConditionalViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConditionalViewModifier.swift"; sourceTree = "<group>"; };
 		2C2FD61D28191EC0004E7AF6 /* SentryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryManager.swift; sourceTree = "<group>"; };
@@ -3170,8 +3172,9 @@
 		2CDF14D428EEFA9C0060D972 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				2C9EB9542861BA02007DDE44 /* AppTabItem.swift */,
 				2CDF14D128EEF9690060D972 /* AppTabBarController.swift */,
+				2C9EB9542861BA02007DDE44 /* AppTabItem.swift */,
+				2C2D73432B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -4441,6 +4444,7 @@
 				2C45E7C52A0FEE7A00DFF32D /* StarRatingView.swift in Sources */,
 				2CA7614B2926272500987B66 /* StepQuizFeedbackView.swift in Sources */,
 				2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */,
+				2C2D73442B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift in Sources */,
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
 				E94BB0462A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift in Sources */,

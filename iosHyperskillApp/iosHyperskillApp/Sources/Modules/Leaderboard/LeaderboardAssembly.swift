@@ -17,7 +17,6 @@ final class LeaderboardAssembly: UIKitAssembly {
             rootView: leaderboardView,
             appearance: .leftAlignedNavigationBarTitle
         )
-        hostingController.navigationItem.largeTitleDisplayMode = .always
         hostingController.title = Strings.Leaderboard.title
 
         return hostingController

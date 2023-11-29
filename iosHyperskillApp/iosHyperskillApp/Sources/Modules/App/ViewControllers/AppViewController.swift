@@ -73,6 +73,10 @@ final class AppViewController: UIViewController {
 
 extension AppViewController: AppViewControllerProtocol {
     func displayState(_ state: AppFeatureStateKs) {
+        if case .ready(let data) = state {
+            AppTabItemsAvailabilityService.shared.setIsMobileLeaderboardsEnabled(data.isMobileLeaderboardsEnabled)
+        }
+
         appView?.renderState(state)
     }
 
@@ -99,10 +103,15 @@ extension AppViewController: AppViewControllerProtocol {
             case .onboardingScreen:
                 return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
             case .studyPlan:
-                return AppTabBarController(initialTab: .studyPlan, appTabBarControllerDelegate: viewModel)
+                return AppTabBarController(
+                    initialTab: .studyPlan,
+                    availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
+                    appTabBarControllerDelegate: viewModel
+                )
             case .studyPlanWithStep(let navigateToStudyPlanWithStepViewAction):
                 let tabBarController = AppTabBarController(
                     initialTab: .studyPlan,
+                    availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
                     appTabBarControllerDelegate: viewModel
                 )
 
