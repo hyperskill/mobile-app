@@ -18,8 +18,9 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
-import org.hyperskill.app.leaderboards.screen.injection.LeaderboardScreenComponent
-import org.hyperskill.app.leaderboards.widget.injection.LeaderboardWidgetComponent
+import org.hyperskill.app.leaderboard.injection.LeaderboardDataComponent
+import org.hyperskill.app.leaderboard.screen.injection.LeaderboardScreenComponent
+import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.logging.inject.LoggerComponent
@@ -157,6 +158,7 @@ interface AppGraph {
     fun buildShareStreakDataComponent(): ShareStreakDataComponent
     fun buildChallengesDataComponent(): ChallengesDataComponent
     fun buildChallengeWidgetComponent(): ChallengeWidgetComponent
+    fun buildLeaderboardDataComponent(): LeaderboardDataComponent
     fun buildLeaderboardScreenComponent(): LeaderboardScreenComponent
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
 }
