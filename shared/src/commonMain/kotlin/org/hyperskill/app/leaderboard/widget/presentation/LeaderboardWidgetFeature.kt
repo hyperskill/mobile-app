@@ -36,6 +36,12 @@ object LeaderboardWidgetFeature {
 
     internal sealed interface InternalMessage : Message {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
+        object FetchLeaderboardDataError : InternalMessage
+        data class FetchLeaderboardDataSuccess(
+            val currentUserId: Long,
+            val dailyLeaderboard: List<LeaderboardItem>,
+            val weeklyLeaderboard: List<LeaderboardItem>
+        ) : InternalMessage
 
         object ReloadContentInBackground : InternalMessage
 

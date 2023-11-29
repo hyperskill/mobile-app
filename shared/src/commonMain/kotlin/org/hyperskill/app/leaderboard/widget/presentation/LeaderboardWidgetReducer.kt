@@ -21,6 +21,26 @@ class LeaderboardWidgetReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            LeaderboardWidgetFeature.InternalMessage.FetchLeaderboardDataError -> {
+                when (state) {
+                    is State.Content -> {
+                        if (state.isRefreshing) {
+                            state.copy(isRefreshing = false) to emptySet()
+                        } else {
+                            null
+                        }
+                    }
+                    State.Loading -> State.Error to emptySet()
+                    else -> null
+                }
+            }
+            is LeaderboardWidgetFeature.InternalMessage.FetchLeaderboardDataSuccess -> {
+                State.Content(
+                    dailyLeaderboard = message.dailyLeaderboard,
+                    weeklyLeaderboard = message.weeklyLeaderboard,
+                    currentUserId = message.currentUserId
+                ) to emptySet()
+            }
             LeaderboardWidgetFeature.InternalMessage.PullToRefresh -> {
                 when (state) {
                     is State.Content -> {

@@ -15,7 +15,10 @@ internal class LeaderboardWidgetComponentImpl(
     override val leaderboardWidgetActionDispatcher: LeaderboardWidgetActionDispatcher
         get() = LeaderboardWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor
+            leaderboardRepository = appGraph.buildLeaderboardDataComponent().leaderboardRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor
         )
 
     override val leaderboardWidgetViewStateMapper: LeaderboardWidgetViewStateMapper
