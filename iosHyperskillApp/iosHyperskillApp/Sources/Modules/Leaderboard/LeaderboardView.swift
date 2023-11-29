@@ -1,24 +1,38 @@
 import shared
 import SwiftUI
 
-extension LeaderboardScreenView {
+extension LeaderboardView {
     struct Appearance {
-        let backgroundColor = Color.background
+        let backgroundColor = Color.systemGroupedBackground
     }
 }
 
-struct LeaderboardScreenView: View {
+struct LeaderboardView: View {
     private(set) var appearance = Appearance()
 
-    @StateObject var viewModel: LeaderboardScreenViewModel
+    @StateObject var viewModel: LeaderboardViewModel
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: {
+                    viewModel.logViewedEvent()
+                    viewModel.doScreenBecomesActive()
+                }
+            )
 
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
+        .toolbar {
+            GamificationToolbarContent(
+                stateKs: viewModel.gamificationToolbarStateKs,
+                onGemsTap: viewModel.doGemsBarButtonItemAction,
+                onStreakTap: viewModel.doStreakBarButtonItemAction,
+                onProgressTap: viewModel.doProgressBarButtonItemAction
+            )
         }
         .onAppear {
             viewModel.startListening()
@@ -35,13 +49,16 @@ struct LeaderboardScreenView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewModel.listViewStateKs {
-        case .idle, .loading:
+        case .idle:
+            ProgressView()
+                .onAppear(perform: viewModel.doLoadLeaderboard)
+        case .loading:
             ProgressView()
         case .error:
             PlaceholderView(
                 configuration: .networkError(
                     backgroundColor: appearance.backgroundColor,
-                    action: viewModel.doRetryLoadLeaderboardScreen
+                    action: viewModel.doRetryLoadLeaderboard
                 )
             )
         case .content(let viewData):
@@ -50,12 +67,13 @@ struct LeaderboardScreenView: View {
     }
 }
 
-// MARK: - LeaderboardScreenView (ViewAction) -
+// MARK: - LeaderboardView (ViewAction) -
 
-private extension LeaderboardScreenView {
+private extension LeaderboardView {
     func handleViewAction(
         _ viewAction: LeaderboardScreenFeatureActionViewAction
     ) {
+        #warning("TODO")
         switch LeaderboardScreenFeatureActionViewActionKs(viewAction) {
         case .gamificationToolbarViewAction:
             break
@@ -65,9 +83,9 @@ private extension LeaderboardScreenView {
     }
 }
 
-// MARK: - LeaderboardScreenView (Preview) -
+// MARK: - LeaderboardView (Preview) -
 
 @available(iOS 17, *)
 #Preview {
-    LeaderboardScreenAssembly().makeModule()
+    LeaderboardAssembly().makeModule()
 }

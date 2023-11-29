@@ -274,6 +274,15 @@ enum Strings {
         static let activitiesError = sharedStrings.study_plan_activities_error_text.localized()
     }
 
+    // MARK: - Leaderboard -
+
+    enum Leaderboard {
+        static let title = sharedStrings.leaderboard_title.localized()
+        static let tabDay = sharedStrings.leaderboard_tab_day_title.localized()
+        static let tabWeek = sharedStrings.leaderboard_tab_week_title.localized()
+        static let placeholderEmptyDescription = sharedStrings.leaderboard_placeholder_empty_description.localized()
+    }
+
     // MARK: - Profile -
 
     enum Profile {
