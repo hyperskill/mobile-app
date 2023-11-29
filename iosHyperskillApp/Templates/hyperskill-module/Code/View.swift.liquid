@@ -60,12 +60,9 @@ private extension {{ module_info.name }}View {
     }
 }
 
-// MARK: - {{ module_info.name }}View_Previews: PreviewProvider -
+// MARK: - {{ module_info.name }}View (Preview) -
 
-struct {{ module_info.name }}View_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitViewControllerPreview {
-            {{ module_info.name }}Assembly().makeModule()
-        }
-    }
+@available(iOS 17, *)
+#Preview {
+    {{ module_info.name }}Assembly().makeModule()
 }
