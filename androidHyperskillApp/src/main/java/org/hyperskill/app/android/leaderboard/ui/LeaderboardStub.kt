@@ -1,11 +1,9 @@
 package org.hyperskill.app.android.leaderboard.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -25,12 +23,12 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 fun LeaderboardStub(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Image(
             painter = painterResource(id = R.drawable.img_leaderboard_stub),
-            contentDescription = null,
-            modifier = modifier.height(IntrinsicSize.Min)
+            contentDescription = null
         )
         Text(
             text = stringResource(id = org.hyperskill.app.R.string.leaderboard_stub_description),
@@ -46,8 +44,8 @@ fun LeaderboardStub(modifier: Modifier = Modifier) {
 @Composable
 private fun LeaderboardStubPreview() {
     HyperskillTheme {
-        Box(modifier = Modifier.fillMaxWidth()) {
-            LeaderboardStub()
-        }
+        LeaderboardStub(
+            modifier = Modifier.fillMaxHeight()
+        )
     }
 }
