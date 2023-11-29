@@ -4,6 +4,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     HOME("home"),
     TRACK("track"),
     STUDY_PLAN("study_plan"),
+    LEADERBOARD("leaderboard"),
     PROFILE("profile"),
     DEBUG("debug"),
     SEND("send"),
