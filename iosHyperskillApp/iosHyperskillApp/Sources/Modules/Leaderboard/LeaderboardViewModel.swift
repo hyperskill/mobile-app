@@ -39,6 +39,10 @@ final class LeaderboardViewModel: FeatureViewModel<
         }
     }
 
+    func doSelectTab(_ tab: LeaderboardScreenFeature.Tab) {
+        onNewMessage(LeaderboardScreenFeatureMessageTabClicked(tab: tab))
+    }
+
     // MARK: GamificationToolbar
 
     func doStreakBarButtonItemAction() {

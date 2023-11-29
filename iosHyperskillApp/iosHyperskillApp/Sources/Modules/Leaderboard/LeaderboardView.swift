@@ -46,23 +46,70 @@ struct LeaderboardView: View {
 
     // MARK: Private API
 
+    private var segmentedPicker: some View {
+        Picker(
+            "",
+            selection: Binding<LeaderboardTab>(
+                get: { viewModel.state.currentTab.wrapped.require() },
+                set: { viewModel.doSelectTab($0.shared) }
+            )
+        ) {
+            ForEach(LeaderboardTab.allCases, id: \.self) { option in
+                Text(option.title)
+            }
+        }
+        .pickerStyle(SegmentedPickerStyle())
+        .padding(.horizontal)
+    }
+
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.listViewStateKs {
-        case .idle:
-            ProgressView()
-                .onAppear(perform: viewModel.doLoadLeaderboard)
-        case .loading:
-            ProgressView()
-        case .error:
-            PlaceholderView(
-                configuration: .networkError(
-                    backgroundColor: appearance.backgroundColor,
-                    action: viewModel.doRetryLoadLeaderboard
+        VStack {
+            segmentedPicker
+
+            switch viewModel.listViewStateKs {
+            case .idle:
+                ScrollView {
+                    ProgressView()
+                        .onAppear(perform: viewModel.doLoadLeaderboard)
+                }
+            case .loading:
+                //ProgressView()
+                List {
+                    Section {
+                        ForEach(1..<4, id: \.self) { option in
+                            Text("\(option)")
+                        }
+                    }
+
+                    Section {
+                        ForEach(1..<100, id: \.self) { option in
+                            Text("\(option)")
+                        }
+                    }
+                }
+            case .error:
+                PlaceholderView(
+                    configuration: .networkError(
+                        backgroundColor: appearance.backgroundColor,
+                        action: viewModel.doRetryLoadLeaderboard
+                    )
                 )
-            )
-        case .content(let viewData):
-            Text("Hello, World!")
+            case .content(let viewData):
+                List {
+                    Section {
+                        ForEach(1..<4, id: \.self) { option in
+                            Text("\(option)")
+                        }
+                    }
+
+                    Section {
+                        ForEach(1..<100, id: \.self) { option in
+                            Text("\(option)")
+                        }
+                    }
+                }
+            }
         }
     }
 }
