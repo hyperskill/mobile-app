@@ -97,7 +97,8 @@ struct LeaderboardView: View {
                 )
             case .content(let listViewState):
                 LeaderboardListView(
-                    items: listViewState.list
+                    items: listViewState.list,
+                    onRowTap: viewModel.doListItemTapAction(item:)
                 )
             }
         }

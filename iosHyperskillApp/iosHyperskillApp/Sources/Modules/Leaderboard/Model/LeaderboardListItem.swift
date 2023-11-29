@@ -24,3 +24,17 @@ extension LeaderboardListItem {
         )
     }
 }
+
+extension LeaderboardListItem {
+    var shared: LeaderboardWidgetListItemUserInfo {
+        LeaderboardWidgetListItemUserInfo(
+            position: Int32(position),
+            passedProblems: Int32(passedProblems),
+            passedProblemsSubtitle: passedProblemsSubtitle,
+            userId: Int64(userId),
+            userAvatar: userAvatar,
+            username: username,
+            isCurrentUser: isCurrentUser
+        )
+    }
+}

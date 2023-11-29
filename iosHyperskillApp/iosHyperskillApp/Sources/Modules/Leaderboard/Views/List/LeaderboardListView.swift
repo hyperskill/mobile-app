@@ -4,13 +4,16 @@ import SwiftUI
 struct LeaderboardListView: View {
     let items: [LeaderboardWidgetListItem]
 
+    let onRowTap: (LeaderboardListItem) -> Void
+
     var body: some View {
         List {
             ForEach(sectionedItems(), id: \.self) { items in
                 Section {
                     ForEach(items, id: \.self) { item in
                         LeaderboardListRowView(
-                            item: item
+                            item: item,
+                            onTap: { onRowTap(item) }
                         )
                         .listRowBackground(
                             LeaderboardListRowView.Appearance.backgroundColor(for: item)
@@ -112,6 +115,7 @@ struct LeaderboardListView: View {
                 username: "User 15",
                 isCurrentUser: false
             )
-        ]
+        ],
+        onRowTap: { _ in }
     )
 }

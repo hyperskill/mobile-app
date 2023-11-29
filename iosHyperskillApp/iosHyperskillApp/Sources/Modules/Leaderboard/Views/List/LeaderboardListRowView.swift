@@ -31,6 +31,8 @@ struct LeaderboardListRowView: View {
 
     let item: LeaderboardListItem
 
+    var onTap: () -> Void = {}
+
     var body: some View {
         HStack {
             positionView
@@ -39,6 +41,7 @@ struct LeaderboardListRowView: View {
             Spacer()
             passedProblemsView
         }
+        .onTapGesture(perform: onTap)
     }
 
     private var positionView: some View {

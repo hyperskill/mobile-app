@@ -43,6 +43,10 @@ final class LeaderboardViewModel: FeatureViewModel<
         onNewMessage(LeaderboardScreenFeatureMessageTabClicked(tab: tab))
     }
 
+    func doListItemTapAction(item: LeaderboardListItem) {
+        onNewMessage(LeaderboardScreenFeatureMessageListItemClicked(listItem: item.shared))
+    }
+
     // MARK: GamificationToolbar
 
     func doStreakBarButtonItemAction() {
