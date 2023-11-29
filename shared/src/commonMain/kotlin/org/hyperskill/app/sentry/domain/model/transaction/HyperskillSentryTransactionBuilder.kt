@@ -62,6 +62,15 @@ object HyperskillSentryTransactionBuilder {
         )
 
     /**
+     * LeaderboardWidgetFeature
+     */
+    fun buildLeaderboardWidgetRemoteDataLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "leaderboard-widget-feature-remote-data-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
      * StepFeature
      */
     fun buildStepScreenRemoteDataLoading(): HyperskillSentryTransaction =
