@@ -4,13 +4,15 @@ import SwiftUI
 struct LeaderboardListView: View {
     let items: [LeaderboardWidgetListItem]
 
+    let updatesInText: String?
+
     let onRowTap: (LeaderboardListItem) -> Void
 
     var body: some View {
         List {
-            ForEach(sectionedItems(), id: \.self) { items in
-                Section {
-                    ForEach(items, id: \.self) { item in
+            ForEach(sections(), id: \.self) { section in
+                Section(header: buildSectionHeader(for: section)) {
+                    ForEach(section.items, id: \.self) { item in
                         LeaderboardListRowView(
                             item: item,
                             onTap: { onRowTap(item) }
@@ -22,29 +24,54 @@ struct LeaderboardListView: View {
                 }
             }
         }
+        .listStyle(.insetGrouped)
     }
 
-    private func sectionedItems() -> [[LeaderboardListItem]] {
-        var result = [[LeaderboardListItem]]()
-        var currentSection = [LeaderboardListItem]()
+    @ViewBuilder
+    private func buildSectionHeader(for sectionData: SectionData) -> some View {
+        if let headerTitle = sectionData.headerTitle {
+            Text(headerTitle)
+        } else {
+            EmptyView()
+        }
+    }
+
+    private func sections() -> [SectionData] {
+        var result = [SectionData]()
+        var currentSectionItems = [LeaderboardListItem]()
 
         for item in items {
             switch LeaderboardWidgetListItemKs(item) {
             case .separator:
-                if !currentSection.isEmpty {
-                    result.append(currentSection)
-                    currentSection = []
+                if !currentSectionItems.isEmpty {
+                    result.append(
+                        SectionData(
+                            headerTitle: result.isEmpty ? updatesInText : nil,
+                            items: currentSectionItems
+                        )
+                    )
+                    currentSectionItems = []
                 }
             case .userInfo(let data):
-                currentSection.append(LeaderboardListItem(sharedListItem: data))
+                currentSectionItems.append(LeaderboardListItem(sharedListItem: data))
             }
         }
 
-        if !currentSection.isEmpty {
-            result.append(currentSection)
+        if !currentSectionItems.isEmpty {
+            result.append(
+                SectionData(
+                    headerTitle: result.isEmpty ? updatesInText : nil,
+                    items: currentSectionItems
+                )
+            )
         }
 
         return result
+    }
+
+    private struct SectionData: Hashable {
+        let headerTitle: String?
+        let items: [LeaderboardListItem]
     }
 }
 
@@ -116,6 +143,7 @@ struct LeaderboardListView: View {
                 isCurrentUser: false
             )
         ],
+        updatesInText: "Update in 10 hours",
         onRowTap: { _ in }
     )
 }
