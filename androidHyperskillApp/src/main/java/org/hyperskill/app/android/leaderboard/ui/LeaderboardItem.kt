@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.leaderboard.ui
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -22,12 +23,22 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.SubcomposeAsyncImage
+import coil.compose.AsyncImage
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.R as AndroidR
+
+object LeaderboardItemDefaults {
+    val horizontalPadding: Dp = 16.dp
+    val verticalPadding: Dp = 8.dp
+    const val PLACE_INFO_WEIGHT: Float = 0.16f
+    const val SOLVED_PROBLEM_INFO_WEIGHT: Float = 0.16f
+    const val PARTICIPANT_INFO_WEIGHT: Float =
+        1f - PLACE_INFO_WEIGHT - SOLVED_PROBLEM_INFO_WEIGHT
+}
 
 @Composable
 fun LeaderboardItem(
@@ -49,14 +60,17 @@ fun LeaderboardItem(
                     }
                 )
             )
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(
+                horizontal = LeaderboardItemDefaults.horizontalPadding,
+                vertical = LeaderboardItemDefaults.verticalPadding
+            ),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         PlaceInfo(
             placeNumber = placeNumber,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .weight(0.16f)
+                .weight(LeaderboardItemDefaults.PLACE_INFO_WEIGHT)
         )
 
         ParticipantInfo(
@@ -64,13 +78,14 @@ fun LeaderboardItem(
             participantName = participantName,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
-                .weight(0.68f)
+                .weight(LeaderboardItemDefaults.PARTICIPANT_INFO_WEIGHT)
         )
 
         SolvedProblemsInfo(
             solvedProblemsAmount = solvedProblemsAmount,
-            modifier = Modifier.align(Alignment.CenterVertically)
-                .weight(0.16f)
+            modifier = Modifier
+                .align(Alignment.CenterVertically)
+                .weight(LeaderboardItemDefaults.SOLVED_PROBLEM_INFO_WEIGHT)
         )
     }
 }
@@ -119,9 +134,13 @@ private fun ParticipantInfo(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        SubcomposeAsyncImage(
+        val placeholderPainter =
+            painterResource(id = org.hyperskill.app.android.R.drawable.avatar_place_holder)
+        AsyncImage(
             model = participantAvatarUrl,
             contentDescription = null,
+            placeholder = placeholderPainter,
+            error = placeholderPainter,
             modifier = Modifier
                 .size(40.dp)
                 .border(
@@ -217,6 +236,22 @@ private class LeaderboardItemDataProvider : PreviewParameterProvider<Leaderboard
 @Preview(showBackground = true)
 @Composable
 private fun LeaderboardItemPreview(
+    @PreviewParameter(LeaderboardItemDataProvider::class) leaderBoardItemData: LeaderboardItemData
+) {
+    HyperskillTheme {
+        LeaderboardItem(
+            placeNumber = leaderBoardItemData.placeNumber,
+            participantAvatarUrl = null,
+            participantName = leaderBoardItemData.participantName,
+            solvedProblemsAmount = leaderBoardItemData.solvedProblemsAmount,
+            isHighlighted = leaderBoardItemData.isHighlighted
+        )
+    }
+}
+
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL)
+@Composable
+private fun LeaderboardItemDarkPreview(
     @PreviewParameter(LeaderboardItemDataProvider::class) leaderBoardItemData: LeaderboardItemData
 ) {
     HyperskillTheme {
