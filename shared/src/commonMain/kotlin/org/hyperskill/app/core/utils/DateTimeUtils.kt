@@ -38,14 +38,17 @@ object DateTimeUtils {
     fun secondsUntilNextSundayInNewYork(): Long {
         val tzNewYork = TimeZone.NYC
         val nowInNewYork = Clock.System.now().toLocalDateTime(tzNewYork)
+        val nowInNewYorkInstant = nowInNewYork.toInstant(tzNewYork)
 
         // Calculate the number of days until the next Sunday and add that number of days to the current date.
-        val daysUntilSunday = (DayOfWeek.SUNDAY.ordinal - nowInNewYork.dayOfWeek.ordinal + 7) % 7
-        val nextSundayInNewYork = nowInNewYork
-            .toInstant(tzNewYork)
-            .plus(daysUntilSunday.toLong(), DateTimeUnit.DAY, tzNewYork)
-            .toLocalDateTime(tzNewYork)
+        val nextSundayInNewYorkInstant = if (nowInNewYork.dayOfWeek == DayOfWeek.SUNDAY) {
+            nowInNewYorkInstant.plus(1, DateTimeUnit.WEEK, tzNewYork)
+        } else {
+            val daysUntilSunday = (DayOfWeek.SUNDAY.ordinal - nowInNewYork.dayOfWeek.ordinal + 7) % 7
+            nowInNewYorkInstant.plus(daysUntilSunday.toLong(), DateTimeUnit.DAY, tzNewYork)
+        }
 
+        val nextSundayInNewYork = nextSundayInNewYorkInstant.toLocalDateTime(tzNewYork)
         val startOfNextSunday = LocalDateTime(
             year = nextSundayInNewYork.year,
             month = nextSundayInNewYork.month,
@@ -56,6 +59,6 @@ object DateTimeUtils {
             nanosecond = 0
         )
 
-        return (startOfNextSunday.toInstant(tzNewYork) - nowInNewYork.toInstant(tzNewYork)).inWholeSeconds
+        return (startOfNextSunday.toInstant(tzNewYork) - nowInNewYorkInstant).inWholeSeconds
     }
 }
