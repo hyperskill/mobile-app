@@ -262,6 +262,7 @@
     <string name="leaderboard_tab_day_title">Day</string>
     <string name="leaderboard_tab_week_title">Week</string>
     <string name="leaderboard_placeholder_empty_description">Solve a problem to get a place on the leaderboard</string>
+    <string name="leaderboard_update_in_text">Update in %s</string>
 
     <!-- Debug menu -->
     <string name="debug_menu_title">Debug</string>

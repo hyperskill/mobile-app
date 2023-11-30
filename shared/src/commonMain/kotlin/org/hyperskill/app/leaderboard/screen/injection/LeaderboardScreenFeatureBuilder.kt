@@ -5,6 +5,8 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenActionDispatcher
@@ -36,7 +38,9 @@ internal object LeaderboardScreenFeatureBuilder {
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         analyticInteractor: AnalyticInteractor,
         logger: Logger,
-        buildVariant: BuildVariant
+        buildVariant: BuildVariant,
+        resourceProvider: ResourceProvider,
+        dateFormatter: SharedDateFormatter
     ): Feature<ViewState, Message, Action> {
         val leaderboardScreenReducer = LeaderboardScreenReducer(
             leaderWidgetReducer = leaderWidgetReducer,
@@ -48,6 +52,8 @@ internal object LeaderboardScreenFeatureBuilder {
         )
 
         val leaderboardScreenViewStateMapper = LeaderboardScreenViewStateMapper(
+            resourceProvider = resourceProvider,
+            dateFormatter = dateFormatter,
             leaderboardWidgetViewStateMapper = leaderboardWidgetViewStateMapper
         )
 

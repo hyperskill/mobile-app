@@ -1,5 +1,6 @@
 package org.hyperskill.app.leaderboard.screen.presentation
 
+import org.hyperskill.app.core.utils.DateTimeUtils
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.leaderboard.screen.domain.analytic.LeaderboardClickedPullToRefreshHyperskillAnalyticEvent
@@ -52,6 +53,46 @@ internal class LeaderboardScreenReducer(
             is Message.ListItemClicked -> {
                 handleListItemClickedMessage(state, message)
             }
+            // Timer Messages
+            LeaderboardScreenFeature.InternalMessage.DailyLeaderboardTimerCompleted -> {
+                val (leaderboardWidgetState, leaderboardWidgetActions) =
+                    reduceLeaderboardWidgetMessage(
+                        state.leaderboardWidgetState,
+                        LeaderboardWidgetFeature.InternalMessage.Initialize(forceUpdate = true)
+                    )
+
+                val secondsUntilStartOfNextDayInNewYork = DateTimeUtils.secondsUntilStartOfNextDayInNewYork()
+
+                state.copy(
+                    leaderboardWidgetState = leaderboardWidgetState,
+                    dailyLeaderboardSecondsUntilNextUpdate = secondsUntilStartOfNextDayInNewYork
+                ) to leaderboardWidgetActions + setOf(
+                    InternalAction.LaunchDailyLeaderboardTimer(secondsUntilStartOfNextDayInNewYork)
+                )
+            }
+            is LeaderboardScreenFeature.InternalMessage.DailyLeaderboardTimerTick -> {
+                state.copy(dailyLeaderboardSecondsUntilNextUpdate = message.secondsUntilNextUpdate) to emptySet()
+            }
+            LeaderboardScreenFeature.InternalMessage.WeeklyLeaderboardTimerCompleted -> {
+                val (leaderboardWidgetState, leaderboardWidgetActions) =
+                    reduceLeaderboardWidgetMessage(
+                        state.leaderboardWidgetState,
+                        LeaderboardWidgetFeature.InternalMessage.Initialize(forceUpdate = true)
+                    )
+
+                val secondsUntilNextSundayInNewYork = DateTimeUtils.secondsUntilNextSundayInNewYork()
+
+                state.copy(
+                    leaderboardWidgetState = leaderboardWidgetState,
+                    weeklyLeaderboardSecondsUntilNextUpdate = secondsUntilNextSundayInNewYork
+                ) to leaderboardWidgetActions + setOf(
+                    InternalAction.LaunchWeeklyLeaderboardTimer(secondsUntilNextSundayInNewYork)
+                )
+            }
+            is LeaderboardScreenFeature.InternalMessage.WeeklyLeaderboardTimerTick -> {
+                state.copy(weeklyLeaderboardSecondsUntilNextUpdate = message.secondsUntilNextUpdate) to emptySet()
+            }
+            // Analytic Messages
             Message.ViewedEventMessage -> {
                 state to setOf(InternalAction.LogAnalyticEvent(LeaderboardViewedHyperskillAnalyticEvent))
             }
@@ -72,15 +113,29 @@ internal class LeaderboardScreenReducer(
         state: State,
         retryContentLoadingClicked: Boolean
     ): LeaderboardScreenReducerResult {
+        val (screenState, screenActions) = if (state.leaderboardWidgetState is LeaderboardWidgetFeature.State.Idle) {
+            val secondsUntilStartOfNextDayInNewYork = DateTimeUtils.secondsUntilStartOfNextDayInNewYork()
+            val secondsUntilNextSundayInNewYork = DateTimeUtils.secondsUntilNextSundayInNewYork()
+            state.copy(
+                dailyLeaderboardSecondsUntilNextUpdate = secondsUntilStartOfNextDayInNewYork,
+                weeklyLeaderboardSecondsUntilNextUpdate = secondsUntilNextSundayInNewYork
+            ) to setOf(
+                InternalAction.LaunchDailyLeaderboardTimer(secondsUntilStartOfNextDayInNewYork),
+                InternalAction.LaunchWeeklyLeaderboardTimer(secondsUntilNextSundayInNewYork)
+            )
+        } else {
+            state to emptySet()
+        }
+
         val (leaderboardWidgetState, leaderboardWidgetActions) =
             reduceLeaderboardWidgetMessage(
-                state.leaderboardWidgetState,
+                screenState.leaderboardWidgetState,
                 LeaderboardWidgetFeature.InternalMessage.Initialize(forceUpdate = retryContentLoadingClicked)
             )
 
         val (toolbarState, toolbarActions) =
             reduceGamificationToolbarMessage(
-                state.toolbarState,
+                screenState.toolbarState,
                 GamificationToolbarFeature.InternalMessage.Initialize(retryContentLoadingClicked)
             )
 
@@ -90,10 +145,10 @@ internal class LeaderboardScreenReducer(
             emptySet()
         }
 
-        return state.copy(
+        return screenState.copy(
             leaderboardWidgetState = leaderboardWidgetState,
             toolbarState = toolbarState
-        ) to (leaderboardWidgetActions + toolbarActions + analyticActions)
+        ) to (screenActions + leaderboardWidgetActions + toolbarActions + analyticActions)
     }
 
     private fun handlePullToRefreshMessage(state: State): LeaderboardScreenReducerResult {

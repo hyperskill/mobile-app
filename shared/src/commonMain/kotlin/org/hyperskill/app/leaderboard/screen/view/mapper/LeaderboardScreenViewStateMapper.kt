@@ -1,10 +1,15 @@
 package org.hyperskill.app.leaderboard.screen.view.mapper
 
+import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature
 import org.hyperskill.app.leaderboard.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboard.widget.view.mapper.LeaderboardWidgetViewStateMapper
 
 internal class LeaderboardScreenViewStateMapper(
+    private val resourceProvider: ResourceProvider,
+    private val dateFormatter: SharedDateFormatter,
     private val leaderboardWidgetViewStateMapper: LeaderboardWidgetViewStateMapper
 ) {
     fun map(state: LeaderboardScreenFeature.State): LeaderboardScreenFeature.ViewState =
@@ -15,7 +20,8 @@ internal class LeaderboardScreenViewStateMapper(
                 currentTab = state.currentTab
             ),
             toolbarState = state.toolbarState,
-            isRefreshing = state.isRefreshing
+            isRefreshing = state.isRefreshing,
+            updatesInText = getUpdatesInText(state)
         )
 
     private fun mapLeaderboardWidgetState(
@@ -38,4 +44,18 @@ internal class LeaderboardScreenViewStateMapper(
                 }
             }
         }
+
+    private fun getUpdatesInText(state: LeaderboardScreenFeature.State): String? {
+        val formattedDate = when (state.currentTab) {
+            LeaderboardScreenFeature.Tab.DAY ->
+                state.dailyLeaderboardSecondsUntilNextUpdate?.let { seconds ->
+                    dateFormatter.formatHoursWithMinutesCount(seconds)
+                }
+            LeaderboardScreenFeature.Tab.WEEK ->
+                state.weeklyLeaderboardSecondsUntilNextUpdate?.let { seconds ->
+                    dateFormatter.formatDaysWithHoursAndMinutesCount(seconds)
+                }
+        }
+        return formattedDate?.let { resourceProvider.getString(SharedResources.strings.leaderboard_update_in_text, it) }
+    }
 }
