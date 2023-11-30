@@ -159,7 +159,8 @@ private fun SolvedProblemsInfo(
             text = "problems",
             style = MaterialTheme.typography.body2,
             color = colorResource(id = R.color.color_on_surface_alpha_38),
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            modifier = Modifier.align(Alignment.End)
         )
     }
 }
