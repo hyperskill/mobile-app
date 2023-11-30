@@ -27,6 +27,8 @@ internal class LeaderboardScreenComponentImpl(
             gamificationToolbarActionDispatcher = gamificationToolbarComponent.gamificationToolbarActionDispatcher,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             logger = appGraph.loggerComponent.logger,
-            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
+            resourceProvider = appGraph.commonComponent.resourceProvider,
+            dateFormatter = appGraph.commonComponent.dateFormatter,
         )
 }

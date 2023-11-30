@@ -11,7 +11,9 @@ object LeaderboardScreenFeature {
     internal data class State(
         val currentTab: Tab,
         val leaderboardWidgetState: LeaderboardWidgetFeature.State,
-        val toolbarState: GamificationToolbarFeature.State
+        val toolbarState: GamificationToolbarFeature.State,
+        val dailyLeaderboardSecondsUntilNextUpdate: Long?,
+        val weeklyLeaderboardSecondsUntilNextUpdate: Long?
     ) {
         val isRefreshing: Boolean
             get() = leaderboardWidgetState.isRefreshing || toolbarState.isRefreshing
@@ -21,7 +23,8 @@ object LeaderboardScreenFeature {
         val currentTab: Tab,
         val listViewState: ListViewState,
         val toolbarState: GamificationToolbarFeature.State,
-        val isRefreshing: Boolean
+        val isRefreshing: Boolean,
+        val updatesInText: String?
     )
 
     sealed interface ListViewState {
@@ -44,6 +47,8 @@ object LeaderboardScreenFeature {
             currentTab = initialTab,
             leaderboardWidgetState = LeaderboardWidgetFeature.State.Idle,
             toolbarState = GamificationToolbarFeature.State.Idle,
+            dailyLeaderboardSecondsUntilNextUpdate = null,
+            weeklyLeaderboardSecondsUntilNextUpdate = null
         )
 
     sealed interface Message {
@@ -74,6 +79,14 @@ object LeaderboardScreenFeature {
         ) : Message
     }
 
+    internal sealed interface InternalMessage : Message {
+        object DailyLeaderboardTimerCompleted : InternalMessage
+        data class DailyLeaderboardTimerTick(val secondsUntilNextUpdate: Long) : InternalMessage
+
+        object WeeklyLeaderboardTimerCompleted : InternalMessage
+        data class WeeklyLeaderboardTimerTick(val secondsUntilNextUpdate: Long) : InternalMessage
+    }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
             /**
@@ -91,6 +104,9 @@ object LeaderboardScreenFeature {
 
     internal sealed interface InternalAction : Action {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+
+        data class LaunchDailyLeaderboardTimer(val secondsUntilStartOfNextDay: Long) : InternalAction
+        data class LaunchWeeklyLeaderboardTimer(val secondsUntilNextSunday: Long) : InternalAction
 
         /**
          * Action Wrappers
