@@ -45,7 +45,7 @@ data class Profile(
     @SerialName("track_title")
     val trackTitle: String?,
     @SerialName("project")
-    val projectId: Long?,
+    val projectId: Long? = null,
     @SerialName("is_beta")
     val isBeta: Boolean = false,
     @SerialName("timezone")
