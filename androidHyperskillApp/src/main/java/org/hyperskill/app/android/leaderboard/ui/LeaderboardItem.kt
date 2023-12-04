@@ -1,14 +1,12 @@
 package org.hyperskill.app.android.leaderboard.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
@@ -29,11 +27,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.R as AndroidR
 
 object LeaderboardItemDefaults {
     val horizontalPadding: Dp = 16.dp
     val verticalPadding: Dp = 8.dp
+    val avatarSize: Dp = 40.dp
     const val PLACE_INFO_WEIGHT: Float = 0.16f
     const val SOLVED_PROBLEM_INFO_WEIGHT: Float = 0.16f
     const val PARTICIPANT_INFO_WEIGHT: Float =
@@ -67,7 +65,7 @@ fun LeaderboardItem(
             ),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        PlaceInfo(
+        LeaderboardPlaceInfo(
             placeNumber = placeNumber,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
@@ -93,40 +91,6 @@ fun LeaderboardItem(
 }
 
 @Composable
-private fun PlaceInfo(
-    placeNumber: Int,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = placeNumber.toString(),
-            style = MaterialTheme.typography.body2,
-            color = colorResource(id = R.color.color_on_surface_alpha_60),
-            modifier = Modifier.align(Alignment.CenterVertically)
-        )
-        if (placeNumber in 1..3) {
-            Image(
-                painter = painterResource(
-                    id = when (placeNumber) {
-                        1 -> AndroidR.drawable.ic_leaderboard_first_place
-                        2 -> AndroidR.drawable.ic_leaderboard_second_place
-                        3 -> AndroidR.drawable.ic_leaderboard_third_place
-                        else -> error("Place icon should not be visible for the place number $placeNumber")
-                    }
-                ),
-                contentDescription = null,
-                modifier = modifier
-                    .requiredSize(24.dp)
-                    .align(Alignment.CenterVertically)
-            )
-        }
-    }
-}
-
-@Composable
 private fun ParticipantInfo(
     participantAvatarUrl: String?,
     participantName: String,
@@ -144,7 +108,7 @@ private fun ParticipantInfo(
             placeholder = placeholderPainter,
             error = placeholderPainter,
             modifier = Modifier
-                .size(40.dp)
+                .size(LeaderboardItemDefaults.avatarSize)
                 .border(
                     width = 1.dp,
                     color = colorResource(id = R.color.color_on_primary),

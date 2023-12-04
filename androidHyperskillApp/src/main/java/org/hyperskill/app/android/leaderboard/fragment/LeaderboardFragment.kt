@@ -61,7 +61,7 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-                    LeaderboardScreen()
+                    LeaderboardScreen(leaderboardViewModel)
                 }
             }
         }

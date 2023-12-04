@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.leaderboard.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,11 +13,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingError
 import org.hyperskill.app.leaderboard.presentation.LeaderboardViewModel
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature
+import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature.ListViewState
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature.Message
 
 @Composable
@@ -42,9 +45,10 @@ fun LeaderboardScreen(viewModel: LeaderboardViewModel) {
 @Composable
 fun LeaderboardScreen(
     currentTab: LeaderboardScreenFeature.Tab,
-    listState: LeaderboardScreenFeature.ListViewState,
+    listState: ListViewState,
     isRefreshing: Boolean,
-    onNewMessage: (Message) -> Unit
+    onNewMessage: (Message) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val currentOnNewMessage by rememberUpdatedState(newValue = onNewMessage)
     val pullRefreshState = rememberPullRefreshState(
@@ -54,7 +58,7 @@ fun LeaderboardScreen(
         }
     )
     Column(
-        Modifier
+        modifier
             .pullRefresh(pullRefreshState)
             .verticalScroll(rememberScrollState())
     ) {
@@ -62,24 +66,48 @@ fun LeaderboardScreen(
             currentOnNewMessage(Message.TabClicked(clickedTab))
         }
         when (listState) {
-            LeaderboardScreenFeature.ListViewState.Idle -> {
+            ListViewState.Idle -> {
                 // no op
             }
-            LeaderboardScreenFeature.ListViewState.Empty -> {
-                LeaderboardStub(modifier = Modifier.fillMaxHeight())
+            ListViewState.Empty -> {
+                LeaderboardStub(modifier = Modifier.weight(1f))
             }
-            LeaderboardScreenFeature.ListViewState.Loading -> {
-                LeaderboardSkeleton(modifier = Modifier.fillMaxHeight())
+            ListViewState.Loading -> {
+                LeaderboardSkeleton(modifier = Modifier.weight(1f))
             }
-            LeaderboardScreenFeature.ListViewState.Error -> {
+            ListViewState.Error -> {
                 ScreenDataLoadingError(
                     errorMessage = stringResource(id = R.string.leaderboard_placeholder_error_description),
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.weight(1f)
                 ) {
                     onNewMessage(Message.RetryContentLoading)
                 }
             }
-            is LeaderboardScreenFeature.ListViewState.Content -> TODO()
+            is ListViewState.Content -> TODO()
         }
     }
+}
+
+private class LeaderboardScreenPreviewProvider : PreviewParameterProvider<ListViewState> {
+    override val values: Sequence<ListViewState>
+        get() = sequenceOf(
+            ListViewState.Idle,
+            ListViewState.Empty,
+            ListViewState.Error,
+            ListViewState.Loading
+        )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LeaderboardScreenPreview(
+    @PreviewParameter(LeaderboardScreenPreviewProvider::class) viewState: ListViewState
+) {
+    LeaderboardScreen(
+        currentTab = LeaderboardScreenFeature.Tab.DAY,
+        listState = viewState,
+        isRefreshing = false,
+        onNewMessage = {},
+        modifier = Modifier.fillMaxSize()
+    )
 }
