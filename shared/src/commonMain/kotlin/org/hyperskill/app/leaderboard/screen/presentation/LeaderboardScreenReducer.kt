@@ -13,7 +13,6 @@ import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeatu
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature.State
 import org.hyperskill.app.leaderboard.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboard.widget.presentation.LeaderboardWidgetReducer
-import org.hyperskill.app.leaderboard.widget.view.model.LeaderboardWidgetListItem
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias LeaderboardScreenReducerResult = Pair<State, Set<Action>>
@@ -177,13 +176,11 @@ internal class LeaderboardScreenReducer(
         state: State,
         message: Message.ListItemClicked
     ): LeaderboardScreenReducerResult? =
-        if (message.listItem is LeaderboardWidgetListItem.UserInfo &&
-            state.leaderboardWidgetState is LeaderboardWidgetFeature.State.Content
-        ) {
+        if (state.leaderboardWidgetState is LeaderboardWidgetFeature.State.Content) {
             val targetLeaderboardItem = when (state.currentTab) {
                 LeaderboardScreenFeature.Tab.DAY -> state.leaderboardWidgetState.leaderboard.day
                 LeaderboardScreenFeature.Tab.WEEK -> state.leaderboardWidgetState.leaderboard.week
-            }.firstOrNull { it.user.id == message.listItem.userId }
+            }.firstOrNull { it.user.id == message.userId }
 
             if (targetLeaderboardItem != null) {
                 val (leaderboardWidgetState, leaderboardWidgetActions) =
