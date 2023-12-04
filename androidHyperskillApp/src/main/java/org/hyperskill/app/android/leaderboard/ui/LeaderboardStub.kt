@@ -31,7 +31,7 @@ fun LeaderboardStub(modifier: Modifier = Modifier) {
             contentDescription = null
         )
         Text(
-            text = stringResource(id = org.hyperskill.app.R.string.leaderboard_stub_description),
+            text = stringResource(id = org.hyperskill.app.R.string.leaderboard_placeholder_empty_description),
             style = MaterialTheme.typography.h6,
             color = colorResource(id = org.hyperskill.app.R.color.color_on_surface),
             textAlign = TextAlign.Center,

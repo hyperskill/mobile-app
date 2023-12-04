@@ -59,8 +59,8 @@ fun LeaderboardTabs(
 private fun getTabTitle(tab: LeaderboardTab): String =
     stringResource(
         id = when (tab) {
-            LeaderboardTab.DAY -> R.string.leaderboard_day_tab_title
-            LeaderboardTab.WEEK -> R.string.leaderboard_week_tab_title
+            LeaderboardTab.DAY -> R.string.leaderboard_tab_day_title
+            LeaderboardTab.WEEK -> R.string.leaderboard_tab_week_title
         }
     )
 

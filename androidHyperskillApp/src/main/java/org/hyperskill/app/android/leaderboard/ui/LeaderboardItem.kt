@@ -46,6 +46,7 @@ fun LeaderboardItem(
     participantAvatarUrl: String?,
     participantName: String,
     solvedProblemsAmount: Int,
+    problemsSubtitle: String,
     isHighlighted: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -83,6 +84,7 @@ fun LeaderboardItem(
 
         SolvedProblemsInfo(
             solvedProblemsAmount = solvedProblemsAmount,
+            problemsSubtitle = problemsSubtitle,
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .weight(LeaderboardItemDefaults.SOLVED_PROBLEM_INFO_WEIGHT)
@@ -165,6 +167,7 @@ private fun ParticipantInfo(
 @Composable
 private fun SolvedProblemsInfo(
     solvedProblemsAmount: Int,
+    problemsSubtitle: String,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -175,7 +178,7 @@ private fun SolvedProblemsInfo(
             modifier = Modifier.align(Alignment.End)
         )
         Text(
-            text = "problems",
+            text = problemsSubtitle,
             style = MaterialTheme.typography.body2,
             color = colorResource(id = R.color.color_on_surface_alpha_38),
             fontSize = 12.sp,
@@ -188,6 +191,7 @@ private data class LeaderboardItemData(
     val placeNumber: Int,
     val participantName: String,
     val solvedProblemsAmount: Int,
+    val problemsSubtitle: String,
     val isHighlighted: Boolean
 )
 
@@ -198,36 +202,42 @@ private class LeaderboardItemDataProvider : PreviewParameterProvider<Leaderboard
                 placeNumber = 1,
                 participantName = "User 115347",
                 solvedProblemsAmount = 10000,
+                problemsSubtitle = "problems",
                 isHighlighted = false
             ),
             LeaderboardItemData(
                 placeNumber = 2,
                 participantName = "User 115347",
                 solvedProblemsAmount = 8000,
+                problemsSubtitle = "problems",
                 isHighlighted = false
             ),
             LeaderboardItemData(
                 placeNumber = 3,
                 participantName = "User 115347352315231235",
                 solvedProblemsAmount = 3000,
+                problemsSubtitle = "problems",
                 isHighlighted = false
             ),
             LeaderboardItemData(
                 placeNumber = 4,
                 participantName = "User 115347352315231235",
                 solvedProblemsAmount = 999,
+                problemsSubtitle = "problems",
                 isHighlighted = false
             ),
             LeaderboardItemData(
                 placeNumber = 20,
                 participantName = "User 115347352315231235",
                 solvedProblemsAmount = 500,
+                problemsSubtitle = "problems",
                 isHighlighted = false
             ),
             LeaderboardItemData(
                 placeNumber = 9999,
                 participantName = "User 115347352315231235",
-                solvedProblemsAmount = 2,
+                solvedProblemsAmount = 1,
+                problemsSubtitle = "problem",
                 isHighlighted = true
             ),
         )
@@ -244,6 +254,7 @@ private fun LeaderboardItemPreview(
             participantAvatarUrl = null,
             participantName = leaderBoardItemData.participantName,
             solvedProblemsAmount = leaderBoardItemData.solvedProblemsAmount,
+            problemsSubtitle = leaderBoardItemData.problemsSubtitle,
             isHighlighted = leaderBoardItemData.isHighlighted
         )
     }
@@ -260,6 +271,7 @@ private fun LeaderboardItemDarkPreview(
             participantAvatarUrl = null,
             participantName = leaderBoardItemData.participantName,
             solvedProblemsAmount = leaderBoardItemData.solvedProblemsAmount,
+            problemsSubtitle = leaderBoardItemData.problemsSubtitle,
             isHighlighted = leaderBoardItemData.isHighlighted
         )
     }

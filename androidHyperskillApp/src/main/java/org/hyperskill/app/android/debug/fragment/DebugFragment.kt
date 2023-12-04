@@ -57,7 +57,7 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
                 DebugScreen(debugViewModel)
             }
         }
-        debugViewModel.handleActions(viewLifecycleOwner, block = ::handleAction)
+        debugViewModel.handleActions(viewLifecycleOwner, onAction = ::handleAction)
     }
 
     private fun handleAction(action: DebugFeature.Action.ViewAction) {
