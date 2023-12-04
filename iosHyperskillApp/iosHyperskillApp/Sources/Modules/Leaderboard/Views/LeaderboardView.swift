@@ -78,6 +78,7 @@ struct LeaderboardView: View {
             case .error:
                 PlaceholderView(
                     configuration: .networkError(
+                        titleText: Strings.Leaderboard.placeholderErrorDescription,
                         backgroundColor: appearance.backgroundColor,
                         action: viewModel.doRetryLoadLeaderboard
                     )

@@ -282,6 +282,7 @@ enum Strings {
         static let tabDay = sharedStrings.leaderboard_tab_day_title.localized()
         static let tabWeek = sharedStrings.leaderboard_tab_week_title.localized()
         static let placeholderEmptyDescription = sharedStrings.leaderboard_placeholder_empty_description.localized()
+        static let placeholderErrorDescription = sharedStrings.leaderboard_placeholder_error_description.localized()
     }
 
     // MARK: - Profile -
