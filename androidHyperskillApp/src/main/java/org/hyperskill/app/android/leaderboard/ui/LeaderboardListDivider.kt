@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.leaderboard.ui.LeaderboardListDividerDefaults.circleDiameter
+import org.hyperskill.app.android.leaderboard.ui.LeaderboardListDividerDefaults.gapBetweenCircles
 
 private object LeaderboardListDividerDefaults {
     const val CIRCLE_AMOUNT: Int = 3
@@ -42,7 +44,7 @@ fun LeaderboardListDivider(
             modifier = Modifier
                 .size(
                     width = LeaderboardListDividerDefaults.circlesWidth,
-                    height = LeaderboardListDividerDefaults.circleDiameter
+                    height = circleDiameter
                 )
                 .align(Alignment.TopStart)
         ) {
@@ -61,7 +63,7 @@ fun LeaderboardListDivider(
 
 private fun Density.getXOffset(circleIndex: Int): Float =
     LeaderboardListDividerDefaults.circleRadius.toPx() +
-        circleIndex * (LeaderboardListDividerDefaults.circleDiameter.toPx() + LeaderboardListDividerDefaults.gapBetweenCircles.toPx())
+        circleIndex * (circleDiameter.toPx() + gapBetweenCircles.toPx())
 
 @Preview
 @Composable

@@ -93,7 +93,6 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
                 .collect { subtitle ->
                     gamificationToolbarDelegate?.setSubtitle(subtitle)
                 }
-
         }
     }
 
