@@ -48,26 +48,22 @@ struct LeaderboardView: View {
 
     // MARK: Private API
 
-    private var segmentedPicker: some View {
-        Picker(
-            "",
-            selection: Binding<LeaderboardTab>(
-                get: { viewModel.state.currentTab.wrapped.require() },
-                set: { viewModel.doSelectTab($0.shared) }
-            )
-        ) {
-            ForEach(LeaderboardTab.allCases, id: \.self) { option in
-                Text(option.title)
-            }
-        }
-        .pickerStyle(SegmentedPickerStyle())
-        .padding(.horizontal)
-    }
-
     @ViewBuilder
     private func buildBody() -> some View {
         VStack {
-            segmentedPicker
+            Picker(
+                "",
+                selection: Binding<LeaderboardTab>(
+                    get: { viewModel.state.currentTab.wrapped.require() },
+                    set: { viewModel.doSelectTab($0.shared) }
+                )
+            ) {
+                ForEach(LeaderboardTab.allCases, id: \.self) { option in
+                    Text(option.title)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
 
             switch viewModel.listViewStateKs {
             case .idle:
