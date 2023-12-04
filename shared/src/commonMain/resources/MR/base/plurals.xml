@@ -72,6 +72,10 @@
         <item quantity="one">+%d gem</item>
         <item quantity="other">+%d gems</item>
     </plural>
+    <plural name="problems_without_count">
+        <item quantity="one">problem</item>
+        <item quantity="other">problems</item>
+    </plural>
     <plural name="badge_project_master_unlock_description">
         <item quantity="one">Complete %d project to unlock this badge</item>
         <item quantity="other">Complete %d projects to unlock this badge</item>

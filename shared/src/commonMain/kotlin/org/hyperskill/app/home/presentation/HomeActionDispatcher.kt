@@ -9,15 +9,9 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.utils.DateTimeUtils
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
@@ -49,15 +43,6 @@ internal class HomeActionDispatcher(
 
     companion object {
         private val DELAY_ONE_MINUTE = 1.toDuration(DurationUnit.MINUTES)
-
-        fun calculateNextProblemIn(): Long {
-            val tzNewYork = TimeZone.of("America/New_York")
-            val nowInNewYork = Clock.System.now().toLocalDateTime(tzNewYork).toInstant(tzNewYork)
-            val tomorrowInNewYork = nowInNewYork.plus(1, DateTimeUnit.DAY, tzNewYork).toLocalDateTime(tzNewYork)
-            val startOfTomorrow =
-                LocalDateTime(tomorrowInNewYork.year, tomorrowInNewYork.month, tomorrowInNewYork.dayOfMonth, 0, 0, 0, 0)
-            return (startOfTomorrow.toInstant(tzNewYork) - nowInNewYork).inWholeSeconds
-        }
     }
 
     init {
@@ -82,7 +67,7 @@ internal class HomeActionDispatcher(
                 isTimerLaunched = true
 
                 flow {
-                    var nextProblemIn = calculateNextProblemIn()
+                    var nextProblemIn = DateTimeUtils.secondsUntilStartOfNextDayInNewYork()
 
                     while (nextProblemIn > 0) {
                         delay(DELAY_ONE_MINUTE)
@@ -137,7 +122,7 @@ internal class HomeActionDispatcher(
         if (dailyStepId == null) {
             Result.success(HomeFeature.ProblemOfDayState.Empty)
         } else {
-            val nextProblemIn = calculateNextProblemIn()
+            val nextProblemIn = DateTimeUtils.secondsUntilStartOfNextDayInNewYork()
             stepInteractor
                 .getStep(dailyStepId)
                 .map { step ->

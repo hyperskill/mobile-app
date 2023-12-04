@@ -33,6 +33,12 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.items.injection.ItemsDataComponentImpl
+import org.hyperskill.app.leaderboard.injection.LeaderboardDataComponent
+import org.hyperskill.app.leaderboard.injection.LeaderboardDataComponentImpl
+import org.hyperskill.app.leaderboard.screen.injection.LeaderboardScreenComponent
+import org.hyperskill.app.leaderboard.screen.injection.LeaderboardScreenComponentImpl
+import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponent
+import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
@@ -421,4 +427,13 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildChallengeWidgetComponent(): ChallengeWidgetComponent =
         ChallengeWidgetComponentImpl(this)
+
+    override fun buildLeaderboardDataComponent(): LeaderboardDataComponent =
+        LeaderboardDataComponentImpl(this)
+
+    override fun buildLeaderboardScreenComponent(): LeaderboardScreenComponent =
+        LeaderboardScreenComponentImpl(this)
+
+    override fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent =
+        LeaderboardWidgetComponentImpl(this)
 }

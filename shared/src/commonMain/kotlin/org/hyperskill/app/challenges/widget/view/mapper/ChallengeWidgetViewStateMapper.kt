@@ -14,6 +14,7 @@ import org.hyperskill.app.challenges.domain.model.Challenge
 import org.hyperskill.app.challenges.domain.model.ChallengeStatus
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
+import org.hyperskill.app.core.utils.NYC
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
@@ -22,7 +23,7 @@ class ChallengeWidgetViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
     companion object {
-        private val TIME_ZONE_NYC = TimeZone.of("America/New_York")
+        private val TIME_ZONE_NYC = TimeZone.NYC
     }
 
     fun map(state: ChallengeWidgetFeature.State): ChallengeWidgetViewState =
