@@ -6,8 +6,8 @@ sealed interface LeaderboardWidgetListItem {
         val passedProblems: Int,
         val passedProblemsSubtitle: String,
         val userId: Long,
-        val userAvatar: String,
-        val username: String,
+        val userAvatar: String?,
+        val userName: String,
         val isCurrentUser: Boolean
     ) : LeaderboardWidgetListItem
 

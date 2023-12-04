@@ -51,7 +51,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 passedProblemsSubtitle = "",
                 userId = 1,
                 userAvatar = "https://some.url",
-                username = "User 1",
+                userName = "User 1",
                 isCurrentUser = true
             ),
             LeaderboardWidgetListItem.Separator,
@@ -61,7 +61,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 passedProblemsSubtitle = "",
                 userId = 2,
                 userAvatar = "https://some.url",
-                username = "User 2",
+                userName = "User 2",
                 isCurrentUser = false
             ),
             LeaderboardWidgetListItem.UserInfo(
@@ -70,7 +70,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 passedProblemsSubtitle = "",
                 userId = 3,
                 userAvatar = "https://some.url",
-                username = "User 3",
+                userName = "User 3",
                 isCurrentUser = false
             )
         )
@@ -119,7 +119,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 passedProblemsSubtitle = "",
                 userId = 1,
                 userAvatar = "https://some.url",
-                username = "User 1",
+                userName = "User 1",
                 isCurrentUser = true
             ),
             LeaderboardWidgetListItem.UserInfo(
@@ -128,7 +128,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 passedProblemsSubtitle = "",
                 userId = 2,
                 userAvatar = "https://some.url",
-                username = "User 2",
+                userName = "User 2",
                 isCurrentUser = false
             ),
             LeaderboardWidgetListItem.UserInfo(
@@ -137,7 +137,7 @@ class LeaderboardWidgetViewStateMapperTest {
                 passedProblemsSubtitle = "",
                 userId = 3,
                 userAvatar = "https://some.url",
-                username = "User 3",
+                userName = "User 3",
                 isCurrentUser = false
             )
         )

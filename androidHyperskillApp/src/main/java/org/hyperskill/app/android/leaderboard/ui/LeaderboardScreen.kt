@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.leaderboard.ui
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
@@ -18,6 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingError
 import org.hyperskill.app.leaderboard.presentation.LeaderboardViewModel
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature
@@ -65,25 +67,28 @@ fun LeaderboardScreen(
         LeaderboardTabs(currentTab) { clickedTab ->
             currentOnNewMessage(Message.TabClicked(clickedTab))
         }
-        when (listState) {
-            ListViewState.Idle -> {
-                // no op
-            }
-            ListViewState.Empty -> {
-                LeaderboardStub(modifier = Modifier.weight(1f))
-            }
-            ListViewState.Loading -> {
-                LeaderboardSkeleton(modifier = Modifier.weight(1f))
-            }
-            ListViewState.Error -> {
-                ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.leaderboard_placeholder_error_description),
-                    modifier = Modifier.weight(1f)
-                ) {
-                    onNewMessage(Message.RetryContentLoading)
+        Box(modifier = Modifier.weight(1f)) {
+            when (listState) {
+                ListViewState.Idle -> {
+                    // no op
+                }
+                ListViewState.Empty -> {
+                    LeaderboardStub()
+                }
+                ListViewState.Loading -> {
+                    LeaderboardSkeleton()
+                }
+                ListViewState.Error -> {
+                    ScreenDataLoadingError(
+                        errorMessage = stringResource(id = R.string.leaderboard_placeholder_error_description)
+                    ) {
+                        onNewMessage(Message.RetryContentLoading)
+                    }
+                }
+                is ListViewState.Content -> {
+                    LeaderboardList(listState.list)
                 }
             }
-            is ListViewState.Content -> TODO()
         }
     }
 }
@@ -94,7 +99,8 @@ private class LeaderboardScreenPreviewProvider : PreviewParameterProvider<ListVi
             ListViewState.Idle,
             ListViewState.Empty,
             ListViewState.Error,
-            ListViewState.Loading
+            ListViewState.Loading,
+            ListViewState.Content(list = LeaderboardPreviewData.listData)
         )
 }
 
@@ -103,11 +109,13 @@ private class LeaderboardScreenPreviewProvider : PreviewParameterProvider<ListVi
 private fun LeaderboardScreenPreview(
     @PreviewParameter(LeaderboardScreenPreviewProvider::class) viewState: ListViewState
 ) {
-    LeaderboardScreen(
-        currentTab = LeaderboardScreenFeature.Tab.DAY,
-        listState = viewState,
-        isRefreshing = false,
-        onNewMessage = {},
-        modifier = Modifier.fillMaxSize()
-    )
+    HyperskillTheme {
+        LeaderboardScreen(
+            currentTab = LeaderboardScreenFeature.Tab.DAY,
+            listState = viewState,
+            isRefreshing = false,
+            onNewMessage = {},
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }

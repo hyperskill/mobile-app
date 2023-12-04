@@ -8,7 +8,7 @@ data class User(
     @SerialName("id")
     val id: Long,
     @SerialName("avatar")
-    val avatar: String,
+    val avatar: String? = null,
     @SerialName("fullname")
     val fullname: String
 )
