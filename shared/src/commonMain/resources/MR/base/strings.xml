@@ -191,6 +191,7 @@
     <string name="tab_bar_study_plan_title">Study Plan</string>
     <string name="tab_bar_profile_title">Profile</string>
     <string name="tab_bar_debug_title">Debug</string>
+    <string name="tab_bar_leaderboard_title">Leaderboard</string>
 
     <!-- Home -->
     <string name="home_title">Hello!</string>
@@ -255,6 +256,14 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
+
+    <!-- Leaderboard -->
+    <string name="leaderboard_title">Leaderboard</string>
+    <string name="leaderboard_tab_day_title">Day</string>
+    <string name="leaderboard_tab_week_title">Week</string>
+    <string name="leaderboard_update_in_text">Update in %s</string>
+    <string name="leaderboard_placeholder_empty_description">Solve a problem to get a place on the leaderboard</string>
+    <string name="leaderboard_placeholder_error_description">Oops! We were unable to load the leaderboard.</string>
 
     <!-- Debug menu -->
     <string name="debug_menu_title">Debug</string>

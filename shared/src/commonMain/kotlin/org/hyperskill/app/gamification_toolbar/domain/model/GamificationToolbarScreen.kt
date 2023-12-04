@@ -7,13 +7,15 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 enum class GamificationToolbarScreen {
     HOME,
     TRACK,
-    STUDY_PLAN;
+    STUDY_PLAN,
+    LEADERBOARD;
 
     internal val analyticRoute: HyperskillAnalyticRoute
         get() = when (this) {
             HOME -> HyperskillAnalyticRoute.Home()
             TRACK -> HyperskillAnalyticRoute.Track()
             STUDY_PLAN -> HyperskillAnalyticRoute.StudyPlan()
+            LEADERBOARD -> HyperskillAnalyticRoute.Leaderboard()
         }
 
     internal val fetchContentSentryTransaction: HyperskillSentryTransaction
@@ -21,8 +23,7 @@ enum class GamificationToolbarScreen {
             HOME -> HyperskillSentryTransactionBuilder.buildGamificationToolbarHomeScreenRemoteDataLoading()
             TRACK -> HyperskillSentryTransactionBuilder.buildGamificationToolbarTrackScreenRemoteDataLoading()
             STUDY_PLAN -> HyperskillSentryTransactionBuilder.buildGamificationToolbarStudyPlanScreenRemoteDataLoading()
+            LEADERBOARD ->
+                HyperskillSentryTransactionBuilder.buildGamificationToolbarLeaderboardScreenRemoteDataLoading()
         }
-
-    internal val fetchTrackProgressSentryTransaction: HyperskillSentryTransaction
-        get() = HyperskillSentryTransactionBuilder.buildGamificationToolbarTrackProgressLoading(this)
 }

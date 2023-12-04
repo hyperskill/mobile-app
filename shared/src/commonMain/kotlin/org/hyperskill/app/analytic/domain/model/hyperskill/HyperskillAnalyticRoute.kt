@@ -103,6 +103,11 @@ sealed class HyperskillAnalyticRoute {
             "/study-plan"
     }
 
+    class Leaderboard : HyperskillAnalyticRoute() {
+        override val path: String =
+            "/leaderboard"
+    }
+
     open class Tracks : HyperskillAnalyticRoute() {
         override val path: String = "/tracks"
 

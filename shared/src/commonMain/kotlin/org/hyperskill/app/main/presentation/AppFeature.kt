@@ -29,6 +29,7 @@ interface AppFeature {
         @Serializable
         data class Ready(
             val isAuthorized: Boolean,
+            val isMobileLeaderboardsEnabled: Boolean,
             internal val profile: Profile? = null
         ) : State
     }

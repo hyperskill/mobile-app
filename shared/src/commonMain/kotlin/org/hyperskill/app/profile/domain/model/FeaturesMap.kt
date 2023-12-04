@@ -16,3 +16,6 @@ val FeaturesMap.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled: Boolean
 
 val FeaturesMap.isLearningPathDividedTrackTopicsEnabled: Boolean
     get() = get(FeatureKeys.LEARNING_PATH_DIVIDED_TRACK_TOPICS) ?: false
+
+val FeaturesMap.isMobileLeaderboardsEnabled: Boolean
+    get() = get(FeatureKeys.MOBILE_LEADERBOARDS) ?: false
