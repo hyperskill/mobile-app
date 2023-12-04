@@ -1,6 +1,7 @@
 import Foundation
 
 enum AppTabItem: CaseIterable {
+    // The order is important
     case home
     case studyPlan
     case leaderboard

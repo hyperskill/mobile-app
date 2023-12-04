@@ -239,7 +239,7 @@ extension AppViewController: AppViewControllerProtocol {
         }
 
         func navigate(
-            to targetTab: TabBarRouter.Tab,
+            to targetTab: AppTabItem,
             andPerformTargetNavigation targetNavigationBlock: @escaping () -> Void
         ) {
             TabBarRouter(tab: targetTab).route()
