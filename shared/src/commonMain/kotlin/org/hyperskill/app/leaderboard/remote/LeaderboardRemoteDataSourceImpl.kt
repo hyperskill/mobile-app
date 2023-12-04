@@ -6,12 +6,12 @@ import io.ktor.client.request.get
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.leaderboard.data.source.LeaderboardRemoteDataSource
-import org.hyperskill.app.leaderboard.remote.model.LeaderboardResponse
+import org.hyperskill.app.leaderboard.domain.model.Leaderboard
 
 internal class LeaderboardRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : LeaderboardRemoteDataSource {
-    override suspend fun getLeaderboard(): Result<LeaderboardResponse> =
+    override suspend fun getLeaderboard(): Result<Leaderboard> =
         kotlin.runCatching {
             httpClient
                 .get("/api/leaderboard") {

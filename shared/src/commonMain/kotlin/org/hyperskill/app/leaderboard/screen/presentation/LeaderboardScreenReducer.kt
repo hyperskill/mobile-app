@@ -181,8 +181,8 @@ internal class LeaderboardScreenReducer(
             state.leaderboardWidgetState is LeaderboardWidgetFeature.State.Content
         ) {
             val targetLeaderboardItem = when (state.currentTab) {
-                LeaderboardScreenFeature.Tab.DAY -> state.leaderboardWidgetState.dailyLeaderboard
-                LeaderboardScreenFeature.Tab.WEEK -> state.leaderboardWidgetState.weeklyLeaderboard
+                LeaderboardScreenFeature.Tab.DAY -> state.leaderboardWidgetState.leaderboard.day
+                LeaderboardScreenFeature.Tab.WEEK -> state.leaderboardWidgetState.leaderboard.week
             }.firstOrNull { it.user.id == message.listItem.userId }
 
             if (targetLeaderboardItem != null) {

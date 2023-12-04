@@ -1,6 +1,7 @@
 package org.hyperskill.app.leaderboard.widget.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.leaderboard.domain.model.Leaderboard
 import org.hyperskill.app.leaderboard.domain.model.LeaderboardItem
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature
 import org.hyperskill.app.leaderboard.widget.view.model.LeaderboardWidgetListItem
@@ -11,8 +12,7 @@ object LeaderboardWidgetFeature {
         object Loading : State
         object Error : State
         data class Content(
-            val dailyLeaderboard: List<LeaderboardItem>,
-            val weeklyLeaderboard: List<LeaderboardItem>,
+            val leaderboard: Leaderboard,
             val currentUserId: Long,
             val isRefreshing: Boolean = false
         ) : State
@@ -39,8 +39,7 @@ object LeaderboardWidgetFeature {
         object FetchLeaderboardDataError : InternalMessage
         data class FetchLeaderboardDataSuccess(
             val currentUserId: Long,
-            val dailyLeaderboard: List<LeaderboardItem>,
-            val weeklyLeaderboard: List<LeaderboardItem>
+            val leaderboard: Leaderboard
         ) : InternalMessage
 
         object ReloadContentInBackground : InternalMessage

@@ -36,8 +36,7 @@ class LeaderboardWidgetReducer : StateReducer<State, Message, Action> {
             }
             is LeaderboardWidgetFeature.InternalMessage.FetchLeaderboardDataSuccess -> {
                 State.Content(
-                    dailyLeaderboard = message.dailyLeaderboard,
-                    weeklyLeaderboard = message.weeklyLeaderboard,
+                    leaderboard = message.leaderboard,
                     currentUserId = message.currentUserId
                 ) to emptySet()
             }

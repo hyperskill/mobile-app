@@ -22,11 +22,11 @@ class LeaderboardWidgetViewStateMapper(
     ): LeaderboardWidgetFeature.ViewState.Content =
         LeaderboardWidgetFeature.ViewState.Content(
             dailyLeaderboard = mapLeaderboardList(
-                list = state.dailyLeaderboard,
+                list = state.leaderboard.day,
                 currentUserId = state.currentUserId
             ),
             weeklyLeaderboard = mapLeaderboardList(
-                list = state.weeklyLeaderboard,
+                list = state.leaderboard.week,
                 currentUserId = state.currentUserId
             ),
             isRefreshing = state.isRefreshing
