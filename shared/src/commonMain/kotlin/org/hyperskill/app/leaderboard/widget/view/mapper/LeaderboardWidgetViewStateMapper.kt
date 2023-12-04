@@ -36,7 +36,7 @@ class LeaderboardWidgetViewStateMapper(
         list: List<LeaderboardItem>,
         currentUserId: Long
     ): List<LeaderboardWidgetListItem> =
-        buildList<LeaderboardWidgetListItem> {
+        buildList {
             for (index in list.indices) {
                 val previousLeaderboardItem = list.getOrNull(index - 1)
                 val currentLeaderboardItem = list[index]
@@ -52,7 +52,6 @@ class LeaderboardWidgetViewStateMapper(
                     passedProblems = currentLeaderboardItem.passedProblems,
                     passedProblemsSubtitle = resourceProvider.getQuantityString(
                         SharedResources.plurals.problems_without_count,
-                        currentLeaderboardItem.passedProblems,
                         currentLeaderboardItem.passedProblems
                     ),
                     userId = currentLeaderboardItem.user.id,
