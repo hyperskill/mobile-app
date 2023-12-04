@@ -11,11 +11,6 @@ final class LeaderboardViewModel: FeatureViewModel<
     var listViewStateKs: LeaderboardScreenFeatureListViewStateKs { .init(state.listViewState) }
     var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
 
-    init(feature: Presentation_reduxFeature) {
-        super.init(feature: feature)
-        onNewMessage(LeaderboardScreenFeatureMessageInitialize())
-    }
-
     override func shouldNotifyStateDidChange(
         oldState: LeaderboardScreenFeature.ViewState,
         newState: LeaderboardScreenFeature.ViewState
