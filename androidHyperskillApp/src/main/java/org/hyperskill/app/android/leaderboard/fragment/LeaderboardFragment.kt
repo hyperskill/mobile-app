@@ -2,9 +2,16 @@ package org.hyperskill.app.android.leaderboard.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -50,9 +57,12 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initGamificationToolbar(leaderboardViewBinding.leaderboardAppBar)
-        leaderboardViewBinding.leaderboardContent.setContent {
-            HyperskillTheme {
-                LeaderboardScreen()
+        leaderboardViewBinding.leaderboardContent.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
+            setContent {
+                HyperskillTheme {
+                    LeaderboardScreen()
+                }
             }
         }
     }
@@ -66,6 +76,24 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
             viewBinding = viewBinding
         ) { message ->
             leaderboardViewModel.onNewMessage(message)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            leaderboardViewModel.state
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .map { it.toolbarState }
+                .distinctUntilChanged()
+                .collect { viewState ->
+                    gamificationToolbarDelegate?.render(viewState)
+                }
+
+            leaderboardViewModel.state
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .map { it.updatesInText }
+                .distinctUntilChanged()
+                .collect { subtitle ->
+                    gamificationToolbarDelegate?.setSubtitle(subtitle)
+                }
+
         }
     }
 

@@ -12,28 +12,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.leaderboard.model.LeaderboardTab
+import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature.Tab
 
 @Composable
 fun LeaderboardTabs(
-    selectedTab: LeaderboardTab,
-    onTabClick: (LeaderboardTab) -> Unit
+    selectedTab: Tab,
+    onTabClick: (Tab) -> Unit
 ) {
     val tabs = remember {
-        LeaderboardTab.values()
+        Tab.values()
     }
     TabRow(
-        selectedTabIndex = selectedTab.index,
+        selectedTabIndex = selectedTab.ordinal,
         backgroundColor = colorResource(id = R.color.color_background),
         contentColor = MaterialTheme.colors.primary
     ) {
         tabs.forEachIndexed { index, tab ->
             Tab(
-                selected = selectedTab.index == index,
+                selected = selectedTab.ordinal == index,
                 text = {
                     Text(
                         text = getTabTitle(tab),
-                        color = if (selectedTab.index == index) {
+                        color = if (selectedTab.ordinal == index) {
                             MaterialTheme.colors.primary
                         } else {
                             colorResource(id = R.color.color_on_surface_alpha_60)
@@ -44,8 +44,8 @@ fun LeaderboardTabs(
                 onClick = {
                     onTabClick(
                         when (index) {
-                            LeaderboardTab.DAY.index -> LeaderboardTab.DAY
-                            LeaderboardTab.WEEK.index -> LeaderboardTab.WEEK
+                            Tab.DAY.ordinal -> Tab.DAY
+                            Tab.WEEK.ordinal -> Tab.WEEK
                             else -> error("There is no Tab with index = $index")
                         }
                     )
@@ -56,11 +56,11 @@ fun LeaderboardTabs(
 }
 
 @Composable
-private fun getTabTitle(tab: LeaderboardTab): String =
+private fun getTabTitle(tab: Tab): String =
     stringResource(
         id = when (tab) {
-            LeaderboardTab.DAY -> R.string.leaderboard_tab_day_title
-            LeaderboardTab.WEEK -> R.string.leaderboard_tab_week_title
+            Tab.DAY -> R.string.leaderboard_tab_day_title
+            Tab.WEEK -> R.string.leaderboard_tab_week_title
         }
     )
 
@@ -68,6 +68,6 @@ private fun getTabTitle(tab: LeaderboardTab): String =
 @Composable
 private fun LeaderboardTabsPreview() {
     HyperskillTheme {
-        LeaderboardTabs(LeaderboardTab.DAY) {}
+        LeaderboardTabs(Tab.DAY) {}
     }
 }

@@ -2,33 +2,84 @@ package org.hyperskill.app.android.leaderboard.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.leaderboard.model.LeaderboardTab
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.hyperskill.app.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingError
+import org.hyperskill.app.leaderboard.presentation.LeaderboardViewModel
+import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature
+import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature.Message
 
 @Composable
-fun LeaderboardScreen() {
-    var selectedTab by remember {
-        mutableStateOf(LeaderboardTab.DAY)
-    }
-    Column {
-        LeaderboardTabs(selectedTab) { newSelectedTab ->
-            selectedTab = newSelectedTab
+fun LeaderboardScreen(viewModel: LeaderboardViewModel) {
+    val viewState: LeaderboardScreenFeature.ViewState by viewModel.state.collectAsStateWithLifecycle()
+    DisposableEffect(viewModel) {
+        viewModel.onNewMessage(Message.ViewedEventMessage)
+        onDispose {
+            // no op
         }
-        LeaderboardStub(modifier = Modifier.fillMaxHeight())
     }
+    LeaderboardScreen(
+        currentTab = viewState.currentTab,
+        listState = viewState.listViewState,
+        isRefreshing = viewState.isRefreshing,
+        onNewMessage = viewModel::onNewMessage
+    )
 }
 
-@Preview(showBackground = true)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun LeaderboardScreenPreview() {
-    HyperskillTheme {
-        LeaderboardScreen()
+fun LeaderboardScreen(
+    currentTab: LeaderboardScreenFeature.Tab,
+    listState: LeaderboardScreenFeature.ListViewState,
+    isRefreshing: Boolean,
+    onNewMessage: (Message) -> Unit
+) {
+    val currentOnNewMessage by rememberUpdatedState(newValue = onNewMessage)
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = isRefreshing,
+        onRefresh = {
+            currentOnNewMessage(Message.PullToRefresh)
+        }
+    )
+    Column(
+        Modifier
+            .pullRefresh(pullRefreshState)
+            .verticalScroll(rememberScrollState())
+    ) {
+        LeaderboardTabs(currentTab) { clickedTab ->
+            currentOnNewMessage(Message.TabClicked(clickedTab))
+        }
+        when (listState) {
+            LeaderboardScreenFeature.ListViewState.Idle -> {
+                // no op
+            }
+            LeaderboardScreenFeature.ListViewState.Empty -> {
+                LeaderboardStub(modifier = Modifier.fillMaxHeight())
+            }
+            LeaderboardScreenFeature.ListViewState.Loading -> {
+                LeaderboardSkeleton(modifier = Modifier.fillMaxHeight())
+            }
+            LeaderboardScreenFeature.ListViewState.Error -> {
+                ScreenDataLoadingError(
+                    errorMessage = stringResource(id = R.string.leaderboard_placeholder_error_description),
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    onNewMessage(Message.RetryContentLoading)
+                }
+            }
+            is LeaderboardScreenFeature.ListViewState.Content -> TODO()
+        }
     }
 }
