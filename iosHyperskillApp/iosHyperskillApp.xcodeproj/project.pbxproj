@@ -348,6 +348,7 @@
 		2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */; };
 		2CA854D82B1DDC790045CA1B /* LeaderboardSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA854D72B1DDC790045CA1B /* LeaderboardSkeletonView.swift */; };
 		2CA854DA2B1DE4780045CA1B /* LeaderboardPlaceholderEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA854D92B1DE4780045CA1B /* LeaderboardPlaceholderEmptyView.swift */; };
+		2CA854DC2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA854DB2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift */; };
 		2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */; };
 		2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */; };
 		2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E092281039EB00154088 /* BounceButtonStyle.swift */; };
@@ -1012,6 +1013,7 @@
 		2CA7B89328932EB100A789EF /* UIWindowExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIWindowExtensions.swift; sourceTree = "<group>"; };
 		2CA854D72B1DDC790045CA1B /* LeaderboardSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardSkeletonView.swift; sourceTree = "<group>"; };
 		2CA854D92B1DE4780045CA1B /* LeaderboardPlaceholderEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardPlaceholderEmptyView.swift; sourceTree = "<group>"; };
+		2CA854DB2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationToolbarViewActionHandler.swift; sourceTree = "<group>"; };
 		2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E092281039EB00154088 /* BounceButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceButtonStyle.swift; sourceTree = "<group>"; };
@@ -2293,6 +2295,7 @@
 		2C5F4A582971C6C500677530 /* GamificationToolbar */ = {
 			isa = PBXGroup;
 			children = (
+				2CA854DB2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift */,
 				2C78225F2942F98D0067200F /* Views */,
 			);
 			path = GamificationToolbar;
@@ -2470,13 +2473,13 @@
 			path = PlaceholderView;
 			sourceTree = "<group>";
 		};
-		2C83FBBC2B177617007AD7E2 /* Model */ = {
+		2C83FBBC2B177617007AD7E2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				2C83FBC52B178F0B007AD7E2 /* LeaderboardListItem.swift */,
 				2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2C83FBC32B178B0E007AD7E2 /* Views */ = {
@@ -3599,7 +3602,7 @@
 			children = (
 				CCFDFC2C226D2B79DE30D811 /* LeaderboardAssembly.swift */,
 				2E205DEF27554501F7BE01AA /* LeaderboardViewModel.swift */,
-				2C83FBBC2B177617007AD7E2 /* Model */,
+				2C83FBBC2B177617007AD7E2 /* Models */,
 				2C83FBC32B178B0E007AD7E2 /* Views */,
 			);
 			path = Leaderboard;
@@ -4590,6 +4593,7 @@
 				E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
+				2CA854DC2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
 				2C3E65702A127F2300BC8DC0 /* BrandLinearGradient.swift in Sources */,

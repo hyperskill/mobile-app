@@ -9,8 +9,11 @@ final class LeaderboardAssembly: UIKitAssembly {
             feature: leaderboardScreenComponent.leaderboardScreenFeature
         )
 
+        let stackRouter = StackRouter()
+
         let leaderboardView = LeaderboardView(
-            viewModel: leaderboardViewModel
+            viewModel: leaderboardViewModel,
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
@@ -18,6 +21,8 @@ final class LeaderboardAssembly: UIKitAssembly {
             appearance: .leftAlignedNavigationBarTitle
         )
         hostingController.title = Strings.Leaderboard.title
+
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }

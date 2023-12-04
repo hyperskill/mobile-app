@@ -12,6 +12,8 @@ struct LeaderboardView: View {
 
     @StateObject var viewModel: LeaderboardViewModel
 
+    var stackRouter: StackRouterProtocol
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(
@@ -99,10 +101,12 @@ private extension LeaderboardView {
     func handleViewAction(
         _ viewAction: LeaderboardScreenFeatureActionViewAction
     ) {
-        #warning("TODO")
         switch LeaderboardScreenFeatureActionViewActionKs(viewAction) {
-        case .gamificationToolbarViewAction:
-            break
+        case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
+            GamificationToolbarViewActionHandler.handle(
+                viewAction: gamificationToolbarViewAction.viewAction,
+                stackRouter: stackRouter
+            )
         case .leaderboardWidgetViewAction:
             break
         }
