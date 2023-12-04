@@ -22,11 +22,11 @@ class LeaderboardWidgetViewStateMapper(
     ): LeaderboardWidgetFeature.ViewState.Content =
         LeaderboardWidgetFeature.ViewState.Content(
             dailyLeaderboard = mapLeaderboardList(
-                list = state.dailyLeaderboard,
+                list = state.leaderboard.day,
                 currentUserId = state.currentUserId
             ),
             weeklyLeaderboard = mapLeaderboardList(
-                list = state.weeklyLeaderboard,
+                list = state.leaderboard.week,
                 currentUserId = state.currentUserId
             ),
             isRefreshing = state.isRefreshing
@@ -35,35 +35,31 @@ class LeaderboardWidgetViewStateMapper(
     internal fun mapLeaderboardList(
         list: List<LeaderboardItem>,
         currentUserId: Long
-    ): List<LeaderboardWidgetListItem> {
-        val result = mutableListOf<LeaderboardWidgetListItem>()
+    ): List<LeaderboardWidgetListItem> =
+        buildList {
+            for (index in list.indices) {
+                val previousLeaderboardItem = list.getOrNull(index - 1)
+                val currentLeaderboardItem = list[index]
 
-        for (index in list.indices) {
-            val previousLeaderboardItem = list.getOrNull(index - 1)
-            val currentLeaderboardItem = list[index]
+                if (previousLeaderboardItem != null &&
+                    previousLeaderboardItem.position != currentLeaderboardItem.position - 1
+                ) {
+                    add(LeaderboardWidgetListItem.Separator)
+                }
 
-            if (previousLeaderboardItem != null &&
-                previousLeaderboardItem.position != currentLeaderboardItem.position - 1
-            ) {
-                result.add(LeaderboardWidgetListItem.Separator)
+                val listItem = LeaderboardWidgetListItem.UserInfo(
+                    position = currentLeaderboardItem.position,
+                    passedProblems = currentLeaderboardItem.passedProblems,
+                    passedProblemsSubtitle = resourceProvider.getQuantityString(
+                        SharedResources.plurals.problems_without_count,
+                        currentLeaderboardItem.passedProblems
+                    ),
+                    userId = currentLeaderboardItem.user.id,
+                    userAvatar = currentLeaderboardItem.user.avatar,
+                    username = currentLeaderboardItem.user.fullname,
+                    isCurrentUser = currentLeaderboardItem.user.id == currentUserId
+                )
+                add(listItem)
             }
-
-            val listItem = LeaderboardWidgetListItem.UserInfo(
-                position = currentLeaderboardItem.position,
-                passedProblems = currentLeaderboardItem.passedProblems,
-                passedProblemsSubtitle = resourceProvider.getQuantityString(
-                    SharedResources.plurals.problems_without_count,
-                    currentLeaderboardItem.passedProblems,
-                    currentLeaderboardItem.passedProblems
-                ),
-                userId = currentLeaderboardItem.user.id,
-                userAvatar = currentLeaderboardItem.user.avatar,
-                username = currentLeaderboardItem.user.fullname,
-                isCurrentUser = currentLeaderboardItem.user.id == currentUserId
-            )
-            result.add(listItem)
         }
-
-        return result
-    }
 }

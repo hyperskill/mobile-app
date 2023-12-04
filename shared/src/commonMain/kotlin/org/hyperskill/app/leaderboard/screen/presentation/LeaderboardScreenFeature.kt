@@ -60,7 +60,7 @@ object LeaderboardScreenFeature {
         object ScreenBecomesActive : Message
 
         data class TabClicked(val tab: Tab) : Message
-        data class ListItemClicked(val listItem: LeaderboardWidgetListItem) : Message
+        data class ListItemClicked(val userId: Long) : Message
 
         /**
          * Analytic

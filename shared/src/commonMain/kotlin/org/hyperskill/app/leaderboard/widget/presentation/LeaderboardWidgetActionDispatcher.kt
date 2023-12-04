@@ -43,8 +43,7 @@ class LeaderboardWidgetActionDispatcher(
                 .getOrThrow()
             InternalMessage.FetchLeaderboardDataSuccess(
                 currentUserId = currentProfile.id,
-                dailyLeaderboard = leaderboard.dailyLeaderboard,
-                weeklyLeaderboard = leaderboard.weeklyLeaderboard
+                leaderboard = leaderboard
             )
         }.let(onNewMessage)
     }
