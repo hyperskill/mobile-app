@@ -43,11 +43,12 @@ extension PlaceholderView.Configuration {
             frame: .size(defaultImageSize)
         ),
         titleText: String,
+        titleTextFont: Font = .body,
         backgroundColor: Color = Color(ColorPalette.surface)
     ) -> Self {
         .init(
             image: image,
-            title: .init(text: titleText),
+            title: .init(text: titleText, font: titleTextFont),
             backgroundColor: backgroundColor
         )
     }

@@ -69,25 +69,10 @@ struct LeaderboardView: View {
 
             switch viewModel.listViewStateKs {
             case .idle:
-                ScrollView {
-                    ProgressView()
-                        .onAppear(perform: viewModel.doLoadLeaderboard)
-                }
+                LeaderboardSkeletonView()
+                    .onAppear(perform: viewModel.doLoadLeaderboard)
             case .loading:
-                //ProgressView()
-                List {
-                    Section {
-                        ForEach(1..<4, id: \.self) { option in
-                            Text("\(option)")
-                        }
-                    }
-
-                    Section {
-                        ForEach(1..<100, id: \.self) { option in
-                            Text("\(option)")
-                        }
-                    }
-                }
+                LeaderboardSkeletonView()
             case .error:
                 PlaceholderView(
                     configuration: .networkError(
@@ -96,7 +81,7 @@ struct LeaderboardView: View {
                     )
                 )
             case .empty:
-                EmptyView()
+                LeaderboardPlaceholderEmptyView()
             case .content(let listViewState):
                 LeaderboardListView(
                     items: listViewState.list,
