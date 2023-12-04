@@ -15,6 +15,7 @@ struct LeaderboardSkeletonView: View {
             VStack(spacing: Appearance.spacing) {
                 SkeletonRoundedView()
                     .frame(height: Appearance.firstSkeletonHeight)
+                    .padding(.vertical)
 
                 SkeletonRoundedView()
                     .frame(height: Appearance.secondSkeletonHeight)
