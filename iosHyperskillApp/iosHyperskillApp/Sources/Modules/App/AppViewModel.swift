@@ -69,16 +69,15 @@ final class AppViewModel: FeatureViewModel<AppFeatureState, AppFeatureMessage, A
         func resolveAnalyticNavigationItem(
             tab: AppTabItem
         ) -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem {
+            // swiftlint:disable switch_case_on_newline
             switch tab {
-            case .home:
-                return .home
-            case .studyPlan:
-                return .studyPlan
-            case .profile:
-                return .profile
-            case .debug:
-                return .debug
+            case .home: .home
+            case .studyPlan: .studyPlan
+            case .leaderboard: .leaderboard
+            case .profile: .profile
+            case .debug: .debug
             }
+            // swiftlint:enable switch_case_on_newline
         }
 
         let event = AppClickedBottomNavigationItemHyperskillAnalyticEvent(

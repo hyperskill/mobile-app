@@ -128,13 +128,10 @@ private extension HomeView {
                 stackRouter.pushViewController(assembly.makeModule())
             }
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
-            switch GamificationToolbarFeatureActionViewActionKs(gamificationToolbarViewAction.viewAction) {
-            case .showProfileTab:
-                TabBarRouter(tab: .profile).route()
-            case .showProgressScreen:
-                let assembly = ProgressScreenAssembly()
-                stackRouter.pushViewController(assembly.makeModule())
-            }
+            GamificationToolbarViewActionHandler.handle(
+                viewAction: gamificationToolbarViewAction.viewAction,
+                stackRouter: stackRouter
+            )
         case .challengeWidgetViewAction(let challengeWidgetViewAction):
             handleChallengeWidgetViewAction(
                 viewAction: challengeWidgetViewAction.viewAction

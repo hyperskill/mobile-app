@@ -115,8 +115,9 @@ private extension StudyPlanView {
     ) {
         switch StudyPlanScreenFeatureActionViewActionKs(viewAction) {
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
-            handleGamificationToolbarViewAction(
-                gamificationToolbarViewAction.viewAction
+            GamificationToolbarViewActionHandler.handle(
+                viewAction: gamificationToolbarViewAction.viewAction,
+                stackRouter: stackRouter
             )
         case .problemsLimitViewAction:
             break
@@ -124,18 +125,6 @@ private extension StudyPlanView {
             handleStudyPlanWidgetViewAction(
                 studyPlanWidgetViewAction.viewAction
             )
-        }
-    }
-
-    func handleGamificationToolbarViewAction(
-        _ viewAction: GamificationToolbarFeatureActionViewAction
-    ) {
-        switch GamificationToolbarFeatureActionViewActionKs(viewAction) {
-        case .showProfileTab:
-            TabBarRouter(tab: .profile).route()
-        case .showProgressScreen:
-            let assembly = ProgressScreenAssembly()
-            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 
