@@ -80,8 +80,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             localCicerone.router.switch(initialTab)
         }
 
-        viewBinding.mainBottomNavigation.menu.findItem(R.id.debug_tab).isVisible =
-            DebugFeature.isAvailable(buildKonfig)
+        with(viewBinding.mainBottomNavigation.menu) {
+            findItem(R.id.debug_tab).isVisible =
+                DebugFeature.isAvailable(buildKonfig)
+            findItem(R.id.leaderboard_tab).isVisible =
+                HyperskillApp.isLeaderboardTabEnabled()
+        }
 
         viewBinding.mainBottomNavigation.setOnItemSelectedListener { item ->
             logClickedBottomNavigationItemEvent(
@@ -123,11 +127,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     override fun onPause() {
         localCicerone.getNavigatorHolder().removeNavigator()
         super.onPause()
-    }
-
-    fun onLeaderboardTabVisibilityChanged(isVisible: Boolean) {
-        viewBinding.mainBottomNavigation.menu.findItem(R.id.leaderboard_tab)
-            .isVisible = isVisible
     }
 
     private fun logClickedBottomNavigationItemEvent(oldItemId: Int, newItemId: Int) {

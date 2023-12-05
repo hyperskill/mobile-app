@@ -31,7 +31,6 @@ import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
 import org.hyperskill.app.android.first_problem_onboarding.fragment.FirstProblemOnboardingFragment
 import org.hyperskill.app.android.first_problem_onboarding.navigation.FirstProblemOnboardingScreen
-import org.hyperskill.app.android.main.view.ui.fragment.MainFragment
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
@@ -284,6 +283,9 @@ class MainActivity :
     }
 
     override fun render(state: AppFeature.State) {
+        HyperskillApp.setIsLeaderboardTabEnabled(
+            state.safeCast<AppFeature.State.Ready>()?.isMobileLeaderboardsEnabled ?: false
+        )
         viewStateDelegate.switchState(state)
         when (state) {
             is AppFeature.State.Idle, AppFeature.State.Loading ->
@@ -293,10 +295,6 @@ class MainActivity :
             else -> {
                 // no op
             }
-        }
-        if (state is AppFeature.State.Ready) {
-            (supportFragmentManager.findFragmentByTag(MainScreen.TAG) as? MainFragment)
-                ?.onLeaderboardTabVisibilityChanged(state.isMobileLeaderboardsEnabled)
         }
     }
 

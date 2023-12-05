@@ -22,9 +22,18 @@ class HyperskillApp : Application(), ImageLoaderFactory {
 
         fun graph(): AndroidAppComponent =
             application.appGraph
+
+        fun setIsLeaderboardTabEnabled(isEnabled: Boolean) {
+            application.isLeaderboardTabEnabled = isEnabled
+        }
+
+        fun isLeaderboardTabEnabled(): Boolean =
+            application.isLeaderboardTabEnabled
     }
 
     private lateinit var appGraph: AndroidAppComponent
+
+    private var isLeaderboardTabEnabled: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
