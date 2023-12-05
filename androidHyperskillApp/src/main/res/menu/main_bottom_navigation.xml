@@ -11,7 +11,8 @@
     <item
         android:id="@+id/leaderboard_tab"
         android:icon="@drawable/ic_navigation_leaderboard"
-        android:title="@string/tab_bar_leaderboard_title"/>
+        android:title="@string/tab_bar_leaderboard_title"
+        android:visible="false"/>
     <item
         android:id="@+id/profile_tab"
         android:icon="@drawable/ic_navigation_profile"

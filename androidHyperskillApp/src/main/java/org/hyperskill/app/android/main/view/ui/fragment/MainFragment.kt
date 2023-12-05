@@ -125,6 +125,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onPause()
     }
 
+    fun onLeaderboardTabVisibilityChanged(isVisible: Boolean) {
+        viewBinding.mainBottomNavigation.menu.findItem(R.id.leaderboard_tab)
+            .isVisible = isVisible
+    }
+
     private fun logClickedBottomNavigationItemEvent(oldItemId: Int, newItemId: Int) {
         val oldNavigationItem = resolveAnalyticNavigationItem(oldItemId)
         val newNavigationItem = resolveAnalyticNavigationItem(newItemId)
@@ -145,6 +150,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             R.id.study_plan_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.STUDY_PLAN
             R.id.profile_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.PROFILE
             R.id.debug_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.DEBUG
+            R.id.leaderboard_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.LEADERBOARD
             else -> null
         }
 }
