@@ -1,47 +1,55 @@
 import Foundation
 
 enum AppTabItem: CaseIterable {
+    // The order is important
     case home
     case studyPlan
+    case leaderboard
     case profile
     case debug
 
     var title: String {
         switch self {
         case .home:
-            return Strings.TabBar.home
+            Strings.TabBar.home
         case .studyPlan:
-            return Strings.TabBar.studyPlan
+            Strings.TabBar.studyPlan
+        case .leaderboard:
+            Strings.TabBar.leaderboard
         case .profile:
-            return Strings.TabBar.profile
+            Strings.TabBar.profile
         case .debug:
-            return Strings.TabBar.debug
+            Strings.TabBar.debug
         }
     }
 
     var imageName: String {
         switch self {
         case .home:
-            return "dumbbell"
+            "dumbbell"
         case .studyPlan:
-            return "tab-bar-study-plan"
+            "tab-bar-study-plan"
+        case .leaderboard:
+            "trophy"
         case .profile:
-            return "person"
+            "person"
         case .debug:
-            return "hammer.circle"
+            "hammer.circle"
         }
     }
 
     var selectedImageName: String {
         switch self {
         case .home:
-            return "dumbbell.fill"
+            "dumbbell.fill"
         case .studyPlan:
-            return "tab-bar-study-plan-filled"
+            "tab-bar-study-plan-filled"
+        case .leaderboard:
+            "trophy.fill"
         case .profile:
-            return "person.fill"
+            "person.fill"
         case .debug:
-            return "hammer.circle.fill"
+            "hammer.circle.fill"
         }
     }
 }
