@@ -39,6 +39,7 @@ enum Strings {
     enum TabBar {
         static let home = sharedStrings.tab_bar_training_title.localized()
         static let studyPlan = sharedStrings.tab_bar_study_plan_title.localized()
+        static let leaderboard = sharedStrings.tab_bar_leaderboard_title.localized()
         static let profile = sharedStrings.tab_bar_profile_title.localized()
         static let debug = sharedStrings.tab_bar_debug_title.localized()
     }
@@ -272,6 +273,16 @@ enum Strings {
     enum StudyPlan {
         static let title = sharedStrings.study_plan_title.localized()
         static let activitiesError = sharedStrings.study_plan_activities_error_text.localized()
+    }
+
+    // MARK: - Leaderboard -
+
+    enum Leaderboard {
+        static let title = sharedStrings.leaderboard_title.localized()
+        static let tabDay = sharedStrings.leaderboard_tab_day_title.localized()
+        static let tabWeek = sharedStrings.leaderboard_tab_week_title.localized()
+        static let placeholderEmptyDescription = sharedStrings.leaderboard_placeholder_empty_description.localized()
+        static let placeholderErrorDescription = sharedStrings.leaderboard_placeholder_error_description.localized()
     }
 
     // MARK: - Profile -

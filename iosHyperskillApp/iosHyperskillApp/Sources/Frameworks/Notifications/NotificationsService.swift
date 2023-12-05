@@ -113,7 +113,7 @@ extension NotificationsService {
     }
 
     private func routeLocalNotification(with userInfo: NotificationUserInfo?) {
-        func route(to tab: TabBarRouter.Tab) {
+        func route(to tab: AppTabItem) {
             DispatchQueue.main.async {
                 TabBarRouter(tab: tab).route()
             }
