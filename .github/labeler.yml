@@ -1,15 +1,18 @@
 shared:
-  - shared/**
+- changed-files:
+  - any-glob-to-any-file: shared/**
 
 ios:
-  - iosHyperskillApp/**
+- changed-files:
+  - any-glob-to-any-file: iosHyperskillApp/**
 
 android:
-  - androidHyperskillApp/**
+- changed-files:
+  - any-glob-to-any-file: androidHyperskillApp/**
 
 ci/cd:
-  - .github/workflows/**
-  - .github/actions/**
-  - .github/dependabot.yml
-  - .github/filters.yaml
-  - .github/labeler.yml
+- changed-files:
+  - any-glob-to-any-file: ['.github/workflows/**', '.github/actions/**', '.github/dependabot.yml', '.github/filters.yaml', '.github/labeler.yml']
+
+release:
+- base-branch: 'main'
