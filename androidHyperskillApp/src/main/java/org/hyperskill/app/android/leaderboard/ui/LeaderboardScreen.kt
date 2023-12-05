@@ -83,7 +83,6 @@ fun LeaderboardScreen(
             }
         }
     }
-
 }
 
 private class LeaderboardScreenPreviewProvider : PreviewParameterProvider<ListViewState> {
