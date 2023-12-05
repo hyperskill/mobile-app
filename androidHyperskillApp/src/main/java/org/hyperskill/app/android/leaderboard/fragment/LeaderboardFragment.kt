@@ -10,8 +10,9 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -38,10 +39,12 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
     private var viewModelFactory: ReduxViewModelFactory? = null
     private val leaderboardViewModel: LeaderboardViewModel by viewModels { requireNotNull(viewModelFactory) }
 
-    private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
-
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+
+    private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
+
+    private var fragmentWasResumed = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,22 +80,30 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
         ) { message ->
             leaderboardViewModel.onNewMessage(message)
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            leaderboardViewModel.state
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .map { it.toolbarState }
-                .distinctUntilChanged()
-                .collect { viewState ->
-                    gamificationToolbarDelegate?.render(viewState)
-                }
+        leaderboardViewModel.state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .map { it.toolbarState }
+            .distinctUntilChanged()
+            .onEach { viewState ->
+                gamificationToolbarDelegate?.render(viewState)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+        leaderboardViewModel.state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .map { it.updatesInText }
+            .distinctUntilChanged()
+            .onEach { subtitle ->
+                gamificationToolbarDelegate?.setSubtitle(subtitle)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
 
-            leaderboardViewModel.state
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .map { it.updatesInText }
-                .distinctUntilChanged()
-                .collect { subtitle ->
-                    gamificationToolbarDelegate?.setSubtitle(subtitle)
-                }
+    override fun onResume() {
+        super.onResume()
+        if (fragmentWasResumed) {
+            leaderboardViewModel.onNewMessage(LeaderboardScreenFeature.Message.ScreenBecomesActive)
+        } else {
+            fragmentWasResumed = true
         }
     }
 

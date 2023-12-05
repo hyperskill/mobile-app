@@ -11,6 +11,11 @@ import org.hyperskill.app.leaderboard.widget.presentation.LeaderboardWidgetFeatu
 class LeaderboardViewModel(
     viewContainer: FlowView<ViewState, Message, ViewAction>
 ) : ReduxFlowViewModel<ViewState, Message, ViewAction>(viewContainer) {
+
+    init {
+        onNewMessage(Message.Initialize)
+    }
+
     fun onNewMessage(message: GamificationToolbarFeature.Message) {
         onNewMessage(
             Message.GamificationToolbarMessage(message)

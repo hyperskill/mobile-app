@@ -1,13 +1,7 @@
 package org.hyperskill.app.android.leaderboard.ui
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -43,7 +37,6 @@ fun LeaderboardScreen(viewModel: LeaderboardViewModel) {
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun LeaderboardScreen(
     currentTab: LeaderboardScreenFeature.Tab,
@@ -53,44 +46,44 @@ fun LeaderboardScreen(
     modifier: Modifier = Modifier
 ) {
     val currentOnNewMessage by rememberUpdatedState(newValue = onNewMessage)
-    val pullRefreshState = rememberPullRefreshState(
-        refreshing = isRefreshing,
-        onRefresh = {
-            currentOnNewMessage(Message.PullToRefresh)
-        }
-    )
-    Column(
-        modifier
-            .pullRefresh(pullRefreshState)
-            .verticalScroll(rememberScrollState())
-    ) {
+    Column(modifier = modifier) {
         LeaderboardTabs(currentTab) { clickedTab ->
             currentOnNewMessage(Message.TabClicked(clickedTab))
         }
-        Box(modifier = Modifier.weight(1f)) {
-            when (listState) {
-                ListViewState.Idle -> {
-                    // no op
+        when (listState) {
+            ListViewState.Idle -> {
+                // no op
+            }
+            ListViewState.Empty -> {
+                LeaderboardStub(
+                    modifier = Modifier.weight(1f)
+                )
+            }
+            ListViewState.Loading -> {
+                LeaderboardSkeleton()
+            }
+            ListViewState.Error -> {
+                ScreenDataLoadingError(
+                    errorMessage = stringResource(id = R.string.leaderboard_placeholder_error_description)
+                ) {
+                    onNewMessage(Message.RetryContentLoading)
                 }
-                ListViewState.Empty -> {
-                    LeaderboardStub()
-                }
-                ListViewState.Loading -> {
-                    LeaderboardSkeleton()
-                }
-                ListViewState.Error -> {
-                    ScreenDataLoadingError(
-                        errorMessage = stringResource(id = R.string.leaderboard_placeholder_error_description)
-                    ) {
-                        onNewMessage(Message.RetryContentLoading)
+            }
+            is ListViewState.Content -> {
+                RefreshableLeaderboardList(
+                    items = listState.list,
+                    isRefreshing = isRefreshing,
+                    onRefresh = {
+                        currentOnNewMessage(Message.PullToRefresh)
+                    },
+                    onItemClick = { userId ->
+                        currentOnNewMessage(Message.ListItemClicked(userId))
                     }
-                }
-                is ListViewState.Content -> {
-                    LeaderboardList(listState.list)
-                }
+                )
             }
         }
     }
+
 }
 
 private class LeaderboardScreenPreviewProvider : PreviewParameterProvider<ListViewState> {
