@@ -12,7 +12,7 @@ object LeaderboardPreviewData {
                         passedProblems = 100 - index,
                         passedProblemsSubtitle = "problems",
                         userId = index.toLong(),
-                        userAvatar = null,
+                        userAvatar = "",
                         userName = "Test user name",
                         isCurrentUser = false
                     )

@@ -41,7 +41,7 @@ object LeaderboardItemDefaults {
 @Composable
 fun LeaderboardItem(
     placeNumber: Int,
-    participantAvatarUrl: String?,
+    participantAvatarUrl: String,
     participantName: String,
     solvedProblemsAmount: Int,
     problemsSubtitle: String,
@@ -215,7 +215,7 @@ private fun LeaderboardItemPreview(
     HyperskillTheme {
         LeaderboardItem(
             placeNumber = leaderBoardItemData.placeNumber,
-            participantAvatarUrl = null,
+            participantAvatarUrl = "",
             participantName = leaderBoardItemData.participantName,
             solvedProblemsAmount = leaderBoardItemData.solvedProblemsAmount,
             problemsSubtitle = leaderBoardItemData.problemsSubtitle,
@@ -232,7 +232,7 @@ private fun LeaderboardItemDarkPreview(
     HyperskillTheme {
         LeaderboardItem(
             placeNumber = leaderBoardItemData.placeNumber,
-            participantAvatarUrl = null,
+            participantAvatarUrl = "",
             participantName = leaderBoardItemData.participantName,
             solvedProblemsAmount = leaderBoardItemData.solvedProblemsAmount,
             problemsSubtitle = leaderBoardItemData.problemsSubtitle,
