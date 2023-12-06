@@ -3,42 +3,42 @@ import SwiftUI
 
 extension GamificationToolbarContent {
     struct Appearance {
-        let toolbarDefaultSkeletonSize = CGSize(width: 56, height: 28)
-        let toolbarLargeSkeletonSize = CGSize(width: 100, height: 28)
+        let skeletonSize = CGSize(width: 56, height: 28)
     }
 }
 
 struct GamificationToolbarContent: ToolbarContent {
     private(set) var appearance = Appearance()
 
-    let stateKs: GamificationToolbarFeatureStateKs
+    let viewStateKs: GamificationToolbarFeatureViewStateKs
 
     let onStreakTap: () -> Void
     let onProgressTap: () -> Void
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            switch stateKs {
+            switch viewStateKs {
             case .idle, .loading:
                 HStack {
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarLargeSkeletonSize))
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarDefaultSkeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
                 }
             case .error:
                 HStack {}
             case .content(let data):
                 HStack {
-                    if let trackProgress = data.trackProgress {
+                    if let progress = data.progress {
                         ProgressBarButtonItem(
-                            progress: Float(trackProgress.averageProgress) / 100,
-                            isCompleted: trackProgress.isCompleted,
+                            progress: progress.value,
+                            formattedProgress: progress.formattedValue,
+                            isCompleted: progress.isCompleted,
                             onTap: onProgressTap
                         )
                     }
 
                     StreakBarButtonItem(
-                        currentStreak: Int(data.currentStreak),
-                        isCompletedToday: data.historicalStreak.isCompleted,
+                        currentStreak: data.streak.formattedValue,
+                        isCompletedToday: data.streak.isCompleted,
                         onTap: onStreakTap
                     )
                 }

@@ -58,12 +58,13 @@
                     />
 
                 <TextView
+                    android:id="@+id/gamificationTrackProgressTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="14sp"
-                    android:text="@string/track_progress_block_title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+                    tools:text="21%" />
 
             </LinearLayout>
 

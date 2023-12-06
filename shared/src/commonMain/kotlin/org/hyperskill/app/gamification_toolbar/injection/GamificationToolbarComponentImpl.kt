@@ -20,7 +20,8 @@ class GamificationToolbarComponentImpl(
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-            currentGamificationToolbarDataStateRepository = appGraph.stateRepositoriesComponent.currentGamificationToolbarDataStateRepository,
+            currentGamificationToolbarDataStateRepository = appGraph.stateRepositoriesComponent
+                .currentGamificationToolbarDataStateRepository,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor
         )

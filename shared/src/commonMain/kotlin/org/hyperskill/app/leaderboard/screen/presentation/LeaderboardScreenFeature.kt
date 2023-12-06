@@ -22,7 +22,7 @@ object LeaderboardScreenFeature {
     data class ViewState(
         val currentTab: Tab,
         val listViewState: ListViewState,
-        val toolbarState: GamificationToolbarFeature.State,
+        val toolbarViewState: GamificationToolbarFeature.ViewState,
         val isRefreshing: Boolean,
         val updatesInText: String?
     )
