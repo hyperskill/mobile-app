@@ -1,6 +1,5 @@
 package org.hyperskill.app.gamification_toolbar.presentation
 
-import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedGemsHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedProgressHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedStreakHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarData
@@ -55,14 +54,6 @@ class GamificationToolbarReducer(
                 } else {
                     null
                 }
-            is InternalMessage.HypercoinsBalanceChanged ->
-                if (state is State.Content) {
-                    state.copy(
-                        hypercoinsBalance = message.hypercoinsBalance
-                    ) to emptySet()
-                } else {
-                    null
-                }
             is InternalMessage.StreakChanged ->
                 if (state is State.Content && message.streak != null) {
                     state.copy(
@@ -110,15 +101,6 @@ class GamificationToolbarReducer(
                 }
             }
             // Click Messages
-            is Message.ClickedGems ->
-                if (state is State.Content) {
-                    state to setOf(
-                        Action.ViewAction.ShowProfileTab,
-                        InternalAction.LogAnalyticEvent(GamificationToolbarClickedGemsHyperskillAnalyticEvent(screen))
-                    )
-                } else {
-                    null
-                }
             is Message.ClickedStreak ->
                 if (state is State.Content) {
                     state to setOf(
@@ -147,7 +129,6 @@ class GamificationToolbarReducer(
         State.Content(
             trackProgress = gamificationToolbarData.trackProgress,
             currentStreak = gamificationToolbarData.currentStreak,
-            historicalStreak = HistoricalStreak(gamificationToolbarData.streakState),
-            hypercoinsBalance = gamificationToolbarData.hypercoinsBalance
+            historicalStreak = HistoricalStreak(gamificationToolbarData.streakState)
         )
 }

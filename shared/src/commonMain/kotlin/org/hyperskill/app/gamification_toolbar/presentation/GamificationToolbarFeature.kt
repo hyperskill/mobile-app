@@ -17,7 +17,6 @@ object GamificationToolbarFeature {
             val trackProgress: GamificationToolbarTrackProgress?,
             val currentStreak: Int,
             val historicalStreak: HistoricalStreak,
-            val hypercoinsBalance: Int,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -25,8 +24,29 @@ object GamificationToolbarFeature {
     internal val State.isRefreshing: Boolean
         get() = this is State.Content && isRefreshing
 
+    sealed interface ViewState {
+        object Idle : ViewState
+        object Loading : ViewState
+        object Error : ViewState
+        data class Content(
+            val progress: Progress?,
+            val streak: Streak
+        ) : ViewState {
+            data class Progress(
+                val value: Float, // a value between 0 and 1
+                val formattedValue: String,
+                val isCompleted: Boolean
+            )
+
+            data class Streak(
+                val formattedValue: String,
+                val isCompleted: Boolean,
+                val isRecovered: Boolean
+            )
+        }
+    }
+
     sealed interface Message {
-        object ClickedGems : Message
         object ClickedStreak : Message
         object ClickedProgress : Message
     }
@@ -47,7 +67,6 @@ object GamificationToolbarFeature {
          * Flow Messages
          */
         object StepSolved : InternalMessage
-        data class HypercoinsBalanceChanged(val hypercoinsBalance: Int) : InternalMessage
         data class StreakChanged(val streak: Streak?) : InternalMessage
         data class StudyPlanChanged(val studyPlan: StudyPlan) : InternalMessage
         object TopicCompleted : InternalMessage

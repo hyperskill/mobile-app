@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct StreakBarButtonItem: View {
-    let currentStreak: Int
+    let currentStreak: String
 
     let isCompletedToday: Bool
 
@@ -30,20 +30,18 @@ struct StreakBarButtonItem: View {
     }
 }
 
-struct StreakBarButtonItem_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationView {
-            Text("Hello, World!")
-                .navigationTitle("Navigation")
-                .toolbar {
-                    ToolbarItem(placement: .primaryAction) {
-                        StreakBarButtonItem(
-                            currentStreak: 3,
-                            isCompletedToday: true,
-                            onTap: {}
-                        )
-                    }
+#Preview {
+    NavigationView {
+        Text("Hello, World!")
+            .navigationTitle("Navigation")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    StreakBarButtonItem(
+                        currentStreak: "3",
+                        isCompletedToday: true,
+                        onTap: {}
+                    )
                 }
-        }
+            }
     }
 }

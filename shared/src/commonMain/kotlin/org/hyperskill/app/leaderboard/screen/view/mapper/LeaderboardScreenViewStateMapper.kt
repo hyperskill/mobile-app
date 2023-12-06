@@ -3,6 +3,7 @@ package org.hyperskill.app.leaderboard.screen.view.mapper
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
+import org.hyperskill.app.gamification_toolbar.view.mapper.GamificationToolbarViewStateMapper
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature
 import org.hyperskill.app.leaderboard.widget.presentation.LeaderboardWidgetFeature
 import org.hyperskill.app.leaderboard.widget.view.mapper.LeaderboardWidgetViewStateMapper
@@ -19,7 +20,7 @@ internal class LeaderboardScreenViewStateMapper(
                 state = state.leaderboardWidgetState,
                 currentTab = state.currentTab
             ),
-            toolbarState = state.toolbarState,
+            toolbarViewState = GamificationToolbarViewStateMapper.map(state.toolbarState),
             isRefreshing = state.isRefreshing,
             updatesInText = getUpdatesInText(state)
         )

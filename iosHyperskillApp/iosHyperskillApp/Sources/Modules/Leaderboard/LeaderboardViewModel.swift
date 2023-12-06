@@ -9,7 +9,7 @@ final class LeaderboardViewModel: FeatureViewModel<
     private var isScreenBecomesActiveFirstTime = true
 
     var listViewStateKs: LeaderboardScreenFeatureListViewStateKs { .init(state.listViewState) }
-    var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var gamificationToolbarViewStateKs: GamificationToolbarFeatureViewStateKs { .init(state.toolbarViewState) }
 
     override func shouldNotifyStateDidChange(
         oldState: LeaderboardScreenFeature.ViewState,
@@ -48,14 +48,6 @@ final class LeaderboardViewModel: FeatureViewModel<
         onNewMessage(
             LeaderboardScreenFeatureMessageGamificationToolbarMessage(
                 message: GamificationToolbarFeatureMessageClickedStreak()
-            )
-        )
-    }
-
-    func doGemsBarButtonItemAction() {
-        onNewMessage(
-            LeaderboardScreenFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems()
             )
         )
     }

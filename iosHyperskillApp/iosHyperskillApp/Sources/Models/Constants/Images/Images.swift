@@ -13,7 +13,6 @@ enum Images {
     enum NavigationBar {
         static let streakCompleted = "navigation-bar-streak-completed"
         static let streakUncompleted = "navigation-bar-streak-uncompleted"
-        static let gems = "navigation-bar-gems"
     }
 
     // MARK: - AuthSocial -
