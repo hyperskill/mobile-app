@@ -10,6 +10,13 @@ import org.hyperskill.app.android.main.view.ui.fragment.MainFragment
  * @param initialTab means the tab which will be opened during the first screen show
  */
 data class MainScreen(private val initialTab: Tabs = Tabs.STUDY_PLAN) : FragmentScreen {
+    companion object {
+        const val TAG = "MainFragment"
+    }
+
+    override val screenKey: String
+        get() = TAG
+
     override fun createFragment(factory: FragmentFactory): Fragment =
         MainFragment.newInstance(initialTab)
 }

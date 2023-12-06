@@ -38,7 +38,7 @@ class FirstProblemOnboardingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        firstProblemOnboardingViewModel.handleActions(this, block = ::onAction)
+        firstProblemOnboardingViewModel.handleActions(this, onAction = ::onAction)
     }
 
     private fun injectComponent() {
