@@ -139,6 +139,8 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListCompo
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
+import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 
 abstract class BaseAppGraph : AppGraph {
 
@@ -283,6 +285,12 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildNotificationComponent(): NotificationComponent =
         NotificationComponentImpl(this)
+
+    /**
+     * Welcome component
+     */
+    override fun buildWelcomeComponent(): WelcomeComponent =
+        WelcomeComponentImpl(this)
 
     /**
      * Onboarding component

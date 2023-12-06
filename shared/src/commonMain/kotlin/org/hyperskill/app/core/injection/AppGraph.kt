@@ -74,6 +74,7 @@ import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
+import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -123,6 +124,7 @@ interface AppGraph {
     fun buildHomeComponent(): HomeComponent
     fun buildNotificationComponent(): NotificationComponent
     fun buildOnboardingComponent(): OnboardingComponent
+    fun buildWelcomeComponent(): WelcomeComponent
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
     fun buildStreaksDataComponent(): StreaksDataComponent

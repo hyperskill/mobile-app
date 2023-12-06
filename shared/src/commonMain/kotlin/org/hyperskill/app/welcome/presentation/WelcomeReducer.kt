@@ -1,31 +1,31 @@
-package org.hyperskill.app.onboarding.presentation
+package org.hyperskill.app.welcome.presentation
 
-import org.hyperskill.app.onboarding.domain.analytic.OnboardingClickedSignInHyperskillAnalyticEvent
-import org.hyperskill.app.onboarding.domain.analytic.OnboardingClickedSignUnHyperskillAnalyticEvent
-import org.hyperskill.app.onboarding.domain.analytic.OnboardingViewedHyperskillAnalyticEvent
-import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Action
-import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Message
-import org.hyperskill.app.onboarding.presentation.OnboardingFeature.State
+import org.hyperskill.app.welcome.domain.analytic.WelcomeScreenClickedSignInHyperskillAnalyticEvent
+import org.hyperskill.app.welcome.domain.analytic.WelcomeScreenClickedSignUnHyperskillAnalyticEvent
+import org.hyperskill.app.welcome.domain.analytic.WelcomeScreenViewedHyperskillAnalyticEvent
+import org.hyperskill.app.welcome.presentation.WelcomeFeature.Action
+import org.hyperskill.app.welcome.presentation.WelcomeFeature.Message
+import org.hyperskill.app.welcome.presentation.WelcomeFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class OnboardingReducer : StateReducer<State, Message, Action> {
+class WelcomeReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
                 if (state is State.Idle ||
                     (message.forceUpdate && (state is State.Content || state is State.NetworkError))
                 ) {
-                    State.Loading to setOf(Action.FetchOnboarding)
+                    State.Loading to setOf(Action.FetchProfile)
                 } else {
                     null
                 }
-            is Message.OnboardingSuccess ->
+            is Message.ProfileFetchSuccess ->
                 if (state is State.Loading) {
                     State.Content(isAuthorized = !message.profile.isGuest) to emptySet()
                 } else {
                     null
                 }
-            is Message.OnboardingFailure ->
+            is Message.ProfileFetchFailure ->
                 if (state is State.Loading) {
                     State.NetworkError to emptySet()
                 } else {
@@ -40,15 +40,15 @@ class OnboardingReducer : StateReducer<State, Message, Action> {
                     }
 
                     state to setOf(
-                        Action.LogAnalyticEvent(OnboardingClickedSignUnHyperskillAnalyticEvent()),
+                        Action.LogAnalyticEvent(WelcomeScreenClickedSignUnHyperskillAnalyticEvent()),
                         navigateToViewAction
                     )
                 } else {
                     null
                 }
             is Message.ViewedEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(OnboardingViewedHyperskillAnalyticEvent()))
+                state to setOf(Action.LogAnalyticEvent(WelcomeScreenViewedHyperskillAnalyticEvent()))
             is Message.ClickedSignInEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(OnboardingClickedSignInHyperskillAnalyticEvent()))
+                state to setOf(Action.LogAnalyticEvent(WelcomeScreenClickedSignInHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
 }

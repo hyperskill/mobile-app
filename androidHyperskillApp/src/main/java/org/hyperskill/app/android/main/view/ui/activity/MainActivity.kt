@@ -41,11 +41,11 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
-import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
+import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
@@ -234,7 +234,7 @@ class MainActivity :
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
             is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
-                router.newRootScreen(OnboardingScreen)
+                router.newRootScreen(WelcomeScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
             is AppFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->

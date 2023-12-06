@@ -1,7 +1,7 @@
-package org.hyperskill.app.onboarding.injection
+package org.hyperskill.app.welcome.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 
-interface PlatformOnboardingComponent {
+interface PlatformWelcomeComponent {
     val reduxViewModelFactory: ReduxViewModelFactory
 }

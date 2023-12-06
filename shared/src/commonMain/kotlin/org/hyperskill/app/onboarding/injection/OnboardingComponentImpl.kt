@@ -6,10 +6,8 @@ import org.hyperskill.app.onboarding.data.repository.OnboardingRepositoryImpl
 import org.hyperskill.app.onboarding.data.source.OnboardingCacheDataSource
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.onboarding.domain.repository.OnboardingRepository
-import org.hyperskill.app.onboarding.presentation.OnboardingFeature
-import ru.nobird.app.presentation.redux.feature.Feature
 
-class OnboardingComponentImpl(private val appGraph: AppGraph) : OnboardingComponent {
+class OnboardingComponentImpl(appGraph: AppGraph) : OnboardingComponent {
     private val onboardingCacheDataSource: OnboardingCacheDataSource = OnboardingCacheDataSourceImpl(
         appGraph.commonComponent.settings
     )
@@ -18,14 +16,4 @@ class OnboardingComponentImpl(private val appGraph: AppGraph) : OnboardingCompon
 
     override val onboardingInteractor: OnboardingInteractor
         get() = OnboardingInteractor(onboardingRepository)
-
-    override val onboardingFeature: Feature<
-        OnboardingFeature.State, OnboardingFeature.Message, OnboardingFeature.Action>
-        get() = OnboardingFeatureBuilder.build(
-            onboardingInteractor,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
-        )
 }

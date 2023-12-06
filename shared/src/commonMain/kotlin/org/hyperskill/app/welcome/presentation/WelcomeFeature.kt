@@ -1,9 +1,9 @@
-package org.hyperskill.app.onboarding.presentation
+package org.hyperskill.app.welcome.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 
-interface OnboardingFeature {
+interface WelcomeFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -13,8 +13,8 @@ interface OnboardingFeature {
 
     sealed interface Message {
         data class Initialize(val forceUpdate: Boolean = false) : Message
-        data class OnboardingSuccess(val profile: Profile) : Message
-        object OnboardingFailure : Message
+        data class ProfileFetchSuccess(val profile: Profile) : Message
+        object ProfileFetchFailure : Message
 
         object ClickedSignUn : Message
 
@@ -26,7 +26,7 @@ interface OnboardingFeature {
     }
 
     sealed interface Action {
-        object FetchOnboarding : Action
+        object FetchProfile : Action
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 

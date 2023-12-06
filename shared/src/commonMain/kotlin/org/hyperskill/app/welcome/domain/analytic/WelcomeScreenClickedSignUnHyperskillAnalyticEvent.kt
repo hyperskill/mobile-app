@@ -1,4 +1,4 @@
-package org.hyperskill.app.onboarding.domain.analytic
+package org.hyperskill.app.welcome.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -20,7 +20,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class OnboardingClickedSignUnHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class WelcomeScreenClickedSignUnHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Onboarding(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,

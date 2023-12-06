@@ -1,28 +1,28 @@
-package org.hyperskill.app.onboarding.presentation
+package org.hyperskill.app.welcome.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
-import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Action
-import org.hyperskill.app.onboarding.presentation.OnboardingFeature.Message
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.welcome.domain.interactor.WelcomeInteractor
+import org.hyperskill.app.welcome.presentation.WelcomeFeature.Action
+import org.hyperskill.app.welcome.presentation.WelcomeFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class OnboardingActionDispatcher(
+class WelcomeActionDispatcher(
     config: ActionDispatcherOptions,
-    private val onboardingInteractor: OnboardingInteractor,
+    private val welcomeInteractor: WelcomeInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchOnboarding -> {
-                onboardingInteractor.setOnboardingShown(true)
+            is Action.FetchProfile -> {
+                welcomeInteractor.setWelcomeScreenShown(true)
                 currentProfileStateRepository
                     .getState()
                     .fold(
-                        onSuccess = { onNewMessage(Message.OnboardingSuccess(it)) },
-                        onFailure = { onNewMessage(Message.OnboardingFailure) }
+                        onSuccess = { onNewMessage(Message.ProfileFetchSuccess(it)) },
+                        onFailure = { onNewMessage(Message.ProfileFetchFailure) }
                     )
             }
             is Action.LogAnalyticEvent ->
