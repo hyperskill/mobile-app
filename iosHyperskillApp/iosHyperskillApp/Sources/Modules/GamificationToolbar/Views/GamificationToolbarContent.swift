@@ -13,7 +13,6 @@ struct GamificationToolbarContent: ToolbarContent {
 
     let stateKs: GamificationToolbarFeatureStateKs
 
-    let onGemsTap: () -> Void
     let onStreakTap: () -> Void
     let onProgressTap: () -> Void
 
@@ -23,7 +22,6 @@ struct GamificationToolbarContent: ToolbarContent {
             case .idle, .loading:
                 HStack {
                     SkeletonRoundedView(appearance: .init(size: appearance.toolbarLargeSkeletonSize))
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarDefaultSkeletonSize))
                     SkeletonRoundedView(appearance: .init(size: appearance.toolbarDefaultSkeletonSize))
                 }
             case .error:
@@ -42,11 +40,6 @@ struct GamificationToolbarContent: ToolbarContent {
                         currentStreak: Int(data.currentStreak),
                         isCompletedToday: data.historicalStreak.isCompleted,
                         onTap: onStreakTap
-                    )
-
-                    GemsBarButtonItem(
-                        hypercoinsBalance: Int(data.hypercoinsBalance),
-                        onTap: onGemsTap
                     )
                 }
             }

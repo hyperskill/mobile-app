@@ -86,25 +86,6 @@
                 tools:visibility="visible"
                 />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/gamificationGemsCountTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:textSize="14sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:drawableStartCompat="@drawable/ic_menu_gems_count"
-                android:drawablePadding="6dp"
-                android:gravity="center_vertical"
-                android:layout_gravity="center"
-                android:paddingHorizontal="4dp"
-                tools:text="3"
-                android:visibility="gone"
-                tools:visibility="visible"
-                />
-
         </com.google.android.material.appbar.MaterialToolbar>
 
         <TextView

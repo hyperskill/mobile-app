@@ -59,14 +59,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
         )
     }
 
-    func doGemsBarButtonItemAction() {
-        onNewMessage(
-            HomeFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems()
-            )
-        )
-    }
-
     func doProgressBarButtonItemAction() {
         onNewMessage(
             HomeFeatureMessageGamificationToolbarMessage(

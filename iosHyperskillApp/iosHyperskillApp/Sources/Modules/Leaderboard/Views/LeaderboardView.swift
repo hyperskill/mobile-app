@@ -31,7 +31,6 @@ struct LeaderboardView: View {
         .toolbar {
             GamificationToolbarContent(
                 stateKs: viewModel.gamificationToolbarStateKs,
-                onGemsTap: viewModel.doGemsBarButtonItemAction,
                 onStreakTap: viewModel.doStreakBarButtonItemAction,
                 onProgressTap: viewModel.doProgressBarButtonItemAction
             )

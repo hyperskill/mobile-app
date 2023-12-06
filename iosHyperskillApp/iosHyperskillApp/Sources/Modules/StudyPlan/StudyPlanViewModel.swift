@@ -72,14 +72,6 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
-    func doGemsBarButtonItemAction() {
-        onNewMessage(
-            StudyPlanScreenFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems()
-            )
-        )
-    }
-
     func doProgressBarButtonItemAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(

@@ -52,14 +52,6 @@ final class LeaderboardViewModel: FeatureViewModel<
         )
     }
 
-    func doGemsBarButtonItemAction() {
-        onNewMessage(
-            LeaderboardScreenFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems()
-            )
-        )
-    }
-
     func doProgressBarButtonItemAction() {
         onNewMessage(
             LeaderboardScreenFeatureMessageGamificationToolbarMessage(

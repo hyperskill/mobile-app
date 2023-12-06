@@ -29,11 +29,6 @@ class GamificationToolbarDelegate(
             gamificationAppBar.setElevationOnCollapsed(lifecycleOwner.lifecycle)
             gamificationAppBar.setExpanded(true)
 
-            gamificationGemsCountTextView.setOnClickListener {
-                onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedGems
-                )
-            }
             gamificationStreakDurationTextView.setOnClickListener {
                 onNewMessage(
                     GamificationToolbarFeature.Message.ClickedStreak
@@ -62,10 +57,6 @@ class GamificationToolbarDelegate(
                     /* right = */ 0,
                     /* bottom = */ 0
                 )
-            }
-            with(viewBinding.gamificationGemsCountTextView) {
-                isVisible = true
-                text = state.hypercoinsBalance.toString()
             }
 
             state.trackProgress.let { trackProgress ->
