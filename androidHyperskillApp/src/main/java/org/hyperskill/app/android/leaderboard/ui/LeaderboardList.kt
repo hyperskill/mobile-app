@@ -85,7 +85,7 @@ private fun LeaderboardList(
                     LeaderboardItem(
                         placeNumber = item.position,
                         participantAvatarUrl = item.userAvatar,
-                        participantName = item.userName,
+                        participantName = item.username,
                         solvedProblemsAmount = item.passedProblems,
                         problemsSubtitle = item.passedProblemsSubtitle,
                         isHighlighted = item.isCurrentUser,

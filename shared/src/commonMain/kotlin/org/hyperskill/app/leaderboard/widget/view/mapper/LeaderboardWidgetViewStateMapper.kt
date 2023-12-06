@@ -56,7 +56,7 @@ class LeaderboardWidgetViewStateMapper(
                     ),
                     userId = currentLeaderboardItem.user.id,
                     userAvatar = currentLeaderboardItem.user.avatar,
-                    userName = currentLeaderboardItem.user.fullname,
+                    username = currentLeaderboardItem.user.fullname,
                     isCurrentUser = currentLeaderboardItem.user.id == currentUserId
                 )
                 add(listItem)
