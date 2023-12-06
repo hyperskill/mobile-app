@@ -283,6 +283,9 @@ class MainActivity :
     }
 
     override fun render(state: AppFeature.State) {
+        HyperskillApp.setIsLeaderboardTabEnabled(
+            state.safeCast<AppFeature.State.Ready>()?.isMobileLeaderboardsEnabled ?: false
+        )
         viewStateDelegate.switchState(state)
         when (state) {
             is AppFeature.State.Idle, AppFeature.State.Loading ->

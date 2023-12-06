@@ -11,6 +11,7 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProblemOnboardingComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
+import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingComponent
@@ -93,4 +94,6 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformNotificationOnboardingComponent(): PlatformNotificationsOnboardingComponent
 
     fun buildPlatformFirstProblemOnboardingComponent(isNewUserMode: Boolean): PlatformFirstProblemOnboardingComponent
+
+    fun buildPlatformLeaderboardComponent(): PlatformLeaderboardComponent
 }

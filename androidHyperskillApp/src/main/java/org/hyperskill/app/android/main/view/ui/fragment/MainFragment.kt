@@ -46,6 +46,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                             R.id.training_tab
                         Tabs.STUDY_PLAN ->
                             R.id.study_plan_tab
+                        Tabs.LEADERBOARD ->
+                            R.id.leaderboard_tab
                         Tabs.PROFILE ->
                             R.id.profile_tab
                         Tabs.DEBUG ->
@@ -78,8 +80,12 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             localCicerone.router.switch(initialTab)
         }
 
-        viewBinding.mainBottomNavigation.menu.findItem(R.id.debug_tab).isVisible =
-            DebugFeature.isAvailable(buildKonfig)
+        with(viewBinding.mainBottomNavigation.menu) {
+            findItem(R.id.debug_tab).isVisible =
+                DebugFeature.isAvailable(buildKonfig)
+            findItem(R.id.leaderboard_tab).isVisible =
+                HyperskillApp.isLeaderboardTabEnabled()
+        }
 
         viewBinding.mainBottomNavigation.setOnItemSelectedListener { item ->
             logClickedBottomNavigationItemEvent(
@@ -104,6 +110,9 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
                 R.id.study_plan_tab -> {
                     localCicerone.router.switch(Tabs.STUDY_PLAN)
+                }
+                R.id.leaderboard_tab -> {
+                    localCicerone.router.switch(Tabs.LEADERBOARD)
                 }
             }
             return@setOnItemSelectedListener true
@@ -140,6 +149,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             R.id.study_plan_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.STUDY_PLAN
             R.id.profile_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.PROFILE
             R.id.debug_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.DEBUG
+            R.id.leaderboard_tab -> AppClickedBottomNavigationItemHyperskillAnalyticEvent.NavigationItem.LEADERBOARD
             else -> null
         }
 }
