@@ -2,28 +2,28 @@ import Foundation
 import shared
 
 final class OnboardingViewModel: FeatureViewModel<
-  OnboardingFeatureState,
-  OnboardingFeatureMessage,
-  OnboardingFeatureActionViewAction
+  WelcomeFeatureState,
+  WelcomeFeatureMessage,
+  WelcomeFeatureActionViewAction
 > {
     weak var moduleOutput: OnboardingOutputProtocol?
 
-    var stateKs: OnboardingFeatureStateKs { .init(state) }
+    var stateKs: WelcomeFeatureStateKs { .init(state) }
 
     init(feature: Presentation_reduxFeature) {
         super.init(feature: feature)
-        onNewMessage(OnboardingFeatureMessageInitialize(forceUpdate: false))
+        onNewMessage(WelcomeFeatureMessageInitialize(forceUpdate: false))
     }
 
     override func shouldNotifyStateDidChange(
-        oldState: OnboardingFeatureState,
-        newState: OnboardingFeatureState
+        oldState: WelcomeFeatureState,
+        newState: WelcomeFeatureState
     ) -> Bool {
-        OnboardingFeatureStateKs(oldState) != OnboardingFeatureStateKs(newState)
+        WelcomeFeatureStateKs(oldState) != WelcomeFeatureStateKs(newState)
     }
 
     func doRetryLoadOnboarding() {
-        onNewMessage(OnboardingFeatureMessageInitialize(forceUpdate: true))
+        onNewMessage(WelcomeFeatureMessageInitialize(forceUpdate: true))
     }
 
     func doSignPresentation() {
@@ -32,7 +32,7 @@ final class OnboardingViewModel: FeatureViewModel<
     }
 
     func doClickedSignUpAction() {
-        onNewMessage(OnboardingFeatureMessageClickedSignUn())
+        onNewMessage(WelcomeFeatureMessageClickedSignUn())
     }
 
     func doSignUpPresentation(isInSignUpMode: Bool) {
@@ -42,10 +42,10 @@ final class OnboardingViewModel: FeatureViewModel<
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(OnboardingFeatureMessageViewedEventMessage())
+        onNewMessage(WelcomeFeatureMessageViewedEventMessage())
     }
 
     private func logClickedSignInEvent() {
-        onNewMessage(OnboardingFeatureMessageClickedSignInEventMessage())
+        onNewMessage(WelcomeFeatureMessageClickedSignInEventMessage())
     }
 }

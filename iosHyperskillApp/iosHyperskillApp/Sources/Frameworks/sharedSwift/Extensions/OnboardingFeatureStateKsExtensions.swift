@@ -1,8 +1,8 @@
 import Foundation
 import shared
 
-extension OnboardingFeatureStateKs: Equatable {
-    public static func == (lhs: OnboardingFeatureStateKs, rhs: OnboardingFeatureStateKs) -> Bool {
+extension WelcomeFeatureStateKs: Equatable {
+    public static func == (lhs: WelcomeFeatureStateKs, rhs: WelcomeFeatureStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true
