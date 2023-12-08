@@ -94,7 +94,9 @@ internal class SearchReducer : StateReducer<State, Message, Action> {
         return when (state.searchResultsState) {
             SearchFeature.SearchResultsState.Editing,
             SearchFeature.SearchResultsState.Error ->
-                state to (analyticActions + InternalAction.PerformSearch(state.query))
+                state.copy(
+                    searchResultsState = SearchFeature.SearchResultsState.Loading
+                ) to (analyticActions + InternalAction.PerformSearch(state.query))
             SearchFeature.SearchResultsState.Loading,
             is SearchFeature.SearchResultsState.Content ->
                 state to analyticActions
