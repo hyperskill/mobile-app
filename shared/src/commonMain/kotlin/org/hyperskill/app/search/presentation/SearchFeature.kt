@@ -2,6 +2,7 @@ package org.hyperskill.app.search.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.topics.domain.model.Topic
+import ru.nobird.app.core.model.Identifiable
 
 object SearchFeature {
     internal data class State(
@@ -17,8 +18,23 @@ object SearchFeature {
     }
 
     data class ViewState(
-        val query: String
+        val query: String,
+        val searchResultsViewState: SearchResultsViewState,
+        val isSearchButtonEnabled: Boolean,
+        val isUserInteractionEnabled: Boolean
     )
+
+    sealed interface SearchResultsViewState {
+        object Editing : SearchResultsViewState
+        object Loading : SearchResultsViewState
+        object Error : SearchResultsViewState
+        data class Content(val searchResults: List<Item>) : SearchResultsViewState {
+            data class Item(
+                override val id: Long,
+                val title: String
+            ) : Identifiable<Long>
+        }
+    }
 
     internal fun initialState(): State =
         State(
