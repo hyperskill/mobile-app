@@ -12,6 +12,8 @@ enum GamificationToolbarViewActionHandler {
         case .showProgressScreen:
             let assembly = ProgressScreenAssembly()
             stackRouter.pushViewController(assembly.makeModule())
+        case .showSearchScreen:
+            #warning("TODO: ALTAPPS-1058 show search screen")
         }
     }
 }

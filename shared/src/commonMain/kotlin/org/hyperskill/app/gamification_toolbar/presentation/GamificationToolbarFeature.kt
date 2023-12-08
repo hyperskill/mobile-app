@@ -49,6 +49,7 @@ object GamificationToolbarFeature {
     sealed interface Message {
         object ClickedStreak : Message
         object ClickedProgress : Message
+        object ClickedSearch : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -79,6 +80,7 @@ object GamificationToolbarFeature {
         sealed interface ViewAction : Action {
             object ShowProfileTab : ViewAction
             object ShowProgressScreen : ViewAction
+            object ShowSearchScreen : ViewAction
         }
     }
 

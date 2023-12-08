@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 
 /**
- * Represents a click on the streak navigation bar button item analytic event.
+ * Represents a click on the search navigation bar button item analytic event.
  *
  * JSON payload:
  * ```
@@ -15,20 +15,20 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
  *     "route": "/home | /study-plan | /leaderboard",
  *     "action": "click",
  *     "part": "head",
- *     "target": "streak"
+ *     "target": "search"
  * }
  * ```
  *
- * @constructor Creates a new instance of [GamificationToolbarClickedStreakHyperskillAnalyticEvent].
+ * @constructor Creates a new instance of [GamificationToolbarClickedSearchHyperskillAnalyticEvent].
  * @param screen The screen where the event was triggered.
  *
  * @see HyperskillAnalyticEvent
  */
-class GamificationToolbarClickedStreakHyperskillAnalyticEvent(
+class GamificationToolbarClickedSearchHyperskillAnalyticEvent(
     screen: GamificationToolbarScreen
 ) : HyperskillAnalyticEvent(
     screen.analyticRoute,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.HEAD,
-    HyperskillAnalyticTarget.STREAK
+    HyperskillAnalyticTarget.SEARCH
 )

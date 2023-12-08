@@ -1,6 +1,7 @@
 package org.hyperskill.app.gamification_toolbar.presentation
 
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedProgressHyperskillAnalyticEvent
+import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedSearchHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.analytic.GamificationToolbarClickedStreakHyperskillAnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarData
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
@@ -118,6 +119,17 @@ class GamificationToolbarReducer(
                         Action.ViewAction.ShowProgressScreen,
                         InternalAction.LogAnalyticEvent(
                             GamificationToolbarClickedProgressHyperskillAnalyticEvent(screen)
+                        )
+                    )
+                } else {
+                    null
+                }
+            is Message.ClickedSearch ->
+                if (state is State.Content) {
+                    state to setOf(
+                        Action.ViewAction.ShowSearchScreen,
+                        InternalAction.LogAnalyticEvent(
+                            GamificationToolbarClickedSearchHyperskillAnalyticEvent(screen)
                         )
                     )
                 } else {
