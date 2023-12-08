@@ -1,0 +1,39 @@
+package org.hyperskill.app.search.injection
+
+import co.touchlab.kermit.Logger
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.search.presentation.SearchActionDispatcher
+import org.hyperskill.app.search.presentation.SearchFeature
+import org.hyperskill.app.search.presentation.SearchReducer
+import org.hyperskill.app.search.view.mapper.SearchViewStateMapper
+import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
+import ru.nobird.app.presentation.redux.feature.Feature
+import ru.nobird.app.presentation.redux.feature.ReduxFeature
+
+internal object SearchFeatureBuilder {
+    private const val LOG_TAG = "SearchFeature"
+
+    fun build(
+        analyticInteractor: AnalyticInteractor,
+        logger: Logger,
+        buildVariant: BuildVariant,
+    ): Feature<SearchFeature.ViewState, SearchFeature.Message, SearchFeature.Action> {
+        val searchReducer = SearchReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
+
+        val searchActionDispatcher = SearchActionDispatcher(
+            config = ActionDispatcherOptions(),
+            analyticInteractor = analyticInteractor
+        )
+
+        return ReduxFeature(
+            initialState = SearchFeature.initialState(),
+            reducer = searchReducer
+        )
+            .transformState(SearchViewStateMapper::map)
+            .wrapWithActionDispatcher(searchActionDispatcher)
+    }
+}
