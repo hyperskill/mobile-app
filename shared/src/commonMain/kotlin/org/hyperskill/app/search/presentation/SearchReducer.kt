@@ -1,6 +1,7 @@
 package org.hyperskill.app.search.presentation
 
 import org.hyperskill.app.search.domain.analytic.SearchClickedItemHyperskillAnalyticEvent
+import org.hyperskill.app.search.domain.analytic.SearchClickedRetrySearchHyperskillAnalyticEvent
 import org.hyperskill.app.search.domain.analytic.SearchClickedSearchHyperskillAnalyticEvent
 import org.hyperskill.app.search.domain.analytic.SearchViewedHyperskillAnalyticEvent
 import org.hyperskill.app.search.presentation.SearchFeature.Action
@@ -21,6 +22,18 @@ internal class SearchReducer : StateReducer<State, Message, Action> {
             }
             Message.SearchClicked -> {
                 handleSearchClickedMessage(state)
+            }
+            Message.RetrySearchClicked -> {
+                if (state.searchResultsState == SearchFeature.SearchResultsState.Error) {
+                    state.copy(
+                        searchResultsState = SearchFeature.SearchResultsState.Loading
+                    ) to setOf(
+                        InternalAction.PerformSearch(state.query),
+                        InternalAction.LogAnalyticEvent(SearchClickedRetrySearchHyperskillAnalyticEvent)
+                    )
+                } else {
+                    null
+                }
             }
             InternalMessage.PerformSearchError -> {
                 if (state.searchResultsState == SearchFeature.SearchResultsState.Loading) {

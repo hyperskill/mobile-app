@@ -47,6 +47,8 @@ object SearchFeature {
         data class QueryChanged(val query: String) : Message
 
         object SearchClicked : Message
+        object RetrySearchClicked : Message
+
         data class SearchResultsItemClicked(val id: Long) : Message
 
         object ViewedEventMessage : Message
