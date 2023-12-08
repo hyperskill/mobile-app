@@ -6,10 +6,12 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.search.domain.interactor.SearchInteractor
 import org.hyperskill.app.search.presentation.SearchActionDispatcher
 import org.hyperskill.app.search.presentation.SearchFeature
 import org.hyperskill.app.search.presentation.SearchReducer
 import org.hyperskill.app.search.view.mapper.SearchViewStateMapper
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -18,6 +20,8 @@ internal object SearchFeatureBuilder {
     private const val LOG_TAG = "SearchFeature"
 
     fun build(
+        searchInteractor: SearchInteractor,
+        sentryInteractor: SentryInteractor,
         analyticInteractor: AnalyticInteractor,
         logger: Logger,
         buildVariant: BuildVariant,
@@ -26,6 +30,8 @@ internal object SearchFeatureBuilder {
 
         val searchActionDispatcher = SearchActionDispatcher(
             config = ActionDispatcherOptions(),
+            searchInteractor = searchInteractor,
+            sentryInteractor = sentryInteractor,
             analyticInteractor = analyticInteractor
         )
 

@@ -27,16 +27,25 @@ object SearchFeature {
         )
 
     sealed interface Message {
+        data class QueryChanged(val query: String) : Message
+
+        object SearchClicked : Message
+
         object ViewedEventMessage : Message
     }
 
-    internal sealed interface InternalMessage : Message
+    internal sealed interface InternalMessage : Message {
+        object PerformSearchError : InternalMessage
+        data class PerformSearchSuccess(val topics: List<Topic>) : InternalMessage
+    }
 
     sealed interface Action {
         sealed interface ViewAction : Action
     }
 
     internal sealed interface InternalAction : Action {
+        data class PerformSearch(val query: String) : InternalAction
+
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

@@ -294,4 +294,13 @@ object HyperskillSentryTransactionBuilder {
             name = "challenge-widget-feature-fetch-challenges",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * SearchFeature
+     */
+    fun buildSearchFeaturePerformSearch(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "search-feature-perform-search",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }
