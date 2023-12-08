@@ -29,6 +29,7 @@ object SearchFeature {
         object Editing : SearchResultsViewState
         object Loading : SearchResultsViewState
         object Error : SearchResultsViewState
+        object Empty : SearchResultsViewState
         data class Content(val searchResults: List<Item>) : SearchResultsViewState {
             data class Item(
                 override val id: Long,

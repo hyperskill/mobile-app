@@ -24,14 +24,19 @@ internal object SearchViewStateMapper {
             SearchFeature.SearchResultsState.Editing -> SearchFeature.SearchResultsViewState.Editing
             SearchFeature.SearchResultsState.Loading -> SearchFeature.SearchResultsViewState.Loading
             SearchFeature.SearchResultsState.Error -> SearchFeature.SearchResultsViewState.Error
-            is SearchFeature.SearchResultsState.Content ->
-                SearchFeature.SearchResultsViewState.Content(
-                    searchResults = state.topics.map { topic ->
-                        SearchFeature.SearchResultsViewState.Content.Item(
-                            id = topic.id,
-                            title = topic.title
-                        )
-                    }
-                )
+            is SearchFeature.SearchResultsState.Content -> {
+                if (state.topics.isEmpty()) {
+                    SearchFeature.SearchResultsViewState.Empty
+                } else {
+                    SearchFeature.SearchResultsViewState.Content(
+                        searchResults = state.topics.map { topic ->
+                            SearchFeature.SearchResultsViewState.Content.Item(
+                                id = topic.id,
+                                title = topic.title
+                            )
+                        }
+                    )
+                }
+            }
         }
 }
