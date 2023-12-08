@@ -33,7 +33,7 @@ class ProgressFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        progressScreenViewModel.handleActions(this, block = ::onAction)
+        progressScreenViewModel.handleActions(this, onAction = ::onAction)
     }
 
     private fun injectComponent() {

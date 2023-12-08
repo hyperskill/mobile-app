@@ -67,29 +67,29 @@ final class AppsFlyerManager: AnalyticEngine {
     }
 
     func reportEvent(event: AnalyticEvent, force: Bool, completionHandler: @escaping (Error?) -> Void) {
+        completionHandler(nil)
+
         let name = event.name
         let values = event.params
 
         #if DEBUG
         print("AppsFlyerManager: logging event = \(name) with values = \(values)")
-        #endif
-
         AppsFlyerLib.shared().logEvent(
             name: name,
             values: values,
             completionHandler: { dictionaryOrNil, errorOrNil in
-                #if DEBUG
                 if let error = errorOrNil {
-                    print("AppsFlyerManager: failed log event = \(name) with error =\(error)")
+                    assertionFailure("AppsFlyerManager: failed log event = \(name) with error =\(error)")
                 } else {
                     print("""
 AppsFlyerManager: successfully logged event = \(name) with result = \(String(describing: dictionaryOrNil))
 """)
                 }
-                #endif
-                completionHandler(errorOrNil)
             }
         )
+        #else
+        AppsFlyerLib.shared().logEvent(name: name, values: values)
+        #endif
     }
 
     func setScreenOrientation(screenOrientation: ScreenOrientation) {}

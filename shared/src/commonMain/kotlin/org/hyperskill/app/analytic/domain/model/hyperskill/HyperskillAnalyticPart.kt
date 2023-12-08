@@ -38,5 +38,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     NEXT_LEARNING_ACTIVITY_WIDGET("next_learning_activity_widget"),
     FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
     CODE_EDITOR("code_editor"),
-    SHARE_STREAK_MODAL("share_streak_modal")
+    SHARE_STREAK_MODAL("share_streak_modal"),
+    LEADERBOARD_DAY_TAB("leaderboard_day_tab"),
+    LEADERBOARD_WEEK_TAB("leaderboard_week_tab")
 }

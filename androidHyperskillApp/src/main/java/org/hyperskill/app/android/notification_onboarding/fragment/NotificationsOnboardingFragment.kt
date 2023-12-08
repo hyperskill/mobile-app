@@ -47,7 +47,7 @@ class NotificationsOnboardingFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        notificationsOnboardingViewModel.handleActions(this, block = ::onAction)
+        notificationsOnboardingViewModel.handleActions(this, onAction = ::onAction)
         notificationPermissionDelegate =
             NotificationPermissionDelegate(this, ::onNotificationPermissionRequestResult)
     }

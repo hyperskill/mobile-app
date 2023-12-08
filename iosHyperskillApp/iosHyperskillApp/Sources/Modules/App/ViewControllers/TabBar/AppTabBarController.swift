@@ -13,12 +13,15 @@ final class AppTabBarController: UITabBarController {
     private weak var appTabBarControllerDelegate: AppTabBarControllerDelegate?
 
     private var currentTabItem: AppTabItem
+    private let availableTabs: [AppTabItem]
 
     init(
         initialTab: AppTabItem = .studyPlan,
+        availableTabs: [AppTabItem] = AppTabItemsAvailabilityService.shared.getAvailableTabs(),
         appTabBarControllerDelegate: AppTabBarControllerDelegate?
     ) {
         self.currentTabItem = initialTab
+        self.availableTabs = availableTabs
         self.appTabBarControllerDelegate = appTabBarControllerDelegate
         super.init(nibName: nil, bundle: nil)
     }
@@ -33,7 +36,7 @@ final class AppTabBarController: UITabBarController {
 
         setViewControllers()
 
-        if let initialTabIndex = AppTabItem.availableItems.firstIndex(of: currentTabItem) {
+        if let initialTabIndex = availableTabs.firstIndex(of: currentTabItem) {
             selectedIndex = initialTabIndex
         } else {
             selectedIndex = 0
@@ -43,17 +46,19 @@ final class AppTabBarController: UITabBarController {
     }
 
     private func setViewControllers() {
-        let viewControllers = AppTabItem.availableItems.map { tabItem -> UIViewController in
+        let viewControllers = availableTabs.map { tabItem -> UIViewController in
             let rootViewController: UIViewController = {
                 switch tabItem {
                 case .home:
-                    return HomeAssembly().makeModule()
+                    HomeAssembly().makeModule()
                 case .studyPlan:
-                    return StudyPlanAssembly().makeModule()
+                    StudyPlanAssembly().makeModule()
+                case .leaderboard:
+                    LeaderboardAssembly().makeModule()
                 case .profile:
-                    return UIHostingController(rootView: ProfileAssembly.currentUser().makeModule())
+                    UIHostingController(rootView: ProfileAssembly.currentUser().makeModule())
                 case .debug:
-                    return DebugAssembly().makeModule()
+                    DebugAssembly().makeModule()
                 }
             }()
 
@@ -89,26 +94,16 @@ extension AppTabBarController: UITabBarControllerDelegate {
 // MARK: - AppTabItem (UITabBarItem) -
 
 private extension AppTabItem {
-    static var availableItems: [AppTabItem] {
-        var result = AppTabItem.allCases
-
-        if !ApplicationInfo.isDebugModeAvailable {
-            result.removeAll(where: { $0 == .debug })
-        }
-
-        return result
-    }
-
     var tabBarItem: UITabBarItem {
         switch self {
         case .studyPlan:
-            return UITabBarItem(
+            UITabBarItem(
                 title: title,
                 image: UIImage(named: imageName),
                 selectedImage: UIImage(named: selectedImageName)
             )
-        case .home, .profile, .debug:
-            return UITabBarItem(
+        case .home, .leaderboard, .profile, .debug:
+            UITabBarItem(
                 title: title,
                 image: UIImage(systemName: imageName),
                 selectedImage: UIImage(systemName: selectedImageName)
