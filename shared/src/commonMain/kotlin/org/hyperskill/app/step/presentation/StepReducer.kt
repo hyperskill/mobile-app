@@ -29,7 +29,17 @@ class StepReducer(
             is Message.StepLoaded.Success -> {
                 State.Data(
                     step = message.step,
-                    isPracticingAvailable = stepRoute is StepRoute.Learn,
+                    isPracticingAvailable = when (stepRoute) {
+                        is StepRoute.Learn.Step,
+                        is StepRoute.Learn.TheoryOpenedFromPractice ->
+                            true
+                        is StepRoute.Learn.TheoryOpenedFromSearch,
+                        is StepRoute.LearnDaily,
+                        is StepRoute.Repeat.Practice,
+                        is StepRoute.Repeat.Theory,
+                        is StepRoute.StageImplement ->
+                            false
+                    },
                     stepCompletionState = StepCompletionFeature.createState(message.step, stepRoute)
                 ) to setOf(Action.UpdateNextLearningActivityState(message.step))
             }

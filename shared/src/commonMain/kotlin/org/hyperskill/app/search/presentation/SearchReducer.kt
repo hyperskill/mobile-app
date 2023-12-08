@@ -1,5 +1,6 @@
 package org.hyperskill.app.search.presentation
 
+import org.hyperskill.app.search.domain.analytic.SearchClickedItemHyperskillAnalyticEvent
 import org.hyperskill.app.search.domain.analytic.SearchClickedSearchHyperskillAnalyticEvent
 import org.hyperskill.app.search.domain.analytic.SearchViewedHyperskillAnalyticEvent
 import org.hyperskill.app.search.presentation.SearchFeature.Action
@@ -7,6 +8,7 @@ import org.hyperskill.app.search.presentation.SearchFeature.InternalAction
 import org.hyperskill.app.search.presentation.SearchFeature.InternalMessage
 import org.hyperskill.app.search.presentation.SearchFeature.Message
 import org.hyperskill.app.search.presentation.SearchFeature.State
+import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias SearchReducerResult = Pair<State, Set<Action>>
@@ -37,6 +39,9 @@ internal class SearchReducer : StateReducer<State, Message, Action> {
                 } else {
                     null
                 }
+            }
+            is Message.SearchResultsItemClicked -> {
+                handleSearchResultsItemClickedMessage(state, message)
             }
             Message.ViewedEventMessage -> {
                 state to setOf(InternalAction.LogAnalyticEvent(SearchViewedHyperskillAnalyticEvent))
@@ -80,6 +85,29 @@ internal class SearchReducer : StateReducer<State, Message, Action> {
             SearchFeature.SearchResultsState.Loading,
             is SearchFeature.SearchResultsState.Content ->
                 state to analyticActions
+        }
+    }
+
+    private fun handleSearchResultsItemClickedMessage(
+        state: State,
+        message: Message.SearchResultsItemClicked
+    ): SearchReducerResult? {
+        if (state.searchResultsState is SearchFeature.SearchResultsState.Content) {
+            val targetTopic = state.searchResultsState.topics.firstOrNull { it.id == message.id } ?: return null
+            return state to buildSet {
+                if (targetTopic.theoryId != null) {
+                    add(
+                        Action.ViewAction.OpenStepScreen(StepRoute.Learn.TheoryOpenedFromSearch(targetTopic.theoryId))
+                    )
+                }
+                add(
+                    InternalAction.LogAnalyticEvent(
+                        SearchClickedItemHyperskillAnalyticEvent(query = state.query, topicId = targetTopic.id)
+                    )
+                )
+            }
+        } else {
+            return null
         }
     }
 }

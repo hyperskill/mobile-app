@@ -7,36 +7,42 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a click analytic event on the "Search" button.
+ * Represents a click analytic event on the search results item.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/search",
  *     "action": "click",
- *     "part": "main",
- *     "target": "search",
+ *     "part": "search_results",
+ *     "target": "topic",
  *     "context":
  *     {
- *         "query": "test"
+ *         "query": "test",
+ *         "topic_id": 1
  *     }
  * }
  * ```
  *
  * @property query a search query.
+ * @property topicId target topic id.
  *
  * @see HyperskillAnalyticEvent
  */
-class SearchClickedSearchHyperskillAnalyticEvent(
-    private val query: String
+class SearchClickedItemHyperskillAnalyticEvent(
+    private val query: String,
+    private val topicId: Long
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Search(),
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.SEARCH
+    HyperskillAnalyticPart.SEARCH_RESULTS,
+    HyperskillAnalyticTarget.TOPIC
 ) {
     override val params: Map<String, Any>
         get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(SearchAnalyticParams.PARAM_QUERY to query)
+            PARAM_CONTEXT to mapOf(
+                SearchAnalyticParams.PARAM_QUERY to query,
+                SearchAnalyticParams.PARAM_TOPIC_ID to topicId
+            )
         )
 }

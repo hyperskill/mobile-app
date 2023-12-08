@@ -33,6 +33,7 @@ class AndroidStepQuizTest {
                         isTheoryAvailable = when (concreteStepRouteClass) {
                             StepRoute.Learn.Step::class -> true
                             StepRoute.Learn.TheoryOpenedFromPractice::class -> false
+                            StepRoute.Learn.TheoryOpenedFromSearch::class -> false
                             StepRoute.LearnDaily::class -> false
                             StepRoute.Repeat.Practice::class -> true
                             StepRoute.Repeat.Theory::class -> false
@@ -49,6 +50,8 @@ class AndroidStepQuizTest {
                     StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id)
                     StepRoute.Learn.TheoryOpenedFromPractice::class ->
                         StepRoute.Learn.TheoryOpenedFromPractice(step.id)
+                    StepRoute.Learn.TheoryOpenedFromSearch::class ->
+                        StepRoute.Learn.TheoryOpenedFromSearch(step.id)
                     StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
                     StepRoute.Repeat.Practice::class -> StepRoute.Repeat.Practice(step.id)
                     StepRoute.Repeat.Theory::class -> StepRoute.Repeat.Theory(step.id)

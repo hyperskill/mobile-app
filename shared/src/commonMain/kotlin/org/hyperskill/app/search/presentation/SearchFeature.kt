@@ -1,6 +1,7 @@
 package org.hyperskill.app.search.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.Topic
 import ru.nobird.app.core.model.Identifiable
 
@@ -46,6 +47,7 @@ object SearchFeature {
         data class QueryChanged(val query: String) : Message
 
         object SearchClicked : Message
+        data class SearchResultsItemClicked(val id: Long) : Message
 
         object ViewedEventMessage : Message
     }
@@ -56,7 +58,9 @@ object SearchFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            data class OpenStepScreen(val stepRoute: StepRoute) : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {

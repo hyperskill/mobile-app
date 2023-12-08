@@ -107,5 +107,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     COLLECT_REWARD("collect_reward"),
     DAY("day"),
     WEEK("week"),
-    LEADERBOARD_ITEM("leaderboard_item")
+    LEADERBOARD_ITEM("leaderboard_item"),
+    TOPIC("topic")
 }
