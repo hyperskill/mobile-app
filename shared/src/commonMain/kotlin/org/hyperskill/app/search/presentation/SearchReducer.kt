@@ -110,7 +110,9 @@ internal class SearchReducer : StateReducer<State, Message, Action> {
             return state to buildSet {
                 if (targetTopic.theoryId != null) {
                     add(
-                        Action.ViewAction.OpenStepScreen(StepRoute.Learn.TheoryOpenedFromSearch(targetTopic.theoryId))
+                        Action.ViewAction.OpenStepScreen(
+                            StepRoute.Learn.TheoryOpenedFromSearch(targetTopic.theoryId)
+                        )
                     )
                 }
                 add(
