@@ -6,10 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SearchResult(
     @SerialName("target_type")
-    internal val targetTypeValue: String,
+    val targetType: SearchResultTargetType = SearchResultTargetType.UNKNOWN,
     @SerialName("target_id")
     val targetId: Long
-) {
-    val targetType: SearchResultTargetType?
-        get() = SearchResultTargetType.getByValue(targetTypeValue)
-}
+)

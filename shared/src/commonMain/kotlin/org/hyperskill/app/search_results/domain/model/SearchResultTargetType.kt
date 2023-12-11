@@ -1,12 +1,12 @@
 package org.hyperskill.app.search_results.domain.model
 
-enum class SearchResultTargetType(val value: String) {
-    TOPIC("topic");
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-    companion object {
-        private val VALUES: Array<SearchResultTargetType> = values()
+@Serializable
+enum class SearchResultTargetType {
+    @SerialName("topic")
+    TOPIC,
 
-        fun getByValue(value: String): SearchResultTargetType? =
-            VALUES.firstOrNull { it.value == value }
-    }
+    UNKNOWN
 }

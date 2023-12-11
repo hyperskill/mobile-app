@@ -5,6 +5,7 @@ import kotlin.test.assertEquals
 import org.hyperskill.app.core.remote.Meta
 import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.search_results.domain.model.SearchResult
+import org.hyperskill.app.search_results.domain.model.SearchResultTargetType
 import org.hyperskill.app.search_results.remote.model.SearchResultsResponse
 
 class SearchResultsResponseDeserializationTest {
@@ -28,6 +29,12 @@ class SearchResultsResponseDeserializationTest {
             "target_id": 488,
             "position": 2,
             "score": 77.70255
+        },
+        {
+            "target_type": "project",
+            "target_id": 353,
+            "position": 54,
+            "score": 39.685966
         }
     ]
 }
@@ -45,12 +52,16 @@ class SearchResultsResponseDeserializationTest {
             ),
             searchResults = listOf(
                 SearchResult(
-                    targetTypeValue = "topic",
+                    targetType = SearchResultTargetType.TOPIC,
                     targetId = 22
                 ),
                 SearchResult(
-                    targetTypeValue = "topic",
+                    targetType = SearchResultTargetType.TOPIC,
                     targetId = 488
+                ),
+                SearchResult(
+                    targetType = SearchResultTargetType.UNKNOWN,
+                    targetId = 353
                 )
             )
         )
