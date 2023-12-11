@@ -12,7 +12,7 @@ object SearchFeature {
     )
 
     internal sealed interface SearchResultsState {
-        object Editing : SearchResultsState
+        object Idle : SearchResultsState
         object Loading : SearchResultsState
         object Error : SearchResultsState
         data class Content(val topics: List<Topic>) : SearchResultsState
@@ -21,12 +21,11 @@ object SearchFeature {
     data class ViewState(
         val query: String,
         val searchResultsViewState: SearchResultsViewState,
-        val isSearchButtonEnabled: Boolean,
-        val isUserInteractionEnabled: Boolean
+        val isSearchButtonEnabled: Boolean
     )
 
     sealed interface SearchResultsViewState {
-        object Editing : SearchResultsViewState
+        object Idle : SearchResultsViewState
         object Loading : SearchResultsViewState
         object Error : SearchResultsViewState
         object Empty : SearchResultsViewState
@@ -41,7 +40,7 @@ object SearchFeature {
     internal fun initialState(): State =
         State(
             query = "",
-            searchResultsState = SearchResultsState.Editing
+            searchResultsState = SearchResultsState.Idle
         )
 
     sealed interface Message {
@@ -68,7 +67,8 @@ object SearchFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class PerformSearch(val query: String) : InternalAction
+        data class PerformSearch(val query: String, val withDelay: Boolean) : InternalAction
+        object CancelSearch : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

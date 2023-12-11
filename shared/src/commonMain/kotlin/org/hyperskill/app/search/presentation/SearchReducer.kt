@@ -32,7 +32,7 @@ internal class SearchReducer(
                     state.copy(
                         searchResultsState = SearchFeature.SearchResultsState.Loading
                     ) to setOf(
-                        InternalAction.PerformSearch(state.query),
+                        InternalAction.PerformSearch(query = state.query, withDelay = false),
                         InternalAction.LogAnalyticEvent(SearchClickedRetrySearchHyperskillAnalyticEvent)
                     )
                 } else {
@@ -68,23 +68,18 @@ internal class SearchReducer(
     private fun handleQueryChangedMessage(
         state: State,
         message: Message.QueryChanged
-    ): SearchReducerResult? {
-        if (state.searchResultsState == SearchFeature.SearchResultsState.Loading) {
-            return null
+    ): SearchReducerResult =
+        if (message.query.isBlank()) {
+            state.copy(
+                query = message.query,
+                searchResultsState = SearchFeature.SearchResultsState.Idle
+            ) to setOf(InternalAction.CancelSearch)
+        } else {
+            state.copy(
+                query = message.query,
+                searchResultsState = SearchFeature.SearchResultsState.Loading
+            ) to setOf(InternalAction.PerformSearch(query = message.query, withDelay = true))
         }
-
-        val newSearchResultsState = when (state.searchResultsState) {
-            SearchFeature.SearchResultsState.Editing -> SearchFeature.SearchResultsState.Editing
-            SearchFeature.SearchResultsState.Loading -> SearchFeature.SearchResultsState.Loading
-            SearchFeature.SearchResultsState.Error -> SearchFeature.SearchResultsState.Editing
-            is SearchFeature.SearchResultsState.Content -> SearchFeature.SearchResultsState.Editing
-        }
-
-        return state.copy(
-            query = message.query,
-            searchResultsState = newSearchResultsState
-        ) to emptySet()
-    }
 
     private fun handleSearchClickedMessage(state: State): SearchReducerResult {
         val analyticActions = setOf(
@@ -96,11 +91,11 @@ internal class SearchReducer(
         }
 
         return when (state.searchResultsState) {
-            SearchFeature.SearchResultsState.Editing,
             SearchFeature.SearchResultsState.Error ->
                 state.copy(
                     searchResultsState = SearchFeature.SearchResultsState.Loading
-                ) to (analyticActions + InternalAction.PerformSearch(state.query))
+                ) to (analyticActions + InternalAction.PerformSearch(query = state.query, withDelay = false))
+            SearchFeature.SearchResultsState.Idle,
             SearchFeature.SearchResultsState.Loading,
             is SearchFeature.SearchResultsState.Content ->
                 state to analyticActions
