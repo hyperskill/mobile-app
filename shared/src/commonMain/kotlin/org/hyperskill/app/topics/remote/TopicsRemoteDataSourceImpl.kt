@@ -10,7 +10,7 @@ import org.hyperskill.app.topics.data.source.TopicsRemoteDataSource
 import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.app.topics.remote.model.TopicsResponse
 
-class TopicsRemoteDataSourceImpl(
+internal class TopicsRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : TopicsRemoteDataSource {
     override suspend fun getTopics(topicsIds: List<Long>): Result<List<Topic>> =

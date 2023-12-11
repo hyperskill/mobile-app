@@ -92,6 +92,8 @@ import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
+import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
+import org.hyperskill.app.search_results.injection.SearchResultsDataComponentImpl
 import org.hyperskill.app.share_streak.injection.ShareStreakDataComponent
 import org.hyperskill.app.share_streak.injection.ShareStreakDataComponentImpl
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
@@ -436,4 +438,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent =
         LeaderboardWidgetComponentImpl(this)
+
+    override fun buildSearchResultsDataComponent(): SearchResultsDataComponent =
+        SearchResultsDataComponentImpl(this)
 }
