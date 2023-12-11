@@ -533,6 +533,9 @@
     <!-- Search -->
     <string name="search_title">Search</string>
     <string name="search_input_placeholder">Find topic</string>
+    <string name="search_open_step_screen_error_message">Sorry, we were unable to open the search result: please try
+        again later.
+    </string>
     <string name="search_placeholder_empty_description">Nothing found. Try changing your search query.</string>
     <string name="search_placeholder_error_description">Oops! We were unable to perform the search.</string>
 

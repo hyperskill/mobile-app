@@ -63,6 +63,7 @@ object SearchFeature {
     sealed interface Action {
         sealed interface ViewAction : Action {
             data class OpenStepScreen(val stepRoute: StepRoute) : ViewAction
+            data class OpenStepScreenFailed(val message: String) : ViewAction
         }
     }
 

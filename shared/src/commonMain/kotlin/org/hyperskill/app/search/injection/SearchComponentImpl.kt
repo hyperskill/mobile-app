@@ -17,6 +17,7 @@ internal class SearchComponentImpl(private val appGraph: AppGraph) : SearchCompo
             searchInteractor = searchInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            resourceProvider = appGraph.commonComponent.resourceProvider,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
         )

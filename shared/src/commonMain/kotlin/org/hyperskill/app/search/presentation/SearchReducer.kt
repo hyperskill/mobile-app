@@ -1,5 +1,7 @@
 package org.hyperskill.app.search.presentation
 
+import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.search.domain.analytic.SearchClickedItemHyperskillAnalyticEvent
 import org.hyperskill.app.search.domain.analytic.SearchClickedRetrySearchHyperskillAnalyticEvent
 import org.hyperskill.app.search.domain.analytic.SearchClickedSearchHyperskillAnalyticEvent
@@ -14,7 +16,9 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias SearchReducerResult = Pair<State, Set<Action>>
 
-internal class SearchReducer : StateReducer<State, Message, Action> {
+internal class SearchReducer(
+    private val resourceProvider: ResourceProvider
+) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): SearchReducerResult =
         when (message) {
             is Message.QueryChanged -> {
@@ -114,6 +118,12 @@ internal class SearchReducer : StateReducer<State, Message, Action> {
                     add(
                         Action.ViewAction.OpenStepScreen(
                             StepRoute.Learn.TheoryOpenedFromSearch(targetTopic.theoryId)
+                        )
+                    )
+                } else {
+                    add(
+                        Action.ViewAction.OpenStepScreenFailed(
+                            resourceProvider.getString(SharedResources.strings.search_open_step_screen_error_message)
                         )
                     )
                 }

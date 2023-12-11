@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.search.domain.interactor.SearchInteractor
 import org.hyperskill.app.search.presentation.SearchActionDispatcher
@@ -23,10 +24,13 @@ internal object SearchFeatureBuilder {
         searchInteractor: SearchInteractor,
         sentryInteractor: SentryInteractor,
         analyticInteractor: AnalyticInteractor,
+        resourceProvider: ResourceProvider,
         logger: Logger,
         buildVariant: BuildVariant,
     ): Feature<SearchFeature.ViewState, SearchFeature.Message, SearchFeature.Action> {
-        val searchReducer = SearchReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
+        val searchReducer = SearchReducer(
+            resourceProvider = resourceProvider
+        ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val searchActionDispatcher = SearchActionDispatcher(
             config = ActionDispatcherOptions(),
