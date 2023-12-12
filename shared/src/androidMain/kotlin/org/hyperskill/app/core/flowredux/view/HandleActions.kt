@@ -11,10 +11,10 @@ import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel
 fun <State, Message, ViewAction> ReduxFlowViewModel<State, Message, ViewAction>.handleActions(
     lifecycleOwner: LifecycleOwner,
     minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
-    block: (ViewAction) -> Unit
+    onAction: (ViewAction) -> Unit
 ) {
     actions
         .flowWithLifecycle(lifecycleOwner.lifecycle, minActiveState)
-        .onEach(block)
+        .onEach(onAction)
         .launchIn(lifecycleOwner.lifecycleScope)
 }

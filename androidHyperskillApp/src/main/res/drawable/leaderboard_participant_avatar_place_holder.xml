@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <color android:color="@color/color_on_surface_alpha_12"/>
+    </item>
+    <item>
+        <bitmap
+            android:src="@drawable/avatar_place_holder"
+            android:gravity="center_horizontal|bottom"/>
+    </item>
+</layer-list>

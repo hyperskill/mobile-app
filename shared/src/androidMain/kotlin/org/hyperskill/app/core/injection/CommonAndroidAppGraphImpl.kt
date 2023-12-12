@@ -16,6 +16,8 @@ import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProble
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
+import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponentImpl
 import org.hyperskill.app.notification.remote.injection.AndroidPlatformPushNotificationsPlatformDataComponent
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
@@ -209,5 +211,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PlatformFirstProblemOnboardingComponentImpl(
             isNewUserMode = isNewUserMode,
             firstProblemOnboardingComponent = buildFirstProblemOnboardingComponent()
+        )
+
+    override fun buildPlatformLeaderboardComponent(): PlatformLeaderboardComponent =
+        PlatformLeaderboardComponentImpl(
+            leaderboardComponent = buildLeaderboardScreenComponent()
         )
 }
