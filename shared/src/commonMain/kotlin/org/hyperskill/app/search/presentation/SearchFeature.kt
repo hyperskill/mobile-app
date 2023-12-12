@@ -54,7 +54,7 @@ object SearchFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        object PerformSearchError : InternalMessage
+        data class PerformSearchError(val error: Throwable) : InternalMessage
         data class PerformSearchSuccess(val topics: List<Topic>) : InternalMessage
     }
 
