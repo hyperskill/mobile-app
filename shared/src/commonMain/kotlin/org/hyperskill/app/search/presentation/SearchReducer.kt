@@ -1,5 +1,6 @@
 package org.hyperskill.app.search.presentation
 
+import kotlinx.coroutines.CancellationException
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.search.domain.analytic.SearchClickedItemHyperskillAnalyticEvent
@@ -39,8 +40,10 @@ internal class SearchReducer(
                     null
                 }
             }
-            InternalMessage.PerformSearchError -> {
-                if (state.searchResultsState == SearchFeature.SearchResultsState.Loading) {
+            is InternalMessage.PerformSearchError -> {
+                if (state.searchResultsState == SearchFeature.SearchResultsState.Loading &&
+                    message.error !is CancellationException
+                ) {
                     state.copy(
                         searchResultsState = SearchFeature.SearchResultsState.Error
                     ) to emptySet()

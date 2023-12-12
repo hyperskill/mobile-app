@@ -53,7 +53,7 @@ internal class SearchActionDispatcher(
         suspend fun search() {
             sentryInteractor.withTransaction(
                 HyperskillSentryTransactionBuilder.buildSearchFeaturePerformSearch(),
-                onError = { InternalMessage.PerformSearchError }
+                onError = { InternalMessage.PerformSearchError(it) }
             ) {
                 val topics = searchInteractor
                     .searchTopics(query = action.query)
