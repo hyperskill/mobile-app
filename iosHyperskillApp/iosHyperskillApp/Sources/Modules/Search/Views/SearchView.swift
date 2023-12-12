@@ -2,16 +2,7 @@ import shared
 import SwiftUI
 
 @available(iOS 15.0, *)
-extension SearchView {
-    struct Appearance {
-        let backgroundColor = Color.background
-    }
-}
-
-@available(iOS 15.0, *)
 struct SearchView: View {
-    private(set) var appearance = Appearance()
-
     @StateObject var viewModel: SearchViewModel
 
     var stackRouter: StackRouterProtocol
@@ -56,6 +47,8 @@ struct SearchView: View {
         case .idle, .loading:
             if viewModel.state.query.isEmpty {
                 SearchPlaceholderSuggestionsView()
+            } else {
+                SearchPlaceholderLoadingView()
             }
         case .error:
             PlaceholderView(
