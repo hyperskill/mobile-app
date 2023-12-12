@@ -125,18 +125,18 @@ struct ProfileView: View {
                         onSelectedHourTapped: viewModel.logClickedDailyStudyRemindsTimeEvent
                     )
 
-                    ProfileBadgesGridView(
-                        appearance: .init(cornerRadius: appearance.cornerRadius),
-                        badgesState: viewModel.makeBadgesViewState(badgesState: data.badgesState),
-                        onBadgeTap: viewModel.doBadgeCardTapped(badgeKind:),
-                        onVisibilityButtonTap: viewModel.doBadgesVisibilityButtonTapped(visibilityButton:)
-                    )
-
                     ProfileStatisticsView(
                         appearance: .init(cornerRadius: appearance.cornerRadius),
                         passedProjectsCount: Int(data.profile.gamification.passedProjectsCount),
                         passedTracksCount: Int(data.profile.completedTracks.count),
                         hypercoinsBalance: Int(data.profile.gamification.hypercoinsBalance)
+                    )
+
+                    ProfileBadgesGridView(
+                        appearance: .init(cornerRadius: appearance.cornerRadius),
+                        badgesState: viewModel.makeBadgesViewState(badgesState: data.badgesState),
+                        onBadgeTap: viewModel.doBadgeCardTapped(badgeKind:),
+                        onVisibilityButtonTap: viewModel.doBadgesVisibilityButtonTapped(visibilityButton:)
                     )
 
                     ProfileAboutView(
