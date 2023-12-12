@@ -6,8 +6,7 @@ internal object SearchViewStateMapper {
     fun map(state: SearchFeature.State): SearchFeature.ViewState =
         SearchFeature.ViewState(
             query = state.query,
-            searchResultsViewState = mapSearchResultsState(state.searchResultsState),
-            isSearchButtonEnabled = state.query.isNotBlank()
+            searchResultsViewState = mapSearchResultsState(state.searchResultsState)
         )
 
     private fun mapSearchResultsState(

@@ -69,7 +69,9 @@ internal class SearchReducer(
         state: State,
         message: Message.QueryChanged
     ): SearchReducerResult =
-        if (message.query.isBlank()) {
+        if (message.query == state.query) {
+            state to emptySet()
+        } else if (message.query.isBlank()) {
             state.copy(
                 query = message.query,
                 searchResultsState = SearchFeature.SearchResultsState.Idle

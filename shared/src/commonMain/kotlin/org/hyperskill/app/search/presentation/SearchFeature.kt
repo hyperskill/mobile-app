@@ -20,8 +20,7 @@ object SearchFeature {
 
     data class ViewState(
         val query: String,
-        val searchResultsViewState: SearchResultsViewState,
-        val isSearchButtonEnabled: Boolean
+        val searchResultsViewState: SearchResultsViewState
     )
 
     sealed interface SearchResultsViewState {
