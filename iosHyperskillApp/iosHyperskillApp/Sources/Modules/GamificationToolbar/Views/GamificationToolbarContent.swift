@@ -27,7 +27,9 @@ struct GamificationToolbarContent: ToolbarContent {
                 HStack {
                     SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
                     SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
-                    SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    if #available(iOS 15.0, *) {
+                        SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    }
                 }
             case .error:
                 HStack {}
@@ -48,18 +50,20 @@ struct GamificationToolbarContent: ToolbarContent {
                         onTap: onStreakTap
                     )
 
-                    Button(
-                        action: onSearchTap,
-                        label: {
-                            Image(systemName: "magnifyingglass")
-                                .resizable()
-                                .renderingMode(.template)
-                                .aspectRatio(contentMode: .fit)
-                                .frame(widthHeight: appearance.searchImageWidthHeight)
-                                .padding(appearance.searchImagePadding)
-                                .background(Circle().foregroundColor(appearance.searchImageBackgroundColor))
-                        }
-                    )
+                    if #available(iOS 15.0, *) {
+                        Button(
+                            action: onSearchTap,
+                            label: {
+                                Image(systemName: "magnifyingglass")
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(widthHeight: appearance.searchImageWidthHeight)
+                                    .padding(appearance.searchImagePadding)
+                                    .background(Circle().foregroundColor(appearance.searchImageBackgroundColor))
+                            }
+                        )
+                    }
                 }
             }
         }
