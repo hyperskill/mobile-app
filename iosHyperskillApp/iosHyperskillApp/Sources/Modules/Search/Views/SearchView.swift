@@ -14,6 +14,8 @@ struct SearchView: View {
 
     @StateObject var viewModel: SearchViewModel
 
+    var stackRouter: StackRouterProtocol
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -28,6 +30,10 @@ struct SearchView: View {
         )
         .onSubmit(of: .search, viewModel.doSearch)
         .introspectViewController { viewController in
+            guard viewModel.shouldBecomeFirstResponder() else {
+                return
+            }
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 viewController.navigationItem.searchController?.searchBar.becomeFirstResponder()
             }
@@ -91,8 +97,9 @@ private extension SearchView {
         _ viewAction: SearchFeatureActionViewAction
     ) {
         switch SearchFeatureActionViewActionKs(viewAction) {
-        case .openStepScreen:
-            break
+        case .openStepScreen(let openStepScreenViewAction):
+            let assembly = StepAssembly(stepRoute: openStepScreenViewAction.stepRoute)
+            stackRouter.pushViewController(assembly.makeModule())
         case .openStepScreenFailed(let openStepScreenFailedViewAction):
             ProgressHUD.showError(status: openStepScreenFailedViewAction.message)
         }

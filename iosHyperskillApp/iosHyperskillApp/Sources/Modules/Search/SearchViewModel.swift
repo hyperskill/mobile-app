@@ -8,11 +8,22 @@ final class SearchViewModel: FeatureViewModel<
 > {
     var searchResultsViewStateKs: SearchFeatureSearchResultsViewStateKs { .init(state.searchResultsViewState) }
 
+    private var isFirstTimeBecomeFirstResponder = true
+
     override func shouldNotifyStateDidChange(
         oldState: SearchFeature.ViewState,
         newState: SearchFeature.ViewState
     ) -> Bool {
         !oldState.isEqual(newState)
+    }
+
+    func shouldBecomeFirstResponder() -> Bool {
+        if isFirstTimeBecomeFirstResponder {
+            isFirstTimeBecomeFirstResponder = false
+            return true
+        } else {
+            return false
+        }
     }
 
     func doQueryChanged(query: String) {

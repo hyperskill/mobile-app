@@ -10,8 +10,11 @@ final class SearchAssembly: UIKitAssembly {
             feature: searchComponent.searchFeature
         )
 
+        let stackRouter = StackRouter()
+
         let searchView = SearchView(
-            viewModel: searchViewModel
+            viewModel: searchViewModel,
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
@@ -20,6 +23,8 @@ final class SearchAssembly: UIKitAssembly {
         hostingController.hidesBottomBarWhenPushed = true
         hostingController.navigationItem.largeTitleDisplayMode = .always
         hostingController.title = Strings.Search.title
+
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }
