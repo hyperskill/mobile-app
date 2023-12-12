@@ -1,10 +1,10 @@
 package org.hyperskill.app.main.injection
 
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {

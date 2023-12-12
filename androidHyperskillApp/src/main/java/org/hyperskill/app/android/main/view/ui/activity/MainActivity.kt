@@ -46,7 +46,6 @@ import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
@@ -55,6 +54,7 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
@@ -260,7 +260,7 @@ class MainActivity :
                         )
                     WelcomeOnboardingFeature.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
-            }
+                }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
                     fragmentManager = supportFragmentManager,

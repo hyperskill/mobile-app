@@ -1,9 +1,9 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class WelcomeOnboardingDispatcher(

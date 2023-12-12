@@ -2,8 +2,6 @@ package org.hyperskill.app.main.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingDispatcher
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
@@ -23,6 +21,8 @@ import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepositor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingDispatcher
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher

@@ -1,15 +1,15 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 
 interface WelcomeOnboardingFeature {
 
     @Serializable
     data class State(val profile: Profile? = null)
-    
+
     sealed interface Message {
         data class OnboardingFlowRequested(
             val profile: Profile,

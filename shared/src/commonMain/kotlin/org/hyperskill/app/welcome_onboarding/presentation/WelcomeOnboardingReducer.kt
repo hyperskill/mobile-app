@@ -1,12 +1,12 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
+import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.OnboardingFlowFinishReason
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.ViewAction
-import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile.domain.model.isNewUser
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>

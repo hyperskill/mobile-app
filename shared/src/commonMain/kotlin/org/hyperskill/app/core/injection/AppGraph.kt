@@ -5,7 +5,6 @@ import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponent
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.challenges.injection.ChallengesDataComponent
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
@@ -76,6 +75,7 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
