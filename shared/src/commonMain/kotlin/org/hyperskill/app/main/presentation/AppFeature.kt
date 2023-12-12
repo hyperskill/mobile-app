@@ -120,7 +120,7 @@ interface AppFeature {
             ) : ViewAction
 
             data class WelcomeOnboardingViewAction(
-                val viewAction: WelcomeOnboardingFeature.ViewAction
+                val viewAction: WelcomeOnboardingFeature.Action.ViewAction
             ) : ViewAction
         }
     }

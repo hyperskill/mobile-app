@@ -226,7 +226,7 @@ class AppReducer(
         } else {
             onboardingState to
                 onboardingActions.map {
-                    if (it is WelcomeOnboardingFeature.ViewAction) {
+                    if (it is WelcomeOnboardingFeature.Action.ViewAction) {
                         Action.ViewAction.WelcomeOnboardingViewAction(it)
                     } else {
                         Action.WelcomeOnboardingAction(it)

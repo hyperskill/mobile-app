@@ -248,17 +248,17 @@ class MainActivity :
                 )
             is AppFeature.Action.ViewAction.WelcomeOnboardingViewAction ->
                 when (val viewAction = action.viewAction) {
-                    is WelcomeOnboardingFeature.ViewAction.NavigateTo.StudyPlanWithStep -> {
+                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep -> {
                         router.newRootChain(
                             MainScreen(Tabs.STUDY_PLAN),
                             StepScreen(viewAction.stepRoute)
                         )
                     }
-                    is WelcomeOnboardingFeature.ViewAction.NavigateTo.FirstProblemOnBoardingScreen ->
+                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen ->
                         router.newRootScreen(
                             FirstProblemOnboardingScreen(viewAction.isNewUserMode)
                         )
-                    WelcomeOnboardingFeature.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
+                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->

@@ -3,10 +3,11 @@ package org.hyperskill.app.welcome_onboarding.presentation
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalAction
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.OnboardingFlowFinishReason
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.ViewAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
@@ -34,7 +35,7 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
     ): ReducerResult =
         if (!message.isNotificationPermissionGranted) {
             State(message.profile) to
-                setOf(Action.FetchNotificationOnboardingData)
+                setOf(InternalAction.FetchNotificationOnboardingData)
         } else {
             onNotificationOnboardingCompleted(message.profile)
         }
@@ -111,7 +112,7 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
                     OnboardingFlowFinishReason.NotificationOnboardingFinished(profile)
                 )
             } else {
-                Action.FetchFirstProblemOnboardingData
+                InternalAction.FetchFirstProblemOnboardingData
             }
         )
 }

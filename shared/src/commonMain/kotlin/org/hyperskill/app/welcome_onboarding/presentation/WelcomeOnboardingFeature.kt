@@ -5,7 +5,7 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 
-interface WelcomeOnboardingFeature {
+object WelcomeOnboardingFeature {
 
     @Serializable
     data class State(val profile: Profile? = null)
@@ -29,22 +29,24 @@ interface WelcomeOnboardingFeature {
     }
 
     sealed interface Action {
-        object FetchNotificationOnboardingData : Action
-        object FetchFirstProblemOnboardingData : Action
-
         data class OnboardingFlowFinished(
             val reason: OnboardingFlowFinishReason
         ) : Action
+
+        sealed interface ViewAction : Action {
+            sealed interface NavigateTo : ViewAction {
+                object NotificationOnBoardingScreen : NavigateTo
+
+                data class FirstProblemOnBoardingScreen(val isNewUserMode: Boolean) : NavigateTo
+
+                data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
+            }
+        }
     }
 
-    sealed interface ViewAction : Action {
-        sealed interface NavigateTo : ViewAction {
-            object NotificationOnBoardingScreen : NavigateTo
-
-            data class FirstProblemOnBoardingScreen(val isNewUserMode: Boolean) : NavigateTo
-
-            data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
-        }
+    internal sealed interface InternalAction : Action {
+        object FetchNotificationOnboardingData : InternalAction
+        object FetchFirstProblemOnboardingData : InternalAction
     }
 }
 

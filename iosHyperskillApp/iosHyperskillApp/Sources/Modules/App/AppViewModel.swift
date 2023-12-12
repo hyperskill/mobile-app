@@ -127,7 +127,11 @@ extension AppViewModel: OnboardingOutputProtocol {
 
 extension AppViewModel: NotificationsOnboardingOutputProtocol {
     func handleNotificationsOnboardingCompleted() {
-        onNewMessage(AppFeatureMessageNotificationOnboardingCompleted())
+        onNewMessage(
+            AppFeatureMessageWelcomeOnboardingMessage(
+                message: WelcomeOnboardingFeatureMessageNotificationOnboardingCompleted()
+            )
+        )
     }
 }
 
@@ -135,7 +139,13 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
 
 extension AppViewModel: FirstProblemOnboardingOutputProtocol {
     func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
-        onNewMessage(AppFeatureMessageFirstProblemOnboardingCompleted(firstProblemStepRoute: stepRoute))
+        onNewMessage(
+            AppFeatureMessageWelcomeOnboardingMessage(
+                message: WelcomeOnboardingFeatureMessageFirstProblemOnboardingCompleted(
+                    firstProblemStepRoute: stepRoute
+                )
+            )
+        )
     }
 }
 
@@ -199,7 +209,11 @@ private extension AppViewModel {
 
     @objc
     func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
-        onViewAction?(AppFeatureActionViewActionNavigateToFirstProblemOnBoardingScreen(isNewUserMode: true))
+        onViewAction?(
+            AppFeatureActionViewActionWelcomeOnboardingViewAction(
+                viewAction: WelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnBoardingScreen(isNewUserMode: true)
+            )
+        )
     }
 
     @objc
