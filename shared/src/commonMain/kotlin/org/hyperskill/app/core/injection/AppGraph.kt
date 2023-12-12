@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.injection.HyperskillAnalyticEngineComponent
 import org.hyperskill.app.auth.injection.AuthComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.badges.injection.BadgesDataComponent
 import org.hyperskill.app.challenges.injection.ChallengesDataComponent
 import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
@@ -163,4 +164,5 @@ interface AppGraph {
     fun buildLeaderboardDataComponent(): LeaderboardDataComponent
     fun buildLeaderboardScreenComponent(): LeaderboardScreenComponent
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
+    fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
 }

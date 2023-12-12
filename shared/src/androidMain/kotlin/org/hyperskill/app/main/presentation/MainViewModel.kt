@@ -7,6 +7,7 @@ import com.chrynan.parcelable.core.decodeFromBundle
 import com.chrynan.parcelable.core.encodeToBundle
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.main.presentation.AppFeature.Message
@@ -76,5 +77,9 @@ class MainViewModel(
 
     fun logScreenOrientation(screenOrientation: ScreenOrientation) {
         analyticInteractor.setScreenOrientation(screenOrientation)
+    }
+
+    fun onNewMessage(message: WelcomeOnboardingFeature.Message) {
+        onNewMessage(Message.WelcomeOnboardingMessage(message))
     }
 }

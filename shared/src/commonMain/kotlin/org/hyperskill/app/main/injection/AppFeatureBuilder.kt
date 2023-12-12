@@ -2,6 +2,8 @@ package org.hyperskill.app.main.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingDispatcher
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
@@ -17,7 +19,6 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
-import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
@@ -44,7 +45,8 @@ object AppFeatureBuilder {
         notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher,
         notificationsInteractor: NotificationInteractor,
         pushNotificationsInteractor: PushNotificationsInteractor,
-        onboardingInteractor: OnboardingInteractor,
+        welcomeOnboardingReducer: WelcomeOnboardingReducer,
+        welcomeOnboardingDispatcher: WelcomeOnboardingDispatcher,
         platform: Platform,
         logger: Logger,
         buildVariant: BuildVariant
@@ -52,6 +54,7 @@ object AppFeatureBuilder {
         val appReducer = AppReducer(
             streakRecoveryReducer,
             clickedNotificationReducer,
+            welcomeOnboardingReducer,
             platformType = platform.platformType
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val appActionDispatcher = AppActionDispatcher(
@@ -62,8 +65,7 @@ object AppFeatureBuilder {
             sentryInteractor,
             stateRepositoriesComponent,
             notificationsInteractor,
-            pushNotificationsInteractor,
-            onboardingInteractor
+            pushNotificationsInteractor
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)
@@ -78,6 +80,12 @@ object AppFeatureBuilder {
                 notificationClickHandlingDispatcher.transform(
                     transformAction = { it.safeCast<Action.ClickedNotificationAction>()?.action },
                     transformMessage = Message::NotificationClickHandlingMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                welcomeOnboardingDispatcher.transform(
+                    transformAction = { it.safeCast<Action.WelcomeOnboardingAction>()?.action },
+                    transformMessage = Message::WelcomeOnboardingMessage
                 )
             )
     }
