@@ -26,13 +26,17 @@ final class OnboardingViewModel: FeatureViewModel<
         onNewMessage(OnboardingFeatureMessageInitialize(forceUpdate: true))
     }
 
-    func doSignPresentation() {
+    func doPrimaryButtonAction() {
+        onNewMessage(OnboardingFeatureMessageClickedSignUn())
+    }
+
+    func doSecondaryButtonAction() {
         logClickedSignInEvent()
         moduleOutput?.handleOnboardingSignInRequested()
     }
 
-    func doClickedSignUpAction() {
-        onNewMessage(OnboardingFeatureMessageClickedSignUn())
+    func doSignPresentation() {
+        moduleOutput?.handleOnboardingSignInRequested()
     }
 
     func doSignUpPresentation(isInSignUpMode: Bool) {
