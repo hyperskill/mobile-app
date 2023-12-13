@@ -93,7 +93,7 @@ struct OnboardingView: View {
                         viewModel.doSecondaryButtonAction()
                     }
                 )
-                .buttonStyle(OutlineButtonStyle(style: .violet))
+                .buttonStyle(.tertiary)
 
                 if horizontalSizeClass == .regular {
                     Spacer()

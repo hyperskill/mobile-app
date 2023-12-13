@@ -2,6 +2,7 @@ import SwiftUI
 
 struct OutlineButtonStyle: ButtonStyle {
     var foregroundColor = Color(ColorPalette.primary)
+    var foregroundPressedColor = Color(ColorPalette.primary)
     var font = Font.body
 
     var minHeight: CGFloat = 44
@@ -9,6 +10,7 @@ struct OutlineButtonStyle: ButtonStyle {
 
     var cornerRadius: CGFloat = 8
     var borderColor = Color(ColorPalette.primaryAlpha38)
+    var borderPressedColor = Color(ColorPalette.primaryAlpha38)
     var borderWidth: CGFloat = 1
 
     var bounceScale: CGFloat = 0.95
@@ -26,14 +28,22 @@ struct OutlineButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .foregroundColor(foregroundColor)
+            .foregroundColor(configuration.isPressed ? foregroundPressedColor : foregroundColor)
             .font(font)
             .frame(maxWidth: maxWidth, minHeight: minHeight, alignment: alignment)
             .contentShape(RoundedRectangle(cornerRadius: cornerRadius)) // Increase tap area for user interaction
             .padding(paddingEdgeSet)
             .background(backgroundColor)
             .cornerRadius(cornerRadius)
-            .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(borderColor, lineWidth: borderWidth))
+            .overlay(
+                RoundedRectangle(
+                    cornerRadius: cornerRadius
+                )
+                .stroke(
+                    configuration.isPressed ? borderPressedColor : borderColor,
+                    lineWidth: borderWidth
+                )
+            )
             .opacity(isEnabled ? 1 : opacityDisabled)
             .scaleEffect(configuration.isPressed ? bounceScale : 1)
             .animation(.easeOut(duration: bounceDuration), value: configuration.isPressed)
@@ -43,22 +53,49 @@ struct OutlineButtonStyle: ButtonStyle {
     enum Style {
         case green
         case violet
+        case newGray
 
         fileprivate var foregroundColor: Color {
             switch self {
             case .green:
-                return Color(ColorPalette.secondary)
+                Color(ColorPalette.secondary)
             case .violet:
-                return Color(ColorPalette.primary)
+                Color(ColorPalette.primary)
+            case .newGray:
+                Color(ColorPalette.newButtonTertiary)
+            }
+        }
+
+        fileprivate var foregroundPressedColor: Color {
+            switch self {
+            case .green:
+                Color(ColorPalette.secondary)
+            case .violet:
+                Color(ColorPalette.primary)
+            case .newGray:
+                Color(ColorPalette.newButtonTertiaryActive)
             }
         }
 
         fileprivate var borderColor: Color {
             switch self {
             case .green:
-                return Color(ColorPalette.secondaryAlpha38)
+                Color(ColorPalette.secondaryAlpha38)
             case .violet:
-                return Color(ColorPalette.primaryAlpha38)
+                Color(ColorPalette.primaryAlpha38)
+            case .newGray:
+                Color(ColorPalette.newButtonTertiary)
+            }
+        }
+
+        fileprivate var borderPressedColor: Color {
+            switch self {
+            case .green:
+                Color(ColorPalette.secondaryAlpha38)
+            case .violet:
+                Color(ColorPalette.primaryAlpha38)
+            case .newGray:
+                Color(ColorPalette.newButtonTertiaryActive)
             }
         }
     }
@@ -66,14 +103,31 @@ struct OutlineButtonStyle: ButtonStyle {
 
 extension OutlineButtonStyle {
     init(style: Style) {
-        self.init(foregroundColor: style.foregroundColor, borderColor: style.borderColor)
+        self.init(
+            foregroundColor: style.foregroundColor,
+            foregroundPressedColor: style.foregroundPressedColor,
+            borderColor: style.borderColor,
+            borderPressedColor: style.borderPressedColor
+        )
     }
 }
 
-struct OutlineButtonStyle_Previews: PreviewProvider {
-    static var previews: some View {
+extension ButtonStyle where Self == OutlineButtonStyle {
+    static var tertiary: OutlineButtonStyle {
+        OutlineButtonStyle(style: .newGray)
+    }
+}
+
+#Preview {
+    VStack {
         Button("Press Me", action: {})
             .buttonStyle(OutlineButtonStyle())
-            .padding()
+
+        Button("Press Me", action: {})
+            .buttonStyle(OutlineButtonStyle(style: .newGray))
+
+        Button("Press Me", action: {})
+            .buttonStyle(.tertiary)
     }
+    .padding()
 }
