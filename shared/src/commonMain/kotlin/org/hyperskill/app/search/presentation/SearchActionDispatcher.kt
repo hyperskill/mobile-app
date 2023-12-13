@@ -35,7 +35,7 @@ internal class SearchActionDispatcher(
                 handlePerformSearchAction(action, ::onNewMessage)
             }
             InternalAction.CancelSearch -> {
-                searchJob?.cancel()
+                cancelSearchJob()
             }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
@@ -62,7 +62,7 @@ internal class SearchActionDispatcher(
             }.let(onNewMessage)
         }
 
-        searchJob?.cancel()
+        cancelSearchJob()
 
         if (action.withDelay) {
             searchJob = actionScope.launch {
@@ -72,5 +72,10 @@ internal class SearchActionDispatcher(
         } else {
             search()
         }
+    }
+
+    private fun cancelSearchJob() {
+        searchJob?.cancel()
+        searchJob = null
     }
 }
