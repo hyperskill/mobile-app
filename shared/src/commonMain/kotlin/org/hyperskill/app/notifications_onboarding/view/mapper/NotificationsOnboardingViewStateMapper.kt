@@ -11,7 +11,7 @@ internal object NotificationsOnboardingViewStateMapper {
             )
         )
 
-    private fun formatDailyStudyRemindersInterval(startHour: Int): String {
+    fun formatDailyStudyRemindersInterval(startHour: Int): String {
         val endHour = startHour + 1
         return buildString {
             append(if (startHour < 10) "0" else "")

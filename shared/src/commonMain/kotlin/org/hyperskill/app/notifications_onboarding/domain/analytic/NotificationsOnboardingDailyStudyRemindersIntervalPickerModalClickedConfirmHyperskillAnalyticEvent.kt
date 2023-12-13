@@ -7,31 +7,27 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Allow notifications" button analytic event.
+ * Represents a click on the "Confirm" button of the daily study reminders hour interval picker modal analytic event.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/onboarding/notifications",
  *     "action": "click",
- *     "part": "main",
- *     "target": "allow_notifications",
- *     "context":
- *     {
- *         "start_hour": 12
- *     }
+ *     "part": "daily_study_reminders_hour_interval_picker_modal",
+ *     "target": "confirm"
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-class NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent(
+class NotificationsOnboardingDailyStudyRemindersIntervalPickerModalClickedConfirmHyperskillAnalyticEvent(
     private val selectedDailyStudyRemindersStartHour: Int
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
     action = HyperskillAnalyticAction.CLICK,
-    part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.ALLOW_NOTIFICATIONS
+    part = HyperskillAnalyticPart.DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL,
+    target = HyperskillAnalyticTarget.CONFIRM
 ) {
     override val params: Map<String, Any>
         get() = super.params +

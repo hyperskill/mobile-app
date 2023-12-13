@@ -25,7 +25,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *
  * @see HyperskillAnalyticEvent
  */
-class NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticsEvent(
+class NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticEvent(
     private val currentDailyStudyRemindersStartHour: Int
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
