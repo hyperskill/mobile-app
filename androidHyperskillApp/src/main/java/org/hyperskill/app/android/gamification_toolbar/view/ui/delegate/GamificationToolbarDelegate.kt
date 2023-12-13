@@ -81,6 +81,9 @@ class GamificationToolbarDelegate(
                 mainScreenRouter.switch(Tabs.PROFILE)
             GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen ->
                 router.navigateTo(ProgressScreen)
+            GamificationToolbarFeature.Action.ViewAction.ShowSearchScreen -> {
+                // TODO: ALTAPPS-1059 Show search screen
+            }
         }
     }
 
