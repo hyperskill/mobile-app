@@ -14,6 +14,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *     "action": "view"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 object NotificationsOnboardingViewedHyperskillAnalyticsEvent :

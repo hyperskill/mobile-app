@@ -4,8 +4,11 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticsEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingCompletionAppsFlyerAnalyticEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalShownEventMessage
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingViewedHyperskillAnalyticsEvent
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.InternalAction
@@ -15,21 +18,27 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal class NotificationsOnboardingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
-        state to when (message) {
-            Message.AllowNotificationClicked ->
-                setOf(
+        when (message) {
+            Message.AllowNotificationClicked -> {
+                state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent
+                        NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent(
+                            selectedDailyStudyRemindersStartHour = state.dailyStudyRemindersStartHour
+                        )
                     ),
                     InternalAction.LogAnalyticEvent(
                         NotificationSystemNoticeShownHyperskillAnalyticEvent(
                             HyperskillAnalyticRoute.Onboarding.Notifications
                         )
                     ),
+                    InternalAction.SaveDailyStudyRemindersIntervalStartHour(
+                        startHour = state.dailyStudyRemindersStartHour
+                    ),
                     Action.ViewAction.RequestNotificationPermission
                 )
-            is Message.NotificationPermissionRequestResult ->
-                setOf(
+            }
+            is Message.NotificationPermissionRequestResult -> {
+                state to setOf(
                     InternalAction.LogAnalyticEvent(
                         NotificationSystemNoticeHiddenHyperskillAnalyticEvent(
                             route = HyperskillAnalyticRoute.Onboarding.Notifications,
@@ -43,8 +52,9 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                     ),
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
-            Message.RemindMeLaterClicked ->
-                setOf(
+            }
+            Message.RemindMeLaterClicked -> {
+                state to setOf(
                     InternalAction.LogAnalyticEvent(
                         NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent
                     ),
@@ -53,7 +63,36 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                     ),
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
-            Message.ViewedEventMessage ->
-                setOf(InternalAction.LogAnalyticEvent(NotificationsOnboardingViewedHyperskillAnalyticsEvent))
+            }
+            Message.DailyStudyRemindsIntervalHourClicked -> {
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticsEvent(
+                            currentDailyStudyRemindersStartHour = state.dailyStudyRemindersStartHour
+                        )
+                    ),
+                    Action.ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal
+                )
+            }
+            is Message.DailyStudyRemindsIntervalStartHourSelected -> {
+                state.copy(dailyStudyRemindersStartHour = message.startHour) to emptySet()
+            }
+            Message.DailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage -> {
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage
+                    )
+                )
+            }
+            Message.DailyStudyRemindersIntervalStartHourPickerModalShownEventMessage -> {
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalShownEventMessage
+                    )
+                )
+            }
+            Message.ViewedEventMessage -> {
+                state to setOf(InternalAction.LogAnalyticEvent(NotificationsOnboardingViewedHyperskillAnalyticsEvent))
+            }
         }
 }

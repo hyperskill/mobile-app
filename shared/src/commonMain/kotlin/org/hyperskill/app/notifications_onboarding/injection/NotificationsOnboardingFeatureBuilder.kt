@@ -5,7 +5,9 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingActionDispatcher
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.State
@@ -18,6 +20,7 @@ internal object NotificationsOnboardingFeatureBuilder {
     private const val LOG_TAG = "NotificationsOnboardingFeature"
 
     fun build(
+        notificationInteractor: NotificationInteractor,
         analyticInteractor: AnalyticInteractor,
         buildVariant: BuildVariant,
         logger: Logger
@@ -25,8 +28,12 @@ internal object NotificationsOnboardingFeatureBuilder {
         val reducer = NotificationsOnboardingReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
         val actionDispatcher = NotificationsOnboardingActionDispatcher(
             config = ActionDispatcherOptions(),
+            notificationInteractor = notificationInteractor,
             analyticInteractor = analyticInteractor
         )
-        return ReduxFeature(State, reducer).wrapWithActionDispatcher(actionDispatcher)
+        return ReduxFeature(
+            NotificationsOnboardingFeature.initialState(),
+            reducer
+        ).wrapWithActionDispatcher(actionDispatcher)
     }
 }

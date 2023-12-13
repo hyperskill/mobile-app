@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Remind me later" button analytic event.
+ * Represents click on the daily study reminds formatted time button analytic event.
  *
  * JSON payload:
  * ```
@@ -15,15 +15,29 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/onboarding/notifications",
  *     "action": "click",
  *     "part": "main",
- *     "target": "remind_me_later"
+ *     "target": "daily_study_reminds_time",
+ *     "context":
+ *     {
+ *         "start_hour": 12
+ *     }
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-object NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
+class NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticsEvent(
+    private val currentDailyStudyRemindersStartHour: Int
+) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.REMIND_ME_LATER
-)
+    target = HyperskillAnalyticTarget.DAILY_STUDY_REMINDS_TIME
+) {
+    override val params: Map<String, Any>
+        get() = super.params +
+            mapOf(
+                PARAM_CONTEXT to mapOf(
+                    NotificationsOnboardingAnalyticParams.PARAM_START_HOUR to currentDailyStudyRemindersStartHour
+                )
+            )
+}

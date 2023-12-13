@@ -7,23 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Remind me later" button analytic event.
+ * Represents a hidden analytic event of the daily study reminders hour interval picker modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/onboarding/notifications",
- *     "action": "click",
- *     "part": "main",
- *     "target": "remind_me_later"
+ *     "action": "hidden",
+ *     "part": "daily_study_reminders_hour_interval_picker_modal",
+ *     "target": "close"
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-object NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
-    route = HyperskillAnalyticRoute.Onboarding.Notifications,
-    action = HyperskillAnalyticAction.CLICK,
-    part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.REMIND_ME_LATER
-)
+object NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage :
+    HyperskillAnalyticEvent(
+        route = HyperskillAnalyticRoute.Onboarding.Notifications,
+        action = HyperskillAnalyticAction.HIDDEN,
+        part = HyperskillAnalyticPart.DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL,
+        target = HyperskillAnalyticTarget.CLOSE
+    )

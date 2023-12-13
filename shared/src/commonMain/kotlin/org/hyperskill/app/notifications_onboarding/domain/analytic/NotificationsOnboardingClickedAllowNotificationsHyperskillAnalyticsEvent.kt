@@ -15,14 +15,29 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/onboarding/notifications",
  *     "action": "click",
  *     "part": "main",
- *     "target": "allow_notifications"
+ *     "target": "allow_notifications",
+ *     "context":
+ *     {
+ *         "start_hour": 12
+ *     }
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-object NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
+class NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent(
+    private val selectedDailyStudyRemindersStartHour: Int
+) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
     target = HyperskillAnalyticTarget.ALLOW_NOTIFICATIONS
-)
+) {
+    override val params: Map<String, Any>
+        get() = super.params +
+            mapOf(
+                PARAM_CONTEXT to mapOf(
+                    NotificationsOnboardingAnalyticParams.PARAM_START_HOUR to selectedDailyStudyRemindersStartHour
+                )
+            )
+}
