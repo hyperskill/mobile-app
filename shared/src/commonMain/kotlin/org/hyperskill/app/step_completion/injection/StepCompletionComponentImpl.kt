@@ -19,7 +19,7 @@ internal class StepCompletionComponentImpl(
             appGraph.submissionDataComponent.submissionRepository,
             appGraph.buildStepDataComponent().stepInteractor,
             appGraph.buildProgressesDataComponent().progressesInteractor,
-            appGraph.buildTopicsDataComponent().topicsInteractor,
+            appGraph.buildTopicsDataComponent().topicsRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.commonComponent.resourceProvider,
             appGraph.sentryComponent.sentryInteractor,

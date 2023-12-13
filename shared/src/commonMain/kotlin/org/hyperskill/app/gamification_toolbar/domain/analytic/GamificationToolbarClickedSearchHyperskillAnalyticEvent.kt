@@ -7,24 +7,28 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 
 /**
- * Represents a click on the gems navigation bar button item analytic event.
+ * Represents a click on the search navigation bar button item analytic event.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/track | /home",
+ *     "route": "/home | /study-plan | /leaderboard",
  *     "action": "click",
  *     "part": "head",
- *     "target": "gems"
+ *     "target": "search"
  * }
  * ```
+ *
+ * @constructor Creates a new instance of [GamificationToolbarClickedSearchHyperskillAnalyticEvent].
+ * @param screen The screen where the event was triggered.
+ *
  * @see HyperskillAnalyticEvent
  */
-class GamificationToolbarClickedGemsHyperskillAnalyticEvent(
+class GamificationToolbarClickedSearchHyperskillAnalyticEvent(
     screen: GamificationToolbarScreen
 ) : HyperskillAnalyticEvent(
     screen.analyticRoute,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.HEAD,
-    HyperskillAnalyticTarget.GEMS
+    HyperskillAnalyticTarget.SEARCH
 )

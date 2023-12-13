@@ -10,8 +10,6 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalAction
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalMessage
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
-import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.profile.domain.repository.observeHypercoinsBalance
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
@@ -24,7 +22,6 @@ class GamificationToolbarActionDispatcher(
     config: ActionDispatcherOptions,
     submissionRepository: SubmissionRepository,
     streakFlow: StreakFlow,
-    currentProfileStateRepository: CurrentProfileStateRepository,
     currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     topicCompletedFlow: TopicCompletedFlow,
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
@@ -35,12 +32,6 @@ class GamificationToolbarActionDispatcher(
     init {
         submissionRepository.solvedStepsSharedFlow
             .onEach { onNewMessage(InternalMessage.StepSolved) }
-            .launchIn(actionScope)
-
-        currentProfileStateRepository.observeHypercoinsBalance()
-            .onEach { hypercoinsBalance ->
-                onNewMessage(InternalMessage.HypercoinsBalanceChanged(hypercoinsBalance))
-            }
             .launchIn(actionScope)
 
         streakFlow.observe()

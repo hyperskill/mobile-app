@@ -208,7 +208,6 @@
     <string name="track_applied_core_topics_text">Applied core topics by completing project stages</string>
     <string name="track_about_text">About</string>
     <string name="track_topics_to_discover_next_block_title">Theory to discover next</string>
-    <string name="track_progress_block_title">Progress</string>
 
     <!-- Profile -->
     <string name="profile_title">Profile</string>
@@ -530,6 +529,15 @@
     <string name="challenge_widget_collect_reward_button_title">Collect Reward</string>
     <string name="challenge_widget_network_error_text">Oops! We were unable to load the challenge.</string>
     <string name="challenge_widget_reload_button">Reload</string>
+
+    <!-- Search -->
+    <string name="search_title">Search</string>
+    <string name="search_input_placeholder">Find topic</string>
+    <string name="search_open_step_screen_error_message">Sorry, we were unable to open the search result: please try
+        again later.
+    </string>
+    <string name="search_placeholder_empty_description">Nothing found. Try changing your search query.</string>
+    <string name="search_placeholder_error_description">Oops! We were unable to perform the search.</string>
 
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>
