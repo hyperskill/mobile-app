@@ -83,7 +83,7 @@ struct OnboardingView: View {
                         viewModel.doPrimaryButtonAction()
                     }
                 )
-                .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
+                .buttonStyle(.primary)
                 .shineEffect()
 
                 Button(
