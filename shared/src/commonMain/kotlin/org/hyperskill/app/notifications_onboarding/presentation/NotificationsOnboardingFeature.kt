@@ -4,7 +4,12 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
 
 object NotificationsOnboardingFeature {
-    data class State(val dailyStudyRemindersStartHour: Int)
+    internal data class State(val dailyStudyRemindersStartHour: Int)
+
+    data class ViewState(
+        val dailyStudyRemindersStartHour: Int,
+        val formattedDailyStudyRemindersInterval: String
+    )
 
     internal fun initialState() =
         State(dailyStudyRemindersStartHour = NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_ONBOARDING)
