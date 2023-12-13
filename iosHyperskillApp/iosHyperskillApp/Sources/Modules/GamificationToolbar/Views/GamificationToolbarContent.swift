@@ -4,6 +4,10 @@ import SwiftUI
 extension GamificationToolbarContent {
     struct Appearance {
         let skeletonSize = CGSize(width: 56, height: 28)
+
+        let searchImageWidthHeight: CGFloat = 16
+        let searchImagePadding: CGFloat = 6
+        let searchImageBackgroundColor = Color(ColorPalette.surface)
     }
 }
 
@@ -14,6 +18,7 @@ struct GamificationToolbarContent: ToolbarContent {
 
     let onStreakTap: () -> Void
     let onProgressTap: () -> Void
+    let onSearchTap: () -> Void
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
@@ -22,6 +27,9 @@ struct GamificationToolbarContent: ToolbarContent {
                 HStack {
                     SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
                     SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    if #available(iOS 15.0, *) {
+                        SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    }
                 }
             case .error:
                 HStack {}
@@ -41,6 +49,21 @@ struct GamificationToolbarContent: ToolbarContent {
                         isCompletedToday: data.streak.isCompleted,
                         onTap: onStreakTap
                     )
+
+                    if #available(iOS 15.0, *) {
+                        Button(
+                            action: onSearchTap,
+                            label: {
+                                Image(systemName: "magnifyingglass")
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(widthHeight: appearance.searchImageWidthHeight)
+                                    .padding(appearance.searchImagePadding)
+                                    .background(Circle().foregroundColor(appearance.searchImageBackgroundColor))
+                            }
+                        )
+                    }
                 }
             }
         }

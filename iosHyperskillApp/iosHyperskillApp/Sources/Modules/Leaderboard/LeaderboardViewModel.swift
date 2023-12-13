@@ -60,6 +60,14 @@ final class LeaderboardViewModel: FeatureViewModel<
         )
     }
 
+    func doSearchBarButtonItemAction() {
+        onNewMessage(
+            LeaderboardScreenFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedSearch()
+            )
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

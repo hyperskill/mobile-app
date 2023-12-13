@@ -572,4 +572,18 @@ enum Strings {
             static let changeProject = sharedStrings.progress_screen_change_project.localized()
         }
     }
+
+    // MARK: - Search -
+
+    enum Search {
+        static let title = sharedStrings.search_title.localized()
+
+        static let placeholderEmptyTitle = sharedStrings.search_placeholder_empty_title.localized()
+        static let placeholderEmptySubtitle = sharedStrings.search_placeholder_empty_subtitle.localized()
+
+        static let placeholderSuggestionsTitle = sharedStrings.search_placeholder_suggestions_title.localized()
+        static let placeholderSuggestionsSubtitle = sharedStrings.search_placeholder_suggestions_subtitle.localized()
+
+        static let placeholderErrorDescription = sharedStrings.search_placeholder_error_description.localized()
+    }
 }

@@ -13,7 +13,10 @@ enum GamificationToolbarViewActionHandler {
             let assembly = ProgressScreenAssembly()
             stackRouter.pushViewController(assembly.makeModule())
         case .showSearchScreen:
-            #warning("TODO: ALTAPPS-1058 show search screen")
+            if #available(iOS 15.0, *) {
+                let assembly = SearchAssembly()
+                stackRouter.pushViewController(assembly.makeModule())
+            }
         }
     }
 }
