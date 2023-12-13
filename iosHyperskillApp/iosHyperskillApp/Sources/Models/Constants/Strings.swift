@@ -75,11 +75,6 @@ enum Strings {
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
         static let theory = sharedStrings.step_theory_text.localized()
-
-        enum RequestDailyNotificationsAlert {
-            static let title = sharedStrings.after_daily_step_completed_dialog_title.localized()
-            static let text = sharedStrings.after_daily_step_completed_dialog_text.localized()
-        }
     }
 
     // MARK: - StepQuiz -

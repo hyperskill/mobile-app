@@ -101,12 +101,6 @@ interface StepCompletionFeature {
         data class ProblemOfDaySolvedModalShareStreakClicked(val streak: Int) : Message
 
         /**
-         * Daily study reminders
-         */
-        object RequestDailyStudyRemindersPermission : Message
-        data class RequestDailyStudyRemindersPermissionResult(val isGranted: Boolean) : Message
-
-        /**
          * Share streak
          */
         data class ShareStreak(val streak: Int) : Message
@@ -134,9 +128,6 @@ interface StepCompletionFeature {
 
         object UpdateProblemsLimit : Action
 
-        object TurnOnDailyStudyReminder : Action
-        object PostponeDailyStudyReminder : Action
-
         object UpdateLastTimeShareStreakShown : Action
 
         sealed interface ViewAction : Action {
@@ -152,8 +143,6 @@ interface StepCompletionFeature {
 
             data class ShowShareStreakModal(val streak: Int) : ViewAction
             data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
-
-            object RequestDailyStudyRemindersPermission : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
 

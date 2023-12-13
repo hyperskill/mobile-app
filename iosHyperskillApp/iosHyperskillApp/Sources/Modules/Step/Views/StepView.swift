@@ -113,8 +113,6 @@ struct StepView: View {
                 dismissPanModalAndNavigateBack()
                 TabBarRouter(tab: .studyPlan).route()
             }
-        case .requestDailyStudyRemindersPermission:
-            presentSendDailyStudyRemindersPermissionAlert()
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(
                 earnedGemsText: showProblemOfDaySolvedModalViewAction.earnedGemsText,
@@ -174,38 +172,6 @@ extension StepView {
     private func presentShareStreakSystemModal(streak: Int) {
         let activityViewController = ShareStreakAction.makeActivityViewController(for: streak)
         modalRouter.present(module: activityViewController, modalPresentationStyle: .automatic)
-    }
-}
-
-// MARK: - StepView (Alerts) -
-
-extension StepView {
-    private func presentSendDailyStudyRemindersPermissionAlert() {
-        let alert = UIAlertController(
-            title: Strings.Step.RequestDailyNotificationsAlert.title,
-            message: Strings.Step.RequestDailyNotificationsAlert.text,
-            preferredStyle: .alert
-        )
-        alert.addAction(
-            UIAlertAction(
-                title: Strings.Common.ok,
-                style: .default,
-                handler: { [weak viewModel] _ in
-                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: true)
-                }
-            )
-        )
-        alert.addAction(
-            UIAlertAction(
-                title: Strings.Common.later,
-                style: .cancel,
-                handler: { [weak viewModel] _ in
-                    viewModel?.handleSendDailyStudyRemindersPermissionRequestResult(isGranted: false)
-                }
-            )
-        )
-
-        modalRouter.presentAlert(alert)
     }
 }
 

@@ -16,7 +16,6 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
-import org.hyperskill.app.android.step_quiz.view.dialog.RequestDailyStudyReminderDialogFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -31,7 +30,6 @@ class StepFragment :
     Fragment(R.layout.fragment_step),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
     StepCompletionHost,
-    RequestDailyStudyReminderDialogFragment.Callback,
     ShareStreakDialogFragment.Callback {
 
     companion object {
@@ -59,12 +57,7 @@ class StepFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        stepDelegate = StepDelegate(
-            fragment = this,
-            onRequestDailyStudyRemindersPermissionResult = { isGranted ->
-                onNewMessage(StepCompletionFeature.Message.RequestDailyStudyRemindersPermissionResult(isGranted))
-            }
-        )
+        stepDelegate = StepDelegate(fragment = this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -127,10 +120,6 @@ class StepFragment :
         stepViewModel.onNewMessage(
             StepFeature.Message.StepCompletionMessage(message)
         )
-    }
-
-    override fun onPermissionResult(isGranted: Boolean) {
-        stepDelegate?.onPermissionResult(isGranted)
     }
 
     override fun onShareStreakBottomSheetShown(streak: Int) {
