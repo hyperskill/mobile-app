@@ -389,8 +389,11 @@
     <string name="notification14_text">Me: If the IDE knows I\'m missing a semicolon, why won\'t it just add it itself? 🤔</string>
 
     <!--  Onboarding  -->
-    <string name="onboarding_title">Welcome\nto My Hyperskill</string>
-    <string name="onboarding_text">Regular practice is key to mastering new skills. Learn on the web and practice with My Hyperskill to keep up your learning streak and stay on top of your studies.</string>
+    <string name="onboarding_title">My Hyperskill</string>
+    <string name="onboarding_text">Code a little every day, wherever you are.</string>
+    <string name="onboarding_primary_button_text">Start for free</string>
+    <string name="onboarding_secondary_button_text">I already have an account</string>
+    <!-- TODO: ALTAPPS-1068 delete this resources -->
     <string name="onboarding_sign_in">Sign in</string>
     <string name="onboarding_sign_up">Sign up</string>
 

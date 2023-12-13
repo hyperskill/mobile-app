@@ -466,8 +466,8 @@ enum Strings {
     enum Onboarding {
         static let title = sharedStrings.onboarding_title.localized()
         static let text = sharedStrings.onboarding_text.localized()
-        static let signIn = sharedStrings.onboarding_sign_in.localized()
-        static let signUp = sharedStrings.onboarding_sign_up.localized()
+        static let primaryButton = sharedStrings.onboarding_primary_button_text.localized()
+        static let secondaryButton = sharedStrings.onboarding_secondary_button_text.localized()
     }
 
     // MARK: - NotificationsOnboarding -
