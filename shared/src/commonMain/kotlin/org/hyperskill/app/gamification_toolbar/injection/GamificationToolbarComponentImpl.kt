@@ -14,18 +14,15 @@ class GamificationToolbarComponentImpl(
         get() = GamificationToolbarReducer(screen)
 
     override val gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
-        get() {
-            val profileComponent = appGraph.profileDataComponent
-            return GamificationToolbarActionDispatcher(
-                ActionDispatcherOptions(),
-                appGraph.submissionDataComponent.submissionRepository,
-                appGraph.streakFlowDataComponent.streakFlow,
-                profileComponent.currentProfileStateRepository,
-                appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
-                appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-                appGraph.stateRepositoriesComponent.currentGamificationToolbarDataStateRepository,
-                appGraph.analyticComponent.analyticInteractor,
-                appGraph.sentryComponent.sentryInteractor
-            )
-        }
+        get() = GamificationToolbarActionDispatcher(
+            config = ActionDispatcherOptions(),
+            submissionRepository = appGraph.submissionDataComponent.submissionRepository,
+            streakFlow = appGraph.streakFlowDataComponent.streakFlow,
+            currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
+            topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
+            currentGamificationToolbarDataStateRepository = appGraph.stateRepositoriesComponent
+                .currentGamificationToolbarDataStateRepository,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor
+        )
 }

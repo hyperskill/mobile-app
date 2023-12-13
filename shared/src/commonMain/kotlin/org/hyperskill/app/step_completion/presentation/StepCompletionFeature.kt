@@ -13,6 +13,7 @@ interface StepCompletionFeature {
                 currentStep = step,
                 startPracticingButtonAction = when (stepRoute) {
                     is StepRoute.Learn.TheoryOpenedFromPractice,
+                    is StepRoute.Learn.TheoryOpenedFromSearch,
                     is StepRoute.Repeat.Theory ->
                         StartPracticingButtonAction.NavigateToBack
                     is StepRoute.Learn.Step,

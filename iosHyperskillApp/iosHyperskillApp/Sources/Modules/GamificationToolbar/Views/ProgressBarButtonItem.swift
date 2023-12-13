@@ -14,6 +14,7 @@ struct ProgressBarButtonItem: View {
     private(set) var appearance = Appearance()
 
     let progress: Float
+    let formattedProgress: String
     let isCompleted: Bool
 
     let onTap: () -> Void
@@ -45,7 +46,7 @@ struct ProgressBarButtonItem: View {
                             .frame(widthHeight: appearance.circleBackgroundWidthHeight)
                     )
 
-                    Text(Strings.Common.progress)
+                    Text(formattedProgress)
                         .foregroundColor(.primaryText)
                         .font(.subheadline)
                 }
@@ -54,23 +55,23 @@ struct ProgressBarButtonItem: View {
     }
 }
 
-struct ProgressBarButtonItem_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ProgressBarButtonItem(
-                progress: 0.65,
-                isCompleted: false,
-                onTap: {}
-            )
+#Preview {
+    VStack {
+        ProgressBarButtonItem(
+            progress: 0.65,
+            formattedProgress: "65%",
+            isCompleted: false,
+            onTap: {}
+        )
 
-            ProgressBarButtonItem(
-                progress: 0.95,
-                isCompleted: true,
-                onTap: {}
-            )
-        }
-        .padding()
-        .background(Color(ColorPalette.background))
-        .previewLayout(.sizeThatFits)
+        ProgressBarButtonItem(
+            progress: 0.95,
+            formattedProgress: "95%",
+            isCompleted: true,
+            onTap: {}
+        )
     }
+    .padding()
+    .background(Color(ColorPalette.background))
+    .previewLayout(.sizeThatFits)
 }

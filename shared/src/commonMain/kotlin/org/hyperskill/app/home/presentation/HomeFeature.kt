@@ -24,7 +24,7 @@ object HomeFeature {
 
     data class ViewState(
         val homeState: HomeState,
-        val toolbarState: GamificationToolbarFeature.State,
+        val toolbarViewState: GamificationToolbarFeature.ViewState,
         val challengeWidgetViewState: ChallengeWidgetViewState,
         val isRefreshing: Boolean
     )

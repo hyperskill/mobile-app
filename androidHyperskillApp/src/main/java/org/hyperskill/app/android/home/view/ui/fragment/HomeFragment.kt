@@ -217,7 +217,7 @@ class HomeFragment :
             )
         }
 
-        gamificationToolbarDelegate?.render(state.toolbarState)
+        gamificationToolbarDelegate?.render(state.toolbarViewState)
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.ViewState) {
