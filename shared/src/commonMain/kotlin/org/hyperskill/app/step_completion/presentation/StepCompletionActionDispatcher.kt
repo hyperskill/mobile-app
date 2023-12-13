@@ -28,7 +28,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Act
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.model.StreakState
-import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
+import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
@@ -36,7 +36,7 @@ class StepCompletionActionDispatcher(
     submissionRepository: SubmissionRepository,
     private val stepInteractor: StepInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val topicsInteractor: TopicsInteractor,
+    private val topicsRepository: TopicsRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
@@ -141,7 +141,7 @@ class StepCompletionActionDispatcher(
 
             coroutineScope {
                 val topicDeferred = async {
-                    topicsInteractor.getTopic(action.topicId)
+                    topicsRepository.getTopic(action.topicId)
                 }
                 val nextLearningActivityDeferred = async {
                     nextLearningActivityStateRepository.getState(forceUpdate = true)

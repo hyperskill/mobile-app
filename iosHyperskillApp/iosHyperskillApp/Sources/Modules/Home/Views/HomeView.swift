@@ -35,10 +35,10 @@ struct HomeView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .toolbar {
             GamificationToolbarContent(
-                stateKs: viewModel.gamificationToolbarStateKs,
-                onGemsTap: viewModel.doGemsBarButtonItemAction,
+                viewStateKs: viewModel.gamificationToolbarViewStateKs,
                 onStreakTap: viewModel.doStreakBarButtonItemAction,
-                onProgressTap: viewModel.doProgressBarButtonItemAction
+                onProgressTap: viewModel.doProgressBarButtonItemAction,
+                onSearchTap: viewModel.doSearchBarButtonItemAction
             )
         }
         .onAppear {

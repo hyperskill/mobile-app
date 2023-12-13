@@ -82,7 +82,7 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
         }
         leaderboardViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .map { it.toolbarState }
+            .map { it.toolbarViewState }
             .distinctUntilChanged()
             .onEach { viewState ->
                 gamificationToolbarDelegate?.render(viewState)

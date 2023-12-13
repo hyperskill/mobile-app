@@ -65,8 +65,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     CLOSE("close"),
     STREAK("streak"),
-    GEMS("gems"),
     PROGRESS("progress"),
+    SEARCH("search"),
     GET_STREAK_FREEZE("get_streak_freeze"),
     STREAK_FREEZE_ICON("streak_freeze_icon"),
     STREAK_FREEZE_MODAL("streak_freeze_modal"),
@@ -106,6 +106,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAY("day"),
     WEEK("week"),
     LEADERBOARD_ITEM("leaderboard_item"),
+    TOPIC("topic"),
     DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal"),
     CONFIRM("confirm")
 }
