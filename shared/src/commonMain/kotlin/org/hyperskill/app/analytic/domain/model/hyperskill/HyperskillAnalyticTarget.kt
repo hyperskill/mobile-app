@@ -106,5 +106,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAY("day"),
     WEEK("week"),
     LEADERBOARD_ITEM("leaderboard_item"),
-    DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal")
+    DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal"),
+    CONFIRM("confirm")
 }

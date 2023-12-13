@@ -36,7 +36,9 @@ object NotificationsOnboardingFeature {
             object RequestNotificationPermission : ViewAction
             object CompleteNotificationOnboarding : ViewAction
 
-            object ShowDailyStudyRemindersIntervalStartHourPickerModal : ViewAction
+            data class ShowDailyStudyRemindersIntervalStartHourPickerModal(
+                val intervals: List<String>
+            ) : ViewAction
         }
     }
 

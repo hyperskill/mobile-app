@@ -49,7 +49,8 @@ class PanModalPresentableViewController: UIViewController, PanModalPresentable {
 
     var currentPresentationState: PanModalPresentationController.PresentationState?
 
-    var onDisappear: (() -> Void)?
+    var onDidAppear: (() -> Void)?
+    var onDidDisappear: (() -> Void)?
 
     var shouldUpdateAdditionalSafeAreaInsets: Bool { true }
 
@@ -67,9 +68,14 @@ class PanModalPresentableViewController: UIViewController, PanModalPresentable {
         self.updateAdditionalSafeAreaInsets()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        onDidAppear?()
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        onDisappear?()
+        onDidDisappear?()
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

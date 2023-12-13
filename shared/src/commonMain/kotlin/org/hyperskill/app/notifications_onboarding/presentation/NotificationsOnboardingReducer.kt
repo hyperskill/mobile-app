@@ -3,17 +3,19 @@ package org.hyperskill.app.notifications_onboarding.presentation
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemNoticeShownHyperskillAnalyticEvent
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticsEvent
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedNotNowHyperskillAnalyticsEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedNotNowHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingCompletionAppsFlyerAnalyticEvent
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalShownEventMessage
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingViewedHyperskillAnalyticsEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalPickerModalClickedConfirmHyperskillAnalyticEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalPickerModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalPickerModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingViewedHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.InternalAction
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.State
+import org.hyperskill.app.notifications_onboarding.view.mapper.NotificationsOnboardingViewStateMapper
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal class NotificationsOnboardingReducer : StateReducer<State, Message, Action> {
@@ -22,7 +24,7 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
             Message.AllowNotificationsClicked -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent(
+                        NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticEvent(
                             selectedDailyStudyRemindersStartHour = state.dailyStudyRemindersStartHour
                         )
                     ),
@@ -56,7 +58,7 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
             Message.NotNowClicked -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingClickedNotNowHyperskillAnalyticsEvent
+                        NotificationsOnboardingClickedNotNowHyperskillAnalyticEvent
                     ),
                     InternalAction.LogAnalyticEvent(
                         NotificationsOnboardingCompletionAppsFlyerAnalyticEvent(isSuccess = false)
@@ -67,32 +69,42 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
             Message.DailyStudyRemindsIntervalHourClicked -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticsEvent(
+                        NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticEvent(
                             currentDailyStudyRemindersStartHour = state.dailyStudyRemindersStartHour
                         )
                     ),
-                    Action.ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal
+                    Action.ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal(
+                        intervals = (0..23).map { hour ->
+                            NotificationsOnboardingViewStateMapper.formatDailyStudyRemindersInterval(startHour = hour)
+                        }
+                    )
                 )
             }
             is Message.DailyStudyRemindsIntervalStartHourSelected -> {
-                state.copy(dailyStudyRemindersStartHour = message.startHour) to emptySet()
+                val analyticEvent =
+                    NotificationsOnboardingDailyStudyRemindersIntervalPickerModalClickedConfirmHyperskillAnalyticEvent(
+                        selectedDailyStudyRemindersStartHour = message.startHour
+                    )
+                state.copy(
+                    dailyStudyRemindersStartHour = message.startHour
+                ) to setOf(InternalAction.LogAnalyticEvent(analyticEvent))
             }
             Message.DailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage
+                        NotificationsOnboardingDailyStudyRemindersIntervalPickerModalHiddenHyperskillAnalyticEvent
                     )
                 )
             }
             Message.DailyStudyRemindersIntervalStartHourPickerModalShownEventMessage -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalShownEventMessage
+                        NotificationsOnboardingDailyStudyRemindersIntervalPickerModalShownHyperskillAnalyticEvent
                     )
                 )
             }
             Message.ViewedEventMessage -> {
-                state to setOf(InternalAction.LogAnalyticEvent(NotificationsOnboardingViewedHyperskillAnalyticsEvent))
+                state to setOf(InternalAction.LogAnalyticEvent(NotificationsOnboardingViewedHyperskillAnalyticEvent))
             }
         }
 }

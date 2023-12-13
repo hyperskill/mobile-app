@@ -207,7 +207,7 @@ struct ProfileView: View {
             streakFreezeState: streakFreezeState,
             onActionButtonTap: viewModel.doStreakFreezeModalButtonTapped
         )
-        panModal.onDisappear = { [weak viewModel] in
+        panModal.onDidDisappear = { [weak viewModel] in
             viewModel?.logStreakFreezeModalHiddenEvent()
         }
 

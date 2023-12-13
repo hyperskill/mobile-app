@@ -20,6 +20,8 @@ struct NotificationsOnboardingContentView: View {
     let dailyStudyRemindersStartHour: Int
     let formattedDailyStudyRemindersInterval: String
 
+    let onDailyStudyRemindsIntervalButtonTap: () -> Void
+
     let onPrimaryButtonTap: () -> Void
     let onSecondaryButtonTap: () -> Void
 
@@ -74,9 +76,11 @@ struct NotificationsOnboardingContentView: View {
                     formattedDailyStudyRemindersInterval,
                     action: {
                         actionButtonsFeedbackGenerator.triggerFeedback()
+                        onDailyStudyRemindsIntervalButtonTap()
                     }
                 )
                 .buttonStyle(GhostButtonStyle(maxWidth: nil))
+                .animation(.default, value: formattedDailyStudyRemindersInterval)
             }
         }
         .multilineTextAlignment(.center)
@@ -120,6 +124,7 @@ struct NotificationsOnboardingContentView_Previews: PreviewProvider {
         NotificationsOnboardingContentView(
             dailyStudyRemindersStartHour: 12,
             formattedDailyStudyRemindersInterval: "12:00 – 13:00",
+            onDailyStudyRemindsIntervalButtonTap: {},
             onPrimaryButtonTap: {},
             onSecondaryButtonTap: {}
         )
@@ -128,6 +133,7 @@ struct NotificationsOnboardingContentView_Previews: PreviewProvider {
         NotificationsOnboardingContentView(
             dailyStudyRemindersStartHour: 12,
             formattedDailyStudyRemindersInterval: "12:00 – 13:00",
+            onDailyStudyRemindsIntervalButtonTap: {},
             onPrimaryButtonTap: {},
             onSecondaryButtonTap: {}
         )

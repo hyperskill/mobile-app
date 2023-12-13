@@ -33,6 +33,18 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
         onNewMessage(NotificationsOnboardingFeatureMessageNotNowClicked())
     }
 
+    func doDailyStudyRemindsIntervalButtonAction() {
+        onNewMessage(NotificationsOnboardingFeatureMessageDailyStudyRemindsIntervalHourClicked())
+    }
+
+    func doDailyStudyRemindsIntervalStartHourSelected(startHour: Int) {
+        onNewMessage(
+            NotificationsOnboardingFeatureMessageDailyStudyRemindsIntervalStartHourSelected(
+                startHour: Int32(startHour)
+            )
+        )
+    }
+
     func doRequestNotificationPermission() {
         Task(priority: .userInitiated) {
             let isGranted = await notificationsRegistrationService.requestAuthorizationIfNeeded()
@@ -55,5 +67,17 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(NotificationsOnboardingFeatureMessageViewedEventMessage())
+    }
+
+    func logDailyStudyRemindersIntervalStartHourPickerModalShownEvent() {
+        onNewMessage(
+            NotificationsOnboardingFeatureMessageDailyStudyRemindersIntervalStartHourPickerModalShownEventMessage()
+        )
+    }
+
+    func logDailyStudyRemindersIntervalStartHourPickerModalHiddenEvent() {
+        onNewMessage(
+            NotificationsOnboardingFeatureMessageDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage()
+        )
     }
 }

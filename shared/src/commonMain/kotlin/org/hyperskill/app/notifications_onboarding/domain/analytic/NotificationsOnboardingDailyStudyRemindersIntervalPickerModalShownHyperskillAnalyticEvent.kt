@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event of the daily study reminders hour interval picker modal.
+ * Represents a shown analytic event of the daily study reminders hour interval picker modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/onboarding/notifications",
- *     "action": "hidden",
- *     "part": "daily_study_reminders_hour_interval_picker_modal",
- *     "target": "close"
+ *     "action": "shown",
+ *     "part": "modal",
+ *     "target": "daily_study_reminders_hour_interval_picker_modal"
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-object NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage :
+object NotificationsOnboardingDailyStudyRemindersIntervalPickerModalShownHyperskillAnalyticEvent :
     HyperskillAnalyticEvent(
         route = HyperskillAnalyticRoute.Onboarding.Notifications,
-        action = HyperskillAnalyticAction.HIDDEN,
-        part = HyperskillAnalyticPart.DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL,
-        target = HyperskillAnalyticTarget.CLOSE
+        action = HyperskillAnalyticAction.SHOWN,
+        part = HyperskillAnalyticPart.MODAL,
+        target = HyperskillAnalyticTarget.DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL
     )

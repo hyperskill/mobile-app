@@ -108,7 +108,7 @@ class NotificationsOnboardingFragment : Fragment() {
             ViewAction.RequestNotificationPermission -> {
                 notificationPermissionDelegate?.requestNotificationPermission()
             }
-            ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal -> TODO()
+            is ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal -> TODO()
         }
     }
 
