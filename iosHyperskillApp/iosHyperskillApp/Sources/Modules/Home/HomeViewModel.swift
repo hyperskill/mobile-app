@@ -6,7 +6,7 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
     private var shouldReloadContent = false
 
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
-    var gamificationToolbarStateKs: GamificationToolbarFeatureStateKs { .init(state.toolbarState) }
+    var gamificationToolbarViewStateKs: GamificationToolbarFeatureViewStateKs { .init(state.toolbarViewState) }
     var challengeWidgetViewStateKs: ChallengeWidgetViewStateKs { .init(state.challengeWidgetViewState) }
 
     init(feature: Presentation_reduxFeature) {
@@ -59,18 +59,18 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
         )
     }
 
-    func doGemsBarButtonItemAction() {
-        onNewMessage(
-            HomeFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedGems()
-            )
-        )
-    }
-
     func doProgressBarButtonItemAction() {
         onNewMessage(
             HomeFeatureMessageGamificationToolbarMessage(
                 message: GamificationToolbarFeatureMessageClickedProgress()
+            )
+        )
+    }
+
+    func doSearchBarButtonItemAction() {
+        onNewMessage(
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedSearch()
             )
         )
     }
