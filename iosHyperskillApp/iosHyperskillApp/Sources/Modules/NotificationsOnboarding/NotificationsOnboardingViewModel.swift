@@ -22,7 +22,7 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
         oldState: NotificationsOnboardingFeature.ViewState,
         newState: NotificationsOnboardingFeature.ViewState
     ) -> Bool {
-        false
+        !oldState.isEqual(newState)
     }
 
     func doPrimaryAction() {

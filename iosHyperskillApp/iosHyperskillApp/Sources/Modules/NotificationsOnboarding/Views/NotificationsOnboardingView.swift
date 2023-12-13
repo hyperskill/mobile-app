@@ -19,6 +19,8 @@ struct NotificationsOnboardingView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             NotificationsOnboardingContentView(
+                dailyStudyRemindersStartHour: Int(viewModel.state.dailyStudyRemindersStartHour),
+                formattedDailyStudyRemindersInterval: viewModel.state.formattedDailyStudyRemindersInterval,
                 onPrimaryButtonTap: viewModel.doPrimaryAction,
                 onSecondaryButtonTap: viewModel.doSecondaryAction
             )
