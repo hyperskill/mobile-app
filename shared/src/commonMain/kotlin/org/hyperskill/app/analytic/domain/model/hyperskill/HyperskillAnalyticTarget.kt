@@ -95,7 +95,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     ALLOW_NOTIFICATIONS("allow_notifications"),
     KEEP_LEARNING("keep_learning"),
     START_LEARNING("start_learning"),
-    REMIND_ME_LATER("remind_me_later"),
+    NOT_NOW("not_now"),
     FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
     CODE_INPUT_ACCESSORY_BUTTON("code_input_accessory_button"),
     SHARE_YOUR_STREAK("share_your_streak"),

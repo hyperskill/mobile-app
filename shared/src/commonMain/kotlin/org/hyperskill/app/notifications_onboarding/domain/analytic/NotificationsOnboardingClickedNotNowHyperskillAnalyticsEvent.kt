@@ -15,15 +15,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/onboarding/notifications",
  *     "action": "click",
  *     "part": "main",
- *     "target": "remind_me_later"
+ *     "target": "not_now"
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-object NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
+object NotificationsOnboardingClickedNotNowHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.REMIND_ME_LATER
+    target = HyperskillAnalyticTarget.NOT_NOW
 )

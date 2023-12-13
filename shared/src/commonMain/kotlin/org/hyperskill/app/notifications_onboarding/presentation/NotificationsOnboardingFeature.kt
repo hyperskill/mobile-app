@@ -10,8 +10,8 @@ object NotificationsOnboardingFeature {
         State(dailyStudyRemindersStartHour = NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_ONBOARDING)
 
     sealed interface Message {
-        object AllowNotificationClicked : Message
-        object RemindMeLaterClicked : Message
+        object AllowNotificationsClicked : Message
+        object NotNowClicked : Message
         data class NotificationPermissionRequestResult(val isPermissionGranted: Boolean) : Message
 
         object DailyStudyRemindsIntervalHourClicked : Message

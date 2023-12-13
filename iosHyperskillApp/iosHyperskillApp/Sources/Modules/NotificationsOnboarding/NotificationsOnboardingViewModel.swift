@@ -26,11 +26,11 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
     }
 
     func doPrimaryAction() {
-        onNewMessage(NotificationsOnboardingFeatureMessageAllowNotificationClicked())
+        onNewMessage(NotificationsOnboardingFeatureMessageAllowNotificationsClicked())
     }
 
     func doSecondaryAction() {
-        onNewMessage(NotificationsOnboardingFeatureMessageRemindMeLaterClicked())
+        onNewMessage(NotificationsOnboardingFeatureMessageNotNowClicked())
     }
 
     func doRequestNotificationPermission() {

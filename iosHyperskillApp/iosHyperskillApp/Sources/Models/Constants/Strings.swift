@@ -472,7 +472,7 @@ enum Strings {
         static let subtitle = sharedStrings.notifications_onboarding_description.localized()
 
         static let buttonPrimary = sharedStrings.notifications_onboarding_button_allow.localized()
-        static let buttonSecondary = sharedStrings.notifications_onboarding_button_later.localized()
+        static let buttonSecondary = sharedStrings.notifications_onboarding_button_not_now.localized()
     }
 
     // MARK: - FirstProblemOnboarding -

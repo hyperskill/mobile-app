@@ -5,7 +5,7 @@ import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemN
 import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticsEvent
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent
+import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedNotNowHyperskillAnalyticsEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingCompletionAppsFlyerAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalStartHourPickerModalShownEventMessage
@@ -19,7 +19,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 internal class NotificationsOnboardingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            Message.AllowNotificationClicked -> {
+            Message.AllowNotificationsClicked -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
                         NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent(
@@ -53,10 +53,10 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
             }
-            Message.RemindMeLaterClicked -> {
+            Message.NotNowClicked -> {
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingClickedRemindMeLaterHyperskillAnalyticsEvent
+                        NotificationsOnboardingClickedNotNowHyperskillAnalyticsEvent
                     ),
                     InternalAction.LogAnalyticEvent(
                         NotificationsOnboardingCompletionAppsFlyerAnalyticEvent(isSuccess = false)
