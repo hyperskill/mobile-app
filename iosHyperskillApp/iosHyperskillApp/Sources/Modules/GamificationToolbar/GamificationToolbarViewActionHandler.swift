@@ -12,6 +12,11 @@ enum GamificationToolbarViewActionHandler {
         case .showProgressScreen:
             let assembly = ProgressScreenAssembly()
             stackRouter.pushViewController(assembly.makeModule())
+        case .showSearchScreen:
+            if #available(iOS 15.0, *) {
+                let assembly = SearchAssembly()
+                stackRouter.pushViewController(assembly.makeModule())
+            }
         }
     }
 }

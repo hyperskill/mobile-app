@@ -23,7 +23,7 @@ object StudyPlanScreenFeature {
 
     data class ViewState(
         val trackTitle: String?,
-        val toolbarState: GamificationToolbarFeature.State,
+        val toolbarViewState: GamificationToolbarFeature.ViewState,
         val problemsLimitViewState: ProblemsLimitFeature.ViewState,
         val studyPlanWidgetViewState: StudyPlanWidgetViewState,
         val isRefreshing: Boolean

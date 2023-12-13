@@ -49,6 +49,8 @@ import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListC
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.search.injection.SearchComponent
+import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.share_streak.injection.ShareStreakDataComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
@@ -161,4 +163,6 @@ interface AppGraph {
     fun buildLeaderboardDataComponent(): LeaderboardDataComponent
     fun buildLeaderboardScreenComponent(): LeaderboardScreenComponent
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
+    fun buildSearchResultsDataComponent(): SearchResultsDataComponent
+    fun buildSearchComponent(): SearchComponent
 }

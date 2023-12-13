@@ -403,6 +403,7 @@ class StepQuizReducer(
                         is StepRoute.Learn.Step ->
                             StepRoute.Learn.TheoryOpenedFromPractice(stepId = topicTheoryId)
                         is StepRoute.Learn.TheoryOpenedFromPractice,
+                        is StepRoute.Learn.TheoryOpenedFromSearch,
                         is StepRoute.LearnDaily,
                         is StepRoute.Repeat.Theory,
                         is StepRoute.StageImplement ->
