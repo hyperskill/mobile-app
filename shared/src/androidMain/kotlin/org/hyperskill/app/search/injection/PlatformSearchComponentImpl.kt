@@ -1,5 +1,6 @@
 package org.hyperskill.app.search.injection
 
+import org.hyperskill.app.core.flowredux.presentation.wrapWithFlowView
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.search.presentation.SearchViewModel
 import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
@@ -12,7 +13,7 @@ class PlatformSearchComponentImpl(
             mapOf(
                 SearchViewModel::class.java to {
                     SearchViewModel(
-                        searchComponent.searchFeature.wrapWithViewContainer()
+                        searchComponent.searchFeature.wrapWithFlowView()
                     )
                 }
             )
