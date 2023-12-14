@@ -1637,7 +1637,6 @@
 				2CB0ADE92B04AC9E0089D557 /* HomeSubmodules */,
 				E6992F3BBF430924F32DC178 /* Leaderboard */,
 				B58361EACE24BF4B761F10BA /* NotificationsOnboarding */,
-				E9F923F428A2632800C065A7 /* Onboarding */,
 				E9B55A5329C89FFF0066900E /* ProblemsLimit */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
@@ -1652,6 +1651,7 @@
 				E9F0A2A729D416AC00C4A61E /* StudyPlan */,
 				E9A022AB291D0E1C004317DB /* TopicsRepetitions */,
 				2C2600862A2001E600BD3D39 /* TrackSelection */,
+				E9F923F428A2632800C065A7 /* Welcome */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -3969,7 +3969,7 @@
 			path = ProblemOfDay;
 			sourceTree = "<group>";
 		};
-		E9F923F428A2632800C065A7 /* Onboarding */ = {
+		E9F923F428A2632800C065A7 /* Welcome */ = {
 			isa = PBXGroup;
 			children = (
 				E9A6250C28ABAE30009423EE /* WelcomeAssembly.swift */,
@@ -3977,7 +3977,7 @@
 				E9F923F528A2633D00C065A7 /* WelcomeView.swift */,
 				E9A6250E28ABAE83009423EE /* WelcomeViewModel.swift */,
 			);
-			path = Onboarding;
+			path = Welcome;
 			sourceTree = "<group>";
 		};
 		E9FB89A12893CC790011EFFB /* Notifications */ = {
