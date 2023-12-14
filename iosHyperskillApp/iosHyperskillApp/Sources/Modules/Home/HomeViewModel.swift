@@ -67,6 +67,14 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
         )
     }
 
+    func doSearchBarButtonItemAction() {
+        onNewMessage(
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedSearch()
+            )
+        )
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

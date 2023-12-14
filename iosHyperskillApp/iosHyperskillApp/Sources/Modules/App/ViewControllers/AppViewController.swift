@@ -94,42 +94,25 @@ extension AppViewController: AppViewControllerProtocol {
             handleClickedNotificationViewAction(
                 NotificationClickHandlingFeatureActionViewActionKs(clickedNotificationViewAction.viewAction)
             )
+        case .welcomeOnboardingViewAction(let welcomeOnboardingViewAction):
+            handleWelcomeOnboardingViewAction(
+                WelcomeOnboardingFeatureActionViewActionKs(welcomeOnboardingViewAction.viewAction)
+            )
         }
     }
 
     private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
+        #warning("TODO: Code dublication, see handleWelcomeOnboardingViewAction(_:)")
         let viewControllerToPresent: UIViewController = {
             switch viewAction {
             case .onboardingScreen:
-                return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
+                return UIHostingController(rootView: WelcomeAssembly(output: viewModel).makeModule())
             case .studyPlan:
                 return AppTabBarController(
                     initialTab: .studyPlan,
                     availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
                     appTabBarControllerDelegate: viewModel
                 )
-            case .studyPlanWithStep(let navigateToStudyPlanWithStepViewAction):
-                let tabBarController = AppTabBarController(
-                    initialTab: .studyPlan,
-                    availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
-                    appTabBarControllerDelegate: viewModel
-                )
-
-                if !tabBarController.isViewLoaded {
-                    _ = tabBarController.view
-                }
-
-                DispatchQueue.main.async {
-                    let index = tabBarController.selectedIndex
-                    guard let navigationController = tabBarController.children[index] as? UINavigationController else {
-                        return assertionFailure("Expected UINavigationController")
-                    }
-
-                    let stepAssembly = StepAssembly(stepRoute: navigateToStudyPlanWithStepViewAction.stepRoute)
-                    navigationController.pushViewController(stepAssembly.makeModule(), animated: false)
-                }
-
-                return tabBarController
             case .authScreen(let data):
                 let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
                 return UIHostingController(rootView: assembly.makeModule())
@@ -140,12 +123,6 @@ extension AppViewController: AppViewControllerProtocol {
                 )
                 navigationController.navigationBar.prefersLargeTitles = true
                 return navigationController
-            case .notificationOnBoardingScreen:
-                let assembly = NotificationsOnboardingAssembly(output: viewModel)
-                return assembly.makeModule()
-            case .firstProblemOnBoardingScreen(let data):
-                let assembly = FirstProblemOnboardingAssembly(isNewUserMode: data.isNewUserMode, output: viewModel)
-                return assembly.makeModule()
             }
         }()
 
@@ -255,6 +232,68 @@ extension AppViewController: AppViewControllerProtocol {
         DispatchQueue.main.async {
             route()
         }
+    }
+
+    private func handleWelcomeOnboardingViewAction(
+        _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
+    ) {
+        #warning("TODO: Code dublication, see handleNavigateToViewAction(_:)")
+        let viewControllerToPresent: UIViewController = {
+            switch viewAction {
+            case .navigateTo(let navigateToViewAction):
+                switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+                case .firstProblemOnboardingScreen(let data):
+                    let assembly = FirstProblemOnboardingAssembly(
+                        isNewUserMode: data.isNewUserMode,
+                        output: viewModel
+                    )
+                    return assembly.makeModule()
+                case .notificationOnboardingScreen:
+                    let assembly = NotificationsOnboardingAssembly(output: viewModel)
+                    return assembly.makeModule()
+                case .studyPlanWithStep(let navigateToStudyPlanWithStepViewAction):
+                    let tabBarController = AppTabBarController(
+                        initialTab: .studyPlan,
+                        availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
+                        appTabBarControllerDelegate: viewModel
+                    )
+
+                    if !tabBarController.isViewLoaded {
+                        _ = tabBarController.view
+                    }
+
+                    DispatchQueue.main.async {
+                        let index = tabBarController.selectedIndex
+
+                        guard
+                            let navigationController = tabBarController.children[index] as? UINavigationController
+                        else {
+                            return assertionFailure("Expected UINavigationController")
+                        }
+
+                        let stepAssembly = StepAssembly(stepRoute: navigateToStudyPlanWithStepViewAction.stepRoute)
+                        navigationController.pushViewController(stepAssembly.makeModule(), animated: false)
+                    }
+
+                    return tabBarController
+                }
+            }
+        }()
+
+        let fromViewController = children.first { viewController in
+            if viewController is UIHostingController<PlaceholderView> {
+                return false
+            }
+            return true
+        }
+        if let fromViewController,
+           type(of: fromViewController) == type(of: viewControllerToPresent) {
+            return
+        }
+
+        assert(children.count <= 2)
+
+        swapRootViewController(from: fromViewController, to: viewControllerToPresent)
     }
 
     private func swapRootViewController(

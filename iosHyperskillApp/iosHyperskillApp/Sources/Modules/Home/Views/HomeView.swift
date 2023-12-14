@@ -37,7 +37,8 @@ struct HomeView: View {
             GamificationToolbarContent(
                 viewStateKs: viewModel.gamificationToolbarViewStateKs,
                 onStreakTap: viewModel.doStreakBarButtonItemAction,
-                onProgressTap: viewModel.doProgressBarButtonItemAction
+                onProgressTap: viewModel.doProgressBarButtonItemAction,
+                onSearchTap: viewModel.doSearchBarButtonItemAction
             )
         }
         .onAppear {

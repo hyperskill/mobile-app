@@ -14,8 +14,6 @@ import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
-import org.hyperskill.app.onboarding.injection.OnboardingComponent
-import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -38,6 +36,8 @@ import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelecti
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
+import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
+import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 interface CommonAndroidAppGraph : AppGraph {
     val context: Context
@@ -64,7 +64,7 @@ interface CommonAndroidAppGraph : AppGraph {
 
     fun buildPlatformHomeComponent(homeComponent: HomeComponent): PlatformHomeComponent
 
-    fun buildPlatformOnboardingComponent(onboardingComponent: OnboardingComponent): PlatformOnboardingComponent
+    fun buildPlatformWelcomeComponent(welcomeComponent: WelcomeComponent): PlatformWelcomeComponent
 
     fun buildPlatformTopicsRepetitionsComponent(): PlatformTopicsRepetitionComponent
 

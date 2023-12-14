@@ -80,6 +80,14 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
+    func doSearchBarButtonItemAction() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedSearch()
+            )
+        )
+    }
+
     func doReloadProblemsLimit() {
         onNewMessage(
             StudyPlanScreenFeatureMessageProblemsLimitMessage(

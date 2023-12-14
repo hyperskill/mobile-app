@@ -187,6 +187,9 @@ enum ColorPalette {
     static let newButtonPrimary = sharedColors.button_primary.color.uiColor
     static let newButtonPrimaryActive = sharedColors.button_primary_active.color.uiColor
 
+    static let newButtonTertiary = sharedColors.button_tertiary.dynamicUIColor
+    static let newButtonTertiaryActive = sharedColors.button_tertiary_active.dynamicUIColor
+
     static let newButtonGhost = sharedColors.button_ghost.dynamicUIColor
     static let newButtonGhostActive = sharedColors.button_ghost_active.dynamicUIColor
 
