@@ -1,7 +1,7 @@
 import shared
 import SwiftUI
 
-extension OnboardingView {
+extension WelcomeView {
     struct Appearance {
         let contentMaxWidth: CGFloat = 400
 
@@ -9,10 +9,10 @@ extension OnboardingView {
     }
 }
 
-struct OnboardingView: View {
+struct WelcomeView: View {
     private(set) var appearance = Appearance()
 
-    @StateObject var viewModel: OnboardingViewModel
+    @StateObject var viewModel: WelcomeViewModel
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
@@ -47,7 +47,7 @@ struct OnboardingView: View {
             PlaceholderView(
                 configuration: .networkError(
                     backgroundColor: .clear,
-                    action: viewModel.doRetryLoadOnboarding
+                    action: viewModel.doRetryContentLoading
                 )
             )
         case .content:
@@ -56,12 +56,12 @@ struct OnboardingView: View {
                     Spacer()
                 }
 
-                Text(Strings.Onboarding.title)
+                Text(Strings.Welcome.title)
                     .font(.largeTitle).bold()
                     .foregroundColor(.newPrimaryText)
                     .multilineTextAlignment(.center)
 
-                Text(Strings.Onboarding.text)
+                Text(Strings.Welcome.text)
                     .font(.title3)
                     .foregroundColor(.newPrimaryText)
                     .multilineTextAlignment(.center)
@@ -77,7 +77,7 @@ struct OnboardingView: View {
                 Spacer()
 
                 Button(
-                    Strings.Onboarding.primaryButton,
+                    Strings.Welcome.primaryButton,
                     action: {
                         actionButtonsFeedbackGenerator.triggerFeedback()
                         viewModel.doPrimaryButtonAction()
@@ -87,7 +87,7 @@ struct OnboardingView: View {
                 .shineEffect()
 
                 Button(
-                    Strings.Onboarding.secondaryButton,
+                    Strings.Welcome.secondaryButton,
                     action: {
                         actionButtonsFeedbackGenerator.triggerFeedback()
                         viewModel.doSecondaryButtonAction()
@@ -119,16 +119,16 @@ struct OnboardingView: View {
 
 struct OnboardingView_Previews: PreviewProvider {
     static var previews: some View {
-        OnboardingAssembly()
+        WelcomeAssembly()
             .makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro"))
 
-        OnboardingAssembly()
+        WelcomeAssembly()
             .makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPhone SE (3rd generation)"))
             .preferredColorScheme(.dark)
 
-        OnboardingAssembly()
+        WelcomeAssembly()
             .makeModule()
             .previewDevice(PreviewDevice(rawValue: "iPad (9th generation)"))
     }

@@ -106,7 +106,7 @@ extension AppViewController: AppViewControllerProtocol {
         let viewControllerToPresent: UIViewController = {
             switch viewAction {
             case .onboardingScreen:
-                return UIHostingController(rootView: OnboardingAssembly(output: viewModel).makeModule())
+                return UIHostingController(rootView: WelcomeAssembly(output: viewModel).makeModule())
             case .studyPlan:
                 return AppTabBarController(
                     initialTab: .studyPlan,
