@@ -6,12 +6,6 @@ import org.hyperskill.app.onboarding.domain.repository.OnboardingRepository
 internal class OnboardingRepositoryImpl(
     private val onboardingCacheDataSource: OnboardingCacheDataSource
 ) : OnboardingRepository {
-    override fun isOnboardingShown(): Boolean =
-        onboardingCacheDataSource.isOnboardingShown()
-
-    override fun setOnboardingShown(isShown: Boolean) {
-        onboardingCacheDataSource.setOnboardingShown(isShown)
-    }
 
     override fun isParsonsOnboardingShown(): Boolean =
         onboardingCacheDataSource.isParsonsOnboardingShown()
