@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.isVisible
@@ -38,6 +39,7 @@ import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 class TopicSearchDialogFragment : DialogFragment() {
 
     companion object {
+        private const val TALKBACK_FOCUS_CHANGE_DELAY_MS: Long = 100
         const val TAG = "TopicSearchDialogFragment"
 
         fun newInstance(): TopicSearchDialogFragment =
@@ -125,14 +127,24 @@ class TopicSearchDialogFragment : DialogFragment() {
                 }
                 false
             }
-            topicSearchEditText.post {
-                topicSearchEditText.requestFocus()
-                val inputMethodManager =
-                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.showSoftInput(topicSearchEditText, InputMethodManager.SHOW_IMPLICIT)
-            }
+            requestFocusAndShowKeyboard(topicSearchEditText)
         }
         setupEditTextRendering()
+    }
+
+    fun requestFocusAndShowKeyboard(
+        editText: EditText,
+    ) {
+        // Without a delay requesting focus on edit text fails when talkback is active.
+        editText.postDelayed(
+            {
+                editText.requestFocus()
+                val inputMethodManager =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+            },
+            TALKBACK_FOCUS_CHANGE_DELAY_MS
+        )
     }
 
     private fun setupEditTextRendering() {
