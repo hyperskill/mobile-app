@@ -12,7 +12,6 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
-import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -21,7 +20,7 @@ import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcr
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class AppActionDispatcher(
+internal class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val appInteractor: AppInteractor,
     private val authInteractor: AuthInteractor,
@@ -30,7 +29,6 @@ class AppActionDispatcher(
     private val stateRepositoriesComponent: StateRepositoriesComponent,
     private val notificationsInteractor: NotificationInteractor,
     private val pushNotificationsInteractor: PushNotificationsInteractor,
-    private val onboardingInteractor: OnboardingInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -104,20 +102,6 @@ class AppActionDispatcher(
                             onNewMessage(Message.UserAccountStatusError)
                         }
                     )
-            }
-            is Action.FetchNotificationOnboardingData -> {
-                onNewMessage(
-                    Message.NotificationOnboardingDataFetched(
-                        wasNotificationOnBoardingShown = onboardingInteractor.wasNotificationOnboardingShown()
-                    )
-                )
-            }
-            is Action.FetchFirstProblemOnboardingData -> {
-                onNewMessage(
-                    Message.FirstProblemOnboardingDataFetched(
-                        wasFirstProblemOnboardingShown = onboardingInteractor.wasFirstProblemOnboardingShown()
-                    )
-                )
             }
             is Action.IdentifyUserInSentry ->
                 sentryInteractor.setUsedId(action.userId)

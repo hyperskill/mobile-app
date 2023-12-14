@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import org.hyperskill.app.R
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
@@ -67,7 +68,7 @@ class FirstProblemOnboardingFragment : Fragment() {
                 requireAppRouter().sendResult(FIRST_PROBLEM_ONBOARDING_FINISHED, action.stepRoute ?: Any())
             }
             ViewAction.ShowNetworkError -> {
-                requireView().snackbar(org.hyperskill.app.R.string.first_problem_onboarding_network_error)
+                requireView().snackbar(R.string.first_problem_onboarding_network_error)
             }
         }
     }

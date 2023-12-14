@@ -7,13 +7,6 @@ import org.hyperskill.app.onboarding.domain.repository.getProblemsOnboardingFlag
 class OnboardingInteractor(
     private val onboardingRepository: OnboardingRepository
 ) {
-    fun isOnboardingShown(): Boolean =
-        onboardingRepository.isOnboardingShown()
-
-    fun setOnboardingShown(isShown: Boolean) {
-        onboardingRepository.setOnboardingShown(isShown)
-    }
-
     fun setParsonsOnboardingShown(isShown: Boolean) {
         onboardingRepository.setParsonsOnboardingShown(isShown)
     }

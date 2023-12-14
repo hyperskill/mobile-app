@@ -63,8 +63,8 @@ import org.hyperskill.app.notification.remote.injection.PushNotificationsCompone
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponentImpl
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponentImpl
-import org.hyperskill.app.onboarding.injection.OnboardingComponent
-import org.hyperskill.app.onboarding.injection.OnboardingComponentImpl
+import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
+import org.hyperskill.app.onboarding.injection.OnboardingDataComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -143,6 +143,12 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListCompo
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
+import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
+import org.hyperskill.app.welcome.injection.WelcomeDataComponent
+import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponentImpl
 
 abstract class BaseAppGraph : AppGraph {
 
@@ -289,10 +295,19 @@ abstract class BaseAppGraph : AppGraph {
         NotificationComponentImpl(this)
 
     /**
+     * Welcome component
+     */
+    override fun buildWelcomeComponent(): WelcomeComponent =
+        WelcomeComponentImpl(this)
+
+    override fun buildWelcomeDataComponent(): WelcomeDataComponent =
+        WelcomeDataComponentImpl(this)
+
+    /**
      * Onboarding component
      */
-    override fun buildOnboardingComponent(): OnboardingComponent =
-        OnboardingComponentImpl(this)
+    override fun buildOnboardingDataComponent(): OnboardingDataComponent =
+        OnboardingDataComponentImpl(this)
 
     /**
      * Topics repetitions component
@@ -446,4 +461,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildSearchComponent(): SearchComponent =
         SearchComponentImpl(this)
+
+    override fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent =
+        WelcomeOnboardingComponentImpl(this)
 }

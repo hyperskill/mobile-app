@@ -12,13 +12,18 @@ import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.OnboardingFlowFinishReason
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
+import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class AppReducer(
+internal class AppReducer(
     private val streakRecoveryReducer: StreakRecoveryReducer,
     private val notificationClickHandlingReducer: NotificationClickHandlingReducer,
+    private val welcomeOnboardingReducer: WelcomeOnboardingReducer,
     private val platformType: PlatformType
 ) : StateReducer<State, Message, Action> {
     override fun reduce(
@@ -59,14 +64,6 @@ class AppReducer(
                 } else {
                     null
                 }
-            is Message.NotificationOnboardingDataFetched ->
-                handleNotificationOnboardingDataFetched(state, message)
-            is Message.NotificationOnboardingCompleted ->
-                handleNotificationOnboardingCompleted(state)
-            is Message.FirstProblemOnboardingDataFetched ->
-                handleFirstProblemOnboardingDataFetched(state, message)
-            is Message.FirstProblemOnboardingCompleted ->
-                handleFirstProblemOnboardingCompleted(state, message)
             is Message.OpenAuthScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
@@ -77,6 +74,8 @@ class AppReducer(
                 handleNotificationClicked(state, message)
             is Message.NotificationClickHandlingMessage ->
                 state to reduceNotificationClickHandlingMessage(message.message)
+            is Message.WelcomeOnboardingMessage ->
+                reduceWelcomeOnboardingMessage(state, message.message)
         } ?: (state to emptySet())
 
     private fun handleUserAccountStatus(
@@ -140,94 +139,21 @@ class AppReducer(
         message: Message.UserAuthorized
     ): ReducerResult =
         if (state is State.Ready && !state.isAuthorized) {
-            val navigationLogicAction = if (message.isNotificationPermissionGranted) {
-                getAuthorizedUserNavigationAction(message.profile)
-            } else {
-                Action.FetchNotificationOnboardingData
-            }
-            State.Ready(
+            val authState = State.Ready(
                 isAuthorized = true,
-                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
-                profile = if (!message.isNotificationPermissionGranted) message.profile else null
-            ) to getAuthorizedUserActions(message.profile) + navigationLogicAction
-        } else {
-            state to emptySet()
-        }
-
-    private fun handleNotificationOnboardingDataFetched(
-        state: State,
-        message: Message.NotificationOnboardingDataFetched
-    ): ReducerResult =
-        if (state is State.Ready && state.profile != null) {
-            if (!message.wasNotificationOnBoardingShown) {
-                state to setOf(Action.ViewAction.NavigateTo.NotificationOnBoardingScreen)
-            } else {
-                navigateUserAfterNotificationOnboarding(state.profile)
-            }
-        } else {
-            state to emptySet()
-        }
-
-    private fun handleNotificationOnboardingCompleted(
-        state: State
-    ): ReducerResult =
-        if (state is State.Ready && state.profile != null) {
-            navigateUserAfterNotificationOnboarding(state.profile)
-        } else {
-            state to emptySet()
-        }
-
-    private fun handleFirstProblemOnboardingDataFetched(
-        state: State,
-        message: Message.FirstProblemOnboardingDataFetched
-    ): ReducerResult =
-        if (state is State.Ready && state.profile != null && !state.profile.isNewUser) {
-            State.Ready(
-                isAuthorized = true,
-                isMobileLeaderboardsEnabled = state.profile.features.isMobileLeaderboardsEnabled
-            ) to setOf(
-                if (!message.wasFirstProblemOnboardingShown) {
-                    Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen(isNewUserMode = false)
-                } else {
-                    Action.ViewAction.NavigateTo.StudyPlan
-                }
+                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled
             )
-        } else {
-            state to emptySet()
-        }
-
-    private fun handleFirstProblemOnboardingCompleted(
-        state: State,
-        message: Message.FirstProblemOnboardingCompleted
-    ): ReducerResult =
-        if (state is State.Ready) {
-            state to setOf(
-                message.firstProblemStepRoute?.let { stepRoute ->
-                    Action.ViewAction.NavigateTo.StudyPlanWithStep(stepRoute)
-                } ?: Action.ViewAction.NavigateTo.StudyPlan
+            val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
+                WelcomeOnboardingFeature.State(),
+                WelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
+                    message.profile,
+                    message.isNotificationPermissionGranted
+                )
             )
+            authState.copy(welcomeOnboardingState = onboardingState) to
+                getAuthorizedUserActions(message.profile) + onboardingActions
         } else {
             state to emptySet()
-        }
-
-    private fun navigateUserAfterNotificationOnboarding(profile: Profile): ReducerResult =
-        State.Ready(
-            isAuthorized = true,
-            isMobileLeaderboardsEnabled = profile.features.isMobileLeaderboardsEnabled,
-            profile = profile
-        ) to setOf(
-            if (profile.isNewUser) {
-                Action.ViewAction.NavigateTo.TrackSelectionScreen
-            } else {
-                Action.FetchFirstProblemOnboardingData
-            }
-        )
-
-    private fun getAuthorizedUserNavigationAction(profile: Profile): Action =
-        if (profile.isNewUser) {
-            Action.ViewAction.NavigateTo.TrackSelectionScreen
-        } else {
-            Action.ViewAction.NavigateTo.StudyPlan
         }
 
     private fun reduceStreakRecoveryMessage(
@@ -275,6 +201,55 @@ class AppReducer(
             }
         }.toSet()
     }
+
+    private fun reduceWelcomeOnboardingMessage(
+        state: State,
+        message: WelcomeOnboardingFeature.Message
+    ): ReducerResult =
+        if (state is State.Ready) {
+            val (onboardingState, actions) =
+                reduceWelcomeOnboardingMessage(state.welcomeOnboardingState, message)
+            state.copy(welcomeOnboardingState = onboardingState) to actions
+        } else {
+            state to emptySet()
+        }
+
+    private fun reduceWelcomeOnboardingMessage(
+        state: WelcomeOnboardingFeature.State,
+        message: WelcomeOnboardingFeature.Message
+    ): Pair<WelcomeOnboardingFeature.State, Set<Action>> {
+        val (onboardingState, onboardingActions) =
+            welcomeOnboardingReducer.reduce(state, message)
+        val finishAction = onboardingActions.getFinishAction()
+        return if (finishAction != null) {
+            onboardingState to handleWelcomeOnboardingFinishAction(finishAction)
+        } else {
+            onboardingState to
+                onboardingActions.map {
+                    if (it is WelcomeOnboardingFeature.Action.ViewAction) {
+                        Action.ViewAction.WelcomeOnboardingViewAction(it)
+                    } else {
+                        Action.WelcomeOnboardingAction(it)
+                    }
+                }.toSet()
+        }
+    }
+
+    private fun handleWelcomeOnboardingFinishAction(
+        finishAction: WelcomeOnboardingFeature.Action.OnboardingFlowFinished
+    ): Set<Action> =
+        setOf(
+            when (val reason = finishAction.reason) {
+                is OnboardingFlowFinishReason.NotificationOnboardingFinished ->
+                    if (reason.profile?.isNewUser == true) {
+                        Action.ViewAction.NavigateTo.TrackSelectionScreen
+                    } else {
+                        Action.ViewAction.NavigateTo.StudyPlan
+                    }
+                OnboardingFlowFinishReason.FirstProblemOnboardingFinished ->
+                    Action.ViewAction.NavigateTo.StudyPlan
+            }
+        )
 
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,

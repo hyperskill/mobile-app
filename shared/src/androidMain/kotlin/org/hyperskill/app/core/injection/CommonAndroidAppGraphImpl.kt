@@ -22,9 +22,6 @@ import org.hyperskill.app.notification.remote.injection.AndroidPlatformPushNotif
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponentImpl
-import org.hyperskill.app.onboarding.injection.OnboardingComponent
-import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
-import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
@@ -59,6 +56,9 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
+import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
+import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
+import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
@@ -129,10 +129,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     /**
      * Onboarding component
      */
-    override fun buildPlatformOnboardingComponent(
-        onboardingComponent: OnboardingComponent
-    ): PlatformOnboardingComponent =
-        PlatformOnboardingComponentImpl(onboardingComponent)
+    override fun buildPlatformWelcomeComponent(
+        welcomeComponent: WelcomeComponent
+    ): PlatformWelcomeComponent =
+        PlatformWelcomeComponentImpl(welcomeComponent)
 
     /**
      * Topics repetitions component
