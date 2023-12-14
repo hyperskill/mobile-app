@@ -8,7 +8,7 @@ import org.hyperskill.app.welcome.presentation.WelcomeFeature.Action
 import org.hyperskill.app.welcome.presentation.WelcomeFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class WelcomeActionDispatcher(
+internal class WelcomeActionDispatcher(
     config: ActionDispatcherOptions,
     private val welcomeInteractor: WelcomeInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,

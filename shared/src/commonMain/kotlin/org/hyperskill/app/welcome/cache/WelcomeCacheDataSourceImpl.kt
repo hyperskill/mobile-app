@@ -3,7 +3,7 @@ package org.hyperskill.app.welcome.cache
 import com.russhwolf.settings.Settings
 import org.hyperskill.app.welcome.data.source.WelcomeCacheDataSource
 
-class WelcomeCacheDataSourceImpl(
+internal class WelcomeCacheDataSourceImpl(
     private val settings: Settings
 ) : WelcomeCacheDataSource {
     override fun isWelcomeScreenShown(): Boolean =

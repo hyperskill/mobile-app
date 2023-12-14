@@ -141,6 +141,8 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
+import org.hyperskill.app.welcome.injection.WelcomeDataComponent
+import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponentImpl
 
@@ -293,6 +295,9 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildWelcomeComponent(): WelcomeComponent =
         WelcomeComponentImpl(this)
+
+    override fun buildWelcomeDataComponent(): WelcomeDataComponent =
+        WelcomeDataComponentImpl(this)
 
     /**
      * Onboarding component

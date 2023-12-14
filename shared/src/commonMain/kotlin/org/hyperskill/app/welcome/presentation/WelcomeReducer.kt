@@ -8,7 +8,7 @@ import org.hyperskill.app.welcome.presentation.WelcomeFeature.Message
 import org.hyperskill.app.welcome.presentation.WelcomeFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class WelcomeReducer : StateReducer<State, Message, Action> {
+internal class WelcomeReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->
@@ -40,15 +40,15 @@ class WelcomeReducer : StateReducer<State, Message, Action> {
                     }
 
                     state to setOf(
-                        Action.LogAnalyticEvent(WelcomeScreenClickedSignUnHyperskillAnalyticEvent()),
+                        Action.LogAnalyticEvent(WelcomeScreenClickedSignUnHyperskillAnalyticEvent),
                         navigateToViewAction
                     )
                 } else {
                     null
                 }
             is Message.ViewedEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(WelcomeScreenViewedHyperskillAnalyticEvent()))
+                state to setOf(Action.LogAnalyticEvent(WelcomeScreenViewedHyperskillAnalyticEvent))
             is Message.ClickedSignInEventMessage ->
-                state to setOf(Action.LogAnalyticEvent(WelcomeScreenClickedSignInHyperskillAnalyticEvent()))
+                state to setOf(Action.LogAnalyticEvent(WelcomeScreenClickedSignInHyperskillAnalyticEvent))
         } ?: (state to emptySet())
 }

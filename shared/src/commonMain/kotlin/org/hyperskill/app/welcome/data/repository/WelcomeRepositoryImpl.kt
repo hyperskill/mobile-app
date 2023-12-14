@@ -3,7 +3,7 @@ package org.hyperskill.app.welcome.data.repository
 import org.hyperskill.app.welcome.data.source.WelcomeCacheDataSource
 import org.hyperskill.app.welcome.domain.repository.WelcomeRepository
 
-class WelcomeRepositoryImpl(
+internal class WelcomeRepositoryImpl(
     private val welcomeCacheDataSource: WelcomeCacheDataSource
 ) : WelcomeRepository {
 

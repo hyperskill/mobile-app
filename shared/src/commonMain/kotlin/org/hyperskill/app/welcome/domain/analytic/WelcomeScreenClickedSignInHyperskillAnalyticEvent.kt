@@ -20,7 +20,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * ```
  * @see HyperskillAnalyticEvent
  */
-class WelcomeScreenClickedSignInHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+object WelcomeScreenClickedSignInHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Onboarding(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
