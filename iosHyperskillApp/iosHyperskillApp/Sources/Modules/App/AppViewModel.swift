@@ -107,7 +107,7 @@ extension AppViewModel: AuthOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: OnboardingOutputProtocol -
+// MARK: - AppViewModel: WelcomeOutputProtocol -
 
 extension AppViewModel: WelcomeOutputProtocol {
     func handleWelcomeSignInRequested() {
