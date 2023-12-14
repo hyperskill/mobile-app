@@ -111,7 +111,7 @@ struct OnboardingView: View {
             case .authScreen(let data):
                 viewModel.doSignUpPresentation(isInSignUpMode: data.isInSignUpMode)
             case .trackSelectionListScreen:
-                viewModel.doSignPresentation()
+                viewModel.doSignInPresentation()
             }
         }
     }

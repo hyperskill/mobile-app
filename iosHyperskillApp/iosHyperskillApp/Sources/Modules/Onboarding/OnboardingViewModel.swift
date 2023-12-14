@@ -27,18 +27,16 @@ final class OnboardingViewModel: FeatureViewModel<
     }
 
     func doPrimaryButtonAction() {
-        onNewMessage(OnboardingFeatureMessageClickedSignUn())
+        onNewMessage(WelcomeFeatureMessageClickedSignUn())
     }
 
     func doSecondaryButtonAction() {
-        logClickedSignInEvent()
+        onNewMessage(WelcomeFeatureMessageClickedSignInEventMessage())
         moduleOutput?.handleOnboardingSignInRequested()
     }
 
-    func doSignPresentation() {
+    func doSignInPresentation() {
         moduleOutput?.handleOnboardingSignInRequested()
-    func doClickedSignUpAction() {
-        onNewMessage(WelcomeFeatureMessageClickedSignUn())
     }
 
     func doSignUpPresentation(isInSignUpMode: Bool) {
@@ -49,9 +47,5 @@ final class OnboardingViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(WelcomeFeatureMessageViewedEventMessage())
-    }
-
-    private func logClickedSignInEvent() {
-        onNewMessage(WelcomeFeatureMessageClickedSignInEventMessage())
     }
 }
