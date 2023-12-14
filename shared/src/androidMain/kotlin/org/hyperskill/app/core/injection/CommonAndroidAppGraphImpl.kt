@@ -41,6 +41,8 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponentImpl
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
+import org.hyperskill.app.search.injection.PlatformSearchComponent
+import org.hyperskill.app.search.injection.PlatformSearchComponentImpl
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
@@ -216,5 +218,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformLeaderboardComponent(): PlatformLeaderboardComponent =
         PlatformLeaderboardComponentImpl(
             leaderboardComponent = buildLeaderboardScreenComponent()
+        )
+
+    override fun buildPlatformSearchComponent(): PlatformSearchComponent =
+        PlatformSearchComponentImpl(
+            searchComponent = buildSearchComponent()
         )
 }

@@ -26,6 +26,7 @@ import org.hyperskill.app.project_selection.details.injection.PlatformProjectSel
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
+import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.StepComponent
@@ -96,4 +97,6 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformFirstProblemOnboardingComponent(isNewUserMode: Boolean): PlatformFirstProblemOnboardingComponent
 
     fun buildPlatformLeaderboardComponent(): PlatformLeaderboardComponent
+
+    fun buildPlatformSearchComponent(): PlatformSearchComponent
 }
