@@ -6,13 +6,6 @@ import org.hyperskill.app.onboarding.data.source.OnboardingCacheDataSource
 internal class OnboardingCacheDataSourceImpl(
     private val settings: Settings
 ) : OnboardingCacheDataSource {
-    override fun isOnboardingShown(): Boolean =
-        settings.getBoolean(OnboardingCacheKeyValues.IS_ONBOARDING_SHOWN)
-
-    override fun setOnboardingShown(isShown: Boolean) {
-        settings.putBoolean(OnboardingCacheKeyValues.IS_ONBOARDING_SHOWN, isShown)
-    }
-
     override fun isParsonsOnboardingShown(): Boolean =
         settings.getBoolean(OnboardingCacheKeyValues.IS_PARSONS_ONBOARDING_SHOWN)
 

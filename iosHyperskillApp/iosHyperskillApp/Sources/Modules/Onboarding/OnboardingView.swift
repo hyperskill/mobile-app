@@ -104,14 +104,14 @@ struct OnboardingView: View {
         }
     }
 
-    private func handleViewAction(_ viewAction: OnboardingFeatureActionViewAction) {
-        switch OnboardingFeatureActionViewActionKs(viewAction) {
+    private func handleViewAction(_ viewAction: WelcomeFeatureActionViewAction) {
+        switch WelcomeFeatureActionViewActionKs(viewAction) {
         case .navigateTo(let navigateToViewAction):
-            switch OnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            switch WelcomeFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .authScreen(let data):
                 viewModel.doSignUpPresentation(isInSignUpMode: data.isInSignUpMode)
             case .trackSelectionListScreen:
-                viewModel.doSignPresentation()
+                viewModel.doSignInPresentation()
             }
         }
     }
