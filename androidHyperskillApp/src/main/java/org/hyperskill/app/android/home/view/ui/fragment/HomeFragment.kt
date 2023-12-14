@@ -174,7 +174,8 @@ class HomeFragment :
                 gamificationToolbarDelegate?.onAction(
                     action = action.viewAction,
                     mainScreenRouter = mainScreenRouter,
-                    router = requireRouter()
+                    router = requireRouter(),
+                    fragmentManager = childFragmentManager
                 )
             is HomeFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                 requireRouter().navigateTo(
