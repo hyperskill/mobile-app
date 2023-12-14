@@ -3,51 +3,67 @@ import SwiftUI
 
 extension GamificationToolbarContent {
     struct Appearance {
-        let toolbarDefaultSkeletonSize = CGSize(width: 56, height: 28)
-        let toolbarLargeSkeletonSize = CGSize(width: 100, height: 28)
+        let skeletonSize = CGSize(width: 56, height: 28)
+
+        let searchImageWidthHeight: CGFloat = 16
+        let searchImagePadding: CGFloat = 6
+        let searchImageBackgroundColor = Color(ColorPalette.surface)
     }
 }
 
 struct GamificationToolbarContent: ToolbarContent {
     private(set) var appearance = Appearance()
 
-    let stateKs: GamificationToolbarFeatureStateKs
+    let viewStateKs: GamificationToolbarFeatureViewStateKs
 
-    let onGemsTap: () -> Void
     let onStreakTap: () -> Void
     let onProgressTap: () -> Void
+    let onSearchTap: () -> Void
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
-            switch stateKs {
+            switch viewStateKs {
             case .idle, .loading:
                 HStack {
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarLargeSkeletonSize))
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarDefaultSkeletonSize))
-                    SkeletonRoundedView(appearance: .init(size: appearance.toolbarDefaultSkeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    if #available(iOS 15.0, *) {
+                        SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
+                    }
                 }
             case .error:
                 HStack {}
             case .content(let data):
                 HStack {
-                    if let trackProgress = data.trackProgress {
+                    if let progress = data.progress {
                         ProgressBarButtonItem(
-                            progress: Float(trackProgress.averageProgress) / 100,
-                            isCompleted: trackProgress.isCompleted,
+                            progress: progress.value,
+                            formattedProgress: progress.formattedValue,
+                            isCompleted: progress.isCompleted,
                             onTap: onProgressTap
                         )
                     }
 
                     StreakBarButtonItem(
-                        currentStreak: Int(data.currentStreak),
-                        isCompletedToday: data.historicalStreak.isCompleted,
+                        currentStreak: data.streak.formattedValue,
+                        isCompletedToday: data.streak.isCompleted,
                         onTap: onStreakTap
                     )
 
-                    GemsBarButtonItem(
-                        hypercoinsBalance: Int(data.hypercoinsBalance),
-                        onTap: onGemsTap
-                    )
+                    if #available(iOS 15.0, *) {
+                        Button(
+                            action: onSearchTap,
+                            label: {
+                                Image(systemName: "magnifyingglass")
+                                    .resizable()
+                                    .renderingMode(.template)
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(widthHeight: appearance.searchImageWidthHeight)
+                                    .padding(appearance.searchImagePadding)
+                                    .background(Circle().foregroundColor(appearance.searchImageBackgroundColor))
+                            }
+                        )
+                    }
                 }
             }
         }

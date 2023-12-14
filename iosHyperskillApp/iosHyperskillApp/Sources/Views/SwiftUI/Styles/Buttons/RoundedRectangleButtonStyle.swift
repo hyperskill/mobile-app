@@ -102,19 +102,22 @@ extension RoundedRectangleButtonStyle {
     }
 }
 
-struct RoundedRectangleButtonStyle_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            Button("Press Me", action: {})
-                .buttonStyle(RoundedRectangleButtonStyle())
-
-            Button("Press Me", action: {})
-                .buttonStyle(RoundedRectangleButtonStyle(overlayImage: .init(imageSystemName: "play")))
-
-            Button("Press Me", action: {})
-                .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
+extension ButtonStyle where Self == RoundedRectangleButtonStyle {
+    static var primary: RoundedRectangleButtonStyle {
+        RoundedRectangleButtonStyle(style: .newViolet)
     }
+}
+
+#Preview {
+    VStack {
+        Button("Press Me", action: {})
+            .buttonStyle(RoundedRectangleButtonStyle())
+
+        Button("Press Me", action: {})
+            .buttonStyle(RoundedRectangleButtonStyle(overlayImage: .init(imageSystemName: "play")))
+
+        Button("Press Me", action: {})
+            .buttonStyle(.primary)
+    }
+    .padding()
 }

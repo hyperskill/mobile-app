@@ -12,10 +12,10 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
  * JSON payload:
  * ```
  * {
- *     "route": "/track | /home",
+ *     "route": "/home | /study-plan | /leaderboard",
  *     "action": "click",
  *     "part": "head",
- *     "target": "streak"
+ *     "target": "progress"
  * }
  * ```
  *

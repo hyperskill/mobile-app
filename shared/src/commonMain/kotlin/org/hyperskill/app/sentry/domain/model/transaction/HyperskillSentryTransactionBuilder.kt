@@ -169,12 +169,6 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
-    fun buildGamificationToolbarTrackScreenRemoteDataLoading(): HyperskillSentryTransaction =
-        HyperskillSentryTransaction(
-            name = "navigation-bar-items-feature-track-screen-remote-data-loading",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
-        )
-
     fun buildGamificationToolbarStudyPlanScreenRemoteDataLoading(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "navigation-bar-items-feature-study_plan-screen-remote-data-loading",
@@ -298,6 +292,15 @@ object HyperskillSentryTransactionBuilder {
     fun buildChallengeWidgetFeatureFetchChallenges(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "challenge-widget-feature-fetch-challenges",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * SearchFeature
+     */
+    fun buildSearchFeaturePerformSearch(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "search-feature-perform-search",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }

@@ -12,12 +12,16 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
  * JSON payload:
  * ```
  * {
- *     "route": "/track | /home",
+ *     "route": "/home | /study-plan | /leaderboard",
  *     "action": "click",
  *     "part": "head",
  *     "target": "streak"
  * }
  * ```
+ *
+ * @constructor Creates a new instance of [GamificationToolbarClickedStreakHyperskillAnalyticEvent].
+ * @param screen The screen where the event was triggered.
+ *
  * @see HyperskillAnalyticEvent
  */
 class GamificationToolbarClickedStreakHyperskillAnalyticEvent(

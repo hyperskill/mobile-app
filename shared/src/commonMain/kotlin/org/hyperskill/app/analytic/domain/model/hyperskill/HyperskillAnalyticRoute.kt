@@ -126,4 +126,9 @@ sealed class HyperskillAnalyticRoute {
         override val path: String =
             "/progress"
     }
+
+    class Search : HyperskillAnalyticRoute() {
+        override val path: String =
+            "/search"
+    }
 }

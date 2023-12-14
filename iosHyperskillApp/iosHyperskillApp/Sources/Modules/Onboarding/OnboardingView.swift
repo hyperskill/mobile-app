@@ -3,9 +3,9 @@ import SwiftUI
 
 extension OnboardingView {
     struct Appearance {
-        let logoWidthHeight: CGFloat = 48
-
         let contentMaxWidth: CGFloat = 400
+
+        let illustrationImageMaxHeight: CGFloat = 220
     }
 }
 
@@ -15,6 +15,8 @@ struct OnboardingView: View {
     @StateObject var viewModel: OnboardingViewModel
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
+    private let actionButtonsFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
     var body: some View {
         ZStack {
@@ -54,34 +56,44 @@ struct OnboardingView: View {
                     Spacer()
                 }
 
-                HyperskillLogoView(logoWidthHeight: appearance.logoWidthHeight)
-
                 Text(Strings.Onboarding.title)
-                    .font(.largeTitle)
-                    .foregroundColor(.primaryText)
+                    .font(.largeTitle).bold()
+                    .foregroundColor(.newPrimaryText)
                     .multilineTextAlignment(.center)
 
                 Text(Strings.Onboarding.text)
-                    .font(.body)
-                    .foregroundColor(.primaryText)
+                    .font(.title3)
+                    .foregroundColor(.newPrimaryText)
                     .multilineTextAlignment(.center)
 
                 Spacer()
 
-                Image(Images.Onboarding.problemOfDayCard)
+                Image(.onboardingIllustration)
                     .renderingMode(.original)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: .infinity, maxHeight: appearance.illustrationImageMaxHeight)
 
                 Spacer()
 
-                Button(Strings.Onboarding.signIn, action: viewModel.doSignPresentation)
-                    .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
-                    .shineEffect()
+                Button(
+                    Strings.Onboarding.primaryButton,
+                    action: {
+                        actionButtonsFeedbackGenerator.triggerFeedback()
+                        viewModel.doPrimaryButtonAction()
+                    }
+                )
+                .buttonStyle(.primary)
+                .shineEffect()
 
-                Button(Strings.Onboarding.signUp, action: viewModel.doClickedSignUpAction)
-                    .buttonStyle(OutlineButtonStyle(style: .violet))
+                Button(
+                    Strings.Onboarding.secondaryButton,
+                    action: {
+                        actionButtonsFeedbackGenerator.triggerFeedback()
+                        viewModel.doSecondaryButtonAction()
+                    }
+                )
+                .buttonStyle(.tertiary)
 
                 if horizontalSizeClass == .regular {
                     Spacer()
