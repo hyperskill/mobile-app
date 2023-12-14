@@ -20,18 +20,11 @@ interface AppFeature {
         @Serializable
         object NetworkError : State
 
-        /**
-         * [profile] is used to temporarily store profile
-         * while handling [Action.ViewAction.NavigateTo.NotificationOnBoardingScreen].
-         *
-         * @see [AppReducer] for [Message.UserAuthorized] & [Message.NotificationOnboardingCompleted] handling.
-         */
         @Serializable
         data class Ready(
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
-            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State =
-                WelcomeOnboardingFeature.State()
+            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State()
         ) : State
     }
 

@@ -254,11 +254,11 @@ class MainActivity :
                             StepScreen(viewAction.stepRoute)
                         )
                     }
-                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen ->
+                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.FirstProblemOnboardingScreen ->
                         router.newRootScreen(
                             FirstProblemOnboardingScreen(viewAction.isNewUserMode)
                         )
-                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
+                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->

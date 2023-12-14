@@ -20,7 +20,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class AppReducer(
+internal class AppReducer(
     private val streakRecoveryReducer: StreakRecoveryReducer,
     private val notificationClickHandlingReducer: NotificationClickHandlingReducer,
     private val welcomeOnboardingReducer: WelcomeOnboardingReducer,
@@ -145,7 +145,7 @@ class AppReducer(
             )
             val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
                 WelcomeOnboardingFeature.State(),
-                WelcomeOnboardingFeature.Message.OnboardingFlowRequested(
+                WelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
                     message.profile,
                     message.isNotificationPermissionGranted
                 )

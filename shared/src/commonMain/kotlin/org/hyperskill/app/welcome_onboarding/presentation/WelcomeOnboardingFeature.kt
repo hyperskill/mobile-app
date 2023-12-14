@@ -11,16 +11,24 @@ object WelcomeOnboardingFeature {
     data class State(val profile: Profile? = null)
 
     sealed interface Message {
+        object NotificationOnboardingCompleted : Message
+
+        data class FirstProblemOnboardingCompleted(val firstProblemStepRoute: StepRoute?) : Message
+    }
+
+    internal sealed interface InternalMessage : Message {
         data class OnboardingFlowRequested(
             val profile: Profile,
             val isNotificationPermissionGranted: Boolean
-        ) : Message
+        ) : InternalMessage
 
-        data class NotificationOnboardingDataFetched(val wasNotificationOnBoardingShown: Boolean) : Message
-        object NotificationOnboardingCompleted : Message
+        data class NotificationOnboardingDataFetched(
+            val wasNotificationOnboardingShown: Boolean
+        ) : InternalMessage
 
-        data class FirstProblemOnboardingDataFetched(val wasFirstProblemOnboardingShown: Boolean) : Message
-        data class FirstProblemOnboardingCompleted(val firstProblemStepRoute: StepRoute?) : Message
+        data class FirstProblemOnboardingDataFetched(
+            val wasFirstProblemOnboardingShown: Boolean
+        ) : InternalMessage
     }
 
     sealed interface OnboardingFlowFinishReason {
@@ -35,9 +43,9 @@ object WelcomeOnboardingFeature {
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object NotificationOnBoardingScreen : NavigateTo
+                object NotificationOnboardingScreen : NavigateTo
 
-                data class FirstProblemOnBoardingScreen(val isNewUserMode: Boolean) : NavigateTo
+                data class FirstProblemOnboardingScreen(val isNewUserMode: Boolean) : NavigateTo
 
                 data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
             }
@@ -50,5 +58,5 @@ object WelcomeOnboardingFeature {
     }
 }
 
-fun Set<Action>.getFinishAction(): Action.OnboardingFlowFinished? =
+internal fun Set<Action>.getFinishAction(): Action.OnboardingFlowFinished? =
     filterIsInstance<Action.OnboardingFlowFinished>().firstOrNull()

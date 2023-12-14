@@ -5,6 +5,7 @@ import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalAction
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalMessage
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.OnboardingFlowFinishReason
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
@@ -16,22 +17,22 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
 
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
-            is Message.OnboardingFlowRequested ->
+            is InternalMessage.OnboardingFlowRequested ->
                 handleOnboardingFlowRequested(message)
 
-            is Message.NotificationOnboardingDataFetched ->
+            is InternalMessage.NotificationOnboardingDataFetched ->
                 handleNotificationOnboardingDataFetched(state, message)
             Message.NotificationOnboardingCompleted ->
                 handleNotificationOnboardingCompleted(state)
 
-            is Message.FirstProblemOnboardingDataFetched ->
+            is InternalMessage.FirstProblemOnboardingDataFetched ->
                 handleFirstProblemOnboardingDataFetched(state, message)
             is Message.FirstProblemOnboardingCompleted ->
                 handleFirstProblemOnboardingCompleted(message)
         }
 
     private fun handleOnboardingFlowRequested(
-        message: Message.OnboardingFlowRequested
+        message: InternalMessage.OnboardingFlowRequested
     ): ReducerResult =
         if (!message.isNotificationPermissionGranted) {
             State(message.profile) to
@@ -39,13 +40,14 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         } else {
             onNotificationOnboardingCompleted(message.profile)
         }
+
     private fun handleNotificationOnboardingDataFetched(
         state: State,
-        message: Message.NotificationOnboardingDataFetched
+        message: InternalMessage.NotificationOnboardingDataFetched
     ): ReducerResult =
         if (state.profile != null) {
-            if (!message.wasNotificationOnBoardingShown) {
-                state to setOf(ViewAction.NavigateTo.NotificationOnBoardingScreen)
+            if (!message.wasNotificationOnboardingShown) {
+                state to setOf(ViewAction.NavigateTo.NotificationOnboardingScreen)
             } else {
                 onNotificationOnboardingCompleted(state.profile)
             }
@@ -72,12 +74,12 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
 
     private fun handleFirstProblemOnboardingDataFetched(
         state: State,
-        message: Message.FirstProblemOnboardingDataFetched
+        message: InternalMessage.FirstProblemOnboardingDataFetched
     ): ReducerResult =
         if (state.profile?.isNewUser == false) {
             state to setOf(
                 if (!message.wasFirstProblemOnboardingShown) {
-                    ViewAction.NavigateTo.FirstProblemOnBoardingScreen(isNewUserMode = false)
+                    ViewAction.NavigateTo.FirstProblemOnboardingScreen(isNewUserMode = false)
                 } else {
                     Action.OnboardingFlowFinished(
                         OnboardingFlowFinishReason.FirstProblemOnboardingFinished

@@ -21,7 +21,7 @@ import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepositor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingDispatcher
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
@@ -29,7 +29,7 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object AppFeatureBuilder {
+internal object AppFeatureBuilder {
     private const val LOG_TAG = "AppFeature"
 
     fun build(
@@ -46,7 +46,7 @@ object AppFeatureBuilder {
         notificationsInteractor: NotificationInteractor,
         pushNotificationsInteractor: PushNotificationsInteractor,
         welcomeOnboardingReducer: WelcomeOnboardingReducer,
-        welcomeOnboardingDispatcher: WelcomeOnboardingDispatcher,
+        welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher,
         platform: Platform,
         logger: Logger,
         buildVariant: BuildVariant
@@ -83,7 +83,7 @@ object AppFeatureBuilder {
                 )
             )
             .wrapWithActionDispatcher(
-                welcomeOnboardingDispatcher.transform(
+                welcomeOnboardingActionDispatcher.transform(
                     transformAction = { it.safeCast<Action.WelcomeOnboardingAction>()?.action },
                     transformMessage = Message::WelcomeOnboardingMessage
                 )

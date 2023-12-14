@@ -102,6 +102,7 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
+        #warning("TODO: Code dublication, see handleWelcomeOnboardingViewAction(_:)")
         let viewControllerToPresent: UIViewController = {
             switch viewAction {
             case .onboardingScreen:
@@ -232,18 +233,22 @@ extension AppViewController: AppViewControllerProtocol {
             route()
         }
     }
-    
+
     private func handleWelcomeOnboardingViewAction(
         _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
     ) {
+        #warning("TODO: Code dublication, see handleNavigateToViewAction(_:)")
         let viewControllerToPresent: UIViewController = {
             switch viewAction {
-            case .navigateTo(let welcomeOnboardingFeatureViewActionNavigateTo):
-                switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(welcomeOnboardingFeatureViewActionNavigateTo) {
-                case .firstProblemOnBoardingScreen(let data):
-                    let assembly = FirstProblemOnboardingAssembly(isNewUserMode: data.isNewUserMode, output: viewModel)
+            case .navigateTo(let navigateToViewAction):
+                switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+                case .firstProblemOnboardingScreen(let data):
+                    let assembly = FirstProblemOnboardingAssembly(
+                        isNewUserMode: data.isNewUserMode,
+                        output: viewModel
+                    )
                     return assembly.makeModule()
-                case .notificationOnBoardingScreen:
+                case .notificationOnboardingScreen:
                     let assembly = NotificationsOnboardingAssembly(output: viewModel)
                     return assembly.makeModule()
                 case .studyPlanWithStep(let navigateToStudyPlanWithStepViewAction):
@@ -259,7 +264,10 @@ extension AppViewController: AppViewControllerProtocol {
 
                     DispatchQueue.main.async {
                         let index = tabBarController.selectedIndex
-                        guard let navigationController = tabBarController.children[index] as? UINavigationController else {
+
+                        guard
+                            let navigationController = tabBarController.children[index] as? UINavigationController
+                        else {
                             return assertionFailure("Expected UINavigationController")
                         }
 
@@ -271,6 +279,7 @@ extension AppViewController: AppViewControllerProtocol {
                 }
             }
         }()
+
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
                 return false

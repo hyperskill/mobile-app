@@ -20,7 +20,7 @@ import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcr
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class AppActionDispatcher(
+internal class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val appInteractor: AppInteractor,
     private val authInteractor: AuthInteractor,

@@ -7,7 +7,7 @@ import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
+internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
     private val streakRecoveryComponent: StreakRecoveryComponent =
         appGraph.buildStreakRecoveryComponent()
 
@@ -34,7 +34,7 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
             welcomeOnboardingComponent.welcomeOnboardingReducer,
-            welcomeOnboardingComponent.welcomeOnboardingDispatcher,
+            welcomeOnboardingComponent.welcomeOnboardingActionDispatcher,
             appGraph.commonComponent.platform,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant

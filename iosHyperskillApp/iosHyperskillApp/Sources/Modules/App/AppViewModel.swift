@@ -211,7 +211,7 @@ private extension AppViewModel {
     func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
         onViewAction?(
             AppFeatureActionViewActionWelcomeOnboardingViewAction(
-                viewAction: WelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnBoardingScreen(
+                viewAction: WelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnboardingScreen(
                     isNewUserMode: true
                 )
             )

@@ -4,10 +4,11 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalAction
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalMessage
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class WelcomeOnboardingDispatcher(
+class WelcomeOnboardingActionDispatcher(
     config: ActionDispatcherOptions,
     private val onboardingInteractor: OnboardingInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -15,14 +16,14 @@ class WelcomeOnboardingDispatcher(
         when (action) {
             InternalAction.FetchNotificationOnboardingData -> {
                 onNewMessage(
-                    Message.NotificationOnboardingDataFetched(
-                        wasNotificationOnBoardingShown = onboardingInteractor.wasNotificationOnboardingShown()
+                    InternalMessage.NotificationOnboardingDataFetched(
+                        wasNotificationOnboardingShown = onboardingInteractor.wasNotificationOnboardingShown()
                     )
                 )
             }
             InternalAction.FetchFirstProblemOnboardingData -> {
                 onNewMessage(
-                    Message.FirstProblemOnboardingDataFetched(
+                    InternalMessage.FirstProblemOnboardingDataFetched(
                         wasFirstProblemOnboardingShown = onboardingInteractor.wasFirstProblemOnboardingShown()
                     )
                 )
