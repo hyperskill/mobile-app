@@ -12,12 +12,14 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.profile.stub
 
 class AppFeatureTest {
     private val appReducer = AppReducer(
         StreakRecoveryReducer(),
         NotificationClickHandlingReducer(),
+        WelcomeOnboardingReducer(),
         PlatformType.ANDROID
     )
 

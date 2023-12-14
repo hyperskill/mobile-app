@@ -5,8 +5,8 @@ import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 
 interface AppFeature {
     @Serializable
@@ -20,17 +20,11 @@ interface AppFeature {
         @Serializable
         object NetworkError : State
 
-        /**
-         * [profile] is used to temporarily store profile
-         * while handling [Action.ViewAction.NavigateTo.NotificationOnBoardingScreen].
-         *
-         * @see [AppReducer] for [Message.UserAuthorized] & [Message.NotificationOnboardingCompleted] handling.
-         */
         @Serializable
         data class Ready(
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
-            internal val profile: Profile? = null
+            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State()
         ) : State
     }
 
@@ -52,12 +46,6 @@ interface AppFeature {
         ) : Message
         data class UserDeauthorized(val reason: Reason) : Message
 
-        data class NotificationOnboardingDataFetched(val wasNotificationOnBoardingShown: Boolean) : Message
-        object NotificationOnboardingCompleted : Message
-
-        data class FirstProblemOnboardingDataFetched(val wasFirstProblemOnboardingShown: Boolean) : Message
-        data class FirstProblemOnboardingCompleted(val firstProblemStepRoute: StepRoute?) : Message
-
         object OpenAuthScreen : Message
         object OpenNewUserScreen : Message
 
@@ -73,6 +61,10 @@ interface AppFeature {
         data class NotificationClickHandlingMessage(
             val message: NotificationClickHandlingFeature.Message
         ) : Message
+
+        data class WelcomeOnboardingMessage(
+            val message: WelcomeOnboardingFeature.Message
+        ) : Message
     }
 
     sealed interface Action {
@@ -84,9 +76,6 @@ interface AppFeature {
 
         object SendPushNotificationsToken : Action
 
-        object FetchNotificationOnboardingData : Action
-        object FetchFirstProblemOnboardingData : Action
-
         /**
          * Action Wrappers
          */
@@ -94,6 +83,10 @@ interface AppFeature {
 
         data class ClickedNotificationAction(
             val action: NotificationClickHandlingFeature.Action
+        ) : Action
+
+        data class WelcomeOnboardingAction(
+            val action: WelcomeOnboardingFeature.Action
         ) : Action
 
         /**
@@ -107,11 +100,6 @@ interface AppFeature {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object TrackSelectionScreen : NavigateTo
                 object OnboardingScreen : NavigateTo
-
-                object NotificationOnBoardingScreen : NavigateTo
-
-                data class FirstProblemOnBoardingScreen(val isNewUserMode: Boolean) : NavigateTo
-                data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
                 object StudyPlan : NavigateTo
             }
 
@@ -122,6 +110,10 @@ interface AppFeature {
 
             data class ClickedNotificationViewAction(
                 val viewAction: NotificationClickHandlingFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class WelcomeOnboardingViewAction(
+                val viewAction: WelcomeOnboardingFeature.Action.ViewAction
             ) : ViewAction
         }
     }

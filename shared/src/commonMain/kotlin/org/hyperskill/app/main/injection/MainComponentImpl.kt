@@ -4,14 +4,18 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
+internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
     private val streakRecoveryComponent: StreakRecoveryComponent =
         appGraph.buildStreakRecoveryComponent()
 
     private val clickedNotificationComponent: NotificationClickHandlingComponent =
         appGraph.buildClickedNotificationComponent()
+
+    private val welcomeOnboardingComponent: WelcomeOnboardingComponent =
+        appGraph.buildWelcomeOnboardingComponent()
 
     override fun appFeature(
         initialState: AppFeature.State?
@@ -29,7 +33,8 @@ class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
             clickedNotificationComponent.notificationClickHandlingDispatcher,
             appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
-            appGraph.buildOnboardingComponent().onboardingInteractor,
+            welcomeOnboardingComponent.welcomeOnboardingReducer,
+            welcomeOnboardingComponent.welcomeOnboardingActionDispatcher,
             appGraph.commonComponent.platform,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant

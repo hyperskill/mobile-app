@@ -9,9 +9,9 @@ final class OnboardingAssembly: Assembly {
     }
 
     func makeModule() -> OnboardingView {
-        let onboardingComponent = AppGraphBridge.sharedAppGraph.buildOnboardingComponent()
+        let welcomeComponent = AppGraphBridge.sharedAppGraph.buildWelcomeComponent()
 
-        let viewModel = OnboardingViewModel(feature: onboardingComponent.onboardingFeature)
+        let viewModel = OnboardingViewModel(feature: welcomeComponent.welcomeFeature)
         viewModel.moduleOutput = self.moduleOutput
 
         return OnboardingView(viewModel: viewModel)
