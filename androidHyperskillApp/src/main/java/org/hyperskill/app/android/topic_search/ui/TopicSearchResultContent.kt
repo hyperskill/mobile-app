@@ -94,9 +94,7 @@ private fun TopicSearchResultItemPreview() {
     HyperskillTheme {
         TopicSearchResultItem(
             title = "Basic data types",
-            onClick = {
-
-            }
+            onClick = {}
         )
     }
 }

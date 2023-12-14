@@ -105,7 +105,6 @@ class TopicSearchDialogFragment : DialogFragment() {
                 }
             }
         }
-
     }
 
     private fun setupToolbar() {
