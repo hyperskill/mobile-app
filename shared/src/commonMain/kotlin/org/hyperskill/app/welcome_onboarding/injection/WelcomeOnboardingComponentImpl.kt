@@ -13,6 +13,6 @@ class WelcomeOnboardingComponentImpl(
     override val welcomeOnboardingDispatcher: WelcomeOnboardingDispatcher
         get() = WelcomeOnboardingDispatcher(
             config = ActionDispatcherOptions(),
-            onboardingInteractor = appGraph.buildOnboardingComponent().onboardingInteractor
+            onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor
         )
 }

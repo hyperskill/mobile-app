@@ -7,12 +7,12 @@ import org.hyperskill.app.onboarding.data.source.OnboardingCacheDataSource
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.onboarding.domain.repository.OnboardingRepository
 
-class OnboardingComponentImpl(appGraph: AppGraph) : OnboardingComponent {
-    private val onboardingCacheDataSource: OnboardingCacheDataSource = OnboardingCacheDataSourceImpl(
-        appGraph.commonComponent.settings
-    )
+internal class OnboardingDataComponentImpl(appGraph: AppGraph) : OnboardingDataComponent {
+    private val onboardingCacheDataSource: OnboardingCacheDataSource =
+        OnboardingCacheDataSourceImpl(appGraph.commonComponent.settings)
 
-    private val onboardingRepository: OnboardingRepository = OnboardingRepositoryImpl(onboardingCacheDataSource)
+    private val onboardingRepository: OnboardingRepository =
+        OnboardingRepositoryImpl(onboardingCacheDataSource)
 
     override val onboardingInteractor: OnboardingInteractor
         get() = OnboardingInteractor(onboardingRepository)
