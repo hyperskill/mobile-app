@@ -17,14 +17,19 @@ final class NotificationsOnboardingAssembly: UIKitAssembly {
         )
         notificationsOnboardingViewModel.moduleOutput = moduleOutput
 
+        let panModalPresenter = PanModalPresenter()
+
         let notificationsOnboardingView = NotificationsOnboardingView(
-            viewModel: notificationsOnboardingViewModel
+            viewModel: notificationsOnboardingViewModel,
+            panModalPresenter: panModalPresenter
         )
 
         let hostingController = StyledHostingController(
             rootView: notificationsOnboardingView
         )
         hostingController.navigationItem.largeTitleDisplayMode = .never
+
+        panModalPresenter.rootViewController = hostingController
 
         return hostingController
     }
