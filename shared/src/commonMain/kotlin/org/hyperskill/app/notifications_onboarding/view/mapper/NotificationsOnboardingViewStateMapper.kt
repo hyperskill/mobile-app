@@ -5,7 +5,6 @@ import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnb
 internal object NotificationsOnboardingViewStateMapper {
     fun mapState(state: NotificationsOnboardingFeature.State): NotificationsOnboardingFeature.ViewState =
         NotificationsOnboardingFeature.ViewState(
-            dailyStudyRemindersStartHour = state.dailyStudyRemindersStartHour,
             formattedDailyStudyRemindersInterval = formatDailyStudyRemindersInterval(
                 startHour = state.dailyStudyRemindersStartHour
             )
