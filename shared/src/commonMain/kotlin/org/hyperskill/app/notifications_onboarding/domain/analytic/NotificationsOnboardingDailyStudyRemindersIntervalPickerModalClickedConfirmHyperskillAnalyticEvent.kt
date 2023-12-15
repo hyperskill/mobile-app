@@ -15,7 +15,11 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/onboarding/notifications",
  *     "action": "click",
  *     "part": "daily_study_reminders_hour_interval_picker_modal",
- *     "target": "confirm"
+ *     "target": "confirm",
+ *     "context":
+ *     {
+ *         "start_hour": 12
+ *     }
  * }
  * ```
  *
