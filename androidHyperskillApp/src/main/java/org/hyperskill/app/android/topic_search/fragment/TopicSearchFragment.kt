@@ -78,6 +78,9 @@ class TopicSearchFragment : Fragment(R.layout.fragment_search_topic) {
 
     private fun setupToolbar() {
         with(viewBinding) {
+            topicSearchToolbar.setNavigationOnClickListener {
+                requireRouter().exit()
+            }
             topicSearchClearButton.isVisible = topicSearchEditText.text.isNotEmpty()
             topicSearchClearButton.setOnClickListener {
                 topicSearchEditText.text.clear()
