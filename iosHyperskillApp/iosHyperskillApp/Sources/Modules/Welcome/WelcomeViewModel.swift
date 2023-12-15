@@ -1,12 +1,12 @@
 import Foundation
 import shared
 
-final class OnboardingViewModel: FeatureViewModel<
+final class WelcomeViewModel: FeatureViewModel<
   WelcomeFeatureState,
   WelcomeFeatureMessage,
   WelcomeFeatureActionViewAction
 > {
-    weak var moduleOutput: OnboardingOutputProtocol?
+    weak var moduleOutput: WelcomeOutputProtocol?
 
     var stateKs: WelcomeFeatureStateKs { .init(state) }
 
@@ -22,7 +22,7 @@ final class OnboardingViewModel: FeatureViewModel<
         WelcomeFeatureStateKs(oldState) != WelcomeFeatureStateKs(newState)
     }
 
-    func doRetryLoadOnboarding() {
+    func doRetryContentLoading() {
         onNewMessage(WelcomeFeatureMessageInitialize(forceUpdate: true))
     }
 
@@ -32,15 +32,15 @@ final class OnboardingViewModel: FeatureViewModel<
 
     func doSecondaryButtonAction() {
         onNewMessage(WelcomeFeatureMessageClickedSignInEventMessage())
-        moduleOutput?.handleOnboardingSignInRequested()
+        moduleOutput?.handleWelcomeSignInRequested()
     }
 
     func doSignInPresentation() {
-        moduleOutput?.handleOnboardingSignInRequested()
+        moduleOutput?.handleWelcomeSignInRequested()
     }
 
     func doSignUpPresentation(isInSignUpMode: Bool) {
-        moduleOutput?.handleOnboardingSignUpRequested(isInSignUpMode: isInSignUpMode)
+        moduleOutput?.handleWelcomeSignUpRequested(isInSignUpMode: isInSignUpMode)
     }
 
     // MARK: Analytic

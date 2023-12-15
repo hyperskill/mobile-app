@@ -107,14 +107,14 @@ extension AppViewModel: AuthOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: OnboardingOutputProtocol -
+// MARK: - AppViewModel: WelcomeOutputProtocol -
 
-extension AppViewModel: OnboardingOutputProtocol {
-    func handleOnboardingSignInRequested() {
+extension AppViewModel: WelcomeOutputProtocol {
+    func handleWelcomeSignInRequested() {
         onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: false))
     }
 
-    func handleOnboardingSignUpRequested(isInSignUpMode: Bool) {
+    func handleWelcomeSignUpRequested(isInSignUpMode: Bool) {
         if isInSignUpMode {
             onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: isInSignUpMode))
         } else {
