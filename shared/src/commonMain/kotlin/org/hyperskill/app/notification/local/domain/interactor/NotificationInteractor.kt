@@ -1,7 +1,5 @@
 package org.hyperskill.app.notification.local.domain.interactor
 
-import kotlin.time.DurationUnit
-import kotlin.time.toDuration
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atTime
@@ -13,18 +11,14 @@ import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnab
 import org.hyperskill.app.notification.local.domain.repository.NotificationRepository
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class NotificationInteractor(
     private val notificationRepository: NotificationRepository,
-    private val submissionRepository: SubmissionRepository,
     private val dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val profileRepository: ProfileRepository
 ) {
     companion object {
-        private val TWO_DAYS_IN_MILLIS = 2.toDuration(DurationUnit.DAYS).inWholeMilliseconds
-        private const val MAX_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT = 3
         private const val UTC_TIME_ZONE_ID = "UTC"
     }
 
@@ -56,31 +50,6 @@ class NotificationInteractor(
 
     fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         notificationRepository.getRandomDailyStudyRemindersNotificationDescription()
-
-    fun isRequiredToAskUserToEnableDailyReminders(): Boolean {
-        if (notificationRepository.isDailyStudyRemindersEnabled()) {
-            return false
-        }
-
-        val isFirstStepSolved = submissionRepository.getSolvedStepsCount() >= 1L
-
-        val lastTimeAsked = notificationRepository.getLastTimeUserAskedToEnableDailyReminders() ?: return true
-        val isAskedAtLeastTwoDaysAgo = (lastTimeAsked + TWO_DAYS_IN_MILLIS) <= Clock.System.now().toEpochMilliseconds()
-
-        val isNotReachedMaxUserAskedCount =
-            getUserAskedToEnableDailyRemindersCount() < MAX_USER_ASKED_TO_ENABLE_DAILY_REMINDERS_COUNT
-
-        return isFirstStepSolved && isAskedAtLeastTwoDaysAgo && isNotReachedMaxUserAskedCount
-    }
-
-    fun updateLastTimeUserAskedToEnableDailyReminders() {
-        notificationRepository.setLastTimeUserAskedToEnableDailyReminders(
-            Clock.System.now().toEpochMilliseconds()
-        )
-    }
-
-    private fun getUserAskedToEnableDailyRemindersCount(): Long =
-        notificationRepository.getUserAskedToEnableDailyRemindersCount()
 
     /**
      * Sets the daily study reminder notification time & set current timeZone

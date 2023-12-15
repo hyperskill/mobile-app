@@ -117,21 +117,4 @@ class NotificationCacheDataSourceImpl(
                 resourceProvider.getString(strings.notification14_text)
             )
         )
-
-    override fun getLastTimeUserAskedToEnableDailyReminders(): Long? =
-        settings.getLongOrNull(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_LAST_TIME_USER_ASKED_TO_ENABLE)
-
-    override fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long) {
-        settings.putLong(
-            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_LAST_TIME_USER_ASKED_TO_ENABLE,
-            timestamp
-        )
-        settings.putLong(
-            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_USER_ASKED_TO_ENABLE_COUNT,
-            getUserAskedToEnableDailyRemindersCount() + 1
-        )
-    }
-
-    override fun getUserAskedToEnableDailyRemindersCount(): Long =
-        settings.getLong(NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_USER_ASKED_TO_ENABLE_COUNT, 0)
 }

@@ -10,12 +10,10 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailySte
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalClickedShareStreakHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedNoThanksHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedShareHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent
@@ -158,28 +156,6 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 } else {
                     null
                 }
-            Message.RequestDailyStudyRemindersPermission -> {
-                state to setOfNotNull(
-                    Action.ViewAction.RequestDailyStudyRemindersPermission,
-                    Action.LogAnalyticEvent(
-                        StepCompletionShownDailyNotificationsNoticeHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
-            }
-            is Message.RequestDailyStudyRemindersPermissionResult -> {
-                val analyticEvent = StepCompletionHiddenDailyNotificationsNoticeHyperskillAnalyticEvent(
-                    route = stepRoute.analyticRoute,
-                    isAgreed = message.isGranted
-                )
-                state to setOf(
-                    if (message.isGranted) {
-                        Action.TurnOnDailyStudyReminder
-                    } else {
-                        Action.PostponeDailyStudyReminder
-                    },
-                    Action.LogAnalyticEvent(analyticEvent)
-                )
-            }
             is Message.ShareStreak -> {
                 state to setOf(Action.ViewAction.ShowShareStreakModal(streak = message.streak))
             }

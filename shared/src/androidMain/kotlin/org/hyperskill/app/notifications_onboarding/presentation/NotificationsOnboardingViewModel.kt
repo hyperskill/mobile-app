@@ -4,8 +4,8 @@ import org.hyperskill.app.core.flowredux.presentation.FlowView
 import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message
-import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.State
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.ViewState
 
 class NotificationsOnboardingViewModel(
-    viewContainer: FlowView<State, Message, ViewAction>
-) : ReduxFlowViewModel<State, Message, ViewAction>(viewContainer)
+    viewContainer: FlowView<ViewState, Message, ViewAction>
+) : ReduxFlowViewModel<ViewState, Message, ViewAction>(viewContainer)
