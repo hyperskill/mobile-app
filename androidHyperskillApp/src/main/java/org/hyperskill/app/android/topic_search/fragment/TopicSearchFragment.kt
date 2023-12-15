@@ -90,7 +90,9 @@ class TopicSearchFragment : Fragment(R.layout.fragment_search_topic) {
             }
             topicSearchEditText.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    SearchFeature.Message.SearchClicked
+                    searchViewModel.onNewMessage(
+                        SearchFeature.Message.SearchClicked
+                    )
                 }
                 false
             }
