@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Allow notifications" button analytic event.
+ * Represents click on the "Remind me later" button analytic event.
  *
  * JSON payload:
  * ```
@@ -15,14 +15,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/onboarding/notifications",
  *     "action": "click",
  *     "part": "main",
- *     "target": "allow_notifications"
+ *     "target": "not_now"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-object NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
+object NotificationsOnboardingClickedNotNowHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.ALLOW_NOTIFICATIONS
+    target = HyperskillAnalyticTarget.NOT_NOW
 )

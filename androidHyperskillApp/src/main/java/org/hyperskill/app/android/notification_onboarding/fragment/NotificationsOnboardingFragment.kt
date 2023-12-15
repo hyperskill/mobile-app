@@ -108,6 +108,9 @@ class NotificationsOnboardingFragment : Fragment() {
             ViewAction.RequestNotificationPermission -> {
                 notificationPermissionDelegate?.requestNotificationPermission()
             }
+            is ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal -> {
+                // TODO: ALTAPPS-1071 show modal
+            }
         }
     }
 

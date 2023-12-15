@@ -38,6 +38,7 @@
         <item name="textAppearanceHeadline1">@style/TextAppearance.AppTheme.Headline1</item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.AppTheme.Headline2</item>
         <item name="textAppearanceHeadline3">@style/TextAppearance.AppTheme.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.AppTheme.Headline4</item>
         <item name="textAppearanceHeadline5">@style/TextAppearance.AppTheme.Headline5</item>
         <item name="textAppearanceHeadline6">@style/TextAppearance.AppTheme.Headline6</item>
 

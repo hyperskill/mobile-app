@@ -2,7 +2,7 @@ import Foundation
 import shared
 
 final class NotificationsOnboardingViewModel: FeatureViewModel<
-  NotificationsOnboardingFeature.State,
+  NotificationsOnboardingFeature.ViewState,
   NotificationsOnboardingFeatureMessage,
   NotificationsOnboardingFeatureActionViewAction
 > {
@@ -19,18 +19,18 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
     }
 
     override func shouldNotifyStateDidChange(
-        oldState: NotificationsOnboardingFeature.State,
-        newState: NotificationsOnboardingFeature.State
+        oldState: NotificationsOnboardingFeature.ViewState,
+        newState: NotificationsOnboardingFeature.ViewState
     ) -> Bool {
         false
     }
 
     func doPrimaryAction() {
-        onNewMessage(NotificationsOnboardingFeatureMessageAllowNotificationClicked())
+        onNewMessage(NotificationsOnboardingFeatureMessageAllowNotificationsClicked())
     }
 
     func doSecondaryAction() {
-        onNewMessage(NotificationsOnboardingFeatureMessageRemindMeLaterClicked())
+        onNewMessage(NotificationsOnboardingFeatureMessageNotNowClicked())
     }
 
     func doRequestNotificationPermission() {
