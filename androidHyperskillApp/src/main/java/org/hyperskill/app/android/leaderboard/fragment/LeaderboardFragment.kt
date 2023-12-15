@@ -118,8 +118,7 @@ class LeaderboardFragment : Fragment(R.layout.fragment_leaderboard) {
                 gamificationToolbarDelegate?.onAction(
                     action = action.viewAction,
                     mainScreenRouter = mainScreenRouter,
-                    router = requireRouter(),
-                    fragmentManager = childFragmentManager
+                    router = requireRouter()
                 )
             }
             is LeaderboardScreenFeature.Action.ViewAction.LeaderboardWidgetViewAction ->

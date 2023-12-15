@@ -1,11 +1,8 @@
 package org.hyperskill.app.android.topic_search.fragment
 
-import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -13,7 +10,7 @@ import android.widget.Toast
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -27,33 +24,30 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.databinding.DialogSearchTopicBinding
+import org.hyperskill.app.android.databinding.FragmentSearchTopicBinding
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topic_search.ui.TopicSearchResult
-import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.search.presentation.SearchFeature
 import org.hyperskill.app.search.presentation.SearchViewModel
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
-class TopicSearchDialogFragment : DialogFragment() {
+class TopicSearchFragment : Fragment(R.layout.fragment_search_topic) {
 
     companion object {
         private const val TALKBACK_FOCUS_CHANGE_DELAY_MS: Long = 100
-        const val TAG = "TopicSearchDialogFragment"
 
-        fun newInstance(): TopicSearchDialogFragment =
-            TopicSearchDialogFragment()
+        fun newInstance(): TopicSearchFragment =
+            TopicSearchFragment()
     }
 
     private var viewModelFactory: ViewModelProvider.Factory? = null
     private val searchViewModel: SearchViewModel by viewModels { requireNotNull(viewModelFactory) }
 
-    private val viewBinding: DialogSearchTopicBinding by viewBinding(DialogSearchTopicBinding::bind)
+    private val viewBinding: FragmentSearchTopicBinding by viewBinding(FragmentSearchTopicBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
         injectComponent()
         searchViewModel.handleActions(this, ::handleAction)
     }
@@ -61,31 +55,6 @@ class TopicSearchDialogFragment : DialogFragment() {
     private fun injectComponent() {
         viewModelFactory =
             HyperskillApp.graph().buildPlatformSearchComponent().reduxViewModelFactory
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        super.onCreateDialog(savedInstanceState).apply {
-            setCanceledOnTouchOutside(false)
-            setCancelable(false)
-        }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? =
-        inflater.wrapWithTheme(requireActivity())
-            .inflate(R.layout.dialog_search_topic, container, false)
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.let { window ->
-            window.setLayout(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            window.setWindowAnimations(R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
-        }
     }
 
     override fun onResume() {
@@ -109,7 +78,6 @@ class TopicSearchDialogFragment : DialogFragment() {
 
     private fun setupToolbar() {
         with(viewBinding) {
-            topicSearchToolbar.setNavigationOnClickListener { dismiss() }
             topicSearchClearButton.isVisible = topicSearchEditText.text.isNotEmpty()
             topicSearchClearButton.setOnClickListener {
                 topicSearchEditText.text.clear()
@@ -131,7 +99,7 @@ class TopicSearchDialogFragment : DialogFragment() {
         setupEditTextRendering()
     }
 
-    fun requestFocusAndShowKeyboard(
+    private fun requestFocusAndShowKeyboard(
         editText: EditText,
     ) {
         // Without a delay requesting focus on edit text fails when talkback is active.
@@ -160,7 +128,6 @@ class TopicSearchDialogFragment : DialogFragment() {
         when (action) {
             is SearchFeature.Action.ViewAction.OpenStepScreen -> {
                 requireRouter().navigateTo(StepScreen(action.stepRoute))
-                dismiss()
             }
             is SearchFeature.Action.ViewAction.OpenStepScreenFailed -> {
                 Toast.makeText(

@@ -3,7 +3,6 @@ package org.hyperskill.app.android.gamification_toolbar.view.ui.delegate
 import android.content.Context
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.appbar.AppBarLayout
@@ -13,12 +12,11 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.progress.navigation.ProgressScreen
-import org.hyperskill.app.android.topic_search.fragment.TopicSearchDialogFragment
+import org.hyperskill.app.android.topic_search.navigation.TopicSearchScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
@@ -77,8 +75,7 @@ class GamificationToolbarDelegate(
     fun onAction(
         action: GamificationToolbarFeature.Action.ViewAction,
         mainScreenRouter: MainScreenRouter,
-        router: Router,
-        fragmentManager: FragmentManager
+        router: Router
     ) {
         when (action) {
             is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
@@ -86,8 +83,7 @@ class GamificationToolbarDelegate(
             GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen ->
                 router.navigateTo(ProgressScreen)
             GamificationToolbarFeature.Action.ViewAction.ShowSearchScreen -> {
-                TopicSearchDialogFragment.newInstance()
-                    .showIfNotExists(fragmentManager, TopicSearchDialogFragment.TAG)
+                router.navigateTo(TopicSearchScreen)
             }
         }
     }

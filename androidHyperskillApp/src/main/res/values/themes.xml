@@ -114,8 +114,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowBackground">@color/color_background</item>
-        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+        <!--<item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>-->
+        <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
     <style name="ThemeOverlay.Blue" parent="ThemeOverlay.MaterialComponents">
