@@ -47,6 +47,14 @@ Builds iOS App without packaging.
 
 Options: scheme, target, install_pods
 
+### ios sentry_upload_shared_framework_dsym
+
+```sh
+[bundle exec] fastlane ios sentry_upload_shared_framework_dsym
+```
+
+Uploads shared framework dSYM to Sentry
+
 ### ios run_unit_tests
 
 ```sh
