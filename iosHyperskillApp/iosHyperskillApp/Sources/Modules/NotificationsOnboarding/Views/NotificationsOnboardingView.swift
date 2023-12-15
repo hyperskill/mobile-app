@@ -12,6 +12,8 @@ struct NotificationsOnboardingView: View {
 
     @StateObject var viewModel: NotificationsOnboardingViewModel
 
+    let panModalPresenter: PanModalPresenter
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -19,6 +21,8 @@ struct NotificationsOnboardingView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             NotificationsOnboardingContentView(
+                formattedDailyStudyRemindersInterval: viewModel.state.formattedDailyStudyRemindersInterval,
+                onDailyStudyRemindsIntervalButtonTap: viewModel.doDailyStudyRemindsIntervalButtonAction,
                 onPrimaryButtonTap: viewModel.doPrimaryAction,
                 onSecondaryButtonTap: viewModel.doSecondaryAction
             )
@@ -45,18 +49,36 @@ private extension NotificationsOnboardingView {
             viewModel.doCompleteOnboarding()
         case .requestNotificationPermission:
             viewModel.doRequestNotificationPermission()
-        case .showDailyStudyRemindersIntervalStartHourPickerModal:
-            #warning("TODO: ALTAPPS-1070 handle this")
+        case .showDailyStudyRemindersIntervalStartHourPickerModal(let data):
+            let panModal = ProfileDailyStudyRemindersPickerViewController(
+                rows: data.intervals,
+                initialRowIndex: Int(data.dailyStudyRemindersStartHour),
+                onDidConfirmRow: { [weak viewModel, weak panModalPresenter] selectedIntervalIndex in
+                    guard let viewModel,
+                          let panModalPresenter else {
+                        return
+                    }
+
+                    viewModel.doDailyStudyRemindsIntervalStartHourSelected(startHour: selectedIntervalIndex)
+                    panModalPresenter.dismissPanModal()
+                }
+            )
+
+            panModal.onDidAppear = { [weak viewModel] in
+                viewModel?.logDailyStudyRemindersIntervalStartHourPickerModalShownEvent()
+            }
+            panModal.onDidDisappear = { [weak viewModel] in
+                viewModel?.logDailyStudyRemindersIntervalStartHourPickerModalHiddenEvent()
+            }
+
+            panModalPresenter.presentPanModal(panModal)
         }
     }
 }
 
-// MARK: - NotificationsOnboardingView_Previews: PreviewProvider -
+// MARK: - Preview -
 
-struct NotificationsOnboardingView_Previews: PreviewProvider {
-    static var previews: some View {
-        UIKitViewControllerPreview {
-            NotificationsOnboardingAssembly(output: nil).makeModule()
-        }
-    }
+@available(iOS 17, *)
+#Preview {
+    NotificationsOnboardingAssembly(output: nil).makeModule()
 }

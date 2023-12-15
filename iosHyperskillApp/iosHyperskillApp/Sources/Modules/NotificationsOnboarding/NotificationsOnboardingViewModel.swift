@@ -22,7 +22,7 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
         oldState: NotificationsOnboardingFeature.ViewState,
         newState: NotificationsOnboardingFeature.ViewState
     ) -> Bool {
-        false
+        !oldState.isEqual(newState)
     }
 
     func doPrimaryAction() {
@@ -31,6 +31,18 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
 
     func doSecondaryAction() {
         onNewMessage(NotificationsOnboardingFeatureMessageNotNowClicked())
+    }
+
+    func doDailyStudyRemindsIntervalButtonAction() {
+        onNewMessage(NotificationsOnboardingFeatureMessageDailyStudyRemindsIntervalHourClicked())
+    }
+
+    func doDailyStudyRemindsIntervalStartHourSelected(startHour: Int) {
+        onNewMessage(
+            NotificationsOnboardingFeatureMessageDailyStudyRemindsIntervalStartHourSelected(
+                startHour: Int32(startHour)
+            )
+        )
     }
 
     func doRequestNotificationPermission() {
@@ -55,5 +67,17 @@ final class NotificationsOnboardingViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(NotificationsOnboardingFeatureMessageViewedEventMessage())
+    }
+
+    func logDailyStudyRemindersIntervalStartHourPickerModalShownEvent() {
+        onNewMessage(
+            NotificationsOnboardingFeatureMessageDailyStudyRemindersIntervalStartHourPickerModalShownEventMessage()
+        )
+    }
+
+    func logDailyStudyRemindersIntervalStartHourPickerModalHiddenEvent() {
+        onNewMessage(
+            NotificationsOnboardingFeatureMessageDailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage()
+        )
     }
 }
