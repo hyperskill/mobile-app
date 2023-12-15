@@ -14,7 +14,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     RUN("run"),
     ALLOW("allow"),
     DENY("deny"),
-    LATER("later"),
     OK("ok"),
     CANCEL("cancel"),
     DELETE("delete"),
@@ -34,7 +33,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SETTINGS("settings"),
     DAILY_STUDY_REMINDS("daily_study_reminds"),
     DAILY_STUDY_REMINDS_TIME("daily_study_reminds_time"),
-    DAILY_NOTIFICATIONS_NOTICE("daily_notifications_notice"),
     DAILY_NOTIFICATION("daily_notification"),
     CONTINUE("continue"),
     RELOAD("reload"),
@@ -97,7 +95,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     ALLOW_NOTIFICATIONS("allow_notifications"),
     KEEP_LEARNING("keep_learning"),
     START_LEARNING("start_learning"),
-    REMIND_ME_LATER("remind_me_later"),
+    NOT_NOW("not_now"),
     FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
     CODE_INPUT_ACCESSORY_BUTTON("code_input_accessory_button"),
     SHARE_YOUR_STREAK("share_your_streak"),
@@ -108,5 +106,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAY("day"),
     WEEK("week"),
     LEADERBOARD_ITEM("leaderboard_item"),
-    TOPIC("topic")
+    TOPIC("topic"),
+    DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal"),
+    CONFIRM("confirm")
 }
