@@ -151,12 +151,6 @@ enum Images {
         }
     }
 
-    // MARK: - NotificationsOnboarding -
-
-    enum NotificationsOnboarding {
-        static let illustration = "notifications-onboarding-illustration"
-    }
-
     // MARK: - TopicsRepetitions -
 
     enum TopicsRepetitions {
