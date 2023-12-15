@@ -12,31 +12,31 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.progress.navigation.ProgressScreen
+import org.hyperskill.app.android.topic_search.navigation.TopicSearchScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
     private val context: Context,
     private val viewBinding: LayoutGamificationToolbarBinding,
-    onNewMessage: (GamificationToolbarFeature.Message) -> Unit
+    onNewMessage: (Message) -> Unit
 ) {
 
     init {
         with(viewBinding) {
             gamificationAppBar.setElevationOnCollapsed(lifecycleOwner.lifecycle)
             gamificationAppBar.setExpanded(true)
-
             gamificationStreakDurationTextView.setOnClickListener {
-                onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedStreak
-                )
+                onNewMessage(Message.ClickedStreak)
             }
             gamificationTrackProgressLinearLayout.setOnClickListener {
-                onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedProgress
-                )
+                onNewMessage(Message.ClickedProgress)
+            }
+            gamificationSearchButton.setOnClickListener {
+                onNewMessage(Message.ClickedSearch)
             }
         }
     }
@@ -68,6 +68,7 @@ class GamificationToolbarDelegate(
                     viewBinding.gamificationTrackProgressTextView.text = progress.formattedValue
                 }
             }
+            viewBinding.gamificationSearchButton.isVisible = true
         }
     }
 
@@ -82,7 +83,7 @@ class GamificationToolbarDelegate(
             GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen ->
                 router.navigateTo(ProgressScreen)
             GamificationToolbarFeature.Action.ViewAction.ShowSearchScreen -> {
-                // TODO: ALTAPPS-1059 Show search screen
+                router.navigateTo(TopicSearchScreen)
             }
         }
     }
