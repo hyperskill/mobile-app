@@ -76,7 +76,8 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                     Action.ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal(
                         intervals = (0..23).map { hour ->
                             NotificationsOnboardingViewStateMapper.formatDailyStudyRemindersInterval(startHour = hour)
-                        }
+                        },
+                        dailyStudyRemindersStartHour = state.dailyStudyRemindersStartHour
                     )
                 )
             }
