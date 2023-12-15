@@ -393,9 +393,6 @@
     <string name="onboarding_text">Code a little every day, wherever you are.</string>
     <string name="onboarding_primary_button_text">Start for free</string>
     <string name="onboarding_secondary_button_text">I already have an account</string>
-    <!-- TODO: ALTAPPS-1068 delete this resources -->
-    <string name="onboarding_sign_in">Sign in</string>
-    <string name="onboarding_sign_up">Sign up</string>
 
     <!--  Notifications onboarding  -->
     <!-- TODO: ALTAPPS-1071 delete this string resources notifications_onboarding_title, notifications_onboarding_description -->
