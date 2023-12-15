@@ -17,9 +17,7 @@ struct NotificationsOnboardingContentView: View {
 
     private let actionButtonsFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
-    let dailyStudyRemindersStartHour: Int
     let formattedDailyStudyRemindersInterval: String
-
     let onDailyStudyRemindsIntervalButtonTap: () -> Void
 
     let onPrimaryButtonTap: () -> Void
@@ -122,7 +120,6 @@ struct NotificationsOnboardingContentView: View {
 struct NotificationsOnboardingContentView_Previews: PreviewProvider {
     static var previews: some View {
         NotificationsOnboardingContentView(
-            dailyStudyRemindersStartHour: 12,
             formattedDailyStudyRemindersInterval: "12:00 – 13:00",
             onDailyStudyRemindsIntervalButtonTap: {},
             onPrimaryButtonTap: {},
@@ -131,7 +128,6 @@ struct NotificationsOnboardingContentView_Previews: PreviewProvider {
         .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
 
         NotificationsOnboardingContentView(
-            dailyStudyRemindersStartHour: 12,
             formattedDailyStudyRemindersInterval: "12:00 – 13:00",
             onDailyStudyRemindsIntervalButtonTap: {},
             onPrimaryButtonTap: {},

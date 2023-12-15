@@ -21,7 +21,6 @@ struct NotificationsOnboardingView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             NotificationsOnboardingContentView(
-                dailyStudyRemindersStartHour: Int(viewModel.state.dailyStudyRemindersStartHour),
                 formattedDailyStudyRemindersInterval: viewModel.state.formattedDailyStudyRemindersInterval,
                 onDailyStudyRemindsIntervalButtonTap: viewModel.doDailyStudyRemindsIntervalButtonAction,
                 onPrimaryButtonTap: viewModel.doPrimaryAction,
@@ -53,7 +52,7 @@ private extension NotificationsOnboardingView {
         case .showDailyStudyRemindersIntervalStartHourPickerModal(let data):
             let panModal = ProfileDailyStudyRemindersPickerViewController(
                 rows: data.intervals,
-                initialRowIndex: Int(viewModel.state.dailyStudyRemindersStartHour),
+                initialRowIndex: Int(data.dailyStudyRemindersStartHour),
                 onDidConfirmRow: { [weak viewModel, weak panModalPresenter] selectedIntervalIndex in
                     guard let viewModel,
                           let panModalPresenter else {
