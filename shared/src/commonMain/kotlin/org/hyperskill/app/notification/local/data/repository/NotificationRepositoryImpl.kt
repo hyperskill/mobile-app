@@ -37,14 +37,4 @@ class NotificationRepositoryImpl(
 
     override fun getRandomDailyStudyRemindersNotificationDescription(): NotificationDescription =
         notificationCacheDataSource.getRandomDailyStudyRemindersNotificationDescription()
-
-    override fun getLastTimeUserAskedToEnableDailyReminders(): Long? =
-        notificationCacheDataSource.getLastTimeUserAskedToEnableDailyReminders()
-
-    override fun setLastTimeUserAskedToEnableDailyReminders(timestamp: Long) {
-        notificationCacheDataSource.setLastTimeUserAskedToEnableDailyReminders(timestamp)
-    }
-
-    override fun getUserAskedToEnableDailyRemindersCount(): Long =
-        notificationCacheDataSource.getUserAskedToEnableDailyRemindersCount()
 }

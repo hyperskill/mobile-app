@@ -52,10 +52,10 @@ fun NotificationsOnboardingScreen(
     onNewMessage: (NotificationsOnboardingFeature.Message) -> Unit
 ) {
     val onAllowNotificationsClick by rememberUpdatedState {
-        onNewMessage(NotificationsOnboardingFeature.Message.AllowNotificationClicked)
+        onNewMessage(NotificationsOnboardingFeature.Message.AllowNotificationsClicked)
     }
     val onRemindMeLaterClick by rememberUpdatedState {
-        onNewMessage(NotificationsOnboardingFeature.Message.RemindMeLaterClicked)
+        onNewMessage(NotificationsOnboardingFeature.Message.NotNowClicked)
     }
     Column(
         modifier = Modifier
@@ -124,7 +124,7 @@ fun NotificationsOnboardingButtons(
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = stringResource(id = R.string.notifications_onboarding_button_later)
+                text = stringResource(id = R.string.notifications_onboarding_button_not_now)
             )
         }
     }

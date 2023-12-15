@@ -13,11 +13,15 @@
         <item name="elevation">0dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="backgroundTint">@color/button_primary</item>
+        <item name="android:textColor">@color/text_on_color</item>
     </style>
 
     <style name="Widget.AppTheme.Button.OutlinedButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="strokeColor">@color/button_tertiary</item>
+        <item name="android:textColor">@color/button_tertiary</item>
     </style>
 
     <style name="Widget.AppTheme.Button.OutlinedButton.Icon" parent="@style/Widget.Material3.Button.IconButton.Outlined">
