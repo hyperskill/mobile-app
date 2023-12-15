@@ -45,6 +45,8 @@ private extension NotificationsOnboardingView {
             viewModel.doCompleteOnboarding()
         case .requestNotificationPermission:
             viewModel.doRequestNotificationPermission()
+        case .showDailyStudyRemindersIntervalStartHourPickerModal:
+            #warning("TODO: ALTAPPS-1070 handle this")
         }
     }
 }

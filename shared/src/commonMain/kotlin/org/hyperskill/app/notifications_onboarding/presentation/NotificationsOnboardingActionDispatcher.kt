@@ -16,10 +16,13 @@ internal class NotificationsOnboardingActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            InternalAction.UpdateLastNotificationPermissionRequestTime ->
-                notificationInteractor.updateLastTimeUserAskedToEnableDailyReminders()
-            is InternalAction.LogAnalyticEvent ->
+            is InternalAction.SaveDailyStudyRemindersIntervalStartHour -> {
+                notificationInteractor.setDailyStudyRemindersEnabled(enabled = true)
+                notificationInteractor.setDailyStudyReminderNotificationTime(notificationHour = action.startHour)
+            }
+            is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
+            }
             else -> {
                 // no op
             }
