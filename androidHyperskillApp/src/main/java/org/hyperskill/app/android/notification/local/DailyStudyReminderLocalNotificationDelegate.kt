@@ -61,7 +61,7 @@ class DailyStudyReminderLocalNotificationDelegate(
     }
 
     override fun getNextScheduledAt(): Long? {
-        val time = if (!wasNotificationTimeSentToServer() && notificationInteractor.isDailyStudyRemindersEnabled()) {
+        val time = if (shouldRescheduleNotification()) {
             getNextScheduledAtInternal(notificationInteractor.getDailyStudyRemindersIntervalStartHour())
         } else {
             null
@@ -71,7 +71,7 @@ class DailyStudyReminderLocalNotificationDelegate(
     }
 
     override fun onRescheduleNotificationRequested() {
-        if (!wasNotificationTimeSentToServer() && notificationInteractor.isDailyStudyRemindersEnabled()) {
+        if (shouldRescheduleNotification()) {
             sendNotificationTimeToServer()
         }
     }
