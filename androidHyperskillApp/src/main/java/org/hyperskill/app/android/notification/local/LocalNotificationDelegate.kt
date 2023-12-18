@@ -13,13 +13,20 @@ abstract class LocalNotificationDelegate(
      * @returns time to schedule next notification at
      * or null if it should not be scheduled
      * */
-    open fun getNextScheduledAt(): Long? = null
+    abstract fun getNextScheduledAt(): Long?
+
+    abstract fun shouldRescheduleNotification(): Boolean
+
+    open fun onRescheduleNotificationRequested() {}
 
     fun rescheduleNotification() {
-        notificationManager.rescheduleActiveNotification(
-            id = id,
-            nextMillis = getNextScheduledAt()
-        )
+        onRescheduleNotificationRequested()
+        if (shouldRescheduleNotification()) {
+            notificationManager.rescheduleActiveNotification(
+                id = id,
+                nextMillis = getNextScheduledAt()
+            )
+        }
     }
 
     protected fun scheduleNotificationAt(timestamp: Long) {
