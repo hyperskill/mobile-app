@@ -13,7 +13,6 @@ enum Images {
     enum NavigationBar {
         static let streakCompleted = "navigation-bar-streak-completed"
         static let streakUncompleted = "navigation-bar-streak-uncompleted"
-        static let gems = "navigation-bar-gems"
     }
 
     // MARK: - AuthSocial -
@@ -150,18 +149,6 @@ enum Images {
             static let sweetheart = "profile-badges-sweetheart"
             static let topicMastery = "profile-badges-topic-mastery"
         }
-    }
-
-    // MARK: - Onboarding -
-
-    enum Onboarding {
-        static let problemOfDayCard = "onboarding-problem-of-day-card"
-    }
-
-    // MARK: - NotificationsOnboarding -
-
-    enum NotificationsOnboarding {
-        static let illustration = "notifications-onboarding-illustration"
     }
 
     // MARK: - TopicsRepetitions -

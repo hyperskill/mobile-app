@@ -11,8 +11,6 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
-import org.hyperskill.app.notification.local.cache.NotificationCacheKeyValues
-import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
@@ -30,7 +28,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Act
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.model.StreakState
-import org.hyperskill.app.topics.domain.interactor.TopicsInteractor
+import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
@@ -38,7 +36,7 @@ class StepCompletionActionDispatcher(
     submissionRepository: SubmissionRepository,
     private val stepInteractor: StepInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val topicsInteractor: TopicsInteractor,
+    private val topicsRepository: TopicsRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
@@ -49,8 +47,7 @@ class StepCompletionActionDispatcher(
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
     private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
-    private val topicProgressFlow: TopicProgressFlow,
-    private val notificationInteractor: NotificationInteractor
+    private val topicProgressFlow: TopicProgressFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -96,12 +93,6 @@ class StepCompletionActionDispatcher(
             }
             is Action.UpdateProblemsLimit -> {
                 freemiumInteractor.onStepSolved()
-            }
-            is Action.TurnOnDailyStudyReminder -> {
-                handleTurnOnDailyStudyReminderAction()
-            }
-            is Action.PostponeDailyStudyReminder -> {
-                handlePostponeDailyStudyReminderAction()
             }
             is Action.UpdateLastTimeShareStreakShown -> {
                 shareStreakInteractor.setLastTimeShareStreakShown()
@@ -150,7 +141,7 @@ class StepCompletionActionDispatcher(
 
             coroutineScope {
                 val topicDeferred = async {
-                    topicsInteractor.getTopic(action.topicId)
+                    topicsRepository.getTopic(action.topicId)
                 }
                 val nextLearningActivityDeferred = async {
                     nextLearningActivityStateRepository.getState(forceUpdate = true)
@@ -184,17 +175,6 @@ class StepCompletionActionDispatcher(
             topicProgressFlow.notifyDataChanged(topicProgress)
             onNewMessage(Message.CheckTopicCompletionStatus.Uncompleted)
         }
-    }
-
-    private suspend fun handleTurnOnDailyStudyReminderAction() {
-        notificationInteractor.setDailyStudyRemindersEnabled(true)
-        notificationInteractor.setDailyStudyReminderNotificationTime(
-            NotificationCacheKeyValues.DAILY_STUDY_REMINDERS_START_HOUR_AFTER_STEP_SOLVED
-        )
-    }
-
-    private fun handlePostponeDailyStudyReminderAction() {
-        notificationInteractor.updateLastTimeUserAskedToEnableDailyReminders()
     }
 
     private suspend fun handleStepSolved(stepId: Long) {
@@ -235,13 +215,6 @@ class StepCompletionActionDispatcher(
             )
         } else {
             false
-        }
-
-        // TODO: ALTUX-2415 Enhance the user experience of "Daily Study Reminders"
-        if (notificationInteractor.isRequiredToAskUserToEnableDailyReminders()) {
-            onNewMessage(Message.RequestDailyStudyRemindersPermission)
-            updateCurrentProfileHypercoinsBalanceRemotely()
-            return
         }
 
         if (cachedProfile.dailyStep == stepId) {

@@ -34,7 +34,7 @@ import org.hyperskill.app.notification.local.injection.NotificationFlowDataCompo
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
-import org.hyperskill.app.onboarding.injection.OnboardingComponent
+import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -49,6 +49,8 @@ import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListC
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.search.injection.SearchComponent
+import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.share_streak.injection.ShareStreakDataComponent
 import org.hyperskill.app.stage_implement.injection.StageImplementComponent
@@ -74,6 +76,9 @@ import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
+import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome.injection.WelcomeDataComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -122,7 +127,9 @@ interface AppGraph {
     fun buildProfileSettingsComponent(): ProfileSettingsComponent
     fun buildHomeComponent(): HomeComponent
     fun buildNotificationComponent(): NotificationComponent
-    fun buildOnboardingComponent(): OnboardingComponent
+    fun buildOnboardingDataComponent(): OnboardingDataComponent
+    fun buildWelcomeComponent(): WelcomeComponent
+    fun buildWelcomeDataComponent(): WelcomeDataComponent
     fun buildUserStorageComponent(): UserStorageComponent
     fun buildCommentsDataComponent(): CommentsDataComponent
     fun buildStreaksDataComponent(): StreaksDataComponent
@@ -161,4 +168,7 @@ interface AppGraph {
     fun buildLeaderboardDataComponent(): LeaderboardDataComponent
     fun buildLeaderboardScreenComponent(): LeaderboardScreenComponent
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
+    fun buildSearchResultsDataComponent(): SearchResultsDataComponent
+    fun buildSearchComponent(): SearchComponent
+    fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
 }

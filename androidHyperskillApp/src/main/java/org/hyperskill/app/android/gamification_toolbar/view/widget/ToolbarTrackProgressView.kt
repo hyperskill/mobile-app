@@ -93,10 +93,8 @@ class ToolbarTrackProgressView @JvmOverloads constructor(
         }
     }
 
-    fun setProgress(progress: Int, isCompleted: Boolean) {
-        val normalizedProgress =
-            progress.coerceAtMost(100).coerceAtLeast(0)
-        val progressRadius = normalizedProgress / 100f * 360
+    fun setProgress(progress: Float, isCompleted: Boolean) {
+        val progressRadius = progress * 360
         if (progressRadius != this.progressSweepAngel) {
             this.progressSweepAngel = progressRadius
             this.isCompleted = isCompleted

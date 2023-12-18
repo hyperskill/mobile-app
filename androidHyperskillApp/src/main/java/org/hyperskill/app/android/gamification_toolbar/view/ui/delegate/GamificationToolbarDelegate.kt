@@ -12,50 +12,44 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.progress.navigation.ProgressScreen
+import org.hyperskill.app.android.topic_search.navigation.TopicSearchScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
-import org.hyperskill.app.streaks.domain.model.StreakState
+import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
     private val context: Context,
     private val viewBinding: LayoutGamificationToolbarBinding,
-    onNewMessage: (GamificationToolbarFeature.Message) -> Unit
+    onNewMessage: (Message) -> Unit
 ) {
 
     init {
         with(viewBinding) {
             gamificationAppBar.setElevationOnCollapsed(lifecycleOwner.lifecycle)
             gamificationAppBar.setExpanded(true)
-
-            gamificationGemsCountTextView.setOnClickListener {
-                onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedGems
-                )
-            }
             gamificationStreakDurationTextView.setOnClickListener {
-                onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedStreak
-                )
+                onNewMessage(Message.ClickedStreak)
             }
             gamificationTrackProgressLinearLayout.setOnClickListener {
-                onNewMessage(
-                    GamificationToolbarFeature.Message.ClickedProgress
-                )
+                onNewMessage(Message.ClickedProgress)
+            }
+            gamificationSearchButton.setOnClickListener {
+                onNewMessage(Message.ClickedSearch)
             }
         }
     }
 
-    fun render(state: GamificationToolbarFeature.State) {
-        if (state is GamificationToolbarFeature.State.Content) {
+    fun render(state: GamificationToolbarFeature.ViewState) {
+        if (state is GamificationToolbarFeature.ViewState.Content) {
             with(viewBinding.gamificationStreakDurationTextView) {
                 isVisible = true
-                text = state.currentStreak.toString()
+                text = state.streak.formattedValue
                 setCompoundDrawablesWithIntrinsicBounds(
                     /* left = */ when {
-                        state.historicalStreak.state == StreakState.RECOVERED -> R.drawable.ic_menu_recovered_streak
-                        state.historicalStreak.isCompleted -> R.drawable.ic_menu_enabled_streak
+                        state.streak.isRecovered -> R.drawable.ic_menu_recovered_streak
+                        state.streak.isCompleted -> R.drawable.ic_menu_enabled_streak
                         else -> R.drawable.ic_menu_empty_streak
                     },
                     /* top = */ 0,
@@ -63,20 +57,18 @@ class GamificationToolbarDelegate(
                     /* bottom = */ 0
                 )
             }
-            with(viewBinding.gamificationGemsCountTextView) {
-                isVisible = true
-                text = state.hypercoinsBalance.toString()
-            }
 
-            state.trackProgress.let { trackProgress ->
-                viewBinding.gamificationTrackProgressLinearLayout.isVisible = trackProgress != null
-                if (trackProgress != null) {
+            state.progress.let { progress ->
+                viewBinding.gamificationTrackProgressLinearLayout.isVisible = progress != null
+                if (progress != null) {
                     viewBinding.gamificationTrackProgressView.setProgress(
-                        trackProgress.averageProgress,
-                        trackProgress.isCompleted
+                        progress.value,
+                        progress.isCompleted
                     )
+                    viewBinding.gamificationTrackProgressTextView.text = progress.formattedValue
                 }
             }
+            viewBinding.gamificationSearchButton.isVisible = true
         }
     }
 
@@ -90,6 +82,9 @@ class GamificationToolbarDelegate(
                 mainScreenRouter.switch(Tabs.PROFILE)
             GamificationToolbarFeature.Action.ViewAction.ShowProgressScreen ->
                 router.navigateTo(ProgressScreen)
+            GamificationToolbarFeature.Action.ViewAction.ShowSearchScreen -> {
+                router.navigateTo(TopicSearchScreen)
+            }
         }
     }
 

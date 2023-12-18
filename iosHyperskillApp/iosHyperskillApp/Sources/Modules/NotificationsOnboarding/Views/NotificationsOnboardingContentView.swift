@@ -4,7 +4,7 @@ extension NotificationsOnboardingContentView {
     struct Appearance {
         let interitemSpacing = LayoutInsets.smallInset
 
-        let illustrationHeight: CGFloat = 320
+        let illustrationHeight: CGFloat = 230
 
         let maxWidth: CGFloat = DeviceInfo.current.isPad ? 400 : .infinity
     }
@@ -16,6 +16,9 @@ struct NotificationsOnboardingContentView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private let actionButtonsFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
+
+    let formattedDailyStudyRemindersInterval: String
+    let onDailyStudyRemindsIntervalButtonTap: () -> Void
 
     let onPrimaryButtonTap: () -> Void
     let onSecondaryButtonTap: () -> Void
@@ -56,21 +59,33 @@ struct NotificationsOnboardingContentView: View {
         }
     }
 
-    private var header: some View {
+    @MainActor private var header: some View {
         VStack(alignment: .center, spacing: appearance.interitemSpacing) {
             Text(Strings.NotificationsOnboarding.title)
-                .font(.title).bold()
+                .font(.title)
                 .foregroundColor(.newPrimaryText)
 
-            Text(Strings.NotificationsOnboarding.subtitle)
-                .font(.body)
-                .foregroundColor(.newSecondaryText)
+            HStack {
+                Text(Strings.NotificationsOnboarding.dailyStudyRemindersIntervalPrefix)
+                    .font(.body)
+                    .foregroundColor(.newPrimaryText)
+
+                Button(
+                    formattedDailyStudyRemindersInterval,
+                    action: {
+                        actionButtonsFeedbackGenerator.triggerFeedback()
+                        onDailyStudyRemindsIntervalButtonTap()
+                    }
+                )
+                .buttonStyle(GhostButtonStyle(maxWidth: nil))
+                .animation(.default, value: formattedDailyStudyRemindersInterval)
+            }
         }
         .multilineTextAlignment(.center)
     }
 
     private var illustration: some View {
-        Image(Images.NotificationsOnboarding.illustration)
+        Image(.notificationsOnboardingIllustration)
             .renderingMode(.original)
             .resizable()
             .aspectRatio(contentMode: .fit)
@@ -105,12 +120,16 @@ struct NotificationsOnboardingContentView: View {
 struct NotificationsOnboardingContentView_Previews: PreviewProvider {
     static var previews: some View {
         NotificationsOnboardingContentView(
+            formattedDailyStudyRemindersInterval: "12:00 – 13:00",
+            onDailyStudyRemindsIntervalButtonTap: {},
             onPrimaryButtonTap: {},
             onSecondaryButtonTap: {}
         )
         .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
 
         NotificationsOnboardingContentView(
+            formattedDailyStudyRemindersInterval: "12:00 – 13:00",
+            onDailyStudyRemindsIntervalButtonTap: {},
             onPrimaryButtonTap: {},
             onSecondaryButtonTap: {}
         )

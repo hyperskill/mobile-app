@@ -18,7 +18,7 @@ struct AuthPreviews_Previews: PreviewProvider {
                 .makeModule()
                 .previewDevice(previewDevice)
 
-            OnboardingAssembly()
+            WelcomeAssembly()
                 .makeModule()
                 .previewDevice(previewDevice)
         }

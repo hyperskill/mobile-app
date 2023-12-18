@@ -107,14 +107,14 @@ extension AppViewModel: AuthOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: OnboardingOutputProtocol -
+// MARK: - AppViewModel: WelcomeOutputProtocol -
 
-extension AppViewModel: OnboardingOutputProtocol {
-    func handleOnboardingSignInRequested() {
+extension AppViewModel: WelcomeOutputProtocol {
+    func handleWelcomeSignInRequested() {
         onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: false))
     }
 
-    func handleOnboardingSignUpRequested(isInSignUpMode: Bool) {
+    func handleWelcomeSignUpRequested(isInSignUpMode: Bool) {
         if isInSignUpMode {
             onViewAction?(AppFeatureActionViewActionNavigateToAuthScreen(isInSignUpMode: isInSignUpMode))
         } else {
@@ -127,7 +127,11 @@ extension AppViewModel: OnboardingOutputProtocol {
 
 extension AppViewModel: NotificationsOnboardingOutputProtocol {
     func handleNotificationsOnboardingCompleted() {
-        onNewMessage(AppFeatureMessageNotificationOnboardingCompleted())
+        onNewMessage(
+            AppFeatureMessageWelcomeOnboardingMessage(
+                message: WelcomeOnboardingFeatureMessageNotificationOnboardingCompleted()
+            )
+        )
     }
 }
 
@@ -135,7 +139,13 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
 
 extension AppViewModel: FirstProblemOnboardingOutputProtocol {
     func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
-        onNewMessage(AppFeatureMessageFirstProblemOnboardingCompleted(firstProblemStepRoute: stepRoute))
+        onNewMessage(
+            AppFeatureMessageWelcomeOnboardingMessage(
+                message: WelcomeOnboardingFeatureMessageFirstProblemOnboardingCompleted(
+                    firstProblemStepRoute: stepRoute
+                )
+            )
+        )
     }
 }
 
@@ -199,7 +209,13 @@ private extension AppViewModel {
 
     @objc
     func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
-        onViewAction?(AppFeatureActionViewActionNavigateToFirstProblemOnBoardingScreen(isNewUserMode: true))
+        onViewAction?(
+            AppFeatureActionViewActionWelcomeOnboardingViewAction(
+                viewAction: WelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnboardingScreen(
+                    isNewUserMode: true
+                )
+            )
+        )
     }
 
     @objc

@@ -23,7 +23,7 @@ private struct PanModalViewControllerModifier: ViewModifier {
 
     private func updatePresentation(_ isPresented: Bool) {
         defer {
-            panModalViewController?.onDisappear = {
+            panModalViewController?.onDidDisappear = {
                 self.isPresented = false
             }
         }

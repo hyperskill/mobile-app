@@ -75,11 +75,6 @@ enum Strings {
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
         static let theory = sharedStrings.step_theory_text.localized()
-
-        enum RequestDailyNotificationsAlert {
-            static let title = sharedStrings.after_daily_step_completed_dialog_title.localized()
-            static let text = sharedStrings.after_daily_step_completed_dialog_text.localized()
-        }
     }
 
     // MARK: - StepQuiz -
@@ -461,23 +456,25 @@ enum Strings {
         }
     }
 
-    // MARK: - Onboarding -
+    // MARK: - Welcome -
 
-    enum Onboarding {
+    enum Welcome {
         static let title = sharedStrings.onboarding_title.localized()
         static let text = sharedStrings.onboarding_text.localized()
-        static let signIn = sharedStrings.onboarding_sign_in.localized()
-        static let signUp = sharedStrings.onboarding_sign_up.localized()
+        static let primaryButton = sharedStrings.onboarding_primary_button_text.localized()
+        static let secondaryButton = sharedStrings.onboarding_secondary_button_text.localized()
     }
 
     // MARK: - NotificationsOnboarding -
 
     enum NotificationsOnboarding {
-        static let title = sharedStrings.notifications_onboarding_title.localized()
-        static let subtitle = sharedStrings.notifications_onboarding_description.localized()
+        static let title = sharedStrings.notifications_onboarding_title_new.localized()
+
+        static let dailyStudyRemindersIntervalPrefix =
+          sharedStrings.notifications_onboarding_daily_study_reminders_interval_prefix.localized()
 
         static let buttonPrimary = sharedStrings.notifications_onboarding_button_allow.localized()
-        static let buttonSecondary = sharedStrings.notifications_onboarding_button_later.localized()
+        static let buttonSecondary = sharedStrings.notifications_onboarding_button_not_now.localized()
     }
 
     // MARK: - FirstProblemOnboarding -
@@ -571,5 +568,19 @@ enum Strings {
             static let stages = sharedStrings.progress_screen_stages.localized()
             static let changeProject = sharedStrings.progress_screen_change_project.localized()
         }
+    }
+
+    // MARK: - Search -
+
+    enum Search {
+        static let title = sharedStrings.search_title.localized()
+
+        static let placeholderEmptyTitle = sharedStrings.search_placeholder_empty_title.localized()
+        static let placeholderEmptySubtitle = sharedStrings.search_placeholder_empty_subtitle.localized()
+
+        static let placeholderSuggestionsTitle = sharedStrings.search_placeholder_suggestions_title.localized()
+        static let placeholderSuggestionsSubtitle = sharedStrings.search_placeholder_suggestions_subtitle.localized()
+
+        static let placeholderErrorDescription = sharedStrings.search_placeholder_error_description.localized()
     }
 }

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/welcomeContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/welcomeWelcomeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppTheme.Headline4"
+                android:textColor="@color/text_primary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+                android:text="@string/onboarding_title" />
+
+            <TextView
+                android:id="@+id/welcomeDescriptionTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
+                android:textSize="20sp"
+                android:textColor="@color/color_on_surface_alpha_87"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/welcomeWelcomeTextView"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+                android:text="@string/onboarding_text" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_welcome_screen"
+                app:layout_constraintBottom_toTopOf="@+id/welcomeSignInButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/welcomeDescriptionTextView"
+                app:layout_constraintVertical_bias="0.25"
+                android:importantForAccessibility="no"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/welcomeSignUpButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+                android:maxWidth="@dimen/auth_button_max_width"
+                android:text="@string/onboarding_primary_button_text"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="20dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/welcomeSignInButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/welcomeSignInButton"
+                style="@style/Widget.AppTheme.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_max="@dimen/auth_button_max_width"
+                android:text="@string/onboarding_secondary_button_text"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/welcomeProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
+    <include
+        android:id="@+id/welcomeError"
+        layout="@layout/error_no_connection_with_button"
+        android:visibility="gone"
+        />
+
+</FrameLayout>

@@ -41,11 +41,11 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
-import org.hyperskill.app.android.onboarding.navigation.OnboardingScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
+import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
@@ -54,6 +54,7 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
@@ -190,7 +191,7 @@ class MainActivity :
                 .observeResult(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    mainViewModel.onNewMessage(AppFeature.Message.NotificationOnboardingCompleted)
+                    mainViewModel.onNewMessage(WelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
                 }
         }
     }
@@ -202,7 +203,9 @@ class MainActivity :
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
                     mainViewModel.onNewMessage(
-                        AppFeature.Message.FirstProblemOnboardingCompleted(it.safeCast<StepRoute>())
+                        WelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
+                            firstProblemStepRoute = it.safeCast<StepRoute>()
+                        )
                     )
                 }
         }
@@ -234,7 +237,7 @@ class MainActivity :
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
             is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
-                router.newRootScreen(OnboardingScreen)
+                router.newRootScreen(WelcomeScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
             is AppFeature.Action.ViewAction.NavigateTo.TrackSelectionScreen ->
@@ -243,8 +246,21 @@ class MainActivity :
                         TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
-            is AppFeature.Action.ViewAction.NavigateTo.NotificationOnBoardingScreen ->
-                router.newRootScreen(NotificationsOnboardingScreen)
+            is AppFeature.Action.ViewAction.WelcomeOnboardingViewAction ->
+                when (val viewAction = action.viewAction) {
+                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep -> {
+                        router.newRootChain(
+                            MainScreen(Tabs.STUDY_PLAN),
+                            StepScreen(viewAction.stepRoute)
+                        )
+                    }
+                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.FirstProblemOnboardingScreen ->
+                        router.newRootScreen(
+                            FirstProblemOnboardingScreen(viewAction.isNewUserMode)
+                        )
+                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
+                        router.newRootScreen(NotificationsOnboardingScreen)
+                }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
                     fragmentManager = supportFragmentManager,
@@ -268,15 +284,6 @@ class MainActivity :
                     }
                 }
             }
-            is AppFeature.Action.ViewAction.NavigateTo.FirstProblemOnBoardingScreen ->
-                router.newRootScreen(
-                    FirstProblemOnboardingScreen(action.isNewUserMode)
-                )
-            is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep ->
-                router.newRootChain(
-                    MainScreen(Tabs.STUDY_PLAN),
-                    StepScreen(action.stepRoute)
-                )
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
         }

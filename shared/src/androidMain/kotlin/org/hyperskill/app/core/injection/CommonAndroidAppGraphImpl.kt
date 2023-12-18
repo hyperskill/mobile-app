@@ -22,9 +22,6 @@ import org.hyperskill.app.notification.remote.injection.AndroidPlatformPushNotif
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponentImpl
-import org.hyperskill.app.onboarding.injection.OnboardingComponent
-import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponent
-import org.hyperskill.app.onboarding.injection.PlatformOnboardingComponentImpl
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
@@ -41,6 +38,8 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponentImpl
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
+import org.hyperskill.app.search.injection.PlatformSearchComponent
+import org.hyperskill.app.search.injection.PlatformSearchComponentImpl
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponentImpl
 import org.hyperskill.app.step.injection.PlatformStepComponent
@@ -59,6 +58,9 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
+import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
+import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
+import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
@@ -129,10 +131,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     /**
      * Onboarding component
      */
-    override fun buildPlatformOnboardingComponent(
-        onboardingComponent: OnboardingComponent
-    ): PlatformOnboardingComponent =
-        PlatformOnboardingComponentImpl(onboardingComponent)
+    override fun buildPlatformWelcomeComponent(
+        welcomeComponent: WelcomeComponent
+    ): PlatformWelcomeComponent =
+        PlatformWelcomeComponentImpl(welcomeComponent)
 
     /**
      * Topics repetitions component
@@ -216,5 +218,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformLeaderboardComponent(): PlatformLeaderboardComponent =
         PlatformLeaderboardComponentImpl(
             leaderboardComponent = buildLeaderboardScreenComponent()
+        )
+
+    override fun buildPlatformSearchComponent(): PlatformSearchComponent =
+        PlatformSearchComponentImpl(
+            searchComponent = buildSearchComponent()
         )
 }

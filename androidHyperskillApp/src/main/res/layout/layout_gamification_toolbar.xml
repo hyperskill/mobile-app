@@ -47,7 +47,8 @@
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:visibility="gone"
-                tools:visibility="visible">
+                tools:visibility="visible"
+                android:layout_marginEnd="8dp">
 
                 <org.hyperskill.app.android.gamification_toolbar.view.widget.ToolbarTrackProgressView
                     android:id="@+id/gamificationTrackProgressView"
@@ -58,12 +59,13 @@
                     />
 
                 <TextView
+                    android:id="@+id/gamificationTrackProgressTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="14sp"
-                    android:text="@string/track_progress_block_title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+                    tools:text="21%" />
 
             </LinearLayout>
 
@@ -80,30 +82,24 @@
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
                 android:layout_gravity="center"
-                android:paddingHorizontal="4dp"
+                android:layout_marginEnd="8dp"
                 android:visibility="gone"
                 tools:text="3"
                 tools:visibility="visible"
                 />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/gamificationGemsCountTextView"
+            <ImageView
+                android:id="@+id/gamificationSearchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_menu_search"
+                android:layout_gravity="center"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:textSize="14sp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:drawableStartCompat="@drawable/ic_menu_gems_count"
-                android:drawablePadding="6dp"
-                android:gravity="center_vertical"
-                android:layout_gravity="center"
-                android:paddingHorizontal="4dp"
-                tools:text="3"
                 android:visibility="gone"
                 tools:visibility="visible"
-                />
+                android:importantForAccessibility="no"/>
 
         </com.google.android.material.appbar.MaterialToolbar>
 

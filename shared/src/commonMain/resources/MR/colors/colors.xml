@@ -281,6 +281,15 @@
     <color name="button_primary">#566BE4</color>
     <color name="button_primary_active">#3A4AD6</color>
 
+    <color name="button_tertiary">
+        <light>#21272A</light>
+        <dark>#F2F4F8</dark>
+    </color>
+    <color name="button_tertiary_active">
+        <light>#4D5358</light>
+        <dark>#C1C7CD</dark>
+    </color>
+
     <color name="button_ghost">
         <light>#455BD9</light>
         <dark>#C1D5FE</dark>
