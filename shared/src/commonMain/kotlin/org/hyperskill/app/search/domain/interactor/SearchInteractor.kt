@@ -21,6 +21,9 @@ internal class SearchInteractor(
             }
             .fold(
                 onSuccess = { topicsIds ->
+                    if (topicsIds.isEmpty()) {
+                        return@fold Result.success(emptyList())
+                    }
                     topicsRepository.getTopics(topicsIds)
                 },
                 onFailure = { error ->
