@@ -27,6 +27,7 @@ runs:
       shell: bash
       env:
         HOMEBREW_NO_INSTALL_CLEANUP: true
+        HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: true
 
     # Generate git-crypt.key file from base64 file content and decrypt
     - name: git-crypt unlock secrets
