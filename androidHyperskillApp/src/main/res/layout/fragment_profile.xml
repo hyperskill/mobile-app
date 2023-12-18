@@ -97,17 +97,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     />
-                
-                <androidx.compose.ui.platform.ComposeView
-                        android:id="@+id/profileBadges"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        />
 
                 <include
                     android:id="@+id/profileStatisticsLayout"
                     layout="@layout/layout_profile_statistics"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    />
+
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/profileBadges"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
