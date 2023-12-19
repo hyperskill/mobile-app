@@ -152,7 +152,6 @@ android {
     sourceSets {
         getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
     }
-
 }
 
 buildkonfig {
