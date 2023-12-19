@@ -4,7 +4,8 @@ import UIKit
 extension ColorDesc {
     var uiColor: UIColor {
         switch self {
-        case let descResource as ColorDescResource: return descResource.resource.getUIColor()
+        case let descResource as ColorDescResource:
+            return descResource.resource.getUIColor()
         case let singleColor as ColorDescSingle:
             return singleColor.color.uiColor
         case let themedColor as ColorDescThemed:
