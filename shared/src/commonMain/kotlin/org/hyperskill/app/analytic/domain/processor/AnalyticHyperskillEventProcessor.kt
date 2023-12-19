@@ -19,6 +19,7 @@ class AnalyticHyperskillEventProcessor(
         private const val PARAM_SCREEN_ORIENTATION = "screen_orientation"
         private const val SCREEN_ORIENTATION_VALUE_PORTRAIT = "portrait"
         private const val SCREEN_ORIENTATION_VALUE_LANDSCAPE = "landscape"
+        private const val PARAM_IS_INTERNAL_TESTING = "is_internal_testing"
     }
 
     fun processEvent(
@@ -26,7 +27,8 @@ class AnalyticHyperskillEventProcessor(
         userId: Long,
         isNotificationsPermissionGranted: Boolean,
         isATTPermissionGranted: Boolean,
-        screenOrientation: ScreenOrientation
+        screenOrientation: ScreenOrientation,
+        isInternalTesting: Boolean
     ): HyperskillProcessedAnalyticEvent {
         val resultParams = event.params.toMutableMap()
 
@@ -40,6 +42,7 @@ class AnalyticHyperskillEventProcessor(
                 contextMap[PARAM_IS_NOTIFICATIONS_ALLOW] = isNotificationsPermissionGranted
                 contextMap[PARAM_IS_ATT_ALLOW] = isATTPermissionGranted
                 contextMap[PARAM_SCREEN_ORIENTATION] = getScreenOrientationValue(screenOrientation)
+                contextMap[PARAM_IS_INTERNAL_TESTING] = isInternalTesting
                 resultParams[PARAM_CONTEXT] = contextMap
             }
         } else {
