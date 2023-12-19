@@ -12,6 +12,7 @@ import coil.ImageLoader
 import coil.load
 import coil.result
 import coil.transform.CircleCropTransformation
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.badges.view.delegate.ProfileBadgesDelegate
@@ -100,6 +101,7 @@ class ProfileFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SharedResources.colors.color_brown.getColor(requireContext())
         injectComponents()
         notificationPermissionDelegate = NotificationPermissionDelegate(this, ::onNotificationPermissionResult)
     }

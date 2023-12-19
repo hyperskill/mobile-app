@@ -46,6 +46,7 @@ kotlin {
                 // Delete options passed to a system linker after upgrading to the Kotlin 1.9.10
                 // https://youtrack.jetbrains.com/issue/KT-60230
                 linkerOpts += "-ld64"
+                export(libs.mokoResources.main)
             }
         }
     }
@@ -100,39 +101,42 @@ kotlin {
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain)
-
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-
             dependencies {
                 implementation(libs.ktor.ios)
             }
         }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
         val iosTest by creating {
             dependsOn(commonTest)
-
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
+        }
+        val iosX64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosArm64Test by getting {
+            dependsOn(iosTest)
+        }
+        val iosSimulatorArm64Test by getting {
+            dependsOn(iosTest)
         }
     }
 }
 
 android {
-    compileSdkVersion(appVersions.versions.compileSdk.get().toInt())
+    compileSdk = appVersions.versions.compileSdk.get().toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(appVersions.versions.minSdk.get().toInt())
-        targetSdkVersion(appVersions.versions.targetSdk.get().toInt())
+        minSdk = appVersions.versions.minSdk.get().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -143,6 +147,12 @@ android {
             excludes += "META-INF/AL2.0"
         }
     }
+    namespace = "org.hyperskill.app"
+
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
+    }
+
 }
 
 buildkonfig {
