@@ -46,6 +46,8 @@ class TopicSearchFragment : Fragment(R.layout.fragment_search_topic) {
 
     private val viewBinding: FragmentSearchTopicBinding by viewBinding(FragmentSearchTopicBinding::bind)
 
+    private var wasKeyBoardShown: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
@@ -99,7 +101,10 @@ class TopicSearchFragment : Fragment(R.layout.fragment_search_topic) {
                 }
                 false
             }
-            requestFocusAndShowKeyboard(topicSearchEditText)
+            if (!wasKeyBoardShown) {
+                requestFocusAndShowKeyboard(topicSearchEditText)
+                wasKeyBoardShown = true
+            }
         }
         setupEditTextRendering()
     }
