@@ -38,6 +38,14 @@ struct FillBlanksQuizViewWrapper: UIViewRepresentable {
                 delegate: collectionViewAdapter,
                 dataSource: collectionViewAdapter
             )
+
+            // ALTAPPS-1062: Fixes incorrect collection view layout on first update
+            if context.coordinator.isFirstCollectionViewDataUpdate {
+                context.coordinator.isFirstCollectionViewDataUpdate = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    uiView.invalidateCollectionViewLayout()
+                }
+            }
         }
 
         context.coordinator.onInputDidChange = { [weak collectionViewAdapter, weak uiView] inputText, component in
@@ -75,6 +83,8 @@ struct FillBlanksQuizViewWrapper: UIViewRepresentable {
 extension FillBlanksQuizViewWrapper {
     class Coordinator: NSObject, FillBlanksQuizCollectionViewAdapterDelegate {
         private(set) var collectionViewAdapter = FillBlanksQuizCollectionViewAdapter()
+
+        fileprivate var isFirstCollectionViewDataUpdate = true
 
         var onInputDidChange: ((String, StepQuizFillBlankComponent) -> Void)?
 
