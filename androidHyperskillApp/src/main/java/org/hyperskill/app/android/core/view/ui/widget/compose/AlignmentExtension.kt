@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.core.view.ui.widget.compose
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 
@@ -10,5 +11,6 @@ import androidx.compose.ui.BiasAlignment
  *
  * @see BiasAlignment
  */
+@Stable
 fun Alignment.Companion.centerWithVerticalBias(verticalBias: Float): Alignment =
     BiasAlignment(0f, verticalBias)
