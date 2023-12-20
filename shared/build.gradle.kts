@@ -46,6 +46,7 @@ kotlin {
                 // Delete options passed to a system linker after upgrading to the Kotlin 1.9.10
                 // https://youtrack.jetbrains.com/issue/KT-60230
                 linkerOpts += "-ld64"
+                // Add export declarations to use moko-resources iOS extensions from Swift side
                 export(libs.mokoResources.main)
             }
         }
