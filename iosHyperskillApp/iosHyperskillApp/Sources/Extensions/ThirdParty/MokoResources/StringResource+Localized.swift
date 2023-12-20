@@ -1,7 +1,7 @@
 import Foundation
 import shared
 
-extension StringResource {
+extension shared.StringResource {
     func localized() -> String {
         // swiftlint:disable:next nslocalizedstring_key
         NSLocalizedString(self.resourceId, bundle: self.bundle, comment: "")
