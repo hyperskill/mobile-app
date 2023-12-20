@@ -18,7 +18,6 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
             TimeIntervalPickerDialogFragment().apply {
                 this.selectedHour = selectedHour
             }
-
     }
 
     private var selectedHour: Int by argument()

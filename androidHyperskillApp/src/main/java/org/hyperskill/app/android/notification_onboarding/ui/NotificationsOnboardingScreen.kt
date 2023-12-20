@@ -155,7 +155,9 @@ private fun DailyNotificationTime(
             Spacer(modifier = Modifier.width(4.dp))
             Box(modifier = Modifier.size(24.dp)) {
                 Image(
-                    painter = painterResource(id = org.hyperskill.app.android.R.drawable.ic_notification_onboarding_arrow),
+                    painter = painterResource(
+                        id = org.hyperskill.app.android.R.drawable.ic_notification_onboarding_arrow
+                    ),
                     contentDescription = null,
                     modifier.align(Alignment.Center)
                 )
