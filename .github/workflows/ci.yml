@@ -137,7 +137,7 @@ jobs:
 
   android-unit-testing:
     needs: [files-changed, ktlint]
-    if: ${{ needs.files-changed.outputs.android == 'true' }}
+    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run Android unit tests
     runs-on: ubuntu-22.04
     timeout-minutes: 30
