@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.sentry.domain.model.manager
 
 import io.sentry.Sentry
+import io.sentry.SentryLevel
 import io.sentry.SpanStatus
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
@@ -37,11 +38,11 @@ class SentryManagerImpl(
                     enableAutoFragmentLifecycleTracing = true
                 )
             )
-            options.setDiagnosticLevel(minLogLevel.toSentryLevel())
 
             if (BuildConfig.DEBUG) {
                 options.setDebug(true)
                 options.tracesSampleRate = 1.0
+                options.setDiagnosticLevel(SentryLevel.INFO)
             } else {
                 options.setDebug(false)
                 options.tracesSampleRate = 0.3
