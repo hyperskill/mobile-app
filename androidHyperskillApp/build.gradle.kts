@@ -84,10 +84,13 @@ dependencies {
 }
 
 android {
+    val applicationPackage = "org.hyperskill.app.android"
+    namespace = applicationPackage
+
     compileSdk = appVersions.versions.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.hyperskill.app.android"
+        applicationId = applicationPackage
         minSdk = appVersions.versions.minSdk.get().toInt()
         targetSdk = appVersions.versions.targetSdk.get().toInt()
         versionCode = appVersions.versions.versionCode.get().toInt()
