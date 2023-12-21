@@ -3,6 +3,7 @@ package org.hyperskill.app.android.code.presentation.model
 import android.content.Context
 import org.hyperskill.app.android.R
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage
+/* ktlint-disable */
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage.*
 
 fun ProgrammingLanguage?.getSymbols(context: Context): Array<String> =
