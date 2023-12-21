@@ -12,7 +12,7 @@ fun <State, Message, Action> StateReducer<State, Message, Action>.wrapWithLogger
     buildVariant: BuildVariant,
     logger: Logger,
     tag: String,
-    severity: Severity = Severity.Debug
+    severity: Severity = Severity.Info
 ): StateReducer<State, Message, Action> =
     if (buildVariant == BuildVariant.RELEASE) {
         this
