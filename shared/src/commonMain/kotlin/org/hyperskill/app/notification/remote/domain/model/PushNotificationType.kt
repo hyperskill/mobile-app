@@ -18,6 +18,7 @@ enum class PushNotificationType {
     REMIND_MEDIUM,
     USER_BADGE_UPDATED,
     USER_BADGE_UNLOCKED,
+    DAILY_REMINDER,
 
     UNKNOWN
 }
