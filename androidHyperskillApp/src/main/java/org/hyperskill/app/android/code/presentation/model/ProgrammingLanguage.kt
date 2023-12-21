@@ -4,17 +4,25 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage.*
 
 enum class ProgrammingLanguage(val serverPrintableName: String) : Parcelable {
-    PYTHON("python3"),
+    PYTHON("python"),
+    PYTHON3("python3"),
+    PYTHON31("python3.10"),
     CPP11("c++11"),
     CPP("c++"),
     C("c"),
+    C_VALGRIND("c_valgrind"),
     HASKELL("haskell"),
     HASKELL7("haskell 7.10"),
     HASKELL8("haskell 8.0"),
+    HASKELL8_8("haskell 8.8"),
     JAVA("java"),
     JAVA8("java8"),
+    JAVA9("java9"),
+    JAVA11("java11"),
+    JAVA17("java17"),
     OCTAVE("octave"),
     ASM32("asm32"),
     ASM64("asm64"),
@@ -23,14 +31,20 @@ enum class ProgrammingLanguage(val serverPrintableName: String) : Parcelable {
     R("r"),
     RUBY("ruby"),
     CLOJURE("clojure"),
-    CS("mono c#"),
+    CS("c#"),
+    CS_MONO("mono c#"),
     JAVASCRIPT("javascript"),
     SCALA("scala"),
+    SCALA3("scala3"),
     KOTLIN("kotlin"),
     GO("go"),
     PASCAL("pascalabc"),
     PERL("perl"),
-    SQL("sql");
+    SQL("sql"),
+    SWIFT("swift"),
+    PHP("php"),
+    JULIA("julia"),
+    DART("dart");
 
     override fun describeContents(): Int = 0
 
@@ -45,39 +59,6 @@ enum class ProgrammingLanguage(val serverPrintableName: String) : Parcelable {
 
         override fun newArray(size: Int): Array<ProgrammingLanguage?> =
             arrayOfNulls(size)
-
-        // make it public and resolve highlighting
-        @Suppress("unused")
-        private fun highlighting(serverName: String) {
-            when (serverNameToLanguage(serverName)) {
-                PYTHON -> TODO()
-                CPP11 -> TODO()
-                CPP -> TODO()
-                C -> TODO()
-                HASKELL -> TODO()
-                HASKELL7 -> TODO()
-                HASKELL8 -> TODO()
-                JAVA -> TODO()
-                JAVA8 -> TODO()
-                OCTAVE -> TODO()
-                ASM32 -> TODO()
-                ASM64 -> TODO()
-                SHELL -> TODO()
-                RUST -> TODO()
-                R -> TODO()
-                RUBY -> TODO()
-                CLOJURE -> TODO()
-                CS -> TODO()
-                JAVASCRIPT -> TODO()
-                SCALA -> TODO()
-                KOTLIN -> TODO()
-                GO -> TODO()
-                PASCAL -> TODO()
-                PERL -> TODO()
-                SQL -> TODO()
-                null -> TODO()
-            }
-        }
     }
 }
 
@@ -89,78 +70,70 @@ private fun serverNameToLanguage(serverName: String): ProgrammingLanguage? =
 
 fun symbolsForLanguage(lang: String, context: Context): Array<String> {
     val programmingLanguage = serverNameToLanguage(lang)
-    with(context.resources) {
-        return when (programmingLanguage) {
-            ProgrammingLanguage.PYTHON ->
-                getStringArray(R.array.frequent_symbols_py)
-            ProgrammingLanguage.CPP11, ProgrammingLanguage.CPP, ProgrammingLanguage.C ->
-                getStringArray(R.array.frequent_symbols_cpp)
-            ProgrammingLanguage.HASKELL, ProgrammingLanguage.HASKELL7, ProgrammingLanguage.HASKELL8 ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.JAVA, ProgrammingLanguage.JAVA8 ->
-                getStringArray(R.array.frequent_symbols_java)
-            ProgrammingLanguage.OCTAVE ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.ASM32, ProgrammingLanguage.ASM64 ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.SHELL ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.RUST ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.R ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.RUBY ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.CLOJURE ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.CS ->
-                getStringArray(R.array.frequent_symbols_cs)
-            ProgrammingLanguage.JAVASCRIPT ->
-                getStringArray(R.array.frequent_symbols_js)
-            ProgrammingLanguage.SCALA ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.KOTLIN ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.GO ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.PASCAL ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.PERL ->
-                getStringArray(R.array.frequent_symbols_default)
-            ProgrammingLanguage.SQL ->
-                getStringArray(R.array.frequent_symbols_sql)
-            null ->
-                getStringArray(R.array.frequent_symbols_default)
-        }
+    val arrayRes = when (programmingLanguage) {
+        PYTHON3, PYTHON31, PYTHON ->
+            R.array.frequent_symbols_py
+        CPP11, CPP, C, C_VALGRIND ->
+            R.array.frequent_symbols_cpp
+        JAVA, JAVA8, JAVA9, JAVA11, JAVA17 ->
+            R.array.frequent_symbols_java
+        CS, CS_MONO ->
+            R.array.frequent_symbols_cs
+        JAVASCRIPT ->
+            R.array.frequent_symbols_js
+        SQL ->
+            R.array.frequent_symbols_sql
+        PHP ->
+            R.array.frequent_symbols_php
+
+        HASKELL, HASKELL7, HASKELL8, HASKELL8_8,
+        OCTAVE,
+        ASM32, ASM64,
+        SHELL,
+        RUST,
+        R,
+        RUBY,
+        CLOJURE,
+        SCALA, SCALA3,
+        KOTLIN,
+        GO,
+        PASCAL,
+        PERL,
+        SWIFT,
+        JULIA,
+        DART,
+        null -> R.array.frequent_symbols_default
     }
+    return context.resources.getStringArray(arrayRes)
 }
 
 fun extensionForLanguage(lang: String): String =
     when (serverNameToLanguage(lang)) {
-        ProgrammingLanguage.PYTHON -> "py"
-        ProgrammingLanguage.CPP11,
-        ProgrammingLanguage.CPP,
-        ProgrammingLanguage.C -> "cpp"
-        ProgrammingLanguage.HASKELL,
-        ProgrammingLanguage.HASKELL7,
-        ProgrammingLanguage.HASKELL8 -> "hs"
-        ProgrammingLanguage.JAVA,
-        ProgrammingLanguage.JAVA8 -> "java"
-        ProgrammingLanguage.OCTAVE -> "matlab"
-        ProgrammingLanguage.ASM32,
-        ProgrammingLanguage.ASM64 -> "asm"
-        ProgrammingLanguage.SHELL -> "sh"
-        ProgrammingLanguage.RUST -> "rust"
-        ProgrammingLanguage.R -> "r"
-        ProgrammingLanguage.RUBY -> "rb"
-        ProgrammingLanguage.CLOJURE -> "clj"
-        ProgrammingLanguage.CS -> "cs"
-        ProgrammingLanguage.JAVASCRIPT -> "js"
-        ProgrammingLanguage.SCALA -> "scala"
-        ProgrammingLanguage.KOTLIN -> "kt"
-        ProgrammingLanguage.GO -> "go"
-        ProgrammingLanguage.PASCAL -> "pascal"
-        ProgrammingLanguage.PERL -> "perl"
-        ProgrammingLanguage.SQL -> "sql"
+        PYTHON, PYTHON3, PYTHON31 -> "py"
+        CPP11,
+        CPP,
+        C, C_VALGRIND -> "cpp"
+        HASKELL, HASKELL7, HASKELL8, HASKELL8_8 -> "hs"
+        JAVA, JAVA8, JAVA9, JAVA11, JAVA17 -> "java"
+        OCTAVE -> "matlab"
+        ASM32,
+        ASM64 -> "asm"
+        SHELL -> "sh"
+        RUST -> "rust"
+        R -> "r"
+        RUBY -> "rb"
+        CLOJURE -> "clj"
+        CS, CS_MONO -> "cs"
+        JAVASCRIPT -> "js"
+        SCALA, SCALA3 -> "scala"
+        KOTLIN -> "kt"
+        GO -> "go"
+        PASCAL -> "pascal"
+        PERL -> "perl"
+        SQL -> "sql"
+        SWIFT -> "swift"
+        PHP -> "php"
+        JULIA -> "julia"
+        DART -> "dart"
         null -> ""
     }
