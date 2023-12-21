@@ -13,6 +13,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticSource
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.model.Profile
@@ -36,6 +37,7 @@ internal class HyperskillAnalyticEngineImpl(
 
     private var screenOrientation: ScreenOrientation? = null
     private var isATTPermissionGranted: Boolean = false
+    private val isInternalTesting: Boolean = BuildKonfig.IS_INTERNAL_TESTING ?: false
 
     override val targetSource: AnalyticSource =
         AnalyticSource.HYPERSKILL_API
@@ -70,7 +72,8 @@ internal class HyperskillAnalyticEngineImpl(
                 userId = currentProfile.id,
                 isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
                 isATTPermissionGranted = isATTPermissionGranted,
-                screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT
+                screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT,
+                isInternalTesting = isInternalTesting
             )
             analyticHyperskillRepository.logEvent(processedEvent)
 
