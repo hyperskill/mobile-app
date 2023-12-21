@@ -22,12 +22,11 @@ final class SentryManager: shared.SentryManager {
 
             #if DEBUG
             options.debug = true
-            options.diagnosticLevel = .debug
+            options.diagnosticLevel = .info
 
             options.tracesSampleRate = 1
             #else
             options.tracesSampleRate = 0.3
-            options.diagnosticLevel = .info
             #endif
 
             // HTTP Client Errors
