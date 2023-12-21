@@ -42,8 +42,9 @@ val PushNotificationData.channel: HyperskillNotificationChannel
         PushNotificationType.REMIND_SHORT,
         PushNotificationType.REMIND_MEDIUM,
         PushNotificationType.USER_BADGE_UNLOCKED,
-        PushNotificationType.USER_BADGE_UPDATED,
-        PushNotificationType.DAILY_REMINDER -> HyperskillNotificationChannel.RegularLearningReminders
+        PushNotificationType.USER_BADGE_UPDATED -> HyperskillNotificationChannel.RegularLearningReminders
+
+        PushNotificationType.DAILY_REMINDER -> HyperskillNotificationChannel.DailyReminder
 
         PushNotificationType.UNKNOWN -> HyperskillNotificationChannel.Other
     }
