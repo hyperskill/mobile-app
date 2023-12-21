@@ -12,12 +12,13 @@
         layout="@layout/view_stage_implementation_appbar" />
 
     <FrameLayout
+        android:id="@+id/stepPracticeContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@+id/stageImplementationAppBar"
-        app:layout_constraintBottom_toTopOf="@+id/stepQuizFillBlanksOptionsRecycler">
+        app:layout_constraintBottom_toTopOf="@+id/stepQuizFillBlanksOptionsContainer">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/stagePracticeContainer"
