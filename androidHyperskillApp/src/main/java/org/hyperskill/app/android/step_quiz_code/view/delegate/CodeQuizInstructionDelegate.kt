@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
 import org.hyperskill.app.android.step.view.delegate.CollapsibleStepBlockDelegate
 import org.hyperskill.app.android.step_quiz_code.view.adapter.CodeDetailSampleAdapterDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
 import org.hyperskill.app.android.ui.custom.ArrowImageView
+import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 
 class CodeQuizInstructionDelegate(
@@ -62,7 +62,7 @@ class CodeQuizInstructionDelegate(
     }
 
     fun setCodeDetailsData(details: List<CodeDetail>, lang: String?) {
-        if (lang == ProgrammingLanguage.SQL.serverPrintableName) {
+        if (lang == ProgrammingLanguage.SQL.languageName) {
             detailsContainerView.isVisible = false
         } else {
             stepQuizCodeDetailsAdapter.items = details

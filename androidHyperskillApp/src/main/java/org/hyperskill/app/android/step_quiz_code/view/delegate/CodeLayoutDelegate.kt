@@ -1,9 +1,9 @@
 package org.hyperskill.app.android.step_quiz_code.view.delegate
 
-import org.hyperskill.app.android.code.presentation.model.extensionForLanguage
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
+import org.hyperskill.app.code.domain.model.extensionForLanguage
 
 class CodeLayoutDelegate(
     private val codeLayout: CodeEditorLayout,

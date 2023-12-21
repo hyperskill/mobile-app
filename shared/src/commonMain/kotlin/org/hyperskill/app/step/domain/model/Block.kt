@@ -2,6 +2,7 @@ package org.hyperskill.app.step.domain.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 
 @Serializable
 data class Block(
@@ -40,3 +41,6 @@ data class Block(
         )
     }
 }
+
+val Block.Options.programmingLanguage: ProgrammingLanguage?
+    get() = language?.let(ProgrammingLanguage::of)

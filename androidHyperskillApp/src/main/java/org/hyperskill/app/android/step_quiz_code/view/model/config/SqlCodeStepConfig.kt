@@ -1,7 +1,7 @@
 package org.hyperskill.app.android.step_quiz_code.view.model.config
 
-import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
+import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -9,7 +9,7 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 class SqlCodeStepConfig(private val step: Step) : CodeStepQuizConfig {
 
     override val langName: String
-        get() = ProgrammingLanguage.SQL.serverPrintableName
+        get() = ProgrammingLanguage.SQL.languageName
 
     override val displayedLangName: String?
         get() = null
