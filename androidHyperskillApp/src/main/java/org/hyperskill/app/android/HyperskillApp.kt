@@ -3,13 +3,16 @@ package org.hyperskill.app.android
 import android.app.Application
 import android.content.Context
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import org.hyperskill.app.android.core.extensions.NotificationChannelInitializer
 import org.hyperskill.app.android.core.injection.AndroidAppComponent
 import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
+import org.hyperskill.app.android.profile_settings.view.mapper.asNightMode
 import org.hyperskill.app.android.util.DebugToolsHelper
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.remote.UserAgentInfo
 import ru.nobird.android.view.base.ui.extension.isMainProcess
 
@@ -51,6 +54,7 @@ class HyperskillApp : Application(), ImageLoaderFactory {
             buildVariant = BuildVariant.getByValue(BuildConfig.BUILD_TYPE)!!
         )
 
+        setNightMode(appGraph)
         initSentry()
         initChannels()
     }
@@ -72,5 +76,12 @@ class HyperskillApp : Application(), ImageLoaderFactory {
 
     private fun initChannels() {
         NotificationChannelInitializer.initNotificationChannels(this)
+    }
+
+    private fun setNightMode(appGraph: AppGraph) {
+        val profileSettings = appGraph.buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings()
+        AppCompatDelegate.setDefaultNightMode(
+            profileSettings.theme.asNightMode()
+        )
     }
 }

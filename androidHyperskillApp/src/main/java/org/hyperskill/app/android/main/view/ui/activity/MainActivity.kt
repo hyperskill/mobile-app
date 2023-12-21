@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -41,7 +40,6 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
-import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
@@ -51,7 +49,6 @@ import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
@@ -82,8 +79,6 @@ class MainActivity :
 
     private val localCicerone: Cicerone<Router> = Cicerone.create()
     override val router: Router = localCicerone.router
-
-    private lateinit var profileSettings: ProfileSettings
 
     private lateinit var analyticInteractor: AnalyticInteractor
 
@@ -132,16 +127,12 @@ class MainActivity :
         observeNotificationsOnboardingFlowFinished()
         observeFirstProblemOnboardingFlowFinished()
 
-        AppCompatDelegate.setDefaultNightMode(ThemeMapper.getAppCompatDelegate(profileSettings.theme))
-
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
         logNotificationAvailability()
     }
 
     private fun injectManual() {
         viewModelFactory = HyperskillApp.graph().platformMainComponent.reduxViewModelFactory
-        profileSettings =
-            HyperskillApp.graph().buildProfileSettingsComponent().profileSettingsInteractor.getProfileSettings()
         analyticInteractor = HyperskillApp.graph().analyticComponent.analyticInteractor
     }
 

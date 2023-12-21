@@ -394,14 +394,8 @@
     <string name="onboarding_primary_button_text">Start for free</string>
     <string name="onboarding_secondary_button_text">I already have an account</string>
 
-    <!--  Notifications onboarding  -->
-    <!-- TODO: ALTAPPS-1071 delete this string resources notifications_onboarding_title, notifications_onboarding_description -->
-    <string name="notifications_onboarding_title">Track your progress</string>
     <string name="notifications_onboarding_title_new">Choose a time for your daily practice and we\'ll remind you to
         stay on track
-    </string>
-    <string name="notifications_onboarding_description">Enable notifications to keep your streak alive and stay
-        consistently on top of your learning
     </string>
     <string name="notifications_onboarding_daily_study_reminders_interval_prefix">Set time</string>
     <string name="notifications_onboarding_button_allow">Allow notifications</string>
