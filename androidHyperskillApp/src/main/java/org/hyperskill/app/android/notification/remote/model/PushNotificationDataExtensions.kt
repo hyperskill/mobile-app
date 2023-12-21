@@ -21,6 +21,7 @@ val PushNotificationData.id: NotificationId
         PushNotificationType.REMIND_MEDIUM -> NotificationId.RemindMedium
         PushNotificationType.USER_BADGE_UPDATED -> NotificationId.UserBadgeUpdated
         PushNotificationType.USER_BADGE_UNLOCKED -> NotificationId.UserBadgeUnlocked
+        PushNotificationType.DAILY_REMINDER -> NotificationId.DailyStudyReminder
         PushNotificationType.UNKNOWN -> NotificationId.Unknown
     }
 
@@ -42,6 +43,8 @@ val PushNotificationData.channel: HyperskillNotificationChannel
         PushNotificationType.REMIND_MEDIUM,
         PushNotificationType.USER_BADGE_UNLOCKED,
         PushNotificationType.USER_BADGE_UPDATED -> HyperskillNotificationChannel.RegularLearningReminders
+
+        PushNotificationType.DAILY_REMINDER -> HyperskillNotificationChannel.DailyReminder
 
         PushNotificationType.UNKNOWN -> HyperskillNotificationChannel.Other
     }

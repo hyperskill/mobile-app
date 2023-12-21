@@ -48,6 +48,7 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
             PushNotificationType.STREAK_RECORD_START,
             PushNotificationType.STREAK_RECORD_NEAR,
             PushNotificationType.STREAK_RECORD_COMPLETE,
+            PushNotificationType.DAILY_REMINDER,
             PushNotificationType.STREAK_NEW ->
                 setOf(
                     Action.ViewAction.SetLoadingShowed(true),
