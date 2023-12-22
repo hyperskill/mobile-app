@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.sentry.domain.model.manager
 
 import io.sentry.Sentry
+import io.sentry.SentryLevel
 import io.sentry.SpanStatus
 import io.sentry.android.core.SentryAndroid
 import io.sentry.android.fragment.FragmentLifecycleIntegration
@@ -18,8 +19,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionKeyValues
 
 class SentryManagerImpl(
-    private val buildKonfig: BuildKonfig,
-    private val minLogLevel: HyperskillSentryLevel = HyperskillSentryLevel.min(buildKonfig.buildVariant)
+    private val buildKonfig: BuildKonfig
 ) : SentryManager {
     private val currentTransactionsMap = mutableMapOf<Int, PlatformHyperskillSentryTransaction>()
 
@@ -27,7 +27,7 @@ class SentryManagerImpl(
         SentryAndroid.init(HyperskillApp.application) { options ->
             options.dsn = BuildConfig.SENTRY_DSN
             options.environment = "${buildKonfig.flavor}-${BuildConfig.BUILD_TYPE}"
-            options.release = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            options.release = "${BuildConfig.APPLICATION_ID}@${BuildConfig.VERSION_NAME}+${BuildConfig.VERSION_CODE}"
             options.isEnableAutoSessionTracking = true
             options.isAnrEnabled = true
             options.addIntegration(
@@ -37,13 +37,13 @@ class SentryManagerImpl(
                     enableAutoFragmentLifecycleTracing = true
                 )
             )
-            options.setDiagnosticLevel(minLogLevel.toSentryLevel())
 
             if (BuildConfig.DEBUG) {
-                options.setDebug(true)
+                options.isDebug = true
                 options.tracesSampleRate = 1.0
+                options.setDiagnosticLevel(SentryLevel.INFO)
             } else {
-                options.setDebug(false)
+                options.isDebug = false
                 options.tracesSampleRate = 0.3
             }
         }

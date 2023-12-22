@@ -16,18 +16,15 @@ final class SentryManager: shared.SentryManager {
             options.dsn = SentryInfo.dsn
 
             options.environment = "\(ApplicationInfo.flavor)-\(BuildVariant.current.value)"
-
-            let userAgentInfo = UserAgentBuilder.userAgentInfo
-            options.releaseName = "\(userAgentInfo.versionName) (\(userAgentInfo.versionCode))"
+            options.releaseName = Self.makeReleaseName()
 
             #if DEBUG
             options.debug = true
-            options.diagnosticLevel = .debug
+            options.diagnosticLevel = .info
 
             options.tracesSampleRate = 1
             #else
             options.tracesSampleRate = 0.3
-            options.diagnosticLevel = .info
             #endif
 
             // HTTP Client Errors
@@ -62,6 +59,19 @@ final class SentryManager: shared.SentryManager {
             )
             self.startTransaction(transaction: transaction)
         }
+    }
+
+    /// Makes Sentry release id using Semantic Versioning naming strategy `package@version+build`.
+    /// For example `org.hyperskill.App@1.45+272`
+    /// - Returns: Sentry release id
+    private static func makeReleaseName() -> String {
+        guard let identifier = MainBundleInfo.identifier,
+              let shortVersionString = MainBundleInfo.shortVersionString,
+              let buildNumberString = MainBundleInfo.buildNumberString else {
+            fatalError("Can't make Sentry release name. Check main bundle.")
+        }
+
+        return "\(identifier)@\(shortVersionString)+\(buildNumberString)"
     }
 
     // MARK: Breadcrumbs

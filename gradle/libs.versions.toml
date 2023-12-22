@@ -7,7 +7,8 @@ mokoResources = "0.23.0"
 mokoKswift = "0.6.1"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
-sentry = '6.12.1'
+sentry = '7.1.0'
+sentryAndroidGradlePlugin = '4.1.0'
 fragment = '1.5.7'
 flipper = '0.148.0'
 dokka = '1.7.20'
@@ -135,4 +136,4 @@ play-servises = ['gms-play-services', 'gms-play-login']
 firebase = ['firebase-bom', 'firebase-messaging']
 
 [plugins]
-sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.11.0" }
+sentry-androidGradle = { id = "io.sentry.android.gradle", version.ref = "sentryAndroidGradlePlugin" }

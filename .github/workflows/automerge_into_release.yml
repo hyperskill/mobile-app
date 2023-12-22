@@ -64,22 +64,26 @@ jobs:
               git checkout release/$next_version_number
               git merge --no-edit origin/develop
 
+              increment_option="--both"
               if [ ${{ needs.files-changed.outputs.shared }} == 'true' ]
               then
                 echo "Shared files changed"
-                ./increment_build_number.sh --both
+              elif [ ${{ needs.files-changed.outputs.android }} == 'true' ] && [ ${{ needs.files-changed.outputs.ios }} == 'true' ]
+              then
+                echo "Android and iOS files changed"
               elif [ ${{ needs.files-changed.outputs.android }} == 'true' ]
               then
                 echo "Android files changed"
-                ./increment_build_number.sh --android
+                increment_option="--android"
               elif [ ${{ needs.files-changed.outputs.ios }} == 'true' ]
               then
                 echo "iOS files changed"
-                ./increment_build_number.sh --ios
+                increment_option="--ios"
               else
                 echo "No files changed"
-                ./increment_build_number.sh --both
               fi
+
+              ./increment_build_number.sh $increment_option
 
               git push origin release/$next_version_number
           else
