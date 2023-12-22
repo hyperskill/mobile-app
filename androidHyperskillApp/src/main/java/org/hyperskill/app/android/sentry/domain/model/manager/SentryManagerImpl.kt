@@ -27,7 +27,7 @@ class SentryManagerImpl(
         SentryAndroid.init(HyperskillApp.application) { options ->
             options.dsn = BuildConfig.SENTRY_DSN
             options.environment = "${buildKonfig.flavor}-${BuildConfig.BUILD_TYPE}"
-            options.release = "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            options.release = "${BuildConfig.APPLICATION_ID}@${BuildConfig.VERSION_NAME}+${BuildConfig.VERSION_CODE}"
             options.isEnableAutoSessionTracking = true
             options.isAnrEnabled = true
             options.addIntegration(
