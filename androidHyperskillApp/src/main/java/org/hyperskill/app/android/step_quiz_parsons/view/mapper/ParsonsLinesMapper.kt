@@ -3,10 +3,10 @@ package org.hyperskill.app.android.step_quiz_parsons.view.mapper
 import android.text.Spannable
 import androidx.core.text.HtmlCompat
 import org.hyperskill.app.android.code.presentation.highlight.prettify.PrettifyParser
-import org.hyperskill.app.android.code.presentation.model.extensionForLanguage
 import org.hyperskill.app.android.code.view.applyPrettifyParseResults
 import org.hyperskill.app.android.code.view.model.themes.CodeTheme
 import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
+import org.hyperskill.app.code.domain.model.fileExtensionForLanguage
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -93,7 +93,7 @@ class ParsonsLinesMapper(
         val htmlSpannable = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_COMPACT) as Spannable
         val parsedHtmlString = htmlSpannable.toString()
         val prettifyParseResult = prettifyParser.parse(
-            /* fileExtension = */ extensionForLanguage(langName),
+            /* fileExtension = */ fileExtensionForLanguage(langName),
             /* content = */ parsedHtmlString
         )
         return htmlSpannable.applyPrettifyParseResults(

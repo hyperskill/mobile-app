@@ -17,7 +17,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.code.presentation.model.ProgrammingLanguage
 import org.hyperskill.app.android.code.util.CodeEditorKeyboardExtensionUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.code.view.widget.CodeEditorLayout
@@ -32,6 +31,7 @@ import org.hyperskill.app.android.step_quiz_code.view.delegate.CodeQuizInstructi
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeStepQuizConfigFactory
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.android.step_quiz_fullscreen_code.adapter.CodeStepQuizFullScreenPagerAdapter
+import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import ru.nobird.android.view.base.ui.extension.argument
@@ -342,7 +342,7 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
         val isShowRetryButton: Boolean
     ) {
         val titleRes: Int
-            get() = if (lang == ProgrammingLanguage.SQL.serverPrintableName) {
+            get() = if (lang == ProgrammingLanguage.SQL.languageName) {
                 org.hyperskill.app.R.string.step_quiz_sql_title
             } else {
                 org.hyperskill.app.R.string.step_quiz_code_title
