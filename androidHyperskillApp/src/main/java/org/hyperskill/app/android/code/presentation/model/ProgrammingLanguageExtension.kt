@@ -8,15 +8,15 @@ import org.hyperskill.app.code.domain.model.ProgrammingLanguage.*
 
 fun ProgrammingLanguage?.getSymbols(context: Context): Array<String> =
     when (this) {
-        PYTHON3, PYTHON31, PYTHON ->
+        PYTHON, PYTHON3, PYTHON3_1, PYTHON3_11 ->
             R.array.frequent_symbols_py
-        CPP11, CPP, C, C_VALGRIND ->
+        CPP, CPP11, CPP20, C, C_VALGRIND ->
             R.array.frequent_symbols_cpp
         JAVA, JAVA8, JAVA9, JAVA11, JAVA17 ->
             R.array.frequent_symbols_java
         CS, CS_MONO ->
             R.array.frequent_symbols_cs
-        JAVASCRIPT ->
+        JAVASCRIPT, TYPESCRIPT ->
             R.array.frequent_symbols_js
         SQL ->
             R.array.frequent_symbols_sql
