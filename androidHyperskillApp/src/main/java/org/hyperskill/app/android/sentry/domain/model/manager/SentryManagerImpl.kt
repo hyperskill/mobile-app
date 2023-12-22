@@ -40,11 +40,11 @@ class SentryManagerImpl(
             )
 
             if (BuildConfig.DEBUG) {
-                options.setDebug(true)
+                options.isDebug = true
                 options.tracesSampleRate = 1.0
                 options.setDiagnosticLevel(SentryLevel.INFO)
             } else {
-                options.setDebug(false)
+                options.isDebug = false
                 options.tracesSampleRate = 0.3
             }
         }
