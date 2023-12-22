@@ -28,7 +28,7 @@ constructor(
             codeEditor.theme = value
         }
 
-    val text: CharSequence
+    val text: String
         get() = codeEditor.text.toString()
 
     var langExtension: String
@@ -72,7 +72,7 @@ constructor(
     }
 
     fun setTextIfChanged(text: String) {
-        if (this.text.toString() != text) {
+        if (this.text != text) {
             codeEditor.setText(text)
         }
     }
