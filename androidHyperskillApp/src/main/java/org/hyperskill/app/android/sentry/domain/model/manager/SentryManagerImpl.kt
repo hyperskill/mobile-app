@@ -19,8 +19,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionKeyValues
 
 class SentryManagerImpl(
-    private val buildKonfig: BuildKonfig,
-    private val minLogLevel: HyperskillSentryLevel = HyperskillSentryLevel.min(buildKonfig.buildVariant)
+    private val buildKonfig: BuildKonfig
 ) : SentryManager {
     private val currentTransactionsMap = mutableMapOf<Int, PlatformHyperskillSentryTransaction>()
 
