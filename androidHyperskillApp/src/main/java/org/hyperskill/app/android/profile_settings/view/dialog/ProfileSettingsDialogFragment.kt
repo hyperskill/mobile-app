@@ -19,7 +19,7 @@ import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
-import org.hyperskill.app.android.profile_settings.view.mapper.ThemeMapper
+import org.hyperskill.app.android.profile_settings.view.mapper.asNightMode
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
@@ -88,9 +88,7 @@ class ProfileSettingsDialogFragment :
 
                     profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ThemeChanged(theme = newTheme))
                     viewBinding.settingsThemeChosenTextView.text = newTheme.representation
-
-                    val mode = ThemeMapper.getAppCompatDelegate(newTheme)
-                    AppCompatDelegate.setDefaultNightMode(mode)
+                    AppCompatDelegate.setDefaultNightMode(newTheme.asNightMode())
                 }
                 .setNegativeButton(org.hyperskill.app.R.string.cancel) { dialog, _ ->
                     dialog.dismiss()

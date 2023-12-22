@@ -47,7 +47,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 class ProfileFragment :
     Fragment(R.layout.fragment_profile),
     ReduxView<ProfileFeature.State, ProfileFeature.Action.ViewAction>,
-    TimeIntervalPickerDialogFragment.Companion.Callback,
+    TimeIntervalPickerDialogFragment.Callback,
     BadgeDetailsDialogFragment.Callback {
     companion object {
         fun newInstance(profileId: Long? = null, isInitCurrent: Boolean = true): Fragment =

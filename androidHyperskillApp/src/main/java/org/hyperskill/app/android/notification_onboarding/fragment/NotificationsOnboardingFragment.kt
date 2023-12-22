@@ -19,13 +19,15 @@ import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIn
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.notification_onboarding.ui.NotificationsOnboardingScreen
+import org.hyperskill.app.android.profile.view.fragment.TimeIntervalPickerDialogFragment
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingViewModel
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class NotificationsOnboardingFragment : Fragment() {
+class NotificationsOnboardingFragment : Fragment(), TimeIntervalPickerDialogFragment.Callback {
 
     companion object {
         const val NOTIFICATIONS_ONBOARDING_FINISHED = "NOTIFICATIONS_ONBOARDING_FINISHED"
@@ -109,7 +111,9 @@ class NotificationsOnboardingFragment : Fragment() {
                 notificationPermissionDelegate?.requestNotificationPermission()
             }
             is ViewAction.ShowDailyStudyRemindersIntervalStartHourPickerModal -> {
-                // TODO: ALTAPPS-1071 show modal
+                TimeIntervalPickerDialogFragment
+                    .newInstance(selectedHour = action.dailyStudyRemindersStartHour)
+                    .showIfNotExists(childFragmentManager, TimeIntervalPickerDialogFragment.TAG)
             }
         }
     }
@@ -138,5 +142,23 @@ class NotificationsOnboardingFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onTimeIntervalPicked(chosenInterval: Int) {
+        notificationsOnboardingViewModel.onNewMessage(
+            Message.DailyStudyRemindsIntervalStartHourSelected(chosenInterval)
+        )
+    }
+
+    override fun onTimeIntervalDialogShown() {
+        notificationsOnboardingViewModel.onNewMessage(
+            Message.DailyStudyRemindersIntervalStartHourPickerModalShownEventMessage
+        )
+    }
+
+    override fun onTimeIntervalDialogHidden() {
+        notificationsOnboardingViewModel.onNewMessage(
+            Message.DailyStudyRemindersIntervalStartHourPickerModalHiddenEventMessage
+        )
     }
 }
