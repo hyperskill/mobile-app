@@ -19,6 +19,10 @@ object CodeEditorKeyboardExtensionUtil {
         )
     }
 
+    fun interface OnToolbarSymbolClickListener {
+        fun onToolbarSymbolClick(symbol: String, resultCode: String)
+    }
+
     fun setupKeyboardExtension(
         context: Context,
         rootView: View,
@@ -26,12 +30,16 @@ object CodeEditorKeyboardExtensionUtil {
         codeLayout: CodeEditorLayout,
         codeToolbarAdapter: CodeToolbarAdapter,
         isToolbarEnabled: () -> Boolean = { true },
-        onToolbarSymbolClicked: ((String) -> Unit)? = null,
+        onToolbarSymbolClicked: OnToolbarSymbolClickListener? = null,
         codeEditorKeyboardListener: CodeEditorKeyboardListener? = null
     ) {
         codeToolbarAdapter.onSymbolClickListener = CodeToolbarAdapter.OnSymbolClickListener { symbol, offset ->
-            onToolbarSymbolClicked?.invoke(symbol)
+            // insert should be done first
             applySymbolTo(codeLayout, symbol, offset)
+            onToolbarSymbolClicked?.onToolbarSymbolClick(
+                symbol = symbol,
+                resultCode = codeLayout.text
+            )
         }
 
         codeLayout.codeToolbarAdapter = codeToolbarAdapter

@@ -189,7 +189,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     private fun initViewPager() {
-        val pagerAdapter = CodeStepQuizFullScreenPagerAdapter(requireContext())
+        val pagerAdapter =
+            CodeStepQuizFullScreenPagerAdapter(requireContext())
 
         viewBinding.fullScreenCodeViewPager.adapter = pagerAdapter
         viewBinding.fullScreenCodeTabs.setupWithViewPager(viewBinding.fullScreenCodeViewPager)
@@ -285,8 +286,8 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
                 // We show the keyboard extension only when "Code" tab is opened
                 viewBinding.fullScreenCodeViewPager.currentItem == CODE_TAB
             },
-            onToolbarSymbolClicked = { symbol ->
-                callback?.onKeyboardExtensionSymbolClicked(symbol)
+            onToolbarSymbolClicked = { symbol, resultCode ->
+                callback?.onKeyboardExtensionSymbolClicked(symbol, resultCode)
             },
             codeEditorKeyboardListener = { isKeyboardShown, toolbarHeight ->
                 with(codeLayout) {
@@ -325,14 +326,14 @@ class CodeStepQuizFullScreenDialogFragment : DialogFragment() {
     }
 
     private fun syncCodeStateWithParent(onSubmitClicked: Boolean = false) {
-        callback?.onSyncCodeStateWithParent(codeLayout.text.toString(), onSubmitClicked)
+        callback?.onSyncCodeStateWithParent(codeLayout.text, onSubmitClicked)
     }
 
     interface Callback {
         fun onSyncCodeStateWithParent(code: String, onSubmitClicked: Boolean = false)
         fun onResetCodeClick()
 
-        fun onKeyboardExtensionSymbolClicked(symbol: String)
+        fun onKeyboardExtensionSymbolClicked(symbol: String, code: String)
     }
 
     data class Params(
