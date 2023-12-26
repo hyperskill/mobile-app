@@ -88,6 +88,12 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildStepCompletionNextInterviewStepLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-completion-feature-next-interview-step-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     /**
      * StepQuizFeature
      */
@@ -312,4 +318,6 @@ object HyperskillSentryTransactionBuilder {
             name = "interview-preparation-widget-feature-fetch-interview-steps",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+
 }

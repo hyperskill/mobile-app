@@ -95,7 +95,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             val stepId = state.steps.shuffled().first()
             state to setOf(
                 Action.ViewAction.NavigateTo.Step(
-                    StepRoute.Learn.Step(stepId.id)
+                    StepRoute.InterviewPreparation(stepId.id)
                 ),
                 InternalAction.LogAnalyticEvent(
                     InterviewPreparationWidgetClickedHyperskillAnalyticsEvent

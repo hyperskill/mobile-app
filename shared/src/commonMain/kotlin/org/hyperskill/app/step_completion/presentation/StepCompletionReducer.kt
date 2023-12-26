@@ -20,39 +20,19 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCom
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
+
+private typealias StepCompletionReducerResult = Pair<State, Set<Action>>
 
 class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.ContinuePracticingClicked ->
-                if (!state.isPracticingLoading) {
-                    val analyticEvent = StepCompletionClickedContinueHyperskillAnalyticEvent(
-                        route = stepRoute.analyticRoute
-                    )
-                    state.copy(
-                        isPracticingLoading = when (state.continueButtonAction) {
-                            is ContinueButtonAction.CheckTopicCompletion ->
-                                true
-                            ContinueButtonAction.NavigateToBack,
-                            ContinueButtonAction.NavigateToStudyPlan ->
-                                false
-                        }
-                    ) to setOf(
-                        Action.LogAnalyticEvent(analyticEvent),
-                        when (state.continueButtonAction) {
-                            ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
-                            ContinueButtonAction.NavigateToStudyPlan -> Action.ViewAction.NavigateTo.StudyPlan
-                            ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
-                                Action.CheckTopicCompletionStatus(it)
-                            } ?: Action.ViewAction.NavigateTo.Back
-                        }
-                    )
-                } else {
-                    null
-                }
+                handleContinuePracticingClicked(state)
             is Message.StartPracticingClicked ->
                 if (!state.isPracticingLoading) {
                     state.copy(isPracticingLoading = true) to setOf(
@@ -149,13 +129,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             }
             is Message.StepSolved ->
-                if (stepRoute is StepRoute.Learn &&
-                    message.stepId == state.currentStep.id
-                ) {
-                    state to setOf(Action.UpdateProblemsLimit)
-                } else {
-                    null
-                }
+                handleStepSolved(state, message)
             is Message.ShareStreak -> {
                 state to setOf(Action.ViewAction.ShowShareStreakModal(streak = message.streak))
             }
@@ -227,7 +201,74 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
                 state to setOf(Action.LogAnalyticEvent(event))
             }
+            is InternalMessage.FetchNextInterviewStepResult ->
+                handleFetchNextInterviewStepResult(state, message)
         } ?: (state to emptySet())
+
+    private fun handleContinuePracticingClicked(state: State) =
+        if (!state.isPracticingLoading) {
+            val analyticEvent = StepCompletionClickedContinueHyperskillAnalyticEvent(
+                route = stepRoute.analyticRoute
+            )
+            state.copy(
+                isPracticingLoading = when (state.continueButtonAction) {
+                    is ContinueButtonAction.CheckTopicCompletion,
+                    ContinueButtonAction.FetchNextInterviewStep->
+                        true
+                    ContinueButtonAction.NavigateToBack,
+                    ContinueButtonAction.NavigateToStudyPlan ->
+                        false
+                }
+            ) to setOf(
+                Action.LogAnalyticEvent(analyticEvent),
+                when (state.continueButtonAction) {
+                    ContinueButtonAction.NavigateToBack -> Action.ViewAction.NavigateTo.Back
+                    ContinueButtonAction.NavigateToStudyPlan -> Action.ViewAction.NavigateTo.StudyPlan
+                    ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
+                        Action.CheckTopicCompletionStatus(it)
+                    } ?: Action.ViewAction.NavigateTo.Back
+                    ContinueButtonAction.FetchNextInterviewStep -> InternalAction.FetchNextInterviewStep
+                }
+            )
+        } else {
+            null
+        }
+
+    private fun handleFetchNextInterviewStepResult(
+        state: State,
+        message: InternalMessage.FetchNextInterviewStepResult
+    ): StepCompletionReducerResult =
+        when (message) {
+            is InternalMessage.FetchNextInterviewStepResult.Success -> {
+                state.copy(isPracticingLoading = false) to
+                    setOf(
+                        if (message.newStepRoute != null) {
+                            Action.ViewAction.ReloadStep(message.newStepRoute)
+                        } else {
+                            Action.ViewAction.NavigateTo.Back
+                        }
+                    )
+            }
+            is InternalMessage.FetchNextInterviewStepResult.Error ->
+                state.copy(isPracticingLoading = false) to setOf(
+                    Action.ViewAction.ShowStartPracticingError(message.errorMessage)
+                )
+        }
+
+    private fun handleStepSolved(
+        state: State,
+        message: Message.StepSolved
+    ): StepCompletionReducerResult = if (message.stepId == state.currentStep.id) {
+        when (stepRoute) {
+            is StepRoute.Learn ->
+                state to setOf(Action.UpdateProblemsLimit)
+            is StepRoute.InterviewPreparation ->
+                state to setOf(InternalAction.MarkInterviewStepAsSolved(message.stepId))
+            else -> state to emptySet()
+        }
+    } else {
+        state to emptySet()
+    }
 
     private fun getNextStepRouteForLearningActivity(learningActivity: LearningActivity?): StepRoute? {
         if (learningActivity == null) {

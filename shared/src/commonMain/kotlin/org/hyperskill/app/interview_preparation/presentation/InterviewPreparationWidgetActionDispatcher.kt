@@ -50,7 +50,7 @@ class InterviewPreparationWidgetActionDispatcher(
                         .getState(forceUpdate = false)
                         .getOrThrow()
                         .let(InternalMessage.FetchInterviewStepsResult::Success)
-                }
+                }.let(::onNewMessage)
             }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.event)

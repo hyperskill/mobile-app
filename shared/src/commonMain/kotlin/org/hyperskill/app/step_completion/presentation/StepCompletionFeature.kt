@@ -6,29 +6,28 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 
-interface StepCompletionFeature {
-    companion object {
-        fun createState(step: Step, stepRoute: StepRoute): State =
-            State(
-                currentStep = step,
-                startPracticingButtonAction = when (stepRoute) {
-                    is StepRoute.Learn.TheoryOpenedFromPractice,
-                    is StepRoute.Learn.TheoryOpenedFromSearch,
-                    is StepRoute.Repeat.Theory ->
-                        StartPracticingButtonAction.NavigateToBack
-                    is StepRoute.Learn.Step,
-                    is StepRoute.LearnDaily,
-                    is StepRoute.Repeat.Practice,
-                    is StepRoute.StageImplement ->
-                        StartPracticingButtonAction.FetchNextStepQuiz
-                },
-                continueButtonAction = if (stepRoute is StepRoute.Learn) {
-                    ContinueButtonAction.CheckTopicCompletion
-                } else {
-                    ContinueButtonAction.NavigateToBack
-                }
-            )
-    }
+object StepCompletionFeature {
+    fun createState(step: Step, stepRoute: StepRoute): State =
+        State(
+            currentStep = step,
+            startPracticingButtonAction = when (stepRoute) {
+                is StepRoute.Learn.TheoryOpenedFromPractice,
+                is StepRoute.Learn.TheoryOpenedFromSearch,
+                is StepRoute.Repeat.Theory ->
+                    StartPracticingButtonAction.NavigateToBack
+                is StepRoute.Learn.Step,
+                is StepRoute.LearnDaily,
+                is StepRoute.Repeat.Practice,
+                is StepRoute.StageImplement,
+                is StepRoute.InterviewPreparation ->
+                    StartPracticingButtonAction.FetchNextStepQuiz
+            },
+            continueButtonAction = when (stepRoute) {
+                is StepRoute.Learn -> ContinueButtonAction.CheckTopicCompletion
+                is StepRoute.InterviewPreparation -> ContinueButtonAction.FetchNextInterviewStep
+                else -> ContinueButtonAction.NavigateToBack
+            }
+        )
 
     data class State(
         val currentStep: Step,
@@ -47,6 +46,8 @@ interface StepCompletionFeature {
         object NavigateToStudyPlan : ContinueButtonAction
         object NavigateToBack : ContinueButtonAction
         object CheckTopicCompletion : ContinueButtonAction
+
+        object FetchNextInterviewStep : ContinueButtonAction
     }
 
     /**
@@ -119,6 +120,14 @@ interface StepCompletionFeature {
         object DailyStepCompletedModalHiddenEventMessage : Message
     }
 
+    internal sealed interface InternalMessage : Message {
+        sealed interface FetchNextInterviewStepResult : InternalMessage {
+            data class Success(val newStepRoute: StepRoute?) : FetchNextInterviewStepResult
+
+            data class Error(val errorMessage: String) : FetchNextInterviewStepResult
+        }
+    }
+
     sealed interface Action {
         data class FetchNextRecommendedStep(val currentStep: Step) : Action
 
@@ -154,5 +163,11 @@ interface StepCompletionFeature {
                 object StudyPlan : NavigateTo
             }
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        object FetchNextInterviewStep : InternalAction
+
+        data class MarkInterviewStepAsSolved(val stepId: Long) : InternalAction
     }
 }

@@ -42,6 +42,11 @@ sealed class HyperskillAnalyticRoute {
             override val path: String =
                 "${super.path}/step/$stepId"
         }
+
+        class Interview(stepId: Long) : Learn() {
+            override val path: String =
+                "${super.path}/interview/$stepId"
+        }
     }
 
     sealed class Projects(projectId: Long) : HyperskillAnalyticRoute() {

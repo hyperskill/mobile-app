@@ -1,7 +1,6 @@
 package org.hyperskill.app.step.domain.model
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 
 @Serializable
@@ -30,13 +29,11 @@ sealed interface StepRoute {
 
     @Serializable
     data class LearnDaily(override val stepId: Long) : StepRoute {
-        @Transient
-        override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Learn.Daily(stepId)
+        override val analyticRoute: HyperskillAnalyticRoute
+            get() = HyperskillAnalyticRoute.Learn.Daily(stepId)
 
-        @Transient
-        override val stepContext: StepContext =
-            StepContext.DEFAULT
+        override val stepContext: StepContext
+            get() = StepContext.DEFAULT
     }
 
     @Serializable
@@ -63,12 +60,21 @@ sealed interface StepRoute {
         val projectId: Long,
         val stageId: Long,
     ) : StepRoute {
-        @Transient
-        override val analyticRoute: HyperskillAnalyticRoute =
-            HyperskillAnalyticRoute.Projects.Stages.Implement(projectId, stageId)
+        override val analyticRoute: HyperskillAnalyticRoute
+            get() = HyperskillAnalyticRoute.Projects.Stages.Implement(projectId, stageId)
 
-        @Transient
-        override val stepContext: StepContext =
-            StepContext.DEFAULT
+        override val stepContext: StepContext
+            get() = StepContext.DEFAULT
+    }
+
+    @Serializable
+    data class InterviewPreparation(
+        override val stepId: Long
+    ) : StepRoute {
+        override val analyticRoute: HyperskillAnalyticRoute
+            get() = HyperskillAnalyticRoute.Learn.Interview(stepId)
+
+        override val stepContext: StepContext
+            get() = StepContext.DEFAULT
     }
 }
