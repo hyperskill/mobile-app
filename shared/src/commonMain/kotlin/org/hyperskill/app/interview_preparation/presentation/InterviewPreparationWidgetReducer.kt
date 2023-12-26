@@ -1,5 +1,7 @@
 package org.hyperskill.app.interview_preparation.presentation
 
+import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
+import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.Action
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalAction
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalMessage
@@ -77,9 +79,11 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Error) {
             State.Loading(isLoadingSilently = false) to setOf(
-                InternalAction.FetchInterviewSteps
+                InternalAction.FetchInterviewSteps,
+                InternalAction.LogAnalyticEvent(
+                    InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
+                )
             )
-            // TODO: add analytics event
         } else {
             state to emptySet()
         }
@@ -87,12 +91,14 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleWidgetClicked(
         state: State
     ): InterviewPreparationWidgetReducerResult {
-        // TODO: add analytics event
         return if (state is State.Content && state.steps.isNotEmpty()) {
             val stepId = state.steps.shuffled().first()
             state to setOf(
                 Action.ViewAction.NavigateTo.Step(
                     StepRoute.Learn.Step(stepId.id)
+                ),
+                InternalAction.LogAnalyticEvent(
+                    InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
                 )
             )
         } else {
