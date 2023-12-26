@@ -318,6 +318,4 @@ object HyperskillSentryTransactionBuilder {
             name = "interview-preparation-widget-feature-fetch-interview-steps",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
-
-
 }

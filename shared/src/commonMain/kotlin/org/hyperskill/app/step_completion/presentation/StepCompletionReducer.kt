@@ -213,7 +213,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             state.copy(
                 isPracticingLoading = when (state.continueButtonAction) {
                     is ContinueButtonAction.CheckTopicCompletion,
-                    ContinueButtonAction.FetchNextInterviewStep->
+                    ContinueButtonAction.FetchNextInterviewStep ->
                         true
                     ContinueButtonAction.NavigateToBack,
                     ContinueButtonAction.NavigateToStudyPlan ->
@@ -258,17 +258,18 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
     private fun handleStepSolved(
         state: State,
         message: Message.StepSolved
-    ): StepCompletionReducerResult = if (message.stepId == state.currentStep.id) {
-        when (stepRoute) {
-            is StepRoute.Learn ->
-                state to setOf(Action.UpdateProblemsLimit)
-            is StepRoute.InterviewPreparation ->
-                state to setOf(InternalAction.MarkInterviewStepAsSolved(message.stepId))
-            else -> state to emptySet()
+    ): StepCompletionReducerResult =
+        if (message.stepId == state.currentStep.id) {
+            when (stepRoute) {
+                is StepRoute.Learn ->
+                    state to setOf(Action.UpdateProblemsLimit)
+                is StepRoute.InterviewPreparation ->
+                    state to setOf(InternalAction.MarkInterviewStepAsSolved(message.stepId))
+                else -> state to emptySet()
+            }
+        } else {
+            state to emptySet()
         }
-    } else {
-        state to emptySet()
-    }
 
     private fun getNextStepRouteForLearningActivity(learningActivity: LearningActivity?): StepRoute? {
         if (learningActivity == null) {

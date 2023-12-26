@@ -90,8 +90,8 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
 
     private fun handleWidgetClicked(
         state: State
-    ): InterviewPreparationWidgetReducerResult {
-        return if (state is State.Content && state.steps.isNotEmpty()) {
+    ): InterviewPreparationWidgetReducerResult =
+        if (state is State.Content && state.steps.isNotEmpty()) {
             val stepId = state.steps.shuffled().first()
             state to setOf(
                 Action.ViewAction.NavigateTo.Step(
@@ -104,7 +104,6 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         } else {
             state to emptySet()
         }
-    }
 
     private fun handleStepSolved(
         state: State,
