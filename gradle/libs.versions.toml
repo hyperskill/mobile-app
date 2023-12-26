@@ -1,13 +1,14 @@
 [versions]
-androidGradlePlugin = '7.2.2'
+androidGradlePlugin = "7.4.2"
 kotlin = '1.8.22'
 kotlinCoroutines = '1.7.2'
 ktor = '2.3.3'
-mokoResources = "0.20.1"
+mokoResources = "0.23.0"
 mokoKswift = "0.6.1"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
-sentry = '6.12.1'
+sentry = '7.1.0'
+sentryAndroidGradlePlugin = '4.1.0'
 fragment = '1.5.7'
 flipper = '0.148.0'
 dokka = '1.7.20'
@@ -61,7 +62,7 @@ multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", vers
 kermit-common = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
-android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.4.0" }
+android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
 android-ui-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.1.4" }
 android-ui-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version = "1.1.0" }
 android-ui-flexbox = { module = "com.google.android.flexbox:flexbox", version = "3.0.0" }
@@ -135,4 +136,4 @@ play-servises = ['gms-play-services', 'gms-play-login']
 firebase = ['firebase-bom', 'firebase-messaging']
 
 [plugins]
-sentry-androidGradle = { id = "io.sentry.android.gradle", version = "3.11.0" }
+sentry-androidGradle = { id = "io.sentry.android.gradle", version.ref = "sentryAndroidGradlePlugin" }

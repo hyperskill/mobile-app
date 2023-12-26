@@ -5,6 +5,7 @@ shared:
   - 'shared/**'
 ios:
   - 'iosHyperskillApp/**'
+  - '.github/actions/setup-ios/action.yml'
 analytic:
   - 'shared/**/analytic/**'
   - '.github/workflows/gh_pages_analytics.yml'

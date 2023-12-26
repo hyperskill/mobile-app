@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.profile.view.fragment
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -17,46 +18,72 @@ class TimeIntervalPickerDialogFragment : DialogFragment() {
             TimeIntervalPickerDialogFragment().apply {
                 this.selectedHour = selectedHour
             }
-
-        interface Callback {
-            fun onTimeIntervalPicked(chosenInterval: Int)
-        }
     }
 
     private var selectedHour: Int by argument()
 
-    private lateinit var picker: NumberPicker
+    private var picker: NumberPicker? = null
 
-    private lateinit var callback: Callback
+    private val callback: Callback
+        get() = parentFragment as Callback
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        picker = NumberPicker(context)
-        picker.minValue = 0
-        picker.maxValue = TimeIntervalUtil.values.size - 1
-        picker.displayedValues = TimeIntervalUtil.values
-        picker.value = selectedHour
-        picker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
-        picker.wrapSelectorWheel = false
-        picker.setBackgroundColor(0x0)
-        picker.textColor = requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
-        picker.selectedTextColor =
-            requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
-        picker.dividerColor = 0x0
-
-        try {
-            picker.textSize = 50f // Warning: reflection!
-        } catch (exception: Exception) {
+        val picker = NumberPicker(context)
+        this.picker = picker
+        setupPicked(picker)
+        return getDialog(picker).apply {
+            setOnShowListener {
+                if (savedInstanceState == null) {
+                    callback.onTimeIntervalDialogShown()
+                }
+            }
         }
+    }
 
-        callback = parentFragment as Callback
+    override fun onDestroyView() {
+        super.onDestroyView()
+        picker = null
+    }
 
-        return MaterialAlertDialogBuilder(requireContext())
+    override fun onCancel(dialog: DialogInterface) {
+        callback.onTimeIntervalDialogHidden()
+    }
+
+    private fun getDialog(picker: NumberPicker): Dialog =
+        MaterialAlertDialogBuilder(requireContext())
             .setTitle(org.hyperskill.app.R.string.choose_notification_time_interval)
             .setView(picker)
             .setPositiveButton(org.hyperskill.app.R.string.ok) { _, _ ->
-                callback.onTimeIntervalPicked(picker.value)
+                this.picker?.value?.let(callback::onTimeIntervalPicked)
             }
             .setNegativeButton(org.hyperskill.app.R.string.cancel, null)
             .create()
+
+    private fun setupPicked(picker: NumberPicker) {
+        with(picker) {
+            minValue = 0
+            maxValue = TimeIntervalUtil.values.size - 1
+            displayedValues = TimeIntervalUtil.values
+            value = selectedHour
+            descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
+            wrapSelectorWheel = false
+            setBackgroundColor(0x0)
+            textColor = requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
+            selectedTextColor =
+                requireContext().resolveColorAttribute(com.google.android.material.R.attr.colorOnSurface)
+            dividerColor = 0x0
+
+            try {
+                textSize = 50f // Warning: reflection!
+            } catch (exception: Exception) {
+            }
+        }
+    }
+
+    interface Callback {
+        fun onTimeIntervalDialogShown() {}
+
+        fun onTimeIntervalDialogHidden() {}
+        fun onTimeIntervalPicked(chosenInterval: Int)
     }
 }
