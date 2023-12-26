@@ -17,6 +17,7 @@ import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
+import org.hyperskill.app.interview_preparation.injection.InterviewPreparationWidgetComponent
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.leaderboard.injection.LeaderboardDataComponent
 import org.hyperskill.app.leaderboard.screen.injection.LeaderboardScreenComponent
@@ -171,4 +172,5 @@ interface AppGraph {
     fun buildSearchResultsDataComponent(): SearchResultsDataComponent
     fun buildSearchComponent(): SearchComponent
     fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
+    fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent
 }

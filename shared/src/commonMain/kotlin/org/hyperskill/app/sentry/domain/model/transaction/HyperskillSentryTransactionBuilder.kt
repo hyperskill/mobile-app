@@ -303,4 +303,13 @@ object HyperskillSentryTransactionBuilder {
             name = "search-feature-perform-search",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * InterviewPreparationWidget
+     */
+    fun buildInterviewPreparationWidgetFeatureFetchInterviewSteps(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "interview-preparation-widget-feature-fetch-interview-steps",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }
