@@ -12,7 +12,7 @@ fun <State, Message, Action> StateReducer<State, Message, Action>.wrapWithLogger
     buildVariant: BuildVariant,
     logger: Logger,
     tag: String,
-    severity: Severity = Severity.Info
+    severity: Severity = Severity.Debug
 ): StateReducer<State, Message, Action> =
     if (buildVariant == BuildVariant.RELEASE) {
         this
@@ -29,7 +29,7 @@ private class LoggableStateReducer<State, Message, Action>(
     private val origin: StateReducer<State, Message, Action>,
     private val logger: Logger,
     private val tag: String,
-    private val severity: Severity = Severity.Info
+    private val severity: Severity
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> {
         val (newState, actions) = origin.reduce(state, message)
