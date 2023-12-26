@@ -99,7 +99,11 @@ class CodeStepQuizFragment :
             recyclerView = keyboardExtensionViewBinding.stepQuizCodeKeyboardExtensionRecycler,
             codeLayout = viewBinding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             codeToolbarAdapter = requireNotNull(codeToolbarAdapter),
-            onToolbarSymbolClicked = ::onKeyboardExtensionSymbolClicked,
+            onToolbarSymbolClicked = { symbol, _ ->
+                logAnalyticEventMessage(
+                    StepQuizFeature.Message.CodeEditorClickedInputAccessoryButtonEventMessage(symbol)
+                )
+            },
             codeEditorKeyboardListener = { isKeyboardShown, toolbarHeight ->
                 if (isResumed) {
                     onKeyboardStateChanged(isKeyboardShown)
@@ -177,7 +181,8 @@ class CodeStepQuizFragment :
         onRetryButtonClicked()
     }
 
-    override fun onKeyboardExtensionSymbolClicked(symbol: String) {
+    override fun onKeyboardExtensionSymbolClicked(symbol: String, code: String) {
+        syncReplyState(config.createReply(code))
         logAnalyticEventMessage(
             StepQuizFeature.Message.CodeEditorClickedInputAccessoryButtonEventMessage(symbol)
         )
