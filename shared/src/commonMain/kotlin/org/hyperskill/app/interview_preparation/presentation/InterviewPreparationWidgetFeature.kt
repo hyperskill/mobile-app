@@ -15,6 +15,9 @@ object InterviewPreparationWidgetFeature {
         ) : State
     }
 
+    internal val State.isRefreshing: Boolean
+        get() = this is State.Content && isRefreshing
+
     sealed interface Message {
         object RetryContentLoading : Message
         object WidgetClicked : Message

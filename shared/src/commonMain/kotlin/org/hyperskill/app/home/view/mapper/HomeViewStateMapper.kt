@@ -12,6 +12,7 @@ internal class HomeViewStateMapper(
             homeState = state.homeState,
             toolbarViewState = GamificationToolbarViewStateMapper.map(state.toolbarState),
             challengeWidgetViewState = challengeWidgetViewStateMapper.map(state.challengeWidgetState),
+            interviewPreparationWidgetState = state.interviewPreparationWidgetState,
             isRefreshing = state.isRefreshing
         )
 }

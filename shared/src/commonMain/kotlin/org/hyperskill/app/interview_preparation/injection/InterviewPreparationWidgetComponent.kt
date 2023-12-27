@@ -4,6 +4,6 @@ import org.hyperskill.app.interview_preparation.presentation.InterviewPreparatio
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetReducer
 
 interface InterviewPreparationWidgetComponent {
-    val reducer: InterviewPreparationWidgetReducer
+    val interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer
     val interviewPreparationWidgetActionDispatcher: InterviewPreparationWidgetActionDispatcher
 }

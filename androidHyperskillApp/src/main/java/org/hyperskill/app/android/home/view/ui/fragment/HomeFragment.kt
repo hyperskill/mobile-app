@@ -28,6 +28,7 @@ import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
+import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -177,9 +178,7 @@ class HomeFragment :
                     router = requireRouter()
                 )
             is HomeFeature.Action.ViewAction.NavigateTo.StepScreen -> {
-                requireRouter().navigateTo(
-                    StepScreen(action.stepRoute)
-                )
+                navigateToStepScreen(action.stepRoute)
             }
             is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
                 challengeCardDelegate.handleAction(
@@ -188,7 +187,17 @@ class HomeFragment :
                     action = action.viewAction
                 )
             }
+            is HomeFeature.Action.ViewAction.InterviewPreparationWidgetViewAction -> {
+                when (val viewAction = action.viewAction) {
+                    is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.Step ->
+                        navigateToStepScreen(viewAction.stepRoute)
+                }
+            }
         }
+    }
+
+    private fun navigateToStepScreen(stepRoute: StepRoute) {
+        requireRouter().navigateTo(StepScreen(stepRoute))
     }
 
     override fun render(state: HomeFeature.ViewState) {

@@ -406,7 +406,8 @@ class StepQuizReducer(
                         is StepRoute.Learn.TheoryOpenedFromSearch,
                         is StepRoute.LearnDaily,
                         is StepRoute.Repeat.Theory,
-                        is StepRoute.StageImplement ->
+                        is StepRoute.StageImplement,
+                        is StepRoute.InterviewPreparation ->
                             null
                     }?.let { targetStepRoute ->
                         add(Action.ViewAction.NavigateTo.StepScreen(targetStepRoute))

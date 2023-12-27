@@ -8,7 +8,7 @@ import org.hyperskill.app.interview_preparation.presentation.InterviewPreparatio
 class InterviewPreparationWidgetComponentImpl(
     private val appGraph: AppGraph
 ) : InterviewPreparationWidgetComponent {
-    override val reducer: InterviewPreparationWidgetReducer
+    override val interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer
         get() = InterviewPreparationWidgetReducer()
     override val interviewPreparationWidgetActionDispatcher: InterviewPreparationWidgetActionDispatcher
         get() = InterviewPreparationWidgetActionDispatcher(
