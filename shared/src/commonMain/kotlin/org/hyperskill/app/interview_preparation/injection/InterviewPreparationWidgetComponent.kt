@@ -2,8 +2,10 @@ package org.hyperskill.app.interview_preparation.injection
 
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetActionDispatcher
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetReducer
+import org.hyperskill.app.interview_preparation.view.mapper.InterviewPreparationWidgetViewStateMapper
 
 interface InterviewPreparationWidgetComponent {
     val interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer
     val interviewPreparationWidgetActionDispatcher: InterviewPreparationWidgetActionDispatcher
+    val interviewPreparationWidgetViewStateMapper: InterviewPreparationWidgetViewStateMapper
 }

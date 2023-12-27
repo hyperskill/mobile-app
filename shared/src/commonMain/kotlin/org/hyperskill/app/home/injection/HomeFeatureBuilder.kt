@@ -22,6 +22,7 @@ import org.hyperskill.app.home.view.mapper.HomeViewStateMapper
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetActionDispatcher
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetReducer
+import org.hyperskill.app.interview_preparation.view.mapper.InterviewPreparationWidgetViewStateMapper
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -54,6 +55,7 @@ internal object HomeFeatureBuilder {
         challengeWidgetViewStateMapper: ChallengeWidgetViewStateMapper,
         interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer,
         interviewPreparationWidgetActionDispatcher: InterviewPreparationWidgetActionDispatcher,
+        interviewPreparationWidgetViewStateMapper: InterviewPreparationWidgetViewStateMapper,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action> {
@@ -75,7 +77,8 @@ internal object HomeFeatureBuilder {
             topicRepeatedFlow
         )
         val homeViewStateMapper = HomeViewStateMapper(
-            challengeWidgetViewStateMapper = challengeWidgetViewStateMapper
+            challengeWidgetViewStateMapper = challengeWidgetViewStateMapper,
+            interviewPreparationWidgetViewStateMapper = interviewPreparationWidgetViewStateMapper
         )
 
         return ReduxFeature(

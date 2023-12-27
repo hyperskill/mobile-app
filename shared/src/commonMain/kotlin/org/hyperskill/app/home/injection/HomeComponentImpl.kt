@@ -40,6 +40,7 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
             challengeWidgetComponent.challengeWidgetViewStateMapper,
             interviewPreparationWidgetComponent.interviewPreparationWidgetReducer,
             interviewPreparationWidgetComponent.interviewPreparationWidgetActionDispatcher,
+            interviewPreparationWidgetComponent.interviewPreparationWidgetViewStateMapper,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

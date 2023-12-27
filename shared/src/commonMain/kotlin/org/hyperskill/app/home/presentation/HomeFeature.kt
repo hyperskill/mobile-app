@@ -8,6 +8,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.isRefreshing
+import org.hyperskill.app.interview_preparation.view.model.InterviewPreparationWidgetViewState
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
@@ -30,7 +31,7 @@ object HomeFeature {
         val homeState: HomeState,
         val toolbarViewState: GamificationToolbarFeature.ViewState,
         val challengeWidgetViewState: ChallengeWidgetViewState,
-        val interviewPreparationWidgetState: InterviewPreparationWidgetFeature.State,
+        val interviewPreparationWidgetViewState: InterviewPreparationWidgetViewState,
         val isRefreshing: Boolean
     )
 
