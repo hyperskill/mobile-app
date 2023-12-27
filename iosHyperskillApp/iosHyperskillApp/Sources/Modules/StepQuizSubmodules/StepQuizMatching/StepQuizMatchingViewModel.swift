@@ -15,21 +15,17 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
         self.reply = reply
 
         if let pairs = dataset.pairs {
-            let items: [StepQuizMatchingViewData.MatchItem]
+            var items = [StepQuizMatchingViewData.Item]()
 
             if let ordering = reply?.ordering {
-                items = ordering.enumerated().map { index, order in
-                    .init(
-                        title: .init(id: index, text: pairs[index].first ?? ""),
-                        option: .init(id: order.intValue, text: pairs[order.intValue].second ?? "")
-                    )
+                for (index, order) in ordering.enumerated() {
+                    items.append(.title(text: pairs[index].first ?? ""))
+                    items.append(.option(.init(id: order.intValue, text: pairs[order.intValue].second ?? "")))
                 }
             } else {
-                items = pairs.enumerated().map { index, pair in
-                    .init(
-                        title: .init(id: index, text: pair.first ?? ""),
-                        option: .init(id: index, text: pair.second ?? "")
-                    )
+                for (index, pair) in pairs.enumerated() {
+                    items.append(.title(text: pair.first ?? ""))
+                    items.append(.option(.init(id: index, text: pair.second ?? "")))
                 }
             }
 
@@ -40,23 +36,36 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     }
 
     func doMoveUp(from index: Int) {
-        let tmp = viewData.items[index - 1].option
-        viewData.items[index - 1].option = viewData.items[index].option
-        viewData.items[index].option = tmp
+        assert(!index.isMultiple(of: 2), "Index must be odd")
+
+        let tmp = viewData.items[index - 2]
+        viewData.items[index - 2] = viewData.items[index]
+        viewData.items[index] = tmp
 
         outputCurrentReply()
     }
 
     func doMoveDown(from index: Int) {
-        let tmp = viewData.items[index + 1].option
-        viewData.items[index + 1].option = viewData.items[index].option
-        viewData.items[index].option = tmp
+        assert(!index.isMultiple(of: 2), "Index must be odd")
+
+        let tmp = viewData.items[index + 2]
+        viewData.items[index + 2] = viewData.items[index]
+        viewData.items[index] = tmp
 
         outputCurrentReply()
     }
 
     func createReply() -> Reply {
-        Reply(ordering: viewData.items.map(\.option.id))
+        Reply(
+            ordering: viewData.items.compactMap { item in
+                switch item {
+                case .title:
+                    nil
+                case .option(let option):
+                    option.id
+                }
+            }
+        )
     }
 
     private func outputCurrentReply() {
