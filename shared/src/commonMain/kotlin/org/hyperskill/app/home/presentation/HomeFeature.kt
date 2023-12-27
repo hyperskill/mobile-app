@@ -168,7 +168,7 @@ object HomeFeature {
 
             data class InterviewPreparationWidgetViewAction(
                 val viewAction: InterviewPreparationWidgetFeature.Action.ViewAction
-            ): ViewAction
+            ) : ViewAction
         }
     }
 
@@ -191,6 +191,6 @@ object HomeFeature {
 
         data class InterviewPreparationWidgetAction(
             val action: InterviewPreparationWidgetFeature.Action
-        ): InternalAction
+        ) : InternalAction
     }
 }
