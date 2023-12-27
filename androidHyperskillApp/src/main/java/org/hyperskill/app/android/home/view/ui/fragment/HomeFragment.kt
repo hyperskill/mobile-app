@@ -19,6 +19,7 @@ import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
+import org.hyperskill.app.android.interview_preparation.delegate.InterviewPreparationCardDelegate
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
@@ -29,6 +30,7 @@ import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
+import org.hyperskill.app.interview_preparation.view.model.InterviewPreparationWidgetViewState
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -63,6 +65,9 @@ class HomeFragment :
     private val challengeCardDelegate: ChallengeCardDelegate by lazy(LazyThreadSafetyMode.NONE) {
         ChallengeCardDelegate()
     }
+    private val interviewPreparationCardDelegate: InterviewPreparationCardDelegate by lazy(LazyThreadSafetyMode.NONE) {
+        InterviewPreparationCardDelegate()
+    }
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
@@ -90,8 +95,16 @@ class HomeFragment :
         problemOfDayCardFormDelegate.setup(viewBinding.homeScreenProblemOfDayCard)
         challengeCardDelegate.setup(
             viewBinding.homeScreenChallengeCard,
+            viewLifecycleOwner = viewLifecycleOwner,
             onNewMessage = {
                 homeViewModel.onNewMessage(HomeFeature.Message.ChallengeWidgetMessage(it))
+            }
+        )
+        interviewPreparationCardDelegate.setup(
+            viewBinding.homeScreenInterviewPreparationCard,
+            viewLifecycleOwner = viewLifecycleOwner,
+            onNewMessage = {
+                homeViewModel.onNewMessage(HomeFeature.Message.InterviewPreparationWidgetMessage(it))
             }
         )
         with(viewBinding) {
@@ -211,11 +224,17 @@ class HomeFragment :
             renderTopicsRepetition(homeState.repetitionsState, homeState.isFreemiumEnabled)
         }
 
-        val challengeState = state.challengeWidgetViewState
-        challengeCardDelegate.render(childFragmentManager, challengeState)
+        renderChallengeCard(state.challengeWidgetViewState)
+        renderInterviewPreparationCard(state.interviewPreparationWidgetViewState)
+
+        gamificationToolbarDelegate?.render(state.toolbarViewState)
+    }
+
+    private fun renderChallengeCard(challengeWidgetViewState: ChallengeWidgetViewState) {
+        challengeCardDelegate.render(childFragmentManager, challengeWidgetViewState)
         viewBinding.homeScreenChallengeCard.updateLayoutParams<MarginLayoutParams> {
             updateMargins(
-                top = when (challengeState) {
+                top = when (challengeWidgetViewState) {
                     ChallengeWidgetViewState.Idle, ChallengeWidgetViewState.Empty -> 0
                     else -> {
                         requireContext()
@@ -225,8 +244,25 @@ class HomeFragment :
                 }
             )
         }
+    }
 
-        gamificationToolbarDelegate?.render(state.toolbarViewState)
+    private fun renderInterviewPreparationCard(
+        interviewPreparationWidgetViewState: InterviewPreparationWidgetViewState
+    ) {
+        interviewPreparationCardDelegate.render(interviewPreparationWidgetViewState)
+        viewBinding.homeScreenInterviewPreparationCard.updateLayoutParams<MarginLayoutParams> {
+            updateMargins(
+                top = when (interviewPreparationWidgetViewState) {
+                    InterviewPreparationWidgetViewState.Idle,
+                    InterviewPreparationWidgetViewState.Empty -> 0
+                    else -> {
+                        requireContext()
+                            .resources
+                            .getDimensionPixelOffset(R.dimen.home_screen_interview_card_top_margin)
+                    }
+                }
+            )
+        }
     }
 
     private fun renderSwipeRefresh(state: HomeFeature.ViewState) {
