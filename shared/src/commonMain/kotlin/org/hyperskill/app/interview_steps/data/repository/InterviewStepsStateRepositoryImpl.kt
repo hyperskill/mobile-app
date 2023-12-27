@@ -20,15 +20,6 @@ class InterviewStepsStateRepositoryImpl : InterviewStepsStateRepository, BaseSta
     override suspend fun loadState(): Result<List<StepId>> {
         val delay = Random.nextLong(800, 2000)
         delay(delay)
-        val isSuccess = Random.nextBoolean()
-        return if (isSuccess) {
-            Result.success(stubSteps)
-        } else {
-            Result.failure(StubInterviewStepsException())
-        }
+        return Result.success(stubSteps)
     }
 }
-
-private class StubInterviewStepsException : Exception(
-    "A stub exception, to test exception handling in InterviewPreparationMode"
-)

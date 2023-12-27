@@ -142,6 +142,6 @@
     </plural>
     <plural name="interview_preparation_widget_description">
         <item quantity="one">problem at the hard level to solve</item>
-        <item quantity="many">problems at the hard level to solve</item>
+        <item quantity="other">problems at the hard level to solve</item>
     </plural>
 </resources>
