@@ -201,8 +201,13 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
                 state to setOf(Action.LogAnalyticEvent(event))
             }
-            is InternalMessage.FetchNextInterviewStepResult ->
-                handleFetchNextInterviewStepResult(state, message)
+            is InternalMessage.FetchNextInterviewStepResultSuccess ->
+                handleFetchNextInterviewStepResultSuccess(state, message)
+            is InternalMessage.FetchNextInterviewStepResultError -> {
+                state.copy(isPracticingLoading = false) to setOf(
+                    Action.ViewAction.ShowStartPracticingError(message.errorMessage)
+                )
+            }
         } ?: (state to emptySet())
 
     private fun handleContinuePracticingClicked(state: State) =
@@ -234,26 +239,18 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             null
         }
 
-    private fun handleFetchNextInterviewStepResult(
+    private fun handleFetchNextInterviewStepResultSuccess(
         state: State,
-        message: InternalMessage.FetchNextInterviewStepResult
+        message: InternalMessage.FetchNextInterviewStepResultSuccess
     ): StepCompletionReducerResult =
-        when (message) {
-            is InternalMessage.FetchNextInterviewStepResult.Success -> {
-                state.copy(isPracticingLoading = false) to
-                    setOf(
-                        if (message.newStepRoute != null) {
-                            Action.ViewAction.ReloadStep(message.newStepRoute)
-                        } else {
-                            Action.ViewAction.NavigateTo.Back
-                        }
-                    )
-            }
-            is InternalMessage.FetchNextInterviewStepResult.Error ->
-                state.copy(isPracticingLoading = false) to setOf(
-                    Action.ViewAction.ShowStartPracticingError(message.errorMessage)
-                )
-        }
+        state.copy(isPracticingLoading = false) to
+            setOf(
+                if (message.newStepRoute != null) {
+                    Action.ViewAction.ReloadStep(message.newStepRoute)
+                } else {
+                    Action.ViewAction.NavigateTo.Back
+                }
+            )
 
     private fun handleStepSolved(
         state: State,
