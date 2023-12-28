@@ -136,6 +136,9 @@ private extension HomeView {
             handleChallengeWidgetViewAction(
                 viewAction: challengeWidgetViewAction.viewAction
             )
+        case .interviewPreparationWidgetViewAction(_):
+            // TODO: ALTAPPS-1093
+            break
         }
     }
 
