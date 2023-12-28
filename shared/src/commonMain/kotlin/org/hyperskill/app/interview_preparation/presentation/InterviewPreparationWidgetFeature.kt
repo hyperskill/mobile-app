@@ -29,10 +29,9 @@ object InterviewPreparationWidgetFeature {
         /**
          * The result for [InternalAction.FetchInterviewSteps]
          */
-        sealed interface FetchInterviewStepsResult : InternalMessage {
-            data class Success(val steps: List<StepId>) : FetchInterviewStepsResult
-            object Error : FetchInterviewStepsResult
-        }
+        data class FetchInterviewStepsResultSuccess(val steps: List<StepId>) : InternalMessage
+
+        object FetchInterviewStepsResultError : InternalMessage
 
         object PullToRefresh : InternalMessage
 
