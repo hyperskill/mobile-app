@@ -13,6 +13,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.interview_preparation_onboarding.ui.InterviewPreparationOnboardingScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.interview_preparation_onboarding.presentation.InterviewPreparationOnboardingFeature.Action
@@ -58,7 +59,10 @@ class InterviewPreparationOnboardingFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-                    // TODO: add your compose UI here
+                    InterviewPreparationOnboardingScreen(
+                        viewModel = interviewPreparationOnboardingViewModel,
+                        onBackClick = { requireRouter().exit() }
+                    )
                 }
             }
         }
