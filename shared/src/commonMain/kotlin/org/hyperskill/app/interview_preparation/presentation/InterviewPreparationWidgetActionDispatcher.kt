@@ -54,7 +54,7 @@ class InterviewPreparationWidgetActionDispatcher(
                        .let(InternalMessage.FetchInterviewStepsResult::Success)
                 }.let(::onNewMessage)
             }
-            is InternalAction.FetchInterviewSteps -> {
+            is InternalAction.FetchOnboardingFlag -> {
                 try {
                     InternalMessage.OnboardingFlagFetchResult.Success(
                         onboardingInteractor.wasInterviewPreparationOnboardingShown()

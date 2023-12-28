@@ -93,7 +93,12 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         state: State
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Content && state.steps.isNotEmpty()) {
-            state to setOf(InternalAction.FetchOnboardingFlag)
+            state to setOf(
+                InternalAction.FetchOnboardingFlag,
+                InternalAction.LogAnalyticEvent(
+                    InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
+                )
+            )
         } else {
             state to emptySet()
         }
@@ -127,11 +132,6 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             InternalMessage.OnboardingFlagFetchResult.Error ->
                 Action.ViewAction.NavigateTo.Step(stepRoute)
         }
-        return state to setOf(
-            navigationAction,
-            InternalAction.LogAnalyticEvent(
-                InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
-            )
-        )
+        return state to setOf(navigationAction)
     }
 }
