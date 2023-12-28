@@ -124,16 +124,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
         } else {
             Action.ViewAction.NavigateTo.Step(stepRoute)
-        }/*when (message) {
-            is InternalMessage.OnboardingFlagFetchResult.Success ->
-                if (!message.wasOnboardingShown) {
-                    Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
-                } else {
-                    Action.ViewAction.NavigateTo.Step(stepRoute)
-                }
-            InternalMessage.OnboardingFlagFetchResult.Error ->
-                Action.ViewAction.NavigateTo.Step(stepRoute)
-        }*/
+        }
         return state to setOf(navigationAction)
     }
 
