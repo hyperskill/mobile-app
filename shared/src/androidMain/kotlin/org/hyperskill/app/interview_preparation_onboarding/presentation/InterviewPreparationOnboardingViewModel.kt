@@ -1,0 +1,8 @@
+package org.hyperskill.app.interview_preparation_onboarding.presentation
+
+import org.hyperskill.app.core.flowredux.presentation.FlowView
+import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel
+
+class InterviewPreparationOnboardingViewModel(
+    viewContainer: FlowView<InterviewPreparationOnboardingFeature.State, InterviewPreparationOnboardingFeature.Message, InterviewPreparationOnboardingFeature.Action.ViewAction>
+) : ReduxFlowViewModel<InterviewPreparationOnboardingFeature.State, InterviewPreparationOnboardingFeature.Message, InterviewPreparationOnboardingFeature.Action.ViewAction>(viewContainer)
