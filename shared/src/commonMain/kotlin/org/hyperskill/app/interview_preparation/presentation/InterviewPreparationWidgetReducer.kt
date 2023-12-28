@@ -116,13 +116,13 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         }
 
     private fun handleOnboardingFlagFetchResult(
-       state: State,
-       message: InternalMessage.OnboardingFlagFetchResult
+        state: State,
+        message: InternalMessage.OnboardingFlagFetchResult
     ): InterviewPreparationWidgetReducerResult {
         if (state !is State.Content || state.steps.isEmpty()) return state to emptySet()
         val stepId = state.steps.shuffled().first()
         val stepRoute = StepRoute.InterviewPreparation(stepId.id)
-        val navigationAction =  when (message) {
+        val navigationAction = when (message) {
             is InternalMessage.OnboardingFlagFetchResult.Success ->
                 if (!message.wasOnboardingShown) {
                     Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)

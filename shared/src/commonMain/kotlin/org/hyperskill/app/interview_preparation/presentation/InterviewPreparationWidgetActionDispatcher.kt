@@ -48,10 +48,10 @@ class InterviewPreparationWidgetActionDispatcher(
                     HyperskillSentryTransactionBuilder.buildInterviewPreparationWidgetFeatureFetchInterviewSteps(),
                     onError = { InternalMessage.FetchInterviewStepsResult.Error }
                 ) {
-                   interviewStepsStateRepository
+                    interviewStepsStateRepository
                         .getState(forceUpdate = false)
                         .getOrThrow()
-                       .let(InternalMessage.FetchInterviewStepsResult::Success)
+                        .let(InternalMessage.FetchInterviewStepsResult::Success)
                 }.let(::onNewMessage)
             }
             is InternalAction.FetchOnboardingFlag -> {
