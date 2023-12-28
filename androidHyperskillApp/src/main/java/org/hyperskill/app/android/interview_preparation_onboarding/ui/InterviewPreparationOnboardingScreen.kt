@@ -18,7 +18,9 @@ fun InterviewPreparationOnboardingScreen(
 ) {
     DisposableEffect(viewModel) {
         viewModel.onNewMessage(InterviewPreparationOnboardingFeature.Message.ViewedEventMessage)
-        onDispose {/* no op */ }
+        onDispose {
+            // no op
+        }
     }
     InterviewPreparationOnboardingScreen(viewModel::onNewMessage, onBackClick)
 }

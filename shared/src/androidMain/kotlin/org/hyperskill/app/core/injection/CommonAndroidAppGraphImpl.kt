@@ -230,8 +230,9 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
 
     override fun buildPlatformInterviewPreparationOnboardingComponent(
         stepRoute: StepRoute
-    ): PlatformInterviewPreparationOnboardingComponent = PlatformInterviewPreparationOnboardingComponentImpl(
-        interviewPreparationOnboardingComponent = buildInterviewPreparationOnboardingComponent(),
-        stepRoute = stepRoute
-    )
+    ): PlatformInterviewPreparationOnboardingComponent =
+        PlatformInterviewPreparationOnboardingComponentImpl(
+            interviewPreparationOnboardingComponent = buildInterviewPreparationOnboardingComponent(),
+            stepRoute = stepRoute
+        )
 }

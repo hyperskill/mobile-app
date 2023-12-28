@@ -66,7 +66,9 @@ fun InterviewPreparationOnboardingContent(
                 .fillMaxWidth()
         ) {
             Image(
-                painter = painterResource(id = org.hyperskill.app.android.R.drawable.img_interview_preparation_onboarding),
+                painter = painterResource(
+                    id = org.hyperskill.app.android.R.drawable.img_interview_preparation_onboarding
+                ),
                 contentDescription = null,
                 modifier = Modifier.align(Alignment.TopCenter)
             )
