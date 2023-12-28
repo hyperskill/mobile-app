@@ -286,7 +286,7 @@ class StepCompletionActionDispatcher(
         sentryInteractor.withTransaction(
             HyperskillSentryTransactionBuilder.buildStepCompletionNextInterviewStepLoading(),
             onError = {
-                InternalMessage.FetchNextInterviewStepResult.Error(
+                InternalMessage.FetchNextInterviewStepResultError(
                     resourceProvider.getString(
                         SharedResources.strings.step_theory_failed_to_continue_practicing
                     )
@@ -298,7 +298,7 @@ class StepCompletionActionDispatcher(
                 .getOrThrow()
                 .shuffled()
                 .firstOrNull()
-            InternalMessage.FetchNextInterviewStepResult.Success(
+            InternalMessage.FetchNextInterviewStepResultSuccess(
                 nextInterviewStepId?.id?.let(StepRoute::InterviewPreparation)
             )
         }.let(onNewMessage)

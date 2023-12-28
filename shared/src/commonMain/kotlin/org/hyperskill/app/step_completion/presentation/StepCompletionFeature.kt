@@ -121,11 +121,9 @@ object StepCompletionFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        sealed interface FetchNextInterviewStepResult : InternalMessage {
-            data class Success(val newStepRoute: StepRoute?) : FetchNextInterviewStepResult
+        data class FetchNextInterviewStepResultSuccess(val newStepRoute: StepRoute?) : InternalMessage
 
-            data class Error(val errorMessage: String) : FetchNextInterviewStepResult
-        }
+        data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
     }
 
     sealed interface Action {
