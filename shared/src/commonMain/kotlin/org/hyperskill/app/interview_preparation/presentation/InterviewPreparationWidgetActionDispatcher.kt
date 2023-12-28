@@ -44,12 +44,12 @@ class InterviewPreparationWidgetActionDispatcher(
             InternalAction.FetchInterviewSteps -> {
                 sentryInteractor.withTransaction(
                     HyperskillSentryTransactionBuilder.buildInterviewPreparationWidgetFeatureFetchInterviewSteps(),
-                    onError = { InternalMessage.FetchInterviewStepsResult.Error }
+                    onError = { InternalMessage.FetchInterviewStepsResultError }
                 ) {
                     interviewStepsStateRepository
                         .getState(forceUpdate = false)
                         .getOrThrow()
-                        .let(InternalMessage.FetchInterviewStepsResult::Success)
+                        .let(InternalMessage::FetchInterviewStepsResultSuccess)
                 }.let(::onNewMessage)
             }
             is InternalAction.LogAnalyticEvent -> {

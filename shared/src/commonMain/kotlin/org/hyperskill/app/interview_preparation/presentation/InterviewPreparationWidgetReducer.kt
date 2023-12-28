@@ -17,7 +17,12 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): InterviewPreparationWidgetReducerResult =
         when (message) {
             is InternalMessage.Initialize -> handleInitializeMessage(state, message)
-            is InternalMessage.FetchInterviewStepsResult -> handleFetchInterviewStepsResult(message)
+            is InternalMessage.FetchInterviewStepsResultSuccess -> {
+                State.Content(steps = message.steps) to emptySet()
+            }
+            is InternalMessage.FetchInterviewStepsResultError -> {
+                State.Error to emptySet()
+            }
             InternalMessage.PullToRefresh -> handlePullToRefresh(state)
             Message.RetryContentLoading -> handleRetryContentLoading(state)
             Message.WidgetClicked -> handleWidgetClicked(state)
@@ -46,16 +51,6 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
                     state to emptySet()
                 }
             is State.Loading -> state to emptySet()
-        }
-
-    private fun handleFetchInterviewStepsResult(
-        message: InternalMessage.FetchInterviewStepsResult
-    ): InterviewPreparationWidgetReducerResult =
-        when (message) {
-            is InternalMessage.FetchInterviewStepsResult.Success ->
-                State.Content(steps = message.steps) to emptySet()
-            InternalMessage.FetchInterviewStepsResult.Error ->
-                State.Error to emptySet()
         }
 
     private fun handlePullToRefresh(
