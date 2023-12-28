@@ -48,11 +48,19 @@ class InterviewPreparationWidgetActionDispatcher(
                     HyperskillSentryTransactionBuilder.buildInterviewPreparationWidgetFeatureFetchInterviewSteps(),
                     onError = { InternalMessage.FetchInterviewStepsResult.Error }
                 ) {
-                    val steps = interviewStepsStateRepository
+                   interviewStepsStateRepository
                         .getState(forceUpdate = false)
                         .getOrThrow()
-                    val onboardingFlag = onboardingInteractor.wasInterviewPreparationOnboardingShown()
-                    InternalMessage.FetchInterviewStepsResult.Success(steps, onboardingFlag)
+                       .let(InternalMessage.FetchInterviewStepsResult::Success)
+                }.let(::onNewMessage)
+            }
+            is InternalAction.FetchInterviewSteps -> {
+                try {
+                    InternalMessage.OnboardingFlagFetchResult.Success(
+                        onboardingInteractor.wasInterviewPreparationOnboardingShown()
+                    )
+                } catch (_: Exception) {
+                    InternalMessage.OnboardingFlagFetchResult.Error
                 }.let(::onNewMessage)
             }
             is InternalAction.LogAnalyticEvent -> {

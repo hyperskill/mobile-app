@@ -22,6 +22,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             Message.RetryContentLoading -> handleRetryContentLoading(state)
             Message.WidgetClicked -> handleWidgetClicked(state)
             is InternalMessage.StepSolved -> handleStepSolved(state, message)
+            is InternalMessage.OnboardingFlagFetchResult -> handleOnboardingFlagFetchResult(state, message)
         }
 
     private fun handleInitializeMessage(
@@ -53,10 +54,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     ): InterviewPreparationWidgetReducerResult =
         when (message) {
             is InternalMessage.FetchInterviewStepsResult.Success ->
-                State.Content(
-                    steps = message.steps,
-                    wasOnboardingShown = message.wasOnboardingShown
-                ) to emptySet()
+                State.Content(steps = message.steps) to emptySet()
             InternalMessage.FetchInterviewStepsResult.Error ->
                 State.Error to emptySet()
         }
@@ -95,19 +93,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         state: State
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Content && state.steps.isNotEmpty()) {
-            val stepId = state.steps.shuffled().first()
-            val stepRoute = StepRoute.InterviewPreparation(stepId.id)
-            val navigationAction = if (!state.wasOnboardingShown) {
-                Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
-            } else {
-                Action.ViewAction.NavigateTo.Step(stepRoute)
-            }
-            state to setOf(
-                navigationAction,
-                InternalAction.LogAnalyticEvent(
-                    InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
-                )
-            )
+            state to setOf(InternalAction.FetchOnboardingFlag)
         } else {
             state to emptySet()
         }
@@ -123,4 +109,29 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         } else {
             state to emptySet()
         }
+
+    private fun handleOnboardingFlagFetchResult(
+       state: State,
+       message: InternalMessage.OnboardingFlagFetchResult
+    ): InterviewPreparationWidgetReducerResult {
+        if (state !is State.Content || state.steps.isEmpty()) return state to emptySet()
+        val stepId = state.steps.shuffled().first()
+        val stepRoute = StepRoute.InterviewPreparation(stepId.id)
+        val navigationAction =  when (message) {
+            is InternalMessage.OnboardingFlagFetchResult.Success ->
+                if (!message.wasOnboardingShown) {
+                    Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
+                } else {
+                    Action.ViewAction.NavigateTo.Step(stepRoute)
+                }
+            InternalMessage.OnboardingFlagFetchResult.Error ->
+                Action.ViewAction.NavigateTo.Step(stepRoute)
+        }
+        return state to setOf(
+            navigationAction,
+            InternalAction.LogAnalyticEvent(
+                InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
+            )
+        )
+    }
 }

@@ -11,7 +11,6 @@ object InterviewPreparationWidgetFeature {
         object Error : State
         data class Content(
             val steps: List<StepId>,
-            val wasOnboardingShown: Boolean,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -31,16 +30,19 @@ object InterviewPreparationWidgetFeature {
          * The result for [InternalAction.FetchInterviewSteps]
          */
         sealed interface FetchInterviewStepsResult : InternalMessage {
-            data class Success(
-                val steps: List<StepId>,
-                val wasOnboardingShown: Boolean
-            ) : FetchInterviewStepsResult
+            data class Success(val steps: List<StepId>) : FetchInterviewStepsResult
             object Error : FetchInterviewStepsResult
         }
 
         object PullToRefresh : InternalMessage
 
         data class StepSolved(val stepId: StepId) : InternalMessage
+
+        sealed interface OnboardingFlagFetchResult : InternalMessage {
+            data class Success(val wasOnboardingShown: Boolean) : OnboardingFlagFetchResult
+
+            object Error : OnboardingFlagFetchResult
+        }
     }
     sealed interface Action {
         sealed interface ViewAction : Action {
@@ -59,5 +61,7 @@ object InterviewPreparationWidgetFeature {
          * The result of this action is [InternalMessage.FetchInterviewStepsResult].
          */
         object FetchInterviewSteps : InternalAction
+
+        object FetchOnboardingFlag : InternalAction
     }
 }
