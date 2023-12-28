@@ -70,7 +70,7 @@ class InterviewPreparationOnboardingFragment : Fragment() {
     private fun onAction(action: Action.ViewAction) {
         when (action) {
             is Action.ViewAction.NavigateTo.StepScreen ->
-                requireRouter().navigateTo(StepScreen(action.stepRoute))
+                requireRouter().replaceScreen(StepScreen(action.stepRoute))
         }
     }
 }
