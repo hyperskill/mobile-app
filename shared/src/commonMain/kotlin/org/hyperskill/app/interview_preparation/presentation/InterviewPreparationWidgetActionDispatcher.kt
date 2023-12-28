@@ -10,6 +10,7 @@ import org.hyperskill.app.interview_preparation.presentation.InterviewPreparatio
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalMessage
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.Message
 import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateRepository
+import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -23,6 +24,7 @@ class InterviewPreparationWidgetActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val interviewStepsStateRepository: InterviewStepsStateRepository,
     private val sentryInteractor: SentryInteractor,
+    private val onboardingInteractor: OnboardingInteractor,
     submissionRepository: SubmissionRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -46,10 +48,11 @@ class InterviewPreparationWidgetActionDispatcher(
                     HyperskillSentryTransactionBuilder.buildInterviewPreparationWidgetFeatureFetchInterviewSteps(),
                     onError = { InternalMessage.FetchInterviewStepsResult.Error }
                 ) {
-                    interviewStepsStateRepository
+                    val steps = interviewStepsStateRepository
                         .getState(forceUpdate = false)
                         .getOrThrow()
-                        .let(InternalMessage.FetchInterviewStepsResult::Success)
+                    val onboardingFlag = onboardingInteractor.wasInterviewPreparationOnboardingShown()
+                    InternalMessage.FetchInterviewStepsResult.Success(steps, onboardingFlag)
                 }.let(::onNewMessage)
             }
             is InternalAction.LogAnalyticEvent -> {

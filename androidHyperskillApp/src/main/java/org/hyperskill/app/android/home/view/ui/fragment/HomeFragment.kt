@@ -191,6 +191,8 @@ class HomeFragment :
                 when (val viewAction = action.viewAction) {
                     is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.Step ->
                         navigateToStepScreen(viewAction.stepRoute)
+                    is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.InterviewPreparationOnboarding ->
+                        TODO("Not implemented")
                 }
             }
         }

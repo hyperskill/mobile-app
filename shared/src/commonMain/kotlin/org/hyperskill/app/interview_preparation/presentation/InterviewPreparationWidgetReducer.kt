@@ -53,7 +53,10 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     ): InterviewPreparationWidgetReducerResult =
         when (message) {
             is InternalMessage.FetchInterviewStepsResult.Success ->
-                State.Content(steps = message.steps) to emptySet()
+                State.Content(
+                    steps = message.steps,
+                    wasOnboardingShown = message.wasOnboardingShown
+                ) to emptySet()
             InternalMessage.FetchInterviewStepsResult.Error ->
                 State.Error to emptySet()
         }
@@ -93,10 +96,14 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Content && state.steps.isNotEmpty()) {
             val stepId = state.steps.shuffled().first()
+            val stepRoute = StepRoute.InterviewPreparation(stepId.id)
+            val navigationAction = if (!state.wasOnboardingShown) {
+                Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
+            } else {
+                Action.ViewAction.NavigateTo.Step(stepRoute)
+            }
             state to setOf(
-                Action.ViewAction.NavigateTo.Step(
-                    StepRoute.InterviewPreparation(stepId.id)
-                ),
+                navigationAction,
                 InternalAction.LogAnalyticEvent(
                     InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
                 )

@@ -15,6 +15,11 @@ sealed class HyperskillAnalyticRoute {
             override val path: String
                 get() = "${super.path}/first-problem"
         }
+
+        object InterviewPreparation : Onboarding() {
+            override val path: String
+                get() = "${super.path}/interview-preparation"
+        }
     }
 
     open class Login : HyperskillAnalyticRoute() {

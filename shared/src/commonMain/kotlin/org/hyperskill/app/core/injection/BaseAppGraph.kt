@@ -33,6 +33,8 @@ import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.HomeComponentImpl
 import org.hyperskill.app.interview_preparation.injection.InterviewPreparationWidgetComponent
 import org.hyperskill.app.interview_preparation.injection.InterviewPreparationWidgetComponentImpl
+import org.hyperskill.app.interview_preparation_onboarding.injection.InterviewPreparationOnboardingComponent
+import org.hyperskill.app.interview_preparation_onboarding.injection.InterviewPreparationOnboardingComponentImpl
 import org.hyperskill.app.items.injection.ItemsDataComponent
 import org.hyperskill.app.items.injection.ItemsDataComponentImpl
 import org.hyperskill.app.leaderboard.injection.LeaderboardDataComponent
@@ -469,4 +471,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent =
         InterviewPreparationWidgetComponentImpl(this)
+
+    override fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent =
+        InterviewPreparationOnboardingComponentImpl(this)
 }
