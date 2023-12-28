@@ -56,11 +56,11 @@ class InterviewPreparationWidgetActionDispatcher(
             }
             is InternalAction.FetchOnboardingFlag -> {
                 try {
-                    InternalMessage.OnboardingFlagFetchResult.Success(
+                    InternalMessage.OnboardingFlagFetchResultSuccess(
                         onboardingInteractor.wasInterviewPreparationOnboardingShown()
                     )
                 } catch (_: Exception) {
-                    InternalMessage.OnboardingFlagFetchResult.Error
+                    InternalMessage.OnboardingFlagFetchResultError
                 }.let(::onNewMessage)
             }
             is InternalAction.LogAnalyticEvent -> {

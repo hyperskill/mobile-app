@@ -37,11 +37,9 @@ object InterviewPreparationWidgetFeature {
 
         data class StepSolved(val stepId: StepId) : InternalMessage
 
-        sealed interface OnboardingFlagFetchResult : InternalMessage {
-            data class Success(val wasOnboardingShown: Boolean) : OnboardingFlagFetchResult
+        data class OnboardingFlagFetchResultSuccess(val wasOnboardingShown: Boolean) : InternalMessage
 
-            object Error : OnboardingFlagFetchResult
-        }
+        object OnboardingFlagFetchResultError : InternalMessage
     }
     sealed interface Action {
         sealed interface ViewAction : Action {
