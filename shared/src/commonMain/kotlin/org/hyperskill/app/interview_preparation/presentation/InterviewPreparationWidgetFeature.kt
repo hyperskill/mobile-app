@@ -9,7 +9,7 @@ object InterviewPreparationWidgetFeature {
         data class Loading(val isLoadingSilently: Boolean) : State
         object Error : State
         data class Content(
-            val steps: List<Long>,
+            val stepsCount: Int,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -30,16 +30,29 @@ object InterviewPreparationWidgetFeature {
          * The success result for [InternalAction.FetchInterviewSteps]
          */
         data class FetchInterviewStepsResultSuccess(val steps: List<Long>) : InternalMessage
-
+        /**
+         * The error result for [InternalAction.FetchInterviewSteps]
+         */
         object FetchInterviewStepsResultError : InternalMessage
 
         object PullToRefresh : InternalMessage
 
-        data class StepSolved(val stepId: Long) : InternalMessage
+        data class StepsCountChanged(val stepsCount: Int) : InternalMessage
+
+        /**
+         * The success result for [InternalAction.FetchNextInterviewStep]
+         */
+        data class FetchNextInterviewStepResultSuccess(val stepId: Long) : InternalMessage
+        /**
+         * The error result for [InternalAction.FetchNextInterviewStep]
+         */
+        data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
+            data class ShowOpenStepError(val errorMessage: String) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 data class Step(val stepRoute: StepRoute) : NavigateTo
             }
@@ -55,5 +68,12 @@ object InterviewPreparationWidgetFeature {
          * [InternalMessage.FetchInterviewStepsResultSuccess] or [InternalMessage.FetchInterviewStepsResultError]
          */
         data class FetchInterviewSteps(val forceLoadFromNetwork: Boolean) : InternalAction
+
+        /**
+         * Fetch next interview step id.
+         * The result of this action is
+         * [InternalMessage.FetchNextInterviewStepResultSuccess] or [InternalMessage.FetchNextInterviewStepResultError]
+         */
+        object FetchNextInterviewStep : InternalAction
     }
 }

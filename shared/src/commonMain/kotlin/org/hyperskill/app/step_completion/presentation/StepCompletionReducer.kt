@@ -174,6 +174,11 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     )
                 )
             }
+            is InternalMessage.FetchNextInterviewStepResultSuccess ->
+                handleFetchNextInterviewStepResultSuccess(state, message)
+            is InternalMessage.FetchNextInterviewStepResultError -> {
+                handleFetchNextInterviewStepResultError(state, message)
+            }
             /**
              * Analytic
              * */
@@ -200,13 +205,6 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     route = stepRoute.analyticRoute
                 )
                 state to setOf(Action.LogAnalyticEvent(event))
-            }
-            is InternalMessage.FetchNextInterviewStepResultSuccess ->
-                handleFetchNextInterviewStepResultSuccess(state, message)
-            is InternalMessage.FetchNextInterviewStepResultError -> {
-                state.copy(isPracticingLoading = false) to setOf(
-                    Action.ViewAction.ShowStartPracticingError(message.errorMessage)
-                )
             }
         } ?: (state to emptySet())
 
@@ -245,12 +243,21 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
     ): StepCompletionReducerResult =
         state.copy(isPracticingLoading = false) to
             setOf(
-                if (message.newStepRoute != null) {
-                    Action.ViewAction.ReloadStep(message.newStepRoute)
+                if (message.interviewStepId != null) {
+                    Action.ViewAction.ReloadStep(
+                        StepRoute.InterviewPreparation(message.interviewStepId)
+                    )
                 } else {
                     Action.ViewAction.NavigateTo.Back
                 }
             )
+
+    private fun handleFetchNextInterviewStepResultError(
+        state: State,
+        message: InternalMessage.FetchNextInterviewStepResultError
+    ) =
+        state.copy(isPracticingLoading = false) to
+            setOf(Action.ViewAction.ShowStartPracticingError(message.errorMessage))
 
     private fun handleStepSolved(
         state: State,

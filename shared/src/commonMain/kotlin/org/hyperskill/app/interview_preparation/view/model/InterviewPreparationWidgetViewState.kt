@@ -7,7 +7,7 @@ sealed interface InterviewPreparationWidgetViewState {
     object Empty : InterviewPreparationWidgetViewState
 
     data class Content(
-        val stepsCount: Int,
+        val formattedStepsCount: String,
         val description: String
     ) : InterviewPreparationWidgetViewState
 }

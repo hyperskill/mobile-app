@@ -121,7 +121,7 @@ object StepCompletionFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        data class FetchNextInterviewStepResultSuccess(val newStepRoute: StepRoute?) : InternalMessage
+        data class FetchNextInterviewStepResultSuccess(val interviewStepId: Long?) : InternalMessage
 
         data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
     }
