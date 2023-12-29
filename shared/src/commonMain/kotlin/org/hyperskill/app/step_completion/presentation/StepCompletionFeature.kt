@@ -112,6 +112,13 @@ object StepCompletionFeature {
         data class ShareStreakModalNoThanksClickedEventMessage(val streak: Int) : Message
 
         /**
+         * Interview preparation modal
+         */
+        object InterviewPreparationCompletedModalShownEventMessage : Message
+        object InterviewPreparationCompletedModalHiddenEventMessage : Message
+        object InterviewPreparationGoToTrainingClicked : Message
+
+        /**
          * Analytic
          */
         object TopicCompletedModalShownEventMessage : Message
@@ -151,6 +158,8 @@ object StepCompletionFeature {
 
             data class ShowShareStreakModal(val streak: Int) : ViewAction
             data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
+
+            object ShowInterviewPreparationCompleted : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
 

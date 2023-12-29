@@ -10,6 +10,9 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailySte
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalClickedShareStreakHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionInterviewPreparationCompletedModalClickedGoTrainingHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionInterviewPreparationCompletedModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionInterviewPreparationCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedNoThanksHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedShareHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalHiddenHyperskillAnalyticEvent
@@ -179,6 +182,31 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             is InternalMessage.FetchNextInterviewStepResultError -> {
                 handleFetchNextInterviewStepResultError(state, message)
             }
+            is Message.InterviewPreparationCompletedModalShownEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepCompletionInterviewPreparationCompletedModalShownHyperskillAnalyticEvent(
+                            stepRoute.analyticRoute
+                        )
+                    )
+                )
+            is Message.InterviewPreparationCompletedModalHiddenEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepCompletionInterviewPreparationCompletedModalHiddenHyperskillAnalyticEvent(
+                            stepRoute.analyticRoute
+                        )
+                    )
+                )
+            is Message.InterviewPreparationGoToTrainingClicked ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepCompletionInterviewPreparationCompletedModalClickedGoTrainingHyperskillAnalyticEvent(
+                            stepRoute.analyticRoute
+                        )
+                    ),
+                    Action.ViewAction.NavigateTo.StudyPlan
+                )
             /**
              * Analytic
              * */
@@ -241,16 +269,19 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
         state: State,
         message: InternalMessage.FetchNextInterviewStepResultSuccess
     ): StepCompletionReducerResult =
-        state.copy(isPracticingLoading = false) to
-            setOf(
-                if (message.interviewStepId != null) {
+        if (message.interviewStepId != null) {
+            state.copy(isPracticingLoading = false) to
+                setOf(
                     Action.ViewAction.ReloadStep(
                         StepRoute.InterviewPreparation(message.interviewStepId)
                     )
-                } else {
-                    Action.ViewAction.NavigateTo.Back
-                }
-            )
+                )
+        } else {
+            state.copy(
+                isPracticingLoading = false,
+                continueButtonAction = ContinueButtonAction.NavigateToStudyPlan
+            ) to setOf(Action.ViewAction.ShowInterviewPreparationCompleted)
+        }
 
     private fun handleFetchNextInterviewStepResultError(
         state: State,
