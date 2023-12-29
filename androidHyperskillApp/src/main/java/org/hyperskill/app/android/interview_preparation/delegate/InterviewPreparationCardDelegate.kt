@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.interview_preparation.delegate
 
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -23,6 +24,12 @@ class InterviewPreparationCardDelegate {
             setContent {
                 HyperskillTheme {
                     val viewState by stateFlow.collectAsStateWithLifecycle()
+                    DisposableEffect(viewLifecycleOwner) {
+                        onNewMessage(InterviewPreparationWidgetFeature.Message.ViewedEventMessage)
+                        onDispose {
+                            // no op
+                        }
+                    }
                     viewState?.let { actualViewState ->
                         InterviewPreparationCard(
                             viewState = actualViewState,
