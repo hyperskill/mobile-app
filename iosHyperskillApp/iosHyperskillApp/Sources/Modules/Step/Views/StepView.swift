@@ -122,8 +122,12 @@ struct StepView: View {
             presentShareStreakModal(streak: Int(showShareStreakModalViewAction.streak))
         case .showShareStreakSystemModal(let showShareStreakSystemModalViewAction):
             presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
+        case .showInterviewPreparationCompleted:
+            presentInterviewPreparationFinishedModal()
         }
     }
+    
+    
 
     private func dismissPanModalAndNavigateBack() {
         let isDismissed = panModalPresenter.dismissPanModal(
@@ -172,6 +176,10 @@ extension StepView {
     private func presentShareStreakSystemModal(streak: Int) {
         let activityViewController = ShareStreakAction.makeActivityViewController(for: streak)
         modalRouter.present(module: activityViewController, modalPresentationStyle: .automatic)
+    }
+    
+    private func presentInterviewPreparationFinishedModal() {
+        // todo ALTAPPS-1093
     }
 }
 
