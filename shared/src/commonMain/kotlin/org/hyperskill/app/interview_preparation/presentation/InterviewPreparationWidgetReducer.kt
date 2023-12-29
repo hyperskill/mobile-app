@@ -9,7 +9,6 @@ import org.hyperskill.app.interview_preparation.presentation.InterviewPreparatio
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.Message
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.State
 import org.hyperskill.app.step.domain.model.StepRoute
-import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias InterviewPreparationWidgetReducerResult = Pair<State, Set<Action>>
@@ -19,7 +18,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         when (message) {
             is InternalMessage.Initialize -> handleInitializeMessage(state, message)
             is InternalMessage.FetchInterviewStepsResultSuccess -> {
-                State.Content(steps = message.steps) to emptySet()
+                State.Content(stepsCount = message.steps.count()) to emptySet()
             }
             is InternalMessage.FetchInterviewStepsResultError -> {
                 State.Error to emptySet()
@@ -28,7 +27,12 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             Message.RetryContentLoading -> handleRetryContentLoading(state)
             Message.ViewedEventMessage -> handleWidgetViewed(state)
             Message.WidgetClicked -> handleWidgetClicked(state)
-            is InternalMessage.StepSolved -> handleStepSolved(state, message)
+            is InternalMessage.StepsCountChanged -> handleStepCountChanged(state, message)
+            is InternalMessage.FetchNextInterviewStepResultSuccess ->
+                handleFetchNextInterviewStepResultSuccess(state, message)
+            is InternalMessage.FetchNextInterviewStepResultError -> {
+                state to setOf(Action.ViewAction.ShowOpenStepError(message.errorMessage))
+            }
         }
 
     private fun handleInitializeMessage(
@@ -49,7 +53,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             is State.Content ->
                 if (message.forceUpdate) {
                     State.Loading(
-                        isLoadingSilently = state.steps.isEmpty()
+                        isLoadingSilently = state.stepsCount == 0
                     ) to setOf(InternalAction.FetchInterviewSteps(true))
                 } else {
                     state to emptySet()
@@ -92,19 +96,26 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleWidgetClicked(
         state: State
     ): InterviewPreparationWidgetReducerResult =
-        if (state is State.Content && state.steps.isNotEmpty()) {
-            val stepId = state.steps.shuffled().first()
+        if (state is State.Content) {
             state to setOf(
-                Action.ViewAction.NavigateTo.Step(
-                    StepRoute.InterviewPreparation(stepId)
-                ),
                 InternalAction.LogAnalyticEvent(
                     InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
-                )
+                ),
+                InternalAction.FetchNextInterviewStep
             )
         } else {
             state to emptySet()
         }
+
+    private fun handleFetchNextInterviewStepResultSuccess(
+        state: State,
+        message: InternalMessage.FetchNextInterviewStepResultSuccess
+    ) =
+        state to setOf(
+            Action.ViewAction.NavigateTo.Step(
+                StepRoute.InterviewPreparation(message.stepId)
+            )
+        )
 
     private fun handleWidgetViewed(
         state: State
@@ -115,14 +126,12 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             )
         )
 
-    private fun handleStepSolved(
+    private fun handleStepCountChanged(
         state: State,
-        message: InternalMessage.StepSolved
+        message: InternalMessage.StepsCountChanged
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Content) {
-            state.copy(
-                steps = state.steps.mutate { remove(message.stepId) }
-            ) to emptySet()
+            state.copy(stepsCount = message.stepsCount) to emptySet()
         } else {
             state to emptySet()
         }

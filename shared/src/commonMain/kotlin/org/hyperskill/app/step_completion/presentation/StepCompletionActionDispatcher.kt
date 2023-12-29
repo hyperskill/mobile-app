@@ -292,13 +292,11 @@ class StepCompletionActionDispatcher(
                 )
             }
         ) {
-            val nextInterviewStepId = interviewStepsStateRepository
-                .getState(forceUpdate = false)
-                .getOrThrow()
-                .shuffled()
-                .firstOrNull()
             InternalMessage.FetchNextInterviewStepResultSuccess(
-                nextInterviewStepId?.let(StepRoute::InterviewPreparation)
+                interviewStepsStateRepository
+                    .getState(forceUpdate = false)
+                    .getOrThrow()
+                    .lastOrNull()
             )
         }.let(onNewMessage)
     }

@@ -17,8 +17,8 @@ class InterviewPreparationWidgetComponentImpl(
             config = ActionDispatcherOptions(),
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             interviewStepsStateRepository = appGraph.stateRepositoriesComponent.interviewStepsStateRepository,
-            submissionRepository = appGraph.submissionDataComponent.submissionRepository,
-            sentryInteractor = appGraph.sentryComponent.sentryInteractor
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            resourceProvider = appGraph.commonComponent.resourceProvider
         )
 
     override val interviewPreparationWidgetViewStateMapper: InterviewPreparationWidgetViewStateMapper
