@@ -1,7 +1,6 @@
 package org.hyperskill.app.interview_preparation.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.step.domain.model.StepId
 import org.hyperskill.app.step.domain.model.StepRoute
 
 object InterviewPreparationWidgetFeature {
@@ -10,7 +9,7 @@ object InterviewPreparationWidgetFeature {
         data class Loading(val isLoadingSilently: Boolean) : State
         object Error : State
         data class Content(
-            val steps: List<StepId>,
+            val stepsCount: Int,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -19,6 +18,7 @@ object InterviewPreparationWidgetFeature {
         get() = this is State.Content && isRefreshing
 
     sealed interface Message {
+        object ViewedEventMessage : Message
         object RetryContentLoading : Message
         object WidgetClicked : Message
     }
@@ -27,22 +27,36 @@ object InterviewPreparationWidgetFeature {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
 
         /**
-         * The result for [InternalAction.FetchInterviewSteps]
+         * The success result for [InternalAction.FetchInterviewSteps]
          */
-        data class FetchInterviewStepsResultSuccess(val steps: List<StepId>) : InternalMessage
-
+        data class FetchInterviewStepsResultSuccess(val steps: List<Long>) : InternalMessage
+        /**
+         * The error result for [InternalAction.FetchInterviewSteps]
+         */
         object FetchInterviewStepsResultError : InternalMessage
 
         object PullToRefresh : InternalMessage
 
-        data class StepSolved(val stepId: StepId) : InternalMessage
+        data class StepsCountChanged(val stepsCount: Int) : InternalMessage
+
+        /**
+         * The success result for [InternalAction.FetchNextInterviewStep]
+         */
+        data class FetchNextInterviewStepResultSuccess(val stepId: Long) : InternalMessage
+        /**
+         * The error result for [InternalAction.FetchNextInterviewStep]
+         */
+        data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
 
         data class OnboardingFlagFetchResultSuccess(val wasOnboardingShown: Boolean) : InternalMessage
 
         object OnboardingFlagFetchResultError : InternalMessage
     }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
+            data class ShowOpenStepError(val errorMessage: String) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 data class InterviewPreparationOnboarding(val stepRoute: StepRoute) : NavigateTo
                 data class Step(val stepRoute: StepRoute) : NavigateTo
@@ -55,9 +69,17 @@ object InterviewPreparationWidgetFeature {
 
         /**
          * Fetch interview steps.
-         * The result of this action is [InternalMessage.FetchInterviewStepsResult].
+         * The result of this action is
+         * [InternalMessage.FetchInterviewStepsResultSuccess] or [InternalMessage.FetchInterviewStepsResultError]
          */
-        object FetchInterviewSteps : InternalAction
+        data class FetchInterviewSteps(val forceLoadFromNetwork: Boolean) : InternalAction
+
+        /**
+         * Fetch next interview step id.
+         * The result of this action is
+         * [InternalMessage.FetchNextInterviewStepResultSuccess] or [InternalMessage.FetchNextInterviewStepResultError]
+         */
+        object FetchNextInterviewStep : InternalAction
 
         object FetchOnboardingFlag : InternalAction
     }

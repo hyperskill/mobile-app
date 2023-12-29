@@ -88,6 +88,8 @@ class StepDelegate<TFragment>(
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
                         shareStreak(stepCompletionAction.streak)
                     }
+                    StepCompletionFeature.Action.ViewAction.ShowInterviewPreparationCompleted ->
+                        TODO("ALTAPPS-1094")
                 }
             }
         }

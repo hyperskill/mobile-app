@@ -1,5 +1,6 @@
 package org.hyperskill.app.sentry.domain
 
+import kotlinx.coroutines.CancellationException
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 
@@ -22,6 +23,8 @@ suspend inline fun <T> SentryInteractor.withTransaction(
         val result = measureBlock()
         finishTransaction(transaction)
         result
+    } catch (e: CancellationException) {
+        throw e
     } catch (e: Exception) {
         finishTransaction(transaction, e)
         onError(e)
