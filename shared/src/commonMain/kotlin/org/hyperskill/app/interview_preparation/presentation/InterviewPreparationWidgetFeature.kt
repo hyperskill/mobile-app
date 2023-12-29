@@ -54,6 +54,6 @@ object InterviewPreparationWidgetFeature {
          * The result of this action is
          * [InternalMessage.FetchInterviewStepsResultSuccess] or [InternalMessage.FetchInterviewStepsResultError]
          */
-        object FetchInterviewSteps : InternalAction
+        data class FetchInterviewSteps(val forceLoadFromNetwork: Boolean) : InternalAction
     }
 }

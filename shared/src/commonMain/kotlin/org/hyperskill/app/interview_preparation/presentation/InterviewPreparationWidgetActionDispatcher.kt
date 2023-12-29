@@ -40,13 +40,13 @@ class InterviewPreparationWidgetActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            InternalAction.FetchInterviewSteps -> {
+            is InternalAction.FetchInterviewSteps -> {
                 sentryInteractor.withTransaction(
                     HyperskillSentryTransactionBuilder.buildInterviewPreparationWidgetFeatureFetchInterviewSteps(),
                     onError = { InternalMessage.FetchInterviewStepsResultError }
                 ) {
                     interviewStepsStateRepository
-                        .getState(forceUpdate = false)
+                        .getState(forceUpdate = action.forceLoadFromNetwork)
                         .getOrThrow()
                         .let(InternalMessage::FetchInterviewStepsResultSuccess)
                 }.let(::onNewMessage)
