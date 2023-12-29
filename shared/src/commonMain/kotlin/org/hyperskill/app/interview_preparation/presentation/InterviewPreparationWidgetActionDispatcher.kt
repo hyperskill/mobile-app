@@ -13,7 +13,6 @@ import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateR
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
-import org.hyperskill.app.step.domain.model.StepId
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -28,8 +27,7 @@ class InterviewPreparationWidgetActionDispatcher(
 
     init {
         submissionRepository.solvedStepsSharedFlow
-            .onEach {
-                val stepId = StepId(it)
+            .onEach { stepId ->
                 interviewStepsStateRepository.updateState { origin ->
                     origin.mutate { remove(stepId) }
                 }
