@@ -1,8 +1,8 @@
 package org.hyperskill.app.interview_preparation.presentation
 
-import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
-import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
-import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
+import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
+import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.Action
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalAction
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalMessage
@@ -37,10 +37,12 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     ): InterviewPreparationWidgetReducerResult =
         when (state) {
             State.Idle ->
-                State.Loading(isLoadingSilently = false) to setOf(InternalAction.FetchInterviewSteps)
+                State.Loading(isLoadingSilently = false) to
+                    setOf(InternalAction.FetchInterviewSteps(false))
             State.Error ->
                 if (message.forceUpdate) {
-                    State.Loading(isLoadingSilently = false) to setOf(InternalAction.FetchInterviewSteps)
+                    State.Loading(isLoadingSilently = false) to
+                        setOf(InternalAction.FetchInterviewSteps(false))
                 } else {
                     state to emptySet()
                 }
@@ -48,7 +50,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
                 if (message.forceUpdate) {
                     State.Loading(
                         isLoadingSilently = state.steps.isEmpty()
-                    ) to setOf(InternalAction.FetchInterviewSteps)
+                    ) to setOf(InternalAction.FetchInterviewSteps(true))
                 } else {
                     state to emptySet()
                 }
@@ -63,10 +65,12 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
                 if (state.isRefreshing) {
                     state to emptySet()
                 } else {
-                    state.copy(isRefreshing = true) to setOf(InternalAction.FetchInterviewSteps)
+                    state.copy(isRefreshing = true) to
+                        setOf(InternalAction.FetchInterviewSteps(true))
                 }
             is State.Error ->
-                State.Loading(isLoadingSilently = false) to setOf(InternalAction.FetchInterviewSteps)
+                State.Loading(isLoadingSilently = false) to
+                    setOf(InternalAction.FetchInterviewSteps(true))
             else ->
                 state to emptySet()
         }
@@ -76,7 +80,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Error) {
             State.Loading(isLoadingSilently = false) to setOf(
-                InternalAction.FetchInterviewSteps,
+                InternalAction.FetchInterviewSteps(true),
                 InternalAction.LogAnalyticEvent(
                     InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
                 )
@@ -92,7 +96,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             val stepId = state.steps.shuffled().first()
             state to setOf(
                 Action.ViewAction.NavigateTo.Step(
-                    StepRoute.InterviewPreparation(stepId.id)
+                    StepRoute.InterviewPreparation(stepId)
                 ),
                 InternalAction.LogAnalyticEvent(
                     InterviewPreparationWidgetClickedHyperskillAnalyticsEvent

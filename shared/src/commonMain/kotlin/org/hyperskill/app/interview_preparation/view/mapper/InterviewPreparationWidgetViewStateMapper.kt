@@ -14,17 +14,22 @@ class InterviewPreparationWidgetViewStateMapper(
             State.Error -> InterviewPreparationWidgetViewState.Error
             is State.Loading ->
                 InterviewPreparationWidgetViewState.Loading(shouldShowSkeleton = !state.isLoadingSilently)
-            is State.Content -> getLoadedWidgetContent(state)
+            is State.Content -> {
+                val stepsCount = state.steps.count()
+                if (stepsCount > 0) {
+                    getLoadedWidgetContent(stepsCount)
+                } else {
+                    InterviewPreparationWidgetViewState.Empty
+                }
+            }
         }
 
-    private fun getLoadedWidgetContent(state: State.Content): InterviewPreparationWidgetViewState {
-        val stepsAmount = state.steps.count()
-        return InterviewPreparationWidgetViewState.Content(
-            stepsAmount = stepsAmount,
+    private fun getLoadedWidgetContent(stepsCount: Int): InterviewPreparationWidgetViewState.Content =
+        InterviewPreparationWidgetViewState.Content(
+            stepsCount = stepsCount,
             description = resourceProvider.getQuantityString(
                 SharedResources.plurals.interview_preparation_widget_description,
-                stepsAmount
+                stepsCount
             )
         )
-    }
 }

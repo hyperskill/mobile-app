@@ -261,7 +261,10 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 is StepRoute.Learn ->
                     state to setOf(Action.UpdateProblemsLimit)
                 is StepRoute.InterviewPreparation ->
-                    state to setOf(InternalAction.MarkInterviewStepAsSolved(message.stepId))
+                    state to setOf(
+                        Action.UpdateProblemsLimit,
+                        InternalAction.MarkInterviewStepAsSolved(message.stepId)
+                    )
                 else -> state to emptySet()
             }
         } else {

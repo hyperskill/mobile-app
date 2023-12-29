@@ -73,7 +73,7 @@ sealed class HyperskillAnalyticRoute {
 
         class InterviewPreparationWidget : Home() {
             override val path: String
-                get() = "${super.path}/interview_preparation_widget"
+                get() = "${super.path}/interview-preparation-widget"
         }
     }
 

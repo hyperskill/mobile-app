@@ -1,4 +1,4 @@
-package org.hyperskill.app.interview_preparation.domain.analytics
+package org.hyperskill.app.interview_preparation.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent

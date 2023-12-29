@@ -1,7 +1,6 @@
 package org.hyperskill.app.interview_preparation.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.step.domain.model.StepId
 import org.hyperskill.app.step.domain.model.StepRoute
 
 object InterviewPreparationWidgetFeature {
@@ -10,7 +9,7 @@ object InterviewPreparationWidgetFeature {
         data class Loading(val isLoadingSilently: Boolean) : State
         object Error : State
         data class Content(
-            val steps: List<StepId>,
+            val steps: List<Long>,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -28,16 +27,17 @@ object InterviewPreparationWidgetFeature {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
 
         /**
-         * The result for [InternalAction.FetchInterviewSteps]
+         * The success result for [InternalAction.FetchInterviewSteps]
          */
-        data class FetchInterviewStepsResultSuccess(val steps: List<StepId>) : InternalMessage
+        data class FetchInterviewStepsResultSuccess(val steps: List<Long>) : InternalMessage
 
         object FetchInterviewStepsResultError : InternalMessage
 
         object PullToRefresh : InternalMessage
 
-        data class StepSolved(val stepId: StepId) : InternalMessage
+        data class StepSolved(val stepId: Long) : InternalMessage
     }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
@@ -51,8 +51,9 @@ object InterviewPreparationWidgetFeature {
 
         /**
          * Fetch interview steps.
-         * The result of this action is [InternalMessage.FetchInterviewStepsResult].
+         * The result of this action is
+         * [InternalMessage.FetchInterviewStepsResultSuccess] or [InternalMessage.FetchInterviewStepsResultError]
          */
-        object FetchInterviewSteps : InternalAction
+        data class FetchInterviewSteps(val forceLoadFromNetwork: Boolean) : InternalAction
     }
 }
