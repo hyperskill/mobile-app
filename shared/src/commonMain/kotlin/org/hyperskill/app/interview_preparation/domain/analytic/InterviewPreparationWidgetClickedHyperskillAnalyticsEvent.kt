@@ -1,10 +1,9 @@
-package org.hyperskill.app.interview_preparation.domain.analytics
+package org.hyperskill.app.interview_preparation.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
  * Represents a click analytic event of the interview preparation widget.
@@ -14,15 +13,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * {
  *     "route": "/home",
  *     "action": "click",
- *     "part": "interview_preparation_widget",
- *     "target": "retry"
+ *     "part": "interview_preparation_widget"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-object InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
+object InterviewPreparationWidgetClickedHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Home(),
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.INTERVIEW_PREPARATION_WIDGET,
-    HyperskillAnalyticTarget.RETRY
+    HyperskillAnalyticPart.INTERVIEW_PREPARATION_WIDGET
 )

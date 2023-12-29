@@ -52,6 +52,7 @@ class StateRepositoriesComponentImpl(appGraph: AppGraph) : StateRepositoriesComp
         )
     }
 
-    override val interviewStepsStateRepository: InterviewStepsStateRepository =
+    override val interviewStepsStateRepository: InterviewStepsStateRepository by lazy {
         InterviewStepsStateRepositoryImpl()
+    }
 }

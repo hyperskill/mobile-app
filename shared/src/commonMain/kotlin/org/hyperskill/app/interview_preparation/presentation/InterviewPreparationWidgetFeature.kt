@@ -28,7 +28,7 @@ object InterviewPreparationWidgetFeature {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
 
         /**
-         * The result for [InternalAction.FetchInterviewSteps]
+         * The success result for [InternalAction.FetchInterviewSteps]
          */
         data class FetchInterviewStepsResultSuccess(val steps: List<StepId>) : InternalMessage
 
@@ -38,6 +38,7 @@ object InterviewPreparationWidgetFeature {
 
         data class StepSolved(val stepId: StepId) : InternalMessage
     }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
@@ -51,7 +52,8 @@ object InterviewPreparationWidgetFeature {
 
         /**
          * Fetch interview steps.
-         * The result of this action is [InternalMessage.FetchInterviewStepsResult].
+         * The result of this action is
+         * [InternalMessage.FetchInterviewStepsResultSuccess] or [InternalMessage.FetchInterviewStepsResultError]
          */
         object FetchInterviewSteps : InternalAction
     }

@@ -39,6 +39,7 @@ class InterviewPreparationWidgetActionDispatcher(
             }
             .launchIn(actionScope)
     }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             InternalAction.FetchInterviewSteps -> {

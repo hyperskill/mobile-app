@@ -18,12 +18,12 @@ class InterviewPreparationWidgetViewStateMapper(
         }
 
     private fun getLoadedWidgetContent(state: State.Content): InterviewPreparationWidgetViewState {
-        val stepsAmount = state.steps.count()
+        val stepsCount = state.steps.count()
         return InterviewPreparationWidgetViewState.Content(
-            stepsAmount = stepsAmount,
+            stepsCount = stepsCount,
             description = resourceProvider.getQuantityString(
                 SharedResources.plurals.interview_preparation_widget_description,
-                stepsAmount
+                stepsCount
             )
         )
     }
