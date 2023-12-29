@@ -68,8 +68,13 @@ sealed class HyperskillAnalyticRoute {
         }
     }
 
-    class Home : HyperskillAnalyticRoute() {
+    open class Home : HyperskillAnalyticRoute() {
         override val path: String = "/home"
+
+        class InterviewPreparationWidget : Home() {
+            override val path: String
+                get() = "${super.path}/interview_preparation_widget"
+        }
     }
 
     open class Repeat : HyperskillAnalyticRoute() {

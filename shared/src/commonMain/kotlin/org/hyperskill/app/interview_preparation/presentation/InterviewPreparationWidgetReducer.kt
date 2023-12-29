@@ -2,6 +2,7 @@ package org.hyperskill.app.interview_preparation.presentation
 
 import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
 import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.interview_preparation.domain.analytics.InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.Action
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalAction
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalMessage
@@ -25,6 +26,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             }
             InternalMessage.PullToRefresh -> handlePullToRefresh(state)
             Message.RetryContentLoading -> handleRetryContentLoading(state)
+            Message.ViewedEventMessage -> handleWidgetViewed(state)
             Message.WidgetClicked -> handleWidgetClicked(state)
             is InternalMessage.StepSolved -> handleStepSolved(state, message)
         }
@@ -99,6 +101,15 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         } else {
             state to emptySet()
         }
+
+    private fun handleWidgetViewed(
+        state: State
+    ): InterviewPreparationWidgetReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
+            )
+        )
 
     private fun handleStepSolved(
         state: State,

@@ -19,6 +19,7 @@ object InterviewPreparationWidgetFeature {
         get() = this is State.Content && isRefreshing
 
     sealed interface Message {
+        object ViewedEventMessage : Message
         object RetryContentLoading : Message
         object WidgetClicked : Message
     }
