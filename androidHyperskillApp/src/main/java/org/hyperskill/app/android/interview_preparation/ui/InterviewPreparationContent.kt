@@ -96,7 +96,7 @@ fun InterviewPreparationContent(
                         .background(colorResource(id = R.color.color_overlay_blue_alpha_12))
                 ) {
                     Text(
-                        text = content.stepsAmount.toString(),
+                        text = content.formattedStepsCount,
                         style = MaterialTheme.typography.body1,
                         fontSize = 14.sp,
                         color = colorResource(id = R.color.color_on_surface_alpha_87),
@@ -120,7 +120,7 @@ private fun InterviewPreparationWidgetViewState() {
     HyperskillTheme {
         InterviewPreparationContent(
             content = InterviewPreparationWidgetViewState.Content(
-                stepsAmount = 50,
+                formattedStepsCount = "50",
                 description = "problems at the hard level to solve"
             ),
             onClick = {}

@@ -42,4 +42,28 @@ class StepViewModel(
             )
         )
     }
+
+    fun onInterviewPreparationFinishedDialogShown() {
+        onNewMessage(
+            StepFeature.Message.StepCompletionMessage(
+                StepCompletionFeature.Message.InterviewPreparationCompletedModalShownEventMessage
+            )
+        )
+    }
+
+    fun onInterviewPreparationFinishedDialogHidden() {
+        onNewMessage(
+            StepFeature.Message.StepCompletionMessage(
+                StepCompletionFeature.Message.InterviewPreparationCompletedModalHiddenEventMessage
+            )
+        )
+    }
+
+    fun onInterviewPreparationFinishedDialogGoTrainingClicked() {
+        onNewMessage(
+            StepFeature.Message.StepCompletionMessage(
+                StepCompletionFeature.Message.InterviewPreparationGoToTrainingClicked
+            )
+        )
+    }
 }
