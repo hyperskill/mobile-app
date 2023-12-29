@@ -42,15 +42,11 @@ object InterviewPreparationWidgetFeature {
         /**
          * The success result for [InternalAction.FetchNextInterviewStep]
          */
-        data class FetchNextInterviewStepResultSuccess(val stepId: Long) : InternalMessage
+        data class FetchNextInterviewStepResultSuccess(val stepId: Long, val wasOnboardingShown: Boolean) : InternalMessage
         /**
          * The error result for [InternalAction.FetchNextInterviewStep]
          */
         data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
-
-        data class OnboardingFlagFetchResultSuccess(val wasOnboardingShown: Boolean) : InternalMessage
-
-        object OnboardingFlagFetchResultError : InternalMessage
     }
 
     sealed interface Action {
@@ -80,7 +76,5 @@ object InterviewPreparationWidgetFeature {
          * [InternalMessage.FetchNextInterviewStepResultSuccess] or [InternalMessage.FetchNextInterviewStepResultError]
          */
         object FetchNextInterviewStep : InternalAction
-
-        object FetchOnboardingFlag : InternalAction
     }
 }

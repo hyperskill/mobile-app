@@ -46,15 +46,6 @@ class InterviewPreparationWidgetActionDispatcher(
                         .let(InternalMessage::FetchInterviewStepsResultSuccess)
                 }.let(::onNewMessage)
             }
-            is InternalAction.FetchOnboardingFlag -> {
-                try {
-                    InternalMessage.OnboardingFlagFetchResultSuccess(
-                        onboardingInteractor.wasInterviewPreparationOnboardingShown()
-                    )
-                } catch (_: Exception) {
-                    InternalMessage.OnboardingFlagFetchResultError
-                }.let(::onNewMessage)
-            }
             is InternalAction.FetchNextInterviewStep -> handleFetchNextInterviewStep(::onNewMessage)
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.event)
@@ -82,7 +73,10 @@ class InterviewPreparationWidgetActionDispatcher(
                 null
             }
             if (nextInterviewStepId != null) {
-                InternalMessage.FetchNextInterviewStepResultSuccess(nextInterviewStepId)
+                InternalMessage.FetchNextInterviewStepResultSuccess(
+                    stepId = nextInterviewStepId,
+                    wasOnboardingShown = onboardingInteractor.wasInterviewPreparationOnboardingShown()
+                )
             } else {
                 getErrorMessage()
             }

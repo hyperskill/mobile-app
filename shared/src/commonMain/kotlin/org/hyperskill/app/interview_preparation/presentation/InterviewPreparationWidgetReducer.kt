@@ -33,10 +33,6 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             is InternalMessage.FetchNextInterviewStepResultError -> {
                 state to setOf(Action.ViewAction.ShowOpenStepError(message.errorMessage))
             }
-            is InternalMessage.OnboardingFlagFetchResultSuccess ->
-                handleOnboardingFlagFetchSuccessResult(state, message)
-            InternalMessage.OnboardingFlagFetchResultError ->
-                handleOnboardingFlagFetchErrorResult(state)
         }
 
     private fun handleInitializeMessage(
@@ -105,7 +101,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
                 InternalAction.LogAnalyticEvent(
                     InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
                 ),
-                InternalAction.FetchOnboardingFlag
+                InternalAction.FetchNextInterviewStep
             )
         } else {
             state to emptySet()
@@ -114,12 +110,16 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleFetchNextInterviewStepResultSuccess(
         state: State,
         message: InternalMessage.FetchNextInterviewStepResultSuccess
-    ) =
-        state to setOf(
-            Action.ViewAction.NavigateTo.Step(
-                StepRoute.InterviewPreparation(message.stepId)
-            )
+    ): InterviewPreparationWidgetReducerResult {
+        val stepRoute = StepRoute.InterviewPreparation(message.stepId)
+        return state to setOf(
+            if (!message.wasOnboardingShown) {
+                Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
+            } else {
+                Action.ViewAction.NavigateTo.Step(stepRoute)
+            }
         )
+    }
 
     private fun handleWidgetViewed(
         state: State
@@ -139,31 +139,4 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         } else {
             state to emptySet()
         }
-
-    private fun handleOnboardingFlagFetchSuccessResult(
-        state: State,
-        message: InternalMessage.OnboardingFlagFetchResultSuccess
-    ): InterviewPreparationWidgetReducerResult {
-        if (state !is State.Content) return state to emptySet()
-        val stepId = state.steps.shuffled().first()
-        val stepRoute = StepRoute.InterviewPreparation(stepId.id)
-        val navigationAction = if (!message.wasOnboardingShown) {
-            Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
-        } else {
-            Action.ViewAction.NavigateTo.Step(stepRoute)
-        }
-        return state to setOf(navigationAction)
-    }
-
-    private fun handleOnboardingFlagFetchErrorResult(
-        state: State
-    ): InterviewPreparationWidgetReducerResult {
-        if (state !is State.Content || state.steps.isEmpty()) return state to emptySet()
-        val stepId = state.steps.shuffled().first()
-        return state to setOf(
-            Action.ViewAction.NavigateTo.Step(
-                StepRoute.InterviewPreparation(stepId.id)
-            )
-        )
-    }
 }
