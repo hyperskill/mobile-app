@@ -25,6 +25,7 @@ import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardF
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
+import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
@@ -192,6 +193,8 @@ class HomeFragment :
                 when (val viewAction = action.viewAction) {
                     is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.Step ->
                         navigateToStepScreen(viewAction.stepRoute)
+                    is InterviewPreparationWidgetFeature.Action.ViewAction.ShowOpenStepError ->
+                        viewBinding.root.snackbar(viewAction.errorMessage)
                     is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.InterviewPreparationOnboarding ->
                         requireRouter().navigateTo(InterviewPreparationOnboardingScreen(viewAction.stepRoute))
                 }

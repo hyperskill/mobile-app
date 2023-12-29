@@ -1,4 +1,4 @@
-package org.hyperskill.app.interview_preparation.domain.analytics
+package org.hyperskill.app.interview_preparation.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a click analytic event of the error state placeholder retry button.
+ * Represents an analytic event for clicking on a retry button in the interview preparation widget.
  *
  * JSON payload:
  * ```

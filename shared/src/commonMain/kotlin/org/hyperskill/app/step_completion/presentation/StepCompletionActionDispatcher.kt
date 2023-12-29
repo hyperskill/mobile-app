@@ -22,7 +22,6 @@ import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.share_streak.domain.interactor.ShareStreakInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepId
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAppsFlyerAnalyticEvent
@@ -293,20 +292,18 @@ class StepCompletionActionDispatcher(
                 )
             }
         ) {
-            val nextInterviewStepId = interviewStepsStateRepository
-                .getState(forceUpdate = false)
-                .getOrThrow()
-                .shuffled()
-                .firstOrNull()
             InternalMessage.FetchNextInterviewStepResultSuccess(
-                nextInterviewStepId?.id?.let(StepRoute::InterviewPreparation)
+                interviewStepsStateRepository
+                    .getState(forceUpdate = false)
+                    .getOrThrow()
+                    .lastOrNull()
             )
         }.let(onNewMessage)
     }
 
     private suspend fun handleMarkInterviewStepAsSolved(action: InternalAction.MarkInterviewStepAsSolved) {
         interviewStepsStateRepository.updateState { steps ->
-            steps.mutate { remove(StepId(action.stepId)) }
+            steps.mutate { remove(action.stepId) }
         }
     }
 }
