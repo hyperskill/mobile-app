@@ -9,9 +9,11 @@ class InterviewStepsStateRepositoryImpl : InterviewStepsStateRepository, BaseSta
     companion object {
         private val stubSteps: List<Long> =
             listOf(
-                3745, // Choice
-                1983, // Code
-                1985, // Parsons
+                3804, // Choice
+                1927, // Code
+                8955, // Parsons
+                7406, // SQL
+                35084, 35086 // Faded parsons
             )
     }
     override suspend fun loadState(): Result<List<Long>> {
