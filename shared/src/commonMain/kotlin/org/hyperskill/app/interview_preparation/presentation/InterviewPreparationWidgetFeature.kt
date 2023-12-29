@@ -42,7 +42,10 @@ object InterviewPreparationWidgetFeature {
         /**
          * The success result for [InternalAction.FetchNextInterviewStep]
          */
-        data class FetchNextInterviewStepResultSuccess(val stepId: Long, val wasOnboardingShown: Boolean) : InternalMessage
+        data class FetchNextInterviewStepResultSuccess(
+            val stepId: Long,
+            val wasOnboardingShown: Boolean
+        ) : InternalMessage
         /**
          * The error result for [InternalAction.FetchNextInterviewStep]
          */
