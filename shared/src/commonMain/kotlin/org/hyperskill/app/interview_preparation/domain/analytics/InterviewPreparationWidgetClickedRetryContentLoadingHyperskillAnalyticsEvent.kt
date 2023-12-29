@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a click analytic event of the error state placeholder retry button.
+ * Represents a click analytic event of the interview preparation widget.
  *
  * JSON payload:
  * ```
