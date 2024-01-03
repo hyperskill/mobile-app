@@ -16,23 +16,26 @@ private typealias InterviewPreparationWidgetReducerResult = Pair<State, Set<Acti
 class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): InterviewPreparationWidgetReducerResult =
         when (message) {
-            is InternalMessage.Initialize -> handleInitializeMessage(state, message)
-            is InternalMessage.FetchInterviewStepsResultSuccess -> {
+            is InternalMessage.Initialize ->
+                handleInitializeMessage(state, message)
+            is InternalMessage.FetchInterviewStepsResultSuccess ->
                 State.Content(stepsCount = message.steps.count()) to emptySet()
-            }
-            is InternalMessage.FetchInterviewStepsResultError -> {
+            is InternalMessage.FetchInterviewStepsResultError ->
                 State.Error to emptySet()
-            }
-            InternalMessage.PullToRefresh -> handlePullToRefresh(state)
-            Message.RetryContentLoading -> handleRetryContentLoading(state)
-            Message.ViewedEventMessage -> handleWidgetViewed(state)
-            Message.WidgetClicked -> handleWidgetClicked(state)
-            is InternalMessage.StepsCountChanged -> handleStepCountChanged(state, message)
+            InternalMessage.PullToRefresh ->
+                handlePullToRefreshMessage(state)
+            Message.RetryContentLoading ->
+                handleRetryContentLoadingMessage(state)
+            Message.ViewedEventMessage ->
+                handleWidgetViewedMessage(state)
+            Message.WidgetClicked ->
+                handleWidgetClickedMessage(state)
+            is InternalMessage.StepsCountChanged ->
+                handleStepCountChangedMessage(state, message)
             is InternalMessage.FetchNextInterviewStepResultSuccess ->
-                handleFetchNextInterviewStepResultSuccess(state, message)
-            is InternalMessage.FetchNextInterviewStepResultError -> {
+                handleFetchNextInterviewStepResultSuccessMessage(state, message)
+            is InternalMessage.FetchNextInterviewStepResultError ->
                 state to setOf(Action.ViewAction.ShowOpenStepError(message.errorMessage))
-            }
         }
 
     private fun handleInitializeMessage(
@@ -46,7 +49,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             State.Error ->
                 if (message.forceUpdate) {
                     State.Loading(isLoadingSilently = false) to
-                        setOf(InternalAction.FetchInterviewSteps(false))
+                        setOf(InternalAction.FetchInterviewSteps(true))
                 } else {
                     state to emptySet()
                 }
@@ -58,10 +61,11 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
                 } else {
                     state to emptySet()
                 }
-            is State.Loading -> state to emptySet()
+            is State.Loading ->
+                state to emptySet()
         }
 
-    private fun handlePullToRefresh(
+    private fun handlePullToRefreshMessage(
         state: State
     ): InterviewPreparationWidgetReducerResult =
         when (state) {
@@ -79,7 +83,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
                 state to emptySet()
         }
 
-    private fun handleRetryContentLoading(
+    private fun handleRetryContentLoadingMessage(
         state: State
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Error) {
@@ -93,7 +97,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             state to emptySet()
         }
 
-    private fun handleWidgetClicked(
+    private fun handleWidgetClickedMessage(
         state: State
     ): InterviewPreparationWidgetReducerResult =
         if (state is State.Content) {
@@ -107,7 +111,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             state to emptySet()
         }
 
-    private fun handleFetchNextInterviewStepResultSuccess(
+    private fun handleFetchNextInterviewStepResultSuccessMessage(
         state: State,
         message: InternalMessage.FetchNextInterviewStepResultSuccess
     ) =
@@ -117,7 +121,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             )
         )
 
-    private fun handleWidgetViewed(
+    private fun handleWidgetViewedMessage(
         state: State
     ): InterviewPreparationWidgetReducerResult =
         state to setOf(
@@ -126,7 +130,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             )
         )
 
-    private fun handleStepCountChanged(
+    private fun handleStepCountChangedMessage(
         state: State,
         message: InternalMessage.StepsCountChanged
     ): InterviewPreparationWidgetReducerResult =

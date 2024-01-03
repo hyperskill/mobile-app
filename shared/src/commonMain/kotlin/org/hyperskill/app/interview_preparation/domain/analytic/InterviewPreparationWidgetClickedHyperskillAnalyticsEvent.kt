@@ -16,6 +16,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *     "part": "interview_preparation_widget"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 object InterviewPreparationWidgetClickedHyperskillAnalyticsEvent : HyperskillAnalyticEvent(

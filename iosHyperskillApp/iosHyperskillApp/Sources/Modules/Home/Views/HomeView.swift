@@ -155,7 +155,7 @@ private extension HomeView {
     }
     
     func handleinterviewPreparationWidgetViewAction(viewAction: InterviewPreparationWidgetFeatureActionViewAction) {
-        // TODO: ALTAPPS-1093
+        #warning("TODO: ALTAPPS-1093")
     }
 }
 

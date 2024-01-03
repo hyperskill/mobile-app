@@ -18,6 +18,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "target": "retry"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 object InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent : HyperskillAnalyticEvent(
