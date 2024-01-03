@@ -62,7 +62,7 @@ class StepViewModel(
     fun onInterviewPreparationFinishedDialogGoTrainingClicked() {
         onNewMessage(
             StepFeature.Message.StepCompletionMessage(
-                StepCompletionFeature.Message.InterviewPreparationGoToTrainingClicked
+                StepCompletionFeature.Message.InterviewPreparationCompletedModalGoToTrainingClicked
             )
         )
     }
