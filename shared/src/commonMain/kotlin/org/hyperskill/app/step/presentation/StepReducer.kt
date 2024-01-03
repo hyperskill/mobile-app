@@ -37,7 +37,8 @@ class StepReducer(
                         is StepRoute.LearnDaily,
                         is StepRoute.Repeat.Practice,
                         is StepRoute.Repeat.Theory,
-                        is StepRoute.StageImplement ->
+                        is StepRoute.StageImplement,
+                        is StepRoute.InterviewPreparation ->
                             false
                     },
                     stepCompletionState = StepCompletionFeature.createState(message.step, stepRoute)

@@ -6,29 +6,28 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 
-interface StepCompletionFeature {
-    companion object {
-        fun createState(step: Step, stepRoute: StepRoute): State =
-            State(
-                currentStep = step,
-                startPracticingButtonAction = when (stepRoute) {
-                    is StepRoute.Learn.TheoryOpenedFromPractice,
-                    is StepRoute.Learn.TheoryOpenedFromSearch,
-                    is StepRoute.Repeat.Theory ->
-                        StartPracticingButtonAction.NavigateToBack
-                    is StepRoute.Learn.Step,
-                    is StepRoute.LearnDaily,
-                    is StepRoute.Repeat.Practice,
-                    is StepRoute.StageImplement ->
-                        StartPracticingButtonAction.FetchNextStepQuiz
-                },
-                continueButtonAction = if (stepRoute is StepRoute.Learn) {
-                    ContinueButtonAction.CheckTopicCompletion
-                } else {
-                    ContinueButtonAction.NavigateToBack
-                }
-            )
-    }
+object StepCompletionFeature {
+    fun createState(step: Step, stepRoute: StepRoute): State =
+        State(
+            currentStep = step,
+            startPracticingButtonAction = when (stepRoute) {
+                is StepRoute.Learn.TheoryOpenedFromPractice,
+                is StepRoute.Learn.TheoryOpenedFromSearch,
+                is StepRoute.Repeat.Theory ->
+                    StartPracticingButtonAction.NavigateToBack
+                is StepRoute.Learn.Step,
+                is StepRoute.LearnDaily,
+                is StepRoute.Repeat.Practice,
+                is StepRoute.StageImplement,
+                is StepRoute.InterviewPreparation ->
+                    StartPracticingButtonAction.FetchNextStepQuiz
+            },
+            continueButtonAction = when (stepRoute) {
+                is StepRoute.Learn -> ContinueButtonAction.CheckTopicCompletion
+                is StepRoute.InterviewPreparation -> ContinueButtonAction.FetchNextInterviewStep
+                else -> ContinueButtonAction.NavigateToBack
+            }
+        )
 
     data class State(
         val currentStep: Step,
@@ -47,6 +46,8 @@ interface StepCompletionFeature {
         object NavigateToStudyPlan : ContinueButtonAction
         object NavigateToBack : ContinueButtonAction
         object CheckTopicCompletion : ContinueButtonAction
+
+        object FetchNextInterviewStep : ContinueButtonAction
     }
 
     /**
@@ -111,12 +112,24 @@ interface StepCompletionFeature {
         data class ShareStreakModalNoThanksClickedEventMessage(val streak: Int) : Message
 
         /**
+         * Interview preparation completed modal
+         */
+        object InterviewPreparationCompletedModalShownEventMessage : Message
+        object InterviewPreparationCompletedModalHiddenEventMessage : Message
+        object InterviewPreparationCompletedModalGoToTrainingClicked : Message
+
+        /**
          * Analytic
          */
         object TopicCompletedModalShownEventMessage : Message
         object TopicCompletedModalHiddenEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
+    }
+
+    internal sealed interface InternalMessage : Message {
+        data class FetchNextInterviewStepResultSuccess(val interviewStepId: Long?) : InternalMessage
+        data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
     }
 
     sealed interface Action {
@@ -145,6 +158,8 @@ interface StepCompletionFeature {
             data class ShowShareStreakModal(val streak: Int) : ViewAction
             data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
 
+            object ShowInterviewPreparationCompletedModal : ViewAction
+
             data class ShowStartPracticingError(val message: String) : ViewAction
 
             data class ReloadStep(val stepRoute: StepRoute) : ViewAction
@@ -154,5 +169,10 @@ interface StepCompletionFeature {
                 object StudyPlan : NavigateTo
             }
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        object FetchNextInterviewStep : InternalAction
+        data class MarkInterviewStepAsSolved(val stepId: Long) : InternalAction
     }
 }

@@ -19,6 +19,10 @@ import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
 import org.hyperskill.app.home.view.mapper.HomeViewStateMapper
+import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetActionDispatcher
+import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
+import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetReducer
+import org.hyperskill.app.interview_preparation.view.mapper.InterviewPreparationWidgetViewStateMapper
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -49,12 +53,16 @@ internal object HomeFeatureBuilder {
         challengeWidgetReducer: ChallengeWidgetReducer,
         challengeWidgetActionDispatcher: ChallengeWidgetActionDispatcher,
         challengeWidgetViewStateMapper: ChallengeWidgetViewStateMapper,
+        interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer,
+        interviewPreparationWidgetActionDispatcher: InterviewPreparationWidgetActionDispatcher,
+        interviewPreparationWidgetViewStateMapper: InterviewPreparationWidgetViewStateMapper,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
             gamificationToolbarReducer = gamificationToolbarReducer,
-            challengeWidgetReducer = challengeWidgetReducer
+            challengeWidgetReducer = challengeWidgetReducer,
+            interviewPreparationWidgetReducer = interviewPreparationWidgetReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
@@ -69,14 +77,16 @@ internal object HomeFeatureBuilder {
             topicRepeatedFlow
         )
         val homeViewStateMapper = HomeViewStateMapper(
-            challengeWidgetViewStateMapper = challengeWidgetViewStateMapper
+            challengeWidgetViewStateMapper = challengeWidgetViewStateMapper,
+            interviewPreparationWidgetViewStateMapper = interviewPreparationWidgetViewStateMapper
         )
 
         return ReduxFeature(
             HomeFeature.State(
                 homeState = HomeFeature.HomeState.Idle,
                 toolbarState = GamificationToolbarFeature.State.Idle,
-                challengeWidgetState = ChallengeWidgetFeature.State.Idle
+                challengeWidgetState = ChallengeWidgetFeature.State.Idle,
+                interviewPreparationWidgetState = InterviewPreparationWidgetFeature.State.Idle
             ),
             homeReducer
         )
@@ -92,6 +102,14 @@ internal object HomeFeatureBuilder {
                 challengeWidgetActionDispatcher.transform(
                     transformAction = { it.safeCast<HomeFeature.InternalAction.ChallengeWidgetAction>()?.action },
                     transformMessage = HomeFeature.Message::ChallengeWidgetMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                interviewPreparationWidgetActionDispatcher.transform(
+                    transformAction = {
+                        it.safeCast<HomeFeature.InternalAction.InterviewPreparationWidgetAction>()?.action
+                    },
+                    transformMessage = HomeFeature.Message::InterviewPreparationWidgetMessage
                 )
             )
     }

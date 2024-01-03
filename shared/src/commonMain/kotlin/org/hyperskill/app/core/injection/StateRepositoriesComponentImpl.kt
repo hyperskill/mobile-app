@@ -3,6 +3,8 @@ package org.hyperskill.app.core.injection
 import org.hyperskill.app.gamification_toolbar.data.repository.CurrentGamificationToolbarDataStateRepositoryImpl
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.gamification_toolbar.remote.GamificationToolbarRemoteDataSourceImpl
+import org.hyperskill.app.interview_steps.data.repository.InterviewStepsStateRepositoryImpl
+import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateRepository
 import org.hyperskill.app.learning_activities.data.repository.NextLearningActivityStateRepositoryImpl
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.learning_activities.remote.LearningActivitiesRemoteDataSourceImpl
@@ -48,5 +50,9 @@ class StateRepositoriesComponentImpl(appGraph: AppGraph) : StateRepositoriesComp
         CurrentGamificationToolbarDataStateRepositoryImpl(
             GamificationToolbarRemoteDataSourceImpl(authorizedHttpClient)
         )
+    }
+
+    override val interviewStepsStateRepository: InterviewStepsStateRepository by lazy {
+        InterviewStepsStateRepositoryImpl()
     }
 }

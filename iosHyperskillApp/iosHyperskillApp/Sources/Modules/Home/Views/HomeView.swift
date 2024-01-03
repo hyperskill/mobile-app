@@ -136,6 +136,8 @@ private extension HomeView {
             handleChallengeWidgetViewAction(
                 viewAction: challengeWidgetViewAction.viewAction
             )
+        case .interviewPreparationWidgetViewAction(let interviewPreparationWidgetViewAction):
+            handleinterviewPreparationWidgetViewAction(viewAction: interviewPreparationWidgetViewAction.viewAction)
         }
     }
 
@@ -150,6 +152,10 @@ private extension HomeView {
         case .showNetworkError:
             ProgressHUD.showError()
         }
+    }
+
+    func handleinterviewPreparationWidgetViewAction(viewAction: InterviewPreparationWidgetFeatureActionViewAction) {
+        #warning("TODO: ALTAPPS-1093")
     }
 }
 
