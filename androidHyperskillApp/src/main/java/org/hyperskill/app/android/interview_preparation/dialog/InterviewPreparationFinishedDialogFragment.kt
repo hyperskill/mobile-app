@@ -16,7 +16,7 @@ import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 
 class InterviewPreparationFinishedDialogFragment : BottomSheetDialogFragment() {
     companion object {
-        const val TAG = "ShareStreakBottomSheetTag"
+        const val TAG = "InterviewPreparationFinishedBottomSheetTag"
 
         fun newInstance(): InterviewPreparationFinishedDialogFragment =
             InterviewPreparationFinishedDialogFragment()
