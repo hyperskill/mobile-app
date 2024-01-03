@@ -23,8 +23,8 @@ class InterviewPreparationWidgetActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val interviewStepsStateRepository: InterviewStepsStateRepository,
     private val sentryInteractor: SentryInteractor,
-    private val resourceProvider: ResourceProvider,
-    private val onboardingInteractor: OnboardingInteractor
+    private val onboardingInteractor: OnboardingInteractor,
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
