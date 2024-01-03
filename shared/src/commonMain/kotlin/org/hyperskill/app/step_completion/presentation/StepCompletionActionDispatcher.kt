@@ -121,10 +121,12 @@ class StepCompletionActionDispatcher(
                     )
                 )
             }
-            is InternalAction.FetchNextInterviewStep ->
-                handleFetchNextInterviewStep(::onNewMessage)
-            is InternalAction.MarkInterviewStepAsSolved ->
-                handleMarkInterviewStepAsSolved(action)
+            is InternalAction.FetchNextInterviewStep -> {
+                handleFetchNextInterviewStepAction(::onNewMessage)
+            }
+            is InternalAction.MarkInterviewStepAsSolved -> {
+                handleMarkInterviewStepAsSolvedAction(action)
+            }
             else -> {
                 // no op
             }
@@ -279,7 +281,7 @@ class StepCompletionActionDispatcher(
             .map { it.gamification.hypercoinsBalance }
             .getOrNull()
 
-    private suspend fun handleFetchNextInterviewStep(
+    private suspend fun handleFetchNextInterviewStepAction(
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
@@ -301,7 +303,7 @@ class StepCompletionActionDispatcher(
         }.let(onNewMessage)
     }
 
-    private suspend fun handleMarkInterviewStepAsSolved(action: InternalAction.MarkInterviewStepAsSolved) {
+    private suspend fun handleMarkInterviewStepAsSolvedAction(action: InternalAction.MarkInterviewStepAsSolved) {
         interviewStepsStateRepository.updateState { steps ->
             steps.mutate { remove(action.stepId) }
         }

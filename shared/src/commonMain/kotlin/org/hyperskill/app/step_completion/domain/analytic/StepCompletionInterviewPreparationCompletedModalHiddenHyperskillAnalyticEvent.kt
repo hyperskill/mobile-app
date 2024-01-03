@@ -18,6 +18,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "target": "interview_preparation_completed_modal"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 class StepCompletionInterviewPreparationCompletedModalHiddenHyperskillAnalyticEvent(

@@ -179,7 +179,7 @@ extension StepView {
     }
     
     private func presentInterviewPreparationFinishedModal() {
-        // todo ALTAPPS-1093
+        #warning("TODO: ALTAPPS-1093")
     }
 }
 

@@ -1,6 +1,7 @@
 package org.hyperskill.app.interview_preparation.presentation
 
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -31,6 +32,7 @@ class InterviewPreparationWidgetActionDispatcher(
             .onEach { interviewSteps ->
                 onNewMessage(InternalMessage.StepsCountChanged(interviewSteps.count()))
             }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -46,7 +48,9 @@ class InterviewPreparationWidgetActionDispatcher(
                         .let(InternalMessage::FetchInterviewStepsResultSuccess)
                 }.let(::onNewMessage)
             }
-            is InternalAction.FetchNextInterviewStep -> handleFetchNextInterviewStep(::onNewMessage)
+            is InternalAction.FetchNextInterviewStep -> {
+                handleFetchNextInterviewStep(::onNewMessage)
+            }
             is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.event)
             }
@@ -61,10 +65,12 @@ class InterviewPreparationWidgetActionDispatcher(
             InternalMessage.FetchNextInterviewStepResultError(
                 resourceProvider.getString(SharedResources.strings.common_error)
             )
+
         try {
             val currentStepIds = interviewStepsStateRepository
                 .getState(forceUpdate = false)
                 .getOrNull()
+
             val nextInterviewStepId = if (!currentStepIds.isNullOrEmpty()) {
                 val shuffledStepIds = currentStepIds.shuffled()
                 interviewStepsStateRepository.updateState(shuffledStepIds)
@@ -72,6 +78,7 @@ class InterviewPreparationWidgetActionDispatcher(
             } else {
                 null
             }
+
             if (nextInterviewStepId != null) {
                 InternalMessage.FetchNextInterviewStepResultSuccess(
                     stepId = nextInterviewStepId,
