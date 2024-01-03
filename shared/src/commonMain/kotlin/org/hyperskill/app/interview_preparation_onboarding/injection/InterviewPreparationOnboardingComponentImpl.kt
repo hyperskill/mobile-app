@@ -7,7 +7,7 @@ import org.hyperskill.app.interview_preparation_onboarding.presentation.Intervie
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class InterviewPreparationOnboardingComponentImpl(
+internal class InterviewPreparationOnboardingComponentImpl(
     private val appGraph: AppGraph
 ) : InterviewPreparationOnboardingComponent {
     override fun interviewPreparationOnboardingFeature(stepRoute: StepRoute): Feature<State, Message, Action> =

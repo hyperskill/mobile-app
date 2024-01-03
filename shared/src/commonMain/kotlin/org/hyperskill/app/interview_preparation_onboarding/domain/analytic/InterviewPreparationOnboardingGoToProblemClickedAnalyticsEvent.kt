@@ -1,4 +1,4 @@
-package org.hyperskill.app.interview_preparation_onboarding.domain.analytics
+package org.hyperskill.app.interview_preparation_onboarding.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Allow notifications" button analytic event.
+ * Represents click on the "Go to first problem" button analytic event.
  *
  * JSON payload:
  * ```

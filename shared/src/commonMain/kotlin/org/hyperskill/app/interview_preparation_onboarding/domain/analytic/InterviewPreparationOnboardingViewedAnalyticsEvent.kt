@@ -1,4 +1,4 @@
-package org.hyperskill.app.interview_preparation_onboarding.domain.analytics
+package org.hyperskill.app.interview_preparation_onboarding.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -14,6 +14,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *     "action": "view"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 object InterviewPreparationOnboardingViewedAnalyticsEvent : HyperskillAnalyticEvent(
