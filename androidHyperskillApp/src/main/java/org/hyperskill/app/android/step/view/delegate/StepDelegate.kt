@@ -9,6 +9,7 @@ import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
+import org.hyperskill.app.android.interview_preparation.dialog.InterviewPreparationFinishedDialogFragment
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
@@ -25,7 +26,8 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 class StepDelegate<TFragment>(
     private val fragment: TFragment
 ) where TFragment : Fragment,
-        TFragment : ShareStreakDialogFragment.Callback {
+        TFragment : ShareStreakDialogFragment.Callback,
+        TFragment : InterviewPreparationFinishedDialogFragment.Callback {
 
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
@@ -89,7 +91,12 @@ class StepDelegate<TFragment>(
                         shareStreak(stepCompletionAction.streak)
                     }
                     StepCompletionFeature.Action.ViewAction.ShowInterviewPreparationCompletedModal ->
-                        TODO("ALTAPPS-1094")
+                        InterviewPreparationFinishedDialogFragment
+                            .newInstance()
+                            .showIfNotExists(
+                                manager = fragment.childFragmentManager,
+                                tag = InterviewPreparationFinishedDialogFragment.TAG
+                            )
                 }
             }
         }

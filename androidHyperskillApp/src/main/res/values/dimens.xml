@@ -146,5 +146,6 @@
     <dimen name="track_selection_details_tags_bottom_margin">16dp</dimen>
 
     <dimen name="home_screen_challenge_card_top_margin">28dp</dimen>
+    <dimen name="home_screen_interview_card_top_margin">28dp</dimen>
 
 </resources>
