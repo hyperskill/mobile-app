@@ -112,11 +112,11 @@ object StepCompletionFeature {
         data class ShareStreakModalNoThanksClickedEventMessage(val streak: Int) : Message
 
         /**
-         * Interview preparation modal
+         * Interview preparation completed modal
          */
         object InterviewPreparationCompletedModalShownEventMessage : Message
         object InterviewPreparationCompletedModalHiddenEventMessage : Message
-        object InterviewPreparationGoToTrainingClicked : Message
+        object InterviewPreparationCompletedModalGoToTrainingClicked : Message
 
         /**
          * Analytic
@@ -129,7 +129,6 @@ object StepCompletionFeature {
 
     internal sealed interface InternalMessage : Message {
         data class FetchNextInterviewStepResultSuccess(val interviewStepId: Long?) : InternalMessage
-
         data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
     }
 
@@ -159,7 +158,7 @@ object StepCompletionFeature {
             data class ShowShareStreakModal(val streak: Int) : ViewAction
             data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
 
-            object ShowInterviewPreparationCompleted : ViewAction
+            object ShowInterviewPreparationCompletedModal : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
 
@@ -174,7 +173,6 @@ object StepCompletionFeature {
 
     internal sealed interface InternalAction : Action {
         object FetchNextInterviewStep : InternalAction
-
         data class MarkInterviewStepAsSolved(val stepId: Long) : InternalAction
     }
 }
