@@ -18,6 +18,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "target": "go_to_study_plan"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 class StepCompletionInterviewPreparationCompletedModalClickedGoTrainingHyperskillAnalyticEvent(

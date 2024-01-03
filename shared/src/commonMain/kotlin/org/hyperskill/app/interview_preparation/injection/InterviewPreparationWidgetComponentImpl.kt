@@ -6,7 +6,7 @@ import org.hyperskill.app.interview_preparation.presentation.InterviewPreparatio
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetReducer
 import org.hyperskill.app.interview_preparation.view.mapper.InterviewPreparationWidgetViewStateMapper
 
-class InterviewPreparationWidgetComponentImpl(
+internal class InterviewPreparationWidgetComponentImpl(
     private val appGraph: AppGraph
 ) : InterviewPreparationWidgetComponent {
     override val interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer
@@ -22,7 +22,5 @@ class InterviewPreparationWidgetComponentImpl(
         )
 
     override val interviewPreparationWidgetViewStateMapper: InterviewPreparationWidgetViewStateMapper
-        get() = InterviewPreparationWidgetViewStateMapper(
-            appGraph.commonComponent.resourceProvider
-        )
+        get() = InterviewPreparationWidgetViewStateMapper(appGraph.commonComponent.resourceProvider)
 }

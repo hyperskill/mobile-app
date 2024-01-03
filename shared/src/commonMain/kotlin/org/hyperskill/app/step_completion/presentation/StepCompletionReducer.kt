@@ -35,7 +35,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.ContinuePracticingClicked ->
-                handleContinuePracticingClicked(state)
+                handleContinuePracticingClickedMessage(state)
             is Message.StartPracticingClicked ->
                 if (!state.isPracticingLoading) {
                     state.copy(isPracticingLoading = true) to setOf(
@@ -132,7 +132,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             }
             is Message.StepSolved ->
-                handleStepSolved(state, message)
+                handleStepSolvedMessage(state, message)
             is Message.ShareStreak -> {
                 state to setOf(Action.ViewAction.ShowShareStreakModal(streak = message.streak))
             }
@@ -178,10 +178,9 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                 )
             }
             is InternalMessage.FetchNextInterviewStepResultSuccess ->
-                handleFetchNextInterviewStepResultSuccess(state, message)
-            is InternalMessage.FetchNextInterviewStepResultError -> {
-                handleFetchNextInterviewStepResultError(state, message)
-            }
+                handleFetchNextInterviewStepResultSuccessMessage(state, message)
+            is InternalMessage.FetchNextInterviewStepResultError ->
+                handleFetchNextInterviewStepResultErrorMessage(state, message)
             is Message.InterviewPreparationCompletedModalShownEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
@@ -198,7 +197,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                         )
                     )
                 )
-            is Message.InterviewPreparationGoToTrainingClicked ->
+            is Message.InterviewPreparationCompletedModalGoToTrainingClicked ->
                 state to setOf(
                     Action.LogAnalyticEvent(
                         StepCompletionInterviewPreparationCompletedModalClickedGoTrainingHyperskillAnalyticEvent(
@@ -236,7 +235,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             }
         } ?: (state to emptySet())
 
-    private fun handleContinuePracticingClicked(state: State) =
+    private fun handleContinuePracticingClickedMessage(state: State) =
         if (!state.isPracticingLoading) {
             val analyticEvent = StepCompletionClickedContinueHyperskillAnalyticEvent(
                 route = stepRoute.analyticRoute
@@ -265,7 +264,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             null
         }
 
-    private fun handleFetchNextInterviewStepResultSuccess(
+    private fun handleFetchNextInterviewStepResultSuccessMessage(
         state: State,
         message: InternalMessage.FetchNextInterviewStepResultSuccess
     ): StepCompletionReducerResult =
@@ -280,17 +279,17 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             state.copy(
                 isPracticingLoading = false,
                 continueButtonAction = ContinueButtonAction.NavigateToStudyPlan
-            ) to setOf(Action.ViewAction.ShowInterviewPreparationCompleted)
+            ) to setOf(Action.ViewAction.ShowInterviewPreparationCompletedModal)
         }
 
-    private fun handleFetchNextInterviewStepResultError(
+    private fun handleFetchNextInterviewStepResultErrorMessage(
         state: State,
         message: InternalMessage.FetchNextInterviewStepResultError
     ) =
         state.copy(isPracticingLoading = false) to
             setOf(Action.ViewAction.ShowStartPracticingError(message.errorMessage))
 
-    private fun handleStepSolved(
+    private fun handleStepSolvedMessage(
         state: State,
         message: Message.StepSolved
     ): StepCompletionReducerResult =
