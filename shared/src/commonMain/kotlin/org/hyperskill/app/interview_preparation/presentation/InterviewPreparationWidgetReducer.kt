@@ -114,12 +114,16 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleFetchNextInterviewStepResultSuccessMessage(
         state: State,
         message: InternalMessage.FetchNextInterviewStepResultSuccess
-    ) =
-        state to setOf(
-            Action.ViewAction.NavigateTo.Step(
-                StepRoute.InterviewPreparation(message.stepId)
-            )
+    ): InterviewPreparationWidgetReducerResult {
+        val stepRoute = StepRoute.InterviewPreparation(message.stepId)
+        return state to setOf(
+            if (!message.wasOnboardingShown) {
+                Action.ViewAction.NavigateTo.InterviewPreparationOnboarding(stepRoute)
+            } else {
+                Action.ViewAction.NavigateTo.Step(stepRoute)
+            }
         )
+    }
 
     private fun handleWidgetViewedMessage(
         state: State

@@ -35,4 +35,11 @@ class OnboardingInteractor(
     fun setFirstProblemOnboardingWasShown(wasShown: Boolean) {
         onboardingRepository.setFirstProblemOnboardingWasShown(wasShown)
     }
+
+    fun setInterviewPreparationOnboardingWasShown(wasShown: Boolean) {
+        onboardingRepository.setInterviewPreparationOnboardingWasShown(wasShown)
+    }
+
+    fun wasInterviewPreparationOnboardingShown(): Boolean =
+        onboardingRepository.wasInterviewPreparationOnboardingShown()
 }

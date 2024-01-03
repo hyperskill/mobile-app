@@ -42,7 +42,10 @@ object InterviewPreparationWidgetFeature {
         /**
          * The success result for [InternalAction.FetchNextInterviewStep]
          */
-        data class FetchNextInterviewStepResultSuccess(val stepId: Long) : InternalMessage
+        data class FetchNextInterviewStepResultSuccess(
+            val stepId: Long,
+            val wasOnboardingShown: Boolean
+        ) : InternalMessage
         /**
          * The error result for [InternalAction.FetchNextInterviewStep]
          */
@@ -54,6 +57,7 @@ object InterviewPreparationWidgetFeature {
             data class ShowOpenStepError(val errorMessage: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
+                data class InterviewPreparationOnboarding(val stepRoute: StepRoute) : NavigateTo
                 data class Step(val stepRoute: StepRoute) : NavigateTo
             }
         }

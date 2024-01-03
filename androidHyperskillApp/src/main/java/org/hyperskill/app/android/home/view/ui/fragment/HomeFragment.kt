@@ -207,6 +207,8 @@ class HomeFragment :
                         navigateToStepScreen(viewAction.stepRoute)
                     is InterviewPreparationWidgetFeature.Action.ViewAction.ShowOpenStepError ->
                         viewBinding.root.snackbar(viewAction.errorMessage)
+                    is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.InterviewPreparationOnboarding ->
+                        TODO("Not implemented")
                 }
             }
         }
