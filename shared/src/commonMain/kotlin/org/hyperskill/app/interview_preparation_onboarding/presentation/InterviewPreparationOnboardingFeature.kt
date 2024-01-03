@@ -26,7 +26,7 @@ object InterviewPreparationOnboardingFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticsEvent(val event: AnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
 
         object MarkOnboardingAsViewed : InternalAction
     }

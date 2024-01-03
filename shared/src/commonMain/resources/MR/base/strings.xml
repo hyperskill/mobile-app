@@ -524,6 +524,21 @@
     <string name="challenge_widget_collect_reward_button_title">Collect Reward</string>
     <string name="challenge_widget_network_error_text">Oops! We were unable to load the challenge.</string>
     <string name="challenge_widget_reload_button">Reload</string>
+  
+    <!--Interview preparation widget-->
+    <string name="interview_preparation_widget_title">Interview preparation</string>
+    <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget</string>
+  
+    <string name="interview_preparation_finished_modal_title">Good job!</string>
+    <string name="interview_preparation_finished_modal_description">Looks like you\'re ready for a real interview. The
+        next problems will appear soon!
+    </string>
+
+    <!--Interview preparation onboarding screen-->
+    <string name="interview_preparation_onboarding_screen_title">Interview preparation</string>
+    <string name="interview_preparation_onboarding_title">Meet interview preparation mode</string>
+    <string name="interview_preparation_onboarding_description">Tackle some interesting problems! If you find some tricky, don\'t worry — they\'ll be back for another try later.</string>
+    <string name="interview_preparation_onboarding_go_to_first_problem">Go to first problem</string>
 
     <!-- Search -->
     <string name="search_title">Search</string>
@@ -567,15 +582,4 @@
     <!-- Earned badge modal -->
     <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
     <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
-
-    <!--Interview preparation widget-->
-    <string name="interview_preparation_widget_title">Interview preparation</string>
-    <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget</string>
-
-    <!--Interview preparation onboarding screen-->
-    <string name="interview_preparation_onboarding_screen_title">Interview preparation</string>
-    <string name="interview_preparation_onboarding_title">Meet interview preparation mode</string>
-    <string name="interview_preparation_onboarding_description">Tackle some interesting problems! If you find some tricky, don\'t worry — they\'ll be back for another try later.</string>
-    <string name="interview_preparation_onboarding_go_to_first_problem">Go to first problem</string>
-
 </resources>

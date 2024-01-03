@@ -16,7 +16,7 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object InterviewPreparationOnboardingFeatureBuilder {
+internal object InterviewPreparationOnboardingFeatureBuilder {
     private const val LOG_TAG = "InterviewPreparationOnboardingFeature"
 
     fun build(
