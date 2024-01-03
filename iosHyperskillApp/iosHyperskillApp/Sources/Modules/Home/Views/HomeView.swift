@@ -153,7 +153,7 @@ private extension HomeView {
             ProgressHUD.showError()
         }
     }
-    
+
     func handleinterviewPreparationWidgetViewAction(viewAction: InterviewPreparationWidgetFeatureActionViewAction) {
         #warning("TODO: ALTAPPS-1093")
     }
