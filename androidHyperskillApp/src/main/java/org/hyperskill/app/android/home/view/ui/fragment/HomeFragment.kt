@@ -19,8 +19,8 @@ import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
-import org.hyperskill.app.android.interview_preparation_onboarding.screen.InterviewPreparationOnboardingScreen
 import org.hyperskill.app.android.interview_preparation.delegate.InterviewPreparationCardDelegate
+import org.hyperskill.app.android.interview_preparation_onboarding.screen.InterviewPreparationOnboardingScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
