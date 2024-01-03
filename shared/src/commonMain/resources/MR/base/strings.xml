@@ -571,8 +571,6 @@
     <!--Interview preparation widget-->
     <string name="interview_preparation_widget_title">Interview preparation</string>
     <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget</string>
-
     <string name="interview_preparation_finished_modal_title">Good job!</string>
     <string name="interview_preparation_finished_modal_description">Looks like you\'re ready for a real interview. The next problems will appear soon!</string>
-
 </resources>
