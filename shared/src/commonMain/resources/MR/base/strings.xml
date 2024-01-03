@@ -525,6 +525,16 @@
     <string name="challenge_widget_network_error_text">Oops! We were unable to load the challenge.</string>
     <string name="challenge_widget_reload_button">Reload</string>
 
+    <!--Interview preparation widget-->
+    <string name="interview_preparation_widget_title">Interview preparation</string>
+    <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget
+    </string>
+
+    <string name="interview_preparation_finished_modal_title">Good job!</string>
+    <string name="interview_preparation_finished_modal_description">Looks like you\'re ready for a real interview. The
+        next problems will appear soon!
+    </string>
+
     <!-- Search -->
     <string name="search_title">Search</string>
     <string name="search_input_placeholder">Find topic</string>
@@ -567,10 +577,4 @@
     <!-- Earned badge modal -->
     <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
     <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
-
-    <!--Interview preparation widget-->
-    <string name="interview_preparation_widget_title">Interview preparation</string>
-    <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget</string>
-    <string name="interview_preparation_finished_modal_title">Good job!</string>
-    <string name="interview_preparation_finished_modal_description">Looks like you\'re ready for a real interview. The next problems will appear soon!</string>
 </resources>
