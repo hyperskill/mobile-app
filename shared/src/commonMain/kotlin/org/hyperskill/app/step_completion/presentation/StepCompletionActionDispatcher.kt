@@ -6,16 +6,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
+import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.share_streak.domain.interactor.ShareStreakInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
@@ -25,10 +28,13 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCom
 import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
+import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
@@ -47,7 +53,8 @@ class StepCompletionActionDispatcher(
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
     private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
-    private val topicProgressFlow: TopicProgressFlow
+    private val topicProgressFlow: TopicProgressFlow,
+    private val interviewStepsStateRepository: InterviewStepsStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -113,6 +120,12 @@ class StepCompletionActionDispatcher(
                         trackIsCompleted = false
                     )
                 )
+            }
+            is InternalAction.FetchNextInterviewStep -> {
+                handleFetchNextInterviewStepAction(::onNewMessage)
+            }
+            is InternalAction.MarkInterviewStepAsSolved -> {
+                handleMarkInterviewStepAsSolvedAction(action)
             }
             else -> {
                 // no op
@@ -267,4 +280,32 @@ class StepCompletionActionDispatcher(
             .getState(forceUpdate = true)
             .map { it.gamification.hypercoinsBalance }
             .getOrNull()
+
+    private suspend fun handleFetchNextInterviewStepAction(
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildStepCompletionNextInterviewStepLoading(),
+            onError = {
+                InternalMessage.FetchNextInterviewStepResultError(
+                    resourceProvider.getString(
+                        SharedResources.strings.step_theory_failed_to_continue_practicing
+                    )
+                )
+            }
+        ) {
+            InternalMessage.FetchNextInterviewStepResultSuccess(
+                interviewStepsStateRepository
+                    .getState(forceUpdate = false)
+                    .getOrThrow()
+                    .lastOrNull()
+            )
+        }.let(onNewMessage)
+    }
+
+    private suspend fun handleMarkInterviewStepAsSolvedAction(action: InternalAction.MarkInterviewStepAsSolved) {
+        interviewStepsStateRepository.updateState { steps ->
+            steps.mutate { remove(action.stepId) }
+        }
+    }
 }

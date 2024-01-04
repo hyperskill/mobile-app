@@ -117,7 +117,8 @@ object StepQuizResolver {
             is StepRoute.StageImplement,
             is StepRoute.Learn.TheoryOpenedFromPractice,
             is StepRoute.Learn.TheoryOpenedFromSearch,
-            is StepRoute.Repeat.Theory -> {
+            is StepRoute.Repeat.Theory,
+            is StepRoute.InterviewPreparation -> {
                 false
             }
         }

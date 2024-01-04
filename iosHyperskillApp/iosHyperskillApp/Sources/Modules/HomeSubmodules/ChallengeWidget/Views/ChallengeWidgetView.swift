@@ -4,6 +4,7 @@ import SwiftUI
 extension ChallengeWidgetView {
     struct Appearance {
         let backgroundColor = Color(ColorPalette.surface)
+        let skeletonHeight: CGFloat = 128
     }
 }
 
@@ -21,11 +22,12 @@ struct ChallengeWidgetView: View {
     @ViewBuilder
     private func buildBody() -> some View {
         switch viewStateKs {
-        case .idle:
+        case .idle, .empty:
             EmptyView()
         case .loading(let data):
             if data.shouldShowSkeleton {
-                ChallengeWidgetSkeletonView()
+                SkeletonRoundedView()
+                    .frame(height: appearance.skeletonHeight)
             } else {
                 EmptyView()
             }
@@ -34,8 +36,6 @@ struct ChallengeWidgetView: View {
                 backgroundColor: appearance.backgroundColor,
                 action: viewModel.doRetryContentLoading
             )
-        case .empty:
-            EmptyView()
         case .content(let contentState):
             ChallengeWidgetContentStateView(
                 appearance: .init(backgroundColor: appearance.backgroundColor),

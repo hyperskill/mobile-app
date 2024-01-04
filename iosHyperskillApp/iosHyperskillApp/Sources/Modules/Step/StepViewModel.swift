@@ -223,3 +223,37 @@ extension StepViewModel: ShareStreakModalViewControllerDelegate {
         )
     }
 }
+
+// MARK: - StepViewModel: InterviewPreparationCompletedModalViewControllerDelegate -
+
+extension StepViewModel: InterviewPreparationCompletedModalViewControllerDelegate {
+    func interviewPreparationCompletedModalViewControllerDidAppear(
+        _ viewController: InterviewPreparationCompletedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageInterviewPreparationCompletedModalShownEventMessage()
+            )
+        )
+    }
+
+    func interviewPreparationCompletedModalViewControllerDidDisappear(
+        _ viewController: InterviewPreparationCompletedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageInterviewPreparationCompletedModalHiddenEventMessage()
+            )
+        )
+    }
+
+    func interviewPreparationCompletedModalViewControllerDidTapCallToActionButton(
+        _ viewController: InterviewPreparationCompletedModalViewController
+    ) {
+        onNewMessage(
+            StepFeatureMessageStepCompletionMessage(
+                message: StepCompletionFeatureMessageInterviewPreparationCompletedModalGoToTrainingClicked()
+            )
+        )
+    }
+}

@@ -108,5 +108,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     LEADERBOARD_ITEM("leaderboard_item"),
     TOPIC("topic"),
     DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal"),
-    CONFIRM("confirm")
+    CONFIRM("confirm"),
+    GO_TO_FIRST_PROBLEM("go_to_first_problem"),
+    INTERVIEW_PREPARATION_COMPLETED_MODAL("interview_preparation_completed_modal")
 }
