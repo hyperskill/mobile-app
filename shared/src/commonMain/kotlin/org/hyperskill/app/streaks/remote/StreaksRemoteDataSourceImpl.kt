@@ -7,6 +7,7 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import org.hyperskill.app.network.remote.parameterPage
 import org.hyperskill.app.streaks.data.source.StreaksRemoteDataSource
 import org.hyperskill.app.streaks.remote.model.StreaksResponse
 
@@ -19,7 +20,7 @@ class StreaksRemoteDataSourceImpl(
                 .get("/api/streaks") {
                     contentType(ContentType.Application.Json)
                     parameter("user", userId)
-                    parameter("page", page)
+                    parameterPage(page)
                 }.body()
         }
 

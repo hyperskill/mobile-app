@@ -3,10 +3,10 @@ package org.hyperskill.app.track.remote
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.network.remote.parameterIds
+import org.hyperskill.app.network.remote.parameterPageSize
 import org.hyperskill.app.track.data.source.TrackRemoteDataSource
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.remote.model.TrackResponse
@@ -23,7 +23,7 @@ class TrackRemoteDataSourceImpl(
             httpClient
                 .get("/api/tracks") {
                     contentType(ContentType.Application.Json)
-                    parameter("page_size", TRACKS_PAGE_MAX_SIZE)
+                    parameterPageSize(TRACKS_PAGE_MAX_SIZE)
                 }.body<TrackResponse>().tracks
         }
 

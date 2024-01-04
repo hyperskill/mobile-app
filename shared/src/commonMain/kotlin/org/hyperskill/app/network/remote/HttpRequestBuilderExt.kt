@@ -21,3 +21,19 @@ internal fun HttpRequestBuilder.parameterIds(
             ids.joinToString(separator = ",", transform = transform)
         }
     )
+
+/**
+ * Appends a single URL query parameter of "page_size" with a specific [pageSize].
+ *
+ * @param pageSize The number of items to return in a single page.
+ */
+internal fun HttpRequestBuilder.parameterPageSize(pageSize: Int) =
+    parameter("page_size", pageSize)
+
+/**
+ * Appends a single URL query parameter of "page" with a specific [page].
+ *
+ * @param page The page number to return.
+ */
+internal fun HttpRequestBuilder.parameterPage(page: Int) =
+    parameter("page", page)
