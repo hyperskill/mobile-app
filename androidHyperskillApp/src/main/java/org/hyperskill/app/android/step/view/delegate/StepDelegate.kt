@@ -52,6 +52,11 @@ class StepDelegate<TFragment>(
                         mainScreenRouter.switch(Tabs.STUDY_PLAN)
                     }
 
+                    StepCompletionFeature.Action.ViewAction.NavigateTo.Home -> {
+                        fragment.requireRouter().backTo(MainScreen(Tabs.TRAINING))
+                        mainScreenRouter.switch(Tabs.TRAINING)
+                    }
+
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
                         fragment.requireRouter().replaceScreen(StepScreen(stepCompletionAction.stepRoute))
                     }

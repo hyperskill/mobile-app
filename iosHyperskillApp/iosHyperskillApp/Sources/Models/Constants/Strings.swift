@@ -257,14 +257,16 @@ enum Strings {
         static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
     }
 
-    // MARK: - Interview preparation widget -
+    // MARK: - Interview Preparation -
+
+    // MARK: Widget
 
     enum InterviewPreparationWidget {
         static let title = sharedStrings.interview_preparation_widget_title.localized()
         static let networkError = sharedStrings.interview_preparation_widget_network_error_text.localized()
     }
 
-    // MARK: - Interview preparation onboarding -
+    // MARK: Onboarding
 
     enum InterviewPreparationOnboarding {
         static let navigationTitle = sharedStrings.interview_preparation_onboarding_screen_title.localized()
@@ -272,6 +274,13 @@ enum Strings {
         static let title = sharedStrings.interview_preparation_onboarding_title.localized()
         static let description = sharedStrings.interview_preparation_onboarding_description.localized()
         static let callToActionButton = sharedStrings.interview_preparation_onboarding_go_to_first_problem.localized()
+    }
+
+    // MARK: Completed modal
+
+    enum InterviewPreparationCompletedModal {
+        static let title = sharedStrings.interview_preparation_finished_modal_title.localized()
+        static let description = sharedStrings.interview_preparation_finished_modal_description.localized()
     }
 
     // MARK: - Topics widget -

@@ -79,6 +79,8 @@
 		2C186AD72B4693E200DADB26 /* InterviewPreparationWidgetContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186AD62B4693E200DADB26 /* InterviewPreparationWidgetContentView.swift */; };
 		2C186AD92B46969D00DADB26 /* HomeWidgetCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186AD82B46969D00DADB26 /* HomeWidgetCountView.swift */; };
 		2C186ADB2B46989700DADB26 /* TopicsRepetitionsCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186ADA2B46989700DADB26 /* TopicsRepetitionsCountView.swift */; };
+		2C186ADD2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186ADC2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift */; };
+		2C186ADF2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186ADE2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift */; };
 		2C198DFE2AEA444100DCD35A /* FillBlanksSelectContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198DFD2AEA444100DCD35A /* FillBlanksSelectContainerView.swift */; };
 		2C198E012AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E002AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift */; };
 		2C198E032AEA869300DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E022AEA869300DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCell.swift */; };
@@ -753,6 +755,8 @@
 		2C186AD62B4693E200DADB26 /* InterviewPreparationWidgetContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewPreparationWidgetContentView.swift; sourceTree = "<group>"; };
 		2C186AD82B46969D00DADB26 /* HomeWidgetCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeWidgetCountView.swift; sourceTree = "<group>"; };
 		2C186ADA2B46989700DADB26 /* TopicsRepetitionsCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCountView.swift; sourceTree = "<group>"; };
+		2C186ADC2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewPreparationCompletedModalViewController.swift; sourceTree = "<group>"; };
+		2C186ADE2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewPreparationCompletedModalView.swift; sourceTree = "<group>"; };
 		2C198DFD2AEA444100DCD35A /* FillBlanksSelectContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksSelectContainerView.swift; sourceTree = "<group>"; };
 		2C198E002AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsView.swift; sourceTree = "<group>"; };
 		2C198E022AEA869300DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1629,6 +1633,15 @@
 				2C186AD02B468BDB00DADB26 /* InterviewPreparationWidgetView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2C186AE02B46A0AB00DADB26 /* InterviewPreparationCompleted */ = {
+			isa = PBXGroup;
+			children = (
+				2C186ADE2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift */,
+				2C186ADC2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift */,
+			);
+			path = InterviewPreparationCompleted;
 			sourceTree = "<group>";
 		};
 		2C198DFC2AEA441E00DCD35A /* Select */ = {
@@ -3228,6 +3241,7 @@
 			children = (
 				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
 				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
+				2C186AE02B46A0AB00DADB26 /* InterviewPreparationCompleted */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -4604,6 +4618,7 @@
 				E996D414292228A700A47498 /* TopicsRepetitionsView.swift in Sources */,
 				2CAE8D092805789100E6C83D /* StepCommentsStatisticsView.swift in Sources */,
 				E94BB0462A9DEF7C00736B7C /* StepQuizParsonsControlsView.swift in Sources */,
+				2C186ADD2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift in Sources */,
 				2C5CBBE72948FC7A00113007 /* StepQuizSQLView.swift in Sources */,
 				2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */,
 				2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */,
@@ -4892,6 +4907,7 @@
 				2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */,
 				2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */,
 				2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */,
+				2C186ADF2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift in Sources */,
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C99B1002A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift in Sources */,
 				E9E964872A0B8D8200841DF6 /* StepQuizProblemsLimitView.swift in Sources */,
