@@ -9,6 +9,7 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import org.hyperskill.app.network.remote.parameterIds
+import org.hyperskill.app.network.remote.parameterPage
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_quiz.data.source.SubmissionRemoteDataSource
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -26,7 +27,7 @@ class SubmissionRemoteDataSourceImpl(
                     contentType(ContentType.Application.Json)
                     parameter("step", stepId)
                     parameter("user", userId)
-                    parameter("page", page)
+                    parameterPage(page)
                 }.body<SubmissionResponse>().submissions
         }
 
