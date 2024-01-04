@@ -91,6 +91,16 @@ struct HomeView: View {
                     )
                     .makeModule()
 
+                    let interviewPreparationWidgetViewStateKs = viewModel.interviewPreparationWidgetViewStateKs
+                    if interviewPreparationWidgetViewStateKs != .empty {
+                        InterviewPreparationWidgetAssembly(
+                            interviewPreparationWidgetViewStateKs: interviewPreparationWidgetViewStateKs,
+                            moduleOutput: viewModel
+                        )
+                        .makeModule()
+                        .equatable()
+                    }
+
                     if let availableRepetitionsState = data.repetitionsState as? HomeFeatureRepetitionsStateAvailable {
                         TopicsRepetitionsCardView(
                             topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
