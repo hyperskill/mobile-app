@@ -257,6 +257,23 @@ enum Strings {
         static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
     }
 
+    // MARK: - Interview preparation widget -
+
+    enum InterviewPreparationWidget {
+        static let title = sharedStrings.interview_preparation_widget_title.localized()
+        static let networkError = sharedStrings.interview_preparation_widget_network_error_text.localized()
+    }
+
+    // MARK: - Interview preparation onboarding -
+
+    enum InterviewPreparationOnboarding {
+        static let navigationTitle = sharedStrings.interview_preparation_onboarding_screen_title.localized()
+
+        static let title = sharedStrings.interview_preparation_onboarding_title.localized()
+        static let description = sharedStrings.interview_preparation_onboarding_description.localized()
+        static let callToActionButton = sharedStrings.interview_preparation_onboarding_go_to_first_problem.localized()
+    }
+
     // MARK: - Topics widget -
 
     enum TopicsWidget {
@@ -582,15 +599,5 @@ enum Strings {
         static let placeholderSuggestionsSubtitle = sharedStrings.search_placeholder_suggestions_subtitle.localized()
 
         static let placeholderErrorDescription = sharedStrings.search_placeholder_error_description.localized()
-    }
-
-    // MARK: - InterviewPreparationOnboarding -
-
-    enum InterviewPreparationOnboarding {
-        static let navigationTitle = sharedStrings.interview_preparation_onboarding_screen_title.localized()
-
-        static let title = sharedStrings.interview_preparation_onboarding_title.localized()
-        static let description = sharedStrings.interview_preparation_onboarding_description.localized()
-        static let callToActionButton = sharedStrings.interview_preparation_onboarding_go_to_first_problem.localized()
     }
 }

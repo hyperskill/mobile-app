@@ -170,7 +170,27 @@ extension HomeViewModel: ChallengeWidgetOutputProtocol {
 // MARK: - HomeViewModel: InterviewPreparationWidgetOutputProtocol -
 
 extension HomeViewModel: InterviewPreparationWidgetOutputProtocol {
+    func handleInterviewPreparationWidgetCallToAction() {
+        onNewMessage(
+            HomeFeatureMessageInterviewPreparationWidgetMessage(
+                message: InterviewPreparationWidgetFeatureMessageWidgetClicked()
+            )
+        )
+    }
+
     func handleInterviewPreparationWidgetRetryContentLoading() {
-        #warning("TODO")
+        onNewMessage(
+            HomeFeatureMessageInterviewPreparationWidgetMessage(
+                message: InterviewPreparationWidgetFeatureMessageRetryContentLoading()
+            )
+        )
+    }
+
+    func handleInterviewPreparationWidgetDidAppear() {
+        onNewMessage(
+            HomeFeatureMessageInterviewPreparationWidgetMessage(
+                message: InterviewPreparationWidgetFeatureMessageViewedEventMessage()
+            )
+        )
     }
 }
