@@ -167,6 +167,7 @@ object StepCompletionFeature {
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
                 object StudyPlan : NavigateTo
+                object Home : NavigateTo
             }
         }
     }

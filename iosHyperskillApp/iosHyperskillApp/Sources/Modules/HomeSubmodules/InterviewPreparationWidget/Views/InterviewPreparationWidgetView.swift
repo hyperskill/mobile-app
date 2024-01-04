@@ -1,22 +1,26 @@
-import shared
 import SwiftUI
 
-extension ChallengeWidgetView {
+extension InterviewPreparationWidgetView {
     struct Appearance {
         let backgroundColor = Color(ColorPalette.surface)
-        let skeletonHeight: CGFloat = 128
+        let skeletonHeight: CGFloat = 114
     }
 }
 
-struct ChallengeWidgetView: View {
+struct InterviewPreparationWidgetView: View {
     private(set) var appearance = Appearance()
 
-    let viewStateKs: ChallengeWidgetViewStateKs
+    let viewStateKs: InterviewPreparationWidgetViewStateKs
 
-    let viewModel: ChallengeWidgetViewModel
+    let viewModel: InterviewPreparationWidgetViewModel
 
     var body: some View {
-        buildBody()
+        ZStack {
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: viewModel.logViewedEvent
+            )
+            buildBody()
+        }
     }
 
     @ViewBuilder
@@ -32,34 +36,23 @@ struct ChallengeWidgetView: View {
                 EmptyView()
             }
         case .error:
-            ChallengeWidgetErrorView(
+            InterviewPreparationWidgetErrorView(
                 backgroundColor: appearance.backgroundColor,
                 action: viewModel.doRetryContentLoading
             )
         case .content(let contentState):
-            ChallengeWidgetContentStateView(
+            InterviewPreparationWidgetContentView(
                 appearance: .init(backgroundColor: appearance.backgroundColor),
-                stateKs: .init(contentState),
-                onOpenDescriptionLink: viewModel.doOpenDescriptionLink(_:),
-                onDeadlineReloadTap: viewModel.doDeadlineReloadAction,
-                onCollectRewardTap: viewModel.doCollectReward
+                countText: contentState.formattedStepsCount,
+                description: contentState.description_,
+                onTap: viewModel.doCallToAction
             )
-            .equatable()
         }
     }
 }
 
-extension ChallengeWidgetView: Equatable {
-    static func == (lhs: ChallengeWidgetView, rhs: ChallengeWidgetView) -> Bool {
+extension InterviewPreparationWidgetView: Equatable {
+    static func == (lhs: InterviewPreparationWidgetView, rhs: InterviewPreparationWidgetView) -> Bool {
         lhs.viewStateKs == rhs.viewStateKs
     }
-}
-
-#Preview("Error") {
-    ChallengeWidgetView(
-        viewStateKs: .error,
-        viewModel: ChallengeWidgetViewModel()
-    )
-    .padding()
-    .background(Color.systemGroupedBackground)
 }

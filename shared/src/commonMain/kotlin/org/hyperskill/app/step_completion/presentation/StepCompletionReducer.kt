@@ -204,7 +204,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                             stepRoute.analyticRoute
                         )
                     ),
-                    Action.ViewAction.NavigateTo.StudyPlan
+                    Action.ViewAction.NavigateTo.Home
                 )
             /**
              * Analytic

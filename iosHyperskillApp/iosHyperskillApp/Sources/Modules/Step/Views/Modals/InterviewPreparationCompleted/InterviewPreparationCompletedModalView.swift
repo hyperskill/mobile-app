@@ -1,17 +1,14 @@
 import SwiftUI
 
-extension StageImplementStageCompletedModalView {
+extension InterviewPreparationCompletedModalView {
     struct Appearance {
         let spacing: CGFloat = LayoutInsets.defaultInset * 2
         let interitemSpacing = LayoutInsets.defaultInset
     }
 }
 
-struct StageImplementStageCompletedModalView: View {
+struct InterviewPreparationCompletedModalView: View {
     private(set) var appearance = Appearance()
-
-    let title: String
-    let award: Int
 
     var onCallToActionTap: () -> Void = {}
 
@@ -23,41 +20,26 @@ struct StageImplementStageCompletedModalView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
 
             VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
-                Text(title)
+                Text(Strings.InterviewPreparationCompletedModal.title)
                     .font(.title2).bold()
                     .foregroundColor(.primaryText)
 
-                Text(Strings.StageImplement.StageCompletedModal.description)
+                Text(Strings.InterviewPreparationCompletedModal.description)
                     .font(.body)
                     .foregroundColor(.primaryText)
-
-                HypercoinsAwardView
-                    .stageCompleted(award: award)
             }
 
             Button(
-                Strings.Common.goToStudyPlan,
+                Strings.Common.goToTraining,
                 action: onCallToActionTap
             )
-            .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            .buttonStyle(.primary)
+            .shineEffect()
         }
         .padding([.horizontal, .bottom])
     }
 }
 
-struct StageImplementStageCompletedModalView_Previews: PreviewProvider {
-    static var previews: some View {
-        StageImplementStageCompletedModalView(
-            title: "Yay! You've completed Stage 1/10!",
-            award: 15,
-            onCallToActionTap: {}
-        )
-
-        StageImplementStageCompletedModalView(
-            title: "Yay! You've completed Stage 1/10!",
-            award: 15,
-            onCallToActionTap: {}
-        )
-        .preferredColorScheme(.dark)
-    }
+#Preview {
+    InterviewPreparationCompletedModalView()
 }
