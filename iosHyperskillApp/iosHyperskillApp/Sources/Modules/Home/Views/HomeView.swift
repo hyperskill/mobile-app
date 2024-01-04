@@ -134,14 +134,16 @@ private extension HomeView {
             )
         case .challengeWidgetViewAction(let challengeWidgetViewAction):
             handleChallengeWidgetViewAction(
-                viewAction: challengeWidgetViewAction.viewAction
+                challengeWidgetViewAction.viewAction
             )
         case .interviewPreparationWidgetViewAction(let interviewPreparationWidgetViewAction):
-            handleinterviewPreparationWidgetViewAction(viewAction: interviewPreparationWidgetViewAction.viewAction)
+            handleInterviewPreparationWidgetViewAction(
+                interviewPreparationWidgetViewAction.viewAction
+            )
         }
     }
 
-    func handleChallengeWidgetViewAction(viewAction: ChallengeWidgetFeatureActionViewAction) {
+    func handleChallengeWidgetViewAction(_ viewAction: ChallengeWidgetFeatureActionViewAction) {
         switch ChallengeWidgetFeatureActionViewActionKs(viewAction) {
         case .openUrl(let openUrlViewAction):
             WebControllerManager.shared.presentWebControllerWithURLString(
@@ -154,8 +156,30 @@ private extension HomeView {
         }
     }
 
-    func handleinterviewPreparationWidgetViewAction(viewAction: InterviewPreparationWidgetFeatureActionViewAction) {
-        #warning("TODO: ALTAPPS-1093")
+    func handleInterviewPreparationWidgetViewAction(
+        _ viewAction: InterviewPreparationWidgetFeatureActionViewAction
+    ) {
+        switch InterviewPreparationWidgetFeatureActionViewActionKs(viewAction) {
+        case .navigateTo(let navigateToViewAction):
+            handleInterviewPreparationWidgetNavigateToViewAction(navigateToViewAction)
+        case .showOpenStepError(let showOpenStepErrorViewAction):
+            ProgressHUD.showError(status: showOpenStepErrorViewAction.errorMessage)
+        }
+    }
+
+    func handleInterviewPreparationWidgetNavigateToViewAction(
+        _ viewAction: InterviewPreparationWidgetFeatureActionViewActionNavigateTo
+    ) {
+        switch InterviewPreparationWidgetFeatureActionViewActionNavigateToKs(viewAction) {
+        case .interviewPreparationOnboarding(let navigateToInterviewPreparationOnboardingViewAction):
+            let assembly = InterviewPreparationOnboardingAssembly(
+                stepRoute: navigateToInterviewPreparationOnboardingViewAction.stepRoute
+            )
+            stackRouter.pushViewController(assembly.makeModule())
+        case .step(let navigateToStepViewAction):
+            let assembly = StepAssembly(stepRoute: navigateToStepViewAction.stepRoute)
+            stackRouter.pushViewController(assembly.makeModule())
+        }
     }
 }
 
