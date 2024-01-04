@@ -31,13 +31,15 @@ fun HyperskillCard(
         modifier = modifier
             .clip(RoundedCornerShape(cornerRadius))
             .background(MaterialTheme.colors.surface)
-            .apply {
+            .let {
                 if (onClick != null) {
-                    clickable(
+                    it.clickable(
                         interactionSource = interactionSource,
                         indication = rememberRipple(),
                         onClick = onClick
                     )
+                } else {
+                    it
                 }
             }
             .padding(contentPadding),

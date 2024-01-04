@@ -11,6 +11,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
+import org.hyperskill.app.android.interview_preparation.dialog.InterviewPreparationFinishedDialogFragment
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
@@ -41,7 +42,8 @@ class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
     ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
     StepCompletionHost,
-    ShareStreakDialogFragment.Callback {
+    ShareStreakDialogFragment.Callback,
+    InterviewPreparationFinishedDialogFragment.Callback {
 
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
@@ -168,5 +170,17 @@ class StageStepWrapperFragment :
 
     override fun onRefuseStreakSharingClick(streak: Int) {
         stepViewModel.onRefuseStreakSharingClick(streak)
+    }
+
+    override fun onInterviewPreparationFinishedDialogShown() {
+        stepViewModel.onInterviewPreparationFinishedDialogShown()
+    }
+
+    override fun onInterviewPreparationFinishedDialogHidden() {
+        stepViewModel.onInterviewPreparationFinishedDialogHidden()
+    }
+
+    override fun onInterviewPreparationFinishedDialogGoTrainingClicked() {
+        stepViewModel.onInterviewPreparationFinishedDialogGoTrainingClicked()
     }
 }

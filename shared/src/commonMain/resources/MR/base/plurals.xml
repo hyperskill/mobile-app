@@ -140,4 +140,8 @@
         <item quantity="one">Win %d bounty to upgrade this badge</item>
         <item quantity="other">Win %d bounties to upgrade this badge</item>
     </plural>
+    <plural name="interview_preparation_widget_description">
+        <item quantity="one">problem at the hard level to solve</item>
+        <item quantity="other">problems at the hard level to solve</item>
+    </plural>
 </resources>

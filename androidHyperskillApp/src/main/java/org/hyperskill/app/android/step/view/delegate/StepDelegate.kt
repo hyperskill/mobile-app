@@ -9,6 +9,7 @@ import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
+import org.hyperskill.app.android.interview_preparation.dialog.InterviewPreparationFinishedDialogFragment
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
@@ -25,7 +26,8 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 class StepDelegate<TFragment>(
     private val fragment: TFragment
 ) where TFragment : Fragment,
-        TFragment : ShareStreakDialogFragment.Callback {
+        TFragment : ShareStreakDialogFragment.Callback,
+        TFragment : InterviewPreparationFinishedDialogFragment.Callback {
 
     fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
         onNewMessage(StepFeature.Message.ViewedEventMessage)
@@ -48,6 +50,11 @@ class StepDelegate<TFragment>(
                     StepCompletionFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
                         fragment.requireRouter().backTo(MainScreen(Tabs.STUDY_PLAN))
                         mainScreenRouter.switch(Tabs.STUDY_PLAN)
+                    }
+
+                    StepCompletionFeature.Action.ViewAction.NavigateTo.Home -> {
+                        fragment.requireRouter().backTo(MainScreen(Tabs.TRAINING))
+                        mainScreenRouter.switch(Tabs.TRAINING)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
@@ -88,6 +95,13 @@ class StepDelegate<TFragment>(
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
                         shareStreak(stepCompletionAction.streak)
                     }
+                    StepCompletionFeature.Action.ViewAction.ShowInterviewPreparationCompletedModal ->
+                        InterviewPreparationFinishedDialogFragment
+                            .newInstance()
+                            .showIfNotExists(
+                                manager = fragment.childFragmentManager,
+                                tag = InterviewPreparationFinishedDialogFragment.TAG
+                            )
                 }
             }
         }

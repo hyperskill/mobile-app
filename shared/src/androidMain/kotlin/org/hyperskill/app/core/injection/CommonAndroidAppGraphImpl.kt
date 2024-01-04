@@ -16,6 +16,8 @@ import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProble
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
+import org.hyperskill.app.interview_preparation_onboarding.injection.PlatformInterviewPreparationOnboardingComponent
+import org.hyperskill.app.interview_preparation_onboarding.injection.PlatformInterviewPreparationOnboardingComponentImpl
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponentImpl
 import org.hyperskill.app.notification.remote.injection.AndroidPlatformPushNotificationsPlatformDataComponent
@@ -42,6 +44,7 @@ import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.search.injection.PlatformSearchComponentImpl
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponentImpl
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
 import org.hyperskill.app.step.injection.StepComponent
@@ -223,5 +226,13 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformSearchComponent(): PlatformSearchComponent =
         PlatformSearchComponentImpl(
             searchComponent = buildSearchComponent()
+        )
+
+    override fun buildPlatformInterviewPreparationOnboardingComponent(
+        stepRoute: StepRoute
+    ): PlatformInterviewPreparationOnboardingComponent =
+        PlatformInterviewPreparationOnboardingComponentImpl(
+            interviewPreparationOnboardingComponent = buildInterviewPreparationOnboardingComponent(),
+            stepRoute = stepRoute
         )
 }

@@ -112,6 +112,9 @@ struct StepView: View {
             case .studyPlan:
                 dismissPanModalAndNavigateBack()
                 TabBarRouter(tab: .studyPlan).route()
+            case .home:
+                dismissPanModalAndNavigateBack()
+                TabBarRouter(tab: .home).route()
             }
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(
@@ -122,6 +125,8 @@ struct StepView: View {
             presentShareStreakModal(streak: Int(showShareStreakModalViewAction.streak))
         case .showShareStreakSystemModal(let showShareStreakSystemModalViewAction):
             presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
+        case .showInterviewPreparationCompletedModal:
+            presentInterviewPreparationFinishedModal()
         }
     }
 
@@ -139,8 +144,8 @@ struct StepView: View {
 
 // MARK: - StepView (Modals) -
 
-extension StepView {
-    private func presentTopicCompletedModal(modalText: String, isNextStepAvailable: Bool) {
+private extension StepView {
+    func presentTopicCompletedModal(modalText: String, isNextStepAvailable: Bool) {
         let modal = TopicCompletedModalViewController(
             modalText: modalText,
             isNextStepAvailable: isNextStepAvailable,
@@ -149,7 +154,7 @@ extension StepView {
         panModalPresenter.presentPanModal(modal)
     }
 
-    private func presentDailyStepCompletedModal(
+    func presentDailyStepCompletedModal(
         earnedGemsText: String,
         shareStreakData: StepCompletionFeatureShareStreakData
     ) {
@@ -161,7 +166,7 @@ extension StepView {
         panModalPresenter.presentPanModal(modal)
     }
 
-    private func presentShareStreakModal(streak: Int) {
+    func presentShareStreakModal(streak: Int) {
         let modal = ShareStreakModalViewController(
             streak: streak,
             delegate: viewModel
@@ -169,9 +174,14 @@ extension StepView {
         panModalPresenter.presentPanModal(modal)
     }
 
-    private func presentShareStreakSystemModal(streak: Int) {
+    func presentShareStreakSystemModal(streak: Int) {
         let activityViewController = ShareStreakAction.makeActivityViewController(for: streak)
         modalRouter.present(module: activityViewController, modalPresentationStyle: .automatic)
+    }
+
+    func presentInterviewPreparationFinishedModal() {
+        let modal = InterviewPreparationCompletedModalViewController(delegate: viewModel)
+        panModalPresenter.presentPanModal(modal)
     }
 }
 

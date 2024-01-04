@@ -88,6 +88,12 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildStepCompletionNextInterviewStepLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-completion-feature-next-interview-step-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     /**
      * StepQuizFeature
      */
@@ -301,6 +307,15 @@ object HyperskillSentryTransactionBuilder {
     fun buildSearchFeaturePerformSearch(): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "search-feature-perform-search",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * InterviewPreparationWidget
+     */
+    fun buildInterviewPreparationWidgetFeatureFetchInterviewSteps(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "interview-preparation-widget-feature-fetch-interview-steps",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 }
