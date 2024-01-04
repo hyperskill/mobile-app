@@ -18,14 +18,21 @@ final class InterviewPreparationOnboardingAssembly: UIKitAssembly {
             )
         )
 
+        let stackRouter = StackRouter()
+
         let interviewPreparationOnboardingView = InterviewPreparationOnboardingView(
-            viewModel: interviewPreparationOnboardingViewModel
+            viewModel: interviewPreparationOnboardingViewModel,
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
             rootView: interviewPreparationOnboardingView
         )
+        hostingController.hidesBottomBarWhenPushed = true
         hostingController.navigationItem.largeTitleDisplayMode = .never
+        hostingController.title = Strings.InterviewPreparationOnboarding.navigationTitle
+
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }

@@ -13,7 +13,9 @@ final class InterviewPreparationOnboardingViewModel: FeatureViewModel<
         false
     }
 
-    // MARK: Analytic
+    func doCallToAction() {
+        onNewMessage(InterviewPreparationOnboardingFeatureMessageGoToFirstProblemClicked())
+    }
 
     func logViewedEvent() {
         onNewMessage(InterviewPreparationOnboardingFeatureMessageViewedEventMessage())

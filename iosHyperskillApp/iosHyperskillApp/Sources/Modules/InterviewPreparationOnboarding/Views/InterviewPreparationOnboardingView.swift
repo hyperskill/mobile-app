@@ -4,11 +4,15 @@ import SwiftUI
 struct InterviewPreparationOnboardingView: View {
     @StateObject var viewModel: InterviewPreparationOnboardingViewModel
 
+    let stackRouter: StackRouterProtocol
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
 
-            InterviewPreparationOnboardingContentView()
+            InterviewPreparationOnboardingContentView(
+                onCallToActionButtonTap: viewModel.doCallToAction
+            )
         }
         .onAppear {
             viewModel.startListening()
@@ -28,8 +32,16 @@ private extension InterviewPreparationOnboardingView {
         _ viewAction: InterviewPreparationOnboardingFeatureActionViewAction
     ) {
         switch InterviewPreparationOnboardingFeatureActionViewActionKs(viewAction) {
-        case .navigateTo:
-            break
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(navigateToViewAction)
+        }
+    }
+
+    func handleNavigateToViewAction(_ viewAction: InterviewPreparationOnboardingFeatureActionViewActionNavigateTo) {
+        switch InterviewPreparationOnboardingFeatureActionViewActionNavigateToKs(viewAction) {
+        case .stepScreen(let navigateToStepScreenViewAction):
+            let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 }
