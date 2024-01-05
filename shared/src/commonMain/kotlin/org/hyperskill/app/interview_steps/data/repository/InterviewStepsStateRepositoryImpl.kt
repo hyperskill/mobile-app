@@ -9,6 +9,6 @@ internal class InterviewStepsStateRepositoryImpl(
 ) : InterviewStepsStateRepository, BaseStateRepository<List<Long>>() {
     override suspend fun loadState(): Result<List<Long>> =
         trackInterviewStepsRemoteDataSource
-            .getTrackInterviewSteps(pageSize = 20, page = 1)
+            .getTrackInterviewSteps(pageSize = 50, page = 1)
             .map { it.steps.map { step -> step.id } }
 }
