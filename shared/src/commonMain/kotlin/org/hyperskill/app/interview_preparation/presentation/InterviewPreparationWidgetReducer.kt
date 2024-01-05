@@ -18,6 +18,8 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         when (message) {
             is InternalMessage.Initialize ->
                 handleInitializeMessage(state, message)
+            is InternalMessage.FetchMobileInterviewPreparationFeatureFlagResult ->
+                handleFetchMobileInterviewPreparationFeatureFlagResultMessage(state, message)
             is InternalMessage.FetchInterviewStepsResultSuccess ->
                 State.Content(stepsCount = message.steps.count()) to emptySet()
             is InternalMessage.FetchInterviewStepsResultError ->
@@ -42,27 +44,41 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         state: State,
         message: InternalMessage.Initialize
     ): InterviewPreparationWidgetReducerResult =
-        when (state) {
-            State.Idle ->
-                State.Loading(isLoadingSilently = false) to
-                    setOf(InternalAction.FetchInterviewSteps(false))
-            State.Error ->
-                if (message.forceUpdate) {
+        state to setOf(
+            InternalAction.FetchMobileInterviewPreparationFeatureFlag(
+                originalInitializeForceUpdate = message.forceUpdate
+            )
+        )
+
+    private fun handleFetchMobileInterviewPreparationFeatureFlagResultMessage(
+        state: State,
+        message: InternalMessage.FetchMobileInterviewPreparationFeatureFlagResult
+    ): InterviewPreparationWidgetReducerResult =
+        if (message.isMobileInterviewPreparationEnabled) {
+            when (state) {
+                State.Idle ->
                     State.Loading(isLoadingSilently = false) to
-                        setOf(InternalAction.FetchInterviewSteps(true))
-                } else {
+                        setOf(InternalAction.FetchInterviewSteps(false))
+                State.Error ->
+                    if (message.originalInitializeForceUpdate) {
+                        State.Loading(isLoadingSilently = false) to
+                            setOf(InternalAction.FetchInterviewSteps(true))
+                    } else {
+                        state to emptySet()
+                    }
+                is State.Content ->
+                    if (message.originalInitializeForceUpdate) {
+                        State.Loading(
+                            isLoadingSilently = state.stepsCount == 0
+                        ) to setOf(InternalAction.FetchInterviewSteps(true))
+                    } else {
+                        state to emptySet()
+                    }
+                is State.Loading ->
                     state to emptySet()
-                }
-            is State.Content ->
-                if (message.forceUpdate) {
-                    State.Loading(
-                        isLoadingSilently = state.stepsCount == 0
-                    ) to setOf(InternalAction.FetchInterviewSteps(true))
-                } else {
-                    state to emptySet()
-                }
-            is State.Loading ->
-                state to emptySet()
+            }
+        } else {
+            State.Idle to emptySet()
         }
 
     private fun handlePullToRefreshMessage(
@@ -128,11 +144,15 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
     private fun handleWidgetViewedMessage(
         state: State
     ): InterviewPreparationWidgetReducerResult =
-        state to setOf(
-            InternalAction.LogAnalyticEvent(
-                InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
+        if (state !is State.Idle) {
+            state to setOf(
+                InternalAction.LogAnalyticEvent(
+                    InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
+                )
             )
-        )
+        } else {
+            state to emptySet()
+        }
 
     private fun handleStepCountChangedMessage(
         state: State,
