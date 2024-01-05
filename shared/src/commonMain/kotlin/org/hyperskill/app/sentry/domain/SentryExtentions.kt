@@ -24,6 +24,7 @@ suspend inline fun <T> SentryInteractor.withTransaction(
         finishTransaction(transaction)
         result
     } catch (e: CancellationException) {
+        finishTransaction(transaction, e)
         throw e
     } catch (e: Exception) {
         finishTransaction(transaction, e)
