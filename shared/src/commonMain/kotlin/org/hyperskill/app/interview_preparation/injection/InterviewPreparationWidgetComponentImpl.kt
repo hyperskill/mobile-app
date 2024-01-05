@@ -17,6 +17,7 @@ internal class InterviewPreparationWidgetComponentImpl(
             config = ActionDispatcherOptions(),
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             interviewStepsStateRepository = appGraph.stateRepositoriesComponent.interviewStepsStateRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider

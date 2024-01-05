@@ -13,6 +13,8 @@ import org.hyperskill.app.interview_preparation.presentation.InterviewPreparatio
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.Message
 import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateRepository
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
+import org.hyperskill.app.profile.domain.model.isMobileInterviewPreparationEnabled
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -22,6 +24,7 @@ class InterviewPreparationWidgetActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor,
     private val interviewStepsStateRepository: InterviewStepsStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
     private val resourceProvider: ResourceProvider
@@ -37,6 +40,18 @@ class InterviewPreparationWidgetActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
+            is InternalAction.FetchMobileInterviewPreparationFeatureFlag -> {
+                val isMobileInterviewPreparationEnabled = currentProfileStateRepository
+                    .getState(forceUpdate = false)
+                    .map { it.features.isMobileInterviewPreparationEnabled }
+                    .getOrDefault(false)
+                onNewMessage(
+                    InternalMessage.FetchMobileInterviewPreparationFeatureFlagResult(
+                        originalInitializeForceUpdate = action.originalInitializeForceUpdate,
+                        isMobileInterviewPreparationEnabled = isMobileInterviewPreparationEnabled
+                    )
+                )
+            }
             is InternalAction.FetchInterviewSteps -> {
                 sentryInteractor.withTransaction(
                     HyperskillSentryTransactionBuilder.buildInterviewPreparationWidgetFeatureFetchInterviewSteps(),

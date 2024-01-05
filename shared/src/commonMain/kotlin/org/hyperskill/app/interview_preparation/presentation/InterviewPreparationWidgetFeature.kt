@@ -26,6 +26,11 @@ object InterviewPreparationWidgetFeature {
     internal sealed interface InternalMessage : Message {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
 
+        data class FetchMobileInterviewPreparationFeatureFlagResult(
+            val originalInitializeForceUpdate: Boolean,
+            val isMobileInterviewPreparationEnabled: Boolean
+        ) : InternalMessage
+
         /**
          * The success result for [InternalAction.FetchInterviewSteps]
          */
@@ -64,6 +69,10 @@ object InterviewPreparationWidgetFeature {
     }
 
     internal sealed interface InternalAction : Action {
+        data class FetchMobileInterviewPreparationFeatureFlag(
+            val originalInitializeForceUpdate: Boolean
+        ) : InternalAction
+
         data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
 
         /**
