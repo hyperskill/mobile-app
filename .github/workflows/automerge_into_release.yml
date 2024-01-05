@@ -51,7 +51,18 @@ jobs:
           current_version_number=$(git tag --sort=committerdate | tail -1 | cut -c 2-)
           echo "Current version number is $current_version_number"
 
-          next_version_number=$(echo $current_version_number | awk -F. -v OFS=. '{$NF++;print}')
+          major=$(echo $current_version_number | cut -d. -f1)
+          minor=$(echo $current_version_number | cut -d. -f2)
+          patch=$(echo $current_version_number | cut -d. -f3)
+
+          echo "MAJOR: $major"
+          echo "MINOR: $minor"
+          echo "PATCH: $patch"
+
+          echo "Incrementing minor version number..."
+          next_minor=$((minor + 1))
+
+          next_version_number=$(printf "%d.%d" $major $next_minor)
           echo "Next version number is $next_version_number"
 
           git config user.name github-actions
