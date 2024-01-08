@@ -93,7 +93,6 @@ struct WelcomeView: View {
                         viewModel.doSecondaryButtonAction()
                     }
                 )
-                .buttonStyle(.tertiary)
 
                 if horizontalSizeClass == .regular {
                     Spacer()

@@ -70,12 +70,8 @@ struct AuthCredentialsFormView: View {
                 .disabled(!isInputFulfilled)
 
             Button(
-                action: doResetPassword,
-                label: {
-                    Text(Strings.Auth.Credentials.resetPassword)
-                        .font(.body)
-                        .foregroundColor(Color(ColorPalette.primary))
-                }
+                Strings.Auth.Credentials.resetPassword,
+                action: doResetPassword
             )
             .padding(appearance.resetPasswordButtonInset)
         }
