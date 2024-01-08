@@ -16,7 +16,7 @@ import org.hyperskill.app.products.remote.model.BuyProductRequest
 import org.hyperskill.app.products.remote.model.GetProductsRequest
 import org.hyperskill.app.products.remote.model.ProductsResponse
 
-class ProductsRemoteDataSourceImpl(
+internal class ProductsRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : ProductsRemoteDataSource {
     override suspend fun getProducts(request: GetProductsRequest): Result<List<Product>> =
