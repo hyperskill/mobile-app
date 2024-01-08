@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.R
@@ -27,13 +29,17 @@ class ChallengeCardDelegate {
 
     fun setup(
         composeView: ComposeView,
+        viewLifecycleOwner: LifecycleOwner,
         onNewMessage: (ChallengeWidgetFeature.Message) -> Unit
     ) {
-        composeView.setContent {
-            HyperskillTheme {
-                val viewState by stateFlow.collectAsStateWithLifecycle()
-                viewState?.let { actualViewState ->
-                    ChallengeCard(viewState = actualViewState, onNewMessage = onNewMessage)
+        composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
+            setContent {
+                HyperskillTheme {
+                    val viewState by stateFlow.collectAsStateWithLifecycle()
+                    viewState?.let { actualViewState ->
+                        ChallengeCard(viewState = actualViewState, onNewMessage = onNewMessage)
+                    }
                 }
             }
         }

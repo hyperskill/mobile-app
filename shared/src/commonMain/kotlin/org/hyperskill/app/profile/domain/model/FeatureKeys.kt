@@ -7,4 +7,5 @@ object FeatureKeys {
     const val FREEMIUM_INCREASE_LIMITS_FOR_FIRST_STEP_COMPLETION = "freemium.increase_limits_for_first_step_completion"
     const val LEARNING_PATH_DIVIDED_TRACK_TOPICS = "learning_path.divided_track_topics"
     const val MOBILE_LEADERBOARDS = "mobile_leaderboards"
+    const val MOBILE_INTERVIEW_PREPARATION = "mobile.interview_preparation"
 }

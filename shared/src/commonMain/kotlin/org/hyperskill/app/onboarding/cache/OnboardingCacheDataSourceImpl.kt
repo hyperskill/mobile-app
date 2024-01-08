@@ -40,4 +40,11 @@ internal class OnboardingCacheDataSourceImpl(
     override fun setFirstProblemOnboardingWasShown(wasShown: Boolean) {
         settings.putBoolean(OnboardingCacheKeyValues.IS_FIRST_PROBLEM_ONBOARDING_SHOWN, wasShown)
     }
+
+    override fun setInterviewPreparationOnboardingWasShown(wasShown: Boolean) {
+        settings.putBoolean(OnboardingCacheKeyValues.IS_INTERVIEW_PREPARATION_ONBOARDING_SHOWN, wasShown)
+    }
+
+    override fun wasInterviewPreparationOnboardingShown(): Boolean =
+        settings.getBoolean(OnboardingCacheKeyValues.IS_INTERVIEW_PREPARATION_ONBOARDING_SHOWN, defaultValue = false)
 }

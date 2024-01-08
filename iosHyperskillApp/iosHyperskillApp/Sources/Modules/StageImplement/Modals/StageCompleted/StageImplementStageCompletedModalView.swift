@@ -17,7 +17,7 @@ struct StageImplementStageCompletedModalView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
-            Image(Images.StageImplement.StageCompletedModal.icon)
+            Image(.stageImplementStageCompletedModalIcon)
                 .renderingMode(.original)
                 .aspectRatio(contentMode: .fit)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -39,7 +39,8 @@ struct StageImplementStageCompletedModalView: View {
                 Strings.Common.goToStudyPlan,
                 action: onCallToActionTap
             )
-            .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            .buttonStyle(.primary)
+            .shineEffect()
         }
         .padding([.horizontal, .bottom])
     }

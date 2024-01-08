@@ -97,7 +97,7 @@ struct FirstProblemOnboardingContentView: View {
                 onCallToActionButtonTap()
             }
         )
-        .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
+        .buttonStyle(.primary)
         .shineEffect()
     }
 }

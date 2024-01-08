@@ -1,6 +1,7 @@
 package org.hyperskill.app.core.injection
 
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
+import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
@@ -15,10 +16,13 @@ interface StateRepositoriesComponent {
 
     val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository
 
+    val interviewStepsStateRepository: InterviewStepsStateRepository
+
     suspend fun resetRepositories() {
         currentSubscriptionStateRepository.resetState()
         currentStudyPlanStateRepository.resetState()
         nextLearningActivityStateRepository.resetState()
         currentGamificationToolbarDataStateRepository.resetState()
+        interviewStepsStateRepository.resetState()
     }
 }

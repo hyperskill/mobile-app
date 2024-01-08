@@ -5,8 +5,6 @@ extension AuthCredentialsView {
     struct Appearance {
         let logoSize: CGFloat = 48
 
-        let continueWithSocialButtonFont = Font.body
-        let continueWithSocialButtonTextColor = ColorPalette.primary
         let continueWithSocialButtonInsets = LayoutInsets(top: 24)
 
         let keyboardDistanceFromTextField: CGFloat = 60
@@ -56,8 +54,6 @@ struct AuthCredentialsView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             )
-            .font(appearance.continueWithSocialButtonFont)
-            .foregroundColor(Color(appearance.continueWithSocialButtonTextColor))
             .padding(appearance.continueWithSocialButtonInsets.edgeInsets)
         }
         .onAppear {

@@ -41,4 +41,11 @@ internal class OnboardingRepositoryImpl(
     override fun setFirstProblemOnboardingWasShown(wasShown: Boolean) {
         onboardingCacheDataSource.setFirstProblemOnboardingWasShown(wasShown)
     }
+
+    override fun setInterviewPreparationOnboardingWasShown(wasShown: Boolean) {
+        onboardingCacheDataSource.setInterviewPreparationOnboardingWasShown(wasShown)
+    }
+
+    override fun wasInterviewPreparationOnboardingShown(): Boolean =
+        onboardingCacheDataSource.wasInterviewPreparationOnboardingShown()
 }

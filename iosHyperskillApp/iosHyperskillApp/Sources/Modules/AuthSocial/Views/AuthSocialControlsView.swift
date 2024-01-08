@@ -1,16 +1,6 @@
 import SwiftUI
 
-extension AuthSocialControlsView {
-    struct Appearance {
-        let continueWithEmailButtonFont = Font.body
-        let continueWithEmailButtonTextColor = ColorPalette.primary
-        let continueWithEmailButtonLayoutInsets = LayoutInsets(top: 24)
-    }
-}
-
 struct AuthSocialControlsView: View {
-    private(set) var appearance = Appearance()
-
     let socialAuthProviders: [SocialAuthProvider]
 
     let isContinueWithEmailAvailable: Bool
@@ -19,7 +9,7 @@ struct AuthSocialControlsView: View {
     let onContinueWithEmailClick: (() -> Void)
 
     var body: some View {
-        VStack {
+        VStack(spacing: LayoutInsets.smallInset) {
             ForEach(socialAuthProviders, id: \.rawValue) { provider in
                 AuthSocialButton(
                     text: provider.humanReadableName,
@@ -31,10 +21,11 @@ struct AuthSocialControlsView: View {
             }
 
             if isContinueWithEmailAvailable {
-                Button(Strings.Auth.Social.emailText, action: self.onContinueWithEmailClick)
-                    .font(.body)
-                    .foregroundColor(Color(appearance.continueWithEmailButtonTextColor))
-                    .padding(appearance.continueWithEmailButtonLayoutInsets.edgeInsets)
+                Button(
+                    Strings.Auth.Social.emailText,
+                    action: self.onContinueWithEmailClick
+                )
+                .padding(.top)
             }
         }
     }

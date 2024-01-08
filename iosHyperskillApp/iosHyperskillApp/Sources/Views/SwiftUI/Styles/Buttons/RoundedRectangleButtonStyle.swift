@@ -104,7 +104,15 @@ extension RoundedRectangleButtonStyle {
 
 extension ButtonStyle where Self == RoundedRectangleButtonStyle {
     static var primary: RoundedRectangleButtonStyle {
-        RoundedRectangleButtonStyle(style: .newViolet)
+        let style = RoundedRectangleButtonStyle.Style.newViolet
+        return RoundedRectangleButtonStyle(
+            foregroundColor: style.foregroundColor,
+            font: .body.bold(),
+            minHeight: 50,
+            backgroundColor: style.backgroundColor,
+            backgroundPressedColor: style.backgroundPressedColor,
+            cornerRadius: 13
+        )
     }
 }
 

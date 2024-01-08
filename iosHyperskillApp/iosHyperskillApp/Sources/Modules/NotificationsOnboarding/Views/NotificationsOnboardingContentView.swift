@@ -102,7 +102,7 @@ struct NotificationsOnboardingContentView: View {
                     onPrimaryButtonTap()
                 }
             )
-            .buttonStyle(RoundedRectangleButtonStyle(style: .newViolet))
+            .buttonStyle(.primary)
             .shineEffect()
 
             Button(
