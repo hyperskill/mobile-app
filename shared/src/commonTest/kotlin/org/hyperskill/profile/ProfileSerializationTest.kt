@@ -1,4 +1,4 @@
-package org.hyperskill.profile.cache
+package org.hyperskill.profile
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

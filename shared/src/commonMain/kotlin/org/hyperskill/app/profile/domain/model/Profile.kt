@@ -12,7 +12,7 @@ import org.hyperskill.app.profile.cache.CurrentProfileStateHolderImpl
  * This model is stored in the cache.
  * Adding new field or modifying old ones,
  * check that all fields will be deserialized from cache without an error.
- * All the optional fields must have default values.
+ * All the new optional fields must have default values.
  * @see [CurrentProfileStateHolderImpl]
  */
 @Serializable
