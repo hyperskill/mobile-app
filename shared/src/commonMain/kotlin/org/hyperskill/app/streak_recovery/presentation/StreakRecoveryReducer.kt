@@ -19,8 +19,8 @@ class StreakRecoveryReducer : StateReducer<State, Message, Action> {
                 state to setOf(InternalAction.FetchStreak)
             }
             is StreakRecoveryFeature.FetchStreakResult.Success -> {
-                if (message.canRecoveryStreak) {
-                    state to setOf(
+                if (message.streak.canBeRecovered) {
+                    state.copy(streak = message.streak) to setOf(
                         Action.ViewAction.ShowRecoveryStreakModal(
                             message.recoveryPriceAmountLabel,
                             message.recoveryPriceGemsLabel,
@@ -35,13 +35,22 @@ class StreakRecoveryReducer : StateReducer<State, Message, Action> {
                 null
             }
             Message.RestoreStreakClicked -> {
-                state to setOf(
-                    Action.ViewAction.ShowNetworkRequestStatus.Loading,
-                    InternalAction.RecoverStreak,
-                    InternalAction.LogAnalyticEvent(
-                        StreakRecoveryModalClickedRestoreStreakHyperskillAnalyticEvent()
+                if (state.streak != null) {
+                    state to setOf(
+                        Action.ViewAction.ShowNetworkRequestStatus.Loading,
+                        InternalAction.RecoverStreak(state.streak),
+                        InternalAction.LogAnalyticEvent(
+                            StreakRecoveryModalClickedRestoreStreakHyperskillAnalyticEvent()
+                        )
                     )
-                )
+                } else {
+                    state to setOf(
+                        InternalAction.LogAnalyticEvent(
+                            StreakRecoveryModalClickedRestoreStreakHyperskillAnalyticEvent()
+                        ),
+                        InternalAction.CaptureSentryErrorMessage("StreakRecovery: restore streak, no streak found")
+                    )
+                }
             }
             Message.NoThanksClicked -> {
                 state to setOf(
@@ -80,7 +89,7 @@ class StreakRecoveryReducer : StateReducer<State, Message, Action> {
                 )
             }
             Message.StreakRecoveryModalHiddenEventMessage -> {
-                state to setOf(
+                State() to setOf(
                     InternalAction.LogAnalyticEvent(StreakRecoveryModalHiddenHyperskillAnalyticEvent())
                 )
             }
