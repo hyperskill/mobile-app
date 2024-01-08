@@ -10,6 +10,7 @@ _Before Code Review:_
 - [ ] View analytics events are added for new screens;
 - [ ] New analytics events are documented;
 - [ ] All checks have been passed;
-- [ ] Changes have been checked locally.
+- [ ] Changes have been checked locally;
+- [ ] Saved in the cache models serialization checked locally.
 
 **Description**
