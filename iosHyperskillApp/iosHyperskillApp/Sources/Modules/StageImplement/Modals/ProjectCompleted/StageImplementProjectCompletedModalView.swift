@@ -41,7 +41,8 @@ struct StageImplementProjectCompletedModalView: View {
                 Strings.Common.goToStudyPlan,
                 action: onCallToActionTap
             )
-            .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
+            .buttonStyle(.primary)
+            .shineEffect()
         }
         .padding([.horizontal, .bottom])
     }
