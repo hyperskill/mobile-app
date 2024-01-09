@@ -318,4 +318,13 @@ object HyperskillSentryTransactionBuilder {
             name = "interview-preparation-widget-feature-fetch-interview-steps",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * StreakRecoveryFeature
+     */
+    fun buildStreakRecoveryFeatureFetchStreak(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "streak-recovery-feature-fetch-streak",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

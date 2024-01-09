@@ -5,20 +5,21 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 
-class StreakRecoveryComponentImpl(
+internal class StreakRecoveryComponentImpl(
     private val appGraph: AppGraph
 ) : StreakRecoveryComponent {
     override val streakRecoveryReducer: StreakRecoveryReducer
-        get() = StreakRecoveryReducer()
+        get() = StreakRecoveryReducer(resourceProvider = appGraph.commonComponent.resourceProvider)
 
     override val streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher
         get() = StreakRecoveryActionDispatcher(
             ActionDispatcherOptions(),
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.buildStreaksDataComponent().streaksInteractor,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.streakFlowDataComponent.streakFlow,
-            appGraph.commonComponent.resourceProvider
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            streaksInteractor = appGraph.buildStreaksDataComponent().streaksInteractor,
+            productsInteractor = appGraph.buildProductsDataComponent().productsInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            streakFlow = appGraph.streakFlowDataComponent.streakFlow,
+            resourceProvider = appGraph.commonComponent.resourceProvider
         )
 }

@@ -1,13 +1,18 @@
 package org.hyperskill.app.streak_recovery.presentation
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.profile.domain.model.copy
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Action
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Message
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
@@ -18,6 +23,7 @@ class StreakRecoveryActionDispatcher(
     config: ActionDispatcherOptions,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
+    private val productsInteractor: ProductsInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val streakFlow: StreakFlow,
@@ -26,32 +32,7 @@ class StreakRecoveryActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             StreakRecoveryFeature.InternalAction.FetchStreak -> {
-                val currentProfile = currentProfileStateRepository
-                    .getState()
-                    .onFailure { sentryInteractor.captureErrorMessage("StreakRecovery: fetch streak $it") }
-                    .getOrElse { return onNewMessage(StreakRecoveryFeature.FetchStreakResult.Error) }
-
-                val streak = streaksInteractor
-                    .getUserStreak(currentProfile.id)
-                    .onFailure { sentryInteractor.captureErrorMessage("StreakRecovery: fetch streak $it") }
-                    .getOrElse { return onNewMessage(StreakRecoveryFeature.FetchStreakResult.Error) }
-
-                val message = if (streak != null) {
-                    StreakRecoveryFeature.FetchStreakResult.Success(
-                        streak,
-                        streak.recoveryPrice.toString(),
-                        resourceProvider.getQuantityString(
-                            SharedResources.plurals.gems_without_count, streak.recoveryPrice
-                        ),
-                        resourceProvider.getString(
-                            SharedResources.strings.streak_recovery_modal_text, streak.previousStreak
-                        )
-                    )
-                } else {
-                    StreakRecoveryFeature.FetchStreakResult.Error
-                }
-
-                onNewMessage(message)
+                handleFetchStreakAction(::onNewMessage)
             }
             is StreakRecoveryFeature.InternalAction.RecoverStreak -> {
                 val message = streaksInteractor
@@ -121,5 +102,33 @@ class StreakRecoveryActionDispatcher(
                 // no-op
             }
         }
+    }
+
+    private suspend fun handleFetchStreakAction(onNewMessage: (Message) -> Unit) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildStreakRecoveryFeatureFetchStreak(),
+            onError = {
+                sentryInteractor.captureErrorMessage("StreakRecovery: fetch streak $it")
+                StreakRecoveryFeature.FetchStreakResult.Error
+            }
+        ) {
+            coroutineScope {
+                val currentProfile = currentProfileStateRepository
+                    .getState(forceUpdate = false)
+                    .getOrThrow()
+
+                val streakResult = async { streaksInteractor.getUserStreak(currentProfile.id) }
+                val streakFreezeProductResult = async { productsInteractor.getStreakFreezeProduct() }
+
+                val streak = streakResult.await().getOrThrow()
+                val streakFreezeProduct = streakFreezeProductResult.await().getOrThrow()
+
+                if (streak != null) {
+                    StreakRecoveryFeature.FetchStreakResult.Success(streak, streakFreezeProduct)
+                } else {
+                    StreakRecoveryFeature.FetchStreakResult.Error
+                }
+            }
+        }.let(onNewMessage)
     }
 }

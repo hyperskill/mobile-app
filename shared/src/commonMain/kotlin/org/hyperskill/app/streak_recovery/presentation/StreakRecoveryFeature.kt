@@ -2,6 +2,7 @@ package org.hyperskill.app.streak_recovery.presentation
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.streaks.domain.model.Streak
 
 object StreakRecoveryFeature {
@@ -25,9 +26,7 @@ object StreakRecoveryFeature {
     internal sealed interface FetchStreakResult : Message {
         data class Success(
             val streak: Streak,
-            val recoveryPriceAmountLabel: String,
-            val recoveryPriceGemsLabel: String,
-            val modalText: String
+            val streakFreezeProduct: Product
         ) : FetchStreakResult
 
         object Error : FetchStreakResult
@@ -49,7 +48,9 @@ object StreakRecoveryFeature {
                 val recoveryPriceAmountLabel: String,
                 // passed separately from price because price amount is highlighted with bold
                 val recoveryPriceGemsLabel: String,
-                val modalText: String
+                val modalText: String,
+                val isFirstTimeOffer: Boolean,
+                val nextRecoveryPriceText: String?
             ) : ViewAction
 
             object HideStreakRecoveryModal : ViewAction
