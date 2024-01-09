@@ -19,6 +19,7 @@ internal class StreakRecoveryComponentImpl(
             productsInteractor = appGraph.buildProductsDataComponent().productsInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            logger = appGraph.loggerComponent.logger,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             resourceProvider = appGraph.commonComponent.resourceProvider
         )

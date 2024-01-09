@@ -42,7 +42,7 @@ class StreakRecoveryReducer(
                         InternalAction.LogAnalyticEvent(
                             StreakRecoveryModalClickedRestoreStreakHyperskillAnalyticEvent()
                         ),
-                        InternalAction.CaptureSentryErrorMessage("StreakRecovery: restore streak, no streak found")
+                        InternalAction.CaptureErrorMessage("restore streak, no streak found")
                     )
                 }
             }

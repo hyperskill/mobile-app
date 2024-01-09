@@ -70,7 +70,7 @@ object StreakRecoveryFeature {
 
         object CancelStreakRecovery : InternalAction
 
-        data class CaptureSentryErrorMessage(val message: String) : InternalAction
+        data class CaptureErrorMessage(val message: String) : InternalAction
         data class LogAnalyticEvent(val event: HyperskillAnalyticEvent) : InternalAction
     }
 }

@@ -1,5 +1,7 @@
 package org.hyperskill.app.streak_recovery.presentation
 
+import co.touchlab.kermit.Logger
+import co.touchlab.kermit.Severity
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.hyperskill.app.SharedResources
@@ -26,9 +28,14 @@ class StreakRecoveryActionDispatcher(
     private val productsInteractor: ProductsInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
+    private val logger: Logger,
     private val streakFlow: StreakFlow,
     private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+    companion object {
+        private const val LOG_TAG = "StreakRecovery"
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             StreakRecoveryFeature.InternalAction.FetchStreak -> {
@@ -55,7 +62,12 @@ class StreakRecoveryActionDispatcher(
                             )
                         },
                         onFailure = {
-                            sentryInteractor.captureErrorMessage("StreakRecovery: recover streak $it")
+                            logger.log(
+                                severity = Severity.Error,
+                                tag = LOG_TAG,
+                                throwable = null,
+                                message = "recover streak $it"
+                            )
                             StreakRecoveryFeature.RecoverStreakResult.Error(
                                 resourceProvider.getString(
                                     SharedResources.strings.streak_recovery_modal_recover_streak_error_message
@@ -81,7 +93,12 @@ class StreakRecoveryActionDispatcher(
                             )
                         },
                         onFailure = {
-                            sentryInteractor.captureErrorMessage("StreakRecovery: cancel streak recovery $it")
+                            logger.log(
+                                severity = Severity.Error,
+                                tag = LOG_TAG,
+                                throwable = null,
+                                message = "cancel streak recovery $it"
+                            )
                             StreakRecoveryFeature.CancelStreakRecoveryResult.Error(
                                 resourceProvider.getString(
                                     SharedResources.strings.streak_recovery_modal_cancel_streak_recovery_error_message
@@ -92,8 +109,13 @@ class StreakRecoveryActionDispatcher(
 
                 onNewMessage(message)
             }
-            is StreakRecoveryFeature.InternalAction.CaptureSentryErrorMessage -> {
-                sentryInteractor.captureErrorMessage(action.message)
+            is StreakRecoveryFeature.InternalAction.CaptureErrorMessage -> {
+                logger.log(
+                    severity = Severity.Error,
+                    tag = LOG_TAG,
+                    throwable = null,
+                    message = action.message
+                )
             }
             is StreakRecoveryFeature.InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.event)
@@ -108,7 +130,12 @@ class StreakRecoveryActionDispatcher(
         sentryInteractor.withTransaction(
             HyperskillSentryTransactionBuilder.buildStreakRecoveryFeatureFetchStreak(),
             onError = {
-                sentryInteractor.captureErrorMessage("StreakRecovery: fetch streak $it")
+                logger.log(
+                    severity = Severity.Error,
+                    tag = LOG_TAG,
+                    throwable = null,
+                    message = "fetch streak $it"
+                )
                 StreakRecoveryFeature.FetchStreakResult.Error
             }
         ) {
