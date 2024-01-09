@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="20dp"
+    android:paddingHorizontal="20dp"
     >
 
     <ImageView
@@ -25,7 +26,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/img_streak_recovery"
         android:layout_marginTop="40dp"
-        android:layout_marginStart="20dp"
         app:layout_constraintTop_toBottomOf="@+id/streakRecoverySwipeIndicator"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="ContentDescription"
@@ -38,7 +38,6 @@
         android:text="@string/streak_recovery_modal_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textSize="34sp"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="40dp"
         app:layout_constraintTop_toBottomOf="@+id/streakRecoveryImage"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +50,6 @@
         android:layout_height="wrap_content"
         tools:text="@string/streak_recovery_modal_text"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/streakRecoveryModalTitle"
         />
@@ -66,7 +64,6 @@
         android:gravity="center_vertical"
         android:drawablePadding="6dp"
         android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
         app:layout_constraintTop_toBottomOf="@+id/streakRecoverySubtitle"
         app:layout_constraintStart_toStartOf="parent"
         app:drawableStartCompat="@drawable/ic_gems_count"
@@ -87,15 +84,38 @@
         />
 
     <TextView
+        android:id="@+id/streakRecoveryFirstTimeBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Badge.Green"
+        android:text="@string/badge_first_time_offer_text"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@+id/streakRecoveryGemsTextView"
+        app:layout_constraintBottom_toBottomOf="@+id/streakRecoveryGemsTextView"
+        app:layout_constraintStart_toEndOf="@+id/streakRecoveryGemsTextView"
+        />
+
+    <TextView
+        android:id="@+id/streakRecoveryNextRecoveryPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/color_on_surface_alpha_38"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/streakRecoveryGemsAmountTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Then for 25 gems"
+        />
+
+    <TextView
         android:id="@+id/streakRecoveryUndoDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/streak_recovery_modal_warning"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/color_on_surface_alpha_38"
-        android:layout_marginHorizontal="20dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@+id/streakRecoveryGemsAmountTextView"
+        app:layout_constraintTop_toBottomOf="@+id/streakRecoveryNextRecoveryPrice"
         />
 
     <com.google.android.material.button.MaterialButton
@@ -104,7 +124,6 @@
         android:layout_height="wrap_content"
         android:text="@string/streak_recovery_modal_restore_streak"
         android:layout_marginTop="12dp"
-        android:layout_marginHorizontal="20dp"
         app:layout_constraintTop_toBottomOf="@+id/streakRecoveryUndoDescription"
         />
 
@@ -116,7 +135,6 @@
         app:strokeColor="@color/color_primary_alpha_38"
         android:text="@string/streak_recovery_modal_no_thanks"
         android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="20dp"
         app:layout_constraintTop_toBottomOf="@+id/streakRecoveryBuyButton"
         />
 
