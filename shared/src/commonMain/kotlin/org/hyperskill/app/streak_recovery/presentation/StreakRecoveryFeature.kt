@@ -1,9 +1,12 @@
 package org.hyperskill.app.streak_recovery.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.streaks.domain.model.Streak
 
 object StreakRecoveryFeature {
-    object State
+    @Serializable
+    data class State(val streak: Streak? = null)
 
     sealed interface Message {
         object Initialize : Message
@@ -21,7 +24,7 @@ object StreakRecoveryFeature {
 
     internal sealed interface FetchStreakResult : Message {
         data class Success(
-            val canRecoveryStreak: Boolean,
+            val streak: Streak,
             val recoveryPriceAmountLabel: String,
             val recoveryPriceGemsLabel: String,
             val modalText: String
@@ -62,10 +65,11 @@ object StreakRecoveryFeature {
     internal sealed interface InternalAction : Action {
         object FetchStreak : InternalAction
 
-        object RecoverStreak : InternalAction
+        data class RecoverStreak(val streak: Streak) : InternalAction
 
         object CancelStreakRecovery : InternalAction
 
+        data class CaptureSentryErrorMessage(val message: String) : InternalAction
         data class LogAnalyticEvent(val event: HyperskillAnalyticEvent) : InternalAction
     }
 }

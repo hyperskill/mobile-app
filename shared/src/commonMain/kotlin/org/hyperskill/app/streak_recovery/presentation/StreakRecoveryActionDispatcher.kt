@@ -38,7 +38,7 @@ class StreakRecoveryActionDispatcher(
 
                 val message = if (streak != null) {
                     StreakRecoveryFeature.FetchStreakResult.Success(
-                        streak.canBeRecovered,
+                        streak,
                         streak.recoveryPrice.toString(),
                         resourceProvider.getQuantityString(
                             SharedResources.plurals.gems_without_count, streak.recoveryPrice
@@ -53,7 +53,7 @@ class StreakRecoveryActionDispatcher(
 
                 onNewMessage(message)
             }
-            StreakRecoveryFeature.InternalAction.RecoverStreak -> {
+            is StreakRecoveryFeature.InternalAction.RecoverStreak -> {
                 val message = streaksInteractor
                     .recoverStreak()
                     .fold(
@@ -62,10 +62,9 @@ class StreakRecoveryActionDispatcher(
                                 streakFlow.notifyDataChanged(newStreak)
 
                                 currentProfileStateRepository.updateState { currentProfile ->
-                                    currentProfile.copy(
-                                        hypercoinsBalance = currentProfile.gamification.hypercoinsBalance -
-                                            newStreak.recoveryPrice
-                                    )
+                                    val newHypercoinsBalance =
+                                        currentProfile.gamification.hypercoinsBalance - action.streak.recoveryPrice
+                                    currentProfile.copy(hypercoinsBalance = newHypercoinsBalance)
                                 }
                             }
                             StreakRecoveryFeature.RecoverStreakResult.Success(
@@ -111,6 +110,9 @@ class StreakRecoveryActionDispatcher(
                     )
 
                 onNewMessage(message)
+            }
+            is StreakRecoveryFeature.InternalAction.CaptureSentryErrorMessage -> {
+                sentryInteractor.captureErrorMessage(action.message)
             }
             is StreakRecoveryFeature.InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.event)
