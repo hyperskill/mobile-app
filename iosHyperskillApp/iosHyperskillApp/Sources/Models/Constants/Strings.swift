@@ -32,6 +32,7 @@ enum Strings {
         static let bestRating = sharedStrings.badge_best_rating_text.localized()
         static let fastestToComplete = sharedStrings.badge_fastest_to_complete_text.localized()
         static let beta = sharedStrings.badge_beta_text.localized()
+        static let firstTimeOffer = sharedStrings.badge_first_time_offer_text.localized()
     }
 
     // MARK: - TabBar -
