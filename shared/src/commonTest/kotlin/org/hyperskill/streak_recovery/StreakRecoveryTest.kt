@@ -2,19 +2,24 @@ package org.hyperskill.streak_recovery
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.products.domain.model.stub
 import org.hyperskill.streaks.domain.model.stub
 
 class StreakRecoveryTest {
-    private val streakRecoveryReducer = StreakRecoveryReducer()
+    private val streakRecoveryReducer = StreakRecoveryReducer(
+        resourceProvider = ResourceProviderStub()
+    )
 
     @Test
     fun `Streak recovery modal should be shown if recovery is available`() {
         val (_, actions) = streakRecoveryReducer.reduce(
             StreakRecoveryFeature.State(),
-            StreakRecoveryFeature.FetchStreakResult.Success(Streak.stub(canBeRecovered = true), "", "", "")
+            StreakRecoveryFeature.FetchStreakResult.Success(Streak.stub(canBeRecovered = true), Product.stub())
         )
         assertTrue {
             actions.any {
@@ -27,7 +32,7 @@ class StreakRecoveryTest {
     fun `Streak recovery modal should NOT be shown if recovery is NOT available`() {
         val (_, actions) = streakRecoveryReducer.reduce(
             StreakRecoveryFeature.State(),
-            StreakRecoveryFeature.FetchStreakResult.Success(Streak.stub(canBeRecovered = false), "", "", "")
+            StreakRecoveryFeature.FetchStreakResult.Success(Streak.stub(canBeRecovered = false), Product.stub())
         )
         assertTrue {
             actions.none {
