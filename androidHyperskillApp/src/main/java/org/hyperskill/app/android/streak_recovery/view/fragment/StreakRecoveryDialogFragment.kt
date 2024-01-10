@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.serialization.Serializable
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentStreakRecoveryBinding
@@ -19,17 +19,18 @@ import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
+import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature.Action.ViewAction.ShowRecoveryStreakModal
 
 class StreakRecoveryDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG: String = "StreakRecoveryDialogFragment"
-        fun newInstance(params: Params): StreakRecoveryDialogFragment =
+        fun newInstance(params: ShowRecoveryStreakModal): StreakRecoveryDialogFragment =
             StreakRecoveryDialogFragment().apply {
                 this.params = params
             }
     }
 
-    private var params: Params by argument(Params.serializer())
+    private var params: ShowRecoveryStreakModal by argument(ShowRecoveryStreakModal.serializer())
 
     private val viewModel: MainViewModel by viewModels(ownerProducer = ::requireActivity)
 
@@ -72,6 +73,11 @@ class StreakRecoveryDialogFragment : BottomSheetDialogFragment() {
             streakRecoverySubtitle.text = params.modalText
             streakRecoveryGemsTextView.text = params.recoveryPriceGemsLabel
             streakRecoveryGemsAmountTextView.text = params.recoveryPriceAmountLabel
+            streakRecoveryFirstTimeBadge.isVisible = params.isFirstTimeOffer
+            streakRecoveryNextRecoveryPrice.isVisible = params.nextRecoveryPriceText != null
+            if (params.nextRecoveryPriceText != null) {
+                streakRecoveryNextRecoveryPrice.text = params.nextRecoveryPriceText
+            }
             streakRecoveryBuyButton.setOnClickListener {
                 viewModel.onNewMessage(
                     AppFeature.Message.StreakRecoveryMessage(
@@ -97,11 +103,4 @@ class StreakRecoveryDialogFragment : BottomSheetDialogFragment() {
             )
         )
     }
-
-    @Serializable
-    data class Params(
-        val recoveryPriceAmountLabel: String,
-        val recoveryPriceGemsLabel: String,
-        val modalText: String
-    )
 }
