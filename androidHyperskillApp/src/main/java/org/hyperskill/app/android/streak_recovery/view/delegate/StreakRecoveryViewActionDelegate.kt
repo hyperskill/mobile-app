@@ -18,13 +18,8 @@ object StreakRecoveryViewActionDelegate {
         when (viewAction) {
             is StreakRecoveryFeature.Action.ViewAction.ShowRecoveryStreakModal -> {
                 StreakRecoveryDialogFragment
-                    .newInstance(
-                        StreakRecoveryDialogFragment.Params(
-                            recoveryPriceAmountLabel = viewAction.recoveryPriceAmountLabel,
-                            recoveryPriceGemsLabel = viewAction.recoveryPriceGemsLabel,
-                            modalText = viewAction.modalText
-                        )
-                    ).showIfNotExists(fragmentManager, StreakRecoveryDialogFragment.TAG)
+                    .newInstance(viewAction)
+                    .showIfNotExists(fragmentManager, StreakRecoveryDialogFragment.TAG)
             }
             StreakRecoveryFeature.Action.ViewAction.HideStreakRecoveryModal -> {
                 fragmentManager

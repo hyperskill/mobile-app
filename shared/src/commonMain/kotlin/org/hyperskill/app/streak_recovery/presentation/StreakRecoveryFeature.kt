@@ -44,6 +44,7 @@ object StreakRecoveryFeature {
 
     sealed interface Action {
         sealed interface ViewAction : Action {
+            @Serializable
             data class ShowRecoveryStreakModal(
                 val recoveryPriceAmountLabel: String,
                 // passed separately from price because price amount is highlighted with bold
