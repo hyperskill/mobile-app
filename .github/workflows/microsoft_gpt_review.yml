@@ -1,0 +1,25 @@
+name: Microsoft GPT Code Review
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  code-review:
+    if: ${{ contains(github.event.*.labels.*.name, 'gpt-review') }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: microsoft/gpt-review@v0.9.5
+        with:
+            GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+            OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+            OPENAI_ORG_KEY: ${{ secrets.OPENAI_API_KEY }}
