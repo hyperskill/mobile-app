@@ -28,7 +28,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_max="@dimen/auth_button_max_width"
-                android:text="@string/onboarding_title" />
+                android:text="@string/android_onboarding_title" />
 
             <TextView
                 android:id="@+id/welcomeDescriptionTextView"

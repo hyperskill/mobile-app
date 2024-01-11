@@ -12,7 +12,7 @@
         android:maxSdkVersion="26"/>
 
     <application
-        android:label="@string/app_name"
+        android:label="@string/android_app_name"
         android:name=".HyperskillApp"
         android:allowBackup="false"
         android:supportsRtl="true"
