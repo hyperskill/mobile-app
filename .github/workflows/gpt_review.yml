@@ -16,7 +16,7 @@ jobs:
   code-review:
     if: ${{ contains(github.event.*.labels.*.name, 'gpt-review') }}
     runs-on: ubuntu-22.04
-    timeout-minutes: 60
+    timeout-minutes: 5
     steps:
       - uses: anc95/ChatGPT-CodeReview@main
         env:
