@@ -2,7 +2,7 @@ name: GPT Code Review
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
+    types: [opened, reopened, synchronize]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name }}
