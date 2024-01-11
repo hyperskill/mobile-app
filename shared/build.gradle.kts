@@ -103,6 +103,7 @@ kotlin {
         }
 
         val iosMain by creating {
+            dependsOn(commonMain)
             dependencies {
                 implementation(libs.ktor.ios)
             }
