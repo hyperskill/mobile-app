@@ -2,5 +2,5 @@
 minSdk = '24'
 targetSdk = '33'
 compileSdk = '33'
-versionName = '1.48'
-versionCode = '296'
+versionName = '1.48-billing'
+versionCode = '306'
