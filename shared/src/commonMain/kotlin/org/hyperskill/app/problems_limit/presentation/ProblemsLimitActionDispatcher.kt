@@ -50,6 +50,7 @@ class ProblemsLimitActionDispatcher(
                                 sentryInteractor.finishTransaction(sentryTransaction)
                                 Message.SubscriptionLoadingResult.Success(
                                     subscription = it,
+                                    // TODO: replace with it.isFreemium call
                                     isFreemiumEnabled = isFreemiumEnabled
                                 )
                             },

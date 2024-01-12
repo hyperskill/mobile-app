@@ -24,14 +24,14 @@ object StepQuizHintsFeature {
          * @property hintsIds remaining hints to be displayed
          * @property currentHint current hint to be displayed
          * @property hintHasReaction flag true, if user created reaction or reported hint
-         * @property isFreemiumEnabled used for showing only one hint for freemium
+         * @property areHintsLimited used for showing only one hint for some subscriptions
          * @property stepId used for analytic route
          */
         data class Content(
             val hintsIds: List<Long>,
             val currentHint: Comment?,
             val hintHasReaction: Boolean,
-            val isFreemiumEnabled: Boolean,
+            val areHintsLimited: Boolean,
             val stepId: Long
         ) : State
 
@@ -89,14 +89,14 @@ object StepQuizHintsFeature {
          * Message to fill state with ready data
          *
          * @property hintsIds  hints ids to be displayed
-         * @property isFreemiumEnabled used for showing only one hint for freemium
+         * @property areHintsLimited used for showing only one hint for some subscriptions
          * @property stepId used for analytic route
          */
         data class HintsIdsLoaded(
             val hintsIds: List<Long>,
             val lastSeenHint: Comment?,
             val lastSeenHintHasReaction: Boolean,
-            val isFreemiumEnabled: Boolean,
+            val areHintsLimited: Boolean,
             val stepId: Long
         ) : Message
 
