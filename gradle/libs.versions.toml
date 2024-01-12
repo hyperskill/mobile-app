@@ -82,6 +82,8 @@ plugin-googleServises = { module = "com.google.gms:google-services", version = "
 gms-play-services = { module = "com.google.android.gms:play-services-base", version = "18.1.0" }
 gms-play-login = { module = "com.google.android.gms:play-services-auth", version = "20.4.0" }
 
+android-billing = { module = "com.android.billingclient:billing", version = "6.1.0" }
+
 firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.2.2" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 

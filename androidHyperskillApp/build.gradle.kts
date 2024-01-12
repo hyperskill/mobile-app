@@ -38,6 +38,7 @@ dependencies {
 
     implementation(libs.gms.play.services)
     implementation(libs.gms.play.login)
+    implementation(libs.android.billing)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
 
