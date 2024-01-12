@@ -19,7 +19,7 @@ defaults:
 jobs:
   # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
   gradle-wrapper-validation:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feature/mobile-only-subscriptions' }}
     name: Gradle Wrapper Validation
     runs-on: ubuntu-22.04
     steps:
