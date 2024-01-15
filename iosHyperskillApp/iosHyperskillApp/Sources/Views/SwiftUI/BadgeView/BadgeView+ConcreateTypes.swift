@@ -36,28 +36,28 @@ extension BadgeView {
     static func completed() -> BadgeView {
         BadgeView(text: Strings.Common.completed, style: .green)
     }
+
+    static func firstTimeOffer() -> BadgeView {
+        BadgeView(text: Strings.Badge.firstTimeOffer, style: .green)
+    }
 }
 
-// MARK: - BadgeViewConcreateTypes_Previews: PreviewProvider -
+#Preview {
+    VStack {
+        BadgeView.ideRequired()
 
-struct BadgeViewConcreateTypes_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            BadgeView.ideRequired()
+        BadgeView.current()
 
-            BadgeView.current()
+        BadgeView.solveUnlimited()
+        BadgeView.repeatUnlimited()
 
-            BadgeView.solveUnlimited()
-            BadgeView.repeatUnlimited()
+        BadgeView.selected()
+        BadgeView.bestRating()
+        BadgeView.fastestToComplete()
 
-            BadgeView.selected()
-            BadgeView.bestRating()
-            BadgeView.fastestToComplete()
-
-            BadgeView.beta()
-            BadgeView.completed()
-        }
-        .padding()
-        .previewLayout(.sizeThatFits)
+        BadgeView.beta()
+        BadgeView.completed()
+        BadgeView.firstTimeOffer()
     }
+    .padding()
 }

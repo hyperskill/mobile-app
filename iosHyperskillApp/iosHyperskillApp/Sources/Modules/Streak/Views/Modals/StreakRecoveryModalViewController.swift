@@ -17,12 +17,16 @@ class StreakRecoveryModalViewController: PanModalSwiftUIViewController<StreakRec
         recoveryPriceAmount: String,
         recoveryPriceLabel: String,
         modalText: String,
+        isFirstTimeOffer: Bool,
+        nextRecoveryPriceText: String?,
         delegate: StreakRecoveryModalViewControllerDelegate?
     ) {
         let view = StreakRecoveryModalView(
             recoveryPriceAmount: recoveryPriceAmount,
             recoveryPriceLabel: recoveryPriceLabel,
             modalText: modalText,
+            isFirstTimeOffer: isFirstTimeOffer,
+            nextRecoveryPriceText: nextRecoveryPriceText,
             restoreStreakButtonTapped: {
                 delegate?.streakRecoveryModalViewControllerDidTapRestoreStreakButton()
             },

@@ -24,6 +24,7 @@ interface AppFeature {
         data class Ready(
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
+            internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
             internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State()
         ) : State
     }

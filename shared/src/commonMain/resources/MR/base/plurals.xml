@@ -144,4 +144,8 @@
         <item quantity="one">problem at the hard level to solve</item>
         <item quantity="other">problems at the hard level to solve</item>
     </plural>
+    <plural name="streak_recovery_next_recovery_description">
+        <item quantity="one">Then for %d gem</item>
+        <item quantity="other">Then for %d gems</item>
+    </plural>
 </resources>

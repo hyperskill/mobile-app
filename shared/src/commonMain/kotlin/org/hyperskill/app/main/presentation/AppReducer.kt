@@ -69,7 +69,13 @@ internal class AppReducer(
             is Message.OpenNewUserScreen ->
                 state to setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
             is Message.StreakRecoveryMessage ->
-                state to reduceStreakRecoveryMessage(message.message)
+                if (state is State.Ready) {
+                    val (streakRecoveryState, streakRecoveryActions) =
+                        reduceStreakRecoveryMessage(state.streakRecoveryState, message.message)
+                    state.copy(streakRecoveryState = streakRecoveryState) to streakRecoveryActions
+                } else {
+                    null
+                }
             is Message.NotificationClicked ->
                 handleNotificationClicked(state, message)
             is Message.NotificationClickHandlingMessage ->
@@ -120,16 +126,23 @@ internal class AppReducer(
                         addAll(getNotAuthorizedAppStartUpActions())
                         add(Action.ViewAction.NavigateTo.OnboardingScreen)
                     }
+                }
 
-                    if (isAuthorized && message.notificationData == null) {
-                        addAll(reduceStreakRecoveryMessage(StreakRecoveryFeature.Message.Initialize))
-                    }
+            val (streakRecoveryState, streakRecoveryActions) =
+                if (isAuthorized && message.notificationData == null) {
+                    reduceStreakRecoveryMessage(
+                        StreakRecoveryFeature.State(),
+                        StreakRecoveryFeature.Message.Initialize
+                    )
+                } else {
+                    StreakRecoveryFeature.State() to emptySet()
                 }
 
             State.Ready(
                 isAuthorized = isAuthorized,
-                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled
-            ) to actions
+                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
+                streakRecoveryState = streakRecoveryState
+            ) to actions + streakRecoveryActions
         } else {
             state to emptySet()
         }
@@ -157,11 +170,12 @@ internal class AppReducer(
         }
 
     private fun reduceStreakRecoveryMessage(
+        state: StreakRecoveryFeature.State,
         message: StreakRecoveryFeature.Message
-    ): Set<Action> {
-        val (_, streakRecoveryActions) = streakRecoveryReducer.reduce(StreakRecoveryFeature.State, message)
+    ): Pair<StreakRecoveryFeature.State, Set<Action>> {
+        val (streakRecoveryState, streakRecoveryActions) = streakRecoveryReducer.reduce(state, message)
 
-        return streakRecoveryActions
+        val actions = streakRecoveryActions
             .map {
                 if (it is StreakRecoveryFeature.Action.ViewAction) {
                     Action.ViewAction.StreakRecoveryViewAction(it)
@@ -170,6 +184,8 @@ internal class AppReducer(
                 }
             }
             .toSet()
+
+        return streakRecoveryState to actions
     }
 
     private fun handleNotificationClicked(

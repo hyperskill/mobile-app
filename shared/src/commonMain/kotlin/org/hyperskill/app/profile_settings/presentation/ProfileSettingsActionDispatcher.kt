@@ -45,7 +45,7 @@ class ProfileSettingsActionDispatcher(
 
                 val feedbackEmailData = FeedbackEmailDataBuilder.build(
                     supportEmail = resourceProvider.getString(strings.settings_send_feedback_support_email),
-                    applicationName = resourceProvider.getString(strings.settings_send_feedback_application_name),
+                    applicationName = resourceProvider.getString(platform.appNameResource),
                     platform = platform,
                     userId = currentProfile?.id,
                     applicationVersion = userAgentInfo.versionCode

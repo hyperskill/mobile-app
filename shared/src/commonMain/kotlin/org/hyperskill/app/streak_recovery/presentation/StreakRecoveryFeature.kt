@@ -1,9 +1,13 @@
 package org.hyperskill.app.streak_recovery.presentation
 
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.products.domain.model.Product
+import org.hyperskill.app.streaks.domain.model.Streak
 
 object StreakRecoveryFeature {
-    object State
+    @Serializable
+    data class State(val streak: Streak? = null)
 
     sealed interface Message {
         object Initialize : Message
@@ -21,10 +25,8 @@ object StreakRecoveryFeature {
 
     internal sealed interface FetchStreakResult : Message {
         data class Success(
-            val canRecoveryStreak: Boolean,
-            val recoveryPriceAmountLabel: String,
-            val recoveryPriceGemsLabel: String,
-            val modalText: String
+            val streak: Streak,
+            val streakFreezeProduct: Product
         ) : FetchStreakResult
 
         object Error : FetchStreakResult
@@ -42,11 +44,14 @@ object StreakRecoveryFeature {
 
     sealed interface Action {
         sealed interface ViewAction : Action {
+            @Serializable
             data class ShowRecoveryStreakModal(
                 val recoveryPriceAmountLabel: String,
                 // passed separately from price because price amount is highlighted with bold
                 val recoveryPriceGemsLabel: String,
-                val modalText: String
+                val modalText: String,
+                val isFirstTimeOffer: Boolean,
+                val nextRecoveryPriceText: String?
             ) : ViewAction
 
             object HideStreakRecoveryModal : ViewAction
@@ -62,10 +67,11 @@ object StreakRecoveryFeature {
     internal sealed interface InternalAction : Action {
         object FetchStreak : InternalAction
 
-        object RecoverStreak : InternalAction
+        data class RecoverStreak(val streak: Streak) : InternalAction
 
         object CancelStreakRecovery : InternalAction
 
+        data class CaptureErrorMessage(val message: String) : InternalAction
         data class LogAnalyticEvent(val event: HyperskillAnalyticEvent) : InternalAction
     }
 }

@@ -149,6 +149,8 @@ extension AppViewController: AppViewControllerProtocol {
                 recoveryPriceAmount: showRecoveryStreakModal.recoveryPriceAmountLabel,
                 recoveryPriceLabel: showRecoveryStreakModal.recoveryPriceGemsLabel,
                 modalText: showRecoveryStreakModal.modalText,
+                isFirstTimeOffer: showRecoveryStreakModal.isFirstTimeOffer,
+                nextRecoveryPriceText: showRecoveryStreakModal.nextRecoveryPriceText,
                 delegate: viewModel
             )
             presentIfPanModalWithCustomModalPresentationStyle(modalViewController)

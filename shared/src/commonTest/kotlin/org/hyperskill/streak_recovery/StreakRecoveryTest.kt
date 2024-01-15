@@ -2,17 +2,24 @@ package org.hyperskill.streak_recovery
 
 import kotlin.test.Test
 import kotlin.test.assertTrue
+import org.hyperskill.ResourceProviderStub
+import org.hyperskill.app.products.domain.model.Product
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.products.domain.model.stub
+import org.hyperskill.streaks.domain.model.stub
 
 class StreakRecoveryTest {
-    private val streakRecoveryReducer = StreakRecoveryReducer()
+    private val streakRecoveryReducer = StreakRecoveryReducer(
+        resourceProvider = ResourceProviderStub()
+    )
 
     @Test
     fun `Streak recovery modal should be shown if recovery is available`() {
         val (_, actions) = streakRecoveryReducer.reduce(
-            StreakRecoveryFeature.State,
-            StreakRecoveryFeature.FetchStreakResult.Success(true, "", "", "")
+            StreakRecoveryFeature.State(),
+            StreakRecoveryFeature.FetchStreakResult.Success(Streak.stub(canBeRecovered = true), Product.stub())
         )
         assertTrue {
             actions.any {
@@ -24,8 +31,8 @@ class StreakRecoveryTest {
     @Test
     fun `Streak recovery modal should NOT be shown if recovery is NOT available`() {
         val (_, actions) = streakRecoveryReducer.reduce(
-            StreakRecoveryFeature.State,
-            StreakRecoveryFeature.FetchStreakResult.Success(false, "", "", "")
+            StreakRecoveryFeature.State(),
+            StreakRecoveryFeature.FetchStreakResult.Success(Streak.stub(canBeRecovered = false), Product.stub())
         )
         assertTrue {
             actions.none {
@@ -37,7 +44,7 @@ class StreakRecoveryTest {
     @Test
     fun `Recover streak action should be dispatched if 'Restore streak' clicked`() {
         val (_, actions) = streakRecoveryReducer.reduce(
-            StreakRecoveryFeature.State,
+            StreakRecoveryFeature.State(Streak.stub(canBeRecovered = true)),
             StreakRecoveryFeature.Message.RestoreStreakClicked
         )
         assertTrue {
@@ -50,7 +57,7 @@ class StreakRecoveryTest {
     @Test
     fun `Cancel streak recovery action should be dispatched if 'No thanks' clicked`() {
         val (_, actions) = streakRecoveryReducer.reduce(
-            StreakRecoveryFeature.State,
+            StreakRecoveryFeature.State(),
             StreakRecoveryFeature.Message.NoThanksClicked
         )
         assertTrue {

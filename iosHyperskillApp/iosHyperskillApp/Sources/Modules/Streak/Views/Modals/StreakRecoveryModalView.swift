@@ -3,7 +3,7 @@ import SwiftUI
 extension StreakRecoveryModalView {
     struct Appearance {
         let largeSpacing: CGFloat = 32
-        let gemsBadgeWidthHeight: CGFloat = 36
+        let gemsBadgeIconSize = CGSize(width: 36, height: 36)
         let warningBottomPadding: CGFloat = 4
     }
 }
@@ -14,6 +14,9 @@ struct StreakRecoveryModalView: View {
     let recoveryPriceAmount: String
     let recoveryPriceLabel: String
     let modalText: String
+    let isFirstTimeOffer: Bool
+    let nextRecoveryPriceText: String?
+
     let restoreStreakButtonTapped: () -> Void
     let noThanksButtonTapped: () -> Void
 
@@ -34,16 +37,24 @@ struct StreakRecoveryModalView: View {
                     .foregroundColor(.primaryText)
                     .font(.body)
 
-                #warning("Migrate to the HypercoinLabel")
-                HStack(alignment: .center, spacing: LayoutInsets.smallInset) {
-                    Image(Images.StepQuiz.ProblemOfDaySolvedModal.gemsBadge)
-                        .renderingMode(.original)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(widthHeight: appearance.gemsBadgeWidthHeight)
+                HStack(spacing: LayoutInsets.smallInset) {
+                    HypercoinLabel(
+                        title: {
+                            Text("\(Text(recoveryPriceAmount).bold()) \(recoveryPriceLabel)")
+                                .font(.body)
+                                .foregroundColor(.primaryText)
+                        },
+                        appearance: .init(iconSize: appearance.gemsBadgeIconSize)
+                    )
 
-                    Text("\(Text(recoveryPriceAmount).bold()) \(recoveryPriceLabel)")
-                        .foregroundColor(.primaryText)
+                    if isFirstTimeOffer {
+                        BadgeView.firstTimeOffer()
+                    }
+                }
+
+                if let nextRecoveryPriceText {
+                    Text(nextRecoveryPriceText)
+                        .foregroundColor(.tertiaryText)
                         .font(.body)
                 }
             }
@@ -69,26 +80,26 @@ struct StreakRecoveryModalView: View {
     }
 }
 
-struct StreakRecoveryModalView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StreakRecoveryModalView(
-                recoveryPriceAmount: "25",
-                recoveryPriceLabel: "gems",
-                modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!",
-                restoreStreakButtonTapped: {},
-                noThanksButtonTapped: {}
-            )
+#Preview {
+    StreakRecoveryModalView(
+        recoveryPriceAmount: "25",
+        recoveryPriceLabel: "gems",
+        modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!",
+        isFirstTimeOffer: false,
+        nextRecoveryPriceText: nil,
+        restoreStreakButtonTapped: {},
+        noThanksButtonTapped: {}
+    )
+}
 
-            StreakRecoveryModalView(
-                recoveryPriceAmount: "25",
-                recoveryPriceLabel: "gems",
-                modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!",
-                restoreStreakButtonTapped: {},
-                noThanksButtonTapped: {}
-            )
-            .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
-    }
+#Preview {
+    StreakRecoveryModalView(
+        recoveryPriceAmount: "0",
+        recoveryPriceLabel: "gems",
+        modalText: "Good to see you back! You used to study daily and had a N-day streak. Great job!",
+        isFirstTimeOffer: true,
+        nextRecoveryPriceText: "Then for 25 gems",
+        restoreStreakButtonTapped: {},
+        noThanksButtonTapped: {}
+    )
 }

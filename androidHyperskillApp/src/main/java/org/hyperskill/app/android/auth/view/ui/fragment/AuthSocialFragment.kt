@@ -37,6 +37,7 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import org.hyperskill.app.R as SharedRes
 
 class AuthSocialFragment :
     Fragment(R.layout.fragment_auth_social),
@@ -130,13 +131,18 @@ class AuthSocialFragment :
             }
         }
 
-        viewBinding.signInToTextView.setText(
+        viewBinding.signInToTextView.text =
             if (isInSignUpMode) {
-                org.hyperskill.app.R.string.auth_sign_up_title
+                getString(
+                    SharedRes.string.auth_sign_up_title,
+                    getString(SharedRes.string.android_app_name)
+                )
             } else {
-                org.hyperskill.app.R.string.auth_log_in_title
+                getString(
+                    SharedRes.string.auth_log_in_title,
+                    getString(SharedRes.string.android_app_name)
+                )
             }
-        )
 
         authMaterialCardViewsAdapter.items = listOf(
             AuthSocialCardInfo.JETBRAINS,
