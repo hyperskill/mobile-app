@@ -22,6 +22,8 @@ class FreemiumInteractor(
 
     suspend fun isProblemsLimitReached(): Result<Boolean> =
         kotlin.runCatching {
+            // TODO: replace with one cached call or
+            // make a network call in the second call
             if (isFreemiumEnabled().getOrThrow()) {
                 val subscription = currentSubscriptionStateRepository
                     .getState()
@@ -34,6 +36,8 @@ class FreemiumInteractor(
         }
 
     suspend fun onStepSolved() {
+        // TODO: replace with one cached call or
+        // make a network call in the second call
         if (isFreemiumEnabled().getOrDefault(false)) {
             currentSubscriptionStateRepository.getState().getOrNull()?.let {
                 currentSubscriptionStateRepository.updateState(
