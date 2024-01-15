@@ -21,6 +21,3 @@ data class Subscription(
 
 val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM
-
-val Subscription.isMobileOnly: Boolean
-    get() = type == SubscriptionType.MOBILE_ONLY
