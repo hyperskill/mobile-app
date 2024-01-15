@@ -264,7 +264,7 @@ class TrackSelectionDetailsTest {
 
     @Test
     fun `Certificate and projects info should not be available for freemium or mobile-only user`() {
-        listOf (
+        listOf(
             SubscriptionType.FREEMIUM,
             SubscriptionType.MOBILE_ONLY
         ).forEach { subscriptionType ->
