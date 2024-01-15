@@ -125,7 +125,7 @@ class StepQuizHintsActionDispatcher(
                             Message.NextHintLoaded(
                                 it,
                                 action.remainingHintsIds,
-                                action.isFreemiumEnabled,
+                                action.areHintsLimited,
                                 action.stepId
                             )
                         )
@@ -142,7 +142,7 @@ class StepQuizHintsActionDispatcher(
                             Message.NextHintLoadingError(
                                 action.nextHintId,
                                 action.remainingHintsIds,
-                                action.isFreemiumEnabled,
+                                action.areHintsLimited,
                                 action.stepId
                             )
                         )
