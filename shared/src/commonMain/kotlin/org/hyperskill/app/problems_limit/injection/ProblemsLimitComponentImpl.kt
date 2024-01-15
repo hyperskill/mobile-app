@@ -17,7 +17,6 @@ class ProblemsLimitComponentImpl(
     override val problemsLimitActionDispatcher: ProblemsLimitActionDispatcher
         get() = ProblemsLimitActionDispatcher(
             ActionDispatcherOptions(),
-            appGraph.buildFreemiumDataComponent().freemiumInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
         )

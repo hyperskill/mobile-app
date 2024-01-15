@@ -25,7 +25,7 @@ class ProblemsLimitReducer(private val screen: ProblemsLimitScreen) : StateReduc
             is Message.SubscriptionLoadingResult.Success -> {
                 val updateIn = calculateUpdateInDuration(message.subscription)
 
-                State.Content(message.subscription, message.isFreemiumEnabled, updateIn) to buildSet {
+                State.Content(message.subscription, updateIn) to buildSet {
                     if (updateIn != null) {
                         add(Action.LaunchTimer(updateIn))
                     }
