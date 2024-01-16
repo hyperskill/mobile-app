@@ -171,7 +171,7 @@ android {
                 )
             }
         }
-        
+
         all {
             applyFlavorConfigsFromFile(this)
         }
