@@ -104,7 +104,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/problemOfDayFreemiumBadge"
+            android:id="@+id/problem_of_day_unlimited_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_solve_unlimited"

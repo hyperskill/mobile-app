@@ -4,15 +4,21 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-enum class SubscriptionType {
+enum class SubscriptionType(
+    val isProjectSelectionEnabled: Boolean = false,
+    val isProjectInfoAvailable: Boolean = true,
+    val isCertificateAvailable: Boolean = true,
+    val areHintsLimited: Boolean = false,
+    val areProblemsLimited: Boolean = false
+) {
     @SerialName("personal")
-    PERSONAL,
+    PERSONAL(isProjectSelectionEnabled = true),
     @SerialName("commercial")
     COMMERCIAL,
     @SerialName("team member")
     TEAM_MEMBER,
     @SerialName("trial")
-    TRIAL,
+    TRIAL(isProjectSelectionEnabled = true),
     @SerialName("content trial")
     CONTENT_TRIAL,
     @SerialName("organization trial")
@@ -27,10 +33,23 @@ enum class SubscriptionType {
     JETBRAINS_TEAM,
     @SerialName("free")
     FREE,
+
     @SerialName("freemium")
-    FREEMIUM,
+    FREEMIUM(
+        isCertificateAvailable = false,
+        isProjectInfoAvailable = false,
+        areHintsLimited = true,
+        areProblemsLimited = true
+    ),
+    @SerialName("mobile only")
+    MOBILE_ONLY(
+        isCertificateAvailable = false,
+        isProjectInfoAvailable = false,
+        areHintsLimited = true
+    ),
+
     @SerialName("premium")
-    PREMIUM,
+    PREMIUM(isProjectSelectionEnabled = true),
 
     @SerialName("unknown")
     UNKNOWN

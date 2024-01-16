@@ -32,8 +32,12 @@ internal class TrackSelectionDetailsViewStateMapper(
                 formattedRating = formatRating(trackProgress.averageRating()),
                 formattedTimeToComplete = formatTimeToComplete(track.secondsToComplete),
                 formattedTopicsCount = formatTopicsCount(track.totalTopicsCount),
-                formattedProjectsCount = formatProjectsCount(contentState.isFreemiumEnabled, track.projects.size),
-                isCertificateAvailable = !contentState.isFreemiumEnabled && track.canIssueCertificate,
+                formattedProjectsCount = formatProjectsCount(
+                    isProjectCountEnabled = contentState.subscriptionType.isProjectInfoAvailable,
+                    projectsCount = track.projects.size
+                ),
+                isCertificateAvailable = contentState.subscriptionType.isCertificateAvailable &&
+                    track.canIssueCertificate,
                 mainProvider = contentState.providers
                     .firstOrNull { it.id == track.providerId }
                     ?.let { mainProvider ->
@@ -76,10 +80,10 @@ internal class TrackSelectionDetailsViewStateMapper(
         )
 
     private fun formatProjectsCount(
-        isFreemiumEnabled: Boolean,
+        isProjectCountEnabled: Boolean,
         projectsCount: Int
     ): String? =
-        if (!isFreemiumEnabled) {
+        if (isProjectCountEnabled) {
             resourceProvider.getString(
                 SharedResources.strings.track_selection_details_projects_text_template,
                 resourceProvider.getQuantityString(SharedResources.plurals.projects, projectsCount, projectsCount)
