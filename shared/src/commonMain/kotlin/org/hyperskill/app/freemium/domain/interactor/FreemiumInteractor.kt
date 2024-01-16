@@ -17,7 +17,7 @@ class FreemiumInteractor(
     suspend fun getStepsLimitTotal(): Result<Int?> =
         currentSubscriptionStateRepository.getState().map { it.stepsLimitTotal }
 
-    suspend fun isProblemLimitReached(): Result<Boolean> =
+    suspend fun isProblemsLimitReached(): Result<Boolean> =
         kotlin.runCatching {
             currentSubscriptionStateRepository
                 .getState()
@@ -27,7 +27,7 @@ class FreemiumInteractor(
 
     suspend fun onStepSolved() {
         currentSubscriptionStateRepository.updateState { subscription ->
-            if (subscription.type.areProblemLimitsEnabled) {
+            if (subscription.type.areProblemsLimited) {
                 subscription.copy(stepsLimitLeft = subscription.stepsLimitLeft?.dec())
             } else {
                 subscription

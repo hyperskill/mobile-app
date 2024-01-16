@@ -9,7 +9,7 @@ enum class SubscriptionType(
     val isProjectInfoAvailable: Boolean = true,
     val isCertificateAvailable: Boolean = true,
     val areHintsLimited: Boolean = false,
-    val areProblemLimitsEnabled: Boolean = false
+    val areProblemsLimited: Boolean = false
 ) {
     @SerialName("personal")
     PERSONAL(isProjectSelectionEnabled = true),
@@ -39,7 +39,7 @@ enum class SubscriptionType(
         isCertificateAvailable = false,
         isProjectInfoAvailable = false,
         areHintsLimited = true,
-        areProblemLimitsEnabled = true
+        areProblemsLimited = true
     ),
     @SerialName("mobile only")
     MOBILE_ONLY(

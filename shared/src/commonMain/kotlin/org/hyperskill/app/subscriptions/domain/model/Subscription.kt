@@ -20,4 +20,4 @@ data class Subscription(
 )
 
 val Subscription.isProblemLimitReached: Boolean
-    get() = type.areProblemLimitsEnabled && stepsLimitLeft == 0
+    get() = type.areProblemsLimited && stepsLimitLeft == 0

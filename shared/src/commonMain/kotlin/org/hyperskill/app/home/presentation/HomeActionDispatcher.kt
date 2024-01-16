@@ -105,16 +105,16 @@ internal class HomeActionDispatcher(
                     .getOrThrow()
                 val problemOfDayStateResult = async { getProblemOfDayState(currentProfile.dailyStep) }
                 val repetitionsStateResult = async { getRepetitionsState() }
-                val areProblemLimitsEnabled = async {
+                val areProblemsLimited = async {
                     currentSubscriptionStateRepository
                         .getState()
-                        .map { it.type.areProblemLimitsEnabled }
+                        .map { it.type.areHintsLimited }
                 }
                 setOf(
                     Message.HomeSuccess(
                         problemOfDayState = problemOfDayStateResult.await().getOrThrow(),
                         repetitionsState = repetitionsStateResult.await().getOrThrow(),
-                        isFreemiumEnabled = isFreemiumEnabledResult.await().getOrThrow()
+                        areProblemsLimited = areProblemsLimited.await().getOrThrow()
                     ),
                     Message.ReadyToLaunchNextProblemInTimer
                 )

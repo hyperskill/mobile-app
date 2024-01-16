@@ -18,7 +18,7 @@ class ProblemsLimitViewStateMapper(
                 val stepsLimitLeft = state.subscription.stepsLimitLeft
                 val stepsLimitTotal = state.subscription.stepsLimitTotal
                 when {
-                    !state.subscription.type.areProblemLimitsEnabled ||
+                    !state.subscription.type.areProblemsLimited ||
                         stepsLimitLeft == null ||
                         stepsLimitTotal == null -> ProblemsLimitFeature.ViewState.Content.Empty
                     else -> ProblemsLimitFeature.ViewState.Content.Widget(

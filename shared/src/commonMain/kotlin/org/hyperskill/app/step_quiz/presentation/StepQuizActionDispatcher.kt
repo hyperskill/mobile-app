@@ -44,8 +44,8 @@ class StepQuizActionDispatcher(
                         return
                     }
 
-                val isProblemLimitReached = freemiumInteractor
-                    .isProblemLimitReached()
+                val isProblemsLimitReached = freemiumInteractor
+                    .isProblemsLimitReached()
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
                         onNewMessage(Message.FetchAttemptError(it))
@@ -78,7 +78,7 @@ class StepQuizActionDispatcher(
                                         step = action.step,
                                         attempt = attempt,
                                         submissionState = it,
-                                        isProblemsLimitReached = isProblemLimitReached,
+                                        isProblemsLimitReached = isProblemsLimitReached,
                                         problemsLimitReachedModalText = problemsLimitReachedModalText,
                                         problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
                                     )
