@@ -18,6 +18,7 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
@@ -47,6 +48,7 @@ internal object AppFeatureBuilder {
         pushNotificationsInteractor: PushNotificationsInteractor,
         welcomeOnboardingReducer: WelcomeOnboardingReducer,
         welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher,
+        purchaseInteractor: PurchaseInteractor,
         platform: Platform,
         logger: Logger,
         buildVariant: BuildVariant
@@ -65,7 +67,8 @@ internal object AppFeatureBuilder {
             sentryInteractor,
             stateRepositoriesComponent,
             notificationsInteractor,
-            pushNotificationsInteractor
+            pushNotificationsInteractor,
+            purchaseInteractor
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)

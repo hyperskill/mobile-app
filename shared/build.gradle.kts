@@ -90,6 +90,7 @@ kotlin {
                 implementation(libs.android.parcelable)
                 implementation(project.dependencies.platform(libs.firebase.bom))
                 implementation(libs.firebase.messaging)
+                implementation(libs.revenuecat)
             }
         }
         val androidUnitTest by getting {

@@ -55,14 +55,15 @@ class HyperskillApp : Application(), ImageLoaderFactory {
         )
 
         setNightMode(appGraph)
-        initSentry()
+        initSentry(appGraph)
+        initRevenueCat(appGraph)
         initChannels()
     }
 
     override fun newImageLoader(): ImageLoader =
         graph().imageLoadingComponent.imageLoader
 
-    private fun initSentry() {
+    private fun initSentry(appGraph: AppGraph) {
         appGraph.sentryComponent.sentryInteractor.setup()
     }
 
@@ -83,5 +84,9 @@ class HyperskillApp : Application(), ImageLoaderFactory {
         AppCompatDelegate.setDefaultNightMode(
             profileSettings.theme.asNightMode()
         )
+    }
+
+    private fun initRevenueCat(appGraph: AppGraph) {
+        appGraph.buildPurchaseComponent().purchaseInteractor.setup()
     }
 }
