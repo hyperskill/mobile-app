@@ -19,5 +19,5 @@ data class Subscription(
     val stepsLimitResetTime: Instant?
 )
 
-val Subscription.isFreemium: Boolean
-    get() = type == SubscriptionType.FREEMIUM
+val Subscription.isProblemLimitReached: Boolean
+    get() = type.areProblemLimitsEnabled && stepsLimitLeft == 0

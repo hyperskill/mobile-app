@@ -13,7 +13,6 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.utils.DateTimeUtils
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
@@ -23,6 +22,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -33,7 +33,7 @@ internal class HomeActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
-    private val freemiumInteractor: FreemiumInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val dateFormatter: SharedDateFormatter,
@@ -105,7 +105,11 @@ internal class HomeActionDispatcher(
                     .getOrThrow()
                 val problemOfDayStateResult = async { getProblemOfDayState(currentProfile.dailyStep) }
                 val repetitionsStateResult = async { getRepetitionsState() }
-                val isFreemiumEnabledResult = async { freemiumInteractor.isFreemiumEnabled() }
+                val areProblemLimitsEnabled = async {
+                    currentSubscriptionStateRepository
+                        .getState()
+                        .map { it.type.areProblemLimitsEnabled }
+                }
                 setOf(
                     Message.HomeSuccess(
                         problemOfDayState = problemOfDayStateResult.await().getOrThrow(),

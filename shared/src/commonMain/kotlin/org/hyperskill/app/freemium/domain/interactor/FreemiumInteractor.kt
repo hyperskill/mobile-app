@@ -3,7 +3,7 @@ package org.hyperskill.app.freemium.domain.interactor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.subscriptions.domain.model.isFreemium
+import org.hyperskill.app.subscriptions.domain.model.isProblemLimitReached
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
 class FreemiumInteractor(
@@ -14,35 +14,23 @@ class FreemiumInteractor(
         private const val SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE = 10
     }
 
-    suspend fun isFreemiumEnabled(): Result<Boolean> =
-        currentSubscriptionStateRepository.getState().map { it.isFreemium }
-
     suspend fun getStepsLimitTotal(): Result<Int?> =
         currentSubscriptionStateRepository.getState().map { it.stepsLimitTotal }
 
-    suspend fun isProblemsLimitReached(): Result<Boolean> =
+    suspend fun isProblemLimitReached(): Result<Boolean> =
         kotlin.runCatching {
-            // TODO: replace with one cached call or
-            // make a network call in the second call
-            if (isFreemiumEnabled().getOrThrow()) {
-                val subscription = currentSubscriptionStateRepository
-                    .getState()
-                    .getOrThrow()
-
-                subscription.isFreemium && subscription.stepsLimitLeft == 0
-            } else {
-                false
-            }
+            currentSubscriptionStateRepository
+                .getState()
+                .getOrThrow()
+                .isProblemLimitReached
         }
 
     suspend fun onStepSolved() {
-        // TODO: replace with one cached call or
-        // make a network call in the second call
-        if (isFreemiumEnabled().getOrDefault(false)) {
-            currentSubscriptionStateRepository.getState().getOrNull()?.let {
-                currentSubscriptionStateRepository.updateState(
-                    it.copy(stepsLimitLeft = it.stepsLimitLeft?.dec())
-                )
+        currentSubscriptionStateRepository.updateState { subscription ->
+            if (subscription.type.areProblemLimitsEnabled) {
+                subscription.copy(stepsLimitLeft = subscription.stepsLimitLeft?.dec())
+            } else {
+                subscription
             }
         }
         currentProfileStateRepository.getState().onSuccess { currentProfile ->
