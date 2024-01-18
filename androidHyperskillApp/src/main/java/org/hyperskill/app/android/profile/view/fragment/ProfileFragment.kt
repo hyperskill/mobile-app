@@ -3,20 +3,24 @@ package org.hyperskill.app.android.profile.view.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
 import coil.load
 import coil.result
 import coil.transform.CircleCropTransformation
+import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.badges.view.delegate.ProfileBadgesDelegate
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
+import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -37,6 +41,7 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.presentation.ProfileViewModel
 import org.hyperskill.app.profile.view.BadgesViewStateMapper
+import org.hyperskill.app.purchases.domain.model.PurchaseResult
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -159,6 +164,24 @@ class ProfileFragment :
 
         profileLoadingDelegate = ProfileLoadingDelegate(childFragmentManager, viewLifecycleOwner.lifecycle)
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            val managementUrl = profileViewModel.getManagementUrl().getOrNull()
+            with(viewBinding.profilePurchaseBtn) {
+                text = if (managementUrl == null) {
+                    "Buy mobile only subscription"
+                } else {
+                    "Manage subscription"
+                }
+                setOnClickListener {
+                    if (managementUrl == null) {
+                        onBuyClick()
+                    } else {
+                        onManageClick(managementUrl)
+                    }
+                }
+            }
+        }
+
         profileViewModel.onNewMessage(
             ProfileFeature.Message.Initialize(
                 profileId = profileId,
@@ -166,6 +189,36 @@ class ProfileFragment :
             )
         )
         profileViewModel.onNewMessage(ProfileFeature.Message.ViewedEventMessage)
+    }
+
+    private fun onBuyClick() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val purchaseResult = profileViewModel.purchaseMobileOnlySubscription().getOrElse {
+                Toast.makeText(
+                    requireContext(),
+                    "Unknown error happened!",
+                    Toast.LENGTH_LONG
+                ).show()
+                return@launch
+            }
+            if (purchaseResult is PurchaseResult.Succeed) {
+                viewBinding.profilePurchaseBtn.text = "Manage subscription"
+            }
+            Toast.makeText(
+                requireContext(),
+                when (purchaseResult) {
+                    is PurchaseResult.Succeed -> "Purchase succeed"
+                    PurchaseResult.CancelledByUser -> "Purchase cancelled by user"
+                    is PurchaseResult.DidNotStart -> "Activity is dead"
+                    is PurchaseResult.Error -> purchaseResult.message
+                },
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private fun onManageClick(managementUrl: String) {
+        requireContext().openUrl(managementUrl)
     }
 
     private fun initViewStateDelegate() {
