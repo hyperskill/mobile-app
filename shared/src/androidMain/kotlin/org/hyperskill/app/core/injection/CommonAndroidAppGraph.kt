@@ -1,6 +1,8 @@
 package org.hyperskill.app.core.injection
 
-import android.content.Context
+import android.app.Activity
+import android.app.Application
+import java.lang.ref.WeakReference
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -42,7 +44,9 @@ import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 interface CommonAndroidAppGraph : AppGraph {
-    val context: Context
+    val application: Application
+
+    val activityRef: WeakReference<Activity>
 
     val platformMainComponent: PlatformMainComponent
 

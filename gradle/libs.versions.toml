@@ -17,7 +17,7 @@ coil = '2.2.0'
 lottie = '6.1.0'
 kermit = '2.0.0-RC4'
 androidxBrowser = "1.5.0"
-revenueCat = "7.0.0"
+revenueCat = "7.3.3"
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"

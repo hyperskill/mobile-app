@@ -1,6 +1,7 @@
 package org.hyperskill.app.purchases.domain.interactor
 
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
+import org.hyperskill.app.purchases.domain.model.PurchaseResult
 
 class PurchaseInteractor(
     private val purchaseManager: PurchaseManager
@@ -24,4 +25,10 @@ class PurchaseInteractor(
     fun logout() {
         purchaseManager.logout()
     }
+
+    suspend fun purchaseMobileOnlySubscription(): Result<PurchaseResult> =
+        purchaseManager.purchase("premium_mobile")
+
+    suspend fun getManagementUrl(): Result<String?> =
+        purchaseManager.getManagementUrl()
 }

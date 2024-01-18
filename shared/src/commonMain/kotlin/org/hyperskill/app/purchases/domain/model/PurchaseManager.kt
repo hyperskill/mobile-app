@@ -18,8 +18,15 @@ interface PurchaseManager {
     fun login(userId: Long)
 
     /**
-     * Clear the user identification provided via [login].
+     * Clears the user identification provided via [login].
      * Must be called just after logout event.
      */
     fun logout()
+
+    /**
+     * Makes purchase of the product with [productId].
+     */
+    suspend fun purchase(productId: String): Result<PurchaseResult>
+
+    suspend fun getManagementUrl(): Result<String?>
 }

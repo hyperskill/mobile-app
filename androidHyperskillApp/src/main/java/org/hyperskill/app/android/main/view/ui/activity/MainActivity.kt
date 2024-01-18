@@ -104,6 +104,8 @@ class MainActivity :
         onBackPressedDispatcher
             .addCallback(navigator.onBackPressedCallback)
 
+        HyperskillApp.graph().provideActivity(this)
+
         super.onCreate(savedInstanceState)
         injectManual()
         navigator.invalidateOnBackPressedCallback()

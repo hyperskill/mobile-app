@@ -71,7 +71,9 @@ import org.hyperskill.app.welcome.injection.WelcomeComponent
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
     override fun buildPurchaseComponent(): PurchaseComponent =
-        PurchaseComponentImpl(AndroidPurchaseManager(context))
+        PurchaseComponentImpl(
+            AndroidPurchaseManager(application, activityRef)
+        )
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl(authSocialComponent = buildAuthSocialComponent())
@@ -121,7 +123,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
      * Profile component
      */
     override fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent =
-        PlatformProfileComponentImpl(profileComponent)
+        PlatformProfileComponentImpl(profileComponent, buildPurchaseComponent())
 
     /**
      * Profile settings component
@@ -204,7 +206,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PlatformProgressScreenComponentImpl(buildProgressScreenComponent())
 
     override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =
-        PlayServicesCheckerComponentImpl(context, sentryComponent)
+        PlayServicesCheckerComponentImpl(application, sentryComponent)
 
     override fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent =
         AndroidPlatformPushNotificationsPlatformDataComponent(
