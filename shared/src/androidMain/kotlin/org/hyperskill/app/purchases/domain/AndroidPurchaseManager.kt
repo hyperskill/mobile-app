@@ -93,6 +93,11 @@ class AndroidPurchaseManager(
 
     override suspend fun getManagementUrl(): Result<String?> =
         kotlin.runCatching {
-            Purchases.sharedInstance.awaitCustomerInfo().managementURL?.toString()
+            val customer = Purchases.sharedInstance.awaitCustomerInfo()
+            if (customer.activeSubscriptions.isNotEmpty()) {
+                customer.managementURL?.toString()
+            } else {
+                null
+            }
         }
 }
