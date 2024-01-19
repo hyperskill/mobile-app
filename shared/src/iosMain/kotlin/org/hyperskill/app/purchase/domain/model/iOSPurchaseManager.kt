@@ -9,11 +9,11 @@ class iOSPurchaseManager : PurchaseManager {
         TODO("Not yet implemented")
     }
 
-    override fun login(userId: Long) {
+    override suspend fun login(userId: Long) {
         TODO("Not yet implemented")
     }
 
-    override fun logout() {
+    override suspend fun logout() {
         TODO("Not yet implemented")
     }
 

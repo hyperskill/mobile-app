@@ -68,7 +68,8 @@ internal object AppFeatureBuilder {
             stateRepositoriesComponent,
             notificationsInteractor,
             pushNotificationsInteractor,
-            purchaseInteractor
+            purchaseInteractor,
+            logger.withTag(LOG_TAG)
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)

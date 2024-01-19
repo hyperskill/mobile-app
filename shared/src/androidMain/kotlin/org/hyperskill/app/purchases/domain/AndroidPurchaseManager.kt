@@ -10,6 +10,8 @@ import com.revenuecat.purchases.PurchasesErrorCode
 import com.revenuecat.purchases.PurchasesTransactionException
 import com.revenuecat.purchases.awaitCustomerInfo
 import com.revenuecat.purchases.awaitGetProducts
+import com.revenuecat.purchases.awaitLogIn
+import com.revenuecat.purchases.awaitLogOut
 import com.revenuecat.purchases.awaitPurchase
 import com.revenuecat.purchases.models.StoreProduct
 import java.lang.ref.WeakReference
@@ -34,13 +36,15 @@ class AndroidPurchaseManager(
         }
     }
 
-    override fun login(userId: Long) {
-        Purchases.sharedInstance.logIn(userId.toString())
-    }
+    override suspend fun login(userId: Long): Result<Unit> =
+        kotlin.runCatching {
+            Purchases.sharedInstance.awaitLogIn(userId.toString())
+        }
 
-    override fun logout() {
-        Purchases.sharedInstance.logOut()
-    }
+    override suspend fun logout(): Result<Unit> =
+        runCatching {
+            Purchases.sharedInstance.awaitLogOut()
+        }
 
     override suspend fun purchase(productId: String): Result<PurchaseResult> {
         val product = Purchases.sharedInstance

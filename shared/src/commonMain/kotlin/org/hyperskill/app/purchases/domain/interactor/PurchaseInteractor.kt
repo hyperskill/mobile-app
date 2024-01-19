@@ -14,17 +14,15 @@ class PurchaseInteractor(
      * Identifies user in the payment sdk with provided [userId].
      * Must be called just after login event.
      */
-    fun login(userId: Long) {
+    suspend fun login(userId: Long): Result<Unit> =
         purchaseManager.login(userId)
-    }
 
     /**
      * Clear the user identification provided via [login].
      * Must be called just after logout event.
      */
-    fun logout() {
+    suspend fun logout(): Result<Unit> =
         purchaseManager.logout()
-    }
 
     suspend fun purchaseMobileOnlySubscription(): Result<PurchaseResult> =
         purchaseManager.purchase("premium_mobile")
