@@ -75,7 +75,6 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PurchaseComponentImpl(
             AndroidPurchaseManager(
                 application = application,
-                activityRef = activityRef,
                 isDebugMode = BuildConfig.DEBUG
             )
         )

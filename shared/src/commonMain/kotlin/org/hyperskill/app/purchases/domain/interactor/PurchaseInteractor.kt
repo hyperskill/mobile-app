@@ -1,5 +1,6 @@
 package org.hyperskill.app.purchases.domain.interactor
 
+import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
 
@@ -28,8 +29,10 @@ class PurchaseInteractor(
     suspend fun logout(): Result<Unit> =
         purchaseManager.logout()
 
-    suspend fun purchaseMobileOnlySubscription(): Result<PurchaseResult> =
-        purchaseManager.purchase(MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID)
+    suspend fun purchaseMobileOnlySubscription(
+        platformPurchaseParams: PlatformPurchaseParams
+    ): Result<PurchaseResult> =
+        purchaseManager.purchase(MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID, platformPurchaseParams)
 
     suspend fun getManagementUrl(): Result<String?> =
         purchaseManager.getManagementUrl()

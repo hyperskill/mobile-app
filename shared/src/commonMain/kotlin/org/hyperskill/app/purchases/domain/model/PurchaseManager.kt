@@ -26,7 +26,10 @@ interface PurchaseManager {
     /**
      * Makes purchase of the product with [productId].
      */
-    suspend fun purchase(productId: String): Result<PurchaseResult>
+    suspend fun purchase(
+        productId: String,
+        platformPurchaseParams: PlatformPurchaseParams
+    ): Result<PurchaseResult>
 
     suspend fun getManagementUrl(): Result<String?>
 }

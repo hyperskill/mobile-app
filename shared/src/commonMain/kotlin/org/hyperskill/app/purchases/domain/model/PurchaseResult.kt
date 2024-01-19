@@ -8,29 +8,29 @@ sealed interface PurchaseResult {
 
     object CancelledByUser : PurchaseResult
 
-    /**
-     * Represents a case, when a purchase process didn't start
-     * due to application lifecycle.
-     * For example, on the Android platform it could be used
-     * in case of an Activity death during a purchase.
-     */
-    class DidNotStart(
-        val message: String
-    ) : PurchaseResult
-
     sealed interface Error : PurchaseResult {
 
         val message: String
 
-        val description: String
+        val underlyingErrorMessage: String?
+
+        class ErrorWhileFetchingProduct(
+            val productId: String,
+            val originMessage: String,
+            override val underlyingErrorMessage: String?
+        ) : Error {
+            override val message: String
+                get() = "Error while fetching product with id=$productId"
+        }
 
         class NoProductFound(
             val productId: String
         ) : Error {
             override val message: String
                 get() = "Can't find product with id=$productId"
-            override val description: String
-                get() = "Can't find product with id=$productId"
+
+            override val underlyingErrorMessage: String?
+                get() = null
         }
 
         /**
@@ -40,7 +40,7 @@ sealed interface PurchaseResult {
          */
         class ReceiptAlreadyInUseError(
             override val message: String,
-            override val description: String
+            override val underlyingErrorMessage: String?
         ) : Error
 
         /**
@@ -50,7 +50,7 @@ sealed interface PurchaseResult {
          */
         class PaymentPendingError(
             override val message: String,
-            override val description: String
+            override val underlyingErrorMessage: String?
         ) : Error
 
         /**
@@ -59,7 +59,7 @@ sealed interface PurchaseResult {
          */
         class ProductAlreadyPurchasedError(
             override val message: String,
-            override val description: String
+            override val underlyingErrorMessage: String?
         ) : Error
 
         /**
@@ -69,7 +69,7 @@ sealed interface PurchaseResult {
          */
         class PurchaseNotAllowedError(
             override val message: String,
-            override val description: String
+            override val underlyingErrorMessage: String?
         ) : Error
 
         /**
@@ -79,7 +79,7 @@ sealed interface PurchaseResult {
          */
         class StoreProblemError(
             override val message: String,
-            override val description: String
+            override val underlyingErrorMessage: String?
         ) : Error
 
         /**
@@ -88,7 +88,7 @@ sealed interface PurchaseResult {
          */
         data class OtherError(
             override val message: String,
-            override val description: String
+            override val underlyingErrorMessage: String?
         ) : Error
     }
 }

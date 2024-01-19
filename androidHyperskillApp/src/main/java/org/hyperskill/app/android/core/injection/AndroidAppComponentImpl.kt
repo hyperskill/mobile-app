@@ -1,11 +1,6 @@
 package org.hyperskill.app.android.core.injection
 
-import android.app.Activity
 import android.app.Application
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import java.lang.ref.WeakReference
 import org.hyperskill.app.analytic.domain.model.AnalyticEngine
 import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
@@ -39,8 +34,6 @@ class AndroidAppComponentImpl(
     analyticEngines: List<AnalyticEngine> = emptyList()
 ) : AndroidAppComponent, CommonAndroidAppGraphImpl() {
 
-    override var activityRef: WeakReference<Activity> = WeakReference(null)
-
     override val commonComponent: CommonComponent by lazy {
         CommonComponentImpl(this.application, buildVariant, userAgentInfo)
     }
@@ -66,18 +59,6 @@ class AndroidAppComponentImpl(
 
     override val platformLocalNotificationComponent: PlatformLocalNotificationComponent by lazy {
         PlatformLocalNotificationComponentImpl(this.application, this)
-    }
-
-    override fun provideActivity(activity: Activity, lifecycle: Lifecycle) {
-        lifecycle.addObserver(
-            object : DefaultLifecycleObserver {
-                override fun onDestroy(owner: LifecycleOwner) {
-                    this@AndroidAppComponentImpl.activityRef = WeakReference(null)
-                    lifecycle.removeObserver(this)
-                }
-            }
-        )
-        this.activityRef = WeakReference(activity)
     }
 
     override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
