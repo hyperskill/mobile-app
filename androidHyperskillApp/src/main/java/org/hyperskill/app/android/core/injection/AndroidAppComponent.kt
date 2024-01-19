@@ -1,6 +1,7 @@
 package org.hyperskill.app.android.core.injection
 
 import android.app.Activity
+import androidx.lifecycle.Lifecycle
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
 import org.hyperskill.app.android.latex.injection.PlatformLatexComponent
@@ -14,7 +15,7 @@ interface AndroidAppComponent : CommonAndroidAppGraph {
     val imageLoadingComponent: ImageLoadingComponent
     val navigationComponent: NavigationComponent
 
-    fun provideActivity(activity: Activity)
+    fun provideActivity(activity: Activity, lifecycle: Lifecycle)
 
     fun buildPlatformLatexComponent(): PlatformLatexComponent
     fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent

@@ -123,7 +123,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
      * Profile component
      */
     override fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent =
-        PlatformProfileComponentImpl(profileComponent, buildPurchaseComponent())
+        PlatformProfileComponentImpl(profileComponent)
 
     /**
      * Profile settings component
