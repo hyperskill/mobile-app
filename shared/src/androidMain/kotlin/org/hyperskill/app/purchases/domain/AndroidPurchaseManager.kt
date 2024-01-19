@@ -19,11 +19,12 @@ import org.hyperskill.app.purchases.domain.model.PurchaseResult
 
 class AndroidPurchaseManager(
     private val application: Application,
-    private val activityRef: WeakReference<Activity>
+    private val activityRef: WeakReference<Activity>,
+    private val isDebugMode: Boolean
 ) : PurchaseManager {
     override fun setup() {
         if (!Purchases.isConfigured) {
-            Purchases.logLevel = LogLevel.DEBUG
+            Purchases.logLevel = if (isDebugMode) LogLevel.DEBUG else LogLevel.INFO
             Purchases.configure(
                 PurchasesConfiguration.Builder(
                     context = application,
