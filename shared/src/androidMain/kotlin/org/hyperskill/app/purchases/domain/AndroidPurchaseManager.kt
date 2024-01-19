@@ -7,6 +7,7 @@ import com.revenuecat.purchases.PurchaseParams
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesConfiguration
 import com.revenuecat.purchases.PurchasesErrorCode
+import com.revenuecat.purchases.PurchasesException
 import com.revenuecat.purchases.PurchasesTransactionException
 import com.revenuecat.purchases.awaitCustomerInfo
 import com.revenuecat.purchases.awaitGetProducts
@@ -14,14 +15,14 @@ import com.revenuecat.purchases.awaitLogIn
 import com.revenuecat.purchases.awaitLogOut
 import com.revenuecat.purchases.awaitPurchase
 import com.revenuecat.purchases.models.StoreProduct
-import java.lang.ref.WeakReference
 import org.hyperskill.app.BuildConfig
+import org.hyperskill.app.purchases.domain.model.AndroidPurchaseParams
+import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
 
 class AndroidPurchaseManager(
     private val application: Application,
-    private val activityRef: WeakReference<Activity>,
     private val isDebugMode: Boolean
 ) : PurchaseManager {
     override fun setup() {
@@ -46,25 +47,31 @@ class AndroidPurchaseManager(
             Purchases.sharedInstance.awaitLogOut()
         }
 
-    override suspend fun purchase(productId: String): Result<PurchaseResult> {
-        val product = Purchases.sharedInstance
+    override suspend fun purchase(
+        productId: String,
+        platformPurchaseParams: PlatformPurchaseParams
+    ): Result<PurchaseResult> =
+        runCatching {
+            val product = try {
+                fetchProduct(productId) ?: return@runCatching PurchaseResult.Error.NoProductFound(productId)
+            } catch (e: PurchasesException) {
+                return@runCatching mapProductFetchException(productId, e)
+            }
+            val activity = (platformPurchaseParams as AndroidPurchaseParams).activity
+            purchase(activity, product)
+        }
+
+    private suspend fun fetchProduct(productId: String): StoreProduct? =
+        Purchases.sharedInstance
             .awaitGetProducts(listOf(productId))
             .firstOrNull()
-        if (product == null) {
-            return Result.success(PurchaseResult.Error.NoProductFound(productId))
-        }
-        val activity = activityRef.get()
-        return if (activity == null) {
-            Result.success(
-                PurchaseResult
-                    .DidNotStart(message = "Can't initiate a purchase. Activity is dead.")
-            )
-        } else {
-            kotlin.runCatching {
-                purchase(activity, product)
-            }
-        }
-    }
+
+    private fun mapProductFetchException(productId: String, e: PurchasesException): PurchaseResult =
+        PurchaseResult.Error.ErrorWhileFetchingProduct(
+            productId = productId,
+            originMessage = e.message,
+            underlyingErrorMessage = e.error.underlyingErrorMessage
+        )
 
     private suspend fun purchase(activity: Activity, product: StoreProduct): PurchaseResult =
         try {
@@ -83,16 +90,16 @@ class AndroidPurchaseManager(
         if (e.userCancelled) return PurchaseResult.CancelledByUser
         return when (e.error.code) {
             PurchasesErrorCode.ReceiptAlreadyInUseError ->
-                PurchaseResult.Error.ReceiptAlreadyInUseError(e.error.message, e.code.description)
+                PurchaseResult.Error.ReceiptAlreadyInUseError(e.message, e.underlyingErrorMessage)
             PurchasesErrorCode.PaymentPendingError ->
-                PurchaseResult.Error.PaymentPendingError(e.error.message, e.code.description)
+                PurchaseResult.Error.PaymentPendingError(e.message, e.underlyingErrorMessage)
             PurchasesErrorCode.ProductAlreadyPurchasedError ->
-                PurchaseResult.Error.ProductAlreadyPurchasedError(e.error.message, e.code.description)
+                PurchaseResult.Error.ProductAlreadyPurchasedError(e.message, e.underlyingErrorMessage)
             PurchasesErrorCode.PurchaseNotAllowedError ->
-                PurchaseResult.Error.PurchaseNotAllowedError(e.error.message, e.code.description)
+                PurchaseResult.Error.PurchaseNotAllowedError(e.message, e.underlyingErrorMessage)
             PurchasesErrorCode.StoreProblemError ->
-                PurchaseResult.Error.StoreProblemError(e.error.message, e.code.description)
-            else -> PurchaseResult.Error.OtherError(e.error.message, e.code.description)
+                PurchaseResult.Error.StoreProblemError(e.message, e.underlyingErrorMessage)
+            else -> PurchaseResult.Error.OtherError(e.message, e.underlyingErrorMessage)
         }
     }
 

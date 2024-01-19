@@ -1,5 +1,6 @@
 package org.hyperskill.app.purchase.domain.model
 
+import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
 
@@ -17,7 +18,10 @@ class iOSPurchaseManager : PurchaseManager {
         TODO("Not yet implemented")
     }
 
-    override suspend fun purchase(productId: String): Result<PurchaseResult> {
+    override suspend fun purchase(
+        productId: String,
+        platformPurchaseParams: PlatformPurchaseParams
+    ): Result<PurchaseResult> {
         TODO("Not yet implemented")
     }
 
