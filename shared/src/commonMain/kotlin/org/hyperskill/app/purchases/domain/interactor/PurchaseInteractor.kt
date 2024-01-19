@@ -6,6 +6,10 @@ import org.hyperskill.app.purchases.domain.model.PurchaseResult
 class PurchaseInteractor(
     private val purchaseManager: PurchaseManager
 ) {
+    companion object {
+        private const val MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID: String =
+            "premium_mobile"
+    }
     fun setup() {
         purchaseManager.setup()
     }
@@ -14,20 +18,18 @@ class PurchaseInteractor(
      * Identifies user in the payment sdk with provided [userId].
      * Must be called just after login event.
      */
-    fun login(userId: Long) {
+    suspend fun login(userId: Long): Result<Unit> =
         purchaseManager.login(userId)
-    }
 
     /**
      * Clear the user identification provided via [login].
      * Must be called just after logout event.
      */
-    fun logout() {
+    suspend fun logout(): Result<Unit> =
         purchaseManager.logout()
-    }
 
     suspend fun purchaseMobileOnlySubscription(): Result<PurchaseResult> =
-        purchaseManager.purchase("premium_mobile")
+        purchaseManager.purchase(MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID)
 
     suspend fun getManagementUrl(): Result<String?> =
         purchaseManager.getManagementUrl()

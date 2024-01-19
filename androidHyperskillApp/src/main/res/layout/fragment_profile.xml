@@ -90,13 +90,6 @@
                     android:layout_marginTop="16dp"
                     />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/profile_purchase_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Buy mobile-only subscription"
-                    android:layout_marginTop="16dp"/>
-
                 <include
                     android:id="@+id/profileDailyReminder"
                     layout="@layout/layout_profile_daily_reminder"

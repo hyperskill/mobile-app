@@ -1,5 +1,6 @@
 package org.hyperskill.app.main.presentation
 
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
@@ -30,7 +31,8 @@ internal class AppActionDispatcher(
     private val stateRepositoriesComponent: StateRepositoriesComponent,
     private val notificationsInteractor: NotificationInteractor,
     private val pushNotificationsInteractor: PushNotificationsInteractor,
-    private val purchaseInteractor: PurchaseInteractor
+    private val purchaseInteractor: PurchaseInteractor,
+    private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -114,9 +116,9 @@ internal class AppActionDispatcher(
             is Action.SendPushNotificationsToken ->
                 pushNotificationsInteractor.renewFCMToken()
             is Action.IdentifyUserInPurchaseSdk ->
-                purchaseInteractor.login(action.userId)
+                handleIdentifyUserInPurchaseSdk(action.userId)
             is Action.ClearUserInPurchaseSdk ->
-                purchaseInteractor.logout()
+                handleClearUserInPurchaseSdk()
             else -> {}
         }
     }
@@ -128,6 +130,26 @@ internal class AppActionDispatcher(
                 sentryInteractor.captureErrorMessage(
                     "AppActionDispatcher: failed to update timezone\n$it"
                 )
+            }
+    }
+
+    private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long) {
+        purchaseInteractor
+            .login(userId)
+            .onFailure {
+                logger.e(it) {
+                    "Failed to login user in the purchase sdk"
+                }
+            }
+    }
+
+    private suspend fun handleClearUserInPurchaseSdk() {
+        purchaseInteractor
+            .logout()
+            .onFailure {
+                logger.e(it) {
+                    "Failed to logout user from purchase sdk"
+                }
             }
     }
 }

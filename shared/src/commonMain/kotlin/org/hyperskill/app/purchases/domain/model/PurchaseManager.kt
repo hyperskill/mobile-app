@@ -15,13 +15,13 @@ interface PurchaseManager {
      * Identifies user in the payment sdk with provided [userId].
      * Must be called just after login event.
      */
-    fun login(userId: Long)
+    suspend fun login(userId: Long): Result<Unit>
 
     /**
      * Clears the user identification provided via [login].
      * Must be called just after logout event.
      */
-    fun logout()
+    suspend fun logout(): Result<Unit>
 
     /**
      * Makes purchase of the product with [productId].

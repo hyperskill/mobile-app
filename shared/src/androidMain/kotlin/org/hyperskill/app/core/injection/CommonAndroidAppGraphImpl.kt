@@ -1,5 +1,6 @@
 package org.hyperskill.app.core.injection
 
+import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -72,7 +73,11 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
 
     override fun buildPurchaseComponent(): PurchaseComponent =
         PurchaseComponentImpl(
-            AndroidPurchaseManager(application, activityRef)
+            AndroidPurchaseManager(
+                application = application,
+                activityRef = activityRef,
+                isDebugMode = BuildConfig.DEBUG
+            )
         )
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
@@ -123,7 +128,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
      * Profile component
      */
     override fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent =
-        PlatformProfileComponentImpl(profileComponent, buildPurchaseComponent())
+        PlatformProfileComponentImpl(profileComponent)
 
     /**
      * Profile settings component
