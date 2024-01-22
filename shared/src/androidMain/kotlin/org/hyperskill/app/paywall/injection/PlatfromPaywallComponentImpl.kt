@@ -1,8 +1,8 @@
 package org.hyperskill.app.paywall.injection
 
+import org.hyperskill.app.core.flowredux.presentation.wrapWithFlowView
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.paywall.presentation.PaywallViewModel
-import ru.nobird.app.presentation.redux.container.wrapWithViewContainer
 
 class PlatformPaywallComponentImpl(
     private val paywallComponent: PaywallComponent
@@ -12,7 +12,7 @@ class PlatformPaywallComponentImpl(
             mapOf(
                 PaywallViewModel::class.java to {
                     PaywallViewModel(
-                        paywallComponent.paywallFeature.wrapWithViewContainer()
+                        paywallComponent.paywallFeature.wrapWithFlowView()
                     )
                 }
             )
