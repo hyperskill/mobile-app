@@ -69,6 +69,8 @@ import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboar
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponentImpl
+import org.hyperskill.app.paywall.injection.PaywallComponent
+import org.hyperskill.app.paywall.injection.PaywallComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -474,4 +476,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent =
         InterviewPreparationOnboardingComponentImpl(this)
+
+    override fun buildPaywallComponent(): PaywallComponent =
+        PaywallComponentImpl(this)
 }
