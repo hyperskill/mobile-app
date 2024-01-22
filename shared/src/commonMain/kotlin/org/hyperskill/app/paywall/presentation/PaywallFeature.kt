@@ -7,6 +7,10 @@ object PaywallFeature {
 
     sealed interface Message {
         object ViewedEventMessage : Message
+
+        object ContinueWithLimitsClicked : Message
+
+        object BuySubscriptionClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {
