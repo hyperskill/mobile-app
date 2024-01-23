@@ -44,7 +44,7 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         return if (!message.isNotificationPermissionGranted) {
             state to setOf(InternalAction.FetchNotificationOnboardingData)
         } else {
-            onNotificationOnboardingCompleted(state)
+            handleNotificationOnboardingCompleted(state)
         }
     }
 
@@ -55,15 +55,10 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         if (!message.wasNotificationOnboardingShown) {
             state to setOf(ViewAction.NavigateTo.NotificationOnboardingScreen)
         } else {
-            onNotificationOnboardingCompleted(state)
+            handleNotificationOnboardingCompleted(state)
         }
 
-    private fun handleNotificationOnboardingCompleted(
-        state: State
-    ): ReducerResult =
-        onNotificationOnboardingCompleted(state)
-
-    private fun onNotificationOnboardingCompleted(state: State): ReducerResult =
+    private fun handleNotificationOnboardingCompleted(state: State): ReducerResult =
         state to setOf(InternalAction.FetchSubscription)
 
     private fun handleFetchSubscriptionSuccess(
@@ -73,16 +68,13 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         if (message.subscription.isFreemium) {
             state to setOf(ViewAction.NavigateTo.Paywall)
         } else {
-            onPaywallCompleted(state)
+            handlePaywallCompleted(state)
         }
 
     private fun handleFetchSubscriptionError(state: State): ReducerResult =
-        onPaywallCompleted(state)
+        handlePaywallCompleted(state)
 
     private fun handlePaywallCompleted(state: State): ReducerResult =
-        onPaywallCompleted(state)
-
-    private fun onPaywallCompleted(state: State): ReducerResult =
         if (state.profile?.isNewUser == false) {
             state to setOf(InternalAction.FetchFirstProblemOnboardingData)
         } else {

@@ -9,9 +9,7 @@ import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeatu
 object WelcomeOnboardingFeature {
 
     @Serializable
-    data class State(
-        val profile: Profile? = null
-    )
+    data class State(val profile: Profile? = null)
 
     sealed interface Message {
         data class OnboardingFlowRequested(
