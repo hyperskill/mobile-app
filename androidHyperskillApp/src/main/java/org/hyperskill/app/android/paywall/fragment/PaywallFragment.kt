@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.paywall.ui.PaywallScreen
 import org.hyperskill.app.core.view.handleActions
@@ -18,6 +19,8 @@ import org.hyperskill.app.paywall.presentation.PaywallViewModel
 
 class PaywallFragment : Fragment() {
     companion object {
+        const val PAYWALL_COMPLETED = "PAYWALL_COMPLETED"
+
         fun newInstance(): PaywallFragment =
             PaywallFragment()
     }
@@ -55,7 +58,9 @@ class PaywallFragment : Fragment() {
 
     private fun onAction(action: ViewAction) {
         when (action) {
-
+            ViewAction.CompletePaywall -> {
+                requireAppRouter().sendResult(PAYWALL_COMPLETED, Any())
+            }
         }
     }
 }

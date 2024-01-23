@@ -14,6 +14,7 @@ internal class WelcomeOnboardingComponentImpl(
     override val welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher
         get() = WelcomeOnboardingActionDispatcher(
             config = ActionDispatcherOptions(),
-            onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor
+            onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
         )
 }

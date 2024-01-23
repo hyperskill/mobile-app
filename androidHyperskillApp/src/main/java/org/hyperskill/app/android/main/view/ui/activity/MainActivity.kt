@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
@@ -40,6 +41,8 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
+import org.hyperskill.app.android.paywall.fragment.PaywallFragment
+import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
@@ -126,6 +129,7 @@ class MainActivity :
         observeAuthFlowSuccess()
         observeNotificationsOnboardingFlowFinished()
         observeFirstProblemOnboardingFlowFinished()
+        observePaywallCompleted()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
         logNotificationAvailability()
@@ -157,47 +161,59 @@ class MainActivity :
 
     @SuppressLint("InlinedApi")
     private fun observeAuthFlowSuccess() {
-        lifecycleScope.launch {
-            router
-                .observeResult(AuthFragment.AUTH_SUCCESS)
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    val profile = (it as? Profile) ?: return@collectLatest
-                    mainViewModel.onNewMessage(
-                        AppFeature.Message.UserAuthorized(
-                            profile = profile,
-                            isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
-                                this@MainActivity,
-                                android.Manifest.permission.POST_NOTIFICATIONS
-                            ) == PackageManager.PERMISSION_GRANTED
-                        )
-                    )
-                }
+        observeResult<Profile>(AuthFragment.AUTH_SUCCESS) { profile ->
+            mainViewModel.onNewMessage(
+                AppFeature.Message.UserAuthorized(
+                    profile = profile,
+                    isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
+                        this@MainActivity,
+                        android.Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                )
+            )
         }
     }
 
     private fun observeNotificationsOnboardingFlowFinished() {
-        lifecycleScope.launch {
-            router
-                .observeResult(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED)
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    mainViewModel.onNewMessage(WelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
-                }
+        observeResult<Any>(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED) {
+            mainViewModel.onNewMessage(WelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
         }
     }
 
     private fun observeFirstProblemOnboardingFlowFinished() {
+        observeResult<Any>(FirstProblemOnboardingFragment.FIRST_PROBLEM_ONBOARDING_FINISHED) {
+            mainViewModel.onNewMessage(
+                WelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
+                    firstProblemStepRoute = it.safeCast<StepRoute>()
+                )
+            )
+        }
+    }
+
+    private fun observePaywallCompleted() {
+        observeResult<Any>(PaywallFragment.PAYWALL_COMPLETED) {
+            mainViewModel.onNewMessage(
+                WelcomeOnboardingFeature.Message.PaywallCompleted
+            )
+        }
+    }
+
+    private inline fun <reified T> observeResult(
+        key: String,
+        router: Router = this.router,
+        crossinline onResult: (T) -> Unit
+    ) {
         lifecycleScope.launch {
             router
-                .observeResult(FirstProblemOnboardingFragment.FIRST_PROBLEM_ONBOARDING_FINISHED)
+                .observeResult(key)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    mainViewModel.onNewMessage(
-                        WelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
-                            firstProblemStepRoute = it.safeCast<StepRoute>()
-                        )
-                    )
+                    val result = it.safeCast<T>()
+                    if (result == null) {
+                        Log.e("MainActivity", "Can't cast result by key=$key.")
+                    } else {
+                        onResult(result)
+                    }
                 }
         }
     }
@@ -251,6 +267,8 @@ class MainActivity :
                         )
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
+                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.Paywall ->
+                        router.newRootScreen(PaywallScreen)
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
