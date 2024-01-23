@@ -40,16 +40,8 @@ object WelcomeOnboardingFeature {
         object FetchSubscriptionError : InternalMessage
     }
 
-    sealed interface OnboardingFlowFinishReason {
-        data class NotificationOnboardingFinished(val profile: Profile?) : OnboardingFlowFinishReason
-        object PaywallCompleted : OnboardingFlowFinishReason
-        object FirstProblemOnboardingFinished : OnboardingFlowFinishReason
-    }
-
     sealed interface Action {
-        data class OnboardingFlowFinished(
-            val reason: OnboardingFlowFinishReason
-        ) : Action
+        data class OnboardingFlowFinished(val profile: Profile?) : Action
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
