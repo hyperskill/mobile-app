@@ -13,12 +13,12 @@ object PaywallFeature {
         object BuySubscriptionClicked : Message
     }
 
-    internal sealed interface InternalMessage : Message {
-
-    }
+    internal sealed interface InternalMessage : Message
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            object CompletePaywall : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {
