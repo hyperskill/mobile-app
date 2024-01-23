@@ -35,7 +35,7 @@ object WelcomeOnboardingFeature {
             val wasFirstProblemOnboardingShown: Boolean
         ) : InternalMessage
 
-        data class FetchSubscriptionSuccess(val subscription: Subscription): InternalMessage
+        data class FetchSubscriptionSuccess(val subscription: Subscription) : InternalMessage
 
         object FetchSubscriptionError : InternalMessage
     }
