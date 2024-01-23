@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.paywall.ui.PaywallScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action.ViewAction
 import org.hyperskill.app.paywall.presentation.PaywallViewModel
@@ -47,7 +48,7 @@ class PaywallFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-                    // TODO: add your compose UI here
+                    PaywallScreen(viewModel = paywallViewModel)
                 }
             }
         }

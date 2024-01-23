@@ -8,4 +8,13 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature.State
 
 class PaywallViewModel(
     reduxViewContainer: FlowView<State, Message, ViewAction>
-) : ReduxFlowViewModel<State, Message, ViewAction>(reduxViewContainer)
+) : ReduxFlowViewModel<State, Message, ViewAction>(reduxViewContainer) {
+
+    fun onBuySubscriptionClick() {
+        onNewMessage(Message.BuySubscriptionClicked)
+    }
+
+    fun onContinueWithLimitsClick() {
+        onNewMessage(Message.ContinueWithLimitsClicked)
+    }
+}
