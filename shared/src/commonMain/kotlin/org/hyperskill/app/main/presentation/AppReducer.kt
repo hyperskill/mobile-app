@@ -158,7 +158,7 @@ internal class AppReducer(
             )
             val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
                 WelcomeOnboardingFeature.State(),
-                WelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
+                WelcomeOnboardingFeature.Message.OnboardingFlowRequested(
                     message.profile,
                     message.isNotificationPermissionGranted
                 )
@@ -262,6 +262,7 @@ internal class AppReducer(
                     } else {
                         Action.ViewAction.NavigateTo.StudyPlan
                     }
+                OnboardingFlowFinishReason.PaywallCompleted,
                 OnboardingFlowFinishReason.FirstProblemOnboardingFinished ->
                     Action.ViewAction.NavigateTo.StudyPlan
             }
