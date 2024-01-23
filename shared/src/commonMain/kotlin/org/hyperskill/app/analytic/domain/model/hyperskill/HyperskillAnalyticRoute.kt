@@ -146,4 +146,9 @@ sealed class HyperskillAnalyticRoute {
         override val path: String =
             "/search"
     }
+
+    object Paywall : HyperskillAnalyticRoute() {
+        override val path: String
+            get() = "/paywall"
+    }
 }
