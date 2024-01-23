@@ -278,6 +278,9 @@ extension AppViewController: AppViewControllerProtocol {
                     }
 
                     return tabBarController
+                case .paywall:
+                    #warning("TODO: ALTAPPS-1118")
+                    abort()
                 }
             }
         }()
