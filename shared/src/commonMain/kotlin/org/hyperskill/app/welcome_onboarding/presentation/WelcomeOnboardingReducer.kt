@@ -12,7 +12,9 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
+class WelcomeOnboardingReducer(
+    private val isPaywallFeatureEnabled: Boolean
+) : StateReducer<State, Message, Action> {
 
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
@@ -44,7 +46,7 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         return if (!message.isNotificationPermissionGranted) {
             state to setOf(InternalAction.FetchNotificationOnboardingData)
         } else {
-            onNotificationOnboardingCompleted(state)
+            handleNotificationOnboardingCompleted(state)
         }
     }
 
@@ -55,16 +57,15 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         if (!message.wasNotificationOnboardingShown) {
             state to setOf(ViewAction.NavigateTo.NotificationOnboardingScreen)
         } else {
-            onNotificationOnboardingCompleted(state)
+            handleNotificationOnboardingCompleted(state)
         }
 
-    private fun handleNotificationOnboardingCompleted(
-        state: State
-    ): ReducerResult =
-        onNotificationOnboardingCompleted(state)
-
-    private fun onNotificationOnboardingCompleted(state: State): ReducerResult =
-        state to setOf(InternalAction.FetchSubscription)
+    private fun handleNotificationOnboardingCompleted(state: State): ReducerResult =
+        if (isPaywallFeatureEnabled) {
+            state to setOf(InternalAction.FetchSubscription)
+        } else {
+            handlePaywallCompleted(state)
+        }
 
     private fun handleFetchSubscriptionSuccess(
         state: State,
@@ -73,44 +74,43 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         if (message.subscription.isFreemium) {
             state to setOf(ViewAction.NavigateTo.Paywall)
         } else {
-            onPaywallCompleted(state)
+            handlePaywallCompleted(state)
         }
 
     private fun handleFetchSubscriptionError(state: State): ReducerResult =
-        onPaywallCompleted(state)
+        handlePaywallCompleted(state)
 
     private fun handlePaywallCompleted(state: State): ReducerResult =
-        onPaywallCompleted(state)
-
-    private fun onPaywallCompleted(state: State): ReducerResult =
         if (state.profile?.isNewUser == false) {
             state to setOf(InternalAction.FetchFirstProblemOnboardingData)
         } else {
-            State(profile = null) to
-                setOf(
-                    Action.OnboardingFlowFinished(state.profile)
-                )
+            completeOnboardingFlow(state)
         }
 
     private fun handleFirstProblemOnboardingDataFetched(
         state: State,
         message: InternalMessage.FirstProblemOnboardingDataFetched
     ): ReducerResult =
-        state to setOf(
-            if (state.profile?.isNewUser == false && !message.wasFirstProblemOnboardingShown) {
+        if (state.profile?.isNewUser == false && !message.wasFirstProblemOnboardingShown) {
+            state to setOf(
                 ViewAction.NavigateTo.FirstProblemOnboardingScreen(isNewUserMode = false)
-            } else {
-                Action.OnboardingFlowFinished(state.profile)
-            }
-        )
+            )
+        } else {
+            completeOnboardingFlow(state)
+        }
 
     private fun handleFirstProblemOnboardingCompleted(
         state: State,
         message: Message.FirstProblemOnboardingCompleted
-    ): ReducerResult =
-        State(profile = null) to setOf(
-            message.firstProblemStepRoute
-                ?.let { stepRoute -> ViewAction.NavigateTo.StudyPlanWithStep(stepRoute) }
-                ?: Action.OnboardingFlowFinished(state.profile)
+    ): ReducerResult {
+        val (newState, actions) = completeOnboardingFlow(state)
+        return newState to actions + setOfNotNull(
+            message
+                .firstProblemStepRoute
+                ?.let(ViewAction.NavigateTo::StudyPlanWithStep)
         )
+    }
+
+    private fun completeOnboardingFlow(state: State): ReducerResult =
+        State(profile = null) to setOf(Action.OnboardingFlowFinished(state.profile))
 }

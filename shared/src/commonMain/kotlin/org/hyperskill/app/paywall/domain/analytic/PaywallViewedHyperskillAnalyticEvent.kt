@@ -18,6 +18,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * @see HyperskillAnalyticEvent
  */
 object PaywallViewedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Leaderboard(),
+    HyperskillAnalyticRoute.Paywall,
     HyperskillAnalyticAction.VIEW
 )
