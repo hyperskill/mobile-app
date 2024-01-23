@@ -43,6 +43,7 @@ class PaywallReducer : StateReducer<State, Message, Action> {
         state to setOf(
             InternalAction.LogAnalyticsEvent(
                 PaywallClickedContinueWithLimitsHyperskillAnalyticEvent
-            )
+            ),
+            Action.ViewAction.CompletePaywall
         )
 }
