@@ -7,7 +7,6 @@ import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeatu
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalAction
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalMessage
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.OnboardingFlowFinishReason
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -35,7 +34,7 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             is InternalMessage.FirstProblemOnboardingDataFetched ->
                 handleFirstProblemOnboardingDataFetched(state, message)
             is Message.FirstProblemOnboardingCompleted ->
-                handleFirstProblemOnboardingCompleted(message)
+                handleFirstProblemOnboardingCompleted(state, message)
         }
 
     private fun handleOnboardingFlowRequested(
@@ -89,9 +88,7 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         } else {
             State(profile = null) to
                 setOf(
-                    Action.OnboardingFlowFinished(
-                        OnboardingFlowFinishReason.PaywallCompleted
-                    )
+                    Action.OnboardingFlowFinished(state.profile)
                 )
         }
 
@@ -103,20 +100,17 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             if (state.profile?.isNewUser == false && !message.wasFirstProblemOnboardingShown) {
                 ViewAction.NavigateTo.FirstProblemOnboardingScreen(isNewUserMode = false)
             } else {
-                Action.OnboardingFlowFinished(
-                    OnboardingFlowFinishReason.FirstProblemOnboardingFinished
-                )
+                Action.OnboardingFlowFinished(state.profile)
             }
         )
 
     private fun handleFirstProblemOnboardingCompleted(
+        state: State,
         message: Message.FirstProblemOnboardingCompleted
     ): ReducerResult =
         State(profile = null) to setOf(
             message.firstProblemStepRoute
                 ?.let { stepRoute -> ViewAction.NavigateTo.StudyPlanWithStep(stepRoute) }
-                ?: Action.OnboardingFlowFinished(
-                    OnboardingFlowFinishReason.FirstProblemOnboardingFinished
-                )
+                ?: Action.OnboardingFlowFinished(state.profile)
         )
 }

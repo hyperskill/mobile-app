@@ -13,7 +13,6 @@ import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.OnboardingFlowFinishReason
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -255,16 +254,10 @@ internal class AppReducer(
         finishAction: WelcomeOnboardingFeature.Action.OnboardingFlowFinished
     ): Set<Action> =
         setOf(
-            when (val reason = finishAction.reason) {
-                is OnboardingFlowFinishReason.NotificationOnboardingFinished ->
-                    if (reason.profile?.isNewUser == true) {
-                        Action.ViewAction.NavigateTo.TrackSelectionScreen
-                    } else {
-                        Action.ViewAction.NavigateTo.StudyPlan
-                    }
-                OnboardingFlowFinishReason.PaywallCompleted,
-                OnboardingFlowFinishReason.FirstProblemOnboardingFinished ->
-                    Action.ViewAction.NavigateTo.StudyPlan
+            if (finishAction.profile?.isNewUser == true) {
+                Action.ViewAction.NavigateTo.TrackSelectionScreen
+            } else {
+                Action.ViewAction.NavigateTo.StudyPlan
             }
         )
 
