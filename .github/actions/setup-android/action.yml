@@ -62,9 +62,9 @@ runs:
 
     - name: Setup Ruby
       if: ${{ inputs.setup-ruby == 'true' }}
-      uses: ruby/setup-ruby@v1.150.0
+      uses: ruby/setup-ruby@v1.170.0
       with:
-        ruby-version: '3.1.0'
+        ruby-version: '3.3.0'
         bundler-cache: true
         working-directory: './androidHyperskillApp'
 
