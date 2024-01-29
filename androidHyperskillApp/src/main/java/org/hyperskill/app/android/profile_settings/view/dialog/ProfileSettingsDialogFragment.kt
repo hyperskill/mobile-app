@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -27,6 +28,8 @@ import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -218,6 +221,24 @@ class ProfileSettingsDialogFragment :
             viewBinding.settingsThemeChosenTextView.text =
                 state.profileSettings.theme.getStringRepresentation(requireContext())
             currentThemePosition = state.profileSettings.theme.ordinal
+            renderSubscription(state.subscription, state.isSubscriptionVisible)
+        }
+    }
+
+    private fun renderSubscription(subscription: Subscription?, isSubscriptionVisible: Boolean) {
+        viewBinding.settingsSubscriptionLinearLayout.isVisible = isSubscriptionVisible
+        if (isSubscriptionVisible) {
+            with(viewBinding) {
+                settingsSubscriptionHeader.setText(
+                    when (subscription?.type) {
+                        SubscriptionType.MOBILE_ONLY ->
+                            org.hyperskill.app.R.string.settings_subscription_mobile_only
+                        SubscriptionType.FREEMIUM ->
+                            org.hyperskill.app.R.string.settings_subscription_mobile_only_suggestion
+                        else -> 0
+                    }
+                )
+            }
         }
     }
 
