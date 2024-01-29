@@ -37,9 +37,9 @@ jobs:
           token: ${{ secrets.GH_PAT }}
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.150.0
+        uses: ruby/setup-ruby@v1.170.0
         with:
-          ruby-version: "3.1.0"
+          ruby-version: "3.3.0"
           bundler-cache: true
           working-directory: "./iosHyperskillApp"
 

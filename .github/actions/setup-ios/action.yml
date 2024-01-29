@@ -20,7 +20,7 @@ runs:
     - name: Setup Xcode version
       uses: maxim-lobanov/setup-xcode@v1.6.0
       with:
-        xcode-version: '15.1'
+        xcode-version: '15.2'
 
     - name: Homebrew install git-crypt
       run: brew install git-crypt
@@ -49,9 +49,9 @@ runs:
       shell: bash
 
     - name: Setup Ruby
-      uses: ruby/setup-ruby@v1.150.0
+      uses: ruby/setup-ruby@v1.170.0
       with:
-        ruby-version: '3.1.0'
+        ruby-version: '3.3.0'
         bundler-cache: true
         working-directory: './iosHyperskillApp'
 
