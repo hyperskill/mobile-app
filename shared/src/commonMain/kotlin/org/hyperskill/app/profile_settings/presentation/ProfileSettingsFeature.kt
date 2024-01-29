@@ -2,6 +2,7 @@ package org.hyperskill.app.profile_settings.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
@@ -85,7 +86,7 @@ interface ProfileSettingsFeature {
 
                 object SubscriptionManagement : NavigateTo
 
-                object Paywall : NavigateTo
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }
