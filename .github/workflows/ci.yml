@@ -94,7 +94,7 @@ jobs:
           working-directory: './iosHyperskillApp'
 
       - name: Cache Pods
-        uses: actions/cache@v3.3.3
+        uses: actions/cache@v4.0.0
         id: cache-pods
         with:
           path: './iosHyperskillApp/Pods'
