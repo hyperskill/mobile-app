@@ -37,6 +37,7 @@ import org.hyperskill.app.notification.remote.injection.PlatformPushNotification
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.injection.PaywallComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
@@ -51,6 +52,7 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
+import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
@@ -101,6 +103,8 @@ interface AppGraph {
     val profileDataComponent: ProfileDataComponent
 
     fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent
+
+    fun buildPurchaseComponent(): PurchaseComponent
 
     /**
      * Auth components
@@ -176,5 +180,5 @@ interface AppGraph {
     fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
     fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent
     fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent
-    fun buildPaywallComponent(): PaywallComponent
+    fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
 }

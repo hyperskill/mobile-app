@@ -2,17 +2,21 @@ package org.hyperskill.app.paywall.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 
 /**
- * Represents a view analytic event.
+ * Represents a click analytic event of the error state placeholder retry button.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/paywall",
- *     "action": "view",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "retry",
  *     "context":
  *     {
  *       "source": "login"
@@ -22,14 +26,16 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  *
  * @see HyperskillAnalyticEvent
  */
-class PaywallViewedHyperskillAnalyticEvent(
+class PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
     private val paywallTransitionSource: PaywallTransitionSource
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Paywall,
-    HyperskillAnalyticAction.VIEW
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.RETRY
 ) {
     override val params: Map<String, Any>
-        get() = super.params + setOf(
+        get() = super.params + mapOf(
             PaywallAnalyticKeys.PAYWALL_TRANSITION_SOURCE to paywallTransitionSource.analyticName
         )
 }

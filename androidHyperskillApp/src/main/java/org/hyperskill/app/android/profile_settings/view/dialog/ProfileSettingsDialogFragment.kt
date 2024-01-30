@@ -14,8 +14,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.getStringRepresentation
 import org.hyperskill.app.android.core.extensions.openUrl
-import org.hyperskill.app.android.core.extensions.representation
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
@@ -81,13 +81,13 @@ class ProfileSettingsDialogFragment :
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(org.hyperskill.app.R.string.settings_theme)
                 .setSingleChoiceItems(
-                    Theme.values().map { theme -> theme.representation }.toTypedArray(),
+                    Theme.values().map { theme -> theme.getStringRepresentation(requireContext()) }.toTypedArray(),
                     currentThemePosition
                 ) { _, which ->
                     val newTheme = Theme.values()[which]
 
                     profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ThemeChanged(theme = newTheme))
-                    viewBinding.settingsThemeChosenTextView.text = newTheme.representation
+                    viewBinding.settingsThemeChosenTextView.text = newTheme.getStringRepresentation(requireContext())
                     AppCompatDelegate.setDefaultNightMode(newTheme.asNightMode())
                 }
                 .setNegativeButton(org.hyperskill.app.R.string.cancel) { dialog, _ ->
@@ -207,7 +207,8 @@ class ProfileSettingsDialogFragment :
             } else {
                 childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
-            viewBinding.settingsThemeChosenTextView.text = state.profileSettings.theme.representation
+            viewBinding.settingsThemeChosenTextView.text =
+                state.profileSettings.theme.getStringRepresentation(requireContext())
             currentThemePosition = state.profileSettings.theme.ordinal
         }
     }

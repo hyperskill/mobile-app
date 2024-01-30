@@ -35,6 +35,7 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
             appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
             welcomeOnboardingComponent.welcomeOnboardingReducer,
             welcomeOnboardingComponent.welcomeOnboardingActionDispatcher,
+            appGraph.buildPurchaseComponent().purchaseInteractor,
             appGraph.commonComponent.platform,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
