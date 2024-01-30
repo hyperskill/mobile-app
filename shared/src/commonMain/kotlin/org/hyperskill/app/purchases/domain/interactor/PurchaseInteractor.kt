@@ -8,9 +8,9 @@ class PurchaseInteractor(
     private val purchaseManager: PurchaseManager
 ) {
     companion object {
-        private const val MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID: String =
-            "premium_mobile"
+        private const val MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID: String = "premium_mobile"
     }
+
     fun setup() {
         purchaseManager.setup()
     }
