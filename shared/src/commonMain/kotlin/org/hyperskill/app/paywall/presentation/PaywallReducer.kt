@@ -84,5 +84,5 @@ class PaywallReducer(
         State.Content(message.formattedPrice) to emptySet()
 
     private fun handleFetchMobileOnlyPriceError(): ReducerResult =
-        State.Error to setOf(Action.ViewAction.ShowProductFetchError)
+        State.Error to setOf()
 }
