@@ -12,7 +12,6 @@ import com.revenuecat.purchases.PurchasesTransactionException
 import com.revenuecat.purchases.awaitCustomerInfo
 import com.revenuecat.purchases.awaitGetProducts
 import com.revenuecat.purchases.awaitLogIn
-import com.revenuecat.purchases.awaitLogOut
 import com.revenuecat.purchases.awaitPurchase
 import com.revenuecat.purchases.models.StoreProduct
 import org.hyperskill.app.BuildConfig
@@ -40,11 +39,6 @@ class AndroidPurchaseManager(
     override suspend fun login(userId: Long): Result<Unit> =
         kotlin.runCatching {
             Purchases.sharedInstance.awaitLogIn(userId.toString())
-        }
-
-    override suspend fun logout(): Result<Unit> =
-        runCatching {
-            Purchases.sharedInstance.awaitLogOut()
         }
 
     override suspend fun purchase(
