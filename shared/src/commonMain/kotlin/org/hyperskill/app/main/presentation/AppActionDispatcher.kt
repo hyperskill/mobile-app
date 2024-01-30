@@ -117,8 +117,6 @@ internal class AppActionDispatcher(
                 pushNotificationsInteractor.renewFCMToken()
             is Action.IdentifyUserInPurchaseSdk ->
                 handleIdentifyUserInPurchaseSdk(action.userId)
-            is Action.ClearUserInPurchaseSdk ->
-                handleClearUserInPurchaseSdk()
             else -> {}
         }
     }
@@ -139,16 +137,6 @@ internal class AppActionDispatcher(
             .onFailure {
                 logger.e(it) {
                     "Failed to login user in the purchase sdk"
-                }
-            }
-    }
-
-    private suspend fun handleClearUserInPurchaseSdk() {
-        purchaseInteractor
-            .logout()
-            .onFailure {
-                logger.e(it) {
-                    "Failed to logout user from purchase sdk"
                 }
             }
     }

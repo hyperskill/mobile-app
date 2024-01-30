@@ -98,8 +98,6 @@ interface AppFeature {
 
         data class IdentifyUserInPurchaseSdk(val userId: Long) : Action
 
-        object ClearUserInPurchaseSdk : Action
-
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo

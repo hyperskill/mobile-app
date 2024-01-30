@@ -22,13 +22,6 @@ class PurchaseInteractor(
     suspend fun login(userId: Long): Result<Unit> =
         purchaseManager.login(userId)
 
-    /**
-     * Clear the user identification provided via [login].
-     * Must be called just after logout event.
-     */
-    suspend fun logout(): Result<Unit> =
-        purchaseManager.logout()
-
     suspend fun purchaseMobileOnlySubscription(
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
