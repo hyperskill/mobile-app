@@ -5,7 +5,7 @@ import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
 
 // TODO: ALTAPPS-1110
-class iOSPurchaseManager : PurchaseManager {
+class IOSPurchaseManager : PurchaseManager {
     override fun setup() {
         TODO("Not yet implemented")
     }
