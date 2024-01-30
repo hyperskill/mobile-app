@@ -12,7 +12,6 @@ import com.revenuecat.purchases.PurchasesTransactionException
 import com.revenuecat.purchases.awaitCustomerInfo
 import com.revenuecat.purchases.awaitGetProducts
 import com.revenuecat.purchases.awaitLogIn
-import com.revenuecat.purchases.awaitLogOut
 import com.revenuecat.purchases.awaitPurchase
 import com.revenuecat.purchases.models.StoreProduct
 import org.hyperskill.app.BuildConfig
@@ -42,11 +41,6 @@ class AndroidPurchaseManager(
             Purchases.sharedInstance.awaitLogIn(userId.toString())
         }
 
-    override suspend fun logout(): Result<Unit> =
-        runCatching {
-            Purchases.sharedInstance.awaitLogOut()
-        }
-
     override suspend fun purchase(
         productId: String,
         platformPurchaseParams: PlatformPurchaseParams
@@ -60,11 +54,6 @@ class AndroidPurchaseManager(
             val activity = (platformPurchaseParams as AndroidPurchaseParams).activity
             purchase(activity, product)
         }
-
-    private suspend fun fetchProduct(productId: String): StoreProduct? =
-        Purchases.sharedInstance
-            .awaitGetProducts(listOf(productId))
-            .firstOrNull()
 
     private fun mapProductFetchException(productId: String, e: PurchasesException): PurchaseResult =
         PurchaseResult.Error.ErrorWhileFetchingProduct(
@@ -112,4 +101,14 @@ class AndroidPurchaseManager(
                 null
             }
         }
+
+    override suspend fun getFormattedProductPrice(productId: String): Result<String?> =
+        kotlin.runCatching {
+            fetchProduct(productId)?.price?.formatted
+        }
+
+    private suspend fun fetchProduct(productId: String): StoreProduct? =
+        Purchases.sharedInstance
+            .awaitGetProducts(listOf(productId))
+            .firstOrNull()
 }

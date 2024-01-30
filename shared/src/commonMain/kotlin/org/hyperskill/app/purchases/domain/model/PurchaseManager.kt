@@ -18,12 +18,6 @@ interface PurchaseManager {
     suspend fun login(userId: Long): Result<Unit>
 
     /**
-     * Clears the user identification provided via [login].
-     * Must be called just after logout event.
-     */
-    suspend fun logout(): Result<Unit>
-
-    /**
      * Makes purchase of the product with [productId].
      */
     suspend fun purchase(
@@ -32,4 +26,9 @@ interface PurchaseManager {
     ): Result<PurchaseResult>
 
     suspend fun getManagementUrl(): Result<String?>
+
+    /**
+     * Returns formatted product price with currency by [productId]
+     */
+    suspend fun getFormattedProductPrice(productId: String): Result<String?>
 }

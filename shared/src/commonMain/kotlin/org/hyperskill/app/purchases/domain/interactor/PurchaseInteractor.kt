@@ -22,13 +22,6 @@ class PurchaseInteractor(
     suspend fun login(userId: Long): Result<Unit> =
         purchaseManager.login(userId)
 
-    /**
-     * Clear the user identification provided via [login].
-     * Must be called just after logout event.
-     */
-    suspend fun logout(): Result<Unit> =
-        purchaseManager.logout()
-
     suspend fun purchaseMobileOnlySubscription(
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
@@ -36,4 +29,7 @@ class PurchaseInteractor(
 
     suspend fun getManagementUrl(): Result<String?> =
         purchaseManager.getManagementUrl()
+
+    suspend fun getFormattedMobileOnlySubscriptionPrice(): Result<String?> =
+        purchaseManager.getFormattedProductPrice(MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID)
 }

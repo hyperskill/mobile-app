@@ -14,10 +14,6 @@ class IOSPurchaseManager : PurchaseManager {
         TODO("Not yet implemented")
     }
 
-    override suspend fun logout(): Result<Unit> {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun purchase(
         productId: String,
         platformPurchaseParams: PlatformPurchaseParams
@@ -26,6 +22,10 @@ class IOSPurchaseManager : PurchaseManager {
     }
 
     override suspend fun getManagementUrl(): Result<String?> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getFormattedProductPrice(productId: String): Result<String?> {
         TODO("Not yet implemented")
     }
 }
