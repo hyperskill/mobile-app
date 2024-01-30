@@ -16,7 +16,11 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  *     "route": "/paywall",
  *     "action": "click",
  *     "part": "main",
- *     "target": "buy_subscription"
+ *     "target": "buy_subscription",
+ *     "context":
+ *     {
+ *       "source": "login"
+ *     }
  * }
  * ```
  *

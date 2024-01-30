@@ -12,7 +12,11 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  * ```
  * {
  *     "route": "/paywall",
- *     "action": "view"
+ *     "action": "view",
+ *     "context":
+ *     {
+ *       "source": "login"
+ *     }
  * }
  * ```
  *
