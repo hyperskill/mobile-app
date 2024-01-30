@@ -15,6 +15,7 @@ class PaywallComponentImpl(
         get() = PaywallFeatureBuilder.build(
             paywallTransitionSource = paywallTransitionSource,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
