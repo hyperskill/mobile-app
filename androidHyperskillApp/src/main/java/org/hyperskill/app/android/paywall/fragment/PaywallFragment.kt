@@ -14,16 +14,22 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.paywall.ui.PaywallScreen
 import org.hyperskill.app.core.view.handleActions
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action.ViewAction
 import org.hyperskill.app.paywall.presentation.PaywallViewModel
+import ru.nobird.android.view.base.ui.extension.argument
 
 class PaywallFragment : Fragment() {
     companion object {
         const val PAYWALL_COMPLETED = "PAYWALL_COMPLETED"
 
-        fun newInstance(): PaywallFragment =
-            PaywallFragment()
+        fun newInstance(paywallTransitionSource: PaywallTransitionSource): PaywallFragment =
+            PaywallFragment().apply {
+                this.paywallTransitionSource = paywallTransitionSource
+            }
     }
+
+    private var paywallTransitionSource: PaywallTransitionSource by argument()
 
     private var viewModelFactory: ViewModelProvider.Factory? = null
     private val paywallViewModel: PaywallViewModel by viewModels {
@@ -38,7 +44,7 @@ class PaywallFragment : Fragment() {
 
     private fun injectComponent() {
         val platformPaywallComponent =
-            HyperskillApp.graph().buildPlatformPaywallComponent()
+            HyperskillApp.graph().buildPlatformPaywallComponent(paywallTransitionSource)
         viewModelFactory = platformPaywallComponent.reduxViewModelFactory
     }
 

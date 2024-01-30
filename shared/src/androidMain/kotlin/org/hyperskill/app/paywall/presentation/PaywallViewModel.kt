@@ -10,11 +10,19 @@ class PaywallViewModel(
     reduxViewContainer: FlowView<ViewState, Message, ViewAction>
 ) : ReduxFlowViewModel<ViewState, Message, ViewAction>(reduxViewContainer) {
 
+    init {
+        onNewMessage(Message.Initialize)
+    }
+
     fun onBuySubscriptionClick() {
         onNewMessage(Message.BuySubscriptionClicked)
     }
 
     fun onContinueWithLimitsClick() {
         onNewMessage(Message.ContinueWithLimitsClicked)
+    }
+
+    fun onRetryLoadingClicked() {
+        onNewMessage(Message.RetryContentLoading)
     }
 }

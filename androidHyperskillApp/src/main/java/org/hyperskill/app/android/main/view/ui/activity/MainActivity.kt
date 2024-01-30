@@ -268,7 +268,7 @@ class MainActivity :
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
                     is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.Paywall ->
-                        router.newRootScreen(PaywallScreen(viewAction.paywall))
+                        router.newRootScreen(PaywallScreen(viewAction.paywallTransitionSource))
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
