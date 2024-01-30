@@ -7,14 +7,19 @@ object PaywallFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
-
         object Error : State
-
         data class Content(val formattedPrice: String) : State
     }
 
     fun initialState(): State =
         State.Idle
+
+    sealed interface ViewState {
+        object Idle : ViewState
+        object Loading : ViewState
+        object Error : ViewState
+        data class Content(val buyButtonText: String) : ViewState
+    }
 
     sealed interface Message {
         object Initialize : Message

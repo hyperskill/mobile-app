@@ -594,7 +594,7 @@
     <string name="paywall_mobile_only_option_1">Access to all tracks</string>
     <string name="paywall_mobile_only_option_2">Unlimited problems per day in the app</string>
     <string name="paywall_mobile_only_option_3">1 hint per problem</string>
-    <string name="paywall_mobile_only_buy_btn">Subscribe for $12.00/month</string>
+    <string name="paywall_mobile_only_buy_btn">Subscribe for %s/month</string>
     <string name="paywall_mobile_only_continue_btn">Continue with daily limits</string>
 
 </resources>
