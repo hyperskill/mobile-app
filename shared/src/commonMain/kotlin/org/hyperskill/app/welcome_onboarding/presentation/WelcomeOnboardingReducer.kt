@@ -1,5 +1,6 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
@@ -72,7 +73,7 @@ class WelcomeOnboardingReducer(
         message: InternalMessage.FetchSubscriptionSuccess
     ): ReducerResult =
         if (message.subscription.isFreemium) {
-            state to setOf(ViewAction.NavigateTo.Paywall)
+            state to setOf(ViewAction.NavigateTo.Paywall(PaywallTransitionSource.LOGIN))
         } else {
             handlePaywallCompleted(state)
         }
