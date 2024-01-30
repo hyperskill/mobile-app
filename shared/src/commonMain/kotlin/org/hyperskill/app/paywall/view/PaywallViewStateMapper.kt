@@ -11,7 +11,7 @@ class PaywallViewStateMapper(
     fun map(state: State): ViewState =
         when (state) {
             State.Idle -> ViewState.Idle
-            State.Loading -> ViewState.Error
+            State.Loading -> ViewState.Loading
             State.Error -> ViewState.Error
             is State.Content ->
                 ViewState.Content(
