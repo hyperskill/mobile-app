@@ -50,6 +50,7 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
+import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
@@ -100,6 +101,8 @@ interface AppGraph {
     val profileDataComponent: ProfileDataComponent
 
     fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent
+
+    fun buildPurchaseComponent(): PurchaseComponent
 
     /**
      * Auth components

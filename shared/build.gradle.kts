@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.LibraryBuildType
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import java.time.Year
@@ -7,6 +8,7 @@ import org.jetbrains.dokka.base.DokkaBaseConfiguration
 import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
+import org.jetbrains.kotlin.konan.properties.Properties
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
 
@@ -90,6 +92,7 @@ kotlin {
                 implementation(libs.android.parcelable)
                 implementation(project.dependencies.platform(libs.firebase.bom))
                 implementation(libs.firebase.messaging)
+                implementation(libs.revenuecat)
             }
         }
         val androidUnitTest by getting {
@@ -152,6 +155,26 @@ android {
 
     sourceSets {
         getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
+    }
+
+    buildTypes {
+        fun applyFlavorConfigsFromFile(libraryBuildType: LibraryBuildType) {
+            if (SystemProperties.isCI() && !SystemProperties.isGitCryptUnlocked()) return
+            val properties: Properties =
+                loadProperties("${project.rootDir}/shared/src/androidMain/keys/revenuecat.properties")
+            properties.keys.forEach { name ->
+                name as String
+                libraryBuildType.buildConfigField(
+                    type = "String",
+                    name = name,
+                    value = requireNotNull(properties.propertyString(name))
+                )
+            }
+        }
+
+        all {
+            applyFlavorConfigsFromFile(this)
+        }
     }
 }
 

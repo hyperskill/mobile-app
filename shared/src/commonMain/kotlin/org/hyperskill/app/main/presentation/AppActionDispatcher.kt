@@ -1,5 +1,6 @@
 package org.hyperskill.app.main.presentation
 
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
@@ -15,6 +16,7 @@ import org.hyperskill.app.notification.remote.domain.interactor.PushNotification
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -29,6 +31,8 @@ internal class AppActionDispatcher(
     private val stateRepositoriesComponent: StateRepositoriesComponent,
     private val notificationsInteractor: NotificationInteractor,
     private val pushNotificationsInteractor: PushNotificationsInteractor,
+    private val purchaseInteractor: PurchaseInteractor,
+    private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         authInteractor
@@ -109,9 +113,10 @@ internal class AppActionDispatcher(
                 sentryInteractor.clearCurrentUser()
             is Action.UpdateDailyLearningNotificationTime ->
                 handleUpdateDailyLearningNotificationTime()
-            is Action.SendPushNotificationsToken -> {
+            is Action.SendPushNotificationsToken ->
                 pushNotificationsInteractor.renewFCMToken()
-            }
+            is Action.IdentifyUserInPurchaseSdk ->
+                handleIdentifyUserInPurchaseSdk(action.userId)
             else -> {}
         }
     }
@@ -123,6 +128,16 @@ internal class AppActionDispatcher(
                 sentryInteractor.captureErrorMessage(
                     "AppActionDispatcher: failed to update timezone\n$it"
                 )
+            }
+    }
+
+    private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long) {
+        purchaseInteractor
+            .login(userId)
+            .onFailure {
+                logger.e(it) {
+                    "Failed to login user in the purchase sdk"
+                }
             }
     }
 }

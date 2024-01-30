@@ -96,6 +96,8 @@ interface AppFeature {
         data class IdentifyUserInSentry(val userId: Long) : Action
         object ClearUserInSentry : Action
 
+        data class IdentifyUserInPurchaseSdk(val userId: Long) : Action
+
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
