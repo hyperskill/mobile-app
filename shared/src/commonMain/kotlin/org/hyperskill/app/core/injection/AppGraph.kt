@@ -37,6 +37,7 @@ import org.hyperskill.app.notification.remote.injection.PlatformPushNotification
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.injection.PaywallComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
@@ -179,5 +180,5 @@ interface AppGraph {
     fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
     fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent
     fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent
-    fun buildPaywallComponent(): PaywallComponent
+    fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
 }

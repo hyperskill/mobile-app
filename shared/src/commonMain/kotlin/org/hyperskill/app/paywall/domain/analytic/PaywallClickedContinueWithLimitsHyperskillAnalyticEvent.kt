@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 
 /**
  * Represents a click analytic event of the continue-with-limits button.
@@ -21,9 +22,16 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *
  * @see HyperskillAnalyticEvent
  */
-object PaywallClickedContinueWithLimitsHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+class PaywallClickedContinueWithLimitsHyperskillAnalyticEvent(
+    private val paywallTransitionSource: PaywallTransitionSource
+) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Paywall,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
     HyperskillAnalyticTarget.CONTINUE_WITH_LIMITS
-)
+) {
+    override val params: Map<String, Any>
+        get() = super.params + mapOf(
+            PaywallAnalyticKeys.PAYWALL_TRANSITION_SOURCE to paywallTransitionSource.analyticName
+        )
+}
