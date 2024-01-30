@@ -55,11 +55,6 @@ class AndroidPurchaseManager(
             purchase(activity, product)
         }
 
-    private suspend fun fetchProduct(productId: String): StoreProduct? =
-        Purchases.sharedInstance
-            .awaitGetProducts(listOf(productId))
-            .firstOrNull()
-
     private fun mapProductFetchException(productId: String, e: PurchasesException): PurchaseResult =
         PurchaseResult.Error.ErrorWhileFetchingProduct(
             productId = productId,
@@ -101,4 +96,14 @@ class AndroidPurchaseManager(
         kotlin.runCatching {
             Purchases.sharedInstance.awaitCustomerInfo().managementURL?.toString()
         }
+
+    override suspend fun getFormattedProductPrice(productId: String): Result<String?> =
+        kotlin.runCatching {
+            fetchProduct(productId)?.price?.formatted
+        }
+
+    private suspend fun fetchProduct(productId: String): StoreProduct? =
+        Purchases.sharedInstance
+            .awaitGetProducts(listOf(productId))
+            .firstOrNull()
 }

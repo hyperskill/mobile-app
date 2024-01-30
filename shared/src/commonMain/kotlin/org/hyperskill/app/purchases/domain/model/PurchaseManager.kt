@@ -26,4 +26,9 @@ interface PurchaseManager {
     ): Result<PurchaseResult>
 
     suspend fun getManagementUrl(): Result<String?>
+
+    /**
+     * Returns formatted product price with currency by [productId]
+     */
+    suspend fun getFormattedProductPrice(productId: String): Result<String?>
 }

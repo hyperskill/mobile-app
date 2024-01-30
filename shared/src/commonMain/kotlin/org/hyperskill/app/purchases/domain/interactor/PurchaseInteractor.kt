@@ -29,4 +29,7 @@ class PurchaseInteractor(
 
     suspend fun getManagementUrl(): Result<String?> =
         purchaseManager.getManagementUrl()
+
+    suspend fun getFormattedMobileOnlySubscriptionPrice(): Result<String?> =
+        purchaseManager.getFormattedProductPrice(MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID)
 }
