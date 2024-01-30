@@ -300,6 +300,7 @@
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
 		2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3427EEFF110022A2F2 /* Queue.swift */; };
 		2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3627EF00950022A2F2 /* QueueTests.swift */; };
+		2C9320F52B68F14100999992 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9320F42B68F14100999992 /* PaywallView.swift */; };
 		2C93AF1F29B34A88004639E0 /* StepQuizPyCharmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93AF1E29B34A88004639E0 /* StepQuizPyCharmViewModel.swift */; };
 		2C93AF2129B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93AF2029B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift */; };
 		2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93AF2229B34F66004639E0 /* StepQuizPyCharmView.swift */; };
@@ -983,6 +984,7 @@
 		2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 		2C919E3427EEFF110022A2F2 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		2C919E3627EF00950022A2F2 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
+		2C9320F42B68F14100999992 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		2C93AF1E29B34A88004639E0 /* StepQuizPyCharmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizPyCharmViewModel.swift; sourceTree = "<group>"; };
 		2C93AF2029B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizPyCharmViewDataMapper.swift; sourceTree = "<group>"; };
 		2C93AF2229B34F66004639E0 /* StepQuizPyCharmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizPyCharmView.swift; sourceTree = "<group>"; };
@@ -1702,6 +1704,7 @@
 				58E45951DA331A5F7A54B0BA /* InterviewPreparationOnboarding */,
 				E6992F3BBF430924F32DC178 /* Leaderboard */,
 				B58361EACE24BF4B761F10BA /* NotificationsOnboarding */,
+				2C9320F32B68F13000999992 /* Paywall */,
 				E9B55A5329C89FFF0066900E /* ProblemsLimit */,
 				2C9EB95B2861BAAE007DDE44 /* Profile */,
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
@@ -2682,6 +2685,14 @@
 				2CF87DA329B71BB50092FF83 /* IntrospectTests */,
 			);
 			path = iosHyperskillAppTests;
+			sourceTree = "<group>";
+		};
+		2C9320F32B68F13000999992 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				2C9320F42B68F14100999992 /* PaywallView.swift */,
+			);
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 		2C93AF1D29B349AC004639E0 /* StepQuizPyCharm */ = {
@@ -4911,6 +4922,7 @@
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C99B1002A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift in Sources */,
 				E9E964872A0B8D8200841DF6 /* StepQuizProblemsLimitView.swift in Sources */,
+				2C9320F52B68F14100999992 /* PaywallView.swift in Sources */,
 				2C8CD9AE2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift in Sources */,
 				2C83FBC02B177F68007AD7E2 /* LeaderboardListView.swift in Sources */,
 				2C967432288824370091B6C9 /* StepQuizCodeViewModel.swift in Sources */,

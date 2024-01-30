@@ -37,7 +37,12 @@ struct StudyPlanView: View {
                 viewStateKs: viewModel.gamificationToolbarViewStateKs,
                 onStreakTap: viewModel.doStreakBarButtonItemAction,
                 onProgressTap: viewModel.doProgressBarButtonItemAction,
-                onSearchTap: viewModel.doSearchBarButtonItemAction
+                onSearchTap: {
+                    SourcelessRouter().currentPresentedViewController()?.present(
+                        module: UIHostingController(rootView: PaywallView()),
+                        modalPresentationStyle: .automatic
+                    )
+                }
             )
         }
         .onAppear {
