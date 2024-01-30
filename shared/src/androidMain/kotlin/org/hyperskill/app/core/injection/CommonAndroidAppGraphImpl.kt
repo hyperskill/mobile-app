@@ -1,5 +1,6 @@
 package org.hyperskill.app.core.injection
 
+import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -42,6 +43,9 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponentImpl
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
+import org.hyperskill.app.purchases.domain.AndroidPurchaseManager
+import org.hyperskill.app.purchases.injection.PurchaseComponent
+import org.hyperskill.app.purchases.injection.PurchaseComponentImpl
 import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.search.injection.PlatformSearchComponentImpl
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
@@ -68,6 +72,14 @@ import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
+
+    override fun buildPurchaseComponent(): PurchaseComponent =
+        PurchaseComponentImpl(
+            AndroidPurchaseManager(
+                application = application,
+                isDebugMode = BuildConfig.DEBUG
+            )
+        )
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
         PlatformAuthSocialWebViewComponentImpl(authSocialComponent = buildAuthSocialComponent())
@@ -200,7 +212,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PlatformProgressScreenComponentImpl(buildProgressScreenComponent())
 
     override fun buildPlayServicesCheckerComponent(): PlayServicesCheckerComponent =
-        PlayServicesCheckerComponentImpl(context, sentryComponent)
+        PlayServicesCheckerComponentImpl(application, sentryComponent)
 
     override fun buildPlatformPushNotificationsDataComponent(): PlatformPushNotificationsDataComponent =
         AndroidPlatformPushNotificationsPlatformDataComponent(

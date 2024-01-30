@@ -59,7 +59,7 @@ internal class AppReducer(
                     State.Ready(
                         isAuthorized = false,
                         isMobileLeaderboardsEnabled = false
-                    ) to setOf(Action.ClearUserInSentry, navigateToViewAction)
+                    ) to getDeauthorizedUserActions() + setOf(navigateToViewAction)
                 } else {
                     null
                 }
@@ -267,6 +267,7 @@ internal class AppReducer(
     ): Set<Action> =
         setOfNotNull(
             Action.IdentifyUserInSentry(userId = profileId),
+            Action.IdentifyUserInPurchaseSdk(userId = profileId),
             Action.UpdateDailyLearningNotificationTime,
             if (platformType == PlatformType.ANDROID) {
                 // Don't send push token on app startup for IOS
@@ -283,7 +284,11 @@ internal class AppReducer(
     private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
         setOf(
             Action.IdentifyUserInSentry(userId = profile.id),
+            Action.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.UpdateDailyLearningNotificationTime,
             Action.SendPushNotificationsToken
         )
+
+    private fun getDeauthorizedUserActions(): Set<Action> =
+        setOf(Action.ClearUserInSentry)
 }
