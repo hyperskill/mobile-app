@@ -37,8 +37,6 @@ object PaywallFeature {
     sealed interface Action {
         sealed interface ViewAction : Action {
             object CompletePaywall : ViewAction
-
-            object ShowProductFetchError : ViewAction
         }
     }
 
