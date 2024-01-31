@@ -85,7 +85,11 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
         get() = sequenceOf(
             ViewState.Loading,
             ViewState.Error,
-            ViewState.Content("Subscribe for $12.00/month")
+            ViewState.Content(
+                buyButtonText = "Subscribe for $12.00/month",
+                isToolbarVisible = false,
+                isContinueWithLimitsButtonVisible = true
+            )
         )
 }
 
