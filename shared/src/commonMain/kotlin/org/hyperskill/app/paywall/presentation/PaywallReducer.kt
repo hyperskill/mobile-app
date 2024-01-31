@@ -81,7 +81,10 @@ class PaywallReducer(
     private fun handleFetchMobileOnlyPriceSuccess(
         message: PaywallFeature.InternalMessage.FetchMobileOnlyPriceSuccess
     ): ReducerResult =
-        State.Content(message.formattedPrice) to emptySet()
+        State.Content(
+            formattedPrice = message.formattedPrice,
+            paywallTransitionSource = paywallTransitionSource
+        ) to emptySet()
 
     private fun handleFetchMobileOnlyPriceError(): ReducerResult =
         State.Error to setOf()
