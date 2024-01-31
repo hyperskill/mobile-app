@@ -29,7 +29,10 @@ class PaywallViewedHyperskillAnalyticEvent(
     HyperskillAnalyticAction.VIEW
 ) {
     override val params: Map<String, Any>
-        get() = super.params + setOf(
-            PaywallAnalyticKeys.PAYWALL_TRANSITION_SOURCE to paywallTransitionSource.analyticName
-        )
+        get() = super.params +
+            mapOf(
+                PARAM_CONTEXT to mapOf(
+                    PaywallAnalyticKeys.PAYWALL_TRANSITION_SOURCE to paywallTransitionSource.analyticName
+                )
+            )
 }
