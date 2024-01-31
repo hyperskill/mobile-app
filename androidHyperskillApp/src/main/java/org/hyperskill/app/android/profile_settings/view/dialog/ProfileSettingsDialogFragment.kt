@@ -228,23 +228,31 @@ class ProfileSettingsDialogFragment :
             viewBinding.settingsThemeChosenTextView.text =
                 state.profileSettings.theme.getStringRepresentation(requireContext())
             currentThemePosition = state.profileSettings.theme.ordinal
-            renderSubscription(state.subscription, state.isSubscriptionVisible)
+            renderSubscription(state.subscription, state.mobileOnlyFormattedPrice, state.isSubscriptionVisible)
         }
     }
 
-    private fun renderSubscription(subscription: Subscription?, isSubscriptionVisible: Boolean) {
+    private fun renderSubscription(
+        subscription: Subscription?,
+        mobileOnlyFormattedPrice: String?,
+        isSubscriptionVisible: Boolean
+    ) {
         viewBinding.settingsSubscriptionLinearLayout.isVisible = isSubscriptionVisible
         if (isSubscriptionVisible) {
             with(viewBinding) {
-                settingsSubscriptionHeader.setText(
+                settingsSubscriptionHeader.text =
                     when (subscription?.type) {
                         SubscriptionType.MOBILE_ONLY ->
-                            org.hyperskill.app.R.string.settings_subscription_mobile_only
+                            requireContext().getString(
+                                org.hyperskill.app.R.string.settings_subscription_mobile_only
+                            )
                         SubscriptionType.FREEMIUM ->
-                            org.hyperskill.app.R.string.settings_subscription_mobile_only_suggestion
-                        else -> 0
+                            requireContext().getString(
+                                org.hyperskill.app.R.string.settings_subscription_mobile_only_suggestion,
+                                mobileOnlyFormattedPrice
+                            )
+                        else -> null
                     }
-                )
             }
         }
     }

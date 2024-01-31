@@ -260,7 +260,7 @@
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
     <string name="settings_subscription">Subscription</string>
     <string name="settings_subscription_mobile_only">Mobile only</string>
-    <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for $12.00</string>
+    <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for %s</string>
     <string name="settings_subscription_details">Details</string>
 
     <!-- Leaderboard -->
