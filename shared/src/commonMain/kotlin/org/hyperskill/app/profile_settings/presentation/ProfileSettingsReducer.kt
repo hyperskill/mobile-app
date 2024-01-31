@@ -3,6 +3,7 @@ package org.hyperskill.app.profile_settings.presentation
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent
@@ -178,7 +179,9 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         Action.LogAnalyticEvent(
                             SubscriptionSuggestionDetailsClickedHyperskillAnalyticEvent
                         ),
-                        Action.ViewAction.NavigateTo.Paywall
+                        Action.ViewAction.NavigateTo.Paywall(
+                            PaywallTransitionSource.PROFILE_SETTINGS
+                        )
                     )
                 else -> emptySet()
             }
