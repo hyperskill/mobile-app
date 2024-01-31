@@ -7,7 +7,6 @@ import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 interface ProfileSettingsFeature {
     sealed interface State {
@@ -22,13 +21,7 @@ interface ProfileSettingsFeature {
             val subscription: Subscription?,
             val mobileOnlyFormattedPrice: String?,
             val isLoadingMagicLink: Boolean = false
-        ) : State {
-            val isSubscriptionVisible: Boolean
-                get() = subscription != null &&
-                    mobileOnlyFormattedPrice != null &&
-                    (subscription.type == SubscriptionType.FREEMIUM ||
-                        subscription.type == SubscriptionType.MOBILE_ONLY)
-        }
+        ) : State
 
         object Error : State
     }
