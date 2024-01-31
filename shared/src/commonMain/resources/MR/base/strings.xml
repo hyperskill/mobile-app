@@ -596,5 +596,6 @@
     <string name="paywall_mobile_only_option_3">1 hint per problem</string>
     <string name="paywall_mobile_only_buy_btn">Subscribe for %s/month</string>
     <string name="paywall_mobile_only_continue_btn">Continue with daily limits</string>
+    <string name="paywall_placeholder_error_description">Oops! We were unable to load the subscriptions data.</string>
 
 </resources>
