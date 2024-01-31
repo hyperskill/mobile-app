@@ -36,6 +36,7 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             resourceProvider = appGraph.commonComponent.resourceProvider,
             urlPathProcessor = urlPathProcessor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
