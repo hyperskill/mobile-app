@@ -30,8 +30,7 @@ import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
-import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.profile_settings.view.ProfileSettingsViewStateMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -53,6 +52,8 @@ class ProfileSettingsDialogFragment :
     private val profileSettingsViewModel: ProfileSettingsViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<State> = ViewStateDelegate()
 
+    private var viewStateMapper: ProfileSettingsViewStateMapper? = null
+
     private var currentThemePosition: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +67,7 @@ class ProfileSettingsDialogFragment :
         val platformProfileSettingsComponent =
             HyperskillApp.graph().buildPlatformProfileSettingsComponent(profileSettingsComponent)
         viewModelFactory = platformProfileSettingsComponent.reduxViewModelFactory
+        viewStateMapper = profileSettingsComponent.profileSettingViewStateMapper
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -228,32 +230,17 @@ class ProfileSettingsDialogFragment :
             viewBinding.settingsThemeChosenTextView.text =
                 state.profileSettings.theme.getStringRepresentation(requireContext())
             currentThemePosition = state.profileSettings.theme.ordinal
-            renderSubscription(state.subscription, state.mobileOnlyFormattedPrice, state.isSubscriptionVisible)
+            renderSubscription(state)
         }
     }
 
     private fun renderSubscription(
-        subscription: Subscription?,
-        mobileOnlyFormattedPrice: String?,
-        isSubscriptionVisible: Boolean
+        state: State.Content
     ) {
-        viewBinding.settingsSubscriptionLinearLayout.isVisible = isSubscriptionVisible
-        if (isSubscriptionVisible) {
-            with(viewBinding) {
-                settingsSubscriptionHeader.text =
-                    when (subscription?.type) {
-                        SubscriptionType.MOBILE_ONLY ->
-                            requireContext().getString(
-                                org.hyperskill.app.R.string.settings_subscription_mobile_only
-                            )
-                        SubscriptionType.FREEMIUM ->
-                            requireContext().getString(
-                                org.hyperskill.app.R.string.settings_subscription_mobile_only_suggestion,
-                                mobileOnlyFormattedPrice
-                            )
-                        else -> null
-                    }
-            }
+        val viewState = viewStateMapper?.map(state) ?: return
+        viewBinding.settingsSubscriptionLinearLayout.isVisible = viewState.subscriptionState != null
+        viewState.subscriptionState?.description?.let { description ->
+            viewBinding.settingsSubscriptionHeader.text = description
         }
     }
 
