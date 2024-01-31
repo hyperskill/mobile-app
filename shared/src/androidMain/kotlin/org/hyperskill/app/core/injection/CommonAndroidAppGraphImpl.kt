@@ -25,6 +25,9 @@ import org.hyperskill.app.notification.remote.injection.AndroidPlatformPushNotif
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponentImpl
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.paywall.injection.PlatformPaywallComponent
+import org.hyperskill.app.paywall.injection.PlatformPaywallComponentImpl
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
@@ -246,5 +249,12 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PlatformInterviewPreparationOnboardingComponentImpl(
             interviewPreparationOnboardingComponent = buildInterviewPreparationOnboardingComponent(),
             stepRoute = stepRoute
+        )
+
+    override fun buildPlatformPaywallComponent(
+        paywallTransitionSource: PaywallTransitionSource
+    ): PlatformPaywallComponent =
+        PlatformPaywallComponentImpl(
+            paywallComponent = buildPaywallComponent(paywallTransitionSource)
         )
 }

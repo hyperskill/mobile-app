@@ -21,3 +21,6 @@ data class Subscription(
 
 val Subscription.isProblemLimitReached: Boolean
     get() = type.areProblemsLimited && stepsLimitLeft == 0
+
+val Subscription.isFreemium: Boolean
+    get() = type == SubscriptionType.FREEMIUM
