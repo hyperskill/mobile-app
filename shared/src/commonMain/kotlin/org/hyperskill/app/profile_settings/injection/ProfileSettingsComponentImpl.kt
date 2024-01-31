@@ -27,15 +27,16 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
     override val profileSettingsFeature: Feature<
         ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
-            profileSettingsInteractor,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.networkComponent.authorizationFlow,
-            appGraph.commonComponent.platform,
-            appGraph.commonComponent.userAgentInfo,
-            appGraph.commonComponent.resourceProvider,
-            urlPathProcessor,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+            profileSettingsInteractor = profileSettingsInteractor,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            authorizationFlow = appGraph.networkComponent.authorizationFlow,
+            platform = appGraph.commonComponent.platform,
+            userAgentInfo = appGraph.commonComponent.userAgentInfo,
+            resourceProvider = appGraph.commonComponent.resourceProvider,
+            urlPathProcessor = urlPathProcessor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

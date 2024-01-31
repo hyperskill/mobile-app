@@ -18,6 +18,7 @@ import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.A
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsReducer
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -34,6 +35,7 @@ object ProfileSettingsFeatureBuilder {
         userAgentInfo: UserAgentInfo,
         resourceProvider: ResourceProvider,
         urlPathProcessor: UrlPathProcessor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
@@ -47,7 +49,8 @@ object ProfileSettingsFeatureBuilder {
             platform,
             userAgentInfo,
             resourceProvider,
-            urlPathProcessor
+            urlPathProcessor,
+            currentSubscriptionStateRepository
         )
 
         return ReduxFeature(State.Idle, profileSettingsReducer)

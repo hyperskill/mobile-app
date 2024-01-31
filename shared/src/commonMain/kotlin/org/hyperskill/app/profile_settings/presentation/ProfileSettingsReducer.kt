@@ -9,10 +9,15 @@ import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDelete
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsViewedHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.subscription.ActiveSubscriptionDetailsClickedHyperskillAnalyticEvent
+import org.hyperskill.app.profile_settings.domain.analytic.subscription.SubscriptionSuggestionDetailsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import ru.nobird.app.presentation.redux.reducer.StateReducer
+
+private typealias ReducerResult = Pair<State, Set<Action>>
 
 class ProfileSettingsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
@@ -27,12 +32,15 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 }
             }
             is Message.ProfileSettingsSuccess ->
-                State.Content(message.profileSettings) to emptySet()
+                State.Content(
+                    profileSettings = message.profileSettings,
+                    subscription = message.subscription
+                ) to emptySet()
             is Message.ProfileSettingsError ->
                 State.Error to emptySet()
             is Message.ThemeChanged ->
                 if (state is State.Content) {
-                    State.Content(state.profileSettings.copy(theme = message.theme)) to
+                    state.copy(state.profileSettings.copy(theme = message.theme)) to
                         setOf(Action.ChangeTheme(message.theme))
                 } else {
                     null
@@ -149,5 +157,37 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     null
                 }
             }
+            is Message.SubscriptionDetailsClicked ->
+                handleSubscriptionDetailsClicked(state)
         } ?: (state to emptySet())
+
+    private fun handleSubscriptionDetailsClicked(
+        state: State
+    ): ReducerResult =
+        state.updateContent { content ->
+            content to when (content.subscription?.type) {
+                SubscriptionType.MOBILE_ONLY ->
+                    setOf(
+                        Action.LogAnalyticEvent(
+                            ActiveSubscriptionDetailsClickedHyperskillAnalyticEvent
+                        ),
+                        Action.ViewAction.NavigateTo.SubscriptionManagement
+                    )
+                SubscriptionType.FREEMIUM ->
+                    setOf(
+                        Action.LogAnalyticEvent(
+                            SubscriptionSuggestionDetailsClickedHyperskillAnalyticEvent
+                        ),
+                        Action.ViewAction.NavigateTo.Paywall
+                    )
+                else -> emptySet()
+            }
+        }
 }
+
+private fun State.updateContent(block: (content: State.Content) -> ReducerResult): ReducerResult =
+    if (this is State.Content) {
+        block(this)
+    } else {
+        this to emptySet()
+    }

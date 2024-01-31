@@ -15,6 +15,7 @@ import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInte
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailDataBuilder
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProfileSettingsActionDispatcher(
@@ -26,13 +27,19 @@ class ProfileSettingsActionDispatcher(
     private val platform: Platform,
     private val userAgentInfo: UserAgentInfo,
     private val resourceProvider: ResourceProvider,
-    private val urlPathProcessor: UrlPathProcessor
+    private val urlPathProcessor: UrlPathProcessor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchProfileSettings -> {
                 val profileSettings = profileSettingsInteractor.getProfileSettings()
-                onNewMessage(Message.ProfileSettingsSuccess(profileSettings))
+                onNewMessage(
+                    Message.ProfileSettingsSuccess(
+                        profileSettings,
+                        currentSubscriptionStateRepository.getState(forceUpdate = true).getOrNull()
+                    )
+                )
             }
             is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)

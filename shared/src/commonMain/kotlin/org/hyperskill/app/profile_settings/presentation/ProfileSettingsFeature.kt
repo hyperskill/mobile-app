@@ -5,6 +5,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 interface ProfileSettingsFeature {
     sealed interface State {
@@ -16,6 +17,7 @@ interface ProfileSettingsFeature {
          */
         data class Content(
             val profileSettings: ProfileSettings,
+            val subscription: Subscription?,
             val isLoadingMagicLink: Boolean = false
         ) : State
 
@@ -24,7 +26,10 @@ interface ProfileSettingsFeature {
 
     sealed interface Message {
         data class InitMessage(val forceUpdate: Boolean = false) : Message
-        data class ProfileSettingsSuccess(val profileSettings: ProfileSettings) : Message
+        data class ProfileSettingsSuccess(
+            val profileSettings: ProfileSettings,
+            val subscription: Subscription?
+        ) : Message
         object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message
         object SignOutConfirmed : Message
@@ -37,6 +42,8 @@ interface ProfileSettingsFeature {
         object GetMagicLinkReceiveFailure : Message
 
         data class DeleteAccountNoticeHidden(val isConfirmed: Boolean) : Message
+
+        object SubscriptionDetailsClicked : Message
 
         /**
          * Analytic
@@ -75,6 +82,10 @@ interface ProfileSettingsFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object ParentScreen : NavigateTo
+
+                object SubscriptionManagement : NavigateTo
+
+                object Paywall : NavigateTo
             }
         }
     }
