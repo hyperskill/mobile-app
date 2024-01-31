@@ -20,10 +20,12 @@ interface ProfileSettingsFeature {
         data class Content(
             val profileSettings: ProfileSettings,
             val subscription: Subscription?,
+            val mobileOnlyFormattedPrice: String?,
             val isLoadingMagicLink: Boolean = false
         ) : State {
             val isSubscriptionVisible: Boolean
                 get() = subscription != null &&
+                    mobileOnlyFormattedPrice != null &&
                     (subscription.type == SubscriptionType.FREEMIUM ||
                         subscription.type == SubscriptionType.MOBILE_ONLY)
         }
@@ -35,7 +37,8 @@ interface ProfileSettingsFeature {
         data class InitMessage(val forceUpdate: Boolean = false) : Message
         data class ProfileSettingsSuccess(
             val profileSettings: ProfileSettings,
-            val subscription: Subscription?
+            val subscription: Subscription?,
+            val mobileOnlyFormattedPrice: String?
         ) : Message
         object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message

@@ -35,7 +35,8 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
             is Message.ProfileSettingsSuccess ->
                 State.Content(
                     profileSettings = message.profileSettings,
-                    subscription = message.subscription
+                    subscription = message.subscription,
+                    mobileOnlyFormattedPrice = message.mobileOnlyFormattedPrice
                 ) to emptySet()
             is Message.ProfileSettingsError ->
                 State.Error to emptySet()

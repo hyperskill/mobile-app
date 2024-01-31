@@ -1,5 +1,8 @@
 package org.hyperskill.app.profile_settings.presentation
 
+import co.touchlab.kermit.Logger
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.SharedResources.strings
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -15,6 +18,7 @@ import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInte
 import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailDataBuilder
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -28,19 +32,14 @@ class ProfileSettingsActionDispatcher(
     private val userAgentInfo: UserAgentInfo,
     private val resourceProvider: ResourceProvider,
     private val urlPathProcessor: UrlPathProcessor,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val purchaseInteractor: PurchaseInteractor,
+    private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchProfileSettings -> {
-                val profileSettings = profileSettingsInteractor.getProfileSettings()
-                onNewMessage(
-                    Message.ProfileSettingsSuccess(
-                        profileSettings,
-                        currentSubscriptionStateRepository.getState(forceUpdate = true).getOrNull()
-                    )
-                )
-            }
+            is Action.FetchProfileSettings ->
+                handleFetchProfileSettings(::onNewMessage)
             is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)
             is Action.SignOut ->
@@ -79,4 +78,40 @@ class ProfileSettingsActionDispatcher(
                     onNewMessage(Message.GetMagicLinkReceiveFailure)
                 }
             )
+
+    private suspend fun handleFetchProfileSettings(
+        onNewMessage: (Message) -> Unit
+    ) {
+        coroutineScope {
+            val subscriptionDeferred = async {
+                currentSubscriptionStateRepository.getState(forceUpdate = true)
+
+            }
+            val priceDeferred = async {
+                purchaseInteractor.getFormattedMobileOnlySubscriptionPrice()
+            }
+            onNewMessage(
+                Message.ProfileSettingsSuccess(
+                    profileSettings = profileSettingsInteractor.getProfileSettings(),
+                    subscription = subscriptionDeferred
+                        .await()
+                        .onFailure {
+                            logger.e(it) {
+                                "Failed to load subscription"
+                            }
+                        }
+                        .getOrNull()
+                    ,
+                    mobileOnlyFormattedPrice = priceDeferred
+                        .await()
+                        .onFailure {
+                            logger.e(it) {
+                                "Failed to load subscription price"
+                            }
+                        }
+                        .getOrNull()
+                )
+            )
+        }
+    }
 }
