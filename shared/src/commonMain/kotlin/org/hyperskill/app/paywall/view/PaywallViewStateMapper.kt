@@ -2,6 +2,8 @@ package org.hyperskill.app.paywall.view
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.LOGIN
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROFILE_SETTINGS
 import org.hyperskill.app.paywall.presentation.PaywallFeature.State
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 
@@ -18,7 +20,9 @@ class PaywallViewStateMapper(
                     buyButtonText = resourceProvider.getString(
                         SharedResources.strings.paywall_mobile_only_buy_btn,
                         state.formattedPrice
-                    )
+                    ),
+                    isToolbarVisible = state.paywallTransitionSource != LOGIN,
+                    isContinueWithLimitsButtonVisible = state.paywallTransitionSource != PROFILE_SETTINGS
                 )
         }
 }
