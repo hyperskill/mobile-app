@@ -19,7 +19,9 @@ import org.hyperskill.app.android.core.extensions.getStringRepresentation
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
+import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.asNightMode
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
@@ -120,6 +122,10 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(Message.ClickedSendFeedback)
         }
 
+        viewBinding.settingsSubscriptionFrameLayout.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(Message.SubscriptionDetailsClicked)
+        }
+
         val userAgentInfo = HyperskillApp.graph().commonComponent.userAgentInfo
         viewBinding.settingsVersionTextView.text = "${userAgentInfo.versionName} (${userAgentInfo.versionCode})"
 
@@ -197,7 +203,8 @@ class ProfileSettingsDialogFragment :
             is Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
             is Action.ViewAction.NavigateTo.Paywall -> {
-                // TODO
+                requireRouter()
+                    .navigateTo(PaywallScreen(action.paywallTransitionSource))
             }
             is Action.ViewAction.NavigateTo.SubscriptionManagement -> {
                 // TODO
