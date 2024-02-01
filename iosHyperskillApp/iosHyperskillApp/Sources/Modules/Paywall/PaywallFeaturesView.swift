@@ -1,5 +1,11 @@
 import SwiftUI
 
+extension PaywallFeaturesView {
+    struct Appearance {
+        var spacing = LayoutInsets.smallInset
+    }
+}
+
 struct PaywallFeaturesView: View {
     private static let features = [
         "Access to all tracks",
@@ -7,18 +13,19 @@ struct PaywallFeaturesView: View {
         "1 hint per problem"
     ]
 
+    private(set) var appearance = Appearance()
+
     var body: some View {
-        GeometryReader { geometryProxy in
-            VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
-                ForEach(Array(Self.features.enumerated()), id: \.offset) { index, title in
-                    PaywallFeatureView(
-                        index: index,
-                        title: title,
-                        width: geometryProxy.size.width
-                    )
-                }
+        VStack(alignment: .leading, spacing: appearance.spacing) {
+            ForEach(Array(Self.features.enumerated()), id: \.offset) { index, title in
+                PaywallFeatureView(
+                    index: index,
+                    title: title,
+                    width: UIScreen.main.bounds.width
+                )
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

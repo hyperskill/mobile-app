@@ -245,6 +245,9 @@
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
 		2C7271242B6B634F005628B0 /* View+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7271232B6B634F005628B0 /* View+Task.swift */; };
+		2C7271262B6B8A53005628B0 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7271252B6B8A53005628B0 /* TransparentBlurView.swift */; };
+		2C7271282B6B92AD005628B0 /* PaywallFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7271272B6B92AD005628B0 /* PaywallFooterView.swift */; };
+		2C72712A2B6B9300005628B0 /* View+SafeAreaInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7271292B6B9300005628B0 /* View+SafeAreaInset.swift */; };
 		2C772E7D28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */; };
 		2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */; };
 		2C7822612942F9CF0067200F /* StreakBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */; };
@@ -930,6 +933,9 @@
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		2C7271232B6B634F005628B0 /* View+Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Task.swift"; sourceTree = "<group>"; };
+		2C7271252B6B8A53005628B0 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
+		2C7271272B6B92AD005628B0 /* PaywallFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallFooterView.swift; sourceTree = "<group>"; };
+		2C7271292B6B9300005628B0 /* View+SafeAreaInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SafeAreaInset.swift"; sourceTree = "<group>"; };
 		2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIDSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StepQuizActionButtonState+SubmissionStatus.swift"; sourceTree = "<group>"; };
 		2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBarButtonItem.swift; sourceTree = "<group>"; };
@@ -1935,6 +1941,7 @@
 				2CF4341128126C79002893CD /* View+EndEditing.swift */,
 				2C177EC22837B65500D841DB /* View+Frame.swift */,
 				E9FAF38E299F61AE001FC596 /* View+MeasureSize.swift */,
+				2C7271292B6B9300005628B0 /* View+SafeAreaInset.swift */,
 				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
 				2C7271232B6B634F005628B0 /* View+Task.swift */,
 			);
@@ -2190,6 +2197,7 @@
 				2CE7B4832AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift */,
 				2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */,
 				2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */,
+				2C7271252B6B8A53005628B0 /* TransparentBlurView.swift */,
 				2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */,
 			);
 			path = Wrappers;
@@ -2696,6 +2704,7 @@
 			isa = PBXGroup;
 			children = (
 				2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */,
+				2C7271272B6B92AD005628B0 /* PaywallFooterView.swift */,
 				2C9320F42B68F14100999992 /* PaywallView.swift */,
 			);
 			path = Paywall;
@@ -4518,6 +4527,7 @@
 				2C11D5CA2A11311900C59238 /* FeedbackGeneratorPreviewView.swift in Sources */,
 				2C971B852AC2F5DC00868FCE /* StepExpandableStepTextView.swift in Sources */,
 				2CB279AF28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift in Sources */,
+				2C7271282B6B92AD005628B0 /* PaywallFooterView.swift in Sources */,
 				2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */,
 				2C20FBC4284F67F3006D879E /* ProcessedContentWebView.swift in Sources */,
 				2C4F639B2A101DCE00D4EE39 /* ProjectSelectionListGridView.swift in Sources */,
@@ -4546,6 +4556,7 @@
 				2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */,
 				2C0DB9012864332B001EA35E /* CodeTextViewLayoutManager.swift in Sources */,
 				2C5261A52993CBF100B4E8F6 /* TopicProgressExtensions.swift in Sources */,
+				2C7271262B6B8A53005628B0 /* TransparentBlurView.swift in Sources */,
 				2C0DB90728644F2C001EA35E /* CodeEditorView.swift in Sources */,
 				2CDA98452944590800ADE539 /* ProfileStatisticsView.swift in Sources */,
 				2C8DD40E2AFB907000FD5359 /* ShareStreakAction.swift in Sources */,
@@ -4601,6 +4612,7 @@
 				2C919DE827EEEDD60022A2F2 /* LinkedList.swift in Sources */,
 				2C0DB912286455D8001EA35E /* CodePlaygroundManager.swift in Sources */,
 				2C225E48281A5B6800E8ABD2 /* SourcelessRouter.swift in Sources */,
+				2C72712A2B6B9300005628B0 /* View+SafeAreaInset.swift in Sources */,
 				E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */,
 				2C05AC4D2A0EA0460039C7EF /* ProjectSelectionListView.swift in Sources */,
 				2C9EB95F2861BAD4007DDE44 /* ProfileAssembly.swift in Sources */,
