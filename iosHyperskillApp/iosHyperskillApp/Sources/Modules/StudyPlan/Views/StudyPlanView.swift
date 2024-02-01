@@ -39,8 +39,7 @@ struct StudyPlanView: View {
                 onProgressTap: viewModel.doProgressBarButtonItemAction,
                 onSearchTap: {
                     SourcelessRouter().currentPresentedViewController()?.present(
-                        module: UIHostingController(rootView: PaywallView()),
-                        modalPresentationStyle: .automatic
+                        module: UIHostingController(rootView: PaywallView())
                     )
                 }
             )

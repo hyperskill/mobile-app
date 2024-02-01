@@ -244,6 +244,7 @@
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
+		2C7271242B6B634F005628B0 /* View+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7271232B6B634F005628B0 /* View+Task.swift */; };
 		2C772E7D28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */; };
 		2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */; };
 		2C7822612942F9CF0067200F /* StreakBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */; };
@@ -254,6 +255,7 @@
 		2C7994AF2A1299B800874C16 /* TrackSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994AE2A1299B800874C16 /* TrackSelectionListView.swift */; };
 		2C7994B12A129D6100874C16 /* TrackSelectionListSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7994B02A129D6100874C16 /* TrackSelectionListSkeletonView.swift */; };
 		2C7A1B1F2922EB070018D72C /* Hyperskill-Mobile_shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7A1B1E2922EB070018D72C /* Hyperskill-Mobile_shared.swift */; settings = {COMPILER_FLAGS = "-w -Xanalyzer -analyzer-disable-all-checks"; }; };
+		2C7C0D632B6B45A20093609D /* PaywallFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */; };
 		2C7CB66B2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */; };
 		2C7CB66D2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */; };
 		2C7CB66F2ADFB96F006F78DA /* StepQuizFillBlanksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB66E2ADFB96F006F78DA /* StepQuizFillBlanksView.swift */; };
@@ -927,6 +929,7 @@
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		2C7271232B6B634F005628B0 /* View+Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Task.swift"; sourceTree = "<group>"; };
 		2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIDSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StepQuizActionButtonState+SubmissionStatus.swift"; sourceTree = "<group>"; };
 		2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBarButtonItem.swift; sourceTree = "<group>"; };
@@ -937,6 +940,7 @@
 		2C7994AE2A1299B800874C16 /* TrackSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListView.swift; sourceTree = "<group>"; };
 		2C7994B02A129D6100874C16 /* TrackSelectionListSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionListSkeletonView.swift; sourceTree = "<group>"; };
 		2C7A1B1E2922EB070018D72C /* Hyperskill-Mobile_shared.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Hyperskill-Mobile_shared.swift"; sourceTree = "<group>"; };
+		2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallFeaturesView.swift; sourceTree = "<group>"; };
 		2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksAssembly.swift; sourceTree = "<group>"; };
 		2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksViewModel.swift; sourceTree = "<group>"; };
 		2C7CB66E2ADFB96F006F78DA /* StepQuizFillBlanksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksView.swift; sourceTree = "<group>"; };
@@ -1932,6 +1936,7 @@
 				2C177EC22837B65500D841DB /* View+Frame.swift */,
 				E9FAF38E299F61AE001FC596 /* View+MeasureSize.swift */,
 				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
+				2C7271232B6B634F005628B0 /* View+Task.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2690,6 +2695,7 @@
 		2C9320F32B68F13000999992 /* Paywall */ = {
 			isa = PBXGroup;
 			children = (
+				2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */,
 				2C9320F42B68F14100999992 /* PaywallView.swift */,
 			);
 			path = Paywall;
@@ -4467,6 +4473,7 @@
 				2C0DFB9A2923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift in Sources */,
 				E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */,
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
+				2C7271242B6B634F005628B0 /* View+Task.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
 				2C1860FC2923C540007D4EBF /* AppFeatureStateKsExtensions.swift in Sources */,
 				2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */,
@@ -4944,6 +4951,7 @@
 				59B66CD4D1508049555D35AE /* ProgressScreenView.swift in Sources */,
 				2CE7B4842AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift in Sources */,
 				2CE8EE6D2B065F00004EB545 /* ChallengeWidgetContentStateDeadlineView.swift in Sources */,
+				2C7C0D632B6B45A20093609D /* PaywallFeaturesView.swift in Sources */,
 				F759010A5FC990E99AAF0D76 /* ProgressScreenViewModel.swift in Sources */,
 				DA48146596C2AB3F4E68208E /* NotificationsOnboardingAssembly.swift in Sources */,
 				B2B30D0486FC13DCC80F4263 /* NotificationsOnboardingView.swift in Sources */,

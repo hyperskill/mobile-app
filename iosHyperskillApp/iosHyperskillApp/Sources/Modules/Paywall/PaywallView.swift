@@ -15,11 +15,13 @@ struct PaywallView: View {
 
     private let actionButtonsFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
+    @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
         VerticalCenteredScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 header
-                description
+                PaywallFeaturesView()
                 Spacer()
                 actionButtons
             }
@@ -36,32 +38,9 @@ struct PaywallView: View {
             .frame(maxWidth: .infinity, maxHeight: appearance.illustrationMaxHeight)
 
         Text("Solve unlimited problems with Mobile only plan")
-            .font(.title).bold()
+            .font(.title.bold())
             .foregroundColor(.newPrimaryText)
             .padding(.vertical)
-    }
-
-    private var description: some View {
-        VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
-            ForEach(
-                [
-                    "Access to all tracks",
-                    "Unlimited problems per day in the app",
-                    "1 hint per problem"
-                ],
-                id: \.self
-            ) { title in
-                Label(
-                    title: { Text(title) },
-                    icon: {
-                        Image(systemName: "checkmark")
-                            .renderingMode(.template)
-                            .foregroundColor(Color(ColorPalette.primary))
-                    }
-                )
-                .font(.body)
-            }
-        }
     }
 
     @MainActor private var actionButtons: some View {
@@ -70,6 +49,7 @@ struct PaywallView: View {
                 "Subscribe for $12.00/month",
                 action: {
                     actionButtonsFeedbackGenerator.triggerFeedback()
+                    presentationMode.wrappedValue.dismiss()
                 }
             )
             .buttonStyle(.primary)
@@ -79,6 +59,7 @@ struct PaywallView: View {
                 "Continue with daily limits ",
                 action: {
                     actionButtonsFeedbackGenerator.triggerFeedback()
+                    presentationMode.wrappedValue.dismiss()
                 }
             )
             .buttonStyle(GhostButtonStyle())
