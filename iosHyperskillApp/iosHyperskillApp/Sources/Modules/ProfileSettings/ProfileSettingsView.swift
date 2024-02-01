@@ -209,6 +209,12 @@ struct ProfileSettingsView: View {
             switch ProfileSettingsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .parentScreen:
                 presentationMode.wrappedValue.dismiss()
+            case .paywall(_):
+                #warning("TODO: ALTAPPS-1126")
+                abort()
+            case .subscriptionManagement:
+                #warning("TODO: ALTAPPS-1132")
+                abort()
             }
         }
     }

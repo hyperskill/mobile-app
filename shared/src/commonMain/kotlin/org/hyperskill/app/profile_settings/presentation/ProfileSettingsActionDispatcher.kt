@@ -8,6 +8,7 @@ import org.hyperskill.app.SharedResources.strings
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.platform.Platform
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.remote.UserAgentInfo
@@ -36,10 +37,14 @@ class ProfileSettingsActionDispatcher(
     private val purchaseInteractor: PurchaseInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    private val arePurchasesAvailable: Boolean
+        get() = platform.platformType == PlatformType.ANDROID
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchProfileSettings ->
-                handleFetchProfileSettings(::onNewMessage)
+                handleFetchProfileSettings(arePurchasesAvailable, ::onNewMessage)
             is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)
             is Action.SignOut ->
@@ -80,8 +85,22 @@ class ProfileSettingsActionDispatcher(
             )
 
     private suspend fun handleFetchProfileSettings(
+        arePurchasesAvailable: Boolean,
         onNewMessage: (Message) -> Unit
     ) {
+        val message = if (arePurchasesAvailable) {
+            fetchProfileSettingsWithSubscription()
+        } else {
+            Message.ProfileSettingsSuccess(
+                profileSettings = profileSettingsInteractor.getProfileSettings(),
+                subscription = null,
+                mobileOnlyFormattedPrice = null
+            )
+        }
+        onNewMessage(message)
+    }
+
+    private suspend fun fetchProfileSettingsWithSubscription(): Message.ProfileSettingsSuccess =
         coroutineScope {
             val subscriptionDeferred = async {
                 currentSubscriptionStateRepository.getState(forceUpdate = true)
@@ -89,27 +108,24 @@ class ProfileSettingsActionDispatcher(
             val priceDeferred = async {
                 purchaseInteractor.getFormattedMobileOnlySubscriptionPrice()
             }
-            onNewMessage(
-                Message.ProfileSettingsSuccess(
-                    profileSettings = profileSettingsInteractor.getProfileSettings(),
-                    subscription = subscriptionDeferred
-                        .await()
-                        .onFailure {
-                            logger.e(it) {
-                                "Failed to load subscription"
-                            }
+            Message.ProfileSettingsSuccess(
+                profileSettings = profileSettingsInteractor.getProfileSettings(),
+                subscription = subscriptionDeferred
+                    .await()
+                    .onFailure {
+                        logger.e(it) {
+                            "Failed to load subscription"
                         }
-                        .getOrNull(),
-                    mobileOnlyFormattedPrice = priceDeferred
-                        .await()
-                        .onFailure {
-                            logger.e(it) {
-                                "Failed to load subscription price"
-                            }
+                    }
+                    .getOrNull(),
+                mobileOnlyFormattedPrice = priceDeferred
+                    .await()
+                    .onFailure {
+                        logger.e(it) {
+                            "Failed to load subscription price"
                         }
-                        .getOrNull()
-                )
+                    }
+                    .getOrNull()
             )
         }
-    }
 }
