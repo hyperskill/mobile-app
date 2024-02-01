@@ -85,7 +85,6 @@ class ProfileSettingsActionDispatcher(
         coroutineScope {
             val subscriptionDeferred = async {
                 currentSubscriptionStateRepository.getState(forceUpdate = true)
-
             }
             val priceDeferred = async {
                 purchaseInteractor.getFormattedMobileOnlySubscriptionPrice()
@@ -100,8 +99,7 @@ class ProfileSettingsActionDispatcher(
                                 "Failed to load subscription"
                             }
                         }
-                        .getOrNull()
-                    ,
+                        .getOrNull(),
                     mobileOnlyFormattedPrice = priceDeferred
                         .await()
                         .onFailure {

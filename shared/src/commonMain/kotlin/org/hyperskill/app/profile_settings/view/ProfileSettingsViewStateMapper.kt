@@ -16,7 +16,7 @@ class ProfileSettingsViewStateMapper(
                 when (state.subscription?.type) {
                     SubscriptionType.MOBILE_ONLY ->
                         ProfileSettingsViewState.SubscriptionState(
-                          resourceProvider.getString(SharedResources.strings.settings_subscription_mobile_only)
+                            resourceProvider.getString(SharedResources.strings.settings_subscription_mobile_only)
                         )
                     SubscriptionType.FREEMIUM -> {
                         state.mobileOnlyFormattedPrice?.let {
@@ -38,6 +38,9 @@ class ProfileSettingsViewStateMapper(
     private fun isSubscriptionVisible(state: ProfileSettingsFeature.State.Content): Boolean =
         state.subscription != null &&
             state.mobileOnlyFormattedPrice != null &&
-            (state.subscription.type == SubscriptionType.FREEMIUM ||
-                state.subscription.type == SubscriptionType.MOBILE_ONLY)
+            when (state.subscription.type) {
+                SubscriptionType.FREEMIUM,
+                SubscriptionType.MOBILE_ONLY -> true
+                else -> false
+            }
 }
