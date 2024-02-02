@@ -134,6 +134,8 @@ import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
+import org.hyperskill.app.subscriptions.injection.SubscripitonsDataComponent
+import org.hyperskill.app.subscriptions.injection.SubscripitonsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -482,4 +484,7 @@ abstract class BaseAppGraph : AppGraph {
         paywallTransitionSource: PaywallTransitionSource
     ): PaywallComponent =
         PaywallComponentImpl(paywallTransitionSource, this)
+
+    override fun buildSubscripotionsDataComponent(): SubscripitonsDataComponent =
+        SubscripitonsDataComponentImpl(this)
 }
