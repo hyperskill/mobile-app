@@ -35,6 +35,7 @@ jobs:
     name: Deploy to Firebase App Distribution
     needs: gradle-wrapper-validation
     uses: ./.github/workflows/android_deploy_to_firebase.yml
+    secrets: inherit
 
   # Build and submit to the Google Play
   google-play-deployment:
