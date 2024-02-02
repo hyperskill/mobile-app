@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import org.hyperskill.app.R
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -73,10 +72,10 @@ class PaywallFragment : Fragment() {
             ViewAction.CompletePaywall -> {
                 requireAppRouter().sendResult(PAYWALL_COMPLETED, Any())
             }
-            ViewAction.ShowPurchaseError -> {
+            is ViewAction.ShowMessage -> {
                 Toast.makeText(
                     requireContext(),
-                    getString(R.string.paywall_purchase_error_message),
+                    getString(action.errorKind.stringRes.resourceId),
                     Toast.LENGTH_SHORT
                 ).show()
             }

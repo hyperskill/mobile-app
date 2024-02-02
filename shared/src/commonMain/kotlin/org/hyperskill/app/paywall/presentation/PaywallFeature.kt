@@ -1,5 +1,7 @@
 package org.hyperskill.app.paywall.presentation
 
+import dev.icerock.moko.resources.StringResource
+import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
@@ -70,8 +72,18 @@ object PaywallFeature {
         sealed interface ViewAction : Action {
             object CompletePaywall : ViewAction
 
-            object ShowPurchaseError : ViewAction
+            data class ShowMessage(
+                val errorKind: MessageKind
+            ) : ViewAction
         }
+    }
+
+    enum class MessageKind(
+        val stringRes: StringResource
+    ) {
+        GENERAL(SharedResources.strings.paywall_purchase_error_message),
+        PENDING_PURCHASE(SharedResources.strings.paywall_pending_purchase),
+        SUBSCRIPTION_WILL_BECOME_AVAILABLE_SOON(SharedResources.strings.paywall_subscription_sync_delayed)
     }
 
     internal sealed interface InternalAction : Action {

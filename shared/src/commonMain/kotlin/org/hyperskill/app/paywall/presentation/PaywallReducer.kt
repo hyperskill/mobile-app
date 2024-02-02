@@ -46,7 +46,7 @@ class PaywallReducer(
             is InternalMessage.SubscriptionSyncSuccess ->
                 handleSubscriptionSyncSuccess(state, message)
             InternalMessage.SubscriptionSyncError ->
-                handlePurchaseError(state)
+                handleSubscriptionSyncError(state)
         }
 
     private fun fetchMobileOnlyPrice(
@@ -111,10 +111,17 @@ class PaywallReducer(
                         setOf(InternalAction.SyncSubscription)
                 }
                 PurchaseResult.CancelledByUser -> state to emptySet()
+                is PurchaseResult.Error.PaymentPendingError -> {
+                    state to setOf(
+                        Action.ViewAction.ShowMessage(
+                            PaywallFeature.MessageKind.PENDING_PURCHASE
+                        ),
+                        Action.ViewAction.CompletePaywall
+                    )
+                }
 
                 is PurchaseResult.Error.ErrorWhileFetchingProduct,
                 is PurchaseResult.Error.NoProductFound,
-                is PurchaseResult.Error.PaymentPendingError,
                 is PurchaseResult.Error.PurchaseNotAllowedError,
                 is PurchaseResult.Error.ReceiptAlreadyInUseError,
                 is PurchaseResult.Error.StoreProblemError,
@@ -134,7 +141,9 @@ class PaywallReducer(
                     setOf(Action.ViewAction.CompletePaywall)
                 } else {
                     setOf(
-                        Action.ViewAction.ShowPurchaseError,
+                        Action.ViewAction.ShowMessage(
+                            PaywallFeature.MessageKind.SUBSCRIPTION_WILL_BECOME_AVAILABLE_SOON
+                        ),
                         InternalAction.LogWrongSubscriptionTypeAfterSync(
                             expectedSubscriptionType = SubscriptionType.MOBILE_ONLY,
                             actualSubscriptionType = message.subscription.type
@@ -148,5 +157,19 @@ class PaywallReducer(
     private fun handlePurchaseError(
         state: State
     ): ReducerResult =
-        state to setOf(Action.ViewAction.ShowPurchaseError)
+        state to setOf(
+            Action.ViewAction.ShowMessage(
+                PaywallFeature.MessageKind.GENERAL
+            )
+        )
+
+    private fun handleSubscriptionSyncError(
+        state: State
+    ): ReducerResult =
+        state to setOf(
+            Action.ViewAction.ShowMessage(
+                PaywallFeature.MessageKind.SUBSCRIPTION_WILL_BECOME_AVAILABLE_SOON
+            ),
+            Action.ViewAction.CompletePaywall
+        )
 }

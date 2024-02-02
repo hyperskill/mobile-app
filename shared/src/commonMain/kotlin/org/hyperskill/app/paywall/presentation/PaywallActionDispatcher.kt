@@ -9,7 +9,6 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalMessage
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Message
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
-import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -18,7 +17,6 @@ class PaywallActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val purchaseInteractor: PurchaseInteractor,
     private val subscriptionsRepository: SubscriptionsRepository,
-    private val sentryInteractor: SentryInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
