@@ -8,6 +8,7 @@ import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataS
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
 import org.hyperskill.app.profile_settings.domain.repository.ProfileSettingsRepository
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
+import org.hyperskill.app.profile_settings.view.ProfileSettingsViewStateMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSettingsComponent {
@@ -27,15 +28,21 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
     override val profileSettingsFeature: Feature<
         ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
         get() = ProfileSettingsFeatureBuilder.build(
-            profileSettingsInteractor,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.networkComponent.authorizationFlow,
-            appGraph.commonComponent.platform,
-            appGraph.commonComponent.userAgentInfo,
-            appGraph.commonComponent.resourceProvider,
-            urlPathProcessor,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+            profileSettingsInteractor = profileSettingsInteractor,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            authorizationFlow = appGraph.networkComponent.authorizationFlow,
+            platform = appGraph.commonComponent.platform,
+            userAgentInfo = appGraph.commonComponent.userAgentInfo,
+            resourceProvider = appGraph.commonComponent.resourceProvider,
+            urlPathProcessor = urlPathProcessor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
+
+    override val profileSettingViewStateMapper: ProfileSettingsViewStateMapper
+        get() = ProfileSettingsViewStateMapper(appGraph.commonComponent.resourceProvider)
 }

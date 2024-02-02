@@ -1,0 +1,27 @@
+name: Android Deploy Manually to Firebase App Distribution
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  # Run Gradle Wrapper Validation Action to verify the wrapper's checksum
+  gradle-wrapper-validation:
+    name: Gradle Wrapper Validation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Gradle Wrapper Validation
+        uses: gradle/wrapper-validation-action@v2.0.0
+
+  # Build and submit to the Firebase App Distribution
+  firebase-deployment:
+    name: Deploy to Firebase App Distribution
+    needs: gradle-wrapper-validation
+    uses: ./.github/workflows/android_deploy_to_firebase.yml
+    secrets: inherit

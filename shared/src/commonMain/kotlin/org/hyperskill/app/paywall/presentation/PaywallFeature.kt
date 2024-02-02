@@ -20,11 +20,19 @@ object PaywallFeature {
     fun initialState(): State =
         State.Idle
 
-    sealed interface ViewState {
-        object Idle : ViewState
-        object Loading : ViewState
-        object Error : ViewState
-        data class Content(val buyButtonText: String) : ViewState
+    data class ViewState(
+        val isToolbarVisible: Boolean,
+        val contentState: ViewContentState
+    )
+
+    sealed interface ViewContentState {
+        object Idle : ViewContentState
+        object Loading : ViewContentState
+        object Error : ViewContentState
+        data class Content(
+            val buyButtonText: String,
+            val isContinueWithLimitsButtonVisible: Boolean
+        ) : ViewContentState
     }
 
     sealed interface Message {

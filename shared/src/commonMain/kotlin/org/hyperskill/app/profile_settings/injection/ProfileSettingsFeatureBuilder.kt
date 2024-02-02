@@ -18,6 +18,9 @@ import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.A
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsReducer
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -34,20 +37,27 @@ object ProfileSettingsFeatureBuilder {
         userAgentInfo: UserAgentInfo,
         resourceProvider: ResourceProvider,
         urlPathProcessor: UrlPathProcessor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+        purchaseInteractor: PurchaseInteractor,
+        sentryInteractor: SentryInteractor,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
         val profileSettingsReducer = ProfileSettingsReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
         val profileSettingsActionDispatcher = ProfileSettingsActionDispatcher(
-            ActionDispatcherOptions(),
-            profileSettingsInteractor,
-            currentProfileStateRepository,
-            analyticInteractor,
-            authorizationFlow,
-            platform,
-            userAgentInfo,
-            resourceProvider,
-            urlPathProcessor
+            config = ActionDispatcherOptions(),
+            profileSettingsInteractor = profileSettingsInteractor,
+            currentProfileStateRepository = currentProfileStateRepository,
+            analyticInteractor = analyticInteractor,
+            authorizationFlow = authorizationFlow,
+            platform = platform,
+            userAgentInfo = userAgentInfo,
+            resourceProvider = resourceProvider,
+            urlPathProcessor = urlPathProcessor,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
+            purchaseInteractor = purchaseInteractor,
+            sentryInteractor = sentryInteractor,
+            logger = logger.withTag(LOG_TAG)
         )
 
         return ReduxFeature(State.Idle, profileSettingsReducer)
