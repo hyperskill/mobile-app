@@ -327,4 +327,10 @@ object HyperskillSentryTransactionBuilder {
             name = "streak-recovery-feature-fetch-streak",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    fun buildProfileSettingsFeatureFetchSubscription(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "profile-settings-feature-fetch-subscription",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

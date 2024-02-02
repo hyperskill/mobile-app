@@ -19,6 +19,7 @@ import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.M
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsReducer
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -38,6 +39,7 @@ object ProfileSettingsFeatureBuilder {
         urlPathProcessor: UrlPathProcessor,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         purchaseInteractor: PurchaseInteractor,
+        sentryInteractor: SentryInteractor,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
@@ -54,6 +56,7 @@ object ProfileSettingsFeatureBuilder {
             urlPathProcessor = urlPathProcessor,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             purchaseInteractor = purchaseInteractor,
+            sentryInteractor = sentryInteractor,
             logger = logger.withTag(LOG_TAG)
         )
 

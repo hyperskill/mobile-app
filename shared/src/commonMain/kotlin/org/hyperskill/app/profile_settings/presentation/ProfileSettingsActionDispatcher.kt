@@ -20,6 +20,9 @@ import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailDataBuilder
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -35,6 +38,7 @@ class ProfileSettingsActionDispatcher(
     private val urlPathProcessor: UrlPathProcessor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val purchaseInteractor: PurchaseInteractor,
+    private val sentryInteractor: SentryInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -89,12 +93,19 @@ class ProfileSettingsActionDispatcher(
         onNewMessage: (Message) -> Unit
     ) {
         val message = if (arePurchasesAvailable) {
-            fetchProfileSettingsWithSubscription()
+            sentryInteractor.withTransaction(
+                HyperskillSentryTransactionBuilder.buildProfileSettingsFeatureFetchSubscription(),
+                onError = {
+                    Message.ProfileSettingsSuccess(
+                        profileSettingsInteractor.getProfileSettings()
+                    )
+                }
+            ) {
+                fetchProfileSettingsWithSubscription()
+            }
         } else {
             Message.ProfileSettingsSuccess(
-                profileSettings = profileSettingsInteractor.getProfileSettings(),
-                subscription = null,
-                mobileOnlyFormattedPrice = null
+                profileSettings = profileSettingsInteractor.getProfileSettings()
             )
         }
         onNewMessage(message)

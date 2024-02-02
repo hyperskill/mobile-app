@@ -30,8 +30,8 @@ interface ProfileSettingsFeature {
         data class InitMessage(val forceUpdate: Boolean = false) : Message
         data class ProfileSettingsSuccess(
             val profileSettings: ProfileSettings,
-            val subscription: Subscription?,
-            val mobileOnlyFormattedPrice: String?
+            val subscription: Subscription? = null,
+            val mobileOnlyFormattedPrice: String? = null
         ) : Message
         object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message
