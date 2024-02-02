@@ -10,8 +10,6 @@ import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsDelete
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsSignOutNoticeShownHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.domain.analytic.ProfileSettingsViewedHyperskillAnalyticEvent
-import org.hyperskill.app.profile_settings.domain.analytic.subscription.ActiveSubscriptionDetailsClickedHyperskillAnalyticEvent
-import org.hyperskill.app.profile_settings.domain.analytic.subscription.SubscriptionSuggestionDetailsClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
@@ -65,8 +63,8 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 state to setOf(
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
-                            HyperskillAnalyticPart.HEAD,
-                            HyperskillAnalyticTarget.DONE
+                            target = HyperskillAnalyticTarget.DONE,
+                            part = HyperskillAnalyticPart.HEAD
                         )
                     )
                 )
@@ -166,19 +164,23 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
     private fun handleSubscriptionDetailsClicked(
         state: State
     ): ReducerResult =
-        state.updateContent { content ->
-            content to when (content.subscription?.type) {
+        if (state is State.Content) {
+            state to when (state.subscription?.type) {
                 SubscriptionType.MOBILE_ONLY ->
                     setOf(
                         Action.LogAnalyticEvent(
-                            ActiveSubscriptionDetailsClickedHyperskillAnalyticEvent
+                            ProfileSettingsClickedHyperskillAnalyticEvent(
+                                HyperskillAnalyticTarget.ACTIVE_SUBSCRIPTION_DETAILS
+                            )
                         ),
                         Action.ViewAction.NavigateTo.SubscriptionManagement
                     )
                 SubscriptionType.FREEMIUM ->
                     setOf(
                         Action.LogAnalyticEvent(
-                            SubscriptionSuggestionDetailsClickedHyperskillAnalyticEvent
+                            ProfileSettingsClickedHyperskillAnalyticEvent(
+                                HyperskillAnalyticTarget.SUBSCRIPTION_SUGGESTION_DETAILS
+                            )
                         ),
                         Action.ViewAction.NavigateTo.Paywall(
                             PaywallTransitionSource.PROFILE_SETTINGS
@@ -186,12 +188,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     )
                 else -> emptySet()
             }
+        } else {
+            state to emptySet()
         }
 }
-
-private fun State.updateContent(block: (content: State.Content) -> ReducerResult): ReducerResult =
-    if (this is State.Content) {
-        block(this)
-    } else {
-        this to emptySet()
-    }
