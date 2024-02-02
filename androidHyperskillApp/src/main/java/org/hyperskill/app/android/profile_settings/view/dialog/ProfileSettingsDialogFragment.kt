@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -18,7 +19,9 @@ import org.hyperskill.app.android.core.extensions.getStringRepresentation
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
+import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.asNightMode
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.profile.presentation.ProfileSettingsViewModel
@@ -27,6 +30,7 @@ import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
+import org.hyperskill.app.profile_settings.view.ProfileSettingsViewStateMapper
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -48,6 +52,8 @@ class ProfileSettingsDialogFragment :
     private val profileSettingsViewModel: ProfileSettingsViewModel by reduxViewModel(this) { viewModelFactory }
     private val viewStateDelegate: ViewStateDelegate<State> = ViewStateDelegate()
 
+    private var viewStateMapper: ProfileSettingsViewStateMapper? = null
+
     private var currentThemePosition: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +67,7 @@ class ProfileSettingsDialogFragment :
         val platformProfileSettingsComponent =
             HyperskillApp.graph().buildPlatformProfileSettingsComponent(profileSettingsComponent)
         viewModelFactory = platformProfileSettingsComponent.reduxViewModelFactory
+        viewStateMapper = profileSettingsComponent.profileSettingViewStateMapper
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -115,6 +122,10 @@ class ProfileSettingsDialogFragment :
 
         viewBinding.settingsSendFeedbackButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedSendFeedback)
+        }
+
+        viewBinding.settingsSubscriptionFrameLayout.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(Message.SubscriptionDetailsClicked)
         }
 
         val userAgentInfo = HyperskillApp.graph().commonComponent.userAgentInfo
@@ -194,7 +205,8 @@ class ProfileSettingsDialogFragment :
             is Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
             is Action.ViewAction.NavigateTo.Paywall -> {
-                // TODO
+                requireRouter()
+                    .navigateTo(PaywallScreen(action.paywallTransitionSource))
             }
             is Action.ViewAction.NavigateTo.SubscriptionManagement -> {
                 // TODO
@@ -218,6 +230,17 @@ class ProfileSettingsDialogFragment :
             viewBinding.settingsThemeChosenTextView.text =
                 state.profileSettings.theme.getStringRepresentation(requireContext())
             currentThemePosition = state.profileSettings.theme.ordinal
+            renderSubscription(state)
+        }
+    }
+
+    private fun renderSubscription(
+        state: State.Content
+    ) {
+        val viewState = viewStateMapper?.map(state) ?: return
+        viewBinding.settingsSubscriptionLinearLayout.isVisible = viewState.subscriptionState != null
+        viewState.subscriptionState?.description?.let { description ->
+            viewBinding.settingsSubscriptionHeader.text = description
         }
     }
 
