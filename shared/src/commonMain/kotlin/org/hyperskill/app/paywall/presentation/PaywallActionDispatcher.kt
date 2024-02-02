@@ -8,12 +8,15 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalAction
 import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalMessage
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Message
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
+import org.hyperskill.app.purchases.domain.model.PurchaseResult
+import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class PaywallActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor,
     private val purchaseInteractor: PurchaseInteractor,
+    private val subscriptionsRepository: SubscriptionsRepository,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -24,9 +27,8 @@ class PaywallActionDispatcher(
                 handleFetchMobileOnlyPrice(::onNewMessage)
             is InternalAction.StartMobileOnlySubscriptionPurchase ->
                 handleStartMobileOnlySubscriptionPurchase(action, ::onNewMessage)
-            is InternalAction.SyncSubscription -> {
-                TODO("Not implemented")
-            }
+            is InternalAction.SyncSubscription ->
+                handleSyncSubscription(::onNewMessage)
             else -> {
                 // no op
             }
@@ -42,16 +44,12 @@ class PaywallActionDispatcher(
                     if (price != null) {
                         InternalMessage.FetchMobileOnlyPriceSuccess(price)
                     } else {
-                        logger.e {
-                            "Receive null instead of formatter mobile-only subscription price"
-                        }
+                        logger.e { "Receive null instead of formatter mobile-only subscription price" }
                         InternalMessage.FetchMobileOnlyPriceError
                     }
                 },
                 onFailure = {
-                    logger.e(it) {
-                        "Error during mobile-only subscription price fetching"
-                    }
+                    logger.e(it) { "Error during mobile-only subscription price fetching" }
                     InternalMessage.FetchMobileOnlyPriceError
                 }
             )
@@ -65,12 +63,33 @@ class PaywallActionDispatcher(
         purchaseInteractor
             .purchaseMobileOnlySubscription(action.purchaseParams)
             .fold(
-                onSuccess = InternalMessage::MobileOnlySubscriptionPurchaseSuccess,
-                onFailure = {
-                    logger.e(it) {
-                        "Subscription purchase failed!"
+                onSuccess = { purchaseResult ->
+                    if (purchaseResult is PurchaseResult.Error) {
+                        logger.e { getPurchaseErrorMessage(purchaseResult) }
                     }
+                    InternalMessage.MobileOnlySubscriptionPurchaseSuccess(purchaseResult)
+                },
+                onFailure = {
+                    logger.e(it) { "Subscription purchase failed!" }
                     InternalMessage.MobileOnlySubscriptionPurchaseError
+                }
+            )
+            .let(onNewMessage)
+    }
+
+    private fun getPurchaseErrorMessage(error: PurchaseResult.Error): String =
+        "Subscription purchase failed!\n${error.message}\n${error.underlyingErrorMessage}"
+
+    private suspend fun handleSyncSubscription(
+        onNewMessage: (Message) -> Unit
+    ) {
+        subscriptionsRepository
+            .syncSubscription()
+            .fold(
+                onSuccess = InternalMessage::SubscriptionSyncSuccess,
+                onFailure = {
+                    logger.e(it) { "Failed to sync subscription" }
+                    InternalMessage.SubscriptionSyncError
                 }
             )
             .let(onNewMessage)

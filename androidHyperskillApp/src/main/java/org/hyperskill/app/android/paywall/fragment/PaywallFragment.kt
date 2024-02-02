@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import org.hyperskill.app.R
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -75,8 +76,8 @@ class PaywallFragment : Fragment() {
             ViewAction.ShowPurchaseError -> {
                 Toast.makeText(
                     requireContext(),
-                    "Purchase failed",
-                    Toast.LENGTH_LONG
+                    getString(R.string.paywall_purchase_error_message),
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }

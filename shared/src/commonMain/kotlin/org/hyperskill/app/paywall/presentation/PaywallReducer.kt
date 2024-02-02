@@ -103,31 +103,33 @@ class PaywallReducer(
         state: State,
         message: InternalMessage.MobileOnlySubscriptionPurchaseSuccess
     ): ReducerResult =
-        state.updateContent { content ->
+        if (state is State.Content) {
             when (message.purchaseResult) {
-                is PurchaseResult.Succeed -> {
-                    content.copy(isPurchaseSyncLoadingShowed = true) to
+                is PurchaseResult.Succeed,
+                is PurchaseResult.Error.ProductAlreadyPurchasedError -> {
+                    state.copy(isPurchaseSyncLoadingShowed = true) to
                         setOf(InternalAction.SyncSubscription)
                 }
-                PurchaseResult.CancelledByUser -> content to emptySet()
+                PurchaseResult.CancelledByUser -> state to emptySet()
 
                 is PurchaseResult.Error.ErrorWhileFetchingProduct,
                 is PurchaseResult.Error.NoProductFound,
                 is PurchaseResult.Error.PaymentPendingError,
-                is PurchaseResult.Error.ProductAlreadyPurchasedError,
                 is PurchaseResult.Error.PurchaseNotAllowedError,
                 is PurchaseResult.Error.ReceiptAlreadyInUseError,
                 is PurchaseResult.Error.StoreProblemError,
-                is PurchaseResult.Error.OtherError -> TODO("Not implemented")
+                is PurchaseResult.Error.OtherError -> handlePurchaseError(state)
             }
+        } else {
+            state to emptySet()
         }
 
     private fun handleSubscriptionSyncSuccess(
         state: State,
         message: InternalMessage.SubscriptionSyncSuccess
     ): ReducerResult =
-        state.updateContent { content ->
-            content.copy(isPurchaseSyncLoadingShowed = false) to
+        if (state is State.Content) {
+            state.copy(isPurchaseSyncLoadingShowed = false) to
                 setOf(
                     if (message.subscription.type == SubscriptionType.MOBILE_ONLY) {
                         Action.ViewAction.CompletePaywall
@@ -135,6 +137,8 @@ class PaywallReducer(
                         Action.ViewAction.ShowPurchaseError
                     }
                 )
+        } else {
+            state to emptySet()
         }
 
     private fun handlePurchaseError(
@@ -142,10 +146,3 @@ class PaywallReducer(
     ): ReducerResult =
         state to setOf(Action.ViewAction.ShowPurchaseError)
 }
-
-private fun State.updateContent(block: (State.Content) -> ReducerResult): ReducerResult =
-    if (this is State.Content) {
-        block(this)
-    } else {
-        this to emptySet()
-    }

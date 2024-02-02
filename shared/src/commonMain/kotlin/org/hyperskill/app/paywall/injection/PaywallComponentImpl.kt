@@ -17,6 +17,7 @@ class PaywallComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
+            subscriptionsRepository = appGraph.buildSubscripotionsDataComponent().subscriptionsRepository,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
