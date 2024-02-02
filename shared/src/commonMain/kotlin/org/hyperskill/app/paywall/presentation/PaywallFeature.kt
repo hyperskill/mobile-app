@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 object PaywallFeature {
 
@@ -83,5 +84,10 @@ object PaywallFeature {
         ) : InternalAction
 
         object SyncSubscription : InternalAction
+
+        data class LogWrongSubscriptionTypeAfterSync(
+            val expectedSubscriptionType: SubscriptionType,
+            val actualSubscriptionType: SubscriptionType
+        ) : InternalAction
     }
 }

@@ -130,13 +130,17 @@ class PaywallReducer(
     ): ReducerResult =
         if (state is State.Content) {
             state.copy(isPurchaseSyncLoadingShowed = false) to
-                setOf(
-                    if (message.subscription.type == SubscriptionType.MOBILE_ONLY) {
-                        Action.ViewAction.CompletePaywall
-                    } else {
-                        Action.ViewAction.ShowPurchaseError
-                    }
-                )
+                if (message.subscription.type == SubscriptionType.MOBILE_ONLY) {
+                    setOf(Action.ViewAction.CompletePaywall)
+                } else {
+                    setOf(
+                        Action.ViewAction.ShowPurchaseError,
+                        InternalAction.LogWrongSubscriptionTypeAfterSync(
+                            expectedSubscriptionType = SubscriptionType.MOBILE_ONLY,
+                            actualSubscriptionType = message.subscription.type
+                        )
+                    )
+                }
         } else {
             state to emptySet()
         }
