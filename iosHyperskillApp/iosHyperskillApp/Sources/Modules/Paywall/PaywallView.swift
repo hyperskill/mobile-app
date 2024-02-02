@@ -5,24 +5,33 @@ extension PaywallView {
         let spacing = LayoutInsets.defaultInset
         let interitemSpacing = LayoutInsets.smallInset
 
-        let illustrationMaxHeight: CGFloat = 164
+        let headerImageHeight: CGFloat = 164
     }
 }
 
 struct PaywallView: View {
     private(set) var appearance = Appearance()
 
+    @State private var scrollOffset = CGPoint()
+
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
+        OffsetObservingScrollView(
+            axes: .vertical,
+            showsIndicators: false,
+            offset: $scrollOffset
+        ) {
             VStack(alignment: .leading, spacing: appearance.spacing) {
                 Image(.paywallPremiumMobile)
                     .renderingMode(.original)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
                     .frame(
-                        maxWidth: .infinity,
-                        maxHeight: appearance.illustrationMaxHeight
+                        height: scrollOffset.y < 0
+                          ? appearance.headerImageHeight + abs(scrollOffset.y)
+                          : appearance.headerImageHeight
                     )
+                    .offset(y: scrollOffset.y < 0 ? scrollOffset.y : 0)
 
                 Text("Solve unlimited problems with Mobile only plan")
                     .font(.largeTitle.bold())
@@ -35,7 +44,6 @@ struct PaywallView: View {
             }
             .padding()
         }
-        .scrollBounceBehaviorBasedOnSize()
         .safeAreaInsetBottomCompatibility(
             PaywallFooterView(appearance: .init(spacing: appearance.interitemSpacing))
         )

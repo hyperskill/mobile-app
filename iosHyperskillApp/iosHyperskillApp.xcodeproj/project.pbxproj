@@ -87,6 +87,7 @@
 		2C198E052AEA86DF00DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E042AEA86DF00DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView.swift */; };
 		2C198E082AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E072AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift */; };
 		2C198E0A2AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E092AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift */; };
+		2C1B71052B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B71042B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift */; };
 		2C1F5869280D063800372A37 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5868280D063800372A37 /* WebViewController.swift */; };
 		2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586A280D094A00372A37 /* WebControllerManager.swift */; };
 		2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586F280D0CB700372A37 /* WebCacheCleaner.swift */; };
@@ -769,6 +770,7 @@
 		2C198E042AEA86DF00DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView.swift; sourceTree = "<group>"; };
 		2C198E072AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift; sourceTree = "<group>"; };
 		2C198E092AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsViewWrapper.swift; sourceTree = "<group>"; };
+		2C1B71042B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetObservingScrollView.swift; sourceTree = "<group>"; };
 		2C1F5868280D063800372A37 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2C1F586A280D094A00372A37 /* WebControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebControllerManager.swift; sourceTree = "<group>"; };
 		2C1F586F280D0CB700372A37 /* WebCacheCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCacheCleaner.swift; sourceTree = "<group>"; };
@@ -3163,6 +3165,7 @@
 				2C43CDF828B55CC600E74762 /* HyperskillLogoView.swift */,
 				E9D537D12A71330A00F21828 /* LinearGradientProgressView.swift */,
 				2C32375228380C340062CAF6 /* NavigationToolbarInfoItem.swift */,
+				2C1B71042B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift */,
 				E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */,
 				E9101712283296F3002E70F5 /* RadioButton.swift */,
 				2CAF254B2AB9C2E500595582 /* ShineEffect.swift */,
@@ -4663,6 +4666,7 @@
 				2C3796122877001700C197E2 /* ProfileHeaderView.swift in Sources */,
 				2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */,
 				2C6672092A5297250040EA2F /* ProgressScreenProjectProgressSkeletonView.swift in Sources */,
+				2C1B71052B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift in Sources */,
 				2C8E4F9C2848A1550011ADFA /* PanModalViewModifier.swift in Sources */,
 				2CA7B88F2893295A00A789EF /* CodeEditorSuggestionsPresentationContextProviding.swift in Sources */,
 				2C8E4F9A284897360011ADFA /* PanModalSwiftUIViewController.swift in Sources */,
