@@ -2,6 +2,8 @@ import SwiftUI
 
 extension PaywallView {
     struct Appearance {
+        let padding = LayoutInsets.defaultInset
+
         let spacing = LayoutInsets.defaultInset
         let interitemSpacing = LayoutInsets.smallInset
 
@@ -32,6 +34,7 @@ struct PaywallView: View {
                           : appearance.headerImageHeight
                     )
                     .offset(y: scrollOffset.y < 0 ? scrollOffset.y : 0)
+                    .padding(.horizontal, -appearance.padding)
 
                 Text("Solve unlimited problems with Mobile only plan")
                     .font(.largeTitle.bold())
@@ -42,7 +45,7 @@ struct PaywallView: View {
                     appearance: .init(spacing: appearance.interitemSpacing)
                 )
             }
-            .padding()
+            .padding(appearance.padding)
         }
         .safeAreaInsetBottomCompatibility(
             PaywallFooterView(appearance: .init(spacing: appearance.interitemSpacing))
