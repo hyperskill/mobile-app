@@ -9,7 +9,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
@@ -30,6 +29,7 @@ import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
+import org.hyperskill.app.R as SharedRes
 
 class AuthCredentialsFragment :
     Fragment(R.layout.fragment_auth_email),
@@ -95,6 +95,10 @@ class AuthCredentialsFragment :
             requireRouter().backTo(AuthSocialScreen())
         }
 
+        viewBinding.signInToTextView.text = getString(
+            SharedRes.string.auth_sign_up_title,
+            getString(SharedRes.string.android_app_name)
+        )
         viewBinding.root.addKeyboardVisibilityListener { isVisible ->
             if (!isAdded) return@addKeyboardVisibilityListener
             viewBinding.signInHyperskillLogoShapeableImageView.isVisible = !isVisible
@@ -119,7 +123,7 @@ class AuthCredentialsFragment :
             is AuthCredentialsFeature.Action.ViewAction.OpenUrl ->
                 requireContext().openUrl(action.url)
             is AuthCredentialsFeature.Action.ViewAction.ShowGetMagicLinkError ->
-                viewBinding.root.snackbar(SharedResources.strings.common_error.resourceId)
+                viewBinding.root.snackbar(SharedRes.string.common_error)
         }
     }
 
