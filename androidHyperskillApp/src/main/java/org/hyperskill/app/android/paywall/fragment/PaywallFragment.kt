@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.paywall.ui.PaywallScreen
 import org.hyperskill.app.core.view.handleActions
@@ -57,7 +58,10 @@ class PaywallFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-                    PaywallScreen(viewModel = paywallViewModel)
+                    PaywallScreen(
+                        viewModel = paywallViewModel,
+                        onBackClick = ::onBackClick
+                    )
                 }
             }
         }
@@ -68,5 +72,9 @@ class PaywallFragment : Fragment() {
                 requireAppRouter().sendResult(PAYWALL_COMPLETED, Any())
             }
         }
+    }
+
+    private fun onBackClick() {
+        requireRouter().exit()
     }
 }
