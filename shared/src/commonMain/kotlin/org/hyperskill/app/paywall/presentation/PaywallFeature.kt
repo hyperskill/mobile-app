@@ -1,7 +1,6 @@
 package org.hyperskill.app.paywall.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 
 object PaywallFeature {
 
@@ -9,24 +8,25 @@ object PaywallFeature {
         object Idle : State
         object Loading : State
         object Error : State
-        data class Content(
-            val formattedPrice: String,
-            val paywallTransitionSource: PaywallTransitionSource
-        ) : State
+        data class Content(val formattedPrice: String) : State
     }
 
     fun initialState(): State =
         State.Idle
 
-    sealed interface ViewState {
-        object Idle : ViewState
-        object Loading : ViewState
-        object Error : ViewState
-        data class Content(
-            val buyButtonText: String,
-            val isToolbarVisible: Boolean,
-            val isContinueWithLimitsButtonVisible: Boolean
-        ) : ViewState
+    data class ViewState(
+        val isToolbarVisible: Boolean,
+        val contentState: ContentState
+    ) {
+        sealed interface ContentState {
+            object Idle : ContentState
+            object Loading : ContentState
+            object Error : ContentState
+            data class Content(
+                val buyButtonText: String,
+                val isContinueWithLimitsButtonVisible: Boolean
+            ) : ContentState
+        }
     }
 
     sealed interface Message {

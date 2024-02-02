@@ -62,7 +62,7 @@ fun PaywallScreen(
 ) {
     Scaffold(
         topBar = {
-            if (viewState is ViewState.Content && viewState.isToolbarVisible) {
+            if (viewState.isToolbarVisible) {
                 HyperskillTopAppBar(
                     title = stringResource(id = R.string.paywall_screen_title),
                     onNavigationIconClick = onBackClick,
@@ -71,11 +71,11 @@ fun PaywallScreen(
             }
         }
     ) { padding ->
-        when (viewState) {
-            ViewState.Idle -> {
+        when (val contentState = viewState.contentState) {
+            ViewState.ContentState.Idle -> {
                 // no op
             }
-            ViewState.Loading -> {
+            ViewState.ContentState.Loading -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -85,16 +85,16 @@ fun PaywallScreen(
                     )
                 }
             }
-            ViewState.Error ->
+            ViewState.ContentState.Error ->
                 ScreenDataLoadingError(
                     errorMessage = stringResource(id = R.string.paywall_placeholder_error_description)
                 ) {
                     onRetryLoadingClick()
                 }
-            is ViewState.Content ->
+            is ViewState.ContentState.Content ->
                 PaywallContent(
-                    buyButtonText = viewState.buyButtonText,
-                    isContinueWithLimitsButtonVisible = viewState.isContinueWithLimitsButtonVisible,
+                    buyButtonText = contentState.buyButtonText,
+                    isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
                     onBuySubscriptionClick = onBuySubscriptionClick,
                     onContinueWithLimitsClick = onContinueWithLimitsClick,
                     padding = padding
@@ -106,18 +106,28 @@ fun PaywallScreen(
 private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
     override val values: Sequence<ViewState>
         get() = sequenceOf(
-            ViewState.Content(
-                buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
+            ViewState(
                 isToolbarVisible = true,
-                isContinueWithLimitsButtonVisible = false
+                contentState = ViewState.ContentState.Content(
+                    buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
+                    isContinueWithLimitsButtonVisible = false
+                )
             ),
-            ViewState.Content(
-                buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
+            ViewState(
                 isToolbarVisible = false,
-                isContinueWithLimitsButtonVisible = true
+                contentState = ViewState.ContentState.Content(
+                    buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
+                    isContinueWithLimitsButtonVisible = true
+                )
             ),
-            ViewState.Error,
-            ViewState.Loading
+            ViewState(
+                isToolbarVisible = true,
+                contentState = ViewState.ContentState.Error
+            ),
+            ViewState(
+                isToolbarVisible = true,
+                contentState = ViewState.ContentState.Loading
+            )
         )
 }
 
