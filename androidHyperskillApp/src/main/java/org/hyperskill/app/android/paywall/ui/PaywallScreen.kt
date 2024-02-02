@@ -22,6 +22,7 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTopAppBa
 import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingError
 import org.hyperskill.app.paywall.presentation.PaywallFeature
+import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewContentState
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 import org.hyperskill.app.paywall.presentation.PaywallViewModel
 
@@ -72,10 +73,10 @@ fun PaywallScreen(
         }
     ) { padding ->
         when (val contentState = viewState.contentState) {
-            ViewState.ContentState.Idle -> {
+            ViewContentState.Idle -> {
                 // no op
             }
-            ViewState.ContentState.Loading -> {
+            ViewContentState.Loading -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -85,13 +86,13 @@ fun PaywallScreen(
                     )
                 }
             }
-            ViewState.ContentState.Error ->
+            ViewContentState.Error ->
                 ScreenDataLoadingError(
                     errorMessage = stringResource(id = R.string.paywall_placeholder_error_description)
                 ) {
                     onRetryLoadingClick()
                 }
-            is ViewState.ContentState.Content ->
+            is ViewContentState.Content ->
                 PaywallContent(
                     buyButtonText = contentState.buyButtonText,
                     isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
@@ -108,25 +109,25 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
         get() = sequenceOf(
             ViewState(
                 isToolbarVisible = true,
-                contentState = ViewState.ContentState.Content(
+                contentState = ViewContentState.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
                     isContinueWithLimitsButtonVisible = false
                 )
             ),
             ViewState(
                 isToolbarVisible = false,
-                contentState = ViewState.ContentState.Content(
+                contentState = ViewContentState.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
                     isContinueWithLimitsButtonVisible = true
                 )
             ),
             ViewState(
                 isToolbarVisible = true,
-                contentState = ViewState.ContentState.Error
+                contentState = ViewContentState.Error
             ),
             ViewState(
                 isToolbarVisible = true,
-                contentState = ViewState.ContentState.Loading
+                contentState = ViewContentState.Loading
             )
         )
 }

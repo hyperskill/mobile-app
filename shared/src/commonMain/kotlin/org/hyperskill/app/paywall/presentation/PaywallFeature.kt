@@ -16,17 +16,17 @@ object PaywallFeature {
 
     data class ViewState(
         val isToolbarVisible: Boolean,
-        val contentState: ContentState
-    ) {
-        sealed interface ContentState {
-            object Idle : ContentState
-            object Loading : ContentState
-            object Error : ContentState
-            data class Content(
-                val buyButtonText: String,
-                val isContinueWithLimitsButtonVisible: Boolean
-            ) : ContentState
-        }
+        val contentState: ViewContentState
+    )
+
+    sealed interface ViewContentState {
+        object Idle : ViewContentState
+        object Loading : ViewContentState
+        object Error : ViewContentState
+        data class Content(
+            val buyButtonText: String,
+            val isContinueWithLimitsButtonVisible: Boolean
+        ) : ViewContentState
     }
 
     sealed interface Message {
