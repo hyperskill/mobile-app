@@ -31,13 +31,13 @@ platform :android do
       gradle_path: gradle_path,
     )
 
-    firebase_app_distribution(
-      app: firebase_app_id,
-      firebase_cli_token: firebase_cli_token,
-      android_artifact_type: "APK",
-      release_notes_file: "fastlane/release-notes.txt",
-      groups: "all-android-testers",
-    )
+    # firebase_app_distribution(
+    #   app: firebase_app_id,
+    #   firebase_cli_token: firebase_cli_token,
+    #   android_artifact_type: "APK",
+    #   release_notes_file: "fastlane/release-notes.txt",
+    #   groups: "all-android-testers",
+    # )
   end
 
   desc "Deploy a new version to the Google Play"
