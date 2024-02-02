@@ -26,6 +26,58 @@
         <include layout="@layout/view_divider_vertical" />
 
         <LinearLayout
+            android:id="@+id/settingsSubscriptionLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_surface"
+            android:orientation="vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/settings_subscription"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/color_primary" />
+
+            <FrameLayout
+                android:id="@+id/settingsSubscriptionFrameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingVertical="13dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="16dp">
+
+                <TextView
+                    android:id="@+id/settingsSubscriptionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/settings_subscription_mobile_only_suggestion"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/settingsSubscriptionDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text="@string/settings_subscription_details"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/color_primary"
+                    android:textSize="16sp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_surface"

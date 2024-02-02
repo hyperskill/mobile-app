@@ -49,6 +49,8 @@ object PaywallFeatureBuilder {
             reducer = paywallReducer
         )
             .wrapWithActionDispatcher(paywallActionDispatcher)
-            .transformState(viewStateMapper::map)
+            .transformState { state ->
+                viewStateMapper.map(state, paywallTransitionSource)
+            }
     }
 }
