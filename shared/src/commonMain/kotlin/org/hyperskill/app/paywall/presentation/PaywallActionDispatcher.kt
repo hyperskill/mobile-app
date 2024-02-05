@@ -46,7 +46,7 @@ class PaywallActionDispatcher(
                     if (price != null) {
                         InternalMessage.FetchMobileOnlyPriceSuccess(price)
                     } else {
-                        logger.e { "Receive null instead of formatter mobile-only subscription price" }
+                        logger.e { "Receive null instead of formatted mobile-only subscription price" }
                         InternalMessage.FetchMobileOnlyPriceError
                     }
                 },
@@ -101,8 +101,12 @@ class PaywallActionDispatcher(
     private fun handleLogWrongSubscriptionTypeAfterSync(
         action: InternalAction.LogWrongSubscriptionTypeAfterSync
     ) {
-        logger.w {
-            "Wrong subscription type after sync: expected ${action.expectedSubscriptionType}, actual ${action.actualSubscriptionType}"
+        logger.e {
+            """
+                Wrong subscription type after sync:
+                expected=${action.expectedSubscriptionType}
+                actual=${action.actualSubscriptionType}
+                """.trimIndent()
         }
     }
 }
