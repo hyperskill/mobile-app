@@ -88,7 +88,7 @@ class PaywallReducer(
                     paywallTransitionSource
                 )
             ),
-            Action.ViewAction.CompletePaywall
+            getTargetScreenNavigationAction(paywallTransitionSource)
         )
 
     private fun handleFetchMobileOnlyPriceSuccess(
@@ -116,7 +116,7 @@ class PaywallReducer(
                         Action.ViewAction.ShowMessage(
                             PaywallFeature.MessageKind.PENDING_PURCHASE
                         ),
-                        Action.ViewAction.CompletePaywall
+                        getTargetScreenNavigationAction(paywallTransitionSource)
                     )
                 }
 
@@ -147,7 +147,7 @@ class PaywallReducer(
         if (state is State.Content) {
             state.copy(isPurchaseSyncLoadingShowed = false) to
                 if (message.subscription.type == SubscriptionType.MOBILE_ONLY) {
-                    setOf(Action.ViewAction.CompletePaywall)
+                    setOf(getTargetScreenNavigationAction(paywallTransitionSource))
                 } else {
                     setOf(
                         Action.ViewAction.ShowMessage(
@@ -171,9 +171,20 @@ class PaywallReducer(
                 Action.ViewAction.ShowMessage(
                     PaywallFeature.MessageKind.SUBSCRIPTION_WILL_BECOME_AVAILABLE_SOON
                 ),
-                Action.ViewAction.CompletePaywall
+                getTargetScreenNavigationAction(paywallTransitionSource)
             )
         } else {
             state to emptySet()
+        }
+
+    private fun getTargetScreenNavigationAction(
+        paywallTransitionSource: PaywallTransitionSource
+    ): Action.ViewAction =
+        when (paywallTransitionSource) {
+            PaywallTransitionSource.LOGIN ->
+                Action.ViewAction.CompletePaywall
+            PaywallTransitionSource.PROFILE_SETTINGS ->
+                // TODO: replace with navigation the Subscription management
+                Action.ViewAction.CompletePaywall
         }
 }
