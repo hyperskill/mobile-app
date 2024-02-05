@@ -7,8 +7,9 @@ import org.hyperskill.app.profile_settings.data.repository.ProfileSettingsReposi
 import org.hyperskill.app.profile_settings.data.source.ProfileSettingsCacheDataSource
 import org.hyperskill.app.profile_settings.domain.interactor.ProfileSettingsInteractor
 import org.hyperskill.app.profile_settings.domain.repository.ProfileSettingsRepository
-import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
-import org.hyperskill.app.profile_settings.view.ProfileSettingsViewStateMapper
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.ViewState
 import ru.nobird.app.presentation.redux.feature.Feature
 
 class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSettingsComponent {
@@ -25,8 +26,7 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
     private val urlPathProcessor: UrlPathProcessor =
         appGraph.buildMagicLinksDataComponent().urlPathProcessor
 
-    override val profileSettingsFeature: Feature<
-        ProfileSettingsFeature.State, ProfileSettingsFeature.Message, ProfileSettingsFeature.Action>
+    override val profileSettingsFeature: Feature<ViewState, Message, Action>
         get() = ProfileSettingsFeatureBuilder.build(
             profileSettingsInteractor = profileSettingsInteractor,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
@@ -42,7 +42,4 @@ class ProfileSettingsComponentImpl(private val appGraph: AppGraph) : ProfileSett
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
-
-    override val profileSettingViewStateMapper: ProfileSettingsViewStateMapper
-        get() = ProfileSettingsViewStateMapper(appGraph.commonComponent.resourceProvider)
 }

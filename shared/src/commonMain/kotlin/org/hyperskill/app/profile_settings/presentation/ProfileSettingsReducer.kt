@@ -22,8 +22,7 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.InitMessage -> {
-                if (state is State.Idle ||
-                    (message.forceUpdate && (state is State.Content || state is State.Error))
+                if (state is State.Idle || (message.forceUpdate && state is State.Content)
                 ) {
                     State.Loading to setOf(Action.FetchProfileSettings)
                 } else {
@@ -36,8 +35,6 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     subscription = message.subscription,
                     mobileOnlyFormattedPrice = message.mobileOnlyFormattedPrice
                 ) to emptySet()
-            is Message.ProfileSettingsError ->
-                State.Error to emptySet()
             is Message.ThemeChanged ->
                 if (state is State.Content) {
                     state.copy(state.profileSettings.copy(theme = message.theme)) to

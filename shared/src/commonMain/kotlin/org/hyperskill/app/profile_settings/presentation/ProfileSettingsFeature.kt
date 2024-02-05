@@ -22,8 +22,21 @@ interface ProfileSettingsFeature {
             val mobileOnlyFormattedPrice: String?,
             val isLoadingMagicLink: Boolean = false
         ) : State
+    }
 
-        object Error : State
+    sealed interface ViewState {
+        object Idle : ViewState
+        object Loading : ViewState
+
+        data class Content(
+            val profileSettings: ProfileSettings,
+            val subscriptionState: SubscriptionState?,
+            val isLoadingMagicLink: Boolean
+        ) : ViewState {
+            data class SubscriptionState(
+                val description: String
+            )
+        }
     }
 
     sealed interface Message {
@@ -33,7 +46,6 @@ interface ProfileSettingsFeature {
             val subscription: Subscription? = null,
             val mobileOnlyFormattedPrice: String? = null
         ) : Message
-        object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message
         object SignOutConfirmed : Message
         object DismissScreen : Message
