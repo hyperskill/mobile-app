@@ -26,9 +26,10 @@ import org.hyperskill.app.R as SharedR
 fun SubscriptionSyncLoading(
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier
-        .fillMaxSize()
-        .background(PaywallDefaults.BackgroundColor)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(PaywallDefaults.BackgroundColor)
     ) {
         Column(modifier = Modifier.align(Alignment.centerWithVerticalBias(-0.5f))) {
             Image(

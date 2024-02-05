@@ -106,7 +106,7 @@ class PaywallActionDispatcher(
                 Wrong subscription type after sync:
                 expected=${action.expectedSubscriptionType}
                 actual=${action.actualSubscriptionType}
-                """.trimIndent()
+            """.trimIndent()
         }
     }
 }
