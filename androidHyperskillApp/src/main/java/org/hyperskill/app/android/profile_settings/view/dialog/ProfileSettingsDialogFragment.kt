@@ -94,7 +94,8 @@ class ProfileSettingsDialogFragment :
                     val newTheme = Theme.values()[which]
 
                     profileSettingsViewModel.onNewMessage(Message.ThemeChanged(theme = newTheme))
-                    viewBinding.settingsContent.settingsThemeChosenTextView.text = newTheme.getStringRepresentation(requireContext())
+                    viewBinding.settingsContent.settingsThemeChosenTextView.text =
+                        newTheme.getStringRepresentation(requireContext())
                     AppCompatDelegate.setDefaultNightMode(newTheme.asNightMode())
                 }
                 .setNegativeButton(org.hyperskill.app.R.string.cancel) { dialog, _ ->
