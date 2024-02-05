@@ -36,7 +36,7 @@ fun PaywallContent(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(id = R.color.layer_1))
+            .background(PaywallDefaults.BackgroundColor)
             .padding(PaywallDefaults.ContentPadding + padding)
     ) {
         Column(

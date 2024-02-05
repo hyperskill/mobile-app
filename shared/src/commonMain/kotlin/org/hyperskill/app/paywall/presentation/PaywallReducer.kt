@@ -131,6 +131,15 @@ class PaywallReducer(
             state to emptySet()
         }
 
+    private fun handlePurchaseError(
+        state: State
+    ): ReducerResult =
+        state to setOf(
+            Action.ViewAction.ShowMessage(
+                PaywallFeature.MessageKind.GENERAL
+            )
+        )
+
     private fun handleSubscriptionSyncSuccess(
         state: State,
         message: InternalMessage.SubscriptionSyncSuccess
@@ -154,22 +163,17 @@ class PaywallReducer(
             state to emptySet()
         }
 
-    private fun handlePurchaseError(
-        state: State
-    ): ReducerResult =
-        state to setOf(
-            Action.ViewAction.ShowMessage(
-                PaywallFeature.MessageKind.GENERAL
-            )
-        )
-
     private fun handleSubscriptionSyncError(
         state: State
     ): ReducerResult =
-        state to setOf(
-            Action.ViewAction.ShowMessage(
-                PaywallFeature.MessageKind.SUBSCRIPTION_WILL_BECOME_AVAILABLE_SOON
-            ),
-            Action.ViewAction.CompletePaywall
-        )
+        if (state is State.Content) {
+            state.copy(isPurchaseSyncLoadingShowed = false) to setOf(
+                Action.ViewAction.ShowMessage(
+                    PaywallFeature.MessageKind.SUBSCRIPTION_WILL_BECOME_AVAILABLE_SOON
+                ),
+                Action.ViewAction.CompletePaywall
+            )
+        } else {
+            state to emptySet()
+        }
 }

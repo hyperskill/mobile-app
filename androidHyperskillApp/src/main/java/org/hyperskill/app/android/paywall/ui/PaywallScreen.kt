@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.paywall.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -25,8 +27,8 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTopAppBa
 import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.core.view.ui.widget.compose.ScreenDataLoadingError
 import org.hyperskill.app.paywall.presentation.PaywallFeature
-import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewContentState
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
+import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewStateContent
 import org.hyperskill.app.paywall.presentation.PaywallViewModel
 
 object PaywallDefaults {
@@ -36,6 +38,10 @@ object PaywallDefaults {
         top = 24.dp,
         bottom = 32.dp
     )
+
+    val BackgroundColor: Color
+        @Composable
+        get() = colorResource(id = R.color.layer_1)
 }
 
 @Composable
@@ -75,32 +81,34 @@ fun PaywallScreen(
                 HyperskillTopAppBar(
                     title = stringResource(id = R.string.paywall_screen_title),
                     onNavigationIconClick = onBackClick,
-                    backgroundColor = colorResource(id = R.color.layer_1)
+                    backgroundColor = PaywallDefaults.BackgroundColor
                 )
             }
         }
     ) { padding ->
         when (val contentState = viewState.contentState) {
-            ViewContentState.Idle -> {
+            ViewStateContent.Idle -> {
                 // no op
             }
-            ViewContentState.Loading -> {
+            ViewStateContent.Loading -> {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
+                        .background(PaywallDefaults.BackgroundColor)
                 ) {
                     HyperskillProgressBar(
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
             }
-            ViewContentState.Error ->
+            ViewStateContent.Error ->
                 ScreenDataLoadingError(
-                    errorMessage = stringResource(id = R.string.paywall_placeholder_error_description)
+                    errorMessage = stringResource(id = R.string.paywall_placeholder_error_description),
+                    modifier = Modifier.background(PaywallDefaults.BackgroundColor)
                 ) {
                     onRetryLoadingClick()
                 }
-            is ViewContentState.Content ->
+            is ViewStateContent.Content ->
                 PaywallContent(
                     buyButtonText = contentState.buyButtonText,
                     isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
@@ -108,6 +116,8 @@ fun PaywallScreen(
                     onContinueWithLimitsClick = onContinueWithLimitsClick,
                     padding = padding
                 )
+            ViewStateContent.SubscriptionSyncLoading ->
+                SubscriptionSyncLoading()
         }
     }
 }
@@ -117,25 +127,29 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
         get() = sequenceOf(
             ViewState(
                 isToolbarVisible = true,
-                contentState = ViewContentState.Content(
+                contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
                     isContinueWithLimitsButtonVisible = false
                 )
             ),
             ViewState(
                 isToolbarVisible = false,
-                contentState = ViewContentState.Content(
+                contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
                     isContinueWithLimitsButtonVisible = true
                 )
             ),
             ViewState(
                 isToolbarVisible = true,
-                contentState = ViewContentState.Error
+                contentState = ViewStateContent.Error
             ),
             ViewState(
                 isToolbarVisible = true,
-                contentState = ViewContentState.Loading
+                contentState = ViewStateContent.Loading
+            ),
+            ViewState(
+                isToolbarVisible = true,
+                contentState = ViewStateContent.SubscriptionSyncLoading
             )
         )
 }
