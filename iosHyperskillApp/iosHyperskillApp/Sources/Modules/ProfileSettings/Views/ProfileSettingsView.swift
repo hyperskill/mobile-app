@@ -61,8 +61,20 @@ struct ProfileSettingsView: View {
     }
 
     @ViewBuilder
-    private func buildContent(profileSettings: ProfileSettings) -> some View {
+    private func buildContent(
+        profileSettings: ProfileSettings,
+        subscriptionState: ProfileSettingsViewState.SubscriptionState? = nil
+    ) -> some View {
         Form {
+            if let subscriptionState {
+                ProfileSettingsSubscriptionSectionView(
+                    description: subscriptionState.description_,
+                    action: {
+                        #warning("TODO: ALTAPPS-1138")
+                    }
+                )
+            }
+
             Section(header: Text(Strings.Settings.appearance)) {
                 Picker(
                     Strings.Settings.Theme.title,
@@ -218,8 +230,7 @@ struct ProfileSettingsView: View {
     }
 }
 
-struct ProfileSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileSettingsAssembly().makeModule()
-    }
+@available(iOS 15.0, *)
+#Preview {
+    ProfileSettingsAssembly().makeModule()
 }
