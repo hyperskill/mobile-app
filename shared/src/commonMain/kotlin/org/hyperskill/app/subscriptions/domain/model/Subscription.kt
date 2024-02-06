@@ -16,7 +16,9 @@ data class Subscription(
     @SerialName("steps_limit_left")
     val stepsLimitLeft: Int?,
     @SerialName("steps_limit_reset_time")
-    val stepsLimitResetTime: Instant?
+    val stepsLimitResetTime: Instant?,
+    @SerialName("valid_till")
+    val validTill: Instant?
 )
 
 val Subscription.isProblemLimitReached: Boolean

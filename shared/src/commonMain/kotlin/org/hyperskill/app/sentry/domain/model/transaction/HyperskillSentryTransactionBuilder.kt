@@ -333,4 +333,10 @@ object HyperskillSentryTransactionBuilder {
             name = "profile-settings-feature-fetch-subscription",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    fun buildManageSubscriptionFeatureFetchSubscription(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "manage-subscription-feature-fetch-subscription",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

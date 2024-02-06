@@ -103,9 +103,14 @@ sealed class HyperskillAnalyticRoute {
     open class Profile : HyperskillAnalyticRoute() {
         override val path: String = "/profile"
 
-        class Settings : Profile() {
+        open class Settings : Profile() {
             override val path: String =
                 "${super.path}/settings"
+
+            object ManageSubscription : Settings() {
+                override val path: String
+                    get() = "${super.path}/manage-subscription"
+            }
         }
     }
 
