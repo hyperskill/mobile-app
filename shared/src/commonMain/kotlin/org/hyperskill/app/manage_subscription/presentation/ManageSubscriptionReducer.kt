@@ -18,6 +18,7 @@ class ManageSubscriptionReducer : StateReducer<State, Message, Action> {
             is InternalMessage.FetchSubscriptionSuccess -> handleFetchSubscriptionSuccess(message)
             InternalMessage.FetchSubscriptionError -> handleFetchSubscriptionError()
             Message.RetryContentLoading -> fetchSubscription(forceLoadFromNetwork = true)
+            Message.ManageSubscriptionClicked -> handleManageSubscriptionClicked(state)
         }
 
     private fun handleInitialize(state: State): ReducerResult =
@@ -47,4 +48,13 @@ class ManageSubscriptionReducer : StateReducer<State, Message, Action> {
 
     private fun fetchSubscription(forceLoadFromNetwork: Boolean): ReducerResult =
         State.Loading to setOf(InternalAction.FetchSubscription(forceLoadFromNetwork))
+
+    private fun handleManageSubscriptionClicked(state: State): ReducerResult =
+        if (state is State.Content && state.manageSubscriptionUrl != null) {
+            state to setOf(
+                Action.ViewAction.OpenUrl(state.manageSubscriptionUrl)
+            )
+        } else {
+            state to emptySet()
+        }
 }

@@ -22,6 +22,8 @@ object ManageSubscriptionFeature {
         object ViewedEventMessage : Message
 
         object RetryContentLoading : Message
+
+        object ManageSubscriptionClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -34,7 +36,9 @@ object ManageSubscriptionFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            data class OpenUrl(val url: String) : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {
