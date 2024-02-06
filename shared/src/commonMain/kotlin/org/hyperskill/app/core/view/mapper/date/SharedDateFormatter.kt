@@ -243,5 +243,5 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
     }
 
     private fun formatHoursOrMinutesWithLeadingZero(count: Int): String =
-        if (count <= 9) "0${count}" else count.toString()
+        if (count <= 9) "0$count" else count.toString()
 }
