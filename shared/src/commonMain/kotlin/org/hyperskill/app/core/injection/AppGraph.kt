@@ -29,6 +29,7 @@ import org.hyperskill.app.logging.inject.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
@@ -181,4 +182,5 @@ interface AppGraph {
     fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent
     fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
+    fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
 }

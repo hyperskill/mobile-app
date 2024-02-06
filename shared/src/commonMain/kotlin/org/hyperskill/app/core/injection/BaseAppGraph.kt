@@ -55,6 +55,8 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
@@ -482,4 +484,7 @@ abstract class BaseAppGraph : AppGraph {
         paywallTransitionSource: PaywallTransitionSource
     ): PaywallComponent =
         PaywallComponentImpl(paywallTransitionSource, this)
+
+    override fun buildManageSubscriptionComponent(): ManageSubscriptionComponent =
+        ManageSubscriptionComponentImpl(this)
 }
