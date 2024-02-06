@@ -2,9 +2,10 @@ import SwiftUI
 
 extension BadgeView {
     struct Appearance {
-        let cornerRadius: CGFloat = 4
+        var cornerRadius: CGFloat = 4
+        var insets = LayoutInsets(horizontal: 8, vertical: 4)
 
-        let insets = LayoutInsets(horizontal: 8, vertical: 4)
+        var font = Font.caption
     }
 }
 
@@ -17,7 +18,7 @@ struct BadgeView: View {
 
     var body: some View {
         Text(text)
-            .font(.caption)
+            .font(appearance.font)
             .foregroundColor(style.foregroundColor)
             .padding(appearance.insets.edgeInsets)
             .background(style.backgroundColor)

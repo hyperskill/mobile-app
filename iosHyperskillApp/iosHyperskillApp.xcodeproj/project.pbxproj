@@ -463,6 +463,7 @@
 		2CE31F4827F1BB79008EEE66 /* AuthSocialAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */; };
 		2CE31F4B27F1E070008EEE66 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */; };
 		2CE31F4D27F1E0C8008EEE66 /* AppAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */; };
+		2CE4F0732B71D358001FD376 /* SubscriptionDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE4F0722B71D358001FD376 /* SubscriptionDetailsView.swift */; };
 		2CE58C5A2B07662300E5EBBE /* ChallengeWidgetContentStateProgressGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE58C592B07662300E5EBBE /* ChallengeWidgetContentStateProgressGridView.swift */; };
 		2CE58C5C2B0768F300E5EBBE /* ChallengeWidgetContentStateProgressGridItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE58C5B2B0768F300E5EBBE /* ChallengeWidgetContentStateProgressGridItemView.swift */; };
 		2CE601362B3345DD00E9CC46 /* ColorResource+UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE601352B3345DD00E9CC46 /* ColorResource+UIColor.swift */; };
@@ -1154,6 +1155,7 @@
 		2CE31F4727F1BB79008EEE66 /* AuthSocialAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialAssembly.swift; sourceTree = "<group>"; };
 		2CE31F4A27F1E070008EEE66 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2CE31F4C27F1E0C8008EEE66 /* AppAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAssembly.swift; sourceTree = "<group>"; };
+		2CE4F0722B71D358001FD376 /* SubscriptionDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionDetailsView.swift; sourceTree = "<group>"; };
 		2CE58C592B07662300E5EBBE /* ChallengeWidgetContentStateProgressGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeWidgetContentStateProgressGridView.swift; sourceTree = "<group>"; };
 		2CE58C5B2B0768F300E5EBBE /* ChallengeWidgetContentStateProgressGridItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeWidgetContentStateProgressGridItemView.swift; sourceTree = "<group>"; };
 		2CE601352B3345DD00E9CC46 /* ColorResource+UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ColorResource+UIColor.swift"; sourceTree = "<group>"; };
@@ -1731,6 +1733,7 @@
 				2CE7B4852AB05AA300DCBE4D /* StepQuizSubmodules */,
 				E9F655CE2875B30B00291143 /* Streak */,
 				E9F0A2A729D416AC00C4A61E /* StudyPlan */,
+				2CE4F0712B71D347001FD376 /* SubscriptionDetails */,
 				E9A022AB291D0E1C004317DB /* TopicsRepetitions */,
 				2C2600862A2001E600BD3D39 /* TrackSelection */,
 				E9F923F428A2632800C065A7 /* Welcome */,
@@ -3404,6 +3407,14 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		2CE4F0712B71D347001FD376 /* SubscriptionDetails */ = {
+			isa = PBXGroup;
+			children = (
+				2CE4F0722B71D358001FD376 /* SubscriptionDetailsView.swift */,
+			);
+			path = SubscriptionDetails;
+			sourceTree = "<group>";
+		};
 		2CE58C5D2B07690700E5EBBE /* ProgressGrid */ = {
 			isa = PBXGroup;
 			children = (
@@ -4445,6 +4456,7 @@
 				E94BB04C2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift in Sources */,
 				2C3100532AB194A200C09BFB /* StepQuizParsonsViewDataMapperCodeContentCache.swift in Sources */,
 				2CE8EE712B066D05004EB545 /* ChallengeWidgetViewStateContentCollectRewardButtonStateKsExtensions.swift in Sources */,
+				2CE4F0732B71D358001FD376 /* SubscriptionDetailsView.swift in Sources */,
 				2CDA984929445C0A00ADE539 /* ProfileStatisticsItemView.swift in Sources */,
 				E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */,
 				E99CD0BC292B9A2D00620259 /* TopicsRepetitionsViewModel.swift in Sources */,
