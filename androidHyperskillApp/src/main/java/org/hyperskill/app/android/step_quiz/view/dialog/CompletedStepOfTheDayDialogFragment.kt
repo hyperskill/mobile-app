@@ -19,14 +19,13 @@ import org.hyperskill.app.android.databinding.FragmentCompletedDailyStepBinding
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import ru.nobird.android.view.base.ui.extension.argument
 
 class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     companion object {
         const val TAG = "CompletedStepOfTheDayDialogFragment"
 
         fun newInstance(
-            earnedGemsText: String,
+            earnedGemsText: String?,
             shareStreakData: StepCompletionFeature.ShareStreakData
         ): CompletedStepOfTheDayDialogFragment =
             CompletedStepOfTheDayDialogFragment().apply {
@@ -40,7 +39,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
 
     private val viewBinding: FragmentCompletedDailyStepBinding by viewBinding(FragmentCompletedDailyStepBinding::bind)
 
-    private var earnedGemsText: String by argument()
+    private var earnedGemsText: String? = null
 
     private var shareStreakData: StepCompletionFeature.ShareStreakData by argument(
         StepCompletionFeature.ShareStreakData.serializer()
@@ -80,6 +79,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(viewBinding) {
+            completedDailyStepEarnedGemsTextView.isVisible = earnedGemsText != null
             completedDailyStepEarnedGemsTextView.text = earnedGemsText
 
             completedDailyStepStreakTextView.isVisible =
