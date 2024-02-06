@@ -17,6 +17,19 @@ object ManageSubscriptionFeature {
         ) : State
     }
 
+    sealed interface ViewState {
+        object Idle : ViewState
+
+        object Loading : ViewState
+
+        object Error : ViewState
+
+        data class Content(
+            val validUntilFormatted: String?,
+            val isManageButtonVisible: Boolean
+        ) : ViewState
+    }
+
     sealed interface Message {
         object Initialize : Message
         object ViewedEventMessage : Message
