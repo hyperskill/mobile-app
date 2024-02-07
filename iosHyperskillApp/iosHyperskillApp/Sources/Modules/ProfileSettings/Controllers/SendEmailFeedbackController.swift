@@ -6,6 +6,8 @@ import UIKit
 final class SendEmailFeedbackController: NSObject {
     private weak var presentationController: UIViewController?
 
+    var onDidFinish: (() -> Void)?
+
     func sendFeedback(feedbackEmailData: FeedbackEmailData, presentationController: UIViewController) {
         self.presentationController = presentationController
 
@@ -67,5 +69,7 @@ extension SendEmailFeedbackController: MFMailComposeViewControllerDelegate {
                 }
             )
         }
+
+        onDidFinish?()
     }
 }

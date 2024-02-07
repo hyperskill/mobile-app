@@ -12,6 +12,8 @@ final class ApplicationShortcutsService: ApplicationShortcutsServiceProtocol {
 
     private lazy var analyticInteractor = AnalyticInteractor.default
 
+    private var sendEmailFeedbackController: SendEmailFeedbackController?
+
     // MARK: Protocol Conforming
 
     func handleLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -53,7 +55,7 @@ final class ApplicationShortcutsService: ApplicationShortcutsServiceProtocol {
     }
 
     private func performSendFeedback() {
-        applicationShortcutsInteractor.getSendFeedbackEmailData { feedbackEmailData, error in
+        applicationShortcutsInteractor.getSendFeedbackEmailData { [weak self] feedbackEmailData, error in
             if let error = error {
                 #if DEBUG
                 print("ApplicationShortcutsService: SendFeedback, failed get email data: \(error)")
@@ -78,6 +80,11 @@ final class ApplicationShortcutsService: ApplicationShortcutsServiceProtocol {
             }
 
             let sendEmailFeedbackController = SendEmailFeedbackController()
+            sendEmailFeedbackController.onDidFinish = { [weak self] in
+                self?.sendEmailFeedbackController = nil
+            }
+            self?.sendEmailFeedbackController = sendEmailFeedbackController
+
             sendEmailFeedbackController.sendFeedback(
                 feedbackEmailData: feedbackEmailData,
                 presentationController: currentPresentedViewController
