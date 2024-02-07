@@ -77,6 +77,8 @@ interface AppFeature {
 
         object SendPushNotificationsToken : Action
 
+        object LogAppLaunchFirstTimeAnalyticEventIfNeeded : Action
+
         /**
          * Action Wrappers
          */
