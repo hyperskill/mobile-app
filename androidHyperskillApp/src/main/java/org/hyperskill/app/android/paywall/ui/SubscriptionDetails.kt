@@ -20,24 +20,19 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.R as SharedR
 
 @Composable
-fun PaywallSubscriptionDetails(modifier: Modifier = Modifier) {
+fun SubscriptionDetails(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        Text(
-            text = stringResource(id = SharedR.string.paywall_mobile_only_title),
-            style = MaterialTheme.typography.h5,
-            fontWeight = FontWeight.Medium
-        )
-        SubscriptionOption(text = stringResource(id = SharedR.string.paywall_mobile_only_option_1))
-        SubscriptionOption(text = stringResource(id = SharedR.string.paywall_mobile_only_option_2))
-        SubscriptionOption(text = stringResource(id = SharedR.string.paywall_mobile_only_option_3))
+        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_option_1))
+        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_option_2))
+        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_option_3))
     }
 }
 
 @Composable
-private fun SubscriptionOption(
+fun SubscriptionOption(
     text: String,
     modifier: Modifier = Modifier
 ) {
@@ -61,8 +56,8 @@ private fun SubscriptionOption(
 
 @Preview
 @Composable
-fun PaywallSubscriptionDetailsPreview() {
+private fun PaywallSubscriptionDetailsPreview() {
     HyperskillTheme {
-        PaywallSubscriptionDetails()
+        SubscriptionDetails()
     }
 }

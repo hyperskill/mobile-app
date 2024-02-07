@@ -9,7 +9,16 @@ import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFea
 class ManageSubscriptionViewModel(
     viewContainer: FlowView<ViewState, Message, ViewAction>
 ) : ReduxFlowViewModel<ViewState, Message, ViewAction>(viewContainer) {
+
     init {
         onNewMessage(Message.Initialize)
+    }
+
+    fun onRetryClick() {
+        onNewMessage(Message.RetryContentLoading)
+    }
+
+    fun onManageSubscriptionClick() {
+        onNewMessage(Message.ManageSubscriptionClicked)
     }
 }

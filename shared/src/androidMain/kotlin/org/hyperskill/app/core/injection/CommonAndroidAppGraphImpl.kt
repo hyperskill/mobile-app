@@ -260,7 +260,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
             paywallComponent = buildPaywallComponent(paywallTransitionSource)
         )
 
-    override fun buildManageSubscriptionPlatformComponent(): PlatformManageSubscriptionComponent =
+    override fun buildManagePlatformSubscriptionComponent(): PlatformManageSubscriptionComponent =
         PlatformManageSubscriptionComponentImpl(
             manageSubscriptionComponent = buildManageSubscriptionComponent()
         )
