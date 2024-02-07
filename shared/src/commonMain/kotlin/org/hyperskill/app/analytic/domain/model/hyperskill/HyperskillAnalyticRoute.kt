@@ -153,4 +153,12 @@ sealed class HyperskillAnalyticRoute {
     internal class AppLaunchFirstTime : HyperskillAnalyticRoute() {
         override val path: String = "app-launch-first-time"
     }
+
+    /**
+     * Springboard, or Home Screen is the standard application that manages the home screen of Apple devices.
+     */
+    class IosSpringBoard : HyperskillAnalyticRoute() {
+        override val path: String =
+            "SpringBoard"
+    }
 }
