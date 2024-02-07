@@ -56,14 +56,14 @@ final class ApplicationShortcutsService: ApplicationShortcutsServiceProtocol {
 
     private func performSendFeedback() {
         applicationShortcutsInteractor.getSendFeedbackEmailData { [weak self] feedbackEmailData, error in
-            if let error = error {
+            if let error {
                 #if DEBUG
                 print("ApplicationShortcutsService: SendFeedback, failed get email data: \(error)")
                 #endif
                 return
             }
 
-            guard let feedbackEmailData = feedbackEmailData else {
+            guard let feedbackEmailData else {
                 #if DEBUG
                 print("ApplicationShortcutsService: SendFeedback, no email data")
                 #endif
