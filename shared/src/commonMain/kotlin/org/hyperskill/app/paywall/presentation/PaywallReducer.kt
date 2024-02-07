@@ -16,7 +16,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class PaywallReducer(
+internal class PaywallReducer(
     private val paywallTransitionSource: PaywallTransitionSource
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =

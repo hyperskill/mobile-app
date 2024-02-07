@@ -10,7 +10,7 @@ import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 object PaywallFeature {
 
-    sealed interface State {
+    internal sealed interface State {
         object Idle : State
         object Loading : State
         object Error : State
@@ -20,7 +20,7 @@ object PaywallFeature {
         ) : State
     }
 
-    fun initialState(): State =
+    internal fun initialState(): State =
         State.Idle
 
     data class ViewState(
@@ -75,7 +75,7 @@ object PaywallFeature {
             object CompletePaywall : ViewAction
 
             data class ShowMessage(
-                val errorKind: MessageKind
+                val messageKind: MessageKind
             ) : ViewAction
         }
     }

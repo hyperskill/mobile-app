@@ -5,9 +5,9 @@ import org.hyperskill.app.subscriptions.data.repository.SubscriptionsRepositoryI
 import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 import org.hyperskill.app.subscriptions.remote.SubscriptionsRemoteDataSourceImpl
 
-class SubscripitonsDataComponentImpl(
+class SubscriptionsDataComponentImpl(
     appGraph: AppGraph
-) : SubscripitonsDataComponent {
+) : SubscriptionsDataComponent {
 
     private val subscriptionsRemoteDataSource =
         SubscriptionsRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)

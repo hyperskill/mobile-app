@@ -75,7 +75,7 @@ class PaywallFragment : Fragment() {
             is ViewAction.ShowMessage -> {
                 Toast.makeText(
                     requireContext(),
-                    getString(action.errorKind.stringRes.resourceId),
+                    getString(action.messageKind.stringRes.resourceId),
                     Toast.LENGTH_SHORT
                 ).show()
             }

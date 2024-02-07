@@ -9,7 +9,7 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature.State
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewStateContent
 
-class PaywallViewStateMapper(
+internal class PaywallViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
     fun map(

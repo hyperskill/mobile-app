@@ -16,6 +16,7 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 import org.hyperskill.app.paywall.presentation.PaywallReducer
 import org.hyperskill.app.paywall.view.PaywallViewStateMapper
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
+import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
@@ -30,6 +31,7 @@ object PaywallFeatureBuilder {
         purchaseInteractor: PurchaseInteractor,
         resourceProvider: ResourceProvider,
         subscriptionsRepository: SubscriptionsRepository,
+        sentryInteractor: SentryInteractor,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
@@ -42,6 +44,7 @@ object PaywallFeatureBuilder {
             analyticInteractor = analyticInteractor,
             purchaseInteractor = purchaseInteractor,
             subscriptionsRepository = subscriptionsRepository,
+            sentryInteractor = sentryInteractor,
             logger = logger.withTag(LOG_TAG)
         )
 
