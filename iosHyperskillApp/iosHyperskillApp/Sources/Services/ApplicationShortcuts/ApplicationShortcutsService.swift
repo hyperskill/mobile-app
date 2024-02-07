@@ -10,6 +10,8 @@ final class ApplicationShortcutsService: ApplicationShortcutsServiceProtocol {
     private lazy var applicationShortcutsInteractor: ApplicationShortcutsInteractor =
         AppGraphBridge.sharedAppGraph.buildApplicationShortcutsDataComponent().applicationShortcutsInteractor
 
+    private lazy var analyticInteractor = AnalyticInteractor.default
+
     // MARK: Protocol Conforming
 
     func handleLaunchOptions(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -22,7 +24,10 @@ final class ApplicationShortcutsService: ApplicationShortcutsServiceProtocol {
 
     func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) -> Bool {
         let shortcutType = shortcutItem.type
-        // TODO: Add analytics
+
+        analyticInteractor.logEvent(
+            event: ApplicationShortcutItemClickedHyperskillAnalyticEvent(shortcutItemIdentifier: shortcutType)
+        )
 
         guard let shortcutIdentifier = ApplicationShortcutIdentifier(fullIdentifier: shortcutType) else {
             #if DEBUG
