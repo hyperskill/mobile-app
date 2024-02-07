@@ -148,6 +148,13 @@ sealed class HyperskillAnalyticRoute {
     }
 
     /**
+     * Represents a special route that is used to track the first time the app is launched (ALTAPPS-1139).
+     */
+    internal class AppLaunchFirstTime : HyperskillAnalyticRoute() {
+        override val path: String = "app-launch-first-time"
+    }
+
+    /**
      * Springboard, or Home Screen is the standard application that manages the home screen of Apple devices.
      */
     class IosSpringBoard : HyperskillAnalyticRoute() {
