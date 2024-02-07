@@ -6,10 +6,10 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.LOGIN
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROFILE_SETTINGS
 import org.hyperskill.app.paywall.presentation.PaywallFeature.State
-import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewContentState
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
+import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewStateContent
 
-class PaywallViewStateMapper(
+internal class PaywallViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
     fun map(
@@ -19,17 +19,21 @@ class PaywallViewStateMapper(
         ViewState(
             isToolbarVisible = paywallTransitionSource != LOGIN,
             contentState = when (state) {
-                State.Idle -> ViewContentState.Idle
-                State.Loading -> ViewContentState.Loading
-                State.Error -> ViewContentState.Error
+                State.Idle -> ViewStateContent.Idle
+                State.Loading -> ViewStateContent.Loading
+                State.Error -> ViewStateContent.Error
                 is State.Content ->
-                    ViewContentState.Content(
-                        buyButtonText = resourceProvider.getString(
-                            SharedResources.strings.paywall_mobile_only_buy_btn,
-                            state.formattedPrice
-                        ),
-                        isContinueWithLimitsButtonVisible = paywallTransitionSource != PROFILE_SETTINGS
-                    )
+                    if (state.isPurchaseSyncLoadingShowed) {
+                        ViewStateContent.SubscriptionSyncLoading
+                    } else {
+                        ViewStateContent.Content(
+                            buyButtonText = resourceProvider.getString(
+                                SharedResources.strings.paywall_mobile_only_buy_btn,
+                                state.formattedPrice
+                            ),
+                            isContinueWithLimitsButtonVisible = paywallTransitionSource != PROFILE_SETTINGS
+                        )
+                    }
             }
         )
 }

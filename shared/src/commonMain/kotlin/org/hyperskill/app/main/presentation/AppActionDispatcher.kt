@@ -117,6 +117,8 @@ internal class AppActionDispatcher(
                 pushNotificationsInteractor.renewFCMToken()
             is Action.IdentifyUserInPurchaseSdk ->
                 handleIdentifyUserInPurchaseSdk(action.userId)
+            is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded ->
+                appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
             else -> {}
         }
     }
