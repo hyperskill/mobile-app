@@ -13,6 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var notificationPermissionStatusSettingsObserver = NotificationPermissionStatusSettingsObserver.default
     private lazy var notificationsRegistrationService = NotificationsRegistrationService.shared
 
+    private lazy var applicationShortcutsService: ApplicationShortcutsServiceProtocol = ApplicationShortcutsService()
+
     // MARK: Initializing the App
 
     func application(
@@ -47,6 +49,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         notificationsRegistrationService.renewAPNsDeviceToken()
         userNotificationsCenterDelegate.attachNotificationDelegate()
         notificationPermissionStatusSettingsObserver.startObserving()
+
+        // If app launched using a quick action, perform the requested quick action and return a value of false
+        // to prevent call the application:performActionForShortcutItem:completionHandler: method.
+        if applicationShortcutsService.handleLaunchOptions(launchOptions) {
+            return false
+        }
 
         return true
     }
@@ -87,6 +95,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didReceive notification: UILocalNotification) {
         notificationsService.handleLocalNotification(with: notification.userInfo)
+    }
+
+    // MARK: Continuing User Activity and Handling Quick Actions
+
+    func application(
+        _ application: UIApplication,
+        performActionFor shortcutItem: UIApplicationShortcutItem,
+        completionHandler: @escaping (Bool) -> Void
+    ) {
+        completionHandler(applicationShortcutsService.handleShortcutItem(shortcutItem))
     }
 
     // MARK: Opening a URL-Specified Resource
