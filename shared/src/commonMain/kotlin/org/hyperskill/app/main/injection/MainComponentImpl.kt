@@ -30,7 +30,7 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
             streakRecoveryComponent.streakRecoveryReducer,
             streakRecoveryComponent.streakRecoveryActionDispatcher,
             clickedNotificationComponent.notificationClickHandlingReducer,
-            clickedNotificationComponent.notificationClickHandlingDispatcher,
+            clickedNotificationComponent.notificationClickHandlingActionDispatcher,
             appGraph.buildNotificationComponent().notificationInteractor,
             appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
             welcomeOnboardingComponent.welcomeOnboardingReducer,

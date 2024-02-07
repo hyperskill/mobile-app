@@ -1,9 +1,13 @@
 package org.hyperskill.app.notification.click_handling.presentation
 
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
+import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
+import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.Action
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.EarnedBadgeFetchResult
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.InternalAction
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.Message
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.NextLearningActivityFetchResult
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.ProfileFetchResult
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.State
 import org.hyperskill.app.notification.remote.domain.analytic.PushNotificationClickedHyperskillAnalyticEvent
@@ -21,6 +25,7 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
             is Message.NotificationClicked -> handleNotificationClicked(message)
             is ProfileFetchResult -> handleProfileFetchResult(message)
             is EarnedBadgeFetchResult -> handleEarnedBadgeFetchResult(message)
+            is NextLearningActivityFetchResult -> handleNextLearningActivityFetchResult(message)
             /**
              * Analytic
              */
@@ -48,11 +53,16 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
             PushNotificationType.STREAK_RECORD_START,
             PushNotificationType.STREAK_RECORD_NEAR,
             PushNotificationType.STREAK_RECORD_COMPLETE,
-            PushNotificationType.DAILY_REMINDER,
             PushNotificationType.STREAK_NEW ->
                 setOf(
                     Action.ViewAction.SetLoadingShowed(true),
                     InternalAction.FetchProfile
+                )
+
+            PushNotificationType.DAILY_REMINDER ->
+                setOf(
+                    Action.ViewAction.SetLoadingShowed(true),
+                    InternalAction.FetchNextLearningActivity
                 )
 
             PushNotificationType.LEARN_TOPIC,
@@ -119,4 +129,39 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
                 EarnedBadgeFetchResult.Error -> null
             }
         )
+
+    private fun handleNextLearningActivityFetchResult(
+        message: NextLearningActivityFetchResult
+    ): Set<Action> =
+        setOfNotNull(
+            Action.ViewAction.SetLoadingShowed(false),
+            when (message) {
+                is NextLearningActivityFetchResult.Success -> {
+                    getStepRouteForNextLearningActivity(message.learningActivity)?.let { stepRoute ->
+                        Action.ViewAction.NavigateTo.StepScreen(stepRoute)
+                    }
+                }
+                NextLearningActivityFetchResult.Error -> null
+            }
+        )
+
+    private fun getStepRouteForNextLearningActivity(learningActivity: LearningActivity?): StepRoute? {
+        if (learningActivity == null) {
+            return null
+        }
+
+        val learningActivityTargetViewAction = LearningActivityTargetViewActionMapper
+            .mapLearningActivityToTargetViewAction(
+                activity = learningActivity,
+                trackId = null,
+                projectId = null
+            )
+            .getOrElse { return null }
+
+        return if (learningActivityTargetViewAction is LearningActivityTargetViewAction.NavigateTo.Step) {
+            learningActivityTargetViewAction.stepRoute
+        } else {
+            null
+        }
+    }
 }
