@@ -13,7 +13,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.main.presentation.AppReducer
-import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingDispatcher
+import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingActionDispatcher
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
@@ -43,7 +43,7 @@ internal object AppFeatureBuilder {
         streakRecoveryReducer: StreakRecoveryReducer,
         streakRecoveryActionDispatcher: StreakRecoveryActionDispatcher,
         clickedNotificationReducer: NotificationClickHandlingReducer,
-        notificationClickHandlingDispatcher: NotificationClickHandlingDispatcher,
+        notificationClickHandlingActionDispatcher: NotificationClickHandlingActionDispatcher,
         notificationsInteractor: NotificationInteractor,
         pushNotificationsInteractor: PushNotificationsInteractor,
         welcomeOnboardingReducer: WelcomeOnboardingReducer,
@@ -81,7 +81,7 @@ internal object AppFeatureBuilder {
                 )
             )
             .wrapWithActionDispatcher(
-                notificationClickHandlingDispatcher.transform(
+                notificationClickHandlingActionDispatcher.transform(
                     transformAction = { it.safeCast<Action.ClickedNotificationAction>()?.action },
                     transformMessage = Message::NotificationClickHandlingMessage
                 )
