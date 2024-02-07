@@ -146,4 +146,11 @@ sealed class HyperskillAnalyticRoute {
         override val path: String =
             "/search"
     }
+
+    /**
+     * Represents a special route that is used to track the first time the app is launched (ALTAPPS-1139).
+     */
+    internal class AppLaunchFirstTime : HyperskillAnalyticRoute() {
+        override val path: String = "app-launch-first-time"
+    }
 }

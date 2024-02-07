@@ -33,7 +33,10 @@ internal class AppReducer(
         when (message) {
             is Message.Initialize -> {
                 if (state is State.Idle || (state is State.NetworkError && message.forceUpdate)) {
-                    State.Loading to setOf(Action.DetermineUserAccountStatus(message.pushNotificationData))
+                    State.Loading to setOf(
+                        Action.DetermineUserAccountStatus(message.pushNotificationData),
+                        Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded
+                    )
                 } else {
                     null
                 }
