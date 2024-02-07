@@ -434,6 +434,8 @@
 		2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */; };
 		2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */; };
 		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
+		2CD20ED12B73475400FB5269 /* ApplicationShortcutsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD20ED02B73475400FB5269 /* ApplicationShortcutsService.swift */; };
+		2CD20ED42B73484200FB5269 /* ApplicationShortcutIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD20ED32B73484200FB5269 /* ApplicationShortcutIdentifier.swift */; };
 		2CD316C028A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD316BF28A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift */; };
 		2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */; };
 		2CD3652828797D3600D61855 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD3652728797D3600D61855 /* Formatter.swift */; };
@@ -1126,6 +1128,8 @@
 		2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringViewData.swift; sourceTree = "<group>"; };
 		2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
+		2CD20ED02B73475400FB5269 /* ApplicationShortcutsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationShortcutsService.swift; sourceTree = "<group>"; };
+		2CD20ED32B73484200FB5269 /* ApplicationShortcutIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationShortcutIdentifier.swift; sourceTree = "<group>"; };
 		2CD316BF28A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ApplicationTheme+SharedTheme.swift"; sourceTree = "<group>"; };
 		2CD3652428796C4300D61855 /* ProfileViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewDataMapper.swift; sourceTree = "<group>"; };
 		2CD3652728797D3600D61855 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
@@ -1792,6 +1796,7 @@
 		2C1F5880280D5B8200372A37 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				2CD20ED22B73481800FB5269 /* ApplicationShortcuts */,
 				2C336D112865C46400C91342 /* ApplicationTheme */,
 				2C1F5883280D5BE600372A37 /* Auth */,
 			);
@@ -3289,6 +3294,15 @@
 			path = Modals;
 			sourceTree = "<group>";
 		};
+		2CD20ED22B73481800FB5269 /* ApplicationShortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				2CD20ED32B73484200FB5269 /* ApplicationShortcutIdentifier.swift */,
+				2CD20ED02B73475400FB5269 /* ApplicationShortcutsService.swift */,
+			);
+			path = ApplicationShortcuts;
+			sourceTree = "<group>";
+		};
 		2CD3652328796C3000D61855 /* ViewData */ = {
 			isa = PBXGroup;
 			children = (
@@ -4545,6 +4559,7 @@
 				2C5CA2412A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift in Sources */,
 				2C5CA23E2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift in Sources */,
 				2CFD32442AAEFC4D00B9B6EA /* IosFCMTokenProviderImpl.swift in Sources */,
+				2CD20ED12B73475400FB5269 /* ApplicationShortcutsService.swift in Sources */,
 				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
@@ -4965,6 +4980,7 @@
 				2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */,
 				2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */,
 				2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */,
+				2CD20ED42B73484200FB5269 /* ApplicationShortcutIdentifier.swift in Sources */,
 				2C186ADF2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift in Sources */,
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C99B1002A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift in Sources */,

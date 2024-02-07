@@ -4,4 +4,6 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 interface SubscriptionsRemoteDataSource {
     suspend fun getCurrentSubscription(): Result<Subscription>
+
+    suspend fun syncSubscription(): Result<Subscription>
 }
