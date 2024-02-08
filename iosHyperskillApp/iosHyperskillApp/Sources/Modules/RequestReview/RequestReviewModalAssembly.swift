@@ -1,5 +1,5 @@
 import shared
-import SwiftUI
+import UIKit
 
 final class RequestReviewModalAssembly: UIKitAssembly {
     private let stepRoute: StepRoute

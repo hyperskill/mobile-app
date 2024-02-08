@@ -7,7 +7,7 @@ import org.hyperskill.app.request_review.data.source.RequestReviewCacheDataSourc
 import org.hyperskill.app.request_review.domain.interactor.RequestReviewInteractor
 import org.hyperskill.app.request_review.domain.repository.RequestReviewRepository
 
-class RequestReviewDataComponentImpl(
+internal class RequestReviewDataComponentImpl(
     private val appGraph: AppGraph
 ) : RequestReviewDataComponent {
     private val requestReviewCacheDataSource: RequestReviewCacheDataSource =
