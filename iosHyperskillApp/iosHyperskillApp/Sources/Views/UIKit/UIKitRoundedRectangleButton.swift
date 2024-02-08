@@ -115,3 +115,16 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
         }
     }
 }
+
+extension UIKitRoundedRectangleButton {
+    static var primary: UIKitRoundedRectangleButton {
+        UIKitRoundedRectangleButton(
+            style: .violet,
+            appearance: .init(
+                font: .preferredFont(for: .body, weight: .bold),
+                intrinsicHeight: 50,
+                cornerRadius: 13
+            )
+        )
+    }
+}

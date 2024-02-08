@@ -15,10 +15,7 @@ extension StageImplementUnsupportedModalView {
         let textContainerStackViewSpacing: CGFloat = LayoutInsets.defaultInset
 
         let titleLabelText = Strings.StageImplement.UnsupportedModal.title
-        let titleLabelTextFont = UIFont.preferredFont(
-            forTextStyle: .title2,
-            compatibleWith: .init(legibilityWeight: .bold)
-        )
+        let titleLabelTextFont = UIFont.preferredFont(for: .title2, weight: .bold)
         let titleLabelTextColor = UIColor.primaryText
 
         let descriptionLabelText = Strings.StageImplement.UnsupportedModal.description

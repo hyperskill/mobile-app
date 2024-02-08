@@ -109,7 +109,7 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
     private func setupTitleView() {
         let label = UILabel()
         label.text = streakFreezeState.title
-        label.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
+        label.font = .preferredFont(for: .largeTitle, weight: .bold)
         label.textColor = .primaryText
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
