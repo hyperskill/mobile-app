@@ -3,6 +3,8 @@ package org.hyperskill.app.core.injection
 import org.hyperskill.app.analytic.domain.model.AnalyticEngine
 import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
+import org.hyperskill.app.application_shortcuts.injection.ApplicationShortcutsDataComponent
+import org.hyperskill.app.application_shortcuts.injection.ApplicationShortcutsDataComponentImpl
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.notification.remote.injection.IosPlatformPushNotificationsDataComponent
@@ -43,4 +45,7 @@ abstract class IosAppComponentImpl(
 
     override fun buildPurchaseComponent(): PurchaseComponent =
         PurchaseComponentImpl(IOSPurchaseManager())
+
+    override fun buildApplicationShortcutsDataComponent(): ApplicationShortcutsDataComponent =
+        ApplicationShortcutsDataComponentImpl(this)
 }
