@@ -21,17 +21,8 @@ internal class PaywallReducer(
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
-            Message.Initialize -> fetchMobileOnlyPrice()
-            Message.RetryContentLoading ->
-                fetchMobileOnlyPrice(
-                    setOf(
-                        InternalAction.LogAnalyticsEvent(
-                            PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
-                                paywallTransitionSource
-                            )
-                        )
-                    )
-                )
+            Message.Initialize -> handleInitialize()
+            Message.RetryContentLoading -> handleRetryContentLoading()
             Message.ViewedEventMessage -> handleViewedEventMessage(state)
             is Message.BuySubscriptionClicked -> handleBuySubscriptionClicked(state, message)
             Message.ContinueWithLimitsClicked -> handleContinueWithLimitsClicked(state)
@@ -48,6 +39,24 @@ internal class PaywallReducer(
             InternalMessage.SubscriptionSyncError ->
                 handleSubscriptionSyncError(state)
         }
+
+    private fun handleInitialize(): ReducerResult =
+        fetchMobileOnlyPrice(
+            setOf(
+                InternalAction.ResetLastPaywallShowedSessionCount
+            )
+        )
+
+    private fun handleRetryContentLoading(): ReducerResult =
+        fetchMobileOnlyPrice(
+            setOf(
+                InternalAction.LogAnalyticsEvent(
+                    PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
+                        paywallTransitionSource
+                    )
+                )
+            )
+        )
 
     private fun fetchMobileOnlyPrice(
         actions: Set<Action> = emptySet()
@@ -181,6 +190,8 @@ internal class PaywallReducer(
         paywallTransitionSource: PaywallTransitionSource
     ): Action.ViewAction =
         when (paywallTransitionSource) {
+            PaywallTransitionSource.APP_STARTUP ->
+                Action.ViewAction.NavigateTo.StudyPlan
             PaywallTransitionSource.LOGIN ->
                 Action.ViewAction.CompletePaywall
             PaywallTransitionSource.PROFILE_SETTINGS ->

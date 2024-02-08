@@ -2,9 +2,11 @@ package org.hyperskill.app.main.domain.interactor
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.main.domain.analytic.AppLaunchFirstTimeHyperskillAnalyticEvent
 import org.hyperskill.app.main.domain.repository.AppRepository
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
+import org.hyperskill.app.paywall.domain.model.PaywallRepository
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.projects.domain.repository.ProjectsRepository
@@ -24,8 +26,14 @@ class AppInteractor(
     private val providersRepository: ProvidersRepository,
     private val projectsRepository: ProjectsRepository,
     private val shareStreakRepository: ShareStreakRepository,
-    private val pushNotificationsInteractor: PushNotificationsInteractor
+    private val pushNotificationsInteractor: PushNotificationsInteractor,
+    private val paywallRepository: PaywallRepository,
+    private val platformType: PlatformType
 ) {
+    companion object {
+        private const val SESSION_COUNT_SINCE_LAST_PAYWALL_SHOWED_THRESHOLD = 3
+    }
+
     suspend fun doCurrentUserSignedOutCleanUp() {
         analyticInteractor.flushEvents()
         pushNotificationsInteractor.handleUserSignedOut()
@@ -49,5 +57,14 @@ class AppInteractor(
             appRepository.setAppDidLaunchFirstTime()
             analyticInteractor.logEvent(AppLaunchFirstTimeHyperskillAnalyticEvent)
         }
+    }
+
+    fun shouldShowPaywall(): Boolean =
+        paywallRepository.getSessionCountSinceLastPaywallShowed() ==
+            SESSION_COUNT_SINCE_LAST_PAYWALL_SHOWED_THRESHOLD &&
+            platformType == PlatformType.ANDROID
+
+    fun incrementLastPaywallShowedSessionCount() {
+        paywallRepository.incrementSessionCountSinceLastPaywallShowed()
     }
 }

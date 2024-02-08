@@ -77,6 +77,10 @@ object PaywallFeature {
             data class ShowMessage(
                 val messageKind: MessageKind
             ) : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                object StudyPlan : NavigateTo
+            }
         }
     }
 
@@ -103,5 +107,7 @@ object PaywallFeature {
             val expectedSubscriptionType: SubscriptionType,
             val actualSubscriptionType: SubscriptionType
         ) : InternalAction
+
+        object ResetLastPaywallShowedSessionCount : InternalAction
     }
 }

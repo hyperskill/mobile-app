@@ -11,9 +11,11 @@ class PaywallRepositoryImpl(
     override fun getSessionCountSinceLastPaywallShowed(): Int =
         paywallCacheDataSource.getLastPaywallShowedSessionCount()
 
-    override fun incrementSessionCountSinceLastPaywallShowed() =
+    override fun incrementSessionCountSinceLastPaywallShowed() {
         paywallCacheDataSource.incrementLastPaywallShowedSessionCount()
+    }
 
-    override fun resetSessionCountSinceLastPaywallShowed() =
+    override fun resetSessionCountSinceLastPaywallShowed() {
         paywallCacheDataSource.resetLastPaywallShowedSessionCount()
+    }
 }

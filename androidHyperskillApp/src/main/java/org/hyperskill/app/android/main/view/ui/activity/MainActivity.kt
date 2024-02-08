@@ -243,7 +243,7 @@ class MainActivity :
 
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
-            is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
+            is AppFeature.Action.ViewAction.NavigateTo.WelcomeScreen ->
                 router.newRootScreen(WelcomeScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
@@ -295,6 +295,8 @@ class MainActivity :
             }
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
+            is AppFeature.Action.ViewAction.NavigateTo.Paywall ->
+                router.newRootScreen(PaywallScreen(action.paywallTransitionSource))
         }
     }
 

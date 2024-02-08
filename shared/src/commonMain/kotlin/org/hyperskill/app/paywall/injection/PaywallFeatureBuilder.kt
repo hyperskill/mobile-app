@@ -7,6 +7,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.paywall.domain.model.PaywallRepository
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.presentation.PaywallActionDispatcher
 import org.hyperskill.app.paywall.presentation.PaywallFeature
@@ -32,6 +33,7 @@ object PaywallFeatureBuilder {
         resourceProvider: ResourceProvider,
         subscriptionsRepository: SubscriptionsRepository,
         sentryInteractor: SentryInteractor,
+        paywallRepository: PaywallRepository,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
@@ -45,6 +47,7 @@ object PaywallFeatureBuilder {
             purchaseInteractor = purchaseInteractor,
             subscriptionsRepository = subscriptionsRepository,
             sentryInteractor = sentryInteractor,
+            paywallRepository = paywallRepository,
             logger = logger.withTag(LOG_TAG)
         )
 

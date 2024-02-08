@@ -28,9 +28,10 @@ class AppFeatureTest {
     fun `Streak recovery should be initialized only when user is authorized and already selected track`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
-            AppFeature.Message.UserAccountStatus(
-                Profile.stub(isGuest = false, trackId = 1),
-                null
+            AppFeature.Message.FetchAppStartupConfigSuccess(
+                profile = Profile.stub(isGuest = false, trackId = 1),
+                notificationData = null,
+                shouldShowPaywall = false
             )
         )
         assertTrue {
@@ -45,7 +46,11 @@ class AppFeatureTest {
     fun `Streak recovery should NOT be initialized when user is NOT authorized`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
-            AppFeature.Message.UserAccountStatus(Profile.stub(isGuest = true), null)
+            AppFeature.Message.FetchAppStartupConfigSuccess(
+                profile = Profile.stub(isGuest = true),
+                notificationData = null,
+                shouldShowPaywall = false
+            )
         )
         assertNoStreakRecoveryActions(actions)
     }
@@ -54,9 +59,10 @@ class AppFeatureTest {
     fun `Streak recovery should NOT be initialized in case of push notification handling`() {
         val (_, actions) = appReducer.reduce(
             AppFeature.State.Loading,
-            AppFeature.Message.UserAccountStatus(
-                Profile.stub(isGuest = true, trackId = 1),
-                PushNotificationData(
+            AppFeature.Message.FetchAppStartupConfigSuccess(
+                profile = Profile.stub(isGuest = true, trackId = 1),
+                shouldShowPaywall = false,
+                notificationData = PushNotificationData(
                     typeString = PushNotificationType.STREAK_NEW.name,
                     categoryString = PushNotificationCategory.CONTINUE_LEARNING.backendName!!
                 )

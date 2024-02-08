@@ -7,6 +7,7 @@ import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
@@ -33,16 +34,16 @@ internal class AppReducer(
             is Message.Initialize -> {
                 if (state is State.Idle || (state is State.NetworkError && message.forceUpdate)) {
                     State.Loading to setOf(
-                        Action.DetermineUserAccountStatus(message.pushNotificationData),
+                        Action.FetchAppStartupConfig(message.pushNotificationData),
                         Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded
                     )
                 } else {
                     null
                 }
             }
-            is Message.UserAccountStatus ->
-                handleUserAccountStatus(state, message)
-            is Message.UserAccountStatusError ->
+            is Message.FetchAppStartupConfigSuccess ->
+                handleFetchAppStartupConfigSuccess(state, message)
+            is Message.FetchAppStartupConfigError ->
                 if (state is State.Loading) {
                     State.NetworkError to emptySet()
                 } else {
@@ -54,7 +55,7 @@ internal class AppReducer(
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
                         UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE ->
-                            Action.ViewAction.NavigateTo.OnboardingScreen
+                            Action.ViewAction.NavigateTo.WelcomeScreen
                         UserDeauthorized.Reason.SIGN_OUT ->
                             Action.ViewAction.NavigateTo.AuthScreen()
                     }
@@ -86,9 +87,9 @@ internal class AppReducer(
                 reduceWelcomeOnboardingMessage(state, message.message)
         } ?: (state to emptySet())
 
-    private fun handleUserAccountStatus(
+    private fun handleFetchAppStartupConfigSuccess(
         state: State,
-        message: Message.UserAccountStatus
+        message: Message.FetchAppStartupConfigSuccess
     ): ReducerResult =
         if (state is State.Loading) {
             val isAuthorized = !message.profile.isGuest
@@ -109,6 +110,8 @@ internal class AppReducer(
                                 )
                             message.profile.isNewUser ->
                                 add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+                            message.shouldShowPaywall ->
+                                add(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_STARTUP))
                             else ->
                                 add(Action.ViewAction.NavigateTo.StudyPlan)
                         }
@@ -126,7 +129,7 @@ internal class AppReducer(
                             )
                         }
                         addAll(getNotAuthorizedAppStartUpActions())
-                        add(Action.ViewAction.NavigateTo.OnboardingScreen)
+                        add(Action.ViewAction.NavigateTo.WelcomeScreen)
                     }
                 }
 

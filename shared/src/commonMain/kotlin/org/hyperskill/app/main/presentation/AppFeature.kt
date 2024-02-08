@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
@@ -35,11 +36,12 @@ interface AppFeature {
             val forceUpdate: Boolean = false
         ) : Message
 
-        data class UserAccountStatus(
+        data class FetchAppStartupConfigSuccess(
             val profile: Profile,
+            val shouldShowPaywall: Boolean,
             val notificationData: PushNotificationData?
         ) : Message
-        object UserAccountStatusError : Message
+        object FetchAppStartupConfigError : Message
 
         data class UserAuthorized(
             val profile: Profile,
@@ -69,7 +71,7 @@ interface AppFeature {
     }
 
     sealed interface Action {
-        data class DetermineUserAccountStatus(
+        data class FetchAppStartupConfig(
             val pushNotificationData: PushNotificationData?
         ) : Action
 
@@ -104,8 +106,10 @@ interface AppFeature {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object TrackSelectionScreen : NavigateTo
-                object OnboardingScreen : NavigateTo
+                object WelcomeScreen : NavigateTo
                 object StudyPlan : NavigateTo
+
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
 
             /**

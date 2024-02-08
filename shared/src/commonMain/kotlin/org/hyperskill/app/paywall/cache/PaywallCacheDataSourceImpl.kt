@@ -12,9 +12,10 @@ class PaywallCacheDataSourceImpl(
         private const val LAST_PAYWALL_SHOWED_SESSION_COUNT_KEY = "LAST_PAYWALL_SHOWED_SESSION_COUNT_KEY"
     }
 
-    override fun getLastPaywallShowedSessionCount(): Int  =
+    override fun getLastPaywallShowedSessionCount(): Int =
         settings.getInt(LAST_PAYWALL_SHOWED_SESSION_COUNT_KEY, defaultValue = 0)
 
-    override fun setLastPaywallShowedSessionCount(count: Int) =
-        settings.set(LAST_PAYWALL_SHOWED_SESSION_COUNT_KEY, count)
+    override fun setLastPaywallShowedSessionCount(count: Int) {
+        settings[LAST_PAYWALL_SHOWED_SESSION_COUNT_KEY] = count
+    }
 }

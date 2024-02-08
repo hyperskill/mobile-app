@@ -58,7 +58,7 @@ internal class AppActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.DetermineUserAccountStatus -> {
+            is Action.FetchAppStartupConfig -> {
                 val isAuthorized = authInteractor.isAuthorized()
                     .getOrDefault(false)
 
@@ -96,14 +96,24 @@ internal class AppActionDispatcher(
                                 HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
                             )
                             sentryInteractor.finishTransaction(transaction)
-                            onNewMessage(Message.UserAccountStatus(profile, action.pushNotificationData))
+
+                            appInteractor.incrementLastPaywallShowedSessionCount()
+                            val shouldShowPaywall = appInteractor.shouldShowPaywall()
+
+                            onNewMessage(
+                                Message.FetchAppStartupConfigSuccess(
+                                    profile = profile,
+                                    shouldShowPaywall = shouldShowPaywall,
+                                    notificationData = action.pushNotificationData
+                                )
+                            )
                         },
                         onFailure = { exception ->
                             sentryInteractor.addBreadcrumb(
                                 HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusError(exception)
                             )
                             sentryInteractor.finishTransaction(transaction, exception)
-                            onNewMessage(Message.UserAccountStatusError)
+                            onNewMessage(Message.FetchAppStartupConfigError)
                         }
                     )
             }
