@@ -27,6 +27,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SEND_FEEDBACK("send_feedback"),
     DELETE_ACCOUNT("delete_account"),
     DELETE_ACCOUNT_NOTICE("delete_account_notice"),
+    RATE_US_IN_APP_STORE("rate_us_in_app_store"),
     SIGN_OUT_NOTICE("sign_out_notice"),
     NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice"),
     VIEW_FULL_PROFILE("view_full_profile"),
