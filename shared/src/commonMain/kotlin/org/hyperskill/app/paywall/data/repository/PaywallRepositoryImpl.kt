@@ -5,7 +5,7 @@ import org.hyperskill.app.paywall.data.source.incrementLastPaywallShowedSessionC
 import org.hyperskill.app.paywall.data.source.resetLastPaywallShowedSessionCount
 import org.hyperskill.app.paywall.domain.model.PaywallRepository
 
-class PaywallRepositoryImpl(
+internal class PaywallRepositoryImpl(
     private val paywallCacheDataSource: PaywallCacheDataSource
 ) : PaywallRepository {
     override fun getSessionCountSinceLastPaywallShowed(): Int =

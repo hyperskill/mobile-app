@@ -5,7 +5,7 @@ import org.hyperskill.app.paywall.cache.PaywallCacheDataSourceImpl
 import org.hyperskill.app.paywall.data.repository.PaywallRepositoryImpl
 import org.hyperskill.app.paywall.domain.model.PaywallRepository
 
-class PaywallDataComponentImpl(
+internal class PaywallDataComponentImpl(
     appGraph: AppGraph
 ) : PaywallDataComponent {
 

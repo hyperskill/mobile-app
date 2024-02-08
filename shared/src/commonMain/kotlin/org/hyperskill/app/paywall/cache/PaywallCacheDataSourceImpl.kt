@@ -4,7 +4,7 @@ import com.russhwolf.settings.Settings
 import com.russhwolf.settings.set
 import org.hyperskill.app.paywall.data.source.PaywallCacheDataSource
 
-class PaywallCacheDataSourceImpl(
+internal class PaywallCacheDataSourceImpl(
     private val settings: Settings
 ) : PaywallCacheDataSource {
 
