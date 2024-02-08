@@ -16,21 +16,24 @@ internal class StepCompletionComponentImpl(
     override val stepCompletionActionDispatcher: StepCompletionActionDispatcher
         get() = StepCompletionActionDispatcher(
             ActionDispatcherOptions(),
-            appGraph.submissionDataComponent.submissionRepository,
-            appGraph.buildStepDataComponent().stepInteractor,
-            appGraph.buildProgressesDataComponent().progressesInteractor,
-            appGraph.buildTopicsDataComponent().topicsRepository,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.commonComponent.resourceProvider,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.buildFreemiumDataComponent().freemiumInteractor,
-            appGraph.buildShareStreakDataComponent().shareStreakInteractor,
-            appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.stateRepositoriesComponent.currentGamificationToolbarDataStateRepository,
-            appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
-            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-            appGraph.progressesFlowDataComponent.topicProgressFlow,
-            appGraph.stateRepositoriesComponent.interviewStepsStateRepository
+            submissionRepository = appGraph.submissionDataComponent.submissionRepository,
+            stepInteractor = appGraph.buildStepDataComponent().stepInteractor,
+            progressesInteractor = appGraph.buildProgressesDataComponent().progressesInteractor,
+            topicsRepository = appGraph.buildTopicsDataComponent().topicsRepository,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            resourceProvider = appGraph.commonComponent.resourceProvider,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            shareStreakInteractor = appGraph.buildShareStreakDataComponent().shareStreakInteractor,
+            requestReviewInteractor = appGraph.buildRequestReviewDataComponent().requestReviewInteractor,
+            nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            currentGamificationToolbarDataStateRepository = appGraph.stateRepositoriesComponent
+                .currentGamificationToolbarDataStateRepository,
+            dailyStepCompletedFlow = appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
+            topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
+            topicProgressFlow = appGraph.progressesFlowDataComponent.topicProgressFlow,
+            interviewStepsStateRepository = appGraph.stateRepositoriesComponent.interviewStepsStateRepository,
+            platform = appGraph.commonComponent.platform
         )
 }

@@ -119,6 +119,11 @@ object StepCompletionFeature {
         object InterviewPreparationCompletedModalGoToTrainingClicked : Message
 
         /**
+         * Ask user to rate or review the app
+         */
+        object RequestUserReview : Message
+
+        /**
          * Analytic
          */
         object TopicCompletedModalShownEventMessage : Message
@@ -159,6 +164,8 @@ object StepCompletionFeature {
             data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
 
             object ShowInterviewPreparationCompletedModal : ViewAction
+
+            object ShowRequestUserReviewModal : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
 

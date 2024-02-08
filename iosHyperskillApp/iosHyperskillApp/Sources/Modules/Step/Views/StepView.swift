@@ -127,6 +127,8 @@ struct StepView: View {
             presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
         case .showInterviewPreparationCompletedModal:
             presentInterviewPreparationFinishedModal()
+        case .showRequestUserReviewModal:
+            #warning("TODO")
         }
     }
 
