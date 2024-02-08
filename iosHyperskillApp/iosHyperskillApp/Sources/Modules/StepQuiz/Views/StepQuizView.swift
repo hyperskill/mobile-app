@@ -309,7 +309,7 @@ struct StepQuizView: View {
             case .stepScreen(let navigateToStepScreenViewAction):
                 let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                 stackRouter.pushViewController(assembly.makeModule())
-            case .paywall(_):
+            case .paywall:
                 #warning("TODO: ALTAPPS-1121")
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
