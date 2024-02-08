@@ -101,6 +101,8 @@ interface StepQuizFeature {
          */
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
 
+        object ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked : Message
+
         /**
          * Problem onboarding modal
          */
@@ -189,6 +191,8 @@ interface StepQuizFeature {
                 object Home : NavigateTo
 
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
+
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }
