@@ -207,7 +207,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     Action.ViewAction.NavigateTo.Home
                 )
             Message.RequestUserReview -> {
-                state to setOf(Action.ViewAction.ShowRequestUserReviewModal)
+                state to setOf(Action.ViewAction.ShowRequestUserReviewModal(stepRoute))
             }
             /**
              * Analytic

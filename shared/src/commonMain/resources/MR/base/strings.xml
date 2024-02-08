@@ -559,6 +559,16 @@
     <string name="search_placeholder_suggestions_title">Find topic</string>
     <string name="search_placeholder_suggestions_subtitle">Search all of Hyperskill for topic theory</string>
 
+    <!-- Request review modal -->
+    <string name="request_review_modal_state_awaiting_title">Do you enjoy\n%s app?</string>
+    <string name="request_review_modal_state_awaiting_positive_button_text">Yes</string>
+    <string name="request_review_modal_state_awaiting_negative_button_text">No</string>
+
+    <string name="request_review_modal_state_negative_title">Thank you!</string>
+    <string name="request_review_modal_state_negative_description">Share what you disliked to help us improve your experience.</string>
+    <string name="request_review_modal_state_negative_positive_button_text">Write a request</string>
+    <string name="request_review_modal_state_negative_negative_button_text">Maybe later</string>
+
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>
     <string name="badge_topic_mastery">Topic Mastery</string>

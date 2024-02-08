@@ -165,7 +165,7 @@ object StepCompletionFeature {
 
             object ShowInterviewPreparationCompletedModal : ViewAction
 
-            object ShowRequestUserReviewModal : ViewAction
+            data class ShowRequestUserReviewModal(val stepRoute: StepRoute) : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
 

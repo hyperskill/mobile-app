@@ -102,7 +102,7 @@ class StepDelegate<TFragment>(
                                 manager = fragment.childFragmentManager,
                                 tag = InterviewPreparationFinishedDialogFragment.TAG
                             )
-                    StepCompletionFeature.Action.ViewAction.ShowRequestUserReviewModal ->
+                    is StepCompletionFeature.Action.ViewAction.ShowRequestUserReviewModal ->
                         TODO("ALTAPPS-1136: Implement request user review modal")
                 }
             }

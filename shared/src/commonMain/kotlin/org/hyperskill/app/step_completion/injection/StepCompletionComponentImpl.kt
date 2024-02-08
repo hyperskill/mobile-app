@@ -26,7 +26,8 @@ internal class StepCompletionComponentImpl(
             freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
             shareStreakInteractor = appGraph.buildShareStreakDataComponent().shareStreakInteractor,
             requestReviewInteractor = appGraph.buildRequestReviewDataComponent().requestReviewInteractor,
-            nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
+            nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent
+                .nextLearningActivityStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             currentGamificationToolbarDataStateRepository = appGraph.stateRepositoriesComponent
                 .currentGamificationToolbarDataStateRepository,

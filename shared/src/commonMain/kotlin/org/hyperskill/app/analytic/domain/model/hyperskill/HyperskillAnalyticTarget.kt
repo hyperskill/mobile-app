@@ -111,5 +111,8 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CONFIRM("confirm"),
     GO_TO_FIRST_PROBLEM("go_to_first_problem"),
     INTERVIEW_PREPARATION_COMPLETED_MODAL("interview_preparation_completed_modal"),
-    HOME_SCREEN_QUICK_ACTION("home_screen_quick_action")
+    HOME_SCREEN_QUICK_ACTION("home_screen_quick_action"),
+    REQUEST_REVIEW_MODAL("request_review_modal"),
+    WRITE_A_REQUEST("write_a_request"),
+    MAYBE_LATER("maybe_later")
 }
