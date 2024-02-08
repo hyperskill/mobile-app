@@ -112,6 +112,9 @@ internal class AppActionDispatcher(
             is Action.SendPushNotificationsToken -> {
                 pushNotificationsInteractor.renewFCMToken()
             }
+            is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded -> {
+                appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
+            }
             else -> {}
         }
     }
