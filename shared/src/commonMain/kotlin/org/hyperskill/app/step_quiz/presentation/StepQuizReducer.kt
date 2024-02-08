@@ -329,7 +329,10 @@ class StepQuizReducer(
 
                 val actions = if (isProblemsLimitReached && message.problemsLimitReachedModalText != null) {
                     setOf(
-                        Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalText)
+                        Action.ViewAction.ShowProblemsLimitReachedModal(
+                            modalText = message.problemsLimitReachedModalText,
+                            isUnlockUnlimitedProblemsButtonVisible = message.isPaywallFeatureEnabled
+                        )
                     )
                 } else {
                     getProblemOnboardingModalActions(
