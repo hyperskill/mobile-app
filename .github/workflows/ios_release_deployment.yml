@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4.1.1
         
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v2.0.1
+        uses: gradle/wrapper-validation-action@v2.1.0
 
   # Build, archive for app-store and submit to App Store Connect
   deployment:
