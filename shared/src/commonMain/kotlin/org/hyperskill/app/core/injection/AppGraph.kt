@@ -51,6 +51,8 @@ import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListC
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
+import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -175,4 +177,6 @@ interface AppGraph {
     fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
     fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent
     fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent
+    fun buildRequestReviewDataComponent(): RequestReviewDataComponent
+    fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
 }
