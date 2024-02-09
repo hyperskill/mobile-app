@@ -105,7 +105,7 @@ extension AppViewController: AppViewControllerProtocol {
         #warning("TODO: Code dublication, see handleWelcomeOnboardingViewAction(_:)")
         let viewControllerToPresent: UIViewController = {
             switch viewAction {
-            case .onboardingScreen:
+            case .welcomeScreen:
                 return UIHostingController(rootView: WelcomeAssembly(output: viewModel).makeModule())
             case .studyPlan:
                 return AppTabBarController(
@@ -123,6 +123,9 @@ extension AppViewController: AppViewControllerProtocol {
                 )
                 navigationController.navigationBar.prefersLargeTitles = true
                 return navigationController
+            case .paywall:
+                #warning("TODO: ALTAPPS-1130")
+                abort()
             }
         }()
 
