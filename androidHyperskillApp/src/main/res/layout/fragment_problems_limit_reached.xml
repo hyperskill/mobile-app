@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.AppTheme.Button"
-        android:text="@string/problems_limit_reached_buy_subscription_button"
+        android:text="@string/problems_limit_reached_modal_buy_subscription_button"
         android:layout_marginTop="32dp"
         android:layout_marginHorizontal="20dp"
         android:visibility="gone"
