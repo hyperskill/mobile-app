@@ -8,8 +8,8 @@ import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
-interface ProfileSettingsFeature {
-    sealed interface State {
+object ProfileSettingsFeature {
+    internal sealed interface State {
         object Idle : State
         object Loading : State
 
@@ -22,18 +22,30 @@ interface ProfileSettingsFeature {
             val mobileOnlyFormattedPrice: String?,
             val isLoadingMagicLink: Boolean = false
         ) : State
+    }
 
-        object Error : State
+    sealed interface ViewState {
+        object Idle : ViewState
+        object Loading : ViewState
+
+        data class Content(
+            val profileSettings: ProfileSettings,
+            val subscriptionState: SubscriptionState?,
+            val isLoadingMagicLink: Boolean
+        ) : ViewState {
+            data class SubscriptionState(
+                val description: String
+            )
+        }
     }
 
     sealed interface Message {
-        data class InitMessage(val forceUpdate: Boolean = false) : Message
+        object InitMessage : Message
         data class ProfileSettingsSuccess(
             val profileSettings: ProfileSettings,
             val subscription: Subscription? = null,
             val mobileOnlyFormattedPrice: String? = null
         ) : Message
-        object ProfileSettingsError : Message
         data class ThemeChanged(val theme: Theme) : Message
         object SignOutConfirmed : Message
         object DismissScreen : Message

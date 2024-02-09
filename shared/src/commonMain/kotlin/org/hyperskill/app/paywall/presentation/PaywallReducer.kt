@@ -186,5 +186,7 @@ internal class PaywallReducer(
                 Action.ViewAction.CompletePaywall
             PaywallTransitionSource.PROFILE_SETTINGS ->
                 Action.ViewAction.NavigateTo.BackToSettings
+            PaywallTransitionSource.PROBLEMS_LIMIT_MODAL ->
+                Action.ViewAction.CompletePaywall
         }
 }
