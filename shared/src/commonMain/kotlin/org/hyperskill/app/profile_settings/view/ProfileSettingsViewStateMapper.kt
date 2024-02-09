@@ -6,7 +6,7 @@ import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.ViewState
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
-class ProfileSettingsViewStateMapper(
+internal class ProfileSettingsViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
     fun map(state: ProfileSettingsFeature.State): ViewState =

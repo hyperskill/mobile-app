@@ -18,12 +18,11 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class ProfileSettingsReducer : StateReducer<State, Message, Action> {
+internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.InitMessage -> {
-                if (state is State.Idle || (message.forceUpdate && state is State.Content)
-                ) {
+                if (state is State.Idle) {
                     State.Loading to setOf(Action.FetchProfileSettings)
                 } else {
                     null

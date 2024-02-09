@@ -189,7 +189,7 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(Message.DeleteAccountNoticeShownEventMessage)
         }
 
-        profileSettingsViewModel.onNewMessage(Message.InitMessage())
+        profileSettingsViewModel.onNewMessage(Message.InitMessage)
         profileSettingsViewModel.onNewMessage(Message.ViewedEventMessage)
     }
 

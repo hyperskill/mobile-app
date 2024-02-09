@@ -8,8 +8,8 @@ import org.hyperskill.app.profile_settings.domain.model.ProfileSettings
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
-interface ProfileSettingsFeature {
-    sealed interface State {
+object ProfileSettingsFeature {
+    internal sealed interface State {
         object Idle : State
         object Loading : State
 
@@ -40,7 +40,7 @@ interface ProfileSettingsFeature {
     }
 
     sealed interface Message {
-        data class InitMessage(val forceUpdate: Boolean = false) : Message
+        object InitMessage : Message
         data class ProfileSettingsSuccess(
             val profileSettings: ProfileSettings,
             val subscription: Subscription? = null,
