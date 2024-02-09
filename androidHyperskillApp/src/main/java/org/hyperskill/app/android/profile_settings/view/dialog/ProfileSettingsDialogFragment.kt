@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.profile_settings.view.dialog
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
@@ -29,8 +30,7 @@ import org.hyperskill.app.profile_settings.domain.model.FeedbackEmailData
 import org.hyperskill.app.profile_settings.domain.model.Theme
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Action
 import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.Message
-import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.State
-import org.hyperskill.app.profile_settings.view.ProfileSettingsViewStateMapper
+import org.hyperskill.app.profile_settings.presentation.ProfileSettingsFeature.ViewState
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -38,7 +38,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class ProfileSettingsDialogFragment :
     DialogFragment(R.layout.fragment_profile_settings),
-    ReduxView<State, Action.ViewAction> {
+    ReduxView<ViewState, Action.ViewAction> {
     companion object {
         const val TAG = "ProfileSettingsDialogFragment"
 
@@ -50,9 +50,7 @@ class ProfileSettingsDialogFragment :
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private val profileSettingsViewModel: ProfileSettingsViewModel by reduxViewModel(this) { viewModelFactory }
-    private val viewStateDelegate: ViewStateDelegate<State> = ViewStateDelegate()
-
-    private var viewStateMapper: ProfileSettingsViewStateMapper? = null
+    private var viewStateDelegate: ViewStateDelegate<ViewState>? = null
 
     private var currentThemePosition: Int = -1
 
@@ -67,11 +65,12 @@ class ProfileSettingsDialogFragment :
         val platformProfileSettingsComponent =
             HyperskillApp.graph().buildPlatformProfileSettingsComponent(profileSettingsComponent)
         viewModelFactory = platformProfileSettingsComponent.reduxViewModelFactory
-        viewStateMapper = profileSettingsComponent.profileSettingViewStateMapper
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initViewStateDelegate(viewBinding)
 
         with(viewBinding.settingsCenteredToolbar) {
             centeredToolbarTitle.setText(org.hyperskill.app.R.string.settings_title)
@@ -84,8 +83,7 @@ class ProfileSettingsDialogFragment :
             }
             centeredToolbar.setNavigationIcon(R.drawable.ic_close_thin)
         }
-
-        viewBinding.settingsThemeButton.setOnClickListener {
+        viewBinding.settingsContent.settingsThemeButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedThemeEventMessage)
             MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_App_MaterialAlertDialog)
                 .setTitle(org.hyperskill.app.R.string.settings_theme)
@@ -96,7 +94,8 @@ class ProfileSettingsDialogFragment :
                     val newTheme = Theme.values()[which]
 
                     profileSettingsViewModel.onNewMessage(Message.ThemeChanged(theme = newTheme))
-                    viewBinding.settingsThemeChosenTextView.text = newTheme.getStringRepresentation(requireContext())
+                    viewBinding.settingsContent.settingsThemeChosenTextView.text =
+                        newTheme.getStringRepresentation(requireContext())
                     AppCompatDelegate.setDefaultNightMode(newTheme.asNightMode())
                 }
                 .setNegativeButton(org.hyperskill.app.R.string.cancel) { dialog, _ ->
@@ -105,33 +104,35 @@ class ProfileSettingsDialogFragment :
                 .show()
         }
 
-        viewBinding.settingsTermsOfServiceButton.setOnClickListener {
+        viewBinding.settingsContent.settingsTermsOfServiceButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedTermsOfServiceEventMessage)
             openLinkInBrowser(resources.getString(org.hyperskill.app.R.string.settings_terms_of_service_url))
         }
 
-        viewBinding.settingsPrivacyPolicyButton.setOnClickListener {
+        viewBinding.settingsContent.settingsPrivacyPolicyButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedPrivacyPolicyEventMessage)
             openLinkInBrowser(resources.getString(org.hyperskill.app.R.string.settings_privacy_policy_url))
         }
 
-        viewBinding.settingsReportProblemButton.setOnClickListener {
+        viewBinding.settingsContent.settingsReportProblemButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedReportProblemEventMessage)
             openLinkInBrowser(resources.getString(org.hyperskill.app.R.string.settings_report_problem_url))
         }
 
-        viewBinding.settingsSendFeedbackButton.setOnClickListener {
+        viewBinding.settingsContent.settingsSendFeedbackButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedSendFeedback)
         }
 
-        viewBinding.settingsSubscriptionFrameLayout.setOnClickListener {
+        viewBinding.settingsContent.settingsSubscriptionFrameLayout.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.SubscriptionDetailsClicked)
         }
 
         val userAgentInfo = HyperskillApp.graph().commonComponent.userAgentInfo
-        viewBinding.settingsVersionTextView.text = "${userAgentInfo.versionName} (${userAgentInfo.versionCode})"
+        @SuppressLint("SetTextI18n")
+        viewBinding.settingsContent.settingsVersionTextView.text =
+            "${userAgentInfo.versionName} (${userAgentInfo.versionCode})"
 
-        viewBinding.settingsLogoutButton.setOnClickListener {
+        viewBinding.settingsContent.settingsLogoutButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedSignOutEventMessage)
 
             MaterialAlertDialogBuilder(
@@ -161,7 +162,7 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(Message.SignOutNoticeShownEventMessage)
         }
 
-        viewBinding.settingsDeleteAccountButton.setOnClickListener {
+        viewBinding.settingsContent.settingsDeleteAccountButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedDeleteAccountEventMessage)
 
             MaterialAlertDialogBuilder(
@@ -188,8 +189,21 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(Message.DeleteAccountNoticeShownEventMessage)
         }
 
-        profileSettingsViewModel.onNewMessage(Message.InitMessage())
+        profileSettingsViewModel.onNewMessage(Message.InitMessage)
         profileSettingsViewModel.onNewMessage(Message.ViewedEventMessage)
+    }
+
+    private fun initViewStateDelegate(viewBinding: FragmentProfileSettingsBinding) {
+        viewStateDelegate = ViewStateDelegate<ViewState>().apply {
+            addState<ViewState.Idle>()
+            addState<ViewState.Loading>(viewBinding.settingsProgress)
+            addState<ViewState.Content>(viewBinding.settingsContent.root)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewStateDelegate = null
     }
 
     private fun openLinkInBrowser(link: String) {
@@ -217,17 +231,17 @@ class ProfileSettingsDialogFragment :
         }
     }
 
-    override fun render(state: State) {
-        viewStateDelegate.switchState(state)
+    override fun render(state: ViewState) {
+        viewStateDelegate?.switchState(state)
 
-        if (state is State.Content) {
+        if (state is ViewState.Content) {
             if (state.isLoadingMagicLink) {
                 LoadingProgressDialogFragment.newInstance()
                     .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
             } else {
                 childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
             }
-            viewBinding.settingsThemeChosenTextView.text =
+            viewBinding.settingsContent.settingsThemeChosenTextView.text =
                 state.profileSettings.theme.getStringRepresentation(requireContext())
             currentThemePosition = state.profileSettings.theme.ordinal
             renderSubscription(state)
@@ -235,13 +249,12 @@ class ProfileSettingsDialogFragment :
     }
 
     private fun renderSubscription(
-        state: State.Content
+        state: ViewState.Content
     ) {
-        val viewState = viewStateMapper?.map(state) ?: return
-        viewBinding.settingsSubscriptionLinearLayout.isVisible = viewState.subscriptionState != null
-        viewState.subscriptionState?.description?.let { description ->
-            viewBinding.settingsSubscriptionHeader.text = description
-        }
+        state.subscriptionState?.description
+            ?.let(viewBinding.settingsContent.settingsSubscriptionHeader::setText)
+        viewBinding.settingsContent.settingsSubscriptionLinearLayout.isVisible =
+            state.subscriptionState != null
     }
 
     private fun sendEmailFeedback(feedbackEmailData: FeedbackEmailData) {

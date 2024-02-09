@@ -26,7 +26,7 @@ import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class ProfileSettingsActionDispatcher(
+internal class ProfileSettingsActionDispatcher(
     config: ActionDispatcherOptions,
     private val profileSettingsInteractor: ProfileSettingsInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,

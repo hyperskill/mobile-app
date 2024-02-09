@@ -2,7 +2,7 @@ import Foundation
 import shared
 
 final class ProfileSettingsViewModel: FeatureViewModel<
-  ProfileSettingsFeatureState,
+  ProfileSettingsFeatureViewState,
   ProfileSettingsFeatureMessage,
   ProfileSettingsFeatureActionViewAction
 > {
@@ -17,7 +17,7 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     // It's impossible to handle onTap on `Picker`, so using `onAppear` callback with debouncer.
     private let analyticLogClickedThemeEventDebouncer: DebouncerProtocol = Debouncer()
 
-    var stateKs: ProfileSettingsFeatureStateKs { .init(state) }
+    var stateKs: ProfileSettingsFeatureViewStateKs { .init(state) }
 
     init(
         applicationThemeService: ApplicationThemeServiceProtocol,
@@ -26,18 +26,14 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         self.applicationThemeService = applicationThemeService
         super.init(feature: feature)
 
-        onNewMessage(ProfileSettingsFeatureMessageInitMessage(forceUpdate: false))
+        onNewMessage(ProfileSettingsFeatureMessageInitMessage())
     }
 
     override func shouldNotifyStateDidChange(
-        oldState: ProfileSettingsFeatureState,
-        newState: ProfileSettingsFeatureState
+        oldState: ProfileSettingsFeatureViewState,
+        newState: ProfileSettingsFeatureViewState
     ) -> Bool {
-        ProfileSettingsFeatureStateKs(oldState) != ProfileSettingsFeatureStateKs(newState)
-    }
-
-    func doRetryLoadProfileSettings() {
-        onNewMessage(ProfileSettingsFeatureMessageInitMessage(forceUpdate: true))
+        ProfileSettingsFeatureViewStateKs(oldState) != ProfileSettingsFeatureViewStateKs(newState)
     }
 
     func doThemeChange(newTheme: ApplicationTheme) {
