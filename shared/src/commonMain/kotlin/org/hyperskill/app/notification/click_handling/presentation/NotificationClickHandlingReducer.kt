@@ -137,11 +137,14 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
             Action.ViewAction.SetLoadingShowed(false),
             when (message) {
                 is NextLearningActivityFetchResult.Success -> {
-                    getStepRouteForNextLearningActivity(message.learningActivity)?.let { stepRoute ->
+                    val stepRoute = getStepRouteForNextLearningActivity(message.learningActivity)
+                    if (stepRoute != null) {
                         Action.ViewAction.NavigateTo.StepScreen(stepRoute)
+                    } else {
+                        Action.ViewAction.NavigateTo.StudyPlan
                     }
                 }
-                NextLearningActivityFetchResult.Error -> null
+                NextLearningActivityFetchResult.Error -> Action.ViewAction.NavigateTo.StudyPlan
             }
         )
 
