@@ -59,7 +59,7 @@
 		2C0F3CFA2A80A42D00947C35 /* BadgeDetailsModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F3CF92A80A42D00947C35 /* BadgeDetailsModalViewController.swift */; };
 		2C0F3CFC2A80A47600947C35 /* BadgeDetailsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F3CFB2A80A47600947C35 /* BadgeDetailsModalView.swift */; };
 		2C0F3CFF2A80AAA100947C35 /* BadgeLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0F3CFE2A80AAA100947C35 /* BadgeLevelView.swift */; };
-		2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */; };
+		2C0FA879292FD73400A37636 /* ProfileSettingsFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0FA878292FD73400A37636 /* ProfileSettingsFeatureViewStateKsExtensions.swift */; };
 		2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */; };
 		2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */; };
 		2C1061A8285C3A2D00EBD614 /* StepQuizChildQuizType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */; };
@@ -745,7 +745,7 @@
 		2C0F3CF92A80A42D00947C35 /* BadgeDetailsModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailsModalViewController.swift; sourceTree = "<group>"; };
 		2C0F3CFB2A80A47600947C35 /* BadgeDetailsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeDetailsModalView.swift; sourceTree = "<group>"; };
 		2C0F3CFE2A80AAA100947C35 /* BadgeLevelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeLevelView.swift; sourceTree = "<group>"; };
-		2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
+		2C0FA878292FD73400A37636 /* ProfileSettingsFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C1061A1285C349400EBD614 /* StepQuizChildQuizAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizAssembly.swift; sourceTree = "<group>"; };
 		2C1061A3285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizOutputProtocol.swift; sourceTree = "<group>"; };
 		2C1061A7285C3A2D00EBD614 /* StepQuizChildQuizType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChildQuizType.swift; sourceTree = "<group>"; };
@@ -1612,7 +1612,7 @@
 				2C186AD22B468DBE00DADB26 /* InterviewPreparationWidgetViewStateKsExtensions.swift */,
 				E9B55A5429C8A03E0066900E /* ProblemsLimitFeatureViewStateKsExtensions.swift */,
 				2C0DFB992923BB4300D30921 /* ProfileFeatureStateKsExtensions.swift */,
-				2C0FA878292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift */,
+				2C0FA878292FD73400A37636 /* ProfileSettingsFeatureViewStateKsExtensions.swift */,
 				2C5CA2362A20185300DBF2F9 /* ProjectSelectionDetailsFeatureViewStateKsExtensions.swift */,
 				2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */,
 				2C306A0D29B4590C0068FF4F /* StageImplementFeatureViewStateKsExtensions.swift */,
@@ -4877,7 +4877,7 @@
 				E94BB0482A9DF9DD00736B7C /* StepQuizParsonsView.swift in Sources */,
 				E99CCB0B287E945300898BBF /* HomeViewModel.swift in Sources */,
 				2C7CB6782ADFD0E8006F78DA /* StepQuizFillBlanksViewDataMapper.swift in Sources */,
-				2C0FA879292FD73400A37636 /* ProfileSettingsFeatureStateKsExtensions.swift in Sources */,
+				2C0FA879292FD73400A37636 /* ProfileSettingsFeatureViewStateKsExtensions.swift in Sources */,
 				2C1061AA285C3C3300EBD614 /* StepQuizChoiceAssembly.swift in Sources */,
 				2CF72AA828477E0600E1C192 /* StepQuizTableRowView.swift in Sources */,
 				2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */,

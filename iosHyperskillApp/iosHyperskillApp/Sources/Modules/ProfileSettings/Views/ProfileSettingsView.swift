@@ -49,21 +49,22 @@ struct ProfileSettingsView: View {
         switch viewModel.stateKs {
         case .idle, .loading:
             ProgressView()
-        case .error:
-            PlaceholderView(configuration: .networkError(action: viewModel.doRetryLoadProfileSettings))
         case .content(let content):
             if content.isLoadingMagicLink {
                 let _ = ProgressHUD.show()
             }
 
-            buildContent(profileSettings: content.profileSettings)
+            buildContent(
+                profileSettings: content.profileSettings,
+                subscriptionState: content.subscriptionState
+            )
         }
     }
 
     @ViewBuilder
     private func buildContent(
         profileSettings: ProfileSettings,
-        subscriptionState: ProfileSettingsViewState.SubscriptionState? = nil
+        subscriptionState: ProfileSettingsFeatureViewStateContent.SubscriptionState?
     ) -> some View {
         Form {
             if let subscriptionState {
