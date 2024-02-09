@@ -111,5 +111,5 @@ interface CommonAndroidAppGraph : AppGraph {
 
     fun buildPlatformPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PlatformPaywallComponent
 
-    fun buildManagePlatformSubscriptionComponent(): PlatformManageSubscriptionComponent
+    fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
 }

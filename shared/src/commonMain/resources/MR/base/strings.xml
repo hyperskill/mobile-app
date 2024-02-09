@@ -594,9 +594,9 @@
     <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
 
     <!--Mobile-only-->
-    <string name="mobile_only_option_1">Access to all tracks</string>
-    <string name="mobile_only_option_2">Unlimited problems per day in the app</string>
-    <string name="mobile_only_option_3">1 hint per problem</string>
+    <string name="mobile_only_subscription_feature_1">Access to all tracks</string>
+    <string name="mobile_only_subscription_feature_2">Unlimited problems per day in the app</string>
+    <string name="mobile_only_subscription_feature_3">1 hint per problem</string>
 
     <!--Paywall-->
     <string name="paywall_mobile_only_title">Solve unlimited problems with Mobile only plan</string>

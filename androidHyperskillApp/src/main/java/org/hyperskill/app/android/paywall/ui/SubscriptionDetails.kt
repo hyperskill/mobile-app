@@ -25,9 +25,9 @@ fun SubscriptionDetails(modifier: Modifier = Modifier) {
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
-        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_option_1))
-        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_option_2))
-        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_option_3))
+        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_1))
+        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_2))
+        SubscriptionOption(text = stringResource(id = SharedR.string.mobile_only_subscription_feature_3))
     }
 }
 

@@ -37,7 +37,7 @@ class ManageSubscriptionFragment : Fragment() {
 
     private fun injectComponent() {
         val platformManageSubscriptionComponent =
-            HyperskillApp.graph().buildManagePlatformSubscriptionComponent()
+            HyperskillApp.graph().buildPlatformManageSubscriptionComponent()
         viewModelFactory = platformManageSubscriptionComponent.reduxViewModelFactory
     }
 
