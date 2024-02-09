@@ -234,11 +234,15 @@ class StepCompletionActionDispatcher(
             val currentProfileHypercoinsBalance = updateCurrentProfileHypercoinsBalanceRemotely()
             if (currentProfileHypercoinsBalance != null) {
                 val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
-                val earnedGemsText = resourceProvider.getQuantityString(
-                    SharedResources.plurals.earned_gems,
-                    gemsEarned,
-                    gemsEarned
-                )
+                val earnedGemsText = if (gemsEarned > 0) {
+                    resourceProvider.getQuantityString(
+                        SharedResources.plurals.earned_gems,
+                        gemsEarned,
+                        gemsEarned
+                    )
+                } else {
+                    null
+                }
 
                 val shareStreakData = if (shouldShareStreak && streakToShare != null) {
                     val daysText = resourceProvider.getQuantityString(
