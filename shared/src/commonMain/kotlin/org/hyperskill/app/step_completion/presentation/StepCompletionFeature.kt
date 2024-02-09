@@ -96,7 +96,7 @@ object StepCompletionFeature {
          * Show problem of day solve modal
          */
         data class ProblemOfDaySolved(
-            val earnedGemsText: String,
+            val earnedGemsText: String?,
             val shareStreakData: ShareStreakData
         ) : Message
         object ProblemOfDaySolvedModalGoBackClicked : Message
@@ -151,7 +151,7 @@ object StepCompletionFeature {
             ) : ViewAction
 
             data class ShowProblemOfDaySolvedModal(
-                val earnedGemsText: String,
+                val earnedGemsText: String?,
                 val shareStreakData: ShareStreakData
             ) : ViewAction
 
