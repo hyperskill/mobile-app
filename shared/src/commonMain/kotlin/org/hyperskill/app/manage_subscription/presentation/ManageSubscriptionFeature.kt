@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object ManageSubscriptionFeature {
-    sealed interface State {
+    internal sealed interface State {
         object Idle : State
 
         object Loading : State
@@ -57,6 +57,6 @@ object ManageSubscriptionFeature {
     internal sealed interface InternalAction : Action {
         data class LogAnalyticsEvent(val event: AnalyticEvent) : InternalAction
 
-        data class FetchSubscription(val forceLoadFromNetwork: Boolean) : InternalAction
+        object FetchSubscription : InternalAction
     }
 }

@@ -7,7 +7,7 @@ import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.State
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.ViewState
 
-class ManageSubscriptionViewStateMapper(
+internal class ManageSubscriptionViewStateMapper(
     private val resourceProvider: ResourceProvider,
     private val dateFormatter: SharedDateFormatter
 ) {

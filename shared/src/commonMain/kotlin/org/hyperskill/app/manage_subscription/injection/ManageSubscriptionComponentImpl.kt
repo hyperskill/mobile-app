@@ -6,7 +6,7 @@ import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFea
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.ViewState
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class ManageSubscriptionComponentImpl(
+internal class ManageSubscriptionComponentImpl(
     private val appGraph: AppGraph
 ) : ManageSubscriptionComponent {
     override val manageSubscriptionFeature: Feature<ViewState, Message, Action>
