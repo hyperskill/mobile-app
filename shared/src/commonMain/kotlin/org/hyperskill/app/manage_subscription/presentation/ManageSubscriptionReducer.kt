@@ -1,6 +1,7 @@
 package org.hyperskill.app.manage_subscription.presentation
 
-import org.hyperskill.app.manage_subscription.domain.analytic.ManageSubscriptionHyperskillAnalyticEvent
+import org.hyperskill.app.manage_subscription.domain.analytic.ManageSubscriptionClickedManageHyperskillAnalyticEvent
+import org.hyperskill.app.manage_subscription.domain.analytic.ManageSubscriptionViewedHyperskillAnalyticEvent
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.Action
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.InternalAction
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.InternalMessage
@@ -31,7 +32,7 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
     private fun handleViewedEventMessage(state: State): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticsEvent(
-                ManageSubscriptionHyperskillAnalyticEvent
+                ManageSubscriptionViewedHyperskillAnalyticEvent
             )
         )
 
@@ -52,6 +53,7 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
     private fun handleManageSubscriptionClicked(state: State): ReducerResult =
         if (state is State.Content && state.manageSubscriptionUrl != null) {
             state to setOf(
+                InternalAction.LogAnalyticsEvent(ManageSubscriptionClickedManageHyperskillAnalyticEvent),
                 Action.ViewAction.OpenUrl(state.manageSubscriptionUrl)
             )
         } else {

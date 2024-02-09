@@ -17,7 +17,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *
  * @see HyperskillAnalyticEvent
  */
-object ManageSubscriptionHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+object ManageSubscriptionViewedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile.Settings.ManageSubscription,
     HyperskillAnalyticAction.VIEW
 )

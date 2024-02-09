@@ -115,5 +115,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SUBSCRIPTION_SUGGESTION_DETAILS("subscription_suggestion_details"),
     BUY_SUBSCRIPTION("buy_subscription"),
     CONTINUE_WITH_LIMITS("continue_with_limits"),
-    HOME_SCREEN_QUICK_ACTION("home_screen_quick_action")
+    HOME_SCREEN_QUICK_ACTION("home_screen_quick_action"),
+    MANAGE_SUBSCRIPTION("manage_subscription")
 }
