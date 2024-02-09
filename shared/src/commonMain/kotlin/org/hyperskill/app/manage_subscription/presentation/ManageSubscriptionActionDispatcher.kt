@@ -16,7 +16,7 @@ import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class ManageSubscriptionActionDispatcher(
+internal class ManageSubscriptionActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
@@ -49,7 +49,7 @@ class ManageSubscriptionActionDispatcher(
             coroutineScope {
                 val subscriptionDeferred = async {
                     currentSubscriptionStateRepository
-                        .getState(action.forceLoadFromNetwork)
+                        .getState(forceUpdate = true)
                         .onFailure {
                             logger.e(it) { "Failed to load subscription" }
                         }
