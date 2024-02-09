@@ -14,6 +14,8 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.paywall.ui.PaywallScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
@@ -71,6 +73,9 @@ class PaywallFragment : Fragment() {
         when (action) {
             ViewAction.CompletePaywall -> {
                 requireAppRouter().sendResult(PAYWALL_COMPLETED, Any())
+            }
+            ViewAction.StudyPlan -> {
+                requireRouter().backTo(MainScreen(initialTab = Tabs.STUDY_PLAN))
             }
             is ViewAction.ShowMessage -> {
                 Toast.makeText(

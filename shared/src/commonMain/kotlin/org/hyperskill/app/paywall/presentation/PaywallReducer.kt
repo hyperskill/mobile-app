@@ -186,5 +186,7 @@ internal class PaywallReducer(
             PaywallTransitionSource.PROFILE_SETTINGS ->
                 // TODO: replace with navigation the Subscription management
                 Action.ViewAction.CompletePaywall
+            PaywallTransitionSource.PROBLEMS_LIMIT_MODAL ->
+                Action.ViewAction.CompletePaywall
         }
 }
