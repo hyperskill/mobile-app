@@ -155,7 +155,7 @@ private extension StepView {
     }
 
     func presentDailyStepCompletedModal(
-        earnedGemsText: String,
+        earnedGemsText: String?,
         shareStreakData: StepCompletionFeatureShareStreakData
     ) {
         let modal = ProblemOfDaySolvedModalViewController(
