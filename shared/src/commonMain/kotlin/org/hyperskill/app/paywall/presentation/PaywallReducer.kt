@@ -156,7 +156,8 @@ internal class PaywallReducer(
                         InternalAction.LogWrongSubscriptionTypeAfterSync(
                             expectedSubscriptionType = SubscriptionType.MOBILE_ONLY,
                             actualSubscriptionType = message.subscription.type
-                        )
+                        ),
+                        getTargetScreenNavigationAction(paywallTransitionSource)
                     )
                 }
         } else {
@@ -184,6 +185,6 @@ internal class PaywallReducer(
             PaywallTransitionSource.LOGIN ->
                 Action.ViewAction.CompletePaywall
             PaywallTransitionSource.PROFILE_SETTINGS ->
-                Action.ViewAction.NavigateTo.Profile
+                Action.ViewAction.NavigateTo.BackToSettings
         }
 }

@@ -15,11 +15,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/profile/settings/manage-subscription",
  *     "action": "click",
  *     "part": "main",
- *     "target": "manage_subscription",
- *     "context":
- *     {
- *       "source": "login"
- *     }
+ *     "target": "manage_subscription"
  * }
  * ```
  *

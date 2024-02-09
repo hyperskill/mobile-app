@@ -14,8 +14,9 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
+import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.paywall.ui.PaywallScreen
-import org.hyperskill.app.android.profile.view.navigation.ProfileScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action.ViewAction
@@ -80,8 +81,8 @@ class PaywallFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            ViewAction.NavigateTo.Profile ->
-                requireRouter().backTo(ProfileScreen())
+            ViewAction.NavigateTo.BackToSettings ->
+                requireRouter().backTo(MainScreen(Tabs.PROFILE))
         }
     }
 
