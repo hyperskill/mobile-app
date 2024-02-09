@@ -4,6 +4,8 @@ import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources.strings
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -41,6 +43,15 @@ internal class ProfileSettingsActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        currentSubscriptionStateRepository
+            .changes
+            .onEach { subscription ->
+                onNewMessage(Message.OnSubscriptionChanged(subscription))
+            }
+            .launchIn(actionScope)
+    }
 
     private val arePurchasesAvailable: Boolean
         get() = platform.platformType == PlatformType.ANDROID
