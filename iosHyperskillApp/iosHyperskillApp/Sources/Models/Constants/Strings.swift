@@ -363,6 +363,9 @@ enum Strings {
         static let privacyPolicyURL = sharedStrings.settings_privacy_policy_url.localized()
         static let reportProblemURL = sharedStrings.settings_report_problem_url.localized()
 
+        static let rateInAppStore = sharedStrings.settings_rate_in_app_store.localized()
+        static let rateInAppStoreURL = sharedStrings.settings_rate_in_app_store_url.localized()
+
         enum Theme {
             static let title = sharedStrings.settings_theme.localized()
 
