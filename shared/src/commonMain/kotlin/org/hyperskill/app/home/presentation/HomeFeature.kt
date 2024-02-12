@@ -12,13 +12,15 @@ import org.hyperskill.app.interview_preparation.view.model.InterviewPreparationW
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streaks.domain.model.Streak
+import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
 
 object HomeFeature {
     internal data class State(
         val homeState: HomeState,
         val toolbarState: GamificationToolbarFeature.State,
         val challengeWidgetState: ChallengeWidgetFeature.State,
-        val interviewPreparationWidgetState: InterviewPreparationWidgetFeature.State
+        val interviewPreparationWidgetState: InterviewPreparationWidgetFeature.State,
+        val usersQuestionnaireWidgetState: UsersQuestionnaireWidgetFeature.State
     ) {
         val isRefreshing: Boolean
             get() = homeState is HomeState.Content && homeState.isRefreshing ||
@@ -32,6 +34,7 @@ object HomeFeature {
         val toolbarViewState: GamificationToolbarFeature.ViewState,
         val challengeWidgetViewState: ChallengeWidgetViewState,
         val interviewPreparationWidgetViewState: InterviewPreparationWidgetViewState,
+        val usersQuestionnaireWidgetState: UsersQuestionnaireWidgetFeature.State,
         val isRefreshing: Boolean
     )
 
@@ -147,6 +150,10 @@ object HomeFeature {
         data class InterviewPreparationWidgetMessage(
             val message: InterviewPreparationWidgetFeature.Message
         ) : Message
+
+        data class UsersQuestionnaireWidgetMessage(
+            val message: UsersQuestionnaireWidgetFeature.Message
+        ) : Message
     }
 
     sealed interface Action {
@@ -170,6 +177,10 @@ object HomeFeature {
             data class InterviewPreparationWidgetViewAction(
                 val viewAction: InterviewPreparationWidgetFeature.Action.ViewAction
             ) : ViewAction
+
+            data class UsersQuestionnaireWidgetViewAction(
+                val viewAction: UsersQuestionnaireWidgetFeature.Action.ViewAction
+            ) : ViewAction
         }
     }
 
@@ -192,6 +203,10 @@ object HomeFeature {
 
         data class InterviewPreparationWidgetAction(
             val action: InterviewPreparationWidgetFeature.Action
+        ) : InternalAction
+
+        data class UsersQuestionnaireWidgetAction(
+            val action: UsersQuestionnaireWidgetFeature.Action
         ) : InternalAction
     }
 }

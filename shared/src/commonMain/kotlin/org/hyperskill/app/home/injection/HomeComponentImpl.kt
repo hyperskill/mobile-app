@@ -7,6 +7,7 @@ import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComp
 import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.interview_preparation.injection.InterviewPreparationWidgetComponent
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
@@ -21,6 +22,9 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
 
     private val interviewPreparationWidgetComponent: InterviewPreparationWidgetComponent =
         appGraph.buildInterviewPreparationWidgetComponent()
+
+    private val usersQuestionnaireWidgetComponent: UsersQuestionnaireWidgetComponent =
+        appGraph.buildUsersQuestionnaireWidgetComponent()
 
     override val homeFeature: Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
@@ -41,6 +45,8 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
             interviewPreparationWidgetComponent.interviewPreparationWidgetReducer,
             interviewPreparationWidgetComponent.interviewPreparationWidgetActionDispatcher,
             interviewPreparationWidgetComponent.interviewPreparationWidgetViewStateMapper,
+            usersQuestionnaireWidgetComponent.usersQuestionnaireWidgetReducer,
+            usersQuestionnaireWidgetComponent.usersQuestionnaireWidgetActionDispatcher,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

@@ -17,6 +17,8 @@ import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetReducer
+import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
+import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias HomeReducerResult = Pair<State, Set<Action>>
@@ -24,7 +26,8 @@ private typealias HomeReducerResult = Pair<State, Set<Action>>
 internal class HomeReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer,
     private val challengeWidgetReducer: ChallengeWidgetReducer,
-    private val interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer
+    private val interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer,
+    private val usersQuestionnaireWidgetReducer: UsersQuestionnaireWidgetReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): HomeReducerResult =
         when (message) {
@@ -230,6 +233,13 @@ internal class HomeReducer(
                     interviewPreparationWidgetState = interviewPreparationWidgetState
                 ) to interviewPreparationWidgetActions
             }
+            is Message.UsersQuestionnaireWidgetMessage -> {
+                val (usersQuestionnaireWidgetState, usersQuestionnaireWidgetActions) =
+                    reduceUsersQuestionnaireWidgetMessage(state.usersQuestionnaireWidgetState, message.message)
+                state.copy(
+                    usersQuestionnaireWidgetState = usersQuestionnaireWidgetState
+                ) to usersQuestionnaireWidgetActions
+            }
         } ?: (state to emptySet())
 
     private fun initialize(state: State, forceUpdate: Boolean): HomeReducerResult {
@@ -261,12 +271,25 @@ internal class HomeReducer(
                 InterviewPreparationWidgetFeature.InternalMessage.Initialize(forceUpdate)
             )
 
+        val (usersQuestionnaireWidgetState, usersQuestionnaireWidgetActions) =
+            reduceUsersQuestionnaireWidgetMessage(
+                state.usersQuestionnaireWidgetState,
+                UsersQuestionnaireWidgetFeature.InternalMessage.Initialize
+            )
+
+        val actions = homeActions +
+            toolbarActions +
+            challengeWidgetActions +
+            interviewPreparationWidgetActions +
+            usersQuestionnaireWidgetActions
+
         return state.copy(
             homeState = homeState,
             toolbarState = toolbarState,
             challengeWidgetState = challengeWidgetState,
-            interviewPreparationWidgetState = interviewPreparationWidgetState
-        ) to homeActions + toolbarActions + challengeWidgetActions + interviewPreparationWidgetActions
+            interviewPreparationWidgetState = interviewPreparationWidgetState,
+            usersQuestionnaireWidgetState = usersQuestionnaireWidgetState
+        ) to actions
     }
 
     private fun handlePullToRefresh(state: State): HomeReducerResult {
@@ -363,5 +386,25 @@ internal class HomeReducer(
             .toSet()
 
         return interviewPreparationWidgetState to actions
+    }
+
+    private fun reduceUsersQuestionnaireWidgetMessage(
+        state: UsersQuestionnaireWidgetFeature.State,
+        message: UsersQuestionnaireWidgetFeature.Message
+    ): Pair<UsersQuestionnaireWidgetFeature.State, Set<Action>> {
+        val (usersQuestionnaireWidgetState, usersQuestionnaireWidgetActions) =
+            usersQuestionnaireWidgetReducer.reduce(state, message)
+
+        val actions = usersQuestionnaireWidgetActions
+            .map {
+                if (it is UsersQuestionnaireWidgetFeature.Action.ViewAction) {
+                    Action.ViewAction.UsersQuestionnaireWidgetViewAction(it)
+                } else {
+                    InternalAction.UsersQuestionnaireWidgetAction(it)
+                }
+            }
+            .toSet()
+
+        return usersQuestionnaireWidgetState to actions
     }
 }
