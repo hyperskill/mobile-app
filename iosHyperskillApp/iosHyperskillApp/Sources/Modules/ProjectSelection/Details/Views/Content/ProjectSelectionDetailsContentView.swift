@@ -3,18 +3,6 @@ import SwiftUI
 extension ProjectSelectionDetailsContentView {
     struct Appearance {
         let spacing = LayoutInsets.defaultInset
-
-        let callToActionBlurInsets = LayoutInsets(
-            horizontal: LayoutInsets.smallInset,
-            vertical: -LayoutInsets.smallInset
-        )
-
-        func makeCallToActionButtonStyle(isEnabled: Bool) -> RoundedRectangleButtonStyle {
-            var style = RoundedRectangleButtonStyle(style: .violet)
-            style.backgroundDisabledOpacity = 1
-            style.foregroundColor = isEnabled ? Color(ColorPalette.onPrimary) : Color(ColorPalette.onPrimaryAlpha60)
-            return style
-        }
     }
 }
 
@@ -42,13 +30,7 @@ struct ProjectSelectionDetailsContentView: View {
     let isCallToActionButtonEnabled: Bool
     let onCallToActionButtonTap: () -> Void
 
-    private let callToActionButtonFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
-
     var body: some View {
-        let callToActionButtonStyle = appearance.makeCallToActionButtonStyle(
-            isEnabled: isCallToActionButtonEnabled
-        )
-
         ScrollView {
             VStack(spacing: appearance.spacing) {
                 ProjectSelectionDetailsLearningOutcomesView(
@@ -72,36 +54,32 @@ struct ProjectSelectionDetailsContentView: View {
                 ProjectSelectionDetailsProviderView(title: providerName)
             }
             .padding()
-            .padding(.bottom, callToActionButtonStyle.minHeight)
         }
         .frame(maxWidth: .infinity)
         .navigationTitle(navigationTitle)
-        .overlay(
-            buildCallToActionButton(buttonStyle: callToActionButtonStyle),
-            alignment: .bottom
-        )
+        .safeAreaInsetBottomCompatibility(footerView)
     }
 
-    @MainActor
-    @ViewBuilder
-    private func buildCallToActionButton(
-        buttonStyle: RoundedRectangleButtonStyle
-    ) -> some View {
-        Button(
-            Strings.ProjectSelectionDetails.callToActionButtonTitle,
-            action: {
-                callToActionButtonFeedbackGenerator.triggerFeedback()
-                onCallToActionButtonTap()
-            }
-        )
-        .buttonStyle(buttonStyle)
-        .padding(.horizontal)
-        .background(
-            Color(ColorPalette.surface)
-                .padding(appearance.callToActionBlurInsets.edgeInsets)
-                .blur(radius: buttonStyle.cornerRadius)
-        )
-        .disabled(!isCallToActionButtonEnabled)
+    @MainActor @ViewBuilder private var footerView: some View {
+        if isCallToActionButtonEnabled {
+            Button(
+                Strings.ProjectSelectionDetails.callToActionButtonTitle,
+                action: {
+                    FeedbackGenerator(feedbackType: .selection).triggerFeedback()
+                    onCallToActionButtonTap()
+                }
+            )
+            .buttonStyle(.primary)
+            .shineEffect()
+            .padding()
+            .background(
+                TransparentBlurView()
+                    .edgesIgnoringSafeArea(.all)
+            )
+            .fixedSize(horizontal: false, vertical: true)
+        } else {
+            EmptyView()
+        }
     }
 }
 
