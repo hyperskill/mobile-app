@@ -82,6 +82,10 @@ object AppFeature {
         ) : Message
     }
 
+    internal sealed interface InternalMessage : Message {
+        data class SubscriptionTypeChanged(val subscriptionType: SubscriptionType) : InternalMessage
+    }
+
     sealed interface Action {
         data class FetchAppStartupConfig(
             val pushNotificationData: PushNotificationData?

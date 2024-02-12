@@ -58,6 +58,15 @@ internal class AppActionDispatcher(
                 onNewMessage(Message.UserDeauthorized(it.reason))
             }
             .launchIn(actionScope)
+
+        if (isPaywallFeatureEnabled) {
+            currentSubscriptionStateRepository
+                .changes
+                .onEach { subscription ->
+                    onNewMessage(AppFeature.InternalMessage.SubscriptionTypeChanged(subscription.type))
+                }
+                .launchIn(actionScope)
+        }
     }
 
     override suspend fun doSuspendableAction(action: Action) {

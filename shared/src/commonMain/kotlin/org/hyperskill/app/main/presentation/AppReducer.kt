@@ -87,6 +87,8 @@ internal class AppReducer(
                 state to reduceNotificationClickHandlingMessage(message.message)
             is Message.WelcomeOnboardingMessage ->
                 reduceWelcomeOnboardingMessage(state, message.message)
+            is AppFeature.InternalMessage.SubscriptionTypeChanged ->
+                handleSubscriptionTypeChanged(state, message)
         } ?: (state to emptySet())
 
     private fun handleFetchAppStartupConfigSuccess(
@@ -313,4 +315,14 @@ internal class AppReducer(
 
     private fun getDeauthorizedUserActions(): Set<Action> =
         setOf(Action.ClearUserInSentry)
+
+    private fun handleSubscriptionTypeChanged(
+        state: State,
+        message: AppFeature.InternalMessage.SubscriptionTypeChanged
+    ): ReducerResult =
+        if (state is State.Ready) {
+            state.copy(subscriptionType = message.subscriptionType) to emptySet()
+        } else {
+            state to emptySet()
+        }
 }
