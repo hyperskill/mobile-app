@@ -62,8 +62,7 @@ struct TrackSelectionDetailsContentView: View {
         .safeAreaInsetBottomCompatibility(footerView)
     }
 
-    @MainActor
-    @ViewBuilder private var footerView: some View {
+    @MainActor @ViewBuilder private var footerView: some View {
         if isCallToActionButtonEnabled {
             Button(
                 Strings.TrackSelectionDetails.callToActionButtonTitle,
