@@ -34,6 +34,8 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     subscription = message.subscription,
                     mobileOnlyFormattedPrice = message.mobileOnlyFormattedPrice
                 ) to emptySet()
+            is Message.OnSubscriptionChanged ->
+                handleSubscriptionChanged(state, message)
             is Message.ThemeChanged ->
                 if (state is State.Content) {
                     state.copy(state.profileSettings.copy(theme = message.theme)) to
@@ -164,6 +166,16 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
             is Message.SubscriptionDetailsClicked ->
                 handleSubscriptionDetailsClicked(state)
         } ?: (state to emptySet())
+
+    private fun handleSubscriptionChanged(
+        state: State,
+        message: Message.OnSubscriptionChanged
+    ): ReducerResult =
+        if (state is State.Content) {
+            state.copy(subscription = message.subscription) to emptySet()
+        } else {
+            state to emptySet()
+        }
 
     private fun handleSubscriptionDetailsClicked(
         state: State

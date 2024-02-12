@@ -84,6 +84,8 @@ class PaywallFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            ViewAction.NavigateTo.BackToProfileSettings ->
+                requireRouter().backTo(MainScreen(Tabs.PROFILE))
         }
     }
 

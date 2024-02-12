@@ -607,11 +607,13 @@
     <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
     <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
 
+    <!--Mobile-only-->
+    <string name="mobile_only_subscription_feature_1">Access to all tracks</string>
+    <string name="mobile_only_subscription_feature_2">Unlimited problems per day in the app</string>
+    <string name="mobile_only_subscription_feature_3">1 hint per problem</string>
+
     <!--Paywall-->
     <string name="paywall_mobile_only_title">Solve unlimited problems with Mobile only plan</string>
-    <string name="paywall_mobile_only_option_1">Access to all tracks</string>
-    <string name="paywall_mobile_only_option_2">Unlimited problems per day in the app</string>
-    <string name="paywall_mobile_only_option_3">1 hint per problem</string>
     <string name="paywall_mobile_only_buy_btn">Subscribe for %s/month</string>
     <string name="paywall_mobile_only_continue_btn">Continue with daily limits</string>
     <string name="paywall_placeholder_error_description">Oops! We were unable to load the subscriptions data.</string>
@@ -620,5 +622,14 @@
     <string name="paywall_subscription_sync_delayed">Paid functionality will become available to you shortly</string>
     <string name="paywall_pending_purchase">Paid functionality will become available after success payment</string>
     <string name="paywall_subscription_sync_description">The app is updating. Please wait a moment</string>
+
+    <!--Manage subscription-->
+    <string name="manage_subscription_screen_title">Subscription</string>
+    <string name="manage_subscription_plan_title">Your current plan:</string>
+    <string name="manage_subscription_mobile_only">Hyperskill Mobile only</string>
+    <string name="manage_subscription_valid_until">Valid until %s</string>
+    <string name="manage_subscription_plan_details_title">Plan details:</string>
+    <string name="manage_subscription_mobile_only_warning">Please be aware that with the Mobile оnly plan on hyperskill.org, there is a limit on the number of problems you can solve per day.</string>
+    <string name="manage_subscription_manage_btn">Manage subscription</string>
 
 </resources>
