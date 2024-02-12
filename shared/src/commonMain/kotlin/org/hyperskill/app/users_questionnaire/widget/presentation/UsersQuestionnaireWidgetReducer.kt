@@ -43,7 +43,8 @@ class UsersQuestionnaireWidgetReducer : StateReducer<State, Message, Action> {
                 }
             Message.WidgetClicked ->
                 if (state is State.Visible) {
-                    state to setOf(
+                    State.Hidden to setOf(
+                        InternalAction.HideUsersQuestionnaireWidget,
                         InternalAction.LogAnalyticEvent(UsersQuestionnaireWidgetClickedHyperskillAnalyticEvent),
                         Action.ViewAction.ShowUsersQuestionnaire(
                             url = "https://hyperskill.org" // TODO: Replace with real URL
