@@ -26,8 +26,6 @@ internal class MainDataComponentImpl(private val appGraph: AppGraph) : MainDataC
             providersRepository = appGraph.buildProvidersDataComponent().providersRepository,
             projectsRepository = appGraph.buildProjectsDataComponent().projectsRepository,
             shareStreakRepository = appGraph.buildShareStreakDataComponent().shareStreakRepository,
-            pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
-            paywallRepository = appGraph.buildPaywallDataComponent().paywallRepository,
-            platformType = appGraph.commonComponent.platform.platformType
+            pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor
         )
 }

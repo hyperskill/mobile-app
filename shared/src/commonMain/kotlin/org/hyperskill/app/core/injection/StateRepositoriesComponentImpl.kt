@@ -12,7 +12,9 @@ import org.hyperskill.app.learning_activities.remote.LearningActivitiesRemoteDat
 import org.hyperskill.app.study_plan.data.repository.CurrentStudyPlanStateRepositoryImpl
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import org.hyperskill.app.study_plan.remote.StudyPlanRemoteDataSourceImpl
+import org.hyperskill.app.subscriptions.cache.CurrentSubscriptionStateHolderImpl
 import org.hyperskill.app.subscriptions.data.repository.CurrentSubscriptionStateRepositoryImpl
+import org.hyperskill.app.subscriptions.data.source.CurrentSubscriptionStateHolder
 import org.hyperskill.app.subscriptions.data.source.SubscriptionsRemoteDataSource
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.subscriptions.remote.SubscriptionsRemoteDataSourceImpl
@@ -27,8 +29,14 @@ class StateRepositoriesComponentImpl(appGraph: AppGraph) : StateRepositoriesComp
     private val subscriptionsRemoteDataSource: SubscriptionsRemoteDataSource =
         SubscriptionsRemoteDataSourceImpl(authorizedHttpClient)
 
+    private val currentSubscriptionStateHolder: CurrentSubscriptionStateHolder =
+        CurrentSubscriptionStateHolderImpl(
+            json = appGraph.commonComponent.json,
+            settings = appGraph.commonComponent.settings
+        )
+
     override val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository =
-        CurrentSubscriptionStateRepositoryImpl(subscriptionsRemoteDataSource)
+        CurrentSubscriptionStateRepositoryImpl(subscriptionsRemoteDataSource, currentSubscriptionStateHolder)
 
     /**
      * Study plan
