@@ -31,6 +31,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
+import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -278,11 +279,18 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                 requireRouter().navigateTo(StepScreen(action.stepRoute))
             }
+            is StepQuizFeature.Action.ViewAction.NavigateTo.Paywall -> {
+                requireRouter().navigateTo(PaywallScreen(action.paywallTransitionSource))
+            }
             is StepQuizFeature.Action.ViewAction.RequestResetCode -> {
                 requestResetCodeActionPermission()
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
-                ProblemsLimitReachedBottomSheet.newInstance(action.modalText)
+                ProblemsLimitReachedBottomSheet
+                    .newInstance(
+                        modalText = action.modalText,
+                        isUnlockUnlimitedProblemsButtonVisible = action.isUnlockUnlimitedProblemsButtonVisible
+                    )
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {

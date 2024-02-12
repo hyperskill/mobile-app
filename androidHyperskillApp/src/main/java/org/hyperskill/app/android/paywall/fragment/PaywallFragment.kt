@@ -74,6 +74,9 @@ class PaywallFragment : Fragment() {
             ViewAction.CompletePaywall -> {
                 requireAppRouter().sendResult(PAYWALL_COMPLETED, Any())
             }
+            ViewAction.StudyPlan -> {
+                requireRouter().backTo(MainScreen(initialTab = Tabs.STUDY_PLAN))
+            }
             is ViewAction.ShowMessage -> {
                 Toast.makeText(
                     requireContext(),
@@ -84,6 +87,8 @@ class PaywallFragment : Fragment() {
             is ViewAction.NavigateTo.StudyPlan -> {
                 requireRouter().newRootChain(MainScreen(Tabs.STUDY_PLAN))
             }
+            ViewAction.NavigateTo.BackToProfileSettings ->
+                requireRouter().backTo(MainScreen(Tabs.PROFILE))
         }
     }
 

@@ -55,6 +55,8 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
@@ -101,6 +103,10 @@ import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
+import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
+import org.hyperskill.app.request_review.injection.RequestReviewDataComponentImpl
+import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
+import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponentImpl
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search.injection.SearchComponentImpl
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
@@ -482,6 +488,12 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent =
         InterviewPreparationOnboardingComponentImpl(this)
 
+    override fun buildRequestReviewDataComponent(): RequestReviewDataComponent =
+        RequestReviewDataComponentImpl(this)
+
+    override fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent =
+        RequestReviewModalComponentImpl(appGraph = this, stepRoute = stepRoute)
+
     override fun buildPaywallComponent(
         paywallTransitionSource: PaywallTransitionSource
     ): PaywallComponent =
@@ -492,4 +504,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildSubscriptionsDataComponent(): SubscriptionsDataComponent =
         SubscriptionsDataComponentImpl(this)
+
+    override fun buildManageSubscriptionComponent(): ManageSubscriptionComponent =
+        ManageSubscriptionComponentImpl(this)
 }

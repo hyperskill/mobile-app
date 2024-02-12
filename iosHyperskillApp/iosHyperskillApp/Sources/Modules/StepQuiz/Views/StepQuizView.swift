@@ -285,6 +285,7 @@ struct StepQuizView: View {
                     }
                 }
             )
+            .background(TransparentBlurView())
             .edgesIgnoringSafeArea(.all)
             .frame(height: fillBlanksSelectOptionsViewHeight)
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
@@ -309,6 +310,8 @@ struct StepQuizView: View {
             case .stepScreen(let navigateToStepScreenViewAction):
                 let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                 stackRouter.pushViewController(assembly.makeModule())
+            case .paywall:
+                #warning("TODO: ALTAPPS-1121")
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
             switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {

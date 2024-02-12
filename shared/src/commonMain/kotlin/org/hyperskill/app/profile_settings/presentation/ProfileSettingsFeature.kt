@@ -60,6 +60,10 @@ object ProfileSettingsFeature {
 
         object SubscriptionDetailsClicked : Message
 
+        data class OnSubscriptionChanged(
+            val subscription: Subscription
+        ) : Message
+
         /**
          * Analytic
          */
@@ -76,6 +80,8 @@ object ProfileSettingsFeature {
         data class SignOutNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
         object ClickedDeleteAccountEventMessage : Message
         object DeleteAccountNoticeShownEventMessage : Message
+
+        object ClickedRateUsInAppStoreEventMessage : Message
     }
 
     sealed interface Action {

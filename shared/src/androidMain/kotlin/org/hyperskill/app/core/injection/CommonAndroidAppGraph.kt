@@ -14,6 +14,7 @@ import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.interview_preparation_onboarding.injection.PlatformInterviewPreparationOnboardingComponent
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
+import org.hyperskill.app.manage_subscription.injection.PlatformManageSubscriptionComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.injection.PlatformPaywallComponent
@@ -109,4 +110,6 @@ interface CommonAndroidAppGraph : AppGraph {
     ): PlatformInterviewPreparationOnboardingComponent
 
     fun buildPlatformPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PlatformPaywallComponent
+
+    fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
 }

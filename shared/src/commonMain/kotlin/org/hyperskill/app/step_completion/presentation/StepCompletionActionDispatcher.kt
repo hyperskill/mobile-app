@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.platform.Platform
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -16,6 +18,7 @@ import org.hyperskill.app.learning_activities.domain.repository.NextLearningActi
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.request_review.domain.interactor.RequestReviewInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -48,13 +51,15 @@ class StepCompletionActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val freemiumInteractor: FreemiumInteractor,
     private val shareStreakInteractor: ShareStreakInteractor,
+    private val requestReviewInteractor: RequestReviewInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
     private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
-    private val interviewStepsStateRepository: InterviewStepsStateRepository
+    private val interviewStepsStateRepository: InterviewStepsStateRepository,
+    private val platform: Platform
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -271,12 +276,19 @@ class StepCompletionActionDispatcher(
             }
         }
 
+        // TODO: ALTAPPS-1136 remove platformType check after implementing request review for Android
+        val shouldRequestReview =
+            platform.platformType == PlatformType.IOS && requestReviewInteractor.shouldRequestReviewAfterStepSolved()
+
         if (shouldShareStreak && streakToShare != null) {
             shareStreakInteractor.setLastTimeShareStreakShown()
             onNewMessage(Message.ShareStreak(streak = streakToShare))
-
-            updateCurrentProfileHypercoinsBalanceRemotely()
+        } else if (shouldRequestReview) {
+            requestReviewInteractor.handleRequestReviewPerformed()
+            onNewMessage(Message.RequestUserReview)
         }
+
+        updateCurrentProfileHypercoinsBalanceRemotely()
     }
 
     private suspend fun updateCurrentProfileHypercoinsBalanceRemotely(): Int? =

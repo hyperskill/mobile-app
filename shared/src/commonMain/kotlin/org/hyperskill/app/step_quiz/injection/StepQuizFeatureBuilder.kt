@@ -3,9 +3,9 @@ package org.hyperskill.app.step_quiz.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -19,6 +19,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -33,7 +34,7 @@ object StepQuizFeatureBuilder {
         stepQuizInteractor: StepQuizInteractor,
         stepQuizReplyValidator: StepQuizReplyValidator,
         currentProfileStateRepository: CurrentProfileStateRepository,
-        freemiumInteractor: FreemiumInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
@@ -41,22 +42,24 @@ object StepQuizFeatureBuilder {
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         resourceProvider: ResourceProvider,
         logger: Logger,
-        buildVariant: BuildVariant
+        buildVariant: BuildVariant,
+        platformType: PlatformType
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer = StepQuizReducer(
             stepRoute = stepRoute,
             stepQuizHintsReducer = stepQuizHintsReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
-            ActionDispatcherOptions(),
-            stepQuizInteractor,
-            stepQuizReplyValidator,
-            currentProfileStateRepository,
-            freemiumInteractor,
-            analyticInteractor,
-            sentryInteractor,
-            onboardingInteractor,
-            resourceProvider
+            config = ActionDispatcherOptions(),
+            stepQuizInteractor = stepQuizInteractor,
+            stepQuizReplyValidator = stepQuizReplyValidator,
+            currentProfileStateRepository = currentProfileStateRepository,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
+            analyticInteractor = analyticInteractor,
+            sentryInteractor = sentryInteractor,
+            onboardingInteractor = onboardingInteractor,
+            resourceProvider = resourceProvider,
+            platformType = platformType
         )
 
         return ReduxFeature(

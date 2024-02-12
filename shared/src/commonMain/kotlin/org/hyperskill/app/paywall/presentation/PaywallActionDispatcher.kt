@@ -13,6 +13,7 @@ import org.hyperskill.app.purchases.domain.model.PurchaseResult
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -21,6 +22,7 @@ class PaywallActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val purchaseInteractor: PurchaseInteractor,
     private val subscriptionsRepository: SubscriptionsRepository,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val paywallRepository: PaywallRepository,
     private val logger: Logger
@@ -98,10 +100,9 @@ class PaywallActionDispatcher(
                 InternalMessage.SubscriptionSyncError
             }
         ) {
-            subscriptionsRepository
-                .syncSubscription()
-                .getOrThrow()
-                .let(InternalMessage::SubscriptionSyncSuccess)
+            val subscription = subscriptionsRepository.syncSubscription().getOrThrow()
+            currentSubscriptionStateRepository.updateState(subscription)
+            InternalMessage.SubscriptionSyncSuccess(subscription)
         }.let(onNewMessage)
     }
 

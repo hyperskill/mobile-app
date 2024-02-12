@@ -22,6 +22,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProfileSettingsBinding
+import org.hyperskill.app.android.manage_subscription.navigation.ManageSubscriptionScreen
 import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.profile_settings.view.mapper.asNightMode
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
@@ -223,7 +224,7 @@ class ProfileSettingsDialogFragment :
                     .navigateTo(PaywallScreen(action.paywallTransitionSource))
             }
             is Action.ViewAction.NavigateTo.SubscriptionManagement -> {
-                // TODO
+                requireRouter().navigateTo(ManageSubscriptionScreen)
             }
             else -> {
                 // no op

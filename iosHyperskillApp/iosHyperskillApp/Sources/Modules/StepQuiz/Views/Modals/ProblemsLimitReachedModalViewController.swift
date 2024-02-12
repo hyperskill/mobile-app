@@ -131,7 +131,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
 
         let titleLabel = UILabel()
         titleLabel.text = Strings.StepQuiz.ProblemsLimitReachedModal.title
-        titleLabel.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        titleLabel.font = .preferredFont(for: .title2, weight: .bold)
         titleLabel.textColor = .primaryText
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.numberOfLines = 0

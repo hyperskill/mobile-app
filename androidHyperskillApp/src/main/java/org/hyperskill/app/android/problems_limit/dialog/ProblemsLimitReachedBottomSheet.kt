@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -24,13 +25,18 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
 
         const val TAG = "ProblemsLimitReachedBottomSheet"
 
-        fun newInstance(modalText: String): ProblemsLimitReachedBottomSheet =
+        fun newInstance(
+            modalText: String,
+            isUnlockUnlimitedProblemsButtonVisible: Boolean
+        ): ProblemsLimitReachedBottomSheet =
             ProblemsLimitReachedBottomSheet().apply {
                 this.modalText = modalText
+                this.isUnlockUnlimitedProblemsButtonVisible = isUnlockUnlimitedProblemsButtonVisible
             }
     }
 
     private var modalText: String by argument()
+    private var isUnlockUnlimitedProblemsButtonVisible: Boolean by argument()
 
     private val viewBinding: FragmentProblemsLimitReachedBinding by viewBinding(
         FragmentProblemsLimitReachedBinding::bind
@@ -70,6 +76,14 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
         with(viewBinding) {
             problemsLimitReachedHomeButton.setOnClickListener {
                 viewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitReachedModalGoToHomeScreenClicked)
+            }
+            problemsLimitReachedUnlimitedProblemsButton.isVisible = isUnlockUnlimitedProblemsButtonVisible
+            if (isUnlockUnlimitedProblemsButtonVisible) {
+                problemsLimitReachedUnlimitedProblemsButton.setOnClickListener {
+                    viewModel.onNewMessage(
+                        StepQuizFeature.Message.ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked
+                    )
+                }
             }
             problemsLimitReachedDescription.text = modalText
         }

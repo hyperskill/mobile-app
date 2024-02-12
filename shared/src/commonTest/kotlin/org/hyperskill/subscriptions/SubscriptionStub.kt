@@ -10,5 +10,6 @@ fun Subscription.Companion.stub(
         type = type,
         stepsLimitLeft = null,
         stepsLimitTotal = null,
-        stepsLimitResetTime = null
+        stepsLimitResetTime = null,
+        validTill = null
     )

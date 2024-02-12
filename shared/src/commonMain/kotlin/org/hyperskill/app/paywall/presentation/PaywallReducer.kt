@@ -165,7 +165,8 @@ internal class PaywallReducer(
                         InternalAction.LogWrongSubscriptionTypeAfterSync(
                             expectedSubscriptionType = SubscriptionType.MOBILE_ONLY,
                             actualSubscriptionType = message.subscription.type
-                        )
+                        ),
+                        getTargetScreenNavigationAction(paywallTransitionSource)
                     )
                 }
         } else {
@@ -195,7 +196,8 @@ internal class PaywallReducer(
             PaywallTransitionSource.LOGIN ->
                 Action.ViewAction.CompletePaywall
             PaywallTransitionSource.PROFILE_SETTINGS ->
-                // TODO: replace with navigation the Subscription management
-                Action.ViewAction.CompletePaywall
+                Action.ViewAction.NavigateTo.BackToProfileSettings
+            PaywallTransitionSource.PROBLEMS_LIMIT_MODAL ->
+                Action.ViewAction.StudyPlan
         }
 }

@@ -258,6 +258,8 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
+    <string name="settings_rate_in_app_store">Rate us in the App Store</string>
+    <string name="settings_rate_in_app_store_url">https://apps.apple.com/app/id1637230833?action=write-review</string>
     <string name="settings_subscription">Subscription</string>
     <string name="settings_subscription_mobile_only">Mobile only</string>
     <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for %s</string>
@@ -421,9 +423,11 @@
     <!--Topics widget-->
     <string name="topics_widget_learn_next_badge">Learn next</string>
 
-    <!--  Problems limit reached modal  -->
+    <!--Problems limit reached modal-->
     <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
     <string name="problems_limit_reached_modal_description">You\'ve solved %d problems today. Great job! Tomorrow new problems will be available to you.</string>
+    <string name="problems_limit_reached_modal_unlock_unlimited_problems_description">You\'ve solved %d problems today. Great job! Unlock unlimited problems with Mobile only plan.</string>
+    <string name="problems_limit_reached_modal_buy_subscription_button">Unlock unlimited problems</string>
 
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>
@@ -563,6 +567,16 @@
     <string name="search_placeholder_suggestions_title">Find topic</string>
     <string name="search_placeholder_suggestions_subtitle">Search all of Hyperskill for topic theory</string>
 
+    <!-- Request review modal -->
+    <string name="request_review_modal_state_awaiting_title">Do you enjoy\n%s app?</string>
+    <string name="request_review_modal_state_awaiting_positive_button_text">Yes</string>
+    <string name="request_review_modal_state_awaiting_negative_button_text">No</string>
+
+    <string name="request_review_modal_state_negative_title">Thank you!</string>
+    <string name="request_review_modal_state_negative_description">Share what you disliked to help us improve your experience.</string>
+    <string name="request_review_modal_state_negative_positive_button_text">Write a request</string>
+    <string name="request_review_modal_state_negative_negative_button_text">Maybe later</string>
+
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>
     <string name="badge_topic_mastery">Topic Mastery</string>
@@ -593,11 +607,13 @@
     <string name="earned_badge_modal_title">Wow! You\'ve reached level %d</string>
     <string name="earned_badge_modal_description">You\'ve earned the %s badge by reaching level %d! Amazing job!</string>
 
+    <!--Mobile-only-->
+    <string name="mobile_only_subscription_feature_1">Access to all tracks</string>
+    <string name="mobile_only_subscription_feature_2">Unlimited problems per day in the app</string>
+    <string name="mobile_only_subscription_feature_3">1 hint per problem</string>
+
     <!--Paywall-->
     <string name="paywall_mobile_only_title">Solve unlimited problems with Mobile only plan</string>
-    <string name="paywall_mobile_only_option_1">Access to all tracks</string>
-    <string name="paywall_mobile_only_option_2">Unlimited problems per day in the app</string>
-    <string name="paywall_mobile_only_option_3">1 hint per problem</string>
     <string name="paywall_mobile_only_buy_btn">Subscribe for %s/month</string>
     <string name="paywall_mobile_only_continue_btn">Continue with daily limits</string>
     <string name="paywall_placeholder_error_description">Oops! We were unable to load the subscriptions data.</string>
@@ -606,5 +622,14 @@
     <string name="paywall_subscription_sync_delayed">Paid functionality will become available to you shortly</string>
     <string name="paywall_pending_purchase">Paid functionality will become available after success payment</string>
     <string name="paywall_subscription_sync_description">The app is updating. Please wait a moment</string>
+
+    <!--Manage subscription-->
+    <string name="manage_subscription_screen_title">Subscription</string>
+    <string name="manage_subscription_plan_title">Your current plan:</string>
+    <string name="manage_subscription_mobile_only">Hyperskill Mobile only</string>
+    <string name="manage_subscription_valid_until">Valid until %s</string>
+    <string name="manage_subscription_plan_details_title">Plan details:</string>
+    <string name="manage_subscription_mobile_only_warning">Please be aware that with the Mobile оnly plan on hyperskill.org, there is a limit on the number of problems you can solve per day.</string>
+    <string name="manage_subscription_manage_btn">Manage subscription</string>
 
 </resources>

@@ -29,6 +29,7 @@ import org.hyperskill.app.logging.inject.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
@@ -55,6 +56,8 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
+import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -182,7 +185,10 @@ interface AppGraph {
     fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
     fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent
     fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent
+    fun buildRequestReviewDataComponent(): RequestReviewDataComponent
+    fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
     fun buildPaywallDataComponent(): PaywallDataComponent
     fun buildSubscriptionsDataComponent(): SubscriptionsDataComponent
+    fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
 }

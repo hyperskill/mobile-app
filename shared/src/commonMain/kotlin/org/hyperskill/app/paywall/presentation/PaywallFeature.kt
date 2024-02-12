@@ -74,12 +74,16 @@ object PaywallFeature {
         sealed interface ViewAction : Action {
             object CompletePaywall : ViewAction
 
+            object StudyPlan : ViewAction
+
             data class ShowMessage(
                 val messageKind: MessageKind
             ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
+
+                object BackToProfileSettings : NavigateTo
             }
         }
     }
