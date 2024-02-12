@@ -265,7 +265,7 @@ internal class HomeReducer(
             homeState = homeState,
             toolbarState = toolbarState,
             challengeWidgetState = challengeWidgetState,
-            interviewPreparationWidgetState = interviewPreparationWidgetState,
+            interviewPreparationWidgetState = interviewPreparationWidgetState
         ) to homeActions + toolbarActions + challengeWidgetActions + interviewPreparationWidgetActions
     }
 

@@ -13,13 +13,12 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 class UsersQuestionnaireWidgetReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
-            InternalMessage.Initialize -> {
+            InternalMessage.Initialize ->
                 if (state is State.Idle) {
                     State.Loading to setOf(InternalAction.FetchUsersQuestionnaireWidgetData)
                 } else {
                     null
                 }
-            }
             is InternalMessage.FetchUsersQuestionnaireWidgetDataResult ->
                 if (message.isUsersQuestionnaireEnabled && !message.isUsersQuestionnaireWidgetHidden) {
                     State.Visible to emptySet()
