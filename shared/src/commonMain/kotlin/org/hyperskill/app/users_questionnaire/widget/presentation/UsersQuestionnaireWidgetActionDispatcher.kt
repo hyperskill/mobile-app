@@ -39,11 +39,13 @@ class UsersQuestionnaireWidgetActionDispatcher(
         when (action) {
             InternalAction.FetchUsersQuestionnaireWidgetData ->
                 handleFetchUsersQuestionnaireWidgetDataAction(::onNewMessage)
+            InternalAction.HideUsersQuestionnaireWidget ->
+                usersQuestionnaireRepository.setIsUsersQuestionnaireWidgetHidden(true)
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
-//            else -> {
-//                // no op
-//            }
+            else -> {
+                // no op
+            }
         }
     }
 

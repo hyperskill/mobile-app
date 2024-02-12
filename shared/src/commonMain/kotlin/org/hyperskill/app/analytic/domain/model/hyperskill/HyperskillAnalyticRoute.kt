@@ -80,6 +80,11 @@ sealed class HyperskillAnalyticRoute {
             override val path: String
                 get() = "${super.path}/interview-preparation-widget"
         }
+
+        class UsersQuestionnaireWidget : Home() {
+            override val path: String
+                get() = "${super.path}/users-questionnaire-widget"
+        }
     }
 
     open class Repeat : HyperskillAnalyticRoute() {

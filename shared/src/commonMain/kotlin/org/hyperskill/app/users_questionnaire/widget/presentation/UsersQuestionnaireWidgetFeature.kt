@@ -10,7 +10,12 @@ object UsersQuestionnaireWidgetFeature {
         object Visible : State
     }
 
-    sealed interface Message
+    sealed interface Message {
+        object CloseClicked : Message
+        object WidgetClicked : Message
+
+        object ViewedEventMessage : Message
+    }
 
     internal sealed interface InternalMessage : Message {
         object Initialize : InternalMessage
@@ -26,11 +31,15 @@ object UsersQuestionnaireWidgetFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            data class ShowUsersQuestionnaire(val url: String) : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {
         object FetchUsersQuestionnaireWidgetData : InternalAction
+
+        object HideUsersQuestionnaireWidget : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
