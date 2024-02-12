@@ -139,6 +139,14 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     state to setOf(analyticsAction)
                 }
             }
+            Message.ClickedRateUsInAppStoreEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProfileSettingsClickedHyperskillAnalyticEvent(
+                            target = HyperskillAnalyticTarget.RATE_US_IN_APP_STORE
+                        )
+                    )
+                )
             is Message.GetMagicLinkReceiveSuccess -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))

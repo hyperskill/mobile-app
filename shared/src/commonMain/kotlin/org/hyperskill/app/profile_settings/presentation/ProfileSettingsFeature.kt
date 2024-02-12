@@ -76,6 +76,8 @@ object ProfileSettingsFeature {
         data class SignOutNoticeHiddenEventMessage(val isConfirmed: Boolean) : Message
         object ClickedDeleteAccountEventMessage : Message
         object DeleteAccountNoticeShownEventMessage : Message
+
+        object ClickedRateUsInAppStoreEventMessage : Message
     }
 
     sealed interface Action {

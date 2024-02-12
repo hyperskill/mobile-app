@@ -258,6 +258,8 @@
     <string name="settings_terms_of_service_url">https://www.jetbrains.com/legal/terms/jetbrains-academy.html</string>
     <string name="settings_privacy_policy_url">https://hi.hyperskill.org/terms</string>
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
+    <string name="settings_rate_in_app_store">Rate us in the App Store</string>
+    <string name="settings_rate_in_app_store_url">https://apps.apple.com/app/id1637230833?action=write-review</string>
     <string name="settings_subscription">Subscription</string>
     <string name="settings_subscription_mobile_only">Mobile only</string>
     <string name="settings_subscription_mobile_only_suggestion">Try Mobile only plan for %s</string>
@@ -564,6 +566,16 @@
     <string name="search_placeholder_error_description">Oops! We were unable to perform the search.</string>
     <string name="search_placeholder_suggestions_title">Find topic</string>
     <string name="search_placeholder_suggestions_subtitle">Search all of Hyperskill for topic theory</string>
+
+    <!-- Request review modal -->
+    <string name="request_review_modal_state_awaiting_title">Do you enjoy\n%s app?</string>
+    <string name="request_review_modal_state_awaiting_positive_button_text">Yes</string>
+    <string name="request_review_modal_state_awaiting_negative_button_text">No</string>
+
+    <string name="request_review_modal_state_negative_title">Thank you!</string>
+    <string name="request_review_modal_state_negative_description">Share what you disliked to help us improve your experience.</string>
+    <string name="request_review_modal_state_negative_positive_button_text">Write a request</string>
+    <string name="request_review_modal_state_negative_negative_button_text">Maybe later</string>
 
     <!--Badges-->
     <string name="badge_project_mastery_title">Project Mastery</string>

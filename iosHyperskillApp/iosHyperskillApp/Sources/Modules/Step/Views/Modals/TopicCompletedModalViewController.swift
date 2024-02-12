@@ -123,7 +123,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
 
         let titleLabel = UILabel()
         titleLabel.text = Strings.Common.goodJob
-        titleLabel.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
+        titleLabel.font = .preferredFont(for: .largeTitle, weight: .bold)
         titleLabel.textColor = .primaryText
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.numberOfLines = 0

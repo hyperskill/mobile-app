@@ -78,9 +78,25 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "target": "delete_account"
  * }
  * ```
+ *
+ * Click on the "Rate us in the App Store" button:
+ * ```
+ * {
+ *     "route": "/profile/settings",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "rate_us_in_app_store"
+ * }
+ * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 class ProfileSettingsClickedHyperskillAnalyticEvent(
     target: HyperskillAnalyticTarget,
     part: HyperskillAnalyticPart = HyperskillAnalyticPart.MAIN
-) : HyperskillAnalyticEvent(HyperskillAnalyticRoute.Profile.Settings(), HyperskillAnalyticAction.CLICK, part, target)
+) : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.Profile.Settings(),
+    HyperskillAnalyticAction.CLICK,
+    part,
+    target
+)

@@ -142,6 +142,9 @@ struct ProfileSettingsView: View {
                     onTap: viewModel.logClickedReportProblemEvent
                 )
                 .foregroundColor(.primaryText)
+
+                Button(Strings.Settings.rateInAppStore, action: viewModel.doRateInAppStorePresentation)
+                    .foregroundColor(.primaryText)
             }
 
             Section {
