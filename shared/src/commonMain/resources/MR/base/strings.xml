@@ -531,6 +531,9 @@
     <string name="challenge_widget_network_error_text">Oops! We were unable to load the challenge.</string>
     <string name="challenge_widget_reload_button">Reload</string>
 
+    <!-- Users questionnaire widget -->
+    <string name="users_questionnaire_widget_title">Tell us about your time using our app</string>
+
     <!--Interview preparation widget-->
     <string name="interview_preparation_widget_title">Interview preparation</string>
     <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget</string>
