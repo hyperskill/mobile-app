@@ -4,7 +4,10 @@ import kotlin.math.max
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 
@@ -229,4 +232,16 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
      */
     fun formatDayNumericAndMonthShort(localDate: LocalDate): String =
         "${localDate.dayOfMonth} ${MonthFormatter.formatMonthToShort(localDate.month)}"
+
+    fun formatSubscriptionValidUntil(instant: Instant, timeZone: TimeZone = TimeZone.currentSystemDefault()): String {
+        val localDateTime = instant.toLocalDateTime(timeZone)
+        val month = MonthFormatter.formatMonth(localDateTime.month)
+        val dayOfMonth = localDateTime.date.dayOfMonth
+        val hour = formatHoursOrMinutesWithLeadingZero(localDateTime.hour)
+        val minutes = formatHoursOrMinutesWithLeadingZero(localDateTime.minute)
+        return "$month $dayOfMonth, ${localDateTime.year}, $hour:$minutes"
+    }
+
+    private fun formatHoursOrMinutesWithLeadingZero(count: Int): String =
+        if (count <= 9) "0$count" else count.toString()
 }

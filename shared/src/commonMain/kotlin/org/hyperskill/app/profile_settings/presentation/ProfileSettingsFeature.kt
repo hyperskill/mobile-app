@@ -60,6 +60,10 @@ object ProfileSettingsFeature {
 
         object SubscriptionDetailsClicked : Message
 
+        data class OnSubscriptionChanged(
+            val subscription: Subscription
+        ) : Message
+
         /**
          * Analytic
          */
