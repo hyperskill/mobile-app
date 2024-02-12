@@ -285,6 +285,7 @@ struct StepQuizView: View {
                     }
                 }
             )
+            .background(TransparentBlurView())
             .edgesIgnoringSafeArea(.all)
             .frame(height: fillBlanksSelectOptionsViewHeight)
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
