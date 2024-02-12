@@ -21,7 +21,7 @@ internal class PaywallReducer(
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
-            Message.Initialize -> handleInitialize()
+            Message.Initialize -> fetchMobileOnlyPrice()
             Message.RetryContentLoading -> handleRetryContentLoading()
             Message.ViewedEventMessage -> handleViewedEventMessage(state)
             is Message.BuySubscriptionClicked -> handleBuySubscriptionClicked(state, message)
@@ -39,13 +39,6 @@ internal class PaywallReducer(
             InternalMessage.SubscriptionSyncError ->
                 handleSubscriptionSyncError(state)
         }
-
-    private fun handleInitialize(): ReducerResult =
-        fetchMobileOnlyPrice(
-            setOf(
-                InternalAction.ResetLastPaywallShowedSessionCount
-            )
-        )
 
     private fun handleRetryContentLoading(): ReducerResult =
         fetchMobileOnlyPrice(

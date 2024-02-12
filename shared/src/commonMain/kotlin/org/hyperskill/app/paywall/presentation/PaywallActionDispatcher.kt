@@ -3,7 +3,6 @@ package org.hyperskill.app.paywall.presentation
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.paywall.domain.model.PaywallRepository
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action
 import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalAction
 import org.hyperskill.app.paywall.presentation.PaywallFeature.InternalMessage
@@ -24,7 +23,6 @@ class PaywallActionDispatcher(
     private val subscriptionsRepository: SubscriptionsRepository,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor,
-    private val paywallRepository: PaywallRepository,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -39,8 +37,6 @@ class PaywallActionDispatcher(
                 handleSyncSubscription(::onNewMessage)
             is InternalAction.LogWrongSubscriptionTypeAfterSync ->
                 handleLogWrongSubscriptionTypeAfterSync(action)
-            is InternalAction.ResetLastPaywallShowedSessionCount ->
-                paywallRepository.resetSessionCountSinceLastPaywallShowed()
             else -> {
                 // no op
             }

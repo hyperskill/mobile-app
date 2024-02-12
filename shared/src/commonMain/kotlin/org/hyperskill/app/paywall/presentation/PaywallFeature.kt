@@ -111,7 +111,5 @@ object PaywallFeature {
             val expectedSubscriptionType: SubscriptionType,
             val actualSubscriptionType: SubscriptionType
         ) : InternalAction
-
-        object ResetLastPaywallShowedSessionCount : InternalAction
     }
 }
