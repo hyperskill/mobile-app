@@ -17,6 +17,7 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
     private val welcomeOnboardingComponent: WelcomeOnboardingComponent =
         appGraph.buildWelcomeOnboardingComponent()
 
+    /*ktlint-disable*/
     override fun appFeature(
         initialState: AppFeature.State?
     ): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =
