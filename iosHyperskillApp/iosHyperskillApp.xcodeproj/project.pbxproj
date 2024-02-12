@@ -444,6 +444,7 @@
 		2CD48D8B2858684100CFCC4A /* StepQuizViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8A2858684100CFCC4A /* StepQuizViewData.swift */; };
 		2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */; };
 		2CD4EDF92B79D51E0091F0B2 /* View+SafeAreaInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */; };
+		2CD4EDFB2B79D74B0091F0B2 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */; };
 		2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */; };
 		2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */; };
 		2CDA98432944524D00ADE539 /* HomeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */; };
@@ -1134,6 +1135,7 @@
 		2CD48D8A2858684100CFCC4A /* StepQuizViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewData.swift; sourceTree = "<group>"; };
 		2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewDataMapper.swift; sourceTree = "<group>"; };
 		2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SafeAreaInset.swift"; sourceTree = "<group>"; };
+		2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCircleView.swift; sourceTree = "<group>"; };
 		2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSkeletonView.swift; sourceTree = "<group>"; };
 		2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSkeletonView.swift; sourceTree = "<group>"; };
@@ -2201,6 +2203,7 @@
 				2CE7B4832AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift */,
 				2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */,
 				2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */,
+				2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */,
 				2CC78D0A28C74EAF0006EF91 /* UIViewControllerEvents */,
 			);
 			path = Wrappers;
@@ -4733,6 +4736,7 @@
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2CBC97D02A555BE60078E445 /* HypercoinsAwardView.swift in Sources */,
 				2CA854DA2B1DE4780045CA1B /* LeaderboardPlaceholderEmptyView.swift in Sources */,
+				2CD4EDFB2B79D74B0091F0B2 /* TransparentBlurView.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
 				E9D537D02A71056100F21828 /* ProfileBadgesGridItemView.swift in Sources */,
 				2CB0ADEE2B04AD6D0089D557 /* ChallengeWidgetViewModel.swift in Sources */,
