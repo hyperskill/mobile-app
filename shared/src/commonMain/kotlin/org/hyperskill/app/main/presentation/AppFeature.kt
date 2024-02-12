@@ -12,7 +12,9 @@ import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 
 object AppFeature {
+
     internal const val APP_SHOWS_COUNT_TILL_PAYWALL = 3
+
     @Serializable
     sealed interface State {
         @Serializable

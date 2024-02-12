@@ -22,7 +22,16 @@ internal class PaywallReducer(
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             Message.Initialize -> fetchMobileOnlyPrice()
-            Message.RetryContentLoading -> handleRetryContentLoading()
+            Message.RetryContentLoading ->
+                fetchMobileOnlyPrice(
+                    setOf(
+                        InternalAction.LogAnalyticsEvent(
+                            PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
+                                paywallTransitionSource
+                            )
+                        )
+                    )
+                )
             Message.ViewedEventMessage -> handleViewedEventMessage(state)
             is Message.BuySubscriptionClicked -> handleBuySubscriptionClicked(state, message)
             Message.ContinueWithLimitsClicked -> handleContinueWithLimitsClicked(state)
@@ -39,17 +48,6 @@ internal class PaywallReducer(
             InternalMessage.SubscriptionSyncError ->
                 handleSubscriptionSyncError(state)
         }
-
-    private fun handleRetryContentLoading(): ReducerResult =
-        fetchMobileOnlyPrice(
-            setOf(
-                InternalAction.LogAnalyticsEvent(
-                    PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
-                        paywallTransitionSource
-                    )
-                )
-            )
-        )
 
     private fun fetchMobileOnlyPrice(
         actions: Set<Action> = emptySet()

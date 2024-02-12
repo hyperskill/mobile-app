@@ -26,7 +26,6 @@ class AppInteractor(
     private val shareStreakRepository: ShareStreakRepository,
     private val pushNotificationsInteractor: PushNotificationsInteractor
 ) {
-
     suspend fun doCurrentUserSignedOutCleanUp() {
         analyticInteractor.flushEvents()
         pushNotificationsInteractor.handleUserSignedOut()
