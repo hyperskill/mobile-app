@@ -72,6 +72,23 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         onNewMessage(ProfileSettingsFeatureMessageDeleteAccountNoticeHidden(isConfirmed: isConfirmed))
     }
 
+    func doRateInAppStorePresentation() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedRateUsInAppStoreEventMessage())
+
+        guard let url = URL(string: Strings.Settings.rateInAppStoreURL) else {
+            return assertionFailure("Invalid URL")
+        }
+
+        UIApplication.shared.open(url, options: [:]) { success in
+            if !success {
+                WebControllerManager.shared.presentWebControllerWithURL(
+                    url,
+                    controllerType: .safari
+                )
+            }
+        }
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

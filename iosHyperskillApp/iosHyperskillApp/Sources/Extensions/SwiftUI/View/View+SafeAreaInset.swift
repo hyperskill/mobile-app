@@ -5,14 +5,14 @@ extension View {
     @ViewBuilder
     func safeAreaInsetBottomCompatibility<Content: View>(_ content: Content) -> some View {
         if #available(iOS 15.0, *) {
-            self.safeAreaInset(
+            safeAreaInset(
                 edge: .bottom,
                 alignment: .center,
                 spacing: 0,
                 content: { content }
             )
         } else {
-            self.overlay(content, alignment: .bottom)
+            overlay(content, alignment: .bottom)
         }
     }
 }

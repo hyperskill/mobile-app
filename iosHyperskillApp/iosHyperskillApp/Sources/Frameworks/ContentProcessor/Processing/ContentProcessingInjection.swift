@@ -99,6 +99,23 @@ final class ClickableImagesInjection: ContentProcessingInjection {
     }
 }
 
+/// Removes all elements that are marked as hidden on mobile devices.
+final class DataMobileHiddenElementsInjection: ContentProcessingInjection {
+    var headScript: String {
+        """
+        <script type="text/javascript">
+        addEventListener('DOMContentLoaded', () => {
+            document
+                .querySelectorAll('[data-mobile-hidden="true"]')
+                .forEach(element =>
+                    element.parentNode.removeChild(element)
+                );
+        });
+        </script>
+        """
+    }
+}
+
 /// Disable images callout on long tap
 final class WebkitImagesCalloutDisableInjection: ContentProcessingInjection {
     var headScript: String {

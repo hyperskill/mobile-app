@@ -27,6 +27,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SEND_FEEDBACK("send_feedback"),
     DELETE_ACCOUNT("delete_account"),
     DELETE_ACCOUNT_NOTICE("delete_account_notice"),
+    RATE_US_IN_APP_STORE("rate_us_in_app_store"),
     SIGN_OUT_NOTICE("sign_out_notice"),
     NOTIFICATIONS_SYSTEM_NOTICE("notifications_system_notice"),
     VIEW_FULL_PROFILE("view_full_profile"),
@@ -111,11 +112,14 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     CONFIRM("confirm"),
     GO_TO_FIRST_PROBLEM("go_to_first_problem"),
     INTERVIEW_PREPARATION_COMPLETED_MODAL("interview_preparation_completed_modal"),
+    HOME_SCREEN_QUICK_ACTION("home_screen_quick_action"),
+    REQUEST_REVIEW_MODAL("request_review_modal"),
+    WRITE_A_REQUEST("write_a_request"),
+    MAYBE_LATER("maybe_later"),
     ACTIVE_SUBSCRIPTION_DETAILS("active_subscription_details"),
     SUBSCRIPTION_SUGGESTION_DETAILS("subscription_suggestion_details"),
     BUY_SUBSCRIPTION("buy_subscription"),
     CONTINUE_WITH_LIMITS("continue_with_limits"),
-    HOME_SCREEN_QUICK_ACTION("home_screen_quick_action"),
     UNLOCK_UNLIMITED_PROBLEMS("unlock_unlimited_problems"),
     MANAGE_SUBSCRIPTION("manage_subscription")
 }

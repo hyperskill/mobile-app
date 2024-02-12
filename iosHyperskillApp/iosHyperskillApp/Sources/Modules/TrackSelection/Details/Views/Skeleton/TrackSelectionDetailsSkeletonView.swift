@@ -16,7 +16,7 @@ struct TrackSelectionDetailsSkeletonView: View {
                     .frame(height: 240)
 
                 SkeletonRoundedView()
-                    .frame(height: 44)
+                    .frame(height: RoundedRectangleButtonStyle.primary.minHeight)
             }
             .padding()
         }
