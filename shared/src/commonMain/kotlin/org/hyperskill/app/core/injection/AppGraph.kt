@@ -81,6 +81,7 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
@@ -181,4 +182,5 @@ interface AppGraph {
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent
+    fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent
 }
