@@ -17,7 +17,6 @@ internal class HomeViewStateMapper(
             interviewPreparationWidgetViewState = interviewPreparationWidgetViewStateMapper.map(
                 state.interviewPreparationWidgetState
             ),
-            usersQuestionnaireWidgetState = state.usersQuestionnaireWidgetState,
             isRefreshing = state.isRefreshing
         )
 }

@@ -11,7 +11,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * JSON payload:
  * ```
  * {
- *     "route": "/home",
+ *     "route": "/study-plan",
  *     "action": "click",
  *     "part": "users_questionnaire_widget"
  * }
@@ -20,7 +20,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * @see HyperskillAnalyticEvent
  */
 object UsersQuestionnaireWidgetClickedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
+    HyperskillAnalyticRoute.StudyPlan(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.USERS_QUESTIONNAIRE_WIDGET
 )

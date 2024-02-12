@@ -29,9 +29,6 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetActionDispatcher
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -59,16 +56,13 @@ internal object HomeFeatureBuilder {
         interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer,
         interviewPreparationWidgetActionDispatcher: InterviewPreparationWidgetActionDispatcher,
         interviewPreparationWidgetViewStateMapper: InterviewPreparationWidgetViewStateMapper,
-        usersQuestionnaireWidgetReducer: UsersQuestionnaireWidgetReducer,
-        usersQuestionnaireWidgetActionDispatcher: UsersQuestionnaireWidgetActionDispatcher,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action> {
         val homeReducer = HomeReducer(
             gamificationToolbarReducer = gamificationToolbarReducer,
             challengeWidgetReducer = challengeWidgetReducer,
-            interviewPreparationWidgetReducer = interviewPreparationWidgetReducer,
-            usersQuestionnaireWidgetReducer = usersQuestionnaireWidgetReducer
+            interviewPreparationWidgetReducer = interviewPreparationWidgetReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
@@ -92,8 +86,7 @@ internal object HomeFeatureBuilder {
                 homeState = HomeFeature.HomeState.Idle,
                 toolbarState = GamificationToolbarFeature.State.Idle,
                 challengeWidgetState = ChallengeWidgetFeature.State.Idle,
-                interviewPreparationWidgetState = InterviewPreparationWidgetFeature.State.Idle,
-                usersQuestionnaireWidgetState = UsersQuestionnaireWidgetFeature.State.Idle
+                interviewPreparationWidgetState = InterviewPreparationWidgetFeature.State.Idle
             ),
             homeReducer
         )
@@ -117,14 +110,6 @@ internal object HomeFeatureBuilder {
                         it.safeCast<HomeFeature.InternalAction.InterviewPreparationWidgetAction>()?.action
                     },
                     transformMessage = HomeFeature.Message::InterviewPreparationWidgetMessage
-                )
-            )
-            .wrapWithActionDispatcher(
-                usersQuestionnaireWidgetActionDispatcher.transform(
-                    transformAction = {
-                        it.safeCast<HomeFeature.InternalAction.UsersQuestionnaireWidgetAction>()?.action
-                    },
-                    transformMessage = HomeFeature.Message::UsersQuestionnaireWidgetMessage
                 )
             )
     }

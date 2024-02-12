@@ -212,7 +212,6 @@ class HomeFragment :
                         requireRouter().navigateTo(InterviewPreparationOnboardingScreen(viewAction.stepRoute))
                 }
             }
-            is HomeFeature.Action.ViewAction.UsersQuestionnaireWidgetViewAction -> TODO("ALTAPPS-1144")
         }
     }
 

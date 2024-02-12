@@ -150,10 +150,6 @@ private extension HomeView {
             handleInterviewPreparationWidgetViewAction(
                 interviewPreparationWidgetViewAction.viewAction
             )
-        case .usersQuestionnaireWidgetViewAction(let usersQuestionnaireWidgetViewAction):
-            handleUsersQuestionnaireWidgetViewAction(
-                usersQuestionnaireWidgetViewAction.viewAction
-            )
         }
     }
 
@@ -194,12 +190,6 @@ private extension HomeView {
             let assembly = StepAssembly(stepRoute: navigateToStepViewAction.stepRoute)
             stackRouter.pushViewController(assembly.makeModule())
         }
-    }
-
-    func handleUsersQuestionnaireWidgetViewAction(
-        _ viewAction: UsersQuestionnaireWidgetFeatureActionViewAction
-    ) {
-        #warning("TODO")
     }
 }
 

@@ -7,15 +7,19 @@ import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanScreenComponent {
+internal class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanScreenComponent {
 
     private val toolbarComponent: GamificationToolbarComponent =
         appGraph.buildGamificationToolbarComponent(GamificationToolbarScreen.STUDY_PLAN)
 
     private val problemsLimitComponent: ProblemsLimitComponent =
         appGraph.buildProblemsLimitComponent(ProblemsLimitScreen.STUDY_PLAN)
+
+    private val usersQuestionnaireWidgetComponent: UsersQuestionnaireWidgetComponent =
+        appGraph.buildUsersQuestionnaireWidgetComponent()
 
     private val studyPlanWidgetComponent: StudyPlanWidgetComponent =
         appGraph.buildStudyPlanWidgetComponent()
@@ -29,6 +33,9 @@ class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanSc
             problemsLimitReducer = problemsLimitComponent.problemsLimitReducer,
             problemsLimitActionDispatcher = problemsLimitComponent.problemsLimitActionDispatcher,
             problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper,
+            usersQuestionnaireWidgetReducer = usersQuestionnaireWidgetComponent.usersQuestionnaireWidgetReducer,
+            usersQuestionnaireWidgetActionDispatcher = usersQuestionnaireWidgetComponent
+                .usersQuestionnaireWidgetActionDispatcher,
             studyPlanWidgetReducer = studyPlanWidgetComponent.studyPlanWidgetReducer,
             studyPlanWidgetDispatcher = studyPlanWidgetComponent.studyPlanWidgetDispatcher,
             studyPlanWidgetViewStateMapper = studyPlanWidgetComponent.studyPlanWidgetViewStateMapper,

@@ -125,6 +125,10 @@ private extension StudyPlanView {
             handleStudyPlanWidgetViewAction(
                 studyPlanWidgetViewAction.viewAction
             )
+        case .usersQuestionnaireWidgetViewAction(let usersQuestionnaireWidgetViewAction):
+            handleUsersQuestionnaireWidgetViewAction(
+                usersQuestionnaireWidgetViewAction.viewAction
+            )
         }
     }
 
@@ -181,6 +185,12 @@ private extension StudyPlanView {
                 stackRouter.pushViewController(assembly.makeModule())
             }
         }
+    }
+
+    func handleUsersQuestionnaireWidgetViewAction(
+        _ viewAction: UsersQuestionnaireWidgetFeatureActionViewAction
+    ) {
+        #warning("TODO")
     }
 }
 
