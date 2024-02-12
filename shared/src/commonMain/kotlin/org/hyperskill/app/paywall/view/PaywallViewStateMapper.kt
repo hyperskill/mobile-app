@@ -5,6 +5,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.APP_STARTUP
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.LOGIN
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROBLEMS_LIMIT_MODAL
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROFILE_SETTINGS
 import org.hyperskill.app.paywall.presentation.PaywallFeature.State
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
@@ -20,7 +21,7 @@ internal class PaywallViewStateMapper(
         ViewState(
             isToolbarVisible = when (paywallTransitionSource) {
                 APP_STARTUP, LOGIN -> false
-                PROFILE_SETTINGS -> true
+                PROFILE_SETTINGS, PROBLEMS_LIMIT_MODAL -> true
             },
             contentState = when (state) {
                 State.Idle -> ViewStateContent.Idle
