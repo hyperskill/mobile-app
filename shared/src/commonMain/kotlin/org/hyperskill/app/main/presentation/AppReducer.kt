@@ -13,6 +13,7 @@ import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
@@ -49,6 +50,7 @@ internal class AppReducer(
                 } else {
                     null
                 }
+            is Message.AppBecomesActive -> handleAppBecomesActive(state)
             is Message.UserAuthorized ->
                 handleUserAuthorized(state, message)
             is Message.UserDeauthorized ->
@@ -110,7 +112,7 @@ internal class AppReducer(
                                 )
                             message.profile.isNewUser ->
                                 add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
-                            message.shouldShowPaywall ->
+                            message.subscription?.isFreemium == true ->
                                 add(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_STARTUP))
                             else ->
                                 add(Action.ViewAction.NavigateTo.StudyPlan)
@@ -146,7 +148,9 @@ internal class AppReducer(
             State.Ready(
                 isAuthorized = isAuthorized,
                 isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
-                streakRecoveryState = streakRecoveryState
+                streakRecoveryState = streakRecoveryState,
+                appShowsCount = 1,
+                subscriptionType = message.subscription?.type
             ) to actions + streakRecoveryActions
         } else {
             state to emptySet()
@@ -170,6 +174,18 @@ internal class AppReducer(
             )
             authState.copy(welcomeOnboardingState = onboardingState) to
                 getAuthorizedUserActions(message.profile) + onboardingActions
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleAppBecomesActive(state: State): ReducerResult =
+        if (state is State.Ready) {
+            state.copy(appShowsCount = state.appShowsCount + 1) to
+                if (state.shouldShowPaywall) {
+                    setOf(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_STARTUP))
+                } else {
+                    emptySet()
+                }
         } else {
             state to emptySet()
         }

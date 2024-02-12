@@ -21,24 +21,25 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
         initialState: AppFeature.State?
     ): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =
         AppFeatureBuilder.build(
-            initialState,
-            appGraph.buildMainDataComponent().appInteractor,
-            appGraph.authComponent.authInteractor,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.stateRepositoriesComponent,
-            streakRecoveryComponent.streakRecoveryReducer,
-            streakRecoveryComponent.streakRecoveryActionDispatcher,
-            clickedNotificationComponent.notificationClickHandlingReducer,
-            clickedNotificationComponent.notificationClickHandlingActionDispatcher,
-            appGraph.buildNotificationComponent().notificationInteractor,
-            appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
-            welcomeOnboardingComponent.welcomeOnboardingReducer,
-            welcomeOnboardingComponent.welcomeOnboardingActionDispatcher,
-            appGraph.buildPurchaseComponent().purchaseInteractor,
-            appGraph.commonComponent.platform,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+            initialState = initialState,
+            appInteractor = appGraph.buildMainDataComponent().appInteractor,
+            authInteractor = appGraph.authComponent.authInteractor,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            stateRepositoriesComponent = appGraph.stateRepositoriesComponent,
+            streakRecoveryReducer = streakRecoveryComponent.streakRecoveryReducer,
+            streakRecoveryActionDispatcher = streakRecoveryComponent.streakRecoveryActionDispatcher,
+            clickedNotificationReducer = clickedNotificationComponent.notificationClickHandlingReducer,
+            notificationClickHandlingActionDispatcher = clickedNotificationComponent.notificationClickHandlingActionDispatcher,
+            notificationsInteractor = appGraph.buildNotificationComponent().notificationInteractor,
+            pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
+            welcomeOnboardingReducer = welcomeOnboardingComponent.welcomeOnboardingReducer,
+            welcomeOnboardingActionDispatcher = welcomeOnboardingComponent.welcomeOnboardingActionDispatcher,
+            purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            platform = appGraph.commonComponent.platform,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 
     override fun appFeature(): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =

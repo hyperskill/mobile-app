@@ -7,9 +7,12 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 
-interface AppFeature {
+object AppFeature {
+    internal const val APP_SHOWS_COUNT_TILL_PAYWALL = 3
     @Serializable
     sealed interface State {
         @Serializable
@@ -26,8 +29,15 @@ interface AppFeature {
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
-            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State()
-        ) : State
+            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
+            internal val subscriptionType: SubscriptionType? = null,
+            internal val appShowsCount: Int = 1
+        ) : State {
+            internal val shouldShowPaywall: Boolean
+                get() = isAuthorized &&
+                    subscriptionType == SubscriptionType.FREEMIUM &&
+                    appShowsCount % APP_SHOWS_COUNT_TILL_PAYWALL == 0
+        }
     }
 
     sealed interface Message {
@@ -36,9 +46,11 @@ interface AppFeature {
             val forceUpdate: Boolean = false
         ) : Message
 
+        object AppBecomesActive : Message
+
         data class FetchAppStartupConfigSuccess(
             val profile: Profile,
-            val shouldShowPaywall: Boolean,
+            val subscription: Subscription?,
             val notificationData: PushNotificationData?
         ) : Message
         object FetchAppStartupConfigError : Message

@@ -20,6 +20,8 @@ import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class AppActionDispatcher(
@@ -32,6 +34,8 @@ internal class AppActionDispatcher(
     private val notificationsInteractor: NotificationInteractor,
     private val pushNotificationsInteractor: PushNotificationsInteractor,
     private val purchaseInteractor: PurchaseInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val isPaywallFeatureEnabled: Boolean,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -58,65 +62,8 @@ internal class AppActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchAppStartupConfig -> {
-                val isAuthorized = authInteractor.isAuthorized()
-                    .getOrDefault(false)
-
-                val transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading(isAuthorized)
-                sentryInteractor.startTransaction(transaction)
-
-                sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
-
-                // TODO: Move this logic to reducer
-                val profileResult: Result<Profile> = if (isAuthorized) {
-                    currentProfileStateRepository
-                        .getStateWithSource(forceUpdate = false)
-                        .fold(
-                            onSuccess = { (profile, usedDataSourceType) ->
-                                /**
-                                 * ALTAPPS-693:
-                                 * If cached user is new, we need to fetch profile from remote to check if track selected
-                                 */
-                                if (profile.isNewUser && usedDataSourceType == DataSourceType.CACHE) {
-                                    currentProfileStateRepository.getState(forceUpdate = true)
-                                } else {
-                                    Result.success(profile)
-                                }
-                            },
-                            onFailure = { currentProfileStateRepository.getState(forceUpdate = true) }
-                        )
-                } else {
-                    currentProfileStateRepository.getState(forceUpdate = true)
-                }
-
-                profileResult
-                    .fold(
-                        onSuccess = { profile ->
-                            sentryInteractor.addBreadcrumb(
-                                HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
-                            )
-                            sentryInteractor.finishTransaction(transaction)
-
-                            appInteractor.incrementLastPaywallShowedSessionCount()
-                            val shouldShowPaywall = appInteractor.shouldShowPaywall()
-
-                            onNewMessage(
-                                Message.FetchAppStartupConfigSuccess(
-                                    profile = profile,
-                                    shouldShowPaywall = shouldShowPaywall,
-                                    notificationData = action.pushNotificationData
-                                )
-                            )
-                        },
-                        onFailure = { exception ->
-                            sentryInteractor.addBreadcrumb(
-                                HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusError(exception)
-                            )
-                            sentryInteractor.finishTransaction(transaction, exception)
-                            onNewMessage(Message.FetchAppStartupConfigError)
-                        }
-                    )
-            }
+            is Action.FetchAppStartupConfig ->
+                handleFetchAppStartupConfig(action, ::onNewMessage)
             is Action.IdentifyUserInSentry ->
                 sentryInteractor.setUsedId(action.userId)
             is Action.ClearUserInSentry ->
@@ -132,6 +79,67 @@ internal class AppActionDispatcher(
             else -> {}
         }
     }
+
+    private suspend fun handleFetchAppStartupConfig(
+        action: Action.FetchAppStartupConfig,
+        onNewMessage: (Message) -> Unit
+    ) {
+        val isAuthorized = authInteractor.isAuthorized()
+            .getOrDefault(false)
+
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading(isAuthorized),
+            onError = { e ->
+                sentryInteractor.addBreadcrumb(
+                    HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusError(e)
+                )
+                Message.FetchAppStartupConfigError
+            }
+        ) {
+            sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
+
+            val profile = fetchProfile(isAuthorized).getOrThrow()
+            val subscription =
+                if (isPaywallFeatureEnabled) {
+                    currentSubscriptionStateRepository.getState(forceUpdate = false).getOrNull()
+                } else {
+                    null
+                }
+
+            sentryInteractor.addBreadcrumb(
+                HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
+            )
+
+            Message.FetchAppStartupConfigSuccess(
+                profile = profile,
+                subscription = subscription,
+                notificationData = action.pushNotificationData
+            )
+        }.let(onNewMessage)
+    }
+
+    // TODO: Move this logic to reducer
+    private suspend fun fetchProfile(isAuthorized: Boolean): Result<Profile> =
+        if (isAuthorized) {
+            currentProfileStateRepository
+                .getStateWithSource(forceUpdate = false)
+                .fold(
+                    onSuccess = { (profile, usedDataSourceType) ->
+                        /**
+                         * ALTAPPS-693:
+                         * If cached user is new, we need to fetch profile from remote to check if track selected
+                         */
+                        if (profile.isNewUser && usedDataSourceType == DataSourceType.CACHE) {
+                            currentProfileStateRepository.getState(forceUpdate = true)
+                        } else {
+                            Result.success(profile)
+                        }
+                    },
+                    onFailure = { currentProfileStateRepository.getState(forceUpdate = true) }
+                )
+        } else {
+            currentProfileStateRepository.getState(forceUpdate = true)
+        }
 
     private suspend fun handleUpdateDailyLearningNotificationTime() {
         notificationsInteractor
