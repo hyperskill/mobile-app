@@ -9,7 +9,7 @@ extension StepQuizFillBlanksSelectOptionsView {
         let collectionViewMinInteritemSpacing = LayoutInsets.defaultInset
         let collectionViewSectionInset = LayoutInsets.default.uiEdgeInsets
 
-        let backgroundColor = UIColor.systemBackground
+        let backgroundColor = UIColor.clear
     }
 }
 

@@ -98,7 +98,7 @@ struct StepQuizView: View {
                     Spacer(minLength: fillBlanksSelectOptionsViewHeight)
                 }
             }
-            .bottomFillBlanksSelectOptionsOverlay(
+            .safeAreaInsetBottomCompatibility(
                 buildFillBlanksSelectOptionsView(
                     quizType: viewData.quizType,
                     attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
@@ -285,6 +285,7 @@ struct StepQuizView: View {
                     }
                 }
             )
+            .background(TransparentBlurView())
             .edgesIgnoringSafeArea(.all)
             .frame(height: fillBlanksSelectOptionsViewHeight)
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
@@ -364,24 +365,5 @@ private extension StepQuizView {
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(panModal)
-    }
-}
-
-// MARK: - View (bottomFillBlanksSelectOptionsOverlay) -
-
-@available(iOS, introduced: 13, deprecated: 15, message: "Use .safeAreaInset() directly")
-private extension View {
-    @ViewBuilder
-    func bottomFillBlanksSelectOptionsOverlay<OverlayContent: View>(_ overlayContent: OverlayContent) -> some View {
-        if #available(iOS 15.0, *) {
-            self.safeAreaInset(
-                edge: .bottom,
-                alignment: .center,
-                spacing: 0,
-                content: { overlayContent }
-            )
-        } else {
-            self.overlay(overlayContent, alignment: .bottom)
-        }
     }
 }
