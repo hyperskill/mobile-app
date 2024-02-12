@@ -35,7 +35,9 @@ struct UsersQuestionnaireWidgetView: View {
         case .visible:
             Button(
                 action: {
-                    viewModel.doCallToAction()
+                    withAnimation {
+                        viewModel.doCallToAction()
+                    }
                 },
                 label: {
                     HStack(alignment: .center, spacing: 0) {
@@ -46,7 +48,9 @@ struct UsersQuestionnaireWidgetView: View {
 
                         Button(
                             action: {
-                                viewModel.doCloseAction()
+                                withAnimation {
+                                    viewModel.doCloseAction()
+                                }
                             },
                             label: {
                                 Image(systemName: "xmark.circle.fill")

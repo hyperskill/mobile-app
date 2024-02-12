@@ -84,6 +84,15 @@ struct StudyPlanView: View {
                         onReloadButtonTap: viewModel.doReloadProblemsLimit
                     )
 
+                    let usersQuestionnaireWidgetFeatureStateKs = viewModel.usersQuestionnaireWidgetFeatureStateKs
+                    if usersQuestionnaireWidgetFeatureStateKs != .hidden {
+                        UsersQuestionnaireWidgetAssembly(
+                            stateKs: usersQuestionnaireWidgetFeatureStateKs,
+                            moduleOutput: viewModel
+                        )
+                        .makeModule()
+                    }
+
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
                             section: section,
@@ -190,7 +199,13 @@ private extension StudyPlanView {
     func handleUsersQuestionnaireWidgetViewAction(
         _ viewAction: UsersQuestionnaireWidgetFeatureActionViewAction
     ) {
-        #warning("TODO")
+        switch UsersQuestionnaireWidgetFeatureActionViewActionKs(viewAction) {
+        case .showUsersQuestionnaire(let showUsersQuestionnaireViewAction):
+            WebControllerManager.shared.presentWebControllerWithURLString(
+                showUsersQuestionnaireViewAction.url,
+                controllerType: .inAppSafari
+            )
+        }
     }
 }
 
