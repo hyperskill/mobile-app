@@ -21,6 +21,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -85,6 +86,8 @@ internal class AppActionDispatcher(
                 handleIdentifyUserInPurchaseSdk(action.userId)
             is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded ->
                 appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
+            is AppFeature.InternalAction.FetchSubscription ->
+                handleFetchSubscription(::onNewMessage)
             else -> {}
         }
     }
@@ -108,12 +111,7 @@ internal class AppActionDispatcher(
             sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
             val profile = fetchProfile(isAuthorized).getOrThrow()
-            val subscription =
-                if (isPaywallFeatureEnabled) {
-                    currentSubscriptionStateRepository.getState(forceUpdate = false).getOrNull()
-                } else {
-                    null
-                }
+            val subscription = fetchSubscription()
 
             sentryInteractor.addBreadcrumb(
                 HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
@@ -150,6 +148,18 @@ internal class AppActionDispatcher(
             currentProfileStateRepository.getState(forceUpdate = true)
         }
 
+    private suspend fun fetchSubscription(): Subscription? =
+        if (isPaywallFeatureEnabled) {
+            currentSubscriptionStateRepository
+                .getState()
+                .onFailure { e ->
+                    logger.e(e) { "Failed to fetch subscription" }
+                }
+                .getOrNull()
+        } else {
+            null
+        }
+
     private suspend fun handleUpdateDailyLearningNotificationTime() {
         notificationsInteractor
             .updateTimeZone()
@@ -168,5 +178,13 @@ internal class AppActionDispatcher(
                     "Failed to login user in the purchase sdk"
                 }
             }
+    }
+
+    private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
+        fetchSubscription()?.let {
+            onNewMessage(
+                AppFeature.InternalMessage.SubscriptionTypeChanged(it.type)
+            )
+        }
     }
 }

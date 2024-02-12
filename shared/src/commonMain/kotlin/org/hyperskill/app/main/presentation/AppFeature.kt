@@ -83,7 +83,9 @@ object AppFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        data class SubscriptionTypeChanged(val subscriptionType: SubscriptionType) : InternalMessage
+        data class SubscriptionTypeChanged(
+            val subscriptionType: SubscriptionType
+        ) : InternalMessage
     }
 
     sealed interface Action {
@@ -141,5 +143,9 @@ object AppFeature {
                 val viewAction: WelcomeOnboardingFeature.Action.ViewAction
             ) : ViewAction
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        object FetchSubscription : InternalAction
     }
 }

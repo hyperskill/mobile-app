@@ -3,6 +3,8 @@ package org.hyperskill.app.main.presentation
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.main.presentation.AppFeature.Action
+import org.hyperskill.app.main.presentation.AppFeature.InternalAction
+import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
@@ -87,7 +89,7 @@ internal class AppReducer(
                 state to reduceNotificationClickHandlingMessage(message.message)
             is Message.WelcomeOnboardingMessage ->
                 reduceWelcomeOnboardingMessage(state, message.message)
-            is AppFeature.InternalMessage.SubscriptionTypeChanged ->
+            is InternalMessage.SubscriptionTypeChanged ->
                 handleSubscriptionTypeChanged(state, message)
         } ?: (state to emptySet())
 
@@ -307,6 +309,7 @@ internal class AppReducer(
 
     private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
         setOf(
+            InternalAction.FetchSubscription,
             Action.IdentifyUserInSentry(userId = profile.id),
             Action.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.UpdateDailyLearningNotificationTime,
@@ -318,7 +321,7 @@ internal class AppReducer(
 
     private fun handleSubscriptionTypeChanged(
         state: State,
-        message: AppFeature.InternalMessage.SubscriptionTypeChanged
+        message: InternalMessage.SubscriptionTypeChanged
     ): ReducerResult =
         if (state is State.Ready) {
             state.copy(subscriptionType = message.subscriptionType) to emptySet()
