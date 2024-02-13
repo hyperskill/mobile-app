@@ -14,8 +14,8 @@ struct StudyPlanView: View {
 
     @StateObject var viewModel: StudyPlanViewModel
 
-    @StateObject var stackRouter: SwiftUIStackRouter
-    @StateObject var panModalPresenter: PanModalPresenter
+    let stackRouter: StackRouterProtocol
+    let panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
