@@ -9,7 +9,7 @@ final class HomeAssembly: UIKitAssembly {
             feature: homeComponent.homeFeature
         )
 
-        let stackRouter = SwiftUIStackRouter()
+        let stackRouter = StackRouter()
         let panModalPresenter = PanModalPresenter()
 
         let homeView = HomeView(

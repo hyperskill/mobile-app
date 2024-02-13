@@ -8,7 +8,7 @@ final class StudyPlanAssembly: UIKitAssembly {
             feature: studyPlanScreenComponent.studyPlanScreenFeature
         )
 
-        let stackRouter = SwiftUIStackRouter()
+        let stackRouter = StackRouter()
         let panModalPresenter = PanModalPresenter()
 
         let trackView = StudyPlanView(
