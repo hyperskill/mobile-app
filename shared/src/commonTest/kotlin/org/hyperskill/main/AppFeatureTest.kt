@@ -20,7 +20,7 @@ class AppFeatureTest {
     private val appReducer = AppReducer(
         StreakRecoveryReducer(resourceProvider = ResourceProviderStub()),
         NotificationClickHandlingReducer(),
-        WelcomeOnboardingReducer(isPaywallFeatureEnabled = true),
+        WelcomeOnboardingReducer(isSubscriptionPurchaseEnabled = true),
         PlatformType.ANDROID
     )
 

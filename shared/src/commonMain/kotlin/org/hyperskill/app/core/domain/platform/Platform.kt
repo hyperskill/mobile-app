@@ -11,4 +11,6 @@ expect class Platform() {
     val feedbackName: String
 
     val appNameResource: StringResource
+
+    val isSubscriptionPurchaseEnabled: Boolean
 }

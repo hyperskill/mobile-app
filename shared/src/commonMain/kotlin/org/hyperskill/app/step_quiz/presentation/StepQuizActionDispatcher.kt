@@ -2,10 +2,11 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.platform.PlatformType
+import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
+import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
@@ -34,7 +35,7 @@ class StepQuizActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
     private val resourceProvider: ResourceProvider,
-    private val platformType: PlatformType
+    private val platform: Platform
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -184,15 +185,18 @@ class StepQuizActionDispatcher(
                 getSubmissionState(attempt.id, action.step.id, currentProfile.id)
                     .getOrThrow()
 
-            val isPaywallFeature = platformType == PlatformType.ANDROID && subscription.isFreemium
+            val isSubscriptionPurchaseEnabled =
+                platform.isSubscriptionPurchaseEnabled &&
+                    currentProfile.features.isMobileOnlySubscriptionEnabled &&
+                    subscription.isFreemium
 
             Message.FetchAttemptSuccess(
                 step = action.step,
                 attempt = attempt,
                 submissionState = submissionState,
                 isProblemsLimitReached = subscription.isProblemLimitReached,
-                problemsLimitReachedModalText = getProblemsLimitReachedModalText(subscription, isPaywallFeature),
-                isPaywallFeatureEnabled = isPaywallFeature,
+                problemsLimitReachedModalText = getProblemsLimitReachedModalText(subscription, isSubscriptionPurchaseEnabled),
+                isSubscriptionPurchaseEnabled = isSubscriptionPurchaseEnabled,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
             )
         }.let(onNewMessage)
@@ -215,11 +219,11 @@ class StepQuizActionDispatcher(
 
     private fun getProblemsLimitReachedModalText(
         subscription: Subscription,
-        isPaywallFeatureEnabled: Boolean
+        isSubscriptionPurchaseEnabled: Boolean
     ): String? =
         subscription.stepsLimitTotal?.let { stepsLimitTotal ->
             resourceProvider.getString(
-                if (isPaywallFeatureEnabled) {
+                if (isSubscriptionPurchaseEnabled) {
                     SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_problems_description
                 } else {
                     SharedResources.strings.problems_limit_reached_modal_description
