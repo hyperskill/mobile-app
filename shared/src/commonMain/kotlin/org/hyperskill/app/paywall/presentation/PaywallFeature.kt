@@ -74,6 +74,8 @@ object PaywallFeature {
         sealed interface ViewAction : Action {
             object CompletePaywall : ViewAction
 
+            object ClosePaywall : ViewAction
+
             object StudyPlan : ViewAction
 
             data class ShowMessage(
@@ -81,8 +83,6 @@ object PaywallFeature {
             ) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
-
                 object BackToProfileSettings : NavigateTo
             }
         }

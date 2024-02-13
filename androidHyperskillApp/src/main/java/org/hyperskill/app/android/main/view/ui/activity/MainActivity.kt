@@ -306,7 +306,12 @@ class MainActivity :
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
             is AppFeature.Action.ViewAction.NavigateTo.Paywall ->
-                router.newRootScreen(PaywallScreen(action.paywallTransitionSource))
+                router.navigateTo(PaywallScreen(action.paywallTransitionSource))
+            is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithPaywall ->
+                router.newRootChain(
+                    MainScreen(initialTab = Tabs.STUDY_PLAN),
+                    PaywallScreen(action.paywallTransitionSource)
+                )
         }
     }
 

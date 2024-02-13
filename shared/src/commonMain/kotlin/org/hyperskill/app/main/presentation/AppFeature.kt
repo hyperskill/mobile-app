@@ -128,8 +128,10 @@ object AppFeature {
                 object TrackSelectionScreen : NavigateTo
                 object WelcomeScreen : NavigateTo
                 object StudyPlan : NavigateTo
-
                 data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
+                data class StudyPlanWithPaywall(
+                    val paywallTransitionSource: PaywallTransitionSource
+                ) : ViewAction
             }
 
             /**

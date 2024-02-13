@@ -117,7 +117,11 @@ internal class AppReducer(
                             message.profile.isNewUser ->
                                 add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
                             message.subscription?.isFreemium == true ->
-                                add(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_STARTUP))
+                                add(
+                                    Action.ViewAction.NavigateTo.StudyPlanWithPaywall(
+                                        PaywallTransitionSource.APP_BECOMES_ACTIVE
+                                    )
+                                )
                             else ->
                                 add(Action.ViewAction.NavigateTo.StudyPlan)
                         }
@@ -186,7 +190,9 @@ internal class AppReducer(
         if (state is State.Ready) {
             state.copy(appShowsCount = state.appShowsCount + 1) to
                 if (state.shouldShowPaywall) {
-                    setOf(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_STARTUP))
+                    setOf(
+                        Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE)
+                    )
                 } else {
                     emptySet()
                 }

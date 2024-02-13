@@ -84,11 +84,10 @@ class PaywallFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            is ViewAction.NavigateTo.StudyPlan -> {
-                requireRouter().newRootChain(MainScreen(Tabs.STUDY_PLAN))
-            }
             ViewAction.NavigateTo.BackToProfileSettings ->
                 requireRouter().backTo(MainScreen(Tabs.PROFILE))
+            ViewAction.ClosePaywall ->
+                requireRouter().exit()
         }
     }
 
