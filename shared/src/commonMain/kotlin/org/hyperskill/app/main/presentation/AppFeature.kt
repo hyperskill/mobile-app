@@ -131,7 +131,7 @@ object AppFeature {
                 data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
                 data class StudyPlanWithPaywall(
                     val paywallTransitionSource: PaywallTransitionSource
-                ) : ViewAction
+                ) : NavigateTo
             }
 
             /**
