@@ -30,6 +30,7 @@ struct HomeView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.state)
         }
         .navigationTitle(Strings.Home.title)
         .navigationViewStyle(StackNavigationViewStyle())

@@ -36,6 +36,7 @@ struct ProfileView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.stateKs)
         }
         .navigationTitle(Strings.Profile.title)
         .toolbar {

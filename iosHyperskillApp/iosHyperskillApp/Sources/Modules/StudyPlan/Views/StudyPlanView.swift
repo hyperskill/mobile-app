@@ -29,6 +29,7 @@ struct StudyPlanView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.state)
         }
         .navigationTitle(Strings.StudyPlan.title)
         .navigationViewStyle(StackNavigationViewStyle())
