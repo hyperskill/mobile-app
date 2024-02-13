@@ -17,11 +17,14 @@ import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
+import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
+import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetReducer
 
 class StudyPlanScreenTest {
     private val reducer = StudyPlanScreenReducer(
         GamificationToolbarReducer(GamificationToolbarScreen.STUDY_PLAN),
         ProblemsLimitReducer(ProblemsLimitScreen.STUDY_PLAN),
+        UsersQuestionnaireWidgetReducer(),
         StudyPlanWidgetReducer()
     )
 
@@ -60,6 +63,7 @@ class StudyPlanScreenTest {
         val expectedState = stubState(
             toolbarState = GamificationToolbarFeature.State.Loading,
             problemsLimitState = ProblemsLimitFeature.State.Loading,
+            questionnaireWidgetState = UsersQuestionnaireWidgetFeature.State.Loading,
             studyPlanWidgetState = StudyPlanWidgetFeature.State(
                 sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
             )
@@ -76,7 +80,13 @@ class StudyPlanScreenTest {
     private fun stubState(
         toolbarState: GamificationToolbarFeature.State = GamificationToolbarFeature.State.Idle,
         problemsLimitState: ProblemsLimitFeature.State = ProblemsLimitFeature.State.Idle,
+        questionnaireWidgetState: UsersQuestionnaireWidgetFeature.State = UsersQuestionnaireWidgetFeature.State.Idle,
         studyPlanWidgetState: StudyPlanWidgetFeature.State = StudyPlanWidgetFeature.State()
     ): StudyPlanScreenFeature.State =
-        StudyPlanScreenFeature.State(toolbarState, problemsLimitState, studyPlanWidgetState)
+        StudyPlanScreenFeature.State(
+            toolbarState,
+            problemsLimitState,
+            questionnaireWidgetState,
+            studyPlanWidgetState
+        )
 }

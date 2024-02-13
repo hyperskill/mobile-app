@@ -14,8 +14,8 @@ object StudyPlanScreenFeature {
     internal data class State(
         val toolbarState: GamificationToolbarFeature.State,
         val problemsLimitState: ProblemsLimitFeature.State,
-        val studyPlanWidgetState: StudyPlanWidgetFeature.State,
-        val usersQuestionnaireWidgetState: UsersQuestionnaireWidgetFeature.State
+        val usersQuestionnaireWidgetState: UsersQuestionnaireWidgetFeature.State,
+        val studyPlanWidgetState: StudyPlanWidgetFeature.State
     ) {
         val isRefreshing: Boolean
             get() = toolbarState.isRefreshing ||
