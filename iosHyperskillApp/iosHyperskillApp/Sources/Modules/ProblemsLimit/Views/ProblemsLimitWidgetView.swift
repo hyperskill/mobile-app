@@ -26,23 +26,25 @@ struct ProblemsLimitWidgetView: View {
                 Text(stepsLimitLabel)
                     .font(.subheadline)
                     .foregroundColor(.primaryText)
+                    .animation(.default, value: stepsLimitLabel)
 
                 if let updateInLabel {
                     Text(updateInLabel)
                         .font(.caption)
                         .foregroundColor(.secondaryText)
+                        .animation(.default, value: updateInLabel)
                 }
             }
         }
     }
 }
 
-struct ProblemsLimitWidgetView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProblemsLimitWidgetView(
-            stepsLimitProgress: 0.6,
-            stepsLimitLabel: "3/5 problems limit",
-            updateInLabel: "Update in 2 hours"
-        )
-    }
+#if DEBUG
+#Preview {
+    ProblemsLimitWidgetView(
+        stepsLimitProgress: 0.6,
+        stepsLimitLabel: "3/5 problems limit",
+        updateInLabel: "Update in 2 hours"
+    )
 }
+#endif
