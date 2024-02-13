@@ -195,7 +195,10 @@ class StepQuizActionDispatcher(
                 attempt = attempt,
                 submissionState = submissionState,
                 isProblemsLimitReached = subscription.isProblemLimitReached,
-                problemsLimitReachedModalText = getProblemsLimitReachedModalText(subscription, isSubscriptionPurchaseEnabled),
+                problemsLimitReachedModalText = getProblemsLimitReachedModalText(
+                    subscription,
+                    isSubscriptionPurchaseEnabled
+                ),
                 isSubscriptionPurchaseEnabled = isSubscriptionPurchaseEnabled,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
             )
