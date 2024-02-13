@@ -72,7 +72,7 @@ internal class StudyPlanScreenReducer(
         val (problemsLimitState, problemsLimitActions) =
             reduceProblemsLimitMessage(
                 state.problemsLimitState,
-                ProblemsLimitFeature.Message.Initialize(forceUpdate = retryContentLoadingClicked)
+                ProblemsLimitFeature.InternalMessage.Initialize(forceUpdate = retryContentLoadingClicked)
             )
         val (studyPlanState, studyPlanActions) =
             reduceStudyPlanWidgetMessage(

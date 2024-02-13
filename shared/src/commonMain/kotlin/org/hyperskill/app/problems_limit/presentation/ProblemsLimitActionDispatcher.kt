@@ -4,10 +4,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.Timer
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalAction
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalMessage
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
@@ -17,12 +20,13 @@ class ProblemsLimitActionDispatcher(
     config: ActionDispatcherOptions,
     private val freemiumInteractor: FreemiumInteractor,
     private val sentryInteractor: SentryInteractor,
+    private val analyticInteractor: AnalyticInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         currentSubscriptionStateRepository.changes
             .onEach {
-                onNewMessage(Message.SubscriptionChanged(it))
+                onNewMessage(InternalMessage.SubscriptionChanged(it))
             }
             .launchIn(actionScope)
     }
@@ -32,7 +36,7 @@ class ProblemsLimitActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.LoadSubscription -> {
+            is InternalAction.LoadSubscription -> {
                 val sentryTransaction = action.screen.sentryTransaction
                 sentryInteractor.startTransaction(sentryTransaction)
 
@@ -40,7 +44,7 @@ class ProblemsLimitActionDispatcher(
                     .isFreemiumEnabled()
                     .getOrElse {
                         sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(Message.SubscriptionLoadingResult.Error)
+                        return onNewMessage(InternalMessage.LoadSubscriptionResultError)
                     }
 
                 onNewMessage(
@@ -48,28 +52,28 @@ class ProblemsLimitActionDispatcher(
                         .fold(
                             onSuccess = {
                                 sentryInteractor.finishTransaction(sentryTransaction)
-                                Message.SubscriptionLoadingResult.Success(
+                                InternalMessage.LoadSubscriptionResultSuccess(
                                     subscription = it,
                                     isFreemiumEnabled = isFreemiumEnabled
                                 )
                             },
                             onFailure = {
                                 sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                                Message.SubscriptionLoadingResult.Error
+                                InternalMessage.LoadSubscriptionResultError
                             }
                         )
                 )
             }
-            is Action.LaunchTimer -> {
+            is InternalAction.LaunchTimer -> {
                 timerMutex.withLock {
                     timer?.stop()
 
                     timer = Timer(
                         duration = action.updateIn,
-                        onChange = { onNewMessage(Message.UpdateInChanged(it)) },
+                        onChange = { onNewMessage(InternalMessage.UpdateInChanged(it)) },
                         onFinish = {
                             currentSubscriptionStateRepository.resetState()
-                            onNewMessage(Message.Initialize(forceUpdate = true))
+                            onNewMessage(InternalMessage.Initialize(forceUpdate = true))
                         },
                         launchIn = actionScope
                     )
@@ -77,6 +81,8 @@ class ProblemsLimitActionDispatcher(
                     timer?.start()
                 }
             }
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
     }
 }

@@ -33,9 +33,7 @@ class ProblemsLimitDelegate(
         }
 
         viewBinding.problemsLimitRetryButton.setOnClickListener {
-            onNewMessage(
-                ProblemsLimitFeature.Message.Initialize(forceUpdate = true)
-            )
+            onNewMessage(ProblemsLimitFeature.Message.RetryContentLoading)
         }
     }
 
