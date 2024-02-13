@@ -126,6 +126,9 @@ extension AppViewController: AppViewControllerProtocol {
             case .paywall:
                 #warning("TODO: ALTAPPS-1130")
                 abort()
+            case .studyPlanWithPaywall:
+                #warning("TODO: ALTAPPS-1130")
+                abort()
             }
         }()
 
