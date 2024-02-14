@@ -15,7 +15,7 @@ import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
-import org.hyperskill.app.subscriptions.domain.model.isFreemium
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
@@ -29,6 +29,11 @@ internal class AppReducer(
     private val welcomeOnboardingReducer: WelcomeOnboardingReducer,
     private val platformType: PlatformType
 ) : StateReducer<State, Message, Action> {
+
+    companion object {
+        internal const val APP_SHOWS_COUNT_TILL_PAYWALL = 3
+    }
+
     override fun reduce(
         state: State,
         message: Message
@@ -116,7 +121,7 @@ internal class AppReducer(
                                 )
                             message.profile.isNewUser ->
                                 add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
-                            message.subscription?.isFreemium == true ->
+                            message.subscriptionType == SubscriptionType.FREEMIUM ->
                                 add(
                                     Action.ViewAction.NavigateTo.StudyPlanWithPaywall(
                                         PaywallTransitionSource.APP_BECOMES_ACTIVE
@@ -158,7 +163,7 @@ internal class AppReducer(
                 isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
                 streakRecoveryState = streakRecoveryState,
                 appShowsCount = 1,
-                subscriptionType = message.subscription?.type
+                subscriptionType = message.subscriptionType
             ) to actions + streakRecoveryActions
         } else {
             state to emptySet()
@@ -189,7 +194,7 @@ internal class AppReducer(
     private fun handleAppBecomesActive(state: State): ReducerResult =
         if (state is State.Ready) {
             state.copy(appShowsCount = state.appShowsCount + 1) to
-                if (state.shouldShowPaywall) {
+                if (shouldShowPaywall(state)) {
                     setOf(
                         Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE)
                     )
@@ -199,6 +204,11 @@ internal class AppReducer(
         } else {
             state to emptySet()
         }
+
+    private fun shouldShowPaywall(state: State.Ready): Boolean =
+        state.isAuthorized &&
+            state.subscriptionType == SubscriptionType.FREEMIUM &&
+            state.appShowsCount % APP_SHOWS_COUNT_TILL_PAYWALL == 0
 
     private fun reduceStreakRecoveryMessage(
         state: StreakRecoveryFeature.State,

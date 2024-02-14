@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import org.hyperskill.app.subscriptions.cache.CurrentSubscriptionStateHolderImpl
 
 /**
- * Represents a user profile.
+ * Represents a user subscription.
  *
  * Warning!
  * This model is stored in the cache.

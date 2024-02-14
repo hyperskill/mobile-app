@@ -1,7 +1,11 @@
 package org.hyperskill.app.main.presentation
 
 import co.touchlab.kermit.Logger
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -63,8 +67,10 @@ internal class AppActionDispatcher(
         if (isPaywallFeatureEnabled) {
             currentSubscriptionStateRepository
                 .changes
-                .onEach { subscription ->
-                    onNewMessage(AppFeature.InternalMessage.SubscriptionTypeChanged(subscription.type))
+                .map { it.type }
+                .distinctUntilChanged()
+                .onEach { subscriptionType ->
+                    onNewMessage(AppFeature.InternalMessage.SubscriptionTypeChanged(subscriptionType))
                 }
                 .launchIn(actionScope)
         }
@@ -108,20 +114,22 @@ internal class AppActionDispatcher(
                 Message.FetchAppStartupConfigError
             }
         ) {
-            sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
+            coroutineScope {
+                sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
-            val profile = fetchProfile(isAuthorized).getOrThrow()
-            val subscription = fetchSubscription()
+                val profileDeferred = async { fetchProfile(isAuthorized) }
+                val subscriptionDeferred = async { fetchSubscription(isAuthorized) }
 
-            sentryInteractor.addBreadcrumb(
-                HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
-            )
+                sentryInteractor.addBreadcrumb(
+                    HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
+                )
 
-            Message.FetchAppStartupConfigSuccess(
-                profile = profile,
-                subscription = subscription,
-                notificationData = action.pushNotificationData
-            )
+                Message.FetchAppStartupConfigSuccess(
+                    profile = profileDeferred.await().getOrThrow(),
+                    subscriptionType = subscriptionDeferred.await()?.type,
+                    notificationData = action.pushNotificationData
+                )
+            }
         }.let(onNewMessage)
     }
 
@@ -148,8 +156,8 @@ internal class AppActionDispatcher(
             currentProfileStateRepository.getState(forceUpdate = true)
         }
 
-    private suspend fun fetchSubscription(): Subscription? =
-        if (isPaywallFeatureEnabled) {
+    private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
+        if (isAuthorized && isPaywallFeatureEnabled) {
             currentSubscriptionStateRepository
                 .getState()
                 .onFailure { e ->

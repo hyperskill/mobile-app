@@ -15,11 +15,9 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
-import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.profile.stub
-import org.hyperskill.subscriptions.stub
 
 class AppFeatureTest {
     private val appReducer = AppReducer(
@@ -36,7 +34,7 @@ class AppFeatureTest {
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = false, trackId = 1),
                 notificationData = null,
-                subscription = null
+                subscriptionType = null
             )
         )
         assertTrue {
@@ -54,7 +52,7 @@ class AppFeatureTest {
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = true),
                 notificationData = null,
-                subscription = null
+                subscriptionType = null
             )
         )
         assertNoStreakRecoveryActions(actions)
@@ -66,7 +64,7 @@ class AppFeatureTest {
             AppFeature.State.Loading,
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = true, trackId = 1),
-                subscription = null,
+                subscriptionType = null,
                 notificationData = PushNotificationData(
                     typeString = PushNotificationType.STREAK_NEW.name,
                     categoryString = PushNotificationCategory.CONTINUE_LEARNING.backendName!!
@@ -90,7 +88,7 @@ class AppFeatureTest {
             AppFeature.State.Loading,
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = false, trackId = 1),
-                subscription = Subscription.stub(type = SubscriptionType.FREEMIUM),
+                subscriptionType = SubscriptionType.FREEMIUM,
                 notificationData = null
             )
         )
@@ -113,7 +111,7 @@ class AppFeatureTest {
                     AppFeature.State.Loading,
                     AppFeature.Message.FetchAppStartupConfigSuccess(
                         profile = Profile.stub(isGuest = false, trackId = 1),
-                        subscription = Subscription.stub(type = subscriptionType),
+                        subscriptionType = subscriptionType,
                         notificationData = null
                     )
                 )
@@ -132,14 +130,14 @@ class AppFeatureTest {
             isMobileLeaderboardsEnabled = false,
             subscriptionType = SubscriptionType.FREEMIUM
         )
-        for (i in 1..AppFeature.APP_SHOWS_COUNT_TILL_PAYWALL + 1) {
+        for (i in 1..AppReducer.APP_SHOWS_COUNT_TILL_PAYWALL + 1) {
             val (newState, actions) = appReducer.reduce(
                 state,
                 AppFeature.Message.AppBecomesActive
             )
             state = newState
 
-            if (i % AppFeature.APP_SHOWS_COUNT_TILL_PAYWALL == 0) {
+            if (i % AppReducer.APP_SHOWS_COUNT_TILL_PAYWALL == 0) {
                 assertContains(
                     actions,
                     AppFeature.Action.ViewAction.NavigateTo.Paywall(

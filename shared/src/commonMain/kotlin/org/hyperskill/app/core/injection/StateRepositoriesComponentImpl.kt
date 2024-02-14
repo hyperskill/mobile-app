@@ -29,11 +29,12 @@ class StateRepositoriesComponentImpl(appGraph: AppGraph) : StateRepositoriesComp
     private val subscriptionsRemoteDataSource: SubscriptionsRemoteDataSource =
         SubscriptionsRemoteDataSourceImpl(authorizedHttpClient)
 
-    private val currentSubscriptionStateHolder: CurrentSubscriptionStateHolder =
+    private val currentSubscriptionStateHolder: CurrentSubscriptionStateHolder by lazy {
         CurrentSubscriptionStateHolderImpl(
             json = appGraph.commonComponent.json,
             settings = appGraph.commonComponent.settings
         )
+    }
 
     override val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository =
         CurrentSubscriptionStateRepositoryImpl(subscriptionsRemoteDataSource, currentSubscriptionStateHolder)

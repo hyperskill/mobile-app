@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import org.hyperskill.app.subscriptions.data.source.CurrentSubscriptionStateHolder
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
-class CurrentSubscriptionStateHolderImpl(
+internal class CurrentSubscriptionStateHolderImpl(
     private val json: Json,
     private val settings: Settings
 ) : CurrentSubscriptionStateHolder {
