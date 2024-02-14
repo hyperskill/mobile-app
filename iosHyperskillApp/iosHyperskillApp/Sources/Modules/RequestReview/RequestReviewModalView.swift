@@ -16,7 +16,7 @@ extension RequestReviewModalView {
         let descriptionLabelTextFont = UIFont.preferredFont(forTextStyle: .headline)
         let descriptionLabelTextColor = UIColor.newPrimaryText
 
-        let positiveButtonButtonHeight: CGFloat = 50
+        let positiveButtonButtonHeight: CGFloat = 44
         let negativeButtonButtonHeight: CGFloat = 44
 
         let backgroundColor = UIColor.systemBackground
@@ -48,7 +48,7 @@ final class RequestReviewModalView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = appearance.buttonsContainerStackViewSpacing
-        stackView.alignment = .leading
+        stackView.alignment = .fill
         stackView.distribution = .fill
         return stackView
     }()
@@ -72,14 +72,14 @@ final class RequestReviewModalView: UIView {
         return label
     }()
 
-    private lazy var positiveButton: UIButton = {
-        let button = UIKitRoundedRectangleButton.primary
+    private lazy var positiveButton: UIKitRoundedRectangleButton = {
+        let button = UIKitRoundedRectangleButton()
         button.addTarget(self, action: #selector(positiveButtonTapped), for: .touchUpInside)
         return button
     }()
 
-    private lazy var negativeButton: UIButton = {
-        let button = UIButton(type: .system)
+    private lazy var negativeButton: UIKitRoundedRectangleButton = {
+        let button = UIKitRoundedRectangleButton(style: .outline)
         button.addTarget(self, action: #selector(negativeButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -122,6 +122,18 @@ final class RequestReviewModalView: UIView {
 
         positiveButton.setTitle(state.positiveButtonText, for: .normal)
         negativeButton.setTitle(state.negativeButtonText, for: .normal)
+
+        if state.state == .negative {
+            positiveButton.style = .violet
+
+            buttonsContainerStackView.axis = .vertical
+            buttonsContainerStackView.distribution = .fill
+        } else {
+            positiveButton.style = .outline
+
+            buttonsContainerStackView.axis = .horizontal
+            buttonsContainerStackView.distribution = .fillEqually
+        }
 
         layoutIfNeeded()
         invalidateIntrinsicContentSize()
@@ -171,13 +183,11 @@ extension RequestReviewModalView: ProgrammaticallyInitializableViewProtocol {
 
         positiveButton.translatesAutoresizingMaskIntoConstraints = false
         positiveButton.snp.makeConstraints { make in
-            make.width.equalToSuperview()
             make.height.equalTo(appearance.positiveButtonButtonHeight)
         }
 
         negativeButton.translatesAutoresizingMaskIntoConstraints = false
         negativeButton.snp.makeConstraints { make in
-            make.width.equalToSuperview()
             make.height.equalTo(appearance.negativeButtonButtonHeight)
         }
     }
@@ -192,7 +202,8 @@ extension RequestReviewModalView: ProgrammaticallyInitializableViewProtocol {
             title: "Do you enjoy\nHyperskill app?",
             description: nil,
             positiveButtonText: "Yes",
-            negativeButtonText: "No"
+            negativeButtonText: "No",
+            state: RequestReviewModalFeature.ViewStateState.awaiting
         )
     )
     return view
@@ -206,7 +217,8 @@ extension RequestReviewModalView: ProgrammaticallyInitializableViewProtocol {
             title: "Thank you!",
             description: "Share what you disliked to help us improve your experience.",
             positiveButtonText: "Write a request",
-            negativeButtonText: "Maybe later"
+            negativeButtonText: "Maybe later",
+            state: RequestReviewModalFeature.ViewStateState.negative
         )
     )
     return view

@@ -1,6 +1,7 @@
 package org.hyperskill.app.problems_limit.presentation
 
 import kotlin.time.Duration
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
@@ -46,28 +47,34 @@ object ProblemsLimitFeature {
     }
 
     sealed interface Message {
-        data class Initialize(val forceUpdate: Boolean = false) : Message
+        object RetryContentLoading : Message
+    }
 
-        object PullToRefresh : Message
+    internal sealed interface InternalMessage : Message {
+        data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
+        object PullToRefresh : InternalMessage
 
-        sealed interface SubscriptionLoadingResult : Message {
-            data class Success(
-                val subscription: Subscription
-            ) : SubscriptionLoadingResult
+        object LoadSubscriptionResultError : InternalMessage
+        data class LoadSubscriptionResultSuccess(
+            val subscription: Subscription
+        ) : InternalMessage
 
-            object Error : SubscriptionLoadingResult
-        }
-
-        data class UpdateInChanged(val newUpdateIn: Duration) : Message
-
-        data class SubscriptionChanged(val newSubscription: Subscription) : Message
+        data class UpdateInChanged(val newUpdateIn: Duration) : InternalMessage
+        data class SubscriptionChanged(val newSubscription: Subscription) : InternalMessage
     }
 
     sealed interface Action {
-        data class LoadSubscription(val screen: ProblemsLimitScreen, val forceUpdate: Boolean) : Action
-
-        data class LaunchTimer(val updateIn: Duration) : Action
-
         sealed interface ViewAction : Action
+    }
+
+    internal sealed interface InternalAction : Action {
+        data class LoadSubscription(
+            val screen: ProblemsLimitScreen,
+            val forceUpdate: Boolean
+        ) : InternalAction
+
+        data class LaunchTimer(val updateIn: Duration) : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

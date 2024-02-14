@@ -14,9 +14,8 @@ struct HomeView: View {
 
     @StateObject var viewModel: HomeViewModel
 
-    @StateObject var stackRouter: SwiftUIStackRouter
-
-    @StateObject var panModalPresenter: PanModalPresenter
+    let stackRouter: StackRouterProtocol
+    let panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
@@ -30,6 +29,7 @@ struct HomeView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.state)
         }
         .navigationTitle(Strings.Home.title)
         .navigationViewStyle(StackNavigationViewStyle())
@@ -191,9 +191,4 @@ private extension HomeView {
             stackRouter.pushViewController(assembly.makeModule())
         }
     }
-}
-
-@available(iOS 17, *)
-#Preview {
-    HomeAssembly().makeModule()
 }

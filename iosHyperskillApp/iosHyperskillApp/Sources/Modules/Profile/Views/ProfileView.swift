@@ -16,7 +16,7 @@ struct ProfileView: View {
 
     @StateObject var viewModel: ProfileViewModel
 
-    private(set) var panModalPresenter: PanModalPresenter
+    let panModalPresenter: PanModalPresenter
 
     @State private var presentingSettings = false
 
@@ -36,6 +36,7 @@ struct ProfileView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.stateKs)
         }
         .navigationTitle(Strings.Profile.title)
         .toolbar {
@@ -61,7 +62,6 @@ struct ProfileView: View {
             viewModel.onViewAction = nil
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .environmentObject(PanModalPresenter())
     }
 
     // MARK: Private API
@@ -212,11 +212,5 @@ struct ProfileView: View {
         }
 
         panModalPresenter.presentPanModal(panModal)
-    }
-}
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileAssembly.currentUser().makeModule()
     }
 }
