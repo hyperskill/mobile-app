@@ -6,7 +6,7 @@ import org.hyperskill.app.subscriptions.data.source.SubscriptionsRemoteDataSourc
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
-class CurrentSubscriptionStateRepositoryImpl(
+internal class CurrentSubscriptionStateRepositoryImpl(
     private val subscriptionsRemoteDataSource: SubscriptionsRemoteDataSource,
     override val stateHolder: CurrentSubscriptionStateHolder
 ) : CurrentSubscriptionStateRepository, BaseStateRepository<Subscription>() {
