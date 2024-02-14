@@ -21,10 +21,10 @@ import org.hyperskill.profile.stub
 
 class AppFeatureTest {
     private val appReducer = AppReducer(
-        StreakRecoveryReducer(resourceProvider = ResourceProviderStub()),
-        NotificationClickHandlingReducer(),
-        WelcomeOnboardingReducer(isSubscriptionPurchaseEnabled = true),
-        PlatformType.ANDROID
+        streakRecoveryReducer = StreakRecoveryReducer(resourceProvider = ResourceProviderStub()),
+        notificationClickHandlingReducer = NotificationClickHandlingReducer(),
+        welcomeOnboardingReducer = WelcomeOnboardingReducer(isSubscriptionPurchaseEnabled = true),
+        platformType = PlatformType.ANDROID
     )
 
     @Test
@@ -128,7 +128,8 @@ class AppFeatureTest {
         var state: AppFeature.State = AppFeature.State.Ready(
             isAuthorized = true,
             isMobileLeaderboardsEnabled = false,
-            subscriptionType = SubscriptionType.FREEMIUM
+            subscriptionType = SubscriptionType.FREEMIUM,
+            isMobileOnlySubscriptionEnabled = true
         )
         for (i in 1..AppReducer.APP_SHOWS_COUNT_TILL_PAYWALL + 1) {
             val (newState, actions) = appReducer.reduce(

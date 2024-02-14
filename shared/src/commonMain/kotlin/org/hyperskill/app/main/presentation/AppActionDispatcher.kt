@@ -40,7 +40,7 @@ internal class AppActionDispatcher(
     private val pushNotificationsInteractor: PushNotificationsInteractor,
     private val purchaseInteractor: PurchaseInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
-    private val isPaywallFeatureEnabled: Boolean,
+    private val isSubscriptionPurchaseEnabled: Boolean,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -64,7 +64,7 @@ internal class AppActionDispatcher(
             }
             .launchIn(actionScope)
 
-        if (isPaywallFeatureEnabled) {
+        if (isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .changes
                 .map { it.type }
@@ -157,7 +157,7 @@ internal class AppActionDispatcher(
         }
 
     private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
-        if (isAuthorized && isPaywallFeatureEnabled) {
+        if (isAuthorized && isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .getState()
                 .onFailure { e ->
