@@ -30,26 +30,8 @@ internal class StudyPlanScreenReducer(
                 initializeFeatures(state)
             is StudyPlanScreenFeature.Message.RetryContentLoading ->
                 initializeFeatures(state, retryContentLoadingClicked = true)
-            is StudyPlanScreenFeature.Message.PullToRefresh -> {
-                val (widgetState, widgetActions) = reduceStudyPlanWidgetMessage(
-                    state.studyPlanWidgetState,
-                    StudyPlanWidgetFeature.Message.PullToRefresh
-                )
-
-                val (toolbarState, toolbarActions) = reduceToolbarMessage(
-                    state.toolbarState,
-                    GamificationToolbarFeature.InternalMessage.PullToRefresh
-                )
-
-                state.copy(
-                    studyPlanWidgetState = widgetState,
-                    toolbarState = toolbarState
-                ) to widgetActions + toolbarActions + setOf(
-                    StudyPlanScreenFeature.InternalAction.LogAnalyticEvent(
-                        StudyPlanClickedPullToRefreshHyperskillAnalyticEvent()
-                    )
-                )
-            }
+            is StudyPlanScreenFeature.Message.PullToRefresh ->
+                handlePullToRefreshMessage(state)
             is StudyPlanScreenFeature.Message.ScreenBecomesActive -> {
                 val (widgetState, widgetActions) = reduceStudyPlanWidgetMessage(
                     state.studyPlanWidgetState,
@@ -100,7 +82,7 @@ internal class StudyPlanScreenReducer(
         val (problemsLimitState, problemsLimitActions) =
             reduceProblemsLimitMessage(
                 state.problemsLimitState,
-                ProblemsLimitFeature.Message.Initialize(forceUpdate = retryContentLoadingClicked)
+                ProblemsLimitFeature.InternalMessage.Initialize(forceUpdate = retryContentLoadingClicked)
             )
         val (usersQuestionnaireWidgetState, usersQuestionnaireWidgetActions) =
             reduceUsersQuestionnaireWidgetMessage(
@@ -135,6 +117,34 @@ internal class StudyPlanScreenReducer(
             usersQuestionnaireWidgetState = usersQuestionnaireWidgetState,
             studyPlanWidgetState = studyPlanState
         ) to actions
+    }
+
+    private fun handlePullToRefreshMessage(
+        state: StudyPlanScreenFeature.State
+    ): StudyPlanScreenReducerResult {
+        val (toolbarState, toolbarActions) = reduceToolbarMessage(
+            state.toolbarState,
+            GamificationToolbarFeature.InternalMessage.PullToRefresh
+        )
+        val (problemsLimitState, problemsLimitActions) =
+            reduceProblemsLimitMessage(
+                state.problemsLimitState,
+                ProblemsLimitFeature.InternalMessage.PullToRefresh
+            )
+        val (studyPlanWidgetState, studyPlanWidgetActions) = reduceStudyPlanWidgetMessage(
+            state.studyPlanWidgetState,
+            StudyPlanWidgetFeature.Message.PullToRefresh
+        )
+
+        return state.copy(
+            toolbarState = toolbarState,
+            problemsLimitState = problemsLimitState,
+            studyPlanWidgetState = studyPlanWidgetState
+        ) to toolbarActions + studyPlanWidgetActions + problemsLimitActions + setOf(
+            StudyPlanScreenFeature.InternalAction.LogAnalyticEvent(
+                StudyPlanClickedPullToRefreshHyperskillAnalyticEvent()
+            )
+        )
     }
 
     private fun reduceToolbarMessage(

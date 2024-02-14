@@ -10,7 +10,6 @@ import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
 
 object StudyPlanScreenFeature {
-
     internal data class State(
         val toolbarState: GamificationToolbarFeature.State,
         val problemsLimitState: ProblemsLimitFeature.State,
@@ -33,7 +32,6 @@ object StudyPlanScreenFeature {
     )
 
     sealed interface Message {
-
         object Initialize : Message
 
         object RetryContentLoading : Message

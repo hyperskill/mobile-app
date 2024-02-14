@@ -94,7 +94,7 @@ final class StudyPlanViewModel: FeatureViewModel<
     func doReloadProblemsLimit() {
         onNewMessage(
             StudyPlanScreenFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
+                message: ProblemsLimitFeatureMessageRetryContentLoading()
             )
         )
     }

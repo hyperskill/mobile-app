@@ -12,7 +12,7 @@ struct LeaderboardView: View {
 
     @StateObject var viewModel: LeaderboardViewModel
 
-    var stackRouter: StackRouterProtocol
+    let stackRouter: StackRouterProtocol
 
     var body: some View {
         ZStack {
@@ -108,11 +108,4 @@ private extension LeaderboardView {
             break
         }
     }
-}
-
-// MARK: - LeaderboardView (Preview) -
-
-@available(iOS 17, *)
-#Preview {
-    LeaderboardAssembly().makeModule()
 }
