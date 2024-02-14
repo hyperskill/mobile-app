@@ -5,11 +5,12 @@ package org.hyperskill.app.purchases.domain.model
  */
 interface PurchaseManager {
 
+    fun isConfigured(): Boolean
+
     /**
-     * Setups the payment sdk.
-     * Must be called when the application is launched for the first time.
+     * Setups the payment sdk with provided [userId]
      */
-    fun setup()
+    fun configure(userId: Long)
 
     /**
      * Identifies user in the payment sdk with provided [userId].

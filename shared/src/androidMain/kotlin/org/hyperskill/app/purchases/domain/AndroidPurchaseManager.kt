@@ -24,16 +24,21 @@ class AndroidPurchaseManager(
     private val application: Application,
     private val isDebugMode: Boolean
 ) : PurchaseManager {
-    override fun setup() {
-        if (!Purchases.isConfigured) {
-            Purchases.logLevel = if (isDebugMode) LogLevel.DEBUG else LogLevel.INFO
-            Purchases.configure(
-                PurchasesConfiguration.Builder(
+
+    override fun isConfigured(): Boolean =
+        Purchases.isConfigured
+
+    override fun configure(userId: Long) {
+        Purchases.logLevel = if (isDebugMode) LogLevel.DEBUG else LogLevel.INFO
+        Purchases.configure(
+            PurchasesConfiguration
+                .Builder(
                     context = application,
                     apiKey = BuildConfig.REVENUE_CAT_GOOGLE_API_KEY
-                ).build()
-            )
-        }
+                )
+                .appUserID(userId.toString())
+                .build()
+        )
     }
 
     override suspend fun login(userId: Long): Result<Unit> =
