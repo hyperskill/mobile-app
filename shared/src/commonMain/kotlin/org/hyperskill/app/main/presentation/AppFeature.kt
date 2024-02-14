@@ -4,11 +4,14 @@ import kotlinx.serialization.Serializable
 import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 
-interface AppFeature {
+object AppFeature {
+
     @Serializable
     sealed interface State {
         @Serializable
@@ -25,7 +28,9 @@ interface AppFeature {
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
-            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State()
+            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
+            internal val subscriptionType: SubscriptionType? = null,
+            internal val appShowsCount: Int = 1
         ) : State
     }
 
@@ -35,11 +40,14 @@ interface AppFeature {
             val forceUpdate: Boolean = false
         ) : Message
 
-        data class UserAccountStatus(
+        object AppBecomesActive : Message
+
+        data class FetchAppStartupConfigSuccess(
             val profile: Profile,
+            val subscriptionType: SubscriptionType?,
             val notificationData: PushNotificationData?
         ) : Message
-        object UserAccountStatusError : Message
+        object FetchAppStartupConfigError : Message
 
         data class UserAuthorized(
             val profile: Profile,
@@ -68,8 +76,14 @@ interface AppFeature {
         ) : Message
     }
 
+    internal sealed interface InternalMessage : Message {
+        data class SubscriptionTypeChanged(
+            val subscriptionType: SubscriptionType
+        ) : InternalMessage
+    }
+
     sealed interface Action {
-        data class DetermineUserAccountStatus(
+        data class FetchAppStartupConfig(
             val pushNotificationData: PushNotificationData?
         ) : Action
 
@@ -104,8 +118,12 @@ interface AppFeature {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
                 object TrackSelectionScreen : NavigateTo
-                object OnboardingScreen : NavigateTo
+                object WelcomeScreen : NavigateTo
                 object StudyPlan : NavigateTo
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
+                data class StudyPlanWithPaywall(
+                    val paywallTransitionSource: PaywallTransitionSource
+                ) : NavigateTo
             }
 
             /**
@@ -121,5 +139,9 @@ interface AppFeature {
                 val viewAction: WelcomeOnboardingFeature.Action.ViewAction
             ) : ViewAction
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        object FetchSubscription : InternalAction
     }
 }

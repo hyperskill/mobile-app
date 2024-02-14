@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.platform.Platform
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -22,6 +23,7 @@ import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import ru.nobird.app.core.model.safeCast
@@ -49,6 +51,7 @@ internal object AppFeatureBuilder {
         welcomeOnboardingReducer: WelcomeOnboardingReducer,
         welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher,
         purchaseInteractor: PurchaseInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         platform: Platform,
         logger: Logger,
         buildVariant: BuildVariant
@@ -59,16 +62,21 @@ internal object AppFeatureBuilder {
             welcomeOnboardingReducer,
             platformType = platform.platformType
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
+
+        val isPaywallFeatureEnabled = platform.platformType == PlatformType.ANDROID
+
         val appActionDispatcher = AppActionDispatcher(
-            ActionDispatcherOptions(),
-            appInteractor,
-            authInteractor,
-            currentProfileStateRepository,
-            sentryInteractor,
-            stateRepositoriesComponent,
-            notificationsInteractor,
-            pushNotificationsInteractor,
-            purchaseInteractor,
+            config = ActionDispatcherOptions(),
+            appInteractor = appInteractor,
+            authInteractor = authInteractor,
+            currentProfileStateRepository = currentProfileStateRepository,
+            sentryInteractor = sentryInteractor,
+            stateRepositoriesComponent = stateRepositoriesComponent,
+            notificationsInteractor = notificationsInteractor,
+            pushNotificationsInteractor = pushNotificationsInteractor,
+            purchaseInteractor = purchaseInteractor,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
+            isPaywallFeatureEnabled = isPaywallFeatureEnabled,
             logger.withTag(LOG_TAG)
         )
 
