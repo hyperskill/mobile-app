@@ -305,8 +305,11 @@ class MainActivity :
             }
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
-            is AppFeature.Action.ViewAction.NavigateTo.Paywall ->
-                router.navigateTo(PaywallScreen(action.paywallTransitionSource))
+            is AppFeature.Action.ViewAction.NavigateTo.Paywall -> {
+                if (supportFragmentManager.findFragmentByTag(PaywallScreen.TAG) == null) {
+                    router.navigateTo(PaywallScreen(action.paywallTransitionSource))
+                }
+            }
             is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithPaywall ->
                 router.newRootChain(
                     MainScreen(initialTab = Tabs.STUDY_PLAN),

@@ -9,6 +9,13 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 class PaywallScreen(
     private val paywallTransitionSource: PaywallTransitionSource
 ) : FragmentScreen {
+    companion object {
+        const val TAG: String = "PaywallScreen"
+    }
+
+    override val screenKey: String
+        get() = TAG
+
     override fun createFragment(factory: FragmentFactory): Fragment =
         PaywallFragment.newInstance(paywallTransitionSource)
 }
