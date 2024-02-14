@@ -12,6 +12,7 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationCateg
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.profile.domain.model.FeatureKeys
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
@@ -87,7 +88,11 @@ class AppFeatureTest {
         val (state, actions) = appReducer.reduce(
             AppFeature.State.Loading,
             AppFeature.Message.FetchAppStartupConfigSuccess(
-                profile = Profile.stub(isGuest = false, trackId = 1),
+                profile = Profile.stub(
+                    isGuest = false,
+                    trackId = 1,
+                    featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to true)
+                ),
                 subscriptionType = SubscriptionType.FREEMIUM,
                 notificationData = null
             )
@@ -110,16 +115,16 @@ class AppFeatureTest {
                 val (_, actions) = appReducer.reduce(
                     AppFeature.State.Loading,
                     AppFeature.Message.FetchAppStartupConfigSuccess(
-                        profile = Profile.stub(isGuest = false, trackId = 1),
+                        profile = Profile.stub(
+                            isGuest = false,
+                            trackId = 1,
+                            featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to true)
+                        ),
                         subscriptionType = subscriptionType,
                         notificationData = null
                     )
                 )
-                assertTrue {
-                    actions.none {
-                        it is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithPaywall
-                    }
-                }
+                assertNoPaywallViewAction(actions)
             }
     }
 
@@ -146,9 +151,32 @@ class AppFeatureTest {
                     )
                 )
             } else {
-                assertTrue {
-                    actions.none { it is AppFeature.Action.ViewAction.NavigateTo.Paywall }
-                }
+                assertNoPaywallViewAction(actions)
+            }
+        }
+    }
+
+    @Test
+    fun `Paywall should not be shown if mobile only subscription feature is disabled`() {
+        val (_, actions) = appReducer.reduce(
+            AppFeature.State.Loading,
+            AppFeature.Message.FetchAppStartupConfigSuccess(
+                profile = Profile.stub(
+                    isGuest = false,
+                    trackId = 1,
+                    featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to false)
+                ),
+                subscriptionType = SubscriptionType.FREEMIUM,
+                notificationData = null
+            )
+        )
+        assertNoPaywallViewAction(actions)
+    }
+
+    private fun assertNoPaywallViewAction(actions: Set<AppFeature.Action>) {
+        assertTrue {
+            actions.none {
+                it is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithPaywall
             }
         }
     }
