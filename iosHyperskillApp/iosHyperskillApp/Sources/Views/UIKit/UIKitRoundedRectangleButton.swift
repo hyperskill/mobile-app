@@ -17,7 +17,9 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
 
     var style: Style {
         didSet {
-            updateAppearance()
+            if style != oldValue {
+                updateAppearance()
+            }
         }
     }
 

@@ -11,7 +11,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
@@ -96,6 +98,13 @@ class MainActivity :
         )
     }
 
+    private val onForegroundObserver =
+        object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                mainViewModel.onNewMessage(AppFeature.Message.AppBecomesActive)
+            }
+        }
+
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -114,6 +123,7 @@ class MainActivity :
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         initViewStateDelegate()
+        lifecycle.addObserver(onForegroundObserver)
 
         viewBinding.mainError.tryAgain.setOnClickListener {
             mainViewModel.onNewMessage(
@@ -243,7 +253,7 @@ class MainActivity :
 
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
-            is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
+            is AppFeature.Action.ViewAction.NavigateTo.WelcomeScreen ->
                 router.newRootScreen(WelcomeScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
@@ -295,6 +305,13 @@ class MainActivity :
             }
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
+            is AppFeature.Action.ViewAction.NavigateTo.Paywall ->
+                router.navigateTo(PaywallScreen(action.paywallTransitionSource))
+            is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithPaywall ->
+                router.newRootChain(
+                    MainScreen(initialTab = Tabs.STUDY_PLAN),
+                    PaywallScreen(action.paywallTransitionSource)
+                )
         }
     }
 

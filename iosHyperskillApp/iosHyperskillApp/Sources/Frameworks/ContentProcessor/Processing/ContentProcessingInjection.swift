@@ -116,6 +116,27 @@ final class DataMobileHiddenElementsInjection: ContentProcessingInjection {
     }
 }
 
+/// Removes all iframe elements.
+final class RemoveInlineFrameElementsInjection: ContentProcessingInjection {
+    var headScript: String {
+        """
+        <script type="text/javascript">
+        addEventListener('DOMContentLoaded', () => {
+            document
+                .querySelectorAll('iframe')
+                .forEach(element =>
+                    element.parentNode.removeChild(element)
+                );
+        });
+        </script>
+        """
+    }
+
+    func shouldInject(to code: String) -> Bool {
+        code.contains("<iframe")
+    }
+}
+
 /// Disable images callout on long tap
 final class WebkitImagesCalloutDisableInjection: ContentProcessingInjection {
     var headScript: String {

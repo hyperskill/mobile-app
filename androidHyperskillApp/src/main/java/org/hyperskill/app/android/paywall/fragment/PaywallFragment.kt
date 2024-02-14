@@ -86,6 +86,8 @@ class PaywallFragment : Fragment() {
             }
             ViewAction.NavigateTo.BackToProfileSettings ->
                 requireRouter().backTo(MainScreen(Tabs.PROFILE))
+            ViewAction.ClosePaywall ->
+                requireRouter().exit()
         }
     }
 
