@@ -179,13 +179,15 @@ internal class AppActionDispatcher(
     }
 
     private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long) {
-        purchaseInteractor
-            .login(userId)
-            .onFailure {
-                logger.e(it) {
-                    "Failed to login user in the purchase sdk"
+        if (isSubscriptionPurchaseEnabled) {
+            purchaseInteractor
+                .login(userId)
+                .onFailure {
+                    logger.e(it) {
+                        "Failed to login user in the purchase sdk"
+                    }
                 }
-            }
+        }
     }
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {

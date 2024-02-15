@@ -33,7 +33,7 @@ object AppFeature {
             internal val subscriptionType: SubscriptionType? = null,
             internal val appShowsCount: Int = 1
         ) : State {
-            fun incrementAppShowsCount(): Ready =
+            internal fun incrementAppShowsCount(): Ready =
                 copy(appShowsCount = appShowsCount + 1)
         }
     }

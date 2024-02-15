@@ -12,5 +12,8 @@ expect class Platform() {
 
     val appNameResource: StringResource
 
+    /**
+     * A boolean flag that indicates whether the platform supports subscription purchase.
+     */
     val isSubscriptionPurchaseEnabled: Boolean
 }
