@@ -40,7 +40,7 @@ internal class AppActionDispatcher(
     private val pushNotificationsInteractor: PushNotificationsInteractor,
     private val purchaseInteractor: PurchaseInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
-    private val isPaywallFeatureEnabled: Boolean,
+    private val isSubscriptionPurchaseEnabled: Boolean,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
@@ -64,7 +64,7 @@ internal class AppActionDispatcher(
             }
             .launchIn(actionScope)
 
-        if (isPaywallFeatureEnabled) {
+        if (isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .changes
                 .map { it.type }
@@ -157,7 +157,7 @@ internal class AppActionDispatcher(
         }
 
     private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
-        if (isAuthorized && isPaywallFeatureEnabled) {
+        if (isAuthorized && isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .getState()
                 .onFailure { e ->
@@ -179,13 +179,15 @@ internal class AppActionDispatcher(
     }
 
     private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long) {
-        purchaseInteractor
-            .login(userId)
-            .onFailure {
-                logger.e(it) {
-                    "Failed to login user in the purchase sdk"
+        if (isSubscriptionPurchaseEnabled) {
+            purchaseInteractor
+                .login(userId)
+                .onFailure {
+                    logger.e(it) {
+                        "Failed to login user in the purchase sdk"
+                    }
                 }
-            }
+        }
     }
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
