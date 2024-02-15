@@ -31,8 +31,8 @@ data class Subscription(
     val validTill: Instant?
 )
 
-val Subscription.isProblemLimitReached: Boolean
+internal val Subscription.isProblemLimitReached: Boolean
     get() = type.areProblemsLimited && stepsLimitLeft == 0
 
-val Subscription.isFreemium: Boolean
+internal val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM

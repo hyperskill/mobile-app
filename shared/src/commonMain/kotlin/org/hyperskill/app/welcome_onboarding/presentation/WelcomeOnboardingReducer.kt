@@ -1,6 +1,7 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
@@ -14,7 +15,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class WelcomeOnboardingReducer(
-    private val isPaywallFeatureEnabled: Boolean
+    private val isSubscriptionPurchaseEnabled: Boolean
 ) : StateReducer<State, Message, Action> {
 
     override fun reduce(state: State, message: Message): ReducerResult =
@@ -62,7 +63,7 @@ class WelcomeOnboardingReducer(
         }
 
     private fun handleNotificationOnboardingCompleted(state: State): ReducerResult =
-        if (isPaywallFeatureEnabled) {
+        if (isSubscriptionPurchaseEnabled && state.profile?.features?.isMobileOnlySubscriptionEnabled == true) {
             state to setOf(InternalAction.FetchSubscription)
         } else {
             handlePaywallCompleted(state)

@@ -4,7 +4,6 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.platform.Platform
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -57,13 +56,11 @@ internal object AppFeatureBuilder {
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer(
-            streakRecoveryReducer,
-            clickedNotificationReducer,
-            welcomeOnboardingReducer,
+            streakRecoveryReducer = streakRecoveryReducer,
+            notificationClickHandlingReducer = clickedNotificationReducer,
+            welcomeOnboardingReducer = welcomeOnboardingReducer,
             platformType = platform.platformType
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
-
-        val isPaywallFeatureEnabled = platform.platformType == PlatformType.ANDROID
 
         val appActionDispatcher = AppActionDispatcher(
             config = ActionDispatcherOptions(),
@@ -76,7 +73,7 @@ internal object AppFeatureBuilder {
             pushNotificationsInteractor = pushNotificationsInteractor,
             purchaseInteractor = purchaseInteractor,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
-            isPaywallFeatureEnabled = isPaywallFeatureEnabled,
+            isSubscriptionPurchaseEnabled = platform.isSubscriptionPurchaseEnabled,
             logger.withTag(LOG_TAG)
         )
 

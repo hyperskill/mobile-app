@@ -340,7 +340,7 @@ class StepQuizReducer(
                     setOf(
                         Action.ViewAction.ShowProblemsLimitReachedModal(
                             modalText = message.problemsLimitReachedModalText,
-                            isUnlockUnlimitedProblemsButtonVisible = message.isPaywallFeatureEnabled
+                            isUnlockUnlimitedProblemsButtonVisible = message.isSubscriptionPurchaseEnabled
                         )
                     )
                 } else {

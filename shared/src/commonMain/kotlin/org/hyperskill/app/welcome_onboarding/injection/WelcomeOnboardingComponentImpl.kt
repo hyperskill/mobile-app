@@ -1,6 +1,5 @@
 package org.hyperskill.app.welcome_onboarding.injection
 
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
@@ -11,7 +10,7 @@ internal class WelcomeOnboardingComponentImpl(
 ) : WelcomeOnboardingComponent {
     override val welcomeOnboardingReducer: WelcomeOnboardingReducer
         get() = WelcomeOnboardingReducer(
-            isPaywallFeatureEnabled = appGraph.commonComponent.platform.platformType == PlatformType.ANDROID
+            isSubscriptionPurchaseEnabled = appGraph.commonComponent.platform.isSubscriptionPurchaseEnabled
         )
 
     override val welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher

@@ -15,7 +15,11 @@ class AppFeatureStateSerializationTest {
                 AppFeature.State.Loading::class -> AppFeature.State.Loading
                 AppFeature.State.NetworkError::class -> AppFeature.State.NetworkError
                 AppFeature.State.Ready::class ->
-                    AppFeature.State.Ready(isAuthorized = true, isMobileLeaderboardsEnabled = true)
+                    AppFeature.State.Ready(
+                        isAuthorized = true,
+                        isMobileLeaderboardsEnabled = true,
+                        isMobileOnlySubscriptionEnabled = true
+                    )
                 else -> throw IllegalStateException("Unknown state class: $stateClass. Please add it to the test.")
             }
             val json = Json.encodeToString(AppFeature.State.serializer(), state)

@@ -60,6 +60,6 @@ class StepQuizComponentImpl(
             resourceProvider = appGraph.commonComponent.resourceProvider,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
-            platformType = appGraph.commonComponent.platform.platformType
+            platform = appGraph.commonComponent.platform
         )
 }

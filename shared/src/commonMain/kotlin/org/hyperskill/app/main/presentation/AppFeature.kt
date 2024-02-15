@@ -29,9 +29,13 @@ object AppFeature {
             val isMobileLeaderboardsEnabled: Boolean,
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
             internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
+            internal val isMobileOnlySubscriptionEnabled: Boolean,
             internal val subscriptionType: SubscriptionType? = null,
             internal val appShowsCount: Int = 1
-        ) : State
+        ) : State {
+            internal fun incrementAppShowsCount(): Ready =
+                copy(appShowsCount = appShowsCount + 1)
+        }
     }
 
     sealed interface Message {

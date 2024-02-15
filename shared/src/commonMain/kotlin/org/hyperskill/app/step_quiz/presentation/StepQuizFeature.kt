@@ -60,7 +60,7 @@ interface StepQuizFeature {
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
             val problemsLimitReachedModalText: String?,
-            val isPaywallFeatureEnabled: Boolean,
+            val isSubscriptionPurchaseEnabled: Boolean,
             val problemsOnboardingFlags: ProblemsOnboardingFlags
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
