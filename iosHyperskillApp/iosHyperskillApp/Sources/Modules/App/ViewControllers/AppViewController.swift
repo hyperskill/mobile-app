@@ -103,7 +103,7 @@ extension AppViewController: AppViewControllerProtocol {
 
     private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
         #warning("TODO: Code dublication, see handleWelcomeOnboardingViewAction(_:)")
-        let viewControllerToPresent: UIViewController? = {
+        let viewControllerToPresent: UIViewController = {
             switch viewAction {
             case .welcomeScreen:
                 return UIHostingController(rootView: WelcomeAssembly(output: viewModel).makeModule())
@@ -124,17 +124,26 @@ extension AppViewController: AppViewControllerProtocol {
                 navigationController.navigationBar.prefersLargeTitles = true
                 return navigationController
             case .paywall:
-                #warning("TODO: ALTAPPS-1130")
-                return nil
+                #warning("TODO: ALTAPPS-1116")
+                return UIHostingController(rootView: PaywallView())
             case .studyPlanWithPaywall:
-                #warning("TODO: ALTAPPS-1130")
-                return nil
+                #warning("TODO: ALTAPPS-1116")
+                let tabBarController = AppTabBarController(
+                    initialTab: .studyPlan,
+                    availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
+                    appTabBarControllerDelegate: viewModel
+                )
+
+                DispatchQueue.main.async {
+                    SourcelessRouter().currentPresentedViewController()?.present(
+                        UIHostingController(rootView: PaywallView()),
+                        animated: true
+                    )
+                }
+
+                return tabBarController
             }
         }()
-
-        guard let viewControllerToPresent else {
-            return
-        }
 
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
@@ -250,7 +259,7 @@ extension AppViewController: AppViewControllerProtocol {
         _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
     ) {
         #warning("TODO: Code dublication, see handleNavigateToViewAction(_:)")
-        let viewControllerToPresent: UIViewController? = {
+        let viewControllerToPresent: UIViewController = {
             switch viewAction {
             case .navigateTo(let navigateToViewAction):
                 switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
@@ -290,14 +299,10 @@ extension AppViewController: AppViewControllerProtocol {
                     return tabBarController
                 case .paywall:
                     #warning("TODO: ALTAPPS-1116")
-                    return nil
+                    return UIHostingController(rootView: PaywallView())
                 }
             }
         }()
-
-        guard let viewControllerToPresent else {
-            return
-        }
 
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
