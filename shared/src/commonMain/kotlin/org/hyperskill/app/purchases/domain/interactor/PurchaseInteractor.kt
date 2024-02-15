@@ -11,16 +11,18 @@ class PurchaseInteractor(
         private const val MOBILE_ONLY_SUBSCRIPTION_PRODUCT_ID: String = "premium_mobile"
     }
 
-    fun setup() {
-        purchaseManager.setup()
-    }
-
     /**
      * Identifies user in the payment sdk with provided [userId].
      * Must be called just after login event.
      */
     suspend fun login(userId: Long): Result<Unit> =
-        purchaseManager.login(userId)
+        if (!purchaseManager.isConfigured()) {
+            runCatching {
+                purchaseManager.configure(userId)
+            }
+        } else {
+            purchaseManager.login(userId)
+        }
 
     suspend fun purchaseMobileOnlySubscription(
         platformPurchaseParams: PlatformPurchaseParams
