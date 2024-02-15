@@ -103,7 +103,7 @@ extension AppViewController: AppViewControllerProtocol {
 
     private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
         #warning("TODO: Code dublication, see handleWelcomeOnboardingViewAction(_:)")
-        let viewControllerToPresent: UIViewController = {
+        let viewControllerToPresent: UIViewController? = {
             switch viewAction {
             case .welcomeScreen:
                 return UIHostingController(rootView: WelcomeAssembly(output: viewModel).makeModule())
@@ -125,12 +125,16 @@ extension AppViewController: AppViewControllerProtocol {
                 return navigationController
             case .paywall:
                 #warning("TODO: ALTAPPS-1130")
-                abort()
+                return nil
             case .studyPlanWithPaywall:
                 #warning("TODO: ALTAPPS-1130")
-                abort()
+                return nil
             }
         }()
+
+        guard let viewControllerToPresent else {
+            return
+        }
 
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
@@ -246,7 +250,7 @@ extension AppViewController: AppViewControllerProtocol {
         _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
     ) {
         #warning("TODO: Code dublication, see handleNavigateToViewAction(_:)")
-        let viewControllerToPresent: UIViewController = {
+        let viewControllerToPresent: UIViewController? = {
             switch viewAction {
             case .navigateTo(let navigateToViewAction):
                 switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
@@ -286,10 +290,14 @@ extension AppViewController: AppViewControllerProtocol {
                     return tabBarController
                 case .paywall:
                     #warning("TODO: ALTAPPS-1116")
-                    abort()
+                    return nil
                 }
             }
         }()
+
+        guard let viewControllerToPresent else {
+            return
+        }
 
         let fromViewController = children.first { viewController in
             if viewController is UIHostingController<PlaceholderView> {
