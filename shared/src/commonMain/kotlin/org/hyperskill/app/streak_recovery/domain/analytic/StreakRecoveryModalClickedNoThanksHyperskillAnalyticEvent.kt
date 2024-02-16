@@ -12,16 +12,17 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/home",
+ *     "route": "None",
  *     "action": "click",
  *     "part": "streak_recovery_modal",
  *     "target": "no_thanks"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 class StreakRecoveryModalClickedNoThanksHyperskillAnalyticEvent : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
+    HyperskillAnalyticRoute.None,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.STREAK_RECOVERY_MODAL,
     HyperskillAnalyticTarget.NO_THANKS

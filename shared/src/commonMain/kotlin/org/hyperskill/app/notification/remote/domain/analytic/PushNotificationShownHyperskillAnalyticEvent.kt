@@ -14,7 +14,7 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
  * JSON payload:
  * ```
  * {
- *     "route": "/home",
+ *     "route": "None",
  *     "action": "shown",
  *     "part": "notification",
  *     "context":
@@ -32,7 +32,7 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 class PushNotificationShownHyperskillAnalyticEvent(
     private val pushNotificationData: PushNotificationData
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
+    HyperskillAnalyticRoute.None,
     HyperskillAnalyticAction.SHOWN,
     HyperskillAnalyticPart.NOTIFICATION
 ) {
