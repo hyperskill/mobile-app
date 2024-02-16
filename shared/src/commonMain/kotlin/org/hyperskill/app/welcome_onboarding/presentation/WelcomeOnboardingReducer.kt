@@ -14,14 +14,11 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
-
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             is InternalMessage.OnboardingFlowRequested ->
                 handleOnboardingFlowRequested(message)
 
-            is InternalMessage.NotificationOnboardingDataFetched ->
-                handleNotificationOnboardingDataFetched(state, message)
             Message.NotificationOnboardingCompleted ->
                 handleNotificationOnboardingCompleted(state)
 
@@ -36,27 +33,9 @@ class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
     ): ReducerResult =
         if (!message.isNotificationPermissionGranted) {
             State(message.profile) to
-                setOf(InternalAction.FetchNotificationOnboardingData)
+                setOf(ViewAction.NavigateTo.NotificationOnboardingScreen)
         } else {
             onNotificationOnboardingCompleted(message.profile)
-        }
-
-    private fun handleNotificationOnboardingDataFetched(
-        state: State,
-        message: InternalMessage.NotificationOnboardingDataFetched
-    ): ReducerResult =
-        if (state.profile != null) {
-            if (!message.wasNotificationOnboardingShown) {
-                state to setOf(ViewAction.NavigateTo.NotificationOnboardingScreen)
-            } else {
-                onNotificationOnboardingCompleted(state.profile)
-            }
-        } else {
-            state to setOf(
-                Action.OnboardingFlowFinished(
-                    OnboardingFlowFinishReason.NotificationOnboardingFinished(state.profile)
-                )
-            )
         }
 
     private fun handleNotificationOnboardingCompleted(
