@@ -1,8 +1,8 @@
 package org.hyperskill.app.interview_preparation.presentation
 
-import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
-import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
-import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
+import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetClickedHyperskillAnalyticEvent
+import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.interview_preparation.domain.analytic.InterviewPreparationWidgetViewedHyperskillAnalyticEvent
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.Action
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalAction
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature.InternalMessage
@@ -106,7 +106,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
             State.Loading(isLoadingSilently = false) to setOf(
                 InternalAction.FetchInterviewSteps(true),
                 InternalAction.LogAnalyticEvent(
-                    InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticsEvent
+                    InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticEvent
                 )
             )
         } else {
@@ -119,7 +119,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         if (state is State.Content) {
             state to setOf(
                 InternalAction.LogAnalyticEvent(
-                    InterviewPreparationWidgetClickedHyperskillAnalyticsEvent
+                    InterviewPreparationWidgetClickedHyperskillAnalyticEvent
                 ),
                 InternalAction.FetchNextInterviewStep
             )
@@ -147,7 +147,7 @@ class InterviewPreparationWidgetReducer : StateReducer<State, Message, Action> {
         if (state !is State.Idle) {
             state to setOf(
                 InternalAction.LogAnalyticEvent(
-                    InterviewPreparationWidgetViewedHyperskillAnalyticsEvent
+                    InterviewPreparationWidgetViewedHyperskillAnalyticEvent
                 )
             )
         } else {

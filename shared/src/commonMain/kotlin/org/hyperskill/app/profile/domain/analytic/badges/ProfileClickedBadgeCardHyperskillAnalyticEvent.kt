@@ -8,32 +8,39 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.badges.domain.model.BadgeKind
 
 /**
- * Represents a hidden analytic event of the badge detailed modal in profile analytics event.
+ * Represents click on the badge in profile analytic event.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/profile",
- *     "action": "hidden",
- *     "part": "modal",
- *     "target": "badge_modal",
+ *     "action": "click",
+ *     "part": "main",
+ *     "target": "badge_card",
  *     "context": {
- *         "badge_kind": "Project Mastery"
+ *         "badge_kind": "Project Mastery",
+ *         "is_locked": true
  *     }
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-class ProfileBadgeModalHiddenHyperskillAnalyticsEvent(
-    private val badgeKind: BadgeKind
+class ProfileClickedBadgeCardHyperskillAnalyticEvent(
+    private val badgeKind: BadgeKind,
+    private val isLocked: Boolean
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile(),
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.BADGE_MODAL
+    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticTarget.BADGE_CARD
 ) {
+
     override val params: Map<String, Any>
         get() = super.params + mapOf(
-            BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name
+            PARAM_CONTEXT to mapOf(
+                BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name,
+                BadgesAnalyticKeys.PARAM_LOCKED to isLocked
+            )
         )
 }

@@ -7,10 +7,10 @@ import org.hyperskill.app.profile.domain.analytic.ProfileClickedPullToRefreshHyp
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedSettingsHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileClickedViewFullProfileHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.ProfileViewedHyperskillAnalyticEvent
-import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalHiddenHyperskillAnalyticsEvent
+import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.badges.ProfileBadgeModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.profile.domain.analytic.badges.ProfileClickedBadgeCardHyperskillAnalyticsEvent
-import org.hyperskill.app.profile.domain.analytic.badges.ProfileClickedBadgesVisibilityButtonHyperskillAnalyticsEvent
+import org.hyperskill.app.profile.domain.analytic.badges.ProfileClickedBadgeCardHyperskillAnalyticEvent
+import org.hyperskill.app.profile.domain.analytic.badges.ProfileClickedBadgesVisibilityButtonHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeAnalyticState
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeCardAnalyticAction
 import org.hyperskill.app.profile.domain.analytic.streak_freeze.StreakFreezeClickedCardActionHyperskillAnalyticEvent
@@ -188,7 +188,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             is Message.BadgeModalHiddenEventMessage ->
                 state to setOf(
                     Action.LogAnalyticEvent(
-                        ProfileBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind)
+                        ProfileBadgeModalHiddenHyperskillAnalyticEvent(message.badgeKind)
                     )
                 )
             is Message.ViewedEventMessage ->
@@ -300,7 +300,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
                 )
             ) to setOf(
                 Action.LogAnalyticEvent(
-                    ProfileClickedBadgesVisibilityButtonHyperskillAnalyticsEvent(message.visibilityButton)
+                    ProfileClickedBadgesVisibilityButtonHyperskillAnalyticEvent(message.visibilityButton)
                 )
             )
         } else {
@@ -323,7 +323,7 @@ class ProfileReducer : StateReducer<State, Message, Action> {
             state to setOf(
                 showAction,
                 Action.LogAnalyticEvent(
-                    ProfileClickedBadgeCardHyperskillAnalyticsEvent(
+                    ProfileClickedBadgeCardHyperskillAnalyticEvent(
                         badgeKind = message.badgeKind,
                         isLocked = message.badgeKind !in state.badgesState.badges.map { it.kind }
                     )

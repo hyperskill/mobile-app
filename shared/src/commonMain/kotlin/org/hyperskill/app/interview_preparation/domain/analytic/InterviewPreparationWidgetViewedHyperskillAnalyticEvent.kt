@@ -1,4 +1,4 @@
-package org.hyperskill.app.first_problem_onboarding.domain.analytic
+package org.hyperskill.app.interview_preparation.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -10,11 +10,14 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  * JSON payload:
  * ```
  * {
- *     "route": "/onboarding/first_problem",
+ *     "route": "/home/interview_preparation_widget",
  *     "action": "view"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-object FirstProblemOnboardingViewedHyperskillAnalyticsEvent :
-    HyperskillAnalyticEvent(HyperskillAnalyticRoute.Onboarding.FirstProblem, HyperskillAnalyticAction.VIEW)
+object InterviewPreparationWidgetViewedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.Home.InterviewPreparationWidget(),
+    HyperskillAnalyticAction.VIEW
+)
