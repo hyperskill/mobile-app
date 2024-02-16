@@ -1,8 +1,11 @@
 package org.hyperskill.app.paywall.presentation
 
+import org.hyperskill.app.SharedResources
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedBuySubscriptionHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedContinueWithLimitsHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedRetryContentLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.paywall.domain.analytic.PaywallClickedTermsOfServiceAndPrivacyPolicyHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallViewedHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action
@@ -17,7 +20,8 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 internal class PaywallReducer(
-    private val paywallTransitionSource: PaywallTransitionSource
+    private val paywallTransitionSource: PaywallTransitionSource,
+    private val resourceProvider: ResourceProvider
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
@@ -25,7 +29,7 @@ internal class PaywallReducer(
             Message.RetryContentLoading ->
                 fetchMobileOnlyPrice(
                     setOf(
-                        InternalAction.LogAnalyticsEvent(
+                        InternalAction.LogAnalyticEvent(
                             PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
                                 paywallTransitionSource
                             )
@@ -33,6 +37,7 @@ internal class PaywallReducer(
                     )
                 )
             Message.ViewedEventMessage -> handleViewedEventMessage(state)
+            Message.ClickedTermsOfServiceAndPrivacyPolicy -> handleClickedTermsOfServiceAndPrivacyPolicy(state)
             is Message.BuySubscriptionClicked -> handleBuySubscriptionClicked(state, message)
             Message.ContinueWithLimitsClicked -> handleContinueWithLimitsClicked(state)
             is InternalMessage.FetchMobileOnlyPriceSuccess ->
@@ -59,19 +64,37 @@ internal class PaywallReducer(
         state: State
     ): ReducerResult =
         state to setOf(
-            InternalAction.LogAnalyticsEvent(
+            InternalAction.LogAnalyticEvent(
                 PaywallViewedHyperskillAnalyticEvent(
                     paywallTransitionSource
                 )
             )
         )
 
+    private fun handleClickedTermsOfServiceAndPrivacyPolicy(
+        state: State
+    ): ReducerResult =
+        if (state is State.Content) {
+            state to setOf(
+                InternalAction.LogAnalyticEvent(
+                    PaywallClickedTermsOfServiceAndPrivacyPolicyHyperskillAnalyticEvent(
+                        paywallTransitionSource
+                    )
+                ),
+                Action.ViewAction.OpenUrl(
+                    resourceProvider.getString(SharedResources.strings.paywall_tos_and_privacy_url)
+                )
+            )
+        } else {
+            state to emptySet()
+        }
+
     private fun handleBuySubscriptionClicked(
         state: State,
         message: Message.BuySubscriptionClicked
     ): ReducerResult =
         state to setOf(
-            InternalAction.LogAnalyticsEvent(
+            InternalAction.LogAnalyticEvent(
                 PaywallClickedBuySubscriptionHyperskillAnalyticEvent(
                     paywallTransitionSource
                 )
@@ -83,7 +106,7 @@ internal class PaywallReducer(
         state: State
     ): ReducerResult =
         state to setOf(
-            InternalAction.LogAnalyticsEvent(
+            InternalAction.LogAnalyticEvent(
                 PaywallClickedContinueWithLimitsHyperskillAnalyticEvent(
                     paywallTransitionSource
                 )

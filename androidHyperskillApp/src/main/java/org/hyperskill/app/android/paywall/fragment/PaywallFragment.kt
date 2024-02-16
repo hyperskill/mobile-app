@@ -88,6 +88,7 @@ class PaywallFragment : Fragment() {
                 requireRouter().backTo(MainScreen(Tabs.PROFILE))
             ViewAction.ClosePaywall ->
                 requireRouter().exit()
+            is ViewAction.OpenUrl -> TODO("ALTAPPS-1153")
         }
     }
 

@@ -16,7 +16,7 @@ import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionSta
 import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class PaywallActionDispatcher(
+internal class PaywallActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor,
     private val purchaseInteractor: PurchaseInteractor,
@@ -27,8 +27,8 @@ class PaywallActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is InternalAction.LogAnalyticsEvent ->
-                analyticInteractor.logEvent(action.event)
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
             is InternalAction.FetchMobileOnlyPrice ->
                 handleFetchMobileOnlyPrice(::onNewMessage)
             is InternalAction.StartMobileOnlySubscriptionPurchase ->

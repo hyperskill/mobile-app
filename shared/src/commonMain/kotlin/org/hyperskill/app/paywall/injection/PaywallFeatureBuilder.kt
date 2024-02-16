@@ -23,7 +23,7 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object PaywallFeatureBuilder {
+internal object PaywallFeatureBuilder {
     private const val LOG_TAG = "PaywallFeature"
 
     fun build(
@@ -37,9 +37,11 @@ object PaywallFeatureBuilder {
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
-        val paywallReducer =
-            PaywallReducer(paywallTransitionSource)
-                .wrapWithLogger(buildVariant, logger, LOG_TAG)
+        val paywallReducer = PaywallReducer(
+            paywallTransitionSource = paywallTransitionSource,
+            resourceProvider = resourceProvider
+        )
+            .wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val paywallActionDispatcher = PaywallActionDispatcher(
             config = ActionDispatcherOptions(),
