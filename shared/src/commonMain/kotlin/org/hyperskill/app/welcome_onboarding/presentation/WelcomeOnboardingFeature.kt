@@ -6,7 +6,6 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 
 object WelcomeOnboardingFeature {
-
     @Serializable
     data class State(val profile: Profile? = null)
 
@@ -20,10 +19,6 @@ object WelcomeOnboardingFeature {
         data class OnboardingFlowRequested(
             val profile: Profile,
             val isNotificationPermissionGranted: Boolean
-        ) : InternalMessage
-
-        data class NotificationOnboardingDataFetched(
-            val wasNotificationOnboardingShown: Boolean
         ) : InternalMessage
 
         data class FirstProblemOnboardingDataFetched(
@@ -53,7 +48,6 @@ object WelcomeOnboardingFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        object FetchNotificationOnboardingData : InternalAction
         object FetchFirstProblemOnboardingData : InternalAction
     }
 }

@@ -14,13 +14,6 @@ class WelcomeOnboardingActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            InternalAction.FetchNotificationOnboardingData -> {
-                onNewMessage(
-                    InternalMessage.NotificationOnboardingDataFetched(
-                        wasNotificationOnboardingShown = onboardingInteractor.wasNotificationOnboardingShown()
-                    )
-                )
-            }
             InternalAction.FetchFirstProblemOnboardingData -> {
                 onNewMessage(
                     InternalMessage.FirstProblemOnboardingDataFetched(
