@@ -26,7 +26,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class ProfileReducer : StateReducer<State, Message, Action> {
+internal class ProfileReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             is Message.Initialize -> {
