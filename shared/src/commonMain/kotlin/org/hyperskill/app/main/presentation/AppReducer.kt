@@ -187,7 +187,7 @@ internal class AppReducer(
             )
             val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
                 WelcomeOnboardingFeature.State(),
-                WelcomeOnboardingFeature.Message.OnboardingFlowRequested(
+                WelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
                     message.profile,
                     message.isNotificationPermissionGranted
                 )

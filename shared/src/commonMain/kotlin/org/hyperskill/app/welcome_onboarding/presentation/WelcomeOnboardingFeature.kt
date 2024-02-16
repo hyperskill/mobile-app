@@ -8,15 +8,10 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 
 object WelcomeOnboardingFeature {
-
     @Serializable
     data class State(val profile: Profile? = null)
 
     sealed interface Message {
-        data class OnboardingFlowRequested(
-            val profile: Profile,
-            val isNotificationPermissionGranted: Boolean
-        ) : InternalMessage
         object NotificationOnboardingCompleted : Message
 
         object PaywallCompleted : Message
@@ -25,9 +20,9 @@ object WelcomeOnboardingFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-
-        data class NotificationOnboardingDataFetched(
-            val wasNotificationOnboardingShown: Boolean
+        data class OnboardingFlowRequested(
+            val profile: Profile,
+            val isNotificationPermissionGranted: Boolean
         ) : InternalMessage
 
         data class FirstProblemOnboardingDataFetched(
@@ -56,7 +51,6 @@ object WelcomeOnboardingFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        object FetchNotificationOnboardingData : InternalAction
         object FetchFirstProblemOnboardingData : InternalAction
         object FetchSubscription : InternalAction
     }

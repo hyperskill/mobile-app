@@ -17,14 +17,11 @@ private typealias ReducerResult = Pair<State, Set<Action>>
 class WelcomeOnboardingReducer(
     private val isSubscriptionPurchaseEnabled: Boolean
 ) : StateReducer<State, Message, Action> {
-
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
-            is Message.OnboardingFlowRequested ->
+            is InternalMessage.OnboardingFlowRequested ->
                 handleOnboardingFlowRequested(message)
 
-            is InternalMessage.NotificationOnboardingDataFetched ->
-                handleNotificationOnboardingDataFetched(state, message)
             Message.NotificationOnboardingCompleted ->
                 handleNotificationOnboardingCompleted(state)
 
@@ -42,25 +39,15 @@ class WelcomeOnboardingReducer(
         }
 
     private fun handleOnboardingFlowRequested(
-        message: Message.OnboardingFlowRequested
+        message: InternalMessage.OnboardingFlowRequested
     ): ReducerResult {
         val state = State(message.profile)
         return if (!message.isNotificationPermissionGranted) {
-            state to setOf(InternalAction.FetchNotificationOnboardingData)
-        } else {
-            handleNotificationOnboardingCompleted(state)
-        }
-    }
-
-    private fun handleNotificationOnboardingDataFetched(
-        state: State,
-        message: InternalMessage.NotificationOnboardingDataFetched
-    ): ReducerResult =
-        if (!message.wasNotificationOnboardingShown) {
             state to setOf(ViewAction.NavigateTo.NotificationOnboardingScreen)
         } else {
             handleNotificationOnboardingCompleted(state)
         }
+    }
 
     private fun handleNotificationOnboardingCompleted(state: State): ReducerResult =
         if (isSubscriptionPurchaseEnabled && state.profile?.features?.isMobileOnlySubscriptionEnabled == true) {
