@@ -14,7 +14,10 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *     "action": "view"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-class TrackSelectionListViewedHyperskillAnalyticEvent :
-    HyperskillAnalyticEvent(HyperskillAnalyticRoute.Tracks(), HyperskillAnalyticAction.VIEW)
+object TrackSelectionListViewedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.Tracks(),
+    HyperskillAnalyticAction.VIEW
+)

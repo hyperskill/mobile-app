@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.profile.presentation.ProfileFeature
 
 /**
- * Represents click on the showAll or showLess badges button in profile analytics event.
+ * Represents click on the showAll or showLess badges button in profile analytic event.
  *
  * JSON payload:
  * ```
@@ -22,9 +22,10 @@ import org.hyperskill.app.profile.presentation.ProfileFeature
  *     }
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-class ProfileClickedBadgesVisibilityButtonHyperskillAnalyticsEvent(
+class ProfileClickedBadgesVisibilityButtonHyperskillAnalyticEvent(
     private val visibilityButton: ProfileFeature.Message.BadgesVisibilityButton
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile(),

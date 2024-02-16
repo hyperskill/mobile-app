@@ -29,7 +29,7 @@ import ru.nobird.app.core.model.mapOfNotNull
  *
  * @see HyperskillAnalyticEvent
  */
-class ProjectSelectionListClickedProjectHyperskillAnalyticsEvent(
+class ProjectSelectionListClickedProjectHyperskillAnalyticEvent(
     val trackId: Long,
     val projectId: Long
 ) : HyperskillAnalyticEvent(

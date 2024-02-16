@@ -21,7 +21,7 @@ internal object InterviewPreparationOnboardingFeatureBuilder {
 
     fun build(
         stepRoute: StepRoute,
-        analyticsInteractor: AnalyticInteractor,
+        analyticInteractor: AnalyticInteractor,
         onboardingInteractor: OnboardingInteractor,
         logger: Logger,
         buildVariant: BuildVariant
@@ -32,7 +32,7 @@ internal object InterviewPreparationOnboardingFeatureBuilder {
         val actionDispatcher =
             InterviewPreparationOnboardingActionDispatcher(
                 config = ActionDispatcherOptions(),
-                analyticInteractor = analyticsInteractor,
+                analyticInteractor = analyticInteractor,
                 onboardingInteractor = onboardingInteractor
             )
         return ReduxFeature(
