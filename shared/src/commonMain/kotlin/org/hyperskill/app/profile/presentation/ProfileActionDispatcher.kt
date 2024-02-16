@@ -2,6 +2,7 @@ package org.hyperskill.app.profile.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -15,7 +16,6 @@ import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnab
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.products.domain.model.Product
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.copy
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
@@ -27,9 +27,8 @@ import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.streaks.domain.model.Streak
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class ProfileActionDispatcher(
+internal class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
-    profileInteractor: ProfileInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
     private val productsInteractor: ProductsInteractor,
@@ -39,11 +38,12 @@ class ProfileActionDispatcher(
     private val urlPathProcessor: UrlPathProcessor,
     private val streakFlow: StreakFlow,
     dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
+    solvedStepsSharedFlow: SharedFlow<Long>,
     private val badgesRepository: BadgesRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        profileInteractor.solvedStepsSharedFlow
+        solvedStepsSharedFlow
             .onEach { onNewMessage(Message.StepQuizSolved) }
             .launchIn(actionScope)
 
