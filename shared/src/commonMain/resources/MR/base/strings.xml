@@ -624,6 +624,8 @@
     <string name="paywall_subscription_sync_delayed">Paid functionality will become available to you shortly</string>
     <string name="paywall_pending_purchase">Paid functionality will become available after success payment</string>
     <string name="paywall_subscription_sync_description">The app is updating. Please wait a moment</string>
+    <string name="paywall_tos_and_privacy_bth">Hyperskill Terms of Service and Privacy Policy</string>
+    <string name="paywall_tos_and_privacy_url">https://hi.hyperskill.org/terms</string>
 
     <!--Manage subscription-->
     <string name="manage_subscription_screen_title">Subscription</string>

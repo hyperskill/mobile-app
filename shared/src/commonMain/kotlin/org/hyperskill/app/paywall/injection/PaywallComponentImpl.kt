@@ -7,7 +7,7 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature.Message
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class PaywallComponentImpl(
+internal class PaywallComponentImpl(
     private val paywallTransitionSource: PaywallTransitionSource,
     private val appGraph: AppGraph
 ) : PaywallComponent {

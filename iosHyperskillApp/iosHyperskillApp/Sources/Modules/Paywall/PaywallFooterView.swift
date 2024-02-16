@@ -2,7 +2,7 @@ import SwiftUI
 
 extension PaywallFooterView {
     struct Appearance {
-        var spacing = LayoutInsets.smallInset
+        var spacing = LayoutInsets.defaultInset
     }
 }
 
@@ -42,7 +42,18 @@ struct PaywallFooterView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
             )
-            .buttonStyle(GhostButtonStyle())
+            .buttonStyle(OutlineButtonStyle(style: .newGray))
+            //.buttonStyle(GhostButtonStyle())
+
+            Button(
+                "Hyperskill Terms of Service and Privacy Policy",
+                action: {
+                    feedbackGenerator.triggerFeedback()
+                    presentationMode.wrappedValue.dismiss()
+                }
+            )
+            .font(.footnote)
+            .foregroundColor(.newSecondaryText)
         }
     }
 }

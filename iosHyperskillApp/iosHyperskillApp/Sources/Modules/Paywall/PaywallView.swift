@@ -5,7 +5,7 @@ extension PaywallView {
         let padding = LayoutInsets.defaultInset
 
         let spacing = LayoutInsets.defaultInset
-        let interitemSpacing = LayoutInsets.smallInset
+        let interitemSpacing = LayoutInsets.defaultInset
 
         let headerImageHeight: CGFloat = 164
     }

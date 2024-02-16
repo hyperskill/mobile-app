@@ -9,7 +9,6 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 object PaywallFeature {
-
     internal sealed interface State {
         object Idle : State
         object Loading : State
@@ -45,13 +44,15 @@ object PaywallFeature {
 
         object RetryContentLoading : Message
 
-        object ViewedEventMessage : Message
-
         object ContinueWithLimitsClicked : Message
 
         data class BuySubscriptionClicked(
             val purchaseParams: PlatformPurchaseParams
         ) : Message
+
+        object ClickedTermsOfServiceAndPrivacyPolicy : Message
+
+        object ViewedEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -82,6 +83,8 @@ object PaywallFeature {
                 val messageKind: MessageKind
             ) : ViewAction
 
+            data class OpenUrl(val url: String) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object BackToProfileSettings : NavigateTo
             }
@@ -97,7 +100,7 @@ object PaywallFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticsEvent(val event: AnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
 
         object FetchMobileOnlyPrice : InternalAction
 
