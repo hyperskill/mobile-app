@@ -14,7 +14,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/home",
+ *     "route": "None",
  *     "action": "click",
  *     "part": "notification",
  *     "target": "daily_notification",
@@ -29,7 +29,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(
     private val notificationId: Int
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
+    HyperskillAnalyticRoute.None,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.NOTIFICATION,
     HyperskillAnalyticTarget.DAILY_NOTIFICATION

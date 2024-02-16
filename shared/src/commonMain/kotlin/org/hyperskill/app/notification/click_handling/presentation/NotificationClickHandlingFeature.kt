@@ -14,7 +14,7 @@ object NotificationClickHandlingFeature {
     sealed interface Message {
 
         /**
-         * If [isUserAuthorized] == false, then just logs analytics event.
+         * If [isUserAuthorized] == false, then just logs analytic event.
          * Otherwise, also executes navigation to the appropriate for the [notificationData] screen.
          */
         data class NotificationClicked(

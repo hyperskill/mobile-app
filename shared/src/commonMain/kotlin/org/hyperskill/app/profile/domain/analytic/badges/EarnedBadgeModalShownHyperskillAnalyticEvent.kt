@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.badges.domain.model.BadgeKind
 
 /**
- * Represents show of the earned badge modal analytics event.
+ * Represents show of the earned badge modal analytic event.
  *
  * JSON payload:
  * ```
@@ -22,6 +22,7 @@ import org.hyperskill.app.badges.domain.model.BadgeKind
  *     }
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
 class EarnedBadgeModalShownHyperskillAnalyticEvent(

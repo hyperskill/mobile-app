@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents an analytic event for clicking on a select this project button in the project selection details screen.
+ * Represents an analytic event for clicking on a retry button in the project selection details screen.
  *
  * JSON payload:
  * ```
@@ -15,23 +15,23 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/projects/261?track=18",
  *     "action": "click",
  *     "part": "main",
- *     "target": "select_this_project"
+ *     "target": "retry"
  * }
  * ```
  *
- * @constructor Creates an analytic event for clicking on a select this project button in the project selection details screen.
+ * @constructor Creates an analytic event for clicking on a retry button in the project selection details screen.
  *
  * @param projectId The project id where the event was triggered.
  * @param trackId The track id where the event was triggered.
  *
  * @see HyperskillAnalyticEvent
  */
-class ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent(
+class ProjectSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticEvent(
     projectId: Long,
     trackId: Long
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Projects.SelectProjectDetails(projectId, trackId),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.SELECT_THIS_PROJECT
+    HyperskillAnalyticTarget.RETRY
 )
