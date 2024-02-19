@@ -4,7 +4,6 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.toSpannable
 import org.hyperskill.app.android.latex.view.model.LatexData
 import org.hyperskill.app.android.latex.view.model.block.ContentBlock
-import org.hyperskill.app.android.latex.view.model.block.DataMobileHiddenBlock
 import org.hyperskill.app.android.latex.view.model.block.HighlightScriptBlock
 import org.hyperskill.app.android.latex.view.model.block.HorizontalScrollBlock
 import org.hyperskill.app.android.latex.view.model.block.KotlinRunnableSamplesScriptBlock
@@ -21,8 +20,7 @@ class LatexTextMapper(networkEndpointConfigInfo: NetworkEndpointConfigInfo) {
             HighlightScriptBlock(),
             KotlinRunnableSamplesScriptBlock(),
             LatexScriptBlock(),
-            WebScriptBlock(),
-            DataMobileHiddenBlock
+            WebScriptBlock()
         )
 
     private val regularBlocks =
