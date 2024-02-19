@@ -9,7 +9,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class StepReducer(
+internal class StepReducer(
     private val stepRoute: StepRoute,
     private val stepCompletionReducer: StepCompletionReducer
 ) : StateReducer<State, Message, Action> {
@@ -20,7 +20,7 @@ class StepReducer(
                     (message.forceUpdate && (state is State.Data || state is State.Error))
                 ) {
                     State.Loading to setOf(
-                        Action.FetchStep(stepRoute),
+                        StepFeature.InternalAction.FetchStep(stepRoute),
                         Action.ViewStep(stepRoute.stepId, stepRoute.stepContext)
                     )
                 } else {

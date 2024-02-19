@@ -6,7 +6,7 @@ import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 
-interface StepFeature {
+object StepFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -38,7 +38,6 @@ interface StepFeature {
     }
 
     sealed interface Action {
-        data class FetchStep(val stepRoute: StepRoute) : Action
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
         data class ViewStep(val stepId: Long, val stepContext: StepContext) : Action
 
@@ -54,5 +53,9 @@ interface StepFeature {
                 val viewAction: StepCompletionFeature.Action.ViewAction
             ) : ViewAction
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        data class FetchStep(val stepRoute: StepRoute) : InternalAction
     }
 }
