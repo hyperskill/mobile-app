@@ -5,7 +5,7 @@ import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
 import org.hyperskill.app.request_review.presentation.RequestReviewModalViewModel
 
-class PlatformRequestReviewComponentImpl(
+internal class PlatformRequestReviewComponentImpl(
     private val requestReviewComponent: RequestReviewModalComponent
 ) : PlatformRequestReviewComponent {
     override val reduxViewModelFactory: ReduxViewModelFactory
