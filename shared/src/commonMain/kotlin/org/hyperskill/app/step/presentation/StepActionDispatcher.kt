@@ -83,7 +83,7 @@ internal class StepActionDispatcher(
             <p>This program simply prints the phrase "Hello, World!" to the console. Don't worry if it looks a bit cryptic now. We'll dive deeper into its logic during the practice part of this topic.</p>
             <h5 id="conclusion">Conclusion</h5>
             <p>Java is a high-level object-oriented programming language. Its clear syntax, platform independence, and automatic memory management contribute to its popularity. Become a part of the vast Java community by practicing the language basics now. D<span style="font-size: inherit; font-weight: inherit;">on't hesitate to experiment, ask for help if you're stuck, and </span>embrace mistakes as they fuel your learning!<span style="font-size: inherit; font-weight: inherit;"> </span></p>
-        """.trimIndent()
+                    """.trimIndent()
                 )
             )
         } else {
