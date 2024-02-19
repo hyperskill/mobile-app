@@ -28,11 +28,11 @@ internal class StepActionDispatcher(
         when (action) {
             is InternalAction.FetchStep ->
                 handleFetchStepAction(action, ::onNewMessage)
-            is Action.ViewStep ->
+            is InternalAction.ViewStep ->
                 stepInteractor.viewStep(action.stepId, action.stepContext)
-            is Action.UpdateNextLearningActivityState ->
+            is InternalAction.UpdateNextLearningActivityState ->
                 handleUpdateNextLearningActivityStateAction(action)
-            is Action.LogAnalyticEvent ->
+            is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
@@ -92,7 +92,7 @@ internal class StepActionDispatcher(
     }
 
     private suspend fun handleUpdateNextLearningActivityStateAction(
-        action: Action.UpdateNextLearningActivityState
+        action: InternalAction.UpdateNextLearningActivityState
     ) {
         val currentNextLearningActivityState = nextLearningActivityStateRepository
             .getStateWithSource(forceUpdate = false)

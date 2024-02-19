@@ -12,6 +12,7 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepActionDispatcher
 import org.hyperskill.app.step.presentation.StepFeature.Action
+import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.State
 import org.hyperskill.app.step.presentation.StepReducer
@@ -52,7 +53,7 @@ internal object StepFeatureBuilder {
             .wrapWithActionDispatcher(stepActionDispatcher)
             .wrapWithActionDispatcher(
                 stepCompletionActionDispatcher.transform(
-                    transformAction = { it.safeCast<Action.StepCompletionAction>()?.action },
+                    transformAction = { it.safeCast<InternalAction.StepCompletionAction>()?.action },
                     transformMessage = Message::StepCompletionMessage
                 )
             )
