@@ -14,6 +14,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
+import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragment
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.screen.StepScreen
@@ -103,7 +104,12 @@ class StepDelegate<TFragment>(
                                 tag = InterviewPreparationFinishedDialogFragment.TAG
                             )
                     is StepCompletionFeature.Action.ViewAction.ShowRequestUserReviewModal ->
-                        TODO("ALTAPPS-1136: Implement request user review modal")
+                        RequestReviewDialogFragment
+                            .newInstance(stepCompletionAction.stepRoute)
+                            .showIfNotExists(
+                                manager = fragment.childFragmentManager,
+                                tag = RequestReviewDialogFragment.TAG
+                            )
                 }
             }
         }
