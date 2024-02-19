@@ -60,7 +60,7 @@ kotlin {
                 implementation(libs.kit.model)
                 implementation(libs.kotlin.datetime)
                 implementation(libs.kit.presentation.reduxCoroutines)
-                implementation(libs.kermit.common)
+                implementation(libs.kermit)
 
                 api(libs.kit.presentation.redux)
                 api(libs.mokoResources.main)
@@ -90,6 +90,7 @@ kotlin {
                 implementation(libs.android.parcelable)
                 implementation(project.dependencies.platform(libs.firebase.bom))
                 implementation(libs.firebase.messaging)
+                implementation(libs.kermit)
             }
         }
         val androidUnitTest by getting {
