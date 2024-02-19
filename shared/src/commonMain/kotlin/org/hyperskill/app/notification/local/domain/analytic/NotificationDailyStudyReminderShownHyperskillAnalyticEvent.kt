@@ -14,7 +14,7 @@ import ru.nobird.app.core.model.mapOfNotNull
  * JSON payload:
  * ```
  * {
- *     "route": "/home",
+ *     "route": "None",
  *     "action": "shown",
  *     "part": "notification",
  *     "target": "daily_notification",
@@ -28,11 +28,10 @@ import ru.nobird.app.core.model.mapOfNotNull
  * @see HyperskillAnalyticEvent
  */
 class NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute,
     private val notificationId: Int,
     private val plannedAtISO8601: String?
 ) : HyperskillAnalyticEvent(
-    route,
+    HyperskillAnalyticRoute.None,
     HyperskillAnalyticAction.SHOWN,
     HyperskillAnalyticPart.NOTIFICATION,
     HyperskillAnalyticTarget.DAILY_NOTIFICATION

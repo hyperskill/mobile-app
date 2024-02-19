@@ -22,13 +22,6 @@ class OnboardingInteractor(
     fun getProblemsOnboardingFlags(): ProblemsOnboardingFlags =
         onboardingRepository.getProblemsOnboardingFlags()
 
-    fun wasNotificationOnboardingShown(): Boolean =
-        onboardingRepository.wasNotificationOnboardingShown()
-
-    fun setNotificationOnboardingWasShown(wasShown: Boolean) {
-        onboardingRepository.setNotificationOnboardingWasShown(wasShown)
-    }
-
     fun wasFirstProblemOnboardingShown(): Boolean =
         onboardingRepository.wasFirstProblemOnboardingShown()
 

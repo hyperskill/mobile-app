@@ -13,8 +13,15 @@ object RequestReviewModalFeature {
         val title: String,
         val description: String?,
         val positiveButtonText: String,
-        val negativeButtonText: String
-    )
+        val negativeButtonText: String,
+        val state: State
+    ) {
+        enum class State {
+            AWAITING,
+            NEGATIVE,
+            POSITIVE
+        }
+    }
 
     sealed interface Message {
         object PositiveButtonClicked : Message

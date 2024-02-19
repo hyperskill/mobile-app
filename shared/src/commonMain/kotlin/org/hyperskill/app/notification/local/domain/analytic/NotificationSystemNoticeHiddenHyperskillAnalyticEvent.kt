@@ -13,7 +13,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * JSON payload:
  * ```
  * {
- *     "route": "/home",
+ *     "route": "/onboarding/notifications" | "None",
  *     "action": "hidden",
  *     "part": "notifications_system_notice",
  *     "target": "allow / deny"
@@ -22,7 +22,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * @see HyperskillAnalyticEvent
  */
 class NotificationSystemNoticeHiddenHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute,
+    route: HyperskillAnalyticRoute = HyperskillAnalyticRoute.None,
     isAllowed: Boolean
 ) : HyperskillAnalyticEvent(
     route,

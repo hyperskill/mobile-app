@@ -1,7 +1,7 @@
 package org.hyperskill.app.track_selection.list.presentation
 
 import org.hyperskill.app.track.domain.model.TrackWithProgress
-import org.hyperskill.app.track_selection.list.domain.analytic.TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.track_selection.list.domain.analytic.TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.list.domain.analytic.TrackSelectionListTrackClickedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.list.domain.analytic.TrackSelectionListViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
@@ -27,7 +27,7 @@ internal class TrackSelectionListReducer(
                     State.Loading to setOf(
                         InternalAction.FetchTracks,
                         InternalAction.LogAnalyticEvent(
-                            TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent()
+                            TrackSelectionListClickedRetryContentLoadingHyperskillAnalyticEvent
                         )
                     )
                 } else {
@@ -66,9 +66,7 @@ internal class TrackSelectionListReducer(
             }
             is Message.ViewedEventMessage ->
                 state to setOf(
-                    InternalAction.LogAnalyticEvent(
-                        TrackSelectionListViewedHyperskillAnalyticEvent()
-                    )
+                    InternalAction.LogAnalyticEvent(TrackSelectionListViewedHyperskillAnalyticEvent)
                 )
         } ?: (state to emptySet())
 

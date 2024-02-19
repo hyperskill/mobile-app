@@ -1,4 +1,4 @@
-package org.hyperskill.app.first_problem_onboarding.domain.analytic
+package org.hyperskill.app.interview_preparation_onboarding.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,23 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Start/Keep learning" button analytic event.
+ * Represents click on the "Go to first problem" button analytic event.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/onboarding/first_problem",
+ *     "route": "/onboarding/interview-preparation",
  *     "action": "click",
  *     "part": "main",
- *     "target": "start_learning/keep_learning"
+ *     "target": "go_to_first_problem"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-class FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent(
-    target: HyperskillAnalyticTarget
-) : HyperskillAnalyticEvent(
-    route = HyperskillAnalyticRoute.Onboarding.FirstProblem,
+object InterviewPreparationOnboardingGoToProblemClickedAnalyticEvent : HyperskillAnalyticEvent(
+    route = HyperskillAnalyticRoute.Onboarding.InterviewPreparation,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
-    target = target
+    target = HyperskillAnalyticTarget.GO_TO_FIRST_PROBLEM
 )
