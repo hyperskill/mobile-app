@@ -25,6 +25,7 @@ import org.hyperskill.app.project_selection.details.injection.PlatformProjectSel
 import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDetailsParams
 import org.hyperskill.app.project_selection.list.injection.PlatformProjectSelectionListComponent
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams
+import org.hyperskill.app.request_review.injection.PlatformRequestReviewComponent
 import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -105,4 +106,8 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformInterviewPreparationOnboardingComponent(
         stepRoute: StepRoute
     ): PlatformInterviewPreparationOnboardingComponent
+
+    fun buildPlatformRequestReviewComponent(
+        stepRoute: StepRoute
+    ): PlatformRequestReviewComponent
 }
