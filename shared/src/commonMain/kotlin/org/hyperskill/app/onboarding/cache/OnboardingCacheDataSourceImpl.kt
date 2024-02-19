@@ -27,13 +27,6 @@ internal class OnboardingCacheDataSourceImpl(
         settings.putBoolean(OnboardingCacheKeyValues.IS_FILL_BLANKS_SELECT_MODE_ONBOARDING_SHOWN, isShown)
     }
 
-    override fun wasNotificationOnboardingShown(): Boolean =
-        settings.getBoolean(OnboardingCacheKeyValues.IS_NOTIFICATIONS_ONBOARDING_SHOWN, defaultValue = false)
-
-    override fun setNotificationOnboardingWasShown(wasShown: Boolean) {
-        settings.putBoolean(OnboardingCacheKeyValues.IS_NOTIFICATIONS_ONBOARDING_SHOWN, wasShown)
-    }
-
     override fun wasFirstProblemOnboardingShown(): Boolean =
         settings.getBoolean(OnboardingCacheKeyValues.IS_FIRST_PROBLEM_ONBOARDING_SHOWN, defaultValue = false)
 

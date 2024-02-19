@@ -1,8 +1,8 @@
 package org.hyperskill.app.first_problem_onboarding.presentation
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent
-import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingViewedHyperskillAnalyticsEvent
+import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent
+import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingViewedHyperskillAnalyticEvent
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.InternalAction
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Message
@@ -126,7 +126,7 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
                     state.nextLearningActivityState is NextLearningActivityState.Loading
             ) to actions + setOf(
                 InternalAction.LogAnalyticEvent(
-                    FirstProblemOnboardingClickedLearningActionHyperskillAnalyticsEvent(
+                    FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent(
                         if (state.isNewUserMode) {
                             HyperskillAnalyticTarget.START_LEARNING
                         } else {
@@ -142,7 +142,7 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
     private fun handleViewedEvent(state: State): FirstProblemOnboardingReducerResult =
         state to setOf(
             InternalAction.SetFirstProblemOnboardingShownFlag,
-            InternalAction.LogAnalyticEvent(FirstProblemOnboardingViewedHyperskillAnalyticsEvent)
+            InternalAction.LogAnalyticEvent(FirstProblemOnboardingViewedHyperskillAnalyticEvent)
         )
 
     private fun getNavigateActionByLearningActivity(learningActivity: LearningActivity?) =

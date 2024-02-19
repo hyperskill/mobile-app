@@ -7,16 +7,13 @@ import org.hyperskill.app.profile.data.repository.CurrentProfileStateRepositoryI
 import org.hyperskill.app.profile.data.repository.ProfileRepositoryImpl
 import org.hyperskill.app.profile.data.source.CurrentProfileStateHolder
 import org.hyperskill.app.profile.data.source.ProfileRemoteDataSource
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.profile.remote.ProfileRemoteDataSourceImpl
-import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 
-class ProfileDataComponentImpl(
+internal class ProfileDataComponentImpl(
     networkComponent: NetworkComponent,
-    commonComponent: CommonComponent,
-    private val submissionDataComponent: SubmissionDataComponent
+    commonComponent: CommonComponent
 ) : ProfileDataComponent {
 
     private val profileRemoteDataSource: ProfileRemoteDataSource by lazy {
@@ -41,9 +38,4 @@ class ProfileDataComponentImpl(
             stateHolder = currentProfileStateHolder
         )
     }
-
-    override val profileInteractor: ProfileInteractor
-        get() = ProfileInteractor(
-            submissionDataComponent.submissionRepository
-        )
 }

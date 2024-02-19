@@ -28,13 +28,6 @@ internal class OnboardingRepositoryImpl(
         onboardingCacheDataSource.setFillBlanksSelectModeOnboardingShown(isShown)
     }
 
-    override fun wasNotificationOnboardingShown(): Boolean =
-        onboardingCacheDataSource.wasNotificationOnboardingShown()
-
-    override fun setNotificationOnboardingWasShown(wasShown: Boolean) {
-        onboardingCacheDataSource.setNotificationOnboardingWasShown(wasShown)
-    }
-
     override fun wasFirstProblemOnboardingShown(): Boolean =
         onboardingCacheDataSource.wasFirstProblemOnboardingShown()
 

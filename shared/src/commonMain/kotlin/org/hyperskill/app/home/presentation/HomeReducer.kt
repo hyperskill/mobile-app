@@ -157,7 +157,7 @@ internal class HomeReducer(
             is Message.ClickedProblemOfDayCardReload -> {
                 if (state.homeState is HomeState.Content) {
                     val (newState, newActions) = initialize(state, forceUpdate = true)
-                    val analyticsEvent = when (state.homeState.problemOfDayState) {
+                    val analyticEvent = when (state.homeState.problemOfDayState) {
                         HomeFeature.ProblemOfDayState.Empty -> null
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                             HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent(
@@ -170,8 +170,8 @@ internal class HomeReducer(
                             )
                         }
                     }
-                    val logEventAction = if (analyticsEvent != null) {
-                        setOf(InternalAction.LogAnalyticEvent(analyticsEvent))
+                    val logEventAction = if (analyticEvent != null) {
+                        setOf(InternalAction.LogAnalyticEvent(analyticEvent))
                     } else {
                         emptySet()
                     }

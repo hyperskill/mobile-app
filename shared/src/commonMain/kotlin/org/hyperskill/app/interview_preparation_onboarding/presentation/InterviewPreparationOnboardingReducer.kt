@@ -1,7 +1,7 @@
 package org.hyperskill.app.interview_preparation_onboarding.presentation
 
-import org.hyperskill.app.interview_preparation_onboarding.domain.analytic.InterviewPreparationOnboardingGoToProblemClickedAnalyticsEvent
-import org.hyperskill.app.interview_preparation_onboarding.domain.analytic.InterviewPreparationOnboardingViewedAnalyticsEvent
+import org.hyperskill.app.interview_preparation_onboarding.domain.analytic.InterviewPreparationOnboardingGoToProblemClickedAnalyticEvent
+import org.hyperskill.app.interview_preparation_onboarding.domain.analytic.InterviewPreparationOnboardingViewedAnalyticEvent
 import org.hyperskill.app.interview_preparation_onboarding.presentation.InterviewPreparationOnboardingFeature.Action
 import org.hyperskill.app.interview_preparation_onboarding.presentation.InterviewPreparationOnboardingFeature.InternalAction
 import org.hyperskill.app.interview_preparation_onboarding.presentation.InterviewPreparationOnboardingFeature.Message
@@ -19,14 +19,14 @@ internal class InterviewPreparationOnboardingReducer : StateReducer<State, Messa
             Message.ViewedEventMessage ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        InterviewPreparationOnboardingViewedAnalyticsEvent
+                        InterviewPreparationOnboardingViewedAnalyticEvent
                     ),
                     InternalAction.MarkOnboardingAsViewed
                 )
             Message.GoToFirstProblemClicked ->
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
-                        InterviewPreparationOnboardingGoToProblemClickedAnalyticsEvent
+                        InterviewPreparationOnboardingGoToProblemClickedAnalyticEvent
                     ),
                     Action.ViewAction.NavigateTo.StepScreen(state.stepRoute)
                 )

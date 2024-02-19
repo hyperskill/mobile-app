@@ -1,4 +1,4 @@
-package org.hyperskill.app.track_selection.details.domain.analytic
+package org.hyperskill.app.interview_preparation.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,25 +7,23 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents an analytic event for clicking on a retry button in the tracks-list.
+ * Represents an analytic event for clicking on a retry button in the interview preparation widget.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/tracks/1",
+ *     "route": "/home",
  *     "action": "click",
- *     "part": "main",
- *     "target": "retry",
+ *     "part": "interview_preparation_widget",
+ *     "target": "retry"
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-class TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent(
-    trackId: Long
-) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Tracks.Details(trackId),
+object InterviewPreparationWidgetClickedRetryContentLoadingHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.Home(),
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
+    HyperskillAnalyticPart.INTERVIEW_PREPARATION_WIDGET,
     HyperskillAnalyticTarget.RETRY
 )
