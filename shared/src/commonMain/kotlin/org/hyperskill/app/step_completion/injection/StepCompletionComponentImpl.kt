@@ -34,7 +34,6 @@ internal class StepCompletionComponentImpl(
             dailyStepCompletedFlow = appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             topicProgressFlow = appGraph.progressesFlowDataComponent.topicProgressFlow,
-            interviewStepsStateRepository = appGraph.stateRepositoriesComponent.interviewStepsStateRepository,
-            platform = appGraph.commonComponent.platform
+            interviewStepsStateRepository = appGraph.stateRepositoriesComponent.interviewStepsStateRepository
         )
 }

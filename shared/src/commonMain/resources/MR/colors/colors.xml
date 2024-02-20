@@ -308,4 +308,9 @@
         <light>#FFFFFF</light>
         <dark>#1F2427</dark>
     </color>
+
+    <color name="layer_active_2">
+        <light>#C1C7CD</light>
+        <dark>#697077</dark>
+    </color>
 </resources>
