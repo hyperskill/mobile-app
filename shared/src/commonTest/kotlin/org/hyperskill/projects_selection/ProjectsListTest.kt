@@ -9,7 +9,7 @@ import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.NumbersFormatter
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.project_selection.list.domain.analytic.ProjectSelectionListClickedProjectHyperskillAnalyticsEvent
+import org.hyperskill.app.project_selection.list.domain.analytic.ProjectSelectionListClickedProjectHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.ContentState
@@ -182,7 +182,7 @@ class ProjectsListTest {
         assertTrue {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
-                    it.analyticEvent is ProjectSelectionListClickedProjectHyperskillAnalyticsEvent &&
+                    it.analyticEvent is ProjectSelectionListClickedProjectHyperskillAnalyticEvent &&
                     it.analyticEvent.projectId == projectId &&
                     it.analyticEvent.trackId == trackId
             }

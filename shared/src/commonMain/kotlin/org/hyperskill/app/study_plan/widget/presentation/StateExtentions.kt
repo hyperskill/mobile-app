@@ -10,7 +10,7 @@ import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
  *
  * `studyPlanSections` map preserves the entry iteration order, so we can use the first element as the current section.
  *
- * @see StudyPlanWidgetReducer.handleSectionsFetchSuccess
+ * @see StudyPlanWidgetReducer.handleLearningActivitiesWithSectionsFetchSuccess
  */
 internal fun StudyPlanWidgetFeature.State.getCurrentSection(): StudyPlanSection? =
     studyPlanSections.values.firstOrNull()?.studyPlanSection

@@ -7,7 +7,7 @@ import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.repository.StepRepository
 import org.hyperskill.app.step.remote.StepRemoteDataSourceImpl
 
-class StepDataComponentImpl(appGraph: AppGraph) : StepDataComponent {
+internal class StepDataComponentImpl(appGraph: AppGraph) : StepDataComponent {
     private val stepRemoteDataSource: StepRemoteDataSource =
         StepRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
 

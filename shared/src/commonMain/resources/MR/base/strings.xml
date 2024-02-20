@@ -566,8 +566,10 @@
 
     <!-- Request review modal -->
     <string name="request_review_modal_state_awaiting_title">Do you enjoy\n%s app?</string>
-    <string name="request_review_modal_state_awaiting_positive_button_text">Yes</string>
-    <string name="request_review_modal_state_awaiting_negative_button_text">No</string>
+    <string name="request_review_modal_state_awaiting_positive_button_text_android">\u1F44D Yes</string>
+    <string name="request_review_modal_state_awaiting_negative_button_text_android">\u1F44E No</string>
+    <string name="request_review_modal_state_awaiting_positive_button_text_ios">👍 Yes</string>
+    <string name="request_review_modal_state_awaiting_negative_button_text_ios">👎 No</string>
 
     <string name="request_review_modal_state_negative_title">Thank you!</string>
     <string name="request_review_modal_state_negative_description">Share what you disliked to help us improve your experience.</string>

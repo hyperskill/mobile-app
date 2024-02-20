@@ -9,4 +9,5 @@ internal object FeatureKeys {
     const val MOBILE_LEADERBOARDS = "mobile_leaderboards"
     const val MOBILE_INTERVIEW_PREPARATION = "mobile.interview_preparation"
     const val MOBILE_USERS_QUESTIONNAIRE = "mobile.users_questionnaire"
+    const val MOBILE_SHORT_THEORY = "mobile.short_theory"
 }

@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.badges.domain.model.BadgeKind
 
 /**
- * Represents a hidden analytic event of the earned badge modal analytics event.
+ * Represents a hidden analytic event of the badge detailed modal in profile analytic event.
  *
  * JSON payload:
  * ```
@@ -16,7 +16,7 @@ import org.hyperskill.app.badges.domain.model.BadgeKind
  *     "route": "/profile",
  *     "action": "hidden",
  *     "part": "modal",
- *     "target": "earned_badge_modal",
+ *     "target": "badge_modal",
  *     "context": {
  *         "badge_kind": "Project Mastery"
  *     }
@@ -24,13 +24,13 @@ import org.hyperskill.app.badges.domain.model.BadgeKind
  * ```
  * @see HyperskillAnalyticEvent
  */
-class EarnedBadgeModalHiddenHyperskillAnalyticsEvent(
+class ProfileBadgeModalHiddenHyperskillAnalyticEvent(
     private val badgeKind: BadgeKind
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Profile(),
     HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.EARNED_BADGE_MODAL
+    HyperskillAnalyticTarget.BADGE_MODAL
 ) {
     override val params: Map<String, Any>
         get() = super.params + mapOf(

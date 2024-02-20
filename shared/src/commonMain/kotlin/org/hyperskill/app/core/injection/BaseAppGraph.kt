@@ -211,8 +211,7 @@ abstract class BaseAppGraph : AppGraph {
     override val profileDataComponent: ProfileDataComponent by lazy {
         ProfileDataComponentImpl(
             networkComponent = networkComponent,
-            commonComponent = commonComponent,
-            submissionDataComponent = submissionDataComponent
+            commonComponent = commonComponent
         )
     }
 

@@ -13,7 +13,7 @@ internal class InterviewPreparationOnboardingComponentImpl(
     override fun interviewPreparationOnboardingFeature(stepRoute: StepRoute): Feature<State, Message, Action> =
         InterviewPreparationOnboardingFeatureBuilder.build(
             stepRoute = stepRoute,
-            analyticsInteractor = appGraph.analyticComponent.analyticInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
