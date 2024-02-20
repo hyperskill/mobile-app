@@ -614,4 +614,13 @@ enum Strings {
 
         static let placeholderErrorDescription = sharedStrings.search_placeholder_error_description.localized()
     }
+
+    // MARK: - Questionnaire Onboarding -
+
+    enum QuestionnaireOnboarding {
+        static let textInputPlaceholder = sharedStrings.questionnaire_onboarding_text_input_placeholder.localized()
+
+        static let sendButtot = sharedStrings.questionnaire_onboarding_send_button_text.localized()
+        static let skipButton = sharedStrings.questionnaire_onboarding_skip_button_text.localized()
+    }
 }

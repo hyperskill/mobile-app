@@ -82,6 +82,9 @@
 		2C186ADB2B46989700DADB26 /* TopicsRepetitionsCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186ADA2B46989700DADB26 /* TopicsRepetitionsCountView.swift */; };
 		2C186ADD2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186ADC2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift */; };
 		2C186ADF2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C186ADE2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift */; };
+		2C195D042B8467EA0076B2C8 /* QuestionnaireOnboardingContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C195D032B8467EA0076B2C8 /* QuestionnaireOnboardingContentView.swift */; };
+		2C195D062B8482840076B2C8 /* QuestionnaireOnboardingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C195D052B8482840076B2C8 /* QuestionnaireOnboardingFooterView.swift */; };
+		2C195D092B84863F0076B2C8 /* QuestionnaireOnboardingChoicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C195D082B84863F0076B2C8 /* QuestionnaireOnboardingChoicesView.swift */; };
 		2C198DFE2AEA444100DCD35A /* FillBlanksSelectContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198DFD2AEA444100DCD35A /* FillBlanksSelectContainerView.swift */; };
 		2C198E012AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E002AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift */; };
 		2C198E032AEA869300DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E022AEA869300DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCell.swift */; };
@@ -766,6 +769,9 @@
 		2C186ADA2B46989700DADB26 /* TopicsRepetitionsCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCountView.swift; sourceTree = "<group>"; };
 		2C186ADC2B46A08E00DADB26 /* InterviewPreparationCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewPreparationCompletedModalViewController.swift; sourceTree = "<group>"; };
 		2C186ADE2B46A0A300DADB26 /* InterviewPreparationCompletedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterviewPreparationCompletedModalView.swift; sourceTree = "<group>"; };
+		2C195D032B8467EA0076B2C8 /* QuestionnaireOnboardingContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingContentView.swift; sourceTree = "<group>"; };
+		2C195D052B8482840076B2C8 /* QuestionnaireOnboardingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingFooterView.swift; sourceTree = "<group>"; };
+		2C195D082B84863F0076B2C8 /* QuestionnaireOnboardingChoicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingChoicesView.swift; sourceTree = "<group>"; };
 		2C198DFD2AEA444100DCD35A /* FillBlanksSelectContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksSelectContainerView.swift; sourceTree = "<group>"; };
 		2C198E002AEA835F00DCD35A /* StepQuizFillBlanksSelectOptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsView.swift; sourceTree = "<group>"; };
 		2C198E022AEA869300DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1662,6 +1668,16 @@
 			path = InterviewPreparationCompleted;
 			sourceTree = "<group>";
 		};
+		2C195D072B8483EA0076B2C8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C195D082B84863F0076B2C8 /* QuestionnaireOnboardingChoicesView.swift */,
+				2C195D032B8467EA0076B2C8 /* QuestionnaireOnboardingContentView.swift */,
+				2C195D052B8482840076B2C8 /* QuestionnaireOnboardingFooterView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2C198DFC2AEA441E00DCD35A /* Select */ = {
 			isa = PBXGroup;
 			children = (
@@ -1725,6 +1741,7 @@
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
 				69443CBBFA46C4A121EA173F /* ProgressScreen */,
 				2C5CA2452A203C4500DBF2F9 /* ProjectSelection */,
+				C054D95AE78230BD225678B6 /* QuestionnaireOnboarding */,
 				9C3B04E6CBDCDDFE888D5DAF /* RequestReview */,
 				3C00014807122833363E303F /* Search */,
 				2C9E5E8229B211DD003AEC16 /* StageImplement */,
@@ -3759,6 +3776,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C054D95AE78230BD225678B6 /* QuestionnaireOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2C195D072B8483EA0076B2C8 /* Views */,
+			);
+			path = QuestionnaireOnboarding;
+			sourceTree = "<group>";
+		};
 		E6992F3BBF430924F32DC178 /* Leaderboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -4649,6 +4674,7 @@
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */,
 				2CFD32462AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift in Sources */,
+				2C195D042B8467EA0076B2C8 /* QuestionnaireOnboardingContentView.swift in Sources */,
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
 				2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */,
 				2CAF254C2AB9C2E500595582 /* ShineEffect.swift in Sources */,
@@ -4780,6 +4806,7 @@
 				E900D10328434E0D00A77BBC /* StepQuizSortingItemView.swift in Sources */,
 				2C54E42F2A1FAA88003406B9 /* TrackSelectionDetailsProvidersView.swift in Sources */,
 				E996D41029221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift in Sources */,
+				2C195D092B84863F0076B2C8 /* QuestionnaireOnboardingChoicesView.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				E9A22BA0295081BD001700B7 /* StreakFreezeModalViewController.swift in Sources */,
 				2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */,
@@ -4989,6 +5016,7 @@
 				043790C380B462AFEB2B13BC /* LeaderboardAssembly.swift in Sources */,
 				BAEC674E5161E8C7A10ADAAB /* LeaderboardView.swift in Sources */,
 				60B4F143CF507F83C9581020 /* LeaderboardViewModel.swift in Sources */,
+				2C195D062B8482840076B2C8 /* QuestionnaireOnboardingFooterView.swift in Sources */,
 				8E154CD6AF7D45A2CA013F85 /* SearchAssembly.swift in Sources */,
 				7A628C36D862C98ED2046D4F /* SearchView.swift in Sources */,
 				ED49113F88FF32AAFE6AFFBC /* SearchViewModel.swift in Sources */,
