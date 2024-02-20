@@ -29,6 +29,8 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.coroutines.android)
 
+    implementation(libs.kermit)
+
     implementation(libs.kit.view.ui)
     implementation(libs.kit.view.injection)
     implementation(libs.kit.view.redux)
@@ -40,6 +42,8 @@ dependencies {
     implementation(libs.gms.play.login)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
+
+    implementation(libs.google.play.review)
 
     implementation(libs.viewbinding)
     implementation(libs.kit.ui.adapters)

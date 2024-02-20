@@ -247,7 +247,6 @@
     <string name="settings_send_feedback">Send feedback</string>
     <string name="settings_send_feedback_support_email">academy@jetbrains.com</string>
     <string name="settings_version">Version</string>
-    <string name="settings_rate_application">Rate this application</string>
     <string name="settings_sign_out">Sign out</string>
     <string name="settings_sign_out_dialog_title">Please confirm</string>
     <string name="settings_sign_out_dialog_explanation">Are you sure you want to sign out?</string>
@@ -260,6 +259,8 @@
     <string name="settings_report_problem_url">https://support.hyperskill.org/hc/en-us/requests/new</string>
     <string name="settings_rate_in_app_store">Rate us in the App Store</string>
     <string name="settings_rate_in_app_store_url">https://apps.apple.com/app/id1637230833?action=write-review</string>
+    <string name="settings_rate_in_google_play">Rate us on the Play Store</string>
+    <string name="settings_rate_in_google_play_url">https://play.google.com/store/apps/details?id=org.hyperskill.app.android</string>
 
     <!-- Leaderboard -->
     <string name="leaderboard_title">Leaderboard</string>
@@ -563,10 +564,8 @@
 
     <!-- Request review modal -->
     <string name="request_review_modal_state_awaiting_title">Do you enjoy\n%s app?</string>
-    <string name="request_review_modal_state_awaiting_positive_button_text_android">\u1F44D Yes</string>
-    <string name="request_review_modal_state_awaiting_negative_button_text_android">\u1F44E No</string>
-    <string name="request_review_modal_state_awaiting_positive_button_text_ios">👍 Yes</string>
-    <string name="request_review_modal_state_awaiting_negative_button_text_ios">👎 No</string>
+    <string name="request_review_modal_state_awaiting_positive_button_text">👍 Yes</string>
+    <string name="request_review_modal_state_awaiting_negative_button_text">👎 No</string>
 
     <string name="request_review_modal_state_negative_title">Thank you!</string>
     <string name="request_review_modal_state_negative_description">Share what you disliked to help us improve your experience.</string>
