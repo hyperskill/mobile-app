@@ -6,11 +6,13 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepActionDispatcher
 import org.hyperskill.app.step.presentation.StepFeature.Action
+import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.State
 import org.hyperskill.app.step.presentation.StepReducer
@@ -22,13 +24,14 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object StepFeatureBuilder {
+internal object StepFeatureBuilder {
     private const val LOG_TAG = "StepFeature"
 
     fun build(
         stepRoute: StepRoute,
         stepInteractor: StepInteractor,
         nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+        currentProfileStateRepository: CurrentProfileStateRepository,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         stepCompletionReducer: StepCompletionReducer,
@@ -38,18 +41,19 @@ object StepFeatureBuilder {
     ): Feature<State, Message, Action> {
         val stepReducer = StepReducer(stepRoute, stepCompletionReducer).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val stepActionDispatcher = StepActionDispatcher(
-            ActionDispatcherOptions(),
-            stepInteractor,
-            nextLearningActivityStateRepository,
-            analyticInteractor,
-            sentryInteractor
+            config = ActionDispatcherOptions(),
+            stepInteractor = stepInteractor,
+            nextLearningActivityStateRepository = nextLearningActivityStateRepository,
+            currentProfileStateRepository = currentProfileStateRepository,
+            analyticInteractor = analyticInteractor,
+            sentryInteractor = sentryInteractor
         )
 
         return ReduxFeature(State.Idle, stepReducer)
             .wrapWithActionDispatcher(stepActionDispatcher)
             .wrapWithActionDispatcher(
                 stepCompletionActionDispatcher.transform(
-                    transformAction = { it.safeCast<Action.StepCompletionAction>()?.action },
+                    transformAction = { it.safeCast<InternalAction.StepCompletionAction>()?.action },
                     transformMessage = Message::StepCompletionMessage
                 )
             )
