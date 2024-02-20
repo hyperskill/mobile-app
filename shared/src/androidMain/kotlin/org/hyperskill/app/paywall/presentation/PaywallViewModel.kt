@@ -31,4 +31,8 @@ class PaywallViewModel(
     fun onRetryLoadingClicked() {
         onNewMessage(Message.RetryContentLoading)
     }
+
+    fun onTermsOfServiceClick() {
+        onNewMessage(Message.ClickedTermsOfServiceAndPrivacyPolicy)
+    }
 }
