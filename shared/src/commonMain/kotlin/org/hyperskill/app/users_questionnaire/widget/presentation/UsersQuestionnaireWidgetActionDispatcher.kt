@@ -39,6 +39,8 @@ class UsersQuestionnaireWidgetActionDispatcher(
         when (action) {
             InternalAction.FetchUsersQuestionnaireWidgetData ->
                 handleFetchUsersQuestionnaireWidgetDataAction(::onNewMessage)
+            InternalAction.FetchUsersQuestionnaireUrl ->
+                handleFetchUsersQuestionnaireUrlAction(::onNewMessage)
             InternalAction.HideUsersQuestionnaireWidget ->
                 usersQuestionnaireRepository.setIsUsersQuestionnaireWidgetHidden(true)
             is InternalAction.LogAnalyticEvent ->
@@ -59,6 +61,19 @@ class UsersQuestionnaireWidgetActionDispatcher(
             InternalMessage.FetchUsersQuestionnaireWidgetDataResult(
                 isUsersQuestionnaireEnabled = isMobileUsersQuestionnaireEnabled,
                 isUsersQuestionnaireWidgetHidden = usersQuestionnaireRepository.getIsUsersQuestionnaireWidgetHidden()
+            )
+        )
+    }
+
+    private suspend fun handleFetchUsersQuestionnaireUrlAction(onNewMessage: (Message) -> Unit) {
+        val currentUserId = currentProfileStateRepository
+            .getState(forceUpdate = false)
+            .map { it.id }
+            .getOrNull() ?: return
+
+        onNewMessage(
+            InternalMessage.FetchUsersQuestionnaireUrlResult(
+                "https://docs.google.com/forms/d/e/1FAIpQLSf6k3woOqZr2zfmbBNvA71DyD04LN4v7l6k-vuyqdAmdMUnOA/viewform?usp=pp_url&entry.193481738=$currentUserId"
             )
         )
     }

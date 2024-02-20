@@ -28,6 +28,10 @@ object UsersQuestionnaireWidgetFeature {
         data class UsersQuestionnaireFeatureFlagChanged(
             val isUsersQuestionnaireEnabled: Boolean
         ) : InternalMessage
+
+        data class FetchUsersQuestionnaireUrlResult(
+            val url: String
+        ) : InternalMessage
     }
 
     sealed interface Action {
@@ -38,6 +42,8 @@ object UsersQuestionnaireWidgetFeature {
 
     internal sealed interface InternalAction : Action {
         object FetchUsersQuestionnaireWidgetData : InternalAction
+
+        object FetchUsersQuestionnaireUrl : InternalAction
 
         object HideUsersQuestionnaireWidget : InternalAction
 
