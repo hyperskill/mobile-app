@@ -1,12 +1,15 @@
 package org.hyperskill.app.main.presentation
 
 import co.touchlab.kermit.Logger
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
+import kotlinx.datetime.Clock
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
@@ -26,9 +29,12 @@ import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcr
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.subscriptions.domain.model.isValidTillPassed
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
+@OptIn(FlowPreview::class)
 internal class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val appInteractor: AppInteractor,
@@ -102,8 +108,7 @@ internal class AppActionDispatcher(
         action: Action.FetchAppStartupConfig,
         onNewMessage: (Message) -> Unit
     ) {
-        val isAuthorized = authInteractor.isAuthorized()
-            .getOrDefault(false)
+        val isAuthorized = isUserAuthorized()
 
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading(isAuthorized),
@@ -133,6 +138,9 @@ internal class AppActionDispatcher(
         }.let(onNewMessage)
     }
 
+    private suspend fun isUserAuthorized(): Boolean =
+        authInteractor.isAuthorized().getOrDefault(false)
+
     // TODO: Move this logic to reducer
     private suspend fun fetchProfile(isAuthorized: Boolean): Result<Profile> =
         if (isAuthorized) {
@@ -159,14 +167,60 @@ internal class AppActionDispatcher(
     private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
         if (isAuthorized && isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
-                .getState()
-                .onFailure { e ->
-                    logger.e(e) { "Failed to fetch subscription" }
-                }
-                .getOrNull()
+                .getStateWithSource(forceUpdate = false)
+                .fold(
+                    onSuccess = { (subscription, usedDataSourceType) ->
+                        // Fetch subscription from remote
+                        // if the user has the mobile-only subscription
+                        // and its valid time is passed
+                        val shouldFetchSubscriptionFromRemote =
+                            usedDataSourceType == DataSourceType.CACHE &&
+                                subscription.type == SubscriptionType.MOBILE_ONLY &&
+                                subscription.isValidTillPassed
+                        if (shouldFetchSubscriptionFromRemote) {
+                            currentSubscriptionStateRepository
+                                .getState(forceUpdate = true)
+                                .getOrNull()
+                        } else {
+                            subscription
+                        }
+                    },
+                    onFailure = {
+                        currentSubscriptionStateRepository
+                            .getState(forceUpdate = true)
+                            .onFailure { e ->
+                                logger.e(e) { "Failed to fetch subscription" }
+                            }
+                            .getOrNull()
+                    }
+                )
         } else {
             null
         }
+
+    private suspend fun handleSubscribeOnMobileOnlySubscriptionExpiration() {
+
+    }
+
+    private suspend fun refreshMobileOnlySubscriptionOnExpiration(
+        subscription: Subscription,
+        onNewMessage: (Message) -> Unit
+    ) {
+        if (subscription.type == SubscriptionType.MOBILE_ONLY && subscription.validTill != null) {
+            val delayTill = Clock.System.now() - subscription.validTill
+            delay(delayTill)
+            if (isUserAuthorized()) {
+                val freshSubscription =
+                    currentSubscriptionStateRepository
+                        .getState(forceUpdate = true)
+                        .map { it.type }
+                        .onFailure { e ->
+                            logger.e(e) { "Failed to refresh subscription" }
+                        }
+
+            }
+        }
+    }
 
     private suspend fun handleUpdateDailyLearningNotificationTime() {
         notificationsInteractor

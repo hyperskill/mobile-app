@@ -1,5 +1,6 @@
 package org.hyperskill.app.subscriptions.domain.model
 
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -36,3 +37,10 @@ internal val Subscription.isProblemLimitReached: Boolean
 
 internal val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM
+
+internal val Subscription.isValidTillPassed: Boolean
+    get() = if (validTill != null ) {
+        validTill < Clock.System.now()
+    } else {
+        false
+    }
