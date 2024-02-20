@@ -73,7 +73,7 @@ class UsersQuestionnaireWidgetActionDispatcher(
 
         onNewMessage(
             InternalMessage.FetchUsersQuestionnaireUrlResult(
-                "https://docs.google.com/forms/d/e/1FAIpQLSf6k3woOqZr2zfmbBNvA71DyD04LN4v7l6k-vuyqdAmdMUnOA/viewform?usp=pp_url&entry.193481738=$currentUserId"
+                "https://docs.google.com/forms/d/e/1FAIpQLSf6k3woOqZr2zfmbBNvA71DyD04LN4v7l6k-vuyqdAmdMUnOA/viewform?usp=pp_url&entry.193481738=$currentUserId" // ktlint-disable
             )
         )
     }
