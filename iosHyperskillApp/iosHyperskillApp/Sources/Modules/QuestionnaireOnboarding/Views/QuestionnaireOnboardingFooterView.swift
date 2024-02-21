@@ -11,7 +11,7 @@ struct QuestionnaireOnboardingFooterView: View {
 
     private let feedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
-    let isSendButtotDisabled: Bool
+    let isSendButtonEnabled: Bool
 
     let onSendButtotTap: () -> Void
     let onSkipButtotTap: () -> Void
@@ -35,8 +35,8 @@ struct QuestionnaireOnboardingFooterView: View {
                 }
             )
             .buttonStyle(.primary)
-            .shineEffect(isActive: !isSendButtotDisabled)
-            .disabled(isSendButtotDisabled)
+            .shineEffect(isActive: isSendButtonEnabled)
+            .disabled(!isSendButtonEnabled)
 
             Button(
                 Strings.QuestionnaireOnboarding.skipButton,
@@ -53,13 +53,13 @@ struct QuestionnaireOnboardingFooterView: View {
 #Preview {
     VStack {
         QuestionnaireOnboardingFooterView(
-            isSendButtotDisabled: false,
+            isSendButtonEnabled: true,
             onSendButtotTap: {},
             onSkipButtotTap: {}
         )
 
         QuestionnaireOnboardingFooterView(
-            isSendButtotDisabled: true,
+            isSendButtonEnabled: false,
             onSendButtotTap: {},
             onSkipButtotTap: {}
         )

@@ -15,9 +15,16 @@ struct QuestionnaireOnboardingContentView: View {
 
     let choices: [String]
     let selectedChoice: String?
+    let onChoiceTap: (String) -> Void
 
     var textInputValue: Binding<String>
     let isTextInputVisible: Bool
+
+    let isSendButtonEnabled: Bool
+    let onSendButtotTap: () -> Void
+    let onSkipButtotTap: () -> Void
+
+    let isKeyboardVisible: Bool
 
     var body: some View {
         ScrollView {
@@ -31,25 +38,19 @@ struct QuestionnaireOnboardingContentView: View {
                     appearance: .init(spacing: Appearance.interitemSpacing),
                     choices: choices,
                     selectedChoice: selectedChoice,
-                    onTap: { _ in }
+                    onTap: onChoiceTap
                 )
                 .padding(.vertical)
 
                 if isTextInputVisible {
                     textInput
+                        .animation(nil)
                 }
             }
             .padding()
         }
         .scrollBounceBehaviorBasedOnSize()
-        .safeAreaInsetBottomCompatibility(
-            QuestionnaireOnboardingFooterView(
-                appearance: .init(spacing: Appearance.interitemSpacing),
-                isSendButtotDisabled: false,
-                onSendButtotTap: {},
-                onSkipButtotTap: {}
-            )
-        )
+        .safeAreaInsetBottomCompatibility(footerView)
     }
 
     private var textInput: some View {
@@ -57,6 +58,8 @@ struct QuestionnaireOnboardingContentView: View {
             .foregroundColor(.newPrimaryText)
             .font(.body)
             .multilineTextAlignment(.leading)
+            .keyboardType(.asciiCapable)
+            .disableAutocorrection(true)
             .frame(height: Appearance.textInputHeight)
             .frame(maxWidth: .infinity)
             .padding(LayoutInsets.small.edgeInsets)
@@ -71,6 +74,19 @@ struct QuestionnaireOnboardingContentView: View {
                 alignment: .topLeading
             )
             .addBorder()
+    }
+
+    @ViewBuilder private var footerView: some View {
+        if isKeyboardVisible {
+            EmptyView()
+        } else {
+            QuestionnaireOnboardingFooterView(
+                appearance: .init(spacing: Appearance.interitemSpacing),
+                isSendButtonEnabled: isSendButtonEnabled,
+                onSendButtotTap: onSendButtotTap,
+                onSkipButtotTap: onSkipButtotTap
+            )
+        }
     }
 }
 
@@ -94,8 +110,13 @@ enum QuestionnaireOnboardingPreviewDefaults {
         title: QuestionnaireOnboardingPreviewDefaults.title,
         choices: QuestionnaireOnboardingPreviewDefaults.choices,
         selectedChoice: nil,
+        onChoiceTap: { _ in },
         textInputValue: .constant(""),
-        isTextInputVisible: false
+        isTextInputVisible: false,
+        isSendButtonEnabled: false,
+        onSendButtotTap: {},
+        onSkipButtotTap: {}, 
+        isKeyboardVisible: false
     )
 }
 
@@ -104,8 +125,13 @@ enum QuestionnaireOnboardingPreviewDefaults {
         title: QuestionnaireOnboardingPreviewDefaults.title,
         choices: QuestionnaireOnboardingPreviewDefaults.choices,
         selectedChoice: QuestionnaireOnboardingPreviewDefaults.choices.last,
+        onChoiceTap: { _ in },
         textInputValue: .constant(""),
-        isTextInputVisible: true
+        isTextInputVisible: true,
+        isSendButtonEnabled: false,
+        onSendButtotTap: {},
+        onSkipButtotTap: {},
+        isKeyboardVisible: false
     )
 }
 #endif

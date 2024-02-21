@@ -12,8 +12,10 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		0809817CFCC9D4C45457B3C8 /* ProgressScreenAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AACF19B25D42FD4AE322D5A /* ProgressScreenAssembly.swift */; };
+		09A3FA31C3ABC65467D36662 /* QuestionnaireOnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80660C909D729D12FEAB845 /* QuestionnaireOnboardingAssembly.swift */; };
 		0C3BB55AA2B8FB7F5ED9CADB /* InterviewPreparationOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A7D7125CEB88C2B8E29ABBB /* InterviewPreparationOnboardingView.swift */; };
 		0F98394636E12DEC98B7953A /* RequestReviewModalAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FF61AAE06DC019B8C49543C /* RequestReviewModalAssembly.swift */; };
+		1CAC118437C9C9910D39009E /* QuestionnaireOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5774D657D505A3A80A7B60D /* QuestionnaireOnboardingView.swift */; };
 		2C005DCC27EF5B0300DC6503 /* GoogleServiceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */; };
 		2C0146AA28FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0146A928FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift */; };
 		2C023C86285D927A00D2D5A9 /* StepQuizTableAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C85285D927A00D2D5A9 /* StepQuizTableAssembly.swift */; };
@@ -517,6 +519,7 @@
 		2CFD7C6A2925447600902748 /* StepQuizFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFD7C692925447600902748 /* StepQuizFeatureStateKsExtensions.swift */; };
 		40D8E6EFE44EB7A6092C171B /* Pods_iosHyperskillApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */; };
 		4F5F2FD2F3BCAC06612FCAE8 /* InterviewPreparationOnboardingAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = B431D493DED8999E3F3B6968 /* InterviewPreparationOnboardingAssembly.swift */; };
+		4FBE20D41C99246C44E068AA /* QuestionnaireOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772BEE130815F1450D253FE3 /* QuestionnaireOnboardingViewModel.swift */; };
 		59B66CD4D1508049555D35AE /* ProgressScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC18157582494D2909B214C /* ProgressScreenView.swift */; };
 		60B4F143CF507F83C9581020 /* LeaderboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E205DEF27554501F7BE01AA /* LeaderboardViewModel.swift */; };
 		63FC2C36279DBA43CCEA1360 /* InterviewPreparationOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9224BDAA50119E9135E1B74 /* InterviewPreparationOnboardingViewModel.swift */; };
@@ -1221,16 +1224,19 @@
 		71D01125D308034C53D75DA6 /* ProjectSelectionDetailsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProjectSelectionDetailsView.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* iosHyperskillApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iosHyperskillApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		772BEE130815F1450D253FE3 /* QuestionnaireOnboardingViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingViewModel.swift; sourceTree = "<group>"; };
 		7A7D7125CEB88C2B8E29ABBB /* InterviewPreparationOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InterviewPreparationOnboardingView.swift; sourceTree = "<group>"; };
 		7F55BD539626D22DCF0E1344 /* SearchAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SearchAssembly.swift; sourceTree = "<group>"; };
 		907B10B0F7D4970530A478A2 /* SearchView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		9AACF19B25D42FD4AE322D5A /* ProgressScreenAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressScreenAssembly.swift; sourceTree = "<group>"; };
 		9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5774D657D505A3A80A7B60D /* QuestionnaireOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingView.swift; sourceTree = "<group>"; };
 		B431D493DED8999E3F3B6968 /* InterviewPreparationOnboardingAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InterviewPreparationOnboardingAssembly.swift; sourceTree = "<group>"; };
 		C2065D585FD89A96C31C08BC /* TrackSelectionDetailsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsView.swift; sourceTree = "<group>"; };
 		C2D19C8A442CF9C4F00370B8 /* NotificationsOnboardingAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingAssembly.swift; sourceTree = "<group>"; };
 		CCC18157582494D2909B214C /* ProgressScreenView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressScreenView.swift; sourceTree = "<group>"; };
 		CCFDFC2C226D2B79DE30D811 /* LeaderboardAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LeaderboardAssembly.swift; sourceTree = "<group>"; };
+		D80660C909D729D12FEAB845 /* QuestionnaireOnboardingAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingAssembly.swift; sourceTree = "<group>"; };
 		D9224BDAA50119E9135E1B74 /* InterviewPreparationOnboardingViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = InterviewPreparationOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E3570563AEEEEF2F5495BCA6 /* NotificationsOnboardingViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		E900D10028434D0400A77BBC /* StepQuizSortingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingView.swift; sourceTree = "<group>"; };
@@ -1674,6 +1680,7 @@
 				2C195D082B84863F0076B2C8 /* QuestionnaireOnboardingChoicesView.swift */,
 				2C195D032B8467EA0076B2C8 /* QuestionnaireOnboardingContentView.swift */,
 				2C195D052B8482840076B2C8 /* QuestionnaireOnboardingFooterView.swift */,
+				A5774D657D505A3A80A7B60D /* QuestionnaireOnboardingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3779,6 +3786,8 @@
 		C054D95AE78230BD225678B6 /* QuestionnaireOnboarding */ = {
 			isa = PBXGroup;
 			children = (
+				D80660C909D729D12FEAB845 /* QuestionnaireOnboardingAssembly.swift */,
+				772BEE130815F1450D253FE3 /* QuestionnaireOnboardingViewModel.swift */,
 				2C195D072B8483EA0076B2C8 /* Views */,
 			);
 			path = QuestionnaireOnboarding;
@@ -5025,6 +5034,9 @@
 				63FC2C36279DBA43CCEA1360 /* InterviewPreparationOnboardingViewModel.swift in Sources */,
 				0F98394636E12DEC98B7953A /* RequestReviewModalAssembly.swift in Sources */,
 				91046416561EE431760D7D48 /* RequestReviewModalViewModel.swift in Sources */,
+				09A3FA31C3ABC65467D36662 /* QuestionnaireOnboardingAssembly.swift in Sources */,
+				1CAC118437C9C9910D39009E /* QuestionnaireOnboardingView.swift in Sources */,
+				4FBE20D41C99246C44E068AA /* QuestionnaireOnboardingViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
