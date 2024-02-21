@@ -22,6 +22,7 @@ import org.hyperskill.app.subscriptions.cache.CurrentSubscriptionStateHolderImpl
 data class Subscription(
     @SerialName("type")
     val type: SubscriptionType = SubscriptionType.UNKNOWN,
+    val status: SubscriptionStatus,
     @SerialName("steps_limit_total")
     val stepsLimitTotal: Int?,
     @SerialName("steps_limit_left")
@@ -36,7 +37,14 @@ internal val Subscription.isProblemLimitReached: Boolean
     get() = type.areProblemsLimited && stepsLimitLeft == 0
 
 internal val Subscription.isFreemium: Boolean
-    get() = type == SubscriptionType.FREEMIUM
+    get() = type == SubscriptionType.FREEMIUM ||
+        type == SubscriptionType.MOBILE_ONLY && status == SubscriptionStatus.EXPIRED
+
+internal val Subscription.isActive: Boolean
+    get() = status == SubscriptionStatus.ACTIVE
+
+internal val Subscription.isExpired: Boolean
+    get() = status == SubscriptionStatus.EXPIRED
 
 internal val Subscription.isValidTillPassed: Boolean
     get() = if (validTill != null ) {

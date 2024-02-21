@@ -36,7 +36,7 @@ fun ManageSubscriptionScreen(
         viewState = viewState,
         onBackClick = onBackClick,
         onRetryLoadingClick = viewModel::onRetryClick,
-        onManageSubscriptionClick = viewModel::onManageSubscriptionClick
+        onActionButtonClick = viewModel::onActionButtonClick
     )
 }
 
@@ -45,7 +45,7 @@ fun ManageSubscriptionScreen(
     viewState: ViewState,
     onBackClick: () -> Unit,
     onRetryLoadingClick: () -> Unit,
-    onManageSubscriptionClick: () -> Unit
+    onActionButtonClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -77,7 +77,7 @@ fun ManageSubscriptionScreen(
             is ViewState.Content -> {
                 ManageSubscriptionContent(
                     state = viewState,
-                    onManageSubscriptionClick = onManageSubscriptionClick,
+                    onActionButtonClick = onActionButtonClick,
                     padding = padding
                 )
             }
@@ -88,14 +88,8 @@ fun ManageSubscriptionScreen(
 private class ManageSubscriptionPreviewProvider : PreviewParameterProvider<ViewState> {
     override val values: Sequence<ViewState>
         get() = sequenceOf(
-            ViewState.Content(
-                validUntilFormatted = ManageSubscriptionPreviewDefaults.VALID_UNTIL_FORMATTED,
-                isManageButtonVisible = true
-            ),
-            ViewState.Content(
-                validUntilFormatted = ManageSubscriptionPreviewDefaults.VALID_UNTIL_FORMATTED,
-                isManageButtonVisible = false
-            ),
+            ManageSubscriptionPreviewDefaults.ActiveSubscriptionContent,
+            ManageSubscriptionPreviewDefaults.ExpiredSubscriptionContent,
             ViewState.Loading,
             ViewState.Error
         )
@@ -110,7 +104,7 @@ fun ManageSubscriptionScreenPreview(
         ManageSubscriptionScreen(
             viewState = viewState,
             onBackClick = {},
-            onManageSubscriptionClick = {},
+            onActionButtonClick = {},
             onRetryLoadingClick = {}
         )
     }

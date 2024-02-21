@@ -635,5 +635,6 @@
     <string name="manage_subscription_plan_details_title">Plan details:</string>
     <string name="manage_subscription_mobile_only_warning">Please be aware that with the Mobile оnly plan on hyperskill.org, there is a limit on the number of problems you can solve per day.</string>
     <string name="manage_subscription_manage_btn">Manage subscription</string>
+    <string name="manage_subscription_renew_btn">Renew subscription</string>
 
 </resources>

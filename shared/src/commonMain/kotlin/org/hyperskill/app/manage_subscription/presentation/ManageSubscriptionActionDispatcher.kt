@@ -3,6 +3,9 @@ package org.hyperskill.app.manage_subscription.presentation
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.Action
@@ -24,12 +27,28 @@ internal class ManageSubscriptionActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        currentSubscriptionStateRepository
+            .changes
+            .distinctUntilChanged()
+            .onEach { subscription ->
+                onNewMessage(
+                    InternalMessage.SubscriptionChanged(
+                        subscription = subscription,
+                        manageSubscriptionUrl = purchaseInteractor.getManagementUrl().getOrNull()
+                    )
+                )
+            }
+            .launchIn(actionScope)
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.LogAnalyticsEvent ->
                 analyticInteractor.logEvent(action.event)
             is InternalAction.FetchSubscription ->
-                handleFetchSubscription(action, ::onNewMessage)
+                handleFetchSubscription(::onNewMessage)
             else -> {
                 // no op
             }
@@ -37,7 +56,6 @@ internal class ManageSubscriptionActionDispatcher(
     }
 
     private suspend fun handleFetchSubscription(
-        action: InternalAction.FetchSubscription,
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(

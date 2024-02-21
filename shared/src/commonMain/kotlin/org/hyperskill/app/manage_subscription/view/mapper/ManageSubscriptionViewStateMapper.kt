@@ -6,6 +6,8 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.State
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.ViewState
+import org.hyperskill.app.subscriptions.domain.model.isActive
+import org.hyperskill.app.subscriptions.domain.model.isExpired
 
 internal class ManageSubscriptionViewStateMapper(
     private val resourceProvider: ResourceProvider,
@@ -22,7 +24,13 @@ internal class ManageSubscriptionViewStateMapper(
     private fun mapContent(content: State.Content): ViewState.Content =
         ViewState.Content(
             validUntilFormatted = content.subscription.validTill?.let(::formatValidUntil),
-            isManageButtonVisible = content.manageSubscriptionUrl != null
+            buttonText = when {
+                content.subscription.isActive && content.manageSubscriptionUrl != null ->
+                    resourceProvider.getString(SharedResources.strings.manage_subscription_manage_btn)
+                content.subscription.isExpired ->
+                    resourceProvider.getString(SharedResources.strings.manage_subscription_renew_btn)
+                else -> null
+            }
         )
 
     private fun formatValidUntil(validUntil: Instant): String {
