@@ -9,9 +9,10 @@ import org.hyperskill.app.profile.domain.repository.ProfileRepository
 import org.hyperskill.app.providers.domain.repository.ProvidersRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
-import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.FetchAdditionalInfoResult
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -26,20 +27,9 @@ class TrackSelectionDetailsActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is TrackSelectionDetailsFeature.InternalAction.FetchAdditionalInfo -> {
-                val transaction =
-                    HyperskillSentryTransactionBuilder.buildTrackSelectionDetailsScreenRemoteDataLoading()
-                sentryInteractor.startTransaction(transaction)
-                val message = fetchProvidersAndSubscription(action)
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(transaction, it)
-                        onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Error)
-                        return
-                    }
-                sentryInteractor.finishTransaction(transaction)
-                onNewMessage(message)
-            }
-            is TrackSelectionDetailsFeature.InternalAction.SelectTrack -> {
+            is InternalAction.FetchAdditionalInfo ->
+                handleFetchAdditionalInfoAction(action, ::onNewMessage)
+            is InternalAction.SelectTrack -> {
                 val currentProfile = currentProfileStateRepository
                     .getState()
                     .getOrElse {
@@ -56,7 +46,7 @@ class TrackSelectionDetailsActionDispatcher(
 
                 onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Success)
             }
-            is TrackSelectionDetailsFeature.InternalAction.LogAnalyticEvent -> {
+            is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.event)
             }
             else -> {
@@ -65,31 +55,30 @@ class TrackSelectionDetailsActionDispatcher(
         }
     }
 
-    private suspend fun fetchProvidersAndSubscription(
-        action: TrackSelectionDetailsFeature.InternalAction.FetchAdditionalInfo
-    ): Result<FetchAdditionalInfoResult.Success> =
-        coroutineScope {
-            runCatching {
+    private suspend fun handleFetchAdditionalInfoAction(
+        action: InternalAction.FetchAdditionalInfo,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildTrackSelectionDetailsScreenRemoteDataLoading(),
+            onError = { TrackSelectionDetailsFeature.FetchAdditionalInfoResult.Error }
+        ) {
+            coroutineScope {
                 val providersDeferred = async {
-                    providersRepository
-                        .getProviders(action.providerIds, action.forceLoadFromNetwork)
-                        .getOrThrow()
+                    providersRepository.getProviders(action.providerIds, action.forceLoadFromNetwork)
                 }
                 val subscriptionDeferred = async {
-                    currentSubscriptionStateRepository
-                        .getState(action.forceLoadFromNetwork)
-                        .getOrThrow()
+                    currentSubscriptionStateRepository.getState(action.forceLoadFromNetwork)
                 }
                 val profileDeferred = async {
-                    currentProfileStateRepository
-                        .getState(forceUpdate = false)
-                        .getOrThrow()
+                    currentProfileStateRepository.getState(forceUpdate = false)
                 }
-                FetchAdditionalInfoResult.Success(
-                    subscriptionType = subscriptionDeferred.await().type,
-                    profile = profileDeferred.await(),
-                    providers = providersDeferred.await()
+                TrackSelectionDetailsFeature.FetchAdditionalInfoResult.Success(
+                    subscriptionType = subscriptionDeferred.await().getOrThrow().type,
+                    profile = profileDeferred.await().getOrThrow(),
+                    providers = providersDeferred.await().getOrThrow()
                 )
             }
-        }
+        }.let(onNewMessage)
+    }
 }
