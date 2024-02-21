@@ -23,6 +23,7 @@
 		2C023C8B285DCA2100D2D5A9 /* ReplyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */; };
 		2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */; };
 		2C0409812B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0409802B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift */; };
+		2C0409842B863EA600E9CF41 /* Publishers+KeyboardIsVisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0409832B863EA600E9CF41 /* Publishers+KeyboardIsVisible.swift */; };
 		2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */; };
 		2C05AC482A0EA0180039C7EF /* ProjectSelectionListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */; };
 		2C05AC4A2A0EA0290039C7EF /* ProjectSelectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */; };
@@ -711,6 +712,7 @@
 		2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyExtensions.swift; sourceTree = "<group>"; };
 		2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetExtensions.swift; sourceTree = "<group>"; };
 		2C0409802B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingOutputProtocol.swift; sourceTree = "<group>"; };
+		2C0409832B863EA600E9CF41 /* Publishers+KeyboardIsVisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publishers+KeyboardIsVisible.swift"; sourceTree = "<group>"; };
 		2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListAssembly.swift; sourceTree = "<group>"; };
 		2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListViewModel.swift; sourceTree = "<group>"; };
@@ -1452,6 +1454,14 @@
 				2C93C2D0292E5718004D1861 /* Sentry */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		2C0409822B863E8A00E9CF41 /* Combine */ = {
+			isa = PBXGroup;
+			children = (
+				2C0409832B863EA600E9CF41 /* Publishers+KeyboardIsVisible.swift */,
+			);
+			path = Combine;
 			sourceTree = "<group>";
 		};
 		2C05AC442A0E9E910039C7EF /* List */ = {
@@ -2894,6 +2904,7 @@
 		2C9B66E827ECAF0200569645 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2C0409822B863E8A00E9CF41 /* Combine */,
 				2C1F586C280D09A100372A37 /* Foundation */,
 				2C023C89285DC9F800D2D5A9 /* Shared */,
 				2CF4340E28126886002893CD /* SwiftStdlib */,
@@ -4538,6 +4549,7 @@
 				E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */,
 				2C23C0062879EA7D0083709F /* StreakDayState.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
+				2C0409842B863EA600E9CF41 /* Publishers+KeyboardIsVisible.swift in Sources */,
 				2C1860FC2923C540007D4EBF /* AppFeatureStateKsExtensions.swift in Sources */,
 				2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */,
 				2C05AC542A0EC5B00039C7EF /* ProjectSelectionListHeaderView.swift in Sources */,

@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 extension QuestionnaireOnboardingContentView {
@@ -24,7 +25,7 @@ struct QuestionnaireOnboardingContentView: View {
     let onSendButtotTap: () -> Void
     let onSkipButtotTap: () -> Void
 
-    let isKeyboardVisible: Bool
+    @State private var isKeyboardVisible = false
 
     var body: some View {
         ScrollView {
@@ -47,10 +48,14 @@ struct QuestionnaireOnboardingContentView: View {
                         .animation(nil)
                 }
             }
+            .introspectScrollView { scrollView in
+                scrollView.shouldIgnoreScrollingAdjustment = true
+            }
             .padding()
         }
         .scrollBounceBehaviorBasedOnSize()
         .safeAreaInsetBottomCompatibility(footerView)
+        .onReceive(Publishers.keyboardIsVisible) { isKeyboardVisible = $0 }
     }
 
     private var textInput: some View {
@@ -115,8 +120,7 @@ enum QuestionnaireOnboardingPreviewDefaults {
         isTextInputVisible: false,
         isSendButtonEnabled: false,
         onSendButtotTap: {},
-        onSkipButtotTap: {},
-        isKeyboardVisible: false
+        onSkipButtotTap: {}
     )
 }
 
@@ -130,8 +134,7 @@ enum QuestionnaireOnboardingPreviewDefaults {
         isTextInputVisible: true,
         isSendButtonEnabled: false,
         onSendButtotTap: {},
-        onSkipButtotTap: {},
-        isKeyboardVisible: false
+        onSkipButtotTap: {}
     )
 }
 #endif

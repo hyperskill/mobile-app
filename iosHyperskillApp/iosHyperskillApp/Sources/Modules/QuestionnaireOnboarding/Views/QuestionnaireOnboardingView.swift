@@ -30,8 +30,7 @@ struct QuestionnaireOnboardingView: View {
                 isTextInputVisible: viewModel.state.isTextInputVisible,
                 isSendButtonEnabled: viewModel.state.isSendButtonEnabled,
                 onSendButtotTap: viewModel.doSend,
-                onSkipButtotTap: viewModel.doSkip,
-                isKeyboardVisible: viewModel.isKeyboardVisible
+                onSkipButtotTap: viewModel.doSkip
             )
             .animation(.default, value: viewModel.state)
         }

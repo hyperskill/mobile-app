@@ -8,35 +8,6 @@ final class QuestionnaireOnboardingViewModel: FeatureViewModel<
 > {
     weak var moduleOutput: QuestionnaireOnboardingOutputProtocol?
 
-    private(set) var isKeyboardVisible = false {
-        didSet {
-            guard oldValue != isKeyboardVisible else {
-                return
-            }
-
-            mainScheduler.schedule {
-                self.objectWillChange.send()
-            }
-        }
-    }
-
-    init(feature: Presentation_reduxFeature) {
-        super.init(feature: feature)
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleKeyboardWillShowNotification),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleKeyboardWillHideNotification),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-
     override func shouldNotifyStateDidChange(
         oldState: QuestionnaireOnboardingFeature.ViewState,
         newState: QuestionnaireOnboardingFeature.ViewState
@@ -66,15 +37,5 @@ final class QuestionnaireOnboardingViewModel: FeatureViewModel<
 
     func logViewedEvent() {
         onNewMessage(QuestionnaireOnboardingFeatureMessageViewedEventMessage())
-    }
-
-    @objc
-    private func handleKeyboardWillShowNotification() {
-        isKeyboardVisible = true
-    }
-
-    @objc
-    private func handleKeyboardWillHideNotification() {
-        isKeyboardVisible = false
     }
 }
