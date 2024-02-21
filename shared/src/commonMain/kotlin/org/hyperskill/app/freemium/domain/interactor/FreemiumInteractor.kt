@@ -3,6 +3,7 @@ package org.hyperskill.app.freemium.domain.interactor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.subscriptions.domain.model.areProblemsLimited
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
 class FreemiumInteractor(
@@ -15,7 +16,7 @@ class FreemiumInteractor(
 
     suspend fun onStepSolved() {
         currentSubscriptionStateRepository.updateState { subscription ->
-            if (subscription.type.areProblemsLimited) {
+            if (subscription.areProblemsLimited) {
                 subscription.copy(stepsLimitLeft = subscription.stepsLimitLeft?.dec())
             } else {
                 subscription

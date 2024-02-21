@@ -33,12 +33,18 @@ data class Subscription(
     val validTill: Instant?
 )
 
+internal val Subscription.areProblemsLimited: Boolean
+    get() = when (type) {
+        SubscriptionType.MOBILE_ONLY -> type.areProblemsLimited || status != SubscriptionStatus.ACTIVE
+        else -> type.areProblemsLimited
+    }
+
 internal val Subscription.isProblemLimitReached: Boolean
-    get() = type.areProblemsLimited && stepsLimitLeft == 0
+    get() = areProblemsLimited && stepsLimitLeft == 0
 
 internal val Subscription.isFreemium: Boolean
     get() = type == SubscriptionType.FREEMIUM ||
-        type == SubscriptionType.MOBILE_ONLY && status == SubscriptionStatus.EXPIRED
+        type == SubscriptionType.MOBILE_ONLY && status != SubscriptionStatus.ACTIVE
 
 internal val Subscription.isActive: Boolean
     get() = status == SubscriptionStatus.ACTIVE
@@ -47,7 +53,7 @@ internal val Subscription.isExpired: Boolean
     get() = status == SubscriptionStatus.EXPIRED
 
 internal val Subscription.isValidTillPassed: Boolean
-    get() = if (validTill != null ) {
+    get() = if (validTill != null) {
         validTill < Clock.System.now()
     } else {
         false

@@ -7,7 +7,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.datetime.Clock
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
@@ -73,10 +72,9 @@ internal class AppActionDispatcher(
         if (isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .changes
-                .map { it.type }
                 .distinctUntilChanged()
-                .onEach { subscriptionType ->
-                    onNewMessage(AppFeature.InternalMessage.SubscriptionTypeChanged(subscriptionType))
+                .onEach { subscription ->
+                    onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(subscription))
                 }
                 .launchIn(actionScope)
         }
@@ -131,7 +129,7 @@ internal class AppActionDispatcher(
 
                 Message.FetchAppStartupConfigSuccess(
                     profile = profileDeferred.await().getOrThrow(),
-                    subscriptionType = subscriptionDeferred.await()?.type,
+                    subscription = subscriptionDeferred.await(),
                     notificationData = action.pushNotificationData
                 )
             }
@@ -247,7 +245,7 @@ internal class AppActionDispatcher(
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
         fetchSubscription()?.let {
             onNewMessage(
-                AppFeature.InternalMessage.SubscriptionTypeChanged(it.type)
+                AppFeature.InternalMessage.SubscriptionChanged(it)
             )
         }
     }

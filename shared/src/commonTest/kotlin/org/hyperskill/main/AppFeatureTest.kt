@@ -16,9 +16,11 @@ import org.hyperskill.app.profile.domain.model.FeatureKeys
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.profile.stub
+import org.hyperskill.subscriptions.stub
 
 class AppFeatureTest {
     private val appReducer = AppReducer(
@@ -35,7 +37,7 @@ class AppFeatureTest {
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = false, trackId = 1),
                 notificationData = null,
-                subscriptionType = null
+                subscription = null
             )
         )
         assertTrue {
@@ -53,7 +55,7 @@ class AppFeatureTest {
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = true),
                 notificationData = null,
-                subscriptionType = null
+                subscription = null
             )
         )
         assertNoStreakRecoveryActions(actions)
@@ -65,7 +67,7 @@ class AppFeatureTest {
             AppFeature.State.Loading,
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = true, trackId = 1),
-                subscriptionType = null,
+                subscription = null,
                 notificationData = PushNotificationData(
                     typeString = PushNotificationType.STREAK_NEW.name,
                     categoryString = PushNotificationCategory.CONTINUE_LEARNING.backendName!!
@@ -93,7 +95,7 @@ class AppFeatureTest {
                     trackId = 1,
                     featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to true)
                 ),
-                subscriptionType = SubscriptionType.FREEMIUM,
+                subscription = Subscription.stub(SubscriptionType.FREEMIUM),
                 notificationData = null
             )
         )
@@ -120,7 +122,7 @@ class AppFeatureTest {
                             trackId = 1,
                             featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to true)
                         ),
-                        subscriptionType = subscriptionType,
+                        subscription = Subscription.stub(subscriptionType),
                         notificationData = null
                     )
                 )
@@ -133,7 +135,7 @@ class AppFeatureTest {
         var state: AppFeature.State = AppFeature.State.Ready(
             isAuthorized = true,
             isMobileLeaderboardsEnabled = false,
-            subscriptionType = SubscriptionType.FREEMIUM,
+            subscription = Subscription.stub(SubscriptionType.FREEMIUM),
             isMobileOnlySubscriptionEnabled = true
         )
         for (i in 1..AppReducer.APP_SHOWS_COUNT_TILL_PAYWALL + 1) {
@@ -166,7 +168,7 @@ class AppFeatureTest {
                     trackId = 1,
                     featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to false)
                 ),
-                subscriptionType = SubscriptionType.FREEMIUM,
+                subscription = Subscription.stub(SubscriptionType.FREEMIUM),
                 notificationData = null
             )
         )

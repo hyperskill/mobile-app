@@ -7,7 +7,7 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 
 object AppFeature {
@@ -30,7 +30,7 @@ object AppFeature {
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
             internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
             internal val isMobileOnlySubscriptionEnabled: Boolean,
-            internal val subscriptionType: SubscriptionType? = null,
+            internal val subscription: Subscription? = null,
             internal val appShowsCount: Int = 1
         ) : State {
             internal fun incrementAppShowsCount(): Ready =
@@ -48,7 +48,7 @@ object AppFeature {
 
         data class FetchAppStartupConfigSuccess(
             val profile: Profile,
-            val subscriptionType: SubscriptionType?,
+            val subscription: Subscription?,
             val notificationData: PushNotificationData?
         ) : Message
         object FetchAppStartupConfigError : Message
@@ -81,8 +81,8 @@ object AppFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        data class SubscriptionTypeChanged(
-            val subscriptionType: SubscriptionType
+        data class SubscriptionChanged(
+            val subscription: Subscription
         ) : InternalMessage
     }
 
