@@ -63,7 +63,8 @@ fun PaywallScreen(
             }
         },
         onContinueWithLimitsClick = viewModel::onContinueWithLimitsClick,
-        onRetryLoadingClick = viewModel::onRetryLoadingClicked
+        onRetryLoadingClick = viewModel::onRetryLoadingClicked,
+        onTermsOfServiceClick = viewModel::onTermsOfServiceClick
     )
 }
 
@@ -74,6 +75,7 @@ fun PaywallScreen(
     onBuySubscriptionClick: () -> Unit,
     onContinueWithLimitsClick: () -> Unit,
     onRetryLoadingClick: () -> Unit,
+    onTermsOfServiceClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -114,6 +116,7 @@ fun PaywallScreen(
                     isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
                     onBuySubscriptionClick = onBuySubscriptionClick,
                     onContinueWithLimitsClick = onContinueWithLimitsClick,
+                    onTermsOfServiceClick = onTermsOfServiceClick,
                     padding = padding
                 )
             ViewStateContent.SubscriptionSyncLoading ->
@@ -165,7 +168,8 @@ fun PaywallScreenPreview(
             onBackClick = {},
             onBuySubscriptionClick = {},
             onContinueWithLimitsClick = {},
-            onRetryLoadingClick = {}
+            onRetryLoadingClick = {},
+            onTermsOfServiceClick = {}
         )
     }
 }
