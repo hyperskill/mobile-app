@@ -115,7 +115,7 @@ enum QuestionnaireOnboardingPreviewDefaults {
         isTextInputVisible: false,
         isSendButtonEnabled: false,
         onSendButtotTap: {},
-        onSkipButtotTap: {}, 
+        onSkipButtotTap: {},
         isKeyboardVisible: false
     )
 }

@@ -52,7 +52,11 @@ private extension QuestionnaireOnboardingView {
     func handleViewAction(
         _ viewAction: QuestionnaireOnboardingFeatureActionViewAction
     ) {
-//        switch QuestionnaireOnboardingFeatureActionViewActionKs(viewAction) {
-//        }
+        switch QuestionnaireOnboardingFeatureActionViewActionKs(viewAction) {
+        case .showSendSuccessMessage(let showSendSuccessMessageViewAction):
+            ProgressHUD.showSuccess(status: showSendSuccessMessageViewAction.message)
+        case .completeQuestionnaireOnboarding:
+            viewModel.doCompleteOnboarding()
+        }
     }
 }

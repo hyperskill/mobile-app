@@ -135,6 +135,18 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: QuestionnaireOnboardingOutputProtocol -
+
+extension AppViewModel: QuestionnaireOnboardingOutputProtocol {
+    func handleQuestionnaireOnboardingCompleted() {
+        onNewMessage(
+            AppFeatureMessageWelcomeOnboardingMessage(
+                message: WelcomeOnboardingFeatureMessageQuestionnaireOnboardingCompleted()
+            )
+        )
+    }
+}
+
 // MARK: - AppViewModel: FirstProblemOnboardingOutputProtocol -
 
 extension AppViewModel: FirstProblemOnboardingOutputProtocol {

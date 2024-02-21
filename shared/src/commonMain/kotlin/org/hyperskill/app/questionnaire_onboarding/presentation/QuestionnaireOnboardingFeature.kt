@@ -28,10 +28,16 @@ object QuestionnaireOnboardingFeature {
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            object CompleteQuestionnaireOnboarding : ViewAction
+            data class ShowSendSuccessMessage(val message: String) : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(
+            val event: AnalyticEvent,
+            val forceLogEvent: Boolean = false
+        ) : InternalAction
     }
 }

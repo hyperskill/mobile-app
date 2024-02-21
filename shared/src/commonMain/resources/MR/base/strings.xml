@@ -549,7 +549,6 @@
     <string name="questionnaire_onboarding_skip_button_text">Skip</string>
 
     <string name="questionnaire_onboarding_send_answer_success_message">Answer sent! Enjoy 10 extra problems on the first day.</string>
-    <string name="questionnaire_onboarding_send_answer_error_message">Sorry, we were unable to send the answer: please try again later.</string>
 
     <!--Interview preparation widget-->
     <string name="interview_preparation_widget_title">Interview preparation</string>

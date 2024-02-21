@@ -6,6 +6,8 @@ final class QuestionnaireOnboardingViewModel: FeatureViewModel<
   QuestionnaireOnboardingFeatureMessage,
   QuestionnaireOnboardingFeatureActionViewAction
 > {
+    weak var moduleOutput: QuestionnaireOnboardingOutputProtocol?
+
     private(set) var isKeyboardVisible = false {
         didSet {
             guard oldValue != isKeyboardVisible else {
@@ -56,6 +58,10 @@ final class QuestionnaireOnboardingViewModel: FeatureViewModel<
 
     func doSkip() {
         onNewMessage(QuestionnaireOnboardingFeatureMessageSkipButtonClicked())
+    }
+
+    func doCompleteOnboarding() {
+        moduleOutput?.handleQuestionnaireOnboardingCompleted()
     }
 
     func logViewedEvent() {

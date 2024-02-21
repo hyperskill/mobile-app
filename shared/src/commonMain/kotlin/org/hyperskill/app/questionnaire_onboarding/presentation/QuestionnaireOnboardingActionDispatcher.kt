@@ -14,7 +14,10 @@ internal class QuestionnaireOnboardingActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
+                analyticInteractor.logEvent(action.event, action.forceLogEvent)
+            else -> {
+                // no op
+            }
         }
     }
 }

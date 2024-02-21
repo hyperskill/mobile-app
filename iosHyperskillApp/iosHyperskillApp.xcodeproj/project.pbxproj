@@ -22,6 +22,7 @@
 		2C023C88285D928100D2D5A9 /* StepQuizTableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C87285D928100D2D5A9 /* StepQuizTableViewModel.swift */; };
 		2C023C8B285DCA2100D2D5A9 /* ReplyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */; };
 		2C023C8D285DCA4300D2D5A9 /* DatasetExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */; };
+		2C0409812B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0409802B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift */; };
 		2C05AC462A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */; };
 		2C05AC482A0EA0180039C7EF /* ProjectSelectionListAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */; };
 		2C05AC4A2A0EA0290039C7EF /* ProjectSelectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */; };
@@ -709,6 +710,7 @@
 		2C023C87285D928100D2D5A9 /* StepQuizTableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableViewModel.swift; sourceTree = "<group>"; };
 		2C023C8A285DCA2100D2D5A9 /* ReplyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyExtensions.swift; sourceTree = "<group>"; };
 		2C023C8C285DCA4300D2D5A9 /* DatasetExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatasetExtensions.swift; sourceTree = "<group>"; };
+		2C0409802B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireOnboardingOutputProtocol.swift; sourceTree = "<group>"; };
 		2C05AC452A0E9EBC0039C7EF /* ProjectSelectionListFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C05AC472A0EA0180039C7EF /* ProjectSelectionListAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListAssembly.swift; sourceTree = "<group>"; };
 		2C05AC492A0EA0290039C7EF /* ProjectSelectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListViewModel.swift; sourceTree = "<group>"; };
@@ -3787,6 +3789,7 @@
 			isa = PBXGroup;
 			children = (
 				D80660C909D729D12FEAB845 /* QuestionnaireOnboardingAssembly.swift */,
+				2C0409802B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift */,
 				772BEE130815F1450D253FE3 /* QuestionnaireOnboardingViewModel.swift */,
 				2C195D072B8483EA0076B2C8 /* Views */,
 			);
@@ -4881,6 +4884,7 @@
 				2C5837A32B2844E20096B89B /* SearchPlaceholderSuggestionsView.swift in Sources */,
 				2CD316C028A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift in Sources */,
 				2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */,
+				2C0409812B85FC3000E9CF41 /* QuestionnaireOnboardingOutputProtocol.swift in Sources */,
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,
 				2C66720D2A5299C30040EA2F /* ProgressScreenCardSkeletonView.swift in Sources */,
 				2C7CB67E2ADFDA62006F78DA /* FillBlanksInputContainerView.swift in Sources */,

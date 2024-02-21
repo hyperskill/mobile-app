@@ -29,7 +29,7 @@ internal object QuestionnaireOnboardingFeatureBuilder {
         platform: Platform,
         resourceProvider: ResourceProvider
     ): Feature<ViewState, Message, Action> {
-        val reducer = QuestionnaireOnboardingReducer()
+        val reducer = QuestionnaireOnboardingReducer(resourceProvider)
             .wrapWithLogger(buildVariant, logger, LOG_TAG)
         val actionDispatcher = QuestionnaireOnboardingActionDispatcher(
             config = ActionDispatcherOptions(),

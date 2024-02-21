@@ -278,6 +278,9 @@ extension AppViewController: AppViewControllerProtocol {
                     }
 
                     return tabBarController
+                case .questionnaireOnboardingScreen:
+                    let assembly = QuestionnaireOnboardingAssembly(moduleOutput: viewModel)
+                    return assembly.makeModule()
                 }
             }
         }()

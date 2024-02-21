@@ -32,6 +32,7 @@ struct QuestionnaireOnboardingFooterView: View {
                 Strings.QuestionnaireOnboarding.sendButtot,
                 action: {
                     feedbackGenerator.triggerFeedback()
+                    onSendButtotTap()
                 }
             )
             .buttonStyle(.primary)
@@ -42,6 +43,7 @@ struct QuestionnaireOnboardingFooterView: View {
                 Strings.QuestionnaireOnboarding.skipButton,
                 action: {
                     feedbackGenerator.triggerFeedback()
+                    onSkipButtotTap()
                 }
             )
             .buttonStyle(GhostButtonStyle())
