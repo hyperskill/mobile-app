@@ -94,6 +94,8 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
+import org.hyperskill.app.questionnaire_onboarding.injection.QuestionnaireOnboardingComponent
+import org.hyperskill.app.questionnaire_onboarding.injection.QuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
@@ -483,4 +485,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent =
         RequestReviewModalComponentImpl(appGraph = this, stepRoute = stepRoute)
+
+    override fun buildQuestionnaireOnboardingComponent(): QuestionnaireOnboardingComponent =
+        QuestionnaireOnboardingComponentImpl(this)
 }

@@ -534,6 +534,7 @@
     <!-- Questionnaire onboarding -->
     <string name="questionnaire_onboarding_title_template">How did you hear about\n%s?</string>
 
+    <string name="questionnaire_onboarding_source_app_store">App Store</string>
     <string name="questionnaire_onboarding_source_google_play">Google Play</string>
     <string name="questionnaire_onboarding_source_google_search">Google Search</string>
     <string name="questionnaire_onboarding_source_youtube">YouTube</string>
