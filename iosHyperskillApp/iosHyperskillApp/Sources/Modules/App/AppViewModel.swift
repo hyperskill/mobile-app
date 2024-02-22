@@ -141,7 +141,7 @@ extension AppViewModel: QuestionnaireOnboardingOutputProtocol {
     func handleQuestionnaireOnboardingCompleted() {
         onNewMessage(
             AppFeatureMessageWelcomeOnboardingMessage(
-                message: WelcomeOnboardingFeatureMessageQuestionnaireOnboardingCompleted()
+                message: WelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()
             )
         )
     }

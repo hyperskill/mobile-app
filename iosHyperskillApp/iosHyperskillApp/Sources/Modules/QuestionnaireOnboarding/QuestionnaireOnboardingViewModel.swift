@@ -2,33 +2,33 @@ import Foundation
 import shared
 
 final class QuestionnaireOnboardingViewModel: FeatureViewModel<
-  QuestionnaireOnboardingFeature.ViewState,
-  QuestionnaireOnboardingFeatureMessage,
-  QuestionnaireOnboardingFeatureActionViewAction
+  UsersQuestionnaireOnboardingFeature.ViewState,
+  UsersQuestionnaireOnboardingFeatureMessage,
+  UsersQuestionnaireOnboardingFeatureActionViewAction
 > {
     weak var moduleOutput: QuestionnaireOnboardingOutputProtocol?
 
     override func shouldNotifyStateDidChange(
-        oldState: QuestionnaireOnboardingFeature.ViewState,
-        newState: QuestionnaireOnboardingFeature.ViewState
+        oldState: UsersQuestionnaireOnboardingFeature.ViewState,
+        newState: UsersQuestionnaireOnboardingFeature.ViewState
     ) -> Bool {
         !oldState.isEqual(newState)
     }
 
     func selectChoice(_ choice: String) {
-        onNewMessage(QuestionnaireOnboardingFeatureMessageClickedChoice(choice: choice))
+        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageClickedChoice(choice: choice))
     }
 
     func doTextInputValueChanged(_ value: String) {
-        onNewMessage(QuestionnaireOnboardingFeatureMessageTextInputValueChanged(text: value))
+        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageTextInputValueChanged(text: value))
     }
 
     func doSend() {
-        onNewMessage(QuestionnaireOnboardingFeatureMessageSendButtonClicked())
+        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageSendButtonClicked())
     }
 
     func doSkip() {
-        onNewMessage(QuestionnaireOnboardingFeatureMessageSkipButtonClicked())
+        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageSkipButtonClicked())
     }
 
     func doCompleteOnboarding() {
@@ -36,6 +36,6 @@ final class QuestionnaireOnboardingViewModel: FeatureViewModel<
     }
 
     func logViewedEvent() {
-        onNewMessage(QuestionnaireOnboardingFeatureMessageViewedEventMessage())
+        onNewMessage(UsersQuestionnaireOnboardingFeatureMessageViewedEventMessage())
     }
 }

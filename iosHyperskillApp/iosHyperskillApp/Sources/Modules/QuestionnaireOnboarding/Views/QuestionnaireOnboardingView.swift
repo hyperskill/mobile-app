@@ -49,12 +49,12 @@ struct QuestionnaireOnboardingView: View {
 
 private extension QuestionnaireOnboardingView {
     func handleViewAction(
-        _ viewAction: QuestionnaireOnboardingFeatureActionViewAction
+        _ viewAction: UsersQuestionnaireOnboardingFeatureActionViewAction
     ) {
-        switch QuestionnaireOnboardingFeatureActionViewActionKs(viewAction) {
+        switch UsersQuestionnaireOnboardingFeatureActionViewActionKs(viewAction) {
         case .showSendSuccessMessage(let showSendSuccessMessageViewAction):
             ProgressHUD.showSuccess(status: showSendSuccessMessageViewAction.message)
-        case .completeQuestionnaireOnboarding:
+        case .completeUsersQuestionnaireOnboarding:
             viewModel.doCompleteOnboarding()
         }
     }

@@ -623,9 +623,9 @@ enum Strings {
     // MARK: - Questionnaire Onboarding -
 
     enum QuestionnaireOnboarding {
-        static let textInputPlaceholder = sharedStrings.questionnaire_onboarding_text_input_placeholder.localized()
+        static let textInputPlaceholder = sharedStrings.users_questionnaire_onboarding_text_input_placeholder.localized()
 
-        static let sendButtot = sharedStrings.questionnaire_onboarding_send_button_text.localized()
-        static let skipButton = sharedStrings.questionnaire_onboarding_skip_button_text.localized()
+        static let sendButtot = sharedStrings.users_questionnaire_onboarding_send_button_text.localized()
+        static let skipButton = sharedStrings.users_questionnaire_onboarding_skip_button_text.localized()
     }
 }
