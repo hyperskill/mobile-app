@@ -111,11 +111,6 @@ struct ProfileSettingsView: View {
                             .foregroundColor(.secondaryText)
                     }
                 }
-
-                // ALTAPPS-312
-                //Button(Strings.Settings.rateApplication) {
-                //}
-                //.foregroundColor(Color(ColorPalette.primary))
             }
 
             Section {

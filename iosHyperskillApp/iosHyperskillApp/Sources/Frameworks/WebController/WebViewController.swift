@@ -233,3 +233,4 @@ class WebViewController: UIViewController {
         progressBar.setProgress(completed ? 0.0 : Float(webView.estimatedProgress), animated: !completed)
     }
 }
+// swiftlint:enable all

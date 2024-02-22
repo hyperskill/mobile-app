@@ -28,14 +28,14 @@ final class ProcessedContentView: UIView {
 
     private lazy var textView: ProcessedContentTextView = {
         let appearance = ProcessedContentTextView.Appearance(
-            font: self.appearance.labelFont,
-            textColor: self.appearance.labelTextColor
+            font: appearance.labelFont,
+            textColor: appearance.labelTextColor
         )
 
         let view = ProcessedContentTextView(
             frame: .zero,
             appearance: appearance,
-            htmlToAttributedStringConverter: self.htmlToAttributedStringConverter
+            htmlToAttributedStringConverter: htmlToAttributedStringConverter
         )
         view.delegate = self
         view.onLinkClick = { [weak self] link in
@@ -63,10 +63,10 @@ final class ProcessedContentView: UIView {
     }()
 
     private lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let activityIndicatorView = UIActivityIndicatorView(style: self.appearance.activityIndicatorViewStyle)
+        let activityIndicatorView = UIActivityIndicatorView(style: appearance.activityIndicatorViewStyle)
         activityIndicatorView.hidesWhenStopped = true
 
-        if let activityIndicatorViewColor = self.appearance.activityIndicatorViewColor {
+        if let activityIndicatorViewColor = appearance.activityIndicatorViewColor {
             activityIndicatorView.color = activityIndicatorViewColor
         }
 
@@ -228,7 +228,7 @@ final class ProcessedContentView: UIView {
     }
 
     private func clearContent(oldProcessedContent: ProcessedContent?) {
-        guard let oldProcessedContent = oldProcessedContent else {
+        guard let oldProcessedContent else {
             return
         }
 

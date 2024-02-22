@@ -12,7 +12,7 @@ final class FillBlanksTextCollectionViewCell: UICollectionViewCell, Reusable {
     private static var prototypeTextLabel: UILabel?
 
     private lazy var textLabel: UILabel = {
-        Self.makeTextLabel(appearance: self.appearance)
+        Self.makeTextLabel(appearance: appearance)
     }()
 
     var appearance = Appearance()

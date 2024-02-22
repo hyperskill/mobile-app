@@ -14,7 +14,7 @@ final class IntrospectScrollViewTests: XCTestCase {
                         EmptyView()
                     }
                     .introspectScrollView { _ in
-                        self.spy()
+                        spy()
                     }
                 }
             }
