@@ -1,12 +1,12 @@
 import Foundation
 import shared
 
-final class QuestionnaireOnboardingViewModel: FeatureViewModel<
+final class UsersQuestionnaireOnboardingViewModel: FeatureViewModel<
   UsersQuestionnaireOnboardingFeature.ViewState,
   UsersQuestionnaireOnboardingFeatureMessage,
   UsersQuestionnaireOnboardingFeatureActionViewAction
 > {
-    weak var moduleOutput: QuestionnaireOnboardingOutputProtocol?
+    weak var moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?
 
     override func shouldNotifyStateDidChange(
         oldState: UsersQuestionnaireOnboardingFeature.ViewState,
@@ -32,7 +32,7 @@ final class QuestionnaireOnboardingViewModel: FeatureViewModel<
     }
 
     func doCompleteOnboarding() {
-        moduleOutput?.handleQuestionnaireOnboardingCompleted()
+        moduleOutput?.handleUsersQuestionnaireOnboardingCompleted()
     }
 
     func logViewedEvent() {

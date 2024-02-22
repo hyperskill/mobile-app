@@ -135,10 +135,10 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: QuestionnaireOnboardingOutputProtocol -
+// MARK: - AppViewModel: UsersQuestionnaireOnboardingOutputProtocol -
 
-extension AppViewModel: QuestionnaireOnboardingOutputProtocol {
-    func handleQuestionnaireOnboardingCompleted() {
+extension AppViewModel: UsersQuestionnaireOnboardingOutputProtocol {
+    func handleUsersQuestionnaireOnboardingCompleted() {
         onNewMessage(
             AppFeatureMessageWelcomeOnboardingMessage(
                 message: WelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()

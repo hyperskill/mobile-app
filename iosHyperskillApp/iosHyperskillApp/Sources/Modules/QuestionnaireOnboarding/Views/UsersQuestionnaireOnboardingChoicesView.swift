@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension QuestionnaireOnboardingChoicesView {
+extension UsersQuestionnaireOnboardingChoicesView {
     struct Appearance {
         var spacing = LayoutInsets.smallInset
 
@@ -14,7 +14,7 @@ extension QuestionnaireOnboardingChoicesView {
     }
 }
 
-struct QuestionnaireOnboardingChoicesView: View {
+struct UsersQuestionnaireOnboardingChoicesView: View {
     private(set) var appearance = Appearance()
 
     let choices: [String]
@@ -72,7 +72,7 @@ struct QuestionnaireOnboardingChoicesView: View {
 
 #if DEBUG
 #Preview {
-    QuestionnaireOnboardingChoicesView(
+    UsersQuestionnaireOnboardingChoicesView(
         choices: QuestionnaireOnboardingPreviewDefaults.choices,
         selectedChoice: QuestionnaireOnboardingPreviewDefaults.choices.first,
         onTap: { _ in }

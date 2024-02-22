@@ -1,7 +1,7 @@
 import Combine
 import SwiftUI
 
-extension QuestionnaireOnboardingContentView {
+extension UsersQuestionnaireOnboardingContentView {
     enum Appearance {
         static let spacing = LayoutInsets.defaultInset
         static let interitemSpacing = LayoutInsets.smallInset
@@ -11,7 +11,7 @@ extension QuestionnaireOnboardingContentView {
     }
 }
 
-struct QuestionnaireOnboardingContentView: View {
+struct UsersQuestionnaireOnboardingContentView: View {
     let title: String
 
     let choices: [String]
@@ -35,7 +35,7 @@ struct QuestionnaireOnboardingContentView: View {
                     .foregroundColor(.newPrimaryText)
                     .multilineTextAlignment(.center)
 
-                QuestionnaireOnboardingChoicesView(
+                UsersQuestionnaireOnboardingChoicesView(
                     appearance: .init(spacing: Appearance.interitemSpacing),
                     choices: choices,
                     selectedChoice: selectedChoice,
@@ -85,7 +85,7 @@ struct QuestionnaireOnboardingContentView: View {
         if isKeyboardVisible {
             EmptyView()
         } else {
-            QuestionnaireOnboardingFooterView(
+            UsersQuestionnaireOnboardingFooterView(
                 appearance: .init(spacing: Appearance.interitemSpacing),
                 isSendButtonEnabled: isSendButtonEnabled,
                 onSendButtotTap: onSendButtotTap,
@@ -111,7 +111,7 @@ enum QuestionnaireOnboardingPreviewDefaults {
 }
 
 #Preview {
-    QuestionnaireOnboardingContentView(
+    UsersQuestionnaireOnboardingContentView(
         title: QuestionnaireOnboardingPreviewDefaults.title,
         choices: QuestionnaireOnboardingPreviewDefaults.choices,
         selectedChoice: nil,
@@ -125,7 +125,7 @@ enum QuestionnaireOnboardingPreviewDefaults {
 }
 
 #Preview {
-    QuestionnaireOnboardingContentView(
+    UsersQuestionnaireOnboardingContentView(
         title: QuestionnaireOnboardingPreviewDefaults.title,
         choices: QuestionnaireOnboardingPreviewDefaults.choices,
         selectedChoice: QuestionnaireOnboardingPreviewDefaults.choices.last,

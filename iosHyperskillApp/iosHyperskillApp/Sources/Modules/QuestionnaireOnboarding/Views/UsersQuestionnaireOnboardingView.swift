@@ -1,16 +1,16 @@
 import shared
 import SwiftUI
 
-extension QuestionnaireOnboardingView {
+extension UsersQuestionnaireOnboardingView {
     struct Appearance {
         let backgroundColor = Color(ColorPalette.newLayer1)
     }
 }
 
-struct QuestionnaireOnboardingView: View {
+struct UsersQuestionnaireOnboardingView: View {
     private(set) var appearance = Appearance()
 
-    @StateObject var viewModel: QuestionnaireOnboardingViewModel
+    @StateObject var viewModel: UsersQuestionnaireOnboardingViewModel
 
     var body: some View {
         ZStack {
@@ -18,7 +18,7 @@ struct QuestionnaireOnboardingView: View {
 
             BackgroundView(color: appearance.backgroundColor)
 
-            QuestionnaireOnboardingContentView(
+            UsersQuestionnaireOnboardingContentView(
                 title: viewModel.state.title,
                 choices: viewModel.state.choices,
                 selectedChoice: viewModel.state.selectedChoice,
@@ -45,9 +45,9 @@ struct QuestionnaireOnboardingView: View {
     }
 }
 
-// MARK: - QuestionnaireOnboardingView (ViewAction) -
+// MARK: - UsersQuestionnaireOnboardingView (ViewAction) -
 
-private extension QuestionnaireOnboardingView {
+private extension UsersQuestionnaireOnboardingView {
     func handleViewAction(
         _ viewAction: UsersQuestionnaireOnboardingFeatureActionViewAction
     ) {

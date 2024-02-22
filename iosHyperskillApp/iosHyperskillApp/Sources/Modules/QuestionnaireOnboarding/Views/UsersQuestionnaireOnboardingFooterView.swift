@@ -1,12 +1,12 @@
 import SwiftUI
 
-extension QuestionnaireOnboardingFooterView {
+extension UsersQuestionnaireOnboardingFooterView {
     struct Appearance {
         var spacing = LayoutInsets.smallInset
     }
 }
 
-struct QuestionnaireOnboardingFooterView: View {
+struct UsersQuestionnaireOnboardingFooterView: View {
     private(set) var appearance = Appearance()
 
     private let feedbackGenerator = FeedbackGenerator(feedbackType: .selection)
@@ -54,13 +54,13 @@ struct QuestionnaireOnboardingFooterView: View {
 #if DEBUG
 #Preview {
     VStack {
-        QuestionnaireOnboardingFooterView(
+        UsersQuestionnaireOnboardingFooterView(
             isSendButtonEnabled: true,
             onSendButtotTap: {},
             onSkipButtotTap: {}
         )
 
-        QuestionnaireOnboardingFooterView(
+        UsersQuestionnaireOnboardingFooterView(
             isSendButtonEnabled: false,
             onSendButtotTap: {},
             onSkipButtotTap: {}
