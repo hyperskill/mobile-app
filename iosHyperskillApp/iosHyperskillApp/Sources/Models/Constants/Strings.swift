@@ -259,6 +259,12 @@ enum Strings {
         static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
     }
 
+    // MARK: - Users questionnaire widget -
+
+    enum UsersQuestionnaireWidget {
+        static let title = sharedStrings.users_questionnaire_widget_title.localized()
+    }
+
     // MARK: - Interview Preparation -
 
     // MARK: Widget
@@ -350,7 +356,6 @@ enum Strings {
         static let reportProblem = sharedStrings.settings_report_problem.localized()
         static let sendFeedback = sharedStrings.settings_send_feedback.localized()
         static let version = sharedStrings.settings_version.localized()
-        static let rateApplication = sharedStrings.settings_rate_application.localized()
         static let signOut = sharedStrings.settings_sign_out.localized()
         static let signOutAlertTitle = sharedStrings.settings_sign_out_dialog_title.localized()
         static let signOutAlertMessage = sharedStrings.settings_sign_out_dialog_explanation.localized()

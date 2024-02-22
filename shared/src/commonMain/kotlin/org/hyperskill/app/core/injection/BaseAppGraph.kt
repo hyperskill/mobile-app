@@ -153,6 +153,10 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListCompo
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
+import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
+import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponentImpl
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
@@ -485,6 +489,12 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent =
         RequestReviewModalComponentImpl(appGraph = this, stepRoute = stepRoute)
+
+    override fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent =
+        UsersQuestionnaireDataComponentImpl(this)
+
+    override fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent =
+        UsersQuestionnaireWidgetComponentImpl(this)
 
     override fun buildQuestionnaireOnboardingComponent(): QuestionnaireOnboardingComponent =
         QuestionnaireOnboardingComponentImpl(this)

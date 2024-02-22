@@ -143,6 +143,14 @@ class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                         )
                     )
                 )
+            Message.ClickedRateUsInPlayStoreEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProfileSettingsClickedHyperskillAnalyticEvent(
+                            target = HyperskillAnalyticTarget.RATE_US_IN_PLAY_STORE
+                        )
+                    )
+                )
             is Message.GetMagicLinkReceiveSuccess -> {
                 if (state is State.Content) {
                     state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
