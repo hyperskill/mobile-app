@@ -12,7 +12,7 @@ object WelcomeOnboardingFeature {
     sealed interface Message {
         object NotificationOnboardingCompleted : Message
 
-        object QuestionnaireOnboardingCompleted : Message
+        object UsersQuestionnaireOnboardingCompleted : Message
 
         data class FirstProblemOnboardingCompleted(val firstProblemStepRoute: StepRoute?) : Message
     }
@@ -35,7 +35,7 @@ object WelcomeOnboardingFeature {
             sealed interface NavigateTo : ViewAction {
                 object NotificationOnboardingScreen : NavigateTo
 
-                object QuestionnaireOnboardingScreen : NavigateTo
+                object UsersQuestionnaireOnboardingScreen : NavigateTo
 
                 data class FirstProblemOnboardingScreen(val isNewUserMode: Boolean) : NavigateTo
 

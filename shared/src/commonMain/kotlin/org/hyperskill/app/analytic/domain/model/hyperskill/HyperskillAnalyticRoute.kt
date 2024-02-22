@@ -21,7 +21,7 @@ sealed class HyperskillAnalyticRoute {
                 get() = "${super.path}/interview-preparation"
         }
 
-        object Questionnaire : Onboarding() {
+        object UsersQuestionnaire : Onboarding() {
             override val path: String
                 get() = "${super.path}/questionnaire"
         }

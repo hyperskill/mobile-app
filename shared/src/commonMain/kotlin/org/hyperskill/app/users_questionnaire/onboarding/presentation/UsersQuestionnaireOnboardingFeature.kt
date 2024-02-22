@@ -2,7 +2,7 @@ package org.hyperskill.app.users_questionnaire.onboarding.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
-object QuestionnaireOnboardingFeature {
+object UsersQuestionnaireOnboardingFeature {
     internal data class State(
         val selectedChoice: String? = null,
         val textInputValue: String? = null
@@ -29,7 +29,7 @@ object QuestionnaireOnboardingFeature {
 
     sealed interface Action {
         sealed interface ViewAction : Action {
-            object CompleteQuestionnaireOnboarding : ViewAction
+            object CompleteUsersQuestionnaireOnboarding : ViewAction
             data class ShowSendSuccessMessage(val message: String) : ViewAction
         }
     }

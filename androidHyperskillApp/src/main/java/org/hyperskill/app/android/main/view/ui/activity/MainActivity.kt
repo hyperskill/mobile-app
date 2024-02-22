@@ -251,7 +251,7 @@ class MainActivity :
                         )
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
-                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.QuestionnaireOnboardingScreen ->
+                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
                         TODO("ALTAPPS-1145: Implement QuestionnaireOnboardingScreen navigation")
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->

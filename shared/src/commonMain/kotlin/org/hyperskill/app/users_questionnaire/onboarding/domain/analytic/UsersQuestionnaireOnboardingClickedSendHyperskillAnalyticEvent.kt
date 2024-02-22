@@ -27,11 +27,11 @@ import ru.nobird.app.core.model.mapOfNotNull
  *
  * @see HyperskillAnalyticEvent
  */
-class QuestionnaireOnboardingClickedSendHyperskillAnalyticEvent(
+class UsersQuestionnaireOnboardingClickedSendHyperskillAnalyticEvent(
     private val selectedChoice: String,
     private val textInputValue: String?
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Onboarding.Questionnaire,
+    HyperskillAnalyticRoute.Onboarding.UsersQuestionnaire,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
     HyperskillAnalyticTarget.SEND
@@ -40,8 +40,8 @@ class QuestionnaireOnboardingClickedSendHyperskillAnalyticEvent(
         get() = super.params +
             mapOf(
                 PARAM_CONTEXT to mapOfNotNull(
-                    QuestionnaireOnboardingAnalyticParams.PARAM_SOURCE to selectedChoice,
-                    QuestionnaireOnboardingAnalyticParams.PARAM_INPUT to textInputValue
+                    UsersQuestionnaireOnboardingAnalyticParams.PARAM_SOURCE to selectedChoice,
+                    UsersQuestionnaireOnboardingAnalyticParams.PARAM_INPUT to textInputValue
                 )
             )
 }

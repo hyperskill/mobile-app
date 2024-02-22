@@ -11,7 +11,7 @@ internal class WelcomeOnboardingComponentImpl(
 ) : WelcomeOnboardingComponent {
     override val welcomeOnboardingReducer: WelcomeOnboardingReducer
         get() = WelcomeOnboardingReducer(
-            isQuestionnaireOnboardingEnabled = appGraph.commonComponent.platform.platformType == PlatformType.IOS
+            isUsersQuestionnaireOnboardingEnabled = appGraph.commonComponent.platform.platformType == PlatformType.IOS
         )
 
     override val welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher

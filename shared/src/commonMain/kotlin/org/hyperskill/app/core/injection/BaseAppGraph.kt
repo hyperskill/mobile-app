@@ -94,8 +94,6 @@ import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponentImpl
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponentImpl
-import org.hyperskill.app.users_questionnaire.onboarding.injection.QuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire.onboarding.injection.QuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponentImpl
 import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
@@ -155,6 +153,8 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
 import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponentImpl
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
@@ -496,6 +496,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent =
         UsersQuestionnaireWidgetComponentImpl(this)
 
-    override fun buildQuestionnaireOnboardingComponent(): QuestionnaireOnboardingComponent =
-        QuestionnaireOnboardingComponentImpl(this)
+    override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
+        UsersQuestionnaireOnboardingComponentImpl(this)
 }

@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Skip" button analytic event.
+ * Represents click on the choice analytic event.
  *
  * JSON payload:
  * ```
@@ -15,15 +15,27 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/onboarding/questionnaire",
  *     "action": "click",
  *     "part": "main",
- *     "target": "skip"
+ *     "target": "choice",
+ *     "context":
+ *     {
+ *         "source": "Google Play"
+ *     }
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-object QuestionnaireOnboardingClickedSkipHyperskillAnalyticEvent : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Onboarding.Questionnaire,
+class UsersQuestionnaireOnboardingClickedChoiceHyperskillAnalyticEvent(
+    private val selectedChoice: String
+) : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.Onboarding.UsersQuestionnaire,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.SKIP
-)
+    HyperskillAnalyticTarget.CHOICE
+) {
+    override val params: Map<String, Any>
+        get() = super.params +
+            mapOf(
+                PARAM_CONTEXT to mapOf(UsersQuestionnaireOnboardingAnalyticParams.PARAM_SOURCE to selectedChoice)
+            )
+}

@@ -12,7 +12,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class WelcomeOnboardingReducer(
-    private val isQuestionnaireOnboardingEnabled: Boolean
+    private val isUsersQuestionnaireOnboardingEnabled: Boolean
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
@@ -22,8 +22,8 @@ class WelcomeOnboardingReducer(
             Message.NotificationOnboardingCompleted ->
                 handleNotificationOnboardingCompleted(state)
 
-            Message.QuestionnaireOnboardingCompleted ->
-                handleQuestionnaireOnboardingCompleted(state)
+            Message.UsersQuestionnaireOnboardingCompleted ->
+                handleUsersQuestionnaireOnboardingCompleted(state)
 
             is InternalMessage.FirstProblemOnboardingDataFetched ->
                 handleFirstProblemOnboardingDataFetched(state, message)
@@ -45,13 +45,13 @@ class WelcomeOnboardingReducer(
     private fun handleNotificationOnboardingCompleted(
         state: State
     ): ReducerResult =
-        if (isQuestionnaireOnboardingEnabled && state.profile?.isNewUser == true) {
-            state to setOf(ViewAction.NavigateTo.QuestionnaireOnboardingScreen)
+        if (isUsersQuestionnaireOnboardingEnabled && state.profile?.isNewUser == true) {
+            state to setOf(ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen)
         } else {
-            handleQuestionnaireOnboardingCompleted(state)
+            handleUsersQuestionnaireOnboardingCompleted(state)
         }
 
-    private fun handleQuestionnaireOnboardingCompleted(
+    private fun handleUsersQuestionnaireOnboardingCompleted(
         state: State
     ): ReducerResult =
         if (state.profile?.isNewUser == false) {

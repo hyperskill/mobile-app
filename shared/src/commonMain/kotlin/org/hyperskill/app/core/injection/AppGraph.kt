@@ -50,7 +50,6 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
-import org.hyperskill.app.users_questionnaire.onboarding.injection.QuestionnaireOnboardingComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
 import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
 import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
@@ -82,6 +81,7 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
@@ -184,5 +184,5 @@ interface AppGraph {
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent
     fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent
-    fun buildQuestionnaireOnboardingComponent(): QuestionnaireOnboardingComponent
+    fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
 }

@@ -2,12 +2,12 @@ package org.hyperskill.app.users_questionnaire.onboarding.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.Action
-import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.InternalAction
-import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.Message
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.UsersQuestionnaireOnboardingFeature.Action
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.UsersQuestionnaireOnboardingFeature.InternalAction
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.UsersQuestionnaireOnboardingFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-internal class QuestionnaireOnboardingActionDispatcher(
+internal class UsersQuestionnaireOnboardingActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {

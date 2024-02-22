@@ -17,7 +17,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *
  * @see HyperskillAnalyticEvent
  */
-object QuestionnaireOnboardingViewedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Onboarding.Questionnaire,
+object UsersQuestionnaireOnboardingViewedHyperskillAnalyticEvent : HyperskillAnalyticEvent(
+    HyperskillAnalyticRoute.Onboarding.UsersQuestionnaire,
     HyperskillAnalyticAction.VIEW
 )
