@@ -110,8 +110,11 @@ large_tuple:
   error: 3
 
 type_name:
-  severity: error
-  max_length: 64
+  min_length: 3
+  max_length:
+    warning: 64
+    error: 64
+  allowed_symbols: ["_"]
 
 file_length:
   warning: 400
