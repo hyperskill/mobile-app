@@ -29,7 +29,7 @@ struct UsersQuestionnaireOnboardingFooterView: View {
     @MainActor private var actionButtons: some View {
         VStack(alignment: .center, spacing: appearance.spacing) {
             Button(
-                Strings.QuestionnaireOnboarding.sendButtot,
+                Strings.UsersQuestionnaireOnboarding.sendButtot,
                 action: {
                     feedbackGenerator.triggerFeedback()
                     onSendButtotTap()
@@ -40,7 +40,7 @@ struct UsersQuestionnaireOnboardingFooterView: View {
             .disabled(!isSendButtonEnabled)
 
             Button(
-                Strings.QuestionnaireOnboarding.skipButton,
+                Strings.UsersQuestionnaireOnboarding.skipButton,
                 action: {
                     feedbackGenerator.triggerFeedback()
                     onSkipButtotTap()

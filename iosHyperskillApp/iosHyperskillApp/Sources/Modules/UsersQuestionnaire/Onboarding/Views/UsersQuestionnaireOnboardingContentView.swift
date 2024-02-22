@@ -69,7 +69,7 @@ struct UsersQuestionnaireOnboardingContentView: View {
             .frame(maxWidth: .infinity)
             .padding(LayoutInsets.small.edgeInsets)
             .overlay(
-                Text(Strings.QuestionnaireOnboarding.textInputPlaceholder)
+                Text(Strings.UsersQuestionnaireOnboarding.textInputPlaceholder)
                     .font(.body)
                     .foregroundColor(.newSecondaryText)
                     .allowsHitTesting(false)
