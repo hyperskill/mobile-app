@@ -1,11 +1,11 @@
-package org.hyperskill.app.users_questionnaire.questionnaire_onboarding.view.mapper
+package org.hyperskill.app.users_questionnaire.onboarding.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingFeature.State
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingFeature.ViewState
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.State
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.ViewState
 
 internal class QuestionnaireOnboardingViewStateMapper(
     platform: Platform,

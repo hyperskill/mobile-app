@@ -1,4 +1,4 @@
-package org.hyperskill.app.users_questionnaire.questionnaire_onboarding.injection
+package org.hyperskill.app.users_questionnaire.onboarding.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -8,13 +8,13 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingActionDispatcher
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingFeature
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingFeature.Action
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingFeature.Message
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingFeature.ViewState
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation.QuestionnaireOnboardingReducer
-import org.hyperskill.app.users_questionnaire.questionnaire_onboarding.view.mapper.QuestionnaireOnboardingViewStateMapper
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingActionDispatcher
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.Action
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.Message
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingFeature.ViewState
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.QuestionnaireOnboardingReducer
+import org.hyperskill.app.users_questionnaire.onboarding.view.mapper.QuestionnaireOnboardingViewStateMapper
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature

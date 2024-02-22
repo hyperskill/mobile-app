@@ -1,4 +1,4 @@
-package org.hyperskill.app.users_questionnaire.questionnaire_onboarding.presentation
+package org.hyperskill.app.users_questionnaire.onboarding.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
