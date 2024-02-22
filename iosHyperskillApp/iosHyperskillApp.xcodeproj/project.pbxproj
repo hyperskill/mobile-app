@@ -1768,7 +1768,6 @@
 				2C963BC82812D3410036DD53 /* ProfileSettings */,
 				69443CBBFA46C4A121EA173F /* ProgressScreen */,
 				2C5CA2452A203C4500DBF2F9 /* ProjectSelection */,
-				C054D95AE78230BD225678B6 /* QuestionnaireOnboarding */,
 				9C3B04E6CBDCDDFE888D5DAF /* RequestReview */,
 				3C00014807122833363E303F /* Search */,
 				2C9E5E8229B211DD003AEC16 /* StageImplement */,
@@ -1779,7 +1778,7 @@
 				E9F0A2A729D416AC00C4A61E /* StudyPlan */,
 				E9A022AB291D0E1C004317DB /* TopicsRepetitions */,
 				2C2600862A2001E600BD3D39 /* TrackSelection */,
-				2CACBCBA2B7A1292006D3AB2 /* UsersQuestionnaireWidget */,
+				2CB559302B87024000D949CB /* UsersQuestionnaire */,
 				E9F923F428A2632800C065A7 /* Welcome */,
 			);
 			path = Modules;
@@ -3054,7 +3053,7 @@
 			path = ProblemOnboarding;
 			sourceTree = "<group>";
 		};
-		2CACBCBA2B7A1292006D3AB2 /* UsersQuestionnaireWidget */ = {
+		2CACBCBA2B7A1292006D3AB2 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
 				2CACBCC12B7A3E4E006D3AB2 /* UsersQuestionnaireWidgetAssembly.swift */,
@@ -3062,7 +3061,7 @@
 				2CACBCBB2B7A12F1006D3AB2 /* UsersQuestionnaireWidgetView.swift */,
 				2CACBCBD2B7A1365006D3AB2 /* UsersQuestionnaireWidgetViewModel.swift */,
 			);
-			path = UsersQuestionnaireWidget;
+			path = Widget;
 			sourceTree = "<group>";
 		};
 		2CAE8CEE280525A100E6C83D /* Step */ = {
@@ -3165,6 +3164,15 @@
 				2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */,
 			);
 			path = Routers;
+			sourceTree = "<group>";
+		};
+		2CB559302B87024000D949CB /* UsersQuestionnaire */ = {
+			isa = PBXGroup;
+			children = (
+				C054D95AE78230BD225678B6 /* Onboarding */,
+				2CACBCBA2B7A1292006D3AB2 /* Widget */,
+			);
+			path = UsersQuestionnaire;
 			sourceTree = "<group>";
 		};
 		2CBC97C42A5543190078E445 /* StageCompleted */ = {
@@ -3816,7 +3824,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C054D95AE78230BD225678B6 /* QuestionnaireOnboarding */ = {
+		C054D95AE78230BD225678B6 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				D80660C909D729D12FEAB845 /* UsersQuestionnaireOnboardingAssembly.swift */,
@@ -3824,7 +3832,7 @@
 				772BEE130815F1450D253FE3 /* UsersQuestionnaireOnboardingViewModel.swift */,
 				2C195D072B8483EA0076B2C8 /* Views */,
 			);
-			path = QuestionnaireOnboarding;
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		E6992F3BBF430924F32DC178 /* Leaderboard */ = {
