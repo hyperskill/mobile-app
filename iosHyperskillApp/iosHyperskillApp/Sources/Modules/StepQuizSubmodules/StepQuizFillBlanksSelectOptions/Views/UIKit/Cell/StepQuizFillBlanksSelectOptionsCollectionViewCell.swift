@@ -22,14 +22,13 @@ final class StepQuizFillBlanksSelectOptionsCollectionViewCell: UICollectionViewC
     var appearance = Appearance()
 
     private lazy var inputContainerView: StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView = {
-        let view = StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView(
-            appearance: .init(cornerRadius: self.appearance.cornerRadius)
+        StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView(
+            appearance: .init(cornerRadius: appearance.cornerRadius)
         )
-        return view
     }()
 
     private lazy var textLabel: UILabel = {
-        Self.makeTextLabel(appearance: self.appearance)
+        Self.makeTextLabel(appearance: appearance)
     }()
 
     var text: String? {

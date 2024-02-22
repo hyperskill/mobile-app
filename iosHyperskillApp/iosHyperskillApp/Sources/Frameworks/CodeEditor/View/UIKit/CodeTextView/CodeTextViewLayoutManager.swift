@@ -104,7 +104,7 @@ final class CodeTextViewLayoutManager: NSLayoutManager {
             }
         }
 
-        guard let textStorage = textStorage else {
+        guard let textStorage else {
             return
         }
 
@@ -128,7 +128,7 @@ final class CodeTextViewLayoutManager: NSLayoutManager {
         if characterRange.location == lastParagraphLocation {
             return lastParagraphNumber
         } else if characterRange.location < lastParagraphLocation {
-            guard let textStorage = textStorage else {
+            guard let textStorage else {
                 return lastParagraphNumber
             }
 
@@ -154,7 +154,7 @@ final class CodeTextViewLayoutManager: NSLayoutManager {
 
             return paragraphNumber
         } else {
-            guard let textStorage = textStorage else {
+            guard let textStorage else {
                 return lastParagraphNumber
             }
 
@@ -189,7 +189,7 @@ final class CodeTextViewLayoutManager: NSLayoutManager {
     }
 
     private func shouldHighlightParagraphRange(_ paragraphRange: NSRange) -> Bool {
-        guard shouldHighlightCurrentLine, let selectedRange = selectedRange else {
+        guard shouldHighlightCurrentLine, let selectedRange else {
             return false
         }
         return NSLocationInRange(selectedRange.location, paragraphRange)

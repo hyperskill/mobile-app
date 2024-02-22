@@ -34,7 +34,7 @@ final class LinkedList<T> {
         let previous = node.previous
         let next = node.next
 
-        if let previous = previous {
+        if let previous {
             previous.next = next
         } else {
             self.head = next

@@ -1,6 +1,7 @@
 import UIKit
 
 enum CodeInputAccessoryBuilder {
+    // swiftlint:disable:next function_parameter_count
     static func buildAccessoryView(
         size: CodeInputAccessorySize,
         language: CodeLanguage,

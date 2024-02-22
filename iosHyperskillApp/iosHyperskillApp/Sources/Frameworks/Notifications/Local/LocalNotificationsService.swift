@@ -109,7 +109,7 @@ final class LocalNotificationsService {
     ///   - fireDate: The Date object to be checked.
     /// - Returns: `true` if the `fireDate` exists and it in the future, otherwise false.
     private func isFireDateValid(_ fireDate: Date?) -> Bool {
-        if let fireDate = fireDate {
+        if let fireDate {
             return fireDate.compare(Date()) == .orderedDescending
         } else {
             return false

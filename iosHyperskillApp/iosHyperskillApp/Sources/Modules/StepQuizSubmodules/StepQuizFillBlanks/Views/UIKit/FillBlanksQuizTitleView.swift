@@ -17,8 +17,8 @@ final class FillBlanksQuizTitleView: UIView {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = Strings.StepQuizFillBlanks.title
-        label.textColor = self.appearance.textColor
-        label.font = self.appearance.font
+        label.textColor = appearance.textColor
+        label.font = appearance.font
         label.numberOfLines = 1
         return label
     }()

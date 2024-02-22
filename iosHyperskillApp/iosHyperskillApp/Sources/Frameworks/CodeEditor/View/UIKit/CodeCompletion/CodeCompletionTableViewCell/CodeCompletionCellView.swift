@@ -13,7 +13,7 @@ final class CodeCompletionCellView: UIView {
 
     private lazy var textLabel: UILabel = {
         let label = UILabel()
-        label.textColor = self.appearance.textColor
+        label.textColor = appearance.textColor
         label.numberOfLines = 1
         return label
     }()

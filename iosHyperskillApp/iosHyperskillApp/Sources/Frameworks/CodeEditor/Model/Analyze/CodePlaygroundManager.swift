@@ -139,6 +139,7 @@ final class CodePlaygroundManager {
         return beforeCursorString + afterCursorString
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func checkNextLineInsertion(
         currentText: String,
         previousText: String,
@@ -226,6 +227,7 @@ final class CodePlaygroundManager {
         }
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func checkPaired(
         currentText: String,
         previousText: String,
@@ -372,6 +374,7 @@ final class CodePlaygroundManager {
         currentCodeCompletionTableViewController = nil
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func presentCodeCompletion(
         suggestions: [String],
         prefix: String,
@@ -441,6 +444,7 @@ final class CodePlaygroundManager {
         textView.delegate?.textViewDidChange?(textView)
     }
 
+    // swiftlint:disable:next function_parameter_count
     func analyzeAndComplete(
         textView: UITextView,
         previousText: String,

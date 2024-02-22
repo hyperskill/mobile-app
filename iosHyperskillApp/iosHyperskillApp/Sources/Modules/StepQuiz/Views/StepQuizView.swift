@@ -119,6 +119,7 @@ struct StepQuizView: View {
         }
     }
 
+    // swiftlint:disable function_parameter_count
     @ViewBuilder
     private func buildQuizContent(
         state: StepQuizFeatureState,
@@ -151,6 +152,7 @@ struct StepQuizView: View {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
         }
     }
+    // swiftlint:enable function_parameter_count
 
     @ViewBuilder
     private func buildChildQuiz(
