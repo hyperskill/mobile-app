@@ -43,5 +43,6 @@ class UrlPathProcessor(
             is HyperskillUrlPath.ResetPassword -> false
             is HyperskillUrlPath.StudyPlan -> true
             is HyperskillUrlPath.Track -> true
+            is HyperskillUrlPath.Step -> true
         }
 }

@@ -11,10 +11,12 @@ import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalCli
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedOpenFullScreenCodeEditorHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
@@ -26,6 +28,8 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
@@ -37,7 +41,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
 
-class StepQuizReducer(
+internal class StepQuizReducer(
     private val stepRoute: StepRoute,
     private val stepQuizHintsReducer: StepQuizHintsReducer
 ) : StateReducer<State, Message, Action> {
@@ -268,6 +272,28 @@ class StepQuizReducer(
             }
             is Message.TheoryToolbarItemClicked ->
                 handleTheoryToolbarItemClicked(state)
+            Message.UnsupportedQuizGoToStudyPlanClicked ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepQuizClickedGoToStudyPlanHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    ),
+                    Action.ViewAction.NavigateTo.StudyPlan
+                )
+            Message.UnsupportedQuizSolveOnTheWebClicked ->
+                state to setOf(
+                    Action.ViewAction.CreateMagicLinkState.Loading,
+                    InternalAction.CreateMagicLinkForUnsupportedQuiz(stepRoute),
+                    Action.LogAnalyticEvent(
+                        StepQuizClickedSolveOnTheWebHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
+            InternalMessage.CreateMagicLinkForUnsupportedQuizError ->
+                state to setOf(Action.ViewAction.CreateMagicLinkState.Error)
+            is InternalMessage.CreateMagicLinkForUnsupportedQuizSuccess ->
+                state to setOf(
+                    Action.ViewAction.CreateMagicLinkState.Success,
+                    Action.ViewAction.OpenUrl(message.url)
+                )
             is Message.ClickedRetryEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)

@@ -58,7 +58,10 @@ struct StepQuizView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     if case .unsupported = viewData.quizType {
-                        StepQuizUnsupportedView()
+                        StepQuizUnsupportedView(
+                            onSolveButtonTap: viewModel.doUnsupportedQuizSolveOnTheWebAction,
+                            onGoToStudyPlanButtonTap: viewModel.doUnsupportedQuizGoToStudyPlanAction
+                        )
                     } else {
                         StepExpandableStepTextView(
                             text: viewData.stepText,
@@ -117,7 +120,7 @@ struct StepQuizView: View {
     // swiftlint:disable function_parameter_count
     @ViewBuilder
     private func buildQuizContent(
-        state: StepQuizFeatureState,
+        state: StepQuizFeature.State,
         step: Step,
         quizName: String?,
         quizType: StepQuizChildQuizType,
@@ -192,7 +195,7 @@ struct StepQuizView: View {
     @ViewBuilder
     private func buildQuizActionButtons(
         quizType: StepQuizChildQuizType,
-        state: StepQuizFeatureState,
+        state: StepQuizFeature.State,
         attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
         let submissionStatus: SubmissionStatus? = {
@@ -302,17 +305,39 @@ struct StepQuizView: View {
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .home:
-                stackRouter.popViewController()
-                TabBarRouter(tab: .home).route()
+                stackRouter.popViewController(
+                    animated: true,
+                    completion: {
+                        TabBarRouter(tab: .home).route()
+                    }
+                )
             case .stepScreen(let navigateToStepScreenViewAction):
                 let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                 stackRouter.pushViewController(assembly.makeModule())
+            case .studyPlan:
+                stackRouter.popViewController(
+                    animated: true,
+                    completion: {
+                        TabBarRouter(tab: .studyPlan).route()
+                    }
+                )
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
             switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {
             case .showNetworkError:
                 ProgressHUD.showError(status: Strings.Common.connectionError)
             }
+        case .createMagicLinkState(let createMagicLinkStateViewAction):
+            switch StepQuizFeatureActionViewActionCreateMagicLinkStateKs(createMagicLinkStateViewAction) {
+            case .error:
+                ProgressHUD.showError()
+            case .loading:
+                ProgressHUD.show()
+            case .success:
+                ProgressHUD.showSuccess()
+            }
+        case .openUrl(let data):
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
         }
     }
 }

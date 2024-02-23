@@ -14,7 +14,7 @@ import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class StepQuizComponentImpl(
+internal class StepQuizComponentImpl(
     private val appGraph: AppGraph,
     private val stepRoute: StepRoute
 ) : StepQuizComponent {
@@ -52,6 +52,7 @@ class StepQuizComponentImpl(
             stepQuizReplyValidator,
             appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.buildOnboardingDataComponent().onboardingInteractor,

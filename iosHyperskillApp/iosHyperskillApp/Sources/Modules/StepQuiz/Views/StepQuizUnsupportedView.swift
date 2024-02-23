@@ -11,6 +11,9 @@ extension StepQuizUnsupportedView {
 }
 
 struct StepQuizUnsupportedView: View {
+    let onSolveButtonTap: () -> Void
+    let onGoToStudyPlanButtonTap: () -> Void
+
     var body: some View {
         VStack(alignment: .leading, spacing: Appearance.rootSpacing) {
             Image(.stepQuizUnsupportedIllustration)
@@ -36,13 +39,13 @@ struct StepQuizUnsupportedView: View {
             VStack(spacing: Appearance.buttonsSpacing) {
                 Button(
                     Strings.StepQuiz.unsupportedButtonSolve,
-                    action: {}
+                    action: onSolveButtonTap
                 )
                 .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
 
                 Button(
                     Strings.Common.goToStudyPlan,
-                    action: {}
+                    action: onGoToStudyPlanButtonTap
                 )
                 .buttonStyle(OutlineButtonStyle(style: .violet))
             }
@@ -52,7 +55,10 @@ struct StepQuizUnsupportedView: View {
 
 #if DEBUG
 #Preview {
-    StepQuizUnsupportedView()
-        .padding()
+    StepQuizUnsupportedView(
+        onSolveButtonTap: {},
+        onGoToStudyPlanButtonTap: {}
+    )
+    .padding()
 }
 #endif
