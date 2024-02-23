@@ -58,12 +58,7 @@ struct StepQuizView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     if case .unsupported = viewData.quizType {
-                        StepQuizStatusView(state: .unsupportedQuiz)
-
-                        LatexView(
-                            text: viewData.stepText,
-                            configuration: .stepText()
-                        )
+                        StepQuizUnsupportedView()
                     } else {
                         StepExpandableStepTextView(
                             text: viewData.stepText,
