@@ -295,6 +295,15 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.StepQuizHintsViewAction -> {
                 stepQuizHintsDelegate?.onAction(action.viewAction)
             }
+            StepQuizFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
+                // TODO: ALTAPPS-807
+            }
+            is StepQuizFeature.Action.ViewAction.CreateMagicLinkState -> {
+                // TODO: ALTAPPS-807
+            }
+            is StepQuizFeature.Action.ViewAction.OpenUrl -> {
+                // TODO: ALTAPPS-807
+            }
         }
     }
 

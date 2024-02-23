@@ -13,7 +13,7 @@ import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 
-interface StepQuizFeature {
+object StepQuizFeature {
     data class State(
         val stepQuizState: StepQuizState,
         val stepQuizHintsState: StepQuizHintsFeature.State
@@ -112,6 +112,9 @@ interface StepQuizFeature {
          */
         object TheoryToolbarItemClicked : Message
 
+        object UnsupportedQuizSolveOnTheWebClicked : Message
+        object UnsupportedQuizGoToStudyPlanClicked : Message
+
         /**
          * Analytic
          */
@@ -134,6 +137,11 @@ interface StepQuizFeature {
          * Message Wrappers
          */
         data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message
+    }
+
+    internal sealed interface InternalMessage : Message {
+        object CreateMagicLinkForUnsupportedQuizError : InternalMessage
+        data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
     }
 
     sealed interface Action {
@@ -180,11 +188,23 @@ interface StepQuizFeature {
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
             ) : ViewAction
 
+            sealed interface CreateMagicLinkState : ViewAction {
+                object Loading : CreateMagicLinkState
+                object Error : CreateMagicLinkState
+                object Success : CreateMagicLinkState
+            }
+            data class OpenUrl(val url: String) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object Home : NavigateTo
+                object StudyPlan : NavigateTo
 
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
             }
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction
     }
 }
