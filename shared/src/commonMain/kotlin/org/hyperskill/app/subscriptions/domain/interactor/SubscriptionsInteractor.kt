@@ -99,7 +99,8 @@ class SubscriptionsInteractor(
                         """
                             Subscription successfully refreshed.
                             Type=${freshSubscription.type},status=${freshSubscription.status}
-                        """.trimMargin() }
+                        """.trimMargin()
+                    }
                 }
                 .onFailure { e ->
                     logger.e(e) { "Failed to refresh subscription" }

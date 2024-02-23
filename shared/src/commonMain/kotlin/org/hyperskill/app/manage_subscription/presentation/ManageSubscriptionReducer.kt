@@ -57,7 +57,7 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
 
     private fun handleActionButtonClicked(state: State): ReducerResult =
         if (state is State.Content) {
-            state to when  {
+            state to when {
                 state.subscription.isActive && state.manageSubscriptionUrl != null -> {
                     setOf(
                         InternalAction.LogAnalyticsEvent(ManageSubscriptionClickedManageHyperskillAnalyticEvent),
