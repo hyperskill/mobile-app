@@ -46,7 +46,6 @@ struct StepQuizStatusView: View {
         case wrong
         case evaluation
         case loading
-        case unsupportedQuiz
         case invalidReply(message: String)
 
         static var allCases: [StepQuizStatusView.State] {
@@ -55,7 +54,6 @@ struct StepQuizStatusView: View {
                 .wrong,
                 .evaluation,
                 .loading,
-                .unsupportedQuiz,
                 .invalidReply(message: "Invalid reply")
             ]
         }
@@ -64,7 +62,7 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Images.StepQuiz.checkmark
-            case .wrong, .unsupportedQuiz, .invalidReply:
+            case .wrong, .invalidReply:
                 return Images.StepQuiz.info
             case .evaluation, .loading:
                 return ""
@@ -81,8 +79,6 @@ struct StepQuizStatusView: View {
                 return Strings.StepQuiz.quizStatusEvaluation
             case .loading:
                 return Strings.StepQuiz.quizStatusLoading
-            case .unsupportedQuiz:
-                return Strings.StepQuiz.unsupportedText
             case .invalidReply(let message):
                 return message
             }
@@ -92,7 +88,7 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Color(ColorPalette.secondary)
-            case .wrong, .evaluation, .loading, .unsupportedQuiz, .invalidReply:
+            case .wrong, .evaluation, .loading, .invalidReply:
                 return Color(ColorPalette.primary)
             }
         }
@@ -101,7 +97,7 @@ struct StepQuizStatusView: View {
             switch self {
             case .correct:
                 return Color(ColorPalette.green200Alpha12)
-            case .evaluation, .loading, .unsupportedQuiz, .invalidReply, .wrong:
+            case .evaluation, .loading, .invalidReply, .wrong:
                 return Color(ColorPalette.blue200Alpha12)
             }
         }

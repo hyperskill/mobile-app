@@ -8,6 +8,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.debug.domain.model.EndpointConfigType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
+import org.hyperskill.app.step.domain.model.StepRoute
 
 class HyperskillUrlBuilderTest {
 
@@ -34,7 +35,8 @@ class HyperskillUrlBuilderTest {
             HyperskillUrlPath.ResetPassword(),
             HyperskillUrlPath.StudyPlan(),
             HyperskillUrlPath.Track(1),
-            HyperskillUrlPath.DeleteAccount()
+            HyperskillUrlPath.DeleteAccount(),
+            HyperskillUrlPath.Step(StepRoute.Learn.Step(1))
         )
 
         for (path in paths) {
@@ -48,6 +50,7 @@ class HyperskillUrlBuilderTest {
                 is HyperskillUrlPath.StudyPlan -> "${networkEndpointConfigInfo.baseUrl}study-plan"
                 is HyperskillUrlPath.Track -> "${networkEndpointConfigInfo.baseUrl}tracks/1"
                 is HyperskillUrlPath.DeleteAccount -> "${networkEndpointConfigInfo.baseUrl}delete-account"
+                is HyperskillUrlPath.Step -> "${networkEndpointConfigInfo.baseUrl}learn/step/1"
             }
 
             assertEquals(expected, url.toString())

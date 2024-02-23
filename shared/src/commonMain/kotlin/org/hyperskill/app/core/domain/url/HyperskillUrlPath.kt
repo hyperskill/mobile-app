@@ -1,5 +1,7 @@
 package org.hyperskill.app.core.domain.url
 
+import org.hyperskill.app.step.domain.model.StepRoute
+
 sealed class HyperskillUrlPath {
     abstract val path: String
 
@@ -29,5 +31,9 @@ sealed class HyperskillUrlPath {
 
     class DeleteAccount : HyperskillUrlPath() {
         override val path: String = "/delete-account"
+    }
+
+    class Step(stepRoute: StepRoute) : HyperskillUrlPath() {
+        override val path: String = stepRoute.analyticRoute.path
     }
 }

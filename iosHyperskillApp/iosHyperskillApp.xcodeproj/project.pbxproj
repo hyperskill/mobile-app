@@ -273,6 +273,7 @@
 		2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */; };
 		2C80D4FF288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */; };
 		2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */; };
+		2C829B912B88583300765335 /* StepQuizUnsupportedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C829B902B88583300765335 /* StepQuizUnsupportedView.swift */; };
 		2C82BA322844B01D004C9013 /* PlaceholderView+Configurations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C82BA312844B01D004C9013 /* PlaceholderView+Configurations.swift */; };
 		2C83FBBE2B177633007AD7E2 /* LeaderboardTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */; };
 		2C83FBC02B177F68007AD7E2 /* LeaderboardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C83FBBF2B177F68007AD7E2 /* LeaderboardListView.swift */; };
@@ -968,6 +969,7 @@
 		2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenViewModel.swift; sourceTree = "<group>"; };
 		2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenOutputProtocol.swift; sourceTree = "<group>"; };
 		2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeNavigationState.swift; sourceTree = "<group>"; };
+		2C829B902B88583300765335 /* StepQuizUnsupportedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizUnsupportedView.swift; sourceTree = "<group>"; };
 		2C82BA312844B01D004C9013 /* PlaceholderView+Configurations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlaceholderView+Configurations.swift"; sourceTree = "<group>"; };
 		2C83FBBD2B177633007AD7E2 /* LeaderboardTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTab.swift; sourceTree = "<group>"; };
 		2C83FBBF2B177F68007AD7E2 /* LeaderboardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardListView.swift; sourceTree = "<group>"; };
@@ -2133,6 +2135,7 @@
 				2CA7614A2926272500987B66 /* StepQuizFeedbackView.swift */,
 				E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */,
 				E99D4CEE2826B91100B49D52 /* StepQuizStatusView.swift */,
+				2C829B902B88583300765335 /* StepQuizUnsupportedView.swift */,
 				2CD48D882858657100CFCC4A /* StepQuizView.swift */,
 				2C41127628376F50004948A3 /* BottomControls */,
 				2CCD49712838E40F004DC3CE /* Header */,
@@ -5024,6 +5027,7 @@
 				0C3BB55AA2B8FB7F5ED9CADB /* InterviewPreparationOnboardingView.swift in Sources */,
 				63FC2C36279DBA43CCEA1360 /* InterviewPreparationOnboardingViewModel.swift in Sources */,
 				0F98394636E12DEC98B7953A /* RequestReviewModalAssembly.swift in Sources */,
+				2C829B912B88583300765335 /* StepQuizUnsupportedView.swift in Sources */,
 				91046416561EE431760D7D48 /* RequestReviewModalViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
