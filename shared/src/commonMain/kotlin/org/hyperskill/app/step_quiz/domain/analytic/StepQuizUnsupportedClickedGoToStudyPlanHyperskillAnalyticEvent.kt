@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Solve on the Web version" button analytic event after unsupported quiz placeholder.
+ * Represents click on the "Go to Study Plan" button analytic event after unsupported quiz placeholder.
  *
  * JSON payload:
  * ```
@@ -15,17 +15,17 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "click",
  *     "part": "unsupported_quiz_placeholder",
- *     "target": "solve_on_the_web_version"
+ *     "target": "go_to_study_plan"
  * }
  * ```
  *
  * @see HyperskillAnalyticEvent
  */
-class StepQuizClickedSolveOnTheWebHyperskillAnalyticEvent(
+class StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.UNSUPPORTED_QUIZ_PLACEHOLDER,
-    HyperskillAnalyticTarget.SOLVE_ON_THE_WEB_VERSION
+    HyperskillAnalyticTarget.GO_TO_STUDY_PLAN
 )

@@ -11,17 +11,17 @@ import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalCli
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedOpenFullScreenCodeEditorHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRunHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
@@ -275,7 +275,7 @@ internal class StepQuizReducer(
             Message.UnsupportedQuizGoToStudyPlanClicked ->
                 state to setOf(
                     Action.LogAnalyticEvent(
-                        StepQuizClickedGoToStudyPlanHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                        StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     ),
                     Action.ViewAction.NavigateTo.StudyPlan
                 )
@@ -284,7 +284,7 @@ internal class StepQuizReducer(
                     Action.ViewAction.CreateMagicLinkState.Loading,
                     InternalAction.CreateMagicLinkForUnsupportedQuiz(stepRoute),
                     Action.LogAnalyticEvent(
-                        StepQuizClickedSolveOnTheWebHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                        StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
             InternalMessage.CreateMagicLinkForUnsupportedQuizError ->
