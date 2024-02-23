@@ -5,6 +5,7 @@ import kotlin.test.assertEquals
 import kotlinx.datetime.Instant
 import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionStatus
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 class SubscriptionSerializationTest {
@@ -22,6 +23,7 @@ class SubscriptionSerializationTest {
         private val EXPECTED_SUBSCRIPTION: Subscription =
             Subscription(
                 type = SubscriptionType.FREEMIUM,
+                status = SubscriptionStatus.ACTIVE,
                 stepsLimitTotal = 10,
                 stepsLimitLeft = 9,
                 stepsLimitResetTime = Instant.parse("2022-11-16T12:19:14.782644Z"),

@@ -25,15 +25,15 @@ import org.hyperskill.app.subscriptions.cache.CurrentSubscriptionStateHolderImpl
 data class Subscription(
     @SerialName("type")
     val type: SubscriptionType = SubscriptionType.UNKNOWN,
-    val status: SubscriptionStatus,
+    val status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
     @SerialName("steps_limit_total")
-    val stepsLimitTotal: Int?,
+    val stepsLimitTotal: Int? = null,
     @SerialName("steps_limit_left")
-    val stepsLimitLeft: Int?,
+    val stepsLimitLeft: Int? = null,
     @SerialName("steps_limit_reset_time")
-    val stepsLimitResetTime: Instant?,
+    val stepsLimitResetTime: Instant? = null,
     @SerialName("valid_till")
-    val validTill: Instant?
+    val validTill: Instant? = null
 )
 
 internal val Subscription.areProblemsLimited: Boolean
