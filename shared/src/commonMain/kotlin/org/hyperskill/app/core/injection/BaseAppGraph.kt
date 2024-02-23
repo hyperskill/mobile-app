@@ -24,8 +24,6 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponentImpl
-import org.hyperskill.app.freemium.injection.FreemiumDataComponent
-import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
@@ -422,9 +420,6 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildStagesDataComponent(): StagesDataComponent =
         StagesDataComponentImpl(this)
-
-    override fun buildFreemiumDataComponent(): FreemiumDataComponent =
-        FreemiumDataComponentImpl(this)
 
     override fun buildProvidersDataComponent(): ProvidersDataComponent =
         ProvidersDataComponentImpl(this)

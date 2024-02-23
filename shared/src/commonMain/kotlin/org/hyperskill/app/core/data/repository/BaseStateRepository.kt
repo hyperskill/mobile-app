@@ -120,8 +120,8 @@ abstract class BaseStateRepository<State : Any?> : StateRepository<State> {
     override suspend fun updateState(newState: State) {
         mutex.withLock {
             stateHolder.setState(newState)
+            mutableSharedFlow.emit(newState)
         }
-        mutableSharedFlow.emit(newState)
     }
 
     /**

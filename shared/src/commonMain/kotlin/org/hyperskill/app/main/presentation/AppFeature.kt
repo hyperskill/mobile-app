@@ -147,5 +147,9 @@ object AppFeature {
 
     internal sealed interface InternalAction : Action {
         object FetchSubscription : InternalAction
+
+        data class RefreshSubscriptionOnExpiration(val subscription: Subscription) : InternalAction
+
+        object CancelSubscriptionRefresh : InternalAction
     }
 }
