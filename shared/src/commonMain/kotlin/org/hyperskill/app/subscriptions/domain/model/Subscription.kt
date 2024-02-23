@@ -2,6 +2,9 @@ package org.hyperskill.app.subscriptions.domain.model
 
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.subscriptions.cache.CurrentSubscriptionStateHolderImpl
@@ -52,9 +55,12 @@ internal val Subscription.isActive: Boolean
 internal val Subscription.isExpired: Boolean
     get() = status == SubscriptionStatus.EXPIRED
 
-internal val Subscription.isValidTillPassed: Boolean
-    get() = if (validTill != null) {
-        validTill < Clock.System.now()
+internal fun Subscription.isValidTillPassed(): Boolean =
+    if (validTill != null) {
+        val nowByUTC = Clock.System.now()
+            .toLocalDateTime(TimeZone.UTC)
+            .toInstant(TimeZone.UTC)
+        validTill < nowByUTC
     } else {
         false
     }

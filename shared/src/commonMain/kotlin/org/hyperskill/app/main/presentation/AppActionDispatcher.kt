@@ -1,14 +1,19 @@
 package org.hyperskill.app.main.presentation
 
 import co.touchlab.kermit.Logger
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.DataSourceType
@@ -28,12 +33,13 @@ import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcr
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionStatus
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.isValidTillPassed
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-@OptIn(FlowPreview::class)
 internal class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val appInteractor: AppInteractor,
@@ -45,9 +51,13 @@ internal class AppActionDispatcher(
     private val pushNotificationsInteractor: PushNotificationsInteractor,
     private val purchaseInteractor: PurchaseInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val subscriptionsRepository: SubscriptionsRepository,
     private val isSubscriptionPurchaseEnabled: Boolean,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    private var refreshMobileOnlySubscriptionJob: Job? = null
+
     init {
         authInteractor
             .observeUserDeauthorization()
@@ -61,6 +71,9 @@ internal class AppActionDispatcher(
                     }
                 }
 
+                refreshMobileOnlySubscriptionJob?.cancel()
+                refreshMobileOnlySubscriptionJob = null
+
                 stateRepositoriesComponent.resetRepositories()
 
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppUserDeauthorized(it.reason))
@@ -72,9 +85,12 @@ internal class AppActionDispatcher(
         if (isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .changes
-                .distinctUntilChanged()
+                .distinctUntilChangedBy {
+                    Triple(it.type, it.status, it.validTill)
+                }
                 .onEach { subscription ->
                     onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(subscription))
+                    startSubscriptionRefreshIfNeeded(subscription)
                 }
                 .launchIn(actionScope)
         }
@@ -164,7 +180,7 @@ internal class AppActionDispatcher(
 
     private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
         if (isAuthorized && isSubscriptionPurchaseEnabled) {
-            currentSubscriptionStateRepository
+            val subscription = currentSubscriptionStateRepository
                 .getStateWithSource(forceUpdate = false)
                 .fold(
                     onSuccess = { (subscription, usedDataSourceType) ->
@@ -174,7 +190,7 @@ internal class AppActionDispatcher(
                         val shouldFetchSubscriptionFromRemote =
                             usedDataSourceType == DataSourceType.CACHE &&
                                 subscription.type == SubscriptionType.MOBILE_ONLY &&
-                                subscription.isValidTillPassed
+                                subscription.isValidTillPassed()
                         if (shouldFetchSubscriptionFromRemote) {
                             currentSubscriptionStateRepository
                                 .getState(forceUpdate = true)
@@ -192,33 +208,11 @@ internal class AppActionDispatcher(
                             .getOrNull()
                     }
                 )
+            subscription?.let(::startSubscriptionRefreshIfNeeded)
+            subscription
         } else {
             null
         }
-
-    private suspend fun handleSubscribeOnMobileOnlySubscriptionExpiration() {
-
-    }
-
-    private suspend fun refreshMobileOnlySubscriptionOnExpiration(
-        subscription: Subscription,
-        onNewMessage: (Message) -> Unit
-    ) {
-        if (subscription.type == SubscriptionType.MOBILE_ONLY && subscription.validTill != null) {
-            val delayTill = Clock.System.now() - subscription.validTill
-            delay(delayTill)
-            if (isUserAuthorized()) {
-                val freshSubscription =
-                    currentSubscriptionStateRepository
-                        .getState(forceUpdate = true)
-                        .map { it.type }
-                        .onFailure { e ->
-                            logger.e(e) { "Failed to refresh subscription" }
-                        }
-
-            }
-        }
-    }
 
     private suspend fun handleUpdateDailyLearningNotificationTime() {
         notificationsInteractor
@@ -244,9 +238,55 @@ internal class AppActionDispatcher(
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
         fetchSubscription()?.let {
+            startSubscriptionRefreshIfNeeded(it)
             onNewMessage(
                 AppFeature.InternalMessage.SubscriptionChanged(it)
             )
+        }
+    }
+
+    private fun startSubscriptionRefreshIfNeeded(subscription: Subscription) {
+        refreshMobileOnlySubscriptionJob?.cancel()
+        refreshMobileOnlySubscriptionJob = null
+
+        val isActiveMobileOnlySubscription =
+            subscription.type == SubscriptionType.MOBILE_ONLY &&
+                subscription.status == SubscriptionStatus.ACTIVE
+
+        if (isActiveMobileOnlySubscription && subscription.validTill != null) {
+            refreshMobileOnlySubscriptionJob = actionScope.launch {
+                refreshMobileOnlySubscriptionOnExpiration(subscription.validTill, ::onNewMessage)
+            }
+            refreshMobileOnlySubscriptionJob?.invokeOnCompletion {
+                refreshMobileOnlySubscriptionJob = null
+            }
+        }
+    }
+
+    private suspend fun refreshMobileOnlySubscriptionOnExpiration(
+        subscriptionValidTill: Instant,
+        onNewMessage: (Message) -> Unit
+    ) {
+        val nowByUTC = Clock.System.now()
+            .toLocalDateTime(TimeZone.UTC)
+            .toInstant(TimeZone.UTC)
+        val delayDuration = subscriptionValidTill - nowByUTC
+        logger.d { "Wait ${delayDuration.inWholeSeconds} seconds for subscription expiration to refresh it" }
+        delay(delayDuration)
+        if (isUserAuthorized()) {
+            val freshSubscription = subscriptionsRepository
+                .syncSubscription()
+                .onFailure { e ->
+                    logger.e(e) { "Failed to refresh subscription" }
+                }
+                .onSuccess {
+                    logger.d { "Subscription successfully refreshed" }
+                }
+                .getOrNull()
+            if (freshSubscription != null) {
+                onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(freshSubscription))
+                currentSubscriptionStateRepository.updateState(freshSubscription)
+            }
         }
     }
 }
