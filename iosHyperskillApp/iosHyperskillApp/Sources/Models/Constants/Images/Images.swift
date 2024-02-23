@@ -1,6 +1,6 @@
 import Foundation
 
-//@available(*, deprecated, message: "Use Xcode 15 image resources instead")
+// @available(*, deprecated, message: "Use Xcode 15 image resources instead")
 enum Images {
     // MARK: - Common -
 

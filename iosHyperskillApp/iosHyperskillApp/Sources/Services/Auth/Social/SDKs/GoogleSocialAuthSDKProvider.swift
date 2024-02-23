@@ -44,7 +44,7 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
             ),
             presenting: currentPresentedViewController
         ) { user, error in
-            if let error = error {
+            if let error {
                 #if DEBUG
                 print("GoogleSocialAuthSDKProvider :: error = \(error.localizedDescription)")
                 #endif

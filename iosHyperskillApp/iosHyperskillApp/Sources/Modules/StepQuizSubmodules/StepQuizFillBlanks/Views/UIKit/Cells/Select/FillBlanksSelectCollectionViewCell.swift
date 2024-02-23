@@ -22,14 +22,13 @@ final class FillBlanksSelectCollectionViewCell: UICollectionViewCell, Reusable {
     var appearance = Appearance()
 
     private lazy var inputContainerView: FillBlanksSelectContainerView = {
-        let view = FillBlanksSelectContainerView(
-            appearance: .init(cornerRadius: self.appearance.cornerRadius)
+        FillBlanksSelectContainerView(
+            appearance: .init(cornerRadius: appearance.cornerRadius)
         )
-        return view
     }()
 
     private lazy var textLabel: UILabel = {
-        Self.makeTextLabel(appearance: self.appearance)
+        Self.makeTextLabel(appearance: appearance)
     }()
 
     var text: String? {

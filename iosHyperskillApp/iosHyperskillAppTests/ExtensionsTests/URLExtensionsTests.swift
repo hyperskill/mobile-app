@@ -29,3 +29,4 @@ class URLExtensionsTests: XCTestCase {
         XCTAssertNil(otherResult)
     }
 }
+// swiftlint:enable force_unwrapping

@@ -61,10 +61,10 @@ final class ProcessedContentWebView: UIView {
     }()
 
     private lazy var webView: WKWebView = {
-        let webView = WKWebView(frame: .zero, configuration: self.webViewConfiguration)
+        let webView = WKWebView(frame: .zero, configuration: webViewConfiguration)
         webView.isOpaque = false
-        webView.backgroundColor = self.appearance.backgroundColor
-        webView.scrollView.backgroundColor = self.appearance.backgroundColor
+        webView.backgroundColor = appearance.backgroundColor
+        webView.scrollView.backgroundColor = appearance.backgroundColor
 
         webView.navigationDelegate = self
         webView.scrollView.isScrollEnabled = false

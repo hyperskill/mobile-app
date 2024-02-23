@@ -78,7 +78,7 @@ struct CodeEditor: UIViewRepresentable {
             self.code = newCode
         }
         context.coordinator.onDidBeginEditing = { [weak codeEditorView] in
-            guard let codeEditorView = codeEditorView else {
+            guard let codeEditorView else {
                 return
             }
 
@@ -87,7 +87,7 @@ struct CodeEditor: UIViewRepresentable {
             onDidBeginEditing?()
         }
         context.coordinator.onDidEndEditing = { [weak codeEditorView] in
-            guard let codeEditorView = codeEditorView else {
+            guard let codeEditorView else {
                 return
             }
 

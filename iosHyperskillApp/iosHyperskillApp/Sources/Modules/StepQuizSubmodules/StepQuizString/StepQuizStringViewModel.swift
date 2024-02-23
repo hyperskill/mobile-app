@@ -19,7 +19,7 @@ final class StepQuizStringViewModel: ObservableObject, StepQuizChildQuizInputPro
         self.reply = reply
 
         let text: String = { () -> String? in
-            guard let reply = reply else {
+            guard let reply else {
                 return nil
             }
 
