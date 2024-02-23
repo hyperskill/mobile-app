@@ -248,7 +248,7 @@ extension NotificationsRegistrationService {
     }
 
     private func postCurrentPermissionStatus(_ permissionStatus: NotificationPermissionStatus? = nil) {
-        if let permissionStatus = permissionStatus {
+        if let permissionStatus {
             NotificationCenter.default.post(
                 name: .notificationsRegistrationServiceDidUpdatePermissionStatus,
                 object: permissionStatus

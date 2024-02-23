@@ -61,7 +61,7 @@ struct AuthCredentialsFormView: View {
                 Divider()
             }
 
-            if let errorMessage = errorMessage {
+            if let errorMessage {
                 AuthCredentialsErrorView(message: errorMessage)
             }
 

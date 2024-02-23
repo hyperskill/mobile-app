@@ -21,9 +21,9 @@ extension Reply {
         lines: [ParsonsLine]? = nil
     ) {
         let choicesAnswer: [ChoiceAnswer]? = {
-            if let sortingChoices = sortingChoices {
+            if let sortingChoices {
                 return sortingChoices.map(ChoiceAnswerChoice.init(boolValue:))
-            } else if let tableChoices = tableChoices {
+            } else if let tableChoices {
                 return tableChoices.map(ChoiceAnswerTable.init(tableChoice:))
             }
             return nil

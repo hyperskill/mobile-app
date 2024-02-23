@@ -18,7 +18,7 @@ class StepQuizCodeViewDataMapper {
 
         let languageStringValue = reply?.language ?? blockOptions.limits?.first?.key
         let language: CodeLanguage? = {
-            if let languageStringValue = languageStringValue {
+            if let languageStringValue {
                 return CodeLanguage(rawValue: languageStringValue)
             }
             return nil
@@ -26,13 +26,13 @@ class StepQuizCodeViewDataMapper {
         let languageHumanReadableName = step.displayLanguage ?? language?.humanReadableName
 
         let codeTemplate: String? = {
-            guard let languageStringValue = languageStringValue else {
+            guard let languageStringValue else {
                 return nil
             }
 
             if let codeTemplate = blockOptions.codeTemplates?[languageStringValue] {
                 return codeTemplate
-            } else if let language = language {
+            } else if let language {
                 return CodeLanguageSamples.sample(for: language)
             }
 
@@ -55,7 +55,7 @@ class StepQuizCodeViewDataMapper {
     // MARK: Private API
 
     private func mapSamples(_ samples: [[String]]?) -> [StepQuizCodeViewData.Sample] {
-        guard let samples = samples else {
+        guard let samples else {
             return []
         }
 

@@ -17,7 +17,7 @@ struct StepQuizDiscussionsButton: View {
 
     var body: some View {
         Button(
-            action: { self.onClick?() },
+            action: { onClick?() },
             label: {
                 Text(Strings.StepQuiz.discussionsButton)
                     .font(.body)

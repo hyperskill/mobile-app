@@ -41,6 +41,7 @@ struct StepQuizFillBlanksSelectOptionsViewWrapper: UIViewRepresentable {
             )
         }
         context.coordinator.onDidSelectComponent = {
+            // swiftlint:disable:next closure_parameter_position
             [weak uiView, weak collectionViewAdapter, weak moduleOutput] indexPath in
             guard let uiView, let collectionViewAdapter else {
                 return

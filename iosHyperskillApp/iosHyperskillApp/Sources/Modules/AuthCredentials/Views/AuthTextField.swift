@@ -17,14 +17,14 @@ final class AuthTextField: UITextField {
         button.setImage(Appearance.imageEyeOpened, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.tintColor = Appearance.tintColor
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        button.imageEdgeInsets = .zero
         button.frame = CGRect(
-            x: self.frame.size.width - Appearance.eyeButtonSize.width,
-            y: (self.frame.size.height - Appearance.eyeButtonSize.height) / 2,
+            x: frame.size.width - Appearance.eyeButtonSize.width,
+            y: (frame.size.height - Appearance.eyeButtonSize.height) / 2,
             width: Appearance.eyeButtonSize.width,
             height: Appearance.eyeButtonSize.height
         )
-        button.addTarget(self, action: #selector(self.togglePasswordField), for: .touchUpInside)
+        button.addTarget(self, action: #selector(togglePasswordField), for: .touchUpInside)
         return button
     }()
 

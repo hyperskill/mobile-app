@@ -17,8 +17,11 @@ final class AppAssembly: UIKitAssembly {
             feature: feature
         )
 
-        let viewController = AppViewController(viewModel: viewModel)
+        let router = AppRouter()
+
+        let viewController = AppViewController(viewModel: viewModel, router: router)
         viewModel.viewController = viewController
+        router.viewController = viewController
 
         return viewController
     }

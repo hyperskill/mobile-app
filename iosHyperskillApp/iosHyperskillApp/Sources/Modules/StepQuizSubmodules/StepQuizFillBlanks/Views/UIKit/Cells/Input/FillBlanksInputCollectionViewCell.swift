@@ -18,19 +18,18 @@ final class FillBlanksInputCollectionViewCell: UICollectionViewCell, Reusable {
     var appearance = Appearance()
 
     private lazy var inputContainerView: FillBlanksInputContainerView = {
-        let view = FillBlanksInputContainerView(
-            appearance: .init(cornerRadius: self.appearance.cornerRadius)
+        FillBlanksInputContainerView(
+            appearance: .init(cornerRadius: appearance.cornerRadius)
         )
-        return view
     }()
 
     private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.font = Appearance.font
-        textField.textColor = self.appearance.textColor
+        textField.textColor = appearance.textColor
         textField.textAlignment = .center
         textField.delegate = self
-        textField.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         // Disable features
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no

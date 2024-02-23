@@ -34,7 +34,7 @@ final class CodeInputAccessoryView: UIView {
         imageView.isUserInteractionEnabled = true
         let tapGestureRecognizer = UITapGestureRecognizer(
             target: self,
-            action: #selector(self.didTapHideKeyboardImageView(recognizer:))
+            action: #selector(didTapHideKeyboardImageView(recognizer:))
         )
         imageView.addGestureRecognizer(tapGestureRecognizer)
         return imageView
@@ -47,8 +47,8 @@ final class CodeInputAccessoryView: UIView {
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
-        collectionViewLayout.sectionInset = self.appearance.collectionViewLayoutSectionInset
-        collectionViewLayout.minimumInteritemSpacing = self.appearance.collectionViewLayoutMinimumInteritemSpacing
+        collectionViewLayout.sectionInset = appearance.collectionViewLayoutSectionInset
+        collectionViewLayout.minimumInteritemSpacing = appearance.collectionViewLayoutMinimumInteritemSpacing
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.isPagingEnabled = false
