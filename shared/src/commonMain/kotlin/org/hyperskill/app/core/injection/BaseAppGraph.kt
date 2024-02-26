@@ -153,6 +153,8 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
 import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponentImpl
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
@@ -493,4 +495,7 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent =
         UsersQuestionnaireWidgetComponentImpl(this)
+
+    override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
+        UsersQuestionnaireOnboardingComponentImpl(this)
 }

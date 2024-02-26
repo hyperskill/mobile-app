@@ -16,7 +16,7 @@ extension RadioButton {
 struct RadioButton: View {
     private(set) var appearance = Appearance()
 
-    @Binding var isSelected: Bool
+    let isSelected: Bool
 
     var onClick: (() -> Void)?
 
@@ -48,16 +48,15 @@ struct RadioButton: View {
     }
 }
 
-struct RadioButton_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            RadioButton(isSelected: .constant(true))
-                .frame(width: 24, height: 24)
+#if DEBUG
+#Preview {
+    VStack {
+        RadioButton(isSelected: true)
+            .frame(width: 24, height: 24)
 
-            RadioButton(isSelected: .constant(false))
-                .frame(width: 24, height: 24)
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
+        RadioButton(isSelected: false)
+            .frame(width: 24, height: 24)
     }
+    .padding()
 }
+#endif

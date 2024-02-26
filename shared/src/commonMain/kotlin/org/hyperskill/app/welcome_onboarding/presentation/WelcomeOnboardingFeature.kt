@@ -12,6 +12,8 @@ object WelcomeOnboardingFeature {
     sealed interface Message {
         object NotificationOnboardingCompleted : Message
 
+        object UsersQuestionnaireOnboardingCompleted : Message
+
         data class FirstProblemOnboardingCompleted(val firstProblemStepRoute: StepRoute?) : Message
     }
 
@@ -26,19 +28,14 @@ object WelcomeOnboardingFeature {
         ) : InternalMessage
     }
 
-    sealed interface OnboardingFlowFinishReason {
-        data class NotificationOnboardingFinished(val profile: Profile?) : OnboardingFlowFinishReason
-        object FirstProblemOnboardingFinished : OnboardingFlowFinishReason
-    }
-
     sealed interface Action {
-        data class OnboardingFlowFinished(
-            val reason: OnboardingFlowFinishReason
-        ) : Action
+        data class OnboardingFlowFinished(val profile: Profile?) : Action
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 object NotificationOnboardingScreen : NavigateTo
+
+                object UsersQuestionnaireOnboardingScreen : NavigateTo
 
                 data class FirstProblemOnboardingScreen(val isNewUserMode: Boolean) : NavigateTo
 

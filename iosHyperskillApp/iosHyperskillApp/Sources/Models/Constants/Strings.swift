@@ -261,10 +261,22 @@ enum Strings {
         static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
     }
 
-    // MARK: - Users questionnaire widget -
+    // MARK: - Users questionnaire -
+
+    // MARK: Widget
 
     enum UsersQuestionnaireWidget {
         static let title = sharedStrings.users_questionnaire_widget_title.localized()
+    }
+
+    // MARK: Onboarding
+
+    enum UsersQuestionnaireOnboarding {
+        static let textInputPlaceholder =
+            sharedStrings.users_questionnaire_onboarding_text_input_placeholder.localized()
+
+        static let sendButtot = sharedStrings.users_questionnaire_onboarding_send_button_text.localized()
+        static let skipButton = sharedStrings.users_questionnaire_onboarding_skip_button_text.localized()
     }
 
     // MARK: - Interview Preparation -

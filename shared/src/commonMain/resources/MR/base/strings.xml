@@ -539,6 +539,25 @@
     <!-- Users questionnaire widget -->
     <string name="users_questionnaire_widget_title">Tell us about your time using our app</string>
 
+    <!-- Questionnaire onboarding -->
+    <string name="users_questionnaire_onboarding_title_template">How did you hear about\n%s?</string>
+
+    <string name="users_questionnaire_onboarding_source_app_store">App Store</string>
+    <string name="users_questionnaire_onboarding_source_google_play">Google Play</string>
+    <string name="users_questionnaire_onboarding_source_google_search">Google Search</string>
+    <string name="users_questionnaire_onboarding_source_youtube">YouTube</string>
+    <string name="users_questionnaire_onboarding_source_instagram">Instagram</string>
+    <string name="users_questionnaire_onboarding_source_tiktok">TikTok</string>
+    <string name="users_questionnaire_onboarding_source_news">News/article/blog</string>
+    <string name="users_questionnaire_onboarding_source_friends">Friends/family</string>
+    <string name="users_questionnaire_onboarding_source_other">Other</string>
+
+    <string name="users_questionnaire_onboarding_text_input_placeholder">Type your answer here...</string>
+    <string name="users_questionnaire_onboarding_send_button_text">Send</string>
+    <string name="users_questionnaire_onboarding_skip_button_text">Skip</string>
+
+    <string name="users_questionnaire_onboarding_send_answer_success_message">Answer sent! Enjoy 10 extra problems on the first day.</string>
+
     <!--Interview preparation widget-->
     <string name="interview_preparation_widget_title">Interview preparation</string>
     <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget</string>

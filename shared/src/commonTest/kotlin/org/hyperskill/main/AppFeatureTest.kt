@@ -20,7 +20,7 @@ class AppFeatureTest {
     private val appReducer = AppReducer(
         StreakRecoveryReducer(resourceProvider = ResourceProviderStub()),
         NotificationClickHandlingReducer(),
-        WelcomeOnboardingReducer(),
+        WelcomeOnboardingReducer(isUsersQuestionnaireOnboardingEnabled = true),
         PlatformType.ANDROID
     )
 
