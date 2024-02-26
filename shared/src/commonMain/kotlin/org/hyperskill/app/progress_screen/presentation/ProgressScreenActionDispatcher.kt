@@ -139,8 +139,8 @@ internal class ProgressScreenActionDispatcher(
         trackId: Long,
         forceLoadFromRemote: Boolean
     ): Result<TrackWithProgress?> =
-        coroutineScope {
-            kotlin.runCatching {
+        kotlin.runCatching {
+            coroutineScope {
                 val trackDeferred = async {
                     trackInteractor.getTrack(trackId, forceLoadFromRemote)
                 }
@@ -149,7 +149,7 @@ internal class ProgressScreenActionDispatcher(
                 }
                 TrackWithProgress(
                     track = trackDeferred.await().getOrThrow(),
-                    trackProgress = trackProgressDeferred.await().getOrThrow() ?: return@runCatching null
+                    trackProgress = trackProgressDeferred.await().getOrThrow() ?: return@coroutineScope null
                 )
             }
         }
@@ -158,8 +158,8 @@ internal class ProgressScreenActionDispatcher(
         projectId: Long,
         forceLoadFromRemote: Boolean
     ): Result<ProjectWithProgress?> =
-        coroutineScope {
-            kotlin.runCatching {
+        kotlin.runCatching {
+            coroutineScope {
                 val projectDeferred = async {
                     projectsRepository.getProject(projectId, forceLoadFromRemote)
                 }
