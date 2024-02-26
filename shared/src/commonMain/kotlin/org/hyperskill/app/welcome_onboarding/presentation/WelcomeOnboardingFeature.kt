@@ -16,6 +16,8 @@ object WelcomeOnboardingFeature {
 
         object PaywallCompleted : Message
 
+        object UsersQuestionnaireOnboardingCompleted : Message
+
         data class FirstProblemOnboardingCompleted(val firstProblemStepRoute: StepRoute?) : Message
     }
 
@@ -40,6 +42,8 @@ object WelcomeOnboardingFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 object NotificationOnboardingScreen : NavigateTo
+
+                object UsersQuestionnaireOnboardingScreen : NavigateTo
 
                 data class FirstProblemOnboardingScreen(val isNewUserMode: Boolean) : NavigateTo
 

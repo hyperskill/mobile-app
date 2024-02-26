@@ -15,7 +15,8 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class WelcomeOnboardingReducer(
-    private val isSubscriptionPurchaseEnabled: Boolean
+    private val isSubscriptionPurchaseEnabled: Boolean,
+    private val isUsersQuestionnaireOnboardingEnabled: Boolean
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
@@ -24,6 +25,9 @@ class WelcomeOnboardingReducer(
 
             Message.NotificationOnboardingCompleted ->
                 handleNotificationOnboardingCompleted(state)
+
+            Message.UsersQuestionnaireOnboardingCompleted ->
+                handleUsersQuestionnaireOnboardingCompleted(state)
 
             is InternalMessage.FetchSubscriptionSuccess ->
                 handleFetchSubscriptionSuccess(state, message)
@@ -49,7 +53,18 @@ class WelcomeOnboardingReducer(
         }
     }
 
-    private fun handleNotificationOnboardingCompleted(state: State): ReducerResult =
+    private fun handleNotificationOnboardingCompleted(
+        state: State
+    ): ReducerResult =
+        if (isUsersQuestionnaireOnboardingEnabled && state.profile?.isNewUser == true) {
+            state to setOf(ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen)
+        } else {
+            handleUsersQuestionnaireOnboardingCompleted(state)
+        }
+
+    private fun handleUsersQuestionnaireOnboardingCompleted(
+        state: State
+    ): ReducerResult =
         if (isSubscriptionPurchaseEnabled && state.profile?.features?.isMobileOnlySubscriptionEnabled == true) {
             state to setOf(InternalAction.FetchSubscription)
         } else {
@@ -92,12 +107,15 @@ class WelcomeOnboardingReducer(
         state: State,
         message: Message.FirstProblemOnboardingCompleted
     ): ReducerResult {
-        val (newState, actions) = completeOnboardingFlow(state)
-        return newState to actions + setOfNotNull(
-            message
-                .firstProblemStepRoute
-                ?.let(ViewAction.NavigateTo::StudyPlanWithStep)
-        )
+        val (newState, newActions) = completeOnboardingFlow(state)
+
+        val finalActions = if (message.firstProblemStepRoute != null) {
+            setOf(ViewAction.NavigateTo.StudyPlanWithStep(message.firstProblemStepRoute))
+        } else {
+            newActions
+        }
+
+        return newState to finalActions
     }
 
     private fun completeOnboardingFlow(state: State): ReducerResult =

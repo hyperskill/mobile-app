@@ -6,8 +6,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.platform.Platform
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -58,8 +56,7 @@ class StepCompletionActionDispatcher(
     private val dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val topicCompletedFlow: TopicCompletedFlow,
     private val topicProgressFlow: TopicProgressFlow,
-    private val interviewStepsStateRepository: InterviewStepsStateRepository,
-    private val platform: Platform
+    private val interviewStepsStateRepository: InterviewStepsStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -276,9 +273,7 @@ class StepCompletionActionDispatcher(
             }
         }
 
-        // TODO: ALTAPPS-1136 remove platformType check after implementing request review for Android
-        val shouldRequestReview =
-            platform.platformType == PlatformType.IOS && requestReviewInteractor.shouldRequestReviewAfterStepSolved()
+        val shouldRequestReview = requestReviewInteractor.shouldRequestReviewAfterStepSolved()
 
         if (shouldShareStreak && streakToShare != null) {
             shareStreakInteractor.setLastTimeShareStreakShown()

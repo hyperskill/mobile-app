@@ -1,0 +1,9 @@
+package org.hyperskill.app.users_questionnaire.widget.injection
+
+import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetActionDispatcher
+import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetReducer
+
+interface UsersQuestionnaireWidgetComponent {
+    val usersQuestionnaireWidgetReducer: UsersQuestionnaireWidgetReducer
+    val usersQuestionnaireWidgetActionDispatcher: UsersQuestionnaireWidgetActionDispatcher
+}

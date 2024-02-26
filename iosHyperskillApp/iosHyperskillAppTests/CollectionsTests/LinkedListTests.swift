@@ -147,3 +147,4 @@ class LinkedListTest: XCTestCase {
         XCTAssertNil(list.tail)
     }
 }
+// swiftlint:enable force_unwrapping

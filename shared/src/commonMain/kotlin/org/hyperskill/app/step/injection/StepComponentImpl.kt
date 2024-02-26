@@ -7,7 +7,10 @@ import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class StepComponentImpl(private val appGraph: AppGraph, private val stepRoute: StepRoute) : StepComponent {
+internal class StepComponentImpl(
+    private val appGraph: AppGraph,
+    private val stepRoute: StepRoute
+) : StepComponent {
     override val commentThreadTitleMapper: CommentThreadTitleMapper
         get() = CommentThreadTitleMapper(appGraph.commonComponent.resourceProvider)
 
@@ -19,6 +22,7 @@ class StepComponentImpl(private val appGraph: AppGraph, private val stepRoute: S
             stepRoute,
             appGraph.buildStepDataComponent().stepInteractor,
             appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
+            appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             stepCompletionComponent.stepCompletionReducer,

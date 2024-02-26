@@ -13,7 +13,7 @@ final class CodeEditorView: UIView {
     weak var delegate: CodeEditorViewDelegate?
 
     private lazy var codeTextView: CodeTextView = {
-        let codeTextView = CodeTextView(appearance: self.appearance.textViewAppearance)
+        let codeTextView = CodeTextView(appearance: appearance.textViewAppearance)
         codeTextView.delegate = self
         // Disable features
         codeTextView.autocapitalizationType = .none
@@ -62,7 +62,7 @@ final class CodeEditorView: UIView {
 
     var theme: CodeEditorTheme? {
         didSet {
-            if let theme = theme {
+            if let theme {
                 codeTextView.updateTheme(name: theme.name, font: theme.font)
             }
         }
@@ -126,7 +126,7 @@ final class CodeEditorView: UIView {
             codeTextView.reloadInputViews()
         }
 
-        guard let language = language, isEditable else {
+        guard let language, isEditable else {
             codeTextView.inputAccessoryView = nil
             return
         }

@@ -127,7 +127,7 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(ProfileSettingsDeleteAccountNoticeShownHyperskillAnalyticEvent())
                 )
             is Message.DeleteAccountNoticeHidden -> {
-                val analyticsAction = Action.LogAnalyticEvent(
+                val logAnalyticEventAction = Action.LogAnalyticEvent(
                     ProfileSettingsDeleteAccountNoticeHiddenHyperskillAnalyticEvent(
                         message.isConfirmed
                     )
@@ -135,10 +135,10 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                 if (message.isConfirmed && state is State.Content) {
                     state.copy(isLoadingMagicLink = true) to setOf(
                         Action.GetMagicLink(HyperskillUrlPath.DeleteAccount()),
-                        analyticsAction
+                        logAnalyticEventAction
                     )
                 } else {
-                    state to setOf(analyticsAction)
+                    state to setOf(logAnalyticEventAction)
                 }
             }
             Message.ClickedRateUsInAppStoreEventMessage ->
@@ -146,6 +146,14 @@ internal class ProfileSettingsReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(
                         ProfileSettingsClickedHyperskillAnalyticEvent(
                             target = HyperskillAnalyticTarget.RATE_US_IN_APP_STORE
+                        )
+                    )
+                )
+            Message.ClickedRateUsInPlayStoreEventMessage ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        ProfileSettingsClickedHyperskillAnalyticEvent(
+                            target = HyperskillAnalyticTarget.RATE_US_IN_PLAY_STORE
                         )
                     )
                 )

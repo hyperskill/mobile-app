@@ -279,6 +279,8 @@ class MainActivity :
                         router.newRootScreen(NotificationsOnboardingScreen)
                     is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.Paywall ->
                         router.newRootScreen(PaywallScreen(viewAction.paywallTransitionSource))
+                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
+                        TODO("ALTAPPS-1145: Implement QuestionnaireOnboardingScreen navigation")
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(

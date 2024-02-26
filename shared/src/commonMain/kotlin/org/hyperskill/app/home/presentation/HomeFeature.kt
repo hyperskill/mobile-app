@@ -121,9 +121,6 @@ object HomeFeature {
         object NextProblemInTimerStopped : Message
         data class HomeNextProblemInUpdate(val nextProblemIn: String) : Message
 
-        data class StepQuizSolved(val stepId: Long) : Message
-        object TopicRepeated : Message
-
         object ClickedTopicsRepetitionsCard : Message
         object ClickedProblemOfDayCardReload : Message
 
@@ -147,6 +144,15 @@ object HomeFeature {
         data class InterviewPreparationWidgetMessage(
             val message: InterviewPreparationWidgetFeature.Message
         ) : Message
+    }
+
+    internal sealed interface InternalMessage : Message {
+        data class StepQuizSolved(val stepId: Long) : InternalMessage
+        object TopicRepeated : InternalMessage
+        object TopicCompleted : InternalMessage
+
+        object FetchProblemOfDayStateResultError : InternalMessage
+        data class FetchProblemOfDayStateResultSuccess(val problemOfDayState: ProblemOfDayState) : InternalMessage
     }
 
     sealed interface Action {
@@ -176,6 +182,8 @@ object HomeFeature {
     internal sealed interface InternalAction : Action {
         object FetchHomeScreenData : InternalAction
         object LaunchTimer : InternalAction
+
+        object FetchProblemOfDayState : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
 

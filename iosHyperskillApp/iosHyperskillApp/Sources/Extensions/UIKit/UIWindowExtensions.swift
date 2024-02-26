@@ -34,7 +34,7 @@ extension UIWindow {
     ///     - responder: The view object, `UIView`, `UIViewController`, or `UIWindow` instance.
     ///     - level: The depth level in the view hierarchy.
     func traverseHierarchy(_ visitor: (_ responder: UIResponder, _ level: Int) -> Void) {
-        /// Stack used to accumulate objects to visit.
+        // Stack used to accumulate objects to visit.
         var stack: [(responder: UIResponder, level: Int)] = [(responder: self, level: 0)]
 
         while !stack.isEmpty {

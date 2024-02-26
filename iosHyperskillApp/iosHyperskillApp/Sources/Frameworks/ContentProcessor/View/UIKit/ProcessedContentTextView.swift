@@ -23,8 +23,8 @@ final class ProcessedContentTextView: UIView {
     private lazy var textView: UITextView = {
         let textView = UITextView()
 
-        textView.font = self.appearance.font
-        textView.textColor = self.appearance.textColor
+        textView.font = appearance.font
+        textView.textColor = appearance.textColor
 
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.textContainer.maximumNumberOfLines = 0
@@ -45,8 +45,8 @@ final class ProcessedContentTextView: UIView {
 
     private lazy var attributedLabel: AttributedLabel = {
         let attributedLabel = AttributedLabel()
-        attributedLabel.font = self.appearance.font
-        attributedLabel.textColor = self.appearance.textColor
+        attributedLabel.font = appearance.font
+        attributedLabel.textColor = appearance.textColor
         attributedLabel.numberOfLines = 0
         attributedLabel.isSelectable = true
         attributedLabel.onClick = { [weak self] (label, detection) in

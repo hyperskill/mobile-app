@@ -50,7 +50,7 @@ final class CodeTextView: UITextView {
     var language: String? {
         didSet {
             guard language != oldValue,
-                  let codeAttributedString = codeAttributedString
+                  let codeAttributedString
             else {
                 return
             }
@@ -164,7 +164,7 @@ final class CodeTextView: UITextView {
     }
 
     func updateTheme(name: String, font: UIFont) {
-        guard let codeAttributedString = codeAttributedString else {
+        guard let codeAttributedString else {
             return
         }
 
@@ -179,7 +179,7 @@ final class CodeTextView: UITextView {
     }
 
     private func invalidateDisplayOfCurrentLine() {
-        guard let codeTextViewLayoutManager = codeTextViewLayoutManager else {
+        guard let codeTextViewLayoutManager else {
             return
         }
 
@@ -219,7 +219,7 @@ final class CodeTextView: UITextView {
 
         appearance.gutterBorderColor = invertedThemeBackgroundColor.withAlphaComponent(alphas.gutterBorderColorAlpha)
 
-        guard let codeTextViewLayoutManager = codeTextViewLayoutManager else {
+        guard let codeTextViewLayoutManager else {
             return
         }
 

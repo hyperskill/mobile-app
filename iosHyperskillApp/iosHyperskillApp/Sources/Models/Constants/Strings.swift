@@ -95,7 +95,9 @@ enum Strings {
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
 
-        static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
+        static let unsupportedTitle = sharedStrings.step_quiz_unsupported_quiz_title.localized()
+        static let unsupportedDescription = sharedStrings.step_quiz_unsupported_quiz_description.localized()
+        static let unsupportedButtonSolve = sharedStrings.step_quiz_unsupported_quiz_button_solve_text.localized()
 
         static let stepTextHeaderTitle = sharedStrings.step_quiz_step_text_header_title.localized()
 
@@ -259,6 +261,24 @@ enum Strings {
         static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
     }
 
+    // MARK: - Users questionnaire -
+
+    // MARK: Widget
+
+    enum UsersQuestionnaireWidget {
+        static let title = sharedStrings.users_questionnaire_widget_title.localized()
+    }
+
+    // MARK: Onboarding
+
+    enum UsersQuestionnaireOnboarding {
+        static let textInputPlaceholder =
+            sharedStrings.users_questionnaire_onboarding_text_input_placeholder.localized()
+
+        static let sendButtot = sharedStrings.users_questionnaire_onboarding_send_button_text.localized()
+        static let skipButton = sharedStrings.users_questionnaire_onboarding_skip_button_text.localized()
+    }
+
     // MARK: - Interview Preparation -
 
     // MARK: Widget
@@ -350,7 +370,6 @@ enum Strings {
         static let reportProblem = sharedStrings.settings_report_problem.localized()
         static let sendFeedback = sharedStrings.settings_send_feedback.localized()
         static let version = sharedStrings.settings_version.localized()
-        static let rateApplication = sharedStrings.settings_rate_application.localized()
         static let signOut = sharedStrings.settings_sign_out.localized()
         static let signOutAlertTitle = sharedStrings.settings_sign_out_dialog_title.localized()
         static let signOutAlertMessage = sharedStrings.settings_sign_out_dialog_explanation.localized()

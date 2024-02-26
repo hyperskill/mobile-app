@@ -8,7 +8,7 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 > {
     private static let applyNewThemeAnimationDelay: TimeInterval = 0.33
     private static let dismissScreenAnimationDelay =
-      AppViewController.Animation.swapRootViewControllerAnimationDuration * 0.75
+      AppRouter.Animation.swapRootViewControllerAnimationDuration * 0.75
 
     private let applicationThemeService: ApplicationThemeServiceProtocol
 

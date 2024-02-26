@@ -22,12 +22,16 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbar
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
@@ -39,7 +43,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
 
-class StepQuizReducer(
+internal class StepQuizReducer(
     private val stepRoute: StepRoute,
     private val stepQuizHintsReducer: StepQuizHintsReducer
 ) : StateReducer<State, Message, Action> {
@@ -277,6 +281,28 @@ class StepQuizReducer(
             }
             is Message.TheoryToolbarItemClicked ->
                 handleTheoryToolbarItemClicked(state)
+            Message.UnsupportedQuizGoToStudyPlanClicked ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    ),
+                    Action.ViewAction.NavigateTo.StudyPlan
+                )
+            Message.UnsupportedQuizSolveOnTheWebClicked ->
+                state to setOf(
+                    Action.ViewAction.CreateMagicLinkState.Loading,
+                    InternalAction.CreateMagicLinkForUnsupportedQuiz(stepRoute),
+                    Action.LogAnalyticEvent(
+                        StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
+            InternalMessage.CreateMagicLinkForUnsupportedQuizError ->
+                state to setOf(Action.ViewAction.CreateMagicLinkState.Error)
+            is InternalMessage.CreateMagicLinkForUnsupportedQuizSuccess ->
+                state to setOf(
+                    Action.ViewAction.CreateMagicLinkState.Success,
+                    Action.ViewAction.OpenUrl(message.url)
+                )
             is Message.ClickedRetryEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)

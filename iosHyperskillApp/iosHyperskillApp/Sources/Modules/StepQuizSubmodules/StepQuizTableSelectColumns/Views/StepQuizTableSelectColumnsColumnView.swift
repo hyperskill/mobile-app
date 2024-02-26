@@ -14,7 +14,7 @@ extension StepQuizTableSelectColumnsColumnView {
 struct StepQuizTableSelectColumnsColumnView: View {
     private(set) var appearance = Appearance()
 
-    var isSelected: Binding<Bool>
+    let isSelected: Bool
 
     let text: String
 
@@ -37,7 +37,7 @@ struct StepQuizTableSelectColumnsColumnView: View {
     }
 
     @ViewBuilder
-    private func buildIndicator(isSelected: Binding<Bool>, onTap: @escaping () -> Void) -> some View {
+    private func buildIndicator(isSelected: Bool, onTap: @escaping () -> Void) -> some View {
         if isMultipleChoice {
             CheckboxButton(
                 appearance: .init(backgroundUnselectedColor: .clear),
@@ -56,23 +56,22 @@ struct StepQuizTableSelectColumnsColumnView: View {
     }
 }
 
-struct StepQuizTableSelectColumnsColumnView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            StepQuizTableSelectColumnsColumnView(
-                isSelected: .constant(true),
-                text: "Some option",
-                isMultipleChoice: false,
-                onTap: {}
-            )
-            StepQuizTableSelectColumnsColumnView(
-                isSelected: .constant(true),
-                text: "Some option",
-                isMultipleChoice: true,
-                onTap: {}
-            )
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
+#if DEBUG
+#Preview {
+    VStack {
+        StepQuizTableSelectColumnsColumnView(
+            isSelected: true,
+            text: "Some option",
+            isMultipleChoice: false,
+            onTap: {}
+        )
+        StepQuizTableSelectColumnsColumnView(
+            isSelected: true,
+            text: "Some option",
+            isMultipleChoice: true,
+            onTap: {}
+        )
     }
+    .padding()
 }
+#endif

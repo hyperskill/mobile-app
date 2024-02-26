@@ -3,13 +3,14 @@ package org.hyperskill.app.step.presentation
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature.Action
+import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.State
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class StepReducer(
+internal class StepReducer(
     private val stepRoute: StepRoute,
     private val stepCompletionReducer: StepCompletionReducer
 ) : StateReducer<State, Message, Action> {
@@ -20,8 +21,8 @@ class StepReducer(
                     (message.forceUpdate && (state is State.Data || state is State.Error))
                 ) {
                     State.Loading to setOf(
-                        Action.FetchStep(stepRoute),
-                        Action.ViewStep(stepRoute.stepId, stepRoute.stepContext)
+                        InternalAction.FetchStep(stepRoute),
+                        InternalAction.ViewStep(stepRoute.stepId, stepRoute.stepContext)
                     )
                 } else {
                     null
@@ -42,7 +43,7 @@ class StepReducer(
                             false
                     },
                     stepCompletionState = StepCompletionFeature.createState(message.step, stepRoute)
-                ) to setOf(Action.UpdateNextLearningActivityState(message.step))
+                ) to setOf(InternalAction.UpdateNextLearningActivityState(message.step))
             }
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
@@ -52,7 +53,7 @@ class StepReducer(
                     null
                 } else {
                     state to setOf(
-                        Action.LogAnalyticEvent(
+                        InternalAction.LogAnalyticEvent(
                             StepViewedHyperskillAnalyticEvent(
                                 stepRoute.analyticRoute
                             )
@@ -80,7 +81,7 @@ class StepReducer(
                 if (it is StepCompletionFeature.Action.ViewAction) {
                     Action.ViewAction.StepCompletionViewAction(it)
                 } else {
-                    Action.StepCompletionAction(it)
+                    InternalAction.StepCompletionAction(it)
                 }
             }
             .toSet()

@@ -85,6 +85,9 @@ import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
+import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
@@ -189,4 +192,7 @@ interface AppGraph {
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
     fun buildSubscriptionsDataComponent(): SubscriptionsDataComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
+    fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent
+    fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent
+    fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
 }
