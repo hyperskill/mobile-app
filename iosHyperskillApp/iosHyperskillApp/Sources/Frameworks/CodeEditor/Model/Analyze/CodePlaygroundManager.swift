@@ -433,12 +433,17 @@ final class CodePlaygroundManager {
             return
         }
 
-        let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
-        var text = textView.text ?? ""
-        text.insert(contentsOf: symbols, at: text.index(text.startIndex, offsetBy: cursorPosition))
-        textView.text = text
-        // Import here to update selectedTextRange before calling textViewDidChange #APPS-2352
-        textView.selectedTextRange = textRangeFrom(position: cursorPosition + symbols.count, textView: textView)
+        if selectedRange.isEmpty {
+            let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
+            var text = textView.text ?? ""
+            text.insert(contentsOf: symbols, at: text.index(text.startIndex, offsetBy: cursorPosition))
+            textView.text = text
+            // Import here to update selectedTextRange before calling textViewDidChange #APPS-2352
+            textView.selectedTextRange = textRangeFrom(position: cursorPosition + symbols.count, textView: textView)
+        } else {
+            textView.replace(selectedRange, withText: symbols)
+        }
+
         // Manually call textViewDidChange, because when manually setting the text of a UITextView with code,
         // the textViewDidChange: method does not get called.
         textView.delegate?.textViewDidChange?(textView)

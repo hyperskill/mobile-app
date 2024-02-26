@@ -95,7 +95,9 @@ enum Strings {
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
 
-        static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
+        static let unsupportedTitle = sharedStrings.step_quiz_unsupported_quiz_title.localized()
+        static let unsupportedDescription = sharedStrings.step_quiz_unsupported_quiz_description.localized()
+        static let unsupportedButtonSolve = sharedStrings.step_quiz_unsupported_quiz_button_solve_text.localized()
 
         static let stepTextHeaderTitle = sharedStrings.step_quiz_step_text_header_title.localized()
 

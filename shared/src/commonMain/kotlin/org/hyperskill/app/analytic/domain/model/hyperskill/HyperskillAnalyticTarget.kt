@@ -118,5 +118,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     REQUEST_REVIEW_MODAL("request_review_modal"),
     WRITE_A_REQUEST("write_a_request"),
     MAYBE_LATER("maybe_later"),
-    CHOICE("choice")
+    CHOICE("choice"),
+    SOLVE_ON_THE_WEB_VERSION("solve_on_the_web_version")
 }

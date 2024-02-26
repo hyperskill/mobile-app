@@ -3,7 +3,7 @@ import shared
 import SwiftUI
 
 final class StepQuizViewModel: FeatureViewModel<
-  StepQuizFeatureState,
+  StepQuizFeature.State,
   StepQuizFeatureMessage,
   StepQuizFeatureActionViewAction
 > {
@@ -42,7 +42,10 @@ final class StepQuizViewModel: FeatureViewModel<
         onNewMessage(StepQuizFeatureMessageInitWithStep(step: step, forceUpdate: false))
     }
 
-    override func shouldNotifyStateDidChange(oldState: StepQuizFeatureState, newState: StepQuizFeatureState) -> Bool {
+    override func shouldNotifyStateDidChange(
+        oldState: StepQuizFeature.State,
+        newState: StepQuizFeature.State
+    ) -> Bool {
         if oldState.stepQuizState is StepQuizFeatureStepQuizStateAttemptLoading
             && newState.stepQuizState is StepQuizFeatureStepQuizStateAttemptLoaded {
             updateChildQuizSubscription = objectWillChange.sink { [weak self] in
@@ -96,6 +99,14 @@ final class StepQuizViewModel: FeatureViewModel<
 
     func doQuizContinueAction() {
         moduleOutput?.stepQuizDidRequestContinue()
+    }
+
+    func doUnsupportedQuizSolveOnTheWebAction() {
+        onNewMessage(StepQuizFeatureMessageUnsupportedQuizSolveOnTheWebClicked())
+    }
+
+    func doUnsupportedQuizGoToStudyPlanAction() {
+        onNewMessage(StepQuizFeatureMessageUnsupportedQuizGoToStudyPlanClicked())
     }
 
     func makeViewData() -> StepQuizViewData {

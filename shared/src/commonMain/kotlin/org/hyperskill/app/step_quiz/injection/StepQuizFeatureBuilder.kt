@@ -7,6 +7,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -25,7 +26,7 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object StepQuizFeatureBuilder {
+internal object StepQuizFeatureBuilder {
     private const val LOG_TAG = "StepQuizFeature"
 
     fun build(
@@ -34,6 +35,7 @@ object StepQuizFeatureBuilder {
         stepQuizReplyValidator: StepQuizReplyValidator,
         currentProfileStateRepository: CurrentProfileStateRepository,
         freemiumInteractor: FreemiumInteractor,
+        urlPathProcessor: UrlPathProcessor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
@@ -53,6 +55,7 @@ object StepQuizFeatureBuilder {
             stepQuizReplyValidator,
             currentProfileStateRepository,
             freemiumInteractor,
+            urlPathProcessor,
             analyticInteractor,
             sentryInteractor,
             onboardingInteractor,

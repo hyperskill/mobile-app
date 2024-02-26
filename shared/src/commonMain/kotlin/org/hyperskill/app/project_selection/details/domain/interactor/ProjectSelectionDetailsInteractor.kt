@@ -25,8 +25,8 @@ internal class ProjectSelectionDetailsInteractor(
         projectId: Long,
         forceLoadFromNetwork: Boolean
     ): Result<ProjectSelectionDetailsFeature.ContentData> =
-        coroutineScope {
-            kotlin.runCatching {
+        kotlin.runCatching {
+            coroutineScope {
                 val trackDeferred = async { trackRepository.getTrack(trackId, forceLoadFromNetwork) }
                 val projectDeferred = async { projectsRepository.getProject(projectId, forceLoadFromNetwork) }
 
