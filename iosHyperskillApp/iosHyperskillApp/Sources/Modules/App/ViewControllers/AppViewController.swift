@@ -220,6 +220,8 @@ extension AppViewController: AppViewControllerProtocol {
                 router.route(.notificationOnboarding(moduleOutput: viewModel))
             case .studyPlanWithStep(let data):
                 router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
+            case .usersQuestionnaireOnboardingScreen:
+                router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
             }
         }
     }

@@ -8,6 +8,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     PROFILE("profile"),
     DEBUG("debug"),
     SEND("send"),
+    SKIP("skip"),
     INPUT_OUTPUT_INFO("input_output_info"),
     STEP_TEXT_DESCRIPTION("step_text_description"),
     RESET("reset"),
@@ -117,5 +118,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     REQUEST_REVIEW_MODAL("request_review_modal"),
     WRITE_A_REQUEST("write_a_request"),
     MAYBE_LATER("maybe_later"),
+    CHOICE("choice"),
     SOLVE_ON_THE_WEB_VERSION("solve_on_the_web_version")
 }

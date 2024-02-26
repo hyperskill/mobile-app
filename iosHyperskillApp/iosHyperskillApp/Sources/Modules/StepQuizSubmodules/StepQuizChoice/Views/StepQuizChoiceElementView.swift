@@ -25,10 +25,10 @@ struct StepQuizChoiceElementView: View {
         Button(action: onTap) {
             HStack(spacing: appearance.interItemSpacing) {
                 if isMultipleChoice {
-                    CheckboxButton(isSelected: .constant(isSelected), onClick: onTap)
+                    CheckboxButton(isSelected: isSelected, onClick: onTap)
                         .frame(widthHeight: appearance.checkboxIndicatorWidthHeight)
                 } else {
-                    RadioButton(isSelected: .constant(isSelected), onClick: onTap)
+                    RadioButton(isSelected: isSelected, onClick: onTap)
                         .frame(widthHeight: appearance.radioIndicatorWidthHeight)
                 }
 

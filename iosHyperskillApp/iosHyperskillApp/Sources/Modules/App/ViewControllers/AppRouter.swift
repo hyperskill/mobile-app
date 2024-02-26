@@ -68,6 +68,9 @@ final class AppRouter {
             case .notificationOnboarding(let moduleOutput):
                 let assembly = NotificationsOnboardingAssembly(output: moduleOutput)
                 return assembly.makeModule()
+            case .usersQuestionnaireOnboarding(let moduleOutput):
+                let assembly = UsersQuestionnaireOnboardingAssembly(moduleOutput: moduleOutput)
+                return assembly.makeModule()
             }
         }()
 
@@ -143,6 +146,7 @@ final class AppRouter {
         case onboarding(moduleOutput: WelcomeOutputProtocol?)
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
+        case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)
     }
 
     enum Animation {
