@@ -104,6 +104,7 @@ interface AppGraph {
     val notificationFlowDataComponent: NotificationFlowDataComponent
     val stateRepositoriesComponent: StateRepositoriesComponent
     val profileDataComponent: ProfileDataComponent
+    val subscriptionDataComponent: SubscriptionsDataComponent
 
     fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent
 
@@ -185,6 +186,5 @@ interface AppGraph {
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
-    fun buildSubscriptionsDataComponent(): SubscriptionsDataComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
 }

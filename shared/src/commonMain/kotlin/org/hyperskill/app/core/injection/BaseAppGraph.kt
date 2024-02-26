@@ -217,6 +217,10 @@ abstract class BaseAppGraph : AppGraph {
         )
     }
 
+    override val subscriptionDataComponent: SubscriptionsDataComponent by lazy {
+        SubscriptionsDataComponentImpl(this)
+    }
+
     override fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent =
         HyperskillAnalyticEngineComponentImpl(this)
 
@@ -491,9 +495,6 @@ abstract class BaseAppGraph : AppGraph {
         paywallTransitionSource: PaywallTransitionSource
     ): PaywallComponent =
         PaywallComponentImpl(paywallTransitionSource, this)
-
-    override fun buildSubscriptionsDataComponent(): SubscriptionsDataComponent =
-        SubscriptionsDataComponentImpl(this)
 
     override fun buildManageSubscriptionComponent(): ManageSubscriptionComponent =
         ManageSubscriptionComponentImpl(this)
