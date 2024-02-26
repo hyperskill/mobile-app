@@ -29,17 +29,14 @@ internal class ManageSubscriptionActionDispatcher(
             is InternalAction.LogAnalyticsEvent ->
                 analyticInteractor.logEvent(action.event)
             is InternalAction.FetchSubscription ->
-                handleFetchSubscription(action, ::onNewMessage)
+                handleFetchSubscription(::onNewMessage)
             else -> {
                 // no op
             }
         }
     }
 
-    private suspend fun handleFetchSubscription(
-        action: InternalAction.FetchSubscription,
-        onNewMessage: (Message) -> Unit
-    ) {
+    private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildManageSubscriptionFeatureFetchSubscription(),
             onError = {

@@ -128,8 +128,8 @@ class ProfileSettingsDialogFragment :
             profileSettingsViewModel.onNewMessage(Message.SubscriptionDetailsClicked)
         }
 
-        viewBinding.settingsRateAppButton.setOnClickListener {
-            profileSettingsViewModel.onNewMessage(ProfileSettingsFeature.Message.ClickedRateUsInPlayStoreEventMessage)
+        viewBinding.settingsContent.settingsRateAppButton.setOnClickListener {
+            profileSettingsViewModel.onNewMessage(Message.ClickedRateUsInPlayStoreEventMessage)
             requireContext().openUrl(
                 getString(org.hyperskill.app.R.string.settings_rate_in_google_play_url)
             )

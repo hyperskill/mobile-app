@@ -105,18 +105,18 @@ extension AppViewController: AppViewControllerProtocol {
         switch viewAction {
         case .authScreen(let data):
             router.route(.auth(isInSignUpMode: data.isInSignUpMode, moduleOutput: viewModel))
-        case .onboardingScreen:
+        case .welcomeScreen:
             router.route(.onboarding(moduleOutput: viewModel))
         case .studyPlan:
             router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         case .trackSelectionScreen:
             router.route(.trackSelection)
         case .paywall:
-            #warning("TODO: ALTAPPS-1116")
+            #warning("TODO: ALTAPPS-1116; implement paywall Route")
             abort()
             // return UIHostingController(rootView: PaywallView())
         case .studyPlanWithPaywall:
-            #warning("TODO: ALTAPPS-1116")
+            #warning("TODO: ALTAPPS-1116; implent studyPlanWithPaywall Route")
             abort()
             /*let tabBarController = AppTabBarController(
                 initialTab: .studyPlan,
