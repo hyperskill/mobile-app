@@ -9,7 +9,6 @@ import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFea
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.Message
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.State
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
-import org.hyperskill.app.subscriptions.domain.model.isActive
 import org.hyperskill.app.subscriptions.domain.model.isExpired
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -58,10 +57,10 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
     private fun handleActionButtonClicked(state: State): ReducerResult =
         if (state is State.Content) {
             state to when {
-                state.subscription.isActive && state.manageSubscriptionUrl != null -> {
-                    setOf(
+                state.isSubscriptionManagementEnabled -> {
+                    setOfNotNull(
                         InternalAction.LogAnalyticsEvent(ManageSubscriptionClickedManageHyperskillAnalyticEvent),
-                        Action.ViewAction.OpenUrl(state.manageSubscriptionUrl)
+                        state.manageSubscriptionUrl?.let(Action.ViewAction::OpenUrl)
                     )
                 }
                 state.subscription.isExpired -> {

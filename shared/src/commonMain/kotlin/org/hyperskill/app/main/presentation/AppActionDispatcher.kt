@@ -3,7 +3,7 @@ package org.hyperskill.app.main.presentation
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.distinctUntilChangedBy
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
@@ -72,9 +72,7 @@ internal class AppActionDispatcher(
         if (isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .changes
-                .distinctUntilChangedBy {
-                    Triple(it.type, it.status, it.validTill)
-                }
+                .distinctUntilChanged()
                 .onEach { subscription ->
                     onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(subscription))
                 }

@@ -63,8 +63,7 @@ class SubscriptionsInteractor(
     }
 
     suspend fun refreshSubscriptionOnExpirationIfNeeded(subscription: Subscription) {
-        refreshMobileOnlySubscriptionJob?.cancel()
-        refreshMobileOnlySubscriptionJob = null
+        cancelSubscriptionRefresh()
 
         val isActiveMobileOnlySubscription =
             subscription.type == SubscriptionType.MOBILE_ONLY && subscription.isActive
