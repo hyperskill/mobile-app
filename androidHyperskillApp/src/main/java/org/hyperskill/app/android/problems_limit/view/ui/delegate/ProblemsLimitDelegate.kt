@@ -20,14 +20,17 @@ class ProblemsLimitDelegate(
             addState<ProblemsLimitFeature.ViewState.Content.Empty>()
 
             addState<ProblemsLimitFeature.ViewState.Loading>(
+                viewBinding.root,
                 viewBinding.problemsLimitSkeleton
             )
 
             addState<ProblemsLimitFeature.ViewState.Content.Widget>(
+                viewBinding.root,
                 viewBinding.problemsLimitsContent
             )
 
             addState<ProblemsLimitFeature.ViewState.Error>(
+                viewBinding.root,
                 viewBinding.problemsLimitRetryButton
             )
         }
