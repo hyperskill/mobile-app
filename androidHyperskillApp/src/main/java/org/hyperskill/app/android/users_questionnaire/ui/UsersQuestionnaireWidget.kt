@@ -120,8 +120,8 @@ private fun UsersQuestionnaireWidgetContent(
     }
 }
 
-private class UsersQuestionnairePreviewParameterProvider
-    : PreviewParameterProvider<UsersQuestionnaireWidgetFeature.State> {
+private class UsersQuestionnairePreviewParameterProvider :
+    PreviewParameterProvider<UsersQuestionnaireWidgetFeature.State> {
     override val values: Sequence<UsersQuestionnaireWidgetFeature.State>
         get() = sequenceOf(
             UsersQuestionnaireWidgetFeature.State.Loading,

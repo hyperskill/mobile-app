@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -13,7 +14,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.android.core.extensions.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.users_questionnaire.ui.UsersQuestionnaireWidget
 import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
 
@@ -31,8 +31,11 @@ class UsersQuestionnaireCardDelegate {
             setContent {
                 HyperskillTheme {
                     val viewState by stateFlow.collectAsStateWithLifecycle()
-                    OnComposableShownFirstTime(viewLifecycleOwner) {
+                    DisposableEffect(viewLifecycleOwner) {
                         onNewMessage(UsersQuestionnaireWidgetFeature.Message.ViewedEventMessage)
+                        onDispose {
+                            // no op
+                        }
                     }
                     viewState?.let { actualViewState ->
                         UsersQuestionnaireWidget(
