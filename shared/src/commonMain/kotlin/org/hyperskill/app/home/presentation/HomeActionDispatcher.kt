@@ -117,7 +117,7 @@ internal class HomeActionDispatcher(
                 val areProblemsLimited = async {
                     currentSubscriptionStateRepository
                         .getState()
-                        .map { it.type.areHintsLimited }
+                        .map { it.type.areProblemsLimited }
                 }
                 setOf(
                     Message.HomeSuccess(
