@@ -36,7 +36,6 @@ class SubscriptionsDataComponentImpl(
         SubscriptionsInteractor(
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             currentProfileStateRepository = currentProfileStateRepository,
-            subscriptionsRepository = subscriptionsRepository,
             authInteractor = authInteractor,
             logger = logger
         )

@@ -1,6 +1,8 @@
 package org.hyperskill.app.subscriptions.domain.interactor
 
 import co.touchlab.kermit.Logger
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -19,12 +21,10 @@ import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.subscriptions.domain.model.areProblemsLimited
 import org.hyperskill.app.subscriptions.domain.model.isActive
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 
 class SubscriptionsInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val subscriptionsRepository: SubscriptionsRepository,
     private val authInteractor: AuthInteractor,
     logger: Logger
 ) {
@@ -86,18 +86,19 @@ class SubscriptionsInteractor(
         val nowByUTC = Clock.System.now()
             .toLocalDateTime(TimeZone.UTC)
             .toInstant(TimeZone.UTC)
-        val delayDuration = subscriptionValidTill - nowByUTC
+
+        // Add one minute to wait until the subscription is synced on the backend
+        val delayDuration = subscriptionValidTill - nowByUTC + 1.toDuration(DurationUnit.MINUTES)
         logger.d { "Wait ${delayDuration.inWholeSeconds} seconds for subscription expiration to refresh it" }
+
         delay(delayDuration)
         if (isUserAuthorized()) {
-            subscriptionsRepository
-                .syncSubscription()
+            currentSubscriptionStateRepository
+                .getState(forceUpdate = true)
                 .onSuccess { freshSubscription ->
-                    currentSubscriptionStateRepository.updateState(freshSubscription)
                     logger.d {
-                        """
-                            Subscription successfully refreshed.
-                            Type=${freshSubscription.type},status=${freshSubscription.status}
+                        """Subscription successfully refreshed.
+                           Type=${freshSubscription.type},status=${freshSubscription.status}
                         """.trimMargin()
                     }
                 }
