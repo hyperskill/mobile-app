@@ -95,7 +95,6 @@ interface AppGraph {
     val mainComponent: MainComponent
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
-    val submissionDataComponent: SubmissionDataComponent
     val streakFlowDataComponent: StreakFlowDataComponent
     val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
@@ -121,6 +120,8 @@ interface AppGraph {
     fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
+
+    fun buildSubmissionDataComponent(): SubmissionDataComponent
 
     fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent
 
