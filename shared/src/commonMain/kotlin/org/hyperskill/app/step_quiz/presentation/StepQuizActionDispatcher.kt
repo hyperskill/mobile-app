@@ -3,8 +3,10 @@ package org.hyperskill.app.step_quiz.presentation
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.platform.Platform
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -17,6 +19,8 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.subscriptions.domain.model.Subscription
@@ -25,12 +29,13 @@ import org.hyperskill.app.subscriptions.domain.model.isProblemLimitReached
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class StepQuizActionDispatcher(
+internal class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
@@ -149,6 +154,14 @@ class StepQuizActionDispatcher(
                         }
                     }
                 }
+            }
+            is InternalAction.CreateMagicLinkForUnsupportedQuiz -> {
+                urlPathProcessor
+                    .processUrlPath(HyperskillUrlPath.Step(action.stepRoute))
+                    .fold(
+                        onSuccess = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizSuccess(it)) },
+                        onFailure = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizError) }
+                    )
             }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)

@@ -37,7 +37,7 @@ object LeaderboardScreenFeature {
         ) : ListViewState
     }
 
-    enum class Tab() {
+    enum class Tab {
         DAY,
         WEEK
     }

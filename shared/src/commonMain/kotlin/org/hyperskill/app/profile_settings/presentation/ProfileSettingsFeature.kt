@@ -82,6 +82,8 @@ object ProfileSettingsFeature {
         object DeleteAccountNoticeShownEventMessage : Message
 
         object ClickedRateUsInAppStoreEventMessage : Message
+
+        object ClickedRateUsInPlayStoreEventMessage : Message
     }
 
     sealed interface Action {

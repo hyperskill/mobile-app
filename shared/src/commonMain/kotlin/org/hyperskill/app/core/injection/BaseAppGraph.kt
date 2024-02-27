@@ -156,6 +156,12 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListCompo
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponentImpl
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
+import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
+import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponentImpl
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponentImpl
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
@@ -212,8 +218,7 @@ abstract class BaseAppGraph : AppGraph {
     override val profileDataComponent: ProfileDataComponent by lazy {
         ProfileDataComponentImpl(
             networkComponent = networkComponent,
-            commonComponent = commonComponent,
-            submissionDataComponent = submissionDataComponent
+            commonComponent = commonComponent
         )
     }
 
@@ -498,4 +503,13 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildManageSubscriptionComponent(): ManageSubscriptionComponent =
         ManageSubscriptionComponentImpl(this)
+
+    override fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent =
+        UsersQuestionnaireDataComponentImpl(this)
+
+    override fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent =
+        UsersQuestionnaireWidgetComponentImpl(this)
+
+    override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
+        UsersQuestionnaireOnboardingComponentImpl(this)
 }

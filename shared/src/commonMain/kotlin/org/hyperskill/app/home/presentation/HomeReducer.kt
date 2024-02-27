@@ -13,6 +13,7 @@ import org.hyperskill.app.home.domain.analytic.HomeViewedHyperskillAnalyticEvent
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.HomeState
 import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
+import org.hyperskill.app.home.presentation.HomeFeature.InternalMessage
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
 import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
@@ -107,7 +108,7 @@ internal class HomeReducer(
                     null
                 }
             // Flow Messages
-            is Message.StepQuizSolved -> {
+            is InternalMessage.StepQuizSolved -> {
                 if (state.homeState is HomeState.Content) {
                     val problemOfDayState = if (
                         state.homeState.problemOfDayState is HomeFeature.ProblemOfDayState.NeedToSolve &&
@@ -126,7 +127,7 @@ internal class HomeReducer(
                     null
                 }
             }
-            is Message.TopicRepeated ->
+            is InternalMessage.TopicRepeated ->
                 if (
                     state.homeState is HomeState.Content &&
                     state.homeState.repetitionsState is HomeFeature.RepetitionsState.Available
@@ -136,6 +137,25 @@ internal class HomeReducer(
                             repetitionsState = HomeFeature.RepetitionsState.Available(
                                 max(state.homeState.repetitionsState.recommendedRepetitionsCount.dec(), 0)
                             )
+                        )
+                    ) to emptySet()
+                } else {
+                    null
+                }
+            InternalMessage.TopicCompleted ->
+                if (state.homeState is HomeState.Content &&
+                    state.homeState.problemOfDayState is HomeFeature.ProblemOfDayState.Empty
+                ) {
+                    state to setOf(InternalAction.FetchProblemOfDayState)
+                } else {
+                    null
+                }
+            InternalMessage.FetchProblemOfDayStateResultError -> null
+            is InternalMessage.FetchProblemOfDayStateResultSuccess ->
+                if (state.homeState is HomeState.Content) {
+                    state.copy(
+                        homeState = state.homeState.copy(
+                            problemOfDayState = message.problemOfDayState
                         )
                     ) to emptySet()
                 } else {
@@ -157,7 +177,7 @@ internal class HomeReducer(
             is Message.ClickedProblemOfDayCardReload -> {
                 if (state.homeState is HomeState.Content) {
                     val (newState, newActions) = initialize(state, forceUpdate = true)
-                    val analyticsEvent = when (state.homeState.problemOfDayState) {
+                    val analyticEvent = when (state.homeState.problemOfDayState) {
                         HomeFeature.ProblemOfDayState.Empty -> null
                         is HomeFeature.ProblemOfDayState.NeedToSolve -> {
                             HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent(
@@ -170,8 +190,8 @@ internal class HomeReducer(
                             )
                         }
                     }
-                    val logEventAction = if (analyticsEvent != null) {
-                        setOf(InternalAction.LogAnalyticEvent(analyticsEvent))
+                    val logEventAction = if (analyticEvent != null) {
+                        setOf(InternalAction.LogAnalyticEvent(analyticEvent))
                     } else {
                         emptySet()
                     }

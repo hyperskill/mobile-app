@@ -135,6 +135,18 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: UsersQuestionnaireOnboardingOutputProtocol -
+
+extension AppViewModel: UsersQuestionnaireOnboardingOutputProtocol {
+    func handleUsersQuestionnaireOnboardingCompleted() {
+        onNewMessage(
+            AppFeatureMessageWelcomeOnboardingMessage(
+                message: WelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()
+            )
+        )
+    }
+}
+
 // MARK: - AppViewModel: FirstProblemOnboardingOutputProtocol -
 
 extension AppViewModel: FirstProblemOnboardingOutputProtocol {
@@ -270,7 +282,8 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
 
     @objc
     private func handleApplicationWillEnterForeground() {
-        onNewMessage(AppFeatureMessageAppBecomesActive())
+        #warning("Enable when subscription purchase is implemented")
+        //onNewMessage(AppFeatureMessageAppBecomesActive())
     }
 }
 

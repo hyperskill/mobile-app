@@ -49,6 +49,8 @@ import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListP
 import org.hyperskill.app.purchases.domain.AndroidPurchaseManager
 import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.purchases.injection.PurchaseComponentImpl
+import org.hyperskill.app.request_review.injection.PlatformRequestReviewComponent
+import org.hyperskill.app.request_review.injection.PlatformRequestReviewComponentImpl
 import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.search.injection.PlatformSearchComponentImpl
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
@@ -251,6 +253,13 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PlatformInterviewPreparationOnboardingComponentImpl(
             interviewPreparationOnboardingComponent = buildInterviewPreparationOnboardingComponent(),
             stepRoute = stepRoute
+        )
+
+    override fun buildPlatformRequestReviewComponent(
+        stepRoute: StepRoute
+    ): PlatformRequestReviewComponent =
+        PlatformRequestReviewComponentImpl(
+            requestReviewComponent = buildRequestReviewModalComponent(stepRoute)
         )
 
     override fun buildPlatformPaywallComponent(

@@ -2,7 +2,6 @@ package org.hyperskill.app.request_review.modal.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.domain.platform.Platform
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.request_review.modal.presentation.RequestReviewModalFeature.State
 import org.hyperskill.app.request_review.modal.presentation.RequestReviewModalFeature.ViewState
@@ -20,26 +19,12 @@ internal class RequestReviewModalViewStateMapper(
                         resourceProvider.getString(platform.appNameResource)
                     ),
                     description = null,
-                    positiveButtonText = when (platform.platformType) {
-                        PlatformType.IOS ->
-                            resourceProvider.getString(
-                                SharedResources.strings.request_review_modal_state_awaiting_positive_button_text_ios
-                            )
-                        PlatformType.ANDROID ->
-                            resourceProvider.getString(
-                                SharedResources.strings.request_review_modal_state_awaiting_positive_button_text_android
-                            )
-                    },
-                    negativeButtonText = when (platform.platformType) {
-                        PlatformType.IOS ->
-                            resourceProvider.getString(
-                                SharedResources.strings.request_review_modal_state_awaiting_negative_button_text_ios
-                            )
-                        PlatformType.ANDROID ->
-                            resourceProvider.getString(
-                                SharedResources.strings.request_review_modal_state_awaiting_negative_button_text_android
-                            )
-                    },
+                    positiveButtonText = resourceProvider.getString(
+                        SharedResources.strings.request_review_modal_state_awaiting_positive_button_text
+                    ),
+                    negativeButtonText = resourceProvider.getString(
+                        SharedResources.strings.request_review_modal_state_awaiting_negative_button_text
+                    ),
                     state = when (state) {
                         State.Awaiting -> ViewState.State.AWAITING
                         State.Positive -> ViewState.State.POSITIVE

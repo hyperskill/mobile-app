@@ -3,8 +3,8 @@ package org.hyperskill.app.project_selection.list.presentation
 import org.hyperskill.app.profile.domain.model.isRecommendationsJavaProjectsFeatureEnabled
 import org.hyperskill.app.profile.domain.model.isRecommendationsKotlinProjectsFeatureEnabled
 import org.hyperskill.app.profile.domain.model.isRecommendationsPythonProjectsFeatureEnabled
-import org.hyperskill.app.project_selection.list.domain.analytic.ProjectSelectionListClickedProjectHyperskillAnalyticsEvent
-import org.hyperskill.app.project_selection.list.domain.analytic.ProjectSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.project_selection.list.domain.analytic.ProjectSelectionListClickedProjectHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.list.domain.analytic.ProjectSelectionListClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.list.domain.analytic.ProjectSelectionListViewedHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action
 import org.hyperskill.app.project_selection.list.presentation.ProjectSelectionListFeature.Action.ViewAction
@@ -34,7 +34,7 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
                     state.updateContentState(ContentState.Loading) to
                         fetchContent(state, forceLoadFromNetwork = true) +
                             InternalAction.LogAnalyticEvent(
-                                ProjectSelectionListClickedRetryContentLoadingHyperskillAnalyticsEvent(
+                                ProjectSelectionListClickedRetryContentLoadingHyperskillAnalyticEvent(
                                     trackId = state.trackId
                                 )
                             )
@@ -94,7 +94,7 @@ internal class ProjectSelectionListReducer : StateReducer<State, Message, Action
         message: Message.ProjectClicked
     ): ProjectsListReducerResult {
         val analyticEventAction = InternalAction.LogAnalyticEvent(
-            ProjectSelectionListClickedProjectHyperskillAnalyticsEvent(
+            ProjectSelectionListClickedProjectHyperskillAnalyticEvent(
                 trackId = state.trackId,
                 projectId = message.projectId
             )

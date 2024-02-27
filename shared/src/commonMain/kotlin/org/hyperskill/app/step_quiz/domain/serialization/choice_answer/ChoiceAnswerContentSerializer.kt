@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonObject
 import org.hyperskill.app.step_quiz.domain.model.submissions.ChoiceAnswer
 
 object ChoiceAnswerContentSerializer : JsonContentPolymorphicSerializer<ChoiceAnswer>(ChoiceAnswer::class) {
-    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<out ChoiceAnswer> =
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<ChoiceAnswer> =
         if (element is JsonObject) {
             ChoiceAnswer.Table.serializer()
         } else {

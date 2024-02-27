@@ -17,7 +17,7 @@ final class AppPowerModeObserver {
     private func updateProgressHUDHapticsEnabled() {
         // swiftlint:disable:next unowned_variable_capture
         DispatchQueue.main.async { [unowned self] in
-            ProgressHUD.setHapticsEnabled(!self.isLowPowerModeEnabled)
+            ProgressHUD.setHapticsEnabled(!isLowPowerModeEnabled)
         }
     }
 

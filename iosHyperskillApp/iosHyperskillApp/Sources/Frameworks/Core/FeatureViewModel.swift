@@ -100,7 +100,7 @@ class FeatureViewModel<State, Message, ViewAction>: ObservableObject {
         }
 
         if isListeningForChanges,
-           let onViewAction = onViewAction {
+           let onViewAction {
             mainScheduler.schedule { onViewAction(viewAction) }
         } else {
             viewActionQueue.enqueue(value: viewAction)

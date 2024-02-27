@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import kotlinx.coroutines.runBlocking
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.android.core.extensions.DateTimeHelper
 import org.hyperskill.app.android.notification.NotificationBuilder
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
@@ -111,7 +110,6 @@ class DailyStudyReminderLocalNotificationDelegate(
 
     private fun logShownNotificationEvent(notificationId: Int) {
         val event = NotificationDailyStudyReminderShownHyperskillAnalyticEvent(
-            route = HyperskillAnalyticRoute.Home(),
             notificationId = notificationId,
             plannedAtISO8601 = SimpleDateFormat(DateTimeHelper.ISO_PATTERN).format(Calendar.getInstance().time)
         )

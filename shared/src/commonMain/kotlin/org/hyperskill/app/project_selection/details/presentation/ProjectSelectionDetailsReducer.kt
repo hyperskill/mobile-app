@@ -1,7 +1,7 @@
 package org.hyperskill.app.project_selection.details.presentation
 
-import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
-import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent
+import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticEvent
+import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.details.domain.analytic.ProjectSelectionDetailsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature.Action
 import org.hyperskill.app.project_selection.details.presentation.ProjectSelectionDetailsFeature.ContentState
@@ -69,7 +69,7 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
 
     private fun handleRetryContentLoading(state: State): ProjectSelectionDetailsReducerResult {
         val analyticEventAction = InternalAction.LogAnalyticEvent(
-            ProjectSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent(
+            ProjectSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticEvent(
                 projectId = state.projectId,
                 trackId = state.trackId
             )
@@ -97,7 +97,7 @@ internal class ProjectSelectionDetailsReducer : StateReducer<State, Message, Act
 
     private fun handleSelectProjectButtonClicked(state: State): ProjectSelectionDetailsReducerResult {
         val analyticEventAction = InternalAction.LogAnalyticEvent(
-            ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticsEvent(
+            ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent(
                 projectId = state.projectId,
                 trackId = state.trackId
             )

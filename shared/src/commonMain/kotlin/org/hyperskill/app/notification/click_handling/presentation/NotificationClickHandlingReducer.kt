@@ -12,7 +12,7 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature.State
 import org.hyperskill.app.notification.remote.domain.analytic.PushNotificationClickedHyperskillAnalyticEvent
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationType
-import org.hyperskill.app.profile.domain.analytic.badges.EarnedBadgeModalHiddenHyperskillAnalyticsEvent
+import org.hyperskill.app.profile.domain.analytic.badges.EarnedBadgeModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.analytic.badges.EarnedBadgeModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -31,7 +31,7 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
              */
             is Message.EarnedBadgeModalHiddenEventMessage ->
                 setOf(
-                    InternalAction.LogAnalyticEvent(EarnedBadgeModalHiddenHyperskillAnalyticsEvent(message.badgeKind))
+                    InternalAction.LogAnalyticEvent(EarnedBadgeModalHiddenHyperskillAnalyticEvent(message.badgeKind))
                 )
             is Message.EarnedBadgeModalShownEventMessage ->
                 setOf(
@@ -42,10 +42,10 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
     private fun handleNotificationClicked(
         message: Message.NotificationClicked
     ): Set<Action> {
-        val analyticsAction = InternalAction.LogAnalyticEvent(
+        val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
             PushNotificationClickedHyperskillAnalyticEvent(message.notificationData)
         )
-        if (!message.isUserAuthorized) return setOf(analyticsAction)
+        if (!message.isUserAuthorized) return setOf(logAnalyticEventAction)
 
         val actions = when (message.notificationData.typeEnum) {
             PushNotificationType.STREAK_THREE,
@@ -97,7 +97,7 @@ class NotificationClickHandlingReducer : StateReducer<State, Message, Action> {
                 setOf(Action.ViewAction.NavigateTo.StudyPlan)
         }
 
-        return actions + analyticsAction
+        return actions + logAnalyticEventAction
     }
 
     private fun handleProfileFetchResult(

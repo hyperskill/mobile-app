@@ -4,11 +4,13 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.toSpannable
 import org.hyperskill.app.android.latex.view.model.LatexData
 import org.hyperskill.app.android.latex.view.model.block.ContentBlock
+import org.hyperskill.app.android.latex.view.model.block.DataMobileHiddenBlock
 import org.hyperskill.app.android.latex.view.model.block.HighlightScriptBlock
 import org.hyperskill.app.android.latex.view.model.block.HorizontalScrollBlock
 import org.hyperskill.app.android.latex.view.model.block.KotlinRunnableSamplesScriptBlock
 import org.hyperskill.app.android.latex.view.model.block.LatexScriptBlock
 import org.hyperskill.app.android.latex.view.model.block.MetaBlock
+import org.hyperskill.app.android.latex.view.model.block.RemoveIFrameElementsInjection
 import org.hyperskill.app.android.latex.view.model.block.WebScriptBlock
 import org.hyperskill.app.android.latex.view.model.rule.RelativePathContentRule
 import org.hyperskill.app.android.latex.view.resolvers.OlLiTagHandler
@@ -20,7 +22,9 @@ class LatexTextMapper(networkEndpointConfigInfo: NetworkEndpointConfigInfo) {
             HighlightScriptBlock(),
             KotlinRunnableSamplesScriptBlock(),
             LatexScriptBlock(),
-            WebScriptBlock()
+            WebScriptBlock(),
+            DataMobileHiddenBlock,
+            RemoveIFrameElementsInjection
         )
 
     private val regularBlocks =
