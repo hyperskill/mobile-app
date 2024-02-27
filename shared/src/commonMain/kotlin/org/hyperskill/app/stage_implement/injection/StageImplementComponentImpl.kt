@@ -1,16 +1,17 @@
 package org.hyperskill.app.stage_implement.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.ViewState
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class StageImplementComponentImpl(
+internal class StageImplementComponentImpl(
     private val appGraph: AppGraph,
     private val projectId: Long,
     private val stageId: Long
 ) : StageImplementComponent {
-    override val stageImplementFeature: Feature<
-        StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action>
+    override val stageImplementFeature: Feature<ViewState, Message, Action>
         get() = StageImplementFeatureBuilder.build(
             projectId,
             stageId,
@@ -20,7 +21,7 @@ class StageImplementComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.resourceProvider,
             appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.submissionDataComponent.submissionRepository,
+            appGraph.stepsFlowDataComponent.stepSolvedFlow,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

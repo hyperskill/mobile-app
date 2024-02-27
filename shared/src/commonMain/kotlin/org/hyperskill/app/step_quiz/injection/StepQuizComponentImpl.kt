@@ -38,8 +38,9 @@ internal class StepQuizComponentImpl(
 
     override val stepQuizInteractor: StepQuizInteractor =
         StepQuizInteractor(
-            attemptRepository,
-            appGraph.submissionDataComponent.submissionRepository
+            attemptRepository = attemptRepository,
+            submissionRepository = appGraph.submissionDataComponent.submissionRepository,
+            stepSolvedFlow = appGraph.stepsFlowDataComponent.stepSolvedFlow
         )
 
     private val stepQuizHintsComponent: StepQuizHintsComponent =

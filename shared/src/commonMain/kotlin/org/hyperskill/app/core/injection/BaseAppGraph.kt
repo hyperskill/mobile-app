@@ -121,6 +121,8 @@ import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataCompon
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
+import org.hyperskill.app.step_quiz.injection.StepsFlowDataComponent
+import org.hyperskill.app.step_quiz.injection.StepsFlowDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
@@ -180,6 +182,10 @@ abstract class BaseAppGraph : AppGraph {
 
     override val submissionDataComponent: SubmissionDataComponent by lazy {
         SubmissionDataComponentImpl(this)
+    }
+
+    override val stepsFlowDataComponent: StepsFlowDataComponent by lazy {
+        StepsFlowDataComponentImpl()
     }
 
     override val authComponent: AuthComponent by lazy {

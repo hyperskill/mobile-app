@@ -7,7 +7,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
@@ -19,7 +19,7 @@ import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
-object TopicsRepetitionsFeatureBuilder {
+internal object TopicsRepetitionsFeatureBuilder {
     private const val LOG_TAG = "TopicsRepetitionsFeature"
 
     fun build(
@@ -28,7 +28,7 @@ object TopicsRepetitionsFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         topicRepeatedFlow: TopicRepeatedFlow,
-        submissionRepository: SubmissionRepository,
+        stepSolvedFlow: StepSolvedFlow,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
@@ -41,7 +41,7 @@ object TopicsRepetitionsFeatureBuilder {
             analyticInteractor,
             sentryInteractor,
             topicRepeatedFlow,
-            submissionRepository
+            stepSolvedFlow
         )
 
         return ReduxFeature(State.Idle, topicsRepetitionsReducer)

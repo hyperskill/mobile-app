@@ -8,7 +8,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
@@ -16,17 +16,17 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeatu
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class TopicsRepetitionsActionDispatcher(
+internal class TopicsRepetitionsActionDispatcher(
     config: ActionDispatcherOptions,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val topicRepeatedFlow: TopicRepeatedFlow,
-    submissionRepository: SubmissionRepository
+    stepSolvedFlow: StepSolvedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
-        submissionRepository.solvedStepsMutableSharedFlow
+        stepSolvedFlow.observe()
             .onEach { onNewMessage(Message.StepCompleted(it)) }
             .launchIn(actionScope)
     }

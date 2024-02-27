@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.domain.interactor
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import org.hyperskill.app.step.domain.model.StepContext
+import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.AttemptStatus
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
@@ -13,7 +14,8 @@ import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 
 class StepQuizInteractor(
     private val attemptRepository: AttemptRepository,
-    private val submissionRepository: SubmissionRepository
+    private val submissionRepository: SubmissionRepository,
+    private val stepSolvedFlow: StepSolvedFlow
 ) {
     companion object {
         private val POLL_SUBMISSION_INTERVAL = 1.seconds
@@ -59,7 +61,8 @@ class StepQuizInteractor(
             }
 
             if (evaluatedSubmission.status == SubmissionStatus.CORRECT) {
-                submissionRepository.notifyStepSolved(stepId)
+                submissionRepository.incrementSolvedStepsCount()
+                stepSolvedFlow.notifyDataChanged(stepId)
             }
 
             return Result.success(evaluatedSubmission)

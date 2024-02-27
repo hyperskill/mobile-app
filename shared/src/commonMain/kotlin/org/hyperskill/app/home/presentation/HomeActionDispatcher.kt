@@ -14,7 +14,6 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.utils.DateTimeUtils
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
-import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
 import org.hyperskill.app.home.presentation.HomeFeature.InternalMessage
@@ -25,13 +24,13 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
+import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class HomeActionDispatcher(
     config: ActionDispatcherOptions,
-    homeInteractor: HomeInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
@@ -40,7 +39,8 @@ internal class HomeActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val dateFormatter: SharedDateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow,
-    topicCompletedFlow: TopicCompletedFlow
+    topicCompletedFlow: TopicCompletedFlow,
+    stepSolvedFlow: StepSolvedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isTimerLaunched: Boolean = false
 
@@ -49,7 +49,7 @@ internal class HomeActionDispatcher(
     }
 
     init {
-        homeInteractor.solvedStepsSharedFlow
+        stepSolvedFlow.observe()
             .onEach { onNewMessage(InternalMessage.StepQuizSolved(it)) }
             .launchIn(actionScope)
 

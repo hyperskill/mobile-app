@@ -13,10 +13,13 @@ import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.stage_implement.presentation.StageImplementActionDispatcher
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.ViewState
 import org.hyperskill.app.stage_implement.presentation.StageImplementReducer
 import org.hyperskill.app.stage_implement.view.mapper.StageImplementViewStateMapper
 import org.hyperskill.app.stages.domain.interactor.StagesInteractor
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -33,16 +36,20 @@ internal object StageImplementFeatureBuilder {
         sentryInteractor: SentryInteractor,
         resourceProvider: ResourceProvider,
         currentProfileStateRepository: CurrentProfileStateRepository,
-        submissionRepository: SubmissionRepository,
+        stepSolvedFlow: StepSolvedFlow,
         logger: Logger,
         buildVariant: BuildVariant
-    ): Feature<StageImplementFeature.ViewState, StageImplementFeature.Message, StageImplementFeature.Action> {
-        val analyticRoute = HyperskillAnalyticRoute.Projects.Stages.Implement(projectId = projectId, stageId = stageId)
-        val stageImplementReducer = StageImplementReducer(analyticRoute).wrapWithLogger(buildVariant, logger, LOG_TAG)
+    ): Feature<ViewState, Message, Action> {
+        val analyticRoute = HyperskillAnalyticRoute.Projects.Stages.Implement(
+            projectId = projectId,
+            stageId = stageId
+        )
+        val stageImplementReducer = StageImplementReducer(analyticRoute)
+            .wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val stageImplementActionDispatcher = StageImplementActionDispatcher(
             ActionDispatcherOptions(),
-            submissionRepository,
+            stepSolvedFlow,
             currentProfileStateRepository,
             stagesInteractor,
             progressesInteractor,

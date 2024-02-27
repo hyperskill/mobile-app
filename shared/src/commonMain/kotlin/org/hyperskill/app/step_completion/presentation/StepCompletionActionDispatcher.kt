@@ -32,7 +32,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Act
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.core.model.mutate
@@ -40,7 +40,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
     config: ActionDispatcherOptions,
-    submissionRepository: SubmissionRepository,
+    stepSolvedFlow: StepSolvedFlow,
     private val stepInteractor: StepInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val topicsRepository: TopicsRepository,
@@ -60,7 +60,7 @@ class StepCompletionActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        submissionRepository.solvedStepsSharedFlow
+        stepSolvedFlow.observe()
             .onEach(::handleStepSolved)
             .launchIn(actionScope)
     }

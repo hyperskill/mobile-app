@@ -65,6 +65,7 @@ import org.hyperskill.app.step.injection.StepDataComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_quiz.injection.StepsFlowDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
@@ -96,6 +97,7 @@ interface AppGraph {
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
     val submissionDataComponent: SubmissionDataComponent
+    val stepsFlowDataComponent: StepsFlowDataComponent
     val streakFlowDataComponent: StreakFlowDataComponent
     val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
