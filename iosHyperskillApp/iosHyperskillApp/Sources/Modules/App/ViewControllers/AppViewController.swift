@@ -113,25 +113,10 @@ extension AppViewController: AppViewControllerProtocol {
             router.route(.trackSelection)
         case .paywall:
             #warning("TODO: ALTAPPS-1116; implement paywall Route")
-            abort()
-            // return UIHostingController(rootView: PaywallView())
+            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         case .studyPlanWithPaywall:
             #warning("TODO: ALTAPPS-1116; implent studyPlanWithPaywall Route")
-            abort()
-            /*let tabBarController = AppTabBarController(
-                initialTab: .studyPlan,
-                availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
-                appTabBarControllerDelegate: viewModel
-            )
-
-            DispatchQueue.main.async {
-                SourcelessRouter().currentPresentedViewController()?.present(
-                    UIHostingController(rootView: PaywallView()),
-                        animated: true
-                    )
-                }
-
-            return tabBarController*/
+            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         }
     }
 
@@ -245,7 +230,7 @@ extension AppViewController: AppViewControllerProtocol {
                 router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
             case .paywall:
                 #warning("TODO: ALTAPPS-1116")
-                // return UIHostingController(rootView: PaywallView())
+                router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
             }
         }
     }
