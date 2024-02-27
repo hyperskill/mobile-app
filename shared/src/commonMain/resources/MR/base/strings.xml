@@ -435,6 +435,8 @@
     <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>
     <string name="problems_limit_widget_update_in">Reset in %s</string>
 
+    <string name="problems_limit_widget_lives_left">%d/%d lives left</string>
+
     <!--Study plan-->
     <string name="study_plan_title">Study plan</string>
     <string name="study_plan_track_title_template">for: %s</string>

@@ -14,6 +14,7 @@ object ProblemsLimitFeature {
         data class Content(
             val subscription: Subscription,
             val isFreemiumEnabled: Boolean,
+            val isFreemiumWrongSubmissionChargeLimitsEnabled: Boolean,
             val updateIn: Duration?,
             internal val isRefreshing: Boolean = false
         ) : State
@@ -58,7 +59,8 @@ object ProblemsLimitFeature {
         object LoadSubscriptionResultError : InternalMessage
         data class LoadSubscriptionResultSuccess(
             val subscription: Subscription,
-            val isFreemiumEnabled: Boolean
+            val isFreemiumEnabled: Boolean,
+            val isFreemiumWrongSubmissionChargeLimitsEnabled: Boolean
         ) : InternalMessage
 
         data class UpdateInChanged(val newUpdateIn: Duration) : InternalMessage

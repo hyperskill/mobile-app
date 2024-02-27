@@ -20,7 +20,8 @@ internal class ProblemsLimitComponentImpl(
             freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
-            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository
         )
 
     override val problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
