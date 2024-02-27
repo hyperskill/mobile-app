@@ -299,7 +299,9 @@ struct StepQuizView: View {
         case .requestResetCode:
             presentResetCodePermissionAlert()
         case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
-            presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
+            presentProblemsLimitReachedModal(
+                modalData: showProblemsLimitReachedModalViewAction.modalData
+            )
         case .showProblemOnboardingModal(let showProblemOnboardingModalViewAction):
             presentProblemOnboardingModal(modalType: showProblemOnboardingModalViewAction.modalType)
         case .navigateTo(let viewActionNavigateTo):
@@ -373,9 +375,10 @@ private extension StepQuizView {
         modalRouter.presentAlert(alert)
     }
 
-    func presentProblemsLimitReachedModal(modalText: String) {
+    func presentProblemsLimitReachedModal(modalData: StepQuizFeature.ProblemsLimitReachedModalData) {
         let panModal = ProblemsLimitReachedModalViewController(
-            modalText: modalText,
+            titleText: modalData.title,
+            descriptionText: modalData.description_,
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(panModal)
