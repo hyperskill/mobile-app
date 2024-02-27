@@ -21,7 +21,7 @@ internal class StageImplementComponentImpl(
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.resourceProvider,
             appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.stepsFlowDataComponent.stepSolvedFlow,
+            appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

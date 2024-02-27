@@ -23,8 +23,8 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -40,7 +40,7 @@ internal class HomeActionDispatcher(
     private val dateFormatter: SharedDateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow,
     topicCompletedFlow: TopicCompletedFlow,
-    stepSolvedFlow: StepSolvedFlow
+    stepCompletedFlow: StepCompletedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isTimerLaunched: Boolean = false
 
@@ -49,7 +49,7 @@ internal class HomeActionDispatcher(
     }
 
     init {
-        stepSolvedFlow.observe()
+        stepCompletedFlow.observe()
             .onEach { onNewMessage(InternalMessage.StepQuizSolved(it)) }
             .launchIn(actionScope)
 

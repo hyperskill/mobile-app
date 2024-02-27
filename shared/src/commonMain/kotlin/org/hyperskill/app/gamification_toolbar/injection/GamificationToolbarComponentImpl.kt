@@ -16,7 +16,7 @@ internal class GamificationToolbarComponentImpl(
     override val gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
         get() = GamificationToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
-            stepSolvedFlow = appGraph.stepsFlowDataComponent.stepSolvedFlow,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,

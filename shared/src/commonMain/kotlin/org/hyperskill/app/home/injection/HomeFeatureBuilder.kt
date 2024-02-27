@@ -26,8 +26,8 @@ import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.core.model.safeCast
@@ -49,7 +49,7 @@ internal object HomeFeatureBuilder {
         dateFormatter: SharedDateFormatter,
         topicRepeatedFlow: TopicRepeatedFlow,
         topicCompletedFlow: TopicCompletedFlow,
-        stepSolvedFlow: StepSolvedFlow,
+        stepCompletedFlow: StepCompletedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         challengeWidgetReducer: ChallengeWidgetReducer,
@@ -77,7 +77,7 @@ internal object HomeFeatureBuilder {
             dateFormatter,
             topicRepeatedFlow,
             topicCompletedFlow,
-            stepSolvedFlow
+            stepCompletedFlow
         )
         val homeViewStateMapper = HomeViewStateMapper(
             challengeWidgetViewStateMapper = challengeWidgetViewStateMapper,

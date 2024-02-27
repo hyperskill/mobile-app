@@ -8,7 +8,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.Action
@@ -23,10 +23,10 @@ internal class TopicsRepetitionsActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val topicRepeatedFlow: TopicRepeatedFlow,
-    stepSolvedFlow: StepSolvedFlow
+    stepCompletedFlow: StepCompletedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
-        stepSolvedFlow.observe()
+        stepCompletedFlow.observe()
             .onEach { onNewMessage(Message.StepCompleted(it)) }
             .launchIn(actionScope)
     }

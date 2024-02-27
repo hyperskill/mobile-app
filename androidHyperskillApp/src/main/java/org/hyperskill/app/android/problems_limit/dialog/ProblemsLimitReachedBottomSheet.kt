@@ -24,12 +24,14 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
 
         const val TAG = "ProblemsLimitReachedBottomSheet"
 
-        fun newInstance(modalText: String): ProblemsLimitReachedBottomSheet =
+        fun newInstance(modalTitle: String, modalText: String): ProblemsLimitReachedBottomSheet =
             ProblemsLimitReachedBottomSheet().apply {
+                this.modalTitle = modalTitle
                 this.modalText = modalText
             }
     }
 
+    private var modalTitle: String by argument()
     private var modalText: String by argument()
 
     private val viewBinding: FragmentProblemsLimitReachedBinding by viewBinding(
@@ -71,6 +73,7 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
             problemsLimitReachedHomeButton.setOnClickListener {
                 viewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitReachedModalGoToHomeScreenClicked)
             }
+            problemsLimitReachedModalTitle.text = modalTitle
             problemsLimitReachedDescription.text = modalText
         }
     }

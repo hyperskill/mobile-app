@@ -1,10 +1,10 @@
-package org.hyperskill.app.step_quiz.data.flow
+package org.hyperskill.app.step_completion.data.flow
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 
-internal class StepSolvedFlowImpl : StepSolvedFlow {
+internal class StepCompletedFlowImpl : StepCompletedFlow {
     private val stepSolvedMutableSharedFlow = MutableSharedFlow<Long>()
 
     override fun observe(): Flow<Long> =

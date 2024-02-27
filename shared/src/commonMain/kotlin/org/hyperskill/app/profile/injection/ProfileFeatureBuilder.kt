@@ -17,7 +17,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.profile.presentation.ProfileFeature.State
 import org.hyperskill.app.profile.presentation.ProfileReducer
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -37,7 +37,7 @@ internal object ProfileFeatureBuilder {
         urlPathProcessor: UrlPathProcessor,
         streakFlow: StreakFlow,
         dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
-        stepSolvedFlow: StepSolvedFlow,
+        stepCompletedFlow: StepCompletedFlow,
         badgesRepository: BadgesRepository,
         logger: Logger,
         buildVariant: BuildVariant
@@ -54,7 +54,7 @@ internal object ProfileFeatureBuilder {
             urlPathProcessor = urlPathProcessor,
             streakFlow = streakFlow,
             dailyStudyRemindersEnabledFlow = dailyStudyRemindersEnabledFlow,
-            stepSolvedFlow = stepSolvedFlow,
+            stepCompletedFlow = stepCompletedFlow,
             badgesRepository = badgesRepository
         )
 

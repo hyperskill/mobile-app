@@ -19,7 +19,7 @@ internal class ProfileComponentImpl(
             urlPathProcessor = appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             dailyStudyRemindersEnabledFlow = appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
-            stepSolvedFlow = appGraph.stepsFlowDataComponent.stepSolvedFlow,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             badgesRepository = appGraph.buildBadgesDataComponent().badgesRepository,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant

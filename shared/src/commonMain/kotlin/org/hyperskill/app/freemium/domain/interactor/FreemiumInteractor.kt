@@ -1,9 +1,10 @@
 package org.hyperskill.app.freemium.domain.interactor
 
 import org.hyperskill.app.core.domain.repository.updateState
+import org.hyperskill.app.freemium.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
-import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
@@ -34,18 +35,35 @@ class FreemiumInteractor(
             }
         }
 
-    suspend fun onStepSolved() {
+    suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
         val isFreemiumEnabled = isFreemiumEnabled().getOrDefault(false)
         if (!isFreemiumEnabled) return
 
-        increaseLimitsForFirstStepCompletionIfNeeded()
+        when (chargeStrategy) {
+            FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
+            FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()
+        }
+    }
 
-        if (isFreemiumWrongSubmissionChargeLimitsEnabled()) return
+    private suspend fun chargeLimitsAfterWrongSubmission() {
+        if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
+            decreaseStepsLimitLeft()
+        }
+    }
 
+    private suspend fun decreaseStepsLimitLeft() {
         currentSubscriptionStateRepository.getState().getOrNull()?.let {
             currentSubscriptionStateRepository.updateState(
                 it.copy(stepsLimitLeft = it.stepsLimitLeft?.dec())
             )
+        }
+    }
+
+    private suspend fun chargeLimitsAfterCorrectSubmission() {
+        increaseLimitsForFirstStepCompletionIfNeeded()
+
+        if (!currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
+            decreaseStepsLimitLeft()
         }
     }
 
@@ -68,10 +86,4 @@ class FreemiumInteractor(
             }
         }
     }
-
-    private suspend fun isFreemiumWrongSubmissionChargeLimitsEnabled(): Boolean =
-        currentProfileStateRepository
-            .getState(forceUpdate = false)
-            .map { it.features.isFreemiumWrongSubmissionChargeLimitsEnabled }
-            .getOrDefault(defaultValue = false)
 }

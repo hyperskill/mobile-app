@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.freemium.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
@@ -51,6 +52,11 @@ object StepQuizFeature {
         data class FillBlanks(val mode: FillBlanksMode) : ProblemOnboardingModal
     }
 
+    data class ProblemsLimitReachedModalData(
+        val title: String,
+        val description: String
+    )
+
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
         data class FetchAttemptSuccess(
@@ -58,7 +64,7 @@ object StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
-            val problemsLimitReachedModalText: String?,
+            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
             val problemsOnboardingFlags: ProblemsOnboardingFlags
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
@@ -140,6 +146,11 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        data class UpdateProblemsLimitResult(
+            val isProblemsLimitReached: Boolean,
+            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?
+        ) : InternalMessage
+
         object CreateMagicLinkForUnsupportedQuizError : InternalMessage
         data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
     }
@@ -180,7 +191,7 @@ object StepQuizFeature {
 
             object RequestResetCode : ViewAction
 
-            data class ShowProblemsLimitReachedModal(val modalText: String) : ViewAction
+            data class ShowProblemsLimitReachedModal(val modalData: ProblemsLimitReachedModalData) : ViewAction
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
@@ -205,6 +216,8 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalAction : Action {
+        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
+
         data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction
     }
 }

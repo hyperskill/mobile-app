@@ -7,7 +7,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsActionDispatcher
@@ -28,7 +28,7 @@ internal object TopicsRepetitionsFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         topicRepeatedFlow: TopicRepeatedFlow,
-        stepSolvedFlow: StepSolvedFlow,
+        stepCompletedFlow: StepCompletedFlow,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
@@ -41,7 +41,7 @@ internal object TopicsRepetitionsFeatureBuilder {
             analyticInteractor,
             sentryInteractor,
             topicRepeatedFlow,
-            stepSolvedFlow
+            stepCompletedFlow
         )
 
         return ReduxFeature(State.Idle, topicsRepetitionsReducer)

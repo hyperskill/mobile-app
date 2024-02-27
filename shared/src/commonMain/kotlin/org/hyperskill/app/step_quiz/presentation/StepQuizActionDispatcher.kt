@@ -9,6 +9,7 @@ import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
@@ -56,22 +57,8 @@ internal class StepQuizActionDispatcher(
                         onNewMessage(Message.FetchAttemptError(it))
                         return
                     }
-
-                val problemsLimitReachedModalText = freemiumInteractor
-                    .getStepsLimitTotal()
-                    .map {
-                        it?.let { stepsLimitTotal ->
-                            resourceProvider.getString(
-                                SharedResources.strings.problems_limit_reached_modal_description,
-                                stepsLimitTotal
-                            )
-                        }
-                    }
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(Message.FetchAttemptError(it))
-                        return
-                    }
+                val problemsLimitReachedModalData =
+                    if (isProblemsLimitReached) getProblemsLimitReachedModalData() else null
 
                 val message = stepQuizInteractor
                     .getAttempt(action.step.id, currentProfile.id)
@@ -84,7 +71,7 @@ internal class StepQuizActionDispatcher(
                                         attempt = attempt,
                                         submissionState = it,
                                         isProblemsLimitReached = isProblemsLimitReached,
-                                        problemsLimitReachedModalText = problemsLimitReachedModalText,
+                                        problemsLimitReachedModalData = problemsLimitReachedModalData,
                                         problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
                                     )
                                 },
@@ -213,6 +200,8 @@ internal class StepQuizActionDispatcher(
                     }
                 }
             }
+            is InternalAction.UpdateProblemsLimit ->
+                handleUpdateProblemsLimitAction(action, ::onNewMessage)
             is InternalAction.CreateMagicLinkForUnsupportedQuiz -> {
                 urlPathProcessor
                     .processUrlPath(HyperskillUrlPath.Step(action.stepRoute))
@@ -241,4 +230,50 @@ internal class StepQuizActionDispatcher(
                     StepQuizFeature.SubmissionState.Loaded(submission)
                 }
             }
+
+    private suspend fun handleUpdateProblemsLimitAction(
+        action: InternalAction.UpdateProblemsLimit,
+        onNewMessage: (Message) -> Unit
+    ) {
+        if (!currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) return
+
+        freemiumInteractor.chargeProblemsLimits(action.chargeStrategy)
+
+        val isProblemsLimitReached = freemiumInteractor.isProblemsLimitReached().getOrDefault(false)
+        val problemsLimitReachedModalData = if (isProblemsLimitReached) getProblemsLimitReachedModalData() else null
+
+        onNewMessage(
+            InternalMessage.UpdateProblemsLimitResult(
+                isProblemsLimitReached = isProblemsLimitReached,
+                problemsLimitReachedModalData = problemsLimitReachedModalData
+            )
+        )
+    }
+
+    private suspend fun getProblemsLimitReachedModalData(): StepQuizFeature.ProblemsLimitReachedModalData? {
+        val stepsLimitTotal = freemiumInteractor
+            .getStepsLimitTotal()
+            .getOrElse { return null }
+            ?: return null
+
+        return if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
+            StepQuizFeature.ProblemsLimitReachedModalData(
+                title = resourceProvider.getString(
+                    SharedResources.strings.problems_limit_reached_modal_wrong_submission_charge_limits_title,
+                    stepsLimitTotal
+                ),
+                description = resourceProvider.getString(
+                    SharedResources.strings.problems_limit_reached_modal_wrong_submission_charge_limits_description
+                )
+            )
+        } else {
+            StepQuizFeature.ProblemsLimitReachedModalData(
+                title = resourceProvider.getString(SharedResources.strings.problems_limit_reached_modal_title),
+                description = resourceProvider.getString(
+                    SharedResources.strings.problems_limit_reached_modal_description,
+                    stepsLimitTotal
+                )
+            )
+        }
+    }
 }

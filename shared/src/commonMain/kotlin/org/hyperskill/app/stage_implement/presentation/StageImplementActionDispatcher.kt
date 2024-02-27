@@ -18,12 +18,12 @@ import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Int
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.InternalMessage
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
 import org.hyperskill.app.stages.domain.interactor.StagesInteractor
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class StageImplementActionDispatcher(
     config: ActionDispatcherOptions,
-    stepSolvedFlow: StepSolvedFlow,
+    stepCompletedFlow: StepCompletedFlow,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val stagesInteractor: StagesInteractor,
     private val progressesInteractor: ProgressesInteractor,
@@ -32,7 +32,7 @@ internal class StageImplementActionDispatcher(
     private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
-        stepSolvedFlow.observe()
+        stepCompletedFlow.observe()
             .onEach { onNewMessage(InternalMessage.StepSolved(it)) }
             .launchIn(actionScope)
     }

@@ -282,7 +282,7 @@ abstract class DefaultStepQuizFragment :
                 requestResetCodeActionPermission()
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
-                ProblemsLimitReachedBottomSheet.newInstance(action.modalText)
+                ProblemsLimitReachedBottomSheet.newInstance(action.modalData.title, action.modalData.description)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {

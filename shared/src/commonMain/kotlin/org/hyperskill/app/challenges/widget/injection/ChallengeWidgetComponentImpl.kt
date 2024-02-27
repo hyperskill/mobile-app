@@ -13,7 +13,7 @@ internal class ChallengeWidgetComponentImpl(private val appGraph: AppGraph) : Ch
     override val challengeWidgetActionDispatcher: ChallengeWidgetActionDispatcher
         get() = ChallengeWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
-            stepSolvedFlow = appGraph.stepsFlowDataComponent.stepSolvedFlow,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             dailyStepCompletedFlow = appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
             challengesRepository = appGraph.buildChallengesDataComponent().challengesRepository,

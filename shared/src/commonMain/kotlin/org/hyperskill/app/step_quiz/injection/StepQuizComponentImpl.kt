@@ -40,7 +40,7 @@ internal class StepQuizComponentImpl(
         StepQuizInteractor(
             attemptRepository = attemptRepository,
             submissionRepository = appGraph.submissionDataComponent.submissionRepository,
-            stepSolvedFlow = appGraph.stepsFlowDataComponent.stepSolvedFlow
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow
         )
 
     private val stepQuizHintsComponent: StepQuizHintsComponent =

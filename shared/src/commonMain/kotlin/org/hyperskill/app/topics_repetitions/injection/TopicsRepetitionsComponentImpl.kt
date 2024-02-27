@@ -15,7 +15,7 @@ internal class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : 
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,
-            appGraph.stepsFlowDataComponent.stepSolvedFlow,
+            appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

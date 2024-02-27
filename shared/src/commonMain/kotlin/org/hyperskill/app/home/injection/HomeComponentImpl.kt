@@ -29,7 +29,7 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
             appGraph.commonComponent.dateFormatter,
             appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,
             appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-            appGraph.stepsFlowDataComponent.stepSolvedFlow,
+            appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             gamificationToolbarComponent.gamificationToolbarReducer,
             gamificationToolbarComponent.gamificationToolbarActionDispatcher,
             challengeWidgetComponent.challengeWidgetReducer,

@@ -19,7 +19,7 @@ import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Vie
 import org.hyperskill.app.stage_implement.presentation.StageImplementReducer
 import org.hyperskill.app.stage_implement.view.mapper.StageImplementViewStateMapper
 import org.hyperskill.app.stages.domain.interactor.StagesInteractor
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -36,7 +36,7 @@ internal object StageImplementFeatureBuilder {
         sentryInteractor: SentryInteractor,
         resourceProvider: ResourceProvider,
         currentProfileStateRepository: CurrentProfileStateRepository,
-        stepSolvedFlow: StepSolvedFlow,
+        stepCompletedFlow: StepCompletedFlow,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
@@ -49,7 +49,7 @@ internal object StageImplementFeatureBuilder {
 
         val stageImplementActionDispatcher = StageImplementActionDispatcher(
             ActionDispatcherOptions(),
-            stepSolvedFlow,
+            stepCompletedFlow,
             currentProfileStateRepository,
             stagesInteractor,
             progressesInteractor,

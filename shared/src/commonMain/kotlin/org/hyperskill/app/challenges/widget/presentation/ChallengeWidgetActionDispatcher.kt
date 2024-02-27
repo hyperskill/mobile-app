@@ -20,13 +20,13 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
-import org.hyperskill.app.step_quiz.domain.flow.StepSolvedFlow
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ChallengeWidgetActionDispatcher(
     config: ActionDispatcherOptions,
-    stepSolvedFlow: StepSolvedFlow,
+    stepCompletedFlow: StepCompletedFlow,
     topicCompletedFlow: TopicCompletedFlow,
     dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val challengesRepository: ChallengesRepository,
@@ -41,7 +41,7 @@ class ChallengeWidgetActionDispatcher(
     }
 
     init {
-        stepSolvedFlow.observe()
+        stepCompletedFlow.observe()
             .distinctUntilChanged()
             .onEach {
                 onNewMessage(InternalMessage.StepSolved)

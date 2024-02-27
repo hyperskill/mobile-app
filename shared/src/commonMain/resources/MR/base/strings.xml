@@ -428,6 +428,9 @@
     <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
     <string name="problems_limit_reached_modal_description">You\'ve solved %d problems today. Great job! Tomorrow new problems will be available to you.</string>
 
+    <string name="problems_limit_reached_modal_wrong_submission_charge_limits_title">You\'ve used all %d of your lives for today</string>
+    <string name="problems_limit_reached_modal_wrong_submission_charge_limits_description">Take a break and come back tomorrow for another exciting day of practice!</string>
+
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>
     <string name="problems_limit_widget_update_in">Reset in %s</string>

@@ -49,7 +49,10 @@ class StepQuizTest {
                     attempt,
                     submissionState,
                     isProblemsLimitReached = true,
-                    problemsLimitReachedModalText = "",
+                    problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
+                        title = "",
+                        description = ""
+                    ),
                     problemsOnboardingFlags = ProblemsOnboardingFlags(
                         isParsonsOnboardingShown = false,
                         isFillBlanksInputModeOnboardingShown = false,
@@ -94,7 +97,10 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = true,
-                problemsLimitReachedModalText = "",
+                problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
+                    title = "",
+                    description = ""
+                ),
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
@@ -142,7 +148,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
-                problemsLimitReachedModalText = null,
+                problemsLimitReachedModalData = null,
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
@@ -204,7 +210,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 isProblemsLimitReached = false,
-                problemsLimitReachedModalText = null,
+                problemsLimitReachedModalData = null,
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
