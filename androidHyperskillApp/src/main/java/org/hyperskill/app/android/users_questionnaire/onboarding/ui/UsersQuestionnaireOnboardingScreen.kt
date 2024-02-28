@@ -29,6 +29,7 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTextButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.users_questionnaire.onboarding.presentation.UsersQuestionnaireOnboardingFeature
+import org.hyperskill.app.users_questionnaire.onboarding.presentation.UsersQuestionnaireOnboardingFeature.ViewState
 import org.hyperskill.app.users_questionnaire.onboarding.presentation.UsersQuestionnaireOnboardingViewModel
 
 @Composable
@@ -53,7 +54,7 @@ fun UsersQuestionnaireOnboardingScreen(viewModel: UsersQuestionnaireOnboardingVi
 
 @Composable
 fun UsersQuestionnaireOnboardingScreen(
-    viewState: UsersQuestionnaireOnboardingFeature.ViewState,
+    viewState: ViewState,
     onChoiceClicked: (String) -> Unit,
     onTextInputChanged: (String) -> Unit,
     onSendClick: () -> Unit,
@@ -103,22 +104,21 @@ fun UsersQuestionnaireOnboardingScreen(
     }
 }
 
-private class UsersQuestionnaireOnboardingPreviewParameterProvider :
-    PreviewParameterProvider<UsersQuestionnaireOnboardingFeature.ViewState> {
-    override val values: Sequence<UsersQuestionnaireOnboardingFeature.ViewState>
+private class UsersQuestionnaireOnboardingPreviewParameterProvider : PreviewParameterProvider<ViewState> {
+    override val values: Sequence<ViewState>
         get() = sequenceOf(
             UsersQuestionnaireOnboardingPreviewDefault.getUnselectedViewState(),
             UsersQuestionnaireOnboardingPreviewDefault.getFirstOptionSelectedViewState(),
             UsersQuestionnaireOnboardingPreviewDefault.getOtherOptionSelectedViewState(false),
             UsersQuestionnaireOnboardingPreviewDefault.getOtherOptionSelectedViewState(true)
         )
-    }
+}
 
 @Preview(device = "id:pixel_3", showSystemUi = true)
 @Composable
 private fun UsersQuestionnaireOnboardingScreenPreview(
     @PreviewParameter(UsersQuestionnaireOnboardingPreviewParameterProvider::class)
-    viewState: UsersQuestionnaireOnboardingFeature.ViewState
+    viewState: ViewState
 ) {
     HyperskillTheme {
         UsersQuestionnaireOnboardingScreen(
@@ -135,7 +135,7 @@ private fun UsersQuestionnaireOnboardingScreenPreview(
 @Composable
 private fun UsersQuestionnaireOnboardingScreenPreviewSmallDevice(
     @PreviewParameter(UsersQuestionnaireOnboardingPreviewParameterProvider::class)
-    viewState: UsersQuestionnaireOnboardingFeature.ViewState
+    viewState: ViewState
 ) {
     HyperskillTheme {
         UsersQuestionnaireOnboardingScreen(
