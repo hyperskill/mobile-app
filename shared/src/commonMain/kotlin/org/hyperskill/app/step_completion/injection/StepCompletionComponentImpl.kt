@@ -23,7 +23,7 @@ internal class StepCompletionComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
-            freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            subscriptionsInteractor = appGraph.subscriptionDataComponent.subscriptionsInteractor,
             shareStreakInteractor = appGraph.buildShareStreakDataComponent().shareStreakInteractor,
             requestReviewInteractor = appGraph.buildRequestReviewDataComponent().requestReviewInteractor,
             nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent

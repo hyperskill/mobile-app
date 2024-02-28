@@ -1,6 +1,7 @@
 package org.hyperskill.app.manage_subscription.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object ManageSubscriptionFeature {
@@ -26,7 +27,7 @@ object ManageSubscriptionFeature {
 
         data class Content(
             val validUntilFormatted: String?,
-            val isManageButtonVisible: Boolean
+            val buttonText: String?
         ) : ViewState
     }
 
@@ -34,7 +35,7 @@ object ManageSubscriptionFeature {
         object Initialize : Message
         object RetryContentLoading : Message
 
-        object ManageSubscriptionClicked : Message
+        object ActionButtonClicked : Message
 
         object ViewedEventMessage : Message
     }
@@ -45,11 +46,20 @@ object ManageSubscriptionFeature {
             val subscription: Subscription,
             val manageSubscriptionUrl: String?
         ) : InternalMessage
+
+        data class SubscriptionChanged(
+            val subscription: Subscription,
+            val manageSubscriptionUrl: String?
+        ) : InternalMessage
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
             data class OpenUrl(val url: String) : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
+            }
         }
     }
 

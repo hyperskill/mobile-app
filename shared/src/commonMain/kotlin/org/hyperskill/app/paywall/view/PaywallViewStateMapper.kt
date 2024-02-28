@@ -5,6 +5,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.APP_BECOMES_ACTIVE
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.LOGIN
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.MANAGE_SUBSCRIPTION
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROBLEMS_LIMIT_MODAL
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.PROFILE_SETTINGS
 import org.hyperskill.app.paywall.presentation.PaywallFeature.State
@@ -21,7 +22,9 @@ internal class PaywallViewStateMapper(
         ViewState(
             isToolbarVisible = when (paywallTransitionSource) {
                 APP_BECOMES_ACTIVE, LOGIN -> false
-                PROFILE_SETTINGS, PROBLEMS_LIMIT_MODAL -> true
+                MANAGE_SUBSCRIPTION,
+                PROFILE_SETTINGS,
+                PROBLEMS_LIMIT_MODAL -> true
             },
             contentState = when (state) {
                 State.Idle -> ViewStateContent.Idle
@@ -36,7 +39,12 @@ internal class PaywallViewStateMapper(
                                 SharedResources.strings.paywall_mobile_only_buy_btn,
                                 state.formattedPrice
                             ),
-                            isContinueWithLimitsButtonVisible = paywallTransitionSource != PROFILE_SETTINGS
+                            isContinueWithLimitsButtonVisible = when (paywallTransitionSource) {
+                                PROFILE_SETTINGS, MANAGE_SUBSCRIPTION -> false
+                                APP_BECOMES_ACTIVE,
+                                LOGIN,
+                                PROBLEMS_LIMIT_MODAL -> true
+                            }
                         )
                     }
             }

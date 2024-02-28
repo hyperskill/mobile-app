@@ -24,8 +24,6 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponentImpl
-import org.hyperskill.app.freemium.injection.FreemiumDataComponent
-import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
@@ -222,6 +220,10 @@ abstract class BaseAppGraph : AppGraph {
             networkComponent = networkComponent,
             commonComponent = commonComponent
         )
+    }
+
+    override val subscriptionDataComponent: SubscriptionsDataComponent by lazy {
+        SubscriptionsDataComponentImpl(this)
     }
 
     override fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent =
@@ -428,9 +430,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStagesDataComponent(): StagesDataComponent =
         StagesDataComponentImpl(this)
 
-    override fun buildFreemiumDataComponent(): FreemiumDataComponent =
-        FreemiumDataComponentImpl(this)
-
     override fun buildProvidersDataComponent(): ProvidersDataComponent =
         ProvidersDataComponentImpl(this)
 
@@ -501,9 +500,6 @@ abstract class BaseAppGraph : AppGraph {
         paywallTransitionSource: PaywallTransitionSource
     ): PaywallComponent =
         PaywallComponentImpl(paywallTransitionSource, this)
-
-    override fun buildSubscriptionsDataComponent(): SubscriptionsDataComponent =
-        SubscriptionsDataComponentImpl(this)
 
     override fun buildManageSubscriptionComponent(): ManageSubscriptionComponent =
         ManageSubscriptionComponentImpl(this)

@@ -13,7 +13,6 @@ import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
-import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
@@ -108,6 +107,7 @@ interface AppGraph {
     val notificationFlowDataComponent: NotificationFlowDataComponent
     val stateRepositoriesComponent: StateRepositoriesComponent
     val profileDataComponent: ProfileDataComponent
+    val subscriptionDataComponent: SubscriptionsDataComponent
 
     fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent
 
@@ -164,7 +164,6 @@ interface AppGraph {
     fun buildProjectSelectionListComponent(): ProjectSelectionListComponent
     fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent
     fun buildStagesDataComponent(): StagesDataComponent
-    fun buildFreemiumDataComponent(): FreemiumDataComponent
     fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent
     fun buildProvidersDataComponent(): ProvidersDataComponent
     fun buildStreakRecoveryComponent(): StreakRecoveryComponent
@@ -190,7 +189,6 @@ interface AppGraph {
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
-    fun buildSubscriptionsDataComponent(): SubscriptionsDataComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
     fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent
     fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent

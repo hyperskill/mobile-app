@@ -18,7 +18,7 @@ class ManageSubscriptionViewModel(
         onNewMessage(Message.RetryContentLoading)
     }
 
-    fun onManageSubscriptionClick() {
-        onNewMessage(Message.ManageSubscriptionClicked)
+    fun onActionButtonClick() {
+        onNewMessage(Message.ActionButtonClicked)
     }
 }

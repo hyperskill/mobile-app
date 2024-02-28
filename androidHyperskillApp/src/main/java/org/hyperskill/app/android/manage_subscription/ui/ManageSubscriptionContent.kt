@@ -33,7 +33,7 @@ import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFea
 @Composable
 fun ManageSubscriptionContent(
     state: ViewState.Content,
-    onManageSubscriptionClick: () -> Unit,
+    onActionButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
     padding: PaddingValues = PaddingValues()
 ) {
@@ -53,12 +53,14 @@ fun ManageSubscriptionContent(
             MobileOnlyWarning()
             Spacer(modifier = Modifier.height(24.dp))
         }
-        if (state.isManageButtonVisible) {
+
+        val buttonText = state.buttonText
+        if (buttonText != null) {
             HyperskillButton(
-                onClick = onManageSubscriptionClick,
+                onClick = onActionButtonClick,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = stringResource(id = R.string.manage_subscription_manage_btn))
+                Text(text = buttonText)
             }
         }
     }
@@ -140,11 +142,8 @@ fun MobileOnlyWarningPreview() {
 private fun ManageSubscriptionContentPreview() {
     HyperskillTheme {
         ManageSubscriptionContent(
-            state = ViewState.Content(
-                validUntilFormatted = ManageSubscriptionPreviewDefaults.VALID_UNTIL_FORMATTED,
-                isManageButtonVisible = true
-            ),
-            onManageSubscriptionClick = {}
+            state = ManageSubscriptionPreviewDefaults.ActiveSubscriptionContent,
+            onActionButtonClick = {}
         )
     }
 }

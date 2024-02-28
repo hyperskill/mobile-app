@@ -5,10 +5,10 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
@@ -21,7 +21,11 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.subscriptions.domain.model.isExpired
+import org.hyperskill.app.subscriptions.domain.model.isValidTillPassed
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
@@ -35,9 +39,11 @@ internal class AppActionDispatcher(
     private val pushNotificationsInteractor: PushNotificationsInteractor,
     private val purchaseInteractor: PurchaseInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val subscriptionsInteractor: SubscriptionsInteractor,
     private val isSubscriptionPurchaseEnabled: Boolean,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
     init {
         authInteractor
             .observeUserDeauthorization()
@@ -62,10 +68,9 @@ internal class AppActionDispatcher(
         if (isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
                 .changes
-                .map { it.type }
                 .distinctUntilChanged()
-                .onEach { subscriptionType ->
-                    onNewMessage(AppFeature.InternalMessage.SubscriptionTypeChanged(subscriptionType))
+                .onEach { subscription ->
+                    onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(subscription))
                 }
                 .launchIn(actionScope)
         }
@@ -89,6 +94,10 @@ internal class AppActionDispatcher(
                 appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
             is AppFeature.InternalAction.FetchSubscription ->
                 handleFetchSubscription(::onNewMessage)
+            is AppFeature.InternalAction.RefreshSubscriptionOnExpiration ->
+                subscriptionsInteractor.refreshSubscriptionOnExpirationIfNeeded(action.subscription)
+            is AppFeature.InternalAction.CancelSubscriptionRefresh ->
+                subscriptionsInteractor.cancelSubscriptionRefresh()
             else -> {}
         }
     }
@@ -97,8 +106,8 @@ internal class AppActionDispatcher(
         action: Action.FetchAppStartupConfig,
         onNewMessage: (Message) -> Unit
     ) {
-        val isAuthorized = authInteractor.isAuthorized()
-            .getOrDefault(false)
+        val isAuthorized =
+            authInteractor.isAuthorized().getOrDefault(false)
 
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildAppScreenRemoteDataLoading(isAuthorized),
@@ -124,7 +133,7 @@ internal class AppActionDispatcher(
 
                 Message.FetchAppStartupConfigSuccess(
                     profile = profile,
-                    subscriptionType = subscription?.type,
+                    subscription = subscription,
                     notificationData = action.pushNotificationData
                 )
             }
@@ -134,11 +143,33 @@ internal class AppActionDispatcher(
     private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
         if (isAuthorized && isSubscriptionPurchaseEnabled) {
             currentSubscriptionStateRepository
-                .getState()
-                .onFailure { e ->
-                    logger.e(e) { "Failed to fetch subscription" }
-                }
-                .getOrNull()
+                .getStateWithSource(forceUpdate = false)
+                .fold(
+                    onSuccess = { (subscription, usedDataSourceType) ->
+                        // Fetch subscription from remote
+                        // if the user has the mobile-only subscription
+                        // and its valid time is passed
+                        val shouldFetchSubscriptionFromRemote =
+                            usedDataSourceType == DataSourceType.CACHE &&
+                                subscription.type == SubscriptionType.MOBILE_ONLY &&
+                                (subscription.isExpired || subscription.isValidTillPassed())
+                        if (shouldFetchSubscriptionFromRemote) {
+                            currentSubscriptionStateRepository
+                                .getState(forceUpdate = true)
+                                .getOrNull()
+                        } else {
+                            subscription
+                        }
+                    },
+                    onFailure = {
+                        currentSubscriptionStateRepository
+                            .getState(forceUpdate = true)
+                            .onFailure { e ->
+                                logger.e(e) { "Failed to fetch subscription" }
+                            }
+                            .getOrNull()
+                    }
+                )
         } else {
             null
         }
@@ -168,7 +199,7 @@ internal class AppActionDispatcher(
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
         fetchSubscription()?.let {
             onNewMessage(
-                AppFeature.InternalMessage.SubscriptionTypeChanged(it.type)
+                AppFeature.InternalMessage.SubscriptionChanged(it)
             )
         }
     }

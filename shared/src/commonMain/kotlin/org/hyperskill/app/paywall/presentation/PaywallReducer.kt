@@ -167,7 +167,8 @@ internal class PaywallReducer(
         paywallTransitionSource: PaywallTransitionSource
     ): Action.ViewAction =
         when (paywallTransitionSource) {
-            PaywallTransitionSource.APP_BECOMES_ACTIVE ->
+            PaywallTransitionSource.APP_BECOMES_ACTIVE,
+            PaywallTransitionSource.MANAGE_SUBSCRIPTION ->
                 Action.ViewAction.ClosePaywall
             PaywallTransitionSource.LOGIN ->
                 Action.ViewAction.CompletePaywall

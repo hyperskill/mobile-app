@@ -22,6 +22,7 @@ import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
@@ -51,6 +52,7 @@ internal object AppFeatureBuilder {
         welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher,
         purchaseInteractor: PurchaseInteractor,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+        subscriptionsInteractor: SubscriptionsInteractor,
         platform: Platform,
         logger: Logger,
         buildVariant: BuildVariant
@@ -72,6 +74,7 @@ internal object AppFeatureBuilder {
             pushNotificationsInteractor = pushNotificationsInteractor,
             purchaseInteractor = purchaseInteractor,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
+            subscriptionsInteractor = subscriptionsInteractor,
             isSubscriptionPurchaseEnabled = platform.isSubscriptionPurchaseEnabled,
             logger.withTag(LOG_TAG)
         )

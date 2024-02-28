@@ -16,7 +16,8 @@ import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
@@ -96,8 +97,8 @@ internal class AppReducer(
                 state to reduceNotificationClickHandlingMessage(message.message)
             is Message.WelcomeOnboardingMessage ->
                 reduceWelcomeOnboardingMessage(state, message.message)
-            is InternalMessage.SubscriptionTypeChanged ->
-                handleSubscriptionTypeChanged(state, message)
+            is InternalMessage.SubscriptionChanged ->
+                handleSubscriptionChanged(state, message)
         } ?: (state to emptySet())
 
     private fun handleFetchAppStartupConfigSuccess(
@@ -122,7 +123,7 @@ internal class AppReducer(
                 isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
                 streakRecoveryState = streakRecoveryState,
                 appShowsCount = 0, // This is a hack to show paywall on the first app start
-                subscriptionType = message.subscriptionType,
+                subscription = message.subscription,
                 isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled
             )
 
@@ -151,7 +152,13 @@ internal class AppReducer(
                             else ->
                                 add(Action.ViewAction.NavigateTo.StudyPlan)
                         }
-                        addAll(getOnAuthorizedAppStartUpActions(message.profile.id, platformType))
+                        addAll(
+                            getOnAuthorizedAppStartUpActions(
+                                profileId = message.profile.id,
+                                subscription = message.subscription,
+                                platformType = platformType
+                            )
+                        )
                     } else {
                         if (message.notificationData != null) {
                             addAll(
@@ -215,7 +222,7 @@ internal class AppReducer(
     private fun shouldShowPaywall(state: State.Ready): Boolean =
         state.isAuthorized &&
             state.isMobileOnlySubscriptionEnabled &&
-            state.subscriptionType == SubscriptionType.FREEMIUM &&
+            state.subscription?.isFreemium == true &&
             state.appShowsCount % APP_SHOWS_COUNT_TILL_PAYWALL == 0
 
     private fun reduceStreakRecoveryMessage(
@@ -313,11 +320,13 @@ internal class AppReducer(
 
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,
+        subscription: Subscription?,
         platformType: PlatformType
     ): Set<Action> =
         setOfNotNull(
             Action.IdentifyUserInSentry(userId = profileId),
             Action.IdentifyUserInPurchaseSdk(userId = profileId),
+            subscription?.let(InternalAction::RefreshSubscriptionOnExpiration),
             Action.UpdateDailyLearningNotificationTime,
             if (platformType == PlatformType.ANDROID) {
                 // Don't send push token on app startup for IOS
@@ -341,14 +350,19 @@ internal class AppReducer(
         )
 
     private fun getDeauthorizedUserActions(): Set<Action> =
-        setOf(Action.ClearUserInSentry)
+        setOf(
+            Action.ClearUserInSentry,
+            InternalAction.CancelSubscriptionRefresh
+        )
 
-    private fun handleSubscriptionTypeChanged(
+    private fun handleSubscriptionChanged(
         state: State,
-        message: InternalMessage.SubscriptionTypeChanged
+        message: InternalMessage.SubscriptionChanged
     ): ReducerResult =
         if (state is State.Ready) {
-            state.copy(subscriptionType = message.subscriptionType) to emptySet()
+            state.copy(subscription = message.subscription) to setOf(
+                InternalAction.RefreshSubscriptionOnExpiration(message.subscription)
+            )
         } else {
             state to emptySet()
         }

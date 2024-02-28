@@ -17,7 +17,7 @@ internal class PaywallComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
-            subscriptionsRepository = appGraph.buildSubscriptionsDataComponent().subscriptionsRepository,
+            subscriptionsRepository = appGraph.subscriptionDataComponent.subscriptionsRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             logger = appGraph.loggerComponent.logger,
