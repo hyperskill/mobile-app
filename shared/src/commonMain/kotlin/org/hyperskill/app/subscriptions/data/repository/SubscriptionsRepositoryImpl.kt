@@ -4,7 +4,7 @@ import org.hyperskill.app.subscriptions.data.source.SubscriptionsRemoteDataSourc
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.repository.SubscriptionsRepository
 
-class SubscriptionsRepositoryImpl(
+internal class SubscriptionsRepositoryImpl(
     private val subscriptionsRemoteDataSource: SubscriptionsRemoteDataSource
 ) : SubscriptionsRepository {
     override suspend fun syncSubscription(): Result<Subscription> =
