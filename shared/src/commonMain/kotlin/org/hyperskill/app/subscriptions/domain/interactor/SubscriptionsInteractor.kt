@@ -87,7 +87,7 @@ class SubscriptionsInteractor(
             .toLocalDateTime(TimeZone.UTC)
             .toInstant(TimeZone.UTC)
 
-        // Add one minute to wait until the subscription is synced on the backend
+        // ALTAPPS-1155: Add one minute to wait until the subscription is synced on the backend
         val delayDuration = subscriptionValidTill - nowByUTC + 1.toDuration(DurationUnit.MINUTES)
         logger.d { "Wait ${delayDuration.inWholeSeconds} seconds for subscription expiration to refresh it" }
 
