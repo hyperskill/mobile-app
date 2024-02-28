@@ -1,13 +1,17 @@
 package org.hyperskill.step_quiz
 
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import org.hyperskill.app.freemium.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
@@ -113,6 +117,189 @@ class StepQuizTest {
         assertTrue {
             actions.any { it is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal }
         }
+    }
+
+    @Test
+    fun `Receiving wrong submission for step with limited attempts updates problems limits`() {
+        val step = Step.stub(id = 1)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = StepRoute.Learn.Step(step.id),
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id))
+        )
+
+        val (actualState, actualActions) = reducer.reduce(
+            initialState,
+            StepQuizFeature.Message.CreateSubmissionSuccess(Submission.stub(status = SubmissionStatus.WRONG))
+        )
+
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Loaded(
+                    Submission.stub(status = SubmissionStatus.WRONG)
+                ),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        assertEquals(expectedState, actualState)
+        assertContains(
+            actualActions,
+            StepQuizFeature.InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION)
+        )
+    }
+
+    @Test
+    fun `Receiving wrong submission for step without limited attempts not updates problems limits`() {
+        val step = Step.stub(id = 1)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = StepRoute.LearnDaily(step.id),
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.LearnDaily(step.id))
+        )
+
+        val (actualState, actualActions) = reducer.reduce(
+            initialState,
+            StepQuizFeature.Message.CreateSubmissionSuccess(Submission.stub(status = SubmissionStatus.WRONG))
+        )
+
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Loaded(
+                    Submission.stub(status = SubmissionStatus.WRONG)
+                ),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        assertEquals(expectedState, actualState)
+        assertTrue(actualActions.isEmpty())
+    }
+
+    @Test
+    fun `When updated problems limits reached for step with limited attempts blocks solving`() {
+        val step = Step.stub(id = 1)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = StepRoute.Learn.Step(step.id),
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id))
+        )
+
+        val (actualState, actualActions) = reducer.reduce(
+            initialState,
+            StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
+                isProblemsLimitReached = true,
+                problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
+                    title = "",
+                    description = ""
+                )
+            )
+        )
+
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = true,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        assertEquals(expectedState, actualState)
+        assertContains(
+            actualActions,
+            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(
+                StepQuizFeature.ProblemsLimitReachedModalData(
+                    title = "",
+                    description = ""
+                )
+            )
+        )
+    }
+
+    @Test
+    fun `When updated problems limits reached for step without limited attempts not blocks solving`() {
+        val step = Step.stub(id = 1)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = StepRoute.LearnDaily(step.id),
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.LearnDaily(step.id))
+        )
+
+        val (actualState, actualActions) = reducer.reduce(
+            initialState,
+            StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
+                isProblemsLimitReached = true,
+                problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
+                    title = "",
+                    description = ""
+                )
+            )
+        )
+
+        val expectedState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle
+        )
+
+        assertEquals(expectedState, actualState)
+        assertTrue(actualActions.isEmpty())
     }
 
     @Test
