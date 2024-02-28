@@ -121,7 +121,7 @@ internal class AppReducer(
                 isAuthorized = isAuthorized,
                 isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
                 streakRecoveryState = streakRecoveryState,
-                appShowsCount = 0,
+                appShowsCount = 0, // This is a hack to show paywall on the first app start
                 subscriptionType = message.subscriptionType,
                 isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled
             )
