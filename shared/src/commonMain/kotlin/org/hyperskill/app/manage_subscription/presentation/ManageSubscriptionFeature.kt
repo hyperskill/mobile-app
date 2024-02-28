@@ -32,20 +32,19 @@ object ManageSubscriptionFeature {
 
     sealed interface Message {
         object Initialize : Message
-        object ViewedEventMessage : Message
-
         object RetryContentLoading : Message
 
         object ManageSubscriptionClicked : Message
+
+        object ViewedEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message {
+        object FetchSubscriptionError : InternalMessage
         data class FetchSubscriptionSuccess(
             val subscription: Subscription,
             val manageSubscriptionUrl: String?
         ) : InternalMessage
-
-        object FetchSubscriptionError : InternalMessage
     }
 
     sealed interface Action {
@@ -55,8 +54,8 @@ object ManageSubscriptionFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticsEvent(val event: AnalyticEvent) : InternalAction
-
         object FetchSubscription : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

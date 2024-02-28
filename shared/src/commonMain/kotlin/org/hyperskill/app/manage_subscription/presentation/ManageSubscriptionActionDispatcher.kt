@@ -26,10 +26,10 @@ internal class ManageSubscriptionActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is InternalAction.LogAnalyticsEvent ->
-                analyticInteractor.logEvent(action.event)
             is InternalAction.FetchSubscription ->
                 handleFetchSubscription(::onNewMessage)
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }
