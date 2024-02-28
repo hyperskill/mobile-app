@@ -115,13 +115,16 @@ internal class AppActionDispatcher(
                 val profileDeferred = async { appInteractor.fetchProfile(isAuthorized) }
                 val subscriptionDeferred = async { fetchSubscription(isAuthorized) }
 
+                val profile = profileDeferred.await().getOrThrow()
+                val subscription = subscriptionDeferred.await()
+
                 sentryInteractor.addBreadcrumb(
                     HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
                 )
 
                 Message.FetchAppStartupConfigSuccess(
-                    profile = profileDeferred.await().getOrThrow(),
-                    subscriptionType = subscriptionDeferred.await()?.type,
+                    profile = profile,
+                    subscriptionType = subscription?.type,
                     notificationData = action.pushNotificationData
                 )
             }
