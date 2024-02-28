@@ -18,12 +18,12 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             Message.Initialize -> handleInitialize(state)
-            Message.ViewedEventMessage -> handleViewedEventMessage(state)
-            is InternalMessage.FetchSubscriptionSuccess -> handleFetchSubscriptionSuccess(message)
             InternalMessage.FetchSubscriptionError -> handleFetchSubscriptionError()
+            is InternalMessage.FetchSubscriptionSuccess -> handleFetchSubscriptionSuccess(message)
             Message.RetryContentLoading -> fetchSubscription()
             Message.ActionButtonClicked -> handleActionButtonClicked(state)
             is InternalMessage.SubscriptionChanged -> handleSubscriptionChanged(state, message)
+            Message.ViewedEventMessage -> handleViewedEventMessage(state)
         }
 
     private fun handleInitialize(state: State): ReducerResult =
@@ -33,12 +33,11 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
             state to emptySet()
         }
 
-    private fun handleViewedEventMessage(state: State): ReducerResult =
-        state to setOf(
-            InternalAction.LogAnalyticsEvent(
-                ManageSubscriptionViewedHyperskillAnalyticEvent
-            )
-        )
+    private fun fetchSubscription(): ReducerResult =
+        State.Loading to setOf(InternalAction.FetchSubscription)
+
+    private fun handleFetchSubscriptionError(): ReducerResult =
+        State.Error to emptySet()
 
     private fun handleFetchSubscriptionSuccess(
         message: InternalMessage.FetchSubscriptionSuccess
@@ -48,24 +47,18 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
             manageSubscriptionUrl = message.manageSubscriptionUrl
         ) to emptySet()
 
-    private fun handleFetchSubscriptionError(): ReducerResult =
-        State.Error to emptySet()
-
-    private fun fetchSubscription(): ReducerResult =
-        State.Loading to setOf(InternalAction.FetchSubscription)
-
     private fun handleActionButtonClicked(state: State): ReducerResult =
         if (state is State.Content) {
             state to when {
                 state.isSubscriptionManagementEnabled -> {
                     setOfNotNull(
-                        InternalAction.LogAnalyticsEvent(ManageSubscriptionClickedManageHyperskillAnalyticEvent),
+                        InternalAction.LogAnalyticEvent(ManageSubscriptionClickedManageHyperskillAnalyticEvent),
                         state.manageSubscriptionUrl?.let(Action.ViewAction::OpenUrl)
                     )
                 }
                 state.subscription.isExpired -> {
                     setOf(
-                        InternalAction.LogAnalyticsEvent(RenewSubscriptionClickedManageHyperskillAnalyticEvent),
+                        InternalAction.LogAnalyticEvent(RenewSubscriptionClickedManageHyperskillAnalyticEvent),
                         Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.MANAGE_SUBSCRIPTION)
                     )
                 }
@@ -87,4 +80,7 @@ internal class ManageSubscriptionReducer : StateReducer<State, Message, Action> 
         } else {
             state to emptySet()
         }
+
+    private fun handleViewedEventMessage(state: State): ReducerResult =
+        state to setOf(InternalAction.LogAnalyticEvent(ManageSubscriptionViewedHyperskillAnalyticEvent))
 }

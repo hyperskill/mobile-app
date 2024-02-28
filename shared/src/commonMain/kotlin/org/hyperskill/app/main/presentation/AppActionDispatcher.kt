@@ -16,9 +16,6 @@ import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
-import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile.domain.model.isNewUser
-import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbBuilder
@@ -36,7 +33,6 @@ internal class AppActionDispatcher(
     config: ActionDispatcherOptions,
     private val appInteractor: AppInteractor,
     private val authInteractor: AuthInteractor,
-    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val stateRepositoriesComponent: StateRepositoriesComponent,
     private val notificationsInteractor: NotificationInteractor,
@@ -125,44 +121,24 @@ internal class AppActionDispatcher(
             coroutineScope {
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
-                val profileDeferred = async { fetchProfile(isAuthorized) }
+                val profileDeferred = async { appInteractor.fetchProfile(isAuthorized) }
                 val subscriptionDeferred = async { fetchSubscription(isAuthorized) }
+
+                val profile = profileDeferred.await().getOrThrow()
+                val subscription = subscriptionDeferred.await()
 
                 sentryInteractor.addBreadcrumb(
                     HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
                 )
 
                 Message.FetchAppStartupConfigSuccess(
-                    profile = profileDeferred.await().getOrThrow(),
-                    subscription = subscriptionDeferred.await(),
+                    profile = profile,
+                    subscription = subscription,
                     notificationData = action.pushNotificationData
                 )
             }
         }.let(onNewMessage)
     }
-
-    // TODO: Move this logic to reducer
-    private suspend fun fetchProfile(isAuthorized: Boolean): Result<Profile> =
-        if (isAuthorized) {
-            currentProfileStateRepository
-                .getStateWithSource(forceUpdate = false)
-                .fold(
-                    onSuccess = { (profile, usedDataSourceType) ->
-                        /**
-                         * ALTAPPS-693:
-                         * If cached user is new, we need to fetch profile from remote to check if track selected
-                         */
-                        if (profile.isNewUser && usedDataSourceType == DataSourceType.CACHE) {
-                            currentProfileStateRepository.getState(forceUpdate = true)
-                        } else {
-                            Result.success(profile)
-                        }
-                    },
-                    onFailure = { currentProfileStateRepository.getState(forceUpdate = true) }
-                )
-        } else {
-            currentProfileStateRepository.getState(forceUpdate = true)
-        }
 
     private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
         if (isAuthorized && isSubscriptionPurchaseEnabled) {

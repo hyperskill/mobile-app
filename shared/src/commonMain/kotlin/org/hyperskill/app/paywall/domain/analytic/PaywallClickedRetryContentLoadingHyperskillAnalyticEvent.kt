@@ -38,7 +38,7 @@ class PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
         get() = super.params +
             mapOf(
                 PARAM_CONTEXT to mapOf(
-                    PaywallAnalyticKeys.PAYWALL_TRANSITION_SOURCE to paywallTransitionSource.analyticName
+                    PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
                 )
             )
 }

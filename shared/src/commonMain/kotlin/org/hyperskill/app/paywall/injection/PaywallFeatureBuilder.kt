@@ -56,7 +56,7 @@ internal object PaywallFeatureBuilder {
         val viewStateMapper = PaywallViewStateMapper(resourceProvider)
 
         return ReduxFeature(
-            initialState = PaywallFeature.initialState(),
+            initialState = PaywallFeature.State.Idle,
             reducer = paywallReducer
         )
             .wrapWithActionDispatcher(paywallActionDispatcher)

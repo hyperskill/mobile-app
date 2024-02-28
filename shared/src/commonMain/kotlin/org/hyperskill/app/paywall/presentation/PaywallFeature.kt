@@ -19,9 +19,6 @@ object PaywallFeature {
         ) : State
     }
 
-    internal fun initialState(): State =
-        State.Idle
-
     data class ViewState(
         val isToolbarVisible: Boolean,
         val contentState: ViewStateContent
@@ -56,19 +53,16 @@ object PaywallFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        object FetchMobileOnlyPriceError : InternalMessage
         data class FetchMobileOnlyPriceSuccess(val formattedPrice: String) : InternalMessage
 
-        object FetchMobileOnlyPriceError : InternalMessage
-
+        object MobileOnlySubscriptionPurchaseError : InternalMessage
         data class MobileOnlySubscriptionPurchaseSuccess(
             val purchaseResult: PurchaseResult
         ) : InternalMessage
 
-        object MobileOnlySubscriptionPurchaseError : InternalMessage
-
-        data class SubscriptionSyncSuccess(val subscription: Subscription) : InternalMessage
-
         object SubscriptionSyncError : InternalMessage
+        data class SubscriptionSyncSuccess(val subscription: Subscription) : InternalMessage
     }
 
     sealed interface Action {
@@ -100,8 +94,6 @@ object PaywallFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
-
         object FetchMobileOnlyPrice : InternalAction
 
         data class StartMobileOnlySubscriptionPurchase(
@@ -114,5 +106,7 @@ object PaywallFeature {
             val expectedSubscriptionType: SubscriptionType,
             val actualSubscriptionType: SubscriptionType
         ) : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

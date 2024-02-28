@@ -68,7 +68,6 @@ internal object AppFeatureBuilder {
             config = ActionDispatcherOptions(),
             appInteractor = appInteractor,
             authInteractor = authInteractor,
-            currentProfileStateRepository = currentProfileStateRepository,
             sentryInteractor = sentryInteractor,
             stateRepositoriesComponent = stateRepositoriesComponent,
             notificationsInteractor = notificationsInteractor,
