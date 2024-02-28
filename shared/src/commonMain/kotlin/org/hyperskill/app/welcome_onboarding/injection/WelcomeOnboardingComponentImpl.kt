@@ -1,6 +1,5 @@
 package org.hyperskill.app.welcome_onboarding.injection
 
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
@@ -10,9 +9,7 @@ internal class WelcomeOnboardingComponentImpl(
     private val appGraph: AppGraph
 ) : WelcomeOnboardingComponent {
     override val welcomeOnboardingReducer: WelcomeOnboardingReducer
-        get() = WelcomeOnboardingReducer(
-            isUsersQuestionnaireOnboardingEnabled = appGraph.commonComponent.platform.platformType == PlatformType.IOS
-        )
+        get() = WelcomeOnboardingReducer()
 
     override val welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher
         get() = WelcomeOnboardingActionDispatcher(
