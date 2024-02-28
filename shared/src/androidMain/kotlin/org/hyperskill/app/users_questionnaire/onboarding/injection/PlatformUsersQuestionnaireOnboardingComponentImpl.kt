@@ -4,7 +4,7 @@ import org.hyperskill.app.core.flowredux.presentation.wrapWithFlowView
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.users_questionnaire.onboarding.presentation.UsersQuestionnaireOnboardingViewModel
 
-class PlatformUsersQuestionnaireOnboardingComponentImpl(
+internal class PlatformUsersQuestionnaireOnboardingComponentImpl(
     private val usersQuestionnaireOnboardingComponent: UsersQuestionnaireOnboardingComponent
 ) : PlatformUsersQuestionnaireOnboardingComponent {
     override val reduxViewModelFactory: ReduxViewModelFactory
