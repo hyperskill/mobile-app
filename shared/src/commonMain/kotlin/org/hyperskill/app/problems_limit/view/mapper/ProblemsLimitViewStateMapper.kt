@@ -4,6 +4,7 @@ import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.subscriptions.domain.model.areProblemsLimited
 
 class ProblemsLimitViewStateMapper(
     private val resourceProvider: ResourceProvider,
@@ -18,7 +19,7 @@ class ProblemsLimitViewStateMapper(
                 val stepsLimitLeft = state.subscription.stepsLimitLeft
                 val stepsLimitTotal = state.subscription.stepsLimitTotal
                 when {
-                    !state.isFreemiumEnabled ||
+                    !state.subscription.areProblemsLimited ||
                         stepsLimitLeft == null ||
                         stepsLimitTotal == null -> ProblemsLimitFeature.ViewState.Content.Empty
                     else -> ProblemsLimitFeature.ViewState.Content.Widget(

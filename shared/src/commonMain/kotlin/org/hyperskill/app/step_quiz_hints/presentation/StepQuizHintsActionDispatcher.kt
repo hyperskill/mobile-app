@@ -3,7 +3,6 @@ package org.hyperskill.app.step_quiz_hints.presentation
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.comments.domain.interactor.CommentsInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.likes.domain.interactor.LikesInteractor
 import org.hyperskill.app.reactions.domain.interactor.ReactionsInteractor
 import org.hyperskill.app.reactions.domain.model.ReactionType
@@ -13,6 +12,7 @@ import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInterac
 import org.hyperskill.app.step_quiz_hints.domain.model.HintState
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Action
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature.Message
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.user_storage.domain.interactor.UserStorageInteractor
 import org.hyperskill.app.user_storage.domain.model.UserStoragePathBuilder
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -24,7 +24,7 @@ class StepQuizHintsActionDispatcher(
     private val commentsInteractor: CommentsInteractor,
     private val reactionsInteractor: ReactionsInteractor,
     private val userStorageInteractor: UserStorageInteractor,
-    private val freemiumInteractor: FreemiumInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -36,7 +36,13 @@ class StepQuizHintsActionDispatcher(
 
                 val hintsIds = stepQuizHintsInteractor.getNotSeenHintsIds(action.stepId)
 
-                val isFreemiumEnabled = freemiumInteractor.isFreemiumEnabled().getOrDefault(false)
+                val areHintsLimited =
+                    currentSubscriptionStateRepository
+                        .getState()
+                        .getOrNull()
+                        ?.type
+                        ?.areHintsLimited
+                        ?: false
 
                 val lastSeenHint = stepQuizHintsInteractor.getLastSeenHint(action.stepId)
 
@@ -56,7 +62,7 @@ class StepQuizHintsActionDispatcher(
                         hintsIds = hintsIds,
                         lastSeenHint = lastSeenHint,
                         lastSeenHintHasReaction = lastSeenHintHasReaction,
-                        isFreemiumEnabled = isFreemiumEnabled,
+                        areHintsLimited = areHintsLimited,
                         stepId = action.stepId
                     )
                 )
@@ -119,7 +125,7 @@ class StepQuizHintsActionDispatcher(
                             Message.NextHintLoaded(
                                 it,
                                 action.remainingHintsIds,
-                                action.isFreemiumEnabled,
+                                action.areHintsLimited,
                                 action.stepId
                             )
                         )
@@ -136,7 +142,7 @@ class StepQuizHintsActionDispatcher(
                             Message.NextHintLoadingError(
                                 action.nextHintId,
                                 action.remainingHintsIds,
-                                action.isFreemiumEnabled,
+                                action.areHintsLimited,
                                 action.stepId
                             )
                         )

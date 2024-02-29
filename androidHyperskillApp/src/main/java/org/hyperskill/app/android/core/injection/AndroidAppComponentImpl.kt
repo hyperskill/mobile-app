@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.core.injection
 
 import android.app.Application
-import android.content.Context
 import org.hyperskill.app.analytic.domain.model.AnalyticEngine
 import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
@@ -29,20 +28,18 @@ import org.hyperskill.app.sentry.injection.SentryComponent
 import org.hyperskill.app.sentry.injection.SentryComponentImpl
 
 class AndroidAppComponentImpl(
-    private val application: Application,
+    override val application: Application,
     userAgentInfo: UserAgentInfo,
     buildVariant: BuildVariant,
     analyticEngines: List<AnalyticEngine> = emptyList()
 ) : AndroidAppComponent, CommonAndroidAppGraphImpl() {
-    override val context: Context
-        get() = application
 
     override val commonComponent: CommonComponent by lazy {
-        CommonComponentImpl(application, buildVariant, userAgentInfo)
+        CommonComponentImpl(this.application, buildVariant, userAgentInfo)
     }
 
     override val imageLoadingComponent: ImageLoadingComponent by lazy {
-        ImageLoadingComponentImpl(context)
+        ImageLoadingComponentImpl(this.application)
     }
 
     override val navigationComponent: NavigationComponent by lazy {
@@ -61,7 +58,7 @@ class AndroidAppComponentImpl(
     }
 
     override val platformLocalNotificationComponent: PlatformLocalNotificationComponent by lazy {
-        PlatformLocalNotificationComponentImpl(application, this)
+        PlatformLocalNotificationComponentImpl(this.application, this)
     }
 
     override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
@@ -80,11 +77,11 @@ class AndroidAppComponentImpl(
      * Latex component
      */
     override fun buildPlatformLatexComponent(): PlatformLatexComponent =
-        PlatformLatexComponentImpl(application, networkComponent.endpointConfigInfo)
+        PlatformLatexComponentImpl(this.application, networkComponent.endpointConfigInfo)
 
     /**
      * CodeEditor component
      */
     override fun buildPlatformCodeEditorComponent(): PlatformCodeEditorComponent =
-        PlatformCodeEditorComponentImpl(application)
+        PlatformCodeEditorComponentImpl(this.application)
 }

@@ -5,7 +5,6 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature
 import org.hyperskill.app.progress_screen.view.ProgressScreenViewState.TrackProgressViewState.Content.AppliedTopicsState
-import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.track.domain.model.Track
 import org.hyperskill.app.track.domain.model.asLevelByProjectIdMap
 import ru.nobird.app.core.model.safeCast
@@ -52,7 +51,9 @@ internal class ProgressScreenViewStateMapper(
     ): ProgressScreenViewState.TrackProgressViewState.Content {
         val track = trackProgressContent.trackWithProgress.track
         val trackProgress = trackProgressContent.trackWithProgress.trackProgress
-        val isProjectUnavailable = trackProgressContent.subscription.isFreemium || track.projects.isEmpty()
+        val isProjectUnavailable =
+            !trackProgressContent.subscription.type.isProjectInfoAvailable ||
+                track.projects.isEmpty()
 
         return ProgressScreenViewState.TrackProgressViewState.Content(
             title = track.title,

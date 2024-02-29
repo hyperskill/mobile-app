@@ -24,8 +24,6 @@ import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponentImpl
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponentImpl
-import org.hyperskill.app.freemium.injection.FreemiumDataComponent
-import org.hyperskill.app.freemium.injection.FreemiumDataComponentImpl
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponentImpl
@@ -55,6 +53,8 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.network.injection.NetworkComponentImpl
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
@@ -69,6 +69,9 @@ import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboar
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponentImpl
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponentImpl
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.paywall.injection.PaywallComponent
+import org.hyperskill.app.paywall.injection.PaywallComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
@@ -135,6 +138,8 @@ import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
+import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
+import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -211,6 +216,10 @@ abstract class BaseAppGraph : AppGraph {
             networkComponent = networkComponent,
             commonComponent = commonComponent
         )
+    }
+
+    override val subscriptionDataComponent: SubscriptionsDataComponent by lazy {
+        SubscriptionsDataComponentImpl(this)
     }
 
     override fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent =
@@ -420,9 +429,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStagesDataComponent(): StagesDataComponent =
         StagesDataComponentImpl(this)
 
-    override fun buildFreemiumDataComponent(): FreemiumDataComponent =
-        FreemiumDataComponentImpl(this)
-
     override fun buildProvidersDataComponent(): ProvidersDataComponent =
         ProvidersDataComponentImpl(this)
 
@@ -488,6 +494,14 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent =
         RequestReviewModalComponentImpl(appGraph = this, stepRoute = stepRoute)
+
+    override fun buildPaywallComponent(
+        paywallTransitionSource: PaywallTransitionSource
+    ): PaywallComponent =
+        PaywallComponentImpl(paywallTransitionSource, this)
+
+    override fun buildManageSubscriptionComponent(): ManageSubscriptionComponent =
+        ManageSubscriptionComponentImpl(this)
 
     override fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent =
         UsersQuestionnaireDataComponentImpl(this)

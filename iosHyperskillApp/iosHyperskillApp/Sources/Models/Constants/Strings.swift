@@ -381,6 +381,8 @@ enum Strings {
         static let rateInAppStore = sharedStrings.settings_rate_in_app_store.localized()
         static let rateInAppStoreURL = sharedStrings.settings_rate_in_app_store_url.localized()
 
+        static let subscription = sharedStrings.settings_subscription.localized()
+
         enum Theme {
             static let title = sharedStrings.settings_theme.localized()
 

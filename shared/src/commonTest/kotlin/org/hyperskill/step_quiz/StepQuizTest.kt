@@ -4,7 +4,6 @@ import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import org.hyperskill.app.freemium.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -16,6 +15,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
 
@@ -55,7 +55,8 @@ class StepQuizTest {
                     isProblemsLimitReached = true,
                     problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                         title = "",
-                        description = ""
+                        description = "",
+                        isUnlockUnlimitedProblemsButtonVisible = false
                     ),
                     problemsOnboardingFlags = ProblemsOnboardingFlags(
                         isParsonsOnboardingShown = false,
@@ -103,7 +104,8 @@ class StepQuizTest {
                 isProblemsLimitReached = true,
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
-                    description = ""
+                    description = "",
+                    isUnlockUnlimitedProblemsButtonVisible = false
                 ),
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
@@ -229,7 +231,8 @@ class StepQuizTest {
                 isProblemsLimitReached = true,
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
-                    description = ""
+                    description = "",
+                    isUnlockUnlimitedProblemsButtonVisible = false
                 )
             )
         )
@@ -251,7 +254,8 @@ class StepQuizTest {
             StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(
                 StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
-                    description = ""
+                    description = "",
+                    isUnlockUnlimitedProblemsButtonVisible = false
                 )
             )
         )
@@ -282,7 +286,8 @@ class StepQuizTest {
                 isProblemsLimitReached = true,
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
-                    description = ""
+                    description = "",
+                    isUnlockUnlimitedProblemsButtonVisible = false
                 )
             )
         )

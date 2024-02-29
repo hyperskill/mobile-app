@@ -1,6 +1,9 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
+import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalAction
@@ -12,7 +15,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class WelcomeOnboardingReducer(
-    private val isUsersQuestionnaireOnboardingEnabled: Boolean
+    private val isSubscriptionPurchaseEnabled: Boolean
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
@@ -24,6 +27,13 @@ class WelcomeOnboardingReducer(
 
             Message.UsersQuestionnaireOnboardingCompleted ->
                 handleUsersQuestionnaireOnboardingCompleted(state)
+
+            is InternalMessage.FetchSubscriptionSuccess ->
+                handleFetchSubscriptionSuccess(state, message)
+            is InternalMessage.FetchSubscriptionError ->
+                handleFetchSubscriptionError(state)
+            is Message.PaywallCompleted ->
+                handlePaywallCompleted(state)
 
             is InternalMessage.FirstProblemOnboardingDataFetched ->
                 handleFirstProblemOnboardingDataFetched(state, message)
@@ -45,7 +55,7 @@ class WelcomeOnboardingReducer(
     private fun handleNotificationOnboardingCompleted(
         state: State
     ): ReducerResult =
-        if (isUsersQuestionnaireOnboardingEnabled && state.profile?.isNewUser == true) {
+        if (state.profile?.isNewUser == true) {
             state to setOf(ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen)
         } else {
             handleUsersQuestionnaireOnboardingCompleted(state)
@@ -54,6 +64,26 @@ class WelcomeOnboardingReducer(
     private fun handleUsersQuestionnaireOnboardingCompleted(
         state: State
     ): ReducerResult =
+        if (isSubscriptionPurchaseEnabled && state.profile?.features?.isMobileOnlySubscriptionEnabled == true) {
+            state to setOf(InternalAction.FetchSubscription)
+        } else {
+            handlePaywallCompleted(state)
+        }
+
+    private fun handleFetchSubscriptionSuccess(
+        state: State,
+        message: InternalMessage.FetchSubscriptionSuccess
+    ): ReducerResult =
+        if (message.subscription.isFreemium) {
+            state to setOf(ViewAction.NavigateTo.Paywall(PaywallTransitionSource.LOGIN))
+        } else {
+            handlePaywallCompleted(state)
+        }
+
+    private fun handleFetchSubscriptionError(state: State): ReducerResult =
+        handlePaywallCompleted(state)
+
+    private fun handlePaywallCompleted(state: State): ReducerResult =
         if (state.profile?.isNewUser == false) {
             state to setOf(InternalAction.FetchFirstProblemOnboardingData)
         } else {

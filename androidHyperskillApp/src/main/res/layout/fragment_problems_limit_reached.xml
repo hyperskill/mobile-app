@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingVertical="20dp"
     >
 
@@ -13,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_bottom_sheet_swipe_indicator"
+        android:layout_gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,16 +35,11 @@
 
     <TextView
         android:id="@+id/problemsLimitReachedModalTitle"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="32dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/problemsLimitReachedImage"
-        tools:text="@string/problems_limit_reached_modal_title" />
+        />
 
     <TextView
         android:id="@+id/problemsLimitReachedDescription"
@@ -51,31 +48,29 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/problemsLimitReachedModalTitle"
         tools:text="@string/problems_limit_reached_modal_description"
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/problemsLimitReachedBuyButton"
+        android:id="@+id/problems_limit_reached_unlimited_problems_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.Button"
+        android:text="@string/problems_limit_reached_modal_buy_subscription_button"
         android:layout_marginTop="32dp"
         android:layout_marginHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/problemsLimitReachedDescription"
-        tools:text="Get it for 25 gems"
         android:visibility="gone"
+        tools:visibility="visible"
         />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/problemsLimitReachedHomeButton"
-        style="@style/Widget.AppTheme.Button"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/action_button_height"
-        app:strokeColor="@color/color_primary_alpha_38"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.Button.OutlinedButton"
         android:text="@string/go_to_training"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginHorizontal="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/problemsLimitReachedDescription"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

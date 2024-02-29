@@ -23,7 +23,7 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
             appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildTopicsRepetitionsDataComponent().topicsRepetitionsInteractor,
             appGraph.buildStepDataComponent().stepInteractor,
-            appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.dateFormatter,

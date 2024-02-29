@@ -22,10 +22,7 @@ object TrackSelectionDetailsFeature {
             val subscriptionType: SubscriptionType,
             val profile: Profile,
             val providers: List<Provider>
-        ) : ContentState {
-            val isFreemiumEnabled: Boolean
-                get() = subscriptionType == SubscriptionType.FREEMIUM
-        }
+        ) : ContentState
         object NetworkError : ContentState
     }
 

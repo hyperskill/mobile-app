@@ -7,7 +7,6 @@ import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.Timer
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalAction
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalMessage
@@ -21,7 +20,6 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProblemsLimitActionDispatcher(
     config: ActionDispatcherOptions,
-    private val freemiumInteractor: FreemiumInteractor,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
@@ -72,17 +70,15 @@ class ProblemsLimitActionDispatcher(
             action.screen.sentryTransaction,
             onError = { InternalMessage.LoadSubscriptionResultError }
         ) {
-            val isFreemiumEnabled = freemiumInteractor.isFreemiumEnabled().getOrThrow()
-            val isFreemiumWrongSubmissionChargeLimitsEnabled =
-                currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()
-
             val currentSubscription = currentSubscriptionStateRepository
                 .getState(forceUpdate = action.forceUpdate)
                 .getOrThrow()
 
+            val isFreemiumWrongSubmissionChargeLimitsEnabled =
+                currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()
+
             InternalMessage.LoadSubscriptionResultSuccess(
                 subscription = currentSubscription,
-                isFreemiumEnabled = isFreemiumEnabled,
                 isFreemiumWrongSubmissionChargeLimitsEnabled = isFreemiumWrongSubmissionChargeLimitsEnabled
             )
         }.let(onNewMessage)

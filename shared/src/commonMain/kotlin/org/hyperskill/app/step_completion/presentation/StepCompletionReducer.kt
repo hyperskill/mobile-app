@@ -1,6 +1,6 @@
 package org.hyperskill.app.step_completion.presentation
 
-import org.hyperskill.app.freemium.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction

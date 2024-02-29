@@ -25,4 +25,21 @@ internal object MonthFormatter {
             Month.DECEMBER -> "Dec"
             else -> throw IllegalArgumentException("MonthFormatter: unknown month $month")
         }
+
+    fun formatMonth(month: Month): String =
+        when (month) {
+            Month.JANUARY -> "January"
+            Month.FEBRUARY -> "February"
+            Month.MARCH -> "March"
+            Month.APRIL -> "April"
+            Month.MAY -> "May"
+            Month.JUNE -> "June"
+            Month.JULY -> "July"
+            Month.AUGUST -> "August"
+            Month.SEPTEMBER -> "September"
+            Month.OCTOBER -> "October"
+            Month.NOVEMBER -> "November"
+            Month.DECEMBER -> "December"
+            else -> throw IllegalArgumentException("MonthFormatter: unknown month $month")
+        }
 }

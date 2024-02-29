@@ -41,7 +41,6 @@ class ProblemsLimitReducer(private val screen: ProblemsLimitScreen) : StateReduc
 
                 State.Content(
                     subscription = message.subscription,
-                    isFreemiumEnabled = message.isFreemiumEnabled,
                     isFreemiumWrongSubmissionChargeLimitsEnabled = message.isFreemiumWrongSubmissionChargeLimitsEnabled,
                     updateIn = updateIn
                 ) to buildSet {
@@ -78,7 +77,7 @@ class ProblemsLimitReducer(private val screen: ProblemsLimitScreen) : StateReduc
                         )
                     is State.NetworkError ->
                         State.Loading to setOf(
-                            InternalAction.LoadSubscription(screen = screen, forceUpdate = false)
+                            InternalAction.LoadSubscription(screen = screen, forceUpdate = true)
                         )
                     else ->
                         null

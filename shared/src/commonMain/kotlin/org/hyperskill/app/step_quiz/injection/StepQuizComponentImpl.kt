@@ -30,9 +30,8 @@ internal class StepQuizComponentImpl(
     override val stepQuizTitleMapper: StepQuizTitleMapper
         get() = StepQuizTitleMapper(appGraph.commonComponent.resourceProvider)
 
-    private val attemptRemoteDataSource: AttemptRemoteDataSource = AttemptRemoteDataSourceImpl(
-        appGraph.networkComponent.authorizedHttpClient
-    )
+    private val attemptRemoteDataSource: AttemptRemoteDataSource =
+        AttemptRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
     private val attemptRepository: AttemptRepository =
         AttemptRepositoryImpl(attemptRemoteDataSource)
 
@@ -48,19 +47,20 @@ internal class StepQuizComponentImpl(
 
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() = StepQuizFeatureBuilder.build(
-            stepRoute,
-            stepQuizInteractor,
-            stepQuizReplyValidator,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.buildFreemiumDataComponent().freemiumInteractor,
-            appGraph.buildMagicLinksDataComponent().urlPathProcessor,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.buildOnboardingDataComponent().onboardingInteractor,
-            stepQuizHintsComponent.stepQuizHintsReducer,
-            stepQuizHintsComponent.stepQuizHintsActionDispatcher,
-            appGraph.commonComponent.resourceProvider,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+            stepRoute = stepRoute,
+            stepQuizInteractor = stepQuizInteractor,
+            stepQuizReplyValidator = stepQuizReplyValidator,
+            subscriptionsInteractor = appGraph.subscriptionDataComponent.subscriptionsInteractor,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            urlPathProcessor = appGraph.buildMagicLinksDataComponent().urlPathProcessor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
+            stepQuizHintsReducer = stepQuizHintsComponent.stepQuizHintsReducer,
+            stepQuizHintsActionDispatcher = stepQuizHintsComponent.stepQuizHintsActionDispatcher,
+            resourceProvider = appGraph.commonComponent.resourceProvider,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
+            platform = appGraph.commonComponent.platform
         )
 }

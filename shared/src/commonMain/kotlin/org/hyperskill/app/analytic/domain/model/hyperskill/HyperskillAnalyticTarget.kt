@@ -119,5 +119,13 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     WRITE_A_REQUEST("write_a_request"),
     MAYBE_LATER("maybe_later"),
     CHOICE("choice"),
-    SOLVE_ON_THE_WEB_VERSION("solve_on_the_web_version")
+    SOLVE_ON_THE_WEB_VERSION("solve_on_the_web_version"),
+    ACTIVE_SUBSCRIPTION_DETAILS("active_subscription_details"),
+    SUBSCRIPTION_SUGGESTION_DETAILS("subscription_suggestion_details"),
+    BUY_SUBSCRIPTION("buy_subscription"),
+    CONTINUE_WITH_LIMITS("continue_with_limits"),
+    UNLOCK_UNLIMITED_PROBLEMS("unlock_unlimited_problems"),
+    MANAGE_SUBSCRIPTION("manage_subscription"),
+    RENEW_SUBSCRIPTION("renew_subscription"),
+    HYPERSKILL_TERMS_OF_SERVICE_AND_PRIVACY_POLICY("hyperskill_terms_of_service_and_privacy_policy")
 }
