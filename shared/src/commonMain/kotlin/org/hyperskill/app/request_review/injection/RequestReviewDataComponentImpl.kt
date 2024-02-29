@@ -19,6 +19,6 @@ internal class RequestReviewDataComponentImpl(
     override val requestReviewInteractor: RequestReviewInteractor
         get() = RequestReviewInteractor(
             requestReviewRepository = requestReviewRepository,
-            submissionRepository = appGraph.submissionDataComponent.submissionRepository
+            submissionRepository = appGraph.buildSubmissionDataComponent().submissionRepository
         )
 }

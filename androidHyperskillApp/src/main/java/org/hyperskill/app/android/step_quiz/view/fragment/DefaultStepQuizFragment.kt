@@ -287,10 +287,7 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
                 ProblemsLimitReachedBottomSheet
-                    .newInstance(
-                        modalText = action.modalText,
-                        isUnlockUnlimitedProblemsButtonVisible = action.isUnlockUnlimitedProblemsButtonVisible
-                    )
+                    .newInstance(action.modalData)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {

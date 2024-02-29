@@ -77,8 +77,7 @@ class AndroidStepQuizTest {
                         attempt,
                         submissionState,
                         isProblemsLimitReached = false,
-                        problemsLimitReachedModalText = null,
-                        isSubscriptionPurchaseEnabled = true,
+                        problemsLimitReachedModalData = null,
                         problemsOnboardingFlags = ProblemsOnboardingFlags(
                             isParsonsOnboardingShown = false,
                             isFillBlanksInputModeOnboardingShown = false,

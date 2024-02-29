@@ -41,6 +41,7 @@ class ProblemsLimitReducer(private val screen: ProblemsLimitScreen) : StateReduc
 
                 State.Content(
                     subscription = message.subscription,
+                    isFreemiumWrongSubmissionChargeLimitsEnabled = message.isFreemiumWrongSubmissionChargeLimitsEnabled,
                     updateIn = updateIn
                 ) to buildSet {
                     if (updateIn != null) {

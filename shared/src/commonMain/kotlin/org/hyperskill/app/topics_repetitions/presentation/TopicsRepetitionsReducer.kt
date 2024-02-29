@@ -11,7 +11,7 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeatu
 import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
+internal class TopicsRepetitionsReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): Pair<State, Set<Action>> =
         when (message) {
             is Message.Initialize ->

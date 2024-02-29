@@ -16,11 +16,13 @@ import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.profile.domain.model.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
-import org.hyperskill.app.subscriptions.domain.model.areProblemsLimited
 import org.hyperskill.app.subscriptions.domain.model.isActive
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
 
 class SubscriptionsInteractor(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
@@ -37,30 +39,61 @@ class SubscriptionsInteractor(
 
     private var refreshMobileOnlySubscriptionJob: Job? = null
 
-    suspend fun onStepSolved() {
-        currentSubscriptionStateRepository.updateState { subscription ->
-            if (subscription.areProblemsLimited) {
-                subscription.copy(stepsLimitLeft = subscription.stepsLimitLeft?.dec())
-            } else {
-                subscription
-            }
-        }
-        currentProfileStateRepository.getState().onSuccess { currentProfile ->
-            if (currentProfile.features.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled &&
-                currentProfile.gamification.passedProblems == 0
-            ) {
-                currentSubscriptionStateRepository.updateState {
-                    it.copy(
-                        stepsLimitTotal = it.stepsLimitTotal?.plus(SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE),
-                        stepsLimitLeft = it.stepsLimitLeft?.plus(SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE)
-                    )
-                }
-                currentProfileStateRepository.updateState {
-                    it.copy(gamification = it.gamification.copy(passedProblems = it.gamification.passedProblems + 1))
-                }
+    // Problems limits
+
+    suspend fun getCurrentSubscription(): Result<Subscription> =
+        currentSubscriptionStateRepository.getState(forceUpdate = false)
+
+    suspend fun chargeProblemsLimits(chargeStrategy: FreemiumChargeLimitsStrategy) {
+        if (currentSubscriptionStateRepository.areProblemsLimited()) {
+            when (chargeStrategy) {
+                FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION -> chargeLimitsAfterWrongSubmission()
+                FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION -> chargeLimitsAfterCorrectSubmission()
             }
         }
     }
+
+    private suspend fun chargeLimitsAfterWrongSubmission() {
+        if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
+            decreaseStepsLimitLeft()
+        }
+    }
+
+    private suspend fun decreaseStepsLimitLeft() {
+        currentSubscriptionStateRepository.updateState { subscription ->
+            subscription.copy(stepsLimitLeft = subscription.stepsLimitLeft?.dec())
+        }
+    }
+
+    private suspend fun chargeLimitsAfterCorrectSubmission() {
+        increaseLimitsForFirstStepCompletionIfNeeded()
+
+        if (!currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
+            decreaseStepsLimitLeft()
+        }
+    }
+
+    private suspend fun increaseLimitsForFirstStepCompletionIfNeeded() {
+        val currentProfile = currentProfileStateRepository
+            .getState(forceUpdate = false)
+            .getOrElse { return }
+
+        if (currentProfile.features.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled &&
+            currentProfile.gamification.passedProblems == 0
+        ) {
+            currentSubscriptionStateRepository.updateState {
+                it.copy(
+                    stepsLimitTotal = it.stepsLimitTotal?.plus(SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE),
+                    stepsLimitLeft = it.stepsLimitLeft?.plus(SOLVING_FIRST_STEP_ADDITIONAL_LIMIT_VALUE)
+                )
+            }
+            currentProfileStateRepository.updateState {
+                it.copy(gamification = it.gamification.copy(passedProblems = it.gamification.passedProblems + 1))
+            }
+        }
+    }
+
+    // Refresh mobile only subscription
 
     suspend fun refreshSubscriptionOnExpirationIfNeeded(subscription: Subscription) {
         cancelSubscriptionRefresh()

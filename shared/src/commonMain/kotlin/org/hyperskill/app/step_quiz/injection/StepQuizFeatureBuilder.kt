@@ -20,7 +20,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
-import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -34,8 +34,8 @@ internal object StepQuizFeatureBuilder {
         stepRoute: StepRoute,
         stepQuizInteractor: StepQuizInteractor,
         stepQuizReplyValidator: StepQuizReplyValidator,
+        subscriptionsInteractor: SubscriptionsInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
-        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         urlPathProcessor: UrlPathProcessor,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
@@ -55,8 +55,8 @@ internal object StepQuizFeatureBuilder {
             config = ActionDispatcherOptions(),
             stepQuizInteractor = stepQuizInteractor,
             stepQuizReplyValidator = stepQuizReplyValidator,
+            subscriptionsInteractor = subscriptionsInteractor,
             currentProfileStateRepository = currentProfileStateRepository,
-            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             urlPathProcessor = urlPathProcessor,
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,

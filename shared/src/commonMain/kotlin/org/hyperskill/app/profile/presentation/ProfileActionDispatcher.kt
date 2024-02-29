@@ -2,7 +2,6 @@ package org.hyperskill.app.profile.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,6 +21,7 @@ import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.streaks.domain.model.Streak
@@ -38,12 +38,12 @@ internal class ProfileActionDispatcher(
     private val urlPathProcessor: UrlPathProcessor,
     private val streakFlow: StreakFlow,
     dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
-    solvedStepsSharedFlow: SharedFlow<Long>,
+    stepCompletedFlow: StepCompletedFlow,
     private val badgesRepository: BadgesRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        solvedStepsSharedFlow
+        stepCompletedFlow.observe()
             .onEach { onNewMessage(Message.StepQuizSolved) }
             .launchIn(actionScope)
 

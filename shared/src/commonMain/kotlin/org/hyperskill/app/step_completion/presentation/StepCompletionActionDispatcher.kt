@@ -26,12 +26,12 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
@@ -40,7 +40,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
     config: ActionDispatcherOptions,
-    submissionRepository: SubmissionRepository,
+    stepCompletedFlow: StepCompletedFlow,
     private val stepInteractor: StepInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val topicsRepository: TopicsRepository,
@@ -60,7 +60,7 @@ class StepCompletionActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        submissionRepository.solvedStepsSharedFlow
+        stepCompletedFlow.observe()
             .onEach(::handleStepSolved)
             .launchIn(actionScope)
     }
@@ -101,7 +101,7 @@ class StepCompletionActionDispatcher(
                 handleCheckTopicCompletionStatusAction(action, ::onNewMessage)
             }
             is Action.UpdateProblemsLimit -> {
-                subscriptionsInteractor.onStepSolved()
+                subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
             }
             is Action.UpdateLastTimeShareStreakShown -> {
                 shareStreakInteractor.setLastTimeShareStreakShown()
