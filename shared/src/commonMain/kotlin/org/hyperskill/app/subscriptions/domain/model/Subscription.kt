@@ -42,7 +42,7 @@ internal val Subscription.areProblemsLimited: Boolean
         else -> type.areProblemsLimited
     }
 
-internal val Subscription.isProblemLimitReached: Boolean
+internal val Subscription.isProblemsLimitReached: Boolean
     get() = areProblemsLimited && stepsLimitLeft == 0
 
 internal val Subscription.isFreemium: Boolean

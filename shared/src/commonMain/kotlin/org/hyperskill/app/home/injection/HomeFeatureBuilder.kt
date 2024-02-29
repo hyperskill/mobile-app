@@ -13,7 +13,6 @@ import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
@@ -26,6 +25,7 @@ import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
@@ -40,7 +40,6 @@ internal object HomeFeatureBuilder {
     private const val LOG_TAG = "HomeFeature"
 
     fun build(
-        homeInteractor: HomeInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         stepInteractor: StepInteractor,
@@ -50,6 +49,7 @@ internal object HomeFeatureBuilder {
         dateFormatter: SharedDateFormatter,
         topicRepeatedFlow: TopicRepeatedFlow,
         topicCompletedFlow: TopicCompletedFlow,
+        stepCompletedFlow: StepCompletedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         challengeWidgetReducer: ChallengeWidgetReducer,
@@ -68,7 +68,6 @@ internal object HomeFeatureBuilder {
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
-            homeInteractor,
             currentProfileStateRepository,
             topicsRepetitionsInteractor,
             stepInteractor,
@@ -77,7 +76,8 @@ internal object HomeFeatureBuilder {
             sentryInteractor,
             dateFormatter,
             topicRepeatedFlow,
-            topicCompletedFlow
+            topicCompletedFlow,
+            stepCompletedFlow
         )
         val homeViewStateMapper = HomeViewStateMapper(
             challengeWidgetViewStateMapper = challengeWidgetViewStateMapper,

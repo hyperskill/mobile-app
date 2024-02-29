@@ -7,7 +7,7 @@ import org.hyperskill.app.topics_repetitions.presentation.TopicsRepetitionsFeatu
 import org.hyperskill.app.topics_repetitions.view.mapper.TopicsRepetitionsViewDataMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRepetitionsComponent {
+internal class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRepetitionsComponent {
     override val topicsRepetitionsFeature: Feature<State, Message, Action>
         get() = TopicsRepetitionsFeatureBuilder.build(
             appGraph.buildTopicsRepetitionsDataComponent().topicsRepetitionsInteractor,
@@ -15,7 +15,7 @@ class TopicsRepetitionsComponentImpl(private val appGraph: AppGraph) : TopicsRep
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,
-            appGraph.submissionDataComponent.submissionRepository,
+            appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             appGraph.loggerComponent.logger,
             appGraph.commonComponent.buildKonfig.buildVariant
         )

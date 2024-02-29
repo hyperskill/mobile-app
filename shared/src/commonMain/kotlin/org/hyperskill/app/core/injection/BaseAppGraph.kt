@@ -183,10 +183,6 @@ abstract class BaseAppGraph : AppGraph {
         LoggerComponentImpl(this)
     }
 
-    override val submissionDataComponent: SubmissionDataComponent by lazy {
-        SubmissionDataComponentImpl(this)
-    }
-
     override val authComponent: AuthComponent by lazy {
         AuthComponentImpl(this)
     }
@@ -291,6 +287,9 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
+
+    override fun buildSubmissionDataComponent(): SubmissionDataComponent =
+        SubmissionDataComponentImpl(this)
 
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)

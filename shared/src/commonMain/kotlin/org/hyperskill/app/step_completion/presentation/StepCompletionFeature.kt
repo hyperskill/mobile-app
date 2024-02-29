@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
 object StepCompletionFeature {
     fun createState(step: Step, stepRoute: StepRoute): State =
@@ -145,7 +146,7 @@ object StepCompletionFeature {
 
         data class CheckTopicCompletionStatus(val topicId: Long) : Action
 
-        object UpdateProblemsLimit : Action
+        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : Action
 
         object UpdateLastTimeShareStreakShown : Action
 

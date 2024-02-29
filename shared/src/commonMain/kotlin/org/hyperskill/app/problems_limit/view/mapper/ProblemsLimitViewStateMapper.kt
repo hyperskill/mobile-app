@@ -24,10 +24,10 @@ class ProblemsLimitViewStateMapper(
                         stepsLimitTotal == null -> ProblemsLimitFeature.ViewState.Content.Empty
                     else -> ProblemsLimitFeature.ViewState.Content.Widget(
                         progress = (stepsLimitLeft.toFloat() / stepsLimitTotal),
-                        stepsLimitLabel = resourceProvider.getString(
-                            SharedResources.strings.problems_limit_widget_problems_limit,
-                            state.subscription.stepsLimitLeft,
-                            state.subscription.stepsLimitTotal
+                        stepsLimitLabel = getStepsLimitLabel(
+                            state.isFreemiumWrongSubmissionChargeLimitsEnabled,
+                            stepsLimitLeft,
+                            stepsLimitTotal
                         ),
                         updateInLabel = state.updateIn?.let { updateIn ->
                             resourceProvider.getString(
@@ -38,5 +38,24 @@ class ProblemsLimitViewStateMapper(
                     )
                 }
             }
+        }
+
+    private fun getStepsLimitLabel(
+        isFreemiumWrongSubmissionChargeLimitsEnabled: Boolean,
+        stepsLimitLeft: Int,
+        stepsLimitTotal: Int
+    ): String =
+        if (isFreemiumWrongSubmissionChargeLimitsEnabled) {
+            resourceProvider.getString(
+                SharedResources.strings.problems_limit_widget_lives_left,
+                stepsLimitLeft,
+                stepsLimitTotal
+            )
+        } else {
+            resourceProvider.getString(
+                SharedResources.strings.problems_limit_widget_problems_limit,
+                stepsLimitLeft,
+                stepsLimitTotal
+            )
         }
 }

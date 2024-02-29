@@ -30,16 +30,16 @@ internal class StepQuizComponentImpl(
     override val stepQuizTitleMapper: StepQuizTitleMapper
         get() = StepQuizTitleMapper(appGraph.commonComponent.resourceProvider)
 
-    private val attemptRemoteDataSource: AttemptRemoteDataSource = AttemptRemoteDataSourceImpl(
-        appGraph.networkComponent.authorizedHttpClient
-    )
+    private val attemptRemoteDataSource: AttemptRemoteDataSource =
+        AttemptRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
     private val attemptRepository: AttemptRepository =
         AttemptRepositoryImpl(attemptRemoteDataSource)
 
     override val stepQuizInteractor: StepQuizInteractor =
         StepQuizInteractor(
-            attemptRepository,
-            appGraph.submissionDataComponent.submissionRepository
+            attemptRepository = attemptRepository,
+            submissionRepository = appGraph.buildSubmissionDataComponent().submissionRepository,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow
         )
 
     private val stepQuizHintsComponent: StepQuizHintsComponent =
@@ -50,8 +50,8 @@ internal class StepQuizComponentImpl(
             stepRoute = stepRoute,
             stepQuizInteractor = stepQuizInteractor,
             stepQuizReplyValidator = stepQuizReplyValidator,
+            subscriptionsInteractor = appGraph.subscriptionDataComponent.subscriptionsInteractor,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
-            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             urlPathProcessor = appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,

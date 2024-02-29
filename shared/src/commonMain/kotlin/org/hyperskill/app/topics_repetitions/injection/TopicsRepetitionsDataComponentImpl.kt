@@ -7,7 +7,7 @@ import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitions
 import org.hyperskill.app.topics_repetitions.domain.repository.TopicsRepetitionsRepository
 import org.hyperskill.app.topics_repetitions.remote.TopicsRepetitionsRemoteDataSourceImpl
 
-class TopicsRepetitionsDataComponentImpl(appGraph: AppGraph) : TopicsRepetitionsDataComponent {
+internal class TopicsRepetitionsDataComponentImpl(appGraph: AppGraph) : TopicsRepetitionsDataComponent {
     private val topicsRepetitionsRemoteDataSource: TopicsRepetitionsRemoteDataSource =
         TopicsRepetitionsRemoteDataSourceImpl(appGraph.networkComponent.authorizedHttpClient)
 

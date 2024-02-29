@@ -6,7 +6,7 @@ import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarS
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 
-class GamificationToolbarComponentImpl(
+internal class GamificationToolbarComponentImpl(
     private val appGraph: AppGraph,
     private val screen: GamificationToolbarScreen
 ) : GamificationToolbarComponent {
@@ -16,7 +16,7 @@ class GamificationToolbarComponentImpl(
     override val gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher
         get() = GamificationToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
-            submissionRepository = appGraph.submissionDataComponent.submissionRepository,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,

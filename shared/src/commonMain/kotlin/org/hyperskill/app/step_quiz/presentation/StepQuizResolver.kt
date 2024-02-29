@@ -124,6 +124,21 @@ object StepQuizResolver {
         }
 
     /**
+     * @return Returns `true` if step route has limited number of attempts.
+     */
+    internal fun isStepHasLimitedAttempts(stepRoute: StepRoute): Boolean =
+        when (stepRoute) {
+            is StepRoute.Learn.Step,
+            is StepRoute.InterviewPreparation,
+            is StepRoute.StageImplement -> true
+            is StepRoute.Learn.TheoryOpenedFromPractice,
+            is StepRoute.Learn.TheoryOpenedFromSearch,
+            is StepRoute.LearnDaily,
+            is StepRoute.Repeat.Practice,
+            is StepRoute.Repeat.Theory -> false
+        }
+
+    /**
      * Is used to avoid unnecessary UI re-rendering each time on reply change.
      */
     fun shouldSyncReply(state: StepQuizFeature.StepQuizState): Boolean {
