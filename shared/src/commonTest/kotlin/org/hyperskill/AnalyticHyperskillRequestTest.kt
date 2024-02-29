@@ -29,7 +29,7 @@ class AnalyticHyperskillRequestTest {
     }
 
     class TestHyperskillAnalyticEvent(
-        private val userId: Long,
+        userId: Long,
         route: HyperskillAnalyticRoute,
         action: HyperskillAnalyticAction,
         part: HyperskillAnalyticPart?,
@@ -40,14 +40,11 @@ class AnalyticHyperskillRequestTest {
         part = part,
         target = target,
         context = mapOf(PARAM_PLATFORM to TEST_PLATFORM),
-    ) {
-        override val params: Map<String, Any>
-            get() = super.params +
-                mapOf(
-                    PARAM_USER to userId,
-                    PARAM_CLIENT_TIME to TEST_CLIENT_TIME
-                )
-    }
+        extraParams = mapOf(
+            PARAM_USER to userId,
+            PARAM_CLIENT_TIME to TEST_CLIENT_TIME
+        )
+    )
 
     @Test
     fun requestSerializationTest() {

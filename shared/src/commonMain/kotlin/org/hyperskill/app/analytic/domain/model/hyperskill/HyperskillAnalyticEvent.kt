@@ -12,18 +12,21 @@ import ru.nobird.app.core.model.mapOfNotNull
  * @property action Event action, for example: `click`, `view`.
  * @property part Event part where action occurred, for example: `main`, `step_hints`.
  * @property target Target that triggered event, for example: `send`, `refresh`.
+ * @property context Context that describes an event, for example: `stepId`, `notificationId`
+ * @property extraParams A map of params that is joined to the [context].
  * @see AnalyticEvent
  * @see HyperskillAnalyticRoute
  * @see HyperskillAnalyticAction
  * @see HyperskillAnalyticPart
  * @see HyperskillAnalyticTarget
  */
-open class HyperskillAnalyticEvent(
+abstract class HyperskillAnalyticEvent(
     val route: HyperskillAnalyticRoute,
     val action: HyperskillAnalyticAction,
     val part: HyperskillAnalyticPart? = null,
     val target: HyperskillAnalyticTarget? = null,
-    val context: Map<String, Any>? = null
+    val context: Map<String, Any>? = null,
+    val extraParams: Map<String, Any>? = null
 ) : AnalyticEvent {
     companion object {
         const val PARAM_CLIENT_TIME = "client_time"
@@ -40,15 +43,18 @@ open class HyperskillAnalyticEvent(
 
     override val name: String = this::class.simpleName ?: ""
 
-    override val params: Map<String, Any> =
-        mapOfNotNull(
-            PARAM_CLIENT_TIME to clientTime.toString(),
-            PARAM_ROUTE to route.path,
-            PARAM_ACTION to action.actionName,
-            PARAM_PART to part?.partName,
-            PARAM_TARGET to target?.targetName,
-            PARAM_CONTEXT to context
-        )
+    final override val params: Map<String, Any> =
+        let {
+            val mainParams = mapOfNotNull(
+                PARAM_CLIENT_TIME to clientTime.toString(),
+                PARAM_ROUTE to route.path,
+                PARAM_ACTION to action.actionName,
+                PARAM_PART to part?.partName,
+                PARAM_TARGET to target?.targetName,
+                PARAM_CONTEXT to context
+            )
+            if (extraParams != null) mainParams + extraParams else mainParams
+        }
 
-    override val source: AnalyticSource = AnalyticSource.HYPERSKILL_API
+    final override val source: AnalyticSource = AnalyticSource.HYPERSKILL_API
 }
