@@ -3,15 +3,21 @@ package org.hyperskill.app.main.presentation
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.main.presentation.AppFeature.Action
+import org.hyperskill.app.main.presentation.AppFeature.InternalAction
+import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
+import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
@@ -25,6 +31,11 @@ internal class AppReducer(
     private val welcomeOnboardingReducer: WelcomeOnboardingReducer,
     private val platformType: PlatformType
 ) : StateReducer<State, Message, Action> {
+
+    companion object {
+        internal const val APP_SHOWS_COUNT_TILL_PAYWALL = 3
+    }
+
     override fun reduce(
         state: State,
         message: Message
@@ -33,36 +44,38 @@ internal class AppReducer(
             is Message.Initialize -> {
                 if (state is State.Idle || (state is State.NetworkError && message.forceUpdate)) {
                     State.Loading to setOf(
-                        Action.DetermineUserAccountStatus(message.pushNotificationData),
+                        Action.FetchAppStartupConfig(message.pushNotificationData),
                         Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded
                     )
                 } else {
                     null
                 }
             }
-            is Message.UserAccountStatus ->
-                handleUserAccountStatus(state, message)
-            is Message.UserAccountStatusError ->
+            is Message.FetchAppStartupConfigSuccess ->
+                handleFetchAppStartupConfigSuccess(state, message)
+            is Message.FetchAppStartupConfigError ->
                 if (state is State.Loading) {
                     State.NetworkError to emptySet()
                 } else {
                     null
                 }
+            is Message.AppBecomesActive -> handleAppBecomesActive(state)
             is Message.UserAuthorized ->
                 handleUserAuthorized(state, message)
             is Message.UserDeauthorized ->
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
                         UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE ->
-                            Action.ViewAction.NavigateTo.OnboardingScreen
+                            Action.ViewAction.NavigateTo.WelcomeScreen
                         UserDeauthorized.Reason.SIGN_OUT ->
                             Action.ViewAction.NavigateTo.AuthScreen()
                     }
 
                     State.Ready(
                         isAuthorized = false,
-                        isMobileLeaderboardsEnabled = false
-                    ) to setOf(Action.ClearUserInSentry, navigateToViewAction)
+                        isMobileLeaderboardsEnabled = false,
+                        isMobileOnlySubscriptionEnabled = false
+                    ) to getDeauthorizedUserActions() + setOf(navigateToViewAction)
                 } else {
                     null
                 }
@@ -84,14 +97,35 @@ internal class AppReducer(
                 state to reduceNotificationClickHandlingMessage(message.message)
             is Message.WelcomeOnboardingMessage ->
                 reduceWelcomeOnboardingMessage(state, message.message)
+            is InternalMessage.SubscriptionChanged ->
+                handleSubscriptionChanged(state, message)
         } ?: (state to emptySet())
 
-    private fun handleUserAccountStatus(
+    private fun handleFetchAppStartupConfigSuccess(
         state: State,
-        message: Message.UserAccountStatus
+        message: Message.FetchAppStartupConfigSuccess
     ): ReducerResult =
         if (state is State.Loading) {
             val isAuthorized = !message.profile.isGuest
+
+            val (streakRecoveryState, streakRecoveryActions) =
+                if (isAuthorized && message.notificationData == null) {
+                    reduceStreakRecoveryMessage(
+                        StreakRecoveryFeature.State(),
+                        StreakRecoveryFeature.Message.Initialize
+                    )
+                } else {
+                    StreakRecoveryFeature.State() to emptySet()
+                }
+
+            val readyState = State.Ready(
+                isAuthorized = isAuthorized,
+                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
+                streakRecoveryState = streakRecoveryState,
+                appShowsCount = 0, // This is a hack to show paywall on the first app start
+                subscription = message.subscription,
+                isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled
+            )
 
             val actions: Set<Action> =
                 buildSet {
@@ -109,10 +143,22 @@ internal class AppReducer(
                                 )
                             message.profile.isNewUser ->
                                 add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+                            shouldShowPaywall(readyState) ->
+                                add(
+                                    Action.ViewAction.NavigateTo.StudyPlanWithPaywall(
+                                        PaywallTransitionSource.APP_BECOMES_ACTIVE
+                                    )
+                                )
                             else ->
                                 add(Action.ViewAction.NavigateTo.StudyPlan)
                         }
-                        addAll(getOnAuthorizedAppStartUpActions(message.profile.id, platformType))
+                        addAll(
+                            getOnAuthorizedAppStartUpActions(
+                                profileId = message.profile.id,
+                                subscription = message.subscription,
+                                platformType = platformType
+                            )
+                        )
                     } else {
                         if (message.notificationData != null) {
                             addAll(
@@ -126,25 +172,12 @@ internal class AppReducer(
                             )
                         }
                         addAll(getNotAuthorizedAppStartUpActions())
-                        add(Action.ViewAction.NavigateTo.OnboardingScreen)
+                        add(Action.ViewAction.NavigateTo.WelcomeScreen)
                     }
+                    addAll(streakRecoveryActions)
                 }
 
-            val (streakRecoveryState, streakRecoveryActions) =
-                if (isAuthorized && message.notificationData == null) {
-                    reduceStreakRecoveryMessage(
-                        StreakRecoveryFeature.State(),
-                        StreakRecoveryFeature.Message.Initialize
-                    )
-                } else {
-                    StreakRecoveryFeature.State() to emptySet()
-                }
-
-            State.Ready(
-                isAuthorized = isAuthorized,
-                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
-                streakRecoveryState = streakRecoveryState
-            ) to actions + streakRecoveryActions
+            readyState.incrementAppShowsCount() to actions
         } else {
             state to emptySet()
         }
@@ -156,7 +189,8 @@ internal class AppReducer(
         if (state is State.Ready && !state.isAuthorized) {
             val authState = State.Ready(
                 isAuthorized = true,
-                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled
+                isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
+                isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled
             )
             val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
                 WelcomeOnboardingFeature.State(),
@@ -170,6 +204,26 @@ internal class AppReducer(
         } else {
             state to emptySet()
         }
+
+    private fun handleAppBecomesActive(state: State): ReducerResult =
+        if (state is State.Ready) {
+            state.incrementAppShowsCount() to
+                if (shouldShowPaywall(state)) {
+                    setOf(
+                        Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE)
+                    )
+                } else {
+                    emptySet()
+                }
+        } else {
+            state to emptySet()
+        }
+
+    private fun shouldShowPaywall(state: State.Ready): Boolean =
+        state.isAuthorized &&
+            state.isMobileOnlySubscriptionEnabled &&
+            state.subscription?.isFreemium == true &&
+            state.appShowsCount % APP_SHOWS_COUNT_TILL_PAYWALL == 0
 
     private fun reduceStreakRecoveryMessage(
         state: StreakRecoveryFeature.State,
@@ -266,10 +320,13 @@ internal class AppReducer(
 
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,
+        subscription: Subscription?,
         platformType: PlatformType
     ): Set<Action> =
         setOfNotNull(
             Action.IdentifyUserInSentry(userId = profileId),
+            Action.IdentifyUserInPurchaseSdk(userId = profileId),
+            subscription?.let(InternalAction::RefreshSubscriptionOnExpiration),
             Action.UpdateDailyLearningNotificationTime,
             if (platformType == PlatformType.ANDROID) {
                 // Don't send push token on app startup for IOS
@@ -285,8 +342,28 @@ internal class AppReducer(
 
     private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
         setOf(
+            InternalAction.FetchSubscription,
             Action.IdentifyUserInSentry(userId = profile.id),
+            Action.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.UpdateDailyLearningNotificationTime,
             Action.SendPushNotificationsToken
         )
+
+    private fun getDeauthorizedUserActions(): Set<Action> =
+        setOf(
+            Action.ClearUserInSentry,
+            InternalAction.CancelSubscriptionRefresh
+        )
+
+    private fun handleSubscriptionChanged(
+        state: State,
+        message: InternalMessage.SubscriptionChanged
+    ): ReducerResult =
+        if (state is State.Ready) {
+            state.copy(subscription = message.subscription) to setOf(
+                InternalAction.RefreshSubscriptionOnExpiration(message.subscription)
+            )
+        } else {
+            state to emptySet()
+        }
 }

@@ -9,7 +9,6 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
@@ -34,6 +33,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Int
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.model.StreakState
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -47,7 +47,7 @@ class StepCompletionActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
-    private val freemiumInteractor: FreemiumInteractor,
+    private val subscriptionsInteractor: SubscriptionsInteractor,
     private val shareStreakInteractor: ShareStreakInteractor,
     private val requestReviewInteractor: RequestReviewInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
@@ -101,7 +101,7 @@ class StepCompletionActionDispatcher(
                 handleCheckTopicCompletionStatusAction(action, ::onNewMessage)
             }
             is Action.UpdateProblemsLimit -> {
-                freemiumInteractor.onStepSolved()
+                subscriptionsInteractor.onStepSolved()
             }
             is Action.UpdateLastTimeShareStreakShown -> {
                 shareStreakInteractor.setLastTimeShareStreakShown()

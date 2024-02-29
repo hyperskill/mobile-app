@@ -1,6 +1,6 @@
 package org.hyperskill.app.core.injection
 
-import android.content.Context
+import android.app.Application
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -14,7 +14,10 @@ import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.interview_preparation_onboarding.injection.PlatformInterviewPreparationOnboardingComponent
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
+import org.hyperskill.app.manage_subscription.injection.PlatformManageSubscriptionComponent
 import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificationsOnboardingComponent
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.paywall.injection.PlatformPaywallComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -44,7 +47,7 @@ import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 interface CommonAndroidAppGraph : AppGraph {
-    val context: Context
+    val application: Application
 
     val platformMainComponent: PlatformMainComponent
 
@@ -113,4 +116,8 @@ interface CommonAndroidAppGraph : AppGraph {
     ): PlatformRequestReviewComponent
 
     fun buildPlatformUsersQuestionnaireOnboardingComponent(): PlatformUsersQuestionnaireOnboardingComponent
+
+    fun buildPlatformPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PlatformPaywallComponent
+
+    fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
 }

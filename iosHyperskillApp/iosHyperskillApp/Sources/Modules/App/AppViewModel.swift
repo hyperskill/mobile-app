@@ -212,6 +212,13 @@ private extension AppViewModel {
             name: .attAuthorizationStatusDidChange,
             object: nil
         )
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handleApplicationWillEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: UIApplication.shared
+        )
     }
 
     @objc
@@ -271,6 +278,12 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
 
         let isAuthorized = authorizationStatus == .authorized
         analytic.setAppTrackingTransparencyAuthorizationStatus(isAuthorized: isAuthorized)
+    }
+
+    @objc
+    private func handleApplicationWillEnterForeground() {
+        #warning("Enable when subscription purchase is implemented")
+        //onNewMessage(AppFeatureMessageAppBecomesActive())
     }
 }
 
