@@ -30,13 +30,9 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class SearchClickedSearchHyperskillAnalyticEvent(
     private val query: String
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Search(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.SEARCH
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(SearchAnalyticParams.PARAM_QUERY to query)
-        )
-}
+    route = HyperskillAnalyticRoute.Search(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.SEARCH,
+    context = mapOf(SearchAnalyticParams.PARAM_QUERY to query)
+)

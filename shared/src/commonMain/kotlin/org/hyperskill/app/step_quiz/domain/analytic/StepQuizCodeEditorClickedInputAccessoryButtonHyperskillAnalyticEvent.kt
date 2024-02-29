@@ -33,20 +33,13 @@ class StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     val symbol: String
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.CODE_EDITOR,
-    HyperskillAnalyticTarget.CODE_INPUT_ACCESSORY_BUTTON
+    route = route,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.CODE_EDITOR,
+    target = HyperskillAnalyticTarget.CODE_INPUT_ACCESSORY_BUTTON,
+    context = mapOf(SYMBOL to symbol)
 ) {
     companion object {
         private const val SYMBOL = "symbol"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(
-                    SYMBOL to symbol
-                )
-            )
 }

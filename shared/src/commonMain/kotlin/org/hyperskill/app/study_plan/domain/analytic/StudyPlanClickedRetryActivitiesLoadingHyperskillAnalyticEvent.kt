@@ -27,16 +27,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class StudyPlanClickedRetryActivitiesLoadingHyperskillAnalyticEvent(
     val sectionId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.StudyPlan(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.STUDY_PLAN_SECTION_ACTIVITIES,
-    HyperskillAnalyticTarget.RETRY
+    route = HyperskillAnalyticRoute.StudyPlan(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.STUDY_PLAN_SECTION_ACTIVITIES,
+    target = HyperskillAnalyticTarget.RETRY,
+    context = mapOf(SECTION_ID to sectionId)
 ) {
     companion object {
         private const val SECTION_ID = "section_id"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(PARAM_CONTEXT to mapOf(SECTION_ID to sectionId))
 }

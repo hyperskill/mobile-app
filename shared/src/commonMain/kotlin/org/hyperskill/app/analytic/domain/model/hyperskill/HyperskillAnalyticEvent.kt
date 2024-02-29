@@ -22,7 +22,8 @@ open class HyperskillAnalyticEvent(
     val route: HyperskillAnalyticRoute,
     val action: HyperskillAnalyticAction,
     val part: HyperskillAnalyticPart? = null,
-    val target: HyperskillAnalyticTarget? = null
+    val target: HyperskillAnalyticTarget? = null,
+    val context: Map<String, Any>? = null
 ) : AnalyticEvent {
     companion object {
         const val PARAM_CLIENT_TIME = "client_time"
@@ -45,7 +46,8 @@ open class HyperskillAnalyticEvent(
             PARAM_ROUTE to route.path,
             PARAM_ACTION to action.actionName,
             PARAM_PART to part?.partName,
-            PARAM_TARGET to target?.targetName
+            PARAM_TARGET to target?.targetName,
+            PARAM_CONTEXT to context
         )
 
     override val source: AnalyticSource = AnalyticSource.HYPERSKILL_API

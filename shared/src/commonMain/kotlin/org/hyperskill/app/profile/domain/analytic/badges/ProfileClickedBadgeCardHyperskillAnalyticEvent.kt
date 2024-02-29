@@ -27,20 +27,15 @@ import org.hyperskill.app.badges.domain.model.BadgeKind
  * @see HyperskillAnalyticEvent
  */
 class ProfileClickedBadgeCardHyperskillAnalyticEvent(
-    private val badgeKind: BadgeKind,
-    private val isLocked: Boolean
+    badgeKind: BadgeKind,
+    isLocked: Boolean
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Profile(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.BADGE_CARD
-) {
-
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(
-                BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name,
-                BadgesAnalyticKeys.PARAM_LOCKED to isLocked
-            )
-        )
-}
+    route = HyperskillAnalyticRoute.Profile(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.BADGE_CARD,
+    context = mapOf(
+        BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name,
+        BadgesAnalyticKeys.PARAM_LOCKED to isLocked
+    )
+)

@@ -3,7 +3,7 @@ package org.hyperskill.app.paywall.domain.analytic
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute.Paywall
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 
@@ -27,18 +27,13 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  * @see HyperskillAnalyticEvent
  */
 class PaywallClickedTermsOfServiceAndPrivacyPolicyHyperskillAnalyticEvent(
-    private val paywallTransitionSource: PaywallTransitionSource
+    paywallTransitionSource: PaywallTransitionSource
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Paywall,
+    Paywall,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.HYPERSKILL_TERMS_OF_SERVICE_AND_PRIVACY_POLICY
-) {
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(
-                    PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
-                )
-            )
-}
+    HyperskillAnalyticTarget.HYPERSKILL_TERMS_OF_SERVICE_AND_PRIVACY_POLICY,
+    context = mapOf(
+        PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
+    )
+)

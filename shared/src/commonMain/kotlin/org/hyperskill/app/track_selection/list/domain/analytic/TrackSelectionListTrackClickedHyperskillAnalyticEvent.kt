@@ -27,16 +27,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class TrackSelectionListTrackClickedHyperskillAnalyticEvent(
     val trackId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Tracks(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.TRACK
+    route = HyperskillAnalyticRoute.Tracks(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.TRACK,
+    context = mapOf(PARAM_TRACK_ID to trackId)
 ) {
     companion object {
         private const val PARAM_TRACK_ID = "track_id"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(PARAM_CONTEXT to mapOf(PARAM_TRACK_ID to trackId))
 }

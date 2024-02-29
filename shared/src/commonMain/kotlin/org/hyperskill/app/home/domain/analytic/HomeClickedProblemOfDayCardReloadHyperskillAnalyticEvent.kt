@@ -27,14 +27,9 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class HomeClickedProblemOfDayCardReloadHyperskillAnalyticEvent(
     val isCompleted: Boolean
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.PROBLEM_OF_THE_DAY_CARD,
-    HyperskillAnalyticTarget.RELOAD
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to
-                mapOf(HomeHyperskillAnalyticParams.PARAM_IS_COMPLETED to isCompleted)
-        )
-}
+    route = HyperskillAnalyticRoute.Home(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.PROBLEM_OF_THE_DAY_CARD,
+    target = HyperskillAnalyticTarget.RELOAD,
+    context = mapOf(HomeHyperskillAnalyticParams.PARAM_IS_COMPLETED to isCompleted)
+)
