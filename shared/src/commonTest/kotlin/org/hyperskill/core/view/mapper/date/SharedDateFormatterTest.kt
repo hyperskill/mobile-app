@@ -5,6 +5,9 @@ import kotlin.test.assertEquals
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
@@ -109,5 +112,16 @@ class SharedDateFormatterTest {
         val given = LocalDate.parse("2023-11-02")
         val expected = "2 Nov"
         assertEquals(expected, dateFormatter.formatDayNumericAndMonthShort(given))
+    }
+
+    @Test
+    fun `Format subscription valid until`() {
+        mapOf(
+            LocalDateTime.parse("2024-01-27T02:00:00") to "January 27, 2024, 02:00",
+            LocalDateTime.parse("2024-01-27T12:09:00") to "January 27, 2024, 12:09"
+        ).forEach { (localDate, expected) ->
+            val actual = localDate.toInstant(TimeZone.UTC)
+            assertEquals(expected, dateFormatter.formatSubscriptionValidUntil(actual, TimeZone.UTC))
+        }
     }
 }

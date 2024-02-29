@@ -1,6 +1,5 @@
 package org.hyperskill.app.track_selection.details.presentation
 
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.track.domain.model.getAllProjects
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent
@@ -135,15 +134,12 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
         if (state.contentState !is ContentState.Content) {
             return false
         }
-        return when (state.contentState.subscriptionType) {
-            SubscriptionType.PREMIUM,
-            SubscriptionType.PERSONAL,
-            SubscriptionType.TRIAL -> {
-                val trackRelatedProjects =
-                    state.trackWithProgress.track.getAllProjects(state.contentState.profile.isBeta)
-                trackRelatedProjects.isNotEmpty()
-            }
-            else -> false
+        return if (state.contentState.subscriptionType.isProjectSelectionEnabled) {
+            val trackRelatedProjects =
+                state.trackWithProgress.track.getAllProjects(state.contentState.profile.isBeta)
+            trackRelatedProjects.isNotEmpty()
+        } else {
+            false
         }
     }
 

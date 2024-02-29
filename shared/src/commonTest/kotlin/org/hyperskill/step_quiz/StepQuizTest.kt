@@ -50,6 +50,7 @@ class StepQuizTest {
                     submissionState,
                     isProblemsLimitReached = true,
                     problemsLimitReachedModalText = "",
+                    isSubscriptionPurchaseEnabled = true,
                     problemsOnboardingFlags = ProblemsOnboardingFlags(
                         isParsonsOnboardingShown = false,
                         isFillBlanksInputModeOnboardingShown = false,
@@ -95,6 +96,7 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = true,
                 problemsLimitReachedModalText = "",
+                isSubscriptionPurchaseEnabled = true,
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
@@ -143,6 +145,7 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = false,
                 problemsLimitReachedModalText = null,
+                isSubscriptionPurchaseEnabled = true,
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
@@ -205,6 +208,7 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = false,
                 problemsLimitReachedModalText = null,
+                isSubscriptionPurchaseEnabled = true,
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,

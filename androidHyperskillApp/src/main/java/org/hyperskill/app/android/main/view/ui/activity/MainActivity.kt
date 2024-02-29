@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.flowWithLifecycle
@@ -40,6 +43,8 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
+import org.hyperskill.app.android.paywall.fragment.PaywallFragment
+import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
@@ -93,6 +98,13 @@ class MainActivity :
         )
     }
 
+    private val onForegroundObserver =
+        object : DefaultLifecycleObserver {
+            override fun onResume(owner: LifecycleOwner) {
+                mainViewModel.onNewMessage(AppFeature.Message.AppBecomesActive)
+            }
+        }
+
     @SuppressLint("InlinedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
@@ -111,6 +123,7 @@ class MainActivity :
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         initViewStateDelegate()
+        lifecycle.addObserver(onForegroundObserver)
 
         viewBinding.mainError.tryAgain.setOnClickListener {
             mainViewModel.onNewMessage(
@@ -126,6 +139,7 @@ class MainActivity :
         observeAuthFlowSuccess()
         observeNotificationsOnboardingFlowFinished()
         observeFirstProblemOnboardingFlowFinished()
+        observePaywallCompleted()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
         logNotificationAvailability()
@@ -157,47 +171,59 @@ class MainActivity :
 
     @SuppressLint("InlinedApi")
     private fun observeAuthFlowSuccess() {
-        lifecycleScope.launch {
-            router
-                .observeResult(AuthFragment.AUTH_SUCCESS)
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    val profile = (it as? Profile) ?: return@collectLatest
-                    mainViewModel.onNewMessage(
-                        AppFeature.Message.UserAuthorized(
-                            profile = profile,
-                            isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
-                                this@MainActivity,
-                                android.Manifest.permission.POST_NOTIFICATIONS
-                            ) == PackageManager.PERMISSION_GRANTED
-                        )
-                    )
-                }
+        observeResult<Profile>(AuthFragment.AUTH_SUCCESS) { profile ->
+            mainViewModel.onNewMessage(
+                AppFeature.Message.UserAuthorized(
+                    profile = profile,
+                    isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
+                        this@MainActivity,
+                        android.Manifest.permission.POST_NOTIFICATIONS
+                    ) == PackageManager.PERMISSION_GRANTED
+                )
+            )
         }
     }
 
     private fun observeNotificationsOnboardingFlowFinished() {
-        lifecycleScope.launch {
-            router
-                .observeResult(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED)
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    mainViewModel.onNewMessage(WelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
-                }
+        observeResult<Any>(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED) {
+            mainViewModel.onNewMessage(WelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
         }
     }
 
     private fun observeFirstProblemOnboardingFlowFinished() {
+        observeResult<Any>(FirstProblemOnboardingFragment.FIRST_PROBLEM_ONBOARDING_FINISHED) {
+            mainViewModel.onNewMessage(
+                WelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
+                    firstProblemStepRoute = it.safeCast<StepRoute>()
+                )
+            )
+        }
+    }
+
+    private fun observePaywallCompleted() {
+        observeResult<Any>(PaywallFragment.PAYWALL_COMPLETED) {
+            mainViewModel.onNewMessage(
+                WelcomeOnboardingFeature.Message.PaywallCompleted
+            )
+        }
+    }
+
+    private inline fun <reified T> observeResult(
+        key: String,
+        router: Router = this.router,
+        crossinline onResult: (T) -> Unit
+    ) {
         lifecycleScope.launch {
             router
-                .observeResult(FirstProblemOnboardingFragment.FIRST_PROBLEM_ONBOARDING_FINISHED)
+                .observeResult(key)
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
-                    mainViewModel.onNewMessage(
-                        WelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
-                            firstProblemStepRoute = it.safeCast<StepRoute>()
-                        )
-                    )
+                    val result = it.safeCast<T>()
+                    if (result == null) {
+                        Log.e("MainActivity", "Can't cast result by key=$key.")
+                    } else {
+                        onResult(result)
+                    }
                 }
         }
     }
@@ -227,7 +253,7 @@ class MainActivity :
 
     override fun onAction(action: AppFeature.Action.ViewAction) {
         when (action) {
-            is AppFeature.Action.ViewAction.NavigateTo.OnboardingScreen ->
+            is AppFeature.Action.ViewAction.NavigateTo.WelcomeScreen ->
                 router.newRootScreen(WelcomeScreen)
             is AppFeature.Action.ViewAction.NavigateTo.AuthScreen ->
                 router.newRootScreen(AuthScreen())
@@ -251,6 +277,8 @@ class MainActivity :
                         )
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
+                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.Paywall ->
+                        router.newRootScreen(PaywallScreen(viewAction.paywallTransitionSource))
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
                         TODO("ALTAPPS-1145: Implement QuestionnaireOnboardingScreen navigation")
                 }
@@ -279,6 +307,16 @@ class MainActivity :
             }
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
+            is AppFeature.Action.ViewAction.NavigateTo.Paywall -> {
+                if (supportFragmentManager.findFragmentByTag(PaywallScreen.TAG) == null) {
+                    router.navigateTo(PaywallScreen(action.paywallTransitionSource))
+                }
+            }
+            is AppFeature.Action.ViewAction.NavigateTo.StudyPlanWithPaywall ->
+                router.newRootChain(
+                    MainScreen(initialTab = Tabs.STUDY_PLAN),
+                    PaywallScreen(action.paywallTransitionSource)
+                )
         }
     }
 

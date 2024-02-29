@@ -321,6 +321,8 @@ struct StepQuizView: View {
                         TabBarRouter(tab: .studyPlan).route()
                     }
                 )
+            case .paywall:
+                #warning("TODO: ALTAPPS-1121")
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
             switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {

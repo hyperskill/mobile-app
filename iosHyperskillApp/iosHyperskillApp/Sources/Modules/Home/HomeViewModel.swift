@@ -2,7 +2,6 @@ import shared
 import UIKit
 
 final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMessage, HomeFeatureActionViewAction> {
-    private var applicationWasInBackground = false
     private var shouldReloadContent = false
 
     var homeStateKs: HomeFeatureHomeStateKs { .init(state.homeState) }
@@ -20,14 +19,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
 
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(handleApplicationDidBecomeActive),
-            name: UIApplication.didBecomeActiveNotification,
-            object: UIApplication.shared
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleApplicationDidEnterBackground),
-            name: UIApplication.didEnterBackgroundNotification,
+            selector: #selector(handleApplicationWillEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
             object: UIApplication.shared
         )
     }
@@ -94,18 +87,8 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
     // MARK: Private API
 
     @objc
-    private func handleApplicationDidBecomeActive() {
-        guard applicationWasInBackground else {
-            return
-        }
-
-        applicationWasInBackground = false
+    private func handleApplicationWillEnterForeground() {
         shouldReloadContent = true
-    }
-
-    @objc
-    private func handleApplicationDidEnterBackground() {
-        applicationWasInBackground = true
     }
 }
 

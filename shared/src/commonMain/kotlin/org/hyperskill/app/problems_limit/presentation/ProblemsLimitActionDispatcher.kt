@@ -7,18 +7,17 @@ import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.Timer
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalAction
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalMessage
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProblemsLimitActionDispatcher(
     config: ActionDispatcherOptions,
-    private val freemiumInteractor: FreemiumInteractor,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
@@ -37,32 +36,16 @@ class ProblemsLimitActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.LoadSubscription -> {
-                val sentryTransaction = action.screen.sentryTransaction
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                val isFreemiumEnabled = freemiumInteractor
-                    .isFreemiumEnabled()
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(InternalMessage.LoadSubscriptionResultError)
-                    }
-
-                onNewMessage(
-                    currentSubscriptionStateRepository.getState(forceUpdate = action.forceUpdate)
-                        .fold(
-                            onSuccess = {
-                                sentryInteractor.finishTransaction(sentryTransaction)
-                                InternalMessage.LoadSubscriptionResultSuccess(
-                                    subscription = it,
-                                    isFreemiumEnabled = isFreemiumEnabled
-                                )
-                            },
-                            onFailure = {
-                                sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                                InternalMessage.LoadSubscriptionResultError
-                            }
-                        )
-                )
+                sentryInteractor.withTransaction(
+                    transaction = action.screen.sentryTransaction,
+                    onError = { InternalMessage.LoadSubscriptionResultError }
+                ) {
+                    InternalMessage.LoadSubscriptionResultSuccess(
+                        subscription = currentSubscriptionStateRepository
+                            .getState(forceUpdate = action.forceUpdate)
+                            .getOrThrow()
+                    )
+                }.let(::onNewMessage)
             }
             is InternalAction.LaunchTimer -> {
                 timerMutex.withLock {

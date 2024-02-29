@@ -11,12 +11,14 @@ internal class WelcomeOnboardingComponentImpl(
 ) : WelcomeOnboardingComponent {
     override val welcomeOnboardingReducer: WelcomeOnboardingReducer
         get() = WelcomeOnboardingReducer(
+            isSubscriptionPurchaseEnabled = appGraph.commonComponent.platform.isSubscriptionPurchaseEnabled,
             isUsersQuestionnaireOnboardingEnabled = appGraph.commonComponent.platform.platformType == PlatformType.IOS
         )
 
     override val welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher
         get() = WelcomeOnboardingActionDispatcher(
             config = ActionDispatcherOptions(),
-            onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor
+            onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
         )
 }
