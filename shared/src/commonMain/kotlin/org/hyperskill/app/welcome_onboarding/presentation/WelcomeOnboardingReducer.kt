@@ -15,8 +15,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 private typealias ReducerResult = Pair<State, Set<Action>>
 
 class WelcomeOnboardingReducer(
-    private val isSubscriptionPurchaseEnabled: Boolean,
-    private val isUsersQuestionnaireOnboardingEnabled: Boolean
+    private val isSubscriptionPurchaseEnabled: Boolean
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
@@ -56,7 +55,7 @@ class WelcomeOnboardingReducer(
     private fun handleNotificationOnboardingCompleted(
         state: State
     ): ReducerResult =
-        if (isUsersQuestionnaireOnboardingEnabled && state.profile?.isNewUser == true) {
+        if (state.profile?.isNewUser == true) {
             state to setOf(ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen)
         } else {
             handleUsersQuestionnaireOnboardingCompleted(state)

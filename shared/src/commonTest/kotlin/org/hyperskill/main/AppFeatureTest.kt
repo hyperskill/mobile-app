@@ -27,8 +27,7 @@ class AppFeatureTest {
         streakRecoveryReducer = StreakRecoveryReducer(resourceProvider = ResourceProviderStub()),
         notificationClickHandlingReducer = NotificationClickHandlingReducer(),
         welcomeOnboardingReducer = WelcomeOnboardingReducer(
-            isSubscriptionPurchaseEnabled = true,
-            isUsersQuestionnaireOnboardingEnabled = true
+            isSubscriptionPurchaseEnabled = true
         ),
         platformType = PlatformType.ANDROID
     )

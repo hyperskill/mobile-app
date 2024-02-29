@@ -48,6 +48,8 @@ import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
+import org.hyperskill.app.android.users_questionnaire.onboarding.fragment.UsersQuestionnaireOnboardingFragment
+import org.hyperskill.app.android.users_questionnaire.onboarding.navigation.UsersQuestionnaireOnboardingScreen
 import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
@@ -139,6 +141,7 @@ class MainActivity :
         observeAuthFlowSuccess()
         observeNotificationsOnboardingFlowFinished()
         observeFirstProblemOnboardingFlowFinished()
+        observeUsersQuestionnaireOnboardingCompleted()
         observePaywallCompleted()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
@@ -228,6 +231,19 @@ class MainActivity :
         }
     }
 
+    private fun observeUsersQuestionnaireOnboardingCompleted() {
+        lifecycleScope.launch {
+            router
+                .observeResult(UsersQuestionnaireOnboardingFragment.USERS_QUESTIONNAIRE_ONBOARDING_FINISHED)
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collectLatest {
+                    mainViewModel.onNewMessage(
+                        WelcomeOnboardingFeature.Message.UsersQuestionnaireOnboardingCompleted
+                    )
+                }
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         if (intent != null) {
@@ -280,7 +296,7 @@ class MainActivity :
                     is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.Paywall ->
                         router.newRootScreen(PaywallScreen(viewAction.paywallTransitionSource))
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
-                        TODO("ALTAPPS-1145: Implement QuestionnaireOnboardingScreen navigation")
+                        router.newRootScreen(UsersQuestionnaireOnboardingScreen)
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
