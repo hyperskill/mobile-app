@@ -253,18 +253,23 @@ internal class StepQuizActionDispatcher(
         return if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
             StepQuizFeature.ProblemsLimitReachedModalData(
                 title = resourceProvider.getString(
-                    SharedResources.strings.problems_limit_reached_modal_wrong_submission_charge_limits_title,
+                    SharedResources.strings.problems_limit_reached_modal_no_lives_left_title,
                     stepsLimitTotal
                 ),
                 description = resourceProvider.getString(
                     if (isSubscriptionPurchaseEnabled) {
-                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_problems_description
+                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_lives_description
                     } else {
-                        SharedResources.strings.problems_limit_reached_modal_wrong_submission_charge_limits_description
-                    },
-                    stepsLimitTotal
+                        SharedResources.strings.problems_limit_reached_modal_no_lives_left_description
+                    }
                 ),
-                isUnlockUnlimitedProblemsButtonVisible = isSubscriptionPurchaseEnabled
+                unlockLimitsButtonText = if (isSubscriptionPurchaseEnabled) {
+                    resourceProvider.getString(
+                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_lives_button
+                    )
+                } else {
+                    null
+                }
             )
         } else {
             StepQuizFeature.ProblemsLimitReachedModalData(
@@ -277,7 +282,13 @@ internal class StepQuizActionDispatcher(
                     },
                     stepsLimitTotal
                 ),
-                isUnlockUnlimitedProblemsButtonVisible = isSubscriptionPurchaseEnabled
+                unlockLimitsButtonText = if (isSubscriptionPurchaseEnabled) {
+                    resourceProvider.getString(
+                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_problems_button
+                    )
+                } else {
+                    null
+                }
             )
         }
     }

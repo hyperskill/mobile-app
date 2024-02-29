@@ -2,7 +2,6 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.Step
@@ -14,6 +13,7 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
 object StepQuizFeature {
     data class State(
@@ -53,10 +53,11 @@ object StepQuizFeature {
         data class FillBlanks(val mode: FillBlanksMode) : ProblemOnboardingModal
     }
 
+    @Serializable
     data class ProblemsLimitReachedModalData(
         val title: String,
         val description: String,
-        val isUnlockUnlimitedProblemsButtonVisible: Boolean
+        val unlockLimitsButtonText: String?
     )
 
     sealed interface Message {

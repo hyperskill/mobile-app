@@ -1,7 +1,6 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
-import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.BlockName
@@ -40,6 +39,7 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>

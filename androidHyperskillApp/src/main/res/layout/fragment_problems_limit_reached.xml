@@ -37,8 +37,11 @@
         android:id="@+id/problemsLimitReachedModalTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textSize="34sp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="32dp"
+        tools:text="@string/problems_limit_reached_modal_title"
         />
 
     <TextView
@@ -56,11 +59,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.AppTheme.Button"
-        android:text="@string/problems_limit_reached_modal_buy_subscription_button"
         android:layout_marginTop="32dp"
         android:layout_marginHorizontal="20dp"
         android:visibility="gone"
         tools:visibility="visible"
+        tools:text="@string/problems_limit_reached_modal_unlock_unlimited_problems_button"
         />
 
     <com.google.android.material.button.MaterialButton
