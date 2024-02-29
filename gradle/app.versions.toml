@@ -2,5 +2,5 @@
 minSdk = '24'
 targetSdk = '33'
 compileSdk = '33'
-versionName = '1.49.1'
+versionName = '1.49.1-test-oauth'
 versionCode = '321'
