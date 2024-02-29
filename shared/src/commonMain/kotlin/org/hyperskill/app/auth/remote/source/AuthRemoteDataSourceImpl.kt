@@ -43,11 +43,7 @@ class AuthRemoteDataSourceImpl(
         idToken: String?,
         socialProvider: SocialAuthProvider
     ): Result<Unit> =
-        if (socialProvider.isSdk) {
-            authWithSocialToken(authCode, idToken, socialProvider.title)
-        } else {
-            authWithCode(authCode)
-        }
+        authWithSocialToken(authCode, idToken, socialProvider.title)
 
     private suspend fun authWithSocialToken(authCode: String, idToken: String?, providerName: String): Result<Unit> =
         kotlin.runCatching {
