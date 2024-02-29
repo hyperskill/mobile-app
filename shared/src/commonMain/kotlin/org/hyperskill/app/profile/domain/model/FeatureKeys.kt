@@ -8,6 +8,7 @@ internal object FeatureKeys {
     const val LEARNING_PATH_DIVIDED_TRACK_TOPICS = "learning_path.divided_track_topics"
     const val MOBILE_LEADERBOARDS = "mobile_leaderboards"
     const val MOBILE_INTERVIEW_PREPARATION = "mobile.interview_preparation"
+    const val MOBILE_ONLY_SUBSCRIPTION = "mobile.mobile_only_subscription"
     const val MOBILE_USERS_QUESTIONNAIRE = "mobile.users_questionnaire"
     const val MOBILE_SHORT_THEORY = "mobile.short_theory"
 }

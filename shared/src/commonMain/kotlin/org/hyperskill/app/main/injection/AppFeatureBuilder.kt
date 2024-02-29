@@ -18,9 +18,12 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
 import ru.nobird.app.core.model.safeCast
@@ -47,25 +50,33 @@ internal object AppFeatureBuilder {
         pushNotificationsInteractor: PushNotificationsInteractor,
         welcomeOnboardingReducer: WelcomeOnboardingReducer,
         welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher,
+        purchaseInteractor: PurchaseInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+        subscriptionsInteractor: SubscriptionsInteractor,
         platform: Platform,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer(
-            streakRecoveryReducer,
-            clickedNotificationReducer,
-            welcomeOnboardingReducer,
+            streakRecoveryReducer = streakRecoveryReducer,
+            notificationClickHandlingReducer = clickedNotificationReducer,
+            welcomeOnboardingReducer = welcomeOnboardingReducer,
             platformType = platform.platformType
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
+
         val appActionDispatcher = AppActionDispatcher(
-            ActionDispatcherOptions(),
-            appInteractor,
-            authInteractor,
-            currentProfileStateRepository,
-            sentryInteractor,
-            stateRepositoriesComponent,
-            notificationsInteractor,
-            pushNotificationsInteractor
+            config = ActionDispatcherOptions(),
+            appInteractor = appInteractor,
+            authInteractor = authInteractor,
+            sentryInteractor = sentryInteractor,
+            stateRepositoriesComponent = stateRepositoriesComponent,
+            notificationsInteractor = notificationsInteractor,
+            pushNotificationsInteractor = pushNotificationsInteractor,
+            purchaseInteractor = purchaseInteractor,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
+            subscriptionsInteractor = subscriptionsInteractor,
+            isSubscriptionPurchaseEnabled = platform.isSubscriptionPurchaseEnabled,
+            logger.withTag(LOG_TAG)
         )
 
         return ReduxFeature(initialState ?: State.Idle, appReducer)

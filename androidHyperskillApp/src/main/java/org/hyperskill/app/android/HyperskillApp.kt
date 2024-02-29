@@ -55,14 +55,14 @@ class HyperskillApp : Application(), ImageLoaderFactory {
         )
 
         setNightMode(appGraph)
-        initSentry()
+        initSentry(appGraph)
         initChannels()
     }
 
     override fun newImageLoader(): ImageLoader =
         graph().imageLoadingComponent.imageLoader
 
-    private fun initSentry() {
+    private fun initSentry(appGraph: AppGraph) {
         appGraph.sentryComponent.sentryInteractor.setup()
     }
 

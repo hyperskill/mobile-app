@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -59,6 +60,7 @@ object StepQuizFeature {
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
             val problemsLimitReachedModalText: String?,
+            val isSubscriptionPurchaseEnabled: Boolean,
             val problemsOnboardingFlags: ProblemsOnboardingFlags
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
@@ -98,6 +100,8 @@ object StepQuizFeature {
          * Daily limit reached modal
          */
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
+
+        object ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked : Message
 
         /**
          * Problem onboarding modal
@@ -180,7 +184,10 @@ object StepQuizFeature {
 
             object RequestResetCode : ViewAction
 
-            data class ShowProblemsLimitReachedModal(val modalText: String) : ViewAction
+            data class ShowProblemsLimitReachedModal(
+                val modalText: String,
+                val isUnlockUnlimitedProblemsButtonVisible: Boolean
+            ) : ViewAction
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
@@ -200,6 +207,8 @@ object StepQuizFeature {
                 object StudyPlan : NavigateTo
 
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
+
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }

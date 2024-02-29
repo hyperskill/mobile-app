@@ -8,7 +8,8 @@ fun Profile.Companion.stub(
     isBeta: Boolean = false,
     isGuest: Boolean = false,
     trackId: Long? = null,
-    projectId: Long? = null
+    projectId: Long? = null,
+    featuresMap: Map<String, Boolean> = emptyMap()
 ): Profile =
     Profile(
         id = id,
@@ -35,5 +36,5 @@ fun Profile.Companion.stub(
         trackTitle = null,
         projectId = projectId,
         isBeta = isBeta,
-        featuresMap = emptyMap()
+        featuresMap = featuresMap
     )

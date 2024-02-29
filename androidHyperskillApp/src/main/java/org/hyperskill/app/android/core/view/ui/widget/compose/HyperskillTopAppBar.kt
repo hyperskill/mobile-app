@@ -9,6 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,6 +21,7 @@ fun HyperskillTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
     onNavigationIconClick: (() -> Unit)? = null,
+    backgroundColor: Color = MaterialTheme.colors.background,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
@@ -40,7 +42,7 @@ fun HyperskillTopAppBar(
                 modifier = TopAppBarTitleModifier
             )
         },
-        backgroundColor = MaterialTheme.colors.background,
+        backgroundColor = backgroundColor,
         actions = actions,
         modifier = modifier
     )

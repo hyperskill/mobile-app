@@ -25,7 +25,7 @@ class ProblemOfDayCardFormDelegate(
         dateFormatter: SharedDateFormatter,
         binding: LayoutProblemOfTheDayCardBinding,
         state: HomeFeature.ProblemOfDayState,
-        isFreemiumEnabled: Boolean
+        areProblemsLimited: Boolean
     ) {
         with(binding) {
             when (state) {
@@ -112,13 +112,13 @@ class ProblemOfDayCardFormDelegate(
                 }
             }
         }
-        renderFooter(binding, state, isFreemiumEnabled)
+        renderFooter(binding, state, areProblemsLimited)
     }
 
     private fun renderFooter(
         binding: LayoutProblemOfTheDayCardBinding,
         state: HomeFeature.ProblemOfDayState,
-        isFreemiumEnabled: Boolean
+        areProblemsLimited: Boolean
     ) {
         val needToRefresh = when (state) {
             HomeFeature.ProblemOfDayState.Empty -> false
@@ -142,8 +142,8 @@ class ProblemOfDayCardFormDelegate(
                 problemOfDayNextProblemInCounterView.text = nextProblemIn
             }
         }
-        binding.problemOfDayFreemiumBadge.isVisible = when (state) {
-            is HomeFeature.ProblemOfDayState.NeedToSolve -> isFreemiumEnabled
+        binding.problemOfDayUnlimitedBadge.isVisible = when (state) {
+            is HomeFeature.ProblemOfDayState.NeedToSolve -> areProblemsLimited
             HomeFeature.ProblemOfDayState.Empty,
             is HomeFeature.ProblemOfDayState.Solved -> false
         }
