@@ -356,11 +356,8 @@ internal class StepQuizReducer(
             if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
                 state.copy(stepQuizState = StepQuizState.Unsupported) to emptySet()
             } else {
-                val isProblemsLimitReached = if (StepQuizResolver.isStepHasLimitedAttempts(stepRoute)) {
-                    message.isProblemsLimitReached
-                } else {
-                    false
-                }
+                val isProblemsLimitReached = 
+                    StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
 
                 val actions = if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
                     setOf(
@@ -419,12 +416,8 @@ internal class StepQuizReducer(
         state: State,
         message: InternalMessage.UpdateProblemsLimitResult
     ): StepQuizReducerResult? =
-        if (state.stepQuizState is StepQuizState.AttemptLoaded) {
-            val isProblemsLimitReached = if (StepQuizResolver.isStepHasLimitedAttempts(stepRoute)) {
-                message.isProblemsLimitReached
-            } else {
-                false
-            }
+                val isProblemsLimitReached = 
+                    StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
 
             state.copy(
                 stepQuizState = state.stepQuizState.copy(
