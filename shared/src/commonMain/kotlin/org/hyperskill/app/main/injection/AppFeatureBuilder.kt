@@ -17,7 +17,6 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
-import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.purchases.domain.interactor.PurchaseInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispatcher
@@ -39,7 +38,6 @@ internal object AppFeatureBuilder {
         initialState: State?,
         appInteractor: AppInteractor,
         authInteractor: AuthInteractor,
-        currentProfileStateRepository: CurrentProfileStateRepository,
         sentryInteractor: SentryInteractor,
         stateRepositoriesComponent: StateRepositoriesComponent,
         streakRecoveryReducer: StreakRecoveryReducer,

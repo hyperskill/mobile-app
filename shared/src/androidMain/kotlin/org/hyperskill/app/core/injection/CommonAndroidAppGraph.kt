@@ -42,6 +42,7 @@ import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelecti
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
+import org.hyperskill.app.users_questionnaire.onboarding.injection.PlatformUsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 
@@ -113,6 +114,8 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformRequestReviewComponent(
         stepRoute: StepRoute
     ): PlatformRequestReviewComponent
+
+    fun buildPlatformUsersQuestionnaireOnboardingComponent(): PlatformUsersQuestionnaireOnboardingComponent
 
     fun buildPlatformPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PlatformPaywallComponent
 
