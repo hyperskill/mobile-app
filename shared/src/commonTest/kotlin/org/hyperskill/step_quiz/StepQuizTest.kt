@@ -56,7 +56,7 @@ class StepQuizTest {
                     problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                         title = "",
                         description = "",
-                        isUnlockUnlimitedProblemsButtonVisible = false
+                        unlockLimitsButtonText = null
                     ),
                     problemsOnboardingFlags = ProblemsOnboardingFlags(
                         isParsonsOnboardingShown = false,
@@ -105,7 +105,7 @@ class StepQuizTest {
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
                     description = "",
-                    isUnlockUnlimitedProblemsButtonVisible = false
+                    unlockLimitsButtonText = null
                 ),
                 problemsOnboardingFlags = ProblemsOnboardingFlags(
                     isParsonsOnboardingShown = false,
@@ -232,7 +232,7 @@ class StepQuizTest {
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
                     description = "",
-                    isUnlockUnlimitedProblemsButtonVisible = false
+                    unlockLimitsButtonText = null
                 )
             )
         )
@@ -255,7 +255,7 @@ class StepQuizTest {
                 StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
                     description = "",
-                    isUnlockUnlimitedProblemsButtonVisible = false
+                    unlockLimitsButtonText = null
                 )
             )
         )
@@ -287,7 +287,7 @@ class StepQuizTest {
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
                     description = "",
-                    isUnlockUnlimitedProblemsButtonVisible = false
+                    unlockLimitsButtonText = null
                 )
             )
         )
