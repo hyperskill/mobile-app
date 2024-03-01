@@ -17,7 +17,9 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
 
     var style: Style {
         didSet {
-            updateAppearance()
+            if style != oldValue {
+                updateAppearance()
+            }
         }
     }
 
@@ -113,5 +115,18 @@ final class UIKitRoundedRectangleButton: UIKitBounceButton {
             let color: UIColor
             var width: CGFloat = 1
         }
+    }
+}
+
+extension UIKitRoundedRectangleButton {
+    static var primary: UIKitRoundedRectangleButton {
+        UIKitRoundedRectangleButton(
+            style: .violet,
+            appearance: .init(
+                font: .preferredFont(for: .body, weight: .bold),
+                intrinsicHeight: 50,
+                cornerRadius: 13
+            )
+        )
     }
 }

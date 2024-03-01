@@ -127,6 +127,8 @@ struct StepView: View {
             presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
         case .showInterviewPreparationCompletedModal:
             presentInterviewPreparationFinishedModal()
+        case .showRequestUserReviewModal(let showRequestUserReviewModalViewAction):
+            presentRequestReviewModal(stepRoute: showRequestUserReviewModalViewAction.stepRoute)
         }
     }
 
@@ -155,7 +157,7 @@ private extension StepView {
     }
 
     func presentDailyStepCompletedModal(
-        earnedGemsText: String,
+        earnedGemsText: String?,
         shareStreakData: StepCompletionFeatureShareStreakData
     ) {
         let modal = ProblemOfDaySolvedModalViewController(
@@ -182,6 +184,11 @@ private extension StepView {
     func presentInterviewPreparationFinishedModal() {
         let modal = InterviewPreparationCompletedModalViewController(delegate: viewModel)
         panModalPresenter.presentPanModal(modal)
+    }
+
+    func presentRequestReviewModal(stepRoute: StepRoute) {
+        let assembly = RequestReviewModalAssembly(stepRoute: stepRoute)
+        panModalPresenter.presentIfPanModal(assembly.makeModule())
     }
 }
 

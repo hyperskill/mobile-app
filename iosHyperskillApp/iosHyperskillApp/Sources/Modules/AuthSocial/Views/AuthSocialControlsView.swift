@@ -15,7 +15,7 @@ struct AuthSocialControlsView: View {
                     text: provider.humanReadableName,
                     imageName: provider.imageName,
                     action: {
-                        self.onSocialAuthProviderClick(provider)
+                        onSocialAuthProviderClick(provider)
                     }
                 )
             }
@@ -23,7 +23,7 @@ struct AuthSocialControlsView: View {
             if isContinueWithEmailAvailable {
                 Button(
                     Strings.Auth.Social.emailText,
-                    action: self.onContinueWithEmailClick
+                    action: onContinueWithEmailClick
                 )
                 .padding(.top)
             }

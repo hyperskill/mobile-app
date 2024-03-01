@@ -2,103 +2,53 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.platform.Platform
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
+import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
+import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
+import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.isFreemium
+import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class StepQuizActionDispatcher(
+internal class StepQuizActionDispatcher(
     config: ActionDispatcherOptions,
     private val stepQuizInteractor: StepQuizInteractor,
     private val stepQuizReplyValidator: StepQuizReplyValidator,
+    private val subscriptionsInteractor: SubscriptionsInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val freemiumInteractor: FreemiumInteractor,
+    private val urlPathProcessor: UrlPathProcessor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
-    private val resourceProvider: ResourceProvider
+    private val resourceProvider: ResourceProvider,
+    private val platform: Platform
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchAttempt -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading()
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                val currentProfile = currentProfileStateRepository
-                    .getState(forceUpdate = false)
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(Message.FetchAttemptError(it))
-                        return
-                    }
-
-                val isProblemsLimitReached = freemiumInteractor
-                    .isProblemsLimitReached()
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(Message.FetchAttemptError(it))
-                        return
-                    }
-
-                val problemsLimitReachedModalText = freemiumInteractor
-                    .getStepsLimitTotal()
-                    .map {
-                        it?.let { stepsLimitTotal ->
-                            resourceProvider.getString(
-                                SharedResources.strings.problems_limit_reached_modal_description,
-                                stepsLimitTotal
-                            )
-                        }
-                    }
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        onNewMessage(Message.FetchAttemptError(it))
-                        return
-                    }
-
-                val message = stepQuizInteractor
-                    .getAttempt(action.step.id, currentProfile.id)
-                    .fold(
-                        onSuccess = { attempt ->
-                            val message = getSubmissionState(attempt.id, action.step.id, currentProfile.id).fold(
-                                onSuccess = {
-                                    Message.FetchAttemptSuccess(
-                                        step = action.step,
-                                        attempt = attempt,
-                                        submissionState = it,
-                                        isProblemsLimitReached = isProblemsLimitReached,
-                                        problemsLimitReachedModalText = problemsLimitReachedModalText,
-                                        problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
-                                    )
-                                },
-                                onFailure = {
-                                    Message.FetchAttemptError(it)
-                                }
-                            )
-                            message
-                        },
-                        onFailure = { Message.FetchAttemptError(it) }
-                    )
-
-                sentryInteractor.finishTransaction(
-                    transaction = sentryTransaction,
-                    throwable = (message as? Message.FetchAttemptError)?.throwable
-                )
-
-                onNewMessage(message)
-            }
+            is Action.FetchAttempt ->
+                handleFetchAttempt(action, ::onNewMessage)
             is Action.CreateAttempt -> {
                 if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)) {
                     val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateAttempt()
@@ -208,10 +158,67 @@ class StepQuizActionDispatcher(
                     }
                 }
             }
+            is InternalAction.UpdateProblemsLimit ->
+                handleUpdateProblemsLimitAction(action, ::onNewMessage)
+            is InternalAction.CreateMagicLinkForUnsupportedQuiz -> {
+                urlPathProcessor
+                    .processUrlPath(HyperskillUrlPath.Step(action.stepRoute))
+                    .fold(
+                        onSuccess = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizSuccess(it)) },
+                        onFailure = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizError) }
+                    )
+            }
             is Action.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}
         }
+    }
+
+    private suspend fun handleFetchAttempt(
+        action: Action.FetchAttempt,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading(),
+            onError = { Message.FetchAttemptError(it) }
+        ) {
+            val currentSubscription =
+                subscriptionsInteractor.getCurrentSubscription()
+                    .getOrThrow()
+
+            val currentProfile =
+                currentProfileStateRepository
+                    .getState()
+                    .getOrThrow()
+
+            val attempt =
+                stepQuizInteractor
+                    .getAttempt(action.step.id, currentProfile.id)
+                    .getOrThrow()
+
+            val submissionState =
+                getSubmissionState(attempt.id, action.step.id, currentProfile.id)
+                    .getOrThrow()
+
+            val isProblemsLimitReached = currentSubscription.isProblemsLimitReached
+            val problemsLimitReachedModalData = if (isProblemsLimitReached) {
+                getProblemsLimitReachedModalData(
+                    currentSubscription,
+                    isSubscriptionPurchaseEnabled(currentProfile, currentSubscription)
+                )
+            } else {
+                null
+            }
+
+            Message.FetchAttemptSuccess(
+                step = action.step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = isProblemsLimitReached,
+                problemsLimitReachedModalData = problemsLimitReachedModalData,
+                problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
+            )
+        }.let(onNewMessage)
     }
 
     private suspend fun getSubmissionState(
@@ -228,4 +235,89 @@ class StepQuizActionDispatcher(
                     StepQuizFeature.SubmissionState.Loaded(submission)
                 }
             }
+
+    internal fun isSubscriptionPurchaseEnabled(
+        currentProfile: Profile,
+        currentSubscription: Subscription
+    ): Boolean =
+        platform.isSubscriptionPurchaseEnabled &&
+            currentProfile.features.isMobileOnlySubscriptionEnabled &&
+            currentSubscription.isFreemium
+
+    private suspend fun getProblemsLimitReachedModalData(
+        subscription: Subscription,
+        isSubscriptionPurchaseEnabled: Boolean
+    ): StepQuizFeature.ProblemsLimitReachedModalData? {
+        val stepsLimitTotal = subscription.stepsLimitTotal ?: return null
+
+        return if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
+            StepQuizFeature.ProblemsLimitReachedModalData(
+                title = resourceProvider.getString(
+                    SharedResources.strings.problems_limit_reached_modal_no_lives_left_title,
+                    stepsLimitTotal
+                ),
+                description = resourceProvider.getString(
+                    if (isSubscriptionPurchaseEnabled) {
+                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_lives_description
+                    } else {
+                        SharedResources.strings.problems_limit_reached_modal_no_lives_left_description
+                    }
+                ),
+                unlockLimitsButtonText = if (isSubscriptionPurchaseEnabled) {
+                    resourceProvider.getString(
+                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_lives_button
+                    )
+                } else {
+                    null
+                }
+            )
+        } else {
+            StepQuizFeature.ProblemsLimitReachedModalData(
+                title = resourceProvider.getString(SharedResources.strings.problems_limit_reached_modal_title),
+                description = resourceProvider.getString(
+                    if (isSubscriptionPurchaseEnabled) {
+                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_problems_description
+                    } else {
+                        SharedResources.strings.problems_limit_reached_modal_description
+                    },
+                    stepsLimitTotal
+                ),
+                unlockLimitsButtonText = if (isSubscriptionPurchaseEnabled) {
+                    resourceProvider.getString(
+                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_problems_button
+                    )
+                } else {
+                    null
+                }
+            )
+        }
+    }
+
+    private suspend fun handleUpdateProblemsLimitAction(
+        action: InternalAction.UpdateProblemsLimit,
+        onNewMessage: (Message) -> Unit
+    ) {
+        val currentProfile = currentProfileStateRepository.getState().getOrElse { return }
+        if (!currentProfile.features.isFreemiumWrongSubmissionChargeLimitsEnabled) return
+
+        subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
+
+        val subscription = subscriptionsInteractor.getCurrentSubscription().getOrElse { return }
+        val problemsLimitReachedModalData =
+            if (subscription.isProblemsLimitReached) {
+                getProblemsLimitReachedModalData(
+                    subscription = subscription,
+                    isSubscriptionPurchaseEnabled = isSubscriptionPurchaseEnabled(currentProfile, subscription)
+                )
+            } else {
+                null
+            }
+
+        onNewMessage(
+            InternalMessage.UpdateProblemsLimitResult(
+                isProblemsLimitReached = subscription.isProblemsLimitReached,
+                problemsLimitReachedModalData = problemsLimitReachedModalData
+            )
+        )
+    }
 }

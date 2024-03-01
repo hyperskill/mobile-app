@@ -14,9 +14,8 @@ struct HomeView: View {
 
     @StateObject var viewModel: HomeViewModel
 
-    @StateObject var stackRouter: SwiftUIStackRouter
-
-    @StateObject var panModalPresenter: PanModalPresenter
+    let stackRouter: StackRouterProtocol
+    let panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
@@ -30,6 +29,7 @@ struct HomeView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.state)
         }
         .navigationTitle(Strings.Home.title)
         .navigationViewStyle(StackNavigationViewStyle())
@@ -86,7 +86,7 @@ struct HomeView: View {
 
                     ProblemOfDayAssembly(
                         problemOfDayState: data.problemOfDayState,
-                        isFreemiumEnabled: data.isFreemiumEnabled,
+                        isFreemiumEnabled: data.areProblemsLimited,
                         output: viewModel
                     )
                     .makeModule()
@@ -105,7 +105,7 @@ struct HomeView: View {
                         TopicsRepetitionsCardView(
                             topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
                             onTap: viewModel.doTopicsRepetitionsPresentation,
-                            isFreemiumEnabled: data.isFreemiumEnabled
+                            isFreemiumEnabled: data.areProblemsLimited
                         )
                     }
                 }
@@ -191,9 +191,4 @@ private extension HomeView {
             stackRouter.pushViewController(assembly.makeModule())
         }
     }
-}
-
-@available(iOS 17, *)
-#Preview {
-    HomeAssembly().makeModule()
 }

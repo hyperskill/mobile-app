@@ -2,6 +2,7 @@ import Foundation
 import shared
 import SwiftUI
 
+// swiftlint:disable function_parameter_count
 protocol StepQuizChildQuizAssembly: Assembly {
     var moduleInput: StepQuizChildQuizInputProtocol? { get }
     var moduleOutput: StepQuizChildQuizOutputProtocol? { get set }
@@ -123,3 +124,4 @@ enum StepQuizChildQuizViewFactory {
         }
     }
 }
+// swiftlint:enable function_parameter_count

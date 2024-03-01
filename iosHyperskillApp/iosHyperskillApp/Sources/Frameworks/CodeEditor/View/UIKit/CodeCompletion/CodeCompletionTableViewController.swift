@@ -59,7 +59,7 @@ final class CodeCompletionTableViewController: UITableViewController {
         clearsSelectionOnViewWillAppear = false
         tableView.rowHeight = suggestionRowHeight
 
-        //Adding tap gesture recognizer to catch selection to avoid resignFirstResponder call and keyboard disappearance
+        // Adding tap gesture recognizer to catch selection to avoid resignFirstResponder call and keyboard disappearance
         let tapGestureRecognizer = UITapGestureRecognizer(
             target: self,
             action: #selector(didTap(recognizer:))

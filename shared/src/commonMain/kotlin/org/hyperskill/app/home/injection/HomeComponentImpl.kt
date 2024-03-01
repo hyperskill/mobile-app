@@ -4,15 +4,11 @@ import org.hyperskill.app.challenges.widget.injection.ChallengeWidgetComponent
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
-import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.interview_preparation.injection.InterviewPreparationWidgetComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent {
-    private val homeInteractor: HomeInteractor =
-        HomeInteractor(appGraph.submissionDataComponent.submissionRepository)
-
     private val gamificationToolbarComponent: GamificationToolbarComponent =
         appGraph.buildGamificationToolbarComponent(GamificationToolbarScreen.HOME)
 
@@ -24,15 +20,16 @@ internal class HomeComponentImpl(private val appGraph: AppGraph) : HomeComponent
 
     override val homeFeature: Feature<HomeFeature.ViewState, HomeFeature.Message, HomeFeature.Action>
         get() = HomeFeatureBuilder.build(
-            homeInteractor,
             appGraph.profileDataComponent.currentProfileStateRepository,
             appGraph.buildTopicsRepetitionsDataComponent().topicsRepetitionsInteractor,
             appGraph.buildStepDataComponent().stepInteractor,
-            appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             appGraph.analyticComponent.analyticInteractor,
             appGraph.sentryComponent.sentryInteractor,
             appGraph.commonComponent.dateFormatter,
             appGraph.topicsRepetitionsFlowDataComponent.topicRepeatedFlow,
+            appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
+            appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             gamificationToolbarComponent.gamificationToolbarReducer,
             gamificationToolbarComponent.gamificationToolbarActionDispatcher,
             challengeWidgetComponent.challengeWidgetReducer,

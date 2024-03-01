@@ -8,7 +8,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.badges.domain.model.BadgeKind
 
 /**
- * Represents show of the badge detailed modal in profile analytics event.
+ * Represents show of the badge detailed modal in profile analytic event.
  *
  * JSON payload:
  * ```

@@ -4,7 +4,7 @@ kotlin = '1.8.22'
 kotlinCoroutines = '1.7.2'
 ktor = '2.3.3'
 mokoResources = "0.23.0"
-mokoKswift = "0.6.1"
+mokoKswift = "0.7.0"
 ktlintRules = '1.0.0'
 adapters = '1.1.1'
 sentry = '7.1.0'
@@ -17,6 +17,9 @@ coil = '2.2.0'
 lottie = '6.1.0'
 kermit = '2.0.0-RC4'
 androidxBrowser = "1.5.0"
+revenueCat = "7.4.0"
+googlePlayReview = "2.0.1"
+
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"
@@ -59,7 +62,7 @@ kit-ui-adapters = { module = "ru.nobird.android.ui:adapters", version.ref = "ada
 
 multiplatform-settings = { module = "com.russhwolf:multiplatform-settings", version = "0.8.1" }
 
-kermit-common = { module = "co.touchlab:kermit", version.ref = "kermit" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 android-ui-material = { module = "com.google.android.material:material", version = "1.4.0" }
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
@@ -81,6 +84,10 @@ android-test-robolectric = { module = "org.robolectric:robolectric", version = "
 plugin-googleServises = { module = "com.google.gms:google-services", version = "4.3.15" }
 gms-play-services = { module = "com.google.android.gms:play-services-base", version = "18.1.0" }
 gms-play-login = { module = "com.google.android.gms:play-services-auth", version = "20.4.0" }
+
+google-play-review = { module = "com.google.android.play:review-ktx", version.ref = "googlePlayReview"}
+
+revenuecat = { module = "com.revenuecat.purchases:purchases", version.ref = "revenueCat" }
 
 firebase-bom = { module = "com.google.firebase:firebase-bom", version = "31.2.2" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }

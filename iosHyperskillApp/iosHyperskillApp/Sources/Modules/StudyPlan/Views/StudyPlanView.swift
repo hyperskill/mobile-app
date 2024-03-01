@@ -14,8 +14,8 @@ struct StudyPlanView: View {
 
     @StateObject var viewModel: StudyPlanViewModel
 
-    @StateObject var stackRouter: SwiftUIStackRouter
-    @StateObject var panModalPresenter: PanModalPresenter
+    let stackRouter: StackRouterProtocol
+    let panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
@@ -29,6 +29,7 @@ struct StudyPlanView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.state)
         }
         .navigationTitle(Strings.StudyPlan.title)
         .navigationViewStyle(StackNavigationViewStyle())
@@ -84,6 +85,15 @@ struct StudyPlanView: View {
                         onReloadButtonTap: viewModel.doReloadProblemsLimit
                     )
 
+                    let usersQuestionnaireWidgetFeatureStateKs = viewModel.usersQuestionnaireWidgetFeatureStateKs
+                    if usersQuestionnaireWidgetFeatureStateKs != .hidden {
+                        UsersQuestionnaireWidgetAssembly(
+                            stateKs: usersQuestionnaireWidgetFeatureStateKs,
+                            moduleOutput: viewModel
+                        )
+                        .makeModule()
+                    }
+
                     ForEach(data.sections, id: \.id) { section in
                         StudyPlanSectionView(
                             section: section,
@@ -124,6 +134,10 @@ private extension StudyPlanView {
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
             handleStudyPlanWidgetViewAction(
                 studyPlanWidgetViewAction.viewAction
+            )
+        case .usersQuestionnaireWidgetViewAction(let usersQuestionnaireWidgetViewAction):
+            handleUsersQuestionnaireWidgetViewAction(
+                usersQuestionnaireWidgetViewAction.viewAction
             )
         }
     }
@@ -180,6 +194,18 @@ private extension StudyPlanView {
                 )
                 stackRouter.pushViewController(assembly.makeModule())
             }
+        }
+    }
+
+    func handleUsersQuestionnaireWidgetViewAction(
+        _ viewAction: UsersQuestionnaireWidgetFeatureActionViewAction
+    ) {
+        switch UsersQuestionnaireWidgetFeatureActionViewActionKs(viewAction) {
+        case .showUsersQuestionnaire(let showUsersQuestionnaireViewAction):
+            WebControllerManager.shared.presentWebControllerWithURLString(
+                showUsersQuestionnaireViewAction.url,
+                controllerType: .inAppSafari
+            )
         }
     }
 }

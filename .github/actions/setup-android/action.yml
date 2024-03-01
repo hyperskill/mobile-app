@@ -62,21 +62,21 @@ runs:
 
     - name: Setup Ruby
       if: ${{ inputs.setup-ruby == 'true' }}
-      uses: ruby/setup-ruby@v1.150.0
+      uses: ruby/setup-ruby@v1.171.0
       with:
-        ruby-version: '3.1.0'
+        ruby-version: '3.3.0'
         bundler-cache: true
         working-directory: './androidHyperskillApp'
 
     - name: Setup Java JDK
-      uses: actions/setup-java@v3.10.0
+      uses: actions/setup-java@v4.0.0
       with:
         java-version: '17'
         distribution: 'temurin'
 
     # Cache Gradle dependencies
     - name: Setup Gradle Dependencies Cache
-      uses: actions/cache@v3.3.2
+      uses: actions/cache@v4.0.1
       with:
         path: ~/.gradle/caches
         key: ${{ runner.os }}-gradle-caches-${{ hashFiles('**/*.gradle', '**/*.gradle.kts') }}
@@ -85,7 +85,7 @@ runs:
 
     # Cache Gradle Wrapper
     - name: Setup Gradle Wrapper Cache
-      uses: actions/cache@v3.3.2
+      uses: actions/cache@v4.0.1
       with:
         path: ~/.gradle/wrapper
         key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle*properties') }}
@@ -94,7 +94,7 @@ runs:
 
     # Cache Kotlin/Native compiler
     - name: Setup Kotlin/Native Compiler Cache
-      uses: actions/cache@v3.3.2
+      uses: actions/cache@v4.0.1
       with:
         path: ~/.konan
         key: ${{ runner.os }}-kotlin-native-compiler-${{ hashFiles('gradle/libs.versions.toml') }}

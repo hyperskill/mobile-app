@@ -50,7 +50,7 @@ jobs:
     needs: files-changed
     if: ${{ github.event_name == 'workflow_dispatch' || needs.files-changed.outputs.ios == 'true' }}
     name: Build iOS Caches
-    runs-on: macos-13
+    runs-on: macos-14
     timeout-minutes: 60
 
     steps:

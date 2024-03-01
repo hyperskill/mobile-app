@@ -5,10 +5,11 @@ import org.hyperskill.app.profile.presentation.ProfileFeature
 import org.hyperskill.app.profile.view.BadgesViewStateMapper
 import ru.nobird.app.presentation.redux.feature.Feature
 
-class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
+internal class ProfileComponentImpl(
+    private val appGraph: AppGraph
+) : ProfileComponent {
     override val profileFeature: Feature<ProfileFeature.State, ProfileFeature.Message, ProfileFeature.Action>
         get() = ProfileFeatureBuilder.build(
-            profileInteractor = appGraph.profileDataComponent.profileInteractor,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             streaksInteractor = appGraph.buildStreaksDataComponent().streaksInteractor,
             productsInteractor = appGraph.buildProductsDataComponent().productsInteractor,
@@ -18,6 +19,7 @@ class ProfileComponentImpl(private val appGraph: AppGraph) : ProfileComponent {
             urlPathProcessor = appGraph.buildMagicLinksDataComponent().urlPathProcessor,
             streakFlow = appGraph.streakFlowDataComponent.streakFlow,
             dailyStudyRemindersEnabledFlow = appGraph.notificationFlowDataComponent.dailyStudyRemindersEnabledFlow,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             badgesRepository = appGraph.buildBadgesDataComponent().badgesRepository,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant

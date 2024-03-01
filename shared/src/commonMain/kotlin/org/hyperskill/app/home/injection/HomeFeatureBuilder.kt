@@ -10,11 +10,9 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarActionDispatcher
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeActionDispatcher
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeReducer
@@ -27,6 +25,9 @@ import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
+import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.core.model.safeCast
@@ -39,15 +40,16 @@ internal object HomeFeatureBuilder {
     private const val LOG_TAG = "HomeFeature"
 
     fun build(
-        homeInteractor: HomeInteractor,
         currentProfileStateRepository: CurrentProfileStateRepository,
         topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
         stepInteractor: StepInteractor,
-        freemiumInteractor: FreemiumInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         dateFormatter: SharedDateFormatter,
         topicRepeatedFlow: TopicRepeatedFlow,
+        topicCompletedFlow: TopicCompletedFlow,
+        stepCompletedFlow: StepCompletedFlow,
         gamificationToolbarReducer: GamificationToolbarReducer,
         gamificationToolbarActionDispatcher: GamificationToolbarActionDispatcher,
         challengeWidgetReducer: ChallengeWidgetReducer,
@@ -66,15 +68,16 @@ internal object HomeFeatureBuilder {
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val homeActionDispatcher = HomeActionDispatcher(
             ActionDispatcherOptions(),
-            homeInteractor,
             currentProfileStateRepository,
             topicsRepetitionsInteractor,
             stepInteractor,
-            freemiumInteractor,
+            currentSubscriptionStateRepository,
             analyticInteractor,
             sentryInteractor,
             dateFormatter,
-            topicRepeatedFlow
+            topicRepeatedFlow,
+            topicCompletedFlow,
+            stepCompletedFlow
         )
         val homeViewStateMapper = HomeViewStateMapper(
             challengeWidgetViewStateMapper = challengeWidgetViewStateMapper,

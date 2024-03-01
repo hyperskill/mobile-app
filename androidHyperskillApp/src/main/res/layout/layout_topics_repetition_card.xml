@@ -65,7 +65,7 @@
             android:layout_marginBottom="12dp"
             app:layout_goneMarginBottom="20dp"
             app:layout_constraintEnd_toStartOf="@+id/topicsRepetitionCountDescriptionTextView"
-            app:layout_constraintBottom_toTopOf="@+id/topicsRepetitionFreemiumBadge"
+            app:layout_constraintBottom_toTopOf="@+id/topics_repetition_unlimited_badge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topicsRepetitionTitleTextView"
             tools:text="4"
@@ -86,7 +86,7 @@
             />
 
         <TextView
-            android:id="@+id/topicsRepetitionFreemiumBadge"
+            android:id="@+id/topics_repetition_unlimited_badge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/home_repeat_unlimited"

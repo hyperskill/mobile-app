@@ -29,19 +29,19 @@ struct ProfileAboutView: View {
                 .font(.title3)
                 .foregroundColor(.primaryText)
 
-            if let livesInText = livesInText {
+            if let livesInText {
                 Text(livesInText)
                     .font(.body)
                     .foregroundColor(.secondaryText)
             }
 
-            if let speaksText = speaksText {
+            if let speaksText {
                 Text(speaksText)
                     .font(.body)
                     .foregroundColor(.secondaryText)
             }
 
-            if let bio = bio {
+            if let bio {
                 VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
                     Text(Strings.Profile.bio)
                         .font(.headline)
@@ -53,7 +53,7 @@ struct ProfileAboutView: View {
                 }
             }
 
-            if let experience = experience {
+            if let experience {
                 VStack(alignment: .leading, spacing: LayoutInsets.smallInset) {
                     Text(Strings.Profile.experience)
                         .font(.headline)

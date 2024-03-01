@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -12,8 +13,9 @@ import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
-interface StepQuizFeature {
+object StepQuizFeature {
     data class State(
         val stepQuizState: StepQuizState,
         val stepQuizHintsState: StepQuizHintsFeature.State
@@ -51,6 +53,13 @@ interface StepQuizFeature {
         data class FillBlanks(val mode: FillBlanksMode) : ProblemOnboardingModal
     }
 
+    @Serializable
+    data class ProblemsLimitReachedModalData(
+        val title: String,
+        val description: String,
+        val unlockLimitsButtonText: String?
+    )
+
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
         data class FetchAttemptSuccess(
@@ -58,7 +67,7 @@ interface StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
-            val problemsLimitReachedModalText: String?,
+            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
             val problemsOnboardingFlags: ProblemsOnboardingFlags
         ) : Message
         data class FetchAttemptError(val throwable: Throwable) : Message
@@ -99,6 +108,8 @@ interface StepQuizFeature {
          */
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
 
+        object ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked : Message
+
         /**
          * Problem onboarding modal
          */
@@ -111,6 +122,9 @@ interface StepQuizFeature {
          * @see StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen
          */
         object TheoryToolbarItemClicked : Message
+
+        object UnsupportedQuizSolveOnTheWebClicked : Message
+        object UnsupportedQuizGoToStudyPlanClicked : Message
 
         /**
          * Analytic
@@ -134,6 +148,16 @@ interface StepQuizFeature {
          * Message Wrappers
          */
         data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message
+    }
+
+    internal sealed interface InternalMessage : Message {
+        data class UpdateProblemsLimitResult(
+            val isProblemsLimitReached: Boolean,
+            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?
+        ) : InternalMessage
+
+        object CreateMagicLinkForUnsupportedQuizError : InternalMessage
+        data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
     }
 
     sealed interface Action {
@@ -172,7 +196,7 @@ interface StepQuizFeature {
 
             object RequestResetCode : ViewAction
 
-            data class ShowProblemsLimitReachedModal(val modalText: String) : ViewAction
+            data class ShowProblemsLimitReachedModal(val modalData: ProblemsLimitReachedModalData) : ViewAction
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
@@ -180,11 +204,27 @@ interface StepQuizFeature {
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
             ) : ViewAction
 
+            sealed interface CreateMagicLinkState : ViewAction {
+                object Loading : CreateMagicLinkState
+                object Error : CreateMagicLinkState
+                object Success : CreateMagicLinkState
+            }
+            data class OpenUrl(val url: String) : ViewAction
+
             sealed interface NavigateTo : ViewAction {
                 object Home : NavigateTo
+                object StudyPlan : NavigateTo
 
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
+
+                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
+    }
+
+    internal sealed interface InternalAction : Action {
+        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
+
+        data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction
     }
 }

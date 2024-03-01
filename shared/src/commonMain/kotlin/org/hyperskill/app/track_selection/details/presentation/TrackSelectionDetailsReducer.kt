@@ -1,8 +1,7 @@
 package org.hyperskill.app.track_selection.details.presentation
 
-import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.app.track.domain.model.getAllProjects
-import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent
+import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsSelectButtonClickedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.domain.analytic.TrackSelectionDetailsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
@@ -41,16 +40,16 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
     private fun handleRetryContentLoading(
         state: State
     ): ReducerResult {
-        val logAnalyticsAction = InternalAction.LogAnalyticEvent(
-            TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticsEvent(
+        val logAnalyticEventAction = InternalAction.LogAnalyticEvent(
+            TrackSelectionDetailsClickedRetryContentLoadingHyperskillAnalyticEvent(
                 trackId = state.trackWithProgress.track.id
             )
         )
         return if (state.contentState is ContentState.NetworkError) {
             state.updateContentState(ContentState.Loading) to
-                fetchAdditionalInfo(state, forceLoadFromNetwork = true) + logAnalyticsAction
+                fetchAdditionalInfo(state, forceLoadFromNetwork = true) + logAnalyticEventAction
         } else {
-            state to setOf(logAnalyticsAction)
+            state to setOf(logAnalyticEventAction)
         }
     }
 
@@ -135,15 +134,12 @@ internal class TrackSelectionDetailsReducer : StateReducer<State, Message, Actio
         if (state.contentState !is ContentState.Content) {
             return false
         }
-        return when (state.contentState.subscriptionType) {
-            SubscriptionType.PREMIUM,
-            SubscriptionType.PERSONAL,
-            SubscriptionType.TRIAL -> {
-                val trackRelatedProjects =
-                    state.trackWithProgress.track.getAllProjects(state.contentState.profile.isBeta)
-                trackRelatedProjects.isNotEmpty()
-            }
-            else -> false
+        return if (state.contentState.subscriptionType.isProjectSelectionEnabled) {
+            val trackRelatedProjects =
+                state.trackWithProgress.track.getAllProjects(state.contentState.profile.isBeta)
+            trackRelatedProjects.isNotEmpty()
+        } else {
+            false
         }
     }
 

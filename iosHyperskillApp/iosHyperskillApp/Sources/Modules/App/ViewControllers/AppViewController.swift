@@ -10,8 +10,6 @@ protocol AppViewControllerProtocol: AnyObject {
 
 extension AppViewController {
     enum Animation {
-        static let swapRootViewControllerAnimationDuration: TimeInterval = 0.3
-
         fileprivate static let clickedNotificationViewActionNavigateToHomeCompletionDelay: TimeInterval = 0.33
         fileprivate static let clickedNotificationViewActionDismissProgressHUDDelay: TimeInterval = 0.33
     }
@@ -19,11 +17,13 @@ extension AppViewController {
 
 final class AppViewController: UIViewController {
     private let viewModel: AppViewModel
+    private let router: AppRouter
 
     var appView: AppView? { view as? AppView }
 
-    init(viewModel: AppViewModel) {
+    init(viewModel: AppViewModel, router: AppRouter) {
         self.viewModel = viewModel
+        self.router = router
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -102,44 +102,22 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     private func handleNavigateToViewAction(_ viewAction: AppFeatureActionViewActionNavigateToKs) {
-        #warning("TODO: Code dublication, see handleWelcomeOnboardingViewAction(_:)")
-        let viewControllerToPresent: UIViewController = {
-            switch viewAction {
-            case .onboardingScreen:
-                return UIHostingController(rootView: WelcomeAssembly(output: viewModel).makeModule())
-            case .studyPlan:
-                return AppTabBarController(
-                    initialTab: .studyPlan,
-                    availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
-                    appTabBarControllerDelegate: viewModel
-                )
-            case .authScreen(let data):
-                let assembly = AuthSocialAssembly(isInSignUpMode: data.isInSignUpMode, output: viewModel)
-                return UIHostingController(rootView: assembly.makeModule())
-            case .trackSelectionScreen:
-                let assembly = TrackSelectionListAssembly(isNewUserMode: true)
-                let navigationController = UINavigationController(
-                    rootViewController: assembly.makeModule()
-                )
-                navigationController.navigationBar.prefersLargeTitles = true
-                return navigationController
-            }
-        }()
-
-        let fromViewController = children.first { viewController in
-            if viewController is UIHostingController<PlaceholderView> {
-                return false
-            }
-            return true
+        switch viewAction {
+        case .authScreen(let data):
+            router.route(.auth(isInSignUpMode: data.isInSignUpMode, moduleOutput: viewModel))
+        case .welcomeScreen:
+            router.route(.onboarding(moduleOutput: viewModel))
+        case .studyPlan:
+            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
+        case .trackSelectionScreen:
+            router.route(.trackSelection)
+        case .paywall:
+            #warning("TODO: ALTAPPS-1116; implement paywall Route")
+            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
+        case .studyPlanWithPaywall:
+            #warning("TODO: ALTAPPS-1116; implent studyPlanWithPaywall Route")
+            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         }
-        if let fromViewController,
-           type(of: fromViewController) == type(of: viewControllerToPresent) {
-            return
-        }
-
-        assert(children.count <= 2)
-
-        swapRootViewController(from: fromViewController, to: viewControllerToPresent)
     }
 
     private func handleStreakRecoveryViewAction(_ viewAction: StreakRecoveryFeatureActionViewActionKs) {
@@ -239,102 +217,22 @@ extension AppViewController: AppViewControllerProtocol {
     private func handleWelcomeOnboardingViewAction(
         _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
     ) {
-        #warning("TODO: Code dublication, see handleNavigateToViewAction(_:)")
-        let viewControllerToPresent: UIViewController = {
-            switch viewAction {
-            case .navigateTo(let navigateToViewAction):
-                switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
-                case .firstProblemOnboardingScreen(let data):
-                    let assembly = FirstProblemOnboardingAssembly(
-                        isNewUserMode: data.isNewUserMode,
-                        output: viewModel
-                    )
-                    return assembly.makeModule()
-                case .notificationOnboardingScreen:
-                    let assembly = NotificationsOnboardingAssembly(output: viewModel)
-                    return assembly.makeModule()
-                case .studyPlanWithStep(let navigateToStudyPlanWithStepViewAction):
-                    let tabBarController = AppTabBarController(
-                        initialTab: .studyPlan,
-                        availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
-                        appTabBarControllerDelegate: viewModel
-                    )
-
-                    if !tabBarController.isViewLoaded {
-                        _ = tabBarController.view
-                    }
-
-                    DispatchQueue.main.async {
-                        let index = tabBarController.selectedIndex
-
-                        guard
-                            let navigationController = tabBarController.children[index] as? UINavigationController
-                        else {
-                            return assertionFailure("Expected UINavigationController")
-                        }
-
-                        let stepAssembly = StepAssembly(stepRoute: navigateToStudyPlanWithStepViewAction.stepRoute)
-                        navigationController.pushViewController(stepAssembly.makeModule(), animated: false)
-                    }
-
-                    return tabBarController
-                }
+        switch viewAction {
+        case .navigateTo(let navigateToViewAction):
+            switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            case .firstProblemOnboardingScreen(let data):
+                router.route(.firstProblemOnboarding(isNewUserMode: data.isNewUserMode, moduleOutput: viewModel))
+            case .notificationOnboardingScreen:
+                router.route(.notificationOnboarding(moduleOutput: viewModel))
+            case .studyPlanWithStep(let data):
+                router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
+            case .usersQuestionnaireOnboardingScreen:
+                router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
+            case .paywall:
+                #warning("TODO: ALTAPPS-1116")
+                router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
             }
-        }()
-
-        let fromViewController = children.first { viewController in
-            if viewController is UIHostingController<PlaceholderView> {
-                return false
-            }
-            return true
         }
-        if let fromViewController,
-           type(of: fromViewController) == type(of: viewControllerToPresent) {
-            return
-        }
-
-        assert(children.count <= 2)
-
-        swapRootViewController(from: fromViewController, to: viewControllerToPresent)
-    }
-
-    private func swapRootViewController(
-        from oldViewController: UIViewController?,
-        to newViewController: UIViewController
-    ) {
-        oldViewController?.willMove(toParent: nil)
-
-        addChild(newViewController)
-
-        view.addSubview(newViewController.view)
-        newViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        newViewController.view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        newViewController.view.alpha = 0
-        newViewController.view.setNeedsLayout()
-        newViewController.view.layoutIfNeeded()
-
-        UIView.animate(
-            withDuration: Animation.swapRootViewControllerAnimationDuration,
-            delay: 0,
-            options: .transitionFlipFromLeft,
-            animations: {
-                newViewController.view.alpha = 1
-                oldViewController?.view.alpha = 0
-            },
-            completion: { isFinished in
-                guard isFinished else {
-                    return
-                }
-
-                oldViewController?.view.removeFromSuperview()
-                oldViewController?.removeFromParent()
-
-                newViewController.didMove(toParent: self)
-            }
-        )
     }
 }
 

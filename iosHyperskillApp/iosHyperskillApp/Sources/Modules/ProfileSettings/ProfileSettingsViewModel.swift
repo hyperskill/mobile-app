@@ -2,13 +2,13 @@ import Foundation
 import shared
 
 final class ProfileSettingsViewModel: FeatureViewModel<
-  ProfileSettingsFeatureState,
+  ProfileSettingsFeatureViewState,
   ProfileSettingsFeatureMessage,
   ProfileSettingsFeatureActionViewAction
 > {
     private static let applyNewThemeAnimationDelay: TimeInterval = 0.33
     private static let dismissScreenAnimationDelay =
-      AppViewController.Animation.swapRootViewControllerAnimationDuration * 0.75
+      AppRouter.Animation.swapRootViewControllerAnimationDuration * 0.75
 
     private let applicationThemeService: ApplicationThemeServiceProtocol
 
@@ -17,7 +17,7 @@ final class ProfileSettingsViewModel: FeatureViewModel<
     // It's impossible to handle onTap on `Picker`, so using `onAppear` callback with debouncer.
     private let analyticLogClickedThemeEventDebouncer: DebouncerProtocol = Debouncer()
 
-    var stateKs: ProfileSettingsFeatureStateKs { .init(state) }
+    var stateKs: ProfileSettingsFeatureViewStateKs { .init(state) }
 
     init(
         applicationThemeService: ApplicationThemeServiceProtocol,
@@ -26,18 +26,14 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         self.applicationThemeService = applicationThemeService
         super.init(feature: feature)
 
-        onNewMessage(ProfileSettingsFeatureMessageInitMessage(forceUpdate: false))
+        onNewMessage(ProfileSettingsFeatureMessageInitMessage())
     }
 
     override func shouldNotifyStateDidChange(
-        oldState: ProfileSettingsFeatureState,
-        newState: ProfileSettingsFeatureState
+        oldState: ProfileSettingsFeatureViewState,
+        newState: ProfileSettingsFeatureViewState
     ) -> Bool {
-        ProfileSettingsFeatureStateKs(oldState) != ProfileSettingsFeatureStateKs(newState)
-    }
-
-    func doRetryLoadProfileSettings() {
-        onNewMessage(ProfileSettingsFeatureMessageInitMessage(forceUpdate: true))
+        ProfileSettingsFeatureViewStateKs(oldState) != ProfileSettingsFeatureViewStateKs(newState)
     }
 
     func doThemeChange(newTheme: ApplicationTheme) {
@@ -74,6 +70,23 @@ final class ProfileSettingsViewModel: FeatureViewModel<
 
     func doDeleteAccount(isConfirmed: Bool) {
         onNewMessage(ProfileSettingsFeatureMessageDeleteAccountNoticeHidden(isConfirmed: isConfirmed))
+    }
+
+    func doRateInAppStorePresentation() {
+        onNewMessage(ProfileSettingsFeatureMessageClickedRateUsInAppStoreEventMessage())
+
+        guard let url = URL(string: Strings.Settings.rateInAppStoreURL) else {
+            return assertionFailure("Invalid URL")
+        }
+
+        UIApplication.shared.open(url, options: [:]) { success in
+            if !success {
+                WebControllerManager.shared.presentWebControllerWithURL(
+                    url,
+                    controllerType: .safari
+                )
+            }
+        }
     }
 
     // MARK: Analytic

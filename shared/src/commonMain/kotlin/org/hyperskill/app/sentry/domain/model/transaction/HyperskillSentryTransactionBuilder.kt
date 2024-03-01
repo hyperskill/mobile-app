@@ -327,4 +327,40 @@ object HyperskillSentryTransactionBuilder {
             name = "streak-recovery-feature-fetch-streak",
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
+
+    /**
+     * ProfileSettingsFeature
+     */
+    fun buildProfileSettingsFeatureFetchSubscription(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "profile-settings-feature-fetch-subscription",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildManageSubscriptionFeatureFetchSubscription(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "manage-subscription-feature-fetch-subscription",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    /**
+     * PaywallFeature
+     */
+    fun buildPaywallFeatureSyncSubscription(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "paywall-feature-sync-subscription",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildPaywallFeaturePurchaseSubscription(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "paywall-feature-purchase-subscription",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildPaywallFetchSubscriptionPrice(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "paywall-feature-fetch-subscription-price",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
 }

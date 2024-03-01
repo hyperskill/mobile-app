@@ -15,7 +15,6 @@ object BlockName {
     const val TEXT = "text"
     const val PARSONS = "parsons"
     const val FILL_BLANKS = "fill-blanks"
-    const val VIDEO = "video"
 
     val codeRelatedBlocksNames: Set<String> =
         setOf(CODE, PYCHARM, SQL)

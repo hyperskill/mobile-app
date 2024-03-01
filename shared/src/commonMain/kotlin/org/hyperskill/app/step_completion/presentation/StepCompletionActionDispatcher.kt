@@ -9,13 +9,13 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.interview_steps.domain.repository.InterviewStepsStateRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progresses.domain.flow.TopicProgressFlow
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.request_review.domain.interactor.RequestReviewInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -26,28 +26,30 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.model.StreakState
+import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.topics.domain.repository.TopicsRepository
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepCompletionActionDispatcher(
     config: ActionDispatcherOptions,
-    submissionRepository: SubmissionRepository,
+    stepCompletedFlow: StepCompletedFlow,
     private val stepInteractor: StepInteractor,
     private val progressesInteractor: ProgressesInteractor,
     private val topicsRepository: TopicsRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val resourceProvider: ResourceProvider,
     private val sentryInteractor: SentryInteractor,
-    private val freemiumInteractor: FreemiumInteractor,
+    private val subscriptionsInteractor: SubscriptionsInteractor,
     private val shareStreakInteractor: ShareStreakInteractor,
+    private val requestReviewInteractor: RequestReviewInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
@@ -58,7 +60,7 @@ class StepCompletionActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        submissionRepository.solvedStepsSharedFlow
+        stepCompletedFlow.observe()
             .onEach(::handleStepSolved)
             .launchIn(actionScope)
     }
@@ -99,7 +101,7 @@ class StepCompletionActionDispatcher(
                 handleCheckTopicCompletionStatusAction(action, ::onNewMessage)
             }
             is Action.UpdateProblemsLimit -> {
-                freemiumInteractor.onStepSolved()
+                subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
             }
             is Action.UpdateLastTimeShareStreakShown -> {
                 shareStreakInteractor.setLastTimeShareStreakShown()
@@ -234,11 +236,15 @@ class StepCompletionActionDispatcher(
             val currentProfileHypercoinsBalance = updateCurrentProfileHypercoinsBalanceRemotely()
             if (currentProfileHypercoinsBalance != null) {
                 val gemsEarned = currentProfileHypercoinsBalance - cachedProfile.gamification.hypercoinsBalance
-                val earnedGemsText = resourceProvider.getQuantityString(
-                    SharedResources.plurals.earned_gems,
-                    gemsEarned,
-                    gemsEarned
-                )
+                val earnedGemsText = if (gemsEarned > 0) {
+                    resourceProvider.getQuantityString(
+                        SharedResources.plurals.earned_gems,
+                        gemsEarned,
+                        gemsEarned
+                    )
+                } else {
+                    null
+                }
 
                 val shareStreakData = if (shouldShareStreak && streakToShare != null) {
                     val daysText = resourceProvider.getQuantityString(
@@ -267,12 +273,17 @@ class StepCompletionActionDispatcher(
             }
         }
 
+        val shouldRequestReview = requestReviewInteractor.shouldRequestReviewAfterStepSolved()
+
         if (shouldShareStreak && streakToShare != null) {
             shareStreakInteractor.setLastTimeShareStreakShown()
             onNewMessage(Message.ShareStreak(streak = streakToShare))
-
-            updateCurrentProfileHypercoinsBalanceRemotely()
+        } else if (shouldRequestReview) {
+            requestReviewInteractor.handleRequestReviewPerformed()
+            onNewMessage(Message.RequestUserReview)
         }
+
+        updateCurrentProfileHypercoinsBalanceRemotely()
     }
 
     private suspend fun updateCurrentProfileHypercoinsBalanceRemotely(): Int? =

@@ -9,7 +9,7 @@ extension StepQuizFillBlanksSelectOptionsView {
         let collectionViewMinInteritemSpacing = LayoutInsets.defaultInset
         let collectionViewSectionInset = LayoutInsets.default.uiEdgeInsets
 
-        let backgroundColor = UIColor.systemBackground
+        let backgroundColor = UIColor.clear
     }
 }
 
@@ -19,15 +19,15 @@ final class StepQuizFillBlanksSelectOptionsView: UIView {
     private lazy var collectionView: UICollectionView = {
         let collectionViewLayout = LeftAlignedCollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .vertical
-        collectionViewLayout.minimumLineSpacing = self.appearance.collectionViewMinLineSpacing
-        collectionViewLayout.minimumInteritemSpacing = self.appearance.collectionViewMinInteritemSpacing
-        collectionViewLayout.sectionInset = self.appearance.collectionViewSectionInset
+        collectionViewLayout.minimumLineSpacing = appearance.collectionViewMinLineSpacing
+        collectionViewLayout.minimumInteritemSpacing = appearance.collectionViewMinInteritemSpacing
+        collectionViewLayout.sectionInset = appearance.collectionViewSectionInset
 
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: collectionViewLayout
         )
-        collectionView.backgroundColor = self.appearance.backgroundColor
+        collectionView.backgroundColor = appearance.backgroundColor
         collectionView.isScrollEnabled = false
         collectionView.automaticallyAdjustsScrollIndicatorInsets = false
         collectionView.register(cellClass: StepQuizFillBlanksSelectOptionsCollectionViewCell.self)

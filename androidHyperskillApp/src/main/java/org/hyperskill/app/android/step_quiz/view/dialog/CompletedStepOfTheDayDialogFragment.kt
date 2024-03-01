@@ -13,25 +13,28 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.serialization.Serializable
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentCompletedDailyStepBinding
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import ru.nobird.android.view.base.ui.extension.argument
 
 class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
+
     companion object {
         const val TAG = "CompletedStepOfTheDayDialogFragment"
 
         fun newInstance(
-            earnedGemsText: String,
+            earnedGemsText: String?,
             shareStreakData: StepCompletionFeature.ShareStreakData
         ): CompletedStepOfTheDayDialogFragment =
             CompletedStepOfTheDayDialogFragment().apply {
-                this.earnedGemsText = earnedGemsText
-                this.shareStreakData = shareStreakData
+                this.params = Params(
+                    earnedGemsText = earnedGemsText,
+                    shareStreakData = shareStreakData
+                )
             }
     }
 
@@ -40,11 +43,7 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
 
     private val viewBinding: FragmentCompletedDailyStepBinding by viewBinding(FragmentCompletedDailyStepBinding::bind)
 
-    private var earnedGemsText: String by argument()
-
-    private var shareStreakData: StepCompletionFeature.ShareStreakData by argument(
-        StepCompletionFeature.ShareStreakData.serializer()
-    )
+    private var params: Params by argument(Params.serializer())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,12 +79,13 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(viewBinding) {
-            completedDailyStepEarnedGemsTextView.text = earnedGemsText
+            completedDailyStepEarnedGemsTextView.isVisible = params.earnedGemsText != null
+            completedDailyStepEarnedGemsTextView.text = params.earnedGemsText
 
             completedDailyStepStreakTextView.isVisible =
-                shareStreakData is StepCompletionFeature.ShareStreakData.Content
+                params.shareStreakData is StepCompletionFeature.ShareStreakData.Content
             completedDailyStepStreakTextView.text =
-                (shareStreakData as? StepCompletionFeature.ShareStreakData.Content)?.streakText
+                (params.shareStreakData as? StepCompletionFeature.ShareStreakData.Content)?.streakText
 
             completedDailyStepGoBackButton.setOnClickListener {
                 stepViewModel.onNewMessage(
@@ -97,8 +97,8 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
             }
 
             completedDailyStepShareStreakButton.isVisible =
-                shareStreakData is StepCompletionFeature.ShareStreakData.Content
-            (shareStreakData as? StepCompletionFeature.ShareStreakData.Content)?.streak?.let { streak ->
+                params.shareStreakData is StepCompletionFeature.ShareStreakData.Content
+            (params.shareStreakData as? StepCompletionFeature.ShareStreakData.Content)?.streak?.let { streak ->
                 completedDailyStepShareStreakButton.setOnClickListener {
                     stepViewModel.onNewMessage(
                         StepFeature.Message.StepCompletionMessage(
@@ -118,4 +118,10 @@ class CompletedStepOfTheDayDialogFragment : BottomSheetDialogFragment() {
             )
         )
     }
+
+    @Serializable
+    private data class Params(
+        val earnedGemsText: String?,
+        val shareStreakData: StepCompletionFeature.ShareStreakData
+    )
 }

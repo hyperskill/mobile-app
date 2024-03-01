@@ -12,6 +12,9 @@ final class StudyPlanViewModel: FeatureViewModel<
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarViewStateKs: GamificationToolbarFeatureViewStateKs { .init(state.toolbarViewState) }
     var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
+    var usersQuestionnaireWidgetFeatureStateKs: UsersQuestionnaireWidgetFeatureStateKs {
+        .init(state.usersQuestionnaireWidgetState)
+    }
 
     override func shouldNotifyStateDidChange(
         oldState: StudyPlanScreenFeature.ViewState,
@@ -91,7 +94,7 @@ final class StudyPlanViewModel: FeatureViewModel<
     func doReloadProblemsLimit() {
         onNewMessage(
             StudyPlanScreenFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageInitialize(forceUpdate: true)
+                message: ProblemsLimitFeatureMessageRetryContentLoading()
             )
         )
     }
@@ -134,6 +137,34 @@ extension StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelega
         onNewMessage(
             StudyPlanScreenFeatureMessageStudyPlanWidgetMessage(
                 message: StudyPlanWidgetFeatureMessageStageImplementUnsupportedModalGoToHomeClicked()
+            )
+        )
+    }
+}
+
+// MARK: - StudyPlanViewModel: UsersQuestionnaireWidgetOutputProtocol -
+
+extension StudyPlanViewModel: UsersQuestionnaireWidgetOutputProtocol {
+    func handleUsersQuestionnaireWidgetClicked() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageUsersQuestionnaireWidgetMessage(
+                message: UsersQuestionnaireWidgetFeatureMessageWidgetClicked()
+            )
+        )
+    }
+
+    func handleUsersQuestionnaireWidgetCloseClicked() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageUsersQuestionnaireWidgetMessage(
+                message: UsersQuestionnaireWidgetFeatureMessageCloseClicked()
+            )
+        )
+    }
+
+    func handleUsersQuestionnaireWidgetDidAppear() {
+        onNewMessage(
+            StudyPlanScreenFeatureMessageUsersQuestionnaireWidgetMessage(
+                message: UsersQuestionnaireWidgetFeatureMessageViewedEventMessage()
             )
         )
     }

@@ -58,11 +58,9 @@ struct StepQuizView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     if case .unsupported = viewData.quizType {
-                        StepQuizStatusView(state: .unsupportedQuiz)
-
-                        LatexView(
-                            text: viewData.stepText,
-                            configuration: .stepText()
+                        StepQuizUnsupportedView(
+                            onSolveButtonTap: viewModel.doUnsupportedQuizSolveOnTheWebAction,
+                            onGoToStudyPlanButtonTap: viewModel.doUnsupportedQuizGoToStudyPlanAction
                         )
                     } else {
                         StepExpandableStepTextView(
@@ -98,7 +96,7 @@ struct StepQuizView: View {
                     Spacer(minLength: fillBlanksSelectOptionsViewHeight)
                 }
             }
-            .bottomFillBlanksSelectOptionsOverlay(
+            .safeAreaInsetBottomCompatibility(
                 buildFillBlanksSelectOptionsView(
                     quizType: viewData.quizType,
                     attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
@@ -119,9 +117,10 @@ struct StepQuizView: View {
         }
     }
 
+    // swiftlint:disable function_parameter_count
     @ViewBuilder
     private func buildQuizContent(
-        state: StepQuizFeatureState,
+        state: StepQuizFeature.State,
         step: Step,
         quizName: String?,
         quizType: StepQuizChildQuizType,
@@ -151,6 +150,7 @@ struct StepQuizView: View {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
         }
     }
+    // swiftlint:enable function_parameter_count
 
     @ViewBuilder
     private func buildChildQuiz(
@@ -195,7 +195,7 @@ struct StepQuizView: View {
     @ViewBuilder
     private func buildQuizActionButtons(
         quizType: StepQuizChildQuizType,
-        state: StepQuizFeatureState,
+        state: StepQuizFeature.State,
         attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
         let submissionStatus: SubmissionStatus? = {
@@ -285,6 +285,7 @@ struct StepQuizView: View {
                     }
                 }
             )
+            .background(TransparentBlurView())
             .edgesIgnoringSafeArea(.all)
             .frame(height: fillBlanksSelectOptionsViewHeight)
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
@@ -298,23 +299,49 @@ struct StepQuizView: View {
         case .requestResetCode:
             presentResetCodePermissionAlert()
         case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
-            presentProblemsLimitReachedModal(modalText: showProblemsLimitReachedModalViewAction.modalText)
+            presentProblemsLimitReachedModal(
+                modalData: showProblemsLimitReachedModalViewAction.modalData
+            )
         case .showProblemOnboardingModal(let showProblemOnboardingModalViewAction):
             presentProblemOnboardingModal(modalType: showProblemOnboardingModalViewAction.modalType)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .home:
-                stackRouter.popViewController()
-                TabBarRouter(tab: .home).route()
+                stackRouter.popViewController(
+                    animated: true,
+                    completion: {
+                        TabBarRouter(tab: .home).route()
+                    }
+                )
             case .stepScreen(let navigateToStepScreenViewAction):
                 let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                 stackRouter.pushViewController(assembly.makeModule())
+            case .studyPlan:
+                stackRouter.popViewController(
+                    animated: true,
+                    completion: {
+                        TabBarRouter(tab: .studyPlan).route()
+                    }
+                )
+            case .paywall:
+                #warning("TODO: ALTAPPS-1121")
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
             switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {
             case .showNetworkError:
                 ProgressHUD.showError(status: Strings.Common.connectionError)
             }
+        case .createMagicLinkState(let createMagicLinkStateViewAction):
+            switch StepQuizFeatureActionViewActionCreateMagicLinkStateKs(createMagicLinkStateViewAction) {
+            case .error:
+                ProgressHUD.showError()
+            case .loading:
+                ProgressHUD.show()
+            case .success:
+                ProgressHUD.showSuccess()
+            }
+        case .openUrl(let data):
+            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
         }
     }
 }
@@ -350,9 +377,10 @@ private extension StepQuizView {
         modalRouter.presentAlert(alert)
     }
 
-    func presentProblemsLimitReachedModal(modalText: String) {
+    func presentProblemsLimitReachedModal(modalData: StepQuizFeature.ProblemsLimitReachedModalData) {
         let panModal = ProblemsLimitReachedModalViewController(
-            modalText: modalText,
+            titleText: modalData.title,
+            descriptionText: modalData.description_,
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(panModal)
@@ -364,24 +392,5 @@ private extension StepQuizView {
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(panModal)
-    }
-}
-
-// MARK: - View (bottomFillBlanksSelectOptionsOverlay) -
-
-@available(iOS, introduced: 13, deprecated: 15, message: "Use .safeAreaInset() directly")
-private extension View {
-    @ViewBuilder
-    func bottomFillBlanksSelectOptionsOverlay<OverlayContent: View>(_ overlayContent: OverlayContent) -> some View {
-        if #available(iOS 15.0, *) {
-            self.safeAreaInset(
-                edge: .bottom,
-                alignment: .center,
-                spacing: 0,
-                content: { overlayContent }
-            )
-        } else {
-            self.overlay(overlayContent, alignment: .bottom)
-        }
     }
 }

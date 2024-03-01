@@ -95,7 +95,9 @@ enum Strings {
         static let checkingButton = sharedStrings.step_quiz_checking_button_text.localized()
         static let discussionsButton = sharedStrings.step_quiz_discussions_button_text.localized()
 
-        static let unsupportedText = sharedStrings.step_quiz_unsupported_quiz_text.localized()
+        static let unsupportedTitle = sharedStrings.step_quiz_unsupported_quiz_title.localized()
+        static let unsupportedDescription = sharedStrings.step_quiz_unsupported_quiz_description.localized()
+        static let unsupportedButtonSolve = sharedStrings.step_quiz_unsupported_quiz_button_solve_text.localized()
 
         static let stepTextHeaderTitle = sharedStrings.step_quiz_step_text_header_title.localized()
 
@@ -127,10 +129,6 @@ enum Strings {
         enum TopicCompletedModal {
             static let continueWithNextTopicButtonText =
                 sharedStrings.step_quiz_topic_completed_continue_with_next_topic_button_text.localized()
-        }
-
-        enum ProblemsLimitReachedModal {
-            static let title = sharedStrings.problems_limit_reached_modal_title.localized()
         }
 
         enum ShareStreakModal {
@@ -259,6 +257,24 @@ enum Strings {
         static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
     }
 
+    // MARK: - Users questionnaire -
+
+    // MARK: Widget
+
+    enum UsersQuestionnaireWidget {
+        static let title = sharedStrings.users_questionnaire_widget_title.localized()
+    }
+
+    // MARK: Onboarding
+
+    enum UsersQuestionnaireOnboarding {
+        static let textInputPlaceholder =
+            sharedStrings.users_questionnaire_onboarding_text_input_placeholder.localized()
+
+        static let sendButtot = sharedStrings.users_questionnaire_onboarding_send_button_text.localized()
+        static let skipButton = sharedStrings.users_questionnaire_onboarding_skip_button_text.localized()
+    }
+
     // MARK: - Interview Preparation -
 
     // MARK: Widget
@@ -350,7 +366,6 @@ enum Strings {
         static let reportProblem = sharedStrings.settings_report_problem.localized()
         static let sendFeedback = sharedStrings.settings_send_feedback.localized()
         static let version = sharedStrings.settings_version.localized()
-        static let rateApplication = sharedStrings.settings_rate_application.localized()
         static let signOut = sharedStrings.settings_sign_out.localized()
         static let signOutAlertTitle = sharedStrings.settings_sign_out_dialog_title.localized()
         static let signOutAlertMessage = sharedStrings.settings_sign_out_dialog_explanation.localized()
@@ -362,6 +377,11 @@ enum Strings {
         static let termsOfServiceURL = sharedStrings.settings_terms_of_service_url.localized()
         static let privacyPolicyURL = sharedStrings.settings_privacy_policy_url.localized()
         static let reportProblemURL = sharedStrings.settings_report_problem_url.localized()
+
+        static let rateInAppStore = sharedStrings.settings_rate_in_app_store.localized()
+        static let rateInAppStoreURL = sharedStrings.settings_rate_in_app_store_url.localized()
+
+        static let subscription = sharedStrings.settings_subscription.localized()
 
         enum Theme {
             static let title = sharedStrings.settings_theme.localized()

@@ -4,25 +4,31 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.Timer
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalAction
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalMessage
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ProblemsLimitActionDispatcher(
     config: ActionDispatcherOptions,
-    private val freemiumInteractor: FreemiumInteractor,
     private val sentryInteractor: SentryInteractor,
-    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
+    private val analyticInteractor: AnalyticInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     init {
         currentSubscriptionStateRepository.changes
             .onEach {
-                onNewMessage(Message.SubscriptionChanged(it))
+                onNewMessage(InternalMessage.SubscriptionChanged(it))
             }
             .launchIn(actionScope)
     }
@@ -32,44 +38,18 @@ class ProblemsLimitActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.LoadSubscription -> {
-                val sentryTransaction = action.screen.sentryTransaction
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                val isFreemiumEnabled = freemiumInteractor
-                    .isFreemiumEnabled()
-                    .getOrElse {
-                        sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                        return onNewMessage(Message.SubscriptionLoadingResult.Error)
-                    }
-
-                onNewMessage(
-                    currentSubscriptionStateRepository.getState(forceUpdate = action.forceUpdate)
-                        .fold(
-                            onSuccess = {
-                                sentryInteractor.finishTransaction(sentryTransaction)
-                                Message.SubscriptionLoadingResult.Success(
-                                    subscription = it,
-                                    isFreemiumEnabled = isFreemiumEnabled
-                                )
-                            },
-                            onFailure = {
-                                sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                                Message.SubscriptionLoadingResult.Error
-                            }
-                        )
-                )
-            }
-            is Action.LaunchTimer -> {
+            is InternalAction.LoadSubscription ->
+                handleLoadSubscriptionAction(action, ::onNewMessage)
+            is InternalAction.LaunchTimer -> {
                 timerMutex.withLock {
                     timer?.stop()
 
                     timer = Timer(
                         duration = action.updateIn,
-                        onChange = { onNewMessage(Message.UpdateInChanged(it)) },
+                        onChange = { onNewMessage(InternalMessage.UpdateInChanged(it)) },
                         onFinish = {
                             currentSubscriptionStateRepository.resetState()
-                            onNewMessage(Message.Initialize(forceUpdate = true))
+                            onNewMessage(InternalMessage.Initialize(forceUpdate = true))
                         },
                         launchIn = actionScope
                     )
@@ -77,6 +57,30 @@ class ProblemsLimitActionDispatcher(
                     timer?.start()
                 }
             }
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.analyticEvent)
         }
+    }
+
+    private suspend fun handleLoadSubscriptionAction(
+        action: InternalAction.LoadSubscription,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            action.screen.sentryTransaction,
+            onError = { InternalMessage.LoadSubscriptionResultError }
+        ) {
+            val currentSubscription = currentSubscriptionStateRepository
+                .getState(forceUpdate = action.forceUpdate)
+                .getOrThrow()
+
+            val isFreemiumWrongSubmissionChargeLimitsEnabled =
+                currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()
+
+            InternalMessage.LoadSubscriptionResultSuccess(
+                subscription = currentSubscription,
+                isFreemiumWrongSubmissionChargeLimitsEnabled = isFreemiumWrongSubmissionChargeLimitsEnabled
+            )
+        }.let(onNewMessage)
     }
 }

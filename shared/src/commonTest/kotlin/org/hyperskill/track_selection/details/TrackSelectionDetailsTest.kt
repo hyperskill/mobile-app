@@ -263,27 +263,32 @@ class TrackSelectionDetailsTest {
     }
 
     @Test
-    fun `Certificate and projects info should not be available for freemium user`() {
-        val state = TrackSelectionDetailsFeature.State(
-            trackWithProgress = TrackWithProgress.stub(),
-            isTrackSelected = false,
-            isNewUserMode = false,
-            isTrackLoadingShowed = false,
-            contentState = ContentState.Content(
-                providers = emptyList(),
-                profile = Profile.stub(),
-                subscriptionType = SubscriptionType.FREEMIUM
+    fun `Certificate and projects info should not be available for freemium or mobile-only user`() {
+        listOf(
+            SubscriptionType.FREEMIUM,
+            SubscriptionType.MOBILE_ONLY
+        ).forEach { subscriptionType ->
+            val state = TrackSelectionDetailsFeature.State(
+                trackWithProgress = TrackWithProgress.stub(),
+                isTrackSelected = false,
+                isNewUserMode = false,
+                isTrackLoadingShowed = false,
+                contentState = ContentState.Content(
+                    providers = emptyList(),
+                    profile = Profile.stub(),
+                    subscriptionType = subscriptionType
+                )
             )
-        )
 
-        val viewState = viewStateMapper.map(state)
+            val viewState = viewStateMapper.map(state)
 
-        assertFalse {
-            (viewState as ViewState.Content).isCertificateAvailable
+            assertFalse {
+                (viewState as ViewState.Content).isCertificateAvailable
+            }
+            assertNull(
+                (viewState as ViewState.Content).formattedProjectsCount
+            )
         }
-        assertNull(
-            (viewState as ViewState.Content).formattedProjectsCount
-        )
     }
 
     @Test

@@ -14,6 +14,9 @@ val FeaturesMap.isRecommendationsPythonProjectsFeatureEnabled: Boolean
 val FeaturesMap.isFreemiumIncreaseLimitsForFirstStepCompletionEnabled: Boolean
     get() = get(FeatureKeys.FREEMIUM_INCREASE_LIMITS_FOR_FIRST_STEP_COMPLETION) ?: false
 
+val FeaturesMap.isFreemiumWrongSubmissionChargeLimitsEnabled: Boolean
+    get() = get(FeatureKeys.FREEMIUM_WRONG_SUBMISSION_CHARGE_LIMITS) ?: false
+
 val FeaturesMap.isLearningPathDividedTrackTopicsEnabled: Boolean
     get() = get(FeatureKeys.LEARNING_PATH_DIVIDED_TRACK_TOPICS) ?: false
 
@@ -22,3 +25,12 @@ val FeaturesMap.isMobileLeaderboardsEnabled: Boolean
 
 val FeaturesMap.isMobileInterviewPreparationEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_INTERVIEW_PREPARATION) ?: false
+
+val FeaturesMap.isMobileOnlySubscriptionEnabled: Boolean
+    get() = get(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION) ?: false
+
+val FeaturesMap.isMobileUsersQuestionnaireEnabled: Boolean
+    get() = get(FeatureKeys.MOBILE_USERS_QUESTIONNAIRE) ?: false
+
+val FeaturesMap.isMobileShortTheoryEnabled: Boolean
+    get() = get(FeatureKeys.MOBILE_SHORT_THEORY) ?: false

@@ -139,6 +139,7 @@ final class CodePlaygroundManager {
         return beforeCursorString + afterCursorString
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func checkNextLineInsertion(
         currentText: String,
         previousText: String,
@@ -226,6 +227,7 @@ final class CodePlaygroundManager {
         }
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func checkPaired(
         currentText: String,
         previousText: String,
@@ -372,6 +374,7 @@ final class CodePlaygroundManager {
         currentCodeCompletionTableViewController = nil
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func presentCodeCompletion(
         suggestions: [String],
         prefix: String,
@@ -430,17 +433,23 @@ final class CodePlaygroundManager {
             return
         }
 
-        let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
-        var text = textView.text ?? ""
-        text.insert(contentsOf: symbols, at: text.index(text.startIndex, offsetBy: cursorPosition))
-        textView.text = text
-        // Import here to update selectedTextRange before calling textViewDidChange #APPS-2352
-        textView.selectedTextRange = textRangeFrom(position: cursorPosition + symbols.count, textView: textView)
+        if selectedRange.isEmpty {
+            let cursorPosition = textView.offset(from: textView.beginningOfDocument, to: selectedRange.start)
+            var text = textView.text ?? ""
+            text.insert(contentsOf: symbols, at: text.index(text.startIndex, offsetBy: cursorPosition))
+            textView.text = text
+            // Import here to update selectedTextRange before calling textViewDidChange #APPS-2352
+            textView.selectedTextRange = textRangeFrom(position: cursorPosition + symbols.count, textView: textView)
+        } else {
+            textView.replace(selectedRange, withText: symbols)
+        }
+
         // Manually call textViewDidChange, because when manually setting the text of a UITextView with code,
         // the textViewDidChange: method does not get called.
         textView.delegate?.textViewDidChange?(textView)
     }
 
+    // swiftlint:disable:next function_parameter_count
     func analyzeAndComplete(
         textView: UITextView,
         previousText: String,

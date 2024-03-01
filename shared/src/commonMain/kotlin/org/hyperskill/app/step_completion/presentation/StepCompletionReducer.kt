@@ -27,6 +27,8 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Int
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
+import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias StepCompletionReducerResult = Pair<State, Set<Action>>
@@ -206,6 +208,9 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     ),
                     Action.ViewAction.NavigateTo.Home
                 )
+            Message.RequestUserReview -> {
+                state to setOf(Action.ViewAction.ShowRequestUserReviewModal(stepRoute))
+            }
             /**
              * Analytic
              * */
@@ -294,15 +299,14 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
         message: Message.StepSolved
     ): StepCompletionReducerResult =
         if (message.stepId == state.currentStep.id) {
-            when (stepRoute) {
-                is StepRoute.Learn ->
-                    state to setOf(Action.UpdateProblemsLimit)
-                is StepRoute.InterviewPreparation ->
-                    state to setOf(
-                        Action.UpdateProblemsLimit,
-                        InternalAction.MarkInterviewStepAsSolved(message.stepId)
-                    )
-                else -> state to emptySet()
+            state to buildSet {
+                if (StepQuizResolver.isStepHasLimitedAttempts(stepRoute)) {
+                    add(Action.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION))
+                }
+
+                if (stepRoute is StepRoute.InterviewPreparation) {
+                    add(InternalAction.MarkInterviewStepAsSolved(message.stepId))
+                }
             }
         } else {
             state to emptySet()

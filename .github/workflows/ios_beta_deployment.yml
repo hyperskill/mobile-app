@@ -28,13 +28,13 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Gradle Wrapper Validation
-        uses: gradle/wrapper-validation-action@v1.1.0
+        uses: gradle/wrapper-validation-action@v2.1.1
 
   # Build, archive for ad-hoc and submit to Firebase App Distribution
   deployment:
     name: iOS Beta Deployment
     needs: gradle-wrapper-validation
-    runs-on: macos-13
+    runs-on: macos-14
     environment: ios_production
     timeout-minutes: 60
 

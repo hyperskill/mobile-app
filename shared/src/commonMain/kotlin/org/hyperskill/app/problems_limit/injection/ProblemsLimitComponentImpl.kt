@@ -7,7 +7,7 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatc
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 
-class ProblemsLimitComponentImpl(
+internal class ProblemsLimitComponentImpl(
     private val screen: ProblemsLimitScreen,
     private val appGraph: AppGraph
 ) : ProblemsLimitComponent {
@@ -16,11 +16,13 @@ class ProblemsLimitComponentImpl(
 
     override val problemsLimitActionDispatcher: ProblemsLimitActionDispatcher
         get() = ProblemsLimitActionDispatcher(
-            ActionDispatcherOptions(),
-            appGraph.buildFreemiumDataComponent().freemiumInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
+            config = ActionDispatcherOptions(),
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository
         )
+
     override val problemsLimitViewStateMapper: ProblemsLimitViewStateMapper
         get() = ProblemsLimitViewStateMapper(
             appGraph.commonComponent.resourceProvider,

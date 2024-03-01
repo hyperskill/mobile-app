@@ -19,6 +19,7 @@ import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitD
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
+import org.hyperskill.app.android.users_questionnaire.delegate.UsersQuestionnaireCardDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
@@ -49,6 +50,7 @@ class StudyPlanFragment :
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var problemsLimitDelegate: ProblemsLimitDelegate? = null
     private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
+    private var usersQuestionnaireCardDelegate: UsersQuestionnaireCardDelegate? = null
 
     private var fragmentWasResumed = false
 
@@ -84,6 +86,7 @@ class StudyPlanFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initGamificationToolbarDelegate()
         initProblemsLimitDelegate()
+        initUserQuestionnaireCardDelegate()
         initSwipeRefresh()
         studyPlanWidgetDelegate?.setup(viewBinding.studyPlanRecycler, viewBinding.studyPlanError)
     }
@@ -110,6 +113,15 @@ class StudyPlanFragment :
         problemsLimitDelegate?.setup()
     }
 
+    private fun initUserQuestionnaireCardDelegate() {
+        usersQuestionnaireCardDelegate = UsersQuestionnaireCardDelegate()
+        usersQuestionnaireCardDelegate?.setup(
+            viewBinding.studyPlanUserQuestionnaire,
+            viewLifecycleOwner,
+            onNewMessage = studyPlanViewModel::onNewMessage
+        )
+    }
+
     private fun initSwipeRefresh() {
         with(viewBinding.studyPlanSwipeRefresh) {
             setHyperskillColors()
@@ -125,6 +137,7 @@ class StudyPlanFragment :
         gamificationToolbarDelegate = null
         problemsLimitDelegate?.cleanup()
         problemsLimitDelegate = null
+        usersQuestionnaireCardDelegate = null
     }
 
     override fun onDestroy() {
@@ -138,6 +151,10 @@ class StudyPlanFragment :
         gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
         problemsLimitDelegate?.render(state.problemsLimitViewState)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
+        usersQuestionnaireCardDelegate?.render(
+            state.usersQuestionnaireWidgetState,
+            viewBinding.studyPlanUserQuestionnaire
+        )
     }
 
     private fun renderSwipeRefresh(state: StudyPlanScreenFeature.ViewState) {
@@ -169,6 +186,13 @@ class StudyPlanFragment :
                         )
                     }
                 }
+            }
+            is StudyPlanScreenFeature.Action.ViewAction.UsersQuestionnaireWidgetViewAction -> {
+                usersQuestionnaireCardDelegate?.handleActions(
+                    context = requireContext(),
+                    activity = requireActivity(),
+                    action = action.viewAction
+                )
             }
         }
     }

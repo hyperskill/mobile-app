@@ -12,15 +12,15 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class GamificationToolbarActionDispatcher(
     config: ActionDispatcherOptions,
-    submissionRepository: SubmissionRepository,
+    stepCompletedFlow: StepCompletedFlow,
     streakFlow: StreakFlow,
     currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     topicCompletedFlow: TopicCompletedFlow,
@@ -30,7 +30,7 @@ class GamificationToolbarActionDispatcher(
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        submissionRepository.solvedStepsSharedFlow
+        stepCompletedFlow.observe()
             .onEach { onNewMessage(InternalMessage.StepSolved) }
             .launchIn(actionScope)
 

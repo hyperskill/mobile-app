@@ -1,8 +1,9 @@
 package org.hyperskill.app.notification.click_handling.presentation
 
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.badges.domain.model.Badge
 import org.hyperskill.app.badges.domain.model.BadgeKind
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -13,7 +14,7 @@ object NotificationClickHandlingFeature {
     sealed interface Message {
 
         /**
-         * If [isUserAuthorized] == false, then just logs analytics event.
+         * If [isUserAuthorized] == false, then just logs analytic event.
          * Otherwise, also executes navigation to the appropriate for the [notificationData] screen.
          */
         data class NotificationClicked(
@@ -39,6 +40,11 @@ object NotificationClickHandlingFeature {
         object Error : EarnedBadgeFetchResult
     }
 
+    internal sealed interface NextLearningActivityFetchResult : Message {
+        data class Success(val learningActivity: LearningActivity?) : NextLearningActivityFetchResult
+        object Error : NextLearningActivityFetchResult
+    }
+
     sealed interface Action {
         sealed interface ViewAction : Action {
 
@@ -59,10 +65,12 @@ object NotificationClickHandlingFeature {
     }
 
     internal interface InternalAction : Action {
-        data class LogAnalyticEvent(val event: HyperskillAnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
 
         object FetchProfile : InternalAction
 
         data class FetchEarnedBadge(val badgeId: Long) : InternalAction
+
+        object FetchNextLearningActivity : InternalAction
     }
 }

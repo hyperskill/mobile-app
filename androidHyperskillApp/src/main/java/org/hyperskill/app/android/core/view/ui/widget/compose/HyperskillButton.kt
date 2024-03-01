@@ -11,6 +11,7 @@ import androidx.compose.material.ButtonElevation
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.TextButton
+import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -38,10 +39,12 @@ object HyperskillButtonDefaults {
 
     @Composable
     fun buttonColors(
-        backgroundColor: Color = colorResource(id = R.color.button_primary)
+        backgroundColor: Color = colorResource(id = R.color.button_primary),
+        contentColor: Color = contentColorFor(backgroundColor)
     ): ButtonColors =
         ButtonDefaults.buttonColors(
-            backgroundColor = backgroundColor
+            backgroundColor = backgroundColor,
+            contentColor = contentColor
         )
 
     @Composable
@@ -73,6 +76,44 @@ fun HyperskillButton(
         colors = colors,
         contentPadding = contentPadding,
         content = content
+    )
+}
+
+@Composable
+fun HyperskillOutlinedButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    elevation: ButtonElevation? = null,
+    shape: Shape = MaterialTheme.shapes.small,
+    border: BorderStroke? = BorderStroke(1.dp, colorResource(id = R.color.button_tertiary)),
+    colors: ButtonColors = HyperskillButtonDefaults.buttonColors(
+        backgroundColor = Color.Transparent,
+        contentColor = colorResource(id = R.color.button_tertiary)
+    ),
+    contentPadding: PaddingValues = HyperskillButtonDefaults.ContentPadding,
+    content: @Composable RowScope.() -> Unit
+) {
+    HyperskillButton(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        interactionSource = interactionSource,
+        elevation = elevation,
+        shape = shape,
+        border = border,
+        colors = colors,
+        contentPadding = contentPadding,
+        content = {
+            ProvideTextStyle(
+                value = MaterialTheme.typography.button.copy(
+                    color = colorResource(id = R.color.button_tertiary)
+                )
+            ) {
+                content()
+            }
+        }
     )
 }
 

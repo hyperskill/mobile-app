@@ -52,7 +52,7 @@ final class CodeInputAccessoryCollectionViewCell: UICollectionViewCell, Reusable
         label.numberOfLines = 1
         label.textAlignment = .center
 
-        if let size = size {
+        if let size {
             label.font = makeFont(for: size)
         }
 

@@ -2,6 +2,7 @@ import Foundation
 import shared
 
 extension Block.Options {
+    // swiftlint:disable discouraged_optional_boolean
     convenience init(
         isMultipleChoice: Bool? = nil,
         language: String? = nil,
@@ -12,14 +13,14 @@ extension Block.Options {
         files: [Block.OptionsFile]? = nil
     ) {
         let isMultipleChoice: KotlinBoolean? = {
-            if let isMultipleChoice = isMultipleChoice {
+            if let isMultipleChoice {
                 return KotlinBoolean(value: isMultipleChoice)
             }
             return nil
         }()
 
         let isCheckbox: KotlinBoolean? = {
-            if let isCheckbox = isCheckbox {
+            if let isCheckbox {
                 return KotlinBoolean(value: isCheckbox)
             }
             return nil
@@ -35,4 +36,5 @@ extension Block.Options {
             files: files
         )
     }
+    // swiftlint:enable discouraged_optional_boolean
 }

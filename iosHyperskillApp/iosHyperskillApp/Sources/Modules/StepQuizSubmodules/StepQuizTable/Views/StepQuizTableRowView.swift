@@ -38,7 +38,7 @@ struct StepQuizTableRowView: View {
                             )
                         )
 
-                        if let subtitle = subtitle, !subtitle.isEmpty {
+                        if let subtitle, !subtitle.isEmpty {
                             LatexView(
                                 text: subtitle,
                                 configuration: .quizContent(

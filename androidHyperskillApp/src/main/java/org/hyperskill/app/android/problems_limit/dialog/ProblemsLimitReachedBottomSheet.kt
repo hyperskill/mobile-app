@@ -6,17 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentProblemsLimitReachedBinding
 import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizViewModel
-import ru.nobird.android.view.base.ui.extension.argument
 
 class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
 
@@ -24,13 +25,17 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
 
         const val TAG = "ProblemsLimitReachedBottomSheet"
 
-        fun newInstance(modalText: String): ProblemsLimitReachedBottomSheet =
+        fun newInstance(
+            modalData: StepQuizFeature.ProblemsLimitReachedModalData
+        ): ProblemsLimitReachedBottomSheet =
             ProblemsLimitReachedBottomSheet().apply {
-                this.modalText = modalText
+                this.modalData = modalData
             }
     }
 
-    private var modalText: String by argument()
+    private var modalData: StepQuizFeature.ProblemsLimitReachedModalData by argument(
+        serializer = StepQuizFeature.ProblemsLimitReachedModalData.serializer()
+    )
 
     private val viewBinding: FragmentProblemsLimitReachedBinding by viewBinding(
         FragmentProblemsLimitReachedBinding::bind
@@ -71,7 +76,21 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment() {
             problemsLimitReachedHomeButton.setOnClickListener {
                 viewModel.onNewMessage(StepQuizFeature.Message.ProblemsLimitReachedModalGoToHomeScreenClicked)
             }
-            problemsLimitReachedDescription.text = modalText
+
+            problemsLimitReachedModalTitle.text = modalData.title
+            problemsLimitReachedDescription.text = modalData.description
+
+            if (modalData.unlockLimitsButtonText != null) {
+                problemsLimitReachedUnlimitedProblemsButton.isVisible = true
+                problemsLimitReachedUnlimitedProblemsButton.text = modalData.unlockLimitsButtonText
+                problemsLimitReachedUnlimitedProblemsButton.setOnClickListener {
+                    viewModel.onNewMessage(
+                        StepQuizFeature.Message.ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked
+                    )
+                }
+            } else {
+                problemsLimitReachedUnlimitedProblemsButton.isVisible = false
+            }
         }
     }
 

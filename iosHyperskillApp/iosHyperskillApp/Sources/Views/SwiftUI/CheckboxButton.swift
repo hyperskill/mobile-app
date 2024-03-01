@@ -18,7 +18,7 @@ extension CheckboxButton {
 struct CheckboxButton: View {
     private(set) var appearance = Appearance()
 
-    @Binding var isSelected: Bool
+    let isSelected: Bool
 
     var onClick: (() -> Void)?
 
@@ -57,16 +57,15 @@ struct CheckboxButton: View {
     }
 }
 
-struct CheckboxButton_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            CheckboxButton(isSelected: .constant(true))
-                .frame(width: 50, height: 50)
+#if DEBUG
+#Preview {
+    VStack {
+        CheckboxButton(isSelected: true)
+            .frame(width: 50, height: 50)
 
-            CheckboxButton(isSelected: .constant(false))
-                .frame(width: 50, height: 50)
-        }
-        .previewLayout(.sizeThatFits)
-        .padding()
+        CheckboxButton(isSelected: false)
+            .frame(width: 50, height: 50)
     }
+    .padding()
 }
+#endif

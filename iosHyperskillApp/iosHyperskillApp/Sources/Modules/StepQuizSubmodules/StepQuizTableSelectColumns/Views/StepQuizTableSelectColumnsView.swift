@@ -47,7 +47,7 @@ struct StepQuizTableSelectColumnsView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(columns) { column in
                         StepQuizTableSelectColumnsColumnView(
-                            isSelected: .constant(selectedColumnsIDs.contains(column.id)),
+                            isSelected: selectedColumnsIDs.contains(column.id),
                             text: column.text,
                             isMultipleChoice: isMultipleChoice,
                             onTap: {

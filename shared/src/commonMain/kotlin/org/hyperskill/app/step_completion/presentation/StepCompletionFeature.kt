@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
 object StepCompletionFeature {
     fun createState(step: Step, stepRoute: StepRoute): State =
@@ -96,7 +97,7 @@ object StepCompletionFeature {
          * Show problem of day solve modal
          */
         data class ProblemOfDaySolved(
-            val earnedGemsText: String,
+            val earnedGemsText: String?,
             val shareStreakData: ShareStreakData
         ) : Message
         object ProblemOfDaySolvedModalGoBackClicked : Message
@@ -117,6 +118,11 @@ object StepCompletionFeature {
         object InterviewPreparationCompletedModalShownEventMessage : Message
         object InterviewPreparationCompletedModalHiddenEventMessage : Message
         object InterviewPreparationCompletedModalGoToTrainingClicked : Message
+
+        /**
+         * Ask user to rate or review the app
+         */
+        object RequestUserReview : Message
 
         /**
          * Analytic
@@ -140,7 +146,7 @@ object StepCompletionFeature {
 
         data class CheckTopicCompletionStatus(val topicId: Long) : Action
 
-        object UpdateProblemsLimit : Action
+        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : Action
 
         object UpdateLastTimeShareStreakShown : Action
 
@@ -151,7 +157,7 @@ object StepCompletionFeature {
             ) : ViewAction
 
             data class ShowProblemOfDaySolvedModal(
-                val earnedGemsText: String,
+                val earnedGemsText: String?,
                 val shareStreakData: ShareStreakData
             ) : ViewAction
 
@@ -159,6 +165,8 @@ object StepCompletionFeature {
             data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
 
             object ShowInterviewPreparationCompletedModal : ViewAction
+
+            data class ShowRequestUserReviewModal(val stepRoute: StepRoute) : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
 

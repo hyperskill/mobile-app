@@ -51,7 +51,7 @@ object HomeFeature {
          *
          * @property problemOfDayState Problem of the day state.
          * @property repetitionsState Topics repetitions state.
-         * @property isFreemiumEnabled A boolean flag that indicates about is freemium enabled.
+         * @property areProblemsLimited A boolean flag that indicates that problem limits are enabled.
          * @property isRefreshing A boolean flag that indicates about is pull-to-refresh is ongoing.
          *
          * @see Streak
@@ -60,7 +60,7 @@ object HomeFeature {
         data class Content(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
-            val isFreemiumEnabled: Boolean,
+            val areProblemsLimited: Boolean,
             internal val isRefreshing: Boolean = false
         ) : HomeState
 
@@ -111,7 +111,7 @@ object HomeFeature {
         data class HomeSuccess(
             val problemOfDayState: ProblemOfDayState,
             val repetitionsState: RepetitionsState,
-            val isFreemiumEnabled: Boolean
+            val areProblemsLimited: Boolean
         ) : Message
 
         object HomeFailure : Message
@@ -120,9 +120,6 @@ object HomeFeature {
         object ReadyToLaunchNextProblemInTimer : Message
         object NextProblemInTimerStopped : Message
         data class HomeNextProblemInUpdate(val nextProblemIn: String) : Message
-
-        data class StepQuizSolved(val stepId: Long) : Message
-        object TopicRepeated : Message
 
         object ClickedTopicsRepetitionsCard : Message
         object ClickedProblemOfDayCardReload : Message
@@ -147,6 +144,15 @@ object HomeFeature {
         data class InterviewPreparationWidgetMessage(
             val message: InterviewPreparationWidgetFeature.Message
         ) : Message
+    }
+
+    internal sealed interface InternalMessage : Message {
+        data class StepQuizSolved(val stepId: Long) : InternalMessage
+        object TopicRepeated : InternalMessage
+        object TopicCompleted : InternalMessage
+
+        object FetchProblemOfDayStateResultError : InternalMessage
+        data class FetchProblemOfDayStateResultSuccess(val problemOfDayState: ProblemOfDayState) : InternalMessage
     }
 
     sealed interface Action {
@@ -176,6 +182,8 @@ object HomeFeature {
     internal sealed interface InternalAction : Action {
         object FetchHomeScreenData : InternalAction
         object LaunchTimer : InternalAction
+
+        object FetchProblemOfDayState : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
 

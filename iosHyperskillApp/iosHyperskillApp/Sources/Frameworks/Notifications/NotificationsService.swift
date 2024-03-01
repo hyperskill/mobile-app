@@ -89,7 +89,7 @@ extension NotificationsService {
     // MARK: Private Helpers
 
     private func reportReceivedLocalNotification(with userInfo: NotificationUserInfo?) {
-        guard let userInfo = userInfo,
+        guard let userInfo,
               let notificationName = userInfo[
                 LocalNotificationsService.PayloadKey.notificationName.rawValue
               ] as? String else {
@@ -119,7 +119,7 @@ extension NotificationsService {
             }
         }
 
-        guard let userInfo = userInfo,
+        guard let userInfo,
               let notificationName = userInfo[
                 LocalNotificationsService.PayloadKey.notificationName.rawValue
               ] as? String else {

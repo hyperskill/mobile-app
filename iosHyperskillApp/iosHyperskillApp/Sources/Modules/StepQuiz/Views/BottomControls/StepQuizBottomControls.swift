@@ -7,7 +7,7 @@ struct StepQuizBottomControls: View {
         VStack {
             Divider()
 
-            StepQuizDiscussionsButton(onClick: self.onShowDiscussionsClick).padding()
+            StepQuizDiscussionsButton(onClick: onShowDiscussionsClick).padding()
         }
         .background(BackgroundView())
     }

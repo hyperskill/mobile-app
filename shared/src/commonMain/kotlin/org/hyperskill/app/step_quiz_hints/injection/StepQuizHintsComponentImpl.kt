@@ -29,7 +29,7 @@ class StepQuizHintsComponentImpl(
             commentsInteractor = appGraph.buildCommentsDataComponent().commentsInteractor,
             reactionsInteractor = appGraph.buildReactionsDataComponent().reactionsInteractor,
             userStorageInteractor = appGraph.buildUserStorageComponent().userStorageInteractor,
-            freemiumInteractor = appGraph.buildFreemiumDataComponent().freemiumInteractor,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor
         )

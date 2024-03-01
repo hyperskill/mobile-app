@@ -15,21 +15,20 @@ import org.hyperskill.app.notification.local.domain.flow.DailyStudyRemindersEnab
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.products.domain.interactor.ProductsInteractor
 import org.hyperskill.app.products.domain.model.Product
-import org.hyperskill.app.profile.domain.interactor.ProfileInteractor
 import org.hyperskill.app.profile.domain.model.copy
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.presentation.ProfileFeature.Action
 import org.hyperskill.app.profile.presentation.ProfileFeature.Message
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.streaks.domain.interactor.StreaksInteractor
 import org.hyperskill.app.streaks.domain.model.Streak
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-class ProfileActionDispatcher(
+internal class ProfileActionDispatcher(
     config: ActionDispatcherOptions,
-    profileInteractor: ProfileInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
     private val productsInteractor: ProductsInteractor,
@@ -39,11 +38,12 @@ class ProfileActionDispatcher(
     private val urlPathProcessor: UrlPathProcessor,
     private val streakFlow: StreakFlow,
     dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow,
+    stepCompletedFlow: StepCompletedFlow,
     private val badgesRepository: BadgesRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
-        profileInteractor.solvedStepsSharedFlow
+        stepCompletedFlow.observe()
             .onEach { onNewMessage(Message.StepQuizSolved) }
             .launchIn(actionScope)
 

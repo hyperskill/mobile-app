@@ -2,12 +2,14 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemOnboardingModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemOnboardingModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedUnlockUnlimitedProblemsHSAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
@@ -20,12 +22,16 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbar
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
+import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
@@ -33,11 +39,12 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
 
-class StepQuizReducer(
+internal class StepQuizReducer(
     private val stepRoute: StepRoute,
     private val stepQuizHintsReducer: StepQuizHintsReducer
 ) : StateReducer<State, Message, Action> {
@@ -156,7 +163,13 @@ class StepQuizReducer(
                             attempt = message.newAttempt ?: state.stepQuizState.attempt,
                             submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
                         )
-                    ) to emptySet()
+                    ) to buildSet {
+                        if (message.submission.status == SubmissionStatus.WRONG &&
+                            StepQuizResolver.isStepHasLimitedAttempts(stepRoute)
+                        ) {
+                            add(InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION))
+                        }
+                    }
                 } else {
                     null
                 }
@@ -205,11 +218,20 @@ class StepQuizReducer(
                     null
                 }
             }
+            is InternalMessage.UpdateProblemsLimitResult ->
+                handleUpdateProblemsLimitResult(state, message)
             is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.Home,
                     Action.LogAnalyticEvent(
                         ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
+            is Message.ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked ->
+                state to setOf(
+                    Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.PROBLEMS_LIMIT_MODAL),
+                    Action.LogAnalyticEvent(
+                        ProblemsLimitReachedModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
             is Message.ClickedCodeDetailsEventMessage ->
@@ -268,6 +290,28 @@ class StepQuizReducer(
             }
             is Message.TheoryToolbarItemClicked ->
                 handleTheoryToolbarItemClicked(state)
+            Message.UnsupportedQuizGoToStudyPlanClicked ->
+                state to setOf(
+                    Action.LogAnalyticEvent(
+                        StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    ),
+                    Action.ViewAction.NavigateTo.StudyPlan
+                )
+            Message.UnsupportedQuizSolveOnTheWebClicked ->
+                state to setOf(
+                    Action.ViewAction.CreateMagicLinkState.Loading,
+                    InternalAction.CreateMagicLinkForUnsupportedQuiz(stepRoute),
+                    Action.LogAnalyticEvent(
+                        StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                    )
+                )
+            InternalMessage.CreateMagicLinkForUnsupportedQuizError ->
+                state to setOf(Action.ViewAction.CreateMagicLinkState.Error)
+            is InternalMessage.CreateMagicLinkForUnsupportedQuizSuccess ->
+                state to setOf(
+                    Action.ViewAction.CreateMagicLinkState.Success,
+                    Action.ViewAction.OpenUrl(message.url)
+                )
             is Message.ClickedRetryEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -321,15 +365,12 @@ class StepQuizReducer(
             if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
                 state.copy(stepQuizState = StepQuizState.Unsupported) to emptySet()
             } else {
-                val isProblemsLimitReached = when (stepRoute) {
-                    is StepRoute.Repeat,
-                    is StepRoute.LearnDaily -> false
-                    else -> message.isProblemsLimitReached
-                }
+                val isProblemsLimitReached =
+                    StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
 
-                val actions = if (isProblemsLimitReached && message.problemsLimitReachedModalText != null) {
+                val actions = if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
                     setOf(
-                        Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalText)
+                        Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData)
                     )
                 } else {
                     getProblemOnboardingModalActions(
@@ -379,6 +420,27 @@ class StepQuizReducer(
             stepQuizHintsState = stepQuizHintsState
         ) to stepQuizActions + stepQuizHintsActions
     }
+
+    private fun handleUpdateProblemsLimitResult(
+        state: State,
+        message: InternalMessage.UpdateProblemsLimitResult
+    ): StepQuizReducerResult? =
+        if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+            val isProblemsLimitReached =
+                StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
+
+            state.copy(
+                stepQuizState = state.stepQuizState.copy(
+                    isProblemsLimitReached = isProblemsLimitReached
+                )
+            ) to buildSet {
+                if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
+                    add(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
+                }
+            }
+        } else {
+            null
+        }
 
     private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =
         if (state.stepQuizState is StepQuizState.AttemptLoaded &&

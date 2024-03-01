@@ -13,7 +13,6 @@ import org.hyperskill.app.debug.injection.DebugComponent
 import org.hyperskill.app.devices.injection.DevicesDataComponent
 import org.hyperskill.app.discussions.injection.DiscussionsDataComponent
 import org.hyperskill.app.first_problem_onboarding.injection.FirstProblemOnboardingComponent
-import org.hyperskill.app.freemium.injection.FreemiumDataComponent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.injection.GamificationToolbarComponent
 import org.hyperskill.app.home.injection.HomeComponent
@@ -29,6 +28,7 @@ import org.hyperskill.app.logging.inject.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
+import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.notification.local.injection.NotificationComponent
@@ -37,6 +37,8 @@ import org.hyperskill.app.notification.remote.injection.PlatformPushNotification
 import org.hyperskill.app.notification.remote.injection.PushNotificationsComponent
 import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboardingComponent
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
+import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.paywall.injection.PaywallComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -50,7 +52,10 @@ import org.hyperskill.app.project_selection.details.injection.ProjectSelectionDe
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListComponent
 import org.hyperskill.app.projects.injection.ProjectsDataComponent
 import org.hyperskill.app.providers.injection.ProvidersDataComponent
+import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.reactions.injection.ReactionsDataComponent
+import org.hyperskill.app.request_review.injection.RequestReviewDataComponent
+import org.hyperskill.app.request_review.modal.injection.RequestReviewModalComponent
 import org.hyperskill.app.search.injection.SearchComponent
 import org.hyperskill.app.search_results.injection.SearchResultsDataComponent
 import org.hyperskill.app.sentry.injection.SentryComponent
@@ -70,6 +75,7 @@ import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
+import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
@@ -78,6 +84,9 @@ import org.hyperskill.app.track.injection.TrackDataComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
+import org.hyperskill.app.users_questionnaire.injection.UsersQuestionnaireDataComponent
+import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
@@ -90,7 +99,6 @@ interface AppGraph {
     val mainComponent: MainComponent
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
-    val submissionDataComponent: SubmissionDataComponent
     val streakFlowDataComponent: StreakFlowDataComponent
     val topicsRepetitionsFlowDataComponent: TopicsRepetitionsFlowDataComponent
     val stepCompletionFlowDataComponent: StepCompletionFlowDataComponent
@@ -98,8 +106,11 @@ interface AppGraph {
     val notificationFlowDataComponent: NotificationFlowDataComponent
     val stateRepositoriesComponent: StateRepositoriesComponent
     val profileDataComponent: ProfileDataComponent
+    val subscriptionDataComponent: SubscriptionsDataComponent
 
     fun buildHyperskillAnalyticEngineComponent(): HyperskillAnalyticEngineComponent
+
+    fun buildPurchaseComponent(): PurchaseComponent
 
     /**
      * Auth components
@@ -116,6 +127,8 @@ interface AppGraph {
     fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
+
+    fun buildSubmissionDataComponent(): SubmissionDataComponent
 
     fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent
 
@@ -152,7 +165,6 @@ interface AppGraph {
     fun buildProjectSelectionListComponent(): ProjectSelectionListComponent
     fun buildProjectSelectionDetailsComponent(): ProjectSelectionDetailsComponent
     fun buildStagesDataComponent(): StagesDataComponent
-    fun buildFreemiumDataComponent(): FreemiumDataComponent
     fun buildProblemsLimitComponent(screen: ProblemsLimitScreen): ProblemsLimitComponent
     fun buildProvidersDataComponent(): ProvidersDataComponent
     fun buildStreakRecoveryComponent(): StreakRecoveryComponent
@@ -175,4 +187,11 @@ interface AppGraph {
     fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
     fun buildInterviewPreparationWidgetComponent(): InterviewPreparationWidgetComponent
     fun buildInterviewPreparationOnboardingComponent(): InterviewPreparationOnboardingComponent
+    fun buildRequestReviewDataComponent(): RequestReviewDataComponent
+    fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
+    fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
+    fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
+    fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent
+    fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent
+    fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
 }

@@ -16,7 +16,9 @@ final class ContentProcessor: ContentProcessorProtocol {
         MetaViewportInjection(),
         HightlightJSInjection(),
         WebkitImagesCalloutDisableInjection(),
-        WebScriptInjection()
+        WebScriptInjection(),
+        DataMobileHiddenElementsInjection(),
+        RemoveInlineFrameElementsInjection()
     ]
 
     static let defaultRules: [ContentProcessingRule] = [

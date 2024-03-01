@@ -13,31 +13,35 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.utils.DateTimeUtils
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
-import org.hyperskill.app.freemium.domain.interactor.FreemiumInteractor
-import org.hyperskill.app.home.domain.interactor.HomeInteractor
 import org.hyperskill.app.home.presentation.HomeFeature.Action
 import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
+import org.hyperskill.app.home.presentation.HomeFeature.InternalMessage
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
+import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.areProblemsLimited
 import org.hyperskill.app.topics_repetitions.domain.flow.TopicRepeatedFlow
 import org.hyperskill.app.topics_repetitions.domain.interactor.TopicsRepetitionsInteractor
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class HomeActionDispatcher(
     config: ActionDispatcherOptions,
-    homeInteractor: HomeInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
-    private val freemiumInteractor: FreemiumInteractor,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val dateFormatter: SharedDateFormatter,
-    topicRepeatedFlow: TopicRepeatedFlow
+    topicRepeatedFlow: TopicRepeatedFlow,
+    topicCompletedFlow: TopicCompletedFlow,
+    stepCompletedFlow: StepCompletedFlow
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isTimerLaunched: Boolean = false
 
@@ -46,12 +50,16 @@ internal class HomeActionDispatcher(
     }
 
     init {
-        homeInteractor.solvedStepsSharedFlow
-            .onEach { onNewMessage(Message.StepQuizSolved(it)) }
+        stepCompletedFlow.observe()
+            .onEach { onNewMessage(InternalMessage.StepQuizSolved(it)) }
             .launchIn(actionScope)
 
         topicRepeatedFlow.observe()
-            .onEach { onNewMessage(Message.TopicRepeated) }
+            .onEach { onNewMessage(InternalMessage.TopicRepeated) }
+            .launchIn(actionScope)
+
+        topicCompletedFlow.observe()
+            .onEach { onNewMessage(InternalMessage.TopicCompleted) }
             .launchIn(actionScope)
     }
 
@@ -59,6 +67,8 @@ internal class HomeActionDispatcher(
         when (action) {
             is InternalAction.FetchHomeScreenData ->
                 handleFetchHomeScreenData(::onNewMessage)
+            is InternalAction.FetchProblemOfDayState ->
+                handleFetchProblemOfDayState(::onNewMessage)
             is InternalAction.LaunchTimer -> {
                 if (isTimerLaunched) {
                     return
@@ -103,19 +113,37 @@ internal class HomeActionDispatcher(
                 val currentProfile = currentProfileStateRepository
                     .getState(forceUpdate = true) // ALTAPPS-303: Get from remote to get a relevant problem of the day
                     .getOrThrow()
+
                 val problemOfDayStateResult = async { getProblemOfDayState(currentProfile.dailyStep) }
                 val repetitionsStateResult = async { getRepetitionsState() }
-                val isFreemiumEnabledResult = async { freemiumInteractor.isFreemiumEnabled() }
+                val areProblemsLimited = async { currentSubscriptionStateRepository.areProblemsLimited() }
+
                 setOf(
                     Message.HomeSuccess(
                         problemOfDayState = problemOfDayStateResult.await().getOrThrow(),
                         repetitionsState = repetitionsStateResult.await().getOrThrow(),
-                        isFreemiumEnabled = isFreemiumEnabledResult.await().getOrThrow()
+                        areProblemsLimited = areProblemsLimited.await()
                     ),
                     Message.ReadyToLaunchNextProblemInTimer
                 )
             }
         }.forEach(onNewMessage)
+    }
+
+    private suspend fun handleFetchProblemOfDayState(onNewMessage: (Message) -> Unit) {
+        val currentProfile = currentProfileStateRepository
+            .getState(forceUpdate = true)
+            .getOrElse { return onNewMessage(InternalMessage.FetchProblemOfDayStateResultError) }
+
+        getProblemOfDayState(currentProfile.dailyStep)
+            .fold(
+                onSuccess = {
+                    onNewMessage(InternalMessage.FetchProblemOfDayStateResultSuccess(it))
+                },
+                onFailure = {
+                    onNewMessage(InternalMessage.FetchProblemOfDayStateResultError)
+                }
+            )
     }
 
     private suspend fun getProblemOfDayState(dailyStepId: Long?): Result<HomeFeature.ProblemOfDayState> =

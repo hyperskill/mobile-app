@@ -40,7 +40,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
     private(set) var appearance = Appearance()
 
-    private let earnedGemsText: String
+    private let earnedGemsText: String?
     private let shareStreakData: StepCompletionFeatureShareStreakDataKs
 
     private lazy var contentStackView: UIStackView = {
@@ -61,7 +61,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
     init(
-        earnedGemsText: String,
+        earnedGemsText: String?,
         shareStreakData: StepCompletionFeatureShareStreakDataKs,
         delegate: ProblemOfDaySolvedModalViewControllerDelegate?
     ) {
@@ -137,7 +137,7 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
     private func setupTitleView() {
         let label = UILabel()
         label.text = Strings.StepQuiz.ProblemOfDaySolvedModal.title
-        label.font = .preferredFont(forTextStyle: .largeTitle, compatibleWith: .init(legibilityWeight: .bold))
+        label.font = .preferredFont(for: .largeTitle, weight: .bold)
         label.textColor = .primaryText
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
@@ -183,6 +183,11 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
             return containerStackView
         }
 
+        if earnedGemsText == nil,
+           case .empty = shareStreakData {
+            return
+        }
+
         let itemsStackView = UIStackView()
         itemsStackView.axis = .vertical
         itemsStackView.spacing = LayoutInsets.defaultInset
@@ -191,12 +196,14 @@ final class ProblemOfDaySolvedModalViewController: PanModalPresentableViewContro
 
         contentStackView.addArrangedSubview(itemsStackView)
 
-        itemsStackView.addArrangedSubview(
-            makeItemView(
-                imageResource: .problemOfDaySolvedModalGemsBadge,
-                text: earnedGemsText
+        if let earnedGemsText {
+            itemsStackView.addArrangedSubview(
+                makeItemView(
+                    imageResource: .problemOfDaySolvedModalGemsBadge,
+                    text: earnedGemsText
+                )
             )
-        )
+        }
 
         switch shareStreakData {
         case .content(let data):

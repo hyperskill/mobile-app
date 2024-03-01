@@ -4,7 +4,6 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -21,12 +20,13 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class ChallengeWidgetActionDispatcher(
     config: ActionDispatcherOptions,
-    solvedStepsSharedFlow: SharedFlow<Long>,
+    stepCompletedFlow: StepCompletedFlow,
     topicCompletedFlow: TopicCompletedFlow,
     dailyStepCompletedFlow: DailyStepCompletedFlow,
     private val challengesRepository: ChallengesRepository,
@@ -41,7 +41,7 @@ class ChallengeWidgetActionDispatcher(
     }
 
     init {
-        solvedStepsSharedFlow
+        stepCompletedFlow.observe()
             .distinctUntilChanged()
             .onEach {
                 onNewMessage(InternalMessage.StepSolved)

@@ -31,7 +31,8 @@ extension ProblemsLimitReachedModalViewController {
 final class ProblemsLimitReachedModalViewController: PanModalPresentableViewController {
     private(set) var appearance = Appearance()
 
-    private let modalText: String
+    private let titleText: String
+    private let descriptionText: String
 
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -52,8 +53,13 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
 
     private weak var delegate: ProblemsLimitReachedModalViewControllerDelegate?
 
-    init(modalText: String, delegate: ProblemsLimitReachedModalViewControllerDelegate?) {
-        self.modalText = modalText
+    init(
+        titleText: String,
+        descriptionText: String,
+        delegate: ProblemsLimitReachedModalViewControllerDelegate?
+    ) {
+        self.titleText = titleText
+        self.descriptionText = descriptionText
         self.delegate = delegate
         super.init()
     }
@@ -130,8 +136,8 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
         contentStackView.addArrangedSubview(containerStackView)
 
         let titleLabel = UILabel()
-        titleLabel.text = Strings.StepQuiz.ProblemsLimitReachedModal.title
-        titleLabel.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        titleLabel.text = titleText
+        titleLabel.font = .preferredFont(for: .title2, weight: .bold)
         titleLabel.textColor = .primaryText
         titleLabel.lineBreakMode = .byWordWrapping
         titleLabel.numberOfLines = 0
@@ -139,7 +145,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
         containerStackView.addArrangedSubview(titleLabel)
 
         let textLabel = UILabel()
-        textLabel.text = modalText
+        textLabel.text = descriptionText
         textLabel.font = .preferredFont(forTextStyle: .body)
         textLabel.textColor = .primaryText
         textLabel.lineBreakMode = .byWordWrapping
@@ -171,7 +177,8 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
 @available(iOS 17, *)
 #Preview {
     ProblemsLimitReachedModalViewController(
-        modalText: "Modal text goes here",
+        titleText: "Title text",
+        descriptionText: "Description text",
         delegate: nil
     )
 }

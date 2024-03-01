@@ -18,8 +18,8 @@ enum MainBundleInfo {
     /// Returns formatted version with build number string -> "1.0 (1)".
     /// Otherwise returns `nil` if missing `shortVersionString` or `buildNumberString`.
     static var shortVersionWithBuildNumberString: String? {
-        guard let shortVersionString = shortVersionString,
-              let buildNumberString = buildNumberString else {
+        guard let shortVersionString,
+              let buildNumberString else {
             return nil
         }
 
