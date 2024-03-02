@@ -62,6 +62,7 @@ struct ProfileView: View {
             viewModel.onViewAction = nil
         }
         .navigationViewStyle(StackNavigationViewStyle())
+        .environmentObject(panModalPresenter)
     }
 
     // MARK: Private API
