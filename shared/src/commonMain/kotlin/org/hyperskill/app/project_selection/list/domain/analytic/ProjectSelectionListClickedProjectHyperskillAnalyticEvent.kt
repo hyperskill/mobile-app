@@ -33,20 +33,13 @@ class ProjectSelectionListClickedProjectHyperskillAnalyticEvent(
     val trackId: Long,
     val projectId: Long
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Tracks.Projects(trackId),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.PROJECTS_LIST,
-    HyperskillAnalyticTarget.PROJECT
+    route = HyperskillAnalyticRoute.Tracks.Projects(trackId),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.PROJECTS_LIST,
+    target = HyperskillAnalyticTarget.PROJECT,
+    context = mapOfNotNull(ID to projectId)
 ) {
     companion object {
         private const val ID = "id"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOfNotNull(
-                    ID to projectId
-                )
-            )
 }

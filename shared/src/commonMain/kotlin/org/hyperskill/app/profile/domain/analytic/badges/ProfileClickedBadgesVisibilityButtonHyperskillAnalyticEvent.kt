@@ -28,25 +28,20 @@ import org.hyperskill.app.profile.presentation.ProfileFeature
 class ProfileClickedBadgesVisibilityButtonHyperskillAnalyticEvent(
     private val visibilityButton: ProfileFeature.Message.BadgesVisibilityButton
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Profile(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.BADGES_VISIBILITY_BUTTON
+    route = HyperskillAnalyticRoute.Profile(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.BADGES_VISIBILITY_BUTTON,
+    context = mapOf(
+        PARAM_BUTTON to when (visibilityButton) {
+            ProfileFeature.Message.BadgesVisibilityButton.SHOW_ALL -> SHOW_ALL
+            ProfileFeature.Message.BadgesVisibilityButton.SHOW_LESS -> SHOW_LESS
+        }
+    )
 ) {
-
     companion object {
         private const val PARAM_BUTTON = "button"
         private const val SHOW_ALL = "show_all"
         private const val SHOW_LESS = "show_less"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(
-                PARAM_BUTTON to when (visibilityButton) {
-                    ProfileFeature.Message.BadgesVisibilityButton.SHOW_ALL -> SHOW_ALL
-                    ProfileFeature.Message.BadgesVisibilityButton.SHOW_LESS -> SHOW_LESS
-                }
-            )
-        )
 }

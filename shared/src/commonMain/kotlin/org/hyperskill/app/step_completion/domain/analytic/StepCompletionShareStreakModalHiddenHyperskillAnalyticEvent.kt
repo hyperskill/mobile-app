@@ -29,13 +29,9 @@ class StepCompletionShareStreakModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     val streak: Int
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.SHARE_STREAK_MODAL,
-    HyperskillAnalyticTarget.CLOSE
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(StepCompletionHyperskillAnalyticParams.PARAM_STREAK to streak)
-        )
-}
+    route = route,
+    action = HyperskillAnalyticAction.HIDDEN,
+    part = HyperskillAnalyticPart.SHARE_STREAK_MODAL,
+    target = HyperskillAnalyticTarget.CLOSE,
+    context = mapOf(StepCompletionHyperskillAnalyticParams.PARAM_STREAK to streak)
+)

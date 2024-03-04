@@ -32,12 +32,8 @@ import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 class PushNotificationShownHyperskillAnalyticEvent(
     private val pushNotificationData: PushNotificationData
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.None,
-    HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.NOTIFICATION
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to PushNotificationDataAnalyticContextMapper.map(pushNotificationData)
-        )
-}
+    route = HyperskillAnalyticRoute.None,
+    action = HyperskillAnalyticAction.SHOWN,
+    part = HyperskillAnalyticPart.NOTIFICATION,
+    context = PushNotificationDataAnalyticContextMapper.map(pushNotificationData)
+)

@@ -36,7 +36,7 @@ import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeatu
  */
 class LeaderboardWidgetClickedListItemHyperskillAnalyticEvent(
     currentTab: LeaderboardScreenFeature.Tab,
-    private val leaderboardItem: LeaderboardItem
+    leaderboardItem: LeaderboardItem
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Leaderboard(),
     action = HyperskillAnalyticAction.CLICK,
@@ -44,21 +44,16 @@ class LeaderboardWidgetClickedListItemHyperskillAnalyticEvent(
         LeaderboardScreenFeature.Tab.DAY -> HyperskillAnalyticPart.LEADERBOARD_DAY_TAB
         LeaderboardScreenFeature.Tab.WEEK -> HyperskillAnalyticPart.LEADERBOARD_WEEK_TAB
     },
-    target = HyperskillAnalyticTarget.LEADERBOARD_ITEM
+    target = HyperskillAnalyticTarget.LEADERBOARD_ITEM,
+    context = mapOf(
+        USER_ID to leaderboardItem.user.id,
+        POSITION to leaderboardItem.position,
+        PASSED_PROBLEMS to leaderboardItem.passedProblems
+    )
 ) {
     companion object {
         private const val USER_ID = "user_id"
         private const val POSITION = "position"
         private const val PASSED_PROBLEMS = "passed_problems"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(
-                    USER_ID to leaderboardItem.user.id,
-                    POSITION to leaderboardItem.position,
-                    PASSED_PROBLEMS to leaderboardItem.passedProblems
-                )
-            )
 }

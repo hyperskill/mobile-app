@@ -34,14 +34,18 @@ class AnalyticHyperskillRequestTest {
         action: HyperskillAnalyticAction,
         part: HyperskillAnalyticPart?,
         target: HyperskillAnalyticTarget?
-    ) : HyperskillAnalyticEvent(route, action, part, target) {
+    ) : HyperskillAnalyticEvent(
+        route = route,
+        action = action,
+        part = part,
+        target = target,
+        context = mapOf(PARAM_PLATFORM to TEST_PLATFORM)
+    ) {
         override val params: Map<String, Any>
-            get() = super.params +
-                mapOf(
-                    PARAM_USER to userId,
-                    PARAM_CONTEXT to mapOf(PARAM_PLATFORM to TEST_PLATFORM),
-                    PARAM_CLIENT_TIME to TEST_CLIENT_TIME
-                )
+            get() = super.params + mapOf(
+                PARAM_USER to userId,
+                PARAM_CLIENT_TIME to TEST_CLIENT_TIME
+            )
     }
 
     @Test

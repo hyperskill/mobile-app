@@ -25,15 +25,11 @@ import org.hyperskill.app.badges.domain.model.BadgeKind
  * @see HyperskillAnalyticEvent
  */
 class ProfileBadgeModalHiddenHyperskillAnalyticEvent(
-    private val badgeKind: BadgeKind
+    badgeKind: BadgeKind
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Profile(),
-    HyperskillAnalyticAction.HIDDEN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.BADGE_MODAL
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name
-        )
-}
+    route = HyperskillAnalyticRoute.Profile(),
+    action = HyperskillAnalyticAction.HIDDEN,
+    part = HyperskillAnalyticPart.MODAL,
+    target = HyperskillAnalyticTarget.BADGE_MODAL,
+    context = mapOf(BadgesAnalyticKeys.PARAM_BADGE_KIND to badgeKind.name)
+)

@@ -29,19 +29,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class ApplicationShortcutItemClickedHyperskillAnalyticEvent(
     private val shortcutItemIdentifier: String
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.IosSpringBoard(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.HOME_SCREEN_QUICK_ACTION
+    route = HyperskillAnalyticRoute.IosSpringBoard(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.HOME_SCREEN_QUICK_ACTION,
+    context = mapOf(PARAM_TYPE to shortcutItemIdentifier)
 ) {
     companion object {
         private const val PARAM_TYPE = "type"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(
-                PARAM_TYPE to shortcutItemIdentifier
-            )
-        )
 }

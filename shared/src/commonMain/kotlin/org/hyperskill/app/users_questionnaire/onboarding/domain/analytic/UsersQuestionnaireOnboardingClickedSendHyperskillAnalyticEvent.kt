@@ -31,17 +31,12 @@ class UsersQuestionnaireOnboardingClickedSendHyperskillAnalyticEvent(
     private val selectedChoice: String,
     private val textInputValue: String?
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Onboarding.UsersQuestionnaire,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.SEND
-) {
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOfNotNull(
-                    UsersQuestionnaireOnboardingAnalyticParams.PARAM_SOURCE to selectedChoice,
-                    UsersQuestionnaireOnboardingAnalyticParams.PARAM_INPUT to textInputValue
-                )
-            )
-}
+    route = HyperskillAnalyticRoute.Onboarding.UsersQuestionnaire,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.SEND,
+    context = mapOfNotNull(
+        UsersQuestionnaireOnboardingAnalyticParams.PARAM_SOURCE to selectedChoice,
+        UsersQuestionnaireOnboardingAnalyticParams.PARAM_INPUT to textInputValue
+    )
+)

@@ -27,15 +27,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class ProfileClickedDailyStudyRemindsToggleHyperskillAnalyticEvent(
     val isEnabled: Boolean
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Profile(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.DAILY_STUDY_REMINDS
+    route = HyperskillAnalyticRoute.Profile(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.DAILY_STUDY_REMINDS,
+    context = mapOf(PARAM_STATE to isEnabled)
 ) {
     companion object {
         private const val PARAM_STATE = "state"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(PARAM_CONTEXT to mapOf(PARAM_STATE to isEnabled))
 }
