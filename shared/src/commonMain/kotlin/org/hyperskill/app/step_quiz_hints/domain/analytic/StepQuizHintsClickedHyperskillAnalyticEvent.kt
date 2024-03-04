@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import ru.nobird.app.core.model.mapOfNotNull
 
 /**
  * Represents a common click analytic event for the StepQuizHintsFeature.
@@ -77,17 +78,13 @@ class StepQuizHintsClickedHyperskillAnalyticEvent(
     target: HyperskillAnalyticTarget,
     val commentId: Long? = null
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.STEP_HINTS,
-    target
+    route = route,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.STEP_HINTS,
+    target = target,
+    context = mapOfNotNull(PARAM_COMMENT_ID to commentId)
 ) {
     companion object {
         private const val PARAM_COMMENT_ID = "comment_id"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            if (commentId != null) mapOf(PARAM_CONTEXT to mapOf(PARAM_COMMENT_ID to commentId))
-            else emptyMap()
 }

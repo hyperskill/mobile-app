@@ -36,13 +36,9 @@ class SearchClickedItemHyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Search(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.SEARCH_RESULTS,
-    HyperskillAnalyticTarget.TOPIC
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(
-                SearchAnalyticParams.PARAM_QUERY to query,
-                SearchAnalyticParams.PARAM_TOPIC_ID to topicId
-            )
-        )
-}
+    HyperskillAnalyticTarget.TOPIC,
+    context = mapOf(
+        SearchAnalyticParams.PARAM_QUERY to query,
+        SearchAnalyticParams.PARAM_TOPIC_ID to topicId
+    )
+)

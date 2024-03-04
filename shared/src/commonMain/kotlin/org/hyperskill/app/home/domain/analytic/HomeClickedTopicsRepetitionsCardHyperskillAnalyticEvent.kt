@@ -27,14 +27,9 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 class HomeClickedTopicsRepetitionsCardHyperskillAnalyticEvent(
     val isCompleted: Boolean
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.TOPICS_REPETITIONS_CARD,
-    HyperskillAnalyticTarget.CONTINUE
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to
-                mapOf(HomeHyperskillAnalyticParams.PARAM_IS_COMPLETED to isCompleted)
-        )
-}
+    route = HyperskillAnalyticRoute.Home(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.TOPICS_REPETITIONS_CARD,
+    target = HyperskillAnalyticTarget.CONTINUE,
+    context = mapOf(HomeHyperskillAnalyticParams.PARAM_IS_COMPLETED to isCompleted)
+)

@@ -27,21 +27,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * @see HyperskillAnalyticEvent
  */
 class NotificationDailyStudyReminderClickedHyperskillAnalyticEvent(
-    private val notificationId: Int
+    notificationId: Int
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.None,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.NOTIFICATION,
-    HyperskillAnalyticTarget.DAILY_NOTIFICATION
+    route = HyperskillAnalyticRoute.None,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.NOTIFICATION,
+    target = HyperskillAnalyticTarget.DAILY_NOTIFICATION,
+    context = mapOf(PARAM_KEY to notificationId)
 ) {
     companion object {
         private const val PARAM_KEY = "key"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(
-                PARAM_KEY to notificationId
-            )
-        )
 }

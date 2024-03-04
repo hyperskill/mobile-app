@@ -26,18 +26,13 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * @see HyperskillAnalyticEvent
  */
 class NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticEvent(
-    private val currentDailyStudyRemindersStartHour: Int
+    currentDailyStudyRemindersStartHour: Int
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.Notifications,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
-    target = HyperskillAnalyticTarget.DAILY_STUDY_REMINDS_TIME
-) {
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(
-                    NotificationsOnboardingAnalyticParams.PARAM_START_HOUR to currentDailyStudyRemindersStartHour
-                )
-            )
-}
+    target = HyperskillAnalyticTarget.DAILY_STUDY_REMINDS_TIME,
+    context = mapOf(
+        NotificationsOnboardingAnalyticParams.PARAM_START_HOUR to currentDailyStudyRemindersStartHour
+    )
+)

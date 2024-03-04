@@ -29,20 +29,13 @@ class StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     val topicTheoryId: Long?
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.HEAD,
-    HyperskillAnalyticTarget.THEORY
+    route = route,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.HEAD,
+    target = HyperskillAnalyticTarget.THEORY,
+    context = mapOfNotNull(TOPIC_THEORY to topicTheoryId)
 ) {
     companion object {
         private const val TOPIC_THEORY = "topic_theory"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOfNotNull(
-                    TOPIC_THEORY to topicTheoryId
-                )
-            )
 }

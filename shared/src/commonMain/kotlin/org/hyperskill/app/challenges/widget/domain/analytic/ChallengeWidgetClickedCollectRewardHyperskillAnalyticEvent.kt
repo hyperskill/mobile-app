@@ -29,13 +29,9 @@ import ru.nobird.app.core.model.mapOfNotNull
 class ChallengeWidgetClickedCollectRewardHyperskillAnalyticEvent(
     val challengeId: Long?
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.CHALLENGE_CARD,
-    HyperskillAnalyticTarget.COLLECT_REWARD
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOfNotNull(ChallengeWidgetAnalyticParams.PARAM_CHALLENGE_ID to challengeId)
-        )
-}
+    route = HyperskillAnalyticRoute.Home(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.CHALLENGE_CARD,
+    target = HyperskillAnalyticTarget.COLLECT_REWARD,
+    context = mapOfNotNull(ChallengeWidgetAnalyticParams.PARAM_CHALLENGE_ID to challengeId)
+)

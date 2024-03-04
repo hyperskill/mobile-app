@@ -29,13 +29,9 @@ class StepCompletionDailyStepCompletedModalClickedShareStreakHyperskillAnalyticE
     route: HyperskillAnalyticRoute,
     val streak: Int
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.DAILY_STEP_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.SHARE_YOUR_STREAK
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOf(StepCompletionHyperskillAnalyticParams.PARAM_STREAK to streak)
-        )
-}
+    route = route,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.DAILY_STEP_COMPLETED_MODAL,
+    target = HyperskillAnalyticTarget.SHARE_YOUR_STREAK,
+    context = mapOf(StepCompletionHyperskillAnalyticParams.PARAM_STREAK to streak)
+)

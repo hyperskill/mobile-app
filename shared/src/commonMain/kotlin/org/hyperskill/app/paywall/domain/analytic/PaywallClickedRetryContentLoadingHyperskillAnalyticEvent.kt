@@ -27,18 +27,13 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  * @see HyperskillAnalyticEvent
  */
 class PaywallClickedRetryContentLoadingHyperskillAnalyticEvent(
-    private val paywallTransitionSource: PaywallTransitionSource
+    paywallTransitionSource: PaywallTransitionSource
 ) : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Paywall,
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.RETRY
-) {
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(
-                    PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
-                )
-            )
-}
+    HyperskillAnalyticTarget.RETRY,
+    context = mapOf(
+        PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
+    )
+)

@@ -32,10 +32,6 @@ class ChallengeWidgetClickedDeadlineReloadHyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Home(),
     HyperskillAnalyticAction.CLICK,
     HyperskillAnalyticPart.CHALLENGE_CARD,
-    HyperskillAnalyticTarget.DEADLINE_RELOAD
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOfNotNull(ChallengeWidgetAnalyticParams.PARAM_CHALLENGE_ID to challengeId)
-        )
-}
+    HyperskillAnalyticTarget.DEADLINE_RELOAD,
+    context = mapOfNotNull(ChallengeWidgetAnalyticParams.PARAM_CHALLENGE_ID to challengeId)
+)
