@@ -24,8 +24,7 @@ abstract class HyperskillAnalyticEvent(
     val action: HyperskillAnalyticAction,
     val part: HyperskillAnalyticPart? = null,
     val target: HyperskillAnalyticTarget? = null,
-    val context: Map<String, Any>? = null,
-    val extraParams: Map<String, Any>? = null
+    val context: Map<String, Any>? = null
 ) : AnalyticEvent {
     companion object {
         const val PARAM_CLIENT_TIME = "client_time"
