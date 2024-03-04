@@ -12,8 +12,7 @@ import ru.nobird.app.core.model.mapOfNotNull
  * @property action Event action, for example: `click`, `view`.
  * @property part Event part where action occurred, for example: `main`, `step_hints`.
  * @property target Target that triggered event, for example: `send`, `refresh`.
- * @property context Context that describes an event, for example: `stepId`, `notificationId`
- * @property extraParams A map of params that is joined to the [context].
+ * @property context Context that describes an event, for example: `stepId`, `notificationId`.
  * @see AnalyticEvent
  * @see HyperskillAnalyticRoute
  * @see HyperskillAnalyticAction
@@ -43,18 +42,16 @@ abstract class HyperskillAnalyticEvent(
 
     override val name: String = this::class.simpleName ?: ""
 
-    final override val params: Map<String, Any> =
-        let {
-            val mainParams = mapOfNotNull(
-                PARAM_CLIENT_TIME to clientTime.toString(),
-                PARAM_ROUTE to route.path,
-                PARAM_ACTION to action.actionName,
-                PARAM_PART to part?.partName,
-                PARAM_TARGET to target?.targetName,
-                PARAM_CONTEXT to context
-            )
-            if (extraParams != null) mainParams + extraParams else mainParams
-        }
+    @Deprecated("Use extraParams in constructor instead!")
+    override val params: Map<String, Any> =
+        mapOfNotNull(
+            PARAM_CLIENT_TIME to clientTime.toString(),
+            PARAM_ROUTE to route.path,
+            PARAM_ACTION to action.actionName,
+            PARAM_PART to part?.partName,
+            PARAM_TARGET to target?.targetName,
+            PARAM_CONTEXT to context?.takeIf { it.isNotEmpty() }
+        )
 
     final override val source: AnalyticSource = AnalyticSource.HYPERSKILL_API
 }
