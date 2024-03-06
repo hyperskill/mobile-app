@@ -35,7 +35,7 @@ enum class ProgrammingLanguage(val languageName: String) {
     SCALA3("scala3"),
     KOTLIN("kotlin"),
     GO("go"),
-    PASCAL("pascalabc"),
+    PASCAL_ABC("pascalabc"),
     PERL("perl"),
     SQL("sql"),
     SWIFT("swift"),
@@ -62,7 +62,7 @@ enum class ProgrammingLanguage(val languageName: String) {
             SCALA, SCALA3 -> "scala"
             KOTLIN -> "kt"
             GO -> "go"
-            PASCAL -> "pascal"
+            PASCAL_ABC -> "pascal"
             PERL -> "perl"
             SQL -> "sql"
             SWIFT -> "swift"

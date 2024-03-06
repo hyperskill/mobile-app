@@ -34,7 +34,7 @@ fun ProgrammingLanguage?.getSymbols(context: Context): Array<String> =
         SCALA, SCALA3,
         KOTLIN,
         GO,
-        PASCAL,
+        PASCAL_ABC,
         PERL,
         SWIFT,
         JULIA,
