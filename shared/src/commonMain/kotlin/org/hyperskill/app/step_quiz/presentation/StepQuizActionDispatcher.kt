@@ -2,7 +2,6 @@ package org.hyperskill.app.step_quiz.presentation
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -42,8 +41,7 @@ internal class StepQuizActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
-    private val resourceProvider: ResourceProvider,
-    private val platform: Platform
+    private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -236,13 +234,11 @@ internal class StepQuizActionDispatcher(
                 }
             }
 
-    internal fun isSubscriptionPurchaseEnabled(
+    private fun isSubscriptionPurchaseEnabled(
         currentProfile: Profile,
         currentSubscription: Subscription
     ): Boolean =
-        platform.isSubscriptionPurchaseEnabled &&
-            currentProfile.features.isMobileOnlySubscriptionEnabled &&
-            currentSubscription.isFreemium
+        currentProfile.features.isMobileOnlySubscriptionEnabled && currentSubscription.isFreemium
 
     private suspend fun getProblemsLimitReachedModalData(
         subscription: Subscription,
