@@ -384,6 +384,8 @@
 		2CA8E093281039EB00154088 /* OutlineButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */; };
 		2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */; };
 		2CA8E095281039EB00154088 /* BounceButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA8E092281039EB00154088 /* BounceButtonStyle.swift */; };
+		2CA9895D2B9812AD007CD455 /* RevenueCat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CA9895C2B9812AD007CD455 /* RevenueCat-Info.plist */; };
+		2CA9895F2B981345007CD455 /* RevenueCatInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9895E2B981345007CD455 /* RevenueCatInfo.swift */; };
 		2CAA3C632AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */; };
 		2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */; };
 		2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */; };
@@ -1094,6 +1096,8 @@
 		2CA8E090281039EB00154088 /* OutlineButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E091281039EB00154088 /* RoundedRectangleButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedRectangleButtonStyle.swift; sourceTree = "<group>"; };
 		2CA8E092281039EB00154088 /* BounceButtonStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BounceButtonStyle.swift; sourceTree = "<group>"; };
+		2CA9895C2B9812AD007CD455 /* RevenueCat-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RevenueCat-Info.plist"; sourceTree = "<group>"; };
+		2CA9895E2B981345007CD455 /* RevenueCatInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatInfo.swift; sourceTree = "<group>"; };
 		2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationViewWrapper.swift; sourceTree = "<group>"; };
 		2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
 		2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
@@ -3483,6 +3487,7 @@
 				2CFBFC162AD42CED00D4935D /* AppsFlyer-Info.plist */,
 				2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */,
 				7555FF8C242A565B00829871 /* Info.plist */,
+				2CA9895C2B9812AD007CD455 /* RevenueCat-Info.plist */,
 				2C2FD61F28191FFE004E7AF6 /* Sentry-Info.plist */,
 				E9954646288EC11000013FA6 /* LaunchScreen.storyboard */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
@@ -3642,6 +3647,7 @@
 				2C1F5876280D2B4800372A37 /* ApplicationInfo.swift */,
 				2CFBFC182AD42D6400D4935D /* AppsFlyerInfo.swift */,
 				2C005DCB27EF5B0300DC6503 /* GoogleServiceInfo.swift */,
+				2CA9895E2B981345007CD455 /* RevenueCatInfo.swift */,
 				2C2FD621281920B1004E7AF6 /* SentryInfo.swift */,
 				2C42EFAC27F2C29500B4648B /* Strings.swift */,
 				2C24524A2847C28100226702 /* Images */,
@@ -4422,6 +4428,7 @@
 				E9954647288EC11000013FA6 /* LaunchScreen.storyboard in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				2CF2708A2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json in Resources */,
+				2CA9895D2B9812AD007CD455 /* RevenueCat-Info.plist in Resources */,
 				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
 				2C98C7AD2850B93100857783 /* icons.css in Resources */,
 				2CF270862AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json in Resources */,
@@ -4749,6 +4756,7 @@
 				2CBD1919291D399500F5FB0B /* UIKitBounceButton.swift in Sources */,
 				2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift in Sources */,
 				E9523BF029DA933C0013A661 /* StudyPlanViewModel.swift in Sources */,
+				2CA9895F2B981345007CD455 /* RevenueCatInfo.swift in Sources */,
 				2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */,
 				2C963BC52812D1A70036DD53 /* HomeView.swift in Sources */,
 				2C6770992AEBDF3A00E832AC /* StepQuizFillBlanksSelectOptionsInputProtocol.swift in Sources */,
