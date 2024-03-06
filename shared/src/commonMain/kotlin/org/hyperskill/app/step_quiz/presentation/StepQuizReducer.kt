@@ -218,8 +218,8 @@ internal class StepQuizReducer(
                     null
                 }
             }
-            is InternalMessage.UpdateProblemsLimitResult ->
-                handleUpdateProblemsLimitResult(state, message)
+            is InternalMessage.ProblemsLimitChanged ->
+                handleUpdateProblemsLimitChanged(state, message)
             is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.Home,
@@ -421,9 +421,9 @@ internal class StepQuizReducer(
         ) to stepQuizActions + stepQuizHintsActions
     }
 
-    private fun handleUpdateProblemsLimitResult(
+    private fun handleUpdateProblemsLimitChanged(
         state: State,
-        message: InternalMessage.UpdateProblemsLimitResult
+        message: InternalMessage.ProblemsLimitChanged
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
             val isProblemsLimitReached =
@@ -433,10 +433,10 @@ internal class StepQuizReducer(
                 stepQuizState = state.stepQuizState.copy(
                     isProblemsLimitReached = isProblemsLimitReached
                 )
-            ) to buildSet {
-                if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
-                    add(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
-                }
+            ) to if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
+                setOf(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
+            } else {
+                setOf(Action.ViewAction.HideProblemOnboardingModal)
             }
         } else {
             null

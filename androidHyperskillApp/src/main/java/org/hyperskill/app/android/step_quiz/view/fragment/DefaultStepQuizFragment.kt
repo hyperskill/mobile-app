@@ -23,6 +23,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
@@ -289,6 +290,9 @@ abstract class DefaultStepQuizFragment :
                 ProblemsLimitReachedBottomSheet
                     .newInstance(action.modalData)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
+            }
+            StepQuizFeature.Action.ViewAction.HideProblemOnboardingModal -> {
+                childFragmentManager.dismissDialogFragmentIfExists(ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {
                 ProblemOnboardingBottomSheetDialogFragment.newInstance(action.modalType)

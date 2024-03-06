@@ -151,7 +151,7 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalMessage : Message {
-        data class UpdateProblemsLimitResult(
+        data class ProblemsLimitChanged(
             val isProblemsLimitReached: Boolean,
             val problemsLimitReachedModalData: ProblemsLimitReachedModalData?
         ) : InternalMessage
@@ -199,6 +199,8 @@ object StepQuizFeature {
             data class ShowProblemsLimitReachedModal(val modalData: ProblemsLimitReachedModalData) : ViewAction
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
+
+            object HideProblemOnboardingModal : ViewAction
 
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
