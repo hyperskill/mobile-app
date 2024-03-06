@@ -258,7 +258,7 @@ internal class StepQuizActionDispatcher(
             profile.features.isMobileOnlySubscriptionEnabled &&
             subscription.isFreemium
 
-    // TODO: Extract ProblemsLimitReachedModal into a separate feature
+    // TODO: ALTAPPS-1171: Extract ProblemsLimitReachedModal into a separate feature
     private suspend fun getProblemsLimitReachedModalData(
         profile: Profile,
         subscription: Subscription
