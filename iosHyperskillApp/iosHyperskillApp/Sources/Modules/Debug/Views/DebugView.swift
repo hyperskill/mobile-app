@@ -1,3 +1,4 @@
+import RevenueCat
 import shared
 import SwiftUI
 import UIKit
@@ -71,6 +72,21 @@ struct DebugView: View {
                 if data.isApplySettingsButtonAvailable {
                     Section {
                         Button(Strings.DebugMenu.applySettingsButton, action: viewModel.doApplySettings)
+                    }
+                }
+            }
+
+            if #available(iOS 16.0, *) {
+                Section {
+                    Button("Display RevenueCat debug screen") {
+                        guard PurchaseManager.shared.isConfigured() else {
+                            return
+                        }
+
+                        stackRouter.rootViewController?.present(
+                            RevenueCat.DebugViewController(),
+                            animated: true
+                        )
                     }
                 }
             }
