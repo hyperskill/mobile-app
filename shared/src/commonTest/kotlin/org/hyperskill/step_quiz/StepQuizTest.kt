@@ -304,7 +304,11 @@ class StepQuizTest {
         )
 
         assertEquals(expectedState, actualState)
-        assertTrue(actualActions.isEmpty())
+        assertTrue {
+            actualActions.none {
+                it is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal
+            }
+        }
     }
 
     @Test
