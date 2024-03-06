@@ -281,6 +281,7 @@
 		2C7CB6842ADFF1A6006F78DA /* FillBlanksQuizCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB6832ADFF1A6006F78DA /* FillBlanksQuizCollectionViewAdapter.swift */; };
 		2C7CB6862ADFF389006F78DA /* FillBlanksQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB6852ADFF389006F78DA /* FillBlanksQuizView.swift */; };
 		2C7CB6882ADFF57D006F78DA /* FillBlanksQuizViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7CB6872ADFF57D006F78DA /* FillBlanksQuizViewWrapper.swift */; };
+		2C7FE8A52B98261600F09615 /* PurchaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FE8A42B98261600F09615 /* PurchaseManager.swift */; };
 		2C80D4FD288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */; };
 		2C80D4FF288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */; };
 		2C80D503288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */; };
@@ -992,6 +993,7 @@
 		2C7CB6832ADFF1A6006F78DA /* FillBlanksQuizCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksQuizCollectionViewAdapter.swift; sourceTree = "<group>"; };
 		2C7CB6852ADFF389006F78DA /* FillBlanksQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksQuizView.swift; sourceTree = "<group>"; };
 		2C7CB6872ADFF57D006F78DA /* FillBlanksQuizViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksQuizViewWrapper.swift; sourceTree = "<group>"; };
+		2C7FE8A42B98261600F09615 /* PurchaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseManager.swift; sourceTree = "<group>"; };
 		2C80D4FC288C4D0D00B2CD1E /* StepQuizCodeFullScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenViewModel.swift; sourceTree = "<group>"; };
 		2C80D4FE288C4D4400B2CD1E /* StepQuizCodeFullScreenOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenOutputProtocol.swift; sourceTree = "<group>"; };
 		2C80D502288C5EBB00B2CD1E /* StepQuizCodeNavigationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeNavigationState.swift; sourceTree = "<group>"; };
@@ -2749,6 +2751,7 @@
 				2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */,
 				2C27C77D28773042006A641A /* NukeManager.swift */,
 				2C906CBD280E5D9C0079C594 /* ProgressHUD.swift */,
+				2C7FE8A42B98261600F09615 /* PurchaseManager.swift */,
 				2C11D5C82A1130F300C59238 /* FeedbackGenerator */,
 				2C334D0F2939E0FC008593F1 /* Sentry */,
 			);
@@ -4734,6 +4737,7 @@
 				2C5CBBE32948F4B600113007 /* StepQuizSQLViewModel.swift in Sources */,
 				E9F923F628A2633D00C065A7 /* WelcomeView.swift in Sources */,
 				E9BDB4052A7BE1E30069EF98 /* BadgeImageView.swift in Sources */,
+				2C7FE8A52B98261600F09615 /* PurchaseManager.swift in Sources */,
 				2C106D9928C1CE6E004FA584 /* SendEmailFeedbackController.swift in Sources */,
 				2C688C052A4E97750061AFFD /* ProgressScreenProjectProgressView.swift in Sources */,
 				E9523BF429DAA5690013A661 /* StudyPlanSkeletonView.swift in Sources */,

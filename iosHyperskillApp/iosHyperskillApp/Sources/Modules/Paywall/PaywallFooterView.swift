@@ -43,7 +43,7 @@ struct PaywallFooterView: View {
                 }
             )
             .buttonStyle(OutlineButtonStyle(style: .newGray))
-            //.buttonStyle(GhostButtonStyle())
+            // .buttonStyle(GhostButtonStyle())
 
             Button(
                 "Hyperskill Terms of Service and Privacy Policy",
