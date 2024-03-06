@@ -302,6 +302,8 @@ struct StepQuizView: View {
             presentProblemsLimitReachedModal(
                 modalData: showProblemsLimitReachedModalViewAction.modalData
             )
+        case .hideProblemOnboardingModal:
+            #warning("TODO: ALTAPPS-1148")
         case .showProblemOnboardingModal(let showProblemOnboardingModalViewAction):
             presentProblemOnboardingModal(modalType: showProblemOnboardingModalViewAction.modalType)
         case .navigateTo(let viewActionNavigateTo):
