@@ -75,8 +75,10 @@ private extension PaywallView {
             presentationMode.wrappedValue.dismiss()
         case .completePaywall:
             viewModel.doCompletePaywall()
-        case .navigateTo:
-            break
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(
+                PaywallFeatureActionViewActionNavigateToKs(navigateToViewAction)
+            )
         case .openUrl(let data):
             WebControllerManager.shared.presentWebControllerWithURLString(
                 data.url,
@@ -92,6 +94,15 @@ private extension PaywallView {
             default:
                 ProgressHUD.show(status: message)
             }
+        }
+    }
+
+    func handleNavigateToViewAction(_ viewAction: PaywallFeatureActionViewActionNavigateToKs) {
+        switch viewAction {
+        case .backToProfileSettings:
+            presentationMode.wrappedValue.dismiss()
+        case .studyPlan:
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }
