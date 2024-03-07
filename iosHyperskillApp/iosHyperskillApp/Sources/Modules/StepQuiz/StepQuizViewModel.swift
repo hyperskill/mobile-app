@@ -215,8 +215,17 @@ extension StepQuizViewModel: ProblemsLimitReachedModalViewControllerDelegate {
     func problemsLimitReachedModalViewControllerDidTapGoToHomescreenButton(
         _ viewController: ProblemsLimitReachedModalViewController
     ) {
-        onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalGoToHomeScreenClicked())
-        viewController.dismiss(animated: true)
+        viewController.dismiss(animated: true) { [weak self] in
+            self?.onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalGoToHomeScreenClicked())
+        }
+    }
+
+    func problemsLimitReachedModalViewControllerDidTapUnlockLimitsButton(
+        _ viewController: ProblemsLimitReachedModalViewController
+    ) {
+        viewController.dismiss(animated: true) { [weak self] in
+            self?.onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalUnlockUnlimitedProblemsClicked())
+        }
     }
 
     func problemsLimitReachedModalViewControllerDidAppear(_ viewController: ProblemsLimitReachedModalViewController) {
