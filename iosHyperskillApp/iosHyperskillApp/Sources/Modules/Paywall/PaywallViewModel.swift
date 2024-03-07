@@ -27,7 +27,7 @@ final class PaywallViewModel: FeatureViewModel<
     }
 
     func doBuySubscription() {
-        onNewMessage(PaywallFeatureMessageBuySubscriptionClicked(purchaseParams: IOSPurchaseParams.shared))
+        onNewMessage(PaywallFeatureMessageBuySubscriptionClicked(purchaseParams: PlatformPurchaseParams()))
     }
 
     func doContinueWithLimits() {

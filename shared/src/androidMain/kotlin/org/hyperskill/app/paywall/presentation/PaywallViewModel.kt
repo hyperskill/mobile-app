@@ -6,7 +6,7 @@ import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action.ViewAction
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Message
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
-import org.hyperskill.app.purchases.domain.model.AndroidPurchaseParams
+import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 
 class PaywallViewModel(
     reduxViewContainer: FlowView<ViewState, Message, ViewAction>
@@ -19,7 +19,7 @@ class PaywallViewModel(
     fun onBuySubscriptionClick(activity: Activity) {
         onNewMessage(
             Message.BuySubscriptionClicked(
-                AndroidPurchaseParams(activity)
+                PlatformPurchaseParams(activity)
             )
         )
     }
