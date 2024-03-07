@@ -648,4 +648,15 @@ enum Strings {
         static let subscriptionFeature2 = sharedStrings.mobile_only_subscription_feature_2.localized()
         static let subscriptionFeature3 = sharedStrings.mobile_only_subscription_feature_3.localized()
     }
+
+    // MARK: - ManageSubscription -
+
+    enum ManageSubscription {
+        static let navigationTitle = sharedStrings.manage_subscription_screen_title.localized()
+
+        static let planTitle = sharedStrings.manage_subscription_plan_title.localized()
+        static let mobileOnly = sharedStrings.manage_subscription_mobile_only.localized()
+        static let planDetailsTitle = sharedStrings.manage_subscription_plan_details_title.localized()
+        static let mobileOnlyWarning = sharedStrings.manage_subscription_mobile_only_warning.localized()
+    }
 }
