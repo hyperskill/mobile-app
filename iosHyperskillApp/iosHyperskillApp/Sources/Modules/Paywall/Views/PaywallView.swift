@@ -80,8 +80,16 @@ private extension PaywallView {
                 data.url,
                 controllerType: .inAppSafari
             )
-        case .showMessage:
-            break
+        case .showMessage(let data):
+            let messageKind = data.messageKind
+            let message = messageKind.stringRes.localized()
+
+            switch messageKind {
+            case .general, .subscriptionWillBecomeAvailableSoon:
+                ProgressHUD.showError(status: message)
+            default:
+                ProgressHUD.show(status: message)
+            }
         case .studyPlan:
             break
         }
