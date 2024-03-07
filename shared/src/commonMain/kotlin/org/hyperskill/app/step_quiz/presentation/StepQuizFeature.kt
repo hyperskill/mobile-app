@@ -107,7 +107,6 @@ object StepQuizFeature {
          * Daily limit reached modal
          */
         object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
-
         object ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked : Message
 
         /**

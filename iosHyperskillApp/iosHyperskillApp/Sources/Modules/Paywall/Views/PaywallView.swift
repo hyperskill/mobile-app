@@ -103,6 +103,9 @@ private extension PaywallView {
             presentationMode.wrappedValue.dismiss()
         case .studyPlan:
             presentationMode.wrappedValue.dismiss()
+            DispatchQueue.main.async {
+                TabBarRouter(tab: .studyPlan).route()
+            }
         }
     }
 }
