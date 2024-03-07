@@ -12,6 +12,8 @@ struct PaywallView: View {
 
     @StateObject var viewModel: PaywallViewModel
 
+    @Environment(\.presentationMode) private var presentationMode
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -70,7 +72,7 @@ private extension PaywallView {
     func handleViewAction(_ viewAction: PaywallFeatureActionViewAction) {
         switch PaywallFeatureActionViewActionKs(viewAction) {
         case .closePaywall:
-            break
+            presentationMode.wrappedValue.dismiss()
         case .completePaywall:
             viewModel.doCompletePaywall()
         case .navigateTo:
