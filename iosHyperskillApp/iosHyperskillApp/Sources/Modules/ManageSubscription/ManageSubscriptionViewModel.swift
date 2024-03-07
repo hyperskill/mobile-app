@@ -24,6 +24,10 @@ final class ManageSubscriptionViewModel: FeatureViewModel<
         onNewMessage(ManageSubscriptionFeatureMessageRetryContentLoading())
     }
 
+    func doCallToAction() {
+        onNewMessage(ManageSubscriptionFeatureMessageActionButtonClicked())
+    }
+
     func logViewedEvent() {
         onNewMessage(ManageSubscriptionFeatureMessageViewedEventMessage())
     }

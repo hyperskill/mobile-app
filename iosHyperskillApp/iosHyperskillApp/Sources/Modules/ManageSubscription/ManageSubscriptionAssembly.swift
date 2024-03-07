@@ -9,14 +9,20 @@ final class ManageSubscriptionAssembly: UIKitAssembly {
             feature: manageSubscriptionComponent.manageSubscriptionFeature
         )
 
+        let stackRouter = StackRouter()
+
         let manageSubscriptionView = ManageSubscriptionView(
-            viewModel: manageSubscriptionViewModel
+            viewModel: manageSubscriptionViewModel, 
+            stackRouter: stackRouter
         )
 
         let hostingController = StyledHostingController(
             rootView: manageSubscriptionView
         )
         hostingController.navigationItem.largeTitleDisplayMode = .never
+        hostingController.title = Strings.ManageSubscription.navigationTitle
+
+        stackRouter.rootViewController = hostingController
 
         return hostingController
     }

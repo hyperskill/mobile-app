@@ -12,6 +12,8 @@ struct ManageSubscriptionView: View {
 
     @StateObject var viewModel: ManageSubscriptionViewModel
 
+    let stackRouter: StackRouterProtocol
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -28,6 +30,7 @@ struct ManageSubscriptionView: View {
             viewModel.stopListening()
             viewModel.onViewAction = nil
         }
+        .navigationTitle(Strings.ManageSubscription.navigationTitle)
     }
 
     // MARK: Private API
@@ -45,7 +48,11 @@ struct ManageSubscriptionView: View {
                 )
             )
         case .content(let viewData):
-            Text("Hello, World!")
+            ManageSubscriptionContentView(
+                validUntilText: viewData.validUntilFormatted,
+                callToActionButtonText: viewData.buttonText,
+                onCallToActionButtonTap: viewModel.doCallToAction
+            )
         }
     }
 }
@@ -57,10 +64,33 @@ private extension ManageSubscriptionView {
         _ viewAction: ManageSubscriptionFeatureActionViewAction
     ) {
         switch ManageSubscriptionFeatureActionViewActionKs(viewAction) {
-        case .navigateTo:
-            break
-        case .openUrl:
-            break
+        case .openUrl(let data):
+            guard let url = URL(string: data.url) else {
+                return WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+            }
+
+            UIApplication.shared.open(url, options: [:]) { success in
+                if !success {
+                    WebControllerManager.shared.presentWebControllerWithURLString(data.url)
+                }
+            }
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(
+                ManageSubscriptionFeatureActionViewActionNavigateToKs(navigateToViewAction)
+            )
+        }
+    }
+
+    func handleNavigateToViewAction(_ viewAction: ManageSubscriptionFeatureActionViewActionNavigateToKs) {
+        switch viewAction {
+        case .paywall(let data):
+            let assembly = PaywallAssembly(
+                context: .init(
+                    source: data.paywallTransitionSource,
+                    moduleOutput: nil
+                )
+            )
+            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 }
