@@ -71,30 +71,41 @@ final class AppRouter {
             case .usersQuestionnaireOnboarding(let moduleOutput):
                 let assembly = UsersQuestionnaireOnboardingAssembly(moduleOutput: moduleOutput)
                 return assembly.makeModule()
-            case .paywall(let source, let moduleOutput):
-                let assembly = PaywallAssembly(source: source, moduleOutput: moduleOutput)
+            case .paywall(let context), .paywallModal(let context):
+                let assembly = PaywallAssembly(context: context)
                 return assembly.makeModule()
             }
         }()
 
-        let fromViewController = viewController.children.first { childrenViewController in
-            if childrenViewController is UIHostingController<PlaceholderView> {
-                return false
+        switch route {
+        case .paywallModal:
+            let isAlreadyPresented = (
+                SourcelessRouter().currentPresentedViewController() as? PaywallHostingController
+            ) != nil
+
+            if !isAlreadyPresented {
+                viewController.present(viewControllerToPresent, animated: true)
             }
-            return true
-        }
-        if let fromViewController,
-           type(of: fromViewController) == type(of: viewControllerToPresent) {
-            return
-        }
+        default:
+            let fromViewController = viewController.children.first { childrenViewController in
+                if childrenViewController is UIHostingController<PlaceholderView> {
+                    return false
+                }
+                return true
+            }
+            if let fromViewController,
+               type(of: fromViewController) == type(of: viewControllerToPresent) {
+                return
+            }
 
-        assert(viewController.children.count <= 2)
+            assert(viewController.children.count <= 2)
 
-        swapRootViewController(
-            for: viewController,
-            from: fromViewController,
-            to: viewControllerToPresent
-        )
+            swapRootViewController(
+                for: viewController,
+                from: fromViewController,
+                to: viewControllerToPresent
+            )
+        }
     }
 
     // MARK: Private API
@@ -150,7 +161,8 @@ final class AppRouter {
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
         case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)
-        case paywall(source: PaywallTransitionSource, moduleOutput: PaywallOutputProtocol?)
+        case paywall(context: PaywallPresentationContext)
+        case paywallModal(context: PaywallPresentationContext)
     }
 
     enum Animation {

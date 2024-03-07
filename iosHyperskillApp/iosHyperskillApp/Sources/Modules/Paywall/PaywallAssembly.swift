@@ -1,14 +1,19 @@
 import shared
 import SwiftUI
 
+struct PaywallPresentationContext {
+    let source: PaywallTransitionSource
+    let moduleOutput: PaywallOutputProtocol?
+}
+
 final class PaywallAssembly: UIKitAssembly {
     private let source: PaywallTransitionSource
 
     private weak var moduleOutput: PaywallOutputProtocol?
 
-    init(source: PaywallTransitionSource, moduleOutput: PaywallOutputProtocol?) {
-        self.source = source
-        self.moduleOutput = moduleOutput
+    init(context: PaywallPresentationContext) {
+        self.source = context.source
+        self.moduleOutput = context.moduleOutput
     }
 
     func makeModule() -> UIViewController {
@@ -24,11 +29,10 @@ final class PaywallAssembly: UIKitAssembly {
         let paywallView = PaywallView(
             viewModel: paywallViewModel
         )
-        let hostingController = StyledHostingController(
-            rootView: paywallView
-        )
+        let hostingController = PaywallHostingController(rootView: paywallView)
         hostingController.navigationItem.largeTitleDisplayMode = .never
         hostingController.title = Strings.Paywall.navigationTitle
+        hostingController.modalPresentationStyle = .fullScreen
 
         let shouldEmbedIntoNavigationController = PaywallToolbarVisibilityResolver.shared.isToolbarVisible(
             paywallTransitionSource: source

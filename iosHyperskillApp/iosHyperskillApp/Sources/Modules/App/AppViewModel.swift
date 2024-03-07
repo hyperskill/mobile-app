@@ -294,8 +294,7 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
 
     @objc
     private func handleApplicationWillEnterForeground() {
-        #warning("Enable when subscription purchase is implemented")
-        // onNewMessage(AppFeatureMessageAppBecomesActive())
+        onNewMessage(AppFeatureMessageAppBecomesActive())
     }
 }
 
