@@ -20,7 +20,12 @@ internal class PaywallViewStateMapper(
         paywallTransitionSource: PaywallTransitionSource
     ): ViewState =
         ViewState(
-            isToolbarVisible = PaywallToolbarVisibilityResolver.isToolbarVisible(paywallTransitionSource),
+            isToolbarVisible = when (paywallTransitionSource) {
+                APP_BECOMES_ACTIVE, LOGIN -> false
+                MANAGE_SUBSCRIPTION,
+                PROFILE_SETTINGS,
+                PROBLEMS_LIMIT_MODAL -> true
+            },
             contentState = when (state) {
                 State.Idle -> ViewStateContent.Idle
                 State.Loading -> ViewStateContent.Loading

@@ -34,12 +34,6 @@ final class PaywallAssembly: UIKitAssembly {
         hostingController.title = Strings.Paywall.navigationTitle
         hostingController.modalPresentationStyle = .fullScreen
 
-        let shouldEmbedIntoNavigationController = PaywallToolbarVisibilityResolver.shared.isToolbarVisible(
-            paywallTransitionSource: source
-        )
-
-        return shouldEmbedIntoNavigationController
-            ? UINavigationController(rootViewController: hostingController)
-            : hostingController
+        return hostingController
     }
 }
