@@ -71,6 +71,9 @@ final class AppRouter {
             case .usersQuestionnaireOnboarding(let moduleOutput):
                 let assembly = UsersQuestionnaireOnboardingAssembly(moduleOutput: moduleOutput)
                 return assembly.makeModule()
+            case .paywall(let source):
+                let assembly = PaywallAssembly(source: source)
+                return assembly.makeModule()
             }
         }()
 
@@ -147,6 +150,7 @@ final class AppRouter {
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
         case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)
+        case paywall(source: PaywallTransitionSource)
     }
 
     enum Animation {

@@ -631,4 +631,20 @@ enum Strings {
 
         static let placeholderErrorDescription = sharedStrings.search_placeholder_error_description.localized()
     }
+
+    // MARK: - Paywall -
+
+    enum Paywall {
+        static let placeholderErrorDescription = sharedStrings.paywall_placeholder_error_description.localized()
+
+        static let title = sharedStrings.paywall_mobile_only_title.localized()
+        static let navigationTitle = sharedStrings.paywall_screen_title.localized()
+
+        static let continueWithLimitsButton = sharedStrings.paywall_mobile_only_continue_btn.localized()
+        static let termsOfServiceButton = sharedStrings.paywall_tos_and_privacy_bth.localized()
+
+        static let subscriptionFeature1 = sharedStrings.mobile_only_subscription_feature_1.localized()
+        static let subscriptionFeature2 = sharedStrings.mobile_only_subscription_feature_2.localized()
+        static let subscriptionFeature3 = sharedStrings.mobile_only_subscription_feature_3.localized()
+    }
 }

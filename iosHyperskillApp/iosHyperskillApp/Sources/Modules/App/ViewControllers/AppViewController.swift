@@ -228,9 +228,8 @@ extension AppViewController: AppViewControllerProtocol {
                 router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
             case .usersQuestionnaireOnboardingScreen:
                 router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
-            case .paywall:
-                #warning("TODO: ALTAPPS-1116")
-                router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
+            case .paywall(let data):
+                router.route(.paywall(source: data.paywallTransitionSource))
             }
         }
     }
