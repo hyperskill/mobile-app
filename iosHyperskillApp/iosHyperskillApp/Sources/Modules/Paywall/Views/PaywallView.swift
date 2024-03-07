@@ -19,6 +19,7 @@ struct PaywallView: View {
             BackgroundView(color: appearance.backgroundColor)
 
             buildBody()
+                .animation(.default, value: viewModel.state)
         }
         .onAppear {
             viewModel.startListening()
@@ -52,7 +53,13 @@ struct PaywallView: View {
                 onTermsOfServiceButtonTap: viewModel.doTermsOfServicePresentation
             )
         case .subscriptionSyncLoading:
-            EmptyView()
+            PlaceholderView(
+                configuration: .imageAndTitle(
+                    image: .reload,
+                    titleText: Strings.Paywall.subscriptionSyncDescription,
+                    backgroundColor: .clear
+                )
+            )
         }
     }
 }

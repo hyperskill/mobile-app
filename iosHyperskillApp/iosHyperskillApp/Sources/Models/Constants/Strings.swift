@@ -636,6 +636,7 @@ enum Strings {
 
     enum Paywall {
         static let placeholderErrorDescription = sharedStrings.paywall_placeholder_error_description.localized()
+        static let subscriptionSyncDescription = sharedStrings.paywall_subscription_sync_description.localized()
 
         static let title = sharedStrings.paywall_mobile_only_title.localized()
         static let navigationTitle = sharedStrings.paywall_screen_title.localized()
