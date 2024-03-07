@@ -12,7 +12,7 @@ final class ManageSubscriptionAssembly: UIKitAssembly {
         let stackRouter = StackRouter()
 
         let manageSubscriptionView = ManageSubscriptionView(
-            viewModel: manageSubscriptionViewModel, 
+            viewModel: manageSubscriptionViewModel,
             stackRouter: stackRouter
         )
 
