@@ -113,9 +113,13 @@ extension AppViewController: AppViewControllerProtocol {
             router.route(.trackSelection)
         case .paywall(let data):
             router.route(.paywallModal(context: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)))
-        case .studyPlanWithPaywall:
-            #warning("TODO: ALTAPPS-1116; implent studyPlanWithPaywall Route")
-            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
+        case .studyPlanWithPaywall(let data):
+            router.route(
+                .studyPlanWithPaywall(
+                    appTabBarControllerDelegate: viewModel,
+                    paywallPresentationContext: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)
+                )
+            )
         }
     }
 

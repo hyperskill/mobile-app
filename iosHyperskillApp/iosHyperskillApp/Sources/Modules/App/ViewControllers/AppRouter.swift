@@ -49,6 +49,26 @@ final class AppRouter {
                 }
 
                 return tabBarController
+            case .studyPlanWithPaywall(let appTabBarControllerDelegate, let paywallPresentationContext):
+                let tabBarController = AppTabBarController(
+                    initialTab: .studyPlan,
+                    availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
+                    appTabBarControllerDelegate: appTabBarControllerDelegate
+                )
+
+                if !tabBarController.isViewLoaded {
+                    _ = tabBarController.view
+                }
+
+                DispatchQueue.main.async {
+                    let currentRootViewController = tabBarController.children[tabBarController.selectedIndex]
+                    currentRootViewController.present(
+                        PaywallAssembly(context: paywallPresentationContext).makeModule(),
+                        animated: false
+                    )
+                }
+
+                return tabBarController
             case .trackSelection:
                 let assembly = TrackSelectionListAssembly(isNewUserMode: true)
                 let navigationController = UINavigationController(
@@ -156,6 +176,10 @@ final class AppRouter {
         case auth(isInSignUpMode: Bool, moduleOutput: AuthOutputProtocol?)
         case studyPlan(appTabBarControllerDelegate: AppTabBarControllerDelegate?)
         case studyPlanWithStep(appTabBarControllerDelegate: AppTabBarControllerDelegate?, stepRoute: StepRoute)
+        case studyPlanWithPaywall(
+            appTabBarControllerDelegate: AppTabBarControllerDelegate?,
+            paywallPresentationContext: PaywallPresentationContext
+        )
         case trackSelection
         case onboarding(moduleOutput: WelcomeOutputProtocol?)
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
