@@ -71,8 +71,6 @@ object PaywallFeature {
 
             object ClosePaywall : ViewAction
 
-            object StudyPlan : ViewAction
-
             data class ShowMessage(
                 val messageKind: MessageKind
             ) : ViewAction
@@ -80,6 +78,7 @@ object PaywallFeature {
             data class OpenUrl(val url: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
+                object StudyPlan : NavigateTo
                 object BackToProfileSettings : NavigateTo
             }
         }

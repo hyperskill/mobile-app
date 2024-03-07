@@ -175,7 +175,7 @@ internal class PaywallReducer(
             PaywallTransitionSource.PROFILE_SETTINGS ->
                 Action.ViewAction.NavigateTo.BackToProfileSettings
             PaywallTransitionSource.PROBLEMS_LIMIT_MODAL ->
-                Action.ViewAction.StudyPlan
+                Action.ViewAction.NavigateTo.StudyPlan
         }
 
     private fun handleClickedTermsOfServiceAndPrivacyPolicy(state: State): ReducerResult =

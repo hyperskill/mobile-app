@@ -90,8 +90,6 @@ private extension PaywallView {
             default:
                 ProgressHUD.show(status: message)
             }
-        case .studyPlan:
-            break
         }
     }
 }
