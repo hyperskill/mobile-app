@@ -6,7 +6,7 @@ private final class AppGraph: IosAppComponentImpl {
         IosFCMTokenProviderImpl.shared
     }
 
-    override func getIosPurchaseManager() -> shared.PurchaseManager {
+    override func getIosPurchaseManager() -> shared.IosPurchaseManager {
         PurchaseManager.shared
     }
 }
