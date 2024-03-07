@@ -4,8 +4,11 @@ import SwiftUI
 final class PaywallAssembly: UIKitAssembly {
     private let source: PaywallTransitionSource
 
-    init(source: PaywallTransitionSource) {
+    private weak var moduleOutput: PaywallOutputProtocol?
+
+    init(source: PaywallTransitionSource, moduleOutput: PaywallOutputProtocol?) {
         self.source = source
+        self.moduleOutput = moduleOutput
     }
 
     func makeModule() -> UIViewController {
@@ -16,6 +19,7 @@ final class PaywallAssembly: UIKitAssembly {
         let paywallViewModel = PaywallViewModel(
             feature: paywallComponent.paywallFeature
         )
+        paywallViewModel.moduleOutput = moduleOutput
 
         let paywallView = PaywallView(
             viewModel: paywallViewModel

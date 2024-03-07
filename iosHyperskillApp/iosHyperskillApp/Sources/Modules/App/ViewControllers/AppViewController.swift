@@ -229,7 +229,7 @@ extension AppViewController: AppViewControllerProtocol {
             case .usersQuestionnaireOnboardingScreen:
                 router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
             case .paywall(let data):
-                router.route(.paywall(source: data.paywallTransitionSource))
+                router.route(.paywall(source: data.paywallTransitionSource, moduleOutput: viewModel))
             }
         }
     }

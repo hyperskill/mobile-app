@@ -72,7 +72,7 @@ private extension PaywallView {
         case .closePaywall:
             break
         case .completePaywall:
-            break
+            viewModel.doCompletePaywall()
         case .navigateTo:
             break
         case .openUrl:
