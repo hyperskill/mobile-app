@@ -75,8 +75,11 @@ private extension PaywallView {
             viewModel.doCompletePaywall()
         case .navigateTo:
             break
-        case .openUrl:
-            break
+        case .openUrl(let data):
+            WebControllerManager.shared.presentWebControllerWithURLString(
+                data.url,
+                controllerType: .inAppSafari
+            )
         case .showMessage:
             break
         case .studyPlan:
