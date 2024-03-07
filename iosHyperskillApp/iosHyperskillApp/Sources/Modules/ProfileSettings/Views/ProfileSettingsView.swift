@@ -70,9 +70,7 @@ struct ProfileSettingsView: View {
             if let subscriptionState {
                 ProfileSettingsSubscriptionSectionView(
                     description: subscriptionState.description_,
-                    action: {
-                        #warning("TODO: ALTAPPS-1138")
-                    }
+                    action: viewModel.doSubscriptionDetailsPresentation
                 )
             }
 
@@ -220,10 +218,26 @@ struct ProfileSettingsView: View {
             switch ProfileSettingsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .parentScreen:
                 presentationMode.wrappedValue.dismiss()
-            case .paywall:
-                #warning("TODO: ALTAPPS-1126")
+            case .paywall(let data):
+                let navigationController =
+                    SourcelessRouter().currentPresentedViewController()?.children.first as? UINavigationController
+                guard let navigationController else {
+                    return assertionFailure("ProfileSettingsView: No navigation controller")
+                }
+
+                let assembly = PaywallAssembly(
+                    context: .init(
+                        source: data.paywallTransitionSource,
+                        moduleOutput: nil
+                    )
+                )
+
+                navigationController.pushViewController(
+                    assembly.makeModule(),
+                    animated: true
+                )
             case .subscriptionManagement:
-                #warning("TODO: ALTAPPS-1132")
+                #warning("TODO: ALTAPPS-1138")
             }
         }
     }
