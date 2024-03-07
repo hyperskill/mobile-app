@@ -40,7 +40,6 @@ internal class AppActionDispatcher(
     private val purchaseInteractor: PurchaseInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val subscriptionsInteractor: SubscriptionsInteractor,
-    private val isSubscriptionPurchaseEnabled: Boolean,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -65,15 +64,13 @@ internal class AppActionDispatcher(
             }
             .launchIn(actionScope)
 
-        if (isSubscriptionPurchaseEnabled) {
-            currentSubscriptionStateRepository
-                .changes
-                .distinctUntilChanged()
-                .onEach { subscription ->
-                    onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(subscription))
-                }
-                .launchIn(actionScope)
-        }
+        currentSubscriptionStateRepository
+            .changes
+            .distinctUntilChanged()
+            .onEach { subscription ->
+                onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(subscription))
+            }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -141,7 +138,7 @@ internal class AppActionDispatcher(
     }
 
     private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
-        if (isAuthorized && isSubscriptionPurchaseEnabled) {
+        if (isAuthorized) {
             currentSubscriptionStateRepository
                 .getStateWithSource(forceUpdate = false)
                 .fold(
@@ -185,15 +182,13 @@ internal class AppActionDispatcher(
     }
 
     private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long) {
-        if (isSubscriptionPurchaseEnabled) {
-            purchaseInteractor
-                .login(userId)
-                .onFailure {
-                    logger.e(it) {
-                        "Failed to login user in the purchase sdk"
-                    }
+        purchaseInteractor
+            .login(userId)
+            .onFailure {
+                logger.e(it) {
+                    "Failed to login user in the purchase sdk"
                 }
-        }
+            }
     }
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {

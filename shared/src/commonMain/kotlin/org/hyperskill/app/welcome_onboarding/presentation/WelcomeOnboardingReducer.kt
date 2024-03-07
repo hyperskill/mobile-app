@@ -14,9 +14,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class WelcomeOnboardingReducer(
-    private val isSubscriptionPurchaseEnabled: Boolean
-) : StateReducer<State, Message, Action> {
+class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             is InternalMessage.OnboardingFlowRequested ->
@@ -64,7 +62,7 @@ class WelcomeOnboardingReducer(
     private fun handleUsersQuestionnaireOnboardingCompleted(
         state: State
     ): ReducerResult =
-        if (isSubscriptionPurchaseEnabled && state.profile?.features?.isMobileOnlySubscriptionEnabled == true) {
+        if (state.profile?.features?.isMobileOnlySubscriptionEnabled == true) {
             state to setOf(InternalAction.FetchSubscription)
         } else {
             handlePaywallCompleted(state)

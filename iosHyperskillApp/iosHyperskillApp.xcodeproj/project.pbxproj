@@ -187,6 +187,7 @@
 		2C45E7C32A0FEC2B00DFF32D /* ProjectSelectionListGridCellHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListGridCellHeaderView.swift */; };
 		2C45E7C52A0FEE7A00DFF32D /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */; };
 		2C4605B12ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */; };
+		2C4623A12B999CAF002BDDBB /* PaywallHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4623A02B999CAF002BDDBB /* PaywallHostingController.swift */; };
 		2C46D0632807E4C100B3636E /* TextFieldWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */; };
 		2C48232B2AC172600047999B /* LaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C48232A2AC172600047999B /* LaunchTests.swift */; };
 		2C4823322AC1768A0047999B /* LaunchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4823312AC1768A0047999B /* LaunchPerformanceTests.swift */; };
@@ -201,6 +202,9 @@
 		2C5215AA291E5B63006C2427 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215A9291E5B63006C2427 /* PullToRefresh.swift */; };
 		2C5215AC291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */; };
 		2C5261A52993CBF100B4E8F6 /* TopicProgressExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */; };
+		2C52F9972B98711A001524B5 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9962B98711A001524B5 /* PaywallViewModel.swift */; };
+		2C52F99A2B9871E7001524B5 /* PaywallAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */; };
+		2C52F99C2B987397001524B5 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F99B2B987397001524B5 /* PaywallView.swift */; };
 		2C54E4222A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */; };
 		2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */; };
 		2C54E4282A1F717F003406B9 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4272A1F717F003406B9 /* CardView.swift */; };
@@ -317,7 +321,7 @@
 		2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */; };
 		2C919E3527EEFF110022A2F2 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3427EEFF110022A2F2 /* Queue.swift */; };
 		2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C919E3627EF00950022A2F2 /* QueueTests.swift */; };
-		2C9320F52B68F14100999992 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9320F42B68F14100999992 /* PaywallView.swift */; };
+		2C9320F52B68F14100999992 /* PaywallContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9320F42B68F14100999992 /* PaywallContentView.swift */; };
 		2C93AF1F29B34A88004639E0 /* StepQuizPyCharmViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93AF1E29B34A88004639E0 /* StepQuizPyCharmViewModel.swift */; };
 		2C93AF2129B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93AF2029B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift */; };
 		2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C93AF2229B34F66004639E0 /* StepQuizPyCharmView.swift */; };
@@ -435,6 +439,7 @@
 		2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD1916291D392400F5FB0B /* UIView+Animations.swift */; };
 		2CBD1919291D399500F5FB0B /* UIKitBounceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */; };
 		2CBD191D291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBD191C291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift */; };
+		2CBF24E32B996D57006D914F /* PaywallOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBF24E22B996D57006D914F /* PaywallOutputProtocol.swift */; };
 		2CBFB94A28897DBB0044D1BA /* StepQuizCodeFullScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB94928897DBB0044D1BA /* StepQuizCodeFullScreenView.swift */; };
 		2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */; };
 		2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */; };
@@ -896,6 +901,7 @@
 		2C45E7C22A0FEC2B00DFF32D /* ProjectSelectionListGridCellHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectSelectionListGridCellHeaderView.swift; sourceTree = "<group>"; };
 		2C45E7C42A0FEE7A00DFF32D /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
 		2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ScrollBounceBehavior.swift"; sourceTree = "<group>"; };
+		2C4623A02B999CAF002BDDBB /* PaywallHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallHostingController.swift; sourceTree = "<group>"; };
 		2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWrapper.swift; sourceTree = "<group>"; };
 		2C4823262AC172600047999B /* iosHyperskillAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosHyperskillAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C48232A2AC172600047999B /* LaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchTests.swift; sourceTree = "<group>"; };
@@ -913,6 +919,9 @@
 		2C5215A9291E5B63006C2427 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindViewOfSpecifiedType.swift"; sourceTree = "<group>"; };
 		2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicProgressExtensions.swift; sourceTree = "<group>"; };
+		2C52F9962B98711A001524B5 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
+		2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallAssembly.swift; sourceTree = "<group>"; };
+		2C52F99B2B987397001524B5 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsDescriptionView.swift; sourceTree = "<group>"; };
 		2C54E4272A1F717F003406B9 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -1030,7 +1039,7 @@
 		2C919E3227EEF92F0022A2F2 /* LinkedListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedListTests.swift; sourceTree = "<group>"; };
 		2C919E3427EEFF110022A2F2 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		2C919E3627EF00950022A2F2 /* QueueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTests.swift; sourceTree = "<group>"; };
-		2C9320F42B68F14100999992 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		2C9320F42B68F14100999992 /* PaywallContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallContentView.swift; sourceTree = "<group>"; };
 		2C93AF1E29B34A88004639E0 /* StepQuizPyCharmViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizPyCharmViewModel.swift; sourceTree = "<group>"; };
 		2C93AF2029B34C5A004639E0 /* StepQuizPyCharmViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizPyCharmViewDataMapper.swift; sourceTree = "<group>"; };
 		2C93AF2229B34F66004639E0 /* StepQuizPyCharmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizPyCharmView.swift; sourceTree = "<group>"; };
@@ -1148,6 +1157,7 @@
 		2CBD1916291D392400F5FB0B /* UIView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Animations.swift"; sourceTree = "<group>"; };
 		2CBD1918291D399500F5FB0B /* UIKitBounceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitBounceButton.swift; sourceTree = "<group>"; };
 		2CBD191C291D3BF400F5FB0B /* UIKitRoundedRectangleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitRoundedRectangleButton.swift; sourceTree = "<group>"; };
+		2CBF24E22B996D57006D914F /* PaywallOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallOutputProtocol.swift; sourceTree = "<group>"; };
 		2CBFB94928897DBB0044D1BA /* StepQuizCodeFullScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenView.swift; sourceTree = "<group>"; };
 		2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenAssembly.swift; sourceTree = "<group>"; };
 		2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOAuthService.swift; sourceTree = "<group>"; };
@@ -2329,6 +2339,25 @@
 			path = About;
 			sourceTree = "<group>";
 		};
+		2C52F9982B987124001524B5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2C52F99B2B987397001524B5 /* PaywallView.swift */,
+				2C52F99D2B98776A001524B5 /* Content */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2C52F99D2B98776A001524B5 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				2C9320F42B68F14100999992 /* PaywallContentView.swift */,
+				2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */,
+				2C7271272B6B92AD005628B0 /* PaywallFooterView.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
 		2C54E4202A1F60AC003406B9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -2782,9 +2811,11 @@
 		2C9320F32B68F13000999992 /* Paywall */ = {
 			isa = PBXGroup;
 			children = (
-				2C7C0D622B6B45A20093609D /* PaywallFeaturesView.swift */,
-				2C7271272B6B92AD005628B0 /* PaywallFooterView.swift */,
-				2C9320F42B68F14100999992 /* PaywallView.swift */,
+				2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */,
+				2C4623A02B999CAF002BDDBB /* PaywallHostingController.swift */,
+				2CBF24E22B996D57006D914F /* PaywallOutputProtocol.swift */,
+				2C52F9962B98711A001524B5 /* PaywallViewModel.swift */,
+				2C52F9982B987124001524B5 /* Views */,
 			);
 			path = Paywall;
 			sourceTree = "<group>";
@@ -4586,6 +4617,7 @@
 				E94BB04C2A9DFCCF00736B7C /* StepQuizParsonsViewData.swift in Sources */,
 				2C3100532AB194A200C09BFB /* StepQuizParsonsViewDataMapperCodeContentCache.swift in Sources */,
 				2CE8EE712B066D05004EB545 /* ChallengeWidgetViewStateContentCollectRewardButtonStateKsExtensions.swift in Sources */,
+				2CBF24E32B996D57006D914F /* PaywallOutputProtocol.swift in Sources */,
 				2CE4F0732B71D358001FD376 /* SubscriptionDetailsView.swift in Sources */,
 				2CDA984929445C0A00ADE539 /* ProfileStatisticsItemView.swift in Sources */,
 				E9F655D12875B32700291143 /* ProblemOfDayCardView.swift in Sources */,
@@ -4641,6 +4673,7 @@
 				2C7271242B6B634F005628B0 /* View+Task.swift in Sources */,
 				2C963BC72812D1BF0036DD53 /* HomeAssembly.swift in Sources */,
 				2C0409842B863EA600E9CF41 /* Publishers+KeyboardIsVisible.swift in Sources */,
+				2C52F9972B98711A001524B5 /* PaywallViewModel.swift in Sources */,
 				2C1860FC2923C540007D4EBF /* AppFeatureStateKsExtensions.swift in Sources */,
 				2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */,
 				2C05AC542A0EC5B00039C7EF /* ProjectSelectionListHeaderView.swift in Sources */,
@@ -4672,6 +4705,7 @@
 				2C95BAD92A4AED4300371C17 /* BackgroundProgressView.swift in Sources */,
 				E9523BF229DA966C0013A661 /* StudyPlanAssembly.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
+				2C52F99A2B9871E7001524B5 /* PaywallAssembly.swift in Sources */,
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
 				2C5CA2412A20242E00DBF2F9 /* ProjectSelectionDetailsContentView.swift in Sources */,
 				2C5CA23E2A2022CB00DBF2F9 /* ProjectSelectionDetailsProviderView.swift in Sources */,
@@ -4794,6 +4828,7 @@
 				2CACBCBE2B7A1365006D3AB2 /* UsersQuestionnaireWidgetViewModel.swift in Sources */,
 				2CAE8CF728052F9600E6C83D /* StepHeaderView.swift in Sources */,
 				2CF87DA229B718800092FF83 /* IntrospectViewController.swift in Sources */,
+				2C4623A12B999CAF002BDDBB /* PaywallHostingController.swift in Sources */,
 				2CFD32462AAEFC6C00B9B6EA /* AppGraph+DefaultInstances.swift in Sources */,
 				2C195D042B8467EA0076B2C8 /* UsersQuestionnaireOnboardingContentView.swift in Sources */,
 				2C96744228883A180091B6C9 /* StepQuizCodeViewDataMapper.swift in Sources */,
@@ -4908,6 +4943,7 @@
 				2C8EBE512A4D3DF700A77205 /* ProgressScreenCardView.swift in Sources */,
 				2C7994B12A129D6100874C16 /* TrackSelectionListSkeletonView.swift in Sources */,
 				2C1F5875280D0E0000372A37 /* WKWebViewPanelManager.m in Sources */,
+				2C52F99C2B987397001524B5 /* PaywallView.swift in Sources */,
 				2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */,
 				2C5EC2C82AC41CAF0098D126 /* StepQuizCodeEditorView.swift in Sources */,
 				2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */,
@@ -5114,7 +5150,7 @@
 				E91017152832975C002E70F5 /* CheckboxButton.swift in Sources */,
 				2C99B1002A14255F0018627B /* StudyPlanWidgetViewStateSectionItemStateWrapper.swift in Sources */,
 				E9E964872A0B8D8200841DF6 /* StepQuizProblemsLimitView.swift in Sources */,
-				2C9320F52B68F14100999992 /* PaywallView.swift in Sources */,
+				2C9320F52B68F14100999992 /* PaywallContentView.swift in Sources */,
 				2C8CD9AE2994EFC5008DC09D /* DebugFeatureViewStateKsExtensions.swift in Sources */,
 				2C83FBC02B177F68007AD7E2 /* LeaderboardListView.swift in Sources */,
 				2C967432288824370091B6C9 /* StepQuizCodeViewModel.swift in Sources */,

@@ -3,7 +3,6 @@ package org.hyperskill.app.step_quiz.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -44,8 +43,7 @@ internal object StepQuizFeatureBuilder {
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
         resourceProvider: ResourceProvider,
         logger: Logger,
-        buildVariant: BuildVariant,
-        platform: Platform
+        buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer = StepQuizReducer(
             stepRoute = stepRoute,
@@ -61,8 +59,7 @@ internal object StepQuizFeatureBuilder {
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
-            resourceProvider = resourceProvider,
-            platform = platform
+            resourceProvider = resourceProvider
         )
 
         return ReduxFeature(
