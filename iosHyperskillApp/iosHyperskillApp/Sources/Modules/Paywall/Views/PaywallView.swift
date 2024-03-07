@@ -31,6 +31,7 @@ struct PaywallView: View {
             viewModel.stopListening()
             viewModel.onViewAction = nil
         }
+        .navigationTitle(Strings.Paywall.navigationTitle)
     }
 
     @ViewBuilder
