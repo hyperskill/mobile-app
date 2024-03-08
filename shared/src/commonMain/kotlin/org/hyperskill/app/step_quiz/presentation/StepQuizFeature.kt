@@ -198,9 +198,9 @@ object StepQuizFeature {
 
             data class ShowProblemsLimitReachedModal(val modalData: ProblemsLimitReachedModalData) : ViewAction
 
-            data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
+            object HideProblemsLimitReachedModal : ViewAction
 
-            object HideProblemOnboardingModal : ViewAction
+            data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction

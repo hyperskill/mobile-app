@@ -436,7 +436,7 @@ internal class StepQuizReducer(
             ) to if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
                 setOf(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
             } else {
-                setOf(Action.ViewAction.HideProblemOnboardingModal)
+                setOf(Action.ViewAction.HideProblemsLimitReachedModal)
             }
         } else {
             null

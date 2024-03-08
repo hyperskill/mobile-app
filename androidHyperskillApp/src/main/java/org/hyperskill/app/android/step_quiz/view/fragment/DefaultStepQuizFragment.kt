@@ -291,7 +291,7 @@ abstract class DefaultStepQuizFragment :
                     .newInstance(action.modalData)
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
-            StepQuizFeature.Action.ViewAction.HideProblemOnboardingModal -> {
+            StepQuizFeature.Action.ViewAction.HideProblemsLimitReachedModal -> {
                 childFragmentManager.dismissDialogFragmentIfExists(ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {
