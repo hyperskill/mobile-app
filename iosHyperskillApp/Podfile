@@ -12,7 +12,7 @@ target "iosHyperskillApp" do
   pod "SwiftLint", "0.54.0"
   pod "Sentry", "8.17.2"
 
-  pod "RevenueCat", "4.38.0"
+  pod "RevenueCat", "4.38.1"
 
   # Firebase
   pod "Firebase/CoreOnly", "10.17.0"

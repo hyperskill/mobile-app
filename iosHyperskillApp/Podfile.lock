@@ -83,7 +83,7 @@ PODS:
     - Nuke (~> 10.5)
   - PanModal (1.2.7)
   - PromisesObjC (2.3.1)
-  - RevenueCat (4.38.0)
+  - RevenueCat (4.38.1)
   - Sentry (8.17.2):
     - Sentry/Core (= 8.17.2)
     - SentryPrivate (= 8.17.2)
@@ -112,7 +112,7 @@ DEPENDENCIES:
   - lottie-ios (= 4.3.3)
   - NukeUI (from `https://github.com/kean/NukeUI.git`, tag `0.8.3`)
   - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
-  - RevenueCat (= 4.38.0)
+  - RevenueCat (= 4.38.1)
   - Sentry (= 8.17.2)
   - shared (from `../shared`)
   - SkeletonUI (= 1.0.11)
@@ -216,7 +216,7 @@ SPEC CHECKSUMS:
   NukeUI: 3c7ec7b299dd99707afdc783b436f39768b4493b
   PanModal: 3e16ead1a907fb06f4df3f13492fd00149fa4974
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  RevenueCat: fec59e2fbc075c0dd04de024129340c994402299
+  RevenueCat: f1b4bce353e676260eddc65a34c9fdf595adf2f4
   Sentry: 64a9f9c3637af913adcf53deced05bbe452d1410
   SentryPrivate: 024c6fed507ac39ae98e6d087034160f942920d5
   shared: 210f065b47c10083f8ccc49e665dec6d32c5b2d3
@@ -227,6 +227,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: f85923d42295e2149906270edab1e3948d2bec6e
+PODFILE CHECKSUM: 4a7f7e2c618260919026c572d5dbe1ec7f32ae37
 
 COCOAPODS: 1.15.2
