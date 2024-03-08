@@ -1,5 +1,5 @@
 package org.hyperskill.app.purchases.domain.model
 
 internal actual object PlatformProductIdentifiers {
-    actual val mobileOnlySubscription: String = "premium_mobile"
+    actual const val MOBILE_ONLY_SUBSCRIPTION: String = "premium_mobile"
 }

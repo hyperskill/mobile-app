@@ -24,11 +24,11 @@ class PurchaseInteractor(
     suspend fun purchaseMobileOnlySubscription(
         platformPurchaseParams: PlatformPurchaseParams
     ): Result<PurchaseResult> =
-        purchaseManager.purchase(PlatformProductIdentifiers.mobileOnlySubscription, platformPurchaseParams)
+        purchaseManager.purchase(PlatformProductIdentifiers.MOBILE_ONLY_SUBSCRIPTION, platformPurchaseParams)
 
     suspend fun getManagementUrl(): Result<String?> =
         purchaseManager.getManagementUrl()
 
     suspend fun getFormattedMobileOnlySubscriptionPrice(): Result<String?> =
-        purchaseManager.getFormattedProductPrice(PlatformProductIdentifiers.mobileOnlySubscription)
+        purchaseManager.getFormattedProductPrice(PlatformProductIdentifiers.MOBILE_ONLY_SUBSCRIPTION)
 }
