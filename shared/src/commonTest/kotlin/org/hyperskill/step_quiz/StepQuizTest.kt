@@ -227,7 +227,7 @@ class StepQuizTest {
 
         val (actualState, actualActions) = reducer.reduce(
             initialState,
-            StepQuizFeature.InternalMessage.ProblemsLimitChanged(
+            StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
                 isProblemsLimitReached = true,
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",
@@ -282,7 +282,7 @@ class StepQuizTest {
 
         val (actualState, actualActions) = reducer.reduce(
             initialState,
-            StepQuizFeature.InternalMessage.ProblemsLimitChanged(
+            StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
                 isProblemsLimitReached = true,
                 problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
                     title = "",

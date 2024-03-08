@@ -55,7 +55,7 @@ internal class StepQuizActionDispatcher(
             .changes
             .onEach { subscription ->
                 onNewMessage(
-                    InternalMessage.ProblemsLimitChanged(
+                    InternalMessage.UpdateProblemsLimitResult(
                         isProblemsLimitReached = subscription.isProblemsLimitReached,
                         problemsLimitReachedModalData = getProblemsLimitReachedModalData(
                             profile = currentProfileStateRepository.getState().getOrElse { return@onEach },
@@ -325,7 +325,7 @@ internal class StepQuizActionDispatcher(
         val problemsLimitReachedModalData = getProblemsLimitReachedModalData(currentProfile, subscription)
 
         onNewMessage(
-            InternalMessage.ProblemsLimitChanged(
+            InternalMessage.UpdateProblemsLimitResult(
                 isProblemsLimitReached = subscription.isProblemsLimitReached,
                 problemsLimitReachedModalData = problemsLimitReachedModalData
             )

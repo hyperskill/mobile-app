@@ -218,7 +218,7 @@ internal class StepQuizReducer(
                     null
                 }
             }
-            is InternalMessage.ProblemsLimitChanged ->
+            is InternalMessage.UpdateProblemsLimitResult ->
                 handleUpdateProblemsLimitChanged(state, message)
             is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(
@@ -423,7 +423,7 @@ internal class StepQuizReducer(
 
     private fun handleUpdateProblemsLimitChanged(
         state: State,
-        message: InternalMessage.ProblemsLimitChanged
+        message: InternalMessage.UpdateProblemsLimitResult
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
             val isProblemsLimitReached =
