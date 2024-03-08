@@ -18,6 +18,14 @@ struct WelcomeView: View {
 
     private let actionButtonsFeedbackGenerator = FeedbackGenerator(feedbackType: .selection)
 
+    private var isDebugButtonVisible: Bool {
+        #if DEBUG
+        return true
+        #else
+        return ApplicationInfo.isDebugModeAvailable
+        #endif
+    }
+
     var body: some View {
         ZStack {
             UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
@@ -96,6 +104,15 @@ struct WelcomeView: View {
 
                 if horizontalSizeClass == .regular {
                     Spacer()
+                }
+
+                if isDebugButtonVisible {
+                    Button("Display Debug Screen") {
+                        SourcelessRouter().currentPresentedViewController()?.present(
+                            DebugAssembly().makeModule(),
+                            animated: true
+                        )
+                    }
                 }
             }
             .frame(maxWidth: appearance.contentMaxWidth)
