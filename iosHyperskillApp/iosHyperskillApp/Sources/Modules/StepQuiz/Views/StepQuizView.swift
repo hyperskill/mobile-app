@@ -302,8 +302,6 @@ struct StepQuizView: View {
             presentProblemsLimitReachedModal(
                 modalData: showProblemsLimitReachedModalViewAction.modalData
             )
-        case .hideProblemOnboardingModal:
-            #warning("TODO: ALTAPPS-1148")
         case .showProblemOnboardingModal(let showProblemOnboardingModalViewAction):
             presentProblemOnboardingModal(modalType: showProblemOnboardingModalViewAction.modalType)
         case .navigateTo(let viewActionNavigateTo):
@@ -344,6 +342,8 @@ struct StepQuizView: View {
             }
         case .openUrl(let data):
             WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
+        case .hideProblemsLimitReachedModal:
+            #warning("TODO: ALTAPPS-1148")
         }
     }
 }
