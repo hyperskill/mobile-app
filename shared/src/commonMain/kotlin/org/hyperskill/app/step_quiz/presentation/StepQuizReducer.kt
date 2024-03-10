@@ -219,7 +219,9 @@ internal class StepQuizReducer(
                 }
             }
             is InternalMessage.UpdateProblemsLimitResult ->
-                handleUpdateProblemsLimitChanged(state, message)
+                handleUpdateProblemsLimitResult(state, message)
+            is InternalMessage.ProblemsLimitChanged ->
+                handleProblemsLimitChanged(state, message)
             is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.Home,
@@ -421,7 +423,7 @@ internal class StepQuizReducer(
         ) to stepQuizActions + stepQuizHintsActions
     }
 
-    private fun handleUpdateProblemsLimitChanged(
+    private fun handleUpdateProblemsLimitResult(
         state: State,
         message: InternalMessage.UpdateProblemsLimitResult
     ): StepQuizReducerResult? =
@@ -433,10 +435,32 @@ internal class StepQuizReducer(
                 stepQuizState = state.stepQuizState.copy(
                     isProblemsLimitReached = isProblemsLimitReached
                 )
-            ) to if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
-                setOf(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
-            } else {
+            ) to buildSet {
+                if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
+                    add(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
+                }
+            }
+        } else {
+            null
+        }
+
+    private fun handleProblemsLimitChanged(
+        state: State,
+        message: InternalMessage.ProblemsLimitChanged
+    ): StepQuizReducerResult? =
+        if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+            val isProblemsLimitReached =
+                StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
+            val shouldHideProblemsLimitModal =
+                state.stepQuizState.isProblemsLimitReached && !isProblemsLimitReached
+            state.copy(
+                stepQuizState = state.stepQuizState.copy(
+                    isProblemsLimitReached = isProblemsLimitReached
+                )
+            ) to if (shouldHideProblemsLimitModal) {
                 setOf(Action.ViewAction.HideProblemsLimitReachedModal)
+            } else {
+                emptySet()
             }
         } else {
             null

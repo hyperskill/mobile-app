@@ -1,6 +1,8 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -53,15 +55,11 @@ internal class StepQuizActionDispatcher(
     init {
         currentSubscriptionStateRepository
             .changes
-            .onEach { subscription ->
+            .map { it.isProblemsLimitReached }
+            .distinctUntilChanged()
+            .onEach { isProblemsLimitReached ->
                 onNewMessage(
-                    InternalMessage.UpdateProblemsLimitResult(
-                        isProblemsLimitReached = subscription.isProblemsLimitReached,
-                        problemsLimitReachedModalData = getProblemsLimitReachedModalData(
-                            profile = currentProfileStateRepository.getState().getOrElse { return@onEach },
-                            subscription
-                        )
-                    )
+                    InternalMessage.ProblemsLimitChanged(isProblemsLimitReached)
                 )
             }
             .launchIn(actionScope)

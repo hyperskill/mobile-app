@@ -156,6 +156,8 @@ object StepQuizFeature {
             val problemsLimitReachedModalData: ProblemsLimitReachedModalData?
         ) : InternalMessage
 
+        data class ProblemsLimitChanged(val isProblemsLimitReached: Boolean) : InternalMessage
+
         object CreateMagicLinkForUnsupportedQuizError : InternalMessage
         data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
     }
