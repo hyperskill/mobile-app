@@ -5,6 +5,8 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
@@ -30,8 +32,22 @@ class StepDelegate<TFragment>(
         TFragment : ShareStreakDialogFragment.Callback,
         TFragment : InterviewPreparationFinishedDialogFragment.Callback {
 
-    fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
-        onNewMessage(StepFeature.Message.ViewedEventMessage)
+    fun init(
+        errorBinding: ErrorNoConnectionWithButtonBinding,
+        lifecycle: Lifecycle,
+        onNewMessage: (StepFeature.Message) -> Unit
+    ) {
+        lifecycle.addObserver(
+            LifecycleEventObserver { _, event ->
+                when (event) {
+                    Lifecycle.Event.ON_RESUME -> onNewMessage(StepFeature.Message.ScreenShowed)
+                    Lifecycle.Event.ON_PAUSE -> onNewMessage(StepFeature.Message.ScreenHidden)
+                    else -> {
+                        // no op
+                    }
+                }
+            }
+        )
         errorBinding.tryAgain.setOnClickListener {
             onNewMessage(StepFeature.Message.Initialize(forceUpdate = true))
         }

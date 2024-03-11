@@ -26,10 +26,9 @@ object StepFeature {
             object Error : StepLoaded
         }
 
-        /**
-         * Analytic
-         */
-        object ViewedEventMessage : Message
+        object ScreenShowed : Message
+
+        object ScreenHidden : Message
 
         /**
          * Message Wrappers

@@ -64,7 +64,11 @@ class StepFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
-        stepDelegate?.init(viewBinding.stepError, stepViewModel::onNewMessage)
+        stepDelegate?.init(
+            errorBinding = viewBinding.stepError,
+            lifecycle = viewLifecycleOwner.lifecycle,
+            onNewMessage = stepViewModel::onNewMessage
+        )
     }
 
     private fun injectComponent() {

@@ -47,7 +47,7 @@ internal class StepReducer(
             }
             is Message.StepLoaded.Error ->
                 State.Error to emptySet()
-            is Message.ViewedEventMessage ->
+            is Message.ScreenShowed ->
                 if (stepRoute is StepRoute.StageImplement) {
                     // Fix duplicate analytic events -> StageImplementFeature sends this event
                     null
@@ -60,6 +60,7 @@ internal class StepReducer(
                         )
                     )
                 }
+            is Message.ScreenHidden -> TODO()
             is Message.StepCompletionMessage ->
                 if (state is State.Data) {
                     val (stepCompletionState, stepCompletionActions) =
