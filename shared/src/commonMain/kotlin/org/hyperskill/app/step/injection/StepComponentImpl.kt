@@ -19,15 +19,16 @@ internal class StepComponentImpl(
 
     override val stepFeature: Feature<StepFeature.State, StepFeature.Message, StepFeature.Action>
         get() = StepFeatureBuilder.build(
-            stepRoute,
-            appGraph.buildStepDataComponent().stepInteractor,
-            appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
-            appGraph.profileDataComponent.currentProfileStateRepository,
-            appGraph.analyticComponent.analyticInteractor,
-            appGraph.sentryComponent.sentryInteractor,
-            stepCompletionComponent.stepCompletionReducer,
-            stepCompletionComponent.stepCompletionActionDispatcher,
-            appGraph.loggerComponent.logger,
-            appGraph.commonComponent.buildKonfig.buildVariant
+            stepRoute = stepRoute,
+            stepInteractor = appGraph.buildStepDataComponent().stepInteractor,
+            stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
+            nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            stepCompletionReducer = stepCompletionComponent.stepCompletionReducer,
+            stepCompletionActionDispatcher = stepCompletionComponent.stepCompletionActionDispatcher,
+            logger = appGraph.loggerComponent.logger,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
 }

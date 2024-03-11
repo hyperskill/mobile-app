@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.domain.interactor
 
+import kotlin.time.Duration
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
@@ -21,6 +22,10 @@ class StepInteractor(
 
     suspend fun viewStep(stepId: Long, stepContext: StepContext) {
         stepRepository.viewStep(stepId, stepContext)
+    }
+
+    suspend fun logStepSolvingTime(stepId: Long, duration: Duration){
+        stepRepository.logStepSolvingTime(stepId, duration)
     }
 
     suspend fun getNextRecommendedStepAndCompleteCurrentIfNeeded(currentStep: Step): Result<Step> =
