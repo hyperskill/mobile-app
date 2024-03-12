@@ -1,5 +1,9 @@
 package org.hyperskill.app.step_quiz.presentation
 
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.platform.Platform
@@ -30,6 +34,7 @@ import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteracto
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class StepQuizActionDispatcher(
@@ -43,8 +48,23 @@ internal class StepQuizActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
     private val resourceProvider: ResourceProvider,
-    private val platform: Platform
+    private val platform: Platform,
+    currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        currentSubscriptionStateRepository
+            .changes
+            .map { it.isProblemsLimitReached }
+            .distinctUntilChanged()
+            .onEach { isProblemsLimitReached ->
+                onNewMessage(
+                    InternalMessage.ProblemsLimitChanged(isProblemsLimitReached)
+                )
+            }
+            .launchIn(actionScope)
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchAttempt ->
@@ -200,21 +220,13 @@ internal class StepQuizActionDispatcher(
                 getSubmissionState(attempt.id, action.step.id, currentProfile.id)
                     .getOrThrow()
 
-            val isProblemsLimitReached = currentSubscription.isProblemsLimitReached
-            val problemsLimitReachedModalData = if (isProblemsLimitReached) {
-                getProblemsLimitReachedModalData(
-                    currentSubscription,
-                    isSubscriptionPurchaseEnabled(currentProfile, currentSubscription)
-                )
-            } else {
-                null
-            }
+            val problemsLimitReachedModalData = getProblemsLimitReachedModalData(currentProfile, currentSubscription)
 
             Message.FetchAttemptSuccess(
                 step = action.step,
                 attempt = attempt,
                 submissionState = submissionState,
-                isProblemsLimitReached = isProblemsLimitReached,
+                isProblemsLimitReached = currentSubscription.isProblemsLimitReached,
                 problemsLimitReachedModalData = problemsLimitReachedModalData,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags()
             )
@@ -236,19 +248,24 @@ internal class StepQuizActionDispatcher(
                 }
             }
 
-    internal fun isSubscriptionPurchaseEnabled(
-        currentProfile: Profile,
-        currentSubscription: Subscription
+    private fun isSubscriptionPurchaseEnabled(
+        profile: Profile,
+        subscription: Subscription
     ): Boolean =
         platform.isSubscriptionPurchaseEnabled &&
-            currentProfile.features.isMobileOnlySubscriptionEnabled &&
-            currentSubscription.isFreemium
+            profile.features.isMobileOnlySubscriptionEnabled &&
+            subscription.isFreemium
 
+    // TODO: ALTAPPS-1171: Extract ProblemsLimitReachedModal into a separate feature
     private suspend fun getProblemsLimitReachedModalData(
-        subscription: Subscription,
-        isSubscriptionPurchaseEnabled: Boolean
+        profile: Profile,
+        subscription: Subscription
     ): StepQuizFeature.ProblemsLimitReachedModalData? {
+        if (!subscription.isProblemsLimitReached) return null
+
         val stepsLimitTotal = subscription.stepsLimitTotal ?: return null
+
+        val isSubscriptionPurchaseEnabled = isSubscriptionPurchaseEnabled(profile, subscription)
 
         return if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
             StepQuizFeature.ProblemsLimitReachedModalData(
@@ -303,15 +320,7 @@ internal class StepQuizActionDispatcher(
         subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
 
         val subscription = subscriptionsInteractor.getCurrentSubscription().getOrElse { return }
-        val problemsLimitReachedModalData =
-            if (subscription.isProblemsLimitReached) {
-                getProblemsLimitReachedModalData(
-                    subscription = subscription,
-                    isSubscriptionPurchaseEnabled = isSubscriptionPurchaseEnabled(currentProfile, subscription)
-                )
-            } else {
-                null
-            }
+        val problemsLimitReachedModalData = getProblemsLimitReachedModalData(currentProfile, subscription)
 
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
