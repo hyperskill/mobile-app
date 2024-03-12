@@ -60,6 +60,7 @@ internal class StepQuizComponentImpl(
             stepQuizHintsActionDispatcher = stepQuizHintsComponent.stepQuizHintsActionDispatcher,
             resourceProvider = appGraph.commonComponent.resourceProvider,
             logger = appGraph.loggerComponent.logger,
-            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
         )
 }

@@ -78,7 +78,7 @@ object PaywallFeature {
             data class OpenUrl(val url: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object StudyPlan : NavigateTo
+                object Back : NavigateTo
                 object BackToProfileSettings : NavigateTo
             }
         }
