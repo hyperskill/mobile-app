@@ -3,12 +3,10 @@ import AppTrackingTransparency
 import Foundation
 import shared
 
-final class AppsFlyerManager: AnalyticEngine {
+final class AppsFlyerManager: AppsFlyerAnalyticEngine {
     private static let waitForATTUserAuthorizationTimeoutInterval: TimeInterval = 60
 
     static let shared = AppsFlyerManager()
-
-    var targetSource = AnalyticSource.appsFlyer
 
     private init() {}
 

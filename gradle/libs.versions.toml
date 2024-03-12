@@ -19,7 +19,8 @@ kermit = '2.0.0-RC4'
 androidxBrowser = "1.5.0"
 revenueCat = "7.4.0"
 googlePlayReview = "2.0.1"
-
+appsFlyer = "6.13.0"
+googlePlayInstallReferrer = "2.2"
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"
@@ -85,7 +86,8 @@ plugin-googleServises = { module = "com.google.gms:google-services", version = "
 gms-play-services = { module = "com.google.android.gms:play-services-base", version = "18.1.0" }
 gms-play-login = { module = "com.google.android.gms:play-services-auth", version = "20.4.0" }
 
-google-play-review = { module = "com.google.android.play:review-ktx", version.ref = "googlePlayReview"}
+googlePlay-review = { module = "com.google.android.play:review-ktx", version.ref = "googlePlayReview"}
+googlePlay-installreferrer = { module = "com.android.installreferrer:installreferrer", version.ref = "googlePlayInstallReferrer" }
 
 revenuecat = { module = "com.revenuecat.purchases:purchases", version.ref = "revenueCat" }
 
@@ -123,6 +125,8 @@ android-timepicker = { module = "io.github.ShawnLin013:number-picker", version =
 android-lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 
 android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version = "1.1.5" }
+
+android-appsFlyer = { module = "com.appsflyer:af-android-sdk", version.ref = "appsFlyer" }
 
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }
