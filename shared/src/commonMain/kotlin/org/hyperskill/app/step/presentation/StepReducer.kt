@@ -102,7 +102,7 @@ internal class StepReducer(
         if (shouldLogStepSolvingTime(state)) {
             state to setOf(InternalAction.LogSolvingTime(stepRoute.stepId))
         } else {
-           state to emptySet()
+            state to emptySet()
         }
 
     private fun handleScreenHidden(state: State): ReducerResult =
@@ -111,7 +111,7 @@ internal class StepReducer(
     private fun handleStepCompleted(
         state: State,
         message: InternalMessage.StepCompleted
-    ) : ReducerResult =
+    ): ReducerResult =
         if (state is State.Data && message.stepId == stepRoute.stepId) {
             state.copy(
                 /**

@@ -17,6 +17,7 @@ internal class StepComponentImpl(
     private val stepCompletionComponent: StepCompletionComponent =
         appGraph.buildStepCompletionComponent(stepRoute)
 
+    /*ktlint-disable*/
     override val stepFeature: Feature<StepFeature.State, StepFeature.Message, StepFeature.Action>
         get() = StepFeatureBuilder.build(
             stepRoute = stepRoute,
