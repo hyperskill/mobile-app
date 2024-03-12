@@ -5,7 +5,10 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -59,6 +62,11 @@ internal class StepActionDispatcher(
 
     private var logStepSolvingTimeJob: Job? = null
     private var stepSolvingInitialTime: Instant? = null
+    private val logSolvingTimeCoroutineExceptionHandler = CoroutineExceptionHandler { _, e ->
+        if (e !is CancellationException) {
+            logger.e(e) { "Failed to log step solving time" }
+        }
+    }
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -181,6 +189,7 @@ internal class StepActionDispatcher(
         logStepSolvingTimeJob?.cancel()
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private suspend fun handleLogSolvingTime(
         action: InternalAction.LogSolvingTime,
         stepSolvingInitialTime: Instant?
@@ -189,9 +198,20 @@ internal class StepActionDispatcher(
         val now = Clock.System.now()
         val duration = now - stepSolvingInitialTime
         this.stepSolvingInitialTime = now
-        stepInteractor.logStepSolvingTime(
-            stepId = action.stepId,
-            duration = duration
-        )
+
+        /**
+         * [GlobalScope] is used to execute logging operation
+         * even if the scope of this action dispatcher is canceled.
+         * Do not use [GlobalScope] in any other cases!
+         * TODO: ALTAPPS-1178 Add global application coroutine scope
+         */
+        GlobalScope.launch(logSolvingTimeCoroutineExceptionHandler) {
+            stepInteractor.logStepSolvingTime(
+                stepId = action.stepId,
+                duration = duration
+            ).onFailure { e ->
+                logger.e(e) { "Failed to log step solving time" }
+            }
+        }
     }
 }

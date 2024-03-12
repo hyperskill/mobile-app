@@ -114,7 +114,9 @@ internal class StepReducer(
     ) : ReducerResult =
         if (state is State.Data && message.stepId == stepRoute.stepId) {
             state.copy(
-                // Is used to not start timer when the screen is showed
+                /**
+                 * Is used to not start timer when the screen with a [Message.ScreenShowed]
+                 * */
                 step = state.step.copy(isCompleted = true)
             ) to getStopSolvingTimerActions(state)
         } else {

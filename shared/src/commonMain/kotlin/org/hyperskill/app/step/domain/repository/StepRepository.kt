@@ -25,5 +25,5 @@ interface StepRepository {
 
     suspend fun viewStep(stepId: Long, stepContext: StepContext)
 
-    suspend fun logStepSolvingTime(stepId: Long, duration: Duration)
+    suspend fun logStepSolvingTime(stepId: Long, duration: Duration): Result<Unit>
 }

@@ -24,9 +24,8 @@ class StepInteractor(
         stepRepository.viewStep(stepId, stepContext)
     }
 
-    suspend fun logStepSolvingTime(stepId: Long, duration: Duration){
+    suspend fun logStepSolvingTime(stepId: Long, duration: Duration): Result<Unit> =
         stepRepository.logStepSolvingTime(stepId, duration)
-    }
 
     suspend fun getNextRecommendedStepAndCompleteCurrentIfNeeded(currentStep: Step): Result<Step> =
         kotlin.runCatching {

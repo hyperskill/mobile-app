@@ -25,10 +25,9 @@ class StepRepositoryImpl(
         stepRemoteDataSource.viewStep(stepId, stepContext)
     }
 
-    override suspend fun logStepSolvingTime(stepId: Long, duration: Duration) {
+    override suspend fun logStepSolvingTime(stepId: Long, duration: Duration): Result<Unit> =
         stepRemoteDataSource.logStepSolvingTime(
             stepId = stepId,
             seconds = duration.inWholeSeconds
         )
-    }
 }
