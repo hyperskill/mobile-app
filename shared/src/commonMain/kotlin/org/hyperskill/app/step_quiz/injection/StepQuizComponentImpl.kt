@@ -61,6 +61,7 @@ internal class StepQuizComponentImpl(
             resourceProvider = appGraph.commonComponent.resourceProvider,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
-            platform = appGraph.commonComponent.platform
+            platform = appGraph.commonComponent.platform,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
         )
 }
