@@ -100,13 +100,8 @@ private extension PaywallView {
 
     func handleNavigateToViewAction(_ viewAction: PaywallFeatureActionViewActionNavigateToKs) {
         switch viewAction {
-        case .backToProfileSettings:
+        case .back, .backToProfileSettings:
             presentationMode.wrappedValue.dismiss()
-        case .studyPlan:
-            presentationMode.wrappedValue.dismiss()
-            DispatchQueue.main.async {
-                TabBarRouter(tab: .studyPlan).route()
-            }
         }
     }
 }

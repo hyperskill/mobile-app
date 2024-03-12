@@ -349,7 +349,9 @@ struct StepQuizView: View {
         case .openUrl(let data):
             WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
         case .hideProblemsLimitReachedModal:
-            #warning("TODO: ALTAPPS-1148")
+            panModalPresenter.dismissPanModal(
+                condition: { ($0 as? ProblemsLimitReachedModalViewController) != nil }
+            )
         }
     }
 }
