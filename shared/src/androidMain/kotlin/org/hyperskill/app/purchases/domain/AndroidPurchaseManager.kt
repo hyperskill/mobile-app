@@ -15,7 +15,6 @@ import com.revenuecat.purchases.awaitLogIn
 import com.revenuecat.purchases.awaitPurchase
 import com.revenuecat.purchases.models.StoreProduct
 import org.hyperskill.app.BuildConfig
-import org.hyperskill.app.purchases.domain.model.AndroidPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
 import org.hyperskill.app.purchases.domain.model.PurchaseResult
@@ -56,7 +55,7 @@ class AndroidPurchaseManager(
             } catch (e: PurchasesException) {
                 return@runCatching mapProductFetchException(productId, e)
             }
-            val activity = (platformPurchaseParams as AndroidPurchaseParams).activity
+            val activity = platformPurchaseParams.activity
             purchase(activity, product)
         }
 

@@ -42,4 +42,21 @@ final class PanModalPresenter: ObservableObject {
 
         return true
     }
+
+    @discardableResult
+    func dismissPanModal(
+        animated: Bool = true,
+        condition: (UIViewController & PanModalPresentable) -> Bool,
+        completion: (() -> Void)? = nil
+    ) -> Bool {
+        guard let currentPresentedViewController = sourcelessRouter.currentPresentedViewController(),
+              let panModal = currentPresentedViewController as? UIViewController & PanModalPresentable,
+              condition(panModal) else {
+            return false
+        }
+
+        panModal.dismiss(animated: animated, completion: completion)
+
+        return true
+    }
 }

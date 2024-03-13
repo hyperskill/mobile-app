@@ -70,9 +70,7 @@ struct ProfileSettingsView: View {
             if let subscriptionState {
                 ProfileSettingsSubscriptionSectionView(
                     description: subscriptionState.description_,
-                    action: {
-                        #warning("TODO: ALTAPPS-1138")
-                    }
+                    action: viewModel.doSubscriptionDetailsPresentation
                 )
             }
 
@@ -206,8 +204,12 @@ struct ProfileSettingsView: View {
             }
         }
     }
+}
 
-    private func handleViewAction(_ viewAction: ProfileSettingsFeatureActionViewAction) {
+// MARK: - ProfileSettingsView (ViewAction) -
+
+private extension ProfileSettingsView {
+    func handleViewAction(_ viewAction: ProfileSettingsFeatureActionViewAction) {
         switch ProfileSettingsFeatureActionViewActionKs(viewAction) {
         case .sendFeedback(let sendFeedbackViewAction):
             viewModel.doSendFeedbackPresentation(feedbackEmailData: sendFeedbackViewAction.feedbackEmailData)
@@ -220,16 +222,38 @@ struct ProfileSettingsView: View {
             switch ProfileSettingsFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .parentScreen:
                 presentationMode.wrappedValue.dismiss()
-            case .paywall:
-                #warning("TODO: ALTAPPS-1126")
+            case .paywall(let data):
+                guard let navigationController = getCurrentNavigationController() else {
+                    return assertionFailure("ProfileSettingsView: No navigation controller")
+                }
+
+                let assembly = PaywallAssembly(
+                    context: .init(
+                        source: data.paywallTransitionSource,
+                        moduleOutput: nil
+                    )
+                )
+
+                navigationController.pushViewController(assembly.makeModule(), animated: true)
             case .subscriptionManagement:
-                #warning("TODO: ALTAPPS-1132")
+                guard let navigationController = getCurrentNavigationController() else {
+                    return assertionFailure("ProfileSettingsView: No navigation controller")
+                }
+
+                let assembly = ManageSubscriptionAssembly()
+                navigationController.pushViewController(assembly.makeModule(), animated: true)
             }
         }
     }
+
+    private func getCurrentNavigationController() -> UINavigationController? {
+        SourcelessRouter().currentPresentedViewController()?.children.first as? UINavigationController
+    }
 }
 
+#if DEBUG
 @available(iOS 15.0, *)
 #Preview {
     ProfileSettingsAssembly().makeModule()
 }
+#endif

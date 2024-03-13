@@ -9,9 +9,7 @@ internal class WelcomeOnboardingComponentImpl(
     private val appGraph: AppGraph
 ) : WelcomeOnboardingComponent {
     override val welcomeOnboardingReducer: WelcomeOnboardingReducer
-        get() = WelcomeOnboardingReducer(
-            isSubscriptionPurchaseEnabled = appGraph.commonComponent.platform.isSubscriptionPurchaseEnabled
-        )
+        get() = WelcomeOnboardingReducer()
 
     override val welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher
         get() = WelcomeOnboardingActionDispatcher(

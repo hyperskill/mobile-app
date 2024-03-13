@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension PaywallView {
+extension PaywallContentView {
     struct Appearance {
         let padding = LayoutInsets.defaultInset
 
@@ -11,8 +11,15 @@ extension PaywallView {
     }
 }
 
-struct PaywallView: View {
+struct PaywallContentView: View {
     private(set) var appearance = Appearance()
+
+    let buyButtonText: String
+    let isContinueWithLimitsButtonVisible: Bool
+
+    let onBuyButtonTap: () -> Void
+    let onContinueWithLimitsButtonTap: () -> Void
+    let onTermsOfServiceButtonTap: () -> Void
 
     @State private var scrollOffset = CGPoint()
 
@@ -36,7 +43,7 @@ struct PaywallView: View {
                     .offset(y: scrollOffset.y < 0 ? scrollOffset.y : 0)
                     .padding(.horizontal, -appearance.padding)
 
-                Text("Solve unlimited problems with Mobile only plan")
+                Text(Strings.Paywall.title)
                     .font(.largeTitle.bold())
                     .foregroundColor(.newPrimaryText)
                     .padding(.vertical)
@@ -48,11 +55,26 @@ struct PaywallView: View {
             .padding(appearance.padding)
         }
         .safeAreaInsetBottomCompatibility(
-            PaywallFooterView(appearance: .init(spacing: appearance.interitemSpacing))
+            PaywallFooterView(
+                appearance: .init(spacing: appearance.interitemSpacing),
+                buyButtonText: buyButtonText,
+                isContinueWithLimitsButtonVisible: isContinueWithLimitsButtonVisible,
+                onBuyButtonTap: onBuyButtonTap,
+                onContinueWithLimitsButtonTap: onContinueWithLimitsButtonTap,
+                onTermsOfServiceButtonTap: onTermsOfServiceButtonTap
+            )
         )
     }
 }
 
+#if DEBUG
 #Preview {
-    PaywallView()
+    PaywallContentView(
+        buyButtonText: "Subscribe for $11.99/month",
+        isContinueWithLimitsButtonVisible: true,
+        onBuyButtonTap: {},
+        onContinueWithLimitsButtonTap: {},
+        onTermsOfServiceButtonTap: {}
+    )
 }
+#endif
