@@ -79,7 +79,6 @@ object PaywallFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
-
                 object BackToProfileSettings : NavigateTo
             }
         }

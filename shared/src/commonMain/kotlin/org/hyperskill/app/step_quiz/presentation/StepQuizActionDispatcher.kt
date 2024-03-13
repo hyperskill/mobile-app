@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -48,7 +47,6 @@ internal class StepQuizActionDispatcher(
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
     private val resourceProvider: ResourceProvider,
-    private val platform: Platform,
     currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
@@ -252,9 +250,7 @@ internal class StepQuizActionDispatcher(
         profile: Profile,
         subscription: Subscription
     ): Boolean =
-        platform.isSubscriptionPurchaseEnabled &&
-            profile.features.isMobileOnlySubscriptionEnabled &&
-            subscription.isFreemium
+        profile.features.isMobileOnlySubscriptionEnabled && subscription.isFreemium
 
     // TODO: ALTAPPS-1171: Extract ProblemsLimitReachedModal into a separate feature
     private suspend fun getProblemsLimitReachedModalData(
