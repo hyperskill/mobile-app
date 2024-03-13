@@ -76,6 +76,7 @@ struct DebugView: View {
                 }
             }
 
+            #if DEBUG
             if #available(iOS 16.0, *) {
                 Section {
                     Button("Display RevenueCat debug screen") {
@@ -90,6 +91,7 @@ struct DebugView: View {
                     }
                 }
             }
+            #endif
 
             Section(header: Text(Strings.DebugMenu.StepNavigation.headerTitle)) {
                 DebugStepNavigationView(
