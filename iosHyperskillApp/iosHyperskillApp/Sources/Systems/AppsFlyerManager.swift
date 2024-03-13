@@ -8,7 +8,7 @@ final class AppsFlyerManager: AppsFlyerAnalyticEngine {
 
     static let shared = AppsFlyerManager()
 
-    private init() {}
+    override init() {}
 
     static func configure() {
         let lib = AppsFlyerLib.shared()
@@ -60,11 +60,11 @@ final class AppsFlyerManager: AppsFlyerAnalyticEngine {
 
     // MARK: AnalyticEngine
 
-    func flushEvents(completionHandler: @escaping (Error?) -> Void) {
+    override func flushEvents(completionHandler: @escaping (Error?) -> Void) {
         completionHandler(nil)
     }
 
-    func reportEvent(event: AnalyticEvent, force: Bool, completionHandler: @escaping (Error?) -> Void) {
+    override func reportEvent(event: AnalyticEvent, force: Bool, completionHandler: @escaping (Error?) -> Void) {
         completionHandler(nil)
 
         let name = event.name
@@ -90,9 +90,9 @@ AppsFlyerManager: successfully logged event = \(name) with result = \(String(des
         #endif
     }
 
-    func setScreenOrientation(screenOrientation: ScreenOrientation) {}
+    override func setScreenOrientation(screenOrientation: ScreenOrientation) {}
 
-    func setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Bool) {}
+    override func setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Bool) {}
 }
 
 // MARK: - NotificationCenter -
