@@ -1,8 +1,6 @@
 package org.hyperskill.app.android.core.injection
 
 import android.app.Application
-import org.hyperskill.app.analytic.injection.PlatformAnalyticComponent
-import org.hyperskill.app.analytic.injection.PlatformAnalyticComponentImpl
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
 import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
@@ -50,16 +48,6 @@ class AndroidAppComponentImpl(
 
     override val platformLocalNotificationComponent: PlatformLocalNotificationComponent by lazy {
         PlatformLocalNotificationComponentImpl(this.application, this)
-    }
-
-    /**
-     * Analytic component
-     */
-    override val platformAnalyticComponent: PlatformAnalyticComponent by lazy {
-        PlatformAnalyticComponentImpl(
-            loggerComponent = loggerComponent,
-            applicationContext = this.application.applicationContext
-        )
     }
 
     /**

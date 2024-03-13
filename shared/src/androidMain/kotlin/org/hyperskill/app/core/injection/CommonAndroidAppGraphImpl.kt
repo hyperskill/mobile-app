@@ -3,6 +3,8 @@ package org.hyperskill.app.core.injection
 import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.analytic.injection.AnalyticComponent
 import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
+import org.hyperskill.app.analytic.injection.PlatformAnalyticComponent
+import org.hyperskill.app.analytic.injection.PlatformAnalyticComponentImpl
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -81,6 +83,16 @@ import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
+
+    /**
+     * Analytic component
+     */
+    override val platformAnalyticComponent: PlatformAnalyticComponent by lazy {
+        PlatformAnalyticComponentImpl(
+            loggerComponent = loggerComponent,
+            applicationContext = this.application.applicationContext
+        )
+    }
 
     override val analyticComponent: AnalyticComponent by lazy {
         AnalyticComponentImpl(

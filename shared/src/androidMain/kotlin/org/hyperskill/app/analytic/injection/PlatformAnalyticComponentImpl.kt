@@ -5,7 +5,7 @@ import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.analytic.domain.apps_flyer.AndroidAppsFlyerAnalyticEngine
 import org.hyperskill.app.logging.inject.LoggerComponent
 
-class PlatformAnalyticComponentImpl(
+internal class PlatformAnalyticComponentImpl(
     loggerComponent: LoggerComponent,
     applicationContext: Context
 ) : PlatformAnalyticComponent {
