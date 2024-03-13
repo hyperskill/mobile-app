@@ -24,6 +24,7 @@ struct ProfileSettingsSubscriptionSectionView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationView {
         Form {
@@ -39,3 +40,4 @@ struct ProfileSettingsSubscriptionSectionView: View {
         }
     }
 }
+#endif

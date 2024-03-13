@@ -5,6 +5,10 @@ private final class AppGraph: IosAppComponentImpl {
     override func getIosFCMTokenProvider() -> IosFCMTokenProvider {
         IosFCMTokenProviderImpl.shared
     }
+
+    override func getIosPurchaseManager() -> shared.IosPurchaseManager {
+        PurchaseManager.shared
+    }
 }
 
 enum AppGraphBridge {

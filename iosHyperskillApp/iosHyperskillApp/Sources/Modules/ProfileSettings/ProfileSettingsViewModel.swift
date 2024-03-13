@@ -89,6 +89,10 @@ final class ProfileSettingsViewModel: FeatureViewModel<
         }
     }
 
+    func doSubscriptionDetailsPresentation() {
+        onNewMessage(ProfileSettingsFeatureMessageSubscriptionDetailsClicked())
+    }
+
     // MARK: Analytic
 
     func logViewedEvent() {

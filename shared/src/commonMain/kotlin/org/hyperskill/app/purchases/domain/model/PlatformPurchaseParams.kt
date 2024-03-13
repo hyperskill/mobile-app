@@ -1,3 +1,3 @@
 package org.hyperskill.app.purchases.domain.model
 
-interface PlatformPurchaseParams
+expect class PlatformPurchaseParams

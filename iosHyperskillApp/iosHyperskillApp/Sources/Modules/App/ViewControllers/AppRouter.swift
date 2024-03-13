@@ -49,6 +49,26 @@ final class AppRouter {
                 }
 
                 return tabBarController
+            case .studyPlanWithPaywall(let appTabBarControllerDelegate, let paywallPresentationContext):
+                let tabBarController = AppTabBarController(
+                    initialTab: .studyPlan,
+                    availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
+                    appTabBarControllerDelegate: appTabBarControllerDelegate
+                )
+
+                if !tabBarController.isViewLoaded {
+                    _ = tabBarController.view
+                }
+
+                DispatchQueue.main.async {
+                    let currentRootViewController = tabBarController.children[tabBarController.selectedIndex]
+                    currentRootViewController.present(
+                        PaywallAssembly(context: paywallPresentationContext).makeModule(),
+                        animated: false
+                    )
+                }
+
+                return tabBarController
             case .trackSelection:
                 let assembly = TrackSelectionListAssembly(isNewUserMode: true)
                 let navigationController = UINavigationController(
@@ -71,27 +91,41 @@ final class AppRouter {
             case .usersQuestionnaireOnboarding(let moduleOutput):
                 let assembly = UsersQuestionnaireOnboardingAssembly(moduleOutput: moduleOutput)
                 return assembly.makeModule()
+            case .paywall(let context), .paywallModal(let context):
+                let assembly = PaywallAssembly(context: context)
+                return assembly.makeModule()
             }
         }()
 
-        let fromViewController = viewController.children.first { childrenViewController in
-            if childrenViewController is UIHostingController<PlaceholderView> {
-                return false
+        switch route {
+        case .paywallModal:
+            let isAlreadyPresented = (
+                SourcelessRouter().currentPresentedViewController() as? PaywallHostingController
+            ) != nil
+
+            if !isAlreadyPresented {
+                viewController.present(viewControllerToPresent, animated: true)
             }
-            return true
-        }
-        if let fromViewController,
-           type(of: fromViewController) == type(of: viewControllerToPresent) {
-            return
-        }
+        default:
+            let fromViewController = viewController.children.first { childrenViewController in
+                if childrenViewController is UIHostingController<PlaceholderView> {
+                    return false
+                }
+                return true
+            }
+            if let fromViewController,
+               type(of: fromViewController) == type(of: viewControllerToPresent) {
+                return
+            }
 
-        assert(viewController.children.count <= 2)
+            assert(viewController.children.count <= 2)
 
-        swapRootViewController(
-            for: viewController,
-            from: fromViewController,
-            to: viewControllerToPresent
-        )
+            swapRootViewController(
+                for: viewController,
+                from: fromViewController,
+                to: viewControllerToPresent
+            )
+        }
     }
 
     // MARK: Private API
@@ -142,11 +176,17 @@ final class AppRouter {
         case auth(isInSignUpMode: Bool, moduleOutput: AuthOutputProtocol?)
         case studyPlan(appTabBarControllerDelegate: AppTabBarControllerDelegate?)
         case studyPlanWithStep(appTabBarControllerDelegate: AppTabBarControllerDelegate?, stepRoute: StepRoute)
+        case studyPlanWithPaywall(
+            appTabBarControllerDelegate: AppTabBarControllerDelegate?,
+            paywallPresentationContext: PaywallPresentationContext
+        )
         case trackSelection
         case onboarding(moduleOutput: WelcomeOutputProtocol?)
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
         case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)
+        case paywall(context: PaywallPresentationContext)
+        case paywallModal(context: PaywallPresentationContext)
     }
 
     enum Animation {

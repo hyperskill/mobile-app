@@ -161,6 +161,18 @@ extension AppViewModel: FirstProblemOnboardingOutputProtocol {
     }
 }
 
+// MARK: - AppViewModel: PaywallOutputProtocol -
+
+extension AppViewModel: PaywallOutputProtocol {
+    func handlePaywallCompleted() {
+        onNewMessage(
+            AppFeatureMessageWelcomeOnboardingMessage(
+                message: WelcomeOnboardingFeatureMessagePaywallCompleted()
+            )
+        )
+    }
+}
+
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
@@ -282,8 +294,7 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
 
     @objc
     private func handleApplicationWillEnterForeground() {
-        #warning("Enable when subscription purchase is implemented")
-        //onNewMessage(AppFeatureMessageAppBecomesActive())
+        onNewMessage(AppFeatureMessageAppBecomesActive())
     }
 }
 

@@ -6,6 +6,9 @@ protocol ProblemsLimitReachedModalViewControllerDelegate: AnyObject {
     func problemsLimitReachedModalViewControllerDidTapGoToHomescreenButton(
         _ viewController: ProblemsLimitReachedModalViewController
     )
+    func problemsLimitReachedModalViewControllerDidTapUnlockLimitsButton(
+        _ viewController: ProblemsLimitReachedModalViewController
+    )
 
     func problemsLimitReachedModalViewControllerDidAppear(_ viewController: ProblemsLimitReachedModalViewController)
 
@@ -16,15 +19,12 @@ extension ProblemsLimitReachedModalViewController {
     struct Appearance {
         let backgroundColor = UIColor.systemBackground
 
-        let contentStackViewSpacing: CGFloat = 32
-        let contentStackViewInsets = LayoutInsets(
-            horizontal: LayoutInsets.defaultInset,
-            vertical: LayoutInsets.largeInset
-        )
+        let contentStackViewSpacing = LayoutInsets.defaultInset * 2
+        let contentStackViewInsets = LayoutInsets.default
 
         let cubeImageViewSizeRatio = CGSize(width: 1, height: 0.20)
 
-        let goToHomescreenButtonHeight: CGFloat = 44
+        let actionButtonButtonHeight: CGFloat = 44
     }
 }
 
@@ -33,6 +33,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
 
     private let titleText: String
     private let descriptionText: String
+    private let unlockLimitsButtonText: String?
 
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -56,17 +57,18 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
     init(
         titleText: String,
         descriptionText: String,
+        unlockLimitsButtonText: String?,
         delegate: ProblemsLimitReachedModalViewControllerDelegate?
     ) {
         self.titleText = titleText
         self.descriptionText = descriptionText
+        self.unlockLimitsButtonText = unlockLimitsButtonText
         self.delegate = delegate
         super.init()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setup()
     }
 
@@ -97,7 +99,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
         setupContentStackView()
         setupCubeImageView()
         setupTitleWithTextView()
-        setupGoToHomescreenBackButton()
+        setupActionButtons()
     }
 
     private func setupContentStackView() {
@@ -129,7 +131,7 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
     private func setupTitleWithTextView() {
         let containerStackView = UIStackView()
         containerStackView.axis = .vertical
-        containerStackView.spacing = LayoutInsets.largeInset
+        containerStackView.spacing = LayoutInsets.defaultInset
         containerStackView.alignment = .leading
         containerStackView.distribution = .fill
 
@@ -154,18 +156,51 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
         containerStackView.addArrangedSubview(textLabel)
     }
 
-    private func setupGoToHomescreenBackButton() {
-        let button = UIKitRoundedRectangleButton(style: .violet)
-        button.setTitle(Strings.Common.goToTraining, for: .normal)
-        button.addTarget(self, action: #selector(goToHomescreenButtonTap), for: .touchUpInside)
+    private func setupActionButtons() {
+        let containerStackView = UIStackView()
+        containerStackView.axis = .vertical
+        containerStackView.spacing = LayoutInsets.defaultInset
+        containerStackView.alignment = .leading
+        containerStackView.distribution = .fill
 
-        contentStackView.addArrangedSubview(button)
-
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.snp.makeConstraints { make in
+        contentStackView.addArrangedSubview(containerStackView)
+        containerStackView.translatesAutoresizingMaskIntoConstraints = false
+        containerStackView.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.height.equalTo(appearance.goToHomescreenButtonHeight)
         }
+
+        if let unlockLimitsButtonText {
+            let unlockLimitsButton = UIKitRoundedRectangleButton(style: .violet)
+            unlockLimitsButton.setTitle(unlockLimitsButtonText, for: .normal)
+            unlockLimitsButton.addTarget(self, action: #selector(unlockLimitsButtonTap), for: .touchUpInside)
+
+            containerStackView.addArrangedSubview(unlockLimitsButton)
+
+            unlockLimitsButton.translatesAutoresizingMaskIntoConstraints = false
+            unlockLimitsButton.snp.makeConstraints { make in
+                make.width.equalToSuperview()
+                make.height.equalTo(appearance.actionButtonButtonHeight)
+            }
+        }
+
+        let goBackButton = UIKitRoundedRectangleButton(
+            style: unlockLimitsButtonText == nil ? .violet : .outline
+        )
+        goBackButton.setTitle(Strings.Common.goToTraining, for: .normal)
+        goBackButton.addTarget(self, action: #selector(goToHomescreenButtonTap), for: .touchUpInside)
+
+        containerStackView.addArrangedSubview(goBackButton)
+
+        goBackButton.translatesAutoresizingMaskIntoConstraints = false
+        goBackButton.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(appearance.actionButtonButtonHeight)
+        }
+    }
+
+    @objc
+    private func unlockLimitsButtonTap() {
+        delegate?.problemsLimitReachedModalViewControllerDidTapUnlockLimitsButton(self)
     }
 
     @objc
@@ -174,11 +209,24 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
     }
 }
 
+#if DEBUG
 @available(iOS 17, *)
 #Preview {
     ProblemsLimitReachedModalViewController(
         titleText: "Title text",
         descriptionText: "Description text",
+        unlockLimitsButtonText: nil,
         delegate: nil
     )
 }
+
+@available(iOS 17, *)
+#Preview {
+    ProblemsLimitReachedModalViewController(
+        titleText: "Title text",
+        descriptionText: "Description text",
+        unlockLimitsButtonText: "Unlock limits button text",
+        delegate: nil
+    )
+}
+#endif

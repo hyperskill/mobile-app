@@ -656,7 +656,7 @@
     <string name="paywall_purchase_error_message">Purchase failed. Please try again.</string>
     <string name="paywall_subscription_sync_delayed">Paid functionality will become available to you shortly</string>
     <string name="paywall_pending_purchase">Paid functionality will become available after success payment</string>
-    <string name="paywall_subscription_sync_description">The app is updating. Please wait a moment</string>
+    <string name="paywall_subscription_sync_description">The app is updating. Please wait a moment.</string>
     <string name="paywall_tos_and_privacy_bth">Hyperskill Terms of Service and Privacy Policy</string>
     <string name="paywall_tos_and_privacy_url">https://hi.hyperskill.org/terms</string>
 
@@ -666,7 +666,7 @@
     <string name="manage_subscription_mobile_only">Hyperskill Mobile only</string>
     <string name="manage_subscription_valid_until">Valid until %s</string>
     <string name="manage_subscription_plan_details_title">Plan details:</string>
-    <string name="manage_subscription_mobile_only_warning">Please be aware that with the Mobile оnly plan on hyperskill.org, there is a limit on the number of problems you can solve per day.</string>
+    <string name="manage_subscription_mobile_only_warning">Please be aware that with the Mobile only plan on hyperskill.org, there is a limit on the number of problems you can solve per day.</string>
     <string name="manage_subscription_manage_btn">Manage subscription</string>
     <string name="manage_subscription_renew_btn">Renew subscription</string>
 

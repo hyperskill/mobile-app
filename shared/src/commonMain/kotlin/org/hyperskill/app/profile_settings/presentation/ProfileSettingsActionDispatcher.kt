@@ -56,7 +56,7 @@ internal class ProfileSettingsActionDispatcher(
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is Action.FetchProfileSettings ->
-                handleFetchProfileSettings(platform.isSubscriptionPurchaseEnabled, ::onNewMessage)
+                handleFetchProfileSettings(::onNewMessage)
             is Action.ChangeTheme ->
                 profileSettingsInteractor.changeTheme(action.theme)
             is Action.SignOut ->
@@ -96,11 +96,8 @@ internal class ProfileSettingsActionDispatcher(
                 }
             )
 
-    private suspend fun handleFetchProfileSettings(
-        isSubscriptionPurchaseEnabled: Boolean,
-        onNewMessage: (Message) -> Unit
-    ) {
-        val message = if (isSubscriptionPurchaseEnabled && isMobileOnlySubscriptionEnabled()) {
+    private suspend fun handleFetchProfileSettings(onNewMessage: (Message) -> Unit) {
+        val message = if (isMobileOnlySubscriptionEnabled()) {
             sentryInteractor.withTransaction(
                 HyperskillSentryTransactionBuilder.buildProfileSettingsFeatureFetchSubscription(),
                 onError = {
