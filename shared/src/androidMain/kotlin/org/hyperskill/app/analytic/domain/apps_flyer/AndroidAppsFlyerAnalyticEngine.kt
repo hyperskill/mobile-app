@@ -49,7 +49,7 @@ class AndroidAppsFlyerAnalyticEngine(
                 event.params,
                 object : AppsFlyerRequestListener {
                     override fun onSuccess() {
-                        logger.d { "Apps flyer successfully log event ${event.name}" }
+                        logger.d { "Apps flyer successfully logged event ${event.name}" }
                     }
                     override fun onError(errorCode: Int, errorDesc: String) {
                         logger.e { "Apps flyer failed to log event ${event.name}. ErrorCode=$errorCode, errorDesc=$errorDesc" }
