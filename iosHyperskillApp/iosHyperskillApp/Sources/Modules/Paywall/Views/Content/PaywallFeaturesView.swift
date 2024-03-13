@@ -8,9 +8,9 @@ extension PaywallFeaturesView {
 
 struct PaywallFeaturesView: View {
     private static let features = [
-        "Access to all tracks",
-        "Unlimited problems per day in the app",
-        "1 hint per problem"
+        Strings.Paywall.subscriptionFeature1,
+        Strings.Paywall.subscriptionFeature2,
+        Strings.Paywall.subscriptionFeature3
     ]
 
     private(set) var appearance = Appearance()
@@ -86,6 +86,8 @@ private struct PaywallFeatureView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PaywallFeaturesView()
 }
+#endif

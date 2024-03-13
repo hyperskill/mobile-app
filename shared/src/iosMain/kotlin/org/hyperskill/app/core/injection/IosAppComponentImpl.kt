@@ -9,7 +9,7 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.notification.remote.injection.IosPlatformPushNotificationsDataComponent
 import org.hyperskill.app.notification.remote.injection.PlatformPushNotificationsDataComponent
-import org.hyperskill.app.purchase.domain.model.IOSPurchaseManager
+import org.hyperskill.app.purchases.domain.manager.IosPurchaseManagerImpl
 import org.hyperskill.app.purchases.injection.PurchaseComponent
 import org.hyperskill.app.purchases.injection.PurchaseComponentImpl
 import org.hyperskill.app.sentry.domain.model.manager.SentryManager
@@ -44,7 +44,7 @@ abstract class IosAppComponentImpl(
         )
 
     override fun buildPurchaseComponent(): PurchaseComponent =
-        PurchaseComponentImpl(IOSPurchaseManager())
+        PurchaseComponentImpl(IosPurchaseManagerImpl(getIosPurchaseManager()))
 
     override fun buildApplicationShortcutsDataComponent(): ApplicationShortcutsDataComponent =
         ApplicationShortcutsDataComponentImpl(this)

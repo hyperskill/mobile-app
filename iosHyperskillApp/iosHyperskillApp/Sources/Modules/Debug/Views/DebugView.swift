@@ -1,3 +1,4 @@
+import RevenueCat
 import shared
 import SwiftUI
 import UIKit
@@ -74,6 +75,23 @@ struct DebugView: View {
                     }
                 }
             }
+
+            #if DEBUG
+            if #available(iOS 16.0, *) {
+                Section {
+                    Button("Display RevenueCat debug screen") {
+                        guard PurchaseManager.shared.isConfigured() else {
+                            return
+                        }
+
+                        stackRouter.rootViewController?.present(
+                            RevenueCat.DebugViewController(),
+                            animated: true
+                        )
+                    }
+                }
+            }
+            #endif
 
             Section(header: Text(Strings.DebugMenu.StepNavigation.headerTitle)) {
                 DebugStepNavigationView(
