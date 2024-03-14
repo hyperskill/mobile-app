@@ -8,8 +8,6 @@ final class AppsFlyerManager: AppsFlyerAnalyticEngine {
 
     static let shared = AppsFlyerManager()
 
-    override init() {}
-
     static func configure() {
         let lib = AppsFlyerLib.shared()
 
