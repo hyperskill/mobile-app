@@ -56,6 +56,7 @@ class HyperskillApp : Application(), ImageLoaderFactory {
 
         setNightMode(appGraph)
         initSentry(appGraph)
+        initAppsFlyer(appGraph)
         initChannels()
     }
 
@@ -64,6 +65,10 @@ class HyperskillApp : Application(), ImageLoaderFactory {
 
     private fun initSentry(appGraph: AppGraph) {
         appGraph.sentryComponent.sentryInteractor.setup()
+    }
+
+    private fun initAppsFlyer(appGraph: AndroidAppComponent) {
+        appGraph.platformAnalyticComponent.appsFlyerAnalyticEngine.startup()
     }
 
     private fun buildUserAgentInfo() =

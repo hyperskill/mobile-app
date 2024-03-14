@@ -94,6 +94,8 @@ kotlin {
                 implementation(libs.firebase.messaging)
                 implementation(libs.revenuecat)
                 implementation(libs.kermit)
+                implementation(libs.android.appsFlyer)
+                implementation(libs.googlePlay.installreferrer)
             }
         }
         val androidUnitTest by getting {
@@ -175,6 +177,10 @@ android {
 
         all {
             applyFlavorConfigsFromFile(this)
+        }
+
+        release {
+            proguardFiles("proguard-rules.pro")
         }
     }
 }
