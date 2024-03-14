@@ -1,6 +1,7 @@
 package org.hyperskill.app.core.injection
 
 import android.app.Application
+import org.hyperskill.app.analytic.injection.PlatformAnalyticComponent
 import org.hyperskill.app.auth.injection.AuthCredentialsComponent
 import org.hyperskill.app.auth.injection.AuthSocialComponent
 import org.hyperskill.app.auth.injection.PlatformAuthCredentialsComponent
@@ -50,6 +51,8 @@ interface CommonAndroidAppGraph : AppGraph {
     val application: Application
 
     val platformMainComponent: PlatformMainComponent
+
+    val platformAnalyticComponent: PlatformAnalyticComponent
 
     fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent
 
