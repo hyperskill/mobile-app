@@ -5,7 +5,6 @@ kotlinCoroutines = '1.7.2'
 ktor = '2.3.3'
 mokoResources = "0.23.0"
 mokoKswift = "0.7.0"
-ktlintRules = '1.0.0'
 adapters = '1.1.1'
 sentry = '7.1.0'
 sentryAndroidGradlePlugin = '4.1.0'
@@ -20,6 +19,11 @@ androidxBrowser = "1.5.0"
 revenueCat = "7.4.0"
 googlePlayReview = "2.0.1"
 
+ktlintRules = "1.0.0"
+ktlintGradle = "11.1.0"
+
+detekt = "1.23.0"
+detektComposeRules = "0.3.12"
 
 kotlinCompilerExtension = "1.4.8"
 composeBom = "2023.06.01"
@@ -32,7 +36,6 @@ plugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serializati
 plugin-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 plugin-dokkaBase = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
-plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "11.1.0" }
 plugin-gradleVersionUpdates = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.47.0" }
 plugin-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version = "0.13.3" }
 plugin-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
@@ -99,7 +102,11 @@ mokoResources-test = { module = "dev.icerock.moko:resources-test", version.ref =
 
 mokoKswiftRuntime-main = { module = "dev.icerock.moko:kswift-runtime", version.ref = "mokoKswift" }
 
+# Lint
+plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlintGradle" }
 ktlintRules = { module = "ru.nobird.android.ktlint:rules", version.ref = "ktlintRules" }
+plugin-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+detekt-composeRules = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektComposeRules" }
 
 android-security = { module = "androidx.security:security-crypto", version = "1.1.0-alpha03" }
 android-material-progress-bar = { module = "me.zhanghai.android.materialprogressbar:library", version = "1.6.1" }
