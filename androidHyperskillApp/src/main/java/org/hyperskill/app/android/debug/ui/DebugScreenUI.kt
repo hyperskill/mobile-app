@@ -18,7 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.R
@@ -81,8 +81,8 @@ fun DebugScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(Dp(20f)),
-            verticalArrangement = Arrangement.spacedBy(Dp(35f))
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(35.dp)
         ) {
             EndpointSwitcher(
                 options = options,

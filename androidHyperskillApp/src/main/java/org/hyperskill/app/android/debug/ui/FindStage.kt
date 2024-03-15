@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.hyperskill.app.android.R
 
 data class FindStageInput(val projectId: String, val stageId: String)
@@ -39,7 +39,7 @@ fun FindStage(
                 color = MaterialTheme.colors.surface,
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius))
             )
-            .padding(Dp(16f))
+            .padding(16.dp)
     ) {
         OutlinedTextField(
             value = projectId,
@@ -61,7 +61,7 @@ fun FindStage(
         OutlinedTextField(
             value = stageId,
             modifier = Modifier.fillMaxWidth()
-                .padding(top = Dp(8f)),
+                .padding(top = 8f.dp),
             onValueChange = { value ->
                 onInputChanged(FindStageInput(projectId = projectId, stageId = value))
                 stageId = value
@@ -80,7 +80,7 @@ fun FindStage(
             onClick = onApplyClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = Dp(20f))
+                .padding(top = 20f.dp)
                 .height(dimensionResource(id = R.dimen.action_button_height))
         ) {
             Text(text = stringResource(id = org.hyperskill.app.R.string.debug_menu_section_stage_implement_button_text))

@@ -84,6 +84,7 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
         }
     }
 
+    @Suppress("MagicNumber")
     private fun triggerApplicationRestart(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val componentName = intent?.component
