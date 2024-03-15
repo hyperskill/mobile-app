@@ -115,8 +115,6 @@ class MainActivity :
             ReduxViewLifecycleObserver(this, ::mainViewModel)
         )
 
-        lifecycleScope
-
         onBackPressedDispatcher
             .addCallback(navigator.onBackPressedCallback)
 

@@ -27,7 +27,6 @@ object StepFeature {
         }
 
         object ScreenShowed : Message
-
         object ScreenHidden : Message
 
         /**
@@ -38,6 +37,7 @@ object StepFeature {
 
     internal sealed interface InternalMessage : Message {
         data class StepCompleted(val stepId: Long) : InternalMessage
+
         object SolvingTimerFired : InternalMessage
     }
 
@@ -55,9 +55,7 @@ object StepFeature {
         data class ViewStep(val stepId: Long, val stepContext: StepContext) : InternalAction
 
         object StartSolvingTimer : InternalAction
-
         object StopSolvingTimer : InternalAction
-
         data class LogSolvingTime(val stepId: Long) : InternalAction
 
         data class UpdateNextLearningActivityState(val step: Step) : InternalAction
