@@ -11,7 +11,7 @@ val baselineFile: File = rootProject.file("config/detekt/baseline.xml")
 tasks.withType<Detekt> {
     config.from(configFile)
     setSource(files(projectDir))
-    /*baseline.set(baselineFile)*/
+    baseline.set(baselineFile)
     parallel = true
     buildUponDefaultConfig = true
     allRules = true

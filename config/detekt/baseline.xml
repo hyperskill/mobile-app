@@ -1,0 +1,636 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ComplexCondition:CodeEditor.kt$CodeEditor$linesWithNumbers.isEmpty() &amp;&amp; lines.isNotEmpty() || linesWithNumbers.isNotEmpty() &amp;&amp; linesWithNumbers.last() &gt;= lineCount</ID>
+    <ID>ComplexCondition:GamificationToolbarReducer.kt$GamificationToolbarReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
+    <ID>ComplexCondition:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
+    <ID>ComplexCondition:ProfileReducer.kt$ProfileReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
+    <ID>ComplexCondition:StepReducer.kt$StepReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Data || state is State.Error))</ID>
+    <ID>ComplexCondition:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.NetworkError))</ID>
+    <ID>ComplexCondition:WelcomeReducer.kt$WelcomeReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.NetworkError))</ID>
+    <ID>ComposableParamOrder:FindStage.kt$FindStage</ID>
+    <ID>ComposableParamOrder:FindStep.kt$FindStep</ID>
+    <ID>ComposableParamOrder:LinearProgressIndicator.kt$LinearProgressIndicator</ID>
+    <ID>ComposableParamOrder:NotificationsOnboardingScreen.kt$NotificationsOnboardingButtons</ID>
+    <ID>ComposableParamOrder:ServerSwitcher.kt$EndpointSwitcher</ID>
+    <ID>CyclomaticComplexMethod:AndroidStepQuizTest.kt$AndroidStepQuizTest$@Test fun `Theory should be available for Learn and Repeat StepRoutes`()</ID>
+    <ID>CyclomaticComplexMethod:AppReducer.kt$AppReducer$override fun reduce( state: State, message: Message ): ReducerResult</ID>
+    <ID>CyclomaticComplexMethod:AuthCredentialsReducer.kt$AuthCredentialsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:ChallengeWidgetReducer.kt$ChallengeWidgetReducer$override fun reduce(state: State, message: Message): ChallengeWidgetReducerResult</ID>
+    <ID>CyclomaticComplexMethod:CodeAnalyzer.kt$CodeAnalyzer$fun onTextInserted(start: Int, count: Int, codeEditor: CodeEditor)</ID>
+    <ID>CyclomaticComplexMethod:DebugReducer.kt$DebugReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:GamificationToolbarReducer.kt$GamificationToolbarReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:HomeReducer.kt$HomeReducer$override fun reduce(state: State, message: Message): HomeReducerResult</ID>
+    <ID>CyclomaticComplexMethod:LeaderboardScreenReducer.kt$LeaderboardScreenReducer$override fun reduce(state: State, message: Message): LeaderboardScreenReducerResult</ID>
+    <ID>CyclomaticComplexMethod:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$override fun reduce(state: State, message: Message): LeaderboardWidgetReducerResult</ID>
+    <ID>CyclomaticComplexMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
+    <ID>CyclomaticComplexMethod:MainActivity.kt$MainActivity$override fun onAction(action: AppFeature.Action.ViewAction)</ID>
+    <ID>CyclomaticComplexMethod:ProblemsLimitReducer.kt$ProblemsLimitReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:ProfileReducer.kt$ProfileReducer$override fun reduce(state: State, message: Message): ReducerResult</ID>
+    <ID>CyclomaticComplexMethod:ProfileSettingsReducer.kt$ProfileSettingsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:StageImplementReducer.kt$StageImplementReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:StepCompletionReducer.kt$StepCompletionReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>
+    <ID>CyclomaticComplexMethod:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
+    <ID>CyclomaticComplexMethod:StepReducer.kt$StepReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>CyclomaticComplexMethod:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult</ID>
+    <ID>CyclomaticComplexMethod:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:UsersQuestionnaireWidgetReducer.kt$UsersQuestionnaireWidgetReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:WelcomeReducer.kt$WelcomeReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>DefaultsVisibility:LeaderboardListDivider.kt$LeaderboardListDividerDefaults$LeaderboardListDividerDefaults</ID>
+    <ID>EmptyCatchBlock:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment${ }</ID>
+    <ID>EmptyFunctionBlock:CodeStepQuizFormDelegate.kt$CodeStepQuizFormDelegate.&lt;no name provided&gt;${}</ID>
+    <ID>EmptyFunctionBlock:CodeStepQuizFullScreenDialogFragment.kt$CodeStepQuizFullScreenDialogFragment.&lt;no name provided&gt;${}</ID>
+    <ID>EmptyFunctionBlock:RepositoryCacheProxyTest.kt$RepositoryCacheProxyTest.&lt;no name provided&gt;${}</ID>
+    <ID>ExplicitItLambdaParameter:StepQuizReplyValidator.kt$StepQuizReplyValidator${ it -&gt; it.tableChoice.columns.none { it.answer } }</ID>
+    <ID>ForbiddenComment:AppInteractor.kt$AppInteractor$// TODO: define more flexible &amp; scalable way to clear cache</ID>
+    <ID>ForbiddenComment:AttemptStub.kt$// TODO: make a stub of the attempt for concrete step (choice, code, etc.)</ID>
+    <ID>ForbiddenComment:BlockStub.kt$// TODO: make a stub of the block for concrete step (choice, code, etc.)</ID>
+    <ID>ForbiddenComment:Feedback.kt$Feedback$// TODO: We should collect all available feedback types and create a single polymorphic serializer for them</ID>
+    <ID>ForbiddenComment:MainActivity.kt$MainActivity$// TODO: move to the viewModel</ID>
+    <ID>ForbiddenComment:ProjectSelectionListActionDispatcher.kt$ProjectSelectionListActionDispatcher$// TODO: extract all logic of this class to a dedicated interactor.</ID>
+    <ID>ForbiddenComment:Reply.kt$Reply$* TODO: replace with a sealed hierarchy on mobile side to avoid invalid Reply state</ID>
+    <ID>ForbiddenComment:SharedDateFormatterTest.kt$SharedDateFormatterTest$// TODO: Implement tests in https://vyahhi.myjetbrains.com/youtrack/issue/ALTAPPS-784</ID>
+    <ID>ForbiddenComment:StudyPlanWidgetTest.kt$StudyPlanWidgetTest$// TODO: add DateFormatter stub and test this</ID>
+    <ID>ForbiddenComment:Timer.kt$Timer$// TODO: add timer strategies to use it on Home Screen</ID>
+    <ID>ForbiddenComment:Track.kt$Track$// TODO: replace with TrackWithProgress to use composition way</ID>
+    <ID>ImplicitDefaultLocale:DateTimeHelper.kt$DateTimeHelper$String.format("%02d:%02d", hours, minutes)</ID>
+    <ID>ImplicitDefaultLocale:DateTimeHelper.kt$DateTimeHelper$String.format("%02d:%02d", hoursInDay - hours, minutes)</ID>
+    <ID>ImplicitDefaultLocale:TimeIntervalUtil.kt$TimeIntervalUtil$String.format("%02d:00 \u2014 %02d:00", i, i + 1)</ID>
+    <ID>InvalidPackageDeclaration:HandleActions.kt$package org.hyperskill.app.core.view</ID>
+    <ID>LambdaParameterInRestartableEffect:OnComposableShownFirstTime.kt$block</ID>
+    <ID>LongMethod:AndroidStepQuizTest.kt$AndroidStepQuizTest$@Test fun `Theory should be available for Learn and Repeat StepRoutes`()</ID>
+    <ID>LongMethod:AppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
+    <ID>LongMethod:AuthCredentialsReducer.kt$AuthCredentialsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:AuthSocialActionDispatcher.kt$AuthSocialActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>LongMethod:ChallengeCard.kt$@Composable fun ChallengeCard( viewState: ChallengeWidgetViewState, onNewMessage: (Message) -&gt; Unit )</ID>
+    <ID>LongMethod:DebugReducer.kt$DebugReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:GamificationToolbarReducer.kt$GamificationToolbarReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:HomeReducer.kt$HomeReducer$override fun reduce(state: State, message: Message): HomeReducerResult</ID>
+    <ID>LongMethod:InterviewPreparationContent.kt$@Composable fun InterviewPreparationContent( content: InterviewPreparationWidgetViewState.Content, onClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:LeaderboardScreenReducer.kt$LeaderboardScreenReducer$override fun reduce(state: State, message: Message): LeaderboardScreenReducerResult</ID>
+    <ID>LongMethod:LeaderboardSkeletonItem.kt$@Composable fun LeaderboardSkeletonItem( placeNumber: Int?, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$override fun reduce(state: State, message: Message): LeaderboardWidgetReducerResult</ID>
+    <ID>LongMethod:LeaderboardWidgetViewStateMapperTest.kt$LeaderboardWidgetViewStateMapperTest$@Test fun `leaderboard list contains separator if position between items greater than 1`()</ID>
+    <ID>LongMethod:LeaderboardWidgetViewStateMapperTest.kt$LeaderboardWidgetViewStateMapperTest$@Test fun `leaderboard list not contains separator if position between items after each other`()</ID>
+    <ID>LongMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
+    <ID>LongMethod:MainActivity.kt$MainActivity$override fun onAction(action: AppFeature.Action.ViewAction)</ID>
+    <ID>LongMethod:NetworkBuilder.kt$NetworkBuilder$fun buildAuthorizedClient( networkEndpointConfigInfo: NetworkEndpointConfigInfo, userAgentInfo: UserAgentInfo, json: Json, settings: Settings, buildVariant: BuildVariant, authorizationFlow: MutableSharedFlow&lt;UserDeauthorized&gt;, authorizationMutex: Mutex, cookiesStorage: CookiesStorage ): HttpClient</ID>
+    <ID>LongMethod:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$private fun getDailyStudyRemindersNotificationDescriptions()</ID>
+    <ID>LongMethod:NotificationsOnboardingReducer.kt$NotificationsOnboardingReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$fun render( dateFormatter: SharedDateFormatter, binding: LayoutProblemOfTheDayCardBinding, state: HomeFeature.ProblemOfDayState, areProblemsLimited: Boolean )</ID>
+    <ID>LongMethod:ProblemsLimitReducer.kt$ProblemsLimitReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -&gt; Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:ProfileReducer.kt$ProfileReducer$override fun reduce(state: State, message: Message): ReducerResult</ID>
+    <ID>LongMethod:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>LongMethod:ProfileSettingsReducer.kt$ProfileSettingsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:ReplySerializationTest.kt$ReplySerializationTest$@Test fun replySerializationPyCharmReplyTest()</ID>
+    <ID>LongMethod:ReplySerializationTest.kt$ReplySerializationTest$@Test fun replySerializationTableReplyTest()</ID>
+    <ID>LongMethod:StageImplementReducer.kt$StageImplementReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>LongMethod:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$private suspend fun handleStepSolved(stepId: Long)</ID>
+    <ID>LongMethod:StepCompletionReducer.kt$StepCompletionReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:StepDelegate.kt$StepDelegate$fun onAction( mainScreenRouter: MainScreenRouter, action: StepFeature.Action.ViewAction )</ID>
+    <ID>LongMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>LongMethod:StepQuizHintsActionDispatcher.kt$StepQuizHintsActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>LongMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>
+    <ID>LongMethod:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>LongMethod:StreakRecoveryActionDispatcher.kt$StreakRecoveryActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>LongMethod:StreakRecoveryReducer.kt$StreakRecoveryReducer$override fun reduce(state: State, message: Message): ReducerResult</ID>
+    <ID>LongMethod:StudyPlanScreenFeatureBuilder.kt$StudyPlanScreenFeatureBuilder$fun build( analyticInteractor: AnalyticInteractor, toolbarReducer: GamificationToolbarReducer, toolbarActionDispatcher: GamificationToolbarActionDispatcher, problemsLimitReducer: ProblemsLimitReducer, problemsLimitActionDispatcher: ProblemsLimitActionDispatcher, usersQuestionnaireWidgetReducer: UsersQuestionnaireWidgetReducer, usersQuestionnaireWidgetActionDispatcher: UsersQuestionnaireWidgetActionDispatcher, studyPlanWidgetReducer: StudyPlanWidgetReducer, studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher, problemsLimitViewStateMapper: ProblemsLimitViewStateMapper, studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper, resourceProvider: ResourceProvider, logger: Logger, buildVariant: BuildVariant ): Feature&lt;StudyPlanScreenFeature.ViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action&gt;</ID>
+    <ID>LongMethod:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$override fun reduce(state: State, message: Message): StudyPlanWidgetReducerResult</ID>
+    <ID>LongMethod:TopicsRepetitionsActionDispatcher.kt$TopicsRepetitionsActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>LongMethod:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>LongMethod:TrackProgressContent.kt$@Composable fun TrackProgressContent( viewState: ProgressScreenViewState.TrackProgressViewState.Content, onNewMessage: (ProgressScreenFeature.Message) -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>LongParameterList:AnalyticHyperskillEventProcessor.kt$AnalyticHyperskillEventProcessor$( event: AnalyticEvent, userId: Long, isNotificationsPermissionGranted: Boolean, isATTPermissionGranted: Boolean, screenOrientation: ScreenOrientation, isInternalTesting: Boolean )</ID>
+    <ID>LongParameterList:AppActionDispatcher.kt$AppActionDispatcher$( config: ActionDispatcherOptions, private val appInteractor: AppInteractor, private val authInteractor: AuthInteractor, private val sentryInteractor: SentryInteractor, private val stateRepositoriesComponent: StateRepositoriesComponent, private val notificationsInteractor: NotificationInteractor, private val pushNotificationsInteractor: PushNotificationsInteractor, private val purchaseInteractor: PurchaseInteractor, private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository, private val subscriptionsInteractor: SubscriptionsInteractor, private val logger: Logger )</ID>
+    <ID>LongParameterList:AppInteractor.kt$AppInteractor$( private val appRepository: AppRepository, private val authInteractor: AuthInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val userStorageInteractor: UserStorageInteractor, private val analyticInteractor: AnalyticInteractor, private val progressesRepository: ProgressesRepository, private val trackRepository: TrackRepository, private val providersRepository: ProvidersRepository, private val projectsRepository: ProjectsRepository, private val shareStreakRepository: ShareStreakRepository, private val pushNotificationsInteractor: PushNotificationsInteractor )</ID>
+    <ID>LongParameterList:AuthRemoteDataSourceImpl.kt$AuthRemoteDataSourceImpl$( private val authCacheMutex: Mutex, private val deauthorizationFlow: Flow&lt;UserDeauthorized&gt;, private val authSocialHttpClient: HttpClient, private val authCredentialsHttpClient: HttpClient, private val networkEndpointConfigInfo: NetworkEndpointConfigInfo, private val json: Json, private val settings: Settings )</ID>
+    <ID>LongParameterList:ChallengeWidgetActionDispatcher.kt$ChallengeWidgetActionDispatcher$( config: ActionDispatcherOptions, stepCompletedFlow: StepCompletedFlow, topicCompletedFlow: TopicCompletedFlow, dailyStepCompletedFlow: DailyStepCompletedFlow, private val challengesRepository: ChallengesRepository, private val magicLinksInteractor: MagicLinksInteractor, private val sentryInteractor: SentryInteractor, private val analyticInteractor: AnalyticInteractor )</ID>
+    <ID>LongParameterList:CodeTheme.kt$CodeTheme$( val name: String, val syntax: CodeSyntax, @ColorInt val background: Int, @ColorInt val lineNumberBackground: Int, @ColorInt val lineNumberStroke: Int, @ColorInt val lineNumberText: Int, @ColorInt val selectedLineBackground: Int, @ColorInt val bracketsHighlight: Int = ColorUtil.getColorArgb(R.color.default_code_brackets_highlight_color), @ColorInt val errorHighlight: Int = ColorUtil.getColorArgb(R.color.default_code_error_highlight_color) )</ID>
+    <ID>LongParameterList:DebugScreenUI.kt$( options: List&lt;EndpointConfigType&gt;, selectedOption: EndpointConfigType, onOptionClick: (EndpointConfigType) -&gt; Unit, isApplyEndpointButtonVisible: Boolean, onApplyEndpointClick: () -&gt; Unit, onOpenStepClick: () -&gt; Unit, onStepIdChanged: (String) -&gt; Unit, onFindStageInputChanged: (FindStageInput) -&gt; Unit, onOpenStageClick: () -&gt; Unit )</ID>
+    <ID>LongParameterList:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$( selectedOptionIndex: Int, blankIndex: Int, selectedOption: FillBlanksOption, items: List&lt;FillBlanksUiItem&gt;, selectItemIndices: List&lt;Int&gt;, selectOptions: List&lt;FillBlanksOption&gt; )</ID>
+    <ID>LongParameterList:GamificationToolbarActionDispatcher.kt$GamificationToolbarActionDispatcher$( config: ActionDispatcherOptions, stepCompletedFlow: StepCompletedFlow, streakFlow: StreakFlow, currentStudyPlanStateRepository: CurrentStudyPlanStateRepository, topicCompletedFlow: TopicCompletedFlow, private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor )</ID>
+    <ID>LongParameterList:HomeActionDispatcher.kt$HomeActionDispatcher$( config: ActionDispatcherOptions, private val currentProfileStateRepository: CurrentProfileStateRepository, private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor, private val stepInteractor: StepInteractor, private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor, private val dateFormatter: SharedDateFormatter, topicRepeatedFlow: TopicRepeatedFlow, topicCompletedFlow: TopicCompletedFlow, stepCompletedFlow: StepCompletedFlow )</ID>
+    <ID>LongParameterList:InterviewPreparationWidgetActionDispatcher.kt$InterviewPreparationWidgetActionDispatcher$( config: ActionDispatcherOptions, private val analyticInteractor: AnalyticInteractor, private val interviewStepsStateRepository: InterviewStepsStateRepository, private val currentProfileStateRepository: CurrentProfileStateRepository, private val sentryInteractor: SentryInteractor, private val onboardingInteractor: OnboardingInteractor, private val resourceProvider: ResourceProvider )</ID>
+    <ID>LongParameterList:LeaderboardItem.kt$( placeNumber: Int, participantAvatarUrl: String, participantName: String, solvedProblemsAmount: Int, problemsSubtitle: String, isHighlighted: Boolean, modifier: Modifier = Modifier )</ID>
+    <ID>LongParameterList:NetworkBuilder.kt$NetworkBuilder$( networkEndpointConfigInfo: NetworkEndpointConfigInfo, userAgentInfo: UserAgentInfo, json: Json, settings: Settings, buildVariant: BuildVariant, authorizationFlow: MutableSharedFlow&lt;UserDeauthorized&gt;, authorizationMutex: Mutex, cookiesStorage: CookiesStorage )</ID>
+    <ID>LongParameterList:NetworkEndpointConfigInfo.kt$NetworkEndpointConfigInfo$( val baseUrl: String, val host: String, val oauthClientId: String, val oauthClientSecret: String, val redirectUri: String, val credentialsClientId: String, val credentialsClientSecret: String )</ID>
+    <ID>LongParameterList:PaywallActionDispatcher.kt$PaywallActionDispatcher$( config: ActionDispatcherOptions, private val analyticInteractor: AnalyticInteractor, private val purchaseInteractor: PurchaseInteractor, private val subscriptionsRepository: SubscriptionsRepository, private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository, private val sentryInteractor: SentryInteractor, private val logger: Logger )</ID>
+    <ID>LongParameterList:PaywallScreen.kt$( viewState: ViewState, onBackClick: () -&gt; Unit, onBuySubscriptionClick: () -&gt; Unit, onContinueWithLimitsClick: () -&gt; Unit, onRetryLoadingClick: () -&gt; Unit, onTermsOfServiceClick: () -&gt; Unit )</ID>
+    <ID>LongParameterList:ProfileActionDispatcher.kt$ProfileActionDispatcher$( config: ActionDispatcherOptions, private val currentProfileStateRepository: CurrentProfileStateRepository, private val streaksInteractor: StreaksInteractor, private val productsInteractor: ProductsInteractor, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor, private val notificationInteractor: NotificationInteractor, private val urlPathProcessor: UrlPathProcessor, private val streakFlow: StreakFlow, dailyStudyRemindersEnabledFlow: DailyStudyRemindersEnabledFlow, stepCompletedFlow: StepCompletedFlow, private val badgesRepository: BadgesRepository )</ID>
+    <ID>LongParameterList:ProfileSettingsActionDispatcher.kt$ProfileSettingsActionDispatcher$( config: ActionDispatcherOptions, private val profileSettingsInteractor: ProfileSettingsInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val analyticInteractor: AnalyticInteractor, private val authorizationFlow: MutableSharedFlow&lt;UserDeauthorized&gt;, private val platform: Platform, private val userAgentInfo: UserAgentInfo, private val resourceProvider: ResourceProvider, private val urlPathProcessor: UrlPathProcessor, private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository, private val purchaseInteractor: PurchaseInteractor, private val sentryInteractor: SentryInteractor, private val logger: Logger )</ID>
+    <ID>LongParameterList:ProgressScreenActionDispatcher.kt$ProgressScreenActionDispatcher$( config: ActionDispatcherOptions, private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository, private val currentProfileStateRepository: CurrentProfileStateRepository, private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository, private val trackInteractor: TrackInteractor, private val projectsRepository: ProjectsRepository, private val progressesInteractor: ProgressesInteractor, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor )</ID>
+    <ID>LongParameterList:ProjectSelectionDetailsFeature.kt$ProjectSelectionDetailsFeature$( isNewUserMode: Boolean, trackId: Long, projectId: Long, isProjectSelected: Boolean, isProjectBestRated: Boolean, isProjectFastestToComplete: Boolean )</ID>
+    <ID>LongParameterList:ProjectSelectionListActionDispatcher.kt$ProjectSelectionListActionDispatcher$( config: ActionDispatcherOptions, private val trackRepository: TrackRepository, private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository, private val projectsRepository: ProjectsRepository, private val progressesRepository: ProgressesRepository, private val currentProfileStateRepository: CurrentProfileStateRepository, private val sentryInteractor: SentryInteractor, private val analyticInteractor: AnalyticInteractor )</ID>
+    <ID>LongParameterList:StageImplementActionDispatcher.kt$StageImplementActionDispatcher$( config: ActionDispatcherOptions, stepCompletedFlow: StepCompletedFlow, private val currentProfileStateRepository: CurrentProfileStateRepository, private val stagesInteractor: StagesInteractor, private val progressesInteractor: ProgressesInteractor, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor, private val resourceProvider: ResourceProvider )</ID>
+    <ID>LongParameterList:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$( config: ActionDispatcherOptions, stepCompletedFlow: StepCompletedFlow, private val stepInteractor: StepInteractor, private val progressesInteractor: ProgressesInteractor, private val topicsRepository: TopicsRepository, private val analyticInteractor: AnalyticInteractor, private val resourceProvider: ResourceProvider, private val sentryInteractor: SentryInteractor, private val subscriptionsInteractor: SubscriptionsInteractor, private val shareStreakInteractor: ShareStreakInteractor, private val requestReviewInteractor: RequestReviewInteractor, private val nextLearningActivityStateRepository: NextLearningActivityStateRepository, private val currentProfileStateRepository: CurrentProfileStateRepository, private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository, private val dailyStepCompletedFlow: DailyStepCompletedFlow, private val topicCompletedFlow: TopicCompletedFlow, private val topicProgressFlow: TopicProgressFlow, private val interviewStepsStateRepository: InterviewStepsStateRepository )</ID>
+    <ID>LongParameterList:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$( config: ActionDispatcherOptions, private val stepQuizInteractor: StepQuizInteractor, private val stepQuizReplyValidator: StepQuizReplyValidator, private val subscriptionsInteractor: SubscriptionsInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val urlPathProcessor: UrlPathProcessor, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor, private val onboardingInteractor: OnboardingInteractor, private val resourceProvider: ResourceProvider, currentSubscriptionStateRepository: CurrentSubscriptionStateRepository )</ID>
+    <ID>LongParameterList:StepQuizHintsActionDispatcher.kt$StepQuizHintsActionDispatcher$( config: ActionDispatcherOptions, private val stepQuizHintsInteractor: StepQuizHintsInteractor, private val likesInteractor: LikesInteractor, private val commentsInteractor: CommentsInteractor, private val reactionsInteractor: ReactionsInteractor, private val userStorageInteractor: UserStorageInteractor, private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor )</ID>
+    <ID>LongParameterList:StreakRecoveryActionDispatcher.kt$StreakRecoveryActionDispatcher$( config: ActionDispatcherOptions, private val currentProfileStateRepository: CurrentProfileStateRepository, private val streaksInteractor: StreaksInteractor, private val productsInteractor: ProductsInteractor, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor, private val logger: Logger, private val streakFlow: StreakFlow, private val resourceProvider: ResourceProvider )</ID>
+    <ID>LongParameterList:StudyPlanWidgetActionDispatcher.kt$StudyPlanWidgetActionDispatcher$( config: ActionDispatcherOptions, private val learningActivitiesRepository: LearningActivitiesRepository, private val nextLearningActivityStateRepository: NextLearningActivityStateRepository, private val currentProfileStateRepository: CurrentProfileStateRepository, private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository, private val sentryInteractor: SentryInteractor, private val analyticInteractor: AnalyticInteractor )</ID>
+    <ID>LongParameterList:TopicsRepetitionsActionDispatcher.kt$TopicsRepetitionsActionDispatcher$( config: ActionDispatcherOptions, private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val analyticInteractor: AnalyticInteractor, private val sentryInteractor: SentryInteractor, private val topicRepeatedFlow: TopicRepeatedFlow, stepCompletedFlow: StepCompletedFlow )</ID>
+    <ID>LongParameterList:TrackSelectionDetailsActionDispatcher.kt$TrackSelectionDetailsActionDispatcher$( config: ActionDispatcherOptions, private val providersRepository: ProvidersRepository, private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository, private val sentryInteractor: SentryInteractor, private val profileRepository: ProfileRepository, private val currentProfileStateRepository: CurrentProfileStateRepository, private val analyticInteractor: AnalyticInteractor )</ID>
+    <ID>LongParameterList:TrackTopicsStatistics.kt$( countString: String, percentageString: String, progressPercent: Float, isTrackCompleted: Boolean, icon: Painter, description: String, modifier: Modifier = Modifier )</ID>
+    <ID>LongParameterList:UsersQuestionnaireOptionsList.kt$( choices: List&lt;String&gt;, selectedChoice: String?, textInputValue: String?, isTextInputVisible: Boolean, onChoiceClicked: (String) -&gt; Unit, onTextInputChanged: (String) -&gt; Unit, onDoneClick: () -&gt; Unit, modifier: Modifier = Modifier )</ID>
+    <ID>MagicNumber:AlignmentExtension.kt$0f</ID>
+    <ID>MagicNumber:AppBarExtensions.kt$&lt;no name provided&gt;$0f</ID>
+    <ID>MagicNumber:AppBarExtensions.kt$AppBarStateChangeListener$0</ID>
+    <ID>MagicNumber:AppReducer.kt$AppReducer$0</ID>
+    <ID>MagicNumber:ArrowImageView.kt$ArrowImageView$0</ID>
+    <ID>MagicNumber:AutocompleteDictionary.kt$AutocompleteDictionary.Companion$0</ID>
+    <ID>MagicNumber:AutocompleteDictionary.kt$AutocompleteDictionary.Companion$1</ID>
+    <ID>MagicNumber:BadgeDefaults.kt$BadgeDefaults$0xFF6C63FF</ID>
+    <ID>MagicNumber:BadgeDefaults.kt$BadgeDefaults$0xFF7AB7FE</ID>
+    <ID>MagicNumber:BadgeDetailsDialogFragment.kt$BadgeDetailsDialogFragment$0</ID>
+    <ID>MagicNumber:BadgeDetailsDialogFragment.kt$BadgeDetailsDialogFragment$100</ID>
+    <ID>MagicNumber:BadgeGrid.kt$1f</ID>
+    <ID>MagicNumber:BadgeGrid.kt$2</ID>
+    <ID>MagicNumber:BadgeGrid.kt$4</ID>
+    <ID>MagicNumber:BadgesViewStateMapper.kt$BadgesViewStateMapper$0</ID>
+    <ID>MagicNumber:BadgesViewStateMapper.kt$BadgesViewStateMapper$0f</ID>
+    <ID>MagicNumber:BadgesViewStateMapper.kt$BadgesViewStateMapper$1</ID>
+    <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$0xFF</ID>
+    <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$16</ID>
+    <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$24</ID>
+    <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$8</ID>
+    <ID>MagicNumber:ChallengeHeader.kt$1f</ID>
+    <ID>MagicNumber:ChallengeProgress.kt$1</ID>
+    <ID>MagicNumber:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$0</ID>
+    <ID>MagicNumber:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$1</ID>
+    <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$0</ID>
+    <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$1</ID>
+    <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$2</ID>
+    <ID>MagicNumber:CodeEditor.kt$CodeEditor$0</ID>
+    <ID>MagicNumber:CodeEditor.kt$CodeEditor$0.8f</ID>
+    <ID>MagicNumber:CodeEditor.kt$CodeEditor$0f</ID>
+    <ID>MagicNumber:CodeEditor.kt$CodeEditor$1</ID>
+    <ID>MagicNumber:CodeEditor.kt$CodeEditor$2</ID>
+    <ID>MagicNumber:CodeStepQuizFormDelegate.kt$CodeStepQuizFormDelegate$5</ID>
+    <ID>MagicNumber:CodeStepQuizFragment.kt$CodeStepQuizFragment$0</ID>
+    <ID>MagicNumber:CodeThemes.kt$CodeThemes$0</ID>
+    <ID>MagicNumber:CodeToolbarAdapter.kt$CodeToolbarAdapter$0</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.05f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.07f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.08f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.09f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.11f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.12f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.14f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.15f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.16f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0f</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0xFF</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$1</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$12</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$16</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$2</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$24</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$3</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$4</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$6</ID>
+    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$8</ID>
+    <ID>MagicNumber:CommentsRemoteDataSourceImpl.kt$CommentsRemoteDataSourceImpl$100</ID>
+    <ID>MagicNumber:CommonCodeQuizConfig.kt$CommonCodeQuizConfig$1</ID>
+    <ID>MagicNumber:CompoundLatexItemView.kt$CompoundLatexItemView$0</ID>
+    <ID>MagicNumber:DailyStudyReminderLocalNotificationDelegate.kt$DailyStudyReminderLocalNotificationDelegate$0</ID>
+    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$0</ID>
+    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1</ID>
+    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1000</ID>
+    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$19</ID>
+    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1L</ID>
+    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$24</ID>
+    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$60</ID>
+    <ID>MagicNumber:DateTimeUtils.kt$DateTimeUtils$1</ID>
+    <ID>MagicNumber:DateTimeUtils.kt$DateTimeUtils$7</ID>
+    <ID>MagicNumber:DebugFragment.kt$DebugFragment$1500</ID>
+    <ID>MagicNumber:EditTextExtensions.kt$0</ID>
+    <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$0</ID>
+    <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$1</ID>
+    <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$2L</ID>
+    <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$3</ID>
+    <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$300L</ID>
+    <ID>MagicNumber:FillBlanksItemMapper.kt$FillBlanksItemMapper$0</ID>
+    <ID>MagicNumber:FillBlanksItemMapper.kt$FillBlanksItemMapper$1</ID>
+    <ID>MagicNumber:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$0</ID>
+    <ID>MagicNumber:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$1</ID>
+    <ID>MagicNumber:FirstProblemOnboardingSkeleton.kt$1f</ID>
+    <ID>MagicNumber:GamificationToolbarDelegate.kt$GamificationToolbarDelegate$0</ID>
+    <ID>MagicNumber:GamificationToolbarViewStateMapper.kt$GamificationToolbarViewStateMapper$0</ID>
+    <ID>MagicNumber:GamificationToolbarViewStateMapper.kt$GamificationToolbarViewStateMapper$100</ID>
+    <ID>MagicNumber:HomeActionDispatcher.kt$HomeActionDispatcher$0</ID>
+    <ID>MagicNumber:HomeReducer.kt$HomeReducer$0</ID>
+    <ID>MagicNumber:HorizontalMarginItemDecoration.kt$HorizontalMarginItemDecoration$0</ID>
+    <ID>MagicNumber:HorizontalMarginItemDecoration.kt$HorizontalMarginItemDecoration$1</ID>
+    <ID>MagicNumber:HtmlText.kt$0</ID>
+    <ID>MagicNumber:HyperskillNotificationManagerImpl.kt$HyperskillNotificationManagerImpl$0</ID>
+    <ID>MagicNumber:HyperskillNotificationManagerImpl.kt$HyperskillNotificationManagerImpl$0L</ID>
+    <ID>MagicNumber:HyperskillNotificationManagerImpl.kt$HyperskillNotificationManagerImpl$2</ID>
+    <ID>MagicNumber:InterviewPreparationContent.kt$1f</ID>
+    <ID>MagicNumber:InterviewPreparationOnboadrdingContent.kt$1f</ID>
+    <ID>MagicNumber:InterviewPreparationWidgetViewStateMapper.kt$InterviewPreparationWidgetViewStateMapper$0</ID>
+    <ID>MagicNumber:LatexView.kt$LatexView$0</ID>
+    <ID>MagicNumber:LatexWebView.kt$LatexWebView$0</ID>
+    <ID>MagicNumber:LatexWebView.kt$LatexWebView$0f</ID>
+    <ID>MagicNumber:LatexWebView.kt$LatexWebView.OnScrollWebListener$0</ID>
+    <ID>MagicNumber:LayerListDrawableDelegate.kt$LayerListDrawableDelegate$0</ID>
+    <ID>MagicNumber:LayerListDrawableDelegate.kt$LayerListDrawableDelegate$255</ID>
+    <ID>MagicNumber:LeaderboardListDivider.kt$LeaderboardListDividerDefaults$1</ID>
+    <ID>MagicNumber:LeaderboardListDivider.kt$LeaderboardListDividerDefaults$2</ID>
+    <ID>MagicNumber:LeaderboardPlaceInfo.kt$1</ID>
+    <ID>MagicNumber:LeaderboardPlaceInfo.kt$3</ID>
+    <ID>MagicNumber:LeaderboardPreviewData.kt$LeaderboardPreviewData$2</ID>
+    <ID>MagicNumber:LeaderboardPreviewData.kt$LeaderboardPreviewData$6</ID>
+    <ID>MagicNumber:LeaderboardScreen.kt$1f</ID>
+    <ID>MagicNumber:LeaderboardScreenActionDispatcher.kt$LeaderboardScreenActionDispatcher$0</ID>
+    <ID>MagicNumber:LeaderboardSkeletonItem.kt$2</ID>
+    <ID>MagicNumber:LeaderboardSkeletonItem.kt$5</ID>
+    <ID>MagicNumber:LeaderboardWidgetViewStateMapper.kt$LeaderboardWidgetViewStateMapper$1</ID>
+    <ID>MagicNumber:LearningActivitiesRemoteDataSourceImpl.kt$LearningActivitiesRemoteDataSourceImpl$1</ID>
+    <ID>MagicNumber:LearningActivity.kt$LearningActivity$100</ID>
+    <ID>MagicNumber:LearningActivityTextsMapper.kt$LearningActivityTextsMapper$0</ID>
+    <ID>MagicNumber:LinearProgressIndicator.kt$0f</ID>
+    <ID>MagicNumber:LinearProgressIndicator.kt$1f</ID>
+    <ID>MagicNumber:LinearProgressIndicator.kt$2</ID>
+    <ID>MagicNumber:LoadingView.kt$LoadingView$0</ID>
+    <ID>MagicNumber:LoadingView.kt$LoadingView$0L</ID>
+    <ID>MagicNumber:LoadingView.kt$LoadingView$0f</ID>
+    <ID>MagicNumber:LoadingView.kt$LoadingView$1500L</ID>
+    <ID>MagicNumber:LoadingView.kt$LoadingView$1f</ID>
+    <ID>MagicNumber:LoadingView.kt$LoadingView$2</ID>
+    <ID>MagicNumber:ManageSubscriptionContent.kt$1f</ID>
+    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$0.2f</ID>
+    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$0f</ID>
+    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$1</ID>
+    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$1f</ID>
+    <ID>MagicNumber:MatchingItemTitleAdapterDelegate.kt$MatchingItemTitleAdapterDelegate.ViewHolder$0f</ID>
+    <ID>MagicNumber:MatchingStepQuizFormDelegate.kt$MatchingStepQuizFormDelegate$1</ID>
+    <ID>MagicNumber:MatchingStepQuizFormDelegate.kt$MatchingStepQuizFormDelegate$2</ID>
+    <ID>MagicNumber:NetworkBuilder.kt$NetworkBuilder$0L</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$0</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$1</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$10</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$11</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$12</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$13</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$14</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$2</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$3</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$4</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$5</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$6</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$7</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$8</ID>
+    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$9</ID>
+    <ID>MagicNumber:NotificationsOnboardingScreen.kt$0.5f</ID>
+    <ID>MagicNumber:NotificationsOnboardingScreen.kt$1f</ID>
+    <ID>MagicNumber:NotificationsOnboardingViewStateMapper.kt$NotificationsOnboardingViewStateMapper$1</ID>
+    <ID>MagicNumber:NotificationsOnboardingViewStateMapper.kt$NotificationsOnboardingViewStateMapper$10</ID>
+    <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter$0.0</ID>
+    <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter.Companion$0</ID>
+    <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter.Companion$1</ID>
+    <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter.Companion$2</ID>
+    <ID>MagicNumber:ParsonsStepQuizFormDelegate.kt$ParsonsStepQuizFormDelegate$0</ID>
+    <ID>MagicNumber:ParsonsStepQuizFormDelegate.kt$ParsonsStepQuizFormDelegate$1</ID>
+    <ID>MagicNumber:PaywallContent.kt$1f</ID>
+    <ID>MagicNumber:PercentProgressIndicator.kt$0.0f</ID>
+    <ID>MagicNumber:PercentProgressIndicator.kt$0xFF5D72E9</ID>
+    <ID>MagicNumber:PercentProgressIndicator.kt$0xFFA6BCF4</ID>
+    <ID>MagicNumber:PercentProgressIndicator.kt$1f</ID>
+    <ID>MagicNumber:PreconfiguredHttpClient.kt$10.0</ID>
+    <ID>MagicNumber:PreconfiguredHttpClient.kt$400</ID>
+    <ID>MagicNumber:PreconfiguredHttpClient.kt$407</ID>
+    <ID>MagicNumber:PreconfiguredHttpClient.kt$409</ID>
+    <ID>MagicNumber:PreconfiguredHttpClient.kt$599</ID>
+    <ID>MagicNumber:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$0</ID>
+    <ID>MagicNumber:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$1F</ID>
+    <ID>MagicNumber:ProblemsLimitDelegate.kt$ProblemsLimitDelegate$100</ID>
+    <ID>MagicNumber:ProductsInteractor.kt$ProductsInteractor$1</ID>
+    <ID>MagicNumber:ProfileFragment.kt$ProfileFragment$1</ID>
+    <ID>MagicNumber:ProfileFragment.kt$ProfileFragment$2</ID>
+    <ID>MagicNumber:ProfileFragment.kt$ProfileFragment.Companion$0</ID>
+    <ID>MagicNumber:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$1</ID>
+    <ID>MagicNumber:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$18F</ID>
+    <ID>MagicNumber:Progress.kt$0.0</ID>
+    <ID>MagicNumber:Progress.kt$10</ID>
+    <ID>MagicNumber:Progress.kt$10.0</ID>
+    <ID>MagicNumber:Progress.kt$3</ID>
+    <ID>MagicNumber:ProgressScreenViewStateMapper.kt$ProgressScreenViewStateMapper$3</ID>
+    <ID>MagicNumber:ProjectAdapterDelegate.kt$ProjectAdapterDelegate.ViewHolder$0</ID>
+    <ID>MagicNumber:ProjectAdapterDelegate.kt$ProjectAdapterDelegate.ViewHolder$0.0f</ID>
+    <ID>MagicNumber:ProjectAdapterDelegate.kt$ProjectAdapterDelegate.ViewHolder$100f</ID>
+    <ID>MagicNumber:ProjectProgressContent.kt$1f</ID>
+    <ID>MagicNumber:ProjectProgressSkeleton.kt$1f</ID>
+    <ID>MagicNumber:ProjectSelectionDetailsViewStateMapper.kt$ProjectSelectionDetailsViewStateMapper$0</ID>
+    <ID>MagicNumber:ProjectSelectionListDelegate.kt$ProjectSelectionListDelegate$0</ID>
+    <ID>MagicNumber:ProjectSelectionListDelegate.kt$ProjectSelectionListDelegate$1</ID>
+    <ID>MagicNumber:ProjectWithProgress.kt$ProjectWithProgress$100</ID>
+    <ID>MagicNumber:PushNotificationHandlerImpl.kt$PushNotificationHandlerImpl$0</ID>
+    <ID>MagicNumber:RequestReviewCacheDataSourceImpl.kt$RequestReviewCacheDataSourceImpl$0</ID>
+    <ID>MagicNumber:RequestReviewCacheDataSourceImpl.kt$RequestReviewCacheDataSourceImpl$1</ID>
+    <ID>MagicNumber:RequestReviewDialog.kt$1f</ID>
+    <ID>MagicNumber:RequestReviewInteractor.kt$RequestReviewInteractor$0L</ID>
+    <ID>MagicNumber:RxUtil.kt$1</ID>
+    <ID>MagicNumber:RxUtil.kt$RetryExponential$1</ID>
+    <ID>MagicNumber:RxUtil.kt$RetryExponential$1L</ID>
+    <ID>MagicNumber:RxUtil.kt$RetryExponential$2</ID>
+    <ID>MagicNumber:SelectionColorStyleBlock.kt$SelectionColorStyleBlock$2</ID>
+    <ID>MagicNumber:SentryManagerImpl.kt$SentryManagerImpl$0.3</ID>
+    <ID>MagicNumber:SentryManagerImpl.kt$SentryManagerImpl$1.0</ID>
+    <ID>MagicNumber:ShareUtils.kt$ShareUtils$100</ID>
+    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$0</ID>
+    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$1</ID>
+    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$2</ID>
+    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$3</ID>
+    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$60</ID>
+    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$9</ID>
+    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$0</ID>
+    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$0.2f</ID>
+    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$0f</ID>
+    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$1</ID>
+    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$1f</ID>
+    <ID>MagicNumber:SortingStepQuizFormDelegate.kt$SortingStepQuizFormDelegate$1</ID>
+    <ID>MagicNumber:StageImplementActionDispatcher.kt$StageImplementActionDispatcher$1</ID>
+    <ID>MagicNumber:StateExtensions.kt$.0</ID>
+    <ID>MagicNumber:StateExtensions.kt$0</ID>
+    <ID>MagicNumber:StateExtensions.kt$0f</ID>
+    <ID>MagicNumber:StateExtentions.kt$0</ID>
+    <ID>MagicNumber:StateExtentions.kt$1</ID>
+    <ID>MagicNumber:Step.kt$0</ID>
+    <ID>MagicNumber:Step.kt$1</ID>
+    <ID>MagicNumber:StepActionDispatcher.kt$StepActionDispatcher$38627L</ID>
+    <ID>MagicNumber:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$0</ID>
+    <ID>MagicNumber:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$1</ID>
+    <ID>MagicNumber:StepDelegate.kt$StepDelegate$1</ID>
+    <ID>MagicNumber:StepDelegate.kt$StepDelegate$10</ID>
+    <ID>MagicNumber:StepDelegate.kt$StepDelegate$100</ID>
+    <ID>MagicNumber:StepDelegate.kt$StepDelegate$25</ID>
+    <ID>MagicNumber:StepDelegate.kt$StepDelegate$5</ID>
+    <ID>MagicNumber:StepDelegate.kt$StepDelegate$50</ID>
+    <ID>MagicNumber:StepQuizHintsFeature.kt$StepQuizHintsFeature$0</ID>
+    <ID>MagicNumber:StepQuizResolver.kt$StepQuizResolver$0</ID>
+    <ID>MagicNumber:StepQuizResolver.kt$StepQuizResolver$1</ID>
+    <ID>MagicNumber:StepQuizStatsTextMapper.kt$StepQuizStatsTextMapper$0</ID>
+    <ID>MagicNumber:Streak.kt$Streak$0</ID>
+    <ID>MagicNumber:Streak.kt$Streak$1</ID>
+    <ID>MagicNumber:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$0</ID>
+    <ID>MagicNumber:StreakRecoveryReducer.kt$StreakRecoveryReducer$0</ID>
+    <ID>MagicNumber:StringExtensions.kt$0</ID>
+    <ID>MagicNumber:StringExtensions.kt$1</ID>
+    <ID>MagicNumber:StudyPlan.kt$StudyPlan$3600.0</ID>
+    <ID>MagicNumber:StudyPlan.kt$StudyPlan$60.0</ID>
+    <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$0</ID>
+    <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$100f</ID>
+    <ID>MagicNumber:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate$0</ID>
+    <ID>MagicNumber:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate$1</ID>
+    <ID>MagicNumber:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$0</ID>
+    <ID>MagicNumber:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$1</ID>
+    <ID>MagicNumber:StudyPlanWidgetViewStateMapper.kt$StudyPlanWidgetViewStateMapper$0</ID>
+    <ID>MagicNumber:SubmissionCacheDataSourceImpl.kt$SubmissionCacheDataSourceImpl$0</ID>
+    <ID>MagicNumber:SubmissionCacheDataSourceImpl.kt$SubmissionCacheDataSourceImpl$1</ID>
+    <ID>MagicNumber:Subscription.kt$0</ID>
+    <ID>MagicNumber:SubscriptionSyncLoading.kt$0.5f</ID>
+    <ID>MagicNumber:SubscriptionsInteractor.kt$SubscriptionsInteractor$0</ID>
+    <ID>MagicNumber:TableSelectionItemAdapterDelegate.kt$TableSelectionItemAdapterDelegate.ViewHolder$0.2f</ID>
+    <ID>MagicNumber:TableSelectionItemAdapterDelegate.kt$TableSelectionItemAdapterDelegate.ViewHolder$1f</ID>
+    <ID>MagicNumber:TextAttributes.kt$TextAttributes.Companion$0</ID>
+    <ID>MagicNumber:TextAttributes.kt$TextAttributes.Companion$1</ID>
+    <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$0</ID>
+    <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$0x0</ID>
+    <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$1</ID>
+    <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$50f</ID>
+    <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$0</ID>
+    <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$1</ID>
+    <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$24</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$0f</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$14f</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$2</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$2f</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$360</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$360f</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$8f</ID>
+    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$90f</ID>
+    <ID>MagicNumber:TopicProgress.kt$0f</ID>
+    <ID>MagicNumber:TopicProgress.kt$100</ID>
+    <ID>MagicNumber:TopicProgress.kt$100f</ID>
+    <ID>MagicNumber:TopicSearchResultContent.kt$3</ID>
+    <ID>MagicNumber:TopicSearchSkeleton.kt$5</ID>
+    <ID>MagicNumber:TopicsRepetitionCardFormDelegate.kt$TopicsRepetitionCardFormDelegate$0</ID>
+    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$0</ID>
+    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$0f</ID>
+    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$1</ID>
+    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$10</ID>
+    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$1f</ID>
+    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$2</ID>
+    <ID>MagicNumber:TopicsRepetitionListDelegate.kt$TopicsRepetitionListDelegate$0</ID>
+    <ID>MagicNumber:TopicsRepetitionListDelegate.kt$TopicsRepetitionListDelegate$1</ID>
+    <ID>MagicNumber:TopicsRepetitionsFeature.kt$TopicsRepetitionsFeature.State.Content$0</ID>
+    <ID>MagicNumber:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$0</ID>
+    <ID>MagicNumber:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$1</ID>
+    <ID>MagicNumber:TopicsRepetitionsViewDataMapper.kt$TopicsRepetitionsViewDataMapper$0</ID>
+    <ID>MagicNumber:TrackAdapterDelegate.kt$TrackAdapterDelegate.ViewHolder$0</ID>
+    <ID>MagicNumber:TrackAdapterDelegate.kt$TrackAdapterDelegate.ViewHolder$0.0f</ID>
+    <ID>MagicNumber:TrackAdapterDelegate.kt$TrackAdapterDelegate.ViewHolder$100f</ID>
+    <ID>MagicNumber:TrackProgressContent.kt$0</ID>
+    <ID>MagicNumber:TrackProgressContent.kt$1f</ID>
+    <ID>MagicNumber:TrackProgressSkeleton.kt$1f</ID>
+    <ID>MagicNumber:TrackSelectionDetailsViewStateMapper.kt$TrackSelectionDetailsViewStateMapper$0.0</ID>
+    <ID>MagicNumber:TrackSelectionDetailsViewStateMapper.kt$TrackSelectionDetailsViewStateMapper$1</ID>
+    <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$0</ID>
+    <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$1</ID>
+    <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$5</ID>
+    <ID>MagicNumber:TrackWithProgress.kt$TrackWithProgress$100</ID>
+    <ID>MagicNumber:UsersQuestionnaireWidget.kt$0xFF6C63FF</ID>
+    <ID>MagicNumber:UsersQuestionnaireWidget.kt$0xFF7AB7FE</ID>
+    <ID>MagicNumber:UsersQuestionnaireWidget.kt$1f</ID>
+    <ID>MagicNumber:VerticalDashLineView.kt$VerticalDashLineView$.5f</ID>
+    <ID>MagicNumber:VerticalDashLineView.kt$VerticalDashLineView$0f</ID>
+    <ID>MagicNumber:VerticalMarginItemDecoration.kt$VerticalMarginItemDecoration$0</ID>
+    <ID>MagicNumber:VerticalMarginItemDecoration.kt$VerticalMarginItemDecoration$1</ID>
+    <ID>MagicNumber:ViewExtensions.kt$1</ID>
+    <ID>MagicNumber:ViewExtensions.kt$&lt;no name provided&gt;$1f</ID>
+    <ID>MatchingDeclarationName:FindStage.kt$FindStageInput</ID>
+    <ID>MatchingDeclarationName:HyperskillButton.kt$HyperskillButtonDefaults</ID>
+    <ID>MatchingDeclarationName:LeaderboardItem.kt$LeaderboardItemDefaults</ID>
+    <ID>MatchingDeclarationName:NotificationsOnboardingScreen.kt$NotificationsOnboardingDefaults</ID>
+    <ID>MatchingDeclarationName:PaywallScreen.kt$PaywallDefaults</ID>
+    <ID>MatchingDeclarationName:UsersQuestionnaireWidget.kt$UsersQuestionnaireWidgetDefaults</ID>
+    <ID>MaxLineLength:ChallengeCardPreviewValues.kt$ChallengeCardPreviewValues$const</ID>
+    <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
+    <ID>MaxLineLength:HtmlText.kt$text</ID>
+    <ID>MaxLineLength:LinearProgressIndicator.kt$*</ID>
+    <ID>MaxLineLength:MainComponentImpl.kt$MainComponentImpl$notificationClickHandlingActionDispatcher = clickedNotificationComponent.notificationClickHandlingActionDispatcher</ID>
+    <ID>MaxLineLength:ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent.kt$ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent$*</ID>
+    <ID>MaxLineLength:RepositoryCacheProxy.kt$RepositoryCacheProxy$*</ID>
+    <ID>MaxLineLength:UrlPathProcessor.kt$UrlPathProcessor$*</ID>
+    <ID>MaxLineLength:UsersQuestionnaireWidgetActionDispatcher.kt$UsersQuestionnaireWidgetActionDispatcher$"https://docs.google.com/forms/d/e/1FAIpQLSf6k3woOqZr2zfmbBNvA71DyD04LN4v7l6k-vuyqdAmdMUnOA/viewform?usp=pp_url&amp;entry.193481738=$currentUserId"</ID>
+    <ID>MaxLineLength:WrapWithFlowView.kt$inline</ID>
+    <ID>MayBeConst:DateTimeHelper.kt$DateTimeHelper$private val hoursInDay = 24</ID>
+    <ID>MayBeConst:DateTimeHelper.kt$DateTimeHelper$private val millisecondsInHour = 1000 * 60 * 60</ID>
+    <ID>MayBeConst:DateTimeHelper.kt$DateTimeHelper$private val millisecondsInMinute = 1000 * 60</ID>
+    <ID>MayBeConst:DateTimeHelper.kt$DateTimeHelper$private val sizeOfIsoWithoutZ = 19</ID>
+    <ID>ModifierMissing:ChallengeCard.kt$ChallengeCard</ID>
+    <ID>ModifierMissing:DebugScreenUI.kt$DebugScreen</ID>
+    <ID>ModifierMissing:FirstProblemOnboardingContent.kt$FirstProblemOnboardingContent</ID>
+    <ID>ModifierMissing:FirstProblemOnboardingSkeleton.kt$FirstProblemOnboardingSkeleton</ID>
+    <ID>ModifierMissing:FirstProblemOnboardingUI.kt$FirstProblemOnboardingScreen</ID>
+    <ID>ModifierMissing:InterviewPreparationCard.kt$InterviewPreparationCard</ID>
+    <ID>ModifierMissing:InterviewPreparationOnboardingScreen.kt$InterviewPreparationOnboardingScreen</ID>
+    <ID>ModifierMissing:LeaderboardTabs.kt$LeaderboardTabs</ID>
+    <ID>ModifierMissing:ManageSubscriptionScreen.kt$ManageSubscriptionScreen</ID>
+    <ID>ModifierMissing:NotificationsOnboardingScreen.kt$NotificationsOnboardingScreen</ID>
+    <ID>ModifierMissing:PaywallScreen.kt$PaywallScreen</ID>
+    <ID>ModifierMissing:ProgressScreen.kt$ProgressScreen</ID>
+    <ID>ModifierMissing:RequestReviewDialog.kt$RequestReviewDialog</ID>
+    <ID>ModifierNotUsedAtRoot:LeaderboardPlaceInfo.kt$modifier = modifier .requiredSize(24.dp) .align(Alignment.CenterVertically)</ID>
+    <ID>ModifierNotUsedAtRoot:NotificationsOnboardingScreen.kt$modifier.align(Alignment.Center)</ID>
+    <ID>ModifierNotUsedAtRoot:UsersQuestionnaireOnboardingScreen.kt$modifier = modifier .fillMaxSize() .verticalScroll(rememberScrollState()) .padding(padding + UsersQuestionnaireOnboardingDefaults.ContentPadding)</ID>
+    <ID>ModifierReused:LeaderboardPlaceInfo.kt$Image( painter = painterResource( id = when (placeNumber) { 1 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_first_place 2 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_second_place 3 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_third_place else -&gt; error("Place icon should not be visible for the place number $placeNumber") } ), contentDescription = null, modifier = modifier .requiredSize(24.dp) .align(Alignment.CenterVertically) )</ID>
+    <ID>ModifierReused:LeaderboardPlaceInfo.kt$Row( modifier = modifier, horizontalArrangement = Arrangement.SpaceBetween ) { Text( text = placeNumber.toString(), style = MaterialTheme.typography.body2, color = colorResource(id = R.color.color_on_surface_alpha_60), modifier = Modifier.align(Alignment.CenterVertically) ) if (placeNumber in 1..3) { Image( painter = painterResource( id = when (placeNumber) { 1 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_first_place 2 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_second_place 3 -&gt; org.hyperskill.app.android.R.drawable.ic_leaderboard_third_place else -&gt; error("Place icon should not be visible for the place number $placeNumber") } ), contentDescription = null, modifier = modifier .requiredSize(24.dp) .align(Alignment.CenterVertically) ) } }</ID>
+    <ID>ModifierReused:NotificationsOnboardingScreen.kt$Box( modifier = modifier .clip(RoundedCornerShape(dimensionResource(id = org.hyperskill.app.android.R.dimen.corner_radius))) ) { Row( verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center, modifier = Modifier .clickable( interactionSource = remember { MutableInteractionSource() }, indication = rememberRipple(), onClick = onTimeClick ) .padding(vertical = 4.dp, horizontal = 8.dp) ) { Text(text = stringResource(id = R.string.notifications_onboarding_daily_study_reminders_interval_prefix)) Spacer(modifier = Modifier.width(8.dp)) Text(text = formattedInterval) Spacer(modifier = Modifier.width(4.dp)) Box(modifier = Modifier.size(24.dp)) { Image( painter = painterResource( id = org.hyperskill.app.android.R.drawable.ic_notification_onboarding_arrow ), contentDescription = null, modifier.align(Alignment.Center) ) } } }</ID>
+    <ID>ModifierReused:NotificationsOnboardingScreen.kt$Image( painter = painterResource( id = org.hyperskill.app.android.R.drawable.ic_notification_onboarding_arrow ), contentDescription = null, modifier.align(Alignment.Center) )</ID>
+    <ID>ModifierWithoutDefault:BadgeImage.kt$modifier</ID>
+    <ID>NestedBlockDepth:AuthSocialWebViewClient.kt$AuthSocialWebViewClient$override fun shouldOverrideUrlLoading( view: WebView?, request: WebResourceRequest? ): Boolean</ID>
+    <ID>PreviewPublic:BadgeCard.kt$BadgeCardPreview</ID>
+    <ID>PreviewPublic:BadgeCard.kt$LastLevelBadgeCardPreview</ID>
+    <ID>PreviewPublic:BadgeGrid.kt$PhoneBadgeGridPreview</ID>
+    <ID>PreviewPublic:BadgeGrid.kt$TabletBadgeGridPreview</ID>
+    <ID>PreviewPublic:BlockHeader.kt$BlockHeaderPreview</ID>
+    <ID>PreviewPublic:BlockHeader.kt$BlockHeaderSkeletonPreview</ID>
+    <ID>PreviewPublic:ChallengeDescription.kt$ChallengeDescriptionPreview</ID>
+    <ID>PreviewPublic:ChallengeHeader.kt$ChallengeHeaderPreview</ID>
+    <ID>PreviewPublic:ChallengeProgress.kt$ChallengeProgressItemPreview</ID>
+    <ID>PreviewPublic:ChallengeTimeText.kt$ChallengeTimeTextPreview</ID>
+    <ID>PreviewPublic:DebugScreenUI.kt$DebugScreenPreview</ID>
+    <ID>PreviewPublic:GeneralStatistics.kt$TrackStatisticsPreview</ID>
+    <ID>PreviewPublic:HappeningNowChallengeCard.kt$HappeningNowChallengeCardPreview</ID>
+    <ID>PreviewPublic:LeaderboardListDivider.kt$LeaderboardListDividerPreview</ID>
+    <ID>PreviewPublic:LeaderboardSkeletonItem.kt$LeaderboardSkeletonPreview</ID>
+    <ID>PreviewPublic:ManageSubscriptionContent.kt$MobileOnlyWarningPreview</ID>
+    <ID>PreviewPublic:ManageSubscriptionScreen.kt$ManageSubscriptionScreenPreview</ID>
+    <ID>PreviewPublic:PaywallContent.kt$PaywallContentPreview</ID>
+    <ID>PreviewPublic:PaywallScreen.kt$PaywallScreenPreview</ID>
+    <ID>PreviewPublic:PercentStatistics.kt$TopicsProgressPreview</ID>
+    <ID>PreviewPublic:ProfileBadges.kt$ProfileBadgesPreview</ID>
+    <ID>PreviewPublic:ProgressScreen.kt$GeneralTrackProgressScreenPreview</ID>
+    <ID>PreviewPublic:ProgressScreen.kt$NexusTrackProgressScreenPreview</ID>
+    <ID>PreviewPublic:ProjectProgressContent.kt$ProjectProgressPreview</ID>
+    <ID>PreviewPublic:ProjectProgressSkeleton.kt$TrackProjectSkeletonPreview</ID>
+    <ID>PreviewPublic:TopicSearchSkeleton.kt$TopicSearchSkeletonPreview</ID>
+    <ID>PreviewPublic:TrackProgressContent.kt$TrackProgressContentPreview</ID>
+    <ID>PreviewPublic:TrackProgressSkeleton.kt$TrackProgressSkeletonBlockPreview</ID>
+    <ID>PreviewPublic:TrackTopicsStatistics.kt$CompletedTopicsProgressPreview</ID>
+    <ID>PrintStackTrace:LatexWebView.kt$LatexWebView$e</ID>
+    <ID>ReturnCount:ChallengeWidgetReducer.kt$ChallengeWidgetReducer$private fun handleStepSolvedMessage(state: State): ChallengeWidgetReducerResult?</ID>
+    <ID>ReturnCount:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$private fun getLoadedWidgetContent(state: ChallengeWidgetFeature.State.Content): ChallengeWidgetViewState</ID>
+    <ID>ReturnCount:ExpandableTextView.kt$ExpandableTextView$private fun resolveDisplayedText(staticLayout: StaticLayout): CharSequence?</ID>
+    <ID>ReturnCount:FillBlanksItemMapper.kt$FillBlanksItemMapper$internal fun map( componentsDataset: List&lt;Component&gt;, replyBlanks: List&lt;String&gt;? ): FillBlanksData?</ID>
+    <ID>ReturnCount:HyperskillAnalyticEngine.kt$HyperskillAnalyticEngineImpl$private suspend fun internalReportEvent(event: AnalyticEvent, forceReport: Boolean)</ID>
+    <ID>ReturnCount:NotificationClickHandlingActionDispatcher.kt$NotificationClickHandlingActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>ReturnCount:NotificationClickHandlingReducer.kt$NotificationClickHandlingReducer$private fun getStepRouteForNextLearningActivity(learningActivity: LearningActivity?): StepRoute?</ID>
+    <ID>ReturnCount:NotificationExtensions.kt$fun NotificationChannel.isFullyEnabled(notificationManager: NotificationManagerCompat): Boolean</ID>
+    <ID>ReturnCount:Progress.kt$fun Progress.averageRating(): Double</ID>
+    <ID>ReturnCount:ProgressScreenActionDispatcher.kt$ProgressScreenActionDispatcher$private suspend fun handleFetchProjectWithProgressAction( action: InternalAction.FetchProjectWithProgress, onNewMessage: (Message) -&gt; Unit )</ID>
+    <ID>ReturnCount:RequestReviewInteractor.kt$RequestReviewInteractor$fun shouldRequestReviewAfterStepSolved(): Boolean</ID>
+    <ID>ReturnCount:SearchReducer.kt$SearchReducer$private fun handleSearchResultsItemClickedMessage( state: State, message: Message.SearchResultsItemClicked ): SearchReducerResult?</ID>
+    <ID>ReturnCount:SharedDateFormatter.kt$SharedDateFormatter$fun formatTimeDistance(millis: Long): String</ID>
+    <ID>ReturnCount:StateExtentions.kt$internal fun ChallengeWidgetFeature.State.Content.setCurrentChallengeIntervalProgressAsCompleted(): Challenge?</ID>
+    <ID>ReturnCount:StepCompletionReducer.kt$StepCompletionReducer$private fun getNextStepRouteForLearningActivity(learningActivity: LearningActivity?): StepRoute?</ID>
+    <ID>ReturnCount:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$private suspend fun getProblemsLimitReachedModalData( profile: Profile, subscription: Subscription ): StepQuizFeature.ProblemsLimitReachedModalData?</ID>
+    <ID>ReturnCount:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$private suspend fun handleUpdateProblemsLimitAction( action: InternalAction.UpdateProblemsLimit, onNewMessage: (Message) -&gt; Unit )</ID>
+    <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getLastSeenHint(stepId: Long): Comment?</ID>
+    <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getNotSeenHintsIds(stepId: Long): List&lt;Long&gt;</ID>
+    <ID>ReturnCount:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
+    <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean</ID>
+    <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$fun shouldSyncReply(state: StepQuizFeature.StepQuizState): Boolean</ID>
+    <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$internal fun isIdeRequired(step: Step, submissionState: StepQuizFeature.SubmissionState): Boolean</ID>
+    <ID>ReturnCount:TopicsRepetitionsActionDispatcher.kt$TopicsRepetitionsActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( fragmentStepQuizBinding.stepQuizFeedbackBlocks.root, descriptionBinding?.stepQuizDescription, fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton, *quizViews ).toTypedArray() )</ID>
+    <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( skeletonView, descriptionBinding?.stepQuizDescriptionSkeleton ).toTypedArray() )</ID>
+    <ID>SwallowedException:ContextExtensions.kt$e: ActivityNotFoundException</ID>
+    <ID>SwallowedException:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$e: InvalidFillBlanksConfigException</ID>
+    <ID>SwallowedException:InterviewPreparationWidgetActionDispatcher.kt$InterviewPreparationWidgetActionDispatcher$e: Exception</ID>
+    <ID>SwallowedException:NotificationExtensions.kt$e: ActivityNotFoundException</ID>
+    <ID>SwallowedException:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$e: ActivityNotFoundException</ID>
+    <ID>SwallowedException:PushNotificationData.kt$PushNotificationData$e: Exception</ID>
+    <ID>SwallowedException:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$exception: Exception</ID>
+    <ID>ThrowsCount:FillBlanksResolver.kt$FillBlanksResolver$@Throws(InvalidFillBlanksConfigException::class) fun resolve(dataset: Dataset): FillBlanksMode</ID>
+    <ID>TooGenericExceptionCaught:BaseStateRepository.kt$BaseStateRepository$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:InterviewPreparationWidgetActionDispatcher.kt$InterviewPreparationWidgetActionDispatcher$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:LatexWebView.kt$LatexWebView$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PushNotificationData.kt$PushNotificationData$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PushNotificationsInteractor.kt$PushNotificationsInteractor$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SentryExtentions.kt$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$exception: Exception</ID>
+    <ID>TooGenericExceptionThrown:PushNotificationHandlerImpl.kt$PushNotificationHandlerImpl$throw RuntimeException("Can't create notification on main thread")</ID>
+    <ID>TooManyFunctions:AppReducer.kt$AppReducer : StateReducer</ID>
+    <ID>TooManyFunctions:BadgesViewStateMapper.kt$BadgesViewStateMapper</ID>
+    <ID>TooManyFunctions:ChallengeWidgetReducer.kt$ChallengeWidgetReducer : StateReducer</ID>
+    <ID>TooManyFunctions:CodeAnalyzer.kt$CodeAnalyzer</ID>
+    <ID>TooManyFunctions:CodeEditor.kt$CodeEditor : AppCompatEditTextTextWatcher</ID>
+    <ID>TooManyFunctions:CodeStepQuizFragment.kt$CodeStepQuizFragment : DefaultStepQuizFragmentReduxViewCallback</ID>
+    <ID>TooManyFunctions:CodeStepQuizFullScreenDialogFragment.kt$CodeStepQuizFullScreenDialogFragment : DialogFragment</ID>
+    <ID>TooManyFunctions:DateTimeHelper.kt$DateTimeHelper</ID>
+    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewMenuProviderCallback</ID>
+    <ID>TooManyFunctions:ExpandableTextView.kt$ExpandableTextView : AppCompatTextView</ID>
+    <ID>TooManyFunctions:FillBlanksItemMapper.kt$FillBlanksItemMapper</ID>
+    <ID>TooManyFunctions:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate : StepQuizFormDelegate</ID>
+    <ID>TooManyFunctions:HomeFragment.kt$HomeFragment : FragmentReduxView</ID>
+    <ID>TooManyFunctions:HyperskillSentryBreadcrumbBuilder.kt$HyperskillSentryBreadcrumbBuilder</ID>
+    <ID>TooManyFunctions:HyperskillSentryTransactionBuilder.kt$HyperskillSentryTransactionBuilder</ID>
+    <ID>TooManyFunctions:MainActivity.kt$MainActivity : AppCompatActivityAppNavigationContainerReduxView</ID>
+    <ID>TooManyFunctions:NotificationInteractor.kt$NotificationInteractor</ID>
+    <ID>TooManyFunctions:NotificationsOnboardingFragment.kt$NotificationsOnboardingFragment : FragmentCallback</ID>
+    <ID>TooManyFunctions:ParsonsStepQuizFormDelegate.kt$ParsonsStepQuizFormDelegate : StepQuizFormDelegate</ID>
+    <ID>TooManyFunctions:PaywallReducer.kt$PaywallReducer : StateReducer</ID>
+    <ID>TooManyFunctions:ProfileFragment.kt$ProfileFragment : FragmentReduxViewCallbackCallback</ID>
+    <ID>TooManyFunctions:ProfileReducer.kt$ProfileReducer : StateReducer</ID>
+    <ID>TooManyFunctions:ProgressScreenReducer.kt$ProgressScreenReducer : StateReducer</ID>
+    <ID>TooManyFunctions:SentryInteractor.kt$SentryInteractor : AnalyticEventMonitor</ID>
+    <ID>TooManyFunctions:SharedDateFormatter.kt$SharedDateFormatter</ID>
+    <ID>TooManyFunctions:StageStepWrapperFragment.kt$StageStepWrapperFragment : FragmentReduxViewStepCompletionHostCallbackCallback</ID>
+    <ID>TooManyFunctions:StepFragment.kt$StepFragment : FragmentReduxViewStepCompletionHostCallbackCallback</ID>
+    <ID>TooManyFunctions:StepTheoryFragment.kt$StepTheoryFragment : FragmentStepCompletionView</ID>
+    <ID>TooManyFunctions:StudyPlanFragment.kt$StudyPlanFragment : FragmentReduxViewCallback</ID>
+    <ID>TooManyFunctions:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer : StateReducer</ID>
+    <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val dailyReminderId = "dailyReminderChannel"</ID>
+    <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val otherId = "otherChannel"</ID>
+    <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val regularLearningRemindersId = "regularLearningRemindersChannel"</ID>
+    <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val streakBoostersId = "streakBoostersChannel"</ID>
+    <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val streakSaversId = "streakSaversChannel"</ID>
+    <ID>TopLevelPropertyNaming:ViewExtensions.kt$private const val durationMillis = 300</ID>
+    <ID>UnstableCollections:BadgeGrid.kt$List&lt;BadgesViewState.Badge&gt;</ID>
+    <ID>UnstableCollections:ChallengeProgress.kt$List&lt;ProgressStatus&gt;</ID>
+    <ID>UnstableCollections:DebugScreenUI.kt$List&lt;EndpointConfigType&gt;</ID>
+    <ID>UnstableCollections:LeaderboardList.kt$List&lt;LeaderboardWidgetListItem&gt;</ID>
+    <ID>UnstableCollections:ServerSwitcher.kt$List&lt;EndpointConfigType&gt;</ID>
+    <ID>UnstableCollections:TopicSearchResultContent.kt$List&lt;Item&gt;</ID>
+    <ID>UnstableCollections:UsersQuestionnaireOptionsList.kt$List&lt;String&gt;</ID>
+    <ID>UnusedParameter:CodeAnalyzer.kt$CodeAnalyzer$count: Int</ID>
+    <ID>UnusedParameter:DebugToolsHelper.kt$DebugToolsHelper$app: Application</ID>
+    <ID>UnusedPrivateMember:StepQuizResolverTest.kt$StepQuizResolverTest$@Suppress("UNUSED_EXPRESSION") private fun marker( stepRoute: StepRoute, stepQuizState: StepQuizFeature.StepQuizState )</ID>
+    <ID>UnusedPrivateMember:StepTheoryFragment.kt$StepTheoryFragment$private fun setupCommentStatisticsRecyclerView()</ID>
+    <ID>UnusedPrivateMember:StepTheoryFragment.kt$StepTheoryFragment$private fun setupStepRatingAdapterDelegate()</ID>
+    <ID>UnusedPrivateMember:StepTheoryFragment.kt$StepTheoryFragment$private fun setupStepRatingRecyclerView()</ID>
+    <ID>UnusedPrivateProperty:MainActivity.kt$MainActivity$val splashScreen = installSplashScreen()</ID>
+    <ID>UnusedPrivateProperty:TrackSelectionDetailsFragment.kt$TrackSelectionDetailsFragment$private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) { HyperskillApp.graph().navigationComponent.mainScreenCicerone.router }</ID>
+    <ID>UseCheckOrError:AndroidStepQuizTest.kt$AndroidStepQuizTest$throw IllegalStateException( "Unknown step route class: $concreteStepRouteClass. Please add it to the test." )</ID>
+    <ID>UseCheckOrError:AppFeatureStateSerializationTest.kt$AppFeatureStateSerializationTest$throw IllegalStateException("Unknown state class: $stateClass. Please add it to the test.")</ID>
+    <ID>UseCheckOrError:CollectionToJsonElement.kt$throw IllegalStateException("Can't serialize unknown type: $this")</ID>
+    <ID>UseCheckOrError:ContextExtensions.kt$throw IllegalStateException("Can't find Activity in a given context")</ID>
+    <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$BundleDelegate$throw IllegalStateException("Property ${property.name} could not be read")</ID>
+    <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$FragmentSerializableArgumentDelegate$throw IllegalStateException("Cannot read property ${property.name} if no arguments have been set")</ID>
+    <ID>UseCheckOrError:LoadingView.kt$LoadingView$throw IllegalStateException("Visibility should be one of VISIBLE, INVISIBLE, GONE")</ID>
+    <ID>UseCheckOrError:RepositoryCacheProxyTest.kt$RepositoryCacheProxyTest.&lt;no name provided&gt;$throw IllegalStateException("cache.clearCache should not be called")</ID>
+    <ID>UseCheckOrError:RequestReviewModalViewStateMapper.kt$RequestReviewModalViewStateMapper$throw IllegalStateException("State.Negative shouldn't be mapped to ViewState")</ID>
+    <ID>ViewModelForwarding:ManageSubscriptionScreen.kt$OnComposableShownFirstTime(viewModel) { viewModel.onNewMessage(Message.ViewedEventMessage) }</ID>
+    <ID>ViewModelForwarding:PaywallScreen.kt$OnComposableShownFirstTime(viewModel) { viewModel.onNewMessage(PaywallFeature.Message.ViewedEventMessage) }</ID>
+    <ID>WildcardImport:ProgrammingLanguageExtension.kt$import org.hyperskill.app.code.domain.model.ProgrammingLanguage.*</ID>
+  </CurrentIssues>
+</SmellBaseline>
