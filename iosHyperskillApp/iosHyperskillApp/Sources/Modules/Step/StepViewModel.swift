@@ -81,7 +81,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     // MARK: Analytic
 
     func logViewedEvent() {
-        onNewMessage(StepFeatureMessageViewedEventMessage())
+        onNewMessage(StepFeatureMessageScreenShowed())
     }
 }
 

@@ -25,6 +25,8 @@ data class Step(
     val solvedBy: Int,
     @SerialName("is_completed")
     val isCompleted: Boolean,
+    @SerialName("is_cribbed")
+    val isCribbed: Boolean,
     @SerialName("is_next")
     val isNext: Boolean,
     @SerialName("can_skip")

@@ -43,7 +43,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
 
-    implementation(libs.google.play.review)
+    implementation(libs.googlePlay.review)
 
     implementation(libs.viewbinding)
     implementation(libs.kit.ui.adapters)

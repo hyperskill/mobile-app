@@ -12,6 +12,7 @@ import org.hyperskill.app.network.remote.parameterIds
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
+import org.hyperskill.app.step.remote.model.LogStepSolvingTimeRequest
 import org.hyperskill.app.step.remote.model.StepResponse
 import org.hyperskill.app.step.remote.model.ViewsRequest
 
@@ -19,7 +20,7 @@ class StepRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : StepRemoteDataSource {
     override suspend fun getSteps(stepIds: List<Long>): Result<List<Step>> =
-        kotlin.runCatching {
+        runCatching {
             httpClient
                 .get("/api/steps") {
                     contentType(ContentType.Application.Json)
@@ -28,7 +29,7 @@ class StepRemoteDataSourceImpl(
         }
 
     override suspend fun completeStep(stepId: Long): Result<Step> =
-        kotlin.runCatching {
+        runCatching {
             httpClient
                 .post("/api/steps/$stepId/complete") {
                     contentType(ContentType.Application.Json)
@@ -37,7 +38,7 @@ class StepRemoteDataSourceImpl(
         }
 
     override suspend fun skipStep(stepId: Long): Result<Step> =
-        kotlin.runCatching {
+        runCatching {
             httpClient
                 .post("/api/steps/$stepId/skip") {
                     contentType(ContentType.Application.Json)
@@ -46,7 +47,7 @@ class StepRemoteDataSourceImpl(
         }
 
     override suspend fun viewStep(stepId: Long, stepContext: StepContext) {
-        kotlin.runCatching {
+        runCatching {
             httpClient
                 .post("/api/views") {
                     contentType(ContentType.Application.Json)
@@ -56,12 +57,21 @@ class StepRemoteDataSourceImpl(
     }
 
     override suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>> =
-        kotlin.runCatching {
+        runCatching {
             httpClient
                 .get("/api/steps") {
                     contentType(ContentType.Application.Json)
                     parameter("topic", topicId)
                     parameter("is_recommended", true)
                 }.body<StepResponse>().steps
+        }
+
+    override suspend fun logStepSolvingTime(stepId: Long, seconds: Long): Result<Unit> =
+        runCatching {
+            httpClient
+                .post("/api/time-spent-events") {
+                    contentType(ContentType.Application.Json)
+                    setBody(LogStepSolvingTimeRequest(stepId, seconds))
+                }
         }
 }

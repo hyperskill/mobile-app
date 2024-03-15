@@ -1,9 +1,6 @@
 package org.hyperskill.app.android.core.injection
 
 import android.app.Application
-import org.hyperskill.app.analytic.domain.model.AnalyticEngine
-import org.hyperskill.app.analytic.injection.AnalyticComponent
-import org.hyperskill.app.analytic.injection.AnalyticComponentImpl
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponent
 import org.hyperskill.app.android.code.injection.PlatformCodeEditorComponentImpl
 import org.hyperskill.app.android.image_loading.injection.ImageLoadingComponent
@@ -30,8 +27,7 @@ import org.hyperskill.app.sentry.injection.SentryComponentImpl
 class AndroidAppComponentImpl(
     override val application: Application,
     userAgentInfo: UserAgentInfo,
-    buildVariant: BuildVariant,
-    analyticEngines: List<AnalyticEngine> = emptyList()
+    buildVariant: BuildVariant
 ) : AndroidAppComponent, CommonAndroidAppGraphImpl() {
 
     override val commonComponent: CommonComponent by lazy {
@@ -50,28 +46,22 @@ class AndroidAppComponentImpl(
         SentryComponentImpl(SentryManagerImpl(commonComponent.buildKonfig))
     }
 
-    override val analyticComponent: AnalyticComponent by lazy {
-        AnalyticComponentImpl(
-            appGraph = this,
-            platformAnalyticEngines = analyticEngines
-        )
-    }
-
     override val platformLocalNotificationComponent: PlatformLocalNotificationComponent by lazy {
         PlatformLocalNotificationComponentImpl(this.application, this)
     }
 
-    override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
-        AndroidPlatformPushNotificationsComponentImpl(this)
-
     /**
      * Main component
      */
-    override val platformMainComponent: PlatformMainComponent =
+    override val platformMainComponent: PlatformMainComponent by lazy {
         PlatformMainComponentImpl(
             mainComponent = mainComponent,
             analyticComponent = analyticComponent
         )
+    }
+
+    override fun buildPlatformPushNotificationsComponent(): AndroidPlatformPushNotificationComponent =
+        AndroidPlatformPushNotificationsComponentImpl(this)
 
     /**
      * Latex component
