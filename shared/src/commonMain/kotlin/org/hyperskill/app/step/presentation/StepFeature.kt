@@ -26,15 +26,19 @@ object StepFeature {
             object Error : StepLoaded
         }
 
-        /**
-         * Analytic
-         */
-        object ViewedEventMessage : Message
+        object ScreenShowed : Message
+        object ScreenHidden : Message
 
         /**
          * Message Wrappers
          */
         data class StepCompletionMessage(val message: StepCompletionFeature.Message) : Message
+    }
+
+    internal sealed interface InternalMessage : Message {
+        data class StepCompleted(val stepId: Long) : InternalMessage
+
+        object SolvingTimerFired : InternalMessage
     }
 
     sealed interface Action {
@@ -47,7 +51,12 @@ object StepFeature {
 
     internal sealed interface InternalAction : Action {
         data class FetchStep(val stepRoute: StepRoute) : InternalAction
+
         data class ViewStep(val stepId: Long, val stepContext: StepContext) : InternalAction
+
+        object StartSolvingTimer : InternalAction
+        object StopSolvingTimer : InternalAction
+        data class LogSolvingTime(val stepId: Long) : InternalAction
 
         data class UpdateNextLearningActivityState(val step: Step) : InternalAction
 

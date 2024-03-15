@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.domain.repository
 
+import kotlin.time.Duration
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 
@@ -23,4 +24,6 @@ interface StepRepository {
         }
 
     suspend fun viewStep(stepId: Long, stepContext: StepContext)
+
+    suspend fun logStepSolvingTime(stepId: Long, duration: Duration): Result<Unit>
 }
