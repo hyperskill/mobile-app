@@ -408,6 +408,7 @@
     <string name="onboarding_text">Code a little every day, wherever you are.</string>
     <string name="onboarding_primary_button_text">Start for free</string>
     <string name="onboarding_secondary_button_text">I already have an account</string>
+    <string name="onboarding_display_debug_screen">Display debug screen</string>
 
     <string name="notifications_onboarding_title_new">Choose a time for your daily practice and we\'ll remind you to
         stay on track
