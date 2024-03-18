@@ -10,7 +10,10 @@ struct StepView: View {
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: viewModel.doScreenShowedAction,
+                onViewDidDisappear: viewModel.doScreenHiddenAction
+            )
 
             buildBody()
         }
