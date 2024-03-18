@@ -49,6 +49,14 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         return shouldNotify
     }
 
+    func doScreenShowedAction() {
+        onNewMessage(StepFeatureMessageScreenShowed())
+    }
+
+    func doScreenHiddenAction() {
+        onNewMessage(StepFeatureMessageScreenHidden())
+    }
+
     func doRetryLoadStep() {
         onNewMessage(StepFeatureMessageInitialize(forceUpdate: true))
     }
@@ -76,12 +84,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
                 isPracticingLoading: stepFeatureStateData.stepCompletionState.isPracticingLoading
             )
         }
-    }
-
-    // MARK: Analytic
-
-    func logViewedEvent() {
-        onNewMessage(StepFeatureMessageScreenShowed())
     }
 }
 
