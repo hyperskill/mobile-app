@@ -70,8 +70,7 @@ class WelcomeFragment :
             }
         }
 
-
-        with (viewBinding.welcomeSignInButton) {
+        with(viewBinding.welcomeSignInButton) {
             updateLayoutParams<MarginLayoutParams> {
                 bottomMargin = if (isDebugButtonVisible) {
                     resources.getDimensionPixelOffset(R.dimen.auth_button_vertical_margin)
