@@ -5,11 +5,15 @@ import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
 import org.hyperskill.app.topics_repetitions.domain.repository.TopicsRepetitionsRepository
 
-class TopicsRepetitionsRepositoryImpl(
+internal class TopicsRepetitionsRepositoryImpl(
     private val topicsRepetitionsRemoteDataSource: TopicsRepetitionsRemoteDataSource
 ) : TopicsRepetitionsRepository {
-    override suspend fun getTopicsRepetitions(pageSize: Int, page: Int): Result<List<TopicRepetition>> =
-        topicsRepetitionsRemoteDataSource.getTopicsRepetitions(pageSize, page)
+    override suspend fun getTopicsRepetitions(
+        pageSize: Int,
+        page: Int,
+        isInCurrentTrack: Boolean
+    ): Result<List<TopicRepetition>> =
+        topicsRepetitionsRemoteDataSource.getTopicsRepetitions(pageSize, page, isInCurrentTrack)
 
     override suspend fun getTopicsRepetitionStatistics(): Result<TopicRepetitionStatistics> =
         topicsRepetitionsRemoteDataSource.getTopicsRepetitionStatistics()
