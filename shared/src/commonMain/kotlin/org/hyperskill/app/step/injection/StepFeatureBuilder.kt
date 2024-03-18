@@ -16,6 +16,7 @@ import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.Message
 import org.hyperskill.app.step.presentation.StepFeature.State
 import org.hyperskill.app.step.presentation.StepReducer
+import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionActionDispatcher
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 import ru.nobird.app.core.model.safeCast
@@ -33,6 +34,7 @@ internal object StepFeatureBuilder {
         nextLearningActivityStateRepository: NextLearningActivityStateRepository,
         currentProfileStateRepository: CurrentProfileStateRepository,
         analyticInteractor: AnalyticInteractor,
+        stepCompletedFlow: StepCompletedFlow,
         sentryInteractor: SentryInteractor,
         stepCompletionReducer: StepCompletionReducer,
         stepCompletionActionDispatcher: StepCompletionActionDispatcher,
@@ -42,11 +44,13 @@ internal object StepFeatureBuilder {
         val stepReducer = StepReducer(stepRoute, stepCompletionReducer).wrapWithLogger(buildVariant, logger, LOG_TAG)
         val stepActionDispatcher = StepActionDispatcher(
             config = ActionDispatcherOptions(),
+            stepCompletedFlow = stepCompletedFlow,
             stepInteractor = stepInteractor,
             nextLearningActivityStateRepository = nextLearningActivityStateRepository,
             currentProfileStateRepository = currentProfileStateRepository,
             analyticInteractor = analyticInteractor,
-            sentryInteractor = sentryInteractor
+            sentryInteractor = sentryInteractor,
+            logger.withTag(LOG_TAG)
         )
 
         return ReduxFeature(State.Idle, stepReducer)

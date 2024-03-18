@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.data.repository
 
+import kotlin.time.Duration
 import org.hyperskill.app.step.data.source.StepRemoteDataSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
@@ -23,4 +24,10 @@ class StepRepositoryImpl(
     override suspend fun viewStep(stepId: Long, stepContext: StepContext) {
         stepRemoteDataSource.viewStep(stepId, stepContext)
     }
+
+    override suspend fun logStepSolvingTime(stepId: Long, duration: Duration): Result<Unit> =
+        stepRemoteDataSource.logStepSolvingTime(
+            stepId = stepId,
+            seconds = duration.inWholeSeconds
+        )
 }

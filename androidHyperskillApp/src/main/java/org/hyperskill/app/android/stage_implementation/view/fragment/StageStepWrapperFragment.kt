@@ -110,7 +110,11 @@ class StageStepWrapperFragment :
             }
         }
         viewBinding.stageImplementationTitle.text = stageTitle
-        stepDelegate?.init(viewBinding.stageImplementationError, stepViewModel::onNewMessage)
+        stepDelegate?.init(
+            errorBinding = viewBinding.stageImplementationError,
+            lifecycle = viewLifecycleOwner.lifecycle,
+            onNewMessage = stepViewModel::onNewMessage
+        )
     }
 
     override fun onDestroyView() {

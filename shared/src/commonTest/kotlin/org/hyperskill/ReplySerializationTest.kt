@@ -153,6 +153,7 @@ class ReplySerializationTest {
             commentsStatistics = emptyList(),
             solvedBy = 0,
             isCompleted = false,
+            isCribbed = false,
             isNext = false,
             canSkip = false,
             secondsToComplete = null,
