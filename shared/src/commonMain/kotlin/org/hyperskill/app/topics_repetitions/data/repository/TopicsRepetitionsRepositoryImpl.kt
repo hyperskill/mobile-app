@@ -15,6 +15,6 @@ internal class TopicsRepetitionsRepositoryImpl(
     ): Result<List<TopicRepetition>> =
         topicsRepetitionsRemoteDataSource.getTopicsRepetitions(pageSize, page, isInCurrentTrack)
 
-    override suspend fun getTopicsRepetitionStatistics(): Result<TopicRepetitionStatistics> =
-        topicsRepetitionsRemoteDataSource.getTopicsRepetitionStatistics()
+    override suspend fun getTopicsRepetitionStatistics(isInCurrentTrack: Boolean): Result<TopicRepetitionStatistics> =
+        topicsRepetitionsRemoteDataSource.getTopicsRepetitionStatistics(isInCurrentTrack)
 }

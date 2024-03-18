@@ -17,6 +17,11 @@ import org.hyperskill.app.topics_repetitions.remote.model.TopicsRepetitionsRespo
 internal class TopicsRepetitionsRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : TopicsRepetitionsRemoteDataSource {
+
+    companion object {
+        private const val PARAM_IS_IN_CURRENT_TRACK = "is_in_current_track"
+    }
+
     override suspend fun getTopicsRepetitions(
         pageSize: Int,
         page: Int,
@@ -27,14 +32,15 @@ internal class TopicsRepetitionsRemoteDataSourceImpl(
                 contentType(ContentType.Application.Json)
                 parameterPageSize(pageSize)
                 parameterPage(page)
-                parameter("is_in_current_track", isInCurrentTrack)
+                parameter(PARAM_IS_IN_CURRENT_TRACK, isInCurrentTrack)
             }.body<TopicsRepetitionsResponse>().topicsRepetitions
         }
 
-    override suspend fun getTopicsRepetitionStatistics(): Result<TopicRepetitionStatistics> =
+    override suspend fun getTopicsRepetitionStatistics(isInCurrentTrack: Boolean): Result<TopicRepetitionStatistics> =
         kotlin.runCatching {
             httpClient.get("/api/topics-repetition/statistics") {
                 contentType(ContentType.Application.Json)
+                parameter(PARAM_IS_IN_CURRENT_TRACK, isInCurrentTrack)
             }.body<TopicsRepetitionStatisticsResponse>().topicsRepetitionStatistics.first()
         }
 }

@@ -14,6 +14,6 @@ class TopicsRepetitionsInteractor(
     ): Result<List<TopicRepetition>> =
         topicsRepetitionsRepository.getTopicsRepetitions(pageSize, page, isInCurrentTrack)
 
-    suspend fun getTopicsRepetitionStatistics(): Result<TopicRepetitionStatistics> =
-        topicsRepetitionsRepository.getTopicsRepetitionStatistics()
+    suspend fun getTopicsRepetitionStatistics(isInCurrentTrack: Boolean = true): Result<TopicRepetitionStatistics> =
+        topicsRepetitionsRepository.getTopicsRepetitionStatistics(isInCurrentTrack)
 }
