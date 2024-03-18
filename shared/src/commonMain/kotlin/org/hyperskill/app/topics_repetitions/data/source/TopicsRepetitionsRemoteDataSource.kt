@@ -4,6 +4,6 @@ import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetition
 import org.hyperskill.app.topics_repetitions.domain.model.TopicRepetitionStatistics
 
 interface TopicsRepetitionsRemoteDataSource {
-    suspend fun getTopicsRepetitions(pageSize: Int, page: Int): Result<List<TopicRepetition>>
-    suspend fun getTopicsRepetitionStatistics(): Result<TopicRepetitionStatistics>
+    suspend fun getTopicsRepetitions(pageSize: Int, page: Int, isInCurrentTrack: Boolean): Result<List<TopicRepetition>>
+    suspend fun getTopicsRepetitionStatistics(isInCurrentTrack: Boolean): Result<TopicRepetitionStatistics>
 }
