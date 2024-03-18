@@ -40,10 +40,16 @@ class StudyPlanClickedActivityHyperskillAnalyticEvent(
     val activityTargetType: String?,
     val activityTargetId: Long?
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.StudyPlan(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.STUDY_PLAN_SECTION_ACTIVITIES,
-    HyperskillAnalyticTarget.ACTIVITY
+    route = HyperskillAnalyticRoute.StudyPlan(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.STUDY_PLAN_SECTION_ACTIVITIES,
+    target = HyperskillAnalyticTarget.ACTIVITY,
+    context = mapOfNotNull(
+        ID to activityId,
+        TYPE to activityType,
+        TARGET_TYPE to activityTargetType,
+        TARGET_ID to activityTargetId
+    )
 ) {
     companion object {
         private const val ID = "id"
@@ -51,15 +57,4 @@ class StudyPlanClickedActivityHyperskillAnalyticEvent(
         private const val TARGET_TYPE = "target_type"
         private const val TARGET_ID = "target_id"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOfNotNull(
-                    ID to activityId,
-                    TYPE to activityType,
-                    TARGET_TYPE to activityTargetType,
-                    TARGET_ID to activityTargetId
-                )
-            )
 }

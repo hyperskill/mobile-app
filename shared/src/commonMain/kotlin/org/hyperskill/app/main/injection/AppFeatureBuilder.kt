@@ -73,7 +73,6 @@ internal object AppFeatureBuilder {
             purchaseInteractor = purchaseInteractor,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             subscriptionsInteractor = subscriptionsInteractor,
-            isSubscriptionPurchaseEnabled = platform.isSubscriptionPurchaseEnabled,
             logger.withTag(LOG_TAG)
         )
 

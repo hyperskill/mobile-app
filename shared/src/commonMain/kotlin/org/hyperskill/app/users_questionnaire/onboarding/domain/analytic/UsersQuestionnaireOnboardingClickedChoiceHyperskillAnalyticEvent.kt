@@ -26,16 +26,11 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * @see HyperskillAnalyticEvent
  */
 class UsersQuestionnaireOnboardingClickedChoiceHyperskillAnalyticEvent(
-    private val selectedChoice: String
+    selectedChoice: String
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Onboarding.UsersQuestionnaire,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.MAIN,
-    HyperskillAnalyticTarget.CHOICE
-) {
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(UsersQuestionnaireOnboardingAnalyticParams.PARAM_SOURCE to selectedChoice)
-            )
-}
+    route = HyperskillAnalyticRoute.Onboarding.UsersQuestionnaire,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.MAIN,
+    target = HyperskillAnalyticTarget.CHOICE,
+    context = mapOf(UsersQuestionnaireOnboardingAnalyticParams.PARAM_SOURCE to selectedChoice)
+)

@@ -323,8 +323,14 @@ struct StepQuizView: View {
                         TabBarRouter(tab: .studyPlan).route()
                     }
                 )
-            case .paywall:
-                #warning("TODO: ALTAPPS-1121")
+            case .paywall(let data):
+                let assembly = PaywallAssembly(
+                    context: .init(
+                        source: data.paywallTransitionSource,
+                        moduleOutput: nil
+                    )
+                )
+                modalRouter.present(module: assembly.makeModule())
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
             switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {
@@ -342,6 +348,10 @@ struct StepQuizView: View {
             }
         case .openUrl(let data):
             WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
+        case .hideProblemsLimitReachedModal:
+            panModalPresenter.dismissPanModal(
+                condition: { ($0 as? ProblemsLimitReachedModalViewController) != nil }
+            )
         }
     }
 }
@@ -381,6 +391,7 @@ private extension StepQuizView {
         let panModal = ProblemsLimitReachedModalViewController(
             titleText: modalData.title,
             descriptionText: modalData.description_,
+            unlockLimitsButtonText: modalData.unlockLimitsButtonText,
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(panModal)

@@ -23,16 +23,11 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
  * @see HyperskillAnalyticEvent
  */
 class PaywallViewedHyperskillAnalyticEvent(
-    private val paywallTransitionSource: PaywallTransitionSource
+    paywallTransitionSource: PaywallTransitionSource
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Paywall,
-    HyperskillAnalyticAction.VIEW
-) {
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(
-                    PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
-                )
-            )
-}
+    route = HyperskillAnalyticRoute.Paywall,
+    action = HyperskillAnalyticAction.VIEW,
+    context = mapOf(
+        PaywallAnalyticParams.PARAM_TRANSITION_SOURCE to paywallTransitionSource.analyticName
+    )
+)

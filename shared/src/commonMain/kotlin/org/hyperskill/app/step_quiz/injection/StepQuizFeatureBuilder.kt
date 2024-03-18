@@ -3,7 +3,6 @@ package org.hyperskill.app.step_quiz.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -21,6 +20,7 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispat
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -45,7 +45,7 @@ internal object StepQuizFeatureBuilder {
         resourceProvider: ResourceProvider,
         logger: Logger,
         buildVariant: BuildVariant,
-        platform: Platform
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer = StepQuizReducer(
             stepRoute = stepRoute,
@@ -57,12 +57,12 @@ internal object StepQuizFeatureBuilder {
             stepQuizReplyValidator = stepQuizReplyValidator,
             subscriptionsInteractor = subscriptionsInteractor,
             currentProfileStateRepository = currentProfileStateRepository,
+            currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             urlPathProcessor = urlPathProcessor,
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
-            resourceProvider = resourceProvider,
-            platform = platform
+            resourceProvider = resourceProvider
         )
 
         return ReduxFeature(

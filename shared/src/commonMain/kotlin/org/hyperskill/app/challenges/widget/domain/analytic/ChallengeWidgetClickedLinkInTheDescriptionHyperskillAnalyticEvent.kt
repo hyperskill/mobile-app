@@ -31,16 +31,12 @@ class ChallengeWidgetClickedLinkInTheDescriptionHyperskillAnalyticEvent(
     val challengeId: Long?,
     val url: String
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Home(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.CHALLENGE_CARD,
-    HyperskillAnalyticTarget.LINK
-) {
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(
-            PARAM_CONTEXT to mapOfNotNull(
-                ChallengeWidgetAnalyticParams.PARAM_CHALLENGE_ID to challengeId,
-                ChallengeWidgetAnalyticParams.PARAM_URL to url
-            )
-        )
-}
+    route = HyperskillAnalyticRoute.Home(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.CHALLENGE_CARD,
+    target = HyperskillAnalyticTarget.LINK,
+    context = mapOfNotNull(
+        ChallengeWidgetAnalyticParams.PARAM_CHALLENGE_ID to challengeId,
+        ChallengeWidgetAnalyticParams.PARAM_URL to url
+    )
+)

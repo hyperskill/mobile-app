@@ -111,12 +111,15 @@ extension AppViewController: AppViewControllerProtocol {
             router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
         case .trackSelectionScreen:
             router.route(.trackSelection)
-        case .paywall:
-            #warning("TODO: ALTAPPS-1116; implement paywall Route")
-            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
-        case .studyPlanWithPaywall:
-            #warning("TODO: ALTAPPS-1116; implent studyPlanWithPaywall Route")
-            router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
+        case .paywall(let data):
+            router.route(.paywallModal(context: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)))
+        case .studyPlanWithPaywall(let data):
+            router.route(
+                .studyPlanWithPaywall(
+                    appTabBarControllerDelegate: viewModel,
+                    paywallPresentationContext: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)
+                )
+            )
         }
     }
 
@@ -228,9 +231,8 @@ extension AppViewController: AppViewControllerProtocol {
                 router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
             case .usersQuestionnaireOnboardingScreen:
                 router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
-            case .paywall:
-                #warning("TODO: ALTAPPS-1116")
-                router.route(.studyPlan(appTabBarControllerDelegate: viewModel))
+            case .paywall(let data):
+                router.route(.paywall(context: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)))
             }
         }
     }

@@ -14,6 +14,4 @@ actual class Platform actual constructor() {
     actual val feedbackName: String = "iOS"
 
     actual val appNameResource: StringResource = SharedResources.strings.ios_app_name
-
-    actual val isSubscriptionPurchaseEnabled: Boolean = false
 }

@@ -25,17 +25,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  */
 class StreakFreezeClickedModalActionButtonHyperskillAnalyticEvent(
     modalAction: StreakFreezeModalAnalyticAction,
-    private val streakFreezeState: StreakFreezeAnalyticState
+    streakFreezeState: StreakFreezeAnalyticState
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.Profile(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.STREAK_FREEZE_MODAL,
-    modalAction.analyticTarget
+    route = HyperskillAnalyticRoute.Profile(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.STREAK_FREEZE_MODAL,
+    target = modalAction.analyticTarget,
+    context = mapOf(PARAM_STATE to streakFreezeState.stringValue)
 ) {
     companion object {
         private const val PARAM_STATE = "state"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params + mapOf(PARAM_CONTEXT to mapOf(PARAM_STATE to streakFreezeState.stringValue))
 }

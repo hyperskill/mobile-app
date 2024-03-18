@@ -33,22 +33,17 @@ class StudyPlanClickedSectionHyperskillAnalyticEvent(
     val sectionId: Long,
     val isExpanded: Boolean
 ) : HyperskillAnalyticEvent(
-    HyperskillAnalyticRoute.StudyPlan(),
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.STUDY_PLAN_SECTION,
-    HyperskillAnalyticTarget.SECTION
+    route = HyperskillAnalyticRoute.StudyPlan(),
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.STUDY_PLAN_SECTION,
+    target = HyperskillAnalyticTarget.SECTION,
+    context = mapOf(
+        SECTION_ID to sectionId,
+        IS_EXPANDED to isExpanded
+    )
 ) {
     companion object {
         private const val SECTION_ID = "section_id"
         private const val IS_EXPANDED = "is_expanded"
     }
-
-    override val params: Map<String, Any>
-        get() = super.params +
-            mapOf(
-                PARAM_CONTEXT to mapOf(
-                    SECTION_ID to sectionId,
-                    IS_EXPANDED to isExpanded
-                )
-            )
 }
