@@ -57,7 +57,6 @@ object StepCompletionFeature {
     sealed interface ShareStreakData {
         @Serializable
         object Empty : ShareStreakData
-
         @Serializable
         data class Content(val streakText: String, val streak: Int) : ShareStreakData
     }
@@ -78,7 +77,6 @@ object StepCompletionFeature {
                 val modalText: String,
                 val nextLearningActivity: LearningActivity?
             ) : CheckTopicCompletionStatus
-
             object Uncompleted : CheckTopicCompletionStatus
             data class Error(val errorMessage: String) : CheckTopicCompletionStatus
         }
@@ -98,7 +96,6 @@ object StepCompletionFeature {
             val earnedGemsText: String?,
             val shareStreakData: ShareStreakData
         ) : Message
-
         object ProblemOfDaySolvedModalGoBackClicked : Message
         data class ProblemOfDaySolvedModalShareStreakClicked(val streak: Int) : Message
 
