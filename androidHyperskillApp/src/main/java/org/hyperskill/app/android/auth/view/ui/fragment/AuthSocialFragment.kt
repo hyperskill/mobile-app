@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
@@ -74,15 +75,23 @@ class AuthSocialFragment :
                 val authCode = account.serverAuthCode
                 onSuccess(authCode!!, SocialAuthProvider.GOOGLE)
             } catch (exception: ApiException) {
-                authSocialViewModel.onNewMessage(
-                    AuthSocialFeature.Message.SocialAuthProviderAuthFailureEventMessage(
-                        AuthSocialFeature.Message.AuthFailureData(
-                            socialAuthProvider = SocialAuthProvider.GOOGLE,
-                            socialAuthError = null,
-                            originalError = exception
+                when (exception.statusCode) {
+                    GoogleSignInStatusCodes.SIGN_IN_CANCELLED,
+                    GoogleSignInStatusCodes.SIGN_IN_CURRENTLY_IN_PROGRESS -> {
+                        // no op
+                    }
+                    else -> {
+                        authSocialViewModel.onNewMessage(
+                            AuthSocialFeature.Message.SocialAuthProviderAuthFailureEventMessage(
+                                AuthSocialFeature.Message.AuthFailureData(
+                                    socialAuthProvider = SocialAuthProvider.GOOGLE,
+                                    socialAuthError = null,
+                                    originalError = exception
+                                )
+                            )
                         )
-                    )
-                )
+                    }
+                }
             }
         }
 
