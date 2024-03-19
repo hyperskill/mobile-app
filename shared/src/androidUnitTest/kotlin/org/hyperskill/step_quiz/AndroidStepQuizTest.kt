@@ -38,7 +38,6 @@ class AndroidStepQuizTest {
                             StepRoute.Repeat.Practice::class -> true
                             StepRoute.Repeat.Theory::class -> false
                             StepRoute.StageImplement::class -> false
-                            StepRoute.InterviewPreparation::class -> false
                             else -> throw IllegalStateException(
                                 "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
                             )
@@ -57,7 +56,6 @@ class AndroidStepQuizTest {
                     StepRoute.Repeat.Practice::class -> StepRoute.Repeat.Practice(step.id)
                     StepRoute.Repeat.Theory::class -> StepRoute.Repeat.Theory(step.id)
                     StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
-                    StepRoute.InterviewPreparation::class -> StepRoute.InterviewPreparation(step.id)
                     else -> throw IllegalStateException(
                         "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
                     )
