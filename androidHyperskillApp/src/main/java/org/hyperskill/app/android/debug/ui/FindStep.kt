@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -21,6 +19,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 
 @Composable
 fun FindStep(
@@ -53,11 +52,10 @@ fun FindStep(
                 )
             }
         )
-        Button(
+        HyperskillButton(
             onClick = onApplyClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(id = R.dimen.action_button_height))
         ) {
             Text(text = stringResource(id = org.hyperskill.app.R.string.debug_menu_section_step_navigation_button_text))
         }
