@@ -4,10 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
@@ -25,6 +23,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.hyperskill.app.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.debug.domain.model.EndpointConfigType
 
 @Composable
@@ -52,12 +51,11 @@ fun EndpointSwitcher(
         AnimatedVisibility(
             visible = isApplyButtonVisible
         ) {
-            Button(
+            HyperskillButton(
                 onClick = onApplyClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp)
-                    .height(dimensionResource(id = org.hyperskill.app.android.R.dimen.action_button_height))
             ) {
                 Text(text = stringResource(id = R.string.debug_menu_apply_settings_button_text))
             }

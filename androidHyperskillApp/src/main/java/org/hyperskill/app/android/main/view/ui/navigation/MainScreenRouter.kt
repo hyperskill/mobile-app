@@ -15,7 +15,7 @@ fun MainScreenRouter.switch(tab: Tabs) {
         Tabs.STUDY_PLAN -> StudyPlanScreen
         Tabs.LEADERBOARD -> LeaderboardScreen
         Tabs.PROFILE -> ProfileScreen(isInitCurrent = true)
-        Tabs.DEBUG -> DebugScreen
+        Tabs.DEBUG -> DebugScreen(isBackNavigationEnabled = false)
     }
     switch(tabScreen)
 }

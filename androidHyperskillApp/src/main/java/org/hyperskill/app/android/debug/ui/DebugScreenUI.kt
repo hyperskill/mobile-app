@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,18 +20,23 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.R
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTopAppBar
 import org.hyperskill.app.debug.domain.model.EndpointConfigType
 import org.hyperskill.app.debug.presentation.DebugFeature
 import org.hyperskill.app.debug.presentation.DebugViewModel
 
 @Composable
-fun DebugScreen(viewModel: DebugViewModel) {
+fun DebugScreen(
+    viewModel: DebugViewModel,
+    onBackClick: (() -> Unit)?
+) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     when (val state = viewState) {
         is DebugFeature.ViewState.Content -> {
             DebugScreen(
                 options = state.availableEndpointConfigs,
                 selectedOption = state.selectedEndpointConfig,
+                onBackClick = onBackClick,
                 onOptionClick = viewModel::onEndpointConfigClicked,
                 isApplyEndpointButtonVisible = state.isApplySettingsButtonAvailable,
                 onApplyEndpointClick = viewModel::onApplyConfigClicked,
@@ -59,6 +62,7 @@ fun DebugScreen(
     selectedOption: EndpointConfigType,
     onOptionClick: (EndpointConfigType) -> Unit,
     isApplyEndpointButtonVisible: Boolean,
+    onBackClick: (() -> Unit)?,
     onApplyEndpointClick: () -> Unit,
     onOpenStepClick: () -> Unit,
     onStepIdChanged: (String) -> Unit,
@@ -71,10 +75,9 @@ fun DebugScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        TopAppBar(
-            title = {
-                Text(text = stringResource(id = R.string.debug_menu_title))
-            },
+        HyperskillTopAppBar(
+            title = stringResource(id = R.string.debug_menu_title),
+            onNavigationIconClick = onBackClick,
             modifier = Modifier.fillMaxWidth(),
             backgroundColor = MaterialTheme.colors.background
         )
@@ -99,7 +102,7 @@ fun DebugScreen(
 
 @Composable
 @Preview(showBackground = true)
-fun DebugScreenPreview() {
+private fun DebugScreenPreview() {
     var selectedOption by remember {
         mutableStateOf(EndpointConfigType.PRODUCTION)
     }
@@ -107,6 +110,7 @@ fun DebugScreenPreview() {
         DebugScreen(
             options = EndpointConfigType.values().toList(),
             selectedOption = selectedOption,
+            onBackClick = {},
             onOptionClick = { newSelectedOption ->
                 selectedOption = newSelectedOption
             },
