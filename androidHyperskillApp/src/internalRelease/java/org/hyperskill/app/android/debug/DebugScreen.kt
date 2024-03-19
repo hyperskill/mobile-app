@@ -11,5 +11,5 @@ class DebugScreen(private val isBackNavigationEnabled: Boolean) : FragmentScreen
     override val screenKey: String = Tabs.DEBUG.name
 
     override fun createFragment(factory: FragmentFactory): Fragment =
-        DebugFragment.newInstance()
+        DebugFragment.newInstance(isBackNavigationEnabled)
 }
