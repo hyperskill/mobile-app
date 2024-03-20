@@ -6,7 +6,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetActionDi
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 
-class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWidgetComponent {
+internal class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWidgetComponent {
     override val studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher
         get() = StudyPlanWidgetActionDispatcher(
             config = ActionDispatcherOptions(),
@@ -15,6 +15,7 @@ class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : StudyPlanWi
                 .stateRepositoriesComponent.nextLearningActivityStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
