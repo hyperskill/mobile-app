@@ -21,8 +21,6 @@ import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProble
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponentImpl
-import org.hyperskill.app.interview_preparation_onboarding.injection.PlatformInterviewPreparationOnboardingComponent
-import org.hyperskill.app.interview_preparation_onboarding.injection.PlatformInterviewPreparationOnboardingComponentImpl
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponentImpl
 import org.hyperskill.app.manage_subscription.injection.PlatformManageSubscriptionComponent
@@ -268,14 +266,6 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformSearchComponent(): PlatformSearchComponent =
         PlatformSearchComponentImpl(
             searchComponent = buildSearchComponent()
-        )
-
-    override fun buildPlatformInterviewPreparationOnboardingComponent(
-        stepRoute: StepRoute
-    ): PlatformInterviewPreparationOnboardingComponent =
-        PlatformInterviewPreparationOnboardingComponentImpl(
-            interviewPreparationOnboardingComponent = buildInterviewPreparationOnboardingComponent(),
-            stepRoute = stepRoute
         )
 
     override fun buildPlatformRequestReviewComponent(

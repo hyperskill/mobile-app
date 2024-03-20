@@ -117,8 +117,7 @@ object StepQuizResolver {
             is StepRoute.StageImplement,
             is StepRoute.Learn.TheoryOpenedFromPractice,
             is StepRoute.Learn.TheoryOpenedFromSearch,
-            is StepRoute.Repeat.Theory,
-            is StepRoute.InterviewPreparation -> {
+            is StepRoute.Repeat.Theory -> {
                 false
             }
         }
@@ -129,7 +128,6 @@ object StepQuizResolver {
     internal fun isStepHasLimitedAttempts(stepRoute: StepRoute): Boolean =
         when (stepRoute) {
             is StepRoute.Learn.Step,
-            is StepRoute.InterviewPreparation,
             is StepRoute.StageImplement -> true
             is StepRoute.Learn.TheoryOpenedFromPractice,
             is StepRoute.Learn.TheoryOpenedFromSearch,

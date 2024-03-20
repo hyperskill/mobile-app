@@ -91,16 +91,6 @@ struct HomeView: View {
                     )
                     .makeModule()
 
-                    let interviewPreparationWidgetViewStateKs = viewModel.interviewPreparationWidgetViewStateKs
-                    if interviewPreparationWidgetViewStateKs != .empty {
-                        InterviewPreparationWidgetAssembly(
-                            interviewPreparationWidgetViewStateKs: interviewPreparationWidgetViewStateKs,
-                            moduleOutput: viewModel
-                        )
-                        .makeModule()
-                        .equatable()
-                    }
-
                     if let availableRepetitionsState = data.repetitionsState as? HomeFeatureRepetitionsStateAvailable {
                         TopicsRepetitionsCardView(
                             topicsToRepeatCount: Int(availableRepetitionsState.recommendedRepetitionsCount),
@@ -146,10 +136,6 @@ private extension HomeView {
             handleChallengeWidgetViewAction(
                 challengeWidgetViewAction.viewAction
             )
-        case .interviewPreparationWidgetViewAction(let interviewPreparationWidgetViewAction):
-            handleInterviewPreparationWidgetViewAction(
-                interviewPreparationWidgetViewAction.viewAction
-            )
         }
     }
 
@@ -163,32 +149,6 @@ private extension HomeView {
             )
         case .showNetworkError:
             ProgressHUD.showError()
-        }
-    }
-
-    func handleInterviewPreparationWidgetViewAction(
-        _ viewAction: InterviewPreparationWidgetFeatureActionViewAction
-    ) {
-        switch InterviewPreparationWidgetFeatureActionViewActionKs(viewAction) {
-        case .navigateTo(let navigateToViewAction):
-            handleInterviewPreparationWidgetNavigateToViewAction(navigateToViewAction)
-        case .showOpenStepError(let showOpenStepErrorViewAction):
-            ProgressHUD.showError(status: showOpenStepErrorViewAction.errorMessage)
-        }
-    }
-
-    func handleInterviewPreparationWidgetNavigateToViewAction(
-        _ viewAction: InterviewPreparationWidgetFeatureActionViewActionNavigateTo
-    ) {
-        switch InterviewPreparationWidgetFeatureActionViewActionNavigateToKs(viewAction) {
-        case .interviewPreparationOnboarding(let navigateToInterviewPreparationOnboardingViewAction):
-            let assembly = InterviewPreparationOnboardingAssembly(
-                stepRoute: navigateToInterviewPreparationOnboardingViewAction.stepRoute
-            )
-            stackRouter.pushViewController(assembly.makeModule())
-        case .step(let navigateToStepViewAction):
-            let assembly = StepAssembly(stepRoute: navigateToStepViewAction.stepRoute)
-            stackRouter.pushViewController(assembly.makeModule())
         }
     }
 }

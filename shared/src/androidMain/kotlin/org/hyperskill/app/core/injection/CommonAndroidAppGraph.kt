@@ -12,7 +12,6 @@ import org.hyperskill.app.debug.injection.PlatformDebugComponent
 import org.hyperskill.app.first_problem_onboarding.injection.PlatformFirstProblemOnboardingComponent
 import org.hyperskill.app.home.injection.HomeComponent
 import org.hyperskill.app.home.injection.PlatformHomeComponent
-import org.hyperskill.app.interview_preparation_onboarding.injection.PlatformInterviewPreparationOnboardingComponent
 import org.hyperskill.app.leaderboard.injection.PlatformLeaderboardComponent
 import org.hyperskill.app.main.injection.PlatformMainComponent
 import org.hyperskill.app.manage_subscription.injection.PlatformManageSubscriptionComponent
@@ -109,10 +108,6 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformLeaderboardComponent(): PlatformLeaderboardComponent
 
     fun buildPlatformSearchComponent(): PlatformSearchComponent
-
-    fun buildPlatformInterviewPreparationOnboardingComponent(
-        stepRoute: StepRoute
-    ): PlatformInterviewPreparationOnboardingComponent
 
     fun buildPlatformRequestReviewComponent(
         stepRoute: StepRoute

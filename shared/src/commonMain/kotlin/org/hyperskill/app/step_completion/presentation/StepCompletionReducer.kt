@@ -10,9 +10,6 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailySte
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalClickedShareStreakHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionInterviewPreparationCompletedModalClickedGoTrainingHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionInterviewPreparationCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionInterviewPreparationCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedNoThanksHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedShareHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalHiddenHyperskillAnalyticEvent
@@ -23,8 +20,6 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCom
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
-import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
-import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
@@ -179,35 +174,6 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     )
                 )
             }
-            is InternalMessage.FetchNextInterviewStepResultSuccess ->
-                handleFetchNextInterviewStepResultSuccessMessage(state, message)
-            is InternalMessage.FetchNextInterviewStepResultError ->
-                handleFetchNextInterviewStepResultErrorMessage(state, message)
-            is Message.InterviewPreparationCompletedModalShownEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionInterviewPreparationCompletedModalShownHyperskillAnalyticEvent(
-                            stepRoute.analyticRoute
-                        )
-                    )
-                )
-            is Message.InterviewPreparationCompletedModalHiddenEventMessage ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionInterviewPreparationCompletedModalHiddenHyperskillAnalyticEvent(
-                            stepRoute.analyticRoute
-                        )
-                    )
-                )
-            is Message.InterviewPreparationCompletedModalGoToTrainingClicked ->
-                state to setOf(
-                    Action.LogAnalyticEvent(
-                        StepCompletionInterviewPreparationCompletedModalClickedGoTrainingHyperskillAnalyticEvent(
-                            stepRoute.analyticRoute
-                        )
-                    ),
-                    Action.ViewAction.NavigateTo.Home
-                )
             Message.RequestUserReview -> {
                 state to setOf(Action.ViewAction.ShowRequestUserReviewModal(stepRoute))
             }
@@ -247,8 +213,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             )
             state.copy(
                 isPracticingLoading = when (state.continueButtonAction) {
-                    is ContinueButtonAction.CheckTopicCompletion,
-                    ContinueButtonAction.FetchNextInterviewStep ->
+                    is ContinueButtonAction.CheckTopicCompletion ->
                         true
                     ContinueButtonAction.NavigateToBack,
                     ContinueButtonAction.NavigateToStudyPlan ->
@@ -262,37 +227,11 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
                         Action.CheckTopicCompletionStatus(it)
                     } ?: Action.ViewAction.NavigateTo.Back
-                    ContinueButtonAction.FetchNextInterviewStep -> InternalAction.FetchNextInterviewStep
                 }
             )
         } else {
             null
         }
-
-    private fun handleFetchNextInterviewStepResultSuccessMessage(
-        state: State,
-        message: InternalMessage.FetchNextInterviewStepResultSuccess
-    ): StepCompletionReducerResult =
-        if (message.interviewStepId != null) {
-            state.copy(isPracticingLoading = false) to
-                setOf(
-                    Action.ViewAction.ReloadStep(
-                        StepRoute.InterviewPreparation(message.interviewStepId)
-                    )
-                )
-        } else {
-            state.copy(
-                isPracticingLoading = false,
-                continueButtonAction = ContinueButtonAction.NavigateToStudyPlan
-            ) to setOf(Action.ViewAction.ShowInterviewPreparationCompletedModal)
-        }
-
-    private fun handleFetchNextInterviewStepResultErrorMessage(
-        state: State,
-        message: InternalMessage.FetchNextInterviewStepResultError
-    ) =
-        state.copy(isPracticingLoading = false) to
-            setOf(Action.ViewAction.ShowStartPracticingError(message.errorMessage))
 
     private fun handleStepSolvedMessage(
         state: State,
@@ -302,10 +241,6 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             state to buildSet {
                 if (StepQuizResolver.isStepHasLimitedAttempts(stepRoute)) {
                     add(Action.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION))
-                }
-
-                if (stepRoute is StepRoute.InterviewPreparation) {
-                    add(InternalAction.MarkInterviewStepAsSolved(message.stepId))
                 }
             }
         } else {
