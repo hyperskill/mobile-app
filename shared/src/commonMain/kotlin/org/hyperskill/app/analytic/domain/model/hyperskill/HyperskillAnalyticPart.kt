@@ -42,8 +42,6 @@ enum class HyperskillAnalyticPart(val partName: String) {
     LEADERBOARD_WEEK_TAB("leaderboard_week_tab"),
     SEARCH_RESULTS("search_results"),
     DAILY_STUDY_REMINDERS_HOUR_INTERVAL_PICKER_MODAL("daily_study_reminders_hour_interval_picker_modal"),
-    INTERVIEW_PREPARATION_WIDGET("interview_preparation_widget"),
-    INTERVIEW_PREPARATION_COMPLETED_MODAL("interview_preparation_completed_modal"),
     REQUEST_REVIEW_MODAL("request_review_modal"),
     USERS_QUESTIONNAIRE_WIDGET("users_questionnaire_widget"),
     UNSUPPORTED_QUIZ_PLACEHOLDER("unsupported_quiz_placeholder")

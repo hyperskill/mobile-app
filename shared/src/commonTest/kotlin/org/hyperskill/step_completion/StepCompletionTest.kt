@@ -80,22 +80,4 @@ class StepCompletionTest {
         assertEquals(initialState, actualState)
         assertTrue(actualActions.isEmpty())
     }
-
-    @Test
-    fun `Solved interview preparation step marks it as solved`() {
-        val stepRoute = StepRoute.InterviewPreparation(1L)
-        val initialState = StepCompletionFeature.createState(Step.stub(stepRoute.stepId), stepRoute)
-
-        val reducer = StepCompletionReducer(stepRoute)
-        val (actualState, actualActions) = reducer.reduce(
-            initialState,
-            StepCompletionFeature.Message.StepSolved(stepRoute.stepId)
-        )
-
-        assertEquals(initialState, actualState)
-        assertContains(
-            actualActions,
-            StepCompletionFeature.InternalAction.MarkInterviewStepAsSolved(stepRoute.stepId)
-        )
-    }
 }

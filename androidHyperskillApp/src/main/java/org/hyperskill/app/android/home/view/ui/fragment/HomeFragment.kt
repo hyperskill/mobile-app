@@ -19,20 +19,15 @@ import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
 import org.hyperskill.app.android.databinding.FragmentHomeBinding
 import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.GamificationToolbarDelegate
-import org.hyperskill.app.android.interview_preparation.delegate.InterviewPreparationCardDelegate
-import org.hyperskill.app.android.interview_preparation_onboarding.screen.InterviewPreparationOnboardingScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problem_of_day.view.delegate.ProblemOfDayCardFormDelegate
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionCardFormDelegate
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
-import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.home.presentation.HomeFeature
 import org.hyperskill.app.home.presentation.HomeViewModel
-import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
-import org.hyperskill.app.interview_preparation.view.model.InterviewPreparationWidgetViewState
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
@@ -67,9 +62,6 @@ class HomeFragment :
     private val challengeCardDelegate: ChallengeCardDelegate by lazy(LazyThreadSafetyMode.NONE) {
         ChallengeCardDelegate()
     }
-    private val interviewPreparationCardDelegate: InterviewPreparationCardDelegate by lazy(LazyThreadSafetyMode.NONE) {
-        InterviewPreparationCardDelegate()
-    }
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
 
@@ -100,13 +92,6 @@ class HomeFragment :
             viewLifecycleOwner = viewLifecycleOwner,
             onNewMessage = {
                 homeViewModel.onNewMessage(HomeFeature.Message.ChallengeWidgetMessage(it))
-            }
-        )
-        interviewPreparationCardDelegate.setup(
-            viewBinding.homeScreenInterviewPreparationCard,
-            viewLifecycleOwner = viewLifecycleOwner,
-            onNewMessage = {
-                homeViewModel.onNewMessage(HomeFeature.Message.InterviewPreparationWidgetMessage(it))
             }
         )
         with(viewBinding) {
@@ -202,16 +187,6 @@ class HomeFragment :
                     action = action.viewAction
                 )
             }
-            is HomeFeature.Action.ViewAction.InterviewPreparationWidgetViewAction -> {
-                when (val viewAction = action.viewAction) {
-                    is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.Step ->
-                        navigateToStepScreen(viewAction.stepRoute)
-                    is InterviewPreparationWidgetFeature.Action.ViewAction.ShowOpenStepError ->
-                        viewBinding.root.snackbar(viewAction.errorMessage)
-                    is InterviewPreparationWidgetFeature.Action.ViewAction.NavigateTo.InterviewPreparationOnboarding ->
-                        requireRouter().navigateTo(InterviewPreparationOnboardingScreen(viewAction.stepRoute))
-                }
-            }
         }
     }
 
@@ -231,7 +206,6 @@ class HomeFragment :
         }
 
         renderChallengeCard(state.challengeWidgetViewState)
-        renderInterviewPreparationCard(state.interviewPreparationWidgetViewState)
 
         gamificationToolbarDelegate?.render(state.toolbarViewState)
     }
@@ -246,25 +220,6 @@ class HomeFragment :
                         requireContext()
                             .resources
                             .getDimensionPixelOffset(R.dimen.home_screen_challenge_card_top_margin)
-                    }
-                }
-            )
-        }
-    }
-
-    private fun renderInterviewPreparationCard(
-        interviewPreparationWidgetViewState: InterviewPreparationWidgetViewState
-    ) {
-        interviewPreparationCardDelegate.render(interviewPreparationWidgetViewState)
-        viewBinding.homeScreenInterviewPreparationCard.updateLayoutParams<MarginLayoutParams> {
-            updateMargins(
-                top = when (interviewPreparationWidgetViewState) {
-                    InterviewPreparationWidgetViewState.Idle,
-                    InterviewPreparationWidgetViewState.Empty -> 0
-                    else -> {
-                        requireContext()
-                            .resources
-                            .getDimensionPixelOffset(R.dimen.home_screen_interview_card_top_margin)
                     }
                 }
             )
