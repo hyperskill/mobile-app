@@ -22,7 +22,6 @@ class StepQuizResolverTest {
             is StepRoute.LearnDaily -> true
             is StepRoute.Repeat -> true
             is StepRoute.StageImplement -> true
-            is StepRoute.InterviewPreparation -> true
         }
         when (stepQuizState) {
             is StepQuizFeature.StepQuizState.AttemptLoaded -> true
@@ -96,8 +95,7 @@ class StepQuizResolverTest {
             StepRoute.Repeat.Practice(step.id),
             StepRoute.Repeat.Theory(step.id),
             StepRoute.LearnDaily(step.id),
-            StepRoute.StageImplement(stepId = step.id, projectId = 2, stageId = 3),
-            StepRoute.InterviewPreparation(step.id)
+            StepRoute.StageImplement(stepId = step.id, projectId = 2, stageId = 3)
         ).forEach { stepRoute ->
             assertEquals(
                 false,

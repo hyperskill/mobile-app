@@ -76,8 +76,7 @@ internal class StepReducer(
             is StepRoute.LearnDaily,
             is StepRoute.Repeat.Practice,
             is StepRoute.Repeat.Theory,
-            is StepRoute.StageImplement,
-            is StepRoute.InterviewPreparation ->
+            is StepRoute.StageImplement ->
                 false
         }
 

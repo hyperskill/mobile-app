@@ -19,13 +19,11 @@ object StepCompletionFeature {
                 is StepRoute.Learn.Step,
                 is StepRoute.LearnDaily,
                 is StepRoute.Repeat.Practice,
-                is StepRoute.StageImplement,
-                is StepRoute.InterviewPreparation ->
+                is StepRoute.StageImplement ->
                     StartPracticingButtonAction.FetchNextStepQuiz
             },
             continueButtonAction = when (stepRoute) {
                 is StepRoute.Learn -> ContinueButtonAction.CheckTopicCompletion
-                is StepRoute.InterviewPreparation -> ContinueButtonAction.FetchNextInterviewStep
                 else -> ContinueButtonAction.NavigateToBack
             }
         )
@@ -47,8 +45,6 @@ object StepCompletionFeature {
         object NavigateToStudyPlan : ContinueButtonAction
         object NavigateToBack : ContinueButtonAction
         object CheckTopicCompletion : ContinueButtonAction
-
-        object FetchNextInterviewStep : ContinueButtonAction
     }
 
     /**
@@ -113,13 +109,6 @@ object StepCompletionFeature {
         data class ShareStreakModalNoThanksClickedEventMessage(val streak: Int) : Message
 
         /**
-         * Interview preparation completed modal
-         */
-        object InterviewPreparationCompletedModalShownEventMessage : Message
-        object InterviewPreparationCompletedModalHiddenEventMessage : Message
-        object InterviewPreparationCompletedModalGoToTrainingClicked : Message
-
-        /**
          * Ask user to rate or review the app
          */
         object RequestUserReview : Message
@@ -133,10 +122,7 @@ object StepCompletionFeature {
         object DailyStepCompletedModalHiddenEventMessage : Message
     }
 
-    internal sealed interface InternalMessage : Message {
-        data class FetchNextInterviewStepResultSuccess(val interviewStepId: Long?) : InternalMessage
-        data class FetchNextInterviewStepResultError(val errorMessage: String) : InternalMessage
-    }
+    internal sealed interface InternalMessage : Message
 
     sealed interface Action {
         data class FetchNextRecommendedStep(val currentStep: Step) : Action
@@ -164,8 +150,6 @@ object StepCompletionFeature {
             data class ShowShareStreakModal(val streak: Int) : ViewAction
             data class ShowShareStreakSystemModal(val streak: Int) : ViewAction
 
-            object ShowInterviewPreparationCompletedModal : ViewAction
-
             data class ShowRequestUserReviewModal(val stepRoute: StepRoute) : ViewAction
 
             data class ShowStartPracticingError(val message: String) : ViewAction
@@ -175,13 +159,9 @@ object StepCompletionFeature {
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo
                 object StudyPlan : NavigateTo
-                object Home : NavigateTo
             }
         }
     }
 
-    internal sealed interface InternalAction : Action {
-        object FetchNextInterviewStep : InternalAction
-        data class MarkInterviewStepAsSolved(val stepId: Long) : InternalAction
-    }
+    internal sealed interface InternalAction : Action
 }

@@ -573,23 +573,6 @@
 
     <string name="users_questionnaire_onboarding_send_answer_success_message">Answer sent! Enjoy 10 extra problems on the first day.</string>
 
-    <!--Interview preparation widget-->
-    <string name="interview_preparation_widget_title">Interview preparation</string>
-    <string name="interview_preparation_widget_network_error_text">Oops! We were unable to load the interview widget</string>
-
-    <string name="interview_preparation_finished_modal_title">Good job!</string>
-    <string name="interview_preparation_finished_modal_description">Looks like you\'re ready for a real interview. The
-        next problems will appear soon!
-    </string>
-
-    <!--Interview preparation onboarding screen-->
-    <string name="interview_preparation_onboarding_screen_title">Interview preparation</string>
-    <string name="interview_preparation_onboarding_title">Meet interview preparation mode</string>
-    <string name="interview_preparation_onboarding_description">Tackle some interesting problems! If you find some
-        tricky, don\'t worry — they\'ll be back for another try later.
-    </string>
-    <string name="interview_preparation_onboarding_go_to_first_problem">Go to first problem</string>
-
     <!-- Search -->
     <string name="search_title">Search</string>
     <string name="search_input_placeholder">Find topic</string>
