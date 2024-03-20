@@ -17,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 
@@ -34,8 +34,8 @@ fun FindStep(
                 color = MaterialTheme.colors.surface,
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius))
             )
-            .padding(Dp(16f)),
-        verticalArrangement = Arrangement.spacedBy(Dp(20f))
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         OutlinedTextField(
             value = stepId,

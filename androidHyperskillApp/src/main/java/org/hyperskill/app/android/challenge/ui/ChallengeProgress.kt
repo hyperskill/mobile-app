@@ -44,7 +44,7 @@ fun ChallengeProgress(
     /**
      * Column of Rows is used instead of LazyVerticalGrid because
      * LazyVerticalGrid has a bug of not correct horizontal alignment of items.
-     * I was fixed in the androidx.compose.foundation:foundation:1.5.0.
+     * It was fixed in the androidx.compose.foundation:foundation:1.5.0.
      * For more details see https://issuetracker.google.com/issues/267942510
      */
     BoxWithConstraints(modifier = modifier) {

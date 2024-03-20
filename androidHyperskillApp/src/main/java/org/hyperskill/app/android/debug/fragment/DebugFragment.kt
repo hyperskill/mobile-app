@@ -96,6 +96,7 @@ class DebugFragment : Fragment(R.layout.fragment_debug) {
         requireRouter().exit()
     }
 
+    @Suppress("MagicNumber")
     private fun triggerApplicationRestart(context: Context) {
         val intent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val componentName = intent?.component

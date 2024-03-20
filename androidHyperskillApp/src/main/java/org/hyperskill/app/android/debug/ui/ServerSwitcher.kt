@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.debug.domain.model.EndpointConfigType
@@ -41,7 +41,7 @@ fun EndpointSwitcher(
                 color = MaterialTheme.colors.surface,
                 shape = RoundedCornerShape(dimensionResource(id = org.hyperskill.app.android.R.dimen.corner_radius))
             )
-            .padding(Dp(16f))
+            .padding(16.dp)
     ) {
         ServerOptionsDropDown(
             options = options,
@@ -55,7 +55,7 @@ fun EndpointSwitcher(
                 onClick = onApplyClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = Dp(20f))
+                    .padding(top = 20.dp)
             ) {
                 Text(text = stringResource(id = R.string.debug_menu_apply_settings_button_text))
             }
