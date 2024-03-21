@@ -95,6 +95,8 @@ private extension PaywallView {
             default:
                 ProgressHUD.show(status: message)
             }
+        case .notifyPaywallIsShown(_):
+            #warning("TODO")
         }
     }
 
