@@ -11,7 +11,4 @@ interface OnboardingCacheDataSource {
 
     fun wasFirstProblemOnboardingShown(): Boolean
     fun setFirstProblemOnboardingWasShown(wasShown: Boolean)
-
-    fun setInterviewPreparationOnboardingWasShown(wasShown: Boolean)
-    fun wasInterviewPreparationOnboardingShown(): Boolean
 }

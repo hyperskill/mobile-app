@@ -10,10 +10,6 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
 
     var challengeWidgetViewStateKs: ChallengeWidgetViewStateKs { .init(state.challengeWidgetViewState) }
 
-    var interviewPreparationWidgetViewStateKs: InterviewPreparationWidgetViewStateKs {
-        .init(state.interviewPreparationWidgetViewState)
-    }
-
     init(feature: Presentation_reduxFeature) {
         super.init(feature: feature)
 
@@ -145,34 +141,6 @@ extension HomeViewModel: ChallengeWidgetOutputProtocol {
         onNewMessage(
             HomeFeatureMessageChallengeWidgetMessage(
                 message: ChallengeWidgetFeatureMessageCollectRewardClicked()
-            )
-        )
-    }
-}
-
-// MARK: - HomeViewModel: InterviewPreparationWidgetOutputProtocol -
-
-extension HomeViewModel: InterviewPreparationWidgetOutputProtocol {
-    func handleInterviewPreparationWidgetCallToAction() {
-        onNewMessage(
-            HomeFeatureMessageInterviewPreparationWidgetMessage(
-                message: InterviewPreparationWidgetFeatureMessageWidgetClicked()
-            )
-        )
-    }
-
-    func handleInterviewPreparationWidgetRetryContentLoading() {
-        onNewMessage(
-            HomeFeatureMessageInterviewPreparationWidgetMessage(
-                message: InterviewPreparationWidgetFeatureMessageRetryContentLoading()
-            )
-        )
-    }
-
-    func handleInterviewPreparationWidgetDidAppear() {
-        onNewMessage(
-            HomeFeatureMessageInterviewPreparationWidgetMessage(
-                message: InterviewPreparationWidgetFeatureMessageViewedEventMessage()
             )
         )
     }

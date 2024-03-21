@@ -115,9 +115,6 @@ struct StepView: View {
             case .studyPlan:
                 dismissPanModalAndNavigateBack()
                 TabBarRouter(tab: .studyPlan).route()
-            case .home:
-                dismissPanModalAndNavigateBack()
-                TabBarRouter(tab: .home).route()
             }
         case .showProblemOfDaySolvedModal(let showProblemOfDaySolvedModalViewAction):
             presentDailyStepCompletedModal(
@@ -128,8 +125,6 @@ struct StepView: View {
             presentShareStreakModal(streak: Int(showShareStreakModalViewAction.streak))
         case .showShareStreakSystemModal(let showShareStreakSystemModalViewAction):
             presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
-        case .showInterviewPreparationCompletedModal:
-            presentInterviewPreparationFinishedModal()
         case .showRequestUserReviewModal(let showRequestUserReviewModalViewAction):
             presentRequestReviewModal(stepRoute: showRequestUserReviewModalViewAction.stepRoute)
         }
@@ -182,11 +177,6 @@ private extension StepView {
     func presentShareStreakSystemModal(streak: Int) {
         let activityViewController = ShareStreakAction.makeActivityViewController(for: streak)
         modalRouter.present(module: activityViewController, modalPresentationStyle: .automatic)
-    }
-
-    func presentInterviewPreparationFinishedModal() {
-        let modal = InterviewPreparationCompletedModalViewController(delegate: viewModel)
-        panModalPresenter.presentPanModal(modal)
     }
 
     func presentRequestReviewModal(stepRoute: StepRoute) {

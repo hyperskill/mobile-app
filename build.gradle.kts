@@ -1,3 +1,7 @@
+plugins {
+    id("hyperskill.detekt")
+}
+
 buildscript {
     repositories {
         mavenCentral()

@@ -16,16 +16,13 @@ import org.hyperskill.app.home.presentation.HomeFeature.InternalAction
 import org.hyperskill.app.home.presentation.HomeFeature.InternalMessage
 import org.hyperskill.app.home.presentation.HomeFeature.Message
 import org.hyperskill.app.home.presentation.HomeFeature.State
-import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetFeature
-import org.hyperskill.app.interview_preparation.presentation.InterviewPreparationWidgetReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias HomeReducerResult = Pair<State, Set<Action>>
 
 internal class HomeReducer(
     private val gamificationToolbarReducer: GamificationToolbarReducer,
-    private val challengeWidgetReducer: ChallengeWidgetReducer,
-    private val interviewPreparationWidgetReducer: InterviewPreparationWidgetReducer
+    private val challengeWidgetReducer: ChallengeWidgetReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): HomeReducerResult =
         when (message) {
@@ -243,13 +240,6 @@ internal class HomeReducer(
                     reduceChallengeWidgetMessage(state.challengeWidgetState, message.message)
                 state.copy(challengeWidgetState = challengeWidgetState) to challengeWidgetActions
             }
-            is Message.InterviewPreparationWidgetMessage -> {
-                val (interviewPreparationWidgetState, interviewPreparationWidgetActions) =
-                    reduceInterviewPreparationWidgetMessage(state.interviewPreparationWidgetState, message.message)
-                state.copy(
-                    interviewPreparationWidgetState = interviewPreparationWidgetState
-                ) to interviewPreparationWidgetActions
-            }
         } ?: (state to emptySet())
 
     private fun initialize(state: State, forceUpdate: Boolean): HomeReducerResult {
@@ -275,18 +265,11 @@ internal class HomeReducer(
                 ChallengeWidgetFeature.InternalMessage.Initialize(forceUpdate)
             )
 
-        val (interviewPreparationWidgetState, interviewPreparationWidgetActions) =
-            reduceInterviewPreparationWidgetMessage(
-                state.interviewPreparationWidgetState,
-                InterviewPreparationWidgetFeature.InternalMessage.Initialize(forceUpdate)
-            )
-
         return state.copy(
             homeState = homeState,
             toolbarState = toolbarState,
-            challengeWidgetState = challengeWidgetState,
-            interviewPreparationWidgetState = interviewPreparationWidgetState
-        ) to homeActions + toolbarActions + challengeWidgetActions + interviewPreparationWidgetActions
+            challengeWidgetState = challengeWidgetState
+        ) to homeActions + toolbarActions + challengeWidgetActions
     }
 
     private fun handlePullToRefresh(state: State): HomeReducerResult {
@@ -313,18 +296,11 @@ internal class HomeReducer(
                 ChallengeWidgetFeature.InternalMessage.PullToRefresh
             )
 
-        val (interviewPreparationWidgetState, interviewPreparationWidgetAction) =
-            reduceInterviewPreparationWidgetMessage(
-                state.interviewPreparationWidgetState,
-                InterviewPreparationWidgetFeature.InternalMessage.PullToRefresh
-            )
-
         return state.copy(
             homeState = homeState,
             toolbarState = toolbarState,
-            challengeWidgetState = challengeWidgetState,
-            interviewPreparationWidgetState = interviewPreparationWidgetState
-        ) to homeActions + toolbarActions + challengeWidgetActions + interviewPreparationWidgetAction
+            challengeWidgetState = challengeWidgetState
+        ) to homeActions + toolbarActions + challengeWidgetActions
     }
 
     private fun reduceGamificationToolbarMessage(
@@ -363,25 +339,5 @@ internal class HomeReducer(
             .toSet()
 
         return challengeWidgetState to actions
-    }
-
-    private fun reduceInterviewPreparationWidgetMessage(
-        state: InterviewPreparationWidgetFeature.State,
-        message: InterviewPreparationWidgetFeature.Message
-    ): Pair<InterviewPreparationWidgetFeature.State, Set<Action>> {
-        val (interviewPreparationWidgetState, interviewPreparationWidgetActions) =
-            interviewPreparationWidgetReducer.reduce(state, message)
-
-        val actions = interviewPreparationWidgetActions
-            .map {
-                if (it is InterviewPreparationWidgetFeature.Action.ViewAction) {
-                    Action.ViewAction.InterviewPreparationWidgetViewAction(it)
-                } else {
-                    InternalAction.InterviewPreparationWidgetAction(it)
-                }
-            }
-            .toSet()
-
-        return interviewPreparationWidgetState to actions
     }
 }

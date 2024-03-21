@@ -16,11 +16,6 @@ sealed class HyperskillAnalyticRoute {
                 get() = "${super.path}/first-problem"
         }
 
-        object InterviewPreparation : Onboarding() {
-            override val path: String
-                get() = "${super.path}/interview-preparation"
-        }
-
         object UsersQuestionnaire : Onboarding() {
             override val path: String
                 get() = "${super.path}/questionnaire"
@@ -48,11 +43,6 @@ sealed class HyperskillAnalyticRoute {
             override val path: String =
                 "${super.path}/step/$stepId"
         }
-
-        class Interview(stepId: Long) : Learn() {
-            override val path: String =
-                "${super.path}/interview/$stepId"
-        }
     }
 
     sealed class Projects(projectId: Long) : HyperskillAnalyticRoute() {
@@ -74,13 +64,8 @@ sealed class HyperskillAnalyticRoute {
         }
     }
 
-    open class Home : HyperskillAnalyticRoute() {
+    class Home : HyperskillAnalyticRoute() {
         override val path: String = "/home"
-
-        class InterviewPreparationWidget : Home() {
-            override val path: String
-                get() = "${super.path}/interview-preparation-widget"
-        }
     }
 
     open class Repeat : HyperskillAnalyticRoute() {

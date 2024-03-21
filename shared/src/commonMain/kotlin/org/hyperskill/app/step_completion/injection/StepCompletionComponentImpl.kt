@@ -33,7 +33,6 @@ internal class StepCompletionComponentImpl(
                 .currentGamificationToolbarDataStateRepository,
             dailyStepCompletedFlow = appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-            topicProgressFlow = appGraph.progressesFlowDataComponent.topicProgressFlow,
-            interviewStepsStateRepository = appGraph.stateRepositoriesComponent.interviewStepsStateRepository
+            topicProgressFlow = appGraph.progressesFlowDataComponent.topicProgressFlow
         )
 }
