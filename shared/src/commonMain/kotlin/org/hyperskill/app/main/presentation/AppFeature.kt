@@ -31,10 +31,15 @@ object AppFeature {
             internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
             internal val isMobileOnlySubscriptionEnabled: Boolean,
             internal val subscription: Subscription? = null,
-            internal val appShowsCount: Int = 1
+            internal val appShowsCount: Int = 1,
+            internal val isPaywallShown: Boolean = false
         ) : State {
             internal fun incrementAppShowsCount(): Ready =
-                copy(appShowsCount = appShowsCount + 1)
+                if (!isPaywallShown) {
+                    copy(appShowsCount = appShowsCount + 1)
+                } else {
+                    this
+                }
         }
     }
 
@@ -65,6 +70,10 @@ object AppFeature {
         data class NotificationClicked(
             val notificationData: PushNotificationData
         ) : Message
+
+        data class IsPaywallShownChanged(
+            val isPaywallShown: Boolean
+        ) : InternalMessage
 
         /**
          * Message Wrappers
