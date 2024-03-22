@@ -55,6 +55,10 @@ internal class PaywallReducer(
                 handleClickedTermsOfServiceAndPrivacyPolicy(state)
             Message.ViewedEventMessage ->
                 handleViewedEventMessage(state)
+            Message.ScreenShowed ->
+                handleScreenShowed(state)
+            Message.ScreenHidden ->
+                handleScreenHidden(state)
         }
 
     private fun fetchMobileOnlyPrice(actions: Set<Action> = emptySet()): ReducerResult =
@@ -204,4 +208,10 @@ internal class PaywallReducer(
                 PaywallViewedHyperskillAnalyticEvent(paywallTransitionSource)
             )
         )
+
+    private fun handleScreenShowed(state: State): ReducerResult =
+        state to setOf(Action.ViewAction.NotifyPaywallIsShown(isPaywallShown = true))
+
+    private fun handleScreenHidden(state: State): ReducerResult =
+        state to setOf(Action.ViewAction.NotifyPaywallIsShown(isPaywallShown = false))
 }

@@ -231,6 +231,13 @@ private extension AppViewModel {
             name: UIApplication.willEnterForegroundNotification,
             object: UIApplication.shared
         )
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handlePaywallIsShownDidChange(notification:)),
+            name: .paywallIsShownDidChange,
+            object: nil
+        )
     }
 
     @objc
@@ -295,6 +302,24 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
     @objc
     private func handleApplicationWillEnterForeground() {
         onNewMessage(AppFeatureMessageAppBecomesActive())
+    }
+
+    @objc
+    func handlePaywallIsShownDidChange(notification: Foundation.Notification) {
+        let key = PaywallIsShownNotification.PayloadKey.isPaywallShown.rawValue
+
+        guard let isPaywallShown = notification.userInfo?[key] as? Bool else {
+            #if DEBUG
+            print(
+"""
+AppViewModel: \(#function) isPaywallShown not found in userInfo = \(String(describing: notification.userInfo))
+"""
+            )
+            #endif
+            return
+        }
+
+        onNewMessage(AppFeatureMessageIsPaywallShownChanged(isPaywallShown: isPaywallShown))
     }
 }
 
