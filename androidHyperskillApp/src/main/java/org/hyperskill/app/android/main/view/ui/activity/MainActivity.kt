@@ -143,6 +143,7 @@ class MainActivity :
         observeFirstProblemOnboardingFlowFinished()
         observeUsersQuestionnaireOnboardingCompleted()
         observePaywallCompleted()
+        observePaywallIsShownChanged()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
         logNotificationAvailability()
@@ -207,6 +208,14 @@ class MainActivity :
         observeResult<Any>(PaywallFragment.PAYWALL_COMPLETED) {
             mainViewModel.onNewMessage(
                 WelcomeOnboardingFeature.Message.PaywallCompleted
+            )
+        }
+    }
+
+    private fun observePaywallIsShownChanged() {
+        observeResult<Boolean>(PaywallFragment.PAYWALL_IS_SHOWN_CHANGED) {
+            mainViewModel.onNewMessage(
+                AppFeature.Message.IsPaywallShownChanged(it)
             )
         }
     }
