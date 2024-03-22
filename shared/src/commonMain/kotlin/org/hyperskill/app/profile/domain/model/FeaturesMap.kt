@@ -23,9 +23,6 @@ val FeaturesMap.isLearningPathDividedTrackTopicsEnabled: Boolean
 val FeaturesMap.isMobileLeaderboardsEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_LEADERBOARDS) ?: false
 
-val FeaturesMap.isMobileInterviewPreparationEnabled: Boolean
-    get() = get(FeatureKeys.MOBILE_INTERVIEW_PREPARATION) ?: false
-
 val FeaturesMap.isMobileOnlySubscriptionEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION) ?: false
 

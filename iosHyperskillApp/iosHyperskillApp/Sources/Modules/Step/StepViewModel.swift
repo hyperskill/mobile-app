@@ -49,6 +49,14 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         return shouldNotify
     }
 
+    func doScreenShowedAction() {
+        onNewMessage(StepFeatureMessageScreenShowed())
+    }
+
+    func doScreenHiddenAction() {
+        onNewMessage(StepFeatureMessageScreenHidden())
+    }
+
     func doRetryLoadStep() {
         onNewMessage(StepFeatureMessageInitialize(forceUpdate: true))
     }
@@ -76,12 +84,6 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
                 isPracticingLoading: stepFeatureStateData.stepCompletionState.isPracticingLoading
             )
         }
-    }
-
-    // MARK: Analytic
-
-    func logViewedEvent() {
-        onNewMessage(StepFeatureMessageViewedEventMessage())
     }
 }
 
@@ -219,40 +221,6 @@ extension StepViewModel: ShareStreakModalViewControllerDelegate {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageShareStreakModalNoThanksClickedEventMessage(streak: Int32(streak))
-            )
-        )
-    }
-}
-
-// MARK: - StepViewModel: InterviewPreparationCompletedModalViewControllerDelegate -
-
-extension StepViewModel: InterviewPreparationCompletedModalViewControllerDelegate {
-    func interviewPreparationCompletedModalViewControllerDidAppear(
-        _ viewController: InterviewPreparationCompletedModalViewController
-    ) {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageInterviewPreparationCompletedModalShownEventMessage()
-            )
-        )
-    }
-
-    func interviewPreparationCompletedModalViewControllerDidDisappear(
-        _ viewController: InterviewPreparationCompletedModalViewController
-    ) {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageInterviewPreparationCompletedModalHiddenEventMessage()
-            )
-        )
-    }
-
-    func interviewPreparationCompletedModalViewControllerDidTapCallToActionButton(
-        _ viewController: InterviewPreparationCompletedModalViewController
-    ) {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageInterviewPreparationCompletedModalGoToTrainingClicked()
             )
         )
     }

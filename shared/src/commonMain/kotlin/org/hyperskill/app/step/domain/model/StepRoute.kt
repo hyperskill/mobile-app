@@ -66,15 +66,4 @@ sealed interface StepRoute {
         override val stepContext: StepContext
             get() = StepContext.DEFAULT
     }
-
-    @Serializable
-    data class InterviewPreparation(
-        override val stepId: Long
-    ) : StepRoute {
-        override val analyticRoute: HyperskillAnalyticRoute
-            get() = HyperskillAnalyticRoute.Learn.Interview(stepId)
-
-        override val stepContext: StepContext
-            get() = StepContext.DEFAULT
-    }
 }

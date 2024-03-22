@@ -7,9 +7,9 @@ import org.hyperskill.app.android.debug.fragment.DebugFragment
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 
 @Suppress("DEPRECATION")
-object DebugScreen : FragmentScreen {
+class DebugScreen(private val isBackNavigationEnabled: Boolean) : FragmentScreen {
     override val screenKey: String = Tabs.DEBUG.name
 
     override fun createFragment(factory: FragmentFactory): Fragment =
-        DebugFragment.newInstance()
+        DebugFragment.newInstance(isBackNavigationEnabled)
 }

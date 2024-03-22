@@ -63,14 +63,6 @@
                     android:layout_marginHorizontal="20dp"
                     />
 
-                <androidx.compose.ui.platform.ComposeView
-                    android:id="@+id/homeScreenInterviewPreparationCard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/home_screen_interview_card_top_margin"
-                    android:layout_marginHorizontal="20dp"
-                    />
-
                 <include
                     android:id="@+id/homeScreenTopicsRepetitionCard"
                     layout="@layout/layout_topics_repetition_card"

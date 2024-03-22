@@ -5,11 +5,12 @@ import android.content.Context
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
-import org.hyperskill.app.android.interview_preparation.dialog.InterviewPreparationFinishedDialogFragment
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
@@ -27,11 +28,24 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 class StepDelegate<TFragment>(
     private val fragment: TFragment
 ) where TFragment : Fragment,
-        TFragment : ShareStreakDialogFragment.Callback,
-        TFragment : InterviewPreparationFinishedDialogFragment.Callback {
+        TFragment : ShareStreakDialogFragment.Callback {
 
-    fun init(errorBinding: ErrorNoConnectionWithButtonBinding, onNewMessage: (StepFeature.Message) -> Unit) {
-        onNewMessage(StepFeature.Message.ViewedEventMessage)
+    fun init(
+        errorBinding: ErrorNoConnectionWithButtonBinding,
+        lifecycle: Lifecycle,
+        onNewMessage: (StepFeature.Message) -> Unit
+    ) {
+        lifecycle.addObserver(
+            LifecycleEventObserver { _, event ->
+                when (event) {
+                    Lifecycle.Event.ON_RESUME -> onNewMessage(StepFeature.Message.ScreenShowed)
+                    Lifecycle.Event.ON_PAUSE -> onNewMessage(StepFeature.Message.ScreenHidden)
+                    else -> {
+                        // no op
+                    }
+                }
+            }
+        )
         errorBinding.tryAgain.setOnClickListener {
             onNewMessage(StepFeature.Message.Initialize(forceUpdate = true))
         }
@@ -51,11 +65,6 @@ class StepDelegate<TFragment>(
                     StepCompletionFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
                         fragment.requireRouter().backTo(MainScreen(Tabs.STUDY_PLAN))
                         mainScreenRouter.switch(Tabs.STUDY_PLAN)
-                    }
-
-                    StepCompletionFeature.Action.ViewAction.NavigateTo.Home -> {
-                        fragment.requireRouter().backTo(MainScreen(Tabs.TRAINING))
-                        mainScreenRouter.switch(Tabs.TRAINING)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
@@ -96,13 +105,6 @@ class StepDelegate<TFragment>(
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
                         shareStreak(stepCompletionAction.streak)
                     }
-                    StepCompletionFeature.Action.ViewAction.ShowInterviewPreparationCompletedModal ->
-                        InterviewPreparationFinishedDialogFragment
-                            .newInstance()
-                            .showIfNotExists(
-                                manager = fragment.childFragmentManager,
-                                tag = InterviewPreparationFinishedDialogFragment.TAG
-                            )
                     is StepCompletionFeature.Action.ViewAction.ShowRequestUserReviewModal ->
                         RequestReviewDialogFragment
                             .newInstance(stepCompletionAction.stepRoute)

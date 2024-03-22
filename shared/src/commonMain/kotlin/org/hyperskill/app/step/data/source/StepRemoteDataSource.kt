@@ -13,4 +13,6 @@ interface StepRemoteDataSource {
     suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>>
 
     suspend fun viewStep(stepId: Long, stepContext: StepContext)
+
+    suspend fun logStepSolvingTime(stepId: Long, seconds: Long): Result<Unit>
 }

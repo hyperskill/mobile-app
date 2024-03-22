@@ -7,9 +7,13 @@ import org.hyperskill.app.topics_repetitions.domain.repository.TopicsRepetitions
 class TopicsRepetitionsInteractor(
     private val topicsRepetitionsRepository: TopicsRepetitionsRepository
 ) {
-    suspend fun getTopicsRepetitions(pageSize: Int, page: Int = 1): Result<List<TopicRepetition>> =
-        topicsRepetitionsRepository.getTopicsRepetitions(pageSize, page)
+    suspend fun getTopicsRepetitions(
+        pageSize: Int,
+        page: Int = 1,
+        isInCurrentTrack: Boolean = true
+    ): Result<List<TopicRepetition>> =
+        topicsRepetitionsRepository.getTopicsRepetitions(pageSize, page, isInCurrentTrack)
 
-    suspend fun getTopicsRepetitionStatistics(): Result<TopicRepetitionStatistics> =
-        topicsRepetitionsRepository.getTopicsRepetitionStatistics()
+    suspend fun getTopicsRepetitionStatistics(isInCurrentTrack: Boolean = true): Result<TopicRepetitionStatistics> =
+        topicsRepetitionsRepository.getTopicsRepetitionStatistics(isInCurrentTrack)
 }
