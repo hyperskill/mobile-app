@@ -10,6 +10,7 @@ import org.hyperskill.app.profile.domain.model.isLearningPathDividedTrackTopicsE
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransaction
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object StudyPlanWidgetFeature {
     data class State(
@@ -84,7 +85,8 @@ object StudyPlanWidgetFeature {
     internal sealed interface LearningActivitiesWithSectionsFetchResult : Message {
         data class Success(
             val learningActivities: List<LearningActivity>,
-            val studyPlanSections: List<StudyPlanSection>
+            val studyPlanSections: List<StudyPlanSection>,
+            val subscription: Subscription
         ) : LearningActivitiesWithSectionsFetchResult
 
         object Failed : LearningActivitiesWithSectionsFetchResult
