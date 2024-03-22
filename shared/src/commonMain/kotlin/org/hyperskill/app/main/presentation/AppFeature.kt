@@ -35,6 +35,7 @@ object AppFeature {
             internal val isPaywallShown: Boolean = false
         ) : State {
             internal fun incrementAppShowsCount(): Ready =
+                // ALTAPPS-1151: Fix redundant paywall shows -> increment app shows count only if paywall is not shown
                 if (!isPaywallShown) {
                     copy(appShowsCount = appShowsCount + 1)
                 } else {
@@ -73,7 +74,7 @@ object AppFeature {
 
         data class IsPaywallShownChanged(
             val isPaywallShown: Boolean
-        ) : InternalMessage
+        ) : Message
 
         /**
          * Message Wrappers
