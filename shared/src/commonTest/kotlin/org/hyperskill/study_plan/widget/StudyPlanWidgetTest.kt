@@ -24,7 +24,11 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionStatus
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.profile.stub
+import org.hyperskill.subscriptions.stub
 
 class StudyPlanWidgetTest {
 
@@ -50,7 +54,8 @@ class StudyPlanWidgetTest {
             StudyPlanWidgetFeature.State(),
             StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = emptyList(),
-                studyPlanSections = emptyList()
+                studyPlanSections = emptyList(),
+                subscription = Subscription.stub()
             )
         )
         assertEquals(StudyPlanWidgetFeature.ContentStatus.LOADED, state.sectionsStatus)
@@ -75,7 +80,8 @@ class StudyPlanWidgetTest {
                 studyPlanSections = listOf(
                     hiddenSection,
                     visibleSection
-                )
+                ),
+                subscription = Subscription.stub()
             )
         )
 
@@ -103,7 +109,8 @@ class StudyPlanWidgetTest {
             StudyPlanWidgetFeature.State(),
             StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                 learningActivities = listOf(stubLearningActivity(id = 1L)),
-                studyPlanSections = listOf(visibleSection, currentSection)
+                studyPlanSections = listOf(visibleSection, currentSection),
+                subscription = Subscription.stub()
             )
         )
 
@@ -111,6 +118,41 @@ class StudyPlanWidgetTest {
         assertEquals(currentSection, state.studyPlanSections[currentSection.id]?.studyPlanSection)
 
         assertEquals(null, state.studyPlanSections[visibleSection.id])
+    }
+
+    @Test
+    fun `Next project sections should be removed for freemium users`() {
+        val freemiumSubscription = Subscription.stub(type = SubscriptionType.FREEMIUM)
+        val expiredMobileOnlySubscription = Subscription.stub(
+            type = SubscriptionType.MOBILE_ONLY,
+            status = SubscriptionStatus.EXPIRED
+        )
+
+        listOf(freemiumSubscription, expiredMobileOnlySubscription).forEach { subscription ->
+            val (state, _) = reducer.reduce(
+                StudyPlanWidgetFeature.State(),
+                StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
+                    learningActivities = listOf(stubLearningActivity(id = 1L)),
+                    studyPlanSections = listOf(
+                        studyPlanSectionStub(
+                            id = 1,
+                            isVisible = true,
+                            type = StudyPlanSectionType.STAGE,
+                            activities = listOf(1L)
+                        ),
+                        studyPlanSectionStub(
+                            id = 2,
+                            isVisible = true,
+                            type = StudyPlanSectionType.NEXT_PROJECT
+                        )
+                    ),
+                    subscription = subscription
+                )
+            )
+            assertTrue {
+                state.studyPlanSections.values.none { it.studyPlanSection.type == StudyPlanSectionType.NEXT_PROJECT }
+            }
+        }
     }
 
     @Test
@@ -128,7 +170,8 @@ class StudyPlanWidgetTest {
                 studyPlanSections = listOf(
                     studyPlanSectionStub(id = 0),
                     studyPlanSectionStub(id = 1, activities = listOf(1))
-                )
+                ),
+                subscription = Subscription.stub()
             )
         )
 
@@ -175,7 +218,8 @@ class StudyPlanWidgetTest {
                         id = sectionId,
                         activities = if (index == 0) listOf(1L) else emptyList()
                     )
-                }
+                },
+                subscription = Subscription.stub()
             )
         )
 
@@ -197,7 +241,8 @@ class StudyPlanWidgetTest {
                     stubLearningActivity(id = 1),
                     stubLearningActivity(id = 2)
                 ),
-                studyPlanSections = listOf(firstSection, secondSection)
+                studyPlanSections = listOf(firstSection, secondSection),
+                subscription = Subscription.stub()
             )
         )
 

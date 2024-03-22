@@ -16,6 +16,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StudyPlanWidgetActionDispatcher(
@@ -24,6 +25,7 @@ class StudyPlanWidgetActionDispatcher(
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -92,7 +94,8 @@ class StudyPlanWidgetActionDispatcher(
                 .let { response ->
                     StudyPlanWidgetFeature.LearningActivitiesWithSectionsFetchResult.Success(
                         learningActivities = response.learningActivities,
-                        studyPlanSections = response.studyPlanSections
+                        studyPlanSections = response.studyPlanSections,
+                        subscription = currentSubscriptionStateRepository.getState().getOrThrow()
                     )
                 }
         }.let(onNewMessage)
