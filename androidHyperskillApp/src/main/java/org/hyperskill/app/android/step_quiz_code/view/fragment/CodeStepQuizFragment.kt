@@ -200,7 +200,7 @@ class CodeStepQuizFragment :
                     lang = lang,
                     code = code,
                     step = step,
-                    isShowRetryButton = viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
+                    isShowRetryButton = stepQuizButtons.stepQuizRetryLogoOnlyButton.isVisible
                 )
             )
             .showIfNotExists(childFragmentManager, CodeStepQuizFullScreenDialogFragment.TAG)

@@ -7,12 +7,17 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.core.view.children
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
+import androidx.core.view.marginTop
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -27,6 +32,7 @@ import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExi
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.databinding.LayoutQuizButtonsBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
@@ -74,7 +80,15 @@ abstract class DefaultStepQuizFragment :
 
     private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
 
-    protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
+    private val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
+    protected val stepQuizButtons: LayoutQuizButtonsBinding by viewBinding(
+        vbFactory = LayoutQuizButtonsBinding::bind,
+        viewProvider = {
+            requireParentFragment()
+                .requireView()
+                .findViewById(R.id.stepQuizButtons)
+        }
+    )
 
     private var stepQuizStateDelegate: ViewStateDelegate<StepQuizFeature.StepQuizState>? = null
 
@@ -135,6 +149,7 @@ abstract class DefaultStepQuizFragment :
 
         stepQuizStateDelegate = StepQuizViewStateDelegateFactory.create(
             fragmentStepQuizBinding = viewBinding,
+            stepQuizButtonsBinding = stepQuizButtons,
             descriptionBinding = descriptionBinding,
             skeletonView = skeletonView,
             quizViews = quizViews
@@ -142,7 +157,7 @@ abstract class DefaultStepQuizFragment :
         stepQuizFeedbackBlocksDelegate =
             StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
-            delegate.customizeSubmissionButton(viewBinding.stepQuizButtons.stepQuizSubmitButton)
+            delegate.customizeSubmissionButton(stepQuizButtons.stepQuizSubmitButton)
         }
         stepQuizHintsDelegate = StepQuizHintsDelegate(
             binding = viewBinding.stepQuizHints,
@@ -171,35 +186,35 @@ abstract class DefaultStepQuizFragment :
 
     private fun initButtonsViewStateDelegate() {
         stepQuizButtonsViewStateDelegate = ViewStateDelegate<StepQuizButtonsState>().apply {
-            addState<StepQuizButtonsState.Submit>(viewBinding.stepQuizButtons.stepQuizSubmitButton)
-            addState<StepQuizButtonsState.Retry>(viewBinding.stepQuizButtons.stepQuizRetryButton)
+            addState<StepQuizButtonsState.Submit>(stepQuizButtons.stepQuizSubmitButton)
+            addState<StepQuizButtonsState.Retry>(stepQuizButtons.stepQuizRetryButton)
             addState<StepQuizButtonsState.Continue>(
-                viewBinding.stepQuizButtons.stepQuizContinueButton,
-                viewBinding.stepQuizButtons.stepQuizContinueFrame
+                stepQuizButtons.stepQuizContinueButton,
+                stepQuizButtons.stepQuizContinueFrame
             )
             addState<StepQuizButtonsState.RetryLogoAndSubmit>(
-                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
-                viewBinding.stepQuizButtons.stepQuizSubmitButton
+                stepQuizButtons.stepQuizRetryLogoOnlyButton,
+                stepQuizButtons.stepQuizSubmitButton
             )
             addState<StepQuizButtonsState.RetryLogoAndContinue>(
-                viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton,
-                viewBinding.stepQuizButtons.stepQuizContinueButton,
-                viewBinding.stepQuizButtons.stepQuizContinueFrame
+                stepQuizButtons.stepQuizRetryLogoOnlyButton,
+                stepQuizButtons.stepQuizContinueButton,
+                stepQuizButtons.stepQuizContinueFrame
             )
         }
     }
 
     private fun setupQuizButtons() {
-        viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
+        stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
             onSubmitButtonClicked()
         }
-        viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
+        stepQuizButtons.stepQuizRetryButton.setOnClickListener {
             onRetryButtonClicked()
         }
-        viewBinding.stepQuizButtons.stepQuizRetryLogoOnlyButton.setOnClickListener {
+        stepQuizButtons.stepQuizRetryLogoOnlyButton.setOnClickListener {
             onRetryButtonClicked()
         }
-        viewBinding.stepQuizButtons.stepQuizContinueButton.setOnClickListener {
+        stepQuizButtons.stepQuizContinueButton.setOnClickListener {
             parentOfType(StepCompletionHost::class.java)
                 ?.onNewMessage(StepCompletionFeature.Message.ContinuePracticingClicked)
         }
@@ -385,7 +400,7 @@ abstract class DefaultStepQuizFragment :
         stepQuizFeedbackBlocksDelegate?.setState(
             stepQuizFeedbackMapper.mapToStepQuizFeedbackState(step.block.name, state)
         )
-        viewBinding.stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
+        stepQuizButtons.stepQuizSubmitButton.isEnabled = StepQuizResolver.isQuizEnabled(state)
 
         when (val submissionState = state.submissionState) {
             is StepQuizFeature.SubmissionState.Loaded -> {
@@ -407,6 +422,7 @@ abstract class DefaultStepQuizFragment :
                     else -> StepQuizButtonsState.Submit
                 }
                 stepQuizButtonsViewStateDelegate?.switchState(buttonsState)
+                updateFeedbackMargin()
 
                 val replyValidation = submissionState.replyValidation
                 if (replyValidation is ReplyValidationResult.Error) {
@@ -417,6 +433,15 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.SubmissionState.Empty -> {
                 stepQuizButtonsViewStateDelegate?.switchState(StepQuizButtonsState.Submit)
+                updateFeedbackMargin()
+            }
+        }
+    }
+
+    private fun updateFeedbackMargin() {
+        stepQuizButtons.root.doOnNextLayout { buttons ->
+            viewBinding.root.updateLayoutParams<MarginLayoutParams> {
+                bottomMargin = buttons.height + buttons.marginBottom + buttons.marginTop
             }
         }
     }

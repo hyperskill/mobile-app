@@ -49,4 +49,14 @@
         android:visibility="gone"
         tools:visibility="visible"/>
 
+    <include
+        android:id="@+id/stepQuizButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        layout="@layout/layout_quiz_buttons" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
