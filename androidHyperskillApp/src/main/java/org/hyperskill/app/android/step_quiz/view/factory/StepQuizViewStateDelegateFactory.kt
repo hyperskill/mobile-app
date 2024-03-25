@@ -2,6 +2,7 @@ package org.hyperskill.app.android.step_quiz.view.factory
 
 import android.view.View
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
+import org.hyperskill.app.android.databinding.LayoutQuizButtonsBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -9,6 +10,7 @@ import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 object StepQuizViewStateDelegateFactory {
     fun create(
         fragmentStepQuizBinding: FragmentStepQuizBinding,
+        stepQuizButtonsBinding: LayoutQuizButtonsBinding,
         descriptionBinding: LayoutStepQuizDescriptionBinding?,
         skeletonView: View,
         vararg quizViews: View
@@ -35,7 +37,7 @@ object StepQuizViewStateDelegateFactory {
                     *listOfNotNull(
                         fragmentStepQuizBinding.stepQuizFeedbackBlocks.root,
                         descriptionBinding?.stepQuizDescription,
-                        fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton,
+                        stepQuizButtonsBinding.stepQuizSubmitButton,
                         *quizViews
                     ).toTypedArray()
                 )
