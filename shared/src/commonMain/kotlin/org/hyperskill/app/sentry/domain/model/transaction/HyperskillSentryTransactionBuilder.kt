@@ -91,22 +91,31 @@ object HyperskillSentryTransactionBuilder {
     /**
      * StepQuizFeature
      */
-    fun buildStepQuizScreenRemoteDataLoading(): HyperskillSentryTransaction =
+    fun buildStepQuizScreenRemoteDataLoading(blockName: String): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "step-quiz-feature-screen-remote-data-loading",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.Step.Block.Name(blockName)
+            )
         )
 
-    fun buildStepQuizCreateAttempt(): HyperskillSentryTransaction =
+    fun buildStepQuizCreateAttempt(blockName: String): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "step-quiz-feature-create-attempt",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.Step.Block.Name(blockName)
+            )
         )
 
-    fun buildStepQuizCreateSubmission(): HyperskillSentryTransaction =
+    fun buildStepQuizCreateSubmission(blockName: String): HyperskillSentryTransaction =
         HyperskillSentryTransaction(
             name = "step-quiz-feature-create-submission",
-            operation = HyperskillSentryTransactionOperation.API_LOAD
+            operation = HyperskillSentryTransactionOperation.API_LOAD,
+            tags = listOf(
+                HyperskillSentryTransactionTag.Step.Block.Name(blockName)
+            )
         )
 
     /**
