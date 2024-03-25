@@ -24,7 +24,7 @@ class StepCompletionTest {
             val reducer = StepCompletionReducer(stepRoute)
             val (_, actions) = reducer.reduce(
                 StepCompletionFeature.createState(Step.stub(stepId), stepRoute),
-                StepCompletionFeature.Message.StartPracticingClicked
+                StepCompletionFeature.Message.StartPracticingClicked(isLocatedAtBeginning = true)
             )
             assertTrue {
                 actions.contains(StepCompletionFeature.Action.ViewAction.NavigateTo.Back)
