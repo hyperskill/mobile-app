@@ -91,8 +91,16 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
             requireRouter().exit()
         }
 
-        setupStarPracticeButton(viewBinding.stepTheoryPracticeActionBeginning, isPracticingAvailable)
-        setupStarPracticeButton(viewBinding.stepTheoryPracticeActionEnd, isPracticingAvailable)
+        setupStarPracticeButton(
+            button = viewBinding.stepTheoryPracticeActionBeginning,
+            isPracticingAvailable = isPracticingAvailable,
+            isLocatedAtBeginning = true
+        )
+        setupStarPracticeButton(
+            button = viewBinding.stepTheoryPracticeActionEnd,
+            isPracticingAvailable = isPracticingAvailable,
+            isLocatedAtBeginning = false
+        )
 
         renderSecondsToComplete(step.secondsToComplete)
 
@@ -111,11 +119,15 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
         // setupCommentStatisticsRecyclerView()
     }
 
-    private fun setupStarPracticeButton(button: MaterialButton, isPracticingAvailable: Boolean) {
+    private fun setupStarPracticeButton(
+        button: MaterialButton,
+        isPracticingAvailable: Boolean,
+        isLocatedAtBeginning: Boolean
+    ) {
         button.isVisible = isPracticingAvailable
         button.setOnClickListener {
             parentOfType(StepCompletionHost::class.java)
-                ?.onNewMessage(StepCompletionFeature.Message.StartPracticingClicked)
+                ?.onNewMessage(StepCompletionFeature.Message.StartPracticingClicked(isLocatedAtBeginning))
         }
     }
 
