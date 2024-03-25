@@ -38,7 +38,8 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     state.copy(isPracticingLoading = true) to setOf(
                         Action.LogAnalyticEvent(
                             StepCompletionClickedStartPracticingHyperskillAnalyticEvent(
-                                route = stepRoute.analyticRoute
+                                route = stepRoute.analyticRoute,
+                                isLocatedAtBeginning = message.isLocatedAtBeginning
                             )
                         ),
                         when (state.startPracticingButtonAction) {

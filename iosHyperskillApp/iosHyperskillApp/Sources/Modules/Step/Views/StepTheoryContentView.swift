@@ -21,7 +21,7 @@ struct StepTheoryContentView: View {
             VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                 StepHeaderView(timeToComplete: viewData.formattedTimeToComplete)
 
-                buildStartPracticingButton(isFilled: false)
+                buildStartPracticingButton(isLocatedAtBeginning: true)
 
                 LatexView(
                     text: viewData.text,
@@ -31,7 +31,7 @@ struct StepTheoryContentView: View {
                     }
                 )
 
-                buildStartPracticingButton(isFilled: true)
+                buildStartPracticingButton(isLocatedAtBeginning: false)
             }
             .padding()
         }
@@ -43,32 +43,32 @@ struct StepTheoryContentView: View {
 extension StepTheoryContentView {
     struct StartPracticingButton {
         let isLoading: Bool
-        let action: () -> Void
+        let action: (Bool) -> Void
     }
 
     @ViewBuilder
-    private func buildStartPracticingButton(isFilled: Bool) -> some View {
+    private func buildStartPracticingButton(isLocatedAtBeginning: Bool) -> some View {
         if let startPracticingButton, isStepTextContentLoaded {
             StepActionButton(
                 title: Strings.Step.startPracticing,
-                style: isFilled ? .violetFilled : .violetOutline,
+                style: isLocatedAtBeginning ? .violetOutline : .violetFilled,
                 isLoading: startPracticingButton.isLoading,
-                onClick: startPracticingButton.action
+                onClick: {
+                    startPracticingButton.action(isLocatedAtBeginning)
+                }
             )
         }
     }
 }
 
 #if DEBUG
-struct StepTheoryContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepTheoryContentView(
-            viewData: .placeholder,
-            startPracticingButton: StepTheoryContentView.StartPracticingButton(
-                isLoading: false,
-                action: {}
-            )
+#Preview {
+    StepTheoryContentView(
+        viewData: .placeholder,
+        startPracticingButton: StepTheoryContentView.StartPracticingButton(
+            isLoading: false,
+            action: { _ in }
         )
-    }
+    )
 }
 #endif
