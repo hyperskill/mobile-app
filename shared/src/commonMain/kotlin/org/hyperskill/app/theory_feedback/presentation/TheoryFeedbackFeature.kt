@@ -19,7 +19,7 @@ object TheoryFeedbackFeature {
         object AlertShown : Message
         object AlertHidden : Message
 
-        data class FeedbackTextChanged(val text: String?): Message
+        data class FeedbackTextChanged(val text: String?) : Message
 
         object SendButtonClicked : Message
     }

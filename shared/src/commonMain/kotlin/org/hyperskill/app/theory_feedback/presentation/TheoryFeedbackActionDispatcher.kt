@@ -1,11 +1,10 @@
 package org.hyperskill.app.theory_feedback.presentation
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.Action
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.InternalAction
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.Message
-import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.State
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class TheoryFeedbackActionDispatcher(
