@@ -37,6 +37,7 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
+import org.hyperskill.app.theory_feedback.injection.PlatformTheoryFeedbackComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
@@ -118,4 +119,6 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PlatformPaywallComponent
 
     fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
+
+    fun buildPlatformTheoryFeedbackComponent(): PlatformTheoryFeedbackComponent
 }
