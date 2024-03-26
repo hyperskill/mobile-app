@@ -4,11 +4,11 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
 object TheoryFeedbackFeature {
     internal data class State(
-        val feedback: String
+        val feedback: String?
     )
 
     internal fun initialState() =
-        State(feedback = "")
+        State(feedback = null)
 
     data class ViewState(
         val feedback: String,
@@ -16,8 +16,12 @@ object TheoryFeedbackFeature {
     )
 
     sealed interface Message {
-        object Initialize : Message
-        object ViewedEventMessage : Message
+        object AlertShown : Message
+        object AlertHidden : Message
+
+        data class FeedbackTextChanged(val text: String): Message
+
+        object SendButtonClicked : Message
     }
 
     internal sealed interface InternalMessage : Message

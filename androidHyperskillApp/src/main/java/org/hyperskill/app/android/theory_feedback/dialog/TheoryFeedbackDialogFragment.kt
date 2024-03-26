@@ -11,6 +11,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.R
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature
+import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.Message
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackViewModel
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -26,7 +27,7 @@ class TheoryFeedbackDialogFragment :
     }
 
     private var viewModelFactory: ViewModelProvider.Factory? = null
-    private val viewModel: TheoryFeedbackViewModel by reduxViewModel(this) {
+    private val theoryFeedbackViewModel: TheoryFeedbackViewModel by reduxViewModel(this) {
         requireNotNull(viewModelFactory)
     }
 
@@ -42,7 +43,7 @@ class TheoryFeedbackDialogFragment :
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return createDialog(TODO()).apply {
             setOnShowListener {
-                TODO("Send shown message")
+                theoryFeedbackViewModel.onNewMessage(Message.AlertShown)
             }
         }
     }
@@ -52,17 +53,26 @@ class TheoryFeedbackDialogFragment :
             .setTitle(R.string.theory_feedback_alert_title)
             .setView(content)
             .setPositiveButton(R.string.theory_feedback_alert_send_button) { _, _ ->
-                TODO()
+                theoryFeedbackViewModel.onNewMessage(
+                    Message.FeedbackTextChanged(
+                        TODO("extract feedback text")
+                    )
+                )
             }
             .setNegativeButton(R.string.theory_feedback_alert_cancel_button, null)
             .create()
 
     override fun onCancel(dialog: DialogInterface) {
-        TODO("Send hidden message")
+        theoryFeedbackViewModel.onNewMessage(Message.AlertHidden)
     }
 
+    @Suppress("UNUSED_EXPRESSION")
     override fun onAction(action: TheoryFeedbackFeature.Action.ViewAction) {
-        TODO("Not yet implemented")
+        when (action) {
+            else -> {
+                // no op
+            }
+        }
     }
 
     override fun render(state: TheoryFeedbackFeature.ViewState) {

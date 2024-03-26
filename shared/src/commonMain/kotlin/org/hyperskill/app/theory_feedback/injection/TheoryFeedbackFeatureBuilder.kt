@@ -6,6 +6,7 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackActionDispatcher
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature
 import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.Action
@@ -21,12 +22,13 @@ internal object TheoryFeedbackFeatureBuilder {
     private const val LOG_TAG = "TheoryFeedbackFeature"
 
     fun build(
+        stepRoute: StepRoute,
         analyticInteractor: AnalyticInteractor,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<ViewState, Message, Action> {
         val theoryFeedbackReducer =
-            TheoryFeedbackReducer()
+            TheoryFeedbackReducer(stepRoute)
                 .wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val theoryFeedbackActionDispatcher = TheoryFeedbackActionDispatcher(
