@@ -7,7 +7,7 @@ internal object TheoryFeedbackViewStateMapper {
 
     fun map(state: State): ViewState =
         ViewState(
-            feedback = state.feedback,
-            isSendButtonEnabled = state.feedback.isNotBlank()
+            feedback = state.feedback ?: "",
+            isSendButtonEnabled = state.feedback?.isNotEmpty() == true
         )
 }

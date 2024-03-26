@@ -659,5 +659,6 @@
     <string name="theory_feedback_alert_hint">Share something</string>
     <string name="theory_feedback_alert_cancel_button">Cancel</string>
     <string name="theory_feedback_alert_send_button">Send</string>
+    <string name="theory_feedback_alert_success_text">Thank you for your feedback. We appreciate your feedback and will look into this soon.</string>
 
 </resources>

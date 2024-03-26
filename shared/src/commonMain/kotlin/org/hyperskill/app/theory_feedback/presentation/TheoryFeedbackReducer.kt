@@ -57,6 +57,7 @@ internal class TheoryFeedbackReducer(
                     stepId = stepRoute.stepId,
                     feedback = state.feedback ?: ""
                 )
-            )
+            ),
+            Action.ViewAction.ShowSendSuccessAndHideModal
         )
 }

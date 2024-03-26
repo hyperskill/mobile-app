@@ -294,8 +294,8 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
             manageSubscriptionComponent = buildManageSubscriptionComponent()
         )
 
-    override fun buildPlatformTheoryFeedbackComponent(): PlatformTheoryFeedbackComponent =
+    override fun buildPlatformTheoryFeedbackComponent(stepRoute: StepRoute): PlatformTheoryFeedbackComponent =
         PlatformTheoryFeedbackComponentImpl(
-            theoryFeedbackComponent = buildTheoryFeedbackComponent()
+            theoryFeedbackComponent = buildTheoryFeedbackComponent(stepRoute)
         )
 }

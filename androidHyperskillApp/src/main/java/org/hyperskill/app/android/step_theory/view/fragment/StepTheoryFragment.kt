@@ -1,11 +1,17 @@
 package org.hyperskill.app.android.step_theory.view.fragment
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.button.MaterialButton
@@ -26,6 +32,7 @@ import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
+import org.hyperskill.app.android.theory_feedback.dialog.TheoryFeedbackDialogFragment
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
@@ -36,8 +43,12 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompletionView {
+class StepTheoryFragment :
+    Fragment(R.layout.fragment_step_theory),
+    StepCompletionView,
+    MenuProvider {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
         fun newInstance(step: Step, stepRoute: StepRoute, isPracticingAvailable: Boolean): Fragment =
@@ -74,6 +85,16 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(viewBinding.stepTheoryAppBar.stepToolbar.root)
+            addMenuProvider(
+                this@StepTheoryFragment,
+                viewLifecycleOwner,
+                Lifecycle.State.RESUMED
+            )
+        }
+
         with(viewBinding.stepTheoryAppBar) {
             stepToolbar.root.setNavigationOnClickListener {
                 requireRouter().exit()
@@ -216,4 +237,21 @@ class StepTheoryFragment : Fragment(R.layout.fragment_step_theory), StepCompleti
             }
         }
     }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.theory_appbar_menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+        when (menuItem.itemId) {
+            R.id.theoryFeedback -> {
+                TheoryFeedbackDialogFragment
+                    .newInstance(stepRoute)
+                    .showIfNotExists(childFragmentManager, TheoryFeedbackDialogFragment.TAG)
+                true
+            }
+            else -> {
+                false
+            }
+        }
 }

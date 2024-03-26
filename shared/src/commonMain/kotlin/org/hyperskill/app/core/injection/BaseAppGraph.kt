@@ -504,6 +504,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
         UsersQuestionnaireOnboardingComponentImpl(this)
 
-    override fun buildTheoryFeedbackComponent(): TheoryFeedbackComponent =
-        TheoryFeedbackComponentImpl(this)
+    override fun buildTheoryFeedbackComponent(stepRoute: StepRoute): TheoryFeedbackComponent =
+        TheoryFeedbackComponentImpl(this, stepRoute)
 }

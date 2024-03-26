@@ -120,5 +120,5 @@ interface CommonAndroidAppGraph : AppGraph {
 
     fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
 
-    fun buildPlatformTheoryFeedbackComponent(): PlatformTheoryFeedbackComponent
+    fun buildPlatformTheoryFeedbackComponent(stepRoute: StepRoute): PlatformTheoryFeedbackComponent
 }

@@ -19,7 +19,7 @@ object TheoryFeedbackFeature {
         object AlertShown : Message
         object AlertHidden : Message
 
-        data class FeedbackTextChanged(val text: String): Message
+        data class FeedbackTextChanged(val text: String?): Message
 
         object SendButtonClicked : Message
     }
@@ -27,7 +27,9 @@ object TheoryFeedbackFeature {
     internal sealed interface InternalMessage : Message
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            object ShowSendSuccessAndHideModal : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {

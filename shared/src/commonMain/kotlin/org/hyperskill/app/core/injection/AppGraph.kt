@@ -191,5 +191,5 @@ interface AppGraph {
     fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent
     fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent
     fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
-    fun buildTheoryFeedbackComponent(): TheoryFeedbackComponent
+    fun buildTheoryFeedbackComponent(stepRoute: StepRoute): TheoryFeedbackComponent
 }
