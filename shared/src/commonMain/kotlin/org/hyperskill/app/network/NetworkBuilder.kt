@@ -2,7 +2,6 @@ package org.hyperskill.app.network
 
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.plugins.UserAgent
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.cookies.CookiesStorage
@@ -11,9 +10,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
-import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.headers
-import io.ktor.http.Parameters
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.encodeBase64
@@ -22,7 +19,6 @@ import io.ktor.utils.io.core.toByteArray
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.datetime.Clock
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.hyperskill.app.auth.cache.AuthCacheKeyValues
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
@@ -131,37 +127,15 @@ internal object NetworkBuilder {
                 tokenUpdater = {
                     val refreshToken = getAuthResponse(json, settings)?.refreshToken
                     if (refreshToken != null) {
-                        val refreshTokenResult = kotlin.runCatching {
-                            val currentAuthClientType =
-                                settings.getInt(AuthCacheKeyValues.AUTH_SOCIAL_ORDINAL)
-                            val tokenClient =
-                                when (NetworkClientType.values()[currentAuthClientType]) {
-                                    NetworkClientType.CREDENTIALS ->
-                                        tokenCredentialsAuthClient
-                                    NetworkClientType.SOCIAL ->
-                                        tokenSocialAuthClient
-                                }
-
-                            tokenClient.submitForm(
-                                url = "/oauth2/token/",
-                                formParameters = Parameters.build {
-                                    append("grant_type", "refresh_token")
-                                    append("refresh_token", refreshToken)
-                                }
-                            ).body<AuthResponse>()
-                        }
-                        refreshTokenResult.fold(
-                            onSuccess = {
-                                settings.putString(AuthCacheKeyValues.AUTH_RESPONSE, json.encodeToString(it))
-                                settings.putLong(
-                                    AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP,
-                                    Clock.System.now().epochSeconds
-                                )
-                                true
-                            },
-                            onFailure = {
-                                false
-                            }
+                        BearerTokenHandler.refreshBearerToken(
+                            json = json,
+                            settings = settings,
+                            tokenCredentialsAuthClient = tokenCredentialsAuthClient,
+                            tokenSocialAuthClient = tokenSocialAuthClient,
+                            refreshToken = refreshToken
+                        ).fold(
+                            onSuccess = { true },
+                            onFailure = { false }
                         )
                     } else {
                         false
