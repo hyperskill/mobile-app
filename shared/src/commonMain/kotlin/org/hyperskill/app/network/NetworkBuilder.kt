@@ -76,7 +76,8 @@ internal object NetworkBuilder {
         buildVariant: BuildVariant,
         authorizationFlow: MutableSharedFlow<UserDeauthorized>,
         authorizationMutex: Mutex,
-        cookiesStorage: CookiesStorage
+        cookiesStorage: CookiesStorage,
+        logger: co.touchlab.kermit.Logger
     ): HttpClient =
         PreconfiguredPlatformHttpClient {
             val tokenSocialAuthClient = buildAuthClient(
@@ -111,8 +112,8 @@ internal object NetworkBuilder {
             }
             if (buildVariant.isDebug()) {
                 install(Logging) {
-                    logger = Logger.SIMPLE
-                    level = LogLevel.ALL
+                    this.logger = Logger.SIMPLE
+                    this.level = LogLevel.ALL
                 }
             }
             install(UserAgent) {
@@ -134,8 +135,14 @@ internal object NetworkBuilder {
                             tokenSocialAuthClient = tokenSocialAuthClient,
                             refreshToken = refreshToken
                         ).fold(
-                            onSuccess = { true },
-                            onFailure = { false }
+                            onSuccess = {
+                                logger.i { "Successfully refresh token" }
+                                true
+                                        },
+                            onFailure = {
+                                logger.e(it) { "Failed to refresh token!" }
+                                false
+                            }
                         )
                     } else {
                         false

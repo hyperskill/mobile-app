@@ -1,5 +1,6 @@
 package org.hyperskill.app.network.injection
 
+import co.touchlab.kermit.Logger
 import com.russhwolf.settings.Settings
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
@@ -46,7 +47,8 @@ object NetworkModule {
         buildVariant: BuildVariant,
         authorizationFlow: MutableSharedFlow<UserDeauthorized>,
         authorizationMutex: Mutex,
-        cookiesStorage: CookiesStorage
+        cookiesStorage: CookiesStorage,
+        logger: Logger
     ): HttpClient =
         NetworkBuilder.buildAuthorizedClient(
             networkEndpointConfigInfo,
@@ -56,7 +58,8 @@ object NetworkModule {
             buildVariant,
             authorizationFlow,
             authorizationMutex,
-            cookiesStorage
+            cookiesStorage,
+            logger
         )
 
     fun provideFrontendEventsUnauthorizedClient(

@@ -45,14 +45,15 @@ class NetworkComponentImpl(
 
     override val authorizedHttpClient: HttpClient =
         NetworkModule.provideAuthorizedClient(
-            endpointConfigInfo,
-            appGraph.commonComponent.userAgentInfo,
-            appGraph.commonComponent.json,
-            appGraph.commonComponent.settings,
-            appGraph.commonComponent.buildKonfig.buildVariant,
-            authorizationFlow,
-            authMutex,
-            cookiesStorage
+            networkEndpointConfigInfo = endpointConfigInfo,
+            userAgentInfo = appGraph.commonComponent.userAgentInfo,
+            json = appGraph.commonComponent.json,
+            settings = appGraph.commonComponent.settings,
+            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
+            authorizationFlow = authorizationFlow,
+            authorizationMutex = authMutex,
+            cookiesStorage = cookiesStorage,
+            logger = appGraph.loggerComponent.logger.withTag("AuthorizedHttpClient")
         )
 
     override val frontendEventsUnauthorizedHttpClient: HttpClient =
