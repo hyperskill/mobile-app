@@ -28,16 +28,7 @@ final class SentryManager: shared.SentryManager {
             #endif
 
             // HTTP Client Errors
-            options.enableCaptureFailedRequests = true
-
-            options.failedRequestStatusCodes = [
-                // Client errors
-                HttpStatusCodeRange(min: 400, max: 407),
-                HttpStatusCodeRange(min: 409, max: 499),
-                // Server errors
-                HttpStatusCodeRange(min: 500, max: 599)
-            ]
-            options.failedRequestTargets = [ApplicationInfo.host]
+            options.enableCaptureFailedRequests = false
 
             // Swizzling
             options.enableSwizzling = true
