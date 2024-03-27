@@ -7,6 +7,7 @@ import kotlinx.coroutines.sync.Mutex
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.injection.AuthDataBuilder
 import org.hyperskill.app.core.injection.AppGraph
+import org.hyperskill.app.network.domain.model.AuthorizedClientDependencies
 import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
@@ -45,15 +46,17 @@ class NetworkComponentImpl(
 
     override val authorizedHttpClient: HttpClient =
         NetworkModule.provideAuthorizedClient(
-            networkEndpointConfigInfo = endpointConfigInfo,
-            userAgentInfo = appGraph.commonComponent.userAgentInfo,
-            json = appGraph.commonComponent.json,
-            settings = appGraph.commonComponent.settings,
-            buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
-            authorizationFlow = authorizationFlow,
-            authorizationMutex = authMutex,
-            cookiesStorage = cookiesStorage,
-            logger = appGraph.loggerComponent.logger.withTag("AuthorizedHttpClient")
+            dependencies = AuthorizedClientDependencies(
+                networkEndpointConfigInfo = endpointConfigInfo,
+                userAgentInfo = appGraph.commonComponent.userAgentInfo,
+                json = appGraph.commonComponent.json,
+                settings = appGraph.commonComponent.settings,
+                buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
+                authorizationFlow = authorizationFlow,
+                authorizationMutex = authMutex,
+                cookiesStorage = cookiesStorage,
+                logger = appGraph.loggerComponent.logger
+            )
         )
 
     override val frontendEventsUnauthorizedHttpClient: HttpClient =

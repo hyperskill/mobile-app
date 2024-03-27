@@ -20,15 +20,34 @@ internal object BearerTokenHandler {
 
     private const val REFRESH_TOKEN_PARAM_KEY = "refresh_token"
 
-    suspend fun refreshBearerToken(
+    fun getAccessToken(json: Json, settings: Settings): String? =
+        getAuthResponse(json, settings)?.accessToken
+
+    @Suppress("MagicNumber")
+    fun checkAccessTokenIsExpired(json: Json, settings: Settings): Boolean {
+        val authResponse = getAuthResponse(json, settings)
+        val accessTokenTimestamp = settings.getLong(AuthCacheKeyValues.AUTH_ACCESS_TOKEN_TIMESTAMP, 0L)
+
+        return if (authResponse == null || accessTokenTimestamp == 0L) {
+            true
+        } else {
+            val delta = Clock.System.now().epochSeconds - accessTokenTimestamp
+            delta > authResponse.expiresIn
+        }
+    }
+
+    suspend fun refreshAccessToken(
         json: Json,
         settings: Settings,
         tokenCredentialsAuthClient: HttpClient,
-        tokenSocialAuthClient: HttpClient,
-        refreshToken: String
-    ): Result<AuthResponse> =
+        tokenSocialAuthClient: HttpClient
+    ): Result<Unit> =
         runCatching {
-            refreshBearerTokenInternal(
+            val refreshToken =
+                getAuthResponse(json, settings)
+                    ?.refreshToken
+                    ?: error("Refresh token not found")
+            val authResponse = refreshAccessToken(
                 httpClient = getRefreshTokenClient(
                     settings = settings,
                     tokenCredentialsAuthClient = tokenCredentialsAuthClient,
@@ -36,11 +55,10 @@ internal object BearerTokenHandler {
                 ),
                 refreshToken = refreshToken
             )
-        }.onSuccess {
-            saveAuthResponse(json, settings, it)
+            saveAuthResponse(json, settings, authResponse)
         }
 
-    private suspend fun refreshBearerTokenInternal(
+    private suspend fun refreshAccessToken(
         httpClient: HttpClient,
         refreshToken: String
     ): AuthResponse =
@@ -78,6 +96,15 @@ internal object BearerTokenHandler {
                 tokenCredentialsAuthClient
             NetworkClientType.SOCIAL ->
                 tokenSocialAuthClient
+        }
+    }
+
+    private fun getAuthResponse(json: Json, settings: Settings): AuthResponse? {
+        val authResponseString = settings.getString(AuthCacheKeyValues.AUTH_RESPONSE, "")
+        return if (authResponseString.isNotEmpty()) {
+            json.decodeFromString<AuthResponse>(authResponseString)
+        } else {
+            null
         }
     }
 }

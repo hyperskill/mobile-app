@@ -156,6 +156,7 @@ complexity:
       - '**/iosTest/**'
       - '**/injection/**'
       - '**/presentation/**ActionDispatcher.kt'
+      - '**Dependencies.kt'
     functionThreshold: 6
     constructorThreshold: 7
     ignoreDefaultParameters: true
