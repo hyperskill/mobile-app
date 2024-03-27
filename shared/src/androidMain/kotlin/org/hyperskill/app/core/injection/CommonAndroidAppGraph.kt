@@ -66,6 +66,8 @@ interface CommonAndroidAppGraph : AppGraph {
 
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
 
+    fun buildPlatformStepTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent
+
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
 
     fun buildPlatformProfileSettingsComponent(
@@ -119,6 +121,4 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PlatformPaywallComponent
 
     fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
-
-    fun buildPlatformTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent
 }

@@ -5,7 +5,7 @@
     <item
         android:id="@+id/theoryFeedback"
         android:title="@string/step_theory_text"
-        android:icon="@drawable/ic_theory_feedback"
+        android:icon="@drawable/ic_step_theory_feedback"
         app:showAsAction="ifRoom" />
 
 </menu>

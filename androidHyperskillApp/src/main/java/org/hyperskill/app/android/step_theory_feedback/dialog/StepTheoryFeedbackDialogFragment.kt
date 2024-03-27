@@ -52,7 +52,8 @@ class StepTheoryFeedbackDialogFragment :
     }
 
     private fun injectComponent() {
-        viewModelFactory = HyperskillApp.graph().buildPlatformTheoryFeedbackComponent(stepRoute).reduxViewModelFactory
+        viewModelFactory = HyperskillApp.graph()
+            .buildPlatformStepTheoryFeedbackComponent(stepRoute).reduxViewModelFactory
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =

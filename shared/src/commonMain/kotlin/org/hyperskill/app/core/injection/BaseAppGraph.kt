@@ -286,6 +286,12 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
 
+    /**
+     * Step theory feedback component
+     */
+    override fun buildStepTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent =
+        StepTheoryFeedbackComponentImpl(this, stepRoute)
+
     override fun buildSubmissionDataComponent(): SubmissionDataComponent =
         SubmissionDataComponentImpl(this)
 
@@ -503,7 +509,4 @@ abstract class BaseAppGraph : AppGraph {
 
     override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
         UsersQuestionnaireOnboardingComponentImpl(this)
-
-    override fun buildTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent =
-        StepTheoryFeedbackComponentImpl(this, stepRoute)
 }

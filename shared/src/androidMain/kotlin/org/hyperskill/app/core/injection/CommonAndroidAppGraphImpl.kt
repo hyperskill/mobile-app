@@ -141,6 +141,14 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PlatformStepQuizComponentImpl(stepQuizComponent)
 
     /**
+     * Step theory feedback component
+     */
+    override fun buildPlatformStepTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent =
+        PlatformStepTheoryFeedbackComponentImpl(
+            stepTheoryFeedbackComponent = buildStepTheoryFeedbackComponent(stepRoute)
+        )
+
+    /**
      * Stage implement component
      */
     override fun buildPlatformStageImplementationComponent(
@@ -292,10 +300,5 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent =
         PlatformManageSubscriptionComponentImpl(
             manageSubscriptionComponent = buildManageSubscriptionComponent()
-        )
-
-    override fun buildPlatformTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent =
-        PlatformStepTheoryFeedbackComponentImpl(
-            stepTheoryFeedbackComponent = buildTheoryFeedbackComponent(stepRoute)
         )
 }

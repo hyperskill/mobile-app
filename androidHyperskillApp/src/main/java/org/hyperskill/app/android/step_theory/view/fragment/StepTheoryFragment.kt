@@ -239,7 +239,7 @@ class StepTheoryFragment :
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.theory_appbar_menu, menu)
+        menuInflater.inflate(R.menu.step_theory_appbar_menu, menu)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
