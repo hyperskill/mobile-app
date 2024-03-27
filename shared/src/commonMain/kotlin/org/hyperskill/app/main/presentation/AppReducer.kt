@@ -99,6 +99,8 @@ internal class AppReducer(
                 reduceWelcomeOnboardingMessage(state, message.message)
             is InternalMessage.SubscriptionChanged ->
                 handleSubscriptionChanged(state, message)
+            is Message.IsPaywallShownChanged ->
+                handleIsPaywallShownChanged(state, message)
         } ?: (state to emptySet())
 
     private fun handleFetchAppStartupConfigSuccess(
@@ -223,6 +225,7 @@ internal class AppReducer(
         state.isAuthorized &&
             state.isMobileOnlySubscriptionEnabled &&
             state.subscription?.isFreemium == true &&
+            !state.isPaywallShown &&
             state.appShowsCount % APP_SHOWS_COUNT_TILL_PAYWALL == 0
 
     private fun reduceStreakRecoveryMessage(
@@ -363,6 +366,16 @@ internal class AppReducer(
             state.copy(subscription = message.subscription) to setOf(
                 InternalAction.RefreshSubscriptionOnExpiration(message.subscription)
             )
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleIsPaywallShownChanged(
+        state: State,
+        message: Message.IsPaywallShownChanged
+    ): ReducerResult =
+        if (state is State.Ready) {
+            state.copy(isPaywallShown = message.isPaywallShown) to emptySet()
         } else {
             state to emptySet()
         }

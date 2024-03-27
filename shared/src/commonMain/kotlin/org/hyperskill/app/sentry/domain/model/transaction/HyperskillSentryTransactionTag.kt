@@ -38,4 +38,20 @@ sealed class HyperskillSentryTransactionTag {
             }
         }
     }
+
+    sealed class Step : HyperskillSentryTransactionTag() {
+        override val key: String = "step"
+
+        sealed class Block : Step() {
+            override val key: String =
+                "${super.key}.block"
+
+            class Name(name: String) : Block() {
+                override val key: String =
+                    "${super.key}.name"
+
+                override val value: String = name
+            }
+        }
+    }
 }

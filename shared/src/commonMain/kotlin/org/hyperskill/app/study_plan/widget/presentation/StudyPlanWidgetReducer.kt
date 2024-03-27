@@ -17,6 +17,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Message
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.State
+import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import ru.nobird.app.core.model.slice
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -146,7 +147,17 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
         val currentSectionId = visibleSections[currentSectionIndex].id
         visibleSections = visibleSections.slice(from = currentSectionIndex)
 
-        val studyPlanSections = visibleSections.associate { studyPlanSection ->
+        val supportedSections = visibleSections
+            .filter { studyPlanSection ->
+                // ALTAPPS-1186: We should hide next project section for freemium users
+                if (message.subscription.isFreemium) {
+                    studyPlanSection.type != StudyPlanSectionType.NEXT_PROJECT
+                } else {
+                    true
+                }
+            }
+
+        val studyPlanSections = supportedSections.associate { studyPlanSection ->
             studyPlanSection.id to StudyPlanWidgetFeature.StudyPlanSectionInfo(
                 studyPlanSection = studyPlanSection,
                 isExpanded = studyPlanSection.id == currentSectionId,
@@ -164,7 +175,7 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             isRefreshing = false
         )
 
-        return if (visibleSections.isNotEmpty()) {
+        return if (loadedSectionsState.studyPlanSections.isNotEmpty()) {
             handleLearningActivitiesFetchSuccess(
                 state = loadedSectionsState,
                 message = StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(

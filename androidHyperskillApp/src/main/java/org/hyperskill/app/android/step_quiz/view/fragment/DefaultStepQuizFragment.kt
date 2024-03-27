@@ -222,10 +222,10 @@ abstract class DefaultStepQuizFragment :
         false
 
     override fun onPrepareMenu(menu: Menu) {
-        val menuItem = menu.findItem(R.id.theory)
-        menuItem.isVisible =
+        val menuItem: MenuItem? = menu.findItem(R.id.theory)
+        menuItem?.isVisible =
             theoryButtonState?.isVisible ?: false
-        menuItem.actionView?.apply {
+        menuItem?.actionView?.apply {
             isEnabled =
                 theoryButtonState?.isEnabled ?: false
             setOnClickListener {

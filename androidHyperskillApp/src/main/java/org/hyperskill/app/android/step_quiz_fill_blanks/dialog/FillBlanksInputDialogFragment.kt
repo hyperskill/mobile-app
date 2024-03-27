@@ -1,15 +1,14 @@
 package org.hyperskill.app.android.step_quiz_fill_blanks.dialog
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.requestFocus
 import org.hyperskill.app.android.databinding.FragmentFillBlanksInputBinding
 import ru.nobird.android.view.base.ui.extension.argument
 
@@ -65,10 +64,7 @@ class FillBlanksInputDialogFragment : BottomSheetDialogFragment() {
                 false
             }
             fillBlanksInputField.post {
-                fillBlanksInputField.requestFocus()
-                val inputMethodManager =
-                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.showSoftInput(fillBlanksInputField, InputMethodManager.SHOW_IMPLICIT)
+                fillBlanksInputField.requestFocus(requireContext())
             }
         }
     }

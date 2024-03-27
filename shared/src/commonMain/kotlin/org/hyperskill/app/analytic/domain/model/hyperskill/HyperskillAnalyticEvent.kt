@@ -41,7 +41,7 @@ abstract class HyperskillAnalyticEvent(
 
     override val name: String = this::class.simpleName ?: ""
 
-    @Deprecated("Use extraParams in constructor instead!")
+    @Deprecated("Use context in constructor instead!")
     override val params: Map<String, Any> =
         mapOfNotNull(
             PARAM_CLIENT_TIME to clientTime.toString(),

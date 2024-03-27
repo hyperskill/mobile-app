@@ -16,7 +16,10 @@ struct PaywallView: View {
 
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewWillAppear: viewModel.doScreenShowedAction,
+                onViewWillDisappear: viewModel.doScreenHiddenAction
+            )
 
             BackgroundView(color: appearance.backgroundColor)
 
@@ -95,6 +98,8 @@ private extension PaywallView {
             default:
                 ProgressHUD.show(status: message)
             }
+        case .notifyPaywallIsShown(let data):
+            viewModel.doNotifyPaywallIsShown(isPaywallShown: data.isPaywallShown)
         }
     }
 

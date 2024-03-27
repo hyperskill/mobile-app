@@ -36,6 +36,7 @@ import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
@@ -64,6 +65,8 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
 
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
+
+    fun buildPlatformStepTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent
 
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
 

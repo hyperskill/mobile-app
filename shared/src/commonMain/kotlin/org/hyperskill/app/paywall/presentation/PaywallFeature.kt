@@ -49,6 +49,9 @@ object PaywallFeature {
 
         object ClickedTermsOfServiceAndPrivacyPolicy : Message
 
+        object ScreenShowed : Message
+        object ScreenHidden : Message
+
         object ViewedEventMessage : Message
     }
 
@@ -76,6 +79,8 @@ object PaywallFeature {
             ) : ViewAction
 
             data class OpenUrl(val url: String) : ViewAction
+
+            data class NotifyPaywallIsShown(val isPaywallShown: Boolean) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
                 object Back : NavigateTo

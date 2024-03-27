@@ -69,7 +69,9 @@ internal class StepQuizActionDispatcher(
                 handleFetchAttempt(action, ::onNewMessage)
             is Action.CreateAttempt -> {
                 if (StepQuizResolver.isNeedRecreateAttemptForNewSubmission(action.step)) {
-                    val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateAttempt()
+                    val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateAttempt(
+                        blockName = action.step.block.name
+                    )
                     sentryInteractor.startTransaction(sentryTransaction)
 
                     val reply = (action.submissionState as? StepQuizFeature.SubmissionState.Loaded)
@@ -129,7 +131,9 @@ internal class StepQuizActionDispatcher(
             is Action.CreateSubmission -> {
                 val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
 
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission()
+                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission(
+                    blockName = action.step.block.name
+                )
                 sentryInteractor.startTransaction(sentryTransaction)
 
                 var newAttempt: Attempt? = null
@@ -197,7 +201,9 @@ internal class StepQuizActionDispatcher(
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
-            transaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading(),
+            transaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading(
+                blockName = action.step.block.name
+            ),
             onError = { Message.FetchAttemptError(it) }
         ) {
             val currentSubscription =

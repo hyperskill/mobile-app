@@ -64,6 +64,8 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponent
+import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponentImpl
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
@@ -137,6 +139,14 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
      */
     override fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent =
         PlatformStepQuizComponentImpl(stepQuizComponent)
+
+    /**
+     * Step theory feedback component
+     */
+    override fun buildPlatformStepTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent =
+        PlatformStepTheoryFeedbackComponentImpl(
+            stepTheoryFeedbackComponent = buildStepTheoryFeedbackComponent(stepRoute)
+        )
 
     /**
      * Stage implement component
