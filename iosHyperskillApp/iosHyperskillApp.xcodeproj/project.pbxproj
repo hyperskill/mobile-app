@@ -475,6 +475,8 @@
 		2CDF14D228EEF9690060D972 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D128EEF9690060D972 /* AppTabBarController.swift */; };
 		2CDF14D628EF02740060D972 /* StackRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D528EF02740060D972 /* StackRouter.swift */; };
 		2CDF14D828EF1E080060D972 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */; };
+		2CE0F6EA2BB408160032C439 /* StepTheoryFeedbackModalAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0F6E92BB408160032C439 /* StepTheoryFeedbackModalAssembly.swift */; };
+		2CE0F6EE2BB40B760032C439 /* StepTheoryFeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0F6ED2BB40B760032C439 /* StepTheoryFeedbackViewModel.swift */; };
 		2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */; };
 		2CE1E189292CCB450041FE14 /* UIKitIntrospectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */; };
 		2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */; };
@@ -1187,6 +1189,8 @@
 		2CDF14D128EEF9690060D972 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 		2CDF14D528EF02740060D972 /* StackRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackRouter.swift; sourceTree = "<group>"; };
 		2CDF14D728EF1E080060D972 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
+		2CE0F6E92BB408160032C439 /* StepTheoryFeedbackModalAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTheoryFeedbackModalAssembly.swift; sourceTree = "<group>"; };
+		2CE0F6ED2BB40B760032C439 /* StepTheoryFeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTheoryFeedbackViewModel.swift; sourceTree = "<group>"; };
 		2CE1C4DE27EDFB3800220041 /* FeatureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureViewModel.swift; sourceTree = "<group>"; };
 		2CE1E188292CCB450041FE14 /* UIKitIntrospectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitIntrospectionView.swift; sourceTree = "<group>"; };
 		2CE2817827E8EF1E00641E22 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -3369,8 +3373,8 @@
 		2CD0BA05298B985A0037479A /* Modals */ = {
 			isa = PBXGroup;
 			children = (
-				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
-				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
+				2CE0F6EC2BB40B570032C439 /* TheoryFeedback */,
+				2CE0F6E72BB3F5CC0032C439 /* TopicCompleted */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -3458,6 +3462,24 @@
 				2C2D73432B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		2CE0F6E72BB3F5CC0032C439 /* TopicCompleted */ = {
+			isa = PBXGroup;
+			children = (
+				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
+				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
+			);
+			path = TopicCompleted;
+			sourceTree = "<group>";
+		};
+		2CE0F6EC2BB40B570032C439 /* TheoryFeedback */ = {
+			isa = PBXGroup;
+			children = (
+				2CE0F6E92BB408160032C439 /* StepTheoryFeedbackModalAssembly.swift */,
+				2CE0F6ED2BB40B760032C439 /* StepTheoryFeedbackViewModel.swift */,
+			);
+			path = TheoryFeedback;
 			sourceTree = "<group>";
 		};
 		2CE2817727E8EEDC00641E22 /* Resources */ = {
@@ -4659,6 +4681,7 @@
 				2C5F4A5A2971C71200677530 /* GamificationToolbarContent.swift in Sources */,
 				2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */,
 				2C8E4FB12848C9050011ADFA /* StepQuizTableSelectColumnsView.swift in Sources */,
+				2CE0F6EE2BB40B760032C439 /* StepTheoryFeedbackViewModel.swift in Sources */,
 				2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */,
 				2C1061A2285C349400EBD614 /* StepQuizChildQuizAssembly.swift in Sources */,
 				2CD4EDF92B79D51E0091F0B2 /* View+SafeAreaInset.swift in Sources */,
@@ -5070,6 +5093,7 @@
 				2C069EB128F03782009A3DA1 /* AnalyticExtensions.swift in Sources */,
 				2C688C032A4E8F900061AFFD /* ProgressScreenTrackProgressView.swift in Sources */,
 				2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */,
+				2CE0F6EA2BB408160032C439 /* StepTheoryFeedbackModalAssembly.swift in Sources */,
 				2C4F63A32A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift in Sources */,
 				2C2600832A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift in Sources */,
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,

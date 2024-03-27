@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the theory feedback modal.
+ * Represents a shown analytic event of the step theory feedback modal.
  *
  * JSON payload:
  * ```
@@ -15,7 +15,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "shown",
  *     "part": "modal",
- *     "target": "theory_feedback_modal",
+ *     "target": "step_theory_feedback_modal",
  *     "context": {
  *         "step_id": 1
  *     }
@@ -31,6 +31,6 @@ class StepTheoryFeedbackModalShownHyperskillAnalyticEvent(
     route = route,
     action = HyperskillAnalyticAction.SHOWN,
     part = HyperskillAnalyticPart.MODAL,
-    target = HyperskillAnalyticTarget.THEORY_FEEDBACK_MODAL,
+    target = HyperskillAnalyticTarget.STEP_THEORY_FEEDBACK_MODAL,
     context = mapOf(StepTheoryFeedbackAnalyticKeys.STEP_ID to stepId)
 )

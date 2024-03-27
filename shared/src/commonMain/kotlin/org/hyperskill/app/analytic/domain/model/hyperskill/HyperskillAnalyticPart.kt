@@ -18,6 +18,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     REPEAT_NEXT_TOPIC("repeat_next_topic"),
     REPEAT_TOPIC("repeat_topic"),
     STEP_HINTS("step_hints"),
+    STEP_THEORY_FEEDBACK_MODAL("step_theory_feedback_modal"),
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
