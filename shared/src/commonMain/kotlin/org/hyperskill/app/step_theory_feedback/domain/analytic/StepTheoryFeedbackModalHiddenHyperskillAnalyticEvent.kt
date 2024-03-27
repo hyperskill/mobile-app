@@ -7,15 +7,15 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a hidden analytic event of the theory feedback modal.
+ * Represents a hidden analytic event of the step theory feedback modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "shown",
- *     "part": "modal",
- *     "target": "theory_feedback_modal",
+ *     "action": "hidden",
+ *     "part": "step_theory_feedback_modal",
+ *     "target": "close",
  *     "context": {
  *         "step_id": 1
  *     }
@@ -30,7 +30,7 @@ class StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent(
 ) : HyperskillAnalyticEvent(
     route = route,
     action = HyperskillAnalyticAction.HIDDEN,
-    part = HyperskillAnalyticPart.MODAL,
-    target = HyperskillAnalyticTarget.THEORY_FEEDBACK_MODAL,
+    part = HyperskillAnalyticPart.STEP_THEORY_FEEDBACK_MODAL,
+    target = HyperskillAnalyticTarget.CLOSE,
     context = mapOf(StepTheoryFeedbackAnalyticKeys.STEP_ID to stepId)
 )
