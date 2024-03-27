@@ -7,7 +7,7 @@ import org.hyperskill.app.auth.remote.source.BearerTokenHttpClientPlugin
 import org.hyperskill.app.network.domain.model.AuthorizedClientDependencies
 
 private const val AUTHORIZATION_HEADER = "Authorization"
-private const val LOG_TAG = "BearerTokenHttpClientPlugin"
+private const val LOG_TAG = "BearerTokenPlugin"
 
 internal fun HttpClientConfig<*>.installBearerTokenPlugin(
     dependencies: AuthorizedClientDependencies,
