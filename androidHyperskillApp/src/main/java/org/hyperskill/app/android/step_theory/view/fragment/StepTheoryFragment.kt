@@ -32,7 +32,7 @@ import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
-import org.hyperskill.app.android.theory_feedback.dialog.TheoryFeedbackDialogFragment
+import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
@@ -245,9 +245,9 @@ class StepTheoryFragment :
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {
             R.id.theoryFeedback -> {
-                TheoryFeedbackDialogFragment
+                StepTheoryFeedbackDialogFragment
                     .newInstance(stepRoute)
-                    .showIfNotExists(childFragmentManager, TheoryFeedbackDialogFragment.TAG)
+                    .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
                 true
             }
             else -> {

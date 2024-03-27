@@ -64,10 +64,10 @@ import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
+import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponent
+import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponentImpl
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponentImpl
-import org.hyperskill.app.theory_feedback.injection.PlatformTheoryFeedbackComponent
-import org.hyperskill.app.theory_feedback.injection.PlatformTheoryFeedbackComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponentImpl
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
@@ -294,8 +294,8 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
             manageSubscriptionComponent = buildManageSubscriptionComponent()
         )
 
-    override fun buildPlatformTheoryFeedbackComponent(stepRoute: StepRoute): PlatformTheoryFeedbackComponent =
-        PlatformTheoryFeedbackComponentImpl(
-            theoryFeedbackComponent = buildTheoryFeedbackComponent(stepRoute)
+    override fun buildPlatformTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent =
+        PlatformStepTheoryFeedbackComponentImpl(
+            stepTheoryFeedbackComponent = buildTheoryFeedbackComponent(stepRoute)
         )
 }

@@ -1,21 +1,21 @@
-package org.hyperskill.app.theory_feedback.presentation
+package org.hyperskill.app.step_theory_feedback.presentation
 
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.theory_feedback.domain.analytic.TheoryFeedbackModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.theory_feedback.domain.analytic.TheoryFeedbackModalSendButtonClickedHyperskillAnalyticEvent
-import org.hyperskill.app.theory_feedback.domain.analytic.TheoryFeedbackModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.Action
-import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.InternalAction
-import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.Message
-import org.hyperskill.app.theory_feedback.presentation.TheoryFeedbackFeature.State
+import org.hyperskill.app.step_theory_feedback.domain.analytic.StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_theory_feedback.domain.analytic.StepTheoryFeedbackModalSendButtonClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step_theory_feedback.domain.analytic.StepTheoryFeedbackModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.Action
+import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.InternalAction
+import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.Message
+import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-private typealias TheoryFeedbackReducerResult = Pair<State, Set<Action>>
+private typealias ReducerResult = Pair<State, Set<Action>>
 
-internal class TheoryFeedbackReducer(
+internal class StepTheoryFeedbackReducer(
     private val stepRoute: StepRoute
 ) : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): TheoryFeedbackReducerResult =
+    override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             Message.AlertShown -> handleAlertShown(state)
             Message.AlertHidden -> handleAlertHidden(state)
@@ -23,20 +23,20 @@ internal class TheoryFeedbackReducer(
             is Message.FeedbackTextChanged -> handleFeedbackTextChanged(state, message)
         }
 
-    private fun handleAlertShown(state: State): TheoryFeedbackReducerResult =
+    private fun handleAlertShown(state: State): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                TheoryFeedbackModalShownHyperskillAnalyticEvent(
+                StepTheoryFeedbackModalShownHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
                     stepId = stepRoute.stepId
                 )
             )
         )
 
-    private fun handleAlertHidden(state: State): TheoryFeedbackReducerResult =
+    private fun handleAlertHidden(state: State): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                TheoryFeedbackModalHiddenHyperskillAnalyticEvent(
+                StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
                     stepId = stepRoute.stepId
                 )
@@ -46,13 +46,13 @@ internal class TheoryFeedbackReducer(
     private fun handleFeedbackTextChanged(
         state: State,
         message: Message.FeedbackTextChanged
-    ): TheoryFeedbackReducerResult =
+    ): ReducerResult =
         state.copy(feedback = message.text) to emptySet()
 
-    private fun handleSendButtonClicked(state: State): TheoryFeedbackReducerResult =
+    private fun handleSendButtonClicked(state: State): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                TheoryFeedbackModalSendButtonClickedHyperskillAnalyticEvent(
+                StepTheoryFeedbackModalSendButtonClickedHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
                     stepId = stepRoute.stepId,
                     feedback = state.feedback ?: ""

@@ -68,13 +68,13 @@ import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataCompon
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
-import org.hyperskill.app.theory_feedback.injection.TheoryFeedbackComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
@@ -191,5 +191,5 @@ interface AppGraph {
     fun buildUsersQuestionnaireDataComponent(): UsersQuestionnaireDataComponent
     fun buildUsersQuestionnaireWidgetComponent(): UsersQuestionnaireWidgetComponent
     fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
-    fun buildTheoryFeedbackComponent(stepRoute: StepRoute): TheoryFeedbackComponent
+    fun buildTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent
 }

@@ -124,6 +124,8 @@ import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
+import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponentImpl
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
@@ -136,8 +138,6 @@ import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
-import org.hyperskill.app.theory_feedback.injection.TheoryFeedbackComponent
-import org.hyperskill.app.theory_feedback.injection.TheoryFeedbackComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -504,6 +504,6 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
         UsersQuestionnaireOnboardingComponentImpl(this)
 
-    override fun buildTheoryFeedbackComponent(stepRoute: StepRoute): TheoryFeedbackComponent =
-        TheoryFeedbackComponentImpl(this, stepRoute)
+    override fun buildTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent =
+        StepTheoryFeedbackComponentImpl(this, stepRoute)
 }

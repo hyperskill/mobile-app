@@ -1,4 +1,4 @@
-package org.hyperskill.app.theory_feedback.domain.analytic
+package org.hyperskill.app.step_theory_feedback.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents a shown analytic event of the theory feedback modal.
+ * Represents a hidden analytic event of the theory feedback modal.
  *
  * JSON payload:
  * ```
@@ -21,15 +21,16 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     }
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-internal class TheoryFeedbackModalShownHyperskillAnalyticEvent(
+class StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     stepId: Long
 ) : HyperskillAnalyticEvent(
     route = route,
-    action = HyperskillAnalyticAction.SHOWN,
+    action = HyperskillAnalyticAction.HIDDEN,
     part = HyperskillAnalyticPart.MODAL,
     target = HyperskillAnalyticTarget.THEORY_FEEDBACK_MODAL,
-    context = mapOf(TheoryFeedbackAnalyticKeys.STEP_ID to stepId)
+    context = mapOf(StepTheoryFeedbackAnalyticKeys.STEP_ID to stepId)
 )

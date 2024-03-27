@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:maxLines="5"
-        android:hint="@string/theory_feedback_alert_hint"/>
+        android:hint="@string/step_theory_feedback_alert_hint"/>
 
 </com.google.android.material.textfield.TextInputLayout>
