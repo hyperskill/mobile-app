@@ -16,6 +16,8 @@ struct StepTheoryContentView: View {
 
     let startPracticingButton: StartPracticingButton?
 
+    let onTheoryFeedbackButtonTap: () -> Void
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
@@ -34,6 +36,15 @@ struct StepTheoryContentView: View {
                 buildStartPracticingButton(isLocatedAtBeginning: false)
             }
             .padding()
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(
+                    action: onTheoryFeedbackButtonTap,
+                    label: { Image(systemName: "flag") }
+                )
+                .disabled(!isStepTextContentLoaded)
+            }
         }
     }
 }
@@ -68,7 +79,8 @@ extension StepTheoryContentView {
         startPracticingButton: StepTheoryContentView.StartPracticingButton(
             isLoading: false,
             action: { _ in }
-        )
+        ),
+        onTheoryFeedbackButtonTap: {}
     )
 }
 #endif
