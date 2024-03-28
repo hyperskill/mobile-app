@@ -2,9 +2,9 @@ package org.hyperskill.app.android.step_quiz_code.view.model.config
 
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.view.displayLanguage
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
 
 class CommonCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
 

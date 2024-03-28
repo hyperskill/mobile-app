@@ -6,15 +6,15 @@ import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.AttemptStatus
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.repository.AttemptRepository
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
+import org.hyperskill.app.submissions.domain.model.SubmissionStatus
+import org.hyperskill.app.submissions.domain.repository.SubmissionsRepository
 
 class StepQuizInteractor(
     private val attemptRepository: AttemptRepository,
-    private val submissionRepository: SubmissionRepository,
+    private val submissionsRepository: SubmissionsRepository,
     private val stepCompletedFlow: StepCompletedFlow
 ) {
     companion object {
@@ -39,7 +39,7 @@ class StepQuizInteractor(
         attemptRepository.createAttemptForStep(stepId)
 
     suspend fun getSubmission(attemptId: Long, stepId: Long, userId: Long): Result<Submission?> =
-        submissionRepository
+        submissionsRepository
             .getSubmissionsForAttempt(attemptId, stepId, userId)
             .map { it.firstOrNull() }
 
@@ -50,7 +50,7 @@ class StepQuizInteractor(
         solvingContext: StepContext
     ): Result<Submission> =
         kotlin.runCatching {
-            val submission = submissionRepository
+            val submission = submissionsRepository
                 .createSubmission(attemptId, reply, solvingContext)
                 .getOrThrow()
 
@@ -61,7 +61,7 @@ class StepQuizInteractor(
             }
 
             if (evaluatedSubmission.status == SubmissionStatus.CORRECT) {
-                submissionRepository.incrementSolvedStepsCount()
+                submissionsRepository.incrementSolvedStepsCount()
                 stepCompletedFlow.notifyDataChanged(stepId)
             }
 
@@ -71,7 +71,7 @@ class StepQuizInteractor(
     private suspend fun pollSubmission(submissionId: Long, retryCount: Int = 1): Submission {
         delay(POLL_SUBMISSION_INTERVAL * retryCount)
 
-        val submission = submissionRepository
+        val submission = submissionsRepository
             .getSubmissions(listOf(submissionId))
             .getOrThrow()
             .first()

@@ -10,9 +10,9 @@ import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
 import org.hyperskill.app.android.databinding.LayoutEmbeddedCodeEditorBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.submissions.domain.model.Reply
 
 class CodeStepQuizFormDelegate(
     private val context: Context,

@@ -5,8 +5,8 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.isIdeRequired
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
-import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
+import org.hyperskill.app.submissions.domain.model.SubmissionStatus
+import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 
 object StepQuizResolver {
     fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean {

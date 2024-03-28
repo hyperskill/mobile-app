@@ -8,11 +8,11 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
 object StepQuizFeature {

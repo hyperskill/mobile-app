@@ -25,9 +25,6 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditor
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
@@ -39,6 +36,9 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
+import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 

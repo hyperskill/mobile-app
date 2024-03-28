@@ -1,10 +1,10 @@
 package org.hyperskill.app.android.step_quiz.view.mapper
 
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
-import org.hyperskill.app.step_quiz.domain.model.submissions.formattedText
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import org.hyperskill.app.submissions.domain.model.Submission
+import org.hyperskill.app.submissions.domain.model.SubmissionStatus
+import org.hyperskill.app.submissions.domain.model.formattedText
 
 class StepQuizFeedbackMapper {
     fun mapToStepQuizFeedbackState(

@@ -3,9 +3,9 @@ package org.hyperskill.app.android.step_quiz_code.view.model.config
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.pycharmCode
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
-import org.hyperskill.app.step_quiz.domain.model.submissions.pycharmCode
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
+import org.hyperskill.app.submissions.domain.model.pycharmCode
 
 class PycharmCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
     override val langName: String =
