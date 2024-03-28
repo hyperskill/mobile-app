@@ -86,8 +86,7 @@ private extension ManageSubscriptionView {
         case .paywall(let data):
             let assembly = PaywallAssembly(
                 context: .init(
-                    source: data.paywallTransitionSource,
-                    moduleOutput: nil
+                    source: data.paywallTransitionSource
                 )
             )
             stackRouter.pushViewController(assembly.makeModule())

@@ -77,8 +77,6 @@ private extension PaywallView {
         switch PaywallFeatureActionViewActionKs(viewAction) {
         case .closePaywall:
             presentationMode.wrappedValue.dismiss()
-        case .completePaywall:
-            viewModel.doCompletePaywall()
         case .navigateTo(let navigateToViewAction):
             handleNavigateToViewAction(
                 PaywallFeatureActionViewActionNavigateToKs(navigateToViewAction)

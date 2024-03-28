@@ -180,8 +180,6 @@ internal class PaywallReducer(
             PaywallTransitionSource.APP_BECOMES_ACTIVE,
             PaywallTransitionSource.MANAGE_SUBSCRIPTION ->
                 Action.ViewAction.ClosePaywall
-            PaywallTransitionSource.LOGIN ->
-                Action.ViewAction.CompletePaywall
             PaywallTransitionSource.PROFILE_SETTINGS ->
                 Action.ViewAction.NavigateTo.BackToProfileSettings
             PaywallTransitionSource.PROBLEMS_LIMIT_MODAL ->
