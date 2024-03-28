@@ -10,4 +10,6 @@ interface SubmissionsRemoteDataSource {
     suspend fun getSubmissions(submissionsIds: List<Long>): Result<List<Submission>>
 
     suspend fun createSubmission(attemptId: Long, reply: Reply, solvingContext: StepContext): Result<Submission>
+
+    suspend fun generateCodeWithErrors(stepId: Long): Result<String>
 }
