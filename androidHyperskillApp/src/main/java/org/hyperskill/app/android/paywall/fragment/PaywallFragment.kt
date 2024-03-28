@@ -31,7 +31,6 @@ import ru.nobird.android.view.base.ui.extension.argument
 
 class PaywallFragment : Fragment() {
     companion object {
-        const val PAYWALL_COMPLETED = "PAYWALL_COMPLETED"
         const val PAYWALL_IS_SHOWN_CHANGED = "PAYWALL_IS_SHOWN_CHANGED"
 
         fun newInstance(paywallTransitionSource: PaywallTransitionSource): PaywallFragment =
@@ -89,9 +88,6 @@ class PaywallFragment : Fragment() {
 
     private fun onAction(action: ViewAction) {
         when (action) {
-            ViewAction.CompletePaywall -> {
-                requireAppRouter().sendResult(PAYWALL_COMPLETED, Any())
-            }
             is ViewAction.NotifyPaywallIsShown -> {
                 requireAppRouter().sendResult(PAYWALL_IS_SHOWN_CHANGED, action.isPaywallShown)
             }

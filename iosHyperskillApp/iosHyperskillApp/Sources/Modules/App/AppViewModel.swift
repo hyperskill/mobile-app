@@ -161,18 +161,6 @@ extension AppViewModel: FirstProblemOnboardingOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: PaywallOutputProtocol -
-
-extension AppViewModel: PaywallOutputProtocol {
-    func handlePaywallCompleted() {
-        onNewMessage(
-            AppFeatureMessageWelcomeOnboardingMessage(
-                message: WelcomeOnboardingFeatureMessagePaywallCompleted()
-            )
-        )
-    }
-}
-
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {

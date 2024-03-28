@@ -229,8 +229,7 @@ private extension ProfileSettingsView {
 
                 let assembly = PaywallAssembly(
                     context: .init(
-                        source: data.paywallTransitionSource,
-                        moduleOutput: nil
+                        source: data.paywallTransitionSource
                     )
                 )
 

@@ -13,7 +13,7 @@ import org.hyperskill.app.purchases.domain.model.PurchaseResult
 
 class PaywallTest {
     private val reducer = PaywallReducer(
-        paywallTransitionSource = PaywallTransitionSource.LOGIN,
+        paywallTransitionSource = PaywallTransitionSource.APP_BECOMES_ACTIVE,
         resourceProvider = ResourceProviderStub()
     )
 

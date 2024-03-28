@@ -326,8 +326,7 @@ struct StepQuizView: View {
             case .paywall(let data):
                 let assembly = PaywallAssembly(
                     context: .init(
-                        source: data.paywallTransitionSource,
-                        moduleOutput: nil
+                        source: data.paywallTransitionSource
                     )
                 )
                 modalRouter.present(module: assembly.makeModule())

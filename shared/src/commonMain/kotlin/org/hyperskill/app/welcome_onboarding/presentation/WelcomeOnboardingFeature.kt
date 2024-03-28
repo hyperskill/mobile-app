@@ -1,10 +1,8 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
 
 object WelcomeOnboardingFeature {
@@ -13,8 +11,6 @@ object WelcomeOnboardingFeature {
 
     sealed interface Message {
         object NotificationOnboardingCompleted : Message
-
-        object PaywallCompleted : Message
 
         object UsersQuestionnaireOnboardingCompleted : Message
 
@@ -30,10 +26,6 @@ object WelcomeOnboardingFeature {
         data class FirstProblemOnboardingDataFetched(
             val wasFirstProblemOnboardingShown: Boolean
         ) : InternalMessage
-
-        data class FetchSubscriptionSuccess(val subscription: Subscription) : InternalMessage
-
-        object FetchSubscriptionError : InternalMessage
     }
 
     sealed interface Action {
@@ -48,15 +40,12 @@ object WelcomeOnboardingFeature {
                 data class FirstProblemOnboardingScreen(val isNewUserMode: Boolean) : NavigateTo
 
                 data class StudyPlanWithStep(val stepRoute: StepRoute) : NavigateTo
-
-                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }
 
     internal sealed interface InternalAction : Action {
         object FetchFirstProblemOnboardingData : InternalAction
-        object FetchSubscription : InternalAction
     }
 }
 
