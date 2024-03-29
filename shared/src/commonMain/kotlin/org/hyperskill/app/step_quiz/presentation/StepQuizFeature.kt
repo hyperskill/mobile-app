@@ -31,6 +31,7 @@ object StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
+            val isFixGptCodeGenerationMistakesBadgeVisible: Boolean,
             internal val isTheoryAvailable: Boolean
         ) : StepQuizState
 

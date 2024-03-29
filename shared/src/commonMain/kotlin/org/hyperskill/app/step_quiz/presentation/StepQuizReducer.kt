@@ -90,6 +90,7 @@ internal class StepQuizReducer(
                             attempt = message.attempt,
                             submissionState = message.submissionState,
                             isProblemsLimitReached = message.isProblemsLimitReached,
+                            isFixGptCodeGenerationMistakesBadgeVisible = false,
                             isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
                         )
                     ) to emptySet()
@@ -385,21 +386,18 @@ internal class StepQuizReducer(
                     )
                 }
 
-                val submissionState = applyGptGeneratedCodeWithErrorsIfNeeded(
+                val stepQuizState = StepQuizState.AttemptLoaded(
                     step = message.step,
+                    attempt = message.attempt,
                     submissionState = message.submissionState,
-                    gptCodeGenerationWithErrorsData = message.gptCodeGenerationWithErrorsData
-                )
+                    isProblemsLimitReached = isProblemsLimitReached,
+                    isFixGptCodeGenerationMistakesBadgeVisible = false,
+                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
+                ).let {
+                    applyGptGeneratedCodeWithErrorsIfNeeded(it, message.gptCodeGenerationWithErrorsData)
+                }
 
-                state.copy(
-                    stepQuizState = StepQuizState.AttemptLoaded(
-                        step = message.step,
-                        attempt = message.attempt,
-                        submissionState = submissionState,
-                        isProblemsLimitReached = isProblemsLimitReached,
-                        isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
-                    )
-                ) to actions
+                state.copy(stepQuizState = stepQuizState) to actions
             }
         } else {
             state to emptySet()
@@ -566,27 +564,29 @@ internal class StepQuizReducer(
         }
 
     private fun applyGptGeneratedCodeWithErrorsIfNeeded(
-        step: Step,
-        submissionState: StepQuizFeature.SubmissionState,
+        state: StepQuizState.AttemptLoaded,
         gptCodeGenerationWithErrorsData: StepQuizFeature.GptCodeGenerationWithErrorsData
-    ): StepQuizFeature.SubmissionState {
+    ): StepQuizState.AttemptLoaded {
         if (!gptCodeGenerationWithErrorsData.isEnabled) {
-            return submissionState
+            return state
         }
-        if (submissionState !is StepQuizFeature.SubmissionState.Empty) {
-            return submissionState
+        if (state.submissionState !is StepQuizFeature.SubmissionState.Empty) {
+            return state
         }
 
-        val code = gptCodeGenerationWithErrorsData.code?.takeIf { it.isNotBlank() } ?: return submissionState
+        val code = gptCodeGenerationWithErrorsData.code?.takeIf { it.isNotBlank() } ?: return state
 
-        val reply = when (step.block.name) {
+        val reply = when (state.step.block.name) {
             BlockName.CODE -> Reply.code(code = code, language = null)
-            BlockName.PYCHARM -> Reply.pycharm(step = step, pycharmCode = code)
+            BlockName.PYCHARM -> Reply.pycharm(step = state.step, pycharmCode = code)
             BlockName.SQL -> Reply.sql(sqlCode = code)
             else -> null
-        } ?: return submissionState
+        } ?: return state
 
-        return StepQuizFeature.SubmissionState.Empty(reply = reply)
+        return state.copy(
+            submissionState = StepQuizFeature.SubmissionState.Empty(reply = reply),
+            isFixGptCodeGenerationMistakesBadgeVisible = true
+        )
     }
 
     private fun reduceStepQuizHintsMessage(

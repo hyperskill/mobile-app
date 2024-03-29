@@ -182,6 +182,8 @@ enum Strings {
         static let reset = sharedStrings.step_quiz_code_reset.localized()
 
         static let codeEditorTitle = sharedStrings.step_quiz_code_editor_title.localized()
+
+        static let badgeFixMistakes = sharedStrings.step_quiz_code_badge_fix_mistakes_title.localized()
     }
 
     // MARK: - StepQuizSQL -
