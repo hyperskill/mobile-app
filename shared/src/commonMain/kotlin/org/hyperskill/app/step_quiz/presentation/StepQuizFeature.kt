@@ -31,7 +31,7 @@ object StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
-            val isFixGptCodeGenerationMistakesBadgeVisible: Boolean,
+            val isFixGptCodeGenerationMistakesBadgeVisible: Boolean = false,
             internal val isTheoryAvailable: Boolean
         ) : StepQuizState
 
@@ -191,11 +191,6 @@ object StepQuizFeature {
         data class SaveProblemOnboardingModalShownCacheFlag(val modalType: ProblemOnboardingModal) : Action
 
         /**
-         * Analytic
-         */
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-
-        /**
          * Action Wrappers
          */
         data class StepQuizHintsAction(val action: StepQuizHintsFeature.Action) : Action
@@ -237,5 +232,7 @@ object StepQuizFeature {
         data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
 
         data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

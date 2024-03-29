@@ -102,6 +102,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     NOT_NOW("not_now"),
     FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
     CODE_INPUT_ACCESSORY_BUTTON("code_input_accessory_button"),
+    GPT_GENERATED_CODE_WITH_ERRORS("gpt_generated_code_with_errors"),
     SHARE_YOUR_STREAK("share_your_streak"),
     SHARE_STREAK_MODAL("share_streak_modal"),
     SHARE("share"),

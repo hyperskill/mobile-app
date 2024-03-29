@@ -196,7 +196,7 @@ internal class StepQuizActionDispatcher(
                         onFailure = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizError) }
                     )
             }
-            is Action.LogAnalyticEvent ->
+            is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}
         }
