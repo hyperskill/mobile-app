@@ -79,11 +79,7 @@ object StepQuizResolver {
         if (step.isIdeRequired()) {
             return true
         } else if (step.block.name == BlockName.PYCHARM) {
-            val reply = when (submissionState) {
-                is StepQuizFeature.SubmissionState.Empty -> submissionState.reply
-                is StepQuizFeature.SubmissionState.Loaded -> submissionState.submission.reply
-            } ?: return false
-
+            val reply = submissionState.reply ?: return false
             val visibleFilesCount = reply.solution?.count { it.isVisible } ?: 0
 
             return visibleFilesCount > 1 || (visibleFilesCount <= 1 && reply.checkProfile?.isEmpty() == true)
@@ -170,4 +166,12 @@ object StepQuizResolver {
             }
         }
     }
+
+    internal fun isGptCodeGenerationWithErrorsAvailable(
+        step: Step,
+        isMobileGptCodeGenerationWithErrorsEnabled: Boolean
+    ): Boolean =
+        isMobileGptCodeGenerationWithErrorsEnabled &&
+            BlockName.codeRelatedBlocksNames.contains(step.block.name) &&
+            !step.isIdeRequired()
 }

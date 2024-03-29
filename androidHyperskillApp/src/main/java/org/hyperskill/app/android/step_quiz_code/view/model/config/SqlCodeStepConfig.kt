@@ -4,7 +4,6 @@ import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
 import org.hyperskill.app.code.domain.model.ProgrammingLanguage
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.submissions.domain.model.Reply
-import org.hyperskill.app.submissions.domain.model.Submission
 
 class SqlCodeStepConfig(private val step: Step) : CodeStepQuizConfig {
 
@@ -23,6 +22,6 @@ class SqlCodeStepConfig(private val step: Step) : CodeStepQuizConfig {
     override fun createReply(code: String?): Reply =
         Reply.sql(code)
 
-    override fun getCode(submission: Submission?): String =
-        submission?.reply?.solveSql ?: initialCode
+    override fun getCode(reply: Reply?): String =
+        reply?.solveSql ?: initialCode
 }

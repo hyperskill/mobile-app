@@ -60,17 +60,13 @@ object StepQuizFeature {
         val unlockLimitsButtonText: String?
     )
 
+    internal data class GptCodeGenerationWithErrorsData(
+        val isEnabled: Boolean,
+        val code: String?
+    )
+
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
-        data class FetchAttemptSuccess(
-            val step: Step,
-            val attempt: Attempt,
-            val submissionState: SubmissionState,
-            val isProblemsLimitReached: Boolean,
-            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
-            val problemsOnboardingFlags: ProblemsOnboardingFlags
-        ) : Message
-        data class FetchAttemptError(val throwable: Throwable) : Message
 
         /**
          * Create/retry attempt
@@ -150,6 +146,17 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        data class FetchAttemptSuccess(
+            val step: Step,
+            val attempt: Attempt,
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean,
+            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
+            val problemsOnboardingFlags: ProblemsOnboardingFlags,
+            val gptCodeGenerationWithErrorsData: GptCodeGenerationWithErrorsData
+        ) : InternalMessage
+        data class FetchAttemptError(val throwable: Throwable) : InternalMessage
+
         data class UpdateProblemsLimitResult(
             val isProblemsLimitReached: Boolean,
             val problemsLimitReachedModalData: ProblemsLimitReachedModalData?

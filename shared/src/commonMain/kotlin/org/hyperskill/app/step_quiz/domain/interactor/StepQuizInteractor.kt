@@ -82,4 +82,7 @@ class StepQuizInteractor(
             submission
         }
     }
+
+    suspend fun generateGptCodeWithErrors(stepId: Long): Result<String> =
+        submissionsRepository.generateCodeWithErrors(stepId)
 }

@@ -26,6 +26,7 @@ import org.hyperskill.app.android.step_quiz_fullscreen_code.dialog.CodeStepQuizF
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import org.hyperskill.app.step_quiz.presentation.reply
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -161,9 +162,7 @@ class CodeStepQuizFragment :
 
     override fun onNewState(state: StepQuizFeature.State) {
         (state.stepQuizState as? StepQuizFeature.StepQuizState.AttemptLoaded)?.let { attemptLoadedState ->
-            val submission = (attemptLoadedState.submissionState as? StepQuizFeature.SubmissionState.Loaded)
-                ?.submission
-            val replyCode = config.getCode(submission)
+            val replyCode = config.getCode(attemptLoadedState.submissionState.reply)
             val fullScreenFragment = childFragmentManager
                 .findFragmentByTag(CodeStepQuizFullScreenDialogFragment.TAG) as? CodeStepQuizFullScreenDialogFragment
             fullScreenFragment?.onNewCode(replyCode)

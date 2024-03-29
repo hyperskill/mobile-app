@@ -42,6 +42,9 @@ data class Reply(
 ) {
 
     companion object {
+        fun code(code: String?, language: String?): Reply =
+            Reply(code = code, language = language)
+
         fun sql(sqlCode: String?): Reply =
             Reply(solveSql = sqlCode)
 
