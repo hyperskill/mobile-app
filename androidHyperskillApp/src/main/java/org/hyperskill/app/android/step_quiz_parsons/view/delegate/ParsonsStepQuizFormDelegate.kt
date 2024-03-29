@@ -14,13 +14,13 @@ import org.hyperskill.app.android.step_quiz_parsons.view.adapter.ParsonsLinesAda
 import org.hyperskill.app.android.step_quiz_parsons.view.mapper.ParsonsLinesMapper
 import org.hyperskill.app.android.step_quiz_parsons.view.model.ParsonsLineControlMessage
 import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.swap
-import org.hyperskill.app.step_quiz.domain.model.submissions.ParsonsLine as DomainParsonsLine
+import org.hyperskill.app.submissions.domain.model.ParsonsLine as DomainParsonsLine
 
 class ParsonsStepQuizFormDelegate(
     context: Context,

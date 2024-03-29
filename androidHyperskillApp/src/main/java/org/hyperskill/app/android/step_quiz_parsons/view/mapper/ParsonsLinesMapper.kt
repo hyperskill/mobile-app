@@ -9,7 +9,7 @@ import org.hyperskill.app.android.step_quiz_parsons.view.model.UiParsonsLine
 import org.hyperskill.app.code.domain.model.fileExtensionForLanguage
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.submissions.domain.model.Submission
 
 class ParsonsLinesMapper(
     private val codeTheme: CodeTheme

@@ -20,7 +20,6 @@ import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksSelectOp
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksUiItem
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.HighlightResult
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.ResolveState
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.submission
@@ -31,6 +30,7 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksOption
 import org.hyperskill.app.step_quiz_fill_blanks.model.InvalidFillBlanksConfigException
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
+import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.core.model.mutate

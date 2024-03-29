@@ -70,7 +70,7 @@ class AndroidStepQuizTest {
                         stepQuizState = StepQuizFeature.StepQuizState.Loading,
                         stepQuizHintsState = StepQuizHintsFeature.State.Idle
                     ),
-                    StepQuizFeature.Message.FetchAttemptSuccess(
+                    StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                         step,
                         attempt,
                         submissionState,
@@ -80,6 +80,10 @@ class AndroidStepQuizTest {
                             isParsonsOnboardingShown = false,
                             isFillBlanksInputModeOnboardingShown = false,
                             isFillBlanksSelectModeOnboardingShown = false
+                        ),
+                        gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
+                            isEnabled = false,
+                            code = null
                         )
                     )
                 )

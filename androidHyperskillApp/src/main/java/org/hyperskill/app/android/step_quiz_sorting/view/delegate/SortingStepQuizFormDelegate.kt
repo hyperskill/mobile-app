@@ -7,9 +7,9 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_sorting.view.adapter.SortingOptionAdapterDelegate
 import org.hyperskill.app.android.step_quiz_sorting.view.mapper.SortingOptionMapper
 import org.hyperskill.app.android.step_quiz_sorting.view.model.SortingOption
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.app.core.model.swap
 

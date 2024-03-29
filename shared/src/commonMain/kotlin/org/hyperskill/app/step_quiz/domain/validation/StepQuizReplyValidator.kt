@@ -3,8 +3,8 @@ package org.hyperskill.app.step_quiz.domain.validation
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.step.domain.model.BlockName
-import org.hyperskill.app.step_quiz.domain.model.submissions.ChoiceAnswer
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
+import org.hyperskill.app.submissions.domain.model.ChoiceAnswer
+import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.app.core.model.safeCast
 
 class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {

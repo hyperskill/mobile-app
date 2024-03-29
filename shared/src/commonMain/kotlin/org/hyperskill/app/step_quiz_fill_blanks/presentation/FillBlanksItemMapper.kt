@@ -4,14 +4,14 @@ import org.hyperskill.app.core.utils.DotMatchesAllRegexOption
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.model.attempts.Component
 import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksConfig
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksData
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksItem
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksOption
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksItemMapper.Companion.WHITE_SPACE_HTML_STRING
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
 import ru.nobird.app.core.model.mutate
 import ru.nobird.app.core.model.slice
 

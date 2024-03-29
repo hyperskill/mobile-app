@@ -9,12 +9,12 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.submissions.domain.model.Submission
+import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
@@ -48,7 +48,7 @@ class StepQuizTest {
                     stepQuizState = StepQuizFeature.StepQuizState.Loading,
                     stepQuizHintsState = StepQuizHintsFeature.State.Idle
                 ),
-                StepQuizFeature.Message.FetchAttemptSuccess(
+                StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                     step,
                     attempt,
                     submissionState,
@@ -62,6 +62,10 @@ class StepQuizTest {
                         isParsonsOnboardingShown = false,
                         isFillBlanksInputModeOnboardingShown = false,
                         isFillBlanksSelectModeOnboardingShown = false
+                    ),
+                    gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
+                        isEnabled = false,
+                        code = null
                     )
                 )
             )
@@ -97,7 +101,7 @@ class StepQuizTest {
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle
             ),
-            StepQuizFeature.Message.FetchAttemptSuccess(
+            StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
                 attempt,
                 submissionState,
@@ -111,6 +115,10 @@ class StepQuizTest {
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
                     isFillBlanksSelectModeOnboardingShown = false
+                ),
+                gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
+                    isEnabled = false,
+                    code = null
                 )
             )
         )
@@ -339,7 +347,7 @@ class StepQuizTest {
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle
             ),
-            StepQuizFeature.Message.FetchAttemptSuccess(
+            StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
                 attempt,
                 submissionState,
@@ -349,6 +357,10 @@ class StepQuizTest {
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
                     isFillBlanksSelectModeOnboardingShown = false
+                ),
+                gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
+                    isEnabled = false,
+                    code = null
                 )
             )
         )
@@ -366,7 +378,7 @@ class StepQuizTest {
             }
         }
         assertTrue {
-            val analyticActions = finalActions.filterIsInstance<StepQuizFeature.Action.LogAnalyticEvent>()
+            val analyticActions = finalActions.filterIsInstance<StepQuizFeature.InternalAction.LogAnalyticEvent>()
             analyticActions.any {
                 (it.analyticEvent as StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent)
                     .topicTheoryId == topicTheoryId
@@ -401,7 +413,7 @@ class StepQuizTest {
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle
             ),
-            StepQuizFeature.Message.FetchAttemptSuccess(
+            StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
                 attempt,
                 submissionState,
@@ -411,6 +423,10 @@ class StepQuizTest {
                     isParsonsOnboardingShown = false,
                     isFillBlanksInputModeOnboardingShown = false,
                     isFillBlanksSelectModeOnboardingShown = false
+                ),
+                gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
+                    isEnabled = false,
+                    code = null
                 )
             )
         )
