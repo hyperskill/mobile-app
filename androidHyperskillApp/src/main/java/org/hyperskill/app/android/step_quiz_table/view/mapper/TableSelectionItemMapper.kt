@@ -2,9 +2,9 @@ package org.hyperskill.app.android.step_quiz_table.view.mapper
 
 import org.hyperskill.app.android.step_quiz_table.view.model.TableSelectionItem
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
-import org.hyperskill.app.step_quiz.domain.model.submissions.ChoiceAnswer
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
+import org.hyperskill.app.submissions.domain.model.Cell
+import org.hyperskill.app.submissions.domain.model.ChoiceAnswer
+import org.hyperskill.app.submissions.domain.model.Submission
 import ru.nobird.app.core.model.safeCast
 
 class TableSelectionItemMapper {
