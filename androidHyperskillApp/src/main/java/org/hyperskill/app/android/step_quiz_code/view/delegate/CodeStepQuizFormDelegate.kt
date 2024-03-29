@@ -4,10 +4,12 @@ import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import com.google.android.material.button.MaterialButton
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.view.widget.withoutTextChangeCallback
 import org.hyperskill.app.android.databinding.LayoutEmbeddedCodeEditorBinding
+import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_code.view.model.config.CodeStepQuizConfig
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -17,12 +19,15 @@ import org.hyperskill.app.submissions.domain.model.Reply
 
 class CodeStepQuizFormDelegate(
     private val context: Context,
-    private val viewBinding: LayoutEmbeddedCodeEditorBinding,
+    private val viewBinding: LayoutStepQuizCodeBinding,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val codeStepQuizConfig: CodeStepQuizConfig,
     private val onFullscreenClicked: (lang: String, code: String) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
+
+    private val codeEditorViewBinding: LayoutEmbeddedCodeEditorBinding =
+        viewBinding.stepQuizCodeEmbeddedEditor
 
     private var code: String? = codeStepQuizConfig.initialCode
     private var textWatcher: TextWatcher = object : TextWatcher {
@@ -41,7 +46,7 @@ class CodeStepQuizFormDelegate(
             setLanguage(codeStepQuizConfig.langName, code)
             setDetailsContentData(codeStepQuizConfig.langName)
         }
-        with(viewBinding) {
+        with(codeEditorViewBinding) {
             embeddedCodeEditorExpand.setOnClickListener {
                 onFullscreenClicked(
                     codeStepQuizConfig.langName,
@@ -81,18 +86,21 @@ class CodeStepQuizFormDelegate(
 
         val isEnabled = StepQuizResolver.isQuizEnabled(state)
         codeLayoutDelegate.setEnabled(isEnabled)
-        viewBinding.embeddedCodeEditorExpand.isEnabled = isEnabled
+        codeEditorViewBinding.embeddedCodeEditorExpand.isEnabled = isEnabled
 
-        viewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
+        codeEditorViewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
             codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, replyCode)
             codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
         }
+
+        viewBinding.stepQuizCodeFixMistakesBadge.isVisible =
+            state.isFixGptCodeGenerationMistakesBadgeVisible
     }
 
     fun updateCodeLayoutFromDialog(newCode: String, onSubmitClicked: Boolean) {
         this.code = newCode
         if (onSubmitClicked) {
-            viewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
+            codeEditorViewBinding.codeStepLayout.withoutTextChangeCallback(textWatcher) {
                 codeLayoutDelegate.setLanguage(codeStepQuizConfig.langName, code)
                 codeLayoutDelegate.setDetailsContentData(codeStepQuizConfig.langName)
             }

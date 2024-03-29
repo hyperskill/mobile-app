@@ -135,7 +135,7 @@ class CodeStepQuizFragment :
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate {
         val codeStepQuizFormDelegate = CodeStepQuizFormDelegate(
             context = requireContext(),
-            viewBinding = binding.stepQuizCodeEmbeddedEditor,
+            viewBinding = binding,
             codeLayoutDelegate = createCodeLayoutDelegate(),
             codeStepQuizConfig = config,
             onFullscreenClicked = ::onFullScreenClicked,
