@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/step_quiz_content_padding_top"
-    android:layout_marginBottom="@dimen/step_quiz_content_padding_bottom"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/stepQuizHints"
-    app:layout_constraintBottom_toTopOf="@id/stepQuizStatistics"
-    app:layout_constraintVertical_bias="0" >
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_marginTop="@dimen/step_quiz_content_padding_top"
+             android:layout_marginBottom="@dimen/step_quiz_content_padding_bottom"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintTop_toBottomOf="@+id/stepQuizHints"
+             app:layout_constraintBottom_toTopOf="@id/stepQuizStatistics"
+             app:layout_constraintVertical_bias="0">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/stepQuizCodeContainer"
@@ -24,6 +25,26 @@
             layout="@layout/layout_step_quiz_code_details"
             android:layout_marginBottom="28dp"
             />
+
+        <FrameLayout
+            android:id="@+id/stepQuizCodeFixMistakesBadge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/code_badge_fix_mistakes_background"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/step_quiz_code_badge_fix_mistakes_title"
+                style="@style/TextAppearance.AppTheme.Subtitle1"
+                android:layout_marginVertical="20dp"
+                android:layout_marginHorizontal="16dp"/>
+
+        </FrameLayout>
 
         <include
             android:id="@+id/stepQuizCodeEmbeddedEditor"
