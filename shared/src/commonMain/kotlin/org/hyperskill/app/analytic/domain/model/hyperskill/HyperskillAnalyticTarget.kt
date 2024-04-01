@@ -128,5 +128,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     UNLOCK_UNLIMITED_PROBLEMS("unlock_unlimited_problems"),
     MANAGE_SUBSCRIPTION("manage_subscription"),
     RENEW_SUBSCRIPTION("renew_subscription"),
-    HYPERSKILL_TERMS_OF_SERVICE_AND_PRIVACY_POLICY("hyperskill_terms_of_service_and_privacy_policy")
+    HYPERSKILL_TERMS_OF_SERVICE_AND_PRIVACY_POLICY("hyperskill_terms_of_service_and_privacy_policy"),
+    QUESTION_MARK("question_mark")
 }

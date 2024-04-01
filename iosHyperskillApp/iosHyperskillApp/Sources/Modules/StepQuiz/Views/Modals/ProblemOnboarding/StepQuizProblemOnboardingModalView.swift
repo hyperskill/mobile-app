@@ -6,21 +6,36 @@ struct StepQuizProblemOnboardingModalView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
-            Text(Strings.StepQuiz.ProblemOnboardingModal.header)
+            Text(header)
                 .font(.title2).bold()
                 .foregroundColor(.primaryText)
 
-            animationView
+            graphicView
 
-            Text(Strings.StepQuiz.ProblemOnboardingModal.title)
-                .font(.headline)
-                .foregroundColor(.primaryText)
+            if let title {
+                Text(title)
+                    .font(.headline)
+                    .foregroundColor(.primaryText)
+            }
 
             Text(description)
                 .font(.subheadline)
                 .foregroundColor(.secondaryText)
         }
         .padding()
+    }
+
+    @ViewBuilder
+    private var graphicView: some View {
+        switch modalType {
+        case .gptCodeGenerationWithErrors:
+            Image(.problemOnboardingGptCodeGenerationWithErrors)
+                .renderingMode(.original)
+                .aspectRatio(contentMode: .fit)
+                .frame(maxWidth: .infinity, alignment: .center)
+        default:
+            animationView
+        }
     }
 
     private var animationView: some View {
@@ -34,6 +49,8 @@ struct StepQuizProblemOnboardingModalView: View {
             case .select:
                 198
             }
+        case .gptCodeGenerationWithErrors:
+            fatalError("Did receive unsupported modal type")
         }
 
         let fileName = switch modalType {
@@ -46,6 +63,8 @@ struct StepQuizProblemOnboardingModalView: View {
             case .select:
                 LottieAnimations.fillBlanksSelectProblemOnboarding
             }
+        case .gptCodeGenerationWithErrors:
+            fatalError("Did receive unsupported modal type")
         }
 
         return LottieAnimationViewWrapper(
@@ -55,16 +74,37 @@ struct StepQuizProblemOnboardingModalView: View {
         .frame(maxWidth: .infinity)
     }
 
+    private var header: String {
+        switch modalType {
+        case .gptCodeGenerationWithErrors:
+            Strings.StepQuiz.ProblemOnboardingModal.gptCodeGenerationWithErrorsHeader
+        default:
+            Strings.StepQuiz.ProblemOnboardingModal.header
+        }
+    }
+
+    private var title: String? {
+        switch modalType {
+        case .gptCodeGenerationWithErrors:
+            nil
+        default:
+            Strings.StepQuiz.ProblemOnboardingModal.title
+        }
+    }
+
     private var description: String {
         switch modalType {
         case .parsons:
             Strings.StepQuiz.ProblemOnboardingModal.parsonsDescription
         case .fillBlanks:
             Strings.StepQuiz.ProblemOnboardingModal.fillBlanksDescription
+        case .gptCodeGenerationWithErrors:
+            Strings.StepQuiz.ProblemOnboardingModal.gptCodeGenerationWithErrorsDescription
         }
     }
 }
 
+#if DEBUG
 #Preview {
     StepQuizProblemOnboardingModalView(modalType: .parsons)
 }
@@ -80,3 +120,8 @@ struct StepQuizProblemOnboardingModalView: View {
         modalType: .fillBlanks(StepQuizFeatureProblemOnboardingModalFillBlanks(mode: .select))
     )
 }
+
+#Preview {
+    StepQuizProblemOnboardingModalView(modalType: .gptCodeGenerationWithErrors)
+}
+#endif

@@ -39,6 +39,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     PROJECT_COMPLETED_MODAL("project_completed_modal"),
     FULL_SCREEN_CODE_EDITOR("full_screen_code_editor"),
     CODE_EDITOR("code_editor"),
+    GPT_GENERATED_CODE_WITH_ERRORS_FIX_CODE_MISTAKES_BADGE("gpt_generated_code_with_errors_fix_code_mistakes_badge"),
     SHARE_STREAK_MODAL("share_streak_modal"),
     LEADERBOARD_DAY_TAB("leaderboard_day_tab"),
     LEADERBOARD_WEEK_TAB("leaderboard_week_tab"),

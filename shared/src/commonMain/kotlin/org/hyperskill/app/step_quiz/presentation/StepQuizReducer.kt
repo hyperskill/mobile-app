@@ -20,6 +20,7 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedSendHyperskil
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFixGptGeneratedCodeMistakesBadgeClickedQuestionMarkHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizGptGeneratedCodeWithErrorsHyperskillAnalyticEvent
@@ -354,6 +355,16 @@ internal class StepQuizReducer(
                             route = stepRoute.analyticRoute,
                             modalType = message.modalType
                         )
+                    )
+                )
+            }
+            Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark -> {
+                state to setOf(
+                    InternalAction.LogAnalyticEvent(
+                        StepQuizFixGptGeneratedCodeMistakesBadgeClickedQuestionMarkHyperskillAnalyticEvent(stepRoute)
+                    ),
+                    Action.ViewAction.ShowProblemOnboardingModal(
+                        modalType = StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors
                     )
                 )
             }

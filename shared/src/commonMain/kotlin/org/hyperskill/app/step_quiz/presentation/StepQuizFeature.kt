@@ -138,6 +138,8 @@ object StepQuizFeature {
         object ProblemsLimitReachedModalShownEventMessage : Message
         object ProblemsLimitReachedModalHiddenEventMessage : Message
 
+        object FixGptGeneratedCodeMistakesBadgeClickedQuestionMark : Message
+
         /**
          * Message Wrappers
          */
