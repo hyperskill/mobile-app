@@ -11,7 +11,7 @@ import org.hyperskill.app.network.domain.model.AuthorizedClientDependencies
 import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
-class NetworkComponentImpl(
+internal class NetworkComponentImpl(
     appGraph: AppGraph
 ) : NetworkComponent {
     override val endpointConfigInfo: NetworkEndpointConfigInfo =

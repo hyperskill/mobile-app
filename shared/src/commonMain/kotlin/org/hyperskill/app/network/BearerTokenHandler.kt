@@ -14,11 +14,10 @@ import org.hyperskill.app.network.domain.model.NetworkClientType
 
 internal object BearerTokenHandler {
     private const val REFRESH_TOKEN_URL = "/oauth2/token/"
-
-    private const val GRAND_TYPE_PARAM_KEY = "grant_type"
-    private const val GRAND_TYPE_PARAM_VALUE = "refresh_token"
-
     private const val REFRESH_TOKEN_PARAM_KEY = "refresh_token"
+
+    private const val GRANT_TYPE_PARAM_KEY = "grant_type"
+    private const val GRANT_TYPE_PARAM_VALUE = "refresh_token"
 
     fun getAccessToken(json: Json, settings: Settings): String? =
         getAuthResponse(json, settings)?.accessToken
@@ -65,7 +64,7 @@ internal object BearerTokenHandler {
         httpClient.submitForm(
             url = REFRESH_TOKEN_URL,
             formParameters = Parameters.build {
-                append(GRAND_TYPE_PARAM_KEY, GRAND_TYPE_PARAM_VALUE)
+                append(GRANT_TYPE_PARAM_KEY, GRANT_TYPE_PARAM_VALUE)
                 append(REFRESH_TOKEN_PARAM_KEY, refreshToken)
             }
         ).body<AuthResponse>()

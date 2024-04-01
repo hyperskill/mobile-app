@@ -13,7 +13,7 @@ import org.hyperskill.app.network.domain.model.AuthorizedClientDependencies
 import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
-object NetworkModule {
+internal object NetworkModule {
     fun provideJson(): Json =
         Json {
             coerceInputValues = true

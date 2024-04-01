@@ -10,7 +10,7 @@ import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 
-class AuthorizedClientDependencies(
+internal class AuthorizedClientDependencies(
     val networkEndpointConfigInfo: NetworkEndpointConfigInfo,
     val userAgentInfo: UserAgentInfo,
     val json: Json,

@@ -10,6 +10,7 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.headers
+import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.util.encodeBase64
@@ -25,8 +26,6 @@ import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
 internal object NetworkBuilder {
-    private const val AUTHORIZATION_HEADER = "Authorization"
-
     fun buildEndpointConfigInfo(buildKonfig: BuildKonfig): NetworkEndpointConfigInfo =
         NetworkEndpointConfigInfo(
             baseUrl = buildKonfig.baseUrl,
@@ -152,7 +151,7 @@ internal object NetworkBuilder {
         PreconfiguredPlatformHttpClient {
             defaultRequest {
                 headers {
-                    append(AUTHORIZATION_HEADER, credentials)
+                    append(HttpHeaders.Authorization, credentials)
                 }
                 url {
                     protocol = URLProtocol.HTTPS
