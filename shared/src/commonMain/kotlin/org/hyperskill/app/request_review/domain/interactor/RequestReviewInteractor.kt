@@ -4,11 +4,11 @@ import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 import kotlinx.datetime.Clock
 import org.hyperskill.app.request_review.domain.repository.RequestReviewRepository
-import org.hyperskill.app.step_quiz.domain.repository.SubmissionRepository
+import org.hyperskill.app.submissions.domain.repository.SubmissionsRepository
 
 class RequestReviewInteractor(
     private val requestReviewRepository: RequestReviewRepository,
-    private val submissionRepository: SubmissionRepository
+    private val submissionsRepository: SubmissionsRepository
 ) {
     companion object {
         private const val SOLVED_STEPS_FREQUENCY_TO_REQUEST_REVIEW = 10
@@ -17,7 +17,7 @@ class RequestReviewInteractor(
     }
 
     fun shouldRequestReviewAfterStepSolved(): Boolean {
-        val solvedStepsCount = submissionRepository.getSolvedStepsCount()
+        val solvedStepsCount = submissionsRepository.getSolvedStepsCount()
         val isPassedSolvedStepsFrequency = solvedStepsCount % SOLVED_STEPS_FREQUENCY_TO_REQUEST_REVIEW == 0L
         if (!isPassedSolvedStepsFrequency) {
             return false

@@ -6,7 +6,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
 import org.hyperskill.app.android.databinding.ItemCompoundSelectionRadiobuttonBinding
-import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
+import org.hyperskill.app.submissions.domain.model.Cell
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.ui.adapters.selection.SelectionHelper

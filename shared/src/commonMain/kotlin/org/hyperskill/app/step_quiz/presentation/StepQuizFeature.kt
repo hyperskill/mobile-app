@@ -8,11 +8,11 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
 object StepQuizFeature {
@@ -31,6 +31,7 @@ object StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val isProblemsLimitReached: Boolean,
+            val isFixGptCodeGenerationMistakesBadgeVisible: Boolean = false,
             internal val isTheoryAvailable: Boolean
         ) : StepQuizState
 
@@ -60,17 +61,13 @@ object StepQuizFeature {
         val unlockLimitsButtonText: String?
     )
 
+    internal data class GptCodeGenerationWithErrorsData(
+        val isEnabled: Boolean,
+        val code: String?
+    )
+
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
-        data class FetchAttemptSuccess(
-            val step: Step,
-            val attempt: Attempt,
-            val submissionState: SubmissionState,
-            val isProblemsLimitReached: Boolean,
-            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
-            val problemsOnboardingFlags: ProblemsOnboardingFlags
-        ) : Message
-        data class FetchAttemptError(val throwable: Throwable) : Message
 
         /**
          * Create/retry attempt
@@ -150,6 +147,17 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        data class FetchAttemptSuccess(
+            val step: Step,
+            val attempt: Attempt,
+            val submissionState: SubmissionState,
+            val isProblemsLimitReached: Boolean,
+            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
+            val problemsOnboardingFlags: ProblemsOnboardingFlags,
+            val gptCodeGenerationWithErrorsData: GptCodeGenerationWithErrorsData
+        ) : InternalMessage
+        data class FetchAttemptError(val throwable: Throwable) : InternalMessage
+
         data class UpdateProblemsLimitResult(
             val isProblemsLimitReached: Boolean,
             val problemsLimitReachedModalData: ProblemsLimitReachedModalData?
@@ -181,11 +189,6 @@ object StepQuizFeature {
         ) : Action
 
         data class SaveProblemOnboardingModalShownCacheFlag(val modalType: ProblemOnboardingModal) : Action
-
-        /**
-         * Analytic
-         */
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
 
         /**
          * Action Wrappers
@@ -229,5 +232,7 @@ object StepQuizFeature {
         data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
 
         data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

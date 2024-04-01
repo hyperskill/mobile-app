@@ -17,7 +17,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.BottomSheetDialogTableColumnsSelectionBinding
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableColumnMultipleSelectionItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableColumnSingleSelectionItemAdapterDelegate
-import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
+import org.hyperskill.app.submissions.domain.model.Cell
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.ui.adapters.selection.MultipleChoiceSelectionHelper
 import ru.nobird.android.ui.adapters.selection.SelectionHelper
