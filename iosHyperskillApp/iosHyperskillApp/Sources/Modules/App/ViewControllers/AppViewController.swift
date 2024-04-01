@@ -112,12 +112,12 @@ extension AppViewController: AppViewControllerProtocol {
         case .trackSelectionScreen:
             router.route(.trackSelection)
         case .paywall(let data):
-            router.route(.paywallModal(context: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)))
+            router.route(.paywallModal(paywallTransitionSource: data.paywallTransitionSource))
         case .studyPlanWithPaywall(let data):
             router.route(
                 .studyPlanWithPaywall(
                     appTabBarControllerDelegate: viewModel,
-                    paywallPresentationContext: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)
+                    paywallTransitionSource: data.paywallTransitionSource
                 )
             )
         }
@@ -231,8 +231,6 @@ extension AppViewController: AppViewControllerProtocol {
                 router.route(.studyPlanWithStep(appTabBarControllerDelegate: viewModel, stepRoute: data.stepRoute))
             case .usersQuestionnaireOnboardingScreen:
                 router.route(.usersQuestionnaireOnboarding(moduleOutput: viewModel))
-            case .paywall(let data):
-                router.route(.paywall(context: .init(source: data.paywallTransitionSource, moduleOutput: viewModel)))
             }
         }
     }

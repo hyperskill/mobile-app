@@ -6,8 +6,6 @@ final class PaywallViewModel: FeatureViewModel<
   PaywallFeatureMessage,
   PaywallFeatureActionViewAction
 > {
-    weak var moduleOutput: PaywallOutputProtocol?
-
     var contentStateKs: PaywallFeatureViewStateContentKs { .init(state.contentState) }
 
     init(feature: Presentation_reduxFeature) {
@@ -45,10 +43,6 @@ final class PaywallViewModel: FeatureViewModel<
 
     func doTermsOfServicePresentation() {
         onNewMessage(PaywallFeatureMessageClickedTermsOfServiceAndPrivacyPolicy())
-    }
-
-    func doCompletePaywall() {
-        moduleOutput?.handlePaywallCompleted()
     }
 }
 
