@@ -26,6 +26,7 @@ enum class HyperskillAnalyticPart(val partName: String) {
     PARSONS_PROBLEM_ONBOARDING_MODAL("parsons_problem_onboarding_modal"),
     FILL_BLANKS_INPUT_MODE_ONBOARDING_MODAL("fill_blanks_input_mode_onboarding_modal"),
     FILL_BLANKS_SELECT_MODE_ONBOARDING_MODAL("fill_blanks_select_mode_onboarding_modal"),
+    GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL("gpt_code_generation_with_errors_onboarding_modal"),
     MODAL("modal"),
     STREAK_WIDGET("streak_widget"),
     STREAK_FREEZE_MODAL("streak_freeze_modal"),

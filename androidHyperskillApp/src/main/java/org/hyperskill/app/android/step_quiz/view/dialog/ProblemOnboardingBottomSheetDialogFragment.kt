@@ -88,6 +88,7 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 FillBlanksMode.INPUT -> R.raw.fill_blanks_input_onboarding_animation
                 FillBlanksMode.SELECT -> R.raw.fill_blanks_select_onboarding_animation
             }
+            StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> TODO("ALTAPPS-1203")
         }
 
     private fun getDescription(
@@ -100,6 +101,7 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     org.hyperskill.app.R.string.step_quiz_problem_onboarding_modal_parsons_description
                 is StepQuizFeature.ProblemOnboardingModal.FillBlanks ->
                     org.hyperskill.app.R.string.step_quiz_problem_onboarding_modal_fill_blanks_description
+                StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> TODO("ALTAPPS-1203")
             }
         )
 

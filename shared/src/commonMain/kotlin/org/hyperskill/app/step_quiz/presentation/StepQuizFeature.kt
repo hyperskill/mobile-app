@@ -52,6 +52,9 @@ object StepQuizFeature {
 
         @Serializable
         data class FillBlanks(val mode: FillBlanksMode) : ProblemOnboardingModal
+
+        @Serializable
+        object GptCodeGenerationWithErrors : ProblemOnboardingModal
     }
 
     @Serializable

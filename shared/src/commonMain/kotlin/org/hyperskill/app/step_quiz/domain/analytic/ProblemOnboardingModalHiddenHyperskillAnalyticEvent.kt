@@ -41,4 +41,6 @@ internal val StepQuizFeature.ProblemOnboardingModal.hyperskillAnalyticPart: Hype
                 FillBlanksMode.INPUT -> HyperskillAnalyticPart.FILL_BLANKS_INPUT_MODE_ONBOARDING_MODAL
                 FillBlanksMode.SELECT -> HyperskillAnalyticPart.FILL_BLANKS_SELECT_MODE_ONBOARDING_MODAL
             }
+        StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
+            HyperskillAnalyticPart.GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL
     }

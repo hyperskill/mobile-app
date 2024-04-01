@@ -184,6 +184,8 @@ internal class StepQuizActionDispatcher(
                                 onboardingInteractor.setFillBlanksSelectModeOnboardingShown(isShown = true)
                         }
                     }
+                    StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
+                        onboardingInteractor.setGptCodeGenerationWithErrorsOnboardingShown(isShown = true)
                 }
             }
             is InternalAction.UpdateProblemsLimit ->
