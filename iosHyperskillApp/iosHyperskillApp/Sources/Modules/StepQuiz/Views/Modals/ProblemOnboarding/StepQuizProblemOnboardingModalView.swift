@@ -25,8 +25,7 @@ struct StepQuizProblemOnboardingModalView: View {
         .padding()
     }
 
-    @ViewBuilder
-    private var graphicView: some View {
+    @ViewBuilder private var graphicView: some View {
         switch modalType {
         case .gptCodeGenerationWithErrors:
             Image(.problemOnboardingGptCodeGenerationWithErrors)
