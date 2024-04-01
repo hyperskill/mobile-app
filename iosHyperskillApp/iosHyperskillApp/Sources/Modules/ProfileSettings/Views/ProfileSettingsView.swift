@@ -227,11 +227,7 @@ private extension ProfileSettingsView {
                     return assertionFailure("ProfileSettingsView: No navigation controller")
                 }
 
-                let assembly = PaywallAssembly(
-                    context: .init(
-                        source: data.paywallTransitionSource
-                    )
-                )
+                let assembly = PaywallAssembly(source: data.paywallTransitionSource)
 
                 navigationController.pushViewController(assembly.makeModule(), animated: true)
             case .subscriptionManagement:

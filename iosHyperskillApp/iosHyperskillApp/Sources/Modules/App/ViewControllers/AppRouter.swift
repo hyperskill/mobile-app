@@ -49,7 +49,7 @@ final class AppRouter {
                 }
 
                 return tabBarController
-            case .studyPlanWithPaywall(let appTabBarControllerDelegate, let paywallPresentationContext):
+            case .studyPlanWithPaywall(let appTabBarControllerDelegate, let paywallTransitionSource):
                 let tabBarController = AppTabBarController(
                     initialTab: .studyPlan,
                     availableTabs: AppTabItemsAvailabilityService.shared.getAvailableTabs(),
@@ -63,7 +63,7 @@ final class AppRouter {
                 DispatchQueue.main.async {
                     let currentRootViewController = tabBarController.children[tabBarController.selectedIndex]
                     currentRootViewController.present(
-                        PaywallAssembly(context: paywallPresentationContext).makeModule(),
+                        PaywallAssembly(source: paywallTransitionSource).makeModule(),
                         animated: false
                     )
                 }
@@ -91,8 +91,8 @@ final class AppRouter {
             case .usersQuestionnaireOnboarding(let moduleOutput):
                 let assembly = UsersQuestionnaireOnboardingAssembly(moduleOutput: moduleOutput)
                 return assembly.makeModule()
-            case .paywall(let context), .paywallModal(let context):
-                let assembly = PaywallAssembly(context: context)
+            case .paywall(let paywallTransitionSource), .paywallModal(let paywallTransitionSource):
+                let assembly = PaywallAssembly(source: paywallTransitionSource)
                 return assembly.makeModule()
             }
         }()
@@ -178,15 +178,15 @@ final class AppRouter {
         case studyPlanWithStep(appTabBarControllerDelegate: AppTabBarControllerDelegate?, stepRoute: StepRoute)
         case studyPlanWithPaywall(
             appTabBarControllerDelegate: AppTabBarControllerDelegate?,
-            paywallPresentationContext: PaywallPresentationContext
+            paywallTransitionSource: PaywallTransitionSource
         )
         case trackSelection
         case onboarding(moduleOutput: WelcomeOutputProtocol?)
         case firstProblemOnboarding(isNewUserMode: Bool, moduleOutput: FirstProblemOnboardingOutputProtocol?)
         case notificationOnboarding(moduleOutput: NotificationsOnboardingOutputProtocol?)
         case usersQuestionnaireOnboarding(moduleOutput: UsersQuestionnaireOnboardingOutputProtocol?)
-        case paywall(context: PaywallPresentationContext)
-        case paywallModal(context: PaywallPresentationContext)
+        case paywall(paywallTransitionSource: PaywallTransitionSource)
+        case paywallModal(paywallTransitionSource: PaywallTransitionSource)
     }
 
     enum Animation {

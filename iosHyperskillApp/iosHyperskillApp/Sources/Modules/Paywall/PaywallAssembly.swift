@@ -1,15 +1,11 @@
 import shared
 import SwiftUI
 
-struct PaywallPresentationContext {
-    let source: PaywallTransitionSource
-}
-
 final class PaywallAssembly: UIKitAssembly {
     private let source: PaywallTransitionSource
 
-    init(context: PaywallPresentationContext) {
-        self.source = context.source
+    init(source: PaywallTransitionSource) {
+        self.source = source
     }
 
     func makeModule() -> UIViewController {
