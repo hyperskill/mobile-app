@@ -84,12 +84,7 @@ private extension ManageSubscriptionView {
     func handleNavigateToViewAction(_ viewAction: ManageSubscriptionFeatureActionViewActionNavigateToKs) {
         switch viewAction {
         case .paywall(let data):
-            let assembly = PaywallAssembly(
-                context: .init(
-                    source: data.paywallTransitionSource,
-                    moduleOutput: nil
-                )
-            )
+            let assembly = PaywallAssembly(source: data.paywallTransitionSource)
             stackRouter.pushViewController(assembly.makeModule())
         }
     }
