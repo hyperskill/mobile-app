@@ -167,11 +167,20 @@ object StepQuizResolver {
         }
     }
 
-    internal fun isGptCodeGenerationWithErrorsAvailable(
+    internal fun isMobileGptCodeGenerationWithErrorsAvailable(
         step: Step,
-        isMobileGptCodeGenerationWithErrorsEnabled: Boolean
-    ): Boolean =
-        isMobileGptCodeGenerationWithErrorsEnabled &&
-            BlockName.codeRelatedBlocksNames.contains(step.block.name) &&
-            !step.isIdeRequired()
+        submissionState: StepQuizFeature.SubmissionState,
+        isMobileGptCodeGenerationWithErrorsEnabled: Boolean,
+        isMobileGptCodeGenerationWithErrorsOnboardingShown: Boolean
+    ): Boolean {
+        if (!isMobileGptCodeGenerationWithErrorsEnabled || isMobileGptCodeGenerationWithErrorsOnboardingShown) {
+            return false
+        }
+
+        if (submissionState !is StepQuizFeature.SubmissionState.Empty) {
+            return false
+        }
+
+        return BlockName.codeRelatedBlocksNames.contains(step.block.name) && !isIdeRequired(step, submissionState)
+    }
 }

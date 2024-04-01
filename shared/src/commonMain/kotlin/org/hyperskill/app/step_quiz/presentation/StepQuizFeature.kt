@@ -64,11 +64,6 @@ object StepQuizFeature {
         val unlockLimitsButtonText: String?
     )
 
-    internal data class GptCodeGenerationWithErrorsData(
-        val isEnabled: Boolean,
-        val code: String?
-    )
-
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
 
@@ -150,6 +145,7 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        object FetchAttemptError : InternalMessage
         data class FetchAttemptSuccess(
             val step: Step,
             val attempt: Attempt,
@@ -157,9 +153,13 @@ object StepQuizFeature {
             val isProblemsLimitReached: Boolean,
             val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
             val problemsOnboardingFlags: ProblemsOnboardingFlags,
-            val gptCodeGenerationWithErrorsData: GptCodeGenerationWithErrorsData
+            val isMobileGptCodeGenerationWithErrorsEnabled: Boolean
         ) : InternalMessage
-        data class FetchAttemptError(val throwable: Throwable) : InternalMessage
+
+        data class GenerateGptCodeWithErrorsResult(
+            val attemptLoadedState: StepQuizState.AttemptLoaded,
+            val code: String?
+        ) : InternalMessage
 
         data class UpdateProblemsLimitResult(
             val isProblemsLimitReached: Boolean,
@@ -232,6 +232,8 @@ object StepQuizFeature {
     }
 
     internal sealed interface InternalAction : Action {
+        data class GenerateGptCodeWithErrors(val attemptLoadedState: StepQuizState.AttemptLoaded) : InternalAction
+
         data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
 
         data class CreateMagicLinkForUnsupportedQuiz(val stepRoute: StepRoute) : InternalAction

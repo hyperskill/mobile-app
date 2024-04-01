@@ -181,6 +181,10 @@
     <string name="step_quiz_problem_onboarding_modal_fill_blanks_description">Fill in the gaps with the relevant code
         elements.
     </string>
+    <string name="step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_title">Fix mistakes in the code</string>
+    <string name="step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_description">Spacebot wrote some
+        code for you, but made a few mistakes. Read through the task and correct the code!
+    </string>
 
     <!-- Step quiz fill in the blanks -->
 

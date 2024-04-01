@@ -5,4 +5,6 @@ class ProblemsOnboardingFlags(
     val isFillBlanksInputModeOnboardingShown: Boolean,
     val isFillBlanksSelectModeOnboardingShown: Boolean,
     val isGptCodeGenerationWithErrorsOnboardingShown: Boolean
-)
+) {
+    companion object
+}
