@@ -4,6 +4,7 @@ struct StepQuizCodeView: View {
     @StateObject var viewModel: StepQuizCodeViewModel
 
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.isFixCodeMistakesBadgeVisible) private var isFixCodeMistakesBadgeVisible
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
@@ -13,6 +14,10 @@ struct StepQuizCodeView: View {
                 samples: viewData.samples,
                 onExpandTapped: viewModel.logClickedCodeDetailsEvent
             )
+
+            if isFixCodeMistakesBadgeVisible {
+                StepQuizCodeFixCodeMistakesBadge()
+            }
 
             StepQuizCodeEditorView(
                 code: Binding(

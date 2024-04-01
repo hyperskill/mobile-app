@@ -8,7 +8,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
 import org.hyperskill.app.android.databinding.ItemTableSelectionBinding
 import org.hyperskill.app.android.step_quiz_table.view.model.TableSelectionItem
-import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
+import org.hyperskill.app.submissions.domain.model.Cell
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 

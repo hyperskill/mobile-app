@@ -22,12 +22,10 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbar
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCodeEditorClickedInputAccessoryButtonHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizGptGeneratedCodeWithErrorsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
@@ -39,6 +37,9 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.Submission
+import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -52,9 +53,9 @@ internal class StepQuizReducer(
         when (message) {
             is Message.InitWithStep ->
                 initialize(state, message)
-            is Message.FetchAttemptSuccess ->
+            is InternalMessage.FetchAttemptSuccess ->
                 handleFetchAttemptSuccess(state, message)
-            is Message.FetchAttemptError ->
+            is InternalMessage.FetchAttemptError ->
                 if (state.stepQuizState is StepQuizState.Loading) {
                     state.copy(stepQuizState = StepQuizState.NetworkError) to emptySet()
                 } else {
@@ -90,6 +91,7 @@ internal class StepQuizReducer(
                             attempt = message.attempt,
                             submissionState = message.submissionState,
                             isProblemsLimitReached = message.isProblemsLimitReached,
+                            isFixGptCodeGenerationMistakesBadgeVisible = false,
                             isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
                         )
                     ) to emptySet()
@@ -114,7 +116,7 @@ internal class StepQuizReducer(
                         }
                     state to setOf(
                         Action.CreateSubmissionValidateReply(message.step, message.reply),
-                        Action.LogAnalyticEvent(analyticEvent)
+                        InternalAction.LogAnalyticEvent(analyticEvent)
                     )
                 } else {
                     null
@@ -225,21 +227,21 @@ internal class StepQuizReducer(
             is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.Home,
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
             is Message.ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked ->
                 state to setOf(
                     Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.PROBLEMS_LIMIT_MODAL),
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProblemsLimitReachedModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
             is Message.ClickedCodeDetailsEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    state to setOf(Action.LogAnalyticEvent(event))
+                    state to setOf(InternalAction.LogAnalyticEvent(event))
                 } else {
                     null
                 }
@@ -248,7 +250,7 @@ internal class StepQuizReducer(
                     val event = StepQuizFullScreenCodeEditorClickedCodeDetailsHyperskillAnalyticEvent(
                         stepRoute.analyticRoute
                     )
-                    state to setOf(Action.LogAnalyticEvent(event))
+                    state to setOf(InternalAction.LogAnalyticEvent(event))
                 } else {
                     null
                 }
@@ -256,7 +258,7 @@ internal class StepQuizReducer(
             is Message.ClickedStepTextDetailsEventMessage -> {
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedStepTextDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    state to setOf(Action.LogAnalyticEvent(event))
+                    state to setOf(InternalAction.LogAnalyticEvent(event))
                 } else {
                     null
                 }
@@ -266,7 +268,7 @@ internal class StepQuizReducer(
                     val event = StepQuizFullScreenCodeEditorClickedStepTextDetailsHyperskillAnalyticEvent(
                         stepRoute.analyticRoute
                     )
-                    state to setOf(Action.LogAnalyticEvent(event))
+                    state to setOf(InternalAction.LogAnalyticEvent(event))
                 } else {
                     null
                 }
@@ -274,7 +276,7 @@ internal class StepQuizReducer(
             is Message.ClickedOpenFullScreenCodeEditorEventMessage -> {
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedOpenFullScreenCodeEditorHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    state to setOf(Action.LogAnalyticEvent(event))
+                    state to setOf(InternalAction.LogAnalyticEvent(event))
                 } else {
                     null
                 }
@@ -285,7 +287,7 @@ internal class StepQuizReducer(
                         route = stepRoute.analyticRoute,
                         symbol = message.symbol
                     )
-                    state to setOf(Action.LogAnalyticEvent(event))
+                    state to setOf(InternalAction.LogAnalyticEvent(event))
                 } else {
                     null
                 }
@@ -294,7 +296,7 @@ internal class StepQuizReducer(
                 handleTheoryToolbarItemClicked(state)
             Message.UnsupportedQuizGoToStudyPlanClicked ->
                 state to setOf(
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     ),
                     Action.ViewAction.NavigateTo.StudyPlan
@@ -303,7 +305,7 @@ internal class StepQuizReducer(
                 state to setOf(
                     Action.ViewAction.CreateMagicLinkState.Loading,
                     InternalAction.CreateMagicLinkForUnsupportedQuiz(stepRoute),
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
@@ -317,26 +319,26 @@ internal class StepQuizReducer(
             is Message.ClickedRetryEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedRetryHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    state to setOf(Action.LogAnalyticEvent(event))
+                    state to setOf(InternalAction.LogAnalyticEvent(event))
                 } else {
                     null
                 }
             is Message.ProblemsLimitReachedModalShownEventMessage ->
                 state to setOf(
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProblemsLimitReachedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
             is Message.ProblemsLimitReachedModalHiddenEventMessage ->
                 state to setOf(
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
                     )
                 )
             is Message.ProblemOnboardingModalShownMessage -> {
                 state to setOf(
                     Action.SaveProblemOnboardingModalShownCacheFlag(modalType = message.modalType),
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProblemOnboardingModalShownHyperskillAnalyticEvent(
                             route = stepRoute.analyticRoute,
                             modalType = message.modalType
@@ -346,7 +348,7 @@ internal class StepQuizReducer(
             }
             is Message.ProblemOnboardingModalHiddenMessage -> {
                 state to setOf(
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         ProblemOnboardingModalHiddenHyperskillAnalyticEvent(
                             route = stepRoute.analyticRoute,
                             modalType = message.modalType
@@ -362,7 +364,10 @@ internal class StepQuizReducer(
             }
         } ?: (state to emptySet())
 
-    private fun handleFetchAttemptSuccess(state: State, message: Message.FetchAttemptSuccess): StepQuizReducerResult =
+    private fun handleFetchAttemptSuccess(
+        state: State,
+        message: InternalMessage.FetchAttemptSuccess
+    ): StepQuizReducerResult =
         if (state.stepQuizState is StepQuizState.Loading) {
             if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
                 state.copy(stepQuizState = StepQuizState.Unsupported) to emptySet()
@@ -370,27 +375,41 @@ internal class StepQuizReducer(
                 val isProblemsLimitReached =
                     StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
 
-                val actions = if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
-                    setOf(
-                        Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData)
-                    )
-                } else {
-                    getProblemOnboardingModalActions(
-                        step = message.step,
-                        attempt = message.attempt,
-                        problemsOnboardingFlags = message.problemsOnboardingFlags
-                    )
+                val stepQuizState = StepQuizState.AttemptLoaded(
+                    step = message.step,
+                    attempt = message.attempt,
+                    submissionState = message.submissionState,
+                    isProblemsLimitReached = isProblemsLimitReached,
+                    isFixGptCodeGenerationMistakesBadgeVisible = false,
+                    isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
+                ).let {
+                    applyGptGeneratedCodeWithErrorsIfNeeded(it, message.gptCodeGenerationWithErrorsData)
                 }
 
-                state.copy(
-                    stepQuizState = StepQuizState.AttemptLoaded(
-                        step = message.step,
-                        attempt = message.attempt,
-                        submissionState = message.submissionState,
-                        isProblemsLimitReached = isProblemsLimitReached,
-                        isTheoryAvailable = StepQuizResolver.isTheoryAvailable(stepRoute, message.step)
-                    )
-                ) to actions
+                state.copy(stepQuizState = stepQuizState) to buildSet {
+                    if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
+                        add(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
+                    } else {
+                        addAll(
+                            getProblemOnboardingModalActions(
+                                step = message.step,
+                                attempt = message.attempt,
+                                problemsOnboardingFlags = message.problemsOnboardingFlags
+                            )
+                        )
+                    }
+
+                    if (stepQuizState.isFixGptCodeGenerationMistakesBadgeVisible) {
+                        add(
+                            InternalAction.LogAnalyticEvent(
+                                StepQuizGptGeneratedCodeWithErrorsHyperskillAnalyticEvent(
+                                    stepRoute = stepRoute,
+                                    code = message.gptCodeGenerationWithErrorsData.code
+                                )
+                            )
+                        )
+                    }
+                }
             }
         } else {
             state to emptySet()
@@ -474,7 +493,7 @@ internal class StepQuizReducer(
                 val topicTheoryId = state.stepQuizState.step.topicTheory
 
                 add(
-                    Action.LogAnalyticEvent(
+                    InternalAction.LogAnalyticEvent(
                         StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent(
                             stepRoute.analyticRoute,
                             topicTheoryId
@@ -555,6 +574,32 @@ internal class StepQuizReducer(
             }
             else -> emptySet()
         }
+
+    private fun applyGptGeneratedCodeWithErrorsIfNeeded(
+        state: StepQuizState.AttemptLoaded,
+        gptCodeGenerationWithErrorsData: StepQuizFeature.GptCodeGenerationWithErrorsData
+    ): StepQuizState.AttemptLoaded {
+        if (!gptCodeGenerationWithErrorsData.isEnabled) {
+            return state
+        }
+        if (state.submissionState !is StepQuizFeature.SubmissionState.Empty) {
+            return state
+        }
+
+        val code = gptCodeGenerationWithErrorsData.code?.takeIf { it.isNotBlank() } ?: return state
+
+        val reply = when (state.step.block.name) {
+            BlockName.CODE -> Reply.code(code = code, language = null)
+            BlockName.PYCHARM -> Reply.pycharm(step = state.step, pycharmCode = code)
+            BlockName.SQL -> Reply.sql(sqlCode = code)
+            else -> null
+        } ?: return state
+
+        return state.copy(
+            submissionState = StepQuizFeature.SubmissionState.Empty(reply = reply),
+            isFixGptCodeGenerationMistakesBadgeVisible = true
+        )
+    }
 
     private fun reduceStepQuizHintsMessage(
         state: StepQuizHintsFeature.State,

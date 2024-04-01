@@ -66,7 +66,6 @@ import org.hyperskill.app.step.injection.StepDataComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
-import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
@@ -74,6 +73,7 @@ import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
 import org.hyperskill.app.streaks.injection.StreaksDataComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
+import org.hyperskill.app.submissions.injection.SubmissionsDataComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -128,7 +128,7 @@ interface AppGraph {
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
     fun buildStepTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent
 
-    fun buildSubmissionDataComponent(): SubmissionDataComponent
+    fun buildSubmissionsDataComponent(): SubmissionsDataComponent
 
     fun buildStudyPlanWidgetComponent(): StudyPlanWidgetComponent
 

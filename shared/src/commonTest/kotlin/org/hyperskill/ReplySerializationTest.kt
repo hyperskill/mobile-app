@@ -10,10 +10,10 @@ import kotlinx.serialization.json.encodeToJsonElement
 import org.hyperskill.app.network.injection.NetworkModule
 import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
-import org.hyperskill.app.step_quiz.domain.model.submissions.ChoiceAnswer
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.TableChoiceAnswer
+import org.hyperskill.app.submissions.domain.model.Cell
+import org.hyperskill.app.submissions.domain.model.ChoiceAnswer
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.TableChoiceAnswer
 
 class ReplySerializationTest {
     @Test

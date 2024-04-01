@@ -2,9 +2,8 @@ package org.hyperskill.app.android.step_quiz_code.view.model.config
 
 import org.hyperskill.app.android.step_quiz_code.view.model.CodeDetail
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.Submission
 import org.hyperskill.app.step_quiz.view.displayLanguage
+import org.hyperskill.app.submissions.domain.model.Reply
 
 class CommonCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
 
@@ -28,8 +27,8 @@ class CommonCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
             } ?: emptyList()
 
     override fun createReply(code: String?): Reply =
-        Reply(code = code, language = langName)
+        Reply.code(code = code, language = langName)
 
-    override fun getCode(submission: Submission?): String =
-        submission?.reply?.code ?: initialCode
+    override fun getCode(reply: Reply?): String =
+        reply?.code ?: initialCode
 }

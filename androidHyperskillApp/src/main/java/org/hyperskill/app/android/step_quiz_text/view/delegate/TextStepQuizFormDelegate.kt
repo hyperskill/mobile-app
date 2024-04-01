@@ -7,9 +7,9 @@ import androidx.core.widget.doAfterTextChanged
 import org.hyperskill.app.android.databinding.LayoutStepQuizTextBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.step.domain.model.BlockName
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class TextStepQuizFormDelegate(
