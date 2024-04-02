@@ -58,7 +58,6 @@
     <ID>LongMethod:LeaderboardWidgetViewStateMapperTest.kt$LeaderboardWidgetViewStateMapperTest$@Test fun `leaderboard list not contains separator if position between items after each other`()</ID>
     <ID>LongMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
     <ID>LongMethod:MainActivity.kt$MainActivity$override fun onAction(action: AppFeature.Action.ViewAction)</ID>
-    <ID>LongMethod:NetworkBuilder.kt$NetworkBuilder$fun buildAuthorizedClient( networkEndpointConfigInfo: NetworkEndpointConfigInfo, userAgentInfo: UserAgentInfo, json: Json, settings: Settings, buildVariant: BuildVariant, authorizationFlow: MutableSharedFlow&lt;UserDeauthorized&gt;, authorizationMutex: Mutex, cookiesStorage: CookiesStorage ): HttpClient</ID>
     <ID>LongMethod:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$private fun getDailyStudyRemindersNotificationDescriptions()</ID>
     <ID>LongMethod:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$fun render( dateFormatter: SharedDateFormatter, binding: LayoutProblemOfTheDayCardBinding, state: HomeFeature.ProblemOfDayState, areProblemsLimited: Boolean )</ID>
     <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -&gt; Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -&gt; Unit, modifier: Modifier = Modifier )</ID>
@@ -73,7 +72,6 @@
     <ID>LongParameterList:AuthRemoteDataSourceImpl.kt$AuthRemoteDataSourceImpl$( private val authCacheMutex: Mutex, private val deauthorizationFlow: Flow&lt;UserDeauthorized&gt;, private val authSocialHttpClient: HttpClient, private val authCredentialsHttpClient: HttpClient, private val networkEndpointConfigInfo: NetworkEndpointConfigInfo, private val json: Json, private val settings: Settings )</ID>
     <ID>LongParameterList:CodeTheme.kt$CodeTheme$( val name: String, val syntax: CodeSyntax, @ColorInt val background: Int, @ColorInt val lineNumberBackground: Int, @ColorInt val lineNumberStroke: Int, @ColorInt val lineNumberText: Int, @ColorInt val selectedLineBackground: Int, @ColorInt val bracketsHighlight: Int = ColorUtil.getColorArgb(R.color.default_code_brackets_highlight_color), @ColorInt val errorHighlight: Int = ColorUtil.getColorArgb(R.color.default_code_error_highlight_color) )</ID>
     <ID>LongParameterList:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$( selectedOptionIndex: Int, blankIndex: Int, selectedOption: FillBlanksOption, items: List&lt;FillBlanksUiItem&gt;, selectItemIndices: List&lt;Int&gt;, selectOptions: List&lt;FillBlanksOption&gt; )</ID>
-    <ID>LongParameterList:NetworkBuilder.kt$NetworkBuilder$( networkEndpointConfigInfo: NetworkEndpointConfigInfo, userAgentInfo: UserAgentInfo, json: Json, settings: Settings, buildVariant: BuildVariant, authorizationFlow: MutableSharedFlow&lt;UserDeauthorized&gt;, authorizationMutex: Mutex, cookiesStorage: CookiesStorage )</ID>
     <ID>LongParameterList:NetworkEndpointConfigInfo.kt$NetworkEndpointConfigInfo$( val baseUrl: String, val host: String, val oauthClientId: String, val oauthClientSecret: String, val redirectUri: String, val credentialsClientId: String, val credentialsClientSecret: String )</ID>
     <ID>LongParameterList:ProjectSelectionDetailsFeature.kt$ProjectSelectionDetailsFeature$( isNewUserMode: Boolean, trackId: Long, projectId: Long, isProjectSelected: Boolean, isProjectBestRated: Boolean, isProjectFastestToComplete: Boolean )</ID>
     <ID>MagicNumber:AlignmentExtension.kt$0f</ID>
@@ -208,7 +206,6 @@
     <ID>MagicNumber:MatchingItemTitleAdapterDelegate.kt$MatchingItemTitleAdapterDelegate.ViewHolder$0f</ID>
     <ID>MagicNumber:MatchingStepQuizFormDelegate.kt$MatchingStepQuizFormDelegate$1</ID>
     <ID>MagicNumber:MatchingStepQuizFormDelegate.kt$MatchingStepQuizFormDelegate$2</ID>
-    <ID>MagicNumber:NetworkBuilder.kt$NetworkBuilder$0L</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$0</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$1</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$10</ID>
@@ -240,10 +237,6 @@
     <ID>MagicNumber:PercentProgressIndicator.kt$0xFFA6BCF4</ID>
     <ID>MagicNumber:PercentProgressIndicator.kt$1f</ID>
     <ID>MagicNumber:PreconfiguredHttpClient.kt$10.0</ID>
-    <ID>MagicNumber:PreconfiguredHttpClient.kt$400</ID>
-    <ID>MagicNumber:PreconfiguredHttpClient.kt$407</ID>
-    <ID>MagicNumber:PreconfiguredHttpClient.kt$409</ID>
-    <ID>MagicNumber:PreconfiguredHttpClient.kt$599</ID>
     <ID>MagicNumber:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$0</ID>
     <ID>MagicNumber:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$1F</ID>
     <ID>MagicNumber:ProblemsLimitDelegate.kt$ProblemsLimitDelegate$100</ID>
