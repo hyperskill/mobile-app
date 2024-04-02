@@ -115,7 +115,7 @@ complexity:
     active: true
     threshold: 15
     ignoreSingleWhenExpression: false
-    ignoreSimpleWhenEntries: false
+    ignoreSimpleWhenEntries: true
     ignoreNestingFunctions: false
     nestingFunctions:
       - 'also'
@@ -127,6 +127,9 @@ complexity:
       - 'run'
       - 'use'
       - 'with'
+      - 'fold'
+      - 'onSuccess'
+      - 'onFailure'
   LabeledExpression:
     active: false
     ignoredLabels: []
@@ -137,9 +140,13 @@ complexity:
   LongMethod:
     active: true
     threshold: 60
+    ignoreFunction:
+      - 'build'
+      - 'reduce'
+      - 'doSuspendableAction'
   LongParameterList:
     active: true
-    excludes: &complexityExcludes
+    excludes:
       - '**/test/**'
       - '**/androidTest/**'
       - '**/commonTest/**'
@@ -148,11 +155,14 @@ complexity:
       - '**/androidInstrumentedTest/**'
       - '**/iosTest/**'
       - '**/injection/**'
+      - '**/presentation/**ActionDispatcher.kt'
+      - '**Dependencies.kt'
     functionThreshold: 6
     constructorThreshold: 7
     ignoreDefaultParameters: true
     ignoreDataClasses: true
-    ignoreAnnotatedParameter: ['Composable']
+    ignoreAnnotated:
+      - 'Composable'
   MethodOverloading:
     active: false
     threshold: 6
@@ -183,7 +193,15 @@ complexity:
     ignoreStringsRegex: '$^'
   TooManyFunctions:
     active: true
-    excludes: *complexityExcludes
+    excludes:
+      - '**/test/**'
+      - '**/androidTest/**'
+      - '**/commonTest/**'
+      - '**/jvmTest/**'
+      - '**/androidUnitTest/**'
+      - '**/androidInstrumentedTest/**'
+      - '**/iosTest/**'
+      - '**/injection/**'
     thresholdInFiles: 11
     thresholdInClasses: 11
     thresholdInInterfaces: 11
@@ -191,7 +209,10 @@ complexity:
     thresholdInEnums: 11
     ignoreDeprecated: false
     ignorePrivate: false
-    ignoreOverridden: false
+    ignoreOverridden: true
+    ignoreFunction:
+      - 'injectComponent'
+      - 'injectComponents'
 
 coroutines:
   active: true

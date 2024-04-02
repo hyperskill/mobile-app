@@ -162,6 +162,7 @@
     <string name="step_quiz_code_reset">Reset</string>
     <string name="step_quiz_code_editor_title">Code editor</string>
     <string name="step_quiz_code_language_template">(%s)</string>
+    <string name="step_quiz_code_badge_fix_mistakes_title">Fix code mistakes</string>
 
     <!-- Step quiz sql -->
     <string name="step_quiz_sql_title">Write an SQL statement</string>
@@ -654,4 +655,10 @@
     <string name="manage_subscription_manage_btn">Manage subscription</string>
     <string name="manage_subscription_renew_btn">Renew subscription</string>
 
+    <!--Theory feedback-->
+    <string name="step_theory_feedback_alert_title">Share your feedback</string>
+    <string name="step_theory_feedback_alert_hint">Share something</string>
+    <string name="step_theory_feedback_alert_cancel_button">Cancel</string>
+    <string name="step_theory_feedback_alert_send_button">Send</string>
+    <string name="step_theory_feedback_alert_success_text">Thank you for your feedback. We appreciate your feedback and will look into this soon.</string>
 </resources>

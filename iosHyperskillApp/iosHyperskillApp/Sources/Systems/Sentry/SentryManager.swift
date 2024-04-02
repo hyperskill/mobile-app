@@ -44,7 +44,7 @@ final class SentryManager: shared.SentryManager {
             // Watchdog Terminations
             options.enableWatchdogTerminationTracking = false
             // App Hangs
-            options.enableAppHangTracking = true
+            options.enableAppHangTracking = false
             // Performance Monitoring
             options.enableAutoPerformanceTracing = true
             options.enableUIViewControllerTracing = true

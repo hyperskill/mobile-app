@@ -11,8 +11,8 @@ import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragmen
 import org.hyperskill.app.android.step_quiz_table.view.delegate.TableStepQuizFormDelegate
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import org.hyperskill.app.submissions.domain.model.Cell
 import ru.nobird.app.presentation.redux.container.ReduxView
 
 class TableStepQuizFragment :

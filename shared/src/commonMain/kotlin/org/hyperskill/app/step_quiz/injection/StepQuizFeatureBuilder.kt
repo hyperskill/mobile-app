@@ -51,6 +51,7 @@ internal object StepQuizFeatureBuilder {
             stepRoute = stepRoute,
             stepQuizHintsReducer = stepQuizHintsReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
+
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
             config = ActionDispatcherOptions(),
             stepQuizInteractor = stepQuizInteractor,
@@ -62,7 +63,8 @@ internal object StepQuizFeatureBuilder {
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
-            resourceProvider = resourceProvider
+            resourceProvider = resourceProvider,
+            logger = logger.withTag(LOG_TAG)
         )
 
         return ReduxFeature(

@@ -7,7 +7,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import org.hyperskill.app.network.injection.NetworkModule
-import org.hyperskill.app.step_quiz.domain.model.submissions.Feedback
+import org.hyperskill.app.submissions.domain.model.Feedback
 
 class SubmissionFeedbackSerializationTest {
 

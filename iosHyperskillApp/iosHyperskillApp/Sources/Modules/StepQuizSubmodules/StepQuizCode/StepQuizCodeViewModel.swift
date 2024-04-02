@@ -142,7 +142,7 @@ extension StepQuizCodeViewModel: StepQuizCodeFullScreenOutputProtocol {
 
     @objc
     func syncReply(code: String?) {
-        let reply = Reply(language: viewData.languageStringValue, code: code)
+        let reply = Reply.Companion.shared.code(code: code, language: viewData.languageStringValue)
         moduleOutput?.handleChildQuizSync(reply: reply)
     }
 }

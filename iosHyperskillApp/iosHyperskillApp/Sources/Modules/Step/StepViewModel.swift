@@ -65,10 +65,10 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         viewDataMapper.mapStepToViewData(step)
     }
 
-    func doStartPracticing() {
+    func doStartPracticing(isLocatedAtBeginning: Bool) {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageStartPracticingClicked()
+                message: StepCompletionFeatureMessageStartPracticingClicked(isLocatedAtBeginning: isLocatedAtBeginning)
             )
         )
     }

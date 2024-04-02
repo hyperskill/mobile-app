@@ -5,8 +5,8 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.isIdeRequired
 import org.hyperskill.app.step.domain.model.supportedBlocksNames
-import org.hyperskill.app.step_quiz.domain.model.submissions.SubmissionStatus
-import org.hyperskill.app.step_quiz.domain.model.submissions.isWrongOrRejected
+import org.hyperskill.app.submissions.domain.model.SubmissionStatus
+import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 
 object StepQuizResolver {
     fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean {
@@ -79,11 +79,7 @@ object StepQuizResolver {
         if (step.isIdeRequired()) {
             return true
         } else if (step.block.name == BlockName.PYCHARM) {
-            val reply = when (submissionState) {
-                is StepQuizFeature.SubmissionState.Empty -> submissionState.reply
-                is StepQuizFeature.SubmissionState.Loaded -> submissionState.submission.reply
-            } ?: return false
-
+            val reply = submissionState.reply ?: return false
             val visibleFilesCount = reply.solution?.count { it.isVisible } ?: 0
 
             return visibleFilesCount > 1 || (visibleFilesCount <= 1 && reply.checkProfile?.isEmpty() == true)
@@ -170,4 +166,12 @@ object StepQuizResolver {
             }
         }
     }
+
+    internal fun isGptCodeGenerationWithErrorsAvailable(
+        step: Step,
+        isMobileGptCodeGenerationWithErrorsEnabled: Boolean
+    ): Boolean =
+        isMobileGptCodeGenerationWithErrorsEnabled &&
+            BlockName.codeRelatedBlocksNames.contains(step.block.name) &&
+            !step.isIdeRequired()
 }

@@ -120,10 +120,10 @@ import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataCompon
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
-import org.hyperskill.app.step_quiz.injection.SubmissionDataComponent
-import org.hyperskill.app.step_quiz.injection.SubmissionDataComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
+import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
+import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponentImpl
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
@@ -134,6 +134,8 @@ import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponentImpl
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponentImpl
+import org.hyperskill.app.submissions.injection.SubmissionsDataComponent
+import org.hyperskill.app.submissions.injection.SubmissionsDataComponentImpl
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
@@ -284,8 +286,14 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent =
         StageImplementComponentImpl(this, projectId = projectId, stageId = stageId)
 
-    override fun buildSubmissionDataComponent(): SubmissionDataComponent =
-        SubmissionDataComponentImpl(this)
+    /**
+     * Step theory feedback component
+     */
+    override fun buildStepTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent =
+        StepTheoryFeedbackComponentImpl(this, stepRoute)
+
+    override fun buildSubmissionsDataComponent(): SubmissionsDataComponent =
+        SubmissionsDataComponentImpl(this)
 
     override fun buildTrackDataComponent(): TrackDataComponent =
         TrackDataComponentImpl(this)

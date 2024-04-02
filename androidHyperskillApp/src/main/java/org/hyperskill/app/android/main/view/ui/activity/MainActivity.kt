@@ -142,7 +142,7 @@ class MainActivity :
         observeNotificationsOnboardingFlowFinished()
         observeFirstProblemOnboardingFlowFinished()
         observeUsersQuestionnaireOnboardingCompleted()
-        observePaywallCompleted()
+        observePaywallIsShownChanged()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
         logNotificationAvailability()
@@ -203,10 +203,10 @@ class MainActivity :
         }
     }
 
-    private fun observePaywallCompleted() {
-        observeResult<Any>(PaywallFragment.PAYWALL_COMPLETED) {
+    private fun observePaywallIsShownChanged() {
+        observeResult<Boolean>(PaywallFragment.PAYWALL_IS_SHOWN_CHANGED) {
             mainViewModel.onNewMessage(
-                WelcomeOnboardingFeature.Message.PaywallCompleted
+                AppFeature.Message.IsPaywallShownChanged(it)
             )
         }
     }
@@ -293,8 +293,6 @@ class MainActivity :
                         )
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
-                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.Paywall ->
-                        router.newRootScreen(PaywallScreen(viewAction.paywallTransitionSource))
                     WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
                         router.newRootScreen(UsersQuestionnaireOnboardingScreen)
                 }

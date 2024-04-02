@@ -161,18 +161,6 @@ extension AppViewModel: FirstProblemOnboardingOutputProtocol {
     }
 }
 
-// MARK: - AppViewModel: PaywallOutputProtocol -
-
-extension AppViewModel: PaywallOutputProtocol {
-    func handlePaywallCompleted() {
-        onNewMessage(
-            AppFeatureMessageWelcomeOnboardingMessage(
-                message: WelcomeOnboardingFeatureMessagePaywallCompleted()
-            )
-        )
-    }
-}
-
 // MARK: - AppViewModel: AppTabBarControllerDelegate -
 
 extension AppViewModel: AppTabBarControllerDelegate {
@@ -230,6 +218,13 @@ private extension AppViewModel {
             selector: #selector(handleApplicationWillEnterForeground),
             name: UIApplication.willEnterForegroundNotification,
             object: UIApplication.shared
+        )
+
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(handlePaywallIsShownDidChange(notification:)),
+            name: .paywallIsShownDidChange,
+            object: nil
         )
     }
 
@@ -295,6 +290,24 @@ AppViewModel: \(#function) PushNotificationData not found in userInfo = \(String
     @objc
     private func handleApplicationWillEnterForeground() {
         onNewMessage(AppFeatureMessageAppBecomesActive())
+    }
+
+    @objc
+    func handlePaywallIsShownDidChange(notification: Foundation.Notification) {
+        let key = PaywallIsShownNotification.PayloadKey.isPaywallShown.rawValue
+
+        guard let isPaywallShown = notification.userInfo?[key] as? Bool else {
+            #if DEBUG
+            print(
+"""
+AppViewModel: \(#function) isPaywallShown not found in userInfo = \(String(describing: notification.userInfo))
+"""
+            )
+            #endif
+            return
+        }
+
+        onNewMessage(AppFeatureMessageIsPaywallShownChanged(isPaywallShown: isPaywallShown))
     }
 }
 

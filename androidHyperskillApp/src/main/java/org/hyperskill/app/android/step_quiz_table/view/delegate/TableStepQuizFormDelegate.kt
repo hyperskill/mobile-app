@@ -8,12 +8,12 @@ import org.hyperskill.app.android.step_quiz_table.view.adapter.TableSelectionIte
 import org.hyperskill.app.android.step_quiz_table.view.fragment.TableColumnSelectionBottomSheetDialogFragment
 import org.hyperskill.app.android.step_quiz_table.view.mapper.TableSelectionItemMapper
 import org.hyperskill.app.android.step_quiz_table.view.model.TableSelectionItem
-import org.hyperskill.app.step_quiz.domain.model.submissions.Cell
-import org.hyperskill.app.step_quiz.domain.model.submissions.ChoiceAnswer
-import org.hyperskill.app.step_quiz.domain.model.submissions.Reply
-import org.hyperskill.app.step_quiz.domain.model.submissions.TableChoiceAnswer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.submissions.domain.model.Cell
+import org.hyperskill.app.submissions.domain.model.ChoiceAnswer
+import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.TableChoiceAnswer
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.core.model.mutate

@@ -4,10 +4,15 @@ struct StepQuizPyCharmView: View {
     @StateObject var viewModel: StepQuizPyCharmViewModel
 
     @Environment(\.isEnabled) private var isEnabled
+    @Environment(\.isFixCodeMistakesBadgeVisible) private var isFixCodeMistakesBadgeVisible
 
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             let viewData = viewModel.viewData
+
+            if isFixCodeMistakesBadgeVisible {
+                StepQuizCodeFixCodeMistakesBadge()
+            }
 
             StepQuizCodeEditorView(
                 code: Binding(

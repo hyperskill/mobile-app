@@ -159,10 +159,7 @@ struct StepQuizView: View {
         attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded
     ) -> some View {
         if let dataset = attemptLoadedState.attempt.dataset {
-            let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty
-            let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
-
-            let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
+            let reply = StepQuizStateExtensionsKt.reply(attemptLoadedState.submissionState)
 
             StepQuizChildQuizViewFactory.make(
                 quizType: quizType,
@@ -173,6 +170,7 @@ struct StepQuizView: View {
                 moduleOutput: viewModel
             )
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
+            .environment(\.isFixCodeMistakesBadgeVisible, attemptLoadedState.isFixGptCodeGenerationMistakesBadgeVisible)
         }
     }
 
@@ -324,12 +322,7 @@ struct StepQuizView: View {
                     }
                 )
             case .paywall(let data):
-                let assembly = PaywallAssembly(
-                    context: .init(
-                        source: data.paywallTransitionSource,
-                        moduleOutput: nil
-                    )
-                )
+                let assembly = PaywallAssembly(source: data.paywallTransitionSource)
                 modalRouter.present(module: assembly.makeModule())
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):

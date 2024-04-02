@@ -11,6 +11,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.setHyperskillColors
@@ -22,13 +24,14 @@ import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.paywall.ui.PaywallScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.paywall.presentation.PaywallFeature
 import org.hyperskill.app.paywall.presentation.PaywallFeature.Action.ViewAction
 import org.hyperskill.app.paywall.presentation.PaywallViewModel
 import ru.nobird.android.view.base.ui.extension.argument
 
 class PaywallFragment : Fragment() {
     companion object {
-        const val PAYWALL_COMPLETED = "PAYWALL_COMPLETED"
+        const val PAYWALL_IS_SHOWN_CHANGED = "PAYWALL_IS_SHOWN_CHANGED"
 
         fun newInstance(paywallTransitionSource: PaywallTransitionSource): PaywallFragment =
             PaywallFragment().apply {
@@ -47,6 +50,17 @@ class PaywallFragment : Fragment() {
         super.onCreate(savedInstanceState)
         injectComponent()
         paywallViewModel.handleActions(this, onAction = ::onAction)
+        lifecycle.addObserver(
+            LifecycleEventObserver { _, event ->
+                when (event) {
+                    Lifecycle.Event.ON_START -> paywallViewModel.onNewMessage(PaywallFeature.Message.ScreenShowed)
+                    Lifecycle.Event.ON_STOP -> paywallViewModel.onNewMessage(PaywallFeature.Message.ScreenHidden)
+                    else -> {
+                        // no op
+                    }
+                }
+            }
+        )
     }
 
     private fun injectComponent() {
@@ -74,8 +88,8 @@ class PaywallFragment : Fragment() {
 
     private fun onAction(action: ViewAction) {
         when (action) {
-            ViewAction.CompletePaywall -> {
-                requireAppRouter().sendResult(PAYWALL_COMPLETED, Any())
+            is ViewAction.NotifyPaywallIsShown -> {
+                requireAppRouter().sendResult(PAYWALL_IS_SHOWN_CHANGED, action.isPaywallShown)
             }
             ViewAction.NavigateTo.Back -> {
                 requireRouter().exit()

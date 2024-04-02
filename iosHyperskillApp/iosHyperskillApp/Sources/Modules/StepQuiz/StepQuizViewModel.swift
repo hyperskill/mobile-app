@@ -121,10 +121,7 @@ final class StepQuizViewModel: FeatureViewModel<
                 return
             }
 
-            let submissionStateEmpty = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateEmpty
-            let submissionStateLoaded = attemptLoadedState.submissionState as? StepQuizFeatureSubmissionStateLoaded
-
-            let reply = submissionStateLoaded?.submission.reply ?? submissionStateEmpty?.reply
+            let reply = StepQuizStateExtensionsKt.reply(attemptLoadedState.submissionState)
 
             strongSelf.childQuizModuleInput?.update(step: strongSelf.step, dataset: dataset, reply: reply)
         }

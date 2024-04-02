@@ -31,3 +31,6 @@ val FeaturesMap.isMobileUsersQuestionnaireEnabled: Boolean
 
 val FeaturesMap.isMobileShortTheoryEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_SHORT_THEORY) ?: false
+
+val FeaturesMap.isMobileGptCodeGenerationWithErrorsEnabled: Boolean
+    get() = get(FeatureKeys.MOBILE_GPT_CODE_GENERATION_WITH_ERRORS) ?: false
