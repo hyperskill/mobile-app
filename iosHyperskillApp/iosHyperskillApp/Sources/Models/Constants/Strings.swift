@@ -156,6 +156,11 @@ enum Strings {
               sharedStrings.step_quiz_problem_onboarding_modal_parsons_description.localized()
             static let fillBlanksDescription =
               sharedStrings.step_quiz_problem_onboarding_modal_fill_blanks_description.localized()
+
+            static let gptCodeGenerationWithErrorsHeader =
+              sharedStrings.step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_header.localized()
+            static let gptCodeGenerationWithErrorsDescription =
+              sharedStrings.step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_description.localized()
         }
     }
 

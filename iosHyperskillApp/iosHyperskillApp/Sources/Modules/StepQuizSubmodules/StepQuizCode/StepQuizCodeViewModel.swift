@@ -69,6 +69,12 @@ class StepQuizCodeViewModel: ObservableObject {
             StepQuizFeatureMessageCodeEditorClickedInputAccessoryButtonEventMessage(symbol: symbol)
         )
     }
+
+    func logClickedFixCodeMistakesQuestionmarkButton() {
+        moduleOutput?.handleChildQuizAnalyticEventMessage(
+            StepQuizFeatureMessageFixGptGeneratedCodeMistakesBadgeClickedQuestionMark()
+        )
+    }
 }
 
 // MARK: - StepQuizCodeViewModel: StepQuizChildQuizInputProtocol -

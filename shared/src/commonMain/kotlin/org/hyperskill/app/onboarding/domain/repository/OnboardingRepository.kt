@@ -11,13 +11,17 @@ interface OnboardingRepository {
     fun isFillBlanksSelectModeOnboardingShown(): Boolean
     fun setFillBlanksSelectModeOnboardingShown(isShown: Boolean)
 
+    fun isGptCodeGenerationWithErrorsOnboardingShown(): Boolean
+    fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean)
+
     fun wasFirstProblemOnboardingShown(): Boolean
     fun setFirstProblemOnboardingWasShown(wasShown: Boolean)
 }
 
-fun OnboardingRepository.getProblemsOnboardingFlags(): ProblemsOnboardingFlags =
+internal fun OnboardingRepository.getProblemsOnboardingFlags(): ProblemsOnboardingFlags =
     ProblemsOnboardingFlags(
         isParsonsOnboardingShown = isParsonsOnboardingShown(),
         isFillBlanksInputModeOnboardingShown = isFillBlanksInputModeOnboardingShown(),
-        isFillBlanksSelectModeOnboardingShown = isFillBlanksSelectModeOnboardingShown()
+        isFillBlanksSelectModeOnboardingShown = isFillBlanksSelectModeOnboardingShown(),
+        isGptCodeGenerationWithErrorsOnboardingShown = isGptCodeGenerationWithErrorsOnboardingShown()
     )
