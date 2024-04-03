@@ -575,7 +575,6 @@ internal class StepQuizReducer(
             else -> emptySet()
         }
 
-    @Suppress("ReturnCount")
     private fun applyGptGeneratedCodeWithErrorsIfNeeded(
         state: StepQuizState.AttemptLoaded,
         gptCodeGenerationWithErrorsData: StepQuizFeature.GptCodeGenerationWithErrorsData
