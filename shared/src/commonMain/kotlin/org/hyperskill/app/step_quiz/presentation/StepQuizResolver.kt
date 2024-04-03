@@ -173,15 +173,10 @@ object StepQuizResolver {
         submissionState: StepQuizFeature.SubmissionState,
         isMobileGptCodeGenerationWithErrorsEnabled: Boolean,
         isMobileGptCodeGenerationWithErrorsOnboardingShown: Boolean
-    ): Boolean {
-        if (!isMobileGptCodeGenerationWithErrorsEnabled || isMobileGptCodeGenerationWithErrorsOnboardingShown) {
-            return false
+    ): Boolean =
+        when {
+            !isMobileGptCodeGenerationWithErrorsEnabled || isMobileGptCodeGenerationWithErrorsOnboardingShown -> false
+            submissionState !is StepQuizFeature.SubmissionState.Empty -> false
+            else -> BlockName.codeRelatedBlocksNames.contains(step.block.name) && !isIdeRequired(step, submissionState)
         }
-
-        if (submissionState !is StepQuizFeature.SubmissionState.Empty) {
-            return false
-        }
-
-        return BlockName.codeRelatedBlocksNames.contains(step.block.name) && !isIdeRequired(step, submissionState)
-    }
 }

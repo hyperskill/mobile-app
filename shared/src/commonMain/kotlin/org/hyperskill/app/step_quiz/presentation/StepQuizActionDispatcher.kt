@@ -345,7 +345,7 @@ internal class StepQuizActionDispatcher(
     private suspend fun handleGenerateGptCodeWithErrorsAction(
         action: InternalAction.GenerateGptCodeWithErrors,
         onNewMessage: (Message) -> Unit
-    ) =
+    ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildStepQuizGenerateGptCodeWithErrors(
                 blockName = action.attemptLoadedState.step.block.name
@@ -367,4 +367,5 @@ internal class StepQuizActionDispatcher(
                 )
             }
         ).let(onNewMessage)
+    }
 }

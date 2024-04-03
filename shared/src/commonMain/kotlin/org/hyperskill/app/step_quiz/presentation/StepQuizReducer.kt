@@ -358,16 +358,8 @@ internal class StepQuizReducer(
                     )
                 )
             }
-            Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark -> {
-                state to setOf(
-                    InternalAction.LogAnalyticEvent(
-                        StepQuizFixGptGeneratedCodeMistakesBadgeClickedQuestionMarkHyperskillAnalyticEvent(stepRoute)
-                    ),
-                    Action.ViewAction.ShowProblemOnboardingModal(
-                        modalType = StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors
-                    )
-                )
-            }
+            Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark ->
+                handleFixGptGeneratedCodeMistakesBadgeClickedQuestionMark(state)
             // Wrapper Messages
             is Message.StepQuizHintsMessage -> {
                 val (stepQuizHintsState, stepQuizHintsActions) =
@@ -563,6 +555,16 @@ internal class StepQuizReducer(
         } else {
             state to emptySet()
         }
+
+    private fun handleFixGptGeneratedCodeMistakesBadgeClickedQuestionMark(state: State): StepQuizReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StepQuizFixGptGeneratedCodeMistakesBadgeClickedQuestionMarkHyperskillAnalyticEvent(stepRoute)
+            ),
+            Action.ViewAction.ShowProblemOnboardingModal(
+                modalType = StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors
+            )
+        )
 
     private fun createLocalSubmission(oldState: StepQuizState.AttemptLoaded, reply: Reply): Submission {
         val submission = (oldState.submissionState as? StepQuizFeature.SubmissionState.Loaded)?.submission
