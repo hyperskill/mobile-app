@@ -6,7 +6,7 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.sentry.HttpStatusCodeRange
 import io.sentry.android.okhttp.SentryOkHttpInterceptor
 
-@Suppress("FunctionName")
+@Suppress("FunctionName", "MagicNumber")
 internal actual fun PreconfiguredPlatformHttpClient(block: HttpClientConfig<*>.() -> Unit): HttpClient =
     HttpClient(OkHttp) {
         apply(block)
