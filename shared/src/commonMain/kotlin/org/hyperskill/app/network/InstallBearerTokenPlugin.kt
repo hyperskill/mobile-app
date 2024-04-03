@@ -25,7 +25,7 @@ internal fun HttpClientConfig<*>.installBearerTokenPlugin(
                 tokenSocialAuthClient = tokenSocialAuthClient
             ).fold(
                 onSuccess = {
-                    logger.i { "Successfully refresh access token" }
+                    logger.d { "Successfully refresh access token" }
                     true
                 },
                 onFailure = {
@@ -38,11 +38,11 @@ internal fun HttpClientConfig<*>.installBearerTokenPlugin(
             val isExpired =
                 BearerTokenHandler.checkAccessTokenIsExpired(dependencies.json, dependencies.settings)
             if (isExpired) {
-                logger.i { "Access token expired" }
+                logger.e { "Access token expired" }
             }
             isExpired
         }
-        tokenFailureReporter = {
+        tokenRefreshFailedReporter = {
             dependencies
                 .authorizationFlow
                 .tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE))

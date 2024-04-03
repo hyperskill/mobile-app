@@ -17,7 +17,7 @@ internal class BearerTokenHttpClientPlugin(
     private val tokenProvider: () -> String?,
     private val tokenUpdater: suspend () -> Boolean,
     private val tokenExpirationChecker: () -> Boolean,
-    private val tokenFailureReporter: () -> Unit
+    private val tokenRefreshFailedReporter: () -> Unit
 ) {
 
     class Config {
@@ -25,15 +25,15 @@ internal class BearerTokenHttpClientPlugin(
         var tokenProvider: (() -> String?)? = null
         var tokenUpdater: (suspend () -> Boolean)? = null
         var tokenExpirationChecker: (() -> Boolean)? = null
-        var tokenFailureReporter: (() -> Unit)? = null
+        var tokenRefreshFailedReporter: (() -> Unit)? = null
 
         fun build(): BearerTokenHttpClientPlugin =
             BearerTokenHttpClientPlugin(
-                authMutex ?: throw IllegalArgumentException("authorization mutex should be passed"),
-                tokenProvider ?: throw IllegalArgumentException("tokenProvider should be passed"),
-                tokenUpdater ?: throw IllegalArgumentException("tokenUpdater should be passed"),
-                tokenExpirationChecker ?: throw IllegalArgumentException("tokenExpirationChecker should be passed"),
-                tokenFailureReporter ?: throw IllegalArgumentException("tokenFailureReporter should be passed")
+                authMutex ?: error("authorization mutex should be passed"),
+                tokenProvider ?: error("tokenProvider should be passed"),
+                tokenUpdater ?: error("tokenUpdater should be passed"),
+                tokenExpirationChecker ?: error("tokenExpirationChecker should be passed"),
+                tokenRefreshFailedReporter ?: error("tokenRefreshFailedReporter should be passed")
             )
     }
 
@@ -68,7 +68,7 @@ internal class BearerTokenHttpClientPlugin(
                 if (origin.response.status != HttpStatusCode.Forbidden) return@intercept origin
                 if (origin.request.attributes.contains(circuitBreaker)) return@intercept origin
 
-                plugin.tokenFailureReporter.invoke()
+                plugin.tokenRefreshFailedReporter.invoke()
                 return@intercept origin
             }
         }
