@@ -120,7 +120,10 @@ constructor(
                 val dy = startY - event.y
                 event.setLocation(event.x, event.y)
 
-                if (abs(dx) > abs(dy) && canScrollHorizontally(dx.toInt())) {
+                val disallowInterceptTouchEvent =
+                    abs(dx) > abs(dy) &&
+                        (canScrollHorizontally(dx.toInt()) || !canScrollVertically(dy.toInt()))
+                if (disallowInterceptTouchEvent) {
                     parent.requestDisallowInterceptTouchEvent(true)
                 }
             }
@@ -139,21 +142,32 @@ constructor(
             dx < 0 && scrollState.canScrollLeft ||
             dx > 0 && scrollState.canScrollRight
 
-    private inner class OnScrollWebListener {
+    override fun canScrollVertically(direction: Int): Boolean =
+        super.canScrollVertically(direction) ||
+            scrollState.canScrollVertically
+
+    private inner class OnScrollWebListener : HorizontalScrollBlock.Listener {
         @JavascriptInterface
-        fun onScroll(offsetWidth: Float, scrollWidth: Float, scrollLeft: Float) {
+        override fun onScroll(offsetWidth: Float, scrollWidth: Float, scrollLeft: Float) {
             scrollState.canScrollLeft = scrollLeft > 0
             scrollState.canScrollRight = offsetWidth + scrollLeft < scrollWidth
+        }
+
+        @JavascriptInterface
+        override fun onCodeScroll(offsetWidth: Float, scrollWidth: Float) {
+            scrollState.canScrollVertically = offsetWidth >= scrollWidth
         }
     }
 
     private class ScrollState(
-        internal var canScrollLeft: Boolean = false,
-        internal var canScrollRight: Boolean = false
+        var canScrollLeft: Boolean = false,
+        var canScrollRight: Boolean = false,
+        var canScrollVertically: Boolean = true
     ) {
-        internal fun reset() {
+        fun reset() {
             canScrollLeft = false
             canScrollRight = false
+            canScrollVertically = true
         }
     }
 }
