@@ -1,4 +1,4 @@
-package org.hyperskill.app.auth.remote.source
+package org.hyperskill.app.network.plugin
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
@@ -20,7 +20,7 @@ import io.ktor.util.AttributeKey
 import io.ktor.utils.io.core.Closeable
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
-class HttpCookiesPlugin(
+internal class HttpCookiesPlugin(
     private val storage: CookiesStorage,
     private val shouldSendCookiesForRequest: Boolean,
     private val networkEndpointConfigInfo: NetworkEndpointConfigInfo

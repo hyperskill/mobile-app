@@ -1,4 +1,4 @@
-package org.hyperskill.app.auth.remote.source
+package org.hyperskill.app.network.plugin.bearer_token
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
@@ -6,14 +6,14 @@ import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.AttributeKey
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class BearerTokenHttpClientPlugin(
+internal class BearerTokenHttpClientPlugin(
     private val authMutex: Mutex,
-    private val tokenHeaderName: String,
     private val tokenProvider: () -> String?,
     private val tokenUpdater: suspend () -> Boolean,
     private val tokenExpirationChecker: () -> Boolean,
@@ -22,7 +22,6 @@ class BearerTokenHttpClientPlugin(
 
     class Config {
         var authMutex: Mutex? = null
-        var tokenHeaderName: String? = null
         var tokenProvider: (() -> String?)? = null
         var tokenUpdater: (suspend () -> Boolean)? = null
         var tokenExpirationChecker: (() -> Boolean)? = null
@@ -31,7 +30,6 @@ class BearerTokenHttpClientPlugin(
         fun build(): BearerTokenHttpClientPlugin =
             BearerTokenHttpClientPlugin(
                 authMutex ?: throw IllegalArgumentException("authorization mutex should be passed"),
-                tokenHeaderName ?: throw IllegalArgumentException("headerName should be passed"),
                 tokenProvider ?: throw IllegalArgumentException("tokenProvider should be passed"),
                 tokenUpdater ?: throw IllegalArgumentException("tokenUpdater should be passed"),
                 tokenExpirationChecker ?: throw IllegalArgumentException("tokenExpirationChecker should be passed"),
@@ -52,20 +50,15 @@ class BearerTokenHttpClientPlugin(
                     if (plugin.tokenExpirationChecker.invoke()) {
                         // Check if refresh is successful
                         if (!plugin.tokenUpdater.invoke()) {
-                            plugin.tokenFailureReporter.invoke()
-                            return@withLock
+                            throw BearerTokenPluginException.TokenRefreshFailedException()
                         }
                     }
 
                     val token = plugin.tokenProvider.invoke()
+                        ?: throw BearerTokenPluginException.TokenNotFoundException()
 
-                    if (token == null) {
-                        plugin.tokenFailureReporter.invoke()
-                        return@withLock
-                    }
-
-                    context.headers.remove(plugin.tokenHeaderName)
-                    context.header(plugin.tokenHeaderName, buildBearerHeader(token))
+                    context.headers.remove(HttpHeaders.Authorization)
+                    context.header(HttpHeaders.Authorization, buildBearerHeader(token))
                 }
             }
 
