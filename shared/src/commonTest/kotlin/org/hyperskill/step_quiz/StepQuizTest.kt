@@ -16,6 +16,7 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.onboarding.domain.model.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
 
@@ -58,15 +59,8 @@ class StepQuizTest {
                         description = "",
                         unlockLimitsButtonText = null
                     ),
-                    problemsOnboardingFlags = ProblemsOnboardingFlags(
-                        isParsonsOnboardingShown = false,
-                        isFillBlanksInputModeOnboardingShown = false,
-                        isFillBlanksSelectModeOnboardingShown = false
-                    ),
-                    gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
-                        isEnabled = false,
-                        code = null
-                    )
+                    problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
+                    isMobileGptCodeGenerationWithErrorsEnabled = false
                 )
             )
 
@@ -111,15 +105,8 @@ class StepQuizTest {
                     description = "",
                     unlockLimitsButtonText = null
                 ),
-                problemsOnboardingFlags = ProblemsOnboardingFlags(
-                    isParsonsOnboardingShown = false,
-                    isFillBlanksInputModeOnboardingShown = false,
-                    isFillBlanksSelectModeOnboardingShown = false
-                ),
-                gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
-                    isEnabled = false,
-                    code = null
-                )
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
+                isMobileGptCodeGenerationWithErrorsEnabled = false
             )
         )
 
@@ -353,15 +340,8 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = false,
                 problemsLimitReachedModalData = null,
-                problemsOnboardingFlags = ProblemsOnboardingFlags(
-                    isParsonsOnboardingShown = false,
-                    isFillBlanksInputModeOnboardingShown = false,
-                    isFillBlanksSelectModeOnboardingShown = false
-                ),
-                gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
-                    isEnabled = false,
-                    code = null
-                )
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
+                isMobileGptCodeGenerationWithErrorsEnabled = false
             )
         )
 
@@ -419,15 +399,8 @@ class StepQuizTest {
                 submissionState,
                 isProblemsLimitReached = false,
                 problemsLimitReachedModalData = null,
-                problemsOnboardingFlags = ProblemsOnboardingFlags(
-                    isParsonsOnboardingShown = false,
-                    isFillBlanksInputModeOnboardingShown = false,
-                    isFillBlanksSelectModeOnboardingShown = false
-                ),
-                gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
-                    isEnabled = false,
-                    code = null
-                )
+                problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
+                isMobileGptCodeGenerationWithErrorsEnabled = false
             )
         )
 

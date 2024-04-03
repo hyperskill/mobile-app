@@ -11,7 +11,9 @@ struct StepQuizSQLView: View {
             let viewData = viewModel.viewData
 
             if isFixCodeMistakesBadgeVisible {
-                StepQuizCodeFixCodeMistakesBadge()
+                StepQuizCodeFixCodeMistakesBadge(
+                    onQuestionmarkButtonTap: viewModel.logClickedFixCodeMistakesQuestionmarkButton
+                )
             }
 
             StepQuizCodeEditorView(

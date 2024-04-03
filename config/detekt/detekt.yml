@@ -140,6 +140,7 @@ complexity:
   LongMethod:
     active: true
     threshold: 60
+    excludes: *testFolders
     ignoreFunction:
       - 'build'
       - 'reduce'

@@ -41,4 +41,6 @@ internal val StepQuizFeature.ProblemOnboardingModal.hyperskillAnalyticTarget: Hy
                 FillBlanksMode.INPUT -> HyperskillAnalyticTarget.FILL_BLANKS_INPUT_MODE_ONBOARDING_MODAL
                 FillBlanksMode.SELECT -> HyperskillAnalyticTarget.FILL_BLANKS_SELECT_MODE_ONBOARDING_MODAL
             }
+        StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
+            HyperskillAnalyticTarget.GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL
     }
