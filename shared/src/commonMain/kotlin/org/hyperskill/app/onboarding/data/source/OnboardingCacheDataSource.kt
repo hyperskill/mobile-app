@@ -9,6 +9,9 @@ interface OnboardingCacheDataSource {
     fun isFillBlanksSelectModeOnboardingShown(): Boolean
     fun setFillBlanksSelectModeOnboardingShown(isShown: Boolean)
 
+    fun isGptCodeGenerationWithErrorsOnboardingShown(): Boolean
+    fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean)
+
     fun wasFirstProblemOnboardingShown(): Boolean
     fun setFirstProblemOnboardingWasShown(wasShown: Boolean)
 }

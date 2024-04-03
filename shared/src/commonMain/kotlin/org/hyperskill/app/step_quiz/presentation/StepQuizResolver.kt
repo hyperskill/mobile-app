@@ -168,11 +168,15 @@ object StepQuizResolver {
         }
     }
 
-    internal fun isGptCodeGenerationWithErrorsAvailable(
+    internal fun isMobileGptCodeGenerationWithErrorsAvailable(
         step: Step,
-        isMobileGptCodeGenerationWithErrorsEnabled: Boolean
+        submissionState: StepQuizFeature.SubmissionState,
+        isMobileGptCodeGenerationWithErrorsEnabled: Boolean,
+        isMobileGptCodeGenerationWithErrorsOnboardingShown: Boolean
     ): Boolean =
-        isMobileGptCodeGenerationWithErrorsEnabled &&
-            BlockName.codeRelatedBlocksNames.contains(step.block.name) &&
-            !step.isIdeRequired()
+        when {
+            !isMobileGptCodeGenerationWithErrorsEnabled || isMobileGptCodeGenerationWithErrorsOnboardingShown -> false
+            submissionState !is StepQuizFeature.SubmissionState.Empty -> false
+            else -> BlockName.codeRelatedBlocksNames.contains(step.block.name) && !isIdeRequired(step, submissionState)
+        }
 }

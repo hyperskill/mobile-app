@@ -9,6 +9,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.onboarding.domain.model.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
 import org.junit.Test
@@ -76,15 +77,8 @@ class AndroidStepQuizTest {
                         submissionState,
                         isProblemsLimitReached = false,
                         problemsLimitReachedModalData = null,
-                        problemsOnboardingFlags = ProblemsOnboardingFlags(
-                            isParsonsOnboardingShown = false,
-                            isFillBlanksInputModeOnboardingShown = false,
-                            isFillBlanksSelectModeOnboardingShown = false
-                        ),
-                        gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
-                            isEnabled = false,
-                            code = null
-                        )
+                        problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
+                        isMobileGptCodeGenerationWithErrorsEnabled = false
                     )
                 )
 

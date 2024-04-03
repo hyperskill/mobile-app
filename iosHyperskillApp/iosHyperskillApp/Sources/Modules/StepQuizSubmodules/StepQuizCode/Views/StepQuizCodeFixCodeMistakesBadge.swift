@@ -1,21 +1,37 @@
 import SwiftUI
 
 struct StepQuizCodeFixCodeMistakesBadge: View {
+    var onQuestionmarkButtonTap: () -> Void
+
     var body: some View {
-        Text(Strings.StepQuizCode.badgeFixMistakes)
-            .font(.headline)
-            .foregroundColor(.primaryText)
-            .padding(LayoutInsets.defaultInset)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color(ColorPalette.overlayVioletAlpha12))
-            .cornerRadius(LayoutInsets.smallInset)
+        HStack {
+            Text(Strings.StepQuizCode.badgeFixMistakes)
+                .foregroundColor(.primaryText)
+
+            Spacer()
+
+            Button(
+                action: onQuestionmarkButtonTap,
+                label: {
+                    Image(systemName: "questionmark.circle")
+                        .foregroundColor(.secondaryText)
+                }
+            )
+        }
+        .font(.headline)
+        .padding(LayoutInsets.defaultInset)
+        .frame(maxWidth: .infinity)
+        .background(Color(ColorPalette.overlayVioletAlpha12))
+        .cornerRadius(LayoutInsets.smallInset)
     }
 }
 
+#if DEBUG
 #Preview {
-    StepQuizCodeFixCodeMistakesBadge()
+    StepQuizCodeFixCodeMistakesBadge(onQuestionmarkButtonTap: {})
         .padding()
 }
+#endif
 
 // MARK: - SwiftUI Environment Value -
 

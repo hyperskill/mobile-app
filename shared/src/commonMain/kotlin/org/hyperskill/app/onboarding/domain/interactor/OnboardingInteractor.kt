@@ -19,6 +19,10 @@ class OnboardingInteractor(
         onboardingRepository.setFillBlanksSelectModeOnboardingShown(isShown)
     }
 
+    fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean) {
+        onboardingRepository.setGptCodeGenerationWithErrorsOnboardingShown(isShown)
+    }
+
     fun getProblemsOnboardingFlags(): ProblemsOnboardingFlags =
         onboardingRepository.getProblemsOnboardingFlags()
 
