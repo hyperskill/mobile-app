@@ -39,7 +39,9 @@ final class StreakFreezeModalViewController: PanModalPresentableViewController {
 
     override var shortFormHeight: PanModalHeight {
         let contentStackViewSize = contentStackView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        let height = appearance.contentStackViewInsets.top + contentStackViewSize.height
+        let height = appearance.contentStackViewInsets.top
+            + contentStackViewSize.height
+            + appearance.contentStackViewInsets.bottom
         return .contentHeight(height)
     }
 

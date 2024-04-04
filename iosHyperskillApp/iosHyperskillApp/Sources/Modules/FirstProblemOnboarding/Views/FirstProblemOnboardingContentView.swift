@@ -104,7 +104,8 @@ struct FirstProblemOnboardingContentView: View {
 
 // MARK: - FirstProblemOnboardingContentView (Previews) -
 
-#Preview("Mobile device") {
+#if DEBUG
+#Preview("Existed User") {
     FirstProblemOnboardingContentView(
         title: "Let's keep going!",
         subtitle: "It seems you've already made progress. Continue learning on '{project(or track).title}'!",
@@ -112,10 +113,9 @@ struct FirstProblemOnboardingContentView: View {
         isNewUserMode: false,
         onCallToActionButtonTap: {}
     )
-    .previewDevice(PreviewDevice(rawValue: "iPhone 14 Pro"))
 }
 
-#Preview("Tablet device") {
+#Preview("New User") {
     FirstProblemOnboardingContentView(
         title: "Great choice!",
         subtitle: "Embark on your journey in '{project(or track).title}' right now!",
@@ -123,5 +123,5 @@ struct FirstProblemOnboardingContentView: View {
         isNewUserMode: true,
         onCallToActionButtonTap: {}
     )
-    .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
 }
+#endif

@@ -22,7 +22,7 @@ struct ChallengeWidgetContentStateHeaderView: View {
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 56, height: 48)
+                .frame(maxWidth: 54, maxHeight: 48)
         }
     }
 }
@@ -52,6 +52,7 @@ extension ChallengeWidgetContentStateHeaderView {
     }
 }
 
+#if DEBUG
 #Preview {
     let title = "Advent Streak Challenge"
     let badgeText = "6 Oct - 12 Oct"
@@ -89,3 +90,4 @@ extension ChallengeWidgetContentStateHeaderView {
     }
     .padding()
 }
+#endif
