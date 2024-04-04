@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>393</string>
+	<string>394</string>
 	<key>FirebaseAppDelegateProxyEnabled</key>
 	<false/>
 	<key>FirebaseMessagingAutoInitEnabled</key>
