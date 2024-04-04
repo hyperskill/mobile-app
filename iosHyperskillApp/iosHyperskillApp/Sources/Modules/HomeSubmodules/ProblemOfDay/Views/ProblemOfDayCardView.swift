@@ -151,6 +151,7 @@ struct ProblemOfDayCardView: View {
         fileprivate var titleIconName: String {
             switch self {
             case .completed:
+                #warning("Use SF Symbols icon instaed of custom")
                 return Images.Home.ProblemOfDay.done
             case .uncompleted, .unavailable:
                 return Images.Home.ProblemOfDay.calendar
