@@ -650,7 +650,7 @@
     <string name="paywall_tos_and_privacy_bth">Hyperskill Terms of Service and Privacy Policy</string>
     <string name="paywall_tos_and_privacy_url">https://hi.hyperskill.org/terms</string>
     <string name="paywall_android_subscription_duration">Monthly</string>
-    <string name="paywall_android_explicit_subscription_price">%s / month</string>
+    <string name="paywall_android_explicit_subscription_price">%s / month, cancel any time</string>
 
     <!--Manage subscription-->
     <string name="manage_subscription_screen_title">Subscription</string>
