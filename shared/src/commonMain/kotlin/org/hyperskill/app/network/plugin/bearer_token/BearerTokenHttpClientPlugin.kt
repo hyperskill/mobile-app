@@ -61,6 +61,7 @@ internal class BearerTokenHttpClientPlugin(
                     val token = plugin.tokenProvider.invoke()
                     if (token == null) {
                         plugin.tokenRefreshFailedReporter.invoke()
+                        return@withLock
                     }
 
                     context.headers.remove(HttpHeaders.Authorization)
