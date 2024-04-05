@@ -11,6 +11,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.properties.Properties
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     kotlin("multiplatform")
@@ -230,6 +231,9 @@ multiplatformResources {
 }
 
 ktlint {
+    reporters {
+        reporter(ReporterType.SARIF)
+    }
     filter {
         exclude { element -> element.file.path.contains("build/") }
     }
