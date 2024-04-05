@@ -238,11 +238,13 @@ ktlint {
     }
 }
 
-// This is necessary for GitHub Code Scanning,
-// so that GitHub knows where the repository is to place annotations correctly.
-// https://github.com/pinterest/ktlint/blob/9ed074638edf15986fa33d3c810acb1495a98612/ktlint-cli-reporter-sarif/src/main/kotlin/com/pinterest/ktlint/cli/reporter/sarif/SarifReporter.kt#L45
-tasks.withType<org.jlleitschuh.gradle.ktlint.tasks.KtLintCheckTask> {
-    if (SystemProperties.isCI()) {
+tasks.register("setUserHome") {
+    description = """
+        Sets user.home system property to the project root directory. This is necessary for GitHub Code Scanning, 
+        so that GitHub knows where the repository is to place annotations correctly.
+        https://github.com/pinterest/ktlint/blob/9ed074638edf15986fa33d3c810acb1495a98612/ktlint-cli-reporter-sarif/src/main/kotlin/com/pinterest/ktlint/cli/reporter/sarif/SarifReporter.kt#L45
+    """.trimIndent()
+    doLast {
         System.setProperty("user.home", rootProject.projectDir.absolutePath)
     }
 }

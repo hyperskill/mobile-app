@@ -70,7 +70,7 @@ jobs:
       uses: ./.github/actions/setup-android
 
     - name: Run ktlint
-      run: ./gradlew ktlintCheck --stacktrace
+      run: ./gradlew setUserHome ktlintCheck --stacktrace
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
