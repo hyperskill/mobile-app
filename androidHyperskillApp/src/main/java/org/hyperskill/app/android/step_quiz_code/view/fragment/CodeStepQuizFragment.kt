@@ -138,6 +138,11 @@ class CodeStepQuizFragment :
             viewBinding = binding,
             codeLayoutDelegate = createCodeLayoutDelegate(),
             codeStepQuizConfig = config,
+            onCodeGenerationAlertClick = {
+                stepQuizViewModel.onNewMessage(
+                    StepQuizFeature.Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark
+                )
+            },
             onFullscreenClicked = ::onFullScreenClicked,
             onQuizChanged = ::syncReplyState
         )

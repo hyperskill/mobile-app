@@ -22,6 +22,7 @@ class CodeStepQuizFormDelegate(
     private val viewBinding: LayoutStepQuizCodeBinding,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val codeStepQuizConfig: CodeStepQuizConfig,
+    private val onCodeGenerationAlertClick: () -> Unit,
     private val onFullscreenClicked: (lang: String, code: String) -> Unit,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
@@ -95,6 +96,11 @@ class CodeStepQuizFormDelegate(
 
         viewBinding.stepQuizCodeFixMistakesBadge.isVisible =
             state.isFixGptCodeGenerationMistakesBadgeVisible
+        if (state.isFixGptCodeGenerationMistakesBadgeVisible) {
+            viewBinding.stepQuizCodeFixMistakesBadge.setOnClickListener {
+                onCodeGenerationAlertClick()
+            }
+        }
     }
 
     fun updateCodeLayoutFromDialog(newCode: String, onSubmitClicked: Boolean) {
