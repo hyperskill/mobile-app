@@ -11,12 +11,6 @@ val includedFiles: List<String> = listOf("**/*.kt")
 val excludedFiles: List<String> = listOf("**/resources/**", "**/build/**", "**/*.kts")
 
 tasks.withType<Detekt> {
-    println("---------------------------------")
-    println("System.getProperty(\"user.home\") = ${System.getProperty("user.home")}")
-    println("project.projectDir = ${project.projectDir}")
-    println("rootProject.projectDir.absolutePath = ${rootProject.projectDir.absolutePath}")
-    println("---------------------------------")
-
     basePath = rootProject.projectDir.absolutePath
     config.from(configFile)
     setSource(files(projectDir))

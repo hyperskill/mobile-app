@@ -237,6 +237,7 @@ ktlint {
     filter {
         exclude { element -> element.file.path.contains("build/") }
     }
+    System.setProperty("user.home", rootProject.projectDir.absolutePath)
 }
 
 kswift {
