@@ -11,7 +11,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.properties.Properties
 import org.jetbrains.kotlin.konan.properties.loadProperties
 import org.jetbrains.kotlin.konan.properties.propertyString
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     kotlin("multiplatform")
@@ -232,15 +231,20 @@ multiplatformResources {
 
 ktlint {
     reporters {
-        reporter(ReporterType.SARIF)
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.SARIF)
     }
     filter {
         exclude { element -> element.file.path.contains("build/") }
     }
-    // This is necessary for GitHub Code Scanning,
-    // so that GitHub knows where the repository is to place annotations correctly.
-    // https://github.com/pinterest/ktlint/blob/9ed074638edf15986fa33d3c810acb1495a98612/ktlint-cli-reporter-sarif/src/main/kotlin/com/pinterest/ktlint/cli/reporter/sarif/SarifReporter.kt#L45
-    System.setProperty("user.home", rootProject.projectDir.absolutePath)
+}
+
+// This is necessary for GitHub Code Scanning,
+// so that GitHub knows where the repository is to place annotations correctly.
+// https://github.com/pinterest/ktlint/blob/9ed074638edf15986fa33d3c810acb1495a98612/ktlint-cli-reporter-sarif/src/main/kotlin/com/pinterest/ktlint/cli/reporter/sarif/SarifReporter.kt#L45
+tasks.withType<org.jlleitschuh.gradle.ktlint.tasks.KtLintCheckTask> {
+    if (SystemProperties.isCI()) {
+        System.setProperty("user.home", rootProject.projectDir.absolutePath)
+    }
 }
 
 kswift {

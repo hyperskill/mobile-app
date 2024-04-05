@@ -10,6 +10,10 @@ import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 
 @Suppress("TooManyFunctions")
 object StepQuizResolver {
+    fun isNeedRecreateAttemptForNewSubmissionisNeedRecreateAttemptForNewSubmissionisNeedRecreateAttemptForNewSubmission() {
+
+    }
+
     fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean {
         if (state.isProblemsLimitReached) {
             return false
