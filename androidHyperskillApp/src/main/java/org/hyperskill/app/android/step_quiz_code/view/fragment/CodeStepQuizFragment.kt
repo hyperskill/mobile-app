@@ -153,7 +153,6 @@ class CodeStepQuizFragment :
                 override fun onQuizChanged(reply: Reply) {
                     syncReplyState(reply)
                 }
-
             }
         )
         this.codeStepQuizFormDelegate = codeStepQuizFormDelegate
