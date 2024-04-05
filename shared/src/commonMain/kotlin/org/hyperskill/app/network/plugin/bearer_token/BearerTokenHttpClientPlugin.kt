@@ -15,7 +15,7 @@ import kotlinx.coroutines.sync.withLock
 internal class BearerTokenHttpClientPlugin(
     private val authMutex: Mutex,
     private val tokenProvider: () -> String?,
-    private val tokenUpdater: suspend () -> Boolean,
+    private val tokenUpdater: suspend () -> TokenRefreshResult,
     private val tokenExpirationChecker: () -> Boolean,
     private val tokenRefreshFailedReporter: () -> Unit
 ) {
@@ -23,7 +23,7 @@ internal class BearerTokenHttpClientPlugin(
     class Config {
         var authMutex: Mutex? = null
         var tokenProvider: (() -> String?)? = null
-        var tokenUpdater: (suspend () -> Boolean)? = null
+        var tokenUpdater: (suspend () -> TokenRefreshResult)? = null
         var tokenExpirationChecker: (() -> Boolean)? = null
         var tokenRefreshFailedReporter: (() -> Unit)? = null
 
@@ -48,14 +48,20 @@ internal class BearerTokenHttpClientPlugin(
                 plugin.authMutex.withLock {
                     // Check token expiration - if it is expired, update it
                     if (plugin.tokenExpirationChecker.invoke()) {
-                        // Check if refresh is successful
-                        if (!plugin.tokenUpdater.invoke()) {
-                            throw BearerTokenPluginException.TokenRefreshFailedException()
+                        val tokenRefreshResult = plugin.tokenUpdater.invoke()
+                        val shouldDeauthorizeUser =
+                            tokenRefreshResult is TokenRefreshResult.Failed &&
+                                tokenRefreshResult.shouldDeauthorizeUser
+                        if (shouldDeauthorizeUser) {
+                            plugin.tokenRefreshFailedReporter.invoke()
+                            return@withLock
                         }
                     }
 
                     val token = plugin.tokenProvider.invoke()
-                        ?: throw BearerTokenPluginException.TokenNotFoundException()
+                    if (token == null) {
+                        plugin.tokenRefreshFailedReporter.invoke()
+                    }
 
                     context.headers.remove(HttpHeaders.Authorization)
                     context.header(HttpHeaders.Authorization, buildBearerHeader(token))
