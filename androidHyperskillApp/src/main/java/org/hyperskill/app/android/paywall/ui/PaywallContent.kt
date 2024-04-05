@@ -132,7 +132,7 @@ private fun ContinueButton(
 
 @Composable
 private fun TermsOfService(
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Text(
         text = stringResource(id = R.string.paywall_tos_and_privacy_bth),
