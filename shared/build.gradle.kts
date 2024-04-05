@@ -237,6 +237,9 @@ ktlint {
     filter {
         exclude { element -> element.file.path.contains("build/") }
     }
+    // This is necessary for GitHub Code Scanning,
+    // so that GitHub knows where the repository is to place annotations correctly.
+    // https://github.com/pinterest/ktlint/blob/9ed074638edf15986fa33d3c810acb1495a98612/ktlint-cli-reporter-sarif/src/main/kotlin/com/pinterest/ktlint/cli/reporter/sarif/SarifReporter.kt#L45
     System.setProperty("user.home", rootProject.projectDir.absolutePath)
 }
 

@@ -8,10 +8,8 @@ import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 
+@Suppress("TooManyFunctions")
 object StepQuizResolver {
-    fun veryLongNameFunctionVeryLongNameFunctionVeryLongNameFunctionVeryLongNameFunctionveryLongNameFunctionVeryLongNameFunctionVeryLongNameFunctionVeryLongNameFunction() {
-    }
-
     fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean {
         if (state.isProblemsLimitReached) {
             return false
