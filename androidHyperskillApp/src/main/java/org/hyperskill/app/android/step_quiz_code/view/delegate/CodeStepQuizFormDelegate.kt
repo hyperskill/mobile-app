@@ -22,10 +22,16 @@ class CodeStepQuizFormDelegate(
     private val viewBinding: LayoutStepQuizCodeBinding,
     private val codeLayoutDelegate: CodeLayoutDelegate,
     private val codeStepQuizConfig: CodeStepQuizConfig,
-    private val onCodeGenerationAlertClick: () -> Unit,
-    private val onFullscreenClicked: (lang: String, code: String) -> Unit,
-    private val onQuizChanged: (Reply) -> Unit
+    private val callback: Callback
 ) : StepQuizFormDelegate {
+
+    interface Callback {
+        fun onCodeGenerationAlertClick()
+
+        fun onFullscreenClicked(lang: String, code: String)
+
+        fun onQuizChanged(reply: Reply)
+    }
 
     private val codeEditorViewBinding: LayoutEmbeddedCodeEditorBinding =
         viewBinding.stepQuizCodeEmbeddedEditor
@@ -38,7 +44,7 @@ class CodeStepQuizFormDelegate(
 
         override fun afterTextChanged(p0: Editable?) {
             code = p0?.toString()
-            onQuizChanged(codeStepQuizConfig.createReply(code))
+            callback.onQuizChanged(codeStepQuizConfig.createReply(code))
         }
     }
 
@@ -49,7 +55,7 @@ class CodeStepQuizFormDelegate(
         }
         with(codeEditorViewBinding) {
             embeddedCodeEditorExpand.setOnClickListener {
-                onFullscreenClicked(
+                callback.onFullscreenClicked(
                     codeStepQuizConfig.langName,
                     this@CodeStepQuizFormDelegate.code ?: codeStepQuizConfig.initialCode
                 )
@@ -98,7 +104,7 @@ class CodeStepQuizFormDelegate(
             state.isFixGptCodeGenerationMistakesBadgeVisible
         if (state.isFixGptCodeGenerationMistakesBadgeVisible) {
             viewBinding.stepQuizCodeFixMistakesBadge.setOnClickListener {
-                onCodeGenerationAlertClick()
+                callback.onCodeGenerationAlertClick()
             }
         }
     }
