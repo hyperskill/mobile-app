@@ -22,8 +22,6 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
-        const val TAG = "ProblemOnboardingBottomSheetDialogFragment"
-
         fun newInstance(
             modalType: StepQuizFeature.ProblemOnboardingModal
         ): ProblemOnboardingBottomSheetDialogFragment =
@@ -40,6 +38,9 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
         FragmentStepQuizProblemOnboardingBinding::bind
     )
 
+    private val callback: ProblemOnboardingBottomSheetCallback?
+        get() = parentFragment as? ProblemOnboardingBottomSheetCallback
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.TopCornersRoundedBottomSheetDialog)
@@ -50,7 +51,7 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
             dialog.setOnShowListener {
                 dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 if (savedInstanceState == null) {
-                    (parentFragment as? Callback)?.problemOnboardingShown(modalType)
+                    callback?.problemOnboardingShown(modalType)
                 }
             }
         }
@@ -77,7 +78,7 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        (parentFragment as? Callback)?.problemOnboardingHidden(modalType)
+        callback?.problemOnboardingHidden(modalType)
     }
 
     @RawRes
@@ -88,7 +89,7 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 FillBlanksMode.INPUT -> R.raw.fill_blanks_input_onboarding_animation
                 FillBlanksMode.SELECT -> R.raw.fill_blanks_select_onboarding_animation
             }
-            StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> TODO("ALTAPPS-1203")
+            StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> throwWrongModalTypeError()
         }
 
     private fun getDescription(
@@ -101,12 +102,11 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
                     org.hyperskill.app.R.string.step_quiz_problem_onboarding_modal_parsons_description
                 is StepQuizFeature.ProblemOnboardingModal.FillBlanks ->
                     org.hyperskill.app.R.string.step_quiz_problem_onboarding_modal_fill_blanks_description
-                StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> TODO("ALTAPPS-1203")
+                StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
+                    throwWrongModalTypeError()
             }
         )
 
-    interface Callback {
-        fun problemOnboardingShown(modalType: StepQuizFeature.ProblemOnboardingModal)
-        fun problemOnboardingHidden(modalType: StepQuizFeature.ProblemOnboardingModal)
-    }
+    private fun throwWrongModalTypeError(): Nothing =
+        error("Don't use ProblemOnboardingBottomSheetDialogFragment for GptCodeGenerationWithErrors onboarding")
 }
