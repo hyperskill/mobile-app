@@ -242,7 +242,7 @@ internal class StepQuizActionDispatcher(
                 isProblemsLimitReached = currentSubscription.isProblemsLimitReached,
                 problemsLimitReachedModalData = problemsLimitReachedModalData,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
-                isMobileGptCodeGenerationWithErrorsEnabled = true
+                isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled
             )
         }.let(onNewMessage)
     }
