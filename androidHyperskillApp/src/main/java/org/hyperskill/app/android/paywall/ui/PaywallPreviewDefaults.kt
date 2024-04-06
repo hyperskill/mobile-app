@@ -1,5 +1,6 @@
 package org.hyperskill.app.android.paywall.ui
 
 object PaywallPreviewDefaults {
-    const val BUY_BUTTON_TEXT = "Subscribe for $12.00/month"
+    const val BUY_BUTTON_TEXT = "Subscribe"
+    const val PRICE_TEXT = "$11.99 / month"
 }
