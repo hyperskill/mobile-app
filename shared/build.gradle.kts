@@ -199,7 +199,7 @@ buildkonfig {
             nullable = true
         )
 
-        listOf("production", "dev", "release").forEach { flavor ->
+        listOf("production", "main").forEach { flavor ->
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
 
             val fieldNamePrefix = "${flavor.toUpperCase()}_"
