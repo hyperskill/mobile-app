@@ -1,4 +1,4 @@
-package org.hyperskill.app.auth.remote.source
+package org.hyperskill.app.network.plugin.bearer_token
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpClientPlugin
@@ -6,36 +6,34 @@ import io.ktor.client.plugins.HttpSend
 import io.ktor.client.plugins.plugin
 import io.ktor.client.request.HttpRequestPipeline
 import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.AttributeKey
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class BearerTokenHttpClientPlugin(
+internal class BearerTokenHttpClientPlugin(
     private val authMutex: Mutex,
-    private val tokenHeaderName: String,
     private val tokenProvider: () -> String?,
-    private val tokenUpdater: suspend () -> Boolean,
+    private val tokenUpdater: suspend () -> TokenRefreshResult,
     private val tokenExpirationChecker: () -> Boolean,
-    private val tokenFailureReporter: () -> Unit
+    private val tokenRefreshFailedReporter: () -> Unit
 ) {
 
     class Config {
         var authMutex: Mutex? = null
-        var tokenHeaderName: String? = null
         var tokenProvider: (() -> String?)? = null
-        var tokenUpdater: (suspend () -> Boolean)? = null
+        var tokenUpdater: (suspend () -> TokenRefreshResult)? = null
         var tokenExpirationChecker: (() -> Boolean)? = null
-        var tokenFailureReporter: (() -> Unit)? = null
+        var tokenRefreshFailedReporter: (() -> Unit)? = null
 
         fun build(): BearerTokenHttpClientPlugin =
             BearerTokenHttpClientPlugin(
-                authMutex ?: throw IllegalArgumentException("authorization mutex should be passed"),
-                tokenHeaderName ?: throw IllegalArgumentException("headerName should be passed"),
-                tokenProvider ?: throw IllegalArgumentException("tokenProvider should be passed"),
-                tokenUpdater ?: throw IllegalArgumentException("tokenUpdater should be passed"),
-                tokenExpirationChecker ?: throw IllegalArgumentException("tokenExpirationChecker should be passed"),
-                tokenFailureReporter ?: throw IllegalArgumentException("tokenFailureReporter should be passed")
+                authMutex ?: error("authorization mutex should be passed"),
+                tokenProvider ?: error("tokenProvider should be passed"),
+                tokenUpdater ?: error("tokenUpdater should be passed"),
+                tokenExpirationChecker ?: error("tokenExpirationChecker should be passed"),
+                tokenRefreshFailedReporter ?: error("tokenRefreshFailedReporter should be passed")
             )
     }
 
@@ -50,22 +48,24 @@ class BearerTokenHttpClientPlugin(
                 plugin.authMutex.withLock {
                     // Check token expiration - if it is expired, update it
                     if (plugin.tokenExpirationChecker.invoke()) {
-                        // Check if refresh is successful
-                        if (!plugin.tokenUpdater.invoke()) {
-                            plugin.tokenFailureReporter.invoke()
+                        val tokenRefreshResult = plugin.tokenUpdater.invoke()
+                        val shouldDeauthorizeUser =
+                            tokenRefreshResult is TokenRefreshResult.Failed &&
+                                tokenRefreshResult.shouldDeauthorizeUser
+                        if (shouldDeauthorizeUser) {
+                            plugin.tokenRefreshFailedReporter.invoke()
                             return@withLock
                         }
                     }
 
                     val token = plugin.tokenProvider.invoke()
-
                     if (token == null) {
-                        plugin.tokenFailureReporter.invoke()
+                        plugin.tokenRefreshFailedReporter.invoke()
                         return@withLock
                     }
 
-                    context.headers.remove(plugin.tokenHeaderName)
-                    context.header(plugin.tokenHeaderName, buildBearerHeader(token))
+                    context.headers.remove(HttpHeaders.Authorization)
+                    context.header(HttpHeaders.Authorization, buildBearerHeader(token))
                 }
             }
 
@@ -75,7 +75,7 @@ class BearerTokenHttpClientPlugin(
                 if (origin.response.status != HttpStatusCode.Forbidden) return@intercept origin
                 if (origin.request.attributes.contains(circuitBreaker)) return@intercept origin
 
-                plugin.tokenFailureReporter.invoke()
+                plugin.tokenRefreshFailedReporter.invoke()
                 return@intercept origin
             }
         }
