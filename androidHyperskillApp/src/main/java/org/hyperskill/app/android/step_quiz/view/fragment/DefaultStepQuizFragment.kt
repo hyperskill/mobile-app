@@ -39,7 +39,8 @@ import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.dialog.ProblemOnboardingBottomSheetDialogFragment
+import org.hyperskill.app.android.step_quiz.view.dialog.ProblemOnboardingBottomSheetCallback
+import org.hyperskill.app.android.step_quiz.view.dialog.ProblemsOnboardingBottomSheetFactory
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
 import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
@@ -68,11 +69,11 @@ abstract class DefaultStepQuizFragment :
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
     MenuProvider,
-    ProblemOnboardingBottomSheetDialogFragment.Callback {
+    ProblemOnboardingBottomSheetCallback {
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
+    protected val stepQuizViewModel: StepQuizViewModel by viewModels { viewModelFactory }
 
     protected val viewBinding: FragmentStepQuizBinding by viewBinding(FragmentStepQuizBinding::bind)
 
@@ -295,10 +296,11 @@ abstract class DefaultStepQuizFragment :
                 childFragmentManager.dismissDialogFragmentIfExists(ProblemsLimitReachedBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {
-                ProblemOnboardingBottomSheetDialogFragment.newInstance(action.modalType)
+                ProblemsOnboardingBottomSheetFactory
+                    .getProblemsOnboardingBottomSheet(action.modalType)
                     .showIfNotExists(
                         childFragmentManager,
-                        ProblemOnboardingBottomSheetDialogFragment.TAG
+                        ProblemsOnboardingBottomSheetFactory.TAG
                     )
             }
             is StepQuizFeature.Action.ViewAction.StepQuizHintsViewAction -> {
