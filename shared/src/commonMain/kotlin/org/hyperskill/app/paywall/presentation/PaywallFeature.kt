@@ -30,6 +30,7 @@ object PaywallFeature {
         object Error : ViewStateContent
         data class Content(
             val buyButtonText: String,
+            val priceText: String?,
             val isContinueWithLimitsButtonVisible: Boolean
         ) : ViewStateContent
 

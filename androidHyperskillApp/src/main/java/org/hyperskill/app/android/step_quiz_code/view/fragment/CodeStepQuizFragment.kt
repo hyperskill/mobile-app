@@ -27,6 +27,7 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.reply
+import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.android.view.base.ui.extension.hideKeyboard
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
@@ -138,8 +139,21 @@ class CodeStepQuizFragment :
             viewBinding = binding,
             codeLayoutDelegate = createCodeLayoutDelegate(),
             codeStepQuizConfig = config,
-            onFullscreenClicked = ::onFullScreenClicked,
-            onQuizChanged = ::syncReplyState
+            callback = object : CodeStepQuizFormDelegate.Callback {
+                override fun onCodeGenerationAlertClick() {
+                    stepQuizViewModel.onNewMessage(
+                        StepQuizFeature.Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark
+                    )
+                }
+
+                override fun onFullscreenClicked(lang: String, code: String) {
+                    onFullScreenClicked(lang = lang, code = code)
+                }
+
+                override fun onQuizChanged(reply: Reply) {
+                    syncReplyState(reply)
+                }
+            }
         )
         this.codeStepQuizFormDelegate = codeStepQuizFormDelegate
 

@@ -16,10 +16,7 @@ struct LottieAnimationViewWrapper: UIViewRepresentable {
         let view = UIView(frame: .zero)
 
         let animationView = LottieAnimationView()
-        animationView.animation = getLottieAnimationForCurrentColorScheme()
-        animationView.contentMode = .scaleAspectFit
-        animationView.loopMode = .autoReverse
-        animationView.play()
+        setLottieAnimation(to: animationView)
 
         view.addSubview(animationView)
 
@@ -38,8 +35,7 @@ struct LottieAnimationViewWrapper: UIViewRepresentable {
         }
 
         if context.coordinator.previousColorScheme != colorScheme {
-            animationView.animation = getLottieAnimationForCurrentColorScheme()
-            animationView.play()
+            setLottieAnimation(to: animationView)
         }
 
         context.coordinator.previousColorScheme = colorScheme
@@ -49,12 +45,22 @@ struct LottieAnimationViewWrapper: UIViewRepresentable {
         Coordinator(initialColorScheme: colorScheme)
     }
 
-    private func getLottieAnimationForCurrentColorScheme() -> LottieAnimation? {
-        switch colorScheme {
-        case .dark:
-            LottieAnimation.named(fileName.dark)
-        default:
-            LottieAnimation.named(fileName.light)
+    private func setLottieAnimation(to animationView: LottieAnimationView) {
+        let name = colorScheme == .dark ? fileName.dark : fileName.light
+        DotLottieFile.named(name) { [weak animationView] result in
+            guard let animationView else {
+                return print("LottieAnimationViewWrapper: animationView is deallocated")
+            }
+
+            switch result {
+            case .success(let dotLottieFile):
+                animationView.loadAnimation(from: dotLottieFile)
+                animationView.contentMode = .scaleAspectFit
+                animationView.loopMode = .autoReverse
+                animationView.play()
+            case .failure(let error):
+                assertionFailure("LottieAnimationViewWrapper: failed load dotLottieFile with error: \(error)")
+            }
         }
     }
 }
@@ -69,18 +75,25 @@ extension LottieAnimationViewWrapper {
     }
 }
 
-#Preview("Light") {
+#if DEBUG
+#Preview("Parsons problem onboarding") {
     LottieAnimationViewWrapper(
         fileName: LottieAnimations.parsonsProblemOnboarding
     )
     .padding()
-    .preferredColorScheme(.light)
 }
 
-#Preview("Dark") {
+#Preview("Fill blanks input mode problem onboarding") {
     LottieAnimationViewWrapper(
-        fileName: LottieAnimations.parsonsProblemOnboarding
+        fileName: LottieAnimations.fillBlanksInputProblemOnboarding
     )
     .padding()
-    .preferredColorScheme(.dark)
 }
+
+#Preview("Fill blanks select mode problem onboarding") {
+    LottieAnimationViewWrapper(
+        fileName: LottieAnimations.fillBlanksSelectProblemOnboarding
+    )
+    .padding()
+}
+#endif
