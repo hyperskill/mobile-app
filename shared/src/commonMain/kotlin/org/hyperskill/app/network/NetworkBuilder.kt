@@ -17,13 +17,13 @@ import io.ktor.util.encodeBase64
 import io.ktor.utils.io.charsets.Charsets
 import io.ktor.utils.io.core.toByteArray
 import kotlinx.serialization.json.Json
-import org.hyperskill.app.auth.remote.source.HttpCookiesPlugin
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.remote.UserAgentInfo
 import org.hyperskill.app.network.domain.model.AuthorizedClientDependencies
 import org.hyperskill.app.network.domain.model.NetworkClientType
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
+import org.hyperskill.app.network.plugin.HttpCookiesPlugin
 
 internal object NetworkBuilder {
     fun buildEndpointConfigInfo(buildKonfig: BuildKonfig): NetworkEndpointConfigInfo =

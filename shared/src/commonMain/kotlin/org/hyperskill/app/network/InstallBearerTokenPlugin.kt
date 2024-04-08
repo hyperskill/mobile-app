@@ -2,10 +2,11 @@ package org.hyperskill.app.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
-import io.ktor.http.HttpHeaders
+import io.ktor.utils.io.errors.IOException
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
-import org.hyperskill.app.auth.remote.source.BearerTokenHttpClientPlugin
 import org.hyperskill.app.network.domain.model.AuthorizedClientDependencies
+import org.hyperskill.app.network.plugin.bearer_token.BearerTokenHttpClientPlugin
+import org.hyperskill.app.network.plugin.bearer_token.TokenRefreshResult
 
 private const val LOG_TAG = "BearerTokenPlugin"
 
@@ -17,7 +18,6 @@ internal fun HttpClientConfig<*>.installBearerTokenPlugin(
     val logger = dependencies.logger.withTag(LOG_TAG)
     install(BearerTokenHttpClientPlugin) {
         authMutex = dependencies.authorizationMutex
-        tokenHeaderName = HttpHeaders.Authorization
         tokenProvider = { BearerTokenHandler.getAccessToken(dependencies.json, dependencies.settings) }
         tokenUpdater = {
             BearerTokenHandler.refreshAccessToken(
@@ -27,12 +27,14 @@ internal fun HttpClientConfig<*>.installBearerTokenPlugin(
                 tokenSocialAuthClient = tokenSocialAuthClient
             ).fold(
                 onSuccess = {
-                    logger.i { "Successfully refresh access token" }
-                    true
+                    logger.d { "Successfully refresh access token" }
+                    TokenRefreshResult.Success
                 },
-                onFailure = {
-                    logger.e(it) { "Failed to refresh access token!" }
-                    false
+                onFailure = { e ->
+                    logger.e(e) { "Failed to refresh access token!" }
+                    TokenRefreshResult.Failed(
+                        shouldDeauthorizeUser = e !is IOException
+                    )
                 }
             )
         }
@@ -40,11 +42,11 @@ internal fun HttpClientConfig<*>.installBearerTokenPlugin(
             val isExpired =
                 BearerTokenHandler.checkAccessTokenIsExpired(dependencies.json, dependencies.settings)
             if (isExpired) {
-                logger.i { "Access token expired" }
+                logger.e { "Access token expired" }
             }
             isExpired
         }
-        tokenFailureReporter = {
+        tokenRefreshFailedReporter = {
             dependencies
                 .authorizationFlow
                 .tryEmit(UserDeauthorized(reason = UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE))
