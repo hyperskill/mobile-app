@@ -33,6 +33,7 @@ import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.request_review.modal.presentation.RequestReviewModalFeature
 import org.hyperskill.app.request_review.presentation.RequestReviewModalViewModel
 import org.hyperskill.app.step.domain.model.StepRoute
+import ru.nobird.android.view.base.ui.extension.argument
 
 class RequestReviewDialogFragment : BottomSheetDialogFragment() {
 
@@ -42,6 +43,7 @@ class RequestReviewDialogFragment : BottomSheetDialogFragment() {
         fun newInstance(stepRoute: StepRoute): RequestReviewDialogFragment =
             RequestReviewDialogFragment().apply {
                 this.stepRoute = stepRoute
+                this.shouldBeDismissedOnStart = false
             }
     }
 
@@ -55,6 +57,8 @@ class RequestReviewDialogFragment : BottomSheetDialogFragment() {
     private val logger: Logger by lazy {
         HyperskillApp.graph().loggerComponent.logger.withTag(TAG)
     }
+
+    private var shouldBeDismissedOnStart: Boolean by argument()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +82,13 @@ class RequestReviewDialogFragment : BottomSheetDialogFragment() {
             }
         }
 
+    override fun onStart() {
+        super.onStart()
+        if (shouldBeDismissedOnStart) {
+            dismiss()
+        }
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         requestUserReviewViewModal.onHiddenEvent()
@@ -99,37 +110,47 @@ class RequestReviewDialogFragment : BottomSheetDialogFragment() {
 
     private fun onAction(action: RequestReviewModalFeature.Action.ViewAction) {
         when (action) {
-            RequestReviewModalFeature.Action.ViewAction.Dismiss -> dismiss()
-            RequestReviewModalFeature.Action.ViewAction.RequestUserReview -> {
-                val manager = ReviewManagerFactory.create(requireContext())
-                lifecycleScope.launch {
-                    val reviewInfo = try {
-                        manager.requestReview()
-                    } catch (e: ReviewException) {
-                        logger.e(e) {
-                            val errorDescription = when (e.errorCode) {
-                                ReviewErrorCode.NO_ERROR -> "No error"
-                                ReviewErrorCode.PLAY_STORE_NOT_FOUND -> "Play store not found"
-                                ReviewErrorCode.INTERNAL_ERROR -> "Internal error"
-                                ReviewErrorCode.INVALID_REQUEST -> " Invalid request"
-                                else -> ""
-                            }
-                            "Failed to launch app review. $errorDescription"
-                        }
-                        dismiss()
-                        return@launch
-                    }
-                    manager.launchReview(requireActivity(), reviewInfo)
-                    dismiss()
-                }
-            }
+            RequestReviewModalFeature.Action.ViewAction.Dismiss -> dismissIfResumed()
+            RequestReviewModalFeature.Action.ViewAction.RequestUserReview -> requestUserReview()
             is RequestReviewModalFeature.Action.ViewAction.SubmitSupportRequest -> {
                 val intent = CustomTabsIntent.Builder()
                     .setHyperskillColors(requireContext())
                     .build()
                 intent.launchUrl(requireActivity(), Uri.parse(action.url))
-                dismiss()
+                dismissIfResumed()
             }
+        }
+    }
+
+    private fun requestUserReview() {
+        val manager = ReviewManagerFactory.create(requireContext())
+        lifecycleScope.launch {
+            val reviewInfo = try {
+                manager.requestReview()
+            } catch (e: ReviewException) {
+                logger.e(e) {
+                    val errorDescription = when (e.errorCode) {
+                        ReviewErrorCode.NO_ERROR -> "No error"
+                        ReviewErrorCode.PLAY_STORE_NOT_FOUND -> "Play store not found"
+                        ReviewErrorCode.INTERNAL_ERROR -> "Internal error"
+                        ReviewErrorCode.INVALID_REQUEST -> " Invalid request"
+                        else -> ""
+                    }
+                    "Failed to launch app review. $errorDescription"
+                }
+                dismissIfResumed()
+                return@launch
+            }
+            manager.launchReview(requireActivity(), reviewInfo)
+            dismissIfResumed()
+        }
+    }
+
+    private fun dismissIfResumed() {
+        if (isResumed) {
+            dismiss()
+        } else {
+            shouldBeDismissedOnStart = true
         }
     }
 }
