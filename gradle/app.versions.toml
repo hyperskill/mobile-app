@@ -2,5 +2,5 @@
 minSdk = '24'
 targetSdk = '33'
 compileSdk = '33'
-versionName = '1.53'
-versionCode = '375'
+versionName = '1.54'
+versionCode = '387'
