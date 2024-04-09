@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:gravity="start"
-
             android:hint="@string/step_quiz_text_field_hint"
             android:minHeight="@dimen/step_quiz_text_field_min_height"
             android:paddingLeft="16dp"
