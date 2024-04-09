@@ -39,6 +39,8 @@ data class Reply(
     val checkProfile: String? = null,
     @SerialName("lines")
     val lines: List<ParsonsLine>? = null,
+    @SerialName("prompt")
+    val prompt: String? = null
 ) {
 
     companion object {
@@ -66,6 +68,12 @@ data class Reply(
 
         fun fillBlanks(blanks: List<String>): Reply =
             Reply(blanks = blanks)
+
+        fun prompt(prompt: String, markedAsCorrect: Boolean = false): Reply =
+            Reply(
+                prompt = prompt,
+                score = if (markedAsCorrect) "1" else null
+            )
     }
 }
 
