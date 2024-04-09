@@ -66,7 +66,7 @@ class ChallengeCardDelegate {
                 if (action.shouldOpenInApp) {
                     fragment.launchUrlInCustomTabs(action.url, logger)
                 } else {
-                    fragment.requireContext().openUrl(action.url)
+                    fragment.requireContext().openUrl(action.url, logger)
                 }
             }
             ChallengeWidgetFeature.Action.ViewAction.ShowNetworkError -> {

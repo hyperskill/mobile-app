@@ -7,14 +7,23 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import co.touchlab.kermit.Logger
 
-fun Context.openUrl(uri: Uri) {
-    val intent = Intent(Intent.ACTION_VIEW)
-    intent.data = uri
-    try {
-        startActivity(intent)
-    // ActivityNotFoundException means there is no browser on the device
-    } catch (e: ActivityNotFoundException) {
+fun Context.openUrl(
+    url: String,
+    logger: Logger
+) {
+    openUrl(Uri.parse(url), logger)
+}
+
+fun Context.openUrl(
+    url: Uri,
+    logger: Logger
+) {
+    openUrl(url) { e ->
+        logger.e(e) {
+            "Unable to open url in browser."
+        }
         Toast.makeText(
             this,
             getString(org.hyperskill.app.R.string.external_link_error),
@@ -23,8 +32,18 @@ fun Context.openUrl(uri: Uri) {
     }
 }
 
-fun Context.openUrl(url: String) {
-    openUrl(Uri.parse(url))
+fun Context.openUrl(
+    uri: Uri,
+    onError: (e: Throwable) -> Unit
+) {
+    val intent = Intent(Intent.ACTION_VIEW)
+    intent.data = uri
+    try {
+        startActivity(intent)
+    // ActivityNotFoundException means there is no browser on the device
+    } catch (e: ActivityNotFoundException) {
+        onError(e)
+    }
 }
 
 /**

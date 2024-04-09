@@ -9,7 +9,9 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
@@ -21,6 +23,8 @@ import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionVie
 
 class ManageSubscriptionFragment : Fragment() {
     companion object {
+        private const val LOG_TAG = "ManageSubscriptionFragment"
+
         fun newInstance(): ManageSubscriptionFragment =
             ManageSubscriptionFragment()
     }
@@ -29,6 +33,8 @@ class ManageSubscriptionFragment : Fragment() {
     private val manageSubscriptionViewModel: ManageSubscriptionViewModel by viewModels {
         requireNotNull(viewModelFactory)
     }
+
+    private val logger: Logger by logger(LOG_TAG)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +68,7 @@ class ManageSubscriptionFragment : Fragment() {
     private fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.OpenUrl ->
-                requireContext().openUrl(action.url)
+                requireContext().openUrl(action.url, logger)
             is ViewAction.NavigateTo.Paywall ->
                 requireRouter().navigateTo(PaywallScreen(action.paywallTransitionSource))
         }

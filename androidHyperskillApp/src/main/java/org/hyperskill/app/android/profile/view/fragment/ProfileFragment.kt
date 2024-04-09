@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import co.touchlab.kermit.Logger
 import coil.ImageLoader
 import coil.load
 import coil.result
@@ -17,6 +18,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.badges.view.delegate.ProfileBadgesDelegate
 import org.hyperskill.app.android.core.extensions.checkNotificationChannelAvailability
 import org.hyperskill.app.android.core.extensions.isChannelNotificationsEnabled
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -50,6 +52,8 @@ class ProfileFragment :
     TimeIntervalPickerDialogFragment.Callback,
     BadgeDetailsDialogFragment.Callback {
     companion object {
+        private const val LOG_TAG = "ProfileFragment"
+
         fun newInstance(profileId: Long? = null, isInitCurrent: Boolean = true): Fragment =
             ProfileFragment()
                 .apply {
@@ -84,6 +88,8 @@ class ProfileFragment :
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+
+    private val logger: Logger by logger(LOG_TAG)
 
     private var notificationPermissionDelegate: NotificationPermissionDelegate? = null
 
@@ -263,10 +269,9 @@ class ProfileFragment :
 
     override fun onAction(action: ProfileFeature.Action.ViewAction) {
         ProfileViewActionDelegate.onAction(
-            context = requireContext(),
-            view = viewBinding.root,
-            fragmentManager = childFragmentManager,
+            fragment = this,
             mainScreenRouter = mainScreenRouter,
+            logger = logger,
             action = action
         )
     }
@@ -304,7 +309,7 @@ class ProfileFragment :
         renderStatistics(content.profile)
         renderNameHeader(content.profile)
         renderReminderSchedule(content.dailyStudyRemindersState, notificationManager)
-        AboutMeDelegate.render(requireContext(), viewBinding.profileAboutMeLayout, content.profile)
+        AboutMeDelegate.render(requireContext(), viewBinding.profileAboutMeLayout, content.profile, logger)
         profileBadgesDelegate.render(content.badgesState)
 
         profileLoadingDelegate?.render(content.isLoadingShowed)

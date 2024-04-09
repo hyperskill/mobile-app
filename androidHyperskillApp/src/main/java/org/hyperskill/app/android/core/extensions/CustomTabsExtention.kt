@@ -25,7 +25,7 @@ fun Fragment.launchUrlInCustomTabs(
 ) {
     launchUrlInCustomTabs(url) { e ->
         logger.e(e) {
-            "Unable to launch url in custom tabs nor in browser. url=$url"
+            "Unable to launch url in custom tabs nor in browser."
         }
         Toast.makeText(
             requireContext(),
