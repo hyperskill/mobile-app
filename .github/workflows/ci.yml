@@ -70,10 +70,41 @@ jobs:
       uses: ./.github/actions/setup-android
 
     - name: Run ktlint
-      run: ./gradlew ktlintCheck --stacktrace
+      run: ./gradlew setUserHome ktlintCheck --stacktrace
       env:
         GITHUB_USER: ${{ github.actor }}
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload SARIF
+      uses: github/codeql-action/upload-sarif@v3
+      if: success() || failure()
+      with:
+        sarif_file: shared/build/reports/ktlint
+        category: ktlint
+
+  detekt:
+    needs: files-changed
+    if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
+    name: Run detekt
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4.1.1
+    
+    - name: Setup CI
+      uses: ./.github/actions/setup-android
+
+    - name: Run detekt
+      run: ./gradlew detekt
+
+    - name: Upload SARIF
+      uses: github/codeql-action/upload-sarif@v3
+      if: success() || failure()
+      with:
+        sarif_file: build/reports/detekt/detekt.sarif
+        category: detekt
   
   swiftlint:
     needs: files-changed
@@ -81,7 +112,7 @@ jobs:
     name: Run SwiftLint
     runs-on: macos-14
     timeout-minutes: 10
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
@@ -110,9 +141,9 @@ jobs:
       - name: Run SwiftLint
         working-directory: './iosHyperskillApp'
         run: ./lint.sh
-  
+
   shared-unit-testing:
-    needs: [files-changed, ktlint]
+    needs: [files-changed, ktlint, detekt]
     if: ${{ needs.files-changed.outputs.shared == 'true' }}
     name: Run shared unit tests
     runs-on: ubuntu-22.04
@@ -136,7 +167,7 @@ jobs:
         GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   android-unit-testing:
-    needs: [files-changed, ktlint]
+    needs: [files-changed, ktlint, detekt]
     if: ${{ needs.files-changed.outputs.android == 'true' || needs.files-changed.outputs.shared == 'true' }}
     name: Run Android unit tests
     runs-on: ubuntu-22.04

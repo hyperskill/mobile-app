@@ -20,6 +20,7 @@ internal class PaywallComponentImpl(
             subscriptionsRepository = appGraph.subscriptionDataComponent.subscriptionsRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            platformType = appGraph.commonComponent.platform.platformType,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )

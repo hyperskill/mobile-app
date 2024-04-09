@@ -28,6 +28,13 @@ internal class OnboardingRepositoryImpl(
         onboardingCacheDataSource.setFillBlanksSelectModeOnboardingShown(isShown)
     }
 
+    override fun isGptCodeGenerationWithErrorsOnboardingShown(): Boolean =
+        onboardingCacheDataSource.isGptCodeGenerationWithErrorsOnboardingShown()
+
+    override fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean) {
+        onboardingCacheDataSource.setGptCodeGenerationWithErrorsOnboardingShown(isShown)
+    }
+
     override fun wasFirstProblemOnboardingShown(): Boolean =
         onboardingCacheDataSource.wasFirstProblemOnboardingShown()
 

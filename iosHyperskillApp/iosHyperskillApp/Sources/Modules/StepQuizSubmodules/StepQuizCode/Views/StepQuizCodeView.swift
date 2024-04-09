@@ -16,7 +16,9 @@ struct StepQuizCodeView: View {
             )
 
             if isFixCodeMistakesBadgeVisible {
-                StepQuizCodeFixCodeMistakesBadge()
+                StepQuizCodeFixCodeMistakesBadge(
+                    onQuestionmarkButtonTap: viewModel.logClickedFixCodeMistakesQuestionmarkButton
+                )
             }
 
             StepQuizCodeEditorView(

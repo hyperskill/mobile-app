@@ -33,4 +33,4 @@ val FeaturesMap.isMobileShortTheoryEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_SHORT_THEORY) ?: false
 
 val FeaturesMap.isMobileGptCodeGenerationWithErrorsEnabled: Boolean
-    get() = get(FeatureKeys.MOBILE_GPT_CODE_GENERATION_WITH_ERRORS) ?: false
+    get() = get(FeatureKeys.MOBILE_GPT_CODE_GENERATION_WITH_ERRORS_FORCED_ONBOARDING) ?: false

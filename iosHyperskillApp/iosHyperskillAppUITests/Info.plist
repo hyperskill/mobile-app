@@ -13,8 +13,8 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.53</string>
+	<string>1.54</string>
 	<key>CFBundleVersion</key>
-	<string>386</string>
+	<string>399</string>
 </dict>
 </plist>

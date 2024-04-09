@@ -199,7 +199,7 @@ buildkonfig {
             nullable = true
         )
 
-        listOf("production", "dev", "release").forEach { flavor ->
+        listOf("production", "main").forEach { flavor ->
             val properties = loadProperties("${project.rootDir}/shared/keys/$flavor.properties")
 
             val fieldNamePrefix = "${flavor.toUpperCase()}_"
@@ -230,8 +230,22 @@ multiplatformResources {
 }
 
 ktlint {
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.SARIF)
+    }
     filter {
         exclude { element -> element.file.path.contains("build/") }
+    }
+}
+
+tasks.register("setUserHome") {
+    description = """
+        Sets user.home system property to the project root directory. This is necessary for GitHub Code Scanning, 
+        so that GitHub knows where the repository is to place annotations correctly.
+        https://github.com/pinterest/ktlint/blob/9ed074638edf15986fa33d3c810acb1495a98612/ktlint-cli-reporter-sarif/src/main/kotlin/com/pinterest/ktlint/cli/reporter/sarif/SarifReporter.kt#L45
+    """.trimIndent()
+    doLast {
+        System.setProperty("user.home", rootProject.projectDir.absolutePath)
     }
 }
 

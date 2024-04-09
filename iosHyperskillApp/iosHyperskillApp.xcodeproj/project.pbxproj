@@ -384,8 +384,6 @@
 		2CA9895D2B9812AD007CD455 /* RevenueCat-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2CA9895C2B9812AD007CD455 /* RevenueCat-Info.plist */; };
 		2CA9895F2B981345007CD455 /* RevenueCatInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA9895E2B981345007CD455 /* RevenueCatInfo.swift */; };
 		2CAA3C632AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */; };
-		2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */; };
-		2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */; };
 		2CAA3C6A2AA9C7B6004F6CE6 /* LottieAnimations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */; };
 		2CAA3C6D2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift */; };
 		2CAA3C6F2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift */; };
@@ -446,6 +444,12 @@
 		2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39C2862E44B00D98089 /* StepQuizStringAssembly.swift */; };
 		2CCCA39F2862E45300D98089 /* StepQuizStringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39E2862E45300D98089 /* StepQuizStringViewModel.swift */; };
 		2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */; };
+		2CCECFC12BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */; };
+		2CCECFC22BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */; };
+		2CCECFC32BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */; };
+		2CCECFC42BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */; };
+		2CCECFC52BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */; };
+		2CCECFC62BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */; };
 		2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */; };
 		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
 		2CD20ED12B73475400FB5269 /* ApplicationShortcutsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD20ED02B73475400FB5269 /* ApplicationShortcutsService.swift */; };
@@ -509,10 +513,6 @@
 		2CEEE03528916A6800282849 /* ProblemOfDayOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */; };
 		2CEEE03728917F1100282849 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */; };
 		2CF0B4E629F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */; };
-		2CF270862AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270842AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json */; };
-		2CF270872AFE689500D696EC /* fill-blanks-input-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270852AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-light.json */; };
-		2CF2708A2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270882AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json */; };
-		2CF2708B2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CF270892AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json */; };
 		2CF2DA3A27EC5B2D0055426D /* Assembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF2DA3927EC5B2D0055426D /* Assembly.swift */; };
 		2CF41A8E28505D2C000736D6 /* LatexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF41A8D28505D2C000736D6 /* LatexView.swift */; };
 		2CF4341228126C79002893CD /* View+EndEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF4341128126C79002893CD /* View+EndEditing.swift */; };
@@ -1098,8 +1098,6 @@
 		2CA9895C2B9812AD007CD455 /* RevenueCat-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RevenueCat-Info.plist"; sourceTree = "<group>"; };
 		2CA9895E2B981345007CD455 /* RevenueCatInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RevenueCatInfo.swift; sourceTree = "<group>"; };
 		2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimationViewWrapper.swift; sourceTree = "<group>"; };
-		2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
-		2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "parsons-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
 		2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieAnimations.swift; sourceTree = "<group>"; };
 		2CAA3C6C2AA9CA9D004F6CE6 /* StepQuizProblemOnboardingModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizProblemOnboardingModalViewController.swift; sourceTree = "<group>"; };
 		2CAA3C6E2AA9CAB1004F6CE6 /* StepQuizProblemOnboardingModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizProblemOnboardingModalView.swift; sourceTree = "<group>"; };
@@ -1160,6 +1158,12 @@
 		2CCCA39C2862E44B00D98089 /* StepQuizStringAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringAssembly.swift; sourceTree = "<group>"; };
 		2CCCA39E2862E45300D98089 /* StepQuizStringViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringViewModel.swift; sourceTree = "<group>"; };
 		2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringViewData.swift; sourceTree = "<group>"; };
+		2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-select-problem-onboarding-animation-dark.lottie"; sourceTree = "<group>"; };
+		2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-input-problem-onboarding-animation-dark.lottie"; sourceTree = "<group>"; };
+		2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-input-problem-onboarding-animation-light.lottie"; sourceTree = "<group>"; };
+		2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "parsons-problem-onboarding-animation-light.lottie"; sourceTree = "<group>"; };
+		2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "parsons-problem-onboarding-animation-dark.lottie"; sourceTree = "<group>"; };
+		2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-select-problem-onboarding-animation-light.lottie"; sourceTree = "<group>"; };
 		2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2CD20ED02B73475400FB5269 /* ApplicationShortcutsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationShortcutsService.swift; sourceTree = "<group>"; };
@@ -1224,10 +1228,6 @@
 		2CEEE03428916A6800282849 /* ProblemOfDayOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDayOutputProtocol.swift; sourceTree = "<group>"; };
 		2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		2CF0B4E529F9CEAF009C2A2D /* StudyPlanSectionActivitiesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionActivitiesList.swift; sourceTree = "<group>"; };
-		2CF270842AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-input-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
-		2CF270852AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-input-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
-		2CF270882AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-select-problem-onboarding-animation-dark.json"; sourceTree = "<group>"; };
-		2CF270892AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "fill-blanks-select-problem-onboarding-animation-light.json"; sourceTree = "<group>"; };
 		2CF2DA3927EC5B2D0055426D /* Assembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembly.swift; sourceTree = "<group>"; };
 		2CF41A8D28505D2C000736D6 /* LatexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatexView.swift; sourceTree = "<group>"; };
 		2CF4341128126C79002893CD /* View+EndEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+EndEditing.swift"; sourceTree = "<group>"; };
@@ -3070,12 +3070,12 @@
 		2CAA3C642AA9C40C004F6CE6 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
-				2CF270842AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json */,
-				2CF270852AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-light.json */,
-				2CF270882AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json */,
-				2CF270892AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json */,
-				2CAA3C662AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json */,
-				2CAA3C652AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json */,
+				2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */,
+				2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */,
+				2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */,
+				2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */,
+				2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */,
+				2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */,
 				2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */,
 			);
 			path = LottieAnimations;
@@ -4418,38 +4418,38 @@
 			files = (
 				2C98C7A92850B93100857783 /* highlight.css in Resources */,
 				2CDCC16D2AC2BF4D00BB309D /* UITests.xctestplan in Resources */,
-				2CAA3C672AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-light.json in Resources */,
 				2CDCC16B2AC2BE8F00BB309D /* UnitTests.xctestplan in Resources */,
 				2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */,
+				2CCECFC32BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
+				2CCECFC22BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie in Resources */,
 				2C4F3C892BB29E7B0055E89F /* PrivacyInfo.xcprivacy in Resources */,
 				2C98C7A62850B93100857783 /* alt.css in Resources */,
 				E9954647288EC11000013FA6 /* LaunchScreen.storyboard in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
-				2CF2708A2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-dark.json in Resources */,
 				2CA9895D2B9812AD007CD455 /* RevenueCat-Info.plist in Resources */,
 				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
 				2C98C7AD2850B93100857783 /* icons.css in Resources */,
-				2CF270862AFE689400D696EC /* fill-blanks-input-problem-onboarding-animation-dark.json in Resources */,
 				2C98C7A72850B93100857783 /* fonts.css in Resources */,
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
-				2CAA3C682AA9C4EB004F6CE6 /* parsons-problem-onboarding-animation-dark.json in Resources */,
 				2CFBFC172AD42CED00D4935D /* AppsFlyer-Info.plist in Resources */,
 				2CDCC16F2AC2BFF000BB309D /* AllTests.xctestplan in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
+				2CCECFC42BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie in Resources */,
+				2CCECFC12BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
 				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
 				E9D458E429927C8900AAEBD9 /* lines_wrapper.js in Resources */,
 				2C20FBB4284F5145006D879E /* kotlin-playground-1.21.1.min.js in Resources */,
 				2C98C7AB2850B93100857783 /* variables.css in Resources */,
+				2CCECFC52BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
+				2CCECFC62BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie in Resources */,
 				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
 				2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */,
-				2CF2708B2AFE690900D696EC /* fill-blanks-select-problem-onboarding-animation-light.json in Resources */,
-				2CF270872AFE689500D696EC /* fill-blanks-input-problem-onboarding-animation-light.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5193,7 +5193,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -5214,7 +5214,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
@@ -5235,7 +5235,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
@@ -5256,7 +5256,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5277,7 +5277,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -5306,7 +5306,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5452,7 +5452,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;
@@ -5488,7 +5488,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 386;
+				CURRENT_PROJECT_VERSION = 399;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;

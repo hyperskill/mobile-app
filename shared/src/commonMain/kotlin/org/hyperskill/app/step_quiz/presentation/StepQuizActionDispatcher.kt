@@ -1,8 +1,6 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import co.touchlab.kermit.Logger
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -23,7 +21,6 @@ import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionCha
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
-import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
@@ -184,6 +181,8 @@ internal class StepQuizActionDispatcher(
                                 onboardingInteractor.setFillBlanksSelectModeOnboardingShown(isShown = true)
                         }
                     }
+                    StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
+                        onboardingInteractor.setGptCodeGenerationWithErrorsOnboardingShown(isShown = true)
                 }
             }
             is InternalAction.UpdateProblemsLimit ->
@@ -196,6 +195,8 @@ internal class StepQuizActionDispatcher(
                         onFailure = { onNewMessage(InternalMessage.CreateMagicLinkForUnsupportedQuizError) }
                     )
             }
+            is InternalAction.GenerateGptCodeWithErrors ->
+                handleGenerateGptCodeWithErrorsAction(action, ::onNewMessage)
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.analyticEvent)
             else -> {}
@@ -210,44 +211,39 @@ internal class StepQuizActionDispatcher(
             transaction = HyperskillSentryTransactionBuilder.buildStepQuizScreenRemoteDataLoading(
                 blockName = action.step.block.name
             ),
-            onError = { InternalMessage.FetchAttemptError(it) }
+            onError = { InternalMessage.FetchAttemptError }
         ) {
-            coroutineScope {
-                val currentSubscription =
-                    subscriptionsInteractor.getCurrentSubscription()
-                        .getOrThrow()
+            val currentSubscription =
+                subscriptionsInteractor.getCurrentSubscription()
+                    .getOrThrow()
 
-                val currentProfile =
-                    currentProfileStateRepository
-                        .getState()
-                        .getOrThrow()
+            val currentProfile =
+                currentProfileStateRepository
+                    .getState()
+                    .getOrThrow()
 
-                val attemptDeferred = async { stepQuizInteractor.getAttempt(action.step.id, currentProfile.id) }
-                val gptCodeWithErrorsDeferred = async { generateGptCodeWithErrors(action.step, currentProfile) }
+            val attempt =
+                stepQuizInteractor
+                    .getAttempt(action.step.id, currentProfile.id)
+                    .getOrThrow()
+            val submissionState =
+                getSubmissionState(attempt.id, action.step.id, currentProfile.id)
+                    .getOrThrow()
 
-                val attempt = attemptDeferred.await().getOrThrow()
-                val submissionState =
-                    getSubmissionState(attempt.id, action.step.id, currentProfile.id)
-                        .getOrThrow()
+            val problemsLimitReachedModalData = getProblemsLimitReachedModalData(currentProfile, currentSubscription)
 
-                val problemsLimitReachedModalData =
-                    getProblemsLimitReachedModalData(currentProfile, currentSubscription)
+            val isMobileGptCodeGenerationWithErrorsEnabled =
+                currentProfile.features.isMobileGptCodeGenerationWithErrorsEnabled
 
-                val gptCodeWithErrors = gptCodeWithErrorsDeferred.await().getOrNull()
-
-                InternalMessage.FetchAttemptSuccess(
-                    step = action.step,
-                    attempt = attempt,
-                    submissionState = submissionState,
-                    isProblemsLimitReached = currentSubscription.isProblemsLimitReached,
-                    problemsLimitReachedModalData = problemsLimitReachedModalData,
-                    problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
-                    gptCodeGenerationWithErrorsData = StepQuizFeature.GptCodeGenerationWithErrorsData(
-                        isEnabled = currentProfile.features.isMobileGptCodeGenerationWithErrorsEnabled,
-                        code = gptCodeWithErrors
-                    )
-                )
-            }
+            InternalMessage.FetchAttemptSuccess(
+                step = action.step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = currentSubscription.isProblemsLimitReached,
+                problemsLimitReachedModalData = problemsLimitReachedModalData,
+                problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
+                isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled
+            )
         }.let(onNewMessage)
     }
 
@@ -346,23 +342,30 @@ internal class StepQuizActionDispatcher(
         )
     }
 
-    private suspend fun generateGptCodeWithErrors(step: Step, profile: Profile): Result<String?> {
-        val shouldGenerateCodeWithErrors = StepQuizResolver
-            .isGptCodeGenerationWithErrorsAvailable(step, profile.features.isMobileGptCodeGenerationWithErrorsEnabled)
-
-        if (!shouldGenerateCodeWithErrors) {
-            return Result.success(null)
-        }
-
-        return sentryInteractor.withTransaction(
+    private suspend fun handleGenerateGptCodeWithErrorsAction(
+        action: InternalAction.GenerateGptCodeWithErrors,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildStepQuizGenerateGptCodeWithErrors(
-                blockName = step.block.name
+                blockName = action.attemptLoadedState.step.block.name
             ),
             onError = { error ->
                 logger.e(error) { "Failed to generate GPT code with errors" }
-                Result.failure(error)
+                InternalMessage.GenerateGptCodeWithErrorsResult(
+                    attemptLoadedState = action.attemptLoadedState,
+                    code = null
+                )
             },
-            measureBlock = { stepQuizInteractor.generateGptCodeWithErrors(step.id) }
-        )
+            measureBlock = {
+                val code = stepQuizInteractor
+                    .generateGptCodeWithErrors(action.attemptLoadedState.step.id)
+                    .getOrThrow()
+                InternalMessage.GenerateGptCodeWithErrorsResult(
+                    attemptLoadedState = action.attemptLoadedState,
+                    code = code
+                )
+            }
+        ).let(onNewMessage)
     }
 }
