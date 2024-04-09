@@ -2,12 +2,10 @@ package org.hyperskill.app.android.request_review.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.viewModels
@@ -26,7 +24,7 @@ import kotlinx.coroutines.launch
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.extensions.setHyperskillColors
+import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.request_review.ui.RequestReviewDialog
 import org.hyperskill.app.core.view.handleActions
@@ -113,10 +111,7 @@ class RequestReviewDialogFragment : BottomSheetDialogFragment() {
             RequestReviewModalFeature.Action.ViewAction.Dismiss -> dismissIfResumed()
             RequestReviewModalFeature.Action.ViewAction.RequestUserReview -> requestUserReview()
             is RequestReviewModalFeature.Action.ViewAction.SubmitSupportRequest -> {
-                val intent = CustomTabsIntent.Builder()
-                    .setHyperskillColors(requireContext())
-                    .build()
-                intent.launchUrl(requireActivity(), Uri.parse(action.url))
+                launchUrlInCustomTabs(action.url, logger)
                 dismissIfResumed()
             }
         }

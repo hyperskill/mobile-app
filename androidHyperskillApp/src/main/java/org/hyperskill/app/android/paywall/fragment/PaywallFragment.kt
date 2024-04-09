@@ -1,12 +1,10 @@
 package org.hyperskill.app.android.paywall.fragment
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
@@ -14,8 +12,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.ViewModelProvider
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
-import org.hyperskill.app.android.core.extensions.setHyperskillColors
+import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
@@ -32,6 +31,7 @@ import ru.nobird.android.view.base.ui.extension.argument
 class PaywallFragment : Fragment() {
     companion object {
         const val PAYWALL_IS_SHOWN_CHANGED = "PAYWALL_IS_SHOWN_CHANGED"
+        private const val LOG_TAG = "PaywallFragment"
 
         fun newInstance(paywallTransitionSource: PaywallTransitionSource): PaywallFragment =
             PaywallFragment().apply {
@@ -44,6 +44,10 @@ class PaywallFragment : Fragment() {
     private var viewModelFactory: ViewModelProvider.Factory? = null
     private val paywallViewModel: PaywallViewModel by viewModels {
         requireNotNull(viewModelFactory)
+    }
+
+    private val logger: Logger by lazy(LazyThreadSafetyMode.NONE) {
+        HyperskillApp.graph().loggerComponent.logger.withTag(LOG_TAG)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,10 +110,7 @@ class PaywallFragment : Fragment() {
             ViewAction.ClosePaywall ->
                 requireRouter().exit()
             is ViewAction.OpenUrl -> {
-                val intent = CustomTabsIntent.Builder()
-                    .setHyperskillColors(requireContext())
-                    .build()
-                intent.launchUrl(requireContext(), Uri.parse(action.url))
+                launchUrlInCustomTabs(action.url, logger)
             }
         }
     }

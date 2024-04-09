@@ -1,21 +1,19 @@
 package org.hyperskill.app.android.challenge.delegate
 
-import android.app.Activity
-import android.content.Context
-import android.net.Uri
 import android.widget.Toast
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.R
 import org.hyperskill.app.android.challenge.ui.ChallengeCard
+import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
 import org.hyperskill.app.android.core.extensions.openUrl
-import org.hyperskill.app.android.core.extensions.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
@@ -59,24 +57,21 @@ class ChallengeCardDelegate {
     }
 
     fun handleAction(
-        context: Context,
-        activity: Activity,
-        action: ChallengeWidgetFeature.Action.ViewAction
+        fragment: Fragment,
+        action: ChallengeWidgetFeature.Action.ViewAction,
+        logger: Logger
     ) {
         when (action) {
             is ChallengeWidgetFeature.Action.ViewAction.OpenUrl -> {
                 if (action.shouldOpenInApp) {
-                    val intent = CustomTabsIntent.Builder()
-                        .setHyperskillColors(context)
-                        .build()
-                    intent.launchUrl(activity, Uri.parse(action.url))
+                    fragment.launchUrlInCustomTabs(action.url, logger)
                 } else {
-                    context.openUrl(action.url)
+                    fragment.requireContext().openUrl(action.url)
                 }
             }
             ChallengeWidgetFeature.Action.ViewAction.ShowNetworkError -> {
                 Toast
-                    .makeText(context, R.string.common_error, Toast.LENGTH_SHORT)
+                    .makeText(fragment.requireContext(), R.string.common_error, Toast.LENGTH_SHORT)
                     .show()
             }
         }

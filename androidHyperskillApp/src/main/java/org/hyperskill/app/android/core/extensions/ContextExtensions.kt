@@ -13,10 +13,11 @@ fun Context.openUrl(uri: Uri) {
     intent.data = uri
     try {
         startActivity(intent)
+    // ActivityNotFoundException means there is no browser on the device
     } catch (e: ActivityNotFoundException) {
         Toast.makeText(
             this,
-            getString(org.hyperskill.app.R.string.external_link_error, uri),
+            getString(org.hyperskill.app.R.string.external_link_error),
             Toast.LENGTH_SHORT
         ).show()
     }
