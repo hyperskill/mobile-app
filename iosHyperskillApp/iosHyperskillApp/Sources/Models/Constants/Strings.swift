@@ -222,6 +222,14 @@ enum Strings {
 
     enum StepQuizString {
         static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
+
+        enum Prompt {
+            static let placeholder = sharedStrings.step_quiz_prompt_text_field_hint.localized()
+
+            static let forceScoreCheckboxTitle = sharedStrings.step_quiz_prompt_force_score_checkbox_title.localized()
+            static let forceScoreCheckboxSubtitle =
+                sharedStrings.step_quiz_prompt_force_score_checkbox_subtitle.localized()
+        }
     }
 
     // MARK: - StepQuizParsons -
