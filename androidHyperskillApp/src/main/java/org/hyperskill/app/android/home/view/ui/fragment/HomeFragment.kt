@@ -15,6 +15,7 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.challenge.delegate.ChallengeCardDelegate
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -46,9 +47,7 @@ class HomeFragment :
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var dateFormatter: SharedDateFormatter
 
-    private val logger: Logger by lazy(LazyThreadSafetyMode.NONE) {
-        HyperskillApp.graph().loggerComponent.logger.withTag(LOG_TAG)
-    }
+    private val logger: Logger by logger(LOG_TAG)
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }

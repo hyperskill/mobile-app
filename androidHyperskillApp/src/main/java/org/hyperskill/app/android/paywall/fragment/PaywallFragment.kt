@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
@@ -46,9 +47,7 @@ class PaywallFragment : Fragment() {
         requireNotNull(viewModelFactory)
     }
 
-    private val logger: Logger by lazy(LazyThreadSafetyMode.NONE) {
-        HyperskillApp.graph().loggerComponent.logger.withTag(LOG_TAG)
-    }
+    private val logger: Logger by logger(LOG_TAG)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

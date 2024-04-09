@@ -25,6 +25,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.request_review.ui.RequestReviewDialog
 import org.hyperskill.app.core.view.handleActions
@@ -52,9 +53,7 @@ class RequestReviewDialogFragment : BottomSheetDialogFragment() {
         requireNotNull(viewModelFactory)
     }
 
-    private val logger: Logger by lazy {
-        HyperskillApp.graph().loggerComponent.logger.withTag(TAG)
-    }
+    private val logger: Logger by logger(TAG)
 
     private var shouldBeDismissedOnStart: Boolean by argument()
 

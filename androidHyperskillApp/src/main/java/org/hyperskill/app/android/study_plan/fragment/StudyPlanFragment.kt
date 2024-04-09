@@ -7,6 +7,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
@@ -49,9 +50,7 @@ class StudyPlanFragment :
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
     }
 
-    private val logger: Logger by lazy(LazyThreadSafetyMode.NONE) {
-        HyperskillApp.graph().loggerComponent.logger.withTag(LOG_TAG)
-    }
+    private val logger: Logger by logger(LOG_TAG)
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var problemsLimitDelegate: ProblemsLimitDelegate? = null

@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.view.View
 import android.webkit.WebView
 import androidx.core.view.isVisible
-import co.touchlab.kermit.Logger
 
 class ProgressableWebViewClient(
     private val progressView: View,
