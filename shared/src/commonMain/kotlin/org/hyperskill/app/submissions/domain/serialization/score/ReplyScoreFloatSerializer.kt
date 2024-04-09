@@ -8,13 +8,13 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.hyperskill.app.submissions.domain.model.ReplyScore
 
-internal object ReplyScoreIntSerializer : KSerializer<ReplyScore.Int> {
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ReplyScore.Int", PrimitiveKind.INT)
+internal object ReplyScoreFloatSerializer : KSerializer<ReplyScore.Float> {
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ReplyScore.Float", PrimitiveKind.FLOAT)
 
-    override fun serialize(encoder: Encoder, value: ReplyScore.Int) {
-        encoder.encodeInt(value.intValue)
+    override fun serialize(encoder: Encoder, value: ReplyScore.Float) {
+        encoder.encodeFloat(value.floatValue)
     }
 
-    override fun deserialize(decoder: Decoder): ReplyScore.Int =
-        ReplyScore.Int(decoder.decodeInt())
+    override fun deserialize(decoder: Decoder): ReplyScore.Float =
+        ReplyScore.Float(decoder.decodeFloat())
 }

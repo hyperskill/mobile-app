@@ -147,6 +147,10 @@
     <string name="step_quiz_prompt_title">Enter a prompt</string>
     <string name="step_quiz_prompt_text_field_hint">Enter your prompt here...</string>
     <string name="step_quiz_prompt_empty_reply">Prompt cannot be empty</string>
+    <string name="step_quiz_prompt_force_score_checkbox_title">Mark as Correct</string>
+    <string name="step_quiz_prompt_force_score_checkbox_subtitle">Check this box if you're confident your answer is
+        correct, even if it's not automatically recognized as such. This lets you manually confirm its correctness.
+    </string>
 
     <!-- Step quiz string / number math -->
     <string name="step_quiz_text_field_hint">Type your answer here...</string>

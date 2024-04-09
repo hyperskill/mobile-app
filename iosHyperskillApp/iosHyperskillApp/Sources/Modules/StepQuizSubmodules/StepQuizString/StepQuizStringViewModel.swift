@@ -31,6 +31,10 @@ final class StepQuizStringViewModel: ObservableObject, StepQuizChildQuizInputPro
         }
     }
 
+    func doForceScoreCheckboxMainAction() {
+        viewData.isForceScoreCheckboxChecked.toggle()
+    }
+
     func createReply() -> Reply {
         switch self.dataType {
         case .string:
@@ -40,7 +44,10 @@ final class StepQuizStringViewModel: ObservableObject, StepQuizChildQuizInputPro
         case .math:
             Reply(formula: viewData.text)
         case .prompt:
-            Reply.companion.prompt(prompt: viewData.text, markedAsCorrect: false)
+            Reply.companion.prompt(
+                prompt: viewData.text,
+                markedAsCorrect: viewData.isForceScoreCheckboxChecked
+            )
         }
     }
 

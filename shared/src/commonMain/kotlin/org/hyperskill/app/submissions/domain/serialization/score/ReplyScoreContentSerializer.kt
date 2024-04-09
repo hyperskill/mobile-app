@@ -11,7 +11,7 @@ internal object ReplyScoreContentSerializer : JsonContentPolymorphicSerializer<R
         require(element is JsonPrimitive)
         return when {
             element.isString -> ReplyScore.String.serializer()
-            else -> ReplyScore.Int.serializer()
+            else -> ReplyScore.Float.serializer()
         }
     }
 }

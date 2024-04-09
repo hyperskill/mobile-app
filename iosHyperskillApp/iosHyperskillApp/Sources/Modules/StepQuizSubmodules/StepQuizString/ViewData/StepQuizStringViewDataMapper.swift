@@ -21,13 +21,19 @@ enum StepQuizStringViewDataMapper {
         }() ?? ""
 
         let placeholder = dataType == .prompt
-            ? Strings.StepQuizString.promptPlaceholder
-            : Strings.StepQuizString.defaultPlaceholder
+            ? Strings.StepQuizString.Prompt.placeholder
+            : Strings.StepQuizString.placeholder
+
+        let isForceScoreCheckboxVisible = dataType == .prompt
+        let isForceScoreCheckboxChecked = isForceScoreCheckboxVisible
+            && (reply?.isPromptForceScoreCheckboxChecked() ?? false)
 
         return StepQuizStringViewData(
             text: text,
             placeholder: placeholder,
-            isDecimalTextInput: dataType == .number
+            isDecimalTextInput: dataType == .number,
+            isForceScoreCheckboxVisible: isForceScoreCheckboxVisible,
+            isForceScoreCheckboxChecked: isForceScoreCheckboxChecked
         )
     }
 }

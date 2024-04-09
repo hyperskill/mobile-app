@@ -44,6 +44,8 @@ data class Reply(
 ) {
 
     companion object {
+        internal const val PROMPT_MANUALLY_CONFIRMED_SCORE: Float = 1F
+
         fun code(code: String?, language: String?): Reply =
             Reply(code = code, language = language)
 
@@ -72,10 +74,13 @@ data class Reply(
         fun prompt(prompt: String, markedAsCorrect: Boolean): Reply =
             Reply(
                 prompt = prompt,
-                score = if (markedAsCorrect) ReplyScore.Int(1) else null
+                score = if (markedAsCorrect) ReplyScore.Float(PROMPT_MANUALLY_CONFIRMED_SCORE) else null
             )
     }
 }
 
 fun Reply.pycharmCode(): String? =
     solution?.first { it.isVisible }?.text
+
+fun Reply.isPromptForceScoreCheckboxChecked(): Boolean =
+    score is ReplyScore.Float && score.floatValue == Reply.PROMPT_MANUALLY_CONFIRMED_SCORE

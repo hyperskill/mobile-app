@@ -247,7 +247,7 @@ class ReplySerializationTest {
         )
         val expected = buildJsonObject {
             put("prompt", JsonPrimitive("prompt"))
-            put("score", JsonPrimitive(1))
+            put("score", JsonPrimitive(1.0))
         }
         assertEquals(expected, encodedValue)
     }

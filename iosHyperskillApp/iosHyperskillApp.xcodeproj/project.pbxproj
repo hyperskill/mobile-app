@@ -433,6 +433,7 @@
 		2CBFB94C28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */; };
 		2CC4AAF1280DB513002276A0 /* WebOAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */; };
 		2CC61BD42BC4F65100C2A8E9 /* StepQuizStringViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC61BD32BC4F65100C2A8E9 /* StepQuizStringViewDataMapper.swift */; };
+		2CC61BD62BC5135300C2A8E9 /* StepQuizStringForcePromptScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC61BD52BC5135300C2A8E9 /* StepQuizStringForcePromptScoreView.swift */; };
 		2CC63AEC2B70B25200407810 /* ProfileSettingsSubscriptionSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC63AEB2B70B25200407810 /* ProfileSettingsSubscriptionSectionView.swift */; };
 		2CC7833E295DAE3E00A867CD /* WelcomeFeatureStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC7833D295DAE3E00A867CD /* WelcomeFeatureStateKsExtensions.swift */; };
 		2CC78D0928C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0828C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift */; };
@@ -1148,6 +1149,7 @@
 		2CBFB94B28897DD70044D1BA /* StepQuizCodeFullScreenAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeFullScreenAssembly.swift; sourceTree = "<group>"; };
 		2CC4AAF0280DB513002276A0 /* WebOAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebOAuthService.swift; sourceTree = "<group>"; };
 		2CC61BD32BC4F65100C2A8E9 /* StepQuizStringViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringViewDataMapper.swift; sourceTree = "<group>"; };
+		2CC61BD52BC5135300C2A8E9 /* StepQuizStringForcePromptScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringForcePromptScoreView.swift; sourceTree = "<group>"; };
 		2CC63AEB2B70B25200407810 /* ProfileSettingsSubscriptionSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsSubscriptionSectionView.swift; sourceTree = "<group>"; };
 		2CC7833D295DAE3E00A867CD /* WelcomeFeatureStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeFeatureStateKsExtensions.swift; sourceTree = "<group>"; };
 		2CC78D0828C74E7D0006EF91 /* UIViewControllerEventsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerEventsWrapper.swift; sourceTree = "<group>"; };
@@ -4011,6 +4013,7 @@
 		E99B218A2887EA04006A6154 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2CC61BD52BC5135300C2A8E9 /* StepQuizStringForcePromptScoreView.swift */,
 				E99B218B2887EA14006A6154 /* StepQuizStringSkeletonView.swift */,
 				2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */,
 			);
@@ -4923,6 +4926,7 @@
 				2C83FBC62B178F0B007AD7E2 /* LeaderboardListItem.swift in Sources */,
 				E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
+				2CC61BD62BC5135300C2A8E9 /* StepQuizStringForcePromptScoreView.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
 				2CA854DC2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
