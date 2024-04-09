@@ -221,7 +221,8 @@ enum Strings {
     // MARK: - StepQuizString -
 
     enum StepQuizString {
-        static let placeholder = sharedStrings.step_quiz_text_field_hint.localized()
+        static let defaultPlaceholder = sharedStrings.step_quiz_text_field_hint.localized()
+        static let promptPlaceholder = sharedStrings.step_quiz_prompt_text_field_hint.localized()
     }
 
     // MARK: - StepQuizParsons -
