@@ -43,6 +43,9 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
             BlockName.STRING -> if (reply.text.isNullOrEmpty() || reply.files == null) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
+            BlockName.PROMPT -> if (reply.prompt.isNullOrEmpty()) {
+                return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
+            }
             BlockName.TABLE -> {
                 val choices = reply.choices?.safeCast<List<ChoiceAnswer.Table>>()
 
@@ -74,6 +77,8 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
                 resourceProvider.getString(SharedResources.strings.step_quiz_sorting_invalid_reply)
             BlockName.MATH, BlockName.STRING ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_text_empty_reply)
+            BlockName.PROMPT ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_prompt_empty_reply)
             BlockName.NUMBER ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_text_invalid_number_reply)
             BlockName.TABLE ->
