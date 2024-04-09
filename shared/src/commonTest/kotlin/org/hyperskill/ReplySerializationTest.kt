@@ -12,7 +12,9 @@ import org.hyperskill.app.step.domain.model.Block
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.submissions.domain.model.Cell
 import org.hyperskill.app.submissions.domain.model.ChoiceAnswer
+import org.hyperskill.app.submissions.domain.model.PyCharmFile
 import org.hyperskill.app.submissions.domain.model.Reply
+import org.hyperskill.app.submissions.domain.model.ReplyScore
 import org.hyperskill.app.submissions.domain.model.TableChoiceAnswer
 
 class ReplySerializationTest {
@@ -191,5 +193,108 @@ class ReplySerializationTest {
             put("check_profile", JsonPrimitive("hyperskill_java"))
         }
         assertEquals(expected, encodedValue)
+    }
+
+    @Test
+    fun `PyCharm Reply deserialization`() {
+        val expectedReply = Reply(
+            score = ReplyScore.String(""),
+            solution = listOf(
+                PyCharmFile(
+                    name = "src/Zookeeper.kt",
+                    isVisible = true,
+                    text = "pycharm code"
+                ),
+                PyCharmFile(
+                    name = "test/ZookeeperTest.kt",
+                    isVisible = false,
+                    text = "test hidden text"
+                )
+            )
+        )
+        val decodedReply = NetworkModule.provideJson().decodeFromString(
+            Reply.serializer(),
+            """
+{
+    "score": "",
+    "solution":
+    [
+        {
+            "name": "src/Zookeeper.kt",
+            "is_visible": true,
+            "text": "pycharm code"
+        },
+        {
+            "name": "test/ZookeeperTest.kt",
+            "is_visible": false,
+            "text": "test hidden text"
+        }
+    ]
+}
+            """.trimIndent()
+        )
+        assertEquals(expectedReply, decodedReply)
+    }
+
+    @Test
+    fun `Prompt Reply serialization with score`() {
+        val json = NetworkModule.provideJson()
+        val encodedValue = json.encodeToJsonElement(
+            Reply.prompt(
+                prompt = "prompt",
+                markedAsCorrect = true
+            )
+        )
+        val expected = buildJsonObject {
+            put("prompt", JsonPrimitive("prompt"))
+            put("score", JsonPrimitive(1.0))
+        }
+        assertEquals(expected, encodedValue)
+    }
+
+    @Test
+    fun `Prompt Reply serialization without score`() {
+        val json = NetworkModule.provideJson()
+        val encodedValue = json.encodeToJsonElement(
+            Reply.prompt(
+                prompt = "prompt",
+                markedAsCorrect = false
+            )
+        )
+        val expected = buildJsonObject {
+            put("prompt", JsonPrimitive("prompt"))
+        }
+        assertEquals(expected, encodedValue)
+    }
+
+    @Test
+    fun `Prompt Reply deserialization with score`() {
+        val expectedReply = Reply.prompt(
+            prompt = "prompt",
+            markedAsCorrect = true
+        )
+        val decodedReply = NetworkModule.provideJson().decodeFromString(
+            Reply.serializer(),
+            """
+{
+    "prompt": "prompt",
+    "score": 1
+}
+            """.trimIndent()
+        )
+        assertEquals(expectedReply, decodedReply)
+    }
+
+    @Test
+    fun `Prompt Reply deserialization without score`() {
+        val expectedReply = Reply.prompt(
+            prompt = "prompt",
+            markedAsCorrect = false
+        )
+        val decodedReply = NetworkModule.provideJson().decodeFromString(
+            Reply.serializer(),
+            "{ \"prompt\": \"prompt\" }"
+        )
+        assertEquals(expectedReply, decodedReply)
     }
 }

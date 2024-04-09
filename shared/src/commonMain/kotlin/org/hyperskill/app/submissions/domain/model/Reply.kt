@@ -32,16 +32,20 @@ data class Reply(
     @SerialName("solve_sql")
     val solveSql: String? = null,
     @SerialName("score")
-    val score: String? = null,
+    val score: ReplyScore? = null,
     @SerialName("solution")
     val solution: List<PyCharmFile>? = null,
     @SerialName("check_profile")
     val checkProfile: String? = null,
     @SerialName("lines")
     val lines: List<ParsonsLine>? = null,
+    @SerialName("prompt")
+    val prompt: String? = null
 ) {
 
     companion object {
+        internal const val PROMPT_MANUALLY_CONFIRMED_SCORE: Float = 1F
+
         fun code(code: String?, language: String?): Reply =
             Reply(code = code, language = language)
 
@@ -50,7 +54,7 @@ data class Reply(
 
         fun pycharm(step: Step, pycharmCode: String?): Reply =
             Reply(
-                score = "",
+                score = ReplyScore.String(""),
                 solution = step.block.options.files?.map { file ->
                     PyCharmFile(
                         name = file.name,
@@ -66,8 +70,17 @@ data class Reply(
 
         fun fillBlanks(blanks: List<String>): Reply =
             Reply(blanks = blanks)
+
+        fun prompt(prompt: String, markedAsCorrect: Boolean): Reply =
+            Reply(
+                prompt = prompt,
+                score = if (markedAsCorrect) ReplyScore.Float(PROMPT_MANUALLY_CONFIRMED_SCORE) else null
+            )
     }
 }
 
 fun Reply.pycharmCode(): String? =
     solution?.first { it.isVisible }?.text
+
+fun Reply.isPromptForceScoreCheckboxChecked(): Boolean =
+    score is ReplyScore.Float && score.floatValue == Reply.PROMPT_MANUALLY_CONFIRMED_SCORE

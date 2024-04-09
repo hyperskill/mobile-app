@@ -12,6 +12,7 @@ enum StepQuizChildQuizType {
     case string
     case number
     case math
+    case prompt
     case parsons
     case fillBlanks(mode: FillBlanksModeWrapper?)
     case unsupported(blockName: String)
@@ -54,6 +55,8 @@ enum StepQuizChildQuizType {
                 self = .number
             case BlockName.shared.MATH:
                 self = .math
+            case BlockName.shared.PROMPT:
+                self = .prompt
             case BlockName.shared.PARSONS:
                 self = .parsons
             case BlockName.shared.FILL_BLANKS:

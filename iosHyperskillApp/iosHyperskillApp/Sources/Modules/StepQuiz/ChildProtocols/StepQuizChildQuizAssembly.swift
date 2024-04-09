@@ -90,7 +90,7 @@ enum StepQuizChildQuizViewFactory {
                 moduleOutput: moduleOutput
             )
             .makeModule()
-        case .string, .number, .math:
+        case .string, .number, .math, .prompt:
             StepQuizStringAssembly(
                 dataType: .init(quizType: quizType).require(),
                 step: step,

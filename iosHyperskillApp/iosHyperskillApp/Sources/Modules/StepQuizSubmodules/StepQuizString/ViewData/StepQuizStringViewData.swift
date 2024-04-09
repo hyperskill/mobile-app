@@ -6,4 +6,7 @@ struct StepQuizStringViewData {
     let placeholder: String
 
     let isDecimalTextInput: Bool
+
+    let isForceScoreCheckboxVisible: Bool
+    var isForceScoreCheckboxChecked: Bool
 }

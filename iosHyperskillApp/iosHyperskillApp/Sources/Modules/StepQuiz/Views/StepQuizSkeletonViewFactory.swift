@@ -16,7 +16,7 @@ enum StepQuizSkeletonViewFactory {
             StepQuizSortingSkeletonView()
         case .table:
             StepQuizTableSkeletonView()
-        case .string, .number, .math:
+        case .string, .number, .math, .prompt:
             StepQuizStringSkeletonView()
         case .parsons:
             StepQuizParsonsSkeletonView()
