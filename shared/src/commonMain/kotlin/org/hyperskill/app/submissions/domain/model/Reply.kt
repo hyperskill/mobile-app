@@ -32,7 +32,7 @@ data class Reply(
     @SerialName("solve_sql")
     val solveSql: String? = null,
     @SerialName("score")
-    val score: String? = null,
+    val score: ReplyScore? = null,
     @SerialName("solution")
     val solution: List<PyCharmFile>? = null,
     @SerialName("check_profile")
@@ -52,7 +52,7 @@ data class Reply(
 
         fun pycharm(step: Step, pycharmCode: String?): Reply =
             Reply(
-                score = "",
+                score = ReplyScore.String(""),
                 solution = step.block.options.files?.map { file ->
                     PyCharmFile(
                         name = file.name,
@@ -69,10 +69,10 @@ data class Reply(
         fun fillBlanks(blanks: List<String>): Reply =
             Reply(blanks = blanks)
 
-        fun prompt(prompt: String, markedAsCorrect: Boolean = false): Reply =
+        fun prompt(prompt: String, markedAsCorrect: Boolean): Reply =
             Reply(
                 prompt = prompt,
-                score = if (markedAsCorrect) "1" else null
+                score = if (markedAsCorrect) ReplyScore.Int(1) else null
             )
     }
 }
