@@ -54,9 +54,9 @@ fun CustomTabsIntent.launchUrlSafe(
     url: Uri,
     onError: (e: Throwable) -> Unit
 ) {
+    // ActivityNotFoundException means there is no browser on the device
     try {
         launchUrl(activity, url)
-    // ActivityNotFoundException means there is no browser on the device
     } catch (e: ActivityNotFoundException) {
         onError(e)
     }

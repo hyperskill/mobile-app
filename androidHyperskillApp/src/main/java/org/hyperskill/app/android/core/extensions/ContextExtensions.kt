@@ -38,9 +38,10 @@ fun Context.openUrl(
 ) {
     val intent = Intent(Intent.ACTION_VIEW)
     intent.data = uri
+
+    // ActivityNotFoundException means there is no browser on the device
     try {
         startActivity(intent)
-    // ActivityNotFoundException means there is no browser on the device
     } catch (e: ActivityNotFoundException) {
         onError(e)
     }
