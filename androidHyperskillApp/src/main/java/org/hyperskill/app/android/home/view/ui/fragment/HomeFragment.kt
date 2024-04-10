@@ -11,9 +11,11 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.challenge.delegate.ChallengeCardDelegate
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.updateIsRefreshing
@@ -37,12 +39,15 @@ class HomeFragment :
     Fragment(R.layout.fragment_home),
     ReduxView<HomeFeature.ViewState, HomeFeature.Action.ViewAction> {
     companion object {
+        private const val LOG_TAG = "HomeFragment"
         fun newInstance(): Fragment =
             HomeFragment()
     }
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var dateFormatter: SharedDateFormatter
+
+    private val logger: Logger by logger(LOG_TAG)
 
     private val viewBinding: FragmentHomeBinding by viewBinding(FragmentHomeBinding::bind)
     private val homeViewModel: HomeViewModel by reduxViewModel(this) { viewModelFactory }
@@ -182,9 +187,9 @@ class HomeFragment :
             }
             is HomeFeature.Action.ViewAction.ChallengeWidgetViewAction -> {
                 challengeCardDelegate.handleAction(
-                    context = requireContext(),
-                    activity = requireActivity(),
-                    action = action.viewAction
+                    fragment = this@HomeFragment,
+                    action = action.viewAction,
+                    logger = logger
                 )
             }
         }

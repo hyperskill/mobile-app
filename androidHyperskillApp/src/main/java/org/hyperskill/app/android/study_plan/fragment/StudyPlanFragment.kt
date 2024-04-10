@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
@@ -34,6 +36,7 @@ class StudyPlanFragment :
     UnsupportedStageBottomSheet.Callback {
 
     companion object {
+        private const val LOG_TAG = "StudyPlanFragment"
         fun newInstance(): StudyPlanFragment =
             StudyPlanFragment()
     }
@@ -46,6 +49,8 @@ class StudyPlanFragment :
     private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) {
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
     }
+
+    private val logger: Logger by logger(LOG_TAG)
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var problemsLimitDelegate: ProblemsLimitDelegate? = null
@@ -189,9 +194,9 @@ class StudyPlanFragment :
             }
             is StudyPlanScreenFeature.Action.ViewAction.UsersInterviewWidgetViewAction -> {
                 usersQuestionnaireCardDelegate?.handleActions(
-                    context = requireContext(),
-                    activity = requireActivity(),
-                    action = action.viewAction
+                    fragment = this,
+                    action = action.viewAction,
+                    logger = logger
                 )
             }
         }
