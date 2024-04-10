@@ -85,10 +85,10 @@ struct StudyPlanView: View {
                         onReloadButtonTap: viewModel.doReloadProblemsLimit
                     )
 
-                    let usersQuestionnaireWidgetFeatureStateKs = viewModel.usersQuestionnaireWidgetFeatureStateKs
-                    if usersQuestionnaireWidgetFeatureStateKs != .hidden {
-                        UsersQuestionnaireWidgetAssembly(
-                            stateKs: usersQuestionnaireWidgetFeatureStateKs,
+                    let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetFeatureStateKs
+                    if usersInterviewWidgetFeatureStateKs != .hidden {
+                        UsersInterviewWidgetAssembly(
+                            stateKs: usersInterviewWidgetFeatureStateKs,
                             moduleOutput: viewModel
                         )
                         .makeModule()
@@ -135,9 +135,9 @@ private extension StudyPlanView {
             handleStudyPlanWidgetViewAction(
                 studyPlanWidgetViewAction.viewAction
             )
-        case .usersQuestionnaireWidgetViewAction(let usersQuestionnaireWidgetViewAction):
-            handleUsersQuestionnaireWidgetViewAction(
-                usersQuestionnaireWidgetViewAction.viewAction
+        case .usersInterviewWidgetViewAction(let usersInterviewWidgetViewAction):
+            handleUsersInterviewWidgetViewAction(
+                usersInterviewWidgetViewAction.viewAction
             )
         }
     }
@@ -197,13 +197,13 @@ private extension StudyPlanView {
         }
     }
 
-    func handleUsersQuestionnaireWidgetViewAction(
-        _ viewAction: UsersQuestionnaireWidgetFeatureActionViewAction
+    func handleUsersInterviewWidgetViewAction(
+        _ viewAction: UsersInterviewWidgetFeatureActionViewAction
     ) {
-        switch UsersQuestionnaireWidgetFeatureActionViewActionKs(viewAction) {
-        case .showUsersQuestionnaire(let showUsersQuestionnaireViewAction):
+        switch UsersInterviewWidgetFeatureActionViewActionKs(viewAction) {
+        case .showUsersInterview(let showUsersInterviewViewAction):
             WebControllerManager.shared.presentWebControllerWithURLString(
-                showUsersQuestionnaireViewAction.url,
+                showUsersInterviewViewAction.url,
                 controllerType: .inAppSafari
             )
         }

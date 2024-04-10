@@ -1,7 +1,7 @@
 package org.hyperskill.app.study_plan.presentation
 
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 
@@ -18,7 +18,7 @@ class StudyPlanScreenViewModel(
         onNewMessage(StudyPlanScreenFeature.Message.ViewedEventMessage)
     }
 
-    fun onNewMessage(message: UsersQuestionnaireWidgetFeature.Message) {
-        onNewMessage(StudyPlanScreenFeature.Message.UsersQuestionnaireWidgetMessage(message))
+    fun onNewMessage(message: UsersInterviewWidgetFeature.Message) {
+        onNewMessage(StudyPlanScreenFeature.Message.UsersInterviewWidgetMessage(message))
     }
 }

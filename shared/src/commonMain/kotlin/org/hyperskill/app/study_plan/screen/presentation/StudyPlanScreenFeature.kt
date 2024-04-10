@@ -7,13 +7,13 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
 
 object StudyPlanScreenFeature {
     internal data class State(
         val toolbarState: GamificationToolbarFeature.State,
         val problemsLimitState: ProblemsLimitFeature.State,
-        val usersQuestionnaireWidgetState: UsersQuestionnaireWidgetFeature.State,
+        val usersInterviewWidgetState: UsersInterviewWidgetFeature.State,
         val studyPlanWidgetState: StudyPlanWidgetFeature.State
     ) {
         val isRefreshing: Boolean
@@ -26,7 +26,7 @@ object StudyPlanScreenFeature {
         val trackTitle: String?,
         val toolbarViewState: GamificationToolbarFeature.ViewState,
         val problemsLimitViewState: ProblemsLimitFeature.ViewState,
-        val usersQuestionnaireWidgetState: UsersQuestionnaireWidgetFeature.State,
+        val usersInterviewWidgetState: UsersInterviewWidgetFeature.State,
         val studyPlanWidgetViewState: StudyPlanWidgetViewState,
         val isRefreshing: Boolean
     )
@@ -50,8 +50,8 @@ object StudyPlanScreenFeature {
             val message: ProblemsLimitFeature.Message
         ) : Message
 
-        data class UsersQuestionnaireWidgetMessage(
-            val message: UsersQuestionnaireWidgetFeature.Message
+        data class UsersInterviewWidgetMessage(
+            val message: UsersInterviewWidgetFeature.Message
         ) : Message
 
         data class StudyPlanWidgetMessage(
@@ -69,8 +69,8 @@ object StudyPlanScreenFeature {
                 val viewAction: ProblemsLimitFeature.Action.ViewAction
             ) : ViewAction
 
-            data class UsersQuestionnaireWidgetViewAction(
-                val viewAction: UsersQuestionnaireWidgetFeature.Action.ViewAction
+            data class UsersInterviewWidgetViewAction(
+                val viewAction: UsersInterviewWidgetFeature.Action.ViewAction
             ) : ViewAction
 
             data class StudyPlanWidgetViewAction(
@@ -90,8 +90,8 @@ object StudyPlanScreenFeature {
             val action: ProblemsLimitFeature.Action
         ) : InternalAction
 
-        data class UsersQuestionnaireWidgetAction(
-            val action: UsersQuestionnaireWidgetFeature.Action
+        data class UsersInterviewWidgetAction(
+            val action: UsersInterviewWidgetFeature.Action
         ) : InternalAction
 
         data class StudyPlanWidgetAction(

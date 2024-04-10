@@ -1,0 +1,9 @@
+package org.hyperskill.app.users_interview_widget.injection
+
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetActionDispatcher
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetReducer
+
+interface UsersInterviewWidgetComponent {
+    val usersInterviewWidgetReducer: UsersInterviewWidgetReducer
+    val usersInterviewWidgetActionDispatcher: UsersInterviewWidgetActionDispatcher
+}
