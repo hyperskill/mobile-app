@@ -1,6 +1,6 @@
 import SwiftUI
 
-extension UsersQuestionnaireWidgetView {
+extension UsersInterviewWidgetView {
     struct Appearance {
         let skeletonHeight: CGFloat = 114
 
@@ -8,12 +8,12 @@ extension UsersQuestionnaireWidgetView {
     }
 }
 
-struct UsersQuestionnaireWidgetView: View {
+struct UsersInterviewWidgetView: View {
     private(set) var appearance = Appearance()
 
-    let stateKs: UsersQuestionnaireWidgetFeatureStateKs
+    let stateKs: UsersInterviewWidgetFeatureStateKs
 
-    let viewModel: UsersQuestionnaireWidgetViewModel
+    let viewModel: UsersInterviewWidgetViewModel
 
     var body: some View {
         ZStack {
@@ -77,10 +77,12 @@ struct UsersQuestionnaireWidgetView: View {
     }
 }
 
+#if DEBUG
 #Preview {
-    UsersQuestionnaireWidgetView(
+    UsersInterviewWidgetView(
         stateKs: .visible,
-        viewModel: UsersQuestionnaireWidgetViewModel()
+        viewModel: UsersInterviewWidgetViewModel()
     )
     .padding(.horizontal)
 }
+#endif
