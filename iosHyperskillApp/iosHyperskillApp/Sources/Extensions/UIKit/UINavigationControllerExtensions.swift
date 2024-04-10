@@ -18,7 +18,9 @@ extension UINavigationController {
     ///   - completion: optional completion handler.
     func popViewController(animated: Bool = true, completion: @escaping (() -> Void)) {
         CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
+        CATransaction.setCompletionBlock {
+            DispatchQueue.main.async(execute: completion)
+        }
         popViewController(animated: animated)
         CATransaction.commit()
     }
@@ -30,7 +32,9 @@ extension UINavigationController {
     ///   - completion: completion handler.
     func popToRootViewController(animated: Bool = true, completion: @escaping (() -> Void)) {
         CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
+        CATransaction.setCompletionBlock {
+            DispatchQueue.main.async(execute: completion)
+        }
         popToRootViewController(animated: animated)
         CATransaction.commit()
     }
@@ -47,7 +51,9 @@ extension UINavigationController {
         completion: @escaping (() -> Void)
     ) {
         CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
+        CATransaction.setCompletionBlock {
+            DispatchQueue.main.async(execute: completion)
+        }
         pushViewController(viewController, animated: animated)
         CATransaction.commit()
     }
