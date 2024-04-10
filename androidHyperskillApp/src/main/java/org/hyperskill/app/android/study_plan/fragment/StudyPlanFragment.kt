@@ -152,7 +152,7 @@ class StudyPlanFragment :
         problemsLimitDelegate?.render(state.problemsLimitViewState)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
         usersQuestionnaireCardDelegate?.render(
-            state.usersQuestionnaireWidgetState,
+            state.usersInterviewWidgetState,
             viewBinding.studyPlanUserQuestionnaire
         )
     }
@@ -187,7 +187,7 @@ class StudyPlanFragment :
                     }
                 }
             }
-            is StudyPlanScreenFeature.Action.ViewAction.UsersQuestionnaireWidgetViewAction -> {
+            is StudyPlanScreenFeature.Action.ViewAction.UsersInterviewWidgetViewAction -> {
                 usersQuestionnaireCardDelegate?.handleActions(
                     context = requireContext(),
                     activity = requireActivity(),

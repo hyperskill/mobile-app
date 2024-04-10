@@ -7,7 +7,7 @@ import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
-import org.hyperskill.app.users_questionnaire.widget.injection.UsersQuestionnaireWidgetComponent
+import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : StudyPlanScreenComponent {
@@ -18,8 +18,8 @@ internal class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : St
     private val problemsLimitComponent: ProblemsLimitComponent =
         appGraph.buildProblemsLimitComponent(ProblemsLimitScreen.STUDY_PLAN)
 
-    private val usersQuestionnaireWidgetComponent: UsersQuestionnaireWidgetComponent =
-        appGraph.buildUsersQuestionnaireWidgetComponent()
+    private val usersInterviewWidgetComponent: UsersInterviewWidgetComponent =
+        appGraph.buildUsersInterviewWidgetComponent()
 
     private val studyPlanWidgetComponent: StudyPlanWidgetComponent =
         appGraph.buildStudyPlanWidgetComponent()
@@ -33,9 +33,9 @@ internal class StudyPlanScreenComponentImpl(private val appGraph: AppGraph) : St
             problemsLimitReducer = problemsLimitComponent.problemsLimitReducer,
             problemsLimitActionDispatcher = problemsLimitComponent.problemsLimitActionDispatcher,
             problemsLimitViewStateMapper = problemsLimitComponent.problemsLimitViewStateMapper,
-            usersQuestionnaireWidgetReducer = usersQuestionnaireWidgetComponent.usersQuestionnaireWidgetReducer,
-            usersQuestionnaireWidgetActionDispatcher = usersQuestionnaireWidgetComponent
-                .usersQuestionnaireWidgetActionDispatcher,
+            usersInterviewWidgetReducer = usersInterviewWidgetComponent.usersInterviewWidgetReducer,
+            usersInterviewWidgetActionDispatcher = usersInterviewWidgetComponent
+                .usersInterviewWidgetActionDispatcher,
             studyPlanWidgetReducer = studyPlanWidgetComponent.studyPlanWidgetReducer,
             studyPlanWidgetDispatcher = studyPlanWidgetComponent.studyPlanWidgetDispatcher,
             studyPlanWidgetViewStateMapper = studyPlanWidgetComponent.studyPlanWidgetViewStateMapper,

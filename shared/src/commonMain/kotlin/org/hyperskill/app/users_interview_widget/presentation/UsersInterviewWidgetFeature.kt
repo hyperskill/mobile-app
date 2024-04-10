@@ -1,8 +1,8 @@
-package org.hyperskill.app.users_questionnaire.widget.presentation
+package org.hyperskill.app.users_interview_widget.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
-object UsersQuestionnaireWidgetFeature {
+object UsersInterviewWidgetFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
@@ -20,32 +20,32 @@ object UsersQuestionnaireWidgetFeature {
     internal sealed interface InternalMessage : Message {
         object Initialize : InternalMessage
 
-        data class FetchUsersQuestionnaireWidgetDataResult(
-            val isUsersQuestionnaireEnabled: Boolean,
-            val isUsersQuestionnaireWidgetHidden: Boolean
+        data class FetchUsersInterviewWidgetDataResult(
+            val isUsersInterviewWidgetEnabled: Boolean,
+            val isUsersInterviewWidgetHidden: Boolean
         ) : InternalMessage
 
-        data class UsersQuestionnaireFeatureFlagChanged(
-            val isUsersQuestionnaireEnabled: Boolean
+        data class UsersInterviewWidgetFeatureFlagChanged(
+            val isUsersInterviewWidgetEnabled: Boolean
         ) : InternalMessage
 
-        data class FetchUsersQuestionnaireUrlResult(
+        data class FetchUsersInterviewUrlResult(
             val url: String
         ) : InternalMessage
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
-            data class ShowUsersQuestionnaire(val url: String) : ViewAction
+            data class ShowUsersInterview(val url: String) : ViewAction
         }
     }
 
     internal sealed interface InternalAction : Action {
-        object FetchUsersQuestionnaireWidgetData : InternalAction
+        object FetchUsersInterviewWidgetData : InternalAction
 
-        object FetchUsersQuestionnaireUrl : InternalAction
+        object FetchUsersInterviewUrl : InternalAction
 
-        object HideUsersQuestionnaireWidget : InternalAction
+        object HideUsersInterviewWidget : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }

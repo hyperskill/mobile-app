@@ -9,8 +9,8 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryConten
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetReducer
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetReducer
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StudyPlanScreenReducerResult = Pair<StudyPlanScreenFeature.State, Set<StudyPlanScreenFeature.Action>>
@@ -18,7 +18,7 @@ internal typealias StudyPlanScreenReducerResult = Pair<StudyPlanScreenFeature.St
 internal class StudyPlanScreenReducer(
     private val toolbarReducer: GamificationToolbarReducer,
     private val problemsLimitReducer: ProblemsLimitReducer,
-    private val usersQuestionnaireWidgetReducer: UsersQuestionnaireWidgetReducer,
+    private val usersInterviewWidgetReducer: UsersInterviewWidgetReducer,
     private val studyPlanWidgetReducer: StudyPlanWidgetReducer
 ) : StateReducer<StudyPlanScreenFeature.State, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
     override fun reduce(
@@ -49,12 +49,10 @@ internal class StudyPlanScreenReducer(
                     reduceProblemsLimitMessage(state.problemsLimitState, message.message)
                 state.copy(problemsLimitState = problemsLimitState) to problemsLimitActions
             }
-            is StudyPlanScreenFeature.Message.UsersQuestionnaireWidgetMessage -> {
-                val (usersQuestionnaireWidgetState, usersQuestionnaireWidgetActions) =
-                    reduceUsersQuestionnaireWidgetMessage(state.usersQuestionnaireWidgetState, message.message)
-                state.copy(
-                    usersQuestionnaireWidgetState = usersQuestionnaireWidgetState
-                ) to usersQuestionnaireWidgetActions
+            is StudyPlanScreenFeature.Message.UsersInterviewWidgetMessage -> {
+                val (usersInterviewWidgetState, usersInterviewWidgetActions) =
+                    reduceUsersInterviewWidgetMessage(state.usersInterviewWidgetState, message.message)
+                state.copy(usersInterviewWidgetState = usersInterviewWidgetState) to usersInterviewWidgetActions
             }
             is StudyPlanScreenFeature.Message.StudyPlanWidgetMessage -> {
                 val (widgetState, widgetActions) =
@@ -84,10 +82,10 @@ internal class StudyPlanScreenReducer(
                 state.problemsLimitState,
                 ProblemsLimitFeature.InternalMessage.Initialize(forceUpdate = retryContentLoadingClicked)
             )
-        val (usersQuestionnaireWidgetState, usersQuestionnaireWidgetActions) =
-            reduceUsersQuestionnaireWidgetMessage(
-                state.usersQuestionnaireWidgetState,
-                UsersQuestionnaireWidgetFeature.InternalMessage.Initialize
+        val (usersInterviewWidgetState, usersInterviewWidgetActions) =
+            reduceUsersInterviewWidgetMessage(
+                state.usersInterviewWidgetState,
+                UsersInterviewWidgetFeature.InternalMessage.Initialize
             )
         val (studyPlanState, studyPlanActions) =
             reduceStudyPlanWidgetMessage(
@@ -107,14 +105,14 @@ internal class StudyPlanScreenReducer(
 
         val actions = toolbarActions +
             problemsLimitActions +
-            usersQuestionnaireWidgetActions +
+            usersInterviewWidgetActions +
             studyPlanActions +
             analyticActions
 
         return state.copy(
             toolbarState = toolbarState,
             problemsLimitState = problemsLimitState,
-            usersQuestionnaireWidgetState = usersQuestionnaireWidgetState,
+            usersInterviewWidgetState = usersInterviewWidgetState,
             studyPlanWidgetState = studyPlanState
         ) to actions
     }
@@ -185,24 +183,24 @@ internal class StudyPlanScreenReducer(
         return problemsLimitState to actions
     }
 
-    private fun reduceUsersQuestionnaireWidgetMessage(
-        state: UsersQuestionnaireWidgetFeature.State,
-        message: UsersQuestionnaireWidgetFeature.Message
-    ): Pair<UsersQuestionnaireWidgetFeature.State, Set<StudyPlanScreenFeature.Action>> {
-        val (usersQuestionnaireWidgetState, usersQuestionnaireWidgetActions) =
-            usersQuestionnaireWidgetReducer.reduce(state, message)
+    private fun reduceUsersInterviewWidgetMessage(
+        state: UsersInterviewWidgetFeature.State,
+        message: UsersInterviewWidgetFeature.Message
+    ): Pair<UsersInterviewWidgetFeature.State, Set<StudyPlanScreenFeature.Action>> {
+        val (usersInterviewWidgetState, usersInterviewWidgetActions) =
+            usersInterviewWidgetReducer.reduce(state, message)
 
-        val actions = usersQuestionnaireWidgetActions
+        val actions = usersInterviewWidgetActions
             .map {
-                if (it is UsersQuestionnaireWidgetFeature.Action.ViewAction) {
-                    StudyPlanScreenFeature.Action.ViewAction.UsersQuestionnaireWidgetViewAction(it)
+                if (it is UsersInterviewWidgetFeature.Action.ViewAction) {
+                    StudyPlanScreenFeature.Action.ViewAction.UsersInterviewWidgetViewAction(it)
                 } else {
-                    StudyPlanScreenFeature.InternalAction.UsersQuestionnaireWidgetAction(it)
+                    StudyPlanScreenFeature.InternalAction.UsersInterviewWidgetAction(it)
                 }
             }
             .toSet()
 
-        return usersQuestionnaireWidgetState to actions
+        return usersInterviewWidgetState to actions
     }
 
     private fun reduceStudyPlanWidgetMessage(

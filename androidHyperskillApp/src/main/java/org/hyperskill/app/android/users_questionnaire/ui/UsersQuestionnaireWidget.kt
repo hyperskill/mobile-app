@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerLoading
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
 import org.hyperskill.app.R as SharedR
 
 object UsersQuestionnaireWidgetDefaults {
@@ -42,25 +42,26 @@ object UsersQuestionnaireWidgetDefaults {
         get() = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius))
 }
 
+// TODO: ALTAPPS-1217 refactor to users interview widget
 @Composable
 fun UsersQuestionnaireWidget(
-    viewState: UsersQuestionnaireWidgetFeature.State,
-    onNewMessage: (UsersQuestionnaireWidgetFeature.Message) -> Unit,
+    viewState: UsersInterviewWidgetFeature.State,
+    onNewMessage: (UsersInterviewWidgetFeature.Message) -> Unit,
     modifier: Modifier = Modifier
 ) {
     when (viewState) {
-        UsersQuestionnaireWidgetFeature.State.Idle,
-        UsersQuestionnaireWidgetFeature.State.Hidden -> {
+        UsersInterviewWidgetFeature.State.Idle,
+        UsersInterviewWidgetFeature.State.Hidden -> {
             // no op
         }
-        UsersQuestionnaireWidgetFeature.State.Loading -> {
+        UsersInterviewWidgetFeature.State.Loading -> {
             ShimmerLoading(
                 modifier = modifier
                     .fillMaxWidth()
                     .height(64.dp)
             )
         }
-        UsersQuestionnaireWidgetFeature.State.Visible -> {
+        UsersInterviewWidgetFeature.State.Visible -> {
             UsersQuestionnaireWidgetContent(onNewMessage, modifier)
         }
     }
@@ -68,7 +69,7 @@ fun UsersQuestionnaireWidget(
 
 @Composable
 private fun UsersQuestionnaireWidgetContent(
-    onNewMessage: (UsersQuestionnaireWidgetFeature.Message) -> Unit,
+    onNewMessage: (UsersInterviewWidgetFeature.Message) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -89,7 +90,7 @@ private fun UsersQuestionnaireWidgetContent(
                 )
             )
             .clickable {
-                onNewMessage(UsersQuestionnaireWidgetFeature.Message.WidgetClicked)
+                onNewMessage(UsersInterviewWidgetFeature.Message.WidgetClicked)
             }
             .padding(
                 horizontal = 20.dp,
@@ -108,7 +109,7 @@ private fun UsersQuestionnaireWidgetContent(
                 .requiredSize(24.dp)
                 .align(Alignment.CenterVertically)
                 .clickable {
-                    onNewMessage(UsersQuestionnaireWidgetFeature.Message.CloseClicked)
+                    onNewMessage(UsersInterviewWidgetFeature.Message.CloseClicked)
                 }
         ) {
             Image(
@@ -121,11 +122,11 @@ private fun UsersQuestionnaireWidgetContent(
 }
 
 private class UsersQuestionnairePreviewParameterProvider :
-    PreviewParameterProvider<UsersQuestionnaireWidgetFeature.State> {
-    override val values: Sequence<UsersQuestionnaireWidgetFeature.State>
+    PreviewParameterProvider<UsersInterviewWidgetFeature.State> {
+    override val values: Sequence<UsersInterviewWidgetFeature.State>
         get() = sequenceOf(
-            UsersQuestionnaireWidgetFeature.State.Loading,
-            UsersQuestionnaireWidgetFeature.State.Visible
+            UsersInterviewWidgetFeature.State.Loading,
+            UsersInterviewWidgetFeature.State.Visible
         )
 }
 
@@ -133,7 +134,7 @@ private class UsersQuestionnairePreviewParameterProvider :
 @Composable
 private fun UsersQuestionnaireWidgetPreview(
     @PreviewParameter(UsersQuestionnairePreviewParameterProvider::class)
-    state: UsersQuestionnaireWidgetFeature.State
+    state: UsersInterviewWidgetFeature.State
 ) {
     HyperskillTheme {
         UsersQuestionnaireWidget(

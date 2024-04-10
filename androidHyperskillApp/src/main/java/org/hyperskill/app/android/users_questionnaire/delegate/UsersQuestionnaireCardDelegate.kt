@@ -15,16 +15,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.android.core.extensions.setHyperskillColors
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.users_questionnaire.ui.UsersQuestionnaireWidget
-import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
+import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
 
+// TODO: ALTAPPS-1217 refactor to users interview widget
 class UsersQuestionnaireCardDelegate {
 
-    private val stateFlow: MutableStateFlow<UsersQuestionnaireWidgetFeature.State?> = MutableStateFlow(null)
+    private val stateFlow: MutableStateFlow<UsersInterviewWidgetFeature.State?> = MutableStateFlow(null)
 
     fun setup(
         composeView: ComposeView,
         viewLifecycleOwner: LifecycleOwner,
-        onNewMessage: (UsersQuestionnaireWidgetFeature.Message) -> Unit
+        onNewMessage: (UsersInterviewWidgetFeature.Message) -> Unit
     ) {
         composeView.apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
@@ -32,7 +33,7 @@ class UsersQuestionnaireCardDelegate {
                 HyperskillTheme {
                     val viewState by stateFlow.collectAsStateWithLifecycle()
                     DisposableEffect(viewLifecycleOwner) {
-                        onNewMessage(UsersQuestionnaireWidgetFeature.Message.ViewedEventMessage)
+                        onNewMessage(UsersInterviewWidgetFeature.Message.ViewedEventMessage)
                         onDispose {
                             // no op
                         }
@@ -49,14 +50,14 @@ class UsersQuestionnaireCardDelegate {
     }
 
     fun render(
-        state: UsersQuestionnaireWidgetFeature.State,
+        state: UsersInterviewWidgetFeature.State,
         composeView: ComposeView
     ) {
         composeView.isVisible = when (state) {
-            UsersQuestionnaireWidgetFeature.State.Idle,
-            UsersQuestionnaireWidgetFeature.State.Hidden -> false
-            UsersQuestionnaireWidgetFeature.State.Loading,
-            UsersQuestionnaireWidgetFeature.State.Visible -> true
+            UsersInterviewWidgetFeature.State.Idle,
+            UsersInterviewWidgetFeature.State.Hidden -> false
+            UsersInterviewWidgetFeature.State.Loading,
+            UsersInterviewWidgetFeature.State.Visible -> true
         }
         stateFlow.value = state
     }
@@ -64,10 +65,10 @@ class UsersQuestionnaireCardDelegate {
     fun handleActions(
         context: Context,
         activity: Activity,
-        action: UsersQuestionnaireWidgetFeature.Action.ViewAction
+        action: UsersInterviewWidgetFeature.Action.ViewAction
     ) {
         when (action) {
-            is UsersQuestionnaireWidgetFeature.Action.ViewAction.ShowUsersQuestionnaire -> {
+            is UsersInterviewWidgetFeature.Action.ViewAction.ShowUsersInterview -> {
                 val intent = CustomTabsIntent.Builder()
                     .setHyperskillColors(context)
                     .build()
