@@ -4,7 +4,10 @@ extension UsersInterviewWidgetView {
     struct Appearance {
         let skeletonHeight: CGFloat = 114
 
+        let illustrationSize = CGSize(width: 89, height: 86)
+
         let spacing = LayoutInsets.defaultInset
+        let interitemSpacing = LayoutInsets.smallInset
     }
 }
 
@@ -40,28 +43,17 @@ struct UsersInterviewWidgetView: View {
                     }
                 },
                 label: {
-                    HStack(alignment: .center, spacing: 0) {
-                        Text(Strings.UsersQuestionnaireWidget.title)
-                            .font(.subheadline)
+                    ZStack(alignment: Alignment(horizontal: .trailing, vertical: .top)) {
+                        HStack(alignment: .center, spacing: appearance.spacing) {
+                            textConent
+                            illustration
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding([.leading, .vertical])
 
-                        Spacer()
-
-                        Button(
-                            action: {
-                                withAnimation {
-                                    viewModel.doCloseAction()
-                                }
-                            },
-                            label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .padding(.all, appearance.spacing)
-                            }
-                        )
-                        .offset(x: appearance.spacing, y: 0)
+                        closeButton
                     }
                     .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal)
                     .background(backgroundGradient)
                 }
             )
@@ -69,8 +61,39 @@ struct UsersInterviewWidgetView: View {
         }
     }
 
+    private var textConent: some View {
+        VStack(alignment: .leading, spacing: appearance.interitemSpacing) {
+            Text(Strings.UsersInterviewWidget.title)
+                .font(.headline)
+            Text(Strings.UsersInterviewWidget.subtitle)
+                .font(.subheadline)
+        }
+    }
+
+    private var illustration: some View {
+        Image(.usersInterviewWidgetIllustration)
+            .renderingMode(.original)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(size: appearance.illustrationSize)
+    }
+
+    private var closeButton: some View {
+        Button(
+            action: {
+                withAnimation {
+                    viewModel.doCloseAction()
+                }
+            },
+            label: {
+                Image(systemName: "xmark.circle.fill")
+                    .padding(.all, appearance.interitemSpacing)
+            }
+        )
+    }
+
     private var backgroundGradient: some View {
-        Image(.brandGradient3)
+        Image(.usersInterviewWidgetGradient)
             .renderingMode(.original)
             .resizable()
             .addBorder(color: .clear, width: 0)

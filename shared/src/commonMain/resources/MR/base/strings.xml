@@ -565,8 +565,9 @@
     <string name="challenge_widget_network_error_text">Oops! We were unable to load the challenge.</string>
     <string name="challenge_widget_reload_button">Reload</string>
 
-    <!-- Users questionnaire widget -->
-    <string name="users_questionnaire_widget_title">Tell us about your time using our app</string>
+    <!-- Users interview widget -->
+    <string name="users_interview_widget_title">Interview Invitation</string>
+    <string name="users_interview_widget_subtitle">Share your experience in an interview and earn amazon gift card</string>
 
     <!-- Questionnaire onboarding -->
     <string name="users_questionnaire_onboarding_title_template">How did you hear about\n%s?</string>

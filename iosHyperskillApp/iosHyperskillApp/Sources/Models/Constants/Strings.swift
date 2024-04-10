@@ -280,15 +280,14 @@ enum Strings {
         static let networkError = sharedStrings.challenge_widget_network_error_text.localized()
     }
 
-    // MARK: - Users questionnaire -
+    // MARK: - UsersInterviewWidget -
 
-    // MARK: Widget
-
-    enum UsersQuestionnaireWidget {
-        static let title = sharedStrings.users_questionnaire_widget_title.localized()
+    enum UsersInterviewWidget {
+        static let title = sharedStrings.users_interview_widget_title.localized()
+        static let subtitle = sharedStrings.users_interview_widget_subtitle.localized()
     }
 
-    // MARK: Onboarding
+    // MARK: - UsersQuestionnaireOnboarding -
 
     enum UsersQuestionnaireOnboarding {
         static let textInputPlaceholder =

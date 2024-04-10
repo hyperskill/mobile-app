@@ -98,7 +98,7 @@ private fun UsersQuestionnaireWidgetContent(
             )
     ) {
         Text(
-            text = stringResource(id = SharedR.string.users_questionnaire_widget_title),
+            text = stringResource(id = SharedR.string.users_interview_widget_title),
             color = colorResource(id = SharedR.color.text_on_color),
             modifier = Modifier
                 .weight(1f)
