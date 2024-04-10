@@ -2,6 +2,7 @@ package org.hyperskill.app.android.profile.view.delegate
 
 import android.content.Context
 import android.view.View
+import co.touchlab.kermit.Logger
 import java.util.Locale
 import org.hyperskill.app.android.databinding.LayoutProfilePersonalInfoBinding
 import org.hyperskill.app.android.view.base.ui.extension.redirectToUsernamePage
@@ -25,12 +26,13 @@ object AboutMeDelegate {
     fun render(
         context: Context,
         viewBinding: LayoutProfilePersonalInfoBinding,
-        profile: Profile
+        profile: Profile,
+        logger: Logger
     ) {
         renderAboutMeSection(context, viewBinding, profile)
         renderBioSection(viewBinding, profile)
         renderExperienceSection(viewBinding, profile)
-        renderSocialButtons(context, viewBinding, profile)
+        renderSocialButtons(context, viewBinding, profile, logger)
     }
 
     private fun renderAboutMeSection(
@@ -91,11 +93,16 @@ object AboutMeDelegate {
         }
     }
 
-    private fun renderSocialButtons(context: Context, viewBinding: LayoutProfilePersonalInfoBinding, profile: Profile) {
+    private fun renderSocialButtons(
+        context: Context,
+        viewBinding: LayoutProfilePersonalInfoBinding,
+        profile: Profile,
+        logger: Logger
+    ) {
         with(viewBinding) {
             if (profile.facebookUsername != "") {
                 profileFacebookButton.setOnClickListener {
-                    SocialNetworksRedirect.FACEBOOK.redirectToUsernamePage(context, profile.facebookUsername)
+                    SocialNetworksRedirect.FACEBOOK.redirectToUsernamePage(context, profile.facebookUsername, logger)
                 }
             } else {
                 profileFacebookButton.visibility = View.GONE
@@ -103,7 +110,7 @@ object AboutMeDelegate {
 
             if (profile.twitterUsername != "") {
                 profileTwitterButton.setOnClickListener {
-                    SocialNetworksRedirect.TWITTER.redirectToUsernamePage(context, profile.twitterUsername)
+                    SocialNetworksRedirect.TWITTER.redirectToUsernamePage(context, profile.twitterUsername, logger)
                 }
             } else {
                 profileTwitterButton.visibility = View.GONE
@@ -111,7 +118,7 @@ object AboutMeDelegate {
 
             if (profile.linkedinUsername != "") {
                 profileLinkedinButton.setOnClickListener {
-                    SocialNetworksRedirect.LINKEDIN.redirectToUsernamePage(context, profile.linkedinUsername)
+                    SocialNetworksRedirect.LINKEDIN.redirectToUsernamePage(context, profile.linkedinUsername, logger)
                 }
             } else {
                 profileLinkedinButton.visibility = View.GONE
@@ -119,7 +126,7 @@ object AboutMeDelegate {
 
             if (profile.redditUsername != "") {
                 profileRedditButton.setOnClickListener {
-                    SocialNetworksRedirect.REDDIT.redirectToUsernamePage(context, profile.redditUsername)
+                    SocialNetworksRedirect.REDDIT.redirectToUsernamePage(context, profile.redditUsername, logger)
                 }
             } else {
                 profileRedditButton.visibility = View.GONE
@@ -127,7 +134,7 @@ object AboutMeDelegate {
 
             if (profile.githubUsername != "") {
                 profileGithubButton.setOnClickListener {
-                    SocialNetworksRedirect.GITHUB.redirectToUsernamePage(context, profile.githubUsername)
+                    SocialNetworksRedirect.GITHUB.redirectToUsernamePage(context, profile.githubUsername, logger)
                 }
             } else {
                 profileGithubButton.visibility = View.GONE
