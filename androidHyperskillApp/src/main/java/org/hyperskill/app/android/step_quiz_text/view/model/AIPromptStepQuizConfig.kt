@@ -20,5 +20,4 @@ object AIPromptStepQuizConfig : TextStepQuizConfig {
 
     override fun getText(reply: Reply): String? =
         reply.prompt
-
 }
