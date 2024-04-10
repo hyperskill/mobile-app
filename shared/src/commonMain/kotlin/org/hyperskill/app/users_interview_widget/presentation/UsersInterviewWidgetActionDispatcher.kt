@@ -65,15 +65,10 @@ class UsersInterviewWidgetActionDispatcher(
         )
     }
 
-    private suspend fun handleFetchUsersInterviewUrlAction(onNewMessage: (Message) -> Unit) {
-        val currentUserId = currentProfileStateRepository
-            .getState(forceUpdate = false)
-            .map { it.id }
-            .getOrNull() ?: return
-
+    private fun handleFetchUsersInterviewUrlAction(onNewMessage: (Message) -> Unit) {
         onNewMessage(
             InternalMessage.FetchUsersInterviewUrlResult(
-                "https://docs.google.com/forms/d/e/1FAIpQLSf6k3woOqZr2zfmbBNvA71DyD04LN4v7l6k-vuyqdAmdMUnOA/viewform?usp=pp_url&entry.193481738=$currentUserId" // ktlint-disable
+                "https://docs.google.com/forms/d/1qRTBkpjwZhjWSQ0sn9WtN0lwAU0quygsm5iPapw1AcM/"
             )
         )
     }
