@@ -21,7 +21,7 @@ import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitD
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
-import org.hyperskill.app.android.users_questionnaire.delegate.UsersQuestionnaireCardDelegate
+import org.hyperskill.app.android.users_questionnaire_onboarding.delegate.UsersQuestionnaireCardDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
@@ -157,7 +157,7 @@ class StudyPlanFragment :
         problemsLimitDelegate?.render(state.problemsLimitViewState)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
         usersQuestionnaireCardDelegate?.render(
-            state.usersQuestionnaireWidgetState,
+            state.usersInterviewWidgetState,
             viewBinding.studyPlanUserQuestionnaire
         )
     }
@@ -192,7 +192,7 @@ class StudyPlanFragment :
                     }
                 }
             }
-            is StudyPlanScreenFeature.Action.ViewAction.UsersQuestionnaireWidgetViewAction -> {
+            is StudyPlanScreenFeature.Action.ViewAction.UsersInterviewWidgetViewAction -> {
                 usersQuestionnaireCardDelegate?.handleActions(
                     fragment = this,
                     action = action.viewAction,

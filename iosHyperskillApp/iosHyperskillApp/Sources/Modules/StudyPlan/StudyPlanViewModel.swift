@@ -12,8 +12,8 @@ final class StudyPlanViewModel: FeatureViewModel<
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarViewStateKs: GamificationToolbarFeatureViewStateKs { .init(state.toolbarViewState) }
     var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
-    var usersQuestionnaireWidgetFeatureStateKs: UsersQuestionnaireWidgetFeatureStateKs {
-        .init(state.usersQuestionnaireWidgetState)
+    var usersInterviewWidgetFeatureStateKs: UsersInterviewWidgetFeatureStateKs {
+        .init(state.usersInterviewWidgetState)
     }
 
     override func shouldNotifyStateDidChange(
@@ -142,29 +142,29 @@ extension StudyPlanViewModel: StageImplementUnsupportedModalViewControllerDelega
     }
 }
 
-// MARK: - StudyPlanViewModel: UsersQuestionnaireWidgetOutputProtocol -
+// MARK: - StudyPlanViewModel: UsersInterviewWidgetOutputProtocol -
 
-extension StudyPlanViewModel: UsersQuestionnaireWidgetOutputProtocol {
-    func handleUsersQuestionnaireWidgetClicked() {
+extension StudyPlanViewModel: UsersInterviewWidgetOutputProtocol {
+    func handleUsersInterviewWidgetClicked() {
         onNewMessage(
-            StudyPlanScreenFeatureMessageUsersQuestionnaireWidgetMessage(
-                message: UsersQuestionnaireWidgetFeatureMessageWidgetClicked()
+            StudyPlanScreenFeatureMessageUsersInterviewWidgetMessage(
+                message: UsersInterviewWidgetFeatureMessageWidgetClicked()
             )
         )
     }
 
-    func handleUsersQuestionnaireWidgetCloseClicked() {
+    func handleUsersInterviewWidgetCloseClicked() {
         onNewMessage(
-            StudyPlanScreenFeatureMessageUsersQuestionnaireWidgetMessage(
-                message: UsersQuestionnaireWidgetFeatureMessageCloseClicked()
+            StudyPlanScreenFeatureMessageUsersInterviewWidgetMessage(
+                message: UsersInterviewWidgetFeatureMessageCloseClicked()
             )
         )
     }
 
-    func handleUsersQuestionnaireWidgetDidAppear() {
+    func handleUsersInterviewWidgetDidAppear() {
         onNewMessage(
-            StudyPlanScreenFeatureMessageUsersQuestionnaireWidgetMessage(
-                message: UsersQuestionnaireWidgetFeatureMessageViewedEventMessage()
+            StudyPlanScreenFeatureMessageUsersInterviewWidgetMessage(
+                message: UsersInterviewWidgetFeatureMessageViewedEventMessage()
             )
         )
     }

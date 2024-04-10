@@ -17,7 +17,7 @@ internal class StudyPlanScreenViewStateMapper(
             trackTitle = getTrackTitle(state),
             toolbarViewState = GamificationToolbarViewStateMapper.map(state.toolbarState),
             problemsLimitViewState = problemsLimitViewStateMapper.mapState(state.problemsLimitState),
-            usersQuestionnaireWidgetState = state.usersQuestionnaireWidgetState,
+            usersInterviewWidgetState = state.usersInterviewWidgetState,
             studyPlanWidgetViewState = studyPlanWidgetViewStateMapper.map(state.studyPlanWidgetState),
             isRefreshing = state.isRefreshing
         )
