@@ -12,11 +12,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import co.touchlab.kermit.Logger
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.getStringRepresentation
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
@@ -52,6 +54,8 @@ class ProfileSettingsDialogFragment :
     private lateinit var viewModelFactory: ViewModelProvider.Factory
     private val profileSettingsViewModel: ProfileSettingsViewModel by reduxViewModel(this) { viewModelFactory }
     private var viewStateDelegate: ViewStateDelegate<ViewState>? = null
+
+    private val logger: Logger by logger(TAG)
 
     private var currentThemePosition: Int = -1
 
@@ -131,7 +135,8 @@ class ProfileSettingsDialogFragment :
         viewBinding.settingsContent.settingsRateAppButton.setOnClickListener {
             profileSettingsViewModel.onNewMessage(Message.ClickedRateUsInPlayStoreEventMessage)
             requireContext().openUrl(
-                getString(org.hyperskill.app.R.string.settings_rate_in_google_play_url)
+                getString(org.hyperskill.app.R.string.settings_rate_in_google_play_url),
+                logger
             )
         }
 
@@ -215,7 +220,7 @@ class ProfileSettingsDialogFragment :
     }
 
     private fun openLinkInBrowser(link: String) {
-        requireContext().openUrl(link)
+        requireContext().openUrl(link, logger)
     }
 
     override fun onAction(action: Action.ViewAction) {

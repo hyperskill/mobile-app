@@ -1,18 +1,16 @@
 package org.hyperskill.app.android.users_questionnaire.delegate
 
-import android.app.Activity
-import android.content.Context
-import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.hyperskill.app.android.core.extensions.setHyperskillColors
+import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.users_questionnaire.ui.UsersQuestionnaireWidget
 import org.hyperskill.app.users_questionnaire.widget.presentation.UsersQuestionnaireWidgetFeature
@@ -62,16 +60,13 @@ class UsersQuestionnaireCardDelegate {
     }
 
     fun handleActions(
-        context: Context,
-        activity: Activity,
-        action: UsersQuestionnaireWidgetFeature.Action.ViewAction
+        fragment: Fragment,
+        action: UsersQuestionnaireWidgetFeature.Action.ViewAction,
+        logger: Logger
     ) {
         when (action) {
             is UsersQuestionnaireWidgetFeature.Action.ViewAction.ShowUsersQuestionnaire -> {
-                val intent = CustomTabsIntent.Builder()
-                    .setHyperskillColors(context)
-                    .build()
-                intent.launchUrl(activity, Uri.parse(action.url))
+                fragment.launchUrlInCustomTabs(action.url, logger)
             }
         }
     }
