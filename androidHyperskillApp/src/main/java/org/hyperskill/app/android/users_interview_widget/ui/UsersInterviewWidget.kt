@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.users_questionnaire_onboarding.ui
+package org.hyperskill.app.android.users_interview_widget.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,16 +35,8 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerLoading
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
 import org.hyperskill.app.R as SharedR
 
-object UsersQuestionnaireWidgetDefaults {
-
-    val shape: Shape
-        @Composable
-        get() = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius))
-}
-
-// TODO: ALTAPPS-1217 refactor to users interview widget
 @Composable
-fun UsersQuestionnaireWidget(
+fun UsersInterviewWidget(
     viewState: UsersInterviewWidgetFeature.State,
     onNewMessage: (UsersInterviewWidgetFeature.Message) -> Unit,
     modifier: Modifier = Modifier
@@ -62,24 +54,24 @@ fun UsersQuestionnaireWidget(
             )
         }
         UsersInterviewWidgetFeature.State.Visible -> {
-            UsersQuestionnaireWidgetContent(onNewMessage, modifier)
+            UsersInterviewWidgetContent(onNewMessage, modifier)
         }
     }
 }
 
 @Composable
-private fun UsersQuestionnaireWidgetContent(
+private fun UsersInterviewWidgetContent(
     onNewMessage: (UsersInterviewWidgetFeature.Message) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
-            .clip(UsersQuestionnaireWidgetDefaults.shape)
+            .clip(UsersInterviewWidgetDefaults.shape)
             .border(
                 width = 1.dp,
                 color = colorResource(id = SharedR.color.color_on_surface_alpha_9),
-                shape = UsersQuestionnaireWidgetDefaults.shape
+                shape = UsersInterviewWidgetDefaults.shape
             )
             .background(
                 Brush.verticalGradient(
@@ -121,7 +113,14 @@ private fun UsersQuestionnaireWidgetContent(
     }
 }
 
-private class UsersQuestionnairePreviewParameterProvider :
+private object UsersInterviewWidgetDefaults {
+
+    val shape: Shape
+        @Composable
+        get() = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius))
+}
+
+private class UsersInterviewPreviewParameterProvider :
     PreviewParameterProvider<UsersInterviewWidgetFeature.State> {
     override val values: Sequence<UsersInterviewWidgetFeature.State>
         get() = sequenceOf(
@@ -132,12 +131,12 @@ private class UsersQuestionnairePreviewParameterProvider :
 
 @Preview
 @Composable
-private fun UsersQuestionnaireWidgetPreview(
-    @PreviewParameter(UsersQuestionnairePreviewParameterProvider::class)
+private fun UsersInterviewWidgetPreview(
+    @PreviewParameter(UsersInterviewPreviewParameterProvider::class)
     state: UsersInterviewWidgetFeature.State
 ) {
     HyperskillTheme {
-        UsersQuestionnaireWidget(
+        UsersInterviewWidget(
             viewState = state,
             onNewMessage = {},
             modifier = Modifier.requiredWidth(320.dp)

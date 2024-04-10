@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.users_questionnaire_onboarding.delegate
+package org.hyperskill.app.android.users_interview_widget.delegate
 
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -12,11 +12,10 @@ import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.users_questionnaire_onboarding.ui.UsersQuestionnaireWidget
+import org.hyperskill.app.android.users_interview_widget.ui.UsersInterviewWidget
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
 
-// TODO: ALTAPPS-1217 refactor to users interview widget
-class UsersQuestionnaireCardDelegate {
+class UsersInterviewCardDelegate {
 
     private val stateFlow: MutableStateFlow<UsersInterviewWidgetFeature.State?> = MutableStateFlow(null)
 
@@ -37,7 +36,7 @@ class UsersQuestionnaireCardDelegate {
                         }
                     }
                     viewState?.let { actualViewState ->
-                        UsersQuestionnaireWidget(
+                        UsersInterviewWidget(
                             actualViewState,
                             onNewMessage = onNewMessage
                         )
