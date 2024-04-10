@@ -32,7 +32,12 @@ final class TabBarRouter: SourcelessRouter, DeepLinkRouterProtocol {
         }
 
         DispatchQueue.main.async {
-            self.currentNavigation?.popToRootViewController(animated: true)
+            guard let currentNavigation = self.currentNavigation,
+                  currentNavigation.viewControllers.count > 1 else {
+                return
+            }
+
+            currentNavigation.popToRootViewController(animated: true)
         }
     }
 
