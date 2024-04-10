@@ -156,8 +156,8 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponentImpl
-import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponentImpl
+import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent

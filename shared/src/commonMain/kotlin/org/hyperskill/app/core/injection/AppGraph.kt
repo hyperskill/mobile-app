@@ -84,7 +84,7 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
-import org.hyperskill.app.users_questionnaire.onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
