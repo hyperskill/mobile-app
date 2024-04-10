@@ -13,6 +13,7 @@ import org.hyperskill.app.android.step_quiz_text.view.model.TextStepQuizConfigFa
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.app.presentation.redux.container.ReduxView
 
 class TextStepQuizFragment :
@@ -52,8 +53,15 @@ class TextStepQuizFragment :
 
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
         TextStepQuizFormDelegate(
-            quizTextField = binding.stringStepQuizFieldEditText,
+            viewBinding = binding,
             config = TextStepQuizConfigFactory.create(step),
-            onQuizChanged = ::syncReplyState
+            onQuizChanged = ::syncReplyState,
+            onMarkAsCorrectQuestionClick = ::showMarkAsCorrectBottomSheet
         )
+
+    private fun showMarkAsCorrectBottomSheet() {
+        MarkAsCorrectBottomSheetDialogFragment
+            .newInstance()
+            .showIfNotExists(childFragmentManager, MarkAsCorrectBottomSheetDialogFragment.TAG)
+    }
 }

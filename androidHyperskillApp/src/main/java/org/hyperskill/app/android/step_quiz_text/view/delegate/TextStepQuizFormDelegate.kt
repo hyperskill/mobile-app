@@ -1,7 +1,8 @@
 package org.hyperskill.app.android.step_quiz_text.view.delegate
 
-import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import org.hyperskill.app.android.databinding.LayoutStepQuizTextBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_text.view.model.TextStepQuizConfig
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
@@ -11,28 +12,50 @@ import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class TextStepQuizFormDelegate(
-    private val quizTextField: TextView,
+    private val viewBinding: LayoutStepQuizTextBinding,
     private val config: TextStepQuizConfig,
-    private val onQuizChanged: (Reply) -> Unit
+    private val onQuizChanged: (Reply) -> Unit,
+    private val onMarkAsCorrectQuestionClick: () -> Unit
 ) : StepQuizFormDelegate {
 
     init {
-        with(quizTextField) {
+        with(viewBinding.stringStepQuizFieldEditText) {
             inputType = config.inputType
             setHint(config.getTextFieldHint())
             doAfterTextChanged {
                 onQuizChanged(createReply())
             }
         }
+        viewBinding.stringStepQuizMarkAsCorrectQuestionIcon.setOnClickListener {
+            onMarkAsCorrectQuestionClick()
+        }
+        viewBinding.stringStepQuizMarkAsCorrectCheckBox.setOnCheckedChangeListener { _, _ ->
+            onQuizChanged(createReply())
+        }
     }
 
     override fun createReply(): Reply =
-        quizTextField.text.toString().let(config::createReply)
+        viewBinding.stringStepQuizFieldEditText.text.toString().let { text ->
+            config.createReply(
+                inputText = text,
+                markedAsCorrect = viewBinding.stringStepQuizMarkAsCorrectCheckBox.isChecked
+            )
+        }
 
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
-        quizTextField.isEnabled = StepQuizResolver.isQuizEnabled(state)
+        val reply = state.submissionState.reply
+        with(viewBinding.stringStepQuizFieldEditText) {
+            isEnabled = StepQuizResolver.isQuizEnabled(state)
 
-        val text = state.submissionState.reply?.let(config::getText)
-        quizTextField.setTextIfChanged(text ?: "")
+            val text = reply?.let(config::getText)
+            setTextIfChanged(text ?: "")
+        }
+        val markedAsCorrectCheckBoxState = config.getMarkedAsCorrectCheckBoxState(reply)
+        viewBinding.stringStepQuizMarkAsCorrectContainer.isVisible = markedAsCorrectCheckBoxState != null
+        with(viewBinding.stringStepQuizMarkAsCorrectCheckBox) {
+            if (markedAsCorrectCheckBoxState != null && isChecked) {
+                isChecked = markedAsCorrectCheckBoxState.isChecked
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ object NumberStepQuizConfig : TextStepQuizConfig {
             InputType.TYPE_NUMBER_FLAG_DECIMAL or
             InputType.TYPE_NUMBER_FLAG_SIGNED
 
-    override fun createReply(inputText: String): Reply =
+    override fun createReply(inputText: String, markedAsCorrect: Boolean): Reply =
         Reply(number = inputText)
 
     override fun getText(reply: Reply): String? =

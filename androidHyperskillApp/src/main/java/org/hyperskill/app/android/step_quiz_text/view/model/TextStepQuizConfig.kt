@@ -11,7 +11,12 @@ interface TextStepQuizConfig {
     fun getTextFieldHint(): Int =
         R.string.step_quiz_text_field_hint
 
-    fun createReply(inputText: String): Reply
+    fun getMarkedAsCorrectCheckBoxState(reply: Reply?): MarkedAsCorrectCheckBoxState? =
+        null
+
+    fun createReply(inputText: String, markedAsCorrect: Boolean): Reply
 
     fun getText(reply: Reply): String?
 }
+
+data class MarkedAsCorrectCheckBoxState(val isChecked: Boolean)

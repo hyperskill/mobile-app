@@ -9,6 +9,7 @@ object TextStepQuizConfigFactory {
             BlockName.STRING -> PlainTextStepQuizConfig
             BlockName.NUMBER -> NumberStepQuizConfig
             BlockName.MATH -> MathStepQuizConfig
+            BlockName.PROMPT -> AIPromptStepQuizConfig
             else -> error("Unsupported block type = $block")
         }
 }

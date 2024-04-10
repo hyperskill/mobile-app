@@ -7,7 +7,7 @@ object MathStepQuizConfig : TextStepQuizConfig {
     override val inputType: Int
         get() = InputType.TYPE_CLASS_TEXT
 
-    override fun createReply(inputText: String): Reply =
+    override fun createReply(inputText: String, markedAsCorrect: Boolean): Reply =
         Reply(formula = inputText)
 
     override fun getText(reply: Reply): String? =
