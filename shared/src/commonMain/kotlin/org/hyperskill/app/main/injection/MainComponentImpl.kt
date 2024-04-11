@@ -38,7 +38,6 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
             purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             subscriptionsInteractor = appGraph.subscriptionDataComponent.subscriptionsInteractor,
-            platform = appGraph.commonComponent.platform,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )
