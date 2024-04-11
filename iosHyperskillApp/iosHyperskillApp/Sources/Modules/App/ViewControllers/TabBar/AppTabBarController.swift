@@ -9,11 +9,24 @@ protocol AppTabBarControllerDelegate: AnyObject {
     )
 }
 
+private extension AppTabBarController {
+    enum Animation {
+        static let transitionAnimationDuration: TimeInterval = 0.33
+    }
+}
+
 final class AppTabBarController: UITabBarController {
     private weak var appTabBarControllerDelegate: AppTabBarControllerDelegate?
 
     private var currentTabItem: AppTabItem
     private let availableTabs: [AppTabItem]
+
+    override var selectedIndex: Int {
+        willSet {
+            // This will gets called only when programmatically changing the selected index
+            animateTransition(to: newValue)
+        }
+    }
 
     init(
         initialTab: AppTabItem = .studyPlan,
@@ -70,6 +83,22 @@ final class AppTabBarController: UITabBarController {
         }
 
         setViewControllers(viewControllers, animated: false)
+    }
+
+    private func animateTransition(to newIndex: Int) {
+        guard let fromView = selectedViewController?.view,
+              let toView = viewControllers?[newIndex].view,
+              fromView != toView else {
+            return
+        }
+
+        UIView.transition(
+            from: fromView,
+            to: toView,
+            duration: Animation.transitionAnimationDuration,
+            options: [.transitionCrossDissolve],
+            completion: nil
+        )
     }
 }
 
