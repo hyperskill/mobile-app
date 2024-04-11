@@ -35,7 +35,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:gravity="start"
-
             android:hint="@string/step_quiz_text_field_hint"
             android:minHeight="@dimen/step_quiz_text_field_min_height"
             android:paddingLeft="16dp"
@@ -45,6 +44,33 @@
             android:textSize="16sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/stringStepQuizMarkAsCorrectContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/stringStepQuizMarkAsCorrectCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/step_quiz_prompt_force_score_checkbox_title"
+            />
+
+        <ImageView
+            android:id="@+id/stringStepQuizMarkAsCorrectQuestionIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_question_mark"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="center_vertical"
+            android:paddingVertical="8dp"
+            android:paddingHorizontal="8dp"
+            />
+
+    </LinearLayout>
+
 
     <include
         android:id="@+id/stringStepQuizSkeleton"
