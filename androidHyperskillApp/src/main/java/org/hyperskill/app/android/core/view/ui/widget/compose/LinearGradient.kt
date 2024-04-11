@@ -35,12 +35,13 @@ fun Brush.Companion.linearGradient(
     stops: List<Float>? = null,
     tileMode: TileMode = TileMode.Clamp,
     angleInDegrees: Float = 0f
-): Brush = LinearGradient(
-    colors = colors,
-    stops = stops,
-    tileMode = tileMode,
-    angleInDegrees = angleInDegrees
-)
+): Brush =
+    LinearGradient(
+        colors = colors,
+        stops = stops,
+        tileMode = tileMode,
+        angleInDegrees = angleInDegrees
+    )
 
 /**
  * Creates a linear gradient with the provided colors and angle.
@@ -55,12 +56,13 @@ fun Brush.Companion.linearGradient(
     vararg colorStops: Pair<Float, Color>,
     tileMode: TileMode = TileMode.Clamp,
     angleInDegrees: Float = 0f
-): Brush = LinearGradient(
-    colors = List(colorStops.size) { i -> colorStops[i].second },
-    stops = List(colorStops.size) { i -> colorStops[i].first },
-    tileMode = tileMode,
-    angleInDegrees = angleInDegrees
-)
+): Brush =
+    LinearGradient(
+        colors = List(colorStops.size) { i -> colorStops[i].second },
+        stops = List(colorStops.size) { i -> colorStops[i].first },
+        tileMode = tileMode,
+        angleInDegrees = angleInDegrees
+    )
 
 /**
  * Creates a linear gradient with the provided colors
