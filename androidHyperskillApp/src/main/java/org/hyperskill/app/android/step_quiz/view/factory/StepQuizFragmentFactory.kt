@@ -24,7 +24,8 @@ object StepQuizFragmentFactory {
 
                 BlockName.NUMBER,
                 BlockName.STRING,
-                BlockName.MATH ->
+                BlockName.MATH,
+                BlockName.PROMPT ->
                     TextStepQuizFragment.newInstance(step, stepRoute)
 
                 BlockName.MATCHING ->
