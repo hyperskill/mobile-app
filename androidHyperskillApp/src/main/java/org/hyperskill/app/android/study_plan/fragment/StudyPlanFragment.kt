@@ -21,7 +21,7 @@ import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitD
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
-import org.hyperskill.app.android.users_questionnaire_onboarding.delegate.UsersQuestionnaireCardDelegate
+import org.hyperskill.app.android.users_interview_widget.delegate.UsersInterviewCardDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
@@ -55,7 +55,7 @@ class StudyPlanFragment :
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var problemsLimitDelegate: ProblemsLimitDelegate? = null
     private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
-    private var usersQuestionnaireCardDelegate: UsersQuestionnaireCardDelegate? = null
+    private var usersInterviewCardDelegate: UsersInterviewCardDelegate? = null
 
     private var fragmentWasResumed = false
 
@@ -119,8 +119,8 @@ class StudyPlanFragment :
     }
 
     private fun initUserQuestionnaireCardDelegate() {
-        usersQuestionnaireCardDelegate = UsersQuestionnaireCardDelegate()
-        usersQuestionnaireCardDelegate?.setup(
+        usersInterviewCardDelegate = UsersInterviewCardDelegate()
+        usersInterviewCardDelegate?.setup(
             viewBinding.studyPlanUserQuestionnaire,
             viewLifecycleOwner,
             onNewMessage = studyPlanViewModel::onNewMessage
@@ -142,7 +142,7 @@ class StudyPlanFragment :
         gamificationToolbarDelegate = null
         problemsLimitDelegate?.cleanup()
         problemsLimitDelegate = null
-        usersQuestionnaireCardDelegate = null
+        usersInterviewCardDelegate = null
     }
 
     override fun onDestroy() {
@@ -156,7 +156,7 @@ class StudyPlanFragment :
         gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
         problemsLimitDelegate?.render(state.problemsLimitViewState)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
-        usersQuestionnaireCardDelegate?.render(
+        usersInterviewCardDelegate?.render(
             state.usersInterviewWidgetState,
             viewBinding.studyPlanUserQuestionnaire
         )
@@ -193,7 +193,7 @@ class StudyPlanFragment :
                 }
             }
             is StudyPlanScreenFeature.Action.ViewAction.UsersInterviewWidgetViewAction -> {
-                usersQuestionnaireCardDelegate?.handleActions(
+                usersInterviewCardDelegate?.handleActions(
                     fragment = this,
                     action = action.viewAction,
                     logger = logger

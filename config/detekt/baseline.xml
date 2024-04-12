@@ -386,7 +386,6 @@
     <ID>MatchingDeclarationName:LeaderboardItem.kt$LeaderboardItemDefaults</ID>
     <ID>MatchingDeclarationName:NotificationsOnboardingScreen.kt$NotificationsOnboardingDefaults</ID>
     <ID>MatchingDeclarationName:PaywallScreen.kt$PaywallDefaults</ID>
-    <ID>MatchingDeclarationName:UsersQuestionnaireWidget.kt$UsersQuestionnaireWidgetDefaults</ID>
     <ID>MaxLineLength:ChallengeCardPreviewValues.kt$ChallengeCardPreviewValues$const</ID>
     <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
     <ID>MaxLineLength:HtmlText.kt$text</ID>
