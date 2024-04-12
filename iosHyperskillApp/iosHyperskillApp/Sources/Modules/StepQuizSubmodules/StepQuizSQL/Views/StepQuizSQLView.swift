@@ -3,7 +3,6 @@ import SwiftUI
 struct StepQuizSQLView: View {
     @StateObject var viewModel: StepQuizSQLViewModel
 
-    @Environment(\.isEnabled) private var isEnabled
     @Environment(\.isFixCodeMistakesBadgeVisible) private var isFixCodeMistakesBadgeVisible
 
     var body: some View {
@@ -56,5 +55,13 @@ struct StepQuizSQLView: View {
         .makeModule()
         .preferredColorScheme(.dark)
         .padding()
+}
+
+#Preview("Disabled") {
+    StepQuizSQLAssembly
+        .makePlaceholder()
+        .makeModule()
+        .padding()
+        .disabled(true)
 }
 #endif

@@ -87,6 +87,7 @@ struct StepQuizCodeEditorView: View {
     }
 }
 
+#if DEBUG
 #Preview("Light") {
     StepQuizCodeEditorView(
         code: .constant(CodeLanguageSamples.sample(for: .java)),
@@ -109,3 +110,4 @@ struct StepQuizCodeEditorView: View {
     )
     .preferredColorScheme(.dark)
 }
+#endif

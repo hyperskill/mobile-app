@@ -3,7 +3,6 @@ import SwiftUI
 struct StepQuizPyCharmView: View {
     @StateObject var viewModel: StepQuizPyCharmViewModel
 
-    @Environment(\.isEnabled) private var isEnabled
     @Environment(\.isFixCodeMistakesBadgeVisible) private var isFixCodeMistakesBadgeVisible
 
     var body: some View {
@@ -47,5 +46,13 @@ struct StepQuizPyCharmView: View {
         .makePlaceholder()
         .makeModule()
         .padding()
+}
+
+#Preview("Disabled") {
+    StepQuizPyCharmAssembly
+        .makePlaceholder()
+        .makeModule()
+        .padding()
+        .disabled(true)
 }
 #endif
