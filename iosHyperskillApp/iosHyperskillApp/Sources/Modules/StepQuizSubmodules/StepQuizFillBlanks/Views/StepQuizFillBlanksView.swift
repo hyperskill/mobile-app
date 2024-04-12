@@ -21,6 +21,6 @@ struct StepQuizFillBlanksView: View {
         .onDisappear {
             KeyboardManager.setEnableAutoToolbar(false)
         }
-        .opacity(isEnabled ? 1 : 0.5)
+        .conditionalOpacity(isEnabled: isEnabled)
     }
 }

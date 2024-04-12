@@ -49,17 +49,26 @@ struct StepQuizParsonsView: View {
                 )
             )
         }
+        .conditionalOpacity(isEnabled: isEnabled)
         .onAppear(perform: viewModel.doProvideModuleInput)
-        .opacity(isEnabled ? 1 : 0.5)
     }
 }
 
 #if DEBUG
-struct StepQuizParsonsView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizParsonsAssembly
-            .makePlaceholder()
-            .makeModule()
+#Preview {
+    ScrollView {
+        VStack(spacing: LayoutInsets.defaultInset) {
+            StepQuizParsonsAssembly
+                .makePlaceholder()
+                .makeModule()
+            Divider()
+
+            StepQuizParsonsAssembly
+                .makePlaceholder()
+                .makeModule()
+                .disabled(true)
+        }
+        .padding()
     }
 }
 #endif
