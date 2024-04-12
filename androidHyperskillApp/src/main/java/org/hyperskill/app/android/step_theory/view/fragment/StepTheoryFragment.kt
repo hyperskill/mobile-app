@@ -111,7 +111,7 @@ class StepTheoryFragment :
     private fun setupStartPracticeButton(
         isPracticingAvailable: Boolean
     ) {
-        with (viewBinding.stepTheoryPracticeAction) {
+        with(viewBinding.stepTheoryPracticeAction) {
             isVisible = isPracticingAvailable
             if (isPracticingAvailable) {
                 doOnNextLayout {
@@ -127,7 +127,7 @@ class StepTheoryFragment :
 
     private fun updateContentBottomPadding() {
         if (isResumed) {
-            val buttonHeight = with (viewBinding.stepTheoryPracticeActionLayout) {
+            val buttonHeight = with(viewBinding.stepTheoryPracticeActionLayout) {
                 height + marginBottom
             }
             val contentPadding = viewBinding.stepTheoryContentContainer.paddingBottom
