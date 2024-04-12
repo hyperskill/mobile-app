@@ -12,6 +12,8 @@ struct StepQuizMatchingView: View {
 
     @ObservedObject var viewModel: StepQuizMatchingViewModel
 
+    @Environment(\.isEnabled) private var isEnabled
+
     var body: some View {
         VStack(alignment: .leading, spacing: appearance.spacing) {
             ForEach(Array(viewModel.viewData.items.enumerated()), id: \.element.id) { index, item in
@@ -50,17 +52,24 @@ struct StepQuizMatchingView: View {
                 }
             }
         }
+        .opacity(isEnabled ? 1 : 0.5)
+        .animation(.easeInOut(duration: 0.33), value: isEnabled)
     }
 }
 
 #if DEBUG
-struct StepQuizMatchingView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizMatchingAssembly
-            .makePlaceholder()
-            .makeModule()
-            .previewLayout(.sizeThatFits)
-            .padding()
-    }
+#Preview {
+    StepQuizMatchingAssembly
+        .makePlaceholder()
+        .makeModule()
+        .padding()
+}
+
+#Preview("Disabled") {
+    StepQuizMatchingAssembly
+        .makePlaceholder()
+        .makeModule()
+        .padding()
+        .disabled(true)
 }
 #endif
