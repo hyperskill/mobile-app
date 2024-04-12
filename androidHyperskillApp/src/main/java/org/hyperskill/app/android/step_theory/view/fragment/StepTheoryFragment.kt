@@ -6,42 +6,33 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.MenuProvider
-import androidx.core.view.ViewCompat
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.button.MaterialButton
 import kotlin.math.abs
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.view.ui.adapter.decoration.HorizontalMarginItemDecoration
-import org.hyperskill.app.android.core.view.ui.adapter.decoration.VerticalMarginItemDecoration
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
-import org.hyperskill.app.android.databinding.ItemStepCommentActionBinding
-import org.hyperskill.app.android.databinding.ItemStepTheoryRatingBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
-import org.hyperskill.app.android.step_theory.view.model.StepTheoryRating
 import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
-import org.hyperskill.app.step.domain.model.CommentStatisticsEntry
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import ru.nobird.android.ui.adapterdelegates.dsl.adapterDelegate
-import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.argument
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
@@ -64,8 +55,6 @@ class StepTheoryFragment :
     private lateinit var commentThreadTitleMapper: CommentThreadTitleMapper
 
     private val viewBinding: FragmentStepTheoryBinding by viewBinding(FragmentStepTheoryBinding::bind)
-    private val stepTheoryRatingAdapter: DefaultDelegateAdapter<StepTheoryRating> = DefaultDelegateAdapter()
-    private val stepCommentStatisticsAdapter: DefaultDelegateAdapter<CommentStatisticsEntry> = DefaultDelegateAdapter()
 
     private var step: Step by argument(serializer = Step.serializer())
     private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
@@ -112,43 +101,37 @@ class StepTheoryFragment :
             requireRouter().exit()
         }
 
-        setupStarPracticeButton(
-            button = viewBinding.stepTheoryPracticeActionBeginning,
-            isPracticingAvailable = isPracticingAvailable,
-            isLocatedAtBeginning = true
-        )
-        setupStarPracticeButton(
-            button = viewBinding.stepTheoryPracticeActionEnd,
-            isPracticingAvailable = isPracticingAvailable,
-            isLocatedAtBeginning = false
-        )
+        setupStartPracticeButton(isPracticingAvailable)
 
         renderSecondsToComplete(step.secondsToComplete)
 
-        // ALTAPPS-397: Hidden
-//        viewBinding.stepTheoryReactionTitle.text = buildSpannedString {
-//            append(resources.getString(R.string.step_rating_text_part_1))
-//            append(" ")
-//            bold {
-//                append(resources.getString(R.string.step_rating_text_part_2))
-//            }
-//        }
         setupStepContentFragment(step)
-        setupCommentStatisticsAdapterDelegate()
-        // ALTAPPS-397: Hidden
-        // setupStepRatingRecyclerView()
-        // setupCommentStatisticsRecyclerView()
     }
 
-    private fun setupStarPracticeButton(
-        button: MaterialButton,
-        isPracticingAvailable: Boolean,
-        isLocatedAtBeginning: Boolean
+    private fun setupStartPracticeButton(
+        isPracticingAvailable: Boolean
     ) {
-        button.isVisible = isPracticingAvailable
-        button.setOnClickListener {
-            parentOfType(StepCompletionHost::class.java)
-                ?.onNewMessage(StepCompletionFeature.Message.StartPracticingClicked(isLocatedAtBeginning))
+        with (viewBinding.stepTheoryPracticeAction) {
+            isVisible = isPracticingAvailable
+            if (isPracticingAvailable) {
+                doOnNextLayout {
+                    updateContentBottomPadding()
+                }
+                setOnClickListener {
+                    parentOfType(StepCompletionHost::class.java)
+                        ?.onNewMessage(StepCompletionFeature.Message.StartPracticingClicked)
+                }
+            }
+        }
+    }
+
+    private fun updateContentBottomPadding() {
+        if (isResumed) {
+            val buttonHeight = with (viewBinding.stepTheoryPracticeActionLayout) {
+                height + marginBottom
+            }
+            val contentPadding = viewBinding.stepTheoryContentContainer.paddingBottom
+            viewBinding.stepTheoryContentContainer.updatePadding(bottom = buttonHeight + contentPadding)
         }
     }
 
@@ -170,70 +153,11 @@ class StepTheoryFragment :
         }
     }
 
-    private fun setupStepRatingAdapterDelegate() {
-        stepTheoryRatingAdapter += adapterDelegate(
-            layoutResId = R.layout.item_step_theory_rating
-        ) {
-            val itemViewBinding: ItemStepTheoryRatingBinding = ItemStepTheoryRatingBinding.bind(this.itemView)
-
-            onBind { data ->
-                itemViewBinding.root.setImageResource(data.drawableRes)
-            }
-        }
-    }
-
-    private fun setupStepRatingRecyclerView() {
-        ViewCompat.setBackgroundTintList(
-            viewBinding.stepTheoryRatingRecycler,
-            AppCompatResources.getColorStateList(requireContext(), org.hyperskill.app.R.color.color_background)
-        )
-        with(viewBinding.stepTheoryRatingRecycler) {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = stepTheoryRatingAdapter
-            addItemDecoration(
-                HorizontalMarginItemDecoration(
-                    resources.getDimensionPixelSize(R.dimen.step_theory_rating_horizontal_item_margin),
-                    resources.getDimensionPixelSize(R.dimen.step_theory_rating_horizontal_edge_item_margin),
-                    resources.getDimensionPixelSize(R.dimen.step_theory_rating_horizontal_edge_item_margin)
-                )
-            )
-        }
-    }
-
-    private fun setupCommentStatisticsAdapterDelegate() {
-        stepCommentStatisticsAdapter += adapterDelegate(
-            layoutResId = R.layout.item_step_comment_action
-        ) {
-            val itemViewBinding: ItemStepCommentActionBinding = ItemStepCommentActionBinding.bind(this.itemView)
-
-            onBind { data ->
-                data.thread?.let { thread ->
-                    itemViewBinding.root.text =
-                        commentThreadTitleMapper.getFormattedStepCommentThreadStatistics(thread, data.totalCount)
-                }
-            }
-        }
-    }
-
-    private fun setupCommentStatisticsRecyclerView() {
-        with(viewBinding.stepTheoryCommentStatisticsRecycler) {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            adapter = stepCommentStatisticsAdapter
-            addItemDecoration(
-                VerticalMarginItemDecoration(
-                    resources.getDimensionPixelSize(R.dimen.step_theory_comments_statistics_vertical_item_margin)
-                )
-            )
-        }
-    }
-
     override fun render(isPracticingLoading: Boolean) {
         if (isResumed) {
             with(viewBinding) {
-                stepTheoryPracticeActionBeginningShimmer.isVisible = isPracticingLoading
-                stepTheoryPracticeActionBeginning.isEnabled = !isPracticingLoading
-                stepTheoryPracticeActionEndShimmer.isVisible = isPracticingLoading
-                stepTheoryPracticeActionEnd.isEnabled = !isPracticingLoading
+                stepTheoryPracticeActionShimmer.isVisible = isPracticingLoading
+                stepTheoryPracticeAction.isEnabled = !isPracticingLoading
             }
         }
     }
