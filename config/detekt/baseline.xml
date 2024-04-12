@@ -527,9 +527,6 @@
     <ID>UnusedParameter:CodeAnalyzer.kt$CodeAnalyzer$count: Int</ID>
     <ID>UnusedParameter:DebugToolsHelper.kt$DebugToolsHelper$app: Application</ID>
     <ID>UnusedPrivateMember:StepQuizResolverTest.kt$StepQuizResolverTest$@Suppress("UNUSED_EXPRESSION") private fun marker( stepRoute: StepRoute, stepQuizState: StepQuizFeature.StepQuizState )</ID>
-    <ID>UnusedPrivateMember:StepTheoryFragment.kt$StepTheoryFragment$private fun setupCommentStatisticsRecyclerView()</ID>
-    <ID>UnusedPrivateMember:StepTheoryFragment.kt$StepTheoryFragment$private fun setupStepRatingAdapterDelegate()</ID>
-    <ID>UnusedPrivateMember:StepTheoryFragment.kt$StepTheoryFragment$private fun setupStepRatingRecyclerView()</ID>
     <ID>UnusedPrivateProperty:MainActivity.kt$MainActivity$val splashScreen = installSplashScreen()</ID>
     <ID>UnusedPrivateProperty:TrackSelectionDetailsFragment.kt$TrackSelectionDetailsFragment$private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) { HyperskillApp.graph().navigationComponent.mainScreenCicerone.router }</ID>
     <ID>UseCheckOrError:AndroidStepQuizTest.kt$AndroidStepQuizTest$throw IllegalStateException( "Unknown step route class: $concreteStepRouteClass. Please add it to the test." )</ID>

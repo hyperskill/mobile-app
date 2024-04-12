@@ -50,7 +50,7 @@ struct StepTheoryContentView: View {
 extension StepTheoryContentView {
     struct StartPracticingButton {
         let isLoading: Bool
-        let action: (Bool) -> Void
+        let action: () -> Void
     }
 
     @MainActor @ViewBuilder private var footer: some View {
@@ -61,7 +61,7 @@ extension StepTheoryContentView {
                 isLoading: startPracticingButton.isLoading,
                 onClick: {
                     FeedbackGenerator(feedbackType: .selection).triggerFeedback()
-                    startPracticingButton.action(false)
+                    startPracticingButton.action()
                 }
             )
             .padding()
@@ -82,7 +82,7 @@ extension StepTheoryContentView {
         viewData: .placeholder,
         startPracticingButton: StepTheoryContentView.StartPracticingButton(
             isLoading: false,
-            action: { _ in }
+            action: { }
         ),
         onTheoryFeedbackButtonTap: {}
     )
