@@ -51,15 +51,25 @@ struct StepQuizParsonsView: View {
         }
         .onAppear(perform: viewModel.doProvideModuleInput)
         .opacity(isEnabled ? 1 : 0.5)
+        .animation(.easeInOut(duration: 0.33), value: isEnabled)
     }
 }
 
 #if DEBUG
-struct StepQuizParsonsView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizParsonsAssembly
-            .makePlaceholder()
-            .makeModule()
+#Preview {
+    ScrollView {
+        VStack(spacing: LayoutInsets.defaultInset) {
+            StepQuizParsonsAssembly
+                .makePlaceholder()
+                .makeModule()
+            Divider()
+
+            StepQuizParsonsAssembly
+                .makePlaceholder()
+                .makeModule()
+                .disabled(true)
+        }
+        .padding()
     }
 }
 #endif
