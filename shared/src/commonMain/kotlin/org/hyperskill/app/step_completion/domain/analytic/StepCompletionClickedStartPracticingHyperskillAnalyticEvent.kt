@@ -15,27 +15,17 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "click",
  *     "part": "actions",
- *     "target": "start_practicing",
- *     "context":
- *     {
- *         "is_located_at_beginning": true
- *     }
+ *     "target": "start_practicing"
  * }
  * ```
- *
  * @param route A step route where the event occurred.
- * @param isLocatedAtBeginning A flag indicating whether the start practicing button is located at the beginning
- * of the step screen.
- *
  * @see HyperskillAnalyticEvent
  */
 class StepCompletionClickedStartPracticingHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute,
-    isLocatedAtBeginning: Boolean
+    route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route = route,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.ACTIONS,
-    target = HyperskillAnalyticTarget.START_PRACTICING,
-    context = mapOf(StepCompletionHyperskillAnalyticParams.PARAM_IS_LOCATED_AT_BEGINNING to isLocatedAtBeginning)
+    target = HyperskillAnalyticTarget.START_PRACTICING
 )
