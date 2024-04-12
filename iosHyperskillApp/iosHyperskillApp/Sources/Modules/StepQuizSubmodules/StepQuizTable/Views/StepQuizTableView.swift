@@ -19,9 +19,8 @@ struct StepQuizTableView: View {
                 )
             }
         }
+        .conditionalOpacity(isEnabled: isEnabled)
         .padding(.bottom, LayoutInsets.smallInset)
-        .opacity(isEnabled ? 1 : 0.5)
-        .animation(.easeInOut(duration: 0.33), value: isEnabled)
     }
 
     private func doSelectColumnsPresentation(for row: StepQuizTableViewData.Row) {

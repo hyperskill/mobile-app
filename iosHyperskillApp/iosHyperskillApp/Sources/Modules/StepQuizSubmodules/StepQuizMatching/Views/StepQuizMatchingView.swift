@@ -52,8 +52,7 @@ struct StepQuizMatchingView: View {
                 }
             }
         }
-        .opacity(isEnabled ? 1 : 0.5)
-        .animation(.easeInOut(duration: 0.33), value: isEnabled)
+        .conditionalOpacity(isEnabled: isEnabled)
     }
 }
 
