@@ -1,7 +1,6 @@
 package org.hyperskill.app.main.presentation
 
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.InternalAction
 import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
@@ -28,8 +27,7 @@ private typealias ReducerResult = Pair<State, Set<Action>>
 internal class AppReducer(
     private val streakRecoveryReducer: StreakRecoveryReducer,
     private val notificationClickHandlingReducer: NotificationClickHandlingReducer,
-    private val welcomeOnboardingReducer: WelcomeOnboardingReducer,
-    private val platformType: PlatformType
+    private val welcomeOnboardingReducer: WelcomeOnboardingReducer
 ) : StateReducer<State, Message, Action> {
 
     companion object {
@@ -157,8 +155,7 @@ internal class AppReducer(
                         addAll(
                             getOnAuthorizedAppStartUpActions(
                                 profileId = message.profile.id,
-                                subscription = message.subscription,
-                                platformType = platformType
+                                subscription = message.subscription
                             )
                         )
                     } else {
@@ -323,21 +320,14 @@ internal class AppReducer(
 
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,
-        subscription: Subscription?,
-        platformType: PlatformType
+        subscription: Subscription?
     ): Set<Action> =
         setOfNotNull(
             Action.IdentifyUserInSentry(userId = profileId),
             Action.IdentifyUserInPurchaseSdk(userId = profileId),
             subscription?.let(InternalAction::RefreshSubscriptionOnExpiration),
             Action.UpdateDailyLearningNotificationTime,
-            if (platformType == PlatformType.ANDROID) {
-                // Don't send push token on app startup for IOS
-                // because of custom token sending logic on IOS on app startup
-                Action.SendPushNotificationsToken
-            } else {
-                null
-            }
+            Action.SendPushNotificationsToken
         )
 
     private fun getNotAuthorizedAppStartUpActions(): Set<Action> =

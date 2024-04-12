@@ -20,6 +20,8 @@ struct StepQuizStringView: View {
 
     @ObservedObject var viewModel: StepQuizStringViewModel
 
+    @Environment(\.isEnabled) private var isEnabled
+
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
             TextEditor(text: $viewModel.viewData.text)
@@ -51,6 +53,7 @@ struct StepQuizStringView: View {
                 )
             }
         }
+        .conditionalOpacity(isEnabled: isEnabled)
     }
 }
 
@@ -67,5 +70,13 @@ struct StepQuizStringView: View {
         .makePlaceholder(dataType: .prompt)
         .makeModule()
         .padding()
+}
+
+#Preview("Disabled") {
+    StepQuizStringAssembly
+        .makePlaceholder(dataType: .prompt)
+        .makeModule()
+        .padding()
+        .disabled(true)
 }
 #endif

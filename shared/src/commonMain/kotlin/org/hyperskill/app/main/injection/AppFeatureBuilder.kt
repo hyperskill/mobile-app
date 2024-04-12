@@ -3,7 +3,6 @@ package org.hyperskill.app.main.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -51,15 +50,13 @@ internal object AppFeatureBuilder {
         purchaseInteractor: PurchaseInteractor,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         subscriptionsInteractor: SubscriptionsInteractor,
-        platform: Platform,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<State, Message, Action> {
         val appReducer = AppReducer(
             streakRecoveryReducer = streakRecoveryReducer,
             notificationClickHandlingReducer = clickedNotificationReducer,
-            welcomeOnboardingReducer = welcomeOnboardingReducer,
-            platformType = platform.platformType
+            welcomeOnboardingReducer = welcomeOnboardingReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val appActionDispatcher = AppActionDispatcher(

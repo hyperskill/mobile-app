@@ -3,7 +3,6 @@ import SwiftUI
 struct StepQuizCodeView: View {
     @StateObject var viewModel: StepQuizCodeViewModel
 
-    @Environment(\.isEnabled) private var isEnabled
     @Environment(\.isFixCodeMistakesBadgeVisible) private var isFixCodeMistakesBadgeVisible
 
     var body: some View {
@@ -60,5 +59,13 @@ struct StepQuizCodeView: View {
         .makeModule()
         .padding()
         .preferredColorScheme(.dark)
+}
+
+#Preview("Disabled") {
+    StepQuizCodeAssembly
+        .makePlaceholder()
+        .makeModule()
+        .padding()
+        .disabled(true)
 }
 #endif
