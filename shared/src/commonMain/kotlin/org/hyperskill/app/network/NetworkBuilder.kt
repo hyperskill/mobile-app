@@ -1,6 +1,7 @@
 package org.hyperskill.app.network
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.UserAgent
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.cookies.CookiesStorage
@@ -106,6 +107,7 @@ internal object NetworkBuilder {
                 tokenSocialAuthClient = tokenSocialAuthClient,
                 tokenCredentialsAuthClient = tokenCredentialsAuthClient
             )
+            install(HttpTimeout)
         }
 
     fun buildFrontendEventsUnauthorizedClient(
