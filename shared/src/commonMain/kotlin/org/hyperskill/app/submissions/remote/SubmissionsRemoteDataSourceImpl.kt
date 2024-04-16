@@ -2,12 +2,16 @@ package org.hyperskill.app.submissions.remote
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.timeout
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 import org.hyperskill.app.network.remote.parameterIds
 import org.hyperskill.app.network.remote.parameterPage
 import org.hyperskill.app.step.domain.model.StepContext
@@ -22,6 +26,12 @@ import org.hyperskill.app.submissions.remote.model.SubmissionsResponse
 internal class SubmissionsRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : SubmissionsRemoteDataSource {
+
+    companion object {
+        private val CREATE_SUBMISSION_TIMEOUT_DURATION: Duration =
+            100.toDuration(DurationUnit.SECONDS)
+    }
+
     override suspend fun getSubmissionsForStep(stepId: Long, userId: Long, page: Int): Result<List<Submission>> =
         kotlin.runCatching {
             httpClient
@@ -50,6 +60,9 @@ internal class SubmissionsRemoteDataSourceImpl(
         kotlin.runCatching {
             httpClient
                 .post("/api/submissions") {
+                    timeout {
+                        socketTimeoutMillis = CREATE_SUBMISSION_TIMEOUT_DURATION.inWholeMilliseconds
+                    }
                     contentType(ContentType.Application.Json)
                     setBody(CreateSubmissionRequest(attemptId, reply, solvingContext))
                 }.body<SubmissionsResponse>().submissions.first()
