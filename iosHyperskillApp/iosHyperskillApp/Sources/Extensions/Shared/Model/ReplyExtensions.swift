@@ -15,7 +15,6 @@ extension Reply {
         blanks: [String]? = nil,
         files: [String]? = nil,
         solveSql: String? = nil,
-        score: String? = nil,
         solution: [PyCharmFile]? = nil,
         checkProfile: String? = nil,
         lines: [ParsonsLine]? = nil
@@ -41,10 +40,11 @@ extension Reply {
             blanks: blanks,
             files: files,
             solveSql: solveSql,
-            score: score,
+            score: nil,
             solution: solution,
             checkProfile: checkProfile,
-            lines: lines
+            lines: lines,
+            prompt: nil
         )
     }
 }

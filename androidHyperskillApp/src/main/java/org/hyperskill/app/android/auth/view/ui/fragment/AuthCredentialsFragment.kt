@@ -9,10 +9,12 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthFlow
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthSocialScreen
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.extensions.openUrl
 import org.hyperskill.app.android.core.view.ui.dialog.CreateMagicLinkLoadingProgressDialogFragment
 import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
@@ -36,12 +38,15 @@ class AuthCredentialsFragment :
     ReduxView<AuthCredentialsFeature.State, AuthCredentialsFeature.Action.ViewAction> {
 
     companion object {
+        private const val LOG_TAG = "AuthCredentialsFragment"
         fun newInstance(): AuthCredentialsFragment =
             AuthCredentialsFragment()
     }
 
     private lateinit var authCredentialsErrorMapper: AuthCredentialsErrorMapper
     private lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val logger: Logger by logger(LOG_TAG)
 
     private val viewStateDelegate: ViewStateDelegate<AuthCredentialsFeature.FormState> = ViewStateDelegate()
     private val authCredentialsViewModel: AuthCredentialsViewModel by reduxViewModel(this) { viewModelFactory }
@@ -121,7 +126,7 @@ class AuthCredentialsFragment :
             is AuthCredentialsFeature.Action.ViewAction.CompleteAuthFlow ->
                 (parentFragment as? AuthFlow)?.onAuthSuccess(action.profile)
             is AuthCredentialsFeature.Action.ViewAction.OpenUrl ->
-                requireContext().openUrl(action.url)
+                requireContext().openUrl(action.url, logger)
             is AuthCredentialsFeature.Action.ViewAction.ShowGetMagicLinkError ->
                 viewBinding.root.snackbar(SharedRes.string.common_error)
         }

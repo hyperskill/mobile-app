@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.setHyperskillColors
@@ -19,7 +21,7 @@ import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitD
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
-import org.hyperskill.app.android.users_questionnaire.delegate.UsersQuestionnaireCardDelegate
+import org.hyperskill.app.android.users_interview_widget.delegate.UsersInterviewCardDelegate
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.study_plan.presentation.StudyPlanScreenViewModel
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
@@ -34,6 +36,7 @@ class StudyPlanFragment :
     UnsupportedStageBottomSheet.Callback {
 
     companion object {
+        private const val LOG_TAG = "StudyPlanFragment"
         fun newInstance(): StudyPlanFragment =
             StudyPlanFragment()
     }
@@ -47,10 +50,12 @@ class StudyPlanFragment :
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
     }
 
+    private val logger: Logger by logger(LOG_TAG)
+
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
     private var problemsLimitDelegate: ProblemsLimitDelegate? = null
     private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
-    private var usersQuestionnaireCardDelegate: UsersQuestionnaireCardDelegate? = null
+    private var usersInterviewCardDelegate: UsersInterviewCardDelegate? = null
 
     private var fragmentWasResumed = false
 
@@ -114,8 +119,8 @@ class StudyPlanFragment :
     }
 
     private fun initUserQuestionnaireCardDelegate() {
-        usersQuestionnaireCardDelegate = UsersQuestionnaireCardDelegate()
-        usersQuestionnaireCardDelegate?.setup(
+        usersInterviewCardDelegate = UsersInterviewCardDelegate()
+        usersInterviewCardDelegate?.setup(
             viewBinding.studyPlanUserQuestionnaire,
             viewLifecycleOwner,
             onNewMessage = studyPlanViewModel::onNewMessage
@@ -137,7 +142,7 @@ class StudyPlanFragment :
         gamificationToolbarDelegate = null
         problemsLimitDelegate?.cleanup()
         problemsLimitDelegate = null
-        usersQuestionnaireCardDelegate = null
+        usersInterviewCardDelegate = null
     }
 
     override fun onDestroy() {
@@ -151,8 +156,8 @@ class StudyPlanFragment :
         gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
         problemsLimitDelegate?.render(state.problemsLimitViewState)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
-        usersQuestionnaireCardDelegate?.render(
-            state.usersQuestionnaireWidgetState,
+        usersInterviewCardDelegate?.render(
+            state.usersInterviewWidgetState,
             viewBinding.studyPlanUserQuestionnaire
         )
     }
@@ -187,11 +192,11 @@ class StudyPlanFragment :
                     }
                 }
             }
-            is StudyPlanScreenFeature.Action.ViewAction.UsersQuestionnaireWidgetViewAction -> {
-                usersQuestionnaireCardDelegate?.handleActions(
-                    context = requireContext(),
-                    activity = requireActivity(),
-                    action = action.viewAction
+            is StudyPlanScreenFeature.Action.ViewAction.UsersInterviewWidgetViewAction -> {
+                usersInterviewCardDelegate?.handleActions(
+                    fragment = this,
+                    action = action.viewAction,
+                    logger = logger
                 )
             }
         }

@@ -34,24 +34,7 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             is Message.ContinuePracticingClicked ->
                 handleContinuePracticingClickedMessage(state)
             is Message.StartPracticingClicked ->
-                if (!state.isPracticingLoading) {
-                    state.copy(isPracticingLoading = true) to setOf(
-                        Action.LogAnalyticEvent(
-                            StepCompletionClickedStartPracticingHyperskillAnalyticEvent(
-                                route = stepRoute.analyticRoute,
-                                isLocatedAtBeginning = message.isLocatedAtBeginning
-                            )
-                        ),
-                        when (state.startPracticingButtonAction) {
-                            StepCompletionFeature.StartPracticingButtonAction.FetchNextStepQuiz ->
-                                Action.FetchNextRecommendedStep(state.currentStep)
-                            StepCompletionFeature.StartPracticingButtonAction.NavigateToBack ->
-                                Action.ViewAction.NavigateTo.Back
-                        }
-                    )
-                } else {
-                    null
-                }
+                handleStartPracticingClicked(state)
             is Message.FetchNextRecommendedStepResult.Success ->
                 state.copy(isPracticingLoading = false) to setOf(Action.ViewAction.ReloadStep(message.newStepRoute))
             is Message.FetchNextRecommendedStepResult.Error ->
@@ -228,6 +211,25 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     ContinueButtonAction.CheckTopicCompletion -> state.currentStep.topic?.let {
                         Action.CheckTopicCompletionStatus(it)
                     } ?: Action.ViewAction.NavigateTo.Back
+                }
+            )
+        } else {
+            null
+        }
+
+    private fun handleStartPracticingClicked(state: State) =
+        if (!state.isPracticingLoading) {
+            state.copy(isPracticingLoading = true) to setOf(
+                Action.LogAnalyticEvent(
+                    StepCompletionClickedStartPracticingHyperskillAnalyticEvent(
+                        route = stepRoute.analyticRoute
+                    )
+                ),
+                when (state.startPracticingButtonAction) {
+                    StepCompletionFeature.StartPracticingButtonAction.FetchNextStepQuiz ->
+                        Action.FetchNextRecommendedStep(state.currentStep)
+                    StepCompletionFeature.StartPracticingButtonAction.NavigateToBack ->
+                        Action.ViewAction.NavigateTo.Back
                 }
             )
         } else {

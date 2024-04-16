@@ -4,6 +4,7 @@ enum StepQuizStringDataType {
     case string
     case number
     case math
+    case prompt
 
     init?(quizType: StepQuizChildQuizType) {
         switch quizType {
@@ -13,6 +14,8 @@ enum StepQuizStringDataType {
             self = .number
         case .math:
             self = .math
+        case .prompt:
+            self = .prompt
         default:
             return nil
         }

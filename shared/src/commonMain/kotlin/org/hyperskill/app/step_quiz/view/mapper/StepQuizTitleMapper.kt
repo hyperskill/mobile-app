@@ -26,6 +26,8 @@ class StepQuizTitleMapper(
                 resourceProvider.getString(SharedResources.strings.step_quiz_sorting_title)
             BlockName.STRING ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_string_title)
+            BlockName.PROMPT ->
+                resourceProvider.getString(SharedResources.strings.step_quiz_prompt_title)
             BlockName.PARSONS ->
                 resourceProvider.getString(SharedResources.strings.step_quiz_parsons_title)
             BlockName.TABLE -> {

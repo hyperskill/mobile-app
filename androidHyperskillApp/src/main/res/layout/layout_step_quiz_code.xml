@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/step_quiz_code_badge_fix_mistakes_title"
                 style="@style/TextAppearance.AppTheme.Subtitle1"
-                android:drawableEnd="@drawable/ic_code_generation_with_error_question"
+                android:drawableEnd="@drawable/ic_question_mark"
                 android:layout_marginVertical="20dp"
                 android:layout_marginHorizontal="16dp"/>
 

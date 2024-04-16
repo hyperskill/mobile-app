@@ -15,9 +15,11 @@
         android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/stepTheoryContentContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:padding="@dimen/step_content_padding"
             android:background="?colorSurface"
             >
@@ -31,107 +33,45 @@
                 android:textAppearance="?textAppearanceBody2"
                 android:textColor="@color/color_on_surface_alpha_60"
                 app:drawableStartCompat="@drawable/ic_time"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 tools:text="3 minutes reading" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/stepTheoryPracticeActionBeginning"
-                style="@style/Widget.AppTheme.Button.OutlinedButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/step_theory_elements_margin"
-                android:text="@string/step_start_practicing_text"
-                android:theme="@style/ThemeOverlay.Blue"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryTimeToComplete" />
-
-            <org.hyperskill.app.android.ui.custom.LoadingView
-                android:id="@+id/stepTheoryPracticeActionBeginningShimmer"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@+id/stepTheoryPracticeActionBeginning"
-                app:layout_constraintBottom_toBottomOf="@+id/stepTheoryPracticeActionBeginning"
-                app:layout_constraintStart_toStartOf="@+id/stepTheoryPracticeActionBeginning"
-                app:layout_constraintEnd_toEndOf="@+id/stepTheoryPracticeActionBeginning"
-                />
 
             <FrameLayout
                 android:id="@+id/stepTheoryContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/step_theory_elements_margin"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionBeginning"/>
+                android:layout_marginTop="@dimen/step_theory_elements_margin" />
 
-            <!-- ALTAPPS-397: Hidden -->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/stepTheoryReactionTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/step_theory_elements_margin"
-                android:textAppearance="?textAppearanceBody1"
-                android:visibility="gone"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryContent"
-                tools:text="How did you like the theory?" />
+        </LinearLayout>
 
-            <!-- ALTAPPS-397: Hidden -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/stepTheoryRatingRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/step_theory_elements_margin"
-                android:background="@drawable/bg_shape_rounded"
-                android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryReactionTitle"
-                tools:itemCount="5"
-                tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_step_theory_rating"
-                tools:orientation="horizontal" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/stepTheoryPracticeActionEnd"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/step_theory_elements_margin"
-                android:text="@string/step_start_practicing_text"
-                android:theme="@style/ThemeOverlay.Blue"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryRatingRecycler" />
-
-            <org.hyperskill.app.android.ui.custom.LoadingView
-                android:id="@+id/stepTheoryPracticeActionEndShimmer"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@+id/stepTheoryPracticeActionEnd"
-                app:layout_constraintBottom_toBottomOf="@+id/stepTheoryPracticeActionEnd"
-                app:layout_constraintStart_toStartOf="@+id/stepTheoryPracticeActionEnd"
-                app:layout_constraintEnd_toEndOf="@+id/stepTheoryPracticeActionEnd"
-                />
-
-            <!-- ALTAPPS-397: Hidden -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/stepTheoryCommentStatisticsRecycler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/step_theory_comments_statistics_recycler_top_margin"
-                android:nestedScrollingEnabled="false"
-                android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/stepTheoryPracticeActionEnd"
-                tools:itemCount="4"
-                tools:listitem="@layout/item_step_comment_action" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/stepTheoryPracticeActionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="@dimen/step_content_padding"
+        android:layout_marginBottom="@dimen/step_content_padding" >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/stepTheoryPracticeAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/step_start_practicing_text"
+            android:theme="@style/ThemeOverlay.Blue"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <org.hyperskill.app.android.ui.custom.LoadingView
+            android:id="@+id/stepTheoryPracticeActionShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@+id/stepTheoryPracticeAction"
+            app:layout_constraintBottom_toBottomOf="@+id/stepTheoryPracticeAction"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/stepTheoryFab"

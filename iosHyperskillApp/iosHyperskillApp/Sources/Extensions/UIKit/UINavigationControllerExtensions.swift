@@ -17,10 +17,11 @@ extension UINavigationController {
     ///   - animated: Set this value to true to animate the transition (default is true).
     ///   - completion: optional completion handler.
     func popViewController(animated: Bool = true, completion: @escaping (() -> Void)) {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
-        popViewController(animated: animated)
-        CATransaction.commit()
+        performPopNavigationAction(
+            action: { self.popViewController(animated: animated) },
+            animated: animated,
+            completion: completion
+        )
     }
 
     /// Pop to root viewController with completion handler.
@@ -29,10 +30,11 @@ extension UINavigationController {
     ///   - animated: Set this value to true to animate the transition (default is true).
     ///   - completion: completion handler.
     func popToRootViewController(animated: Bool = true, completion: @escaping (() -> Void)) {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
-        popToRootViewController(animated: animated)
-        CATransaction.commit()
+        performPopNavigationAction(
+            action: { self.popToRootViewController(animated: animated) },
+            animated: animated,
+            completion: completion
+        )
     }
 
     /// Push ViewController with completion handler.
@@ -46,9 +48,40 @@ extension UINavigationController {
         animated: Bool = true,
         completion: @escaping (() -> Void)
     ) {
-        CATransaction.begin()
-        CATransaction.setCompletionBlock(completion)
-        pushViewController(viewController, animated: animated)
-        CATransaction.commit()
+        performNavigationAction(
+            action: { self.pushViewController(viewController, animated: animated) },
+            animated: animated,
+            completion: completion
+        )
+    }
+
+    private func performPopNavigationAction(action: () -> Void, animated: Bool, completion: @escaping () -> Void) {
+        guard viewControllers.count > 1 else {
+            return completion()
+        }
+
+        performNavigationAction(action: action, animated: animated, completion: completion)
+    }
+
+    private func performNavigationAction(action: () -> Void, animated: Bool, completion: @escaping () -> Void) {
+        if animated {
+            let startTime = Date()
+            let minimumAnimationDuration: TimeInterval = 0.35
+            // The completion is guaranteed to be called not before 0.35 seconds,
+            // aligning with the minimum desired animation duration.
+            CATransaction.begin()
+            CATransaction.setCompletionBlock {
+                let elapsedTime = Date().timeIntervalSince(startTime)
+                let delay = max(0, minimumAnimationDuration - elapsedTime)
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                    completion()
+                }
+            }
+            action()
+            CATransaction.commit()
+        } else {
+            action()
+            completion()
+        }
     }
 }

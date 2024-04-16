@@ -62,7 +62,7 @@ object StepCompletionFeature {
     }
 
     sealed interface Message {
-        data class StartPracticingClicked(val isLocatedAtBeginning: Boolean) : Message
+        object StartPracticingClicked : Message
 
         object ContinuePracticingClicked : Message
 

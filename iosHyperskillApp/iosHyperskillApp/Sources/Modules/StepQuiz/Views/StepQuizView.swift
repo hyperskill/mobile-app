@@ -305,7 +305,7 @@ struct StepQuizView: View {
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
             case .home:
-                stackRouter.popViewController(
+                stackRouter.popToRootViewController(
                     animated: true,
                     completion: {
                         TabBarRouter(tab: .home).route()

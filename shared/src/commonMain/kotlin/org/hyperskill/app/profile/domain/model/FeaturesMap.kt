@@ -26,8 +26,8 @@ val FeaturesMap.isMobileLeaderboardsEnabled: Boolean
 val FeaturesMap.isMobileOnlySubscriptionEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION) ?: false
 
-val FeaturesMap.isMobileUsersQuestionnaireEnabled: Boolean
-    get() = get(FeatureKeys.MOBILE_USERS_QUESTIONNAIRE) ?: false
+val FeaturesMap.isMobileUsersInterviewWidgetEnabled: Boolean
+    get() = get(FeatureKeys.MOBILE_USERS_INTERVIEW_WIDGET) ?: false
 
 val FeaturesMap.isMobileShortTheoryEnabled: Boolean
     get() = get(FeatureKeys.MOBILE_SHORT_THEORY) ?: false

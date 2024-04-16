@@ -3,6 +3,8 @@ import SwiftUI
 struct StepQuizChoiceView: View {
     @ObservedObject var viewModel: StepQuizChoiceViewModel
 
+    @Environment(\.isEnabled) private var isEnabled
+
     var body: some View {
         VStack(alignment: .leading, spacing: LayoutInsets.defaultInset) {
             ForEach(Array(viewModel.viewData.choices.enumerated()), id: \.offset) { index, choice in
@@ -14,22 +16,29 @@ struct StepQuizChoiceView: View {
                 )
             }
         }
+        .conditionalOpacity(isEnabled: isEnabled)
     }
 }
 
 #if DEBUG
-struct StepQuizChoiceView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
+#Preview {
+    ScrollView {
+        VStack(spacing: LayoutInsets.defaultInset) {
             StepQuizChoiceAssembly
                 .makePlaceholder(isMultipleChoice: false)
                 .makeModule()
+            Divider()
 
             StepQuizChoiceAssembly
                 .makePlaceholder(isMultipleChoice: true)
                 .makeModule()
+            Divider()
+
+            StepQuizChoiceAssembly
+                .makePlaceholder(isMultipleChoice: false)
+                .makeModule()
+                .disabled(true)
         }
-        .previewLayout(.sizeThatFits)
         .padding()
     }
 }

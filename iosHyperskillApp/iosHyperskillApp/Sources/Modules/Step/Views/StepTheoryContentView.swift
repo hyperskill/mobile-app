@@ -22,9 +22,6 @@ struct StepTheoryContentView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                 StepHeaderView(timeToComplete: viewData.formattedTimeToComplete)
-
-                buildStartPracticingButton(isLocatedAtBeginning: true)
-
                 LatexView(
                     text: viewData.text,
                     configuration: .stepText(),
@@ -32,11 +29,10 @@ struct StepTheoryContentView: View {
                         isStepTextContentLoaded = true
                     }
                 )
-
-                buildStartPracticingButton(isLocatedAtBeginning: false)
             }
             .padding()
         }
+        .safeAreaInsetBottomCompatibility(footer)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(
@@ -54,20 +50,28 @@ struct StepTheoryContentView: View {
 extension StepTheoryContentView {
     struct StartPracticingButton {
         let isLoading: Bool
-        let action: (Bool) -> Void
+        let action: () -> Void
     }
 
-    @ViewBuilder
-    private func buildStartPracticingButton(isLocatedAtBeginning: Bool) -> some View {
+    @MainActor @ViewBuilder private var footer: some View {
         if let startPracticingButton, isStepTextContentLoaded {
             StepActionButton(
                 title: Strings.Step.startPracticing,
-                style: isLocatedAtBeginning ? .violetOutline : .violetFilled,
+                style: .violetFilled,
                 isLoading: startPracticingButton.isLoading,
                 onClick: {
-                    startPracticingButton.action(isLocatedAtBeginning)
+                    FeedbackGenerator(feedbackType: .selection).triggerFeedback()
+                    startPracticingButton.action()
                 }
             )
+            .padding()
+            .background(
+                TransparentBlurView()
+                    .edgesIgnoringSafeArea(.all)
+            )
+            .fixedSize(horizontal: false, vertical: true)
+        } else {
+            EmptyView()
         }
     }
 }
@@ -78,7 +82,7 @@ extension StepTheoryContentView {
         viewData: .placeholder,
         startPracticingButton: StepTheoryContentView.StartPracticingButton(
             isLoading: false,
-            action: { _ in }
+            action: { }
         ),
         onTheoryFeedbackButtonTap: {}
     )
