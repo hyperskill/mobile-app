@@ -15,6 +15,6 @@ extension View {
     ) -> some View {
         self
             .opacity(isEnabled ? opacityEnabled : opacityDisabled)
-            .animation(animation)
+            .animation(animation, value: isEnabled)
     }
 }
