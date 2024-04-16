@@ -5,6 +5,7 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
@@ -16,11 +17,23 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
+import org.hyperskill.profile.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
+import org.hyperskill.subscriptions.stub
 
 class StepQuizTest {
+    companion object {
+        private val limitReachedSubscription: Subscription =
+            Subscription.stub(
+                type = SubscriptionType.FREEMIUM,
+                stepsLimitLeft = 0,
+                stepsLimitTotal = 5
+            )
+    }
     @Test
     fun `When problems limit reached not blocks problem of the day and repeat solving`() {
         val step = Step.stub(id = 1)
@@ -53,12 +66,8 @@ class StepQuizTest {
                     step,
                     attempt,
                     submissionState,
-                    isProblemsLimitReached = true,
-                    problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
-                        title = "",
-                        description = "",
-                        unlockLimitsButtonText = null
-                    ),
+                    subscription = limitReachedSubscription,
+                    profile = Profile.stub(),
                     problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                     isMobileGptCodeGenerationWithErrorsEnabled = false
                 )
@@ -99,12 +108,8 @@ class StepQuizTest {
                 step,
                 attempt,
                 submissionState,
-                isProblemsLimitReached = true,
-                problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
-                    title = "",
-                    description = "",
-                    unlockLimitsButtonText = null
-                ),
+                subscription = limitReachedSubscription,
+                profile = Profile.stub(),
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isMobileGptCodeGenerationWithErrorsEnabled = false
             )
@@ -204,6 +209,11 @@ class StepQuizTest {
     @Test
     fun `When updated problems limits reached for step with limited attempts blocks solving`() {
         val step = Step.stub(id = 1)
+
+        val subscription = limitReachedSubscription
+        val profile = Profile.stub()
+        val stepRoute = StepRoute.Learn.Step(step.id)
+
         val initialState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
                 step = step,
@@ -215,20 +225,17 @@ class StepQuizTest {
             stepQuizHintsState = StepQuizHintsFeature.State.Idle
         )
 
+
         val reducer = StepQuizReducer(
-            stepRoute = StepRoute.Learn.Step(step.id),
-            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id))
+            stepRoute = stepRoute,
+            stepQuizHintsReducer = StepQuizHintsReducer(stepRoute)
         )
 
         val (actualState, actualActions) = reducer.reduce(
             initialState,
             StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
-                isProblemsLimitReached = true,
-                problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
-                    title = "",
-                    description = "",
-                    unlockLimitsButtonText = null
-                )
+                subscription = subscription,
+                profile = profile
             )
         )
 
@@ -246,13 +253,7 @@ class StepQuizTest {
         assertEquals(expectedState, actualState)
         assertContains(
             actualActions,
-            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(
-                StepQuizFeature.ProblemsLimitReachedModalData(
-                    title = "",
-                    description = "",
-                    unlockLimitsButtonText = null
-                )
-            )
+            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(subscription, profile, stepRoute)
         )
     }
 
@@ -278,12 +279,8 @@ class StepQuizTest {
         val (actualState, actualActions) = reducer.reduce(
             initialState,
             StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
-                isProblemsLimitReached = true,
-                problemsLimitReachedModalData = StepQuizFeature.ProblemsLimitReachedModalData(
-                    title = "",
-                    description = "",
-                    unlockLimitsButtonText = null
-                )
+                subscription = limitReachedSubscription,
+                profile = Profile.stub()
             )
         )
 
@@ -338,8 +335,8 @@ class StepQuizTest {
                 step,
                 attempt,
                 submissionState,
-                isProblemsLimitReached = false,
-                problemsLimitReachedModalData = null,
+                subscription = Subscription.stub(),
+                profile = Profile.stub(),
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isMobileGptCodeGenerationWithErrorsEnabled = false
             )
@@ -397,8 +394,8 @@ class StepQuizTest {
                 step,
                 attempt,
                 submissionState,
-                isProblemsLimitReached = false,
-                problemsLimitReachedModalData = null,
+                subscription = Subscription.stub(),
+                profile = Profile.stub(),
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isMobileGptCodeGenerationWithErrorsEnabled = false
             )
