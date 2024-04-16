@@ -163,8 +163,9 @@ internal class StepQuizActionDispatcher(
                             sentryInteractor.finishTransaction(sentryTransaction)
                             onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
                         },
-                        onFailure = {
+                        onFailure = { e ->
                             sentryInteractor.finishTransaction(sentryTransaction)
+                            logger.e(e) { "Failed to create submission" }
                             onNewMessage(Message.CreateSubmissionNetworkError)
                         }
                     )
