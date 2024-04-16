@@ -5,7 +5,9 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
+import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalActionDispatcher
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Action
@@ -21,13 +23,14 @@ internal object ProblemsLimitReachedModalFeatureBuilder {
     private const val LOG_TAG = "ProblemsLimitReachedModalFeature"
 
     fun build(
-        params: ProblemsLimitReachedModalFeatureParams,
         analyticInteractor: AnalyticInteractor,
+        resourceProvider: ResourceProvider,
         logger: Logger,
-        buildVariant: BuildVariant
+        buildVariant: BuildVariant,
+        params: ProblemsLimitReachedModalFeatureParams
     ): Feature<ViewState, Message, Action> {
         val problemsLimitReachedModalReducer =
-            ProblemsLimitReachedModalReducer()
+            ProblemsLimitReachedModalReducer(params.stepRoute)
                 .wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val problemsLimitReachedModalActionDispatcher = ProblemsLimitReachedModalActionDispatcher(
@@ -35,7 +38,7 @@ internal object ProblemsLimitReachedModalFeatureBuilder {
             analyticInteractor
         )
 
-        val viewStateMapper = ProblemsLimitReachedModalViewStateMapper()
+        val viewStateMapper = ProblemsLimitReachedModalViewStateMapper(resourceProvider)
 
         return ReduxFeature(
             initialState = ProblemsLimitReachedModalFeature.initialState(params.subscription, params.profile),

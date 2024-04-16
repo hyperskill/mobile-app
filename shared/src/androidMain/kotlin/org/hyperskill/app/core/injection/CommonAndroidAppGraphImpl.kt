@@ -34,10 +34,9 @@ import org.hyperskill.app.paywall.injection.PlatformPaywallComponent
 import org.hyperskill.app.paywall.injection.PlatformPaywallComponentImpl
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponentImpl
+import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.problems_limit_reached.injection.PlatformProblemsLimitReachedModalComponent
 import org.hyperskill.app.problems_limit_reached.injection.PlatformProblemsLimitReachedModalComponentImpl
-import org.hyperskill.app.problems_limit_reached.injection.ProblemsLimitReachedModalFeatureParams
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -72,7 +71,6 @@ import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedb
 import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponentImpl
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponentImpl
-import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponentImpl
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
@@ -308,13 +306,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         )
 
     override fun buildPlatformProblemsLimitReachedModalComponent(
-        subscription: Subscription,
-        profile: Profile
+        params: ProblemsLimitReachedModalFeatureParams
     ): PlatformProblemsLimitReachedModalComponent =
         PlatformProblemsLimitReachedModalComponentImpl(
-            problemsLimitReachedModalComponent = buildProblemsLimitReachedModalComponent(
-                ProblemsLimitReachedModalFeatureParams(subscription, profile)
-            )
+            problemsLimitReachedModalComponent = buildProblemsLimitReachedModalComponent(params)
         )
 
 }

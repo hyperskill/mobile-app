@@ -39,8 +39,8 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.injection.PaywallComponent
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
+import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.problems_limit_reached.injection.ProblemsLimitReachedModalComponent
-import org.hyperskill.app.problems_limit_reached.injection.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile.injection.ProfileDataComponent
