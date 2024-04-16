@@ -311,5 +311,4 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
         PlatformProblemsLimitReachedModalComponentImpl(
             problemsLimitReachedModalComponent = buildProblemsLimitReachedModalComponent(params)
         )
-
 }

@@ -14,7 +14,8 @@ object ProblemsLimitReachedModalFeature {
     internal fun initialState(
         subscription: Subscription,
         profile: Profile
-    ) = State(subscription, profile)
+    ) =
+        State(subscription, profile)
 
     data class ViewState(
         val title: String,

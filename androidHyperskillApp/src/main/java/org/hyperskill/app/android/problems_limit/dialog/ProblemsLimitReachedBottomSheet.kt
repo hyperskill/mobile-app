@@ -112,7 +112,7 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment(), ReduxView<V
         viewBinding.problemsLimitReachedModalTitle.text = state.title
         viewBinding.problemsLimitReachedDescription.text = state.description
 
-        with (viewBinding.problemsLimitReachedUnlimitedProblemsButton) {
+        with(viewBinding.problemsLimitReachedUnlimitedProblemsButton) {
             isVisible = state.unlockLimitsButtonText != null
             if (state.unlockLimitsButtonText != null) {
                 text = state.unlockLimitsButtonText

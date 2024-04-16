@@ -1,10 +1,10 @@
 package org.hyperskill.app.problems_limit_reached.presentation
 
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Action
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.InternalAction
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Message
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
-import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class ProblemsLimitReachedModalActionDispatcher(

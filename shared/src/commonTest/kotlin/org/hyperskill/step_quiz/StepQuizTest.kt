@@ -225,7 +225,6 @@ class StepQuizTest {
             stepQuizHintsState = StepQuizHintsFeature.State.Idle
         )
 
-
         val reducer = StepQuizReducer(
             stepRoute = stepRoute,
             stepQuizHintsReducer = StepQuizHintsReducer(stepRoute)
