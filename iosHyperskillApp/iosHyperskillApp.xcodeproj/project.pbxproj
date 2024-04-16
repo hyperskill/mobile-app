@@ -96,6 +96,7 @@
 		2C1F5882280D5BAA00372A37 /* SocialAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */; };
 		2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */; };
 		2C1F588B280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */; };
+		2C1F9CC92BCE46BC00C67381 /* StyledNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F9CC82BCE46BC00C67381 /* StyledNavigationController.swift */; };
 		2C20B28A286C350C000F458A /* CodeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20B289286C350C000F458A /* CodeEditor.swift */; };
 		2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C20B28B286C4426000F458A /* code-language-samples.plist */; };
 		2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C20B28E286C4515000F458A /* CodeLanguageSamples.swift */; };
@@ -807,6 +808,7 @@
 		2C1F5881280D5BAA00372A37 /* SocialAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthService.swift; sourceTree = "<group>"; };
 		2C1F5887280D5D6200372A37 /* SocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialAuthSDKProvider.swift; sourceTree = "<group>"; };
 		2C1F588A280D8C8600372A37 /* GoogleSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
+		2C1F9CC82BCE46BC00C67381 /* StyledNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledNavigationController.swift; sourceTree = "<group>"; };
 		2C20B289286C350C000F458A /* CodeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditor.swift; sourceTree = "<group>"; };
 		2C20B28B286C4426000F458A /* code-language-samples.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "code-language-samples.plist"; sourceTree = "<group>"; };
 		2C20B28E286C4515000F458A /* CodeLanguageSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeLanguageSamples.swift; sourceTree = "<group>"; };
@@ -3382,6 +3384,7 @@
 				E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */,
 				2C863D922804279E0021EFED /* Require.swift */,
 				E9F2CC5229223C0200691540 /* StyledHostingController.swift */,
+				2C1F9CC82BCE46BC00C67381 /* StyledNavigationController.swift */,
 				2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */,
 				2C20FBC8284F6F97006D879E /* UnitConverters.swift */,
 				2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */,
@@ -5062,6 +5065,7 @@
 				2C7822612942F9CF0067200F /* StreakBarButtonItem.swift in Sources */,
 				2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */,
 				2C93AF1F29B34A88004639E0 /* StepQuizPyCharmViewModel.swift in Sources */,
+				2C1F9CC92BCE46BC00C67381 /* StyledNavigationController.swift in Sources */,
 				2CF43414281281DB002893CD /* AuthTextField.swift in Sources */,
 				2CD48D852858638A00CFCC4A /* StepQuizAssembly.swift in Sources */,
 				2C334D112939E24C008593F1 /* PlatformHyperskillSentryTransaction.swift in Sources */,

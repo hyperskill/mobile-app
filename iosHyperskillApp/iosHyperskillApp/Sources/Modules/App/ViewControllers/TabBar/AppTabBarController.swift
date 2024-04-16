@@ -75,7 +75,7 @@ final class AppTabBarController: UITabBarController {
                 }
             }()
 
-            let navigationController = UINavigationController(rootViewController: rootViewController)
+            let navigationController = StyledNavigationController(rootViewController: rootViewController)
             navigationController.navigationBar.prefersLargeTitles = true
             navigationController.tabBarItem = tabItem.tabBarItem
 
