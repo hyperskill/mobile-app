@@ -1,23 +1,17 @@
 package org.hyperskill.app.step_quiz.presentation
 
 import co.touchlab.kermit.Logger
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.SharedResources
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileGptCodeGenerationWithErrorsEnabled
-import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
-import org.hyperskill.app.profile.domain.repository.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -32,8 +26,6 @@ import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
-import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.subscriptions.domain.model.isFreemium
 import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
@@ -48,7 +40,6 @@ internal class StepQuizActionDispatcher(
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val onboardingInteractor: OnboardingInteractor,
-    private val resourceProvider: ResourceProvider,
     private val logger: Logger,
     currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -56,11 +47,10 @@ internal class StepQuizActionDispatcher(
     init {
         currentSubscriptionStateRepository
             .changes
-            .map { it.isProblemsLimitReached }
-            .distinctUntilChanged()
-            .onEach { isProblemsLimitReached ->
+            .distinctUntilChangedBy { it.isProblemsLimitReached }
+            .onEach { subscription ->
                 onNewMessage(
-                    InternalMessage.ProblemsLimitChanged(isProblemsLimitReached)
+                    InternalMessage.ProblemsLimitChanged(subscription)
                 )
             }
             .launchIn(actionScope)
@@ -230,8 +220,6 @@ internal class StepQuizActionDispatcher(
                 getSubmissionState(attempt.id, action.step.id, currentProfile.id)
                     .getOrThrow()
 
-            val problemsLimitReachedModalData = getProblemsLimitReachedModalData(currentProfile, currentSubscription)
-
             val isMobileGptCodeGenerationWithErrorsEnabled =
                 currentProfile.features.isMobileGptCodeGenerationWithErrorsEnabled
 
@@ -239,8 +227,8 @@ internal class StepQuizActionDispatcher(
                 step = action.step,
                 attempt = attempt,
                 submissionState = submissionState,
-                isProblemsLimitReached = currentSubscription.isProblemsLimitReached,
-                problemsLimitReachedModalData = problemsLimitReachedModalData,
+                subscription = currentSubscription,
+                profile = currentProfile,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
                 isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled
             )
@@ -262,66 +250,6 @@ internal class StepQuizActionDispatcher(
                 }
             }
 
-    private fun isSubscriptionPurchaseEnabled(
-        profile: Profile,
-        subscription: Subscription
-    ): Boolean =
-        profile.features.isMobileOnlySubscriptionEnabled && subscription.isFreemium
-
-    // TODO: ALTAPPS-1171: Extract ProblemsLimitReachedModal into a separate feature
-    private suspend fun getProblemsLimitReachedModalData(
-        profile: Profile,
-        subscription: Subscription
-    ): StepQuizFeature.ProblemsLimitReachedModalData? {
-        if (!subscription.isProblemsLimitReached) return null
-
-        val stepsLimitTotal = subscription.stepsLimitTotal ?: return null
-
-        val isSubscriptionPurchaseEnabled = isSubscriptionPurchaseEnabled(profile, subscription)
-
-        return if (currentProfileStateRepository.isFreemiumWrongSubmissionChargeLimitsEnabled()) {
-            StepQuizFeature.ProblemsLimitReachedModalData(
-                title = resourceProvider.getString(
-                    SharedResources.strings.problems_limit_reached_modal_no_lives_left_title,
-                    stepsLimitTotal
-                ),
-                description = resourceProvider.getString(
-                    if (isSubscriptionPurchaseEnabled) {
-                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_lives_description
-                    } else {
-                        SharedResources.strings.problems_limit_reached_modal_no_lives_left_description
-                    }
-                ),
-                unlockLimitsButtonText = if (isSubscriptionPurchaseEnabled) {
-                    resourceProvider.getString(
-                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_lives_button
-                    )
-                } else {
-                    null
-                }
-            )
-        } else {
-            StepQuizFeature.ProblemsLimitReachedModalData(
-                title = resourceProvider.getString(SharedResources.strings.problems_limit_reached_modal_title),
-                description = resourceProvider.getString(
-                    if (isSubscriptionPurchaseEnabled) {
-                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_problems_description
-                    } else {
-                        SharedResources.strings.problems_limit_reached_modal_description
-                    },
-                    stepsLimitTotal
-                ),
-                unlockLimitsButtonText = if (isSubscriptionPurchaseEnabled) {
-                    resourceProvider.getString(
-                        SharedResources.strings.problems_limit_reached_modal_unlock_unlimited_problems_button
-                    )
-                } else {
-                    null
-                }
-            )
-        }
-    }
-
     private suspend fun handleUpdateProblemsLimitAction(
         action: InternalAction.UpdateProblemsLimit,
         onNewMessage: (Message) -> Unit
@@ -331,13 +259,12 @@ internal class StepQuizActionDispatcher(
 
         subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
 
-        val subscription = subscriptionsInteractor.getCurrentSubscription().getOrElse { return }
-        val problemsLimitReachedModalData = getProblemsLimitReachedModalData(currentProfile, subscription)
+        val currentSubscription = subscriptionsInteractor.getCurrentSubscription().getOrElse { return }
 
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
-                isProblemsLimitReached = subscription.isProblemsLimitReached,
-                problemsLimitReachedModalData = problemsLimitReachedModalData
+                subscription = currentSubscription,
+                profile = currentProfile
             )
         )
     }

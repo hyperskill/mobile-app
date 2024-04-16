@@ -4,7 +4,6 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
@@ -42,7 +41,6 @@ internal object StepQuizFeatureBuilder {
         onboardingInteractor: OnboardingInteractor,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
-        resourceProvider: ResourceProvider,
         logger: Logger,
         buildVariant: BuildVariant,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
@@ -63,7 +61,6 @@ internal object StepQuizFeatureBuilder {
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
-            resourceProvider = resourceProvider,
             logger = logger.withTag(LOG_TAG)
         )
 

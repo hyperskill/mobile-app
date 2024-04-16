@@ -104,8 +104,8 @@ class ProblemsLimitReachedBottomSheet : BottomSheetDialogFragment(), ReduxView<V
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
         problemsLimitReachedModalViewModel.onHiddenEvent()
+        super.onDismiss(dialog)
     }
 
     override fun render(state: ViewState) {

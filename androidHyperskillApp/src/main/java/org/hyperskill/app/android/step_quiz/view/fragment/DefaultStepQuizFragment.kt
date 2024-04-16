@@ -46,6 +46,7 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -289,7 +290,13 @@ abstract class DefaultStepQuizFragment :
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
                 ProblemsLimitReachedBottomSheet
-                    .newInstance(action.modalData)
+                    .newInstance(
+                        ProblemsLimitReachedModalFeatureParams(
+                            action.subscription,
+                            action.profile,
+                            action.stepRoute
+                        )
+                    )
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             StepQuizFeature.Action.ViewAction.HideProblemsLimitReachedModal -> {
