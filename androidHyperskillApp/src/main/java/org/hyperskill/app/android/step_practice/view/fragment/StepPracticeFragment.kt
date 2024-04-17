@@ -40,19 +40,18 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
             root.setNavigationOnClickListener {
                 requireRouter().exit()
             }
-            stepQuizToolbarTitle.text = step.title
         }
-        initStepTheoryFragment(step, stepRoute)
-        setStepQuizFragment(step, stepRoute)
+        initStepPracticeDescriptionFragment(step, stepRoute)
+        initStepQuizFragment(step, stepRoute)
     }
 
-    private fun initStepTheoryFragment(step: Step, stepRoute: StepRoute) {
+    private fun initStepPracticeDescriptionFragment(step: Step, stepRoute: StepRoute) {
         setChildFragment(R.id.stepPracticeDescriptionContainer, STEP_CONTENT_FRAGMENT_TAG) {
             StepPracticeDetailsFragment.newInstance(step, stepRoute)
         }
     }
 
-    private fun setStepQuizFragment(step: Step, stepRoute: StepRoute) {
+    private fun initStepQuizFragment(step: Step, stepRoute: StepRoute) {
         setChildFragment(R.id.stepQuizContainer, STEP_QUIZ_FRAGMENT_TAG) {
             StepQuizFragmentFactory.getQuizFragment(step, stepRoute)
         }
