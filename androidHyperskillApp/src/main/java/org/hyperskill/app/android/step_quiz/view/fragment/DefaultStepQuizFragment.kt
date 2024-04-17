@@ -28,7 +28,6 @@ import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -87,9 +86,6 @@ abstract class DefaultStepQuizFragment :
     private val stepQuizFeedbackMapper by lazy(LazyThreadSafetyMode.NONE) {
         StepQuizFeedbackMapper()
     }
-
-    private val mainScreenRouter: MainScreenRouter =
-        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
