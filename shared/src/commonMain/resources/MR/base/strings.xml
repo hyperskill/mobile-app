@@ -445,11 +445,14 @@
 
     <!--Problems limit reached modal-->
     <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
-    <string name="problems_limit_reached_modal_no_lives_left_title">You\'ve used all %d of your lives for today</string>
+    <string name="problems_limit_reached_modal_no_lives_left_title_template">You\'ve used all %d of your lives for today</string>
+    <string name="problems_limit_reached_modal_no_lives_left_title">You\'ve used all your lives for today</string>
 
-    <string name="problems_limit_reached_modal_description">You\'ve solved %d problems today. Great job! Tomorrow new problems will be available to you.</string>
+    <string name="problems_limit_reached_modal_description_template">You\'ve solved %d problems today. Great job! Tomorrow new problems will be available to you.</string>
+    <string name="problems_limit_reached_modal_description">You\'ve solved all available problems today. Great job! Tomorrow new problems will be available to you.</string>
     <string name="problems_limit_reached_modal_no_lives_left_description">Take a break and come back tomorrow for another exciting day of practice!</string>
-    <string name="problems_limit_reached_modal_unlock_unlimited_problems_description">You\'ve solved %d problems today. Great job! Unlock unlimited problems with Mobile only plan.</string>
+    <string name="problems_limit_reached_modal_unlock_unlimited_problems_description_template">You\'ve solved %d problems today. Great job! Unlock unlimited problems with Mobile only plan.</string>
+    <string name="problems_limit_reached_modal_unlock_unlimited_problems_description">You\'ve solved all available problems today. Great job! Unlock unlimited problems with Mobile only plan.</string>
     <string name="problems_limit_reached_modal_unlock_unlimited_lives_description">Great job! Unlock unlimited lives with Mobile only plan.</string>
 
     <string name="problems_limit_reached_modal_unlock_unlimited_problems_button">Unlock unlimited problems</string>

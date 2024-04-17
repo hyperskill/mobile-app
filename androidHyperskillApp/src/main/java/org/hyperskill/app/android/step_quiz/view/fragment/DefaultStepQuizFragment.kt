@@ -28,11 +28,6 @@ import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.main.view.ui.navigation.Tabs
-import org.hyperskill.app.android.main.view.ui.navigation.switch
-import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
@@ -46,6 +41,7 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -90,9 +86,6 @@ abstract class DefaultStepQuizFragment :
     private val stepQuizFeedbackMapper by lazy(LazyThreadSafetyMode.NONE) {
         StepQuizFeedbackMapper()
     }
-
-    private val mainScreenRouter: MainScreenRouter =
-        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     protected abstract val quizViews: Array<View>
     protected abstract val skeletonView: View
@@ -274,22 +267,21 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
                 view?.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
             }
-            is StepQuizFeature.Action.ViewAction.NavigateTo.Home -> {
-                requireRouter().backTo(MainScreen(Tabs.TRAINING))
-                mainScreenRouter.switch(Tabs.TRAINING)
-            }
             is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
                 requireRouter().navigateTo(StepScreen(action.stepRoute))
-            }
-            is StepQuizFeature.Action.ViewAction.NavigateTo.Paywall -> {
-                requireRouter().navigateTo(PaywallScreen(action.paywallTransitionSource))
             }
             is StepQuizFeature.Action.ViewAction.RequestResetCode -> {
                 requestResetCodeActionPermission()
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
                 ProblemsLimitReachedBottomSheet
-                    .newInstance(action.modalData)
+                    .newInstance(
+                        ProblemsLimitReachedModalFeatureParams(
+                            action.subscription,
+                            action.profile,
+                            action.stepRoute
+                        )
+                    )
                     .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
             }
             StepQuizFeature.Action.ViewAction.HideProblemsLimitReachedModal -> {

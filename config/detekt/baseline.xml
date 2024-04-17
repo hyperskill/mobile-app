@@ -511,6 +511,7 @@
     <ID>TooManyFunctions:ProfileReducer.kt$ProfileReducer : StateReducer</ID>
     <ID>TooManyFunctions:SharedDateFormatter.kt$SharedDateFormatter</ID>
     <ID>TooManyFunctions:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer : StateReducer</ID>
+    <ID>TooManyFunctions:StepQuizReducer.kt$StepQuizReducer : StateReducer</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val dailyReminderId = "dailyReminderChannel"</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val otherId = "otherChannel"</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val regularLearningRemindersId = "regularLearningRemindersChannel"</ID>
