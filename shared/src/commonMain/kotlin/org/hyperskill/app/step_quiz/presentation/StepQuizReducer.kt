@@ -2,16 +2,11 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemOnboardingModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.ProblemOnboardingModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalClickedUnlockUnlimitedProblemsHSAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.analytic.ProblemsLimitReachedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedCodeDetailsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedOpenFullScreenCodeEditorHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedRetryHyperskillAnalyticEvent
@@ -42,6 +37,8 @@ import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.isProblemsLimitReached
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
@@ -226,20 +223,6 @@ internal class StepQuizReducer(
                 handleUpdateProblemsLimitResult(state, message)
             is InternalMessage.ProblemsLimitChanged ->
                 handleProblemsLimitChanged(state, message)
-            is Message.ProblemsLimitReachedModalGoToHomeScreenClicked ->
-                state to setOf(
-                    Action.ViewAction.NavigateTo.Home,
-                    InternalAction.LogAnalyticEvent(
-                        ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
-            is Message.ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked ->
-                state to setOf(
-                    Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.PROBLEMS_LIMIT_MODAL),
-                    InternalAction.LogAnalyticEvent(
-                        ProblemsLimitReachedModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
             is Message.ClickedCodeDetailsEventMessage ->
                 if (state.stepQuizState is StepQuizState.AttemptLoaded) {
                     val event = StepQuizClickedCodeDetailsHyperskillAnalyticEvent(stepRoute.analyticRoute)
@@ -325,18 +308,6 @@ internal class StepQuizReducer(
                 } else {
                     null
                 }
-            is Message.ProblemsLimitReachedModalShownEventMessage ->
-                state to setOf(
-                    InternalAction.LogAnalyticEvent(
-                        ProblemsLimitReachedModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
-            is Message.ProblemsLimitReachedModalHiddenEventMessage ->
-                state to setOf(
-                    InternalAction.LogAnalyticEvent(
-                        ProblemsLimitReachedModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
-                    )
-                )
             is Message.ProblemOnboardingModalShownMessage -> {
                 state to setOf(
                     Action.SaveProblemOnboardingModalShownCacheFlag(modalType = message.modalType),
@@ -376,8 +347,7 @@ internal class StepQuizReducer(
             if (StepQuizResolver.isIdeRequired(message.step, message.submissionState)) {
                 state.copy(stepQuizState = StepQuizState.Unsupported) to emptySet()
             } else {
-                val isProblemsLimitReached =
-                    StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
+                val isProblemsLimitReached = isProblemsLimitReached(stepRoute, message.subscription)
                 val isMobileGptCodeGenerationWithErrorsAvailable =
                     StepQuizResolver.isMobileGptCodeGenerationWithErrorsAvailable(
                         step = message.step,
@@ -399,9 +369,13 @@ internal class StepQuizReducer(
                     state to setOf(InternalAction.GenerateGptCodeWithErrors(stepQuizState))
                 } else {
                     state.copy(stepQuizState = stepQuizState) to
-                        if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
+                        if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
                             setOf(
-                                Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData)
+                                Action.ViewAction.ShowProblemsLimitReachedModal(
+                                    message.subscription,
+                                    message.profile,
+                                    stepRoute
+                                )
                             )
                         } else {
                             getProblemOnboardingModalActions(
@@ -481,17 +455,13 @@ internal class StepQuizReducer(
         message: InternalMessage.UpdateProblemsLimitResult
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
-            val isProblemsLimitReached =
-                StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
-
+            val isProblemsLimitReached = isProblemsLimitReached(stepRoute, message.subscription)
             state.copy(
-                stepQuizState = state.stepQuizState.copy(
-                    isProblemsLimitReached = isProblemsLimitReached
-                )
-            ) to buildSet {
-                if (isProblemsLimitReached && message.problemsLimitReachedModalData != null) {
-                    add(Action.ViewAction.ShowProblemsLimitReachedModal(message.problemsLimitReachedModalData))
-                }
+                stepQuizState = state.stepQuizState.copy(isProblemsLimitReached = isProblemsLimitReached)
+            ) to if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
+                setOf(Action.ViewAction.ShowProblemsLimitReachedModal(message.subscription, message.profile, stepRoute))
+            } else {
+                emptySet()
             }
         } else {
             null
@@ -502,8 +472,7 @@ internal class StepQuizReducer(
         message: InternalMessage.ProblemsLimitChanged
     ): StepQuizReducerResult? =
         if (state.stepQuizState is StepQuizState.AttemptLoaded) {
-            val isProblemsLimitReached =
-                StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && message.isProblemsLimitReached
+            val isProblemsLimitReached = isProblemsLimitReached(stepRoute, message.subscription)
             val shouldHideProblemsLimitModal =
                 state.stepQuizState.isProblemsLimitReached && !isProblemsLimitReached
             state.copy(
@@ -518,6 +487,12 @@ internal class StepQuizReducer(
         } else {
             null
         }
+
+    private fun isProblemsLimitReached(stepRoute: StepRoute, subscription: Subscription): Boolean =
+        StepQuizResolver.isStepHasLimitedAttempts(stepRoute) && subscription.isProblemsLimitReached
+
+    private fun shouldShowProblemsLimitModal(subscription: Subscription): Boolean =
+        subscription.isProblemsLimitReached && subscription.stepsLimitTotal != null
 
     private fun handleTheoryToolbarItemClicked(state: State): StepQuizReducerResult =
         if (state.stepQuizState is StepQuizState.AttemptLoaded &&
