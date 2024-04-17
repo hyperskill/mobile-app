@@ -2,6 +2,7 @@ package org.hyperskill.step_quiz
 
 import kotlin.test.assertEquals
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
+import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
@@ -9,9 +10,13 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
+import org.hyperskill.profile.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
+import org.hyperskill.subscriptions.stub
 import org.junit.Test
 
 class AndroidStepQuizTest {
@@ -75,8 +80,12 @@ class AndroidStepQuizTest {
                         step,
                         attempt,
                         submissionState,
-                        isProblemsLimitReached = false,
-                        problemsLimitReachedModalData = null,
+                        subscription = Subscription.stub(
+                            type = SubscriptionType.FREEMIUM,
+                            stepsLimitLeft = 5,
+                            stepsLimitTotal = 5
+                        ),
+                        profile = Profile.stub(),
                         problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                         isMobileGptCodeGenerationWithErrorsEnabled = false
                     )

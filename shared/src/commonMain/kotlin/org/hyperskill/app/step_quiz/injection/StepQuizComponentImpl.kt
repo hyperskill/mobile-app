@@ -58,7 +58,6 @@ internal class StepQuizComponentImpl(
             onboardingInteractor = appGraph.buildOnboardingDataComponent().onboardingInteractor,
             stepQuizHintsReducer = stepQuizHintsComponent.stepQuizHintsReducer,
             stepQuizHintsActionDispatcher = stepQuizHintsComponent.stepQuizHintsActionDispatcher,
-            resourceProvider = appGraph.commonComponent.resourceProvider,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository
