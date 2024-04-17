@@ -71,7 +71,7 @@ import org.hyperskill.app.paywall.injection.PaywallComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
-import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
+import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.problems_limit_reached.injection.ProblemsLimitReachedModalComponent
 import org.hyperskill.app.problems_limit_reached.injection.ProblemsLimitReachedModalComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent

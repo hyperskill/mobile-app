@@ -298,19 +298,16 @@ struct StepQuizView: View {
             presentResetCodePermissionAlert()
         case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
             presentProblemsLimitReachedModal(
-                modalData: showProblemsLimitReachedModalViewAction.modalData
+                params: ProblemsLimitReachedModalFeatureParams(
+                    subscription: showProblemsLimitReachedModalViewAction.subscription,
+                    profile: showProblemsLimitReachedModalViewAction.profile,
+                    stepRoute: showProblemsLimitReachedModalViewAction.stepRoute
+                )
             )
         case .showProblemOnboardingModal(let showProblemOnboardingModalViewAction):
             presentProblemOnboardingModal(modalType: showProblemOnboardingModalViewAction.modalType)
         case .navigateTo(let viewActionNavigateTo):
             switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
-            case .home:
-                stackRouter.popToRootViewController(
-                    animated: true,
-                    completion: {
-                        TabBarRouter(tab: .home).route()
-                    }
-                )
             case .stepScreen(let navigateToStepScreenViewAction):
                 let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
                 stackRouter.pushViewController(assembly.makeModule())
@@ -321,9 +318,6 @@ struct StepQuizView: View {
                         TabBarRouter(tab: .studyPlan).route()
                     }
                 )
-            case .paywall(let data):
-                let assembly = PaywallAssembly(source: data.paywallTransitionSource)
-                modalRouter.present(module: assembly.makeModule())
             }
         case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
             switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {
@@ -380,14 +374,9 @@ private extension StepQuizView {
         modalRouter.presentAlert(alert)
     }
 
-    func presentProblemsLimitReachedModal(modalData: StepQuizFeature.ProblemsLimitReachedModalData) {
-        let panModal = ProblemsLimitReachedModalViewController(
-            titleText: modalData.title,
-            descriptionText: modalData.description_,
-            unlockLimitsButtonText: modalData.unlockLimitsButtonText,
-            delegate: viewModel
-        )
-        panModalPresenter.presentPanModal(panModal)
+    func presentProblemsLimitReachedModal(params: ProblemsLimitReachedModalFeatureParams) {
+        let assembly = ProblemsLimitReachedModalAssembly(params: params)
+        panModalPresenter.presentIfPanModal(assembly.makeModule())
     }
 
     func presentProblemOnboardingModal(modalType: StepQuizFeatureProblemOnboardingModal) {

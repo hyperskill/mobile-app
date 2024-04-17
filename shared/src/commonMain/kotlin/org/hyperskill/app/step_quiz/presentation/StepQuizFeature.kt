@@ -3,7 +3,6 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
@@ -213,12 +212,8 @@ object StepQuizFeature {
             data class OpenUrl(val url: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object Home : NavigateTo
                 object StudyPlan : NavigateTo
-
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
-
-                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }

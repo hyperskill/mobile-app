@@ -34,6 +34,7 @@ class StepQuizTest {
                 stepsLimitTotal = 5
             )
     }
+
     @Test
     fun `When problems limit reached not blocks problem of the day and repeat solving`() {
         val step = Step.stub(id = 1)

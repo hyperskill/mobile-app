@@ -1,4 +1,4 @@
-package org.hyperskill.app.problems_limit_reached.domain
+package org.hyperskill.app.problems_limit_reached.domain.model
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.profile.domain.model.Profile

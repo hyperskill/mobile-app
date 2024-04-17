@@ -7,7 +7,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
-import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
+import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalActionDispatcher
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Action

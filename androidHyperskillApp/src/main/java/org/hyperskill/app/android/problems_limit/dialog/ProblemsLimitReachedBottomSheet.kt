@@ -23,7 +23,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
-import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
+import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Action.ViewAction
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.ViewState
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalViewModel

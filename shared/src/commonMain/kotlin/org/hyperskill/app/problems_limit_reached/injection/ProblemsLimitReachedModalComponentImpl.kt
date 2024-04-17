@@ -1,7 +1,7 @@
 package org.hyperskill.app.problems_limit_reached.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.problems_limit_reached.domain.ProblemsLimitReachedModalFeatureParams
+import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Action
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Message
 import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.ViewState
