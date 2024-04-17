@@ -13,6 +13,7 @@
         android:background="@color/color_background"
         app:contentInsetStartWithNavigation="0dp"
         app:navigationIcon="@drawable/ic_toolbar_back"
-        app:navigationIconTint="?colorControlNormal"/>
+        app:navigationIconTint="?colorControlNormal"
+        app:title=" "/>
 
 </com.google.android.material.appbar.AppBarLayout>
