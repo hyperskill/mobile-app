@@ -499,7 +499,7 @@
     <ID>TooManyFunctions:CodeEditor.kt$CodeEditor : AppCompatEditTextTextWatcher</ID>
     <ID>TooManyFunctions:CodeStepQuizFullScreenDialogFragment.kt$CodeStepQuizFullScreenDialogFragment : DialogFragment</ID>
     <ID>TooManyFunctions:DateTimeHelper.kt$DateTimeHelper</ID>
-    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewMenuProviderProblemOnboardingBottomSheetCallback</ID>
+    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewProblemOnboardingBottomSheetCallback</ID>
     <ID>TooManyFunctions:FillBlanksItemMapper.kt$FillBlanksItemMapper</ID>
     <ID>TooManyFunctions:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate : StepQuizFormDelegate</ID>
     <ID>TooManyFunctions:HyperskillSentryBreadcrumbBuilder.kt$HyperskillSentryBreadcrumbBuilder</ID>

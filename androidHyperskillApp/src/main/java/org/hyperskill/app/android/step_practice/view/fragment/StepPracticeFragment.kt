@@ -35,11 +35,9 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity)
-            .setSupportActionBar(viewBinding.stepPracticeAppBar.stepQuizToolbar.root)
-        with(viewBinding.stepPracticeAppBar.stepQuizToolbar) {
-            root.setNavigationOnClickListener {
-                requireRouter().exit()
-            }
+            .setSupportActionBar(viewBinding.stepPracticeAppBar.stepQuizToolbar)
+        viewBinding.stepPracticeAppBar.stepQuizToolbar.setNavigationOnClickListener {
+            requireRouter().exit()
         }
         initStepPracticeDescriptionFragment(step, stepRoute)
         initStepQuizFragment(step, stepRoute)
