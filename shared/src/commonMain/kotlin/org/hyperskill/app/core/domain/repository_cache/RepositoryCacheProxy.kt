@@ -58,6 +58,27 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
             cache.putAll(keyToRemoteValueMap)
         }
 
+    /**
+     * Put values to cache.
+     * It is safe to call this method in the concurrent environment.
+     *
+     * @param values describes values to put to cache.
+     */
+    suspend fun putValues(values: List<Value>) {
+        if (values.isEmpty()) return
+        return mutex.withLock {
+            val keyToValueMap: Map<Key, Value> = buildMap(values.size) {
+                values.forEach { value ->
+                    val key = getKeyFromValue(value)
+                    if (key != null) {
+                        set(key, value)
+                    }
+                }
+            }
+            cache.putAll(keyToValueMap)
+        }
+    }
+
     fun clearCache() {
         cache.clearCache()
     }

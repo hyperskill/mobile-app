@@ -71,6 +71,10 @@ internal class ProgressesRepositoryImpl(
     ): Result<List<ProjectProgress>> =
         projectProgressCacheProxy.getValues(projectsIds, forceLoadFromRemote)
 
+    override suspend fun putTopicsProgressesToCache(progresses: List<TopicProgress>) {
+        topicProgressesCacheProxy.putValues(progresses)
+    }
+
     override fun clearCache() {
         trackProgressCacheProxy.clearCache()
         topicProgressesCacheProxy.clearCache()

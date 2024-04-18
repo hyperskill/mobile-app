@@ -20,6 +20,7 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryActivi
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedSectionHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
+import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityToTopicProgressMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetReducer
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
@@ -1284,6 +1285,26 @@ class StudyPlanWidgetTest {
         )
     }
 
+    @Test
+    fun `Loaded activities progresses should be putted to cache`() {
+        val activities = List(10) { index ->
+            stubLearningActivity(
+                id = index.toLong(),
+                topicId = if (index % 2 == 0) index.toLong() else null
+            )
+        }
+
+        val expectedProgresses = activities.mapNotNull(LearningActivityToTopicProgressMapper::map)
+
+        val (_, actions) =
+            reducer.reduce(
+                StudyPlanWidgetFeature.State(),
+                StudyPlanWidgetFeature.LearningActivitiesFetchResult.Success(0, activities)
+            )
+
+        assertContains(actions, StudyPlanWidgetFeature.InternalAction.PutTopicsProgressesToCache(expectedProgresses))
+    }
+
     private fun sectionViewState(
         section: StudyPlanSection,
         content: StudyPlanWidgetViewState.SectionContent,
@@ -1333,6 +1354,7 @@ class StudyPlanWidgetTest {
         title: String = "",
         description: String? = null,
         isIdeRequired: Boolean = false,
+        progress: Float = 0f,
         topicId: Long? = null
     ) =
         LearningActivity(
@@ -1344,6 +1366,7 @@ class StudyPlanWidgetTest {
             title = title,
             description = description,
             isIdeRequired = isIdeRequired,
+            progress = progress,
             topicId = topicId
         )
 

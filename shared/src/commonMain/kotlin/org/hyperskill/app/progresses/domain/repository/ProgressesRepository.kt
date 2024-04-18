@@ -27,5 +27,7 @@ interface ProgressesRepository {
             getProjectsProgresses(listOf(projectId), forceLoadFromRemote).getOrThrow().first()
         }
 
+    suspend fun putTopicsProgressesToCache(progresses: List<TopicProgress>)
+
     fun clearCache()
 }

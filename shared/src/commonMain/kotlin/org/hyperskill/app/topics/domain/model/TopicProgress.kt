@@ -6,8 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TopicProgress(
-    @SerialName("id")
-    val id: String,
     @SerialName("vid")
     val vid: String,
     @SerialName("is_completed")
