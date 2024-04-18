@@ -129,7 +129,7 @@ class StepCompletionActionDispatcher(
         onNewMessage: (Message) -> Unit
     ) {
         val topicProgress = progressesInteractor
-            .getTopicProgress(action.topicId)
+            .getTopicProgress(action.topicId, forceLoadFromRemote = true)
             .getOrElse {
                 return onNewMessage(
                     Message.CheckTopicCompletionStatus.Error(

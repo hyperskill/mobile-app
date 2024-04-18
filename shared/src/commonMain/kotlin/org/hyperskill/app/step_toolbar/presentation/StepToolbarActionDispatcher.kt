@@ -15,7 +15,7 @@ class StepToolbarActionDispatcher(
         when (action) {
             is StepToolbarFeature.InternalAction.FetchTopicProgress -> {
                 val message = progressesInteractor
-                    .getTopicProgress(action.topicId)
+                    .getTopicProgress(action.topicId, forceLoadFromRemote = false)
                     .fold(
                         onSuccess = { InternalMessage.FetchTopicProgressSuccess(it) },
                         onFailure = { InternalMessage.FetchTopicProgressError }

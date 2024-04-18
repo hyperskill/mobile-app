@@ -10,11 +10,11 @@ interface ProgressesRepository {
     suspend fun getTrackProgress(trackId: Long, forceLoadFromRemote: Boolean): Result<TrackProgress?> =
         getTracksProgresses(listOf(trackId), forceLoadFromRemote).map { it.firstOrNull() }
 
-    suspend fun getTopicsProgresses(topicsIds: List<Long>): Result<List<TopicProgress>>
+    suspend fun getTopicsProgresses(topicsIds: List<Long>, forceLoadFromRemote: Boolean): Result<List<TopicProgress>>
 
-    suspend fun getTopicProgress(topicId: Long): Result<TopicProgress> =
+    suspend fun getTopicProgress(topicId: Long, forceLoadFromRemote: Boolean): Result<TopicProgress> =
         kotlin.runCatching {
-            getTopicsProgresses(listOf(topicId)).getOrThrow().first()
+            getTopicsProgresses(listOf(topicId), forceLoadFromRemote).getOrThrow().first()
         }
 
     suspend fun getProjectsProgresses(
