@@ -1,11 +1,11 @@
-package org.hyperskill.app.problems_limit_reached.presentation
+package org.hyperskill.app.problems_limit_info.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
-object ProblemsLimitReachedModalFeature {
+object ProblemsLimitInfoModalFeature {
     data class State(
         val subscription: Subscription,
         val profile: Profile

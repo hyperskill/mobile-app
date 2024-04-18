@@ -298,7 +298,7 @@ struct StepQuizView: View {
             presentResetCodePermissionAlert()
         case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
             presentProblemsLimitReachedModal(
-                params: ProblemsLimitReachedModalFeatureParams(
+                params: ProblemsLimitInfoModalFeatureParams(
                     subscription: showProblemsLimitReachedModalViewAction.subscription,
                     profile: showProblemsLimitReachedModalViewAction.profile,
                     stepRoute: showProblemsLimitReachedModalViewAction.stepRoute
@@ -337,7 +337,7 @@ struct StepQuizView: View {
             WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
         case .hideProblemsLimitReachedModal:
             panModalPresenter.dismissPanModal(
-                condition: { ($0 as? ProblemsLimitReachedModalViewController) != nil }
+                condition: { ($0 as? ProblemsLimitInfoModalViewController) != nil }
             )
         }
     }
@@ -374,8 +374,8 @@ private extension StepQuizView {
         modalRouter.presentAlert(alert)
     }
 
-    func presentProblemsLimitReachedModal(params: ProblemsLimitReachedModalFeatureParams) {
-        let assembly = ProblemsLimitReachedModalAssembly(params: params)
+    func presentProblemsLimitReachedModal(params: ProblemsLimitInfoModalFeatureParams) {
+        let assembly = ProblemsLimitInfoModalAssembly(params: params)
         panModalPresenter.presentIfPanModal(assembly.makeModule())
     }
 

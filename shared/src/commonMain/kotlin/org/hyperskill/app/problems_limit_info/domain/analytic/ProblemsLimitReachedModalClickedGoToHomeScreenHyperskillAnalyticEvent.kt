@@ -1,4 +1,4 @@
-package org.hyperskill.app.problems_limit_reached.domain.analytic
+package org.hyperskill.app.problems_limit_info.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Go to homescreen" button in problems limit reached modal analytic event.
+ * Represents click on the "Go to homescreen" button in problems limit info modal analytic event.
  *
  * JSON payload:
  * ```

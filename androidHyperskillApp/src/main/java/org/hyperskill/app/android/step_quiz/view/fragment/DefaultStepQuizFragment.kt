@@ -28,7 +28,7 @@ import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
-import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitReachedBottomSheet
+import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.screen.StepScreen
@@ -41,7 +41,7 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
-import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -274,18 +274,18 @@ abstract class DefaultStepQuizFragment :
                 requestResetCodeActionPermission()
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
-                ProblemsLimitReachedBottomSheet
+                ProblemsLimitInfoBottomSheet
                     .newInstance(
-                        ProblemsLimitReachedModalFeatureParams(
+                        ProblemsLimitInfoModalFeatureParams(
                             action.subscription,
                             action.profile,
                             action.stepRoute
                         )
                     )
-                    .showIfNotExists(childFragmentManager, ProblemsLimitReachedBottomSheet.TAG)
+                    .showIfNotExists(childFragmentManager, ProblemsLimitInfoBottomSheet.TAG)
             }
             StepQuizFeature.Action.ViewAction.HideProblemsLimitReachedModal -> {
-                childFragmentManager.dismissDialogFragmentIfExists(ProblemsLimitReachedBottomSheet.TAG)
+                childFragmentManager.dismissDialogFragmentIfExists(ProblemsLimitInfoBottomSheet.TAG)
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemOnboardingModal -> {
                 ProblemsOnboardingBottomSheetFactory

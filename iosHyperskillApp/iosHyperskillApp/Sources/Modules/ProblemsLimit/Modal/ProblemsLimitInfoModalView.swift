@@ -2,7 +2,7 @@ import shared
 import SnapKit
 import UIKit
 
-extension ProblemsLimitReachedModalView {
+extension ProblemsLimitInfoModalView {
     struct Appearance {
         let backgroundColor = UIColor.systemBackground
 
@@ -15,7 +15,7 @@ extension ProblemsLimitReachedModalView {
     }
 }
 
-final class ProblemsLimitReachedModalView: UIView {
+final class ProblemsLimitInfoModalView: UIView {
     let appearance: Appearance
 
     private lazy var contentStackView: UIStackView = {
@@ -114,7 +114,7 @@ final class ProblemsLimitReachedModalView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func renderState(_ state: ProblemsLimitReachedModalFeature.ViewState) {
+    func renderState(_ state: ProblemsLimitInfoModalFeature.ViewState) {
         titleLabel.text = state.title
         descriptionLabel.text = state.description_
 
@@ -139,7 +139,7 @@ final class ProblemsLimitReachedModalView: UIView {
     }
 }
 
-extension ProblemsLimitReachedModalView: ProgrammaticallyInitializableViewProtocol {
+extension ProblemsLimitInfoModalView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
         backgroundColor = appearance.backgroundColor
     }
@@ -196,9 +196,9 @@ extension ProblemsLimitReachedModalView: ProgrammaticallyInitializableViewProtoc
 #if DEBUG
 @available(iOS 17, *)
 #Preview {
-    let view = ProblemsLimitReachedModalView()
+    let view = ProblemsLimitInfoModalView()
     view.renderState(
-        ProblemsLimitReachedModalFeature.ViewState(
+        ProblemsLimitInfoModalFeature.ViewState(
             title: "Title text",
             description: "Description text",
             unlockLimitsButtonText: nil
@@ -209,9 +209,9 @@ extension ProblemsLimitReachedModalView: ProgrammaticallyInitializableViewProtoc
 
 @available(iOS 17, *)
 #Preview {
-    let view = ProblemsLimitReachedModalView()
+    let view = ProblemsLimitInfoModalView()
     view.renderState(
-        ProblemsLimitReachedModalFeature.ViewState(
+        ProblemsLimitInfoModalFeature.ViewState(
             title: "Title text",
             description: "Description text",
             unlockLimitsButtonText: "Unlock limits button text"

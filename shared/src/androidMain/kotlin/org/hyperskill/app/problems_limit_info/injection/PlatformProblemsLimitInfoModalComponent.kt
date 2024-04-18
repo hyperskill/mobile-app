@@ -1,7 +1,7 @@
-package org.hyperskill.app.problems_limit_reached.injection
+package org.hyperskill.app.problems_limit_info.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 
-interface PlatformProblemsLimitReachedModalComponent {
+interface PlatformProblemsLimitInfoModalComponent {
     val reduxViewModelFactory: ReduxViewModelFactory
 }

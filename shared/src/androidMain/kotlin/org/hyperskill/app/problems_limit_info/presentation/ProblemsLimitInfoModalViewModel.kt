@@ -1,12 +1,12 @@
-package org.hyperskill.app.problems_limit_reached.presentation
+package org.hyperskill.app.problems_limit_info.presentation
 
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Action.ViewAction
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Message
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.ViewState
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.Action.ViewAction
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.Message
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.ViewState
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
 
-class ProblemsLimitReachedModalViewModel(
+class ProblemsLimitInfoModalViewModel(
     viewContainer: ReduxViewContainer<ViewState, Message, ViewAction>
 ) : ReduxViewModel<ViewState, Message, ViewAction>(viewContainer) {
     fun onShownEvent() {

@@ -2,29 +2,29 @@ import PanModal
 import shared
 import UIKit
 
-final class ProblemsLimitReachedModalViewController: PanModalPresentableViewController {
-    private let viewModel: ProblemsLimitReachedModalViewModel
+final class ProblemsLimitInfoModalViewController: PanModalPresentableViewController {
+    private let viewModel: ProblemsLimitInfoModalViewModel
 
-    var problemsLimitReachedModalView: ProblemsLimitReachedModalView? { view as? ProblemsLimitReachedModalView }
+    var problemsLimitInfoModalView: ProblemsLimitInfoModalView? { view as? ProblemsLimitInfoModalView }
 
     override var shortFormHeight: PanModalHeight { .contentHeight(view.intrinsicContentSize.height) }
 
     override var longFormHeight: PanModalHeight { shortFormHeight }
 
-    init(viewModel: ProblemsLimitReachedModalViewModel) {
+    init(viewModel: ProblemsLimitInfoModalViewModel) {
         self.viewModel = viewModel
         super.init()
     }
 
     override func loadView() {
-        let view = ProblemsLimitReachedModalView()
+        let view = ProblemsLimitInfoModalView()
         self.view = view
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        problemsLimitReachedModalView?.renderState(viewModel.state)
+        problemsLimitInfoModalView?.renderState(viewModel.state)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -55,11 +55,11 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
     // MARK: Private API
 
     private func setup() {
-        problemsLimitReachedModalView?.onUnlockLimitsButtonTap = { [weak self] in
+        problemsLimitInfoModalView?.onUnlockLimitsButtonTap = { [weak self] in
             FeedbackGenerator(feedbackType: .selection).triggerFeedback()
             self?.viewModel.doUnlockUnlimitedProblems()
         }
-        problemsLimitReachedModalView?.onGoToHomescreenButtonTap = { [weak self] in
+        problemsLimitInfoModalView?.onGoToHomescreenButtonTap = { [weak self] in
             FeedbackGenerator(feedbackType: .selection).triggerFeedback()
             self?.viewModel.doGoToHomeScreen()
         }
@@ -67,17 +67,17 @@ final class ProblemsLimitReachedModalViewController: PanModalPresentableViewCont
         viewModel.onViewAction = handleViewAction(_:)
     }
 
-    private func handleViewAction(_ viewAction: ProblemsLimitReachedModalFeatureActionViewAction) {
-        switch ProblemsLimitReachedModalFeatureActionViewActionKs(viewAction) {
+    private func handleViewAction(_ viewAction: ProblemsLimitInfoModalFeatureActionViewAction) {
+        switch ProblemsLimitInfoModalFeatureActionViewActionKs(viewAction) {
         case .navigateTo(let navigateToViewAction):
             handleNavigateToViewAction(navigateToViewAction)
         }
     }
 
     private func handleNavigateToViewAction(
-        _ viewAction: ProblemsLimitReachedModalFeatureActionViewActionNavigateTo
+        _ viewAction: ProblemsLimitInfoModalFeatureActionViewActionNavigateTo
     ) {
-        switch ProblemsLimitReachedModalFeatureActionViewActionNavigateToKs(viewAction) {
+        switch ProblemsLimitInfoModalFeatureActionViewActionNavigateToKs(viewAction) {
         case .home:
             dismiss(animated: true) {
                 SourcelessRouter().currentNavigation?.popToRootViewController(animated: true) {

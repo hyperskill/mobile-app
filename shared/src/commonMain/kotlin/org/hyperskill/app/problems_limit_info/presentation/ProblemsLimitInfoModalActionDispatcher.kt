@@ -1,13 +1,13 @@
-package org.hyperskill.app.problems_limit_reached.presentation
+package org.hyperskill.app.problems_limit_info.presentation
 
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Action
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.InternalAction
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.Message
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.Action
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.InternalAction
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.Message
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
-internal class ProblemsLimitReachedModalActionDispatcher(
+internal class ProblemsLimitInfoModalActionDispatcher(
     config: ActionDispatcherOptions,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {

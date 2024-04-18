@@ -1,4 +1,4 @@
-package org.hyperskill.app.problems_limit_reached.domain.analytic
+package org.hyperskill.app.problems_limit_info.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,24 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Unlock unlimited problems" button in problems limit reached modal analytic event.
+ * Represents a hidden analytic event of the problems limit info modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "click",
+ *     "action": "hidden",
  *     "part": "problems_limit_reached_modal",
- *     "target": "unlock_unlimited_problems"
+ *     "target": "close"
  * }
  * ```
  * @see HyperskillAnalyticEvent
  */
-class ProblemsLimitReachedModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(
+class ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.PROBLEMS_LIMIT_REACHED_MODAL,
-    HyperskillAnalyticTarget.UNLOCK_UNLIMITED_PROBLEMS
+    HyperskillAnalyticTarget.CLOSE
 )

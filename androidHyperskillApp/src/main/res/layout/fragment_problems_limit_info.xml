@@ -34,7 +34,7 @@
         />
 
     <TextView
-        android:id="@+id/problemsLimitReachedModalTitle"
+        android:id="@+id/problems_limit_info_modal_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -45,7 +45,7 @@
         />
 
     <TextView
-        android:id="@+id/problemsLimitReachedDescription"
+        android:id="@+id/problems_limit_info_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -55,7 +55,7 @@
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/problems_limit_reached_unlimited_problems_button"
+        android:id="@+id/problems_limit_info_unlimited_problems_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.AppTheme.Button"
@@ -67,7 +67,7 @@
         />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/problemsLimitReachedHomeButton"
+        android:id="@+id/problems_limit_info_home_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/Widget.AppTheme.Button.OutlinedButton"

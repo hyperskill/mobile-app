@@ -1,16 +1,16 @@
-package org.hyperskill.app.problems_limit_reached.view
+package org.hyperskill.app.problems_limit_info.view
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.State
-import org.hyperskill.app.problems_limit_reached.presentation.ProblemsLimitReachedModalFeature.ViewState
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.State
+import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.ViewState
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
 
-internal class ProblemsLimitReachedModalViewStateMapper(
+internal class ProblemsLimitInfoModalViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
     fun map(state: State): ViewState {
