@@ -16,6 +16,7 @@ import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.request_review.domain.interactor.RequestReviewInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
+import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.share_streak.domain.interactor.ShareStreakInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
@@ -26,6 +27,8 @@ import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
+import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalMessage
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
@@ -60,51 +63,22 @@ class StepCompletionActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchNextRecommendedStep -> {
-                val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepCompletionNextStepLoading()
-                sentryInteractor.startTransaction(sentryTransaction)
-
-                val message = stepInteractor
-                    .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
-                    .fold(
-                        onSuccess = {
-                            sentryInteractor.finishTransaction(sentryTransaction)
-                            Message.FetchNextRecommendedStepResult.Success(
-                                StepRoute.Learn.Step(it.id, it.topic)
-                            )
-                        },
-                        onFailure = {
-                            sentryInteractor.finishTransaction(sentryTransaction, throwable = it)
-                            Message.FetchNextRecommendedStepResult.Error(
-                                when (action.currentStep.type) {
-                                    Step.Type.THEORY ->
-                                        resourceProvider.getString(
-                                            SharedResources.strings.step_theory_failed_to_start_practicing
-                                        )
-                                    Step.Type.PRACTICE ->
-                                        resourceProvider.getString(
-                                            SharedResources.strings.step_theory_failed_to_continue_practicing
-                                        )
-                                }
-                            )
-                        }
-                    )
-
-                onNewMessage(message)
+            is InternalAction.FetchNextRecommendedStep -> {
+                handleFetchNextRecommendedStepAction(action, ::onNewMessage)
             }
-            is Action.CheckTopicCompletionStatus -> {
+            is InternalAction.CheckTopicCompletionStatus -> {
                 handleCheckTopicCompletionStatusAction(action, ::onNewMessage)
             }
-            is Action.UpdateProblemsLimit -> {
+            is InternalAction.UpdateProblemsLimit -> {
                 subscriptionsInteractor.chargeProblemsLimits(action.chargeStrategy)
             }
-            is Action.UpdateLastTimeShareStreakShown -> {
+            is InternalAction.UpdateLastTimeShareStreakShown -> {
                 shareStreakInteractor.setLastTimeShareStreakShown()
             }
-            is Action.LogAnalyticEvent -> {
+            is InternalAction.LogAnalyticEvent -> {
                 analyticInteractor.logEvent(action.analyticEvent)
             }
-            is Action.LogTopicCompletedAnalyticEvent -> {
+            is InternalAction.LogTopicCompletedAnalyticEvent -> {
                 val trackTitle = currentProfileStateRepository
                     .getState(forceUpdate = false)
                     .map { it.trackTitle }
@@ -124,8 +98,38 @@ class StepCompletionActionDispatcher(
         }
     }
 
+    private suspend fun handleFetchNextRecommendedStepAction(
+        action: InternalAction.FetchNextRecommendedStep,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            HyperskillSentryTransactionBuilder.buildStepCompletionNextStepLoading(),
+            onError = {
+                InternalMessage.FetchNextRecommendedStepError(
+                    when (action.currentStep.type) {
+                        Step.Type.THEORY ->
+                            resourceProvider.getString(
+                                SharedResources.strings.step_theory_failed_to_start_practicing
+                            )
+                        Step.Type.PRACTICE ->
+                            resourceProvider.getString(
+                                SharedResources.strings.step_theory_failed_to_continue_practicing
+                            )
+                    }
+                )
+            }
+        ) {
+            val nextRecommendedStep = stepInteractor
+                .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
+                .getOrThrow()
+            InternalMessage.FetchNextRecommendedStepSuccess(
+                StepRoute.Learn.Step(nextRecommendedStep.id, nextRecommendedStep.topic)
+            )
+        }.let(onNewMessage)
+    }
+
     private suspend fun handleCheckTopicCompletionStatusAction(
-        action: Action.CheckTopicCompletionStatus,
+        action: InternalAction.CheckTopicCompletionStatus,
         onNewMessage: (Message) -> Unit
     ) {
         val topicProgress = progressesInteractor
@@ -183,7 +187,7 @@ class StepCompletionActionDispatcher(
 
     private suspend fun handleStepSolved(stepId: Long) {
         // update problems limit
-        onNewMessage(Message.StepSolved(stepId))
+        onNewMessage(InternalMessage.StepSolved(stepId))
 
         // We should load cached and current profile to update hypercoins balance in case of
         // requesting study reminders permission
