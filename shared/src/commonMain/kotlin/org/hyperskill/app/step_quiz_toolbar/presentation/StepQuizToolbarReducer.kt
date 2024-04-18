@@ -1,5 +1,7 @@
 package org.hyperskill.app.step_quiz_toolbar.presentation
 
+import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz_toolbar.domain.analytic.StepQuizToolbarLimitClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Message
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.State
@@ -7,7 +9,9 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias StepQuizToolbarReducerResult = Pair<State, Set<Action>>
 
-class StepQuizToolbarReducer : StateReducer<State, Message, Action> {
+class StepQuizToolbarReducer(
+    private val stepRoute: StepRoute
+) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StepQuizToolbarReducerResult =
         when (message) {
             Message.Initialize -> handleInitialization(state)
@@ -44,5 +48,9 @@ class StepQuizToolbarReducer : StateReducer<State, Message, Action> {
         }
 
     private fun handleProblemsLimitClicked(state: State): StepQuizToolbarReducerResult =
-        state to setOf()
+        state to setOf(
+            StepQuizToolbarFeature.InternalAction.LogAnalyticEvent(
+                StepQuizToolbarLimitClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+            )
+        )
 }

@@ -47,7 +47,7 @@ internal class StepQuizComponentImpl(
         appGraph.buildStepQuizHintsComponent(stepRoute)
 
     private val stepQuizToolbarComponent: StepQuizToolbarComponent =
-        appGraph.buildStepQuizToolbarComponent()
+        appGraph.buildStepQuizToolbarComponent(stepRoute)
 
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() = StepQuizFeatureBuilder.build(
