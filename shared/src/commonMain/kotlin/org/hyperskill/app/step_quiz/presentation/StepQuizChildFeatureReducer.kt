@@ -10,6 +10,8 @@ internal class StepQuizChildFeatureReducer(
     private val stepQuizHintsReducer: StepQuizHintsReducer
 ) {
 
+    companion object
+
     fun reduce(
         state: StepQuizFeature.State,
         message: StepQuizFeature.ChildFeatureMessage
