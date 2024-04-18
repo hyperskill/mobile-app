@@ -5,17 +5,31 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
+import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 
 object StepFeature {
-    sealed interface State {
-        object Idle : State
-        object Loading : State
-        object Error : State
+    data class State(
+        val stepState: StepState,
+        val stepToolbarState: StepToolbarFeature.State
+    )
+
+    internal fun initialState() =
+        State(StepState.Idle, StepToolbarFeature.State.Idle)
+
+    data class ViewState(
+        val stepState: StepState,
+        val stepToolbarViewState: StepToolbarFeature.ViewState
+    )
+
+    sealed interface StepState {
+        object Idle : StepState
+        object Loading : StepState
+        object Error : StepState
         data class Data(
             val step: Step,
             val isPracticingAvailable: Boolean,
             val stepCompletionState: StepCompletionFeature.State
-        ) : State
+        ) : StepState
     }
 
     sealed interface Message {
@@ -33,6 +47,8 @@ object StepFeature {
          * Message Wrappers
          */
         data class StepCompletionMessage(val message: StepCompletionFeature.Message) : Message
+
+        data class StepToolbarMessage(val message: StepToolbarFeature.Message) : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -45,6 +61,10 @@ object StepFeature {
         sealed interface ViewAction : Action {
             data class StepCompletionViewAction(
                 val viewAction: StepCompletionFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class StepToolbarViewAction(
+                val viewAction: StepToolbarFeature.Action.ViewAction
             ) : ViewAction
         }
     }
@@ -66,5 +86,7 @@ object StepFeature {
          * Action Wrappers
          */
         data class StepCompletionAction(val action: StepCompletionFeature.Action) : InternalAction
+
+        data class StepToolbarAction(val action: StepToolbarFeature.Action) : InternalAction
     }
 }

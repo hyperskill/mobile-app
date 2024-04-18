@@ -16,6 +16,8 @@ struct StepView: View {
             )
 
             buildBody()
+
+            let _ = renderStepToolbarViewState(viewModel.stepToolbarViewStateKs)
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
@@ -35,7 +37,7 @@ struct StepView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.stateKs {
+        switch viewModel.stepStateKs {
         case .idle, .loading:
             ProgressView()
         case .error:
@@ -55,7 +57,7 @@ struct StepView: View {
     }
 
     @ViewBuilder
-    private func buildContent(data: StepFeatureStateData) -> some View {
+    private func buildContent(data: StepFeatureStepStateData) -> some View {
         switch data.step.type {
         case Step.Type_.theory:
             let startPracticingButton: StepTheoryContentView.StartPracticingButton? = {
@@ -91,10 +93,23 @@ struct StepView: View {
         }
     }
 
+    private func renderStepToolbarViewState(_ stepToolbarViewState: StepToolbarFeatureViewStateKs) {
+        switch stepToolbarViewState {
+        case .idle, .loading:
+            break
+        case .error:
+            stackRouter.rootViewController?.styledNavigationController?.hideProgress()
+        case .content(let data):
+            stackRouter.rootViewController?.styledNavigationController?.setProgress(data.progress, animated: true)
+        }
+    }
+
     private func handleViewAction(_ viewAction: StepFeatureActionViewAction) {
         switch StepFeatureActionViewActionKs(viewAction) {
         case .stepCompletionViewAction(let stepCompletionViewAction):
             handleStepCompletionViewAction(stepCompletionViewAction.viewAction)
+        case .stepToolbarViewAction:
+            break
         }
     }
 
@@ -194,7 +209,7 @@ private extension StepView {
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            StepAssembly(stepRoute: StepRouteLearnStep(stepId: 4350)).makeModule()
+            StepAssembly(stepRoute: StepRouteLearnStep(stepId: 4350, topicId: nil)).makeModule()
         }
     }
 }

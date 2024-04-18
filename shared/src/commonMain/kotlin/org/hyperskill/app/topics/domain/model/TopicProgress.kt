@@ -10,18 +10,12 @@ data class TopicProgress(
     val id: String,
     @SerialName("vid")
     val vid: String,
-    @SerialName("stage_position")
-    val stagePosition: Int? = null,
-    @SerialName("repeated_count")
-    val repeatedCount: Int? = null,
     @SerialName("is_completed")
     val isCompleted: Boolean,
     @SerialName("is_skipped")
     val isSkipped: Boolean,
     @SerialName("capacity")
-    val capacity: Float? = null,
-    @SerialName("is_in_current_track")
-    val isInCurrentTrack: Boolean
+    val capacity: Float? = null
 )
 
 val TopicProgress.topicId: Long?

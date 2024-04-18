@@ -69,7 +69,9 @@ class StepCompletionActionDispatcher(
                     .fold(
                         onSuccess = {
                             sentryInteractor.finishTransaction(sentryTransaction)
-                            Message.FetchNextRecommendedStepResult.Success(StepRoute.Learn.Step(it.id))
+                            Message.FetchNextRecommendedStepResult.Success(
+                                StepRoute.Learn.Step(it.id, it.topic)
+                            )
                         },
                         onFailure = {
                             sentryInteractor.finishTransaction(sentryTransaction, throwable = it)

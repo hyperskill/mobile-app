@@ -28,7 +28,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class StepFragment :
     Fragment(R.layout.fragment_step),
-    ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
+    ReduxView<StepFeature.StepState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback {
 
@@ -48,7 +48,7 @@ class StepFragment :
 
     private val viewBinding: FragmentStepBinding by viewBinding(FragmentStepBinding::bind)
     private val stepViewModel: StepViewModel by reduxViewModel(this) { viewModelFactory }
-    private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
+    private var viewStateDelegate: ViewStateDelegate<StepFeature.StepState>? = null
     private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     private val mainScreenRouter: MainScreenRouter =
@@ -76,11 +76,11 @@ class StepFragment :
     }
 
     private fun initViewStateDelegate() {
-        viewStateDelegate = ViewStateDelegate<StepFeature.State>().apply {
-            addState<StepFeature.State.Idle>()
-            addState<StepFeature.State.Loading>(viewBinding.stepProgress)
-            addState<StepFeature.State.Error>(viewBinding.stepError.root)
-            addState<StepFeature.State.Data>(viewBinding.stepContainer)
+        viewStateDelegate = ViewStateDelegate<StepFeature.StepState>().apply {
+            addState<StepFeature.StepState.Idle>()
+            addState<StepFeature.StepState.Loading>(viewBinding.stepProgress)
+            addState<StepFeature.StepState.Error>(viewBinding.stepError.root)
+            addState<StepFeature.StepState.Data>(viewBinding.stepContainer)
         }
     }
 
@@ -91,16 +91,16 @@ class StepFragment :
         )
     }
 
-    override fun render(state: StepFeature.State) {
+    override fun render(state: StepFeature.StepState) {
         viewStateDelegate?.switchState(state)
-        if (state is StepFeature.State.Data) {
+        if (state is StepFeature.StepState.Data) {
             initStepContainer(state)
             (childFragmentManager.findFragmentByTag(STEP_TAG) as? StepCompletionView)
                 ?.render(state.stepCompletionState.isPracticingLoading)
         }
     }
 
-    private fun initStepContainer(data: StepFeature.State.Data) {
+    private fun initStepContainer(data: StepFeature.StepState.Data) {
         setChildFragment(R.id.stepContainer, STEP_TAG) {
             if (data.step.type == Step.Type.PRACTICE) {
                 StepPracticeFragment.newInstance(data.step, stepRoute)

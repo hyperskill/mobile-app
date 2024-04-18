@@ -25,11 +25,13 @@ final class StyledNavigationController: UINavigationController {
 
 extension StyledNavigationController {
     func setProgress(_ progress: Float, animated: Bool) {
-        Thread.dispatchOnMainThread {
-            self.progressView.setHidden(false, animated: animated) {
-                self.progressView.setProgress(progress, animated: animated)
-            }
+        progressView.setHidden(false, animated: animated) { [weak progressView] in
+            progressView?.setProgress(progress, animated: animated)
         }
+    }
+
+    func hideProgress() {
+        progressView.setHidden(true, animated: true)
     }
 
     private func setupProgressView() {

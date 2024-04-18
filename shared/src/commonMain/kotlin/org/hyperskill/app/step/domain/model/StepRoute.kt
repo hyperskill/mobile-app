@@ -8,6 +8,7 @@ sealed interface StepRoute {
     val analyticRoute: HyperskillAnalyticRoute
     val stepContext: StepContext
     val stepId: Long
+    val topicId: Long?
 
     @Serializable
     sealed interface Learn : StepRoute {
@@ -18,17 +19,29 @@ sealed interface StepRoute {
             get() = StepContext.DEFAULT
 
         @Serializable
-        data class Step(override val stepId: Long) : Learn
+        data class Step(
+            override val stepId: Long,
+            override val topicId: Long?
+        ) : Learn
 
         @Serializable
-        data class TheoryOpenedFromPractice(override val stepId: Long) : Learn
+        data class TheoryOpenedFromPractice(
+            override val stepId: Long,
+            override val topicId: Long? = null
+        ) : Learn
 
         @Serializable
-        data class TheoryOpenedFromSearch(override val stepId: Long) : Learn
+        data class TheoryOpenedFromSearch(
+            override val stepId: Long,
+            override val topicId: Long? = null
+        ) : Learn
     }
 
     @Serializable
-    data class LearnDaily(override val stepId: Long) : StepRoute {
+    data class LearnDaily(
+        override val stepId: Long,
+        override val topicId: Long? = null
+    ) : StepRoute {
         override val analyticRoute: HyperskillAnalyticRoute
             get() = HyperskillAnalyticRoute.Learn.Daily(stepId)
 
@@ -42,13 +55,19 @@ sealed interface StepRoute {
             get() = StepContext.REPETITION
 
         @Serializable
-        data class Practice(override val stepId: Long) : Repeat {
+        data class Practice(
+            override val stepId: Long,
+            override val topicId: Long? = null
+        ) : Repeat {
             override val analyticRoute: HyperskillAnalyticRoute
                 get() = HyperskillAnalyticRoute.Repeat.Step(stepId)
         }
 
         @Serializable
-        data class Theory(override val stepId: Long) : Repeat {
+        data class Theory(
+            override val stepId: Long,
+            override val topicId: Long? = null
+        ) : Repeat {
             override val analyticRoute: HyperskillAnalyticRoute
                 get() = HyperskillAnalyticRoute.Repeat.Step.Theory(stepId)
         }
@@ -59,6 +78,7 @@ sealed interface StepRoute {
         override val stepId: Long,
         val projectId: Long,
         val stageId: Long,
+        override val topicId: Long? = null
     ) : StepRoute {
         override val analyticRoute: HyperskillAnalyticRoute
             get() = HyperskillAnalyticRoute.Projects.Stages.Implement(projectId, stageId)

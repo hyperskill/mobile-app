@@ -39,7 +39,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 @Deprecated("Should not be used directly, only via StageImplementationFragment")
 class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
-    ReduxView<StepFeature.State, StepFeature.Action.ViewAction>,
+    ReduxView<StepFeature.StepState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback {
 
@@ -70,7 +70,7 @@ class StageStepWrapperFragment :
 
     private val viewBinding: FragmentStageStepWrapperBinding by viewBinding(FragmentStageStepWrapperBinding::bind)
 
-    private var viewStateDelegate: ViewStateDelegate<StepFeature.State>? = null
+    private var viewStateDelegate: ViewStateDelegate<StepFeature.StepState>? = null
 
     @Suppress("DEPRECATION")
     private var stepDelegate: StepDelegate<StageStepWrapperFragment>? = null
@@ -92,11 +92,11 @@ class StageStepWrapperFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewStateDelegate = ViewStateDelegate<StepFeature.State>().apply {
-            addState<StepFeature.State.Idle>()
-            addState<StepFeature.State.Loading>(viewBinding.stageImplementationProgress)
-            addState<StepFeature.State.Error>(viewBinding.stageImplementationError.root)
-            addState<StepFeature.State.Data>(
+        viewStateDelegate = ViewStateDelegate<StepFeature.StepState>().apply {
+            addState<StepFeature.StepState.Idle>()
+            addState<StepFeature.StepState.Loading>(viewBinding.stageImplementationProgress)
+            addState<StepFeature.StepState.Error>(viewBinding.stageImplementationError.root)
+            addState<StepFeature.StepState.Data>(
                 viewBinding.stageImplementationAppBar.root,
                 viewBinding.stagePracticeContainer
             )
@@ -125,9 +125,9 @@ class StageStepWrapperFragment :
         stepDelegate = null
     }
 
-    override fun render(state: StepFeature.State) {
+    override fun render(state: StepFeature.StepState) {
         viewStateDelegate?.switchState(state)
-        if (state is StepFeature.State.Data) {
+        if (state is StepFeature.StepState.Data) {
             (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
                 ?.render(state.stepCompletionState.isPracticingLoading)
             initStepTheoryFragment(state.step, stepRoute)

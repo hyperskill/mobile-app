@@ -36,7 +36,9 @@ internal object LearningActivityTargetViewActionMapper {
                 }
                 LearningActivityType.LEARN_TOPIC -> {
                     if (activity.targetId != null && activity.targetType == LearningActivityTargetType.STEP) {
-                        LearningActivityTargetViewAction.NavigateTo.Step(StepRoute.Learn.Step(activity.targetId))
+                        LearningActivityTargetViewAction.NavigateTo.Step(
+                            StepRoute.Learn.Step(activity.targetId, activity.topicId)
+                        )
                     } else {
                         throw LearningActivityTargetViewActionMapperException(
                             "LEARN_TOPIC action failed for activity = $activity"

@@ -149,7 +149,7 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
         Action.ViewAction.CompleteFirstProblemOnboarding(
             if (learningActivity?.targetType == LearningActivityTargetType.STEP) {
                 learningActivity.targetId?.let { stepId ->
-                    StepRoute.Learn.Step(stepId)
+                    StepRoute.Learn.Step(stepId, learningActivity.topicId)
                 }
             } else {
                 null
