@@ -3,6 +3,7 @@ package org.hyperskill.app.android.step_practice.view.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
@@ -11,11 +12,13 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepQuizToolbarHost
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 
-class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepCompletionView {
+class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepCompletionView, StepQuizToolbarHost {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
@@ -58,5 +61,13 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
     override fun render(isPracticingLoading: Boolean) {
         (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
             ?.render(isPracticingLoading)
+    }
+
+    override fun render(viewState: StepQuizToolbarFeature.ViewState) {
+        viewBinding.stepPracticeAppBar.stepQuizLimitsTextView.isVisible =
+            viewState is StepQuizToolbarFeature.ViewState.Content.Visible
+        if (viewState is StepQuizToolbarFeature.ViewState.Content.Visible) {
+            viewBinding.stepPracticeAppBar.stepQuizLimitsTextView.text = viewState.stepsLimitLabel
+        }
     }
 }
