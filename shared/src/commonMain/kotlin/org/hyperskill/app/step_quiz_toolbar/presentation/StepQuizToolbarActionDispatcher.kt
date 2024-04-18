@@ -47,7 +47,7 @@ class StepQuizToolbarActionDispatcher(
                     onNewMessage(InternalMessage.SubscriptionFetchSuccess(it))
                 },
                 onFailure = {
-                    logger.e(it) { "Failed to fetch subscription"}
+                    logger.e(it) { "Failed to fetch subscription" }
                     onNewMessage(InternalMessage.SubscriptionFetchError)
                 }
             )

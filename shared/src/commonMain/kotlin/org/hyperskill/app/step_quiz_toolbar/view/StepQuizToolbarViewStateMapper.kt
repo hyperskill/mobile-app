@@ -7,17 +7,17 @@ import org.hyperskill.app.subscriptions.domain.model.areProblemsLimited
 object StepQuizToolbarViewStateMapper {
 
     fun map(state: State): ViewState =
-       when (state) {
-           State.Idle -> ViewState.Idle
-           State.Loading -> ViewState.Loading
-           State.Error -> ViewState.Error
-           is State.Content -> {
-               val stepsLimitLeft = state.subscription.stepsLimitLeft
-               if (!state.subscription.areProblemsLimited || stepsLimitLeft == null) {
-                   ViewState.Content.Hidden
-               } else {
-                   ViewState.Content.Visible(stepsLimitLabel = stepsLimitLeft.toString())
-               }
-           }
-       }
+        when (state) {
+            State.Idle -> ViewState.Idle
+            State.Loading -> ViewState.Loading
+            State.Error -> ViewState.Error
+            is State.Content -> {
+                val stepsLimitLeft = state.subscription.stepsLimitLeft
+                if (!state.subscription.areProblemsLimited || stepsLimitLeft == null) {
+                    ViewState.Content.Hidden
+                } else {
+                    ViewState.Content.Visible(stepsLimitLabel = stepsLimitLeft.toString())
+                }
+            }
+        }
 }

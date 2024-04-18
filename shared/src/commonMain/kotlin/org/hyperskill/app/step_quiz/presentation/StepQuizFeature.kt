@@ -136,8 +136,6 @@ object StepQuizFeature {
         data class StepQuizToolbarMessage(val message: StepQuizToolbarFeature.Message) : Message, ChildFeatureMessage
     }
 
-
-
     internal sealed interface InternalMessage : Message {
         object FetchAttemptError : InternalMessage
         data class FetchAttemptSuccess(
