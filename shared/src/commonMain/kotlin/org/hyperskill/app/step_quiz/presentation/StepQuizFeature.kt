@@ -11,6 +11,7 @@ import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -19,7 +20,8 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 object StepQuizFeature {
     data class State(
         val stepQuizState: StepQuizState,
-        val stepQuizHintsState: StepQuizHintsFeature.State
+        val stepQuizHintsState: StepQuizHintsFeature.State,
+        val stepQuizToolbarState: StepQuizToolbarFeature.State
     )
 
     sealed interface StepQuizState {
@@ -57,6 +59,8 @@ object StepQuizFeature {
         @Serializable
         object GptCodeGenerationWithErrors : ProblemOnboardingModal
     }
+
+    internal sealed interface ChildFeatureMessage
 
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
@@ -128,8 +132,11 @@ object StepQuizFeature {
         /**
          * Message Wrappers
          */
-        data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message
+        data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message, ChildFeatureMessage
+        data class StepQuizToolbarMessage(val message: StepQuizToolbarFeature.Message) : Message, ChildFeatureMessage
     }
+
+
 
     internal sealed interface InternalMessage : Message {
         object FetchAttemptError : InternalMessage
@@ -184,6 +191,7 @@ object StepQuizFeature {
          * Action Wrappers
          */
         data class StepQuizHintsAction(val action: StepQuizHintsFeature.Action) : Action
+        data class StepQuizToolbarAction(val action: StepQuizToolbarFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
@@ -202,6 +210,10 @@ object StepQuizFeature {
 
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class StepQuizToolbarViewAction(
+                val viewAction: StepQuizToolbarFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface CreateMagicLinkState : ViewAction {

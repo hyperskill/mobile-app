@@ -69,6 +69,7 @@ import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
@@ -125,6 +126,7 @@ interface AppGraph {
     fun buildStepDataComponent(): StepDataComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent
+    fun buildStepQuizToolbarComponent(): StepQuizToolbarComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent
     fun buildStepTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent

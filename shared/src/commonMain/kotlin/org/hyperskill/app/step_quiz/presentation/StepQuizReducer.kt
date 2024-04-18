@@ -32,7 +32,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
-import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
@@ -45,7 +45,7 @@ internal typealias StepQuizReducerResult = Pair<State, Set<Action>>
 
 internal class StepQuizReducer(
     private val stepRoute: StepRoute,
-    private val stepQuizHintsReducer: StepQuizHintsReducer
+    private val stepQuizChildFeatureReducer: StepQuizChildFeatureReducer
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): StepQuizReducerResult =
         when (message) {
@@ -331,12 +331,9 @@ internal class StepQuizReducer(
             }
             Message.FixGptGeneratedCodeMistakesBadgeClickedQuestionMark ->
                 handleFixGptGeneratedCodeMistakesBadgeClickedQuestionMark(state)
+
             // Wrapper Messages
-            is Message.StepQuizHintsMessage -> {
-                val (stepQuizHintsState, stepQuizHintsActions) =
-                    reduceStepQuizHintsMessage(state.stepQuizHintsState, message.message)
-                state.copy(stepQuizHintsState = stepQuizHintsState) to stepQuizHintsActions
-            }
+            is StepQuizFeature.ChildFeatureMessage -> stepQuizChildFeatureReducer.reduce(state, message)
         } ?: (state to emptySet())
 
     private fun handleFetchAttemptSuccess(
@@ -436,7 +433,7 @@ internal class StepQuizReducer(
 
         val (stepQuizHintsState, stepQuizHintsActions) =
             if (StepQuizHintsFeature.isHintsFeatureAvailable(step = message.step)) {
-                reduceStepQuizHintsMessage(
+                stepQuizChildFeatureReducer.reduceStepQuizHintsMessage(
                     state.stepQuizHintsState,
                     StepQuizHintsFeature.Message.InitWithStepId(message.step.id)
                 )
@@ -444,10 +441,17 @@ internal class StepQuizReducer(
                 StepQuizHintsFeature.State.Idle to emptySet()
             }
 
+        val (stepQuizToolbarState, stepQuizToolbarActions) =
+            stepQuizChildFeatureReducer.reduceStepQuizToolbarMessage(
+                state.stepQuizToolbarState,
+                StepQuizToolbarFeature.Message.Initialize
+            )
+
         return state.copy(
             stepQuizState = stepQuizState,
-            stepQuizHintsState = stepQuizHintsState
-        ) to stepQuizActions + stepQuizHintsActions
+            stepQuizHintsState = stepQuizHintsState,
+            stepQuizToolbarState = stepQuizToolbarState
+        ) to stepQuizActions + stepQuizHintsActions + stepQuizToolbarActions
     }
 
     private fun handleUpdateProblemsLimitResult(
@@ -593,23 +597,4 @@ internal class StepQuizReducer(
             }
             else -> emptySet()
         }
-
-    private fun reduceStepQuizHintsMessage(
-        state: StepQuizHintsFeature.State,
-        message: StepQuizHintsFeature.Message
-    ): Pair<StepQuizHintsFeature.State, Set<Action>> {
-        val (stepQuizHintsState, stepQuizHintsActions) = stepQuizHintsReducer.reduce(state, message)
-
-        val actions = stepQuizHintsActions
-            .map {
-                if (it is StepQuizHintsFeature.Action.ViewAction) {
-                    Action.ViewAction.StepQuizHintsViewAction(it)
-                } else {
-                    Action.StepQuizHintsAction(it)
-                }
-            }
-            .toSet()
-
-        return stepQuizHintsState to actions
-    }
 }
