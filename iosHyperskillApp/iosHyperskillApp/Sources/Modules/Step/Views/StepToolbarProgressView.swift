@@ -45,17 +45,23 @@ final class StepToolbarProgressView: UIView {
         progressView.setProgress(progress, animated: animated)
     }
 
-    func setHidden(_ isHidden: Bool, animated: Bool, completion: (() -> Void)?) {
+    func setHidden(_ isHidden: Bool, animated: Bool, completion: (() -> Void)? = nil) {
+        let completionHandler: () -> Void = { [weak self] in
+            if isHidden {
+                self?.setProgress(0, animated: false)
+            }
+            completion?()
+        }
+
         // Check if the current hidden state already matches the desired state
         if self.isHidden == isHidden {
-            completion?()
-            return
+            return completionHandler()
         }
 
         if isHidden {
-            animateVisibility(shouldHide: true, animated: animated, completion: completion)
+            animateVisibility(shouldHide: true, animated: animated, completion: completionHandler)
         } else {
-            animateVisibility(shouldHide: false, animated: animated, completion: completion)
+            animateVisibility(shouldHide: false, animated: animated, completion: completionHandler)
         }
     }
 
