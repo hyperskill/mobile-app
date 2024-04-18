@@ -97,7 +97,7 @@ struct StepView: View {
         switch stepToolbarViewState {
         case .idle, .loading:
             break
-        case .error:
+        case .unavailable, .error:
             stackRouter.rootViewController?.styledNavigationController?.hideProgress()
         case .content(let data):
             stackRouter.rootViewController?.styledNavigationController?.setProgress(data.progress, animated: true)

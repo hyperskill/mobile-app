@@ -70,7 +70,7 @@ internal class StepReducer(
         val (stepToolbarState, stepToolbarActions) =
             reduceStepToolbarMessage(
                 state.stepToolbarState,
-                StepToolbarFeature.InternalMessage.Initialize(stepRoute.topicId)
+                StepToolbarFeature.InternalMessage.Initialize(stepRoute.topicId, message.forceUpdate)
             )
 
         return state.copy(
@@ -85,12 +85,24 @@ internal class StepReducer(
             isPracticingAvailable = isPracticingAvailable(stepRoute),
             stepCompletionState = StepCompletionFeature.createState(message.step, stepRoute)
         )
-        return state.copy(stepState = stepState) to buildSet {
+        val stepActions = buildSet {
             add(InternalAction.UpdateNextLearningActivityState(message.step))
             if (shouldLogStepSolvingTime(stepState)) {
                 add(InternalAction.StartSolvingTimer)
             }
         }
+
+        // Initialize step toolbar if no topic_id is provided in the step route
+        val (stepToolbarState, stepToolbarActions) =
+            reduceStepToolbarMessage(
+                state.stepToolbarState,
+                StepToolbarFeature.InternalMessage.Initialize(message.step.topic)
+            )
+
+        return state.copy(
+            stepState = stepState,
+            stepToolbarState = stepToolbarState
+        ) to stepActions + stepToolbarActions
     }
 
     private fun handleScreenShowed(state: State): ReducerResult =

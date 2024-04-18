@@ -1,10 +1,12 @@
 package org.hyperskill.app.step_toolbar.presentation
 
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.TopicProgress
 
 object StepToolbarFeature {
     sealed interface State {
         object Idle : State
+        object Unavailable : State
         object Loading : State
         object Error : State
         data class Content(
@@ -12,8 +14,16 @@ object StepToolbarFeature {
         ) : State
     }
 
+    internal fun initialState(stepRoute: StepRoute): State =
+        if (StepToolbarResolver.isProgressBarAvailable(stepRoute)) {
+            State.Idle
+        } else {
+            State.Unavailable
+        }
+
     sealed interface ViewState {
         object Idle : ViewState
+        object Unavailable : ViewState
         object Loading : ViewState
         object Error : ViewState
         data class Content(
@@ -24,7 +34,10 @@ object StepToolbarFeature {
     sealed interface Message
 
     internal sealed interface InternalMessage : Message {
-        data class Initialize(val topicId: Long?) : InternalMessage
+        data class Initialize(
+            val topicId: Long?,
+            val forceUpdate: Boolean = false
+        ) : InternalMessage
 
         object FetchTopicProgressError : InternalMessage
         data class FetchTopicProgressSuccess(val topicProgress: TopicProgress) : InternalMessage
@@ -35,6 +48,9 @@ object StepToolbarFeature {
     }
 
     internal sealed interface InternalAction : Action {
-        data class FetchTopicProgress(val topicId: Long) : InternalAction
+        data class FetchTopicProgress(
+            val topicId: Long,
+            val forceLoadFromRemote: Boolean
+        ) : InternalAction
     }
 }

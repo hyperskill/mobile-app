@@ -6,6 +6,7 @@ internal object StepToolbarViewStateMapper {
     fun map(state: StepToolbarFeature.State): StepToolbarFeature.ViewState =
         when (state) {
             StepToolbarFeature.State.Idle -> StepToolbarFeature.ViewState.Idle
+            StepToolbarFeature.State.Unavailable -> StepToolbarFeature.ViewState.Unavailable
             StepToolbarFeature.State.Error -> StepToolbarFeature.ViewState.Error
             StepToolbarFeature.State.Loading -> StepToolbarFeature.ViewState.Loading
             is StepToolbarFeature.State.Content ->

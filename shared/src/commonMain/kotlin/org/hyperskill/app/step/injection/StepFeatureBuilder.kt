@@ -65,7 +65,7 @@ internal object StepFeatureBuilder {
             logger.withTag(LOG_TAG)
         )
 
-        return ReduxFeature(StepFeature.initialState(), stepReducer)
+        return ReduxFeature(StepFeature.initialState(stepRoute), stepReducer)
             .transformState(StepViewStateMapper::map)
             .wrapWithActionDispatcher(stepActionDispatcher)
             .wrapWithActionDispatcher(

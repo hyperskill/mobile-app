@@ -13,8 +13,8 @@ object StepFeature {
         val stepToolbarState: StepToolbarFeature.State
     )
 
-    internal fun initialState() =
-        State(StepState.Idle, StepToolbarFeature.State.Idle)
+    internal fun initialState(stepRoute: StepRoute): State =
+        State(StepState.Idle, StepToolbarFeature.initialState(stepRoute))
 
     data class ViewState(
         val stepState: StepState,
