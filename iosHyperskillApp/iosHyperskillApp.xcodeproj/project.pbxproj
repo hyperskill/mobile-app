@@ -194,6 +194,8 @@
 		2C5215AA291E5B63006C2427 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215A9291E5B63006C2427 /* PullToRefresh.swift */; };
 		2C5215AC291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */; };
 		2C5261A52993CBF100B4E8F6 /* TopicProgressExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */; };
+		2C52A3472BD0D4EC00A76AB3 /* Thread+DispatchOnMainThread.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52A3462BD0D4EC00A76AB3 /* Thread+DispatchOnMainThread.swift */; };
+		2C52A34A2BD0D73800A76AB3 /* StepToolbarProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */; };
 		2C52F9972B98711A001524B5 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9962B98711A001524B5 /* PaywallViewModel.swift */; };
 		2C52F99A2B9871E7001524B5 /* PaywallAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */; };
 		2C52F99C2B987397001524B5 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F99B2B987397001524B5 /* PaywallView.swift */; };
@@ -913,6 +915,8 @@
 		2C5215A9291E5B63006C2427 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		2C5215AB291E6AD8006C2427 /* UIView+FindViewOfSpecifiedType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+FindViewOfSpecifiedType.swift"; sourceTree = "<group>"; };
 		2C5261A42993CBF100B4E8F6 /* TopicProgressExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicProgressExtensions.swift; sourceTree = "<group>"; };
+		2C52A3462BD0D4EC00A76AB3 /* Thread+DispatchOnMainThread.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Thread+DispatchOnMainThread.swift"; sourceTree = "<group>"; };
+		2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepToolbarProgressView.swift; sourceTree = "<group>"; };
 		2C52F9962B98711A001524B5 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
 		2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallAssembly.swift; sourceTree = "<group>"; };
 		2C52F99B2B987397001524B5 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
@@ -1809,6 +1813,7 @@
 			isa = PBXGroup;
 			children = (
 				2C20FBC1284F66FC006D879E /* NSAttributedString+TrimmingCharacters.swift */,
+				2C52A3462BD0D4EC00A76AB3 /* Thread+DispatchOnMainThread.swift */,
 				2CEEE03628917F1100282849 /* TimeIntervalExtensions.swift */,
 				2C1F587A280D2E5100372A37 /* URLExtensions.swift */,
 			);
@@ -3134,6 +3139,7 @@
 				2C971B842AC2F5DC00868FCE /* StepExpandableStepTextView.swift */,
 				2CAE8CF628052F9600E6C83D /* StepHeaderView.swift */,
 				2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */,
+				2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
 				2CAE8D0A280578A200E6C83D /* BottomControls */,
 				2CD0BA05298B985A0037479A /* Modals */,
@@ -4699,6 +4705,7 @@
 				2C0146AA28FDF2350083DA9C /* StepQuizCodeFullScreenInputProtocol.swift in Sources */,
 				2C95BAD92A4AED4300371C17 /* BackgroundProgressView.swift in Sources */,
 				E9523BF229DA966C0013A661 /* StudyPlanAssembly.swift in Sources */,
+				2C52A34A2BD0D73800A76AB3 /* StepToolbarProgressView.swift in Sources */,
 				E9B2CF5D2822975400B2DC6F /* StepQuizStatsView.swift in Sources */,
 				2C52F99A2B9871E7001524B5 /* PaywallAssembly.swift in Sources */,
 				2CA7B89428932EB100A789EF /* UIWindowExtensions.swift in Sources */,
@@ -4948,6 +4955,7 @@
 				2CA854DC2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
 				2C58DE232803BF97002A2774 /* AuthLogoView.swift in Sources */,
+				2C52A3472BD0D4EC00A76AB3 /* Thread+DispatchOnMainThread.swift in Sources */,
 				2C3E65702A127F2300BC8DC0 /* BrandLinearGradient.swift in Sources */,
 				2CBC97C62A55435E0078E445 /* StageImplementStageCompletedModalView.swift in Sources */,
 				E9F0A2AE29D4390400C4A61E /* StudyPlanSectionView.swift in Sources */,
