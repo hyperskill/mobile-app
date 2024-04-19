@@ -28,7 +28,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 class StepFragment :
     Fragment(R.layout.fragment_step),
-    ReduxView<StepFeature.StepState, StepFeature.Action.ViewAction>,
+    ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback {
 
@@ -91,12 +91,14 @@ class StepFragment :
         )
     }
 
-    override fun render(state: StepFeature.StepState) {
-        viewStateDelegate?.switchState(state)
-        if (state is StepFeature.StepState.Data) {
-            initStepContainer(state)
+    override fun render(state: StepFeature.ViewState) {
+        val stepState = state.stepState
+        viewStateDelegate?.switchState(stepState)
+
+        if (stepState is StepFeature.StepState.Data) {
+            initStepContainer(stepState)
             (childFragmentManager.findFragmentByTag(STEP_TAG) as? StepCompletionView)
-                ?.render(state.stepCompletionState.isPracticingLoading)
+                ?.render(stepState.stepCompletionState.isPracticingLoading)
         }
     }
 

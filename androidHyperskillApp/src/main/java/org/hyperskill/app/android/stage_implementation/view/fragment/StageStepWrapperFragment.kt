@@ -39,7 +39,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 @Deprecated("Should not be used directly, only via StageImplementationFragment")
 class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
-    ReduxView<StepFeature.StepState, StepFeature.Action.ViewAction>,
+    ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback {
 
@@ -125,13 +125,15 @@ class StageStepWrapperFragment :
         stepDelegate = null
     }
 
-    override fun render(state: StepFeature.StepState) {
-        viewStateDelegate?.switchState(state)
-        if (state is StepFeature.StepState.Data) {
+    override fun render(state: StepFeature.ViewState) {
+        val stepState = state.stepState
+        viewStateDelegate?.switchState(stepState)
+
+        if (stepState is StepFeature.StepState.Data) {
             (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
-                ?.render(state.stepCompletionState.isPracticingLoading)
-            initStepTheoryFragment(state.step, stepRoute)
-            initStepQuizFragment(state.step, stepRoute)
+                ?.render(stepState.stepCompletionState.isPracticingLoading)
+            initStepTheoryFragment(stepState.step, stepRoute)
+            initStepQuizFragment(stepState.step, stepRoute)
         }
     }
 
