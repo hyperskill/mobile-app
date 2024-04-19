@@ -102,10 +102,9 @@ class StepFragment :
 
     private fun initStepContainer(data: StepFeature.State.Data) {
         setChildFragment(R.id.stepContainer, STEP_TAG) {
-            if (data.step.type == Step.Type.PRACTICE) {
-                StepPracticeFragment.newInstance(data.step, stepRoute)
-            } else {
-                StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
+            when (data.step.type) {
+                Step.Type.PRACTICE -> StepPracticeFragment.newInstance(data.step, stepRoute)
+                Step.Type.THEORY -> StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
             }
         }
     }

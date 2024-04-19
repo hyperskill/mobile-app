@@ -2,20 +2,15 @@ package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.ImageLoader
@@ -31,9 +26,11 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepQuizToolbarHost
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizMenuDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.ProblemOnboardingBottomSheetCallback
 import org.hyperskill.app.android.step_quiz.view.dialog.ProblemsOnboardingBottomSheetFactory
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
@@ -54,6 +51,8 @@ import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.view.mapper.StepQuizHintsViewStateMapper
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_quiz_toolbar.view.StepQuizToolbarViewStateMapper
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -64,7 +63,6 @@ abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
-    MenuProvider,
     ProblemOnboardingBottomSheetCallback {
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -81,6 +79,8 @@ abstract class DefaultStepQuizFragment :
 
     private var stepQuizHintsDelegate: StepQuizHintsDelegate? = null
 
+    private var stepQuizMenuDelegate: StepQuizMenuDelegate? = null
+
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var stepQuizTitleMapper: StepQuizTitleMapper? = null
     private val stepQuizFeedbackMapper by lazy(LazyThreadSafetyMode.NONE) {
@@ -93,8 +93,6 @@ abstract class DefaultStepQuizFragment :
 
     protected var step: Step by argument(serializer = Step.serializer())
     protected var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
-
-    private var theoryButtonState: TheoryButtonState? = null
 
     private var isKeyboardShown: Boolean = false
 
@@ -118,11 +116,7 @@ abstract class DefaultStepQuizFragment :
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as MenuHost).addMenuProvider(
-            this,
-            viewLifecycleOwner,
-            Lifecycle.State.RESUMED
-        )
+        setupMenuDelegate()
 
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
@@ -199,35 +193,26 @@ abstract class DefaultStepQuizFragment :
         }
     }
 
+    private fun setupMenuDelegate() {
+        stepQuizMenuDelegate = StepQuizMenuDelegate(
+            menuHost = requireActivity() as MenuHost,
+            viewLifecycleOwner = viewLifecycleOwner,
+            onTheoryClick = {
+                stepQuizViewModel.onNewMessage(
+                    StepQuizFeature.Message.TheoryToolbarItemClicked
+                )
+            }
+        )
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
+        stepQuizMenuDelegate = null
         stepQuizStateDelegate = null
         stepQuizButtonsViewStateDelegate = null
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
         stepQuizHintsDelegate = null
-    }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.step_quiz_appbar_menu, menu)
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
-        false
-
-    override fun onPrepareMenu(menu: Menu) {
-        val menuItem: MenuItem? = menu.findItem(R.id.theory)
-        menuItem?.isVisible =
-            theoryButtonState?.isVisible ?: false
-        menuItem?.actionView?.apply {
-            isEnabled =
-                theoryButtonState?.isEnabled ?: false
-            setOnClickListener {
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.TheoryToolbarItemClicked
-                )
-            }
-        }
     }
 
     protected abstract fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View
@@ -307,6 +292,9 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.OpenUrl -> {
                 // TODO: ALTAPPS-807
             }
+            is StepQuizFeature.Action.ViewAction.StepQuizToolbarViewAction -> {
+                // no op
+            }
         }
     }
 
@@ -351,21 +339,14 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
-        renderTheoryButton(state.stepQuizState)
+        stepQuizMenuDelegate?.render(
+            menuHost = requireActivity() as MenuHost,
+            state = state.stepQuizState
+        )
+        renderLimits(state.stepQuizToolbarState)
         renderHints(state.stepQuizHintsState)
 
         onNewState(state)
-    }
-
-    private fun renderTheoryButton(state: StepQuizFeature.StepQuizState) {
-        val newTheoryButtonState = TheoryButtonState(
-            isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state),
-            isEnabled = !StepQuizResolver.isQuizLoading(state)
-        )
-        if (newTheoryButtonState != this.theoryButtonState) {
-            this.theoryButtonState = newTheoryButtonState
-            (requireActivity() as MenuHost).invalidateMenu()
-        }
     }
 
     private fun renderAttemptLoaded(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
@@ -418,6 +399,11 @@ abstract class DefaultStepQuizFragment :
     private fun renderHints(state: StepQuizHintsFeature.State) {
         val viewState = StepQuizHintsViewStateMapper.mapState(state)
         stepQuizHintsDelegate?.render(requireContext(), viewState)
+    }
+
+    private fun renderLimits(state: StepQuizToolbarFeature.State) {
+        val viewState = StepQuizToolbarViewStateMapper.map(state)
+        (parentFragment as? StepQuizToolbarHost)?.render(viewState)
     }
 
     final override fun render(isPracticingLoading: Boolean) {
@@ -477,9 +463,4 @@ abstract class DefaultStepQuizFragment :
         object RetryLogoAndSubmit : StepQuizButtonsState
         object RetryLogoAndContinue : StepQuizButtonsState
     }
-
-    private data class TheoryButtonState(
-        val isVisible: Boolean,
-        val isEnabled: Boolean
-    )
 }

@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <FrameLayout
@@ -12,13 +13,14 @@
         android:layout_height="48dp">
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/stepPracticeDetailsStepTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="@string/step_quiz_code_full_screen_details_tab"
             android:textAppearance="?textAppearanceSubtitle1"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="64dp"
-            android:gravity="center_vertical|start"/>
+            android:gravity="center_vertical|start"
+            tools:text="Long long long long long long long long long long long step title" />
 
         <org.hyperskill.app.android.ui.custom.ArrowImageView
             android:id="@+id/stepPracticeDetailsArrow"

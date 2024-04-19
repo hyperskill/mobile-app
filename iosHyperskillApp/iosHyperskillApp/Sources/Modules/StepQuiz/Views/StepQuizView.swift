@@ -339,7 +339,13 @@ struct StepQuizView: View {
             panModalPresenter.dismissPanModal(
                 condition: { ($0 as? ProblemsLimitInfoModalViewController) != nil }
             )
+        case .stepQuizToolbarViewAction(let stepQuizToolbarViewAction):
+            handleStepQuizToolbarViewAction(viewAction: stepQuizToolbarViewAction.viewAction)
         }
+    }
+    
+    private func handleStepQuizToolbarViewAction(viewAction: StepQuizToolbarFeatureActionViewAction) {
+        // no op
     }
 }
 
