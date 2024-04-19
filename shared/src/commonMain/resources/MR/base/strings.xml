@@ -569,8 +569,8 @@
     <string name="challenge_widget_reload_button">Reload</string>
 
     <!-- Users interview widget -->
-    <string name="users_interview_widget_title">Interview Invitation</string>
-    <string name="users_interview_widget_subtitle">Share your experience in an interview and earn amazon gift card</string>
+    <string name="users_interview_widget_title">We want to hear your story!</string>
+    <string name="users_interview_widget_subtitle">Share your Hyperskill app experience in an online feedback session, and receive an Amazon gift card</string>
 
     <!-- Questionnaire onboarding -->
     <string name="users_questionnaire_onboarding_title_template">How did you hear about\n%s?</string>
