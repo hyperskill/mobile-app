@@ -6,21 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RawRes
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
+import co.touchlab.kermit.Logger
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentProblemsLimitInfoBinding
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.main.view.ui.navigation.Tabs
-import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
@@ -56,8 +57,7 @@ class ProblemsLimitInfoBottomSheet : BottomSheetDialogFragment(), ReduxView<View
         requireNotNull(viewModelFactory)
     }
 
-    private val mainScreenRouter: MainScreenRouter =
-        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+    private val logger: Logger by logger(TAG)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,9 +96,9 @@ class ProblemsLimitInfoBottomSheet : BottomSheetDialogFragment(), ReduxView<View
             )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(viewBinding) {
-            problemsLimitInfoHomeButton.setOnClickListener {
-                problemsLimitInfoModalViewModel.onGoHomeClicked()
+        with(viewBinding.problemsLimitInfoUnlimitedProblemsButton) {
+            setOnClickListener {
+                problemsLimitInfoModalViewModel.onUnlockUnlimitedProblemsClicked()
             }
         }
     }
@@ -109,29 +109,56 @@ class ProblemsLimitInfoBottomSheet : BottomSheetDialogFragment(), ReduxView<View
     }
 
     override fun render(state: ViewState) {
-        viewBinding.problemsLimitInfoModalTitle.text = state.title
-        viewBinding.problemsLimitInfoDescription.text = state.description
+        with (viewBinding) {
+            problemsLimitInfoModalTitle.text = state.title
+            problemsLimitInfoDescription.text = state.limitsDescription
 
-        with(viewBinding.problemsLimitInfoUnlimitedProblemsButton) {
-            isVisible = state.unlockLimitsButtonText != null
-            if (state.unlockLimitsButtonText != null) {
-                text = state.unlockLimitsButtonText
-                setOnClickListener {
-                    problemsLimitInfoModalViewModel.onUnlockUnlimitedProblemsClicked()
-                }
-            }
+            problemsLimitInfoLeftLimits.isVisible = state.leftLimitsText != null
+            problemsLimitInfoLeftLimits.text = state.leftLimitsText
+
+            problemsLimitInfoResetIn.isVisible = state.resetInText != null
+            problemsLimitInfoResetIn.text = state.resetInText
+
+            problemsLimitInfoUnlockDescription.isVisible = state.unlockDescription != null
+            problemsLimitInfoUnlockDescription.text = state.unlockDescription
+
+            problemsLimitInfoUnlimitedProblemsButton.text = state.buttonText
+
+            playAnimation(problemsLimitInfoAnimation, state.animation)
+
         }
     }
 
     override fun onAction(action: ViewAction) {
         when (action) {
-            ViewAction.NavigateTo.Home -> {
-                requireRouter().backTo(MainScreen(Tabs.TRAINING))
-                mainScreenRouter.switch(Tabs.TRAINING)
-            }
             is ViewAction.NavigateTo.Paywall -> {
                 requireRouter().navigateTo(PaywallScreen(action.paywallTransitionSource))
             }
         }
     }
+
+    @Suppress("TooGenericExceptionCaught", "MagicNumber")
+    private fun playAnimation(view: LottieAnimationView, animation: ViewState.Animation) {
+        view.repeatMode = LottieDrawable.RESTART
+        view.repeatCount = if (animation.isLooped) LottieDrawable.INFINITE else 0
+        view.speed = if (animation == ViewState.Animation.FULL_LIMITS) 0.5f else 1f
+
+        val animationRes = getAnimationRes(animation)
+        try {
+            view.setAnimation(animationRes)
+            view.playAnimation()
+        } catch (e: Exception) {
+            logger.e(e) {
+                "Failed to run animation for animation type = $animation"
+            }
+        }
+    }
+
+    @RawRes
+    private fun getAnimationRes(animation: ViewState.Animation): Int =
+        when (animation) {
+            ViewState.Animation.FULL_LIMITS -> R.raw.problems_limit_full_limits_animation
+            ViewState.Animation.PARTIALLY_SPENT_LIMITS -> R.raw.problems_limit_partially_spent_limits_animation
+            ViewState.Animation.NO_LIMITS_LEFT -> R.raw.problems_limit_no_limits_left_animation
+        }
 }

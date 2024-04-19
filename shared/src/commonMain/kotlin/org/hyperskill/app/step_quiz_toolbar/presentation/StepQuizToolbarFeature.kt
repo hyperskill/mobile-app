@@ -1,6 +1,9 @@
 package org.hyperskill.app.step_quiz_toolbar.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object StepQuizToolbarFeature {
@@ -8,7 +11,10 @@ object StepQuizToolbarFeature {
         object Idle : State
         object Loading : State
         object Error : State
-        data class Content(val subscription: Subscription) : State
+        data class Content(
+            val subscription: Subscription,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+        ) : State
     }
 
     internal fun initialState() = State.Idle
@@ -30,14 +36,24 @@ object StepQuizToolbarFeature {
     internal sealed interface InternalMessage : Message {
         object Initialize : InternalMessage
 
-        data class SubscriptionFetchSuccess(val subscription: Subscription) : InternalMessage
+        data class SubscriptionFetchSuccess(
+            val subscription: Subscription,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+        ) : InternalMessage
         object SubscriptionFetchError : InternalMessage
 
         data class SubscriptionChanged(val subscription: Subscription) : InternalMessage
     }
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            data class ShowProblemsLimitInfoModal(
+                val subscription: Subscription,
+                val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
+                val context: ProblemsLimitInfoModalContext,
+                val stepRoute: StepRoute
+            ) : ViewAction
+        }
     }
 
     internal sealed interface InternalAction : Action {

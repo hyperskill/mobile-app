@@ -26,6 +26,7 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarHost
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
@@ -63,7 +64,8 @@ abstract class DefaultStepQuizFragment :
     Fragment(R.layout.fragment_step_quiz),
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
-    ProblemOnboardingBottomSheetCallback {
+    ProblemOnboardingBottomSheetCallback,
+    StepQuizToolbarCallback {
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -259,15 +261,14 @@ abstract class DefaultStepQuizFragment :
                 requestResetCodeActionPermission()
             }
             is StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal -> {
-                ProblemsLimitInfoBottomSheet
-                    .newInstance(
-                        ProblemsLimitInfoModalFeatureParams(
-                            action.subscription,
-                            action.profile,
-                            action.stepRoute
-                        )
+                showProblemsLimitInfoBottomSheet(
+                    ProblemsLimitInfoModalFeatureParams(
+                        subscription = action.subscription,
+                        chargeLimitsStrategy = action.chargeLimitsStrategy,
+                        context = action.context,
+                        stepRoute = action.stepRoute
                     )
-                    .showIfNotExists(childFragmentManager, ProblemsLimitInfoBottomSheet.TAG)
+                )
             }
             StepQuizFeature.Action.ViewAction.HideProblemsLimitReachedModal -> {
                 childFragmentManager.dismissDialogFragmentIfExists(ProblemsLimitInfoBottomSheet.TAG)
@@ -293,9 +294,28 @@ abstract class DefaultStepQuizFragment :
                 // TODO: ALTAPPS-807
             }
             is StepQuizFeature.Action.ViewAction.StepQuizToolbarViewAction -> {
-                // no op
+                when (val viewAction = action.viewAction) {
+                    is StepQuizToolbarFeature.Action.ViewAction.ShowProblemsLimitInfoModal -> {
+                        showProblemsLimitInfoBottomSheet(
+                            ProblemsLimitInfoModalFeatureParams(
+                                subscription = viewAction.subscription,
+                                chargeLimitsStrategy = viewAction.chargeLimitsStrategy,
+                                context = viewAction.context,
+                                stepRoute = viewAction.stepRoute
+                            )
+                        )
+                    }
+                }
             }
         }
+    }
+
+    private fun showProblemsLimitInfoBottomSheet(
+        params: ProblemsLimitInfoModalFeatureParams
+    ) {
+        ProblemsLimitInfoBottomSheet
+            .newInstance(params)
+            .showIfNotExists(childFragmentManager, ProblemsLimitInfoBottomSheet.TAG)
     }
 
     private fun requestResetCodeActionPermission() {
@@ -424,6 +444,12 @@ abstract class DefaultStepQuizFragment :
     override fun problemOnboardingHidden(modalType: StepQuizFeature.ProblemOnboardingModal) {
         stepQuizViewModel.onNewMessage(
             StepQuizFeature.Message.ProblemOnboardingModalHiddenMessage(modalType)
+        )
+    }
+
+    override fun onLimitsClicked() {
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.StepQuizToolbarMessage(StepQuizToolbarFeature.Message.ProblemsLimitClicked)
         )
     }
 

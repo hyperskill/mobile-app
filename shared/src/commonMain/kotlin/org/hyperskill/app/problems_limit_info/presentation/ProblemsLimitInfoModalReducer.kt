@@ -1,7 +1,6 @@
 package org.hyperskill.app.problems_limit_info.presentation
 
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
-import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent
 import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalClickedUnlockUnlimitedProblemsHSAnalyticEvent
 import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalShownHyperskillAnalyticEvent
@@ -21,7 +20,6 @@ internal class ProblemsLimitInfoModalReducer(
         when (message) {
             Message.ShownEventMessage -> handleModalShown(state)
             Message.HiddenEventMessage -> handleModalHidden(state)
-            Message.GoToHomeScreenClicked -> handleGoHomeClicked(state)
             Message.UnlockUnlimitedProblemsClicked -> handleUnlockUnlimitedProblemsClicked(state)
         }
 
@@ -36,14 +34,6 @@ internal class ProblemsLimitInfoModalReducer(
         state to setOf(
             InternalAction.LogAnalyticEvent(
                 ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
-            )
-        )
-
-    private fun handleGoHomeClicked(state: State): ProblemsLimitInfoReducerResult =
-        state to setOf(
-            Action.ViewAction.NavigateTo.Home,
-            InternalAction.LogAnalyticEvent(
-                ProblemsLimitReachedModalClickedGoToHomeScreenHyperskillAnalyticEvent(stepRoute.analyticRoute)
             )
         )
 

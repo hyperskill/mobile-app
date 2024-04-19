@@ -17,10 +17,6 @@ class ProblemsLimitInfoModalViewModel(
         onNewMessage(Message.HiddenEventMessage)
     }
 
-    fun onGoHomeClicked() {
-        onNewMessage(Message.GoToHomeScreenClicked)
-    }
-
     fun onUnlockUnlimitedProblemsClicked() {
         onNewMessage(Message.UnlockUnlimitedProblemsClicked)
     }

@@ -15,6 +15,7 @@ internal class ProblemsLimitInfoModalComponentImpl(
         get() = ProblemsLimitInfoModalFeatureBuilder.build(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             resourceProvider = appGraph.commonComponent.resourceProvider,
+            dateFormatter = appGraph.commonComponent.dateFormatter,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             params = params

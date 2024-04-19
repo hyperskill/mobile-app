@@ -6,6 +6,7 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
+import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalActionDispatcher
@@ -25,6 +26,7 @@ internal object ProblemsLimitInfoModalFeatureBuilder {
     fun build(
         analyticInteractor: AnalyticInteractor,
         resourceProvider: ResourceProvider,
+        dateFormatter: SharedDateFormatter,
         logger: Logger,
         buildVariant: BuildVariant,
         params: ProblemsLimitInfoModalFeatureParams
@@ -38,10 +40,14 @@ internal object ProblemsLimitInfoModalFeatureBuilder {
             analyticInteractor
         )
 
-        val viewStateMapper = ProblemsLimitInfoModalViewStateMapper(resourceProvider)
+        val viewStateMapper = ProblemsLimitInfoModalViewStateMapper(resourceProvider, dateFormatter)
 
         return ReduxFeature(
-            initialState = ProblemsLimitInfoModalFeature.initialState(params.subscription, params.profile),
+            initialState = ProblemsLimitInfoModalFeature.initialState(
+                params.subscription,
+                params.chargeLimitsStrategy,
+                params.context
+            ),
             reducer = problemsLimitInfoModalReducer
         )
             .wrapWithActionDispatcher(problemsLimitInfoModalActionDispatcher)
