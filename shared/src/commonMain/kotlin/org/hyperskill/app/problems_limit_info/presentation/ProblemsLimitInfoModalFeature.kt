@@ -31,7 +31,7 @@ object ProblemsLimitInfoModalFeature {
         val leftLimitsText: String?,
         val resetInText: String?,
         val unlockDescription: String?,
-        val buttonText: String?
+        val buttonText: String
     ) {
         enum class Animation(val isLooped: Boolean) {
             FULL_LIMITS(isLooped = false),

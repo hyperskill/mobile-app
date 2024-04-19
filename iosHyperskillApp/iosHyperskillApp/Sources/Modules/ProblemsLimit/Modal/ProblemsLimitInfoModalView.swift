@@ -116,16 +116,18 @@ final class ProblemsLimitInfoModalView: UIView {
 
     func renderState(_ state: ProblemsLimitInfoModalFeature.ViewState) {
         titleLabel.text = state.title
-        descriptionLabel.text = state.description_
+        descriptionLabel.text = state.limitsDescription
 
-        if let unlockLimitsButtonText = state.unlockLimitsButtonText {
+        unlockLimitsButton.setTitle(state.buttonText, for: .normal)
+        unlockLimitsButton.isHidden = false
+        /*if let unlockLimitsButtonText = state.unlockLimitsButtonText {
             unlockLimitsButton.setTitle(unlockLimitsButtonText, for: .normal)
             unlockLimitsButton.isHidden = false
 
             goBackButton.style = .outline
         } else {
             goBackButton.style = .violet
-        }
+        }*/
     }
 
     @objc
@@ -156,7 +158,6 @@ extension ProblemsLimitInfoModalView: ProgrammaticallyInitializableViewProtocol 
         contentStackView.addArrangedSubview(actionButtonsStackView)
 
         actionButtonsStackView.addArrangedSubview(unlockLimitsButton)
-        actionButtonsStackView.addArrangedSubview(goBackButton)
     }
 
     func makeConstraints() {
@@ -200,8 +201,12 @@ extension ProblemsLimitInfoModalView: ProgrammaticallyInitializableViewProtocol 
     view.renderState(
         ProblemsLimitInfoModalFeature.ViewState(
             title: "Title text",
-            description: "Description text",
-            unlockLimitsButtonText: nil
+            limitsDescription: "Limits description",
+            animation: ProblemsLimitInfoModalFeature.ViewStateAnimation.fullLimits,
+            leftLimitsText: "5 lives left",
+            resetInText: "Reset in 5 h",
+            unlockDescription: "Fast learner? Unlock unlimited problems with Mobile only plan",
+            buttonText: "Unlock unlimited problems"
         )
     )
     return view
@@ -213,8 +218,12 @@ extension ProblemsLimitInfoModalView: ProgrammaticallyInitializableViewProtocol 
     view.renderState(
         ProblemsLimitInfoModalFeature.ViewState(
             title: "Title text",
-            description: "Description text",
-            unlockLimitsButtonText: "Unlock limits button text"
+            limitsDescription: "Limits description",
+            animation: ProblemsLimitInfoModalFeature.ViewStateAnimation.fullLimits,
+            leftLimitsText: "5 lives left",
+            resetInText: "Reset in 5 h",
+            unlockDescription: "Fast learner? Unlock unlimited problems with Mobile only plan",
+            buttonText: "Unlock unlimited problems"
         )
     )
     return view

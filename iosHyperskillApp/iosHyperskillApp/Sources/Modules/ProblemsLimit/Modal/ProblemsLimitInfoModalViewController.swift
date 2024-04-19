@@ -61,7 +61,6 @@ final class ProblemsLimitInfoModalViewController: PanModalPresentableViewControl
         }
         problemsLimitInfoModalView?.onGoToHomescreenButtonTap = { [weak self] in
             FeedbackGenerator(feedbackType: .selection).triggerFeedback()
-            self?.viewModel.doGoToHomeScreen()
         }
 
         viewModel.onViewAction = handleViewAction(_:)
@@ -78,12 +77,6 @@ final class ProblemsLimitInfoModalViewController: PanModalPresentableViewControl
         _ viewAction: ProblemsLimitInfoModalFeatureActionViewActionNavigateTo
     ) {
         switch ProblemsLimitInfoModalFeatureActionViewActionNavigateToKs(viewAction) {
-        case .home:
-            dismiss(animated: true) {
-                SourcelessRouter().currentNavigation?.popToRootViewController(animated: true) {
-                    TabBarRouter(tab: .home).route()
-                }
-            }
         case .paywall(let navigateToPaywallViewAction):
             dismiss(animated: true) {
                 let assembly = PaywallAssembly(source: navigateToPaywallViewAction.paywallTransitionSource)

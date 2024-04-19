@@ -300,7 +300,8 @@ struct StepQuizView: View {
             presentProblemsLimitReachedModal(
                 params: ProblemsLimitInfoModalFeatureParams(
                     subscription: showProblemsLimitReachedModalViewAction.subscription,
-                    profile: showProblemsLimitReachedModalViewAction.profile,
+                    chargeLimitsStrategy: showProblemsLimitReachedModalViewAction.chargeLimitsStrategy,
+                    context: showProblemsLimitReachedModalViewAction.context,
                     stepRoute: showProblemsLimitReachedModalViewAction.stepRoute
                 )
             )

@@ -13,10 +13,6 @@ final class ProblemsLimitInfoModalViewModel: FeatureViewModel<
         false
     }
 
-    func doGoToHomeScreen() {
-        onNewMessage(ProblemsLimitInfoModalFeatureMessageGoToHomeScreenClicked())
-    }
-
     func doUnlockUnlimitedProblems() {
         onNewMessage(ProblemsLimitInfoModalFeatureMessageUnlockUnlimitedProblemsClicked())
     }
