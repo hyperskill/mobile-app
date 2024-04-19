@@ -3,7 +3,7 @@ import UIKit
 
 extension StepToolbarProgressView {
     struct Appearance {
-        let trackTintColor = ColorPalette.onSurfaceAlpha9
+        let trackTintColor = UIColor(red: 232.0 / 255.0, green: 232.0 / 255.0, blue: 232.0 / 255.0, alpha: 1.0)
         let progressTintColor = ColorPalette.primary
 
         let height: CGFloat = 2
