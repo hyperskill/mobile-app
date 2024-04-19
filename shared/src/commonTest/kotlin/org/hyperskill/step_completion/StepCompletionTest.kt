@@ -20,7 +20,7 @@ class StepCompletionTest {
     fun `Start practicing navigate to back if theory is opened from toolbar`() {
         val stepId = 1L
         val toolbarStepRoutes = listOf(
-            StepRoute.Learn.TheoryOpenedFromPractice(stepId),
+            StepRoute.Learn.TheoryOpenedFromPractice(stepId, null),
             StepRoute.Repeat.Theory(stepId)
         )
 
@@ -54,7 +54,7 @@ class StepCompletionTest {
 
     @Test
     fun `Solved step with limited attempts updates problems limits`() {
-        val stepRoute = StepRoute.Learn.Step(1L)
+        val stepRoute = StepRoute.Learn.Step(1L, null)
         val initialState = StepCompletionFeature.createState(Step.stub(stepRoute.stepId), stepRoute)
 
         val reducer = StepCompletionReducer(stepRoute)

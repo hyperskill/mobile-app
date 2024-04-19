@@ -97,8 +97,8 @@ class StepQuizTest {
         )
 
         val reducer = StepQuizReducer(
-            stepRoute = StepRoute.Learn.Step(step.id),
-            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id))
+            stepRoute = StepRoute.Learn.Step(step.id, null),
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id, null))
         )
         val (state, actions) = reducer.reduce(
             StepQuizFeature.State(
@@ -137,8 +137,8 @@ class StepQuizTest {
         )
 
         val reducer = StepQuizReducer(
-            stepRoute = StepRoute.Learn.Step(step.id),
-            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id))
+            stepRoute = StepRoute.Learn.Step(step.id, null),
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id, null))
         )
 
         val (actualState, actualActions) = reducer.reduce(
@@ -213,7 +213,7 @@ class StepQuizTest {
 
         val subscription = limitReachedSubscription
         val profile = Profile.stub()
-        val stepRoute = StepRoute.Learn.Step(step.id)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
 
         val initialState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
@@ -322,8 +322,8 @@ class StepQuizTest {
         )
 
         val reducer = StepQuizReducer(
-            stepRoute = StepRoute.Learn.Step(step.id),
-            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id))
+            stepRoute = StepRoute.Learn.Step(step.id, null),
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id, null))
         )
 
         val (intermediateState, _) = reducer.reduce(
@@ -351,7 +351,7 @@ class StepQuizTest {
         assertTrue {
             finalActions.any {
                 it is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen &&
-                    it.stepRoute == StepRoute.Learn.TheoryOpenedFromPractice(topicTheoryId)
+                    it.stepRoute == StepRoute.Learn.TheoryOpenedFromPractice(topicTheoryId, null)
             }
         }
         assertTrue {
@@ -382,7 +382,7 @@ class StepQuizTest {
 
         val reducer = StepQuizReducer(
             stepRoute = StepRoute.LearnDaily(step.id),
-            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id))
+            stepQuizHintsReducer = StepQuizHintsReducer(StepRoute.Learn.Step(step.id, null))
         )
 
         val (intermediateState, _) = reducer.reduce(

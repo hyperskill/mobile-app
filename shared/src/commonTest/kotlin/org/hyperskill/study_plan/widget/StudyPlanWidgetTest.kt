@@ -915,7 +915,7 @@ class StudyPlanWidgetTest {
             is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.LearningActivityTarget -> {
                 when (val activityViewAction = targetViewAction.viewAction) {
                     is LearningActivityTargetViewAction.NavigateTo.Step -> {
-                        assertEquals(activityViewAction.stepRoute, StepRoute.Learn.Step(stepId))
+                        assertEquals(activityViewAction.stepRoute, StepRoute.Learn.Step(stepId, null))
                     }
                     else -> {
                         fail("Unexpected action: $activityViewAction")
