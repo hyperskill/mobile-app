@@ -72,6 +72,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     STREAK("streak"),
     PROGRESS("progress"),
     SEARCH("search"),
+    PROBLEMS_LIMIT("problems_limit"),
     GET_STREAK_FREEZE("get_streak_freeze"),
     STREAK_FREEZE_ICON("streak_freeze_icon"),
     STREAK_FREEZE_MODAL("streak_freeze_modal"),

@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.AppBarLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:elevation="?appBarElevation">
 
-    <include
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/stepQuizToolbar"
-        layout="@layout/view_step_quiz_toolbar" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background"
+        app:contentInsetStartWithNavigation="0dp"
+        app:navigationIcon="@drawable/ic_toolbar_back"
+        app:navigationIconTint="?colorControlNormal"
+        app:title=" " >
+        
+        <TextView
+            android:id="@+id/stepQuizLimitsTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/color_on_surface_alpha_60"
+            android:layout_gravity="center"
+            app:drawableStartCompat="@drawable/ic_limits"
+            android:drawablePadding="4dp"
+            tools:text="10"/>
+        
+    </com.google.android.material.appbar.MaterialToolbar>
 
 </com.google.android.material.appbar.AppBarLayout>
