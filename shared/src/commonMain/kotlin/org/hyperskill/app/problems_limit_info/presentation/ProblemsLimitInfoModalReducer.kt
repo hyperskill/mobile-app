@@ -26,14 +26,14 @@ internal class ProblemsLimitInfoModalReducer(
     private fun handleModalShown(state: State): ProblemsLimitInfoReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                ProblemsLimitInfoModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                ProblemsLimitInfoModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute, state.context)
             )
         )
 
     private fun handleModalHidden(state: State): ProblemsLimitInfoReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute, state.context)
             )
         )
 
@@ -41,7 +41,9 @@ internal class ProblemsLimitInfoModalReducer(
         state to setOf(
             Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.PROBLEMS_LIMIT_MODAL),
             InternalAction.LogAnalyticEvent(
-                ProblemsLimitInfoModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(stepRoute.analyticRoute)
+                ProblemsLimitInfoModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(
+                    stepRoute.analyticRoute, state.context
+                )
             )
         )
 }

@@ -5,6 +5,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalAnalyticKeys.USER_INITIATED
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 
 /**
  * Represents a shown analytic event of the problems limit info modal.
@@ -21,10 +23,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * @see HyperskillAnalyticEvent
  */
 class ProblemsLimitInfoModalShownHyperskillAnalyticEvent(
-    route: HyperskillAnalyticRoute
+    route: HyperskillAnalyticRoute,
+    context: ProblemsLimitInfoModalContext
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.SHOWN,
-    HyperskillAnalyticPart.MODAL,
-    HyperskillAnalyticTarget.PROBLEMS_LIMIT_REACHED_MODAL
+    route = route,
+    action = HyperskillAnalyticAction.SHOWN,
+    part = HyperskillAnalyticPart.MODAL,
+    target = HyperskillAnalyticTarget.PROBLEMS_LIMIT_REACHED_MODAL,
+    context = mapOf(USER_INITIATED to (context == ProblemsLimitInfoModalContext.USER_INITIATED))
 )

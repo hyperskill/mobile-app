@@ -5,6 +5,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
+import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalAnalyticKeys.USER_INITIATED
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 
 /**
  * Represents click on the "Unlock unlimited problems" button in problems limit info modal analytic event.
@@ -21,10 +23,12 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  * @see HyperskillAnalyticEvent
  */
 class ProblemsLimitInfoModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(
-    route: HyperskillAnalyticRoute
+    route: HyperskillAnalyticRoute,
+    context: ProblemsLimitInfoModalContext
 ) : HyperskillAnalyticEvent(
-    route,
-    HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.PROBLEMS_LIMIT_REACHED_MODAL,
-    HyperskillAnalyticTarget.UNLOCK_UNLIMITED_PROBLEMS
+    route = route,
+    action = HyperskillAnalyticAction.CLICK,
+    part = HyperskillAnalyticPart.PROBLEMS_LIMIT_REACHED_MODAL,
+    target = HyperskillAnalyticTarget.UNLOCK_UNLIMITED_PROBLEMS,
+    context = mapOf(USER_INITIATED to (context == ProblemsLimitInfoModalContext.USER_INITIATED))
 )
