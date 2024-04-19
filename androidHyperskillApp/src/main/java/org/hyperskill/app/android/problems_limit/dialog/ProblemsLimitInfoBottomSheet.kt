@@ -109,7 +109,7 @@ class ProblemsLimitInfoBottomSheet : BottomSheetDialogFragment(), ReduxView<View
     }
 
     override fun render(state: ViewState) {
-        with (viewBinding) {
+        with(viewBinding) {
             problemsLimitInfoModalTitle.text = state.title
             problemsLimitInfoDescription.text = state.limitsDescription
 
@@ -125,7 +125,6 @@ class ProblemsLimitInfoBottomSheet : BottomSheetDialogFragment(), ReduxView<View
             problemsLimitInfoUnlimitedProblemsButton.text = state.buttonText
 
             playAnimation(problemsLimitInfoAnimation, state.animation)
-
         }
     }
 
