@@ -444,7 +444,7 @@ internal class StepQuizReducer(
         val (stepQuizToolbarState, stepQuizToolbarActions) =
             stepQuizChildFeatureReducer.reduceStepQuizToolbarMessage(
                 state.stepQuizToolbarState,
-                StepQuizToolbarFeature.Message.Initialize
+                StepQuizToolbarFeature.InternalMessage.Initialize
             )
 
         return state.copy(

@@ -33,9 +33,6 @@ class StepQuizToolbarActionDispatcher(
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.event)
             is InternalAction.FetchSubscription -> handleFetchSubscription(::onNewMessage)
-            else -> {
-                // no op
-            }
         }
     }
 

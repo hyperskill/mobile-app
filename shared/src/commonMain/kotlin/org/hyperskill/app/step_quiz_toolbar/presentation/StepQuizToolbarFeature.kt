@@ -24,12 +24,12 @@ object StepQuizToolbarFeature {
     }
 
     sealed interface Message {
-        object Initialize : Message
-
         object ProblemsLimitClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {
+        object Initialize : InternalMessage
+
         data class SubscriptionFetchSuccess(val subscription: Subscription) : InternalMessage
         object SubscriptionFetchError : InternalMessage
 
