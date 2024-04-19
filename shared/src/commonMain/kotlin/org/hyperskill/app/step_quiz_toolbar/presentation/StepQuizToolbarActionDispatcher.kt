@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz_toolbar.presentation
 
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -29,6 +30,7 @@ class StepQuizToolbarActionDispatcher(
             .onEach {
                 onNewMessage(InternalMessage.SubscriptionChanged(it))
             }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
