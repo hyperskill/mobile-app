@@ -5,7 +5,7 @@
     <item
         android:id="@+id/theory"
         android:title="@string/step_theory_text"
-        app:actionLayout="@layout/view_step_quiz_theory_button"
+        android:icon="@drawable/ic_theory"
         app:showAsAction="ifRoom" />
 
 </menu>
