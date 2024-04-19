@@ -123,7 +123,7 @@ class StepCompletionActionDispatcher(
                 .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
                 .getOrThrow()
             InternalMessage.FetchNextRecommendedStepSuccess(
-                StepRoute.Learn.Step(nextRecommendedStep.id, nextRecommendedStep.topic)
+                StepRoute.Learn.Step(stepId = nextRecommendedStep.id, topicId = nextRecommendedStep.topic)
             )
         }.let(onNewMessage)
     }

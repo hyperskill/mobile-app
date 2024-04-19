@@ -41,6 +41,8 @@ object StepToolbarFeature {
 
         object FetchTopicProgressError : InternalMessage
         data class FetchTopicProgressSuccess(val topicProgress: TopicProgress) : InternalMessage
+
+        data class TopicCompleted(val topicId: Long) : InternalMessage
     }
 
     sealed interface Action {

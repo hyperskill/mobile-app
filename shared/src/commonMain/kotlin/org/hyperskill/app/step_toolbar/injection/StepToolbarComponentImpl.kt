@@ -16,6 +16,7 @@ internal class StepToolbarComponentImpl(
     override val stepToolbarActionDispatcher: StepToolbarActionDispatcher
         get() = StepToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
+            topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             progressesInteractor = appGraph.buildProgressesDataComponent().progressesInteractor
         )
 }

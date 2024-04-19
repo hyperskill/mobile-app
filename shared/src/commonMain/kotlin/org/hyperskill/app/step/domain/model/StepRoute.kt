@@ -27,7 +27,7 @@ sealed interface StepRoute {
         @Serializable
         data class TheoryOpenedFromPractice(
             override val stepId: Long,
-            override val topicId: Long? = null
+            override val topicId: Long?
         ) : Learn
 
         @Serializable

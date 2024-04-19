@@ -6,6 +6,7 @@ import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalA
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalMessage
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.Message
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.State
+import org.hyperskill.app.topics.domain.model.topicId
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias StepToolbarReducerResult = Pair<State, Set<Action>>
@@ -18,6 +19,7 @@ class StepToolbarReducer(
             is InternalMessage.Initialize -> handleInitialize(state, message)
             InternalMessage.FetchTopicProgressError -> handleFetchTopicProgressError(state)
             is InternalMessage.FetchTopicProgressSuccess -> handleFetchTopicProgressSuccess(state, message)
+            is InternalMessage.TopicCompleted -> handleTopicCompleted(state, message)
         } ?: (state to emptySet())
 
     private fun handleInitialize(
@@ -52,6 +54,21 @@ class StepToolbarReducer(
     ): StepToolbarReducerResult? =
         if (state is State.Loading) {
             State.Content(message.topicProgress) to emptySet()
+        } else {
+            null
+        }
+
+    private fun handleTopicCompleted(
+        state: State,
+        message: InternalMessage.TopicCompleted
+    ): StepToolbarReducerResult? =
+        if (state is State.Content && state.topicProgress.topicId == message.topicId) {
+            State.Content(
+                topicProgress = state.topicProgress.copy(
+                    isCompleted = true,
+                    capacity = 1f
+                )
+            ) to emptySet()
         } else {
             null
         }

@@ -1,7 +1,11 @@
 package org.hyperskill.app.step_toolbar.presentation
 
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
+import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.Action
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalAction
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalMessage
@@ -10,8 +14,19 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class StepToolbarActionDispatcher(
     config: ActionDispatcherOptions,
+    topicCompletedFlow: TopicCompletedFlow,
     private val progressesInteractor: ProgressesInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
+
+    init {
+        topicCompletedFlow.observe()
+            .distinctUntilChanged()
+            .onEach { topicId ->
+                onNewMessage(InternalMessage.TopicCompleted(topicId))
+            }
+            .launchIn(actionScope)
+    }
+
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
             is InternalAction.FetchTopicProgress ->
