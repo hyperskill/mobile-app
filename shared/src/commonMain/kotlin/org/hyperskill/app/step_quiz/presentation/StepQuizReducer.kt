@@ -458,7 +458,7 @@ internal class StepQuizReducer(
             state.copy(
                 stepQuizState = state.stepQuizState.copy(isProblemsLimitReached = isProblemsLimitReached)
             ) to if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
-                showProblemsLimitReachedModal(message.subscription, message.chargeStrategy)
+                showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
             } else {
                 emptySet()
             }

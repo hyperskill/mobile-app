@@ -266,7 +266,7 @@ internal class StepQuizActionDispatcher(
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
                 subscription = currentSubscription,
-                chargeStrategy = currentProfile.freemiumChargeLimitsStrategy
+                chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy
             )
         )
     }

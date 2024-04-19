@@ -155,7 +155,7 @@ object StepQuizFeature {
 
         data class UpdateProblemsLimitResult(
             val subscription: Subscription,
-            val chargeStrategy: FreemiumChargeLimitsStrategy
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
         data class ProblemsLimitChanged(val subscription: Subscription) : InternalMessage
