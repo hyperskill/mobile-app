@@ -6,10 +6,13 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
@@ -49,7 +52,8 @@ class AndroidStepQuizTest {
                             )
                         }
                     ),
-                    stepQuizHintsState = StepQuizHintsFeature.State.Idle
+                    stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState()
                 )
 
                 val stepRoute = when (concreteStepRouteClass) {
@@ -68,13 +72,17 @@ class AndroidStepQuizTest {
                 }
                 val reducer = StepQuizReducer(
                     stepRoute = stepRoute,
-                    stepQuizHintsReducer = StepQuizHintsReducer(stepRoute)
+                    stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
+                        stepQuizHintsReducer = StepQuizHintsReducer(stepRoute),
+                        stepQuizToolbarReducer = StepQuizToolbarReducer(stepRoute)
+                    ),
                 )
 
                 val (state, _) = reducer.reduce(
                     StepQuizFeature.State(
                         stepQuizState = StepQuizFeature.StepQuizState.Loading,
-                        stepQuizHintsState = StepQuizHintsFeature.State.Idle
+                        stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                        stepQuizToolbarState = StepQuizToolbarFeature.initialState()
                     ),
                     StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                         step,
