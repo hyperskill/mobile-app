@@ -3,6 +3,7 @@
   <ManuallySuppressedIssues>
     <ID>ReturnCount:StepQuizReplyValidator.kt$StepQuizReplyValidator$@Suppress("CyclomaticComplexMethod") fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
     <ID>CyclomaticComplexMethod:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
+    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewProblemOnboardingBottomSheetCallbackProblemsLimitCallback</ID>
   </ManuallySuppressedIssues>
   <CurrentIssues>
     <ID>ComplexCondition:CodeEditor.kt$CodeEditor$linesWithNumbers.isEmpty() &amp;&amp; lines.isNotEmpty() || linesWithNumbers.isNotEmpty() &amp;&amp; linesWithNumbers.last() >= lineCount</ID>
@@ -458,7 +459,7 @@
     <ID>TooManyFunctions:CodeEditor.kt$CodeEditor : AppCompatEditTextTextWatcher</ID>
     <ID>TooManyFunctions:CodeStepQuizFullScreenDialogFragment.kt$CodeStepQuizFullScreenDialogFragment : DialogFragment</ID>
     <ID>TooManyFunctions:DateTimeHelper.kt$DateTimeHelper</ID>
-    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewProblemOnboardingBottomSheetCallbackStepQuizToolbarCallback</ID>
+    <ID>TooManyFunctions:DefaultStepQuizFragment.kt$DefaultStepQuizFragment : FragmentReduxViewStepCompletionViewProblemOnboardingBottomSheetCallbackProblemsLimitCallback</ID>
     <ID>TooManyFunctions:FillBlanksItemMapper.kt$FillBlanksItemMapper</ID>
     <ID>TooManyFunctions:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate : StepQuizFormDelegate</ID>
     <ID>TooManyFunctions:HyperskillSentryBreadcrumbBuilder.kt$HyperskillSentryBreadcrumbBuilder</ID>
