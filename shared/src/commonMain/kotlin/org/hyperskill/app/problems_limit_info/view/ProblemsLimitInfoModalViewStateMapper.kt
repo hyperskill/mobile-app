@@ -23,13 +23,23 @@ internal class ProblemsLimitInfoModalViewStateMapper(
     @Suppress("MagicNumber")
     private fun getAutomaticNoLimitsLeftViewState(state: State): ViewState =
         ViewState(
-            title = resourceProvider.getString(SharedResources.strings.problems_limit_info_modal_no_limits_left_title),
+            title = getNoLimitsLeftTitle(state.chargeLimitsStrategy),
             limitsDescription = null,
             animation = ViewState.Animation.NO_LIMITS_LEFT,
             leftLimitsText = getLeftLimitsText(state.chargeLimitsStrategy, 0),
             resetInText = getResetInText(state.subscription.stepsLimitResetTime),
             unlockDescription = getUnlockDescription(state.chargeLimitsStrategy),
             buttonText = getButtonText()
+        )
+
+    private fun getNoLimitsLeftTitle(chargeLimitsStrategy: FreemiumChargeLimitsStrategy): String =
+        resourceProvider.getString(
+            when (chargeLimitsStrategy) {
+                FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
+                    SharedResources.strings.problems_limit_info_modal_no_lives_left_title
+                FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
+                    SharedResources.strings.problems_limit_info_modal_no_limits_left_title
+            }
         )
 
     private fun getUnlockDescription(chargeLimitsStrategy: FreemiumChargeLimitsStrategy): String =
@@ -69,23 +79,20 @@ internal class ProblemsLimitInfoModalViewStateMapper(
         limitTotal: Int?,
         chargeLimitsStrategy: FreemiumChargeLimitsStrategy
     ): String =
-        resourceProvider.getString(
-            when (leftLimit) {
-                null, 0 -> when (chargeLimitsStrategy) {
-                    FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                        SharedResources.strings.problems_limit_info_modal_no_lives_left_title
-                    FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                        SharedResources.strings.problems_limit_info_modal_no_limits_left_title
-                }
-                limitTotal -> SharedResources.strings.problems_limit_info_modal_full_limits_title
-                else -> when (chargeLimitsStrategy) {
-                    FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                        SharedResources.strings.problems_limit_info_modal_full_part_spent_lives_title
-                    FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                        SharedResources.strings.problems_limit_info_modal_full_part_spent_limits_title
-                }
-            }
-        )
+        when (leftLimit) {
+            null, 0 -> getNoLimitsLeftTitle(chargeLimitsStrategy)
+            limitTotal ->
+                resourceProvider.getString(SharedResources.strings.problems_limit_info_modal_full_limits_title)
+            else ->
+                resourceProvider.getString(
+                    when (chargeLimitsStrategy) {
+                        FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
+                            SharedResources.strings.problems_limit_info_modal_part_spent_lives_title
+                        FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
+                            SharedResources.strings.problems_limit_info_modal_part_spent_limits_title
+                    }
+                )
+        }
 
     private fun getUserInitiatedLimitsDescription(chargeLimitsStrategy: FreemiumChargeLimitsStrategy): String =
         resourceProvider.getString(
@@ -110,13 +117,14 @@ internal class ProblemsLimitInfoModalViewStateMapper(
         leftLimit: Int?
     ): String? =
         if (leftLimit != null) {
-            resourceProvider.getString(
+            resourceProvider.getQuantityString(
                 when (chargeLimitsStrategy) {
                     FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION ->
-                        SharedResources.strings.problems_limit_info_modal_left_lives
+                        SharedResources.plurals.problems_limit_info_modal_left_lives
                     FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION ->
-                        SharedResources.strings.problems_limit_info_modal_left_problems
+                        SharedResources.plurals.problems_limit_info_modal_left_problems
                 },
+                leftLimit,
                 leftLimit
             )
         } else {

@@ -17,7 +17,10 @@ import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModa
  *     "route": "/learn/step/1",
  *     "action": "click",
  *     "part": "problems_limit_reached_modal",
- *     "target": "unlock_unlimited_problems"
+ *     "target": "unlock_unlimited_problems",
+ *     "context": {
+ *         "user_initiated": true
+ *     }
  * }
  * ```
  * @see HyperskillAnalyticEvent

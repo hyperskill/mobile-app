@@ -445,21 +445,18 @@
 
     <!--Problems limit reached modal-->
     <string name="problems_limit_info_modal_full_limits_title">You\'ve got all your limits back!</string>
-    <string name="problems_limit_info_modal_full_part_spent_limits_title">You still have limits left</string>
-    <string name="problems_limit_info_modal_full_part_spent_lives_title">You still have lives left</string>
+    <string name="problems_limit_info_modal_part_spent_limits_title">You still have limits left</string>
+    <string name="problems_limit_info_modal_part_spent_lives_title">You still have lives left</string>
     <string name="problems_limit_info_modal_no_limits_left_title">Out of limits: Need a recharge?</string>
     <string name="problems_limit_info_modal_no_lives_left_title">Out of lives: Need a recharge?</string>
 
     <string name="problems_limit_info_modal_problems_limits_description">Limits refresh daily and get deducted when you solve a problem.</string>
     <string name="problems_limit_info_modal_lives_description">Lives refresh daily and get deducted when you make a mistake on a problem.</string>
 
-    <string name="problems_limit_info_modal_left_problems">%d problems left</string>
-    <string name="problems_limit_info_modal_left_lives">%d lives left</string>
-
     <string name="problems_limit_info_reset_in">Reset in %s</string>
 
     <string name="problems_limit_info_modal_unlock_unlimited_problems_description">Fast learner? Unlock unlimited problems with Mobile only plan</string>
-    <string name="problems_limit_info_modal_unlock_unlimited_lives_description">Lives: Fast learner? Unlock unlimited lives with Mobile only plan</string>
+    <string name="problems_limit_info_modal_unlock_unlimited_lives_description">Fast learner? Unlock unlimited lives with Mobile only plan</string>
 
     <string name="problems_limit_reached_modal_unlock_unlimited_problems_button">Unlock unlimited problems</string>
 
