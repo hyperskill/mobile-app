@@ -110,7 +110,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func makeViewData() -> StepQuizViewData {
-        stepQuizViewDataMapper.mapStepDataToViewData(step: step, state: stepQuizStateKs)
+        stepQuizViewDataMapper.mapStepDataToViewData(step: step, stepRoute: stepRoute, state: stepQuizStateKs)
     }
 
     private func updateChildQuiz() {

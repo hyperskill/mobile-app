@@ -9,6 +9,7 @@ extension StepExpandableStepTextView {
 struct StepExpandableStepTextView: View {
     private(set) var appearance = Appearance()
 
+    var title = Strings.StepQuiz.stepTextHeaderTitle
     var text: String
 
     @State var isExpanded = true
@@ -29,6 +30,7 @@ struct StepExpandableStepTextView: View {
                     HStack(alignment: .center) {
                         Text(Strings.StepQuiz.stepTextHeaderTitle)
                             .foregroundColor(.primaryText)
+                            .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
 
                         Spacer()
@@ -52,6 +54,7 @@ struct StepExpandableStepTextView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     StepExpandableStepTextView(
         text: """
@@ -62,3 +65,16 @@ struct StepExpandableStepTextView: View {
     .padding()
     .frame(height: 200)
 }
+
+#Preview("Custom Title") {
+    StepExpandableStepTextView(
+        title: "Some custom title goes here and it very long and it very long and it very long",
+        text: """
+<p>Despite the fact that the syntax for different databases may differ, most of them have common standards.</p>
+""",
+        onExpandButtonTap: {}
+    )
+    .padding()
+    .frame(height: 200)
+}
+#endif

@@ -64,6 +64,7 @@ struct StepQuizView: View {
                         )
                     } else {
                         StepExpandableStepTextView(
+                            title: viewData.stepTextHeaderTitle,
                             text: viewData.stepText,
                             isExpanded: true,
                             onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
@@ -343,7 +344,7 @@ struct StepQuizView: View {
             handleStepQuizToolbarViewAction(viewAction: stepQuizToolbarViewAction.viewAction)
         }
     }
-    
+
     private func handleStepQuizToolbarViewAction(viewAction: StepQuizToolbarFeatureActionViewAction) {
         // no op
     }
