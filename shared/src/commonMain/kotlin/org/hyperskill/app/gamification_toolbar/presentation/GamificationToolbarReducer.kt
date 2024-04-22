@@ -11,6 +11,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalMessage
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.State
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.streaks.domain.model.HistoricalStreak
 import org.hyperskill.app.streaks.domain.model.StreakState
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -207,6 +208,11 @@ class GamificationToolbarReducer(
     private fun handleProblemsLimitClicked(state: State): GamificationToolbarReducerResult =
         if (state is State.Content) {
             state to setOf(
+                Action.ViewAction.ShowProblemsLimitInfoModal(
+                    subscription = state.subscription,
+                    chargeLimitsStrategy = state.chargeLimitsStrategy,
+                    context = ProblemsLimitInfoModalContext.GamificationToolbar(screen)
+                ),
                 InternalAction.LogAnalyticEvent(
                     GamificationToolbarClickedProblemsLimitHSAnalyticEvent(screen)
                 )
