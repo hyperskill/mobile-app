@@ -66,7 +66,7 @@ class RepositoryCacheProxy<in Key : Any, Value : Any?>(
      */
     suspend fun putValues(values: List<Value>) {
         if (values.isEmpty()) return
-        return mutex.withLock {
+        mutex.withLock {
             val keyToValueMap: Map<Key, Value> = buildMap(values.size) {
                 values.forEach { value ->
                     val key = getKeyFromValue(value)
