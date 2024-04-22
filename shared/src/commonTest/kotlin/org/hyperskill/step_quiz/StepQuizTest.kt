@@ -85,7 +85,7 @@ class StepQuizTest {
     @Test
     fun `When problems limit reached blocks learn solving`() {
         val step = Step.stub(id = 1)
-        val stepRoute = StepRoute.Learn.Step(step.id)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
         val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
@@ -131,7 +131,7 @@ class StepQuizTest {
     @Test
     fun `Receiving wrong submission for step with limited attempts updates problems limits`() {
         val step = Step.stub(id = 1)
-        val stepRoute = StepRoute.Learn.Step(step.id)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
         val initialState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
                 step = step,
@@ -224,7 +224,7 @@ class StepQuizTest {
         val step = Step.stub(id = 1)
 
         val subscription = limitReachedSubscription
-        val stepRoute = StepRoute.Learn.Step(step.id)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
         val chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION
 
         val initialState = StepQuizFeature.State(
@@ -329,7 +329,7 @@ class StepQuizTest {
     fun `TheoryToolbarClicked message navigates to step screen when theory available`() {
         val topicTheoryId = 2L
         val step = Step.stub(id = 1, topicTheory = topicTheoryId)
-        val stepRoute = StepRoute.Learn.Step(step.id)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
         val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
 
@@ -376,7 +376,7 @@ class StepQuizTest {
         assertTrue {
             finalActions.any {
                 it is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen &&
-                    it.stepRoute == StepRoute.Learn.TheoryOpenedFromPractice(topicTheoryId)
+                    it.stepRoute == StepRoute.Learn.TheoryOpenedFromPractice(topicTheoryId, null)
             }
         }
         assertTrue {
@@ -408,7 +408,7 @@ class StepQuizTest {
 
         val reducer = StepQuizReducer(
             stepRoute = StepRoute.LearnDaily(step.id),
-            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(StepRoute.Learn.Step(step.id))
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(StepRoute.Learn.Step(step.id, null))
         )
 
         val (intermediateState, _) = reducer.reduce(

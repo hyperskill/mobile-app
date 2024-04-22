@@ -114,6 +114,9 @@ class StepDelegate<TFragment>(
                             )
                 }
             }
+            is StepFeature.Action.ViewAction.StepToolbarViewAction -> {
+                // no op
+            }
         }
     }
 

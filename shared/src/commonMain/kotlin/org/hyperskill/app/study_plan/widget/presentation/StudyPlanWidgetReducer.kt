@@ -3,6 +3,7 @@ package org.hyperskill.app.study_plan.widget.presentation
 import kotlin.math.max
 import kotlin.math.min
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedActivityHyperskillAnalyticEvent
@@ -12,6 +13,7 @@ import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsu
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanStageImplementUnsupportedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
+import org.hyperskill.app.study_plan.widget.domain.mapper.LearningActivityToTopicProgressMapper
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.Action
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalAction
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.InternalMessage
@@ -232,7 +234,18 @@ class StudyPlanWidgetReducer : StateReducer<State, Message, Action> {
             null
         }
 
-        return resultState to (resultActions + setOfNotNull(updateNextLearningActivityStateAction))
+        return resultState to (
+            resultActions +
+                setOfNotNull(updateNextLearningActivityStateAction) +
+                setOf(putFetchedLearningActivitiesProgressesToCacheAction(message.activities))
+            )
+    }
+
+    private fun putFetchedLearningActivitiesProgressesToCacheAction(
+        activities: List<LearningActivity>
+    ): Action {
+        val progresses = activities.mapNotNull(LearningActivityToTopicProgressMapper::map)
+        return InternalAction.PutTopicsProgressesToCache(progresses)
     }
 
     private fun handleLearningActivitiesFetchFailed(

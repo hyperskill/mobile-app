@@ -9,7 +9,6 @@
     <ID>ComplexCondition:GamificationToolbarReducer.kt$GamificationToolbarReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
     <ID>ComplexCondition:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
     <ID>ComplexCondition:ProfileReducer.kt$ProfileReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.Error))</ID>
-    <ID>ComplexCondition:StepReducer.kt$StepReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Data || state is State.Error))</ID>
     <ID>ComplexCondition:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.NetworkError))</ID>
     <ID>ComplexCondition:WelcomeReducer.kt$WelcomeReducer$state is State.Idle || (message.forceUpdate &amp;&amp; (state is State.Content || state is State.NetworkError))</ID>
     <ID>ComposableParamOrder:FindStage.kt$FindStage</ID>
@@ -30,6 +29,7 @@
     <ID>CyclomaticComplexMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action>></ID>
     <ID>CyclomaticComplexMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>
+    <ID>CyclomaticComplexMethod:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
     <ID>CyclomaticComplexMethod:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action>></ID>
     <ID>DefaultsVisibility:LeaderboardListDivider.kt$LeaderboardListDividerDefaults$LeaderboardListDividerDefaults</ID>
     <ID>EmptyCatchBlock:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment${ }</ID>
@@ -63,6 +63,7 @@
     <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -> Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -> Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
     <ID>LongMethod:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$private suspend fun handleStepSolved(stepId: Long)</ID>
+    <ID>LongMethod:StepDelegate.kt$StepDelegate$fun onAction( mainScreenRouter: MainScreenRouter, action: StepFeature.Action.ViewAction )</ID>
     <ID>LongMethod:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
     <ID>LongMethod:TrackProgressContent.kt$@Composable fun TrackProgressContent( viewState: ProgressScreenViewState.TrackProgressViewState.Content, onNewMessage: (ProgressScreenFeature.Message) -> Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongParameterList:AnalyticHyperskillEventProcessor.kt$AnalyticHyperskillEventProcessor$( event: AnalyticEvent, userId: Long, isNotificationsPermissionGranted: Boolean, isATTPermissionGranted: Boolean, screenOrientation: ScreenOrientation, isInternalTesting: Boolean )</ID>
@@ -80,8 +81,6 @@
     <ID>MagicNumber:ArrowImageView.kt$ArrowImageView$0</ID>
     <ID>MagicNumber:AutocompleteDictionary.kt$AutocompleteDictionary.Companion$0</ID>
     <ID>MagicNumber:AutocompleteDictionary.kt$AutocompleteDictionary.Companion$1</ID>
-    <ID>MagicNumber:BadgeDefaults.kt$BadgeDefaults$0xFF6C63FF</ID>
-    <ID>MagicNumber:BadgeDefaults.kt$BadgeDefaults$0xFF7AB7FE</ID>
     <ID>MagicNumber:BadgeDetailsDialogFragment.kt$BadgeDetailsDialogFragment$0</ID>
     <ID>MagicNumber:BadgeDetailsDialogFragment.kt$BadgeDetailsDialogFragment$100</ID>
     <ID>MagicNumber:BadgeGrid.kt$1f</ID>
@@ -102,7 +101,6 @@
     <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$1</ID>
     <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$2</ID>
     <ID>MagicNumber:CodeEditor.kt$CodeEditor$0</ID>
-    <ID>MagicNumber:CodeEditor.kt$CodeEditor$0.8f</ID>
     <ID>MagicNumber:CodeEditor.kt$CodeEditor$0f</ID>
     <ID>MagicNumber:CodeEditor.kt$CodeEditor$1</ID>
     <ID>MagicNumber:CodeEditor.kt$CodeEditor$2</ID>
@@ -132,16 +130,10 @@
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$6</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$8</ID>
     <ID>MagicNumber:CommentsRemoteDataSourceImpl.kt$CommentsRemoteDataSourceImpl$100</ID>
-    <ID>MagicNumber:CommonCodeQuizConfig.kt$CommonCodeQuizConfig$1</ID>
-    <ID>MagicNumber:CompoundLatexItemView.kt$CompoundLatexItemView$0</ID>
     <ID>MagicNumber:DailyStudyReminderLocalNotificationDelegate.kt$DailyStudyReminderLocalNotificationDelegate$0</ID>
     <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$0</ID>
     <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1</ID>
-    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1000</ID>
-    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$19</ID>
     <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1L</ID>
-    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$24</ID>
-    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$60</ID>
     <ID>MagicNumber:DateTimeUtils.kt$DateTimeUtils$1</ID>
     <ID>MagicNumber:DateTimeUtils.kt$DateTimeUtils$7</ID>
     <ID>MagicNumber:DebugFragment.kt$DebugFragment$1500</ID>
@@ -149,7 +141,6 @@
     <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$0</ID>
     <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$1</ID>
     <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$2L</ID>
-    <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$3</ID>
     <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$300L</ID>
     <ID>MagicNumber:FillBlanksItemMapper.kt$FillBlanksItemMapper$0</ID>
     <ID>MagicNumber:FillBlanksItemMapper.kt$FillBlanksItemMapper$1</ID>
@@ -169,32 +160,23 @@
     <ID>MagicNumber:HyperskillNotificationManagerImpl.kt$HyperskillNotificationManagerImpl$2</ID>
     <ID>MagicNumber:LatexView.kt$LatexView$0</ID>
     <ID>MagicNumber:LatexWebView.kt$LatexWebView$0</ID>
-    <ID>MagicNumber:LatexWebView.kt$LatexWebView$0f</ID>
     <ID>MagicNumber:LatexWebView.kt$LatexWebView.OnScrollWebListener$0</ID>
     <ID>MagicNumber:LayerListDrawableDelegate.kt$LayerListDrawableDelegate$0</ID>
     <ID>MagicNumber:LayerListDrawableDelegate.kt$LayerListDrawableDelegate$255</ID>
-    <ID>MagicNumber:LeaderboardListDivider.kt$LeaderboardListDividerDefaults$1</ID>
-    <ID>MagicNumber:LeaderboardListDivider.kt$LeaderboardListDividerDefaults$2</ID>
     <ID>MagicNumber:LeaderboardPlaceInfo.kt$1</ID>
     <ID>MagicNumber:LeaderboardPlaceInfo.kt$3</ID>
-    <ID>MagicNumber:LeaderboardPreviewData.kt$LeaderboardPreviewData$2</ID>
-    <ID>MagicNumber:LeaderboardPreviewData.kt$LeaderboardPreviewData$6</ID>
     <ID>MagicNumber:LeaderboardScreen.kt$1f</ID>
     <ID>MagicNumber:LeaderboardScreenActionDispatcher.kt$LeaderboardScreenActionDispatcher$0</ID>
     <ID>MagicNumber:LeaderboardSkeletonItem.kt$2</ID>
     <ID>MagicNumber:LeaderboardSkeletonItem.kt$5</ID>
     <ID>MagicNumber:LeaderboardWidgetViewStateMapper.kt$LeaderboardWidgetViewStateMapper$1</ID>
     <ID>MagicNumber:LearningActivitiesRemoteDataSourceImpl.kt$LearningActivitiesRemoteDataSourceImpl$1</ID>
-    <ID>MagicNumber:LearningActivity.kt$LearningActivity$100</ID>
     <ID>MagicNumber:LearningActivityTextsMapper.kt$LearningActivityTextsMapper$0</ID>
     <ID>MagicNumber:LinearProgressIndicator.kt$0f</ID>
     <ID>MagicNumber:LinearProgressIndicator.kt$1f</ID>
     <ID>MagicNumber:LinearProgressIndicator.kt$2</ID>
     <ID>MagicNumber:LoadingView.kt$LoadingView$0</ID>
-    <ID>MagicNumber:LoadingView.kt$LoadingView$0L</ID>
     <ID>MagicNumber:LoadingView.kt$LoadingView$0f</ID>
-    <ID>MagicNumber:LoadingView.kt$LoadingView$1500L</ID>
-    <ID>MagicNumber:LoadingView.kt$LoadingView$1f</ID>
     <ID>MagicNumber:LoadingView.kt$LoadingView$2</ID>
     <ID>MagicNumber:ManageSubscriptionContent.kt$1f</ID>
     <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$0.2f</ID>
@@ -242,7 +224,6 @@
     <ID>MagicNumber:ProfileFragment.kt$ProfileFragment$1</ID>
     <ID>MagicNumber:ProfileFragment.kt$ProfileFragment$2</ID>
     <ID>MagicNumber:ProfileFragment.kt$ProfileFragment.Companion$0</ID>
-    <ID>MagicNumber:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$1</ID>
     <ID>MagicNumber:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$18F</ID>
     <ID>MagicNumber:Progress.kt$0.0</ID>
     <ID>MagicNumber:Progress.kt$10</ID>
@@ -257,7 +238,6 @@
     <ID>MagicNumber:ProjectSelectionDetailsViewStateMapper.kt$ProjectSelectionDetailsViewStateMapper$0</ID>
     <ID>MagicNumber:ProjectSelectionListDelegate.kt$ProjectSelectionListDelegate$0</ID>
     <ID>MagicNumber:ProjectSelectionListDelegate.kt$ProjectSelectionListDelegate$1</ID>
-    <ID>MagicNumber:ProjectWithProgress.kt$ProjectWithProgress$100</ID>
     <ID>MagicNumber:PushNotificationHandlerImpl.kt$PushNotificationHandlerImpl$0</ID>
     <ID>MagicNumber:RequestReviewCacheDataSourceImpl.kt$RequestReviewCacheDataSourceImpl$0</ID>
     <ID>MagicNumber:RequestReviewCacheDataSourceImpl.kt$RequestReviewCacheDataSourceImpl$1</ID>
@@ -267,7 +247,6 @@
     <ID>MagicNumber:RxUtil.kt$RetryExponential$1</ID>
     <ID>MagicNumber:RxUtil.kt$RetryExponential$1L</ID>
     <ID>MagicNumber:RxUtil.kt$RetryExponential$2</ID>
-    <ID>MagicNumber:SelectionColorStyleBlock.kt$SelectionColorStyleBlock$2</ID>
     <ID>MagicNumber:SentryManagerImpl.kt$SentryManagerImpl$0.3</ID>
     <ID>MagicNumber:SentryManagerImpl.kt$SentryManagerImpl$1.0</ID>
     <ID>MagicNumber:ShareUtils.kt$ShareUtils$100</ID>
@@ -284,8 +263,6 @@
     <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$1f</ID>
     <ID>MagicNumber:SortingStepQuizFormDelegate.kt$SortingStepQuizFormDelegate$1</ID>
     <ID>MagicNumber:StageImplementActionDispatcher.kt$StageImplementActionDispatcher$1</ID>
-    <ID>MagicNumber:StateExtensions.kt$.0</ID>
-    <ID>MagicNumber:StateExtensions.kt$0</ID>
     <ID>MagicNumber:StateExtensions.kt$0f</ID>
     <ID>MagicNumber:StateExtentions.kt$0</ID>
     <ID>MagicNumber:StateExtentions.kt$1</ID>
@@ -310,8 +287,6 @@
     <ID>MagicNumber:StreakRecoveryReducer.kt$StreakRecoveryReducer$0</ID>
     <ID>MagicNumber:StringExtensions.kt$0</ID>
     <ID>MagicNumber:StringExtensions.kt$1</ID>
-    <ID>MagicNumber:StudyPlan.kt$StudyPlan$3600.0</ID>
-    <ID>MagicNumber:StudyPlan.kt$StudyPlan$60.0</ID>
     <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$0</ID>
     <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$100f</ID>
     <ID>MagicNumber:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate$0</ID>
@@ -319,7 +294,6 @@
     <ID>MagicNumber:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$0</ID>
     <ID>MagicNumber:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$1</ID>
     <ID>MagicNumber:StudyPlanWidgetViewStateMapper.kt$StudyPlanWidgetViewStateMapper$0</ID>
-    <ID>MagicNumber:Subscription.kt$0</ID>
     <ID>MagicNumber:SubscriptionSyncLoading.kt$0.5f</ID>
     <ID>MagicNumber:SubscriptionsInteractor.kt$SubscriptionsInteractor$0</ID>
     <ID>MagicNumber:TableSelectionItemAdapterDelegate.kt$TableSelectionItemAdapterDelegate.ViewHolder$0.2f</ID>
@@ -333,17 +307,11 @@
     <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$0</ID>
     <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$1</ID>
     <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$24</ID>
-    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$0f</ID>
-    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$14f</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$2</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$2f</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$360</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$360f</ID>
-    <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$8f</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$90f</ID>
-    <ID>MagicNumber:TopicProgress.kt$0f</ID>
-    <ID>MagicNumber:TopicProgress.kt$100</ID>
-    <ID>MagicNumber:TopicProgress.kt$100f</ID>
     <ID>MagicNumber:TopicSearchResultContent.kt$3</ID>
     <ID>MagicNumber:TopicSearchSkeleton.kt$5</ID>
     <ID>MagicNumber:TopicsRepetitionCardFormDelegate.kt$TopicsRepetitionCardFormDelegate$0</ID>
@@ -355,7 +323,6 @@
     <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$2</ID>
     <ID>MagicNumber:TopicsRepetitionListDelegate.kt$TopicsRepetitionListDelegate$0</ID>
     <ID>MagicNumber:TopicsRepetitionListDelegate.kt$TopicsRepetitionListDelegate$1</ID>
-    <ID>MagicNumber:TopicsRepetitionsFeature.kt$TopicsRepetitionsFeature.State.Content$0</ID>
     <ID>MagicNumber:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$0</ID>
     <ID>MagicNumber:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$1</ID>
     <ID>MagicNumber:TopicsRepetitionsViewDataMapper.kt$TopicsRepetitionsViewDataMapper$0</ID>
@@ -369,11 +336,6 @@
     <ID>MagicNumber:TrackSelectionDetailsViewStateMapper.kt$TrackSelectionDetailsViewStateMapper$1</ID>
     <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$0</ID>
     <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$1</ID>
-    <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$5</ID>
-    <ID>MagicNumber:TrackWithProgress.kt$TrackWithProgress$100</ID>
-    <ID>MagicNumber:UsersQuestionnaireWidget.kt$0xFF6C63FF</ID>
-    <ID>MagicNumber:UsersQuestionnaireWidget.kt$0xFF7AB7FE</ID>
-    <ID>MagicNumber:UsersQuestionnaireWidget.kt$1f</ID>
     <ID>MagicNumber:VerticalDashLineView.kt$VerticalDashLineView$.5f</ID>
     <ID>MagicNumber:VerticalDashLineView.kt$VerticalDashLineView$0f</ID>
     <ID>MagicNumber:VerticalMarginItemDecoration.kt$VerticalMarginItemDecoration$0</ID>
@@ -395,7 +357,6 @@
     <ID>MaxLineLength:RepositoryCacheProxy.kt$RepositoryCacheProxy$*</ID>
     <ID>MaxLineLength:StepComponentImpl.kt$StepComponentImpl$nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository</ID>
     <ID>MaxLineLength:UrlPathProcessor.kt$UrlPathProcessor$*</ID>
-    <ID>MaxLineLength:UsersQuestionnaireWidgetActionDispatcher.kt$UsersQuestionnaireWidgetActionDispatcher$"https://docs.google.com/forms/d/e/1FAIpQLSf6k3woOqZr2zfmbBNvA71DyD04LN4v7l6k-vuyqdAmdMUnOA/viewform?usp=pp_url&amp;entry.193481738=$currentUserId"</ID>
     <ID>MaxLineLength:WrapWithFlowView.kt$inline</ID>
     <ID>MayBeConst:DateTimeHelper.kt$DateTimeHelper$private val hoursInDay = 24</ID>
     <ID>MayBeConst:DateTimeHelper.kt$DateTimeHelper$private val millisecondsInHour = 1000 * 60 * 60</ID>
@@ -466,7 +427,6 @@
     <ID>ReturnCount:SharedDateFormatter.kt$SharedDateFormatter$fun formatTimeDistance(millis: Long): String</ID>
     <ID>ReturnCount:StateExtentions.kt$internal fun ChallengeWidgetFeature.State.Content.setCurrentChallengeIntervalProgressAsCompleted(): Challenge?</ID>
     <ID>ReturnCount:StepCompletionReducer.kt$StepCompletionReducer$private fun getNextStepRouteForLearningActivity(learningActivity: LearningActivity?): StepRoute?</ID>
-    <ID>ReturnCount:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$private suspend fun getProblemsLimitReachedModalData( profile: Profile, subscription: Subscription ): StepQuizFeature.ProblemsLimitReachedModalData?</ID>
     <ID>ReturnCount:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$private suspend fun handleUpdateProblemsLimitAction( action: InternalAction.UpdateProblemsLimit, onNewMessage: (Message) -> Unit )</ID>
     <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getLastSeenHint(stepId: Long): Comment?</ID>
     <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getNotSeenHintsIds(stepId: Long): List&lt;Long></ID>
@@ -478,7 +438,6 @@
     <ID>ReturnCount:TopicsRepetitionsActionDispatcher.kt$TopicsRepetitionsActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( fragmentStepQuizBinding.stepQuizFeedbackBlocks.root, descriptionBinding?.stepQuizDescription, fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton, *quizViews ).toTypedArray() )</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( skeletonView, descriptionBinding?.stepQuizDescriptionSkeleton ).toTypedArray() )</ID>
-    <ID>SwallowedException:ContextExtensions.kt$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$e: InvalidFillBlanksConfigException</ID>
     <ID>SwallowedException:NotificationExtensions.kt$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$e: ActivityNotFoundException</ID>
@@ -510,8 +469,9 @@
     <ID>TooManyFunctions:ProfileFragment.kt$ProfileFragment : FragmentReduxViewCallbackCallback</ID>
     <ID>TooManyFunctions:ProfileReducer.kt$ProfileReducer : StateReducer</ID>
     <ID>TooManyFunctions:SharedDateFormatter.kt$SharedDateFormatter</ID>
-    <ID>TooManyFunctions:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer : StateReducer</ID>
+    <ID>TooManyFunctions:StepReducer.kt$StepReducer : StateReducer</ID>
     <ID>TooManyFunctions:StepQuizReducer.kt$StepQuizReducer : StateReducer</ID>
+    <ID>TooManyFunctions:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer : StateReducer</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val dailyReminderId = "dailyReminderChannel"</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val otherId = "otherChannel"</ID>
     <ID>TopLevelPropertyNaming:HyperskillNotificationChannel.kt$private const val regularLearningRemindersId = "regularLearningRemindersChannel"</ID>

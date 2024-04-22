@@ -14,11 +14,11 @@ class ProgressesInteractor(
     suspend fun getTrackProgress(trackId: Long, forceLoadFromRemote: Boolean): Result<TrackProgress?> =
         progressesRepository.getTrackProgress(trackId, forceLoadFromRemote)
 
-    suspend fun getTopicsProgresses(topicsIds: List<Long>): Result<List<TopicProgress>> =
-        progressesRepository.getTopicsProgresses(topicsIds)
+    suspend fun getTopicsProgresses(topicsIds: List<Long>, forceLoadFromRemote: Boolean): Result<List<TopicProgress>> =
+        progressesRepository.getTopicsProgresses(topicsIds, forceLoadFromRemote)
 
-    suspend fun getTopicProgress(topicId: Long): Result<TopicProgress> =
-        progressesRepository.getTopicProgress(topicId)
+    suspend fun getTopicProgress(topicId: Long, forceLoadFromRemote: Boolean): Result<TopicProgress> =
+        progressesRepository.getTopicProgress(topicId, forceLoadFromRemote)
 
     suspend fun getProjectsProgresses(
         projectsIds: List<Long>,

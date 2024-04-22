@@ -1,6 +1,7 @@
 package org.hyperskill.app.step.domain.interactor
 
 import kotlin.time.Duration
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
@@ -8,7 +9,8 @@ import org.hyperskill.app.step.domain.model.supportedBlocksNames
 import org.hyperskill.app.step.domain.repository.StepRepository
 
 class StepInteractor(
-    private val stepRepository: StepRepository
+    private val stepRepository: StepRepository,
+    private val progressesRepository: ProgressesRepository
 ) {
     suspend fun getStep(stepId: Long): Result<Step> =
         kotlin.runCatching {
@@ -35,6 +37,10 @@ class StepInteractor(
 
             if (currentStep.type == Step.Type.THEORY && !currentStep.isCompleted) {
                 stepRepository.completeStep(currentStep.id)
+                // Update topic progress, so that progress bar is updated
+                progressesRepository
+                    .getTopicProgress(currentStep.topic, forceLoadFromRemote = true)
+                    .getOrThrow()
             }
 
             var nextRecommendedStep = stepRepository

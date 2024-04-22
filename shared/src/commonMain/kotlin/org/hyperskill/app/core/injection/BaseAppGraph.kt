@@ -129,6 +129,8 @@ import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponentImpl
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponentImpl
+import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
+import org.hyperskill.app.step_toolbar.injection.StepToolbarComponentImpl
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
@@ -285,6 +287,12 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
         StepCompletionComponentImpl(this, stepRoute)
+
+    /**
+     * Step toolbar component
+     */
+    override fun buildStepToolbarComponent(stepRoute: StepRoute): StepToolbarComponent =
+        StepToolbarComponentImpl(this, stepRoute)
 
     /**
      * Stage implement component
