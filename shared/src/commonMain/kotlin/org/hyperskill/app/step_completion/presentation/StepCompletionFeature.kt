@@ -57,6 +57,7 @@ object StepCompletionFeature {
     sealed interface ShareStreakData {
         @Serializable
         object Empty : ShareStreakData
+
         @Serializable
         data class Content(val streakText: String, val streak: Int) : ShareStreakData
     }
@@ -65,8 +66,6 @@ object StepCompletionFeature {
         object StartPracticingClicked : Message
 
         object ContinuePracticingClicked : Message
-
-        data class StepSolved(val stepId: Long) : Message
 
         /**
          * Topic completed modal
@@ -77,17 +76,13 @@ object StepCompletionFeature {
                 val modalText: String,
                 val nextLearningActivity: LearningActivity?
             ) : CheckTopicCompletionStatus
+
             object Uncompleted : CheckTopicCompletionStatus
             data class Error(val errorMessage: String) : CheckTopicCompletionStatus
         }
 
         object TopicCompletedModalGoToStudyPlanClicked : Message
         object TopicCompletedModalContinueNextTopicClicked : Message
-
-        sealed interface FetchNextRecommendedStepResult : Message {
-            data class Success(val newStepRoute: StepRoute) : FetchNextRecommendedStepResult
-            data class Error(val errorMessage: String) : FetchNextRecommendedStepResult
-        }
 
         /**
          * Show problem of day solve modal
@@ -96,6 +91,7 @@ object StepCompletionFeature {
             val earnedGemsText: String?,
             val shareStreakData: ShareStreakData
         ) : Message
+
         object ProblemOfDaySolvedModalGoBackClicked : Message
         data class ProblemOfDaySolvedModalShareStreakClicked(val streak: Int) : Message
 
@@ -122,20 +118,14 @@ object StepCompletionFeature {
         object DailyStepCompletedModalHiddenEventMessage : Message
     }
 
-    internal sealed interface InternalMessage : Message
+    internal sealed interface InternalMessage : Message {
+        data class FetchNextRecommendedStepError(val errorMessage: String) : InternalMessage
+        data class FetchNextRecommendedStepSuccess(val newStepRoute: StepRoute) : InternalMessage
+
+        data class StepSolved(val stepId: Long) : InternalMessage
+    }
 
     sealed interface Action {
-        data class FetchNextRecommendedStep(val currentStep: Step) : Action
-
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
-        data class LogTopicCompletedAnalyticEvent(val topicId: Long) : Action
-
-        data class CheckTopicCompletionStatus(val topicId: Long) : Action
-
-        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : Action
-
-        object UpdateLastTimeShareStreakShown : Action
-
         sealed interface ViewAction : Action {
             data class ShowTopicCompletedModal(
                 val modalText: String,
@@ -163,5 +153,16 @@ object StepCompletionFeature {
         }
     }
 
-    internal sealed interface InternalAction : Action
+    internal sealed interface InternalAction : Action {
+        data class FetchNextRecommendedStep(val currentStep: Step) : InternalAction
+
+        data class CheckTopicCompletionStatus(val topicId: Long) : InternalAction
+
+        data class UpdateProblemsLimit(val chargeStrategy: FreemiumChargeLimitsStrategy) : InternalAction
+
+        object UpdateLastTimeShareStreakShown : InternalAction
+
+        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+        data class LogTopicCompletedAnalyticEvent(val topicId: Long) : InternalAction
+    }
 }

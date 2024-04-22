@@ -36,7 +36,7 @@ class HyperskillUrlBuilderTest {
             HyperskillUrlPath.StudyPlan(),
             HyperskillUrlPath.Track(1),
             HyperskillUrlPath.DeleteAccount(),
-            HyperskillUrlPath.Step(StepRoute.Learn.Step(1))
+            HyperskillUrlPath.Step(StepRoute.Learn.Step(1, null))
         )
 
         for (path in paths) {

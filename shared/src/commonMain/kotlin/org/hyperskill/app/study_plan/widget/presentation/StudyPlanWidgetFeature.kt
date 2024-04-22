@@ -11,6 +11,7 @@ import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransa
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSection
 import org.hyperskill.app.study_plan.domain.model.StudyPlanSectionType
 import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.topics.domain.model.TopicProgress
 
 object StudyPlanWidgetFeature {
     data class State(
@@ -135,6 +136,8 @@ object StudyPlanWidgetFeature {
 
         data class UpdateCurrentStudyPlanState(val forceUpdate: Boolean) : InternalAction
         data class UpdateNextLearningActivityState(val learningActivity: LearningActivity?) : InternalAction
+
+        data class PutTopicsProgressesToCache(val topicsProgresses: List<TopicProgress>) : InternalAction
 
         data class CaptureSentryException(val throwable: Throwable) : InternalAction
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction

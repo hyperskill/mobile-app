@@ -57,9 +57,9 @@ class AndroidStepQuizTest {
                 )
 
                 val stepRoute = when (concreteStepRouteClass) {
-                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id)
+                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id, null)
                     StepRoute.Learn.TheoryOpenedFromPractice::class ->
-                        StepRoute.Learn.TheoryOpenedFromPractice(step.id)
+                        StepRoute.Learn.TheoryOpenedFromPractice(step.id, null)
                     StepRoute.Learn.TheoryOpenedFromSearch::class ->
                         StepRoute.Learn.TheoryOpenedFromSearch(step.id)
                     StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
