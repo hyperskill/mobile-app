@@ -6,7 +6,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalAnalyticKeys.USER_INITIATED
-import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 
 /**
  * Represents a hidden analytic event of the problems limit info modal.
@@ -27,11 +27,11 @@ import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModa
  */
 class ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
-    context: ProblemsLimitInfoModalContext
+    launchSource: ProblemsLimitInfoModalLaunchSource
 ) : HyperskillAnalyticEvent(
     route = route,
     action = HyperskillAnalyticAction.HIDDEN,
     part = HyperskillAnalyticPart.PROBLEMS_LIMIT_REACHED_MODAL,
     target = HyperskillAnalyticTarget.CLOSE,
-    context = mapOf(USER_INITIATED to (context == ProblemsLimitInfoModalContext.USER_INITIATED))
+    context = mapOf(USER_INITIATED to (launchSource == ProblemsLimitInfoModalLaunchSource.USER_INITIATED))
 )

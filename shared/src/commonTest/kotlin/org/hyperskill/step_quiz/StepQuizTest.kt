@@ -7,6 +7,7 @@ import kotlin.test.assertTrue
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
@@ -270,8 +271,10 @@ class StepQuizTest {
             StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(
                 subscription = subscription,
                 chargeLimitsStrategy = chargeLimitsStrategy,
-                context = ProblemsLimitInfoModalContext.AUTOMATIC_NO_LIMITS_LEFT,
-                stepRoute = stepRoute
+                context = ProblemsLimitInfoModalContext.Step(
+                    launchSource = ProblemsLimitInfoModalLaunchSource.AUTOMATIC_NO_LIMITS_LEFT,
+                    stepRoute = stepRoute
+                )
             )
         )
     }

@@ -32,7 +32,7 @@ internal object ProblemsLimitInfoModalFeatureBuilder {
         params: ProblemsLimitInfoModalFeatureParams
     ): Feature<ViewState, Message, Action> {
         val problemsLimitInfoModalReducer =
-            ProblemsLimitInfoModalReducer(params.stepRoute)
+            ProblemsLimitInfoModalReducer(params.context.analyticRoute)
                 .wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val problemsLimitInfoModalActionDispatcher = ProblemsLimitInfoModalActionDispatcher(
@@ -46,7 +46,7 @@ internal object ProblemsLimitInfoModalFeatureBuilder {
             initialState = ProblemsLimitInfoModalFeature.initialState(
                 params.subscription,
                 params.chargeLimitsStrategy,
-                params.context
+                params.context.launchSource
             ),
             reducer = problemsLimitInfoModalReducer
         )

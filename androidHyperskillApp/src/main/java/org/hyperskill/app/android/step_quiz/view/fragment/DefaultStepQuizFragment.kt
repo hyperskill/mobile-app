@@ -265,8 +265,7 @@ abstract class DefaultStepQuizFragment :
                     ProblemsLimitInfoModalFeatureParams(
                         subscription = action.subscription,
                         chargeLimitsStrategy = action.chargeLimitsStrategy,
-                        context = action.context,
-                        stepRoute = action.stepRoute
+                        context = action.context
                     )
                 )
             }
@@ -300,8 +299,7 @@ abstract class DefaultStepQuizFragment :
                             ProblemsLimitInfoModalFeatureParams(
                                 subscription = viewAction.subscription,
                                 chargeLimitsStrategy = viewAction.chargeLimitsStrategy,
-                                context = viewAction.context,
-                                stepRoute = viewAction.stepRoute
+                                context = viewAction.context
                             )
                         )
                     }

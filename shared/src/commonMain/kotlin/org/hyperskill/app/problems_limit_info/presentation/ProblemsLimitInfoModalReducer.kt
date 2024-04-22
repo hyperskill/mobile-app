@@ -1,5 +1,6 @@
 package org.hyperskill.app.problems_limit_info.presentation
 
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalClickedUnlockUnlimitedProblemsHSAnalyticEvent
 import org.hyperskill.app.problems_limit_info.domain.analytic.ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent
@@ -8,13 +9,12 @@ import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModa
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.InternalAction
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.Message
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.State
-import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ProblemsLimitInfoReducerResult = Pair<State, Set<Action>>
 
 internal class ProblemsLimitInfoModalReducer(
-    private val stepRoute: StepRoute
+    private val analyticRoute: HyperskillAnalyticRoute
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ProblemsLimitInfoReducerResult =
         when (message) {
@@ -26,14 +26,14 @@ internal class ProblemsLimitInfoModalReducer(
     private fun handleModalShown(state: State): ProblemsLimitInfoReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                ProblemsLimitInfoModalShownHyperskillAnalyticEvent(stepRoute.analyticRoute, state.context)
+                ProblemsLimitInfoModalShownHyperskillAnalyticEvent(analyticRoute, state.launchSource)
             )
         )
 
     private fun handleModalHidden(state: State): ProblemsLimitInfoReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent(stepRoute.analyticRoute, state.context)
+                ProblemsLimitInfoModalHiddenHyperskillAnalyticEvent(analyticRoute, state.launchSource)
             )
         )
 
@@ -42,7 +42,7 @@ internal class ProblemsLimitInfoModalReducer(
             Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.PROBLEMS_LIMIT_MODAL),
             InternalAction.LogAnalyticEvent(
                 ProblemsLimitInfoModalClickedUnlockUnlimitedProblemsHSAnalyticEvent(
-                    stepRoute.analyticRoute, state.context
+                    analyticRoute, state.launchSource
                 )
             )
         )

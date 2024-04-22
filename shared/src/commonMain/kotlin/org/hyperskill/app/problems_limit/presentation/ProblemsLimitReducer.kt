@@ -7,6 +7,7 @@ import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Inter
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
 import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.State
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.StepRoute
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -58,8 +59,10 @@ class ProblemsLimitReducer(
                 Action.ViewAction.ShowProblemsLimitInfoModal(
                     subscription = state.subscription,
                     chargeLimitsStrategy = state.chargeLimitsStrategy,
-                    context = ProblemsLimitInfoModalContext.USER_INITIATED,
-                    stepRoute = stepRoute
+                    context = ProblemsLimitInfoModalContext.Step(
+                        launchSource = ProblemsLimitInfoModalLaunchSource.USER_INITIATED,
+                        stepRoute = stepRoute
+                    )
                 )
             )
         } else {
