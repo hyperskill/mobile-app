@@ -4,6 +4,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.profile.cache.CurrentProfileStateHolderImpl
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 
 /**
  * Represents a user profile.
@@ -80,6 +81,13 @@ internal val Profile.isNewUser: Boolean
 
 internal val Profile.isCurrentTrackCompleted: Boolean
     get() = trackId?.let { completedTracks.contains(it) } ?: false
+
+internal val Profile.freemiumChargeLimitsStrategy: FreemiumChargeLimitsStrategy
+    get() = if (features.isFreemiumWrongSubmissionChargeLimitsEnabled) {
+        FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION
+    } else {
+        FreemiumChargeLimitsStrategy.AFTER_CORRECT_SUBMISSION
+    }
 
 /**
  * A shortcut to copy [Profile] with updated hypercoinsBalance.

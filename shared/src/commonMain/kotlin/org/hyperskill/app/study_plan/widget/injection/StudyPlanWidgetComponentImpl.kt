@@ -16,6 +16,7 @@ internal class StudyPlanWidgetComponentImpl(private val appGraph: AppGraph) : St
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
             currentStudyPlanStateRepository = appGraph.stateRepositoriesComponent.currentStudyPlanStateRepository,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
+            progressesRepository = appGraph.buildProgressesDataComponent().progressesRepository,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )

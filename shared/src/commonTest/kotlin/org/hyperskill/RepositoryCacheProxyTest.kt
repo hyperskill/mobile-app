@@ -127,4 +127,24 @@ class RepositoryCacheProxyTest {
             assertEquals(remoteKeys, actualRemoteRequestedKeys)
         }
     }
+
+    @Test
+    fun `putValues should add values to the cache`() {
+        val values = listOf("1", "2", "3")
+        val expectedKeys = values.map { it.toInt() }
+
+        val cache = InMemoryRepositoryCache<Int, String>()
+        val cacheProxy = RepositoryCacheProxy(
+            cache = cache,
+            loadValuesFromRemote = { Result.success(values) },
+            getKeyFromValue = { it.toInt() }
+        )
+
+        runBlocking {
+            cacheProxy.putValues(values)
+
+            val actualValues = cache.getAll(expectedKeys)
+            assertEquals(values, actualValues)
+        }
+    }
 }

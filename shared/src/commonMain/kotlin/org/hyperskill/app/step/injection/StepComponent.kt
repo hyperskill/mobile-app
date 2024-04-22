@@ -6,5 +6,5 @@ import ru.nobird.app.presentation.redux.feature.Feature
 
 interface StepComponent {
     val commentThreadTitleMapper: CommentThreadTitleMapper
-    val stepFeature: Feature<StepFeature.State, StepFeature.Message, StepFeature.Action>
+    val stepFeature: Feature<StepFeature.ViewState, StepFeature.Message, StepFeature.Action>
 }

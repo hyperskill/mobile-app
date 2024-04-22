@@ -8,6 +8,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.progresses.domain.repository.ProgressesRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -26,6 +27,7 @@ class StudyPlanWidgetActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val progressesRepository: ProgressesRepository,
     private val sentryInteractor: SentryInteractor,
     private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -63,6 +65,9 @@ class StudyPlanWidgetActionDispatcher(
             }
             is InternalAction.UpdateCurrentStudyPlanState -> {
                 currentStudyPlanStateRepository.getState(forceUpdate = action.forceUpdate)
+            }
+            is InternalAction.PutTopicsProgressesToCache -> {
+                progressesRepository.putTopicsProgressesToCache(action.topicsProgresses)
             }
             is InternalAction.CaptureSentryException -> {
                 sentryInteractor.captureException(action.throwable)

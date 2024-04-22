@@ -5,9 +5,9 @@ PODS:
   - AppAuth/Core (1.6.2)
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
-  - AppsFlyerFramework (6.12.2):
-    - AppsFlyerFramework/Main (= 6.12.2)
-  - AppsFlyerFramework/Main (6.12.2)
+  - AppsFlyerFramework (6.14.2):
+    - AppsFlyerFramework/Main (= 6.14.2)
+  - AppsFlyerFramework/Main (6.14.2)
   - Atributika (4.10.1)
   - CocoaLumberjack (3.8.2):
     - CocoaLumberjack/Core (= 3.8.2)
@@ -100,7 +100,7 @@ PODS:
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
-  - AppsFlyerFramework (= 6.12.2)
+  - AppsFlyerFramework (= 6.14.2)
   - Atributika (= 4.10.1)
   - CombineSchedulers (from `https://github.com/ivan-magda/combine-schedulers.git`, branch `main`)
   - Firebase/CoreOnly (= 10.17.0)
@@ -192,7 +192,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
-  AppsFlyerFramework: 6eb4d89d2eb9a6632317f1055b359d9fd85fd5ff
+  AppsFlyerFramework: b3de9a49c6af8a8e38c44603e468b5e207f22466
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
   CocoaLumberjack: f8d89a516e7710fdb2e9b8f1560b16ec6040eef0
   CombineSchedulers: 80f670c732b4754eb011cd1147d9a08654b1c463
@@ -227,6 +227,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 4a7f7e2c618260919026c572d5dbe1ec7f32ae37
+PODFILE CHECKSUM: fd4e8dad2039002e48a0bb826a57b6600d211938
 
 COCOAPODS: 1.15.2

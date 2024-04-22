@@ -71,9 +71,9 @@ import org.hyperskill.app.paywall.injection.PaywallComponentImpl
 import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
-import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
-import org.hyperskill.app.problems_limit_reached.injection.ProblemsLimitReachedModalComponent
-import org.hyperskill.app.problems_limit_reached.injection.ProblemsLimitReachedModalComponentImpl
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
+import org.hyperskill.app.problems_limit_info.injection.ProblemsLimitInfoModalComponent
+import org.hyperskill.app.problems_limit_info.injection.ProblemsLimitInfoModalComponentImpl
 import org.hyperskill.app.products.injection.ProductsDataComponent
 import org.hyperskill.app.products.injection.ProductsDataComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -129,6 +129,8 @@ import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponentImpl
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponentImpl
+import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
+import org.hyperskill.app.step_toolbar.injection.StepToolbarComponentImpl
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponentImpl
 import org.hyperskill.app.streaks.injection.StreakFlowDataComponent
@@ -285,6 +287,12 @@ abstract class BaseAppGraph : AppGraph {
      */
     override fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent =
         StepCompletionComponentImpl(this, stepRoute)
+
+    /**
+     * Step toolbar component
+     */
+    override fun buildStepToolbarComponent(stepRoute: StepRoute): StepToolbarComponent =
+        StepToolbarComponentImpl(this, stepRoute)
 
     /**
      * Stage implement component
@@ -513,8 +521,8 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
         UsersQuestionnaireOnboardingComponentImpl(this)
 
-    override fun buildProblemsLimitReachedModalComponent(
-        params: ProblemsLimitReachedModalFeatureParams
-    ): ProblemsLimitReachedModalComponent =
-        ProblemsLimitReachedModalComponentImpl(appGraph = this, params = params)
+    override fun buildProblemsLimitInfoModalComponent(
+        params: ProblemsLimitInfoModalFeatureParams
+    ): ProblemsLimitInfoModalComponent =
+        ProblemsLimitInfoModalComponentImpl(appGraph = this, params = params)
 }

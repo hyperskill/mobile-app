@@ -2,7 +2,6 @@ package org.hyperskill.step_quiz
 
 import kotlin.test.assertEquals
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
@@ -13,10 +12,10 @@ import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
-import org.hyperskill.profile.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
 import org.hyperskill.subscriptions.stub
@@ -57,9 +56,9 @@ class AndroidStepQuizTest {
                 )
 
                 val stepRoute = when (concreteStepRouteClass) {
-                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id)
+                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id, null)
                     StepRoute.Learn.TheoryOpenedFromPractice::class ->
-                        StepRoute.Learn.TheoryOpenedFromPractice(step.id)
+                        StepRoute.Learn.TheoryOpenedFromPractice(step.id, null)
                     StepRoute.Learn.TheoryOpenedFromSearch::class ->
                         StepRoute.Learn.TheoryOpenedFromSearch(step.id)
                     StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
@@ -93,7 +92,7 @@ class AndroidStepQuizTest {
                             stepsLimitLeft = 5,
                             stepsLimitTotal = 5
                         ),
-                        profile = Profile.stub(),
+                        chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                         problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                         isMobileGptCodeGenerationWithErrorsEnabled = false
                     )
