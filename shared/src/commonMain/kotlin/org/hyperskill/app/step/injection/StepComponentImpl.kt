@@ -5,6 +5,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import org.hyperskill.app.step_completion.injection.StepCompletionComponent
+import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class StepComponentImpl(
@@ -17,8 +18,11 @@ internal class StepComponentImpl(
     private val stepCompletionComponent: StepCompletionComponent =
         appGraph.buildStepCompletionComponent(stepRoute)
 
+    private val stepToolbarComponent: StepToolbarComponent =
+        appGraph.buildStepToolbarComponent(stepRoute)
+
     /*ktlint-disable*/
-    override val stepFeature: Feature<StepFeature.State, StepFeature.Message, StepFeature.Action>
+    override val stepFeature: Feature<StepFeature.ViewState, StepFeature.Message, StepFeature.Action>
         get() = StepFeatureBuilder.build(
             stepRoute = stepRoute,
             stepInteractor = appGraph.buildStepDataComponent().stepInteractor,
@@ -29,6 +33,8 @@ internal class StepComponentImpl(
             sentryInteractor = appGraph.sentryComponent.sentryInteractor,
             stepCompletionReducer = stepCompletionComponent.stepCompletionReducer,
             stepCompletionActionDispatcher = stepCompletionComponent.stepCompletionActionDispatcher,
+            stepToolbarReducer = stepToolbarComponent.stepToolbarReducer,
+            stepToolbarActionDispatcher = stepToolbarComponent.stepToolbarActionDispatcher,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant
         )

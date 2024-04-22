@@ -519,7 +519,10 @@ internal class StepQuizReducer(
                         is StepRoute.Repeat.Practice ->
                             StepRoute.Repeat.Theory(stepId = topicTheoryId)
                         is StepRoute.Learn.Step ->
-                            StepRoute.Learn.TheoryOpenedFromPractice(stepId = topicTheoryId)
+                            StepRoute.Learn.TheoryOpenedFromPractice(
+                                stepId = topicTheoryId,
+                                topicId = state.stepQuizState.step.topic
+                            )
                         is StepRoute.Learn.TheoryOpenedFromPractice,
                         is StepRoute.Learn.TheoryOpenedFromSearch,
                         is StepRoute.LearnDaily,

@@ -9,11 +9,9 @@ class TopicProgressTest {
     @Test
     fun testTopicProgressGetTopicId() {
         val topicProgress = TopicProgress(
-            id = "2-123",
             vid = "topic-123",
             isCompleted = false,
-            isSkipped = false,
-            isInCurrentTrack = true
+            isSkipped = false
         )
         assertEquals(123L, topicProgress.topicId)
     }
@@ -22,32 +20,24 @@ class TopicProgressTest {
     fun testTopicProgressGetTopicIdNull() {
         val topicProgresses = listOf(
             TopicProgress(
-                id = "2-abc",
                 vid = "topic-abc",
                 isCompleted = false,
-                isSkipped = false,
-                isInCurrentTrack = true
+                isSkipped = false
             ),
             TopicProgress(
-                id = "2-abc",
                 vid = "abc-defog",
                 isCompleted = false,
-                isSkipped = false,
-                isInCurrentTrack = true
+                isSkipped = false
             ),
             TopicProgress(
-                id = "1-abc",
                 vid = "",
                 isCompleted = false,
-                isSkipped = false,
-                isInCurrentTrack = true
+                isSkipped = false
             ),
             TopicProgress(
-                id = "1-abc",
                 vid = "qwerty",
                 isCompleted = false,
-                isSkipped = false,
-                isInCurrentTrack = true
+                isSkipped = false
             )
         )
         topicProgresses.forEach {

@@ -69,13 +69,15 @@ struct StepQuizView: View {
                             onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
                         )
 
-                        StepQuizHintsView(
-                            state: viewModel.state.stepQuizHintsState,
-                            onNewMessage: { [weak viewModel] message in
-                                viewModel?.handleStepQuizHints(message: message)
-                            }
-                        )
-                        .equatable()
+                        if StepQuizHintsFeature.shared.isHintsFeatureAvailable(step: viewModel.step) {
+                            StepQuizHintsView(
+                                state: viewModel.state.stepQuizHintsState,
+                                onNewMessage: { [weak viewModel] message in
+                                    viewModel?.handleStepQuizHints(message: message)
+                                }
+                            )
+                            .equatable()
+                        }
 
                         buildQuizContent(
                             state: viewModel.state,
