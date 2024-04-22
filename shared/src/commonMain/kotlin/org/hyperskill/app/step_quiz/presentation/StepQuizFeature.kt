@@ -3,7 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -143,7 +143,7 @@ object StepQuizFeature {
             val attempt: Attempt,
             val submissionState: SubmissionState,
             val subscription: Subscription,
-            val profile: Profile,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
             val problemsOnboardingFlags: ProblemsOnboardingFlags,
             val isMobileGptCodeGenerationWithErrorsEnabled: Boolean
         ) : InternalMessage
@@ -155,7 +155,7 @@ object StepQuizFeature {
 
         data class UpdateProblemsLimitResult(
             val subscription: Subscription,
-            val profile: Profile
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
         data class ProblemsLimitChanged(val subscription: Subscription) : InternalMessage
@@ -198,7 +198,8 @@ object StepQuizFeature {
 
             data class ShowProblemsLimitReachedModal(
                 val subscription: Subscription,
-                val profile: Profile,
+                val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
+                val context: ProblemsLimitInfoModalContext,
                 val stepRoute: StepRoute
             ) : ViewAction
 

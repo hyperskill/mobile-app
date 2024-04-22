@@ -5,7 +5,7 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizClickedTheoryToolbarItemHyperskillAnalyticEvent
@@ -21,7 +21,6 @@ import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrateg
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
-import org.hyperskill.profile.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
 import org.hyperskill.step_quiz.presentation.stub
@@ -72,7 +71,7 @@ class StepQuizTest {
                     attempt,
                     submissionState,
                     subscription = limitReachedSubscription,
-                    profile = Profile.stub(),
+                    chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                     problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                     isMobileGptCodeGenerationWithErrorsEnabled = false
                 )
@@ -117,7 +116,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 subscription = limitReachedSubscription,
-                profile = Profile.stub(),
+                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isMobileGptCodeGenerationWithErrorsEnabled = false
             )
@@ -225,8 +224,8 @@ class StepQuizTest {
         val step = Step.stub(id = 1)
 
         val subscription = limitReachedSubscription
-        val profile = Profile.stub()
         val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION
 
         val initialState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
@@ -249,7 +248,7 @@ class StepQuizTest {
             initialState,
             StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
                 subscription = subscription,
-                profile = profile
+                chargeLimitsStrategy = chargeLimitsStrategy
             )
         )
 
@@ -268,7 +267,12 @@ class StepQuizTest {
         assertEquals(expectedState, actualState)
         assertContains(
             actualActions,
-            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(subscription, profile, stepRoute)
+            StepQuizFeature.Action.ViewAction.ShowProblemsLimitReachedModal(
+                subscription = subscription,
+                chargeLimitsStrategy = chargeLimitsStrategy,
+                context = ProblemsLimitInfoModalContext.AUTOMATIC_NO_LIMITS_LEFT,
+                stepRoute = stepRoute
+            )
         )
     }
 
@@ -297,7 +301,7 @@ class StepQuizTest {
             initialState,
             StepQuizFeature.InternalMessage.UpdateProblemsLimitResult(
                 subscription = limitReachedSubscription,
-                profile = Profile.stub()
+                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION
             )
         )
 
@@ -357,7 +361,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 subscription = Subscription.stub(),
-                profile = Profile.stub(),
+                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isMobileGptCodeGenerationWithErrorsEnabled = false
             )
@@ -418,7 +422,7 @@ class StepQuizTest {
                 attempt,
                 submissionState,
                 subscription = Subscription.stub(),
-                profile = Profile.stub(),
+                chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                 problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                 isMobileGptCodeGenerationWithErrorsEnabled = false
             )

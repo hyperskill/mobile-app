@@ -173,7 +173,7 @@ class SharedDateFormatter(private val resourceProvider: ResourceProvider) {
 
     /**
      * Format hours or minutes count with localized and pluralized suffix;
-     * 02:03:10 -> "2 h.", 00:12:56 -> "12 m."
+     * 02:03:10 -> "2 h", 00:12:56 -> "12 m"
      * @param duration Duration to format
      *
      */

@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -367,13 +368,7 @@ internal class StepQuizReducer(
                 } else {
                     state.copy(stepQuizState = stepQuizState) to
                         if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
-                            setOf(
-                                Action.ViewAction.ShowProblemsLimitReachedModal(
-                                    message.subscription,
-                                    message.profile,
-                                    stepRoute
-                                )
-                            )
+                            showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
                         } else {
                             getProblemOnboardingModalActions(
                                 step = message.step,
@@ -463,7 +458,7 @@ internal class StepQuizReducer(
             state.copy(
                 stepQuizState = state.stepQuizState.copy(isProblemsLimitReached = isProblemsLimitReached)
             ) to if (isProblemsLimitReached && shouldShowProblemsLimitModal(message.subscription)) {
-                setOf(Action.ViewAction.ShowProblemsLimitReachedModal(message.subscription, message.profile, stepRoute))
+                showProblemsLimitReachedModal(message.subscription, message.chargeLimitsStrategy)
             } else {
                 emptySet()
             }
@@ -600,4 +595,17 @@ internal class StepQuizReducer(
             }
             else -> emptySet()
         }
+
+    private fun showProblemsLimitReachedModal(
+        subscription: Subscription,
+        chargeLimitsStrategy: FreemiumChargeLimitsStrategy
+    ): Set<Action> =
+        setOf(
+            Action.ViewAction.ShowProblemsLimitReachedModal(
+                subscription = subscription,
+                chargeLimitsStrategy = chargeLimitsStrategy,
+                context = ProblemsLimitInfoModalContext.AUTOMATIC_NO_LIMITS_LEFT,
+                stepRoute = stepRoute
+            )
+        )
 }

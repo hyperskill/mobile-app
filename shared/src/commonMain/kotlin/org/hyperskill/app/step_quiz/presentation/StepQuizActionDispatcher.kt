@@ -9,6 +9,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
+import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
 import org.hyperskill.app.profile.domain.model.isFreemiumWrongSubmissionChargeLimitsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileGptCodeGenerationWithErrorsEnabled
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
@@ -229,7 +230,7 @@ internal class StepQuizActionDispatcher(
                 attempt = attempt,
                 submissionState = submissionState,
                 subscription = currentSubscription,
-                profile = currentProfile,
+                chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy,
                 problemsOnboardingFlags = onboardingInteractor.getProblemsOnboardingFlags(),
                 isMobileGptCodeGenerationWithErrorsEnabled = isMobileGptCodeGenerationWithErrorsEnabled
             )
@@ -265,7 +266,7 @@ internal class StepQuizActionDispatcher(
         onNewMessage(
             InternalMessage.UpdateProblemsLimitResult(
                 subscription = currentSubscription,
-                profile = currentProfile
+                chargeLimitsStrategy = currentProfile.freemiumChargeLimitsStrategy
             )
         )
     }

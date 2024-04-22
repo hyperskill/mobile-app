@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_quiz_toolbar.presentation
 
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_toolbar.domain.analytic.StepQuizToolbarLimitClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
@@ -33,7 +34,7 @@ class StepQuizToolbarReducer(
     private fun handleSubscriptionFetchSuccess(
         message: InternalMessage.SubscriptionFetchSuccess
     ): StepQuizToolbarReducerResult =
-        State.Content(message.subscription) to emptySet()
+        State.Content(message.subscription, message.chargeLimitsStrategy) to emptySet()
 
     private fun handleSubscriptionFetchError(): StepQuizToolbarReducerResult =
         State.Error to emptySet()
@@ -49,9 +50,19 @@ class StepQuizToolbarReducer(
         }
 
     private fun handleProblemsLimitClicked(state: State): StepQuizToolbarReducerResult =
-        state to setOf(
-            InternalAction.LogAnalyticEvent(
-                StepQuizToolbarLimitClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+        if (state is State.Content) {
+            state to setOf(
+                InternalAction.LogAnalyticEvent(
+                    StepQuizToolbarLimitClickedHyperskillAnalyticEvent(stepRoute.analyticRoute)
+                ),
+                Action.ViewAction.ShowProblemsLimitInfoModal(
+                    subscription = state.subscription,
+                    chargeLimitsStrategy = state.chargeLimitsStrategy,
+                    context = ProblemsLimitInfoModalContext.USER_INITIATED,
+                    stepRoute = stepRoute
+                )
             )
-        )
+        } else {
+            state to emptySet()
+        }
 }
