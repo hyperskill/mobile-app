@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_quiz_toolbar.presentation
+package org.hyperskill.app.problems_limit.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
@@ -6,7 +6,7 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
-object StepQuizToolbarFeature {
+object ProblemsLimitFeature {
     sealed interface State {
         object Idle : State
         object Loading : State

@@ -24,10 +24,10 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
+import org.hyperskill.app.android.step.view.model.ProblemsLimitCallback
+import org.hyperskill.app.android.step.view.model.ProblemsLimitHost
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarHost
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
@@ -39,6 +39,8 @@ import org.hyperskill.app.android.step_quiz.view.mapper.StepQuizFeedbackMapper
 import org.hyperskill.app.android.step_quiz.view.model.StepQuizFeedbackState
 import org.hyperskill.app.android.step_quiz_hints.delegate.StepQuizHintsDelegate
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.view.ProblemsLimitViewStateMapper
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
@@ -52,8 +54,6 @@ import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.view.mapper.StepQuizHintsViewStateMapper
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
-import org.hyperskill.app.step_quiz_toolbar.view.StepQuizToolbarViewStateMapper
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
@@ -65,7 +65,7 @@ abstract class DefaultStepQuizFragment :
     ReduxView<StepQuizFeature.State, StepQuizFeature.Action.ViewAction>,
     StepCompletionView,
     ProblemOnboardingBottomSheetCallback,
-    StepQuizToolbarCallback {
+    ProblemsLimitCallback {
 
     private lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -293,9 +293,9 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.OpenUrl -> {
                 // TODO: ALTAPPS-807
             }
-            is StepQuizFeature.Action.ViewAction.StepQuizToolbarViewAction -> {
+            is StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction -> {
                 when (val viewAction = action.viewAction) {
-                    is StepQuizToolbarFeature.Action.ViewAction.ShowProblemsLimitInfoModal -> {
+                    is ProblemsLimitFeature.Action.ViewAction.ShowProblemsLimitInfoModal -> {
                         showProblemsLimitInfoBottomSheet(
                             ProblemsLimitInfoModalFeatureParams(
                                 subscription = viewAction.subscription,
@@ -363,7 +363,7 @@ abstract class DefaultStepQuizFragment :
             menuHost = requireActivity() as MenuHost,
             state = state.stepQuizState
         )
-        renderLimits(state.stepQuizToolbarState)
+        renderLimits(state.problemsLimitState)
         renderHints(state.stepQuizHintsState)
 
         onNewState(state)
@@ -421,9 +421,9 @@ abstract class DefaultStepQuizFragment :
         stepQuizHintsDelegate?.render(requireContext(), viewState)
     }
 
-    private fun renderLimits(state: StepQuizToolbarFeature.State) {
-        val viewState = StepQuizToolbarViewStateMapper.map(state)
-        (parentFragment as? StepQuizToolbarHost)?.render(viewState)
+    private fun renderLimits(state: ProblemsLimitFeature.State) {
+        val viewState = ProblemsLimitViewStateMapper.map(state)
+        (parentFragment as? ProblemsLimitHost)?.render(viewState)
     }
 
     final override fun render(isPracticingLoading: Boolean) {
@@ -449,7 +449,7 @@ abstract class DefaultStepQuizFragment :
 
     override fun onLimitsClicked() {
         stepQuizViewModel.onNewMessage(
-            StepQuizFeature.Message.StepQuizToolbarMessage(StepQuizToolbarFeature.Message.ProblemsLimitClicked)
+            StepQuizFeature.Message.ProblemsLimitMessage(ProblemsLimitFeature.Message.ProblemsLimitClicked)
         )
     }
 

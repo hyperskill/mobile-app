@@ -10,8 +10,8 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
@@ -52,7 +52,7 @@ class AndroidStepQuizTest {
                         }
                     ),
                     stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                    stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                    problemsLimitState = ProblemsLimitFeature.initialState()
                 )
 
                 val stepRoute = when (concreteStepRouteClass) {
@@ -73,7 +73,7 @@ class AndroidStepQuizTest {
                     stepRoute = stepRoute,
                     stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
                         stepQuizHintsReducer = StepQuizHintsReducer(stepRoute),
-                        stepQuizToolbarReducer = StepQuizToolbarReducer(stepRoute)
+                        problemsLimitReducer = ProblemsLimitReducer(stepRoute)
                     ),
                 )
 
@@ -81,7 +81,7 @@ class AndroidStepQuizTest {
                     StepQuizFeature.State(
                         stepQuizState = StepQuizFeature.StepQuizState.Loading,
                         stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                        stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                        problemsLimitState = ProblemsLimitFeature.initialState()
                     ),
                     StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                         step,

@@ -1,10 +1,10 @@
-package org.hyperskill.app.step_quiz_toolbar.view
+package org.hyperskill.app.problems_limit.view
 
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.State
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.ViewState
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.State
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.ViewState
 import org.hyperskill.app.subscriptions.domain.model.areProblemsLimited
 
-object StepQuizToolbarViewStateMapper {
+object ProblemsLimitViewStateMapper {
 
     fun map(state: State): ViewState =
         when (state) {

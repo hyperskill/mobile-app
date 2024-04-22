@@ -3,10 +3,10 @@ package org.hyperskill.step_quiz.presentation
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 
 internal fun StepQuizChildFeatureReducer.Companion.stub(stepRoute: StepRoute) =
     StepQuizChildFeatureReducer(
         stepQuizHintsReducer = StepQuizHintsReducer(stepRoute),
-        stepQuizToolbarReducer = StepQuizToolbarReducer(stepRoute)
+        problemsLimitReducer = ProblemsLimitReducer(stepRoute)
     )

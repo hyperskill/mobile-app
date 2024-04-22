@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
@@ -11,7 +12,6 @@ import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -21,7 +21,7 @@ object StepQuizFeature {
     data class State(
         val stepQuizState: StepQuizState,
         val stepQuizHintsState: StepQuizHintsFeature.State,
-        val stepQuizToolbarState: StepQuizToolbarFeature.State
+        val problemsLimitState: ProblemsLimitFeature.State
     )
 
     sealed interface StepQuizState {
@@ -133,7 +133,7 @@ object StepQuizFeature {
          * Message Wrappers
          */
         data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message, ChildFeatureMessage
-        data class StepQuizToolbarMessage(val message: StepQuizToolbarFeature.Message) : Message, ChildFeatureMessage
+        data class ProblemsLimitMessage(val message: ProblemsLimitFeature.Message) : Message, ChildFeatureMessage
     }
 
     internal sealed interface InternalMessage : Message {
@@ -189,7 +189,7 @@ object StepQuizFeature {
          * Action Wrappers
          */
         data class StepQuizHintsAction(val action: StepQuizHintsFeature.Action) : Action
-        data class StepQuizToolbarAction(val action: StepQuizToolbarFeature.Action) : Action
+        data class ProblemsLimitAction(val action: ProblemsLimitFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
@@ -211,8 +211,8 @@ object StepQuizFeature {
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
             ) : ViewAction
 
-            data class StepQuizToolbarViewAction(
-                val viewAction: StepQuizToolbarFeature.Action.ViewAction
+            data class ProblemsLimitViewAction(
+                val viewAction: ProblemsLimitFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface CreateMagicLinkState : ViewAction {

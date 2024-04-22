@@ -68,6 +68,8 @@ import org.hyperskill.app.onboarding.injection.OnboardingDataComponentImpl
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.injection.PaywallComponent
 import org.hyperskill.app.paywall.injection.PaywallComponentImpl
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
+import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponentImpl
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import org.hyperskill.app.problems_limit_info.injection.ProblemsLimitInfoModalComponent
 import org.hyperskill.app.problems_limit_info.injection.ProblemsLimitInfoModalComponentImpl
@@ -122,8 +124,6 @@ import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
-import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
-import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponentImpl
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponentImpl
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
@@ -276,8 +276,8 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent =
         StepQuizHintsComponentImpl(this, stepRoute)
 
-    override fun buildStepQuizToolbarComponent(stepRoute: StepRoute): StepQuizToolbarComponent =
-        StepQuizToolbarComponentImpl(this, stepRoute)
+    override fun buildProblemsLimitComponent(stepRoute: StepRoute): ProblemsLimitComponent =
+        ProblemsLimitComponentImpl(this, stepRoute)
 
     /**
      * Step completion component

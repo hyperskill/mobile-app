@@ -3,7 +3,7 @@ package org.hyperskill.app.study_plan.screen.view
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.gamification_toolbar.view.mapper.GamificationToolbarViewStateMapper
-import org.hyperskill.app.problems_limit.presentation.LegacyProblemsLimitFeature
+import org.hyperskill.app.legacy_problems_limit.presentation.LegacyProblemsLimitFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.widget.view.mapper.StudyPlanWidgetViewStateMapper
 

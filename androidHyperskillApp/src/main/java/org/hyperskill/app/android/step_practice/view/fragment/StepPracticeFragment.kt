@@ -11,15 +11,15 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
+import org.hyperskill.app.android.step.view.model.ProblemsLimitCallback
+import org.hyperskill.app.android.step.view.model.ProblemsLimitHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarHost
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
+import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 
-class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepCompletionView, StepQuizToolbarHost {
+class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepCompletionView, ProblemsLimitHost {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
@@ -39,12 +39,12 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AppCompatActivity)
-            .setSupportActionBar(viewBinding.stepPracticeAppBar.stepQuizToolbar)
-        viewBinding.stepPracticeAppBar.stepQuizToolbar.setNavigationOnClickListener {
+            .setSupportActionBar(viewBinding.stepPracticeAppBar.stepQuizProblemsLimit)
+        viewBinding.stepPracticeAppBar.stepQuizProblemsLimit.setNavigationOnClickListener {
             requireRouter().exit()
         }
         viewBinding.stepPracticeAppBar.stepQuizLimitsTextView.setOnClickListener {
-            (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepQuizToolbarCallback)
+            (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? ProblemsLimitCallback)
                 ?.onLimitsClicked()
         }
         initStepPracticeDescriptionFragment(step, stepRoute)
@@ -68,10 +68,10 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
             ?.render(isPracticingLoading)
     }
 
-    override fun render(viewState: StepQuizToolbarFeature.ViewState) {
+    override fun render(viewState: ProblemsLimitFeature.ViewState) {
         viewBinding.stepPracticeAppBar.stepQuizLimitsTextView.isVisible =
-            viewState is StepQuizToolbarFeature.ViewState.Content.Visible
-        if (viewState is StepQuizToolbarFeature.ViewState.Content.Visible) {
+            viewState is ProblemsLimitFeature.ViewState.Content.Visible
+        if (viewState is ProblemsLimitFeature.ViewState.Content.Visible) {
             viewBinding.stepPracticeAppBar.stepQuizLimitsTextView.text = viewState.stepsLimitLabel
         }
     }
