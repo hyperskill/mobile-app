@@ -7,9 +7,6 @@ import kotlin.test.fail
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
-import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedPullToRefreshHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.study_plan.domain.analytic.StudyPlanViewedHyperskillAnalyticEvent
@@ -23,7 +20,6 @@ import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidg
 class StudyPlanScreenTest {
     private val reducer = StudyPlanScreenReducer(
         GamificationToolbarReducer(GamificationToolbarScreen.STUDY_PLAN),
-        ProblemsLimitReducer(ProblemsLimitScreen.STUDY_PLAN),
         UsersInterviewWidgetReducer(),
         StudyPlanWidgetReducer()
     )
@@ -62,7 +58,6 @@ class StudyPlanScreenTest {
 
         val expectedState = stubState(
             toolbarState = GamificationToolbarFeature.State.Loading,
-            problemsLimitState = ProblemsLimitFeature.State.Loading,
             questionnaireWidgetState = UsersInterviewWidgetFeature.State.Loading,
             studyPlanWidgetState = StudyPlanWidgetFeature.State(
                 sectionsStatus = StudyPlanWidgetFeature.ContentStatus.LOADING
@@ -79,13 +74,11 @@ class StudyPlanScreenTest {
 
     private fun stubState(
         toolbarState: GamificationToolbarFeature.State = GamificationToolbarFeature.State.Idle,
-        problemsLimitState: ProblemsLimitFeature.State = ProblemsLimitFeature.State.Idle,
         questionnaireWidgetState: UsersInterviewWidgetFeature.State = UsersInterviewWidgetFeature.State.Idle,
         studyPlanWidgetState: StudyPlanWidgetFeature.State = StudyPlanWidgetFeature.State()
     ): StudyPlanScreenFeature.State =
         StudyPlanScreenFeature.State(
             toolbarState,
-            problemsLimitState,
             questionnaireWidgetState,
             studyPlanWidgetState
         )

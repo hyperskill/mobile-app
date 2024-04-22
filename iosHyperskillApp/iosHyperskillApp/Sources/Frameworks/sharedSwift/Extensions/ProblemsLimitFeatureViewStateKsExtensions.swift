@@ -1,8 +1,8 @@
 import Foundation
 import shared
 
-extension ProblemsLimitFeatureViewStateKs: Equatable {
-    public static func == (lhs: ProblemsLimitFeatureViewStateKs, rhs: ProblemsLimitFeatureViewStateKs) -> Bool {
+extension LegacyProblemsLimitFeatureViewStateKs: Equatable {
+    public static func == (lhs: LegacyProblemsLimitFeatureViewStateKs, rhs: LegacyProblemsLimitFeatureViewStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true
@@ -11,7 +11,7 @@ extension ProblemsLimitFeatureViewStateKs: Equatable {
         case (.error, .error):
             return true
         case (.content(let lhsData), .content(let rhsData)):
-            return ProblemsLimitFeatureViewStateContentKs(lhsData) == ProblemsLimitFeatureViewStateContentKs(rhsData)
+            return LegacyProblemsLimitFeatureViewStateContentKs(lhsData) == LegacyProblemsLimitFeatureViewStateContentKs(rhsData)
         case (.content, .error):
             return false
         case (.content, .idle):
@@ -40,10 +40,10 @@ extension ProblemsLimitFeatureViewStateKs: Equatable {
     }
 }
 
-extension ProblemsLimitFeatureViewStateContentKs: Equatable {
+extension LegacyProblemsLimitFeatureViewStateContentKs: Equatable {
     public static func == (
-        lhs: ProblemsLimitFeatureViewStateContentKs,
-        rhs: ProblemsLimitFeatureViewStateContentKs
+        lhs: LegacyProblemsLimitFeatureViewStateContentKs,
+        rhs: LegacyProblemsLimitFeatureViewStateContentKs
     ) -> Bool {
         switch (lhs, rhs) {
         case (.empty, .empty):

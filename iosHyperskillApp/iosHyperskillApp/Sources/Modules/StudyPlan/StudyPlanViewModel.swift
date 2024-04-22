@@ -11,7 +11,7 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarViewStateKs: GamificationToolbarFeatureViewStateKs { .init(state.toolbarViewState) }
-    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
+    var problemsLimitViewStateKs: LegacyProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
     var usersInterviewWidgetFeatureStateKs: UsersInterviewWidgetFeatureStateKs {
         .init(state.usersInterviewWidgetState)
     }
@@ -92,11 +92,7 @@ final class StudyPlanViewModel: FeatureViewModel<
     }
 
     func doReloadProblemsLimit() {
-        onNewMessage(
-            StudyPlanScreenFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageRetryContentLoading()
-            )
-        )
+        // TODO: ALTAPPS-1226 remove problems limit widget
     }
 
     // MARK: Analytic

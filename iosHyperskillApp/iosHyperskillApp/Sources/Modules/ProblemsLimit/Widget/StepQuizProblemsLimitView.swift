@@ -2,13 +2,13 @@ import shared
 import SwiftUI
 
 struct StepQuizProblemsLimitView: View {
-    let stateKs: ProblemsLimitFeatureViewStateKs
+    let stateKs: LegacyProblemsLimitFeatureViewStateKs
 
     let onReloadButtonTap: () -> Void
 
     var body: some View {
         if case .content(let problemsLimitContentState) = stateKs,
-           case .widget = ProblemsLimitFeatureViewStateContentKs(problemsLimitContentState) {
+           case .widget = LegacyProblemsLimitFeatureViewStateContentKs(problemsLimitContentState) {
             Divider()
         }
 
@@ -23,7 +23,7 @@ struct StepQuizProblemsLimitView_Previews: PreviewProvider {
     static var previews: some View {
         ProblemsLimitView(
             stateKs: .content(
-                ProblemsLimitFeatureViewStateContentWidget(
+                LegacyProblemsLimitFeatureViewStateContentWidget(
                     progress: 0.6,
                     stepsLimitLabel: "3/5 steps",
                     updateInLabel: "12 hours"
