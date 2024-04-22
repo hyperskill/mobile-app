@@ -85,6 +85,9 @@ class GamificationToolbarDelegate(
             GamificationToolbarFeature.Action.ViewAction.ShowSearchScreen -> {
                 router.navigateTo(TopicSearchScreen)
             }
+            is GamificationToolbarFeature.Action.ViewAction.ShowProblemsLimitInfoModal -> {
+
+            }
         }
     }
 
