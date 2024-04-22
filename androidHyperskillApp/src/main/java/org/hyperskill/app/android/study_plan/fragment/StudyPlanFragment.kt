@@ -159,7 +159,8 @@ class StudyPlanFragment :
                 gamificationToolbarDelegate?.onAction(
                     action = action.viewAction,
                     mainScreenRouter = mainScreenRouter,
-                    router = requireRouter()
+                    router = requireRouter(),
+                    fragmentManager = childFragmentManager
                 )
             }
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
