@@ -19,8 +19,8 @@ import org.hyperskill.app.notifications_onboarding.injection.PlatformNotificatio
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.injection.PlatformPaywallComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
-import org.hyperskill.app.problems_limit_reached.domain.model.ProblemsLimitReachedModalFeatureParams
-import org.hyperskill.app.problems_limit_reached.injection.PlatformProblemsLimitReachedModalComponent
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
+import org.hyperskill.app.problems_limit_info.injection.PlatformProblemsLimitInfoModalComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.ProfileComponent
 import org.hyperskill.app.profile_settings.injection.PlatformProfileSettingsComponent
@@ -124,7 +124,7 @@ interface CommonAndroidAppGraph : AppGraph {
 
     fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent
 
-    fun buildPlatformProblemsLimitReachedModalComponent(
-        params: ProblemsLimitReachedModalFeatureParams
-    ): PlatformProblemsLimitReachedModalComponent
+    fun buildPlatformProblemsLimitInfoModalComponent(
+        params: ProblemsLimitInfoModalFeatureParams
+    ): PlatformProblemsLimitInfoModalComponent
 }

@@ -144,4 +144,12 @@
         <item quantity="one">Then for %d gem</item>
         <item quantity="other">Then for %d gems</item>
     </plural>
+    <plural name="problems_limit_info_modal_left_problems">
+        <item quantity="one">%d problem left</item>
+        <item quantity="other">%d problems left</item>
+    </plural>
+    <plural name="problems_limit_info_modal_left_lives">
+        <item quantity="one">%d live left</item>
+        <item quantity="other">%d lives left</item>
+    </plural>
 </resources>

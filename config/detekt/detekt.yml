@@ -203,6 +203,7 @@ complexity:
       - '**/androidInstrumentedTest/**'
       - '**/iosTest/**'
       - '**/injection/**'
+      - '**ViewStateMapper.kt'
     thresholdInFiles: 11
     thresholdInClasses: 11
     thresholdInInterfaces: 11
