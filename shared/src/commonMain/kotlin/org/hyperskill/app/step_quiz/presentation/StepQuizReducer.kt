@@ -2,7 +2,6 @@ package org.hyperskill.app.step_quiz.presentation
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.BlockName
@@ -35,6 +34,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
@@ -437,17 +437,17 @@ internal class StepQuizReducer(
                 StepQuizHintsFeature.State.Idle to emptySet()
             }
 
-        val (problemsLimitState, problemsLimitActions) =
-            stepQuizChildFeatureReducer.reduceProblemsLimitMessage(
-                state.problemsLimitState,
-                ProblemsLimitFeature.InternalMessage.Initialize
+        val (stepQuizToolbarState, stepQuizToolbarActions) =
+            stepQuizChildFeatureReducer.reduceStepQuizToolbarMessage(
+                state.stepQuizToolbarState,
+                StepQuizToolbarFeature.InternalMessage.Initialize
             )
 
         return state.copy(
             stepQuizState = stepQuizState,
             stepQuizHintsState = stepQuizHintsState,
-            problemsLimitState = problemsLimitState
-        ) to stepQuizActions + stepQuizHintsActions + problemsLimitActions
+            stepQuizToolbarState = stepQuizToolbarState
+        ) to stepQuizActions + stepQuizHintsActions + stepQuizToolbarActions
     }
 
     private fun handleUpdateProblemsLimitResult(

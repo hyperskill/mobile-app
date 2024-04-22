@@ -1,4 +1,4 @@
-package org.hyperskill.app.problems_limit.domain.analytic
+package org.hyperskill.app.step_quiz_toolbar.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent

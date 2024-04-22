@@ -1,22 +1,22 @@
-package org.hyperskill.app.problems_limit.presentation
+package org.hyperskill.app.step_quiz_toolbar.presentation
 
-import org.hyperskill.app.problems_limit.domain.analytic.StepQuizToolbarLimitClickedHyperskillAnalyticEvent
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Action
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalAction
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.InternalMessage
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.Message
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.State
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz_toolbar.domain.analytic.StepQuizToolbarLimitClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalAction
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.InternalMessage
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Message
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
-private typealias ProblemsLimitReducerResult = Pair<State, Set<Action>>
+private typealias StepQuizToolbarReducerResult = Pair<State, Set<Action>>
 
-class ProblemsLimitReducer(
+class StepQuizToolbarReducer(
     private val stepRoute: StepRoute
 ) : StateReducer<State, Message, Action> {
-    override fun reduce(state: State, message: Message): ProblemsLimitReducerResult =
+    override fun reduce(state: State, message: Message): StepQuizToolbarReducerResult =
         when (message) {
             InternalMessage.Initialize -> handleInitialization(state)
             is InternalMessage.SubscriptionFetchSuccess -> handleSubscriptionFetchSuccess(message)
@@ -25,7 +25,7 @@ class ProblemsLimitReducer(
             Message.ProblemsLimitClicked -> handleProblemsLimitClicked(state)
         }
 
-    private fun handleInitialization(state: State): ProblemsLimitReducerResult =
+    private fun handleInitialization(state: State): StepQuizToolbarReducerResult =
         if (state is State.Idle) {
             State.Loading to setOf(InternalAction.FetchSubscription)
         } else {
@@ -34,23 +34,23 @@ class ProblemsLimitReducer(
 
     private fun handleSubscriptionFetchSuccess(
         message: InternalMessage.SubscriptionFetchSuccess
-    ): ProblemsLimitReducerResult =
+    ): StepQuizToolbarReducerResult =
         State.Content(message.subscription, message.chargeLimitsStrategy) to emptySet()
 
-    private fun handleSubscriptionFetchError(): ProblemsLimitReducerResult =
+    private fun handleSubscriptionFetchError(): StepQuizToolbarReducerResult =
         State.Error to emptySet()
 
     private fun handleSubscriptionChanged(
         state: State,
         message: InternalMessage.SubscriptionChanged
-    ): ProblemsLimitReducerResult =
+    ): StepQuizToolbarReducerResult =
         if (state is State.Content) {
             state.copy(subscription = message.subscription) to emptySet()
         } else {
             state to emptySet()
         }
 
-    private fun handleProblemsLimitClicked(state: State): ProblemsLimitReducerResult =
+    private fun handleProblemsLimitClicked(state: State): StepQuizToolbarReducerResult =
         if (state is State.Content) {
             state to setOf(
                 InternalAction.LogAnalyticEvent(

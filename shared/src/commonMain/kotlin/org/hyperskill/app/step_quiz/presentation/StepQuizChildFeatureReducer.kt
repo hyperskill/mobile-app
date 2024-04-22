@@ -1,12 +1,12 @@
 package org.hyperskill.app.step_quiz.presentation
 
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 
 internal class StepQuizChildFeatureReducer(
-    private val problemsLimitReducer: ProblemsLimitReducer,
+    private val stepQuizToolbarReducer: StepQuizToolbarReducer,
     private val stepQuizHintsReducer: StepQuizHintsReducer
 ) {
 
@@ -22,10 +22,10 @@ internal class StepQuizChildFeatureReducer(
                     reduceStepQuizHintsMessage(state.stepQuizHintsState, message.message)
                 state.copy(stepQuizHintsState = stepQuizHintsState) to stepQuizHintsActions
             }
-            is StepQuizFeature.Message.ProblemsLimitMessage -> {
-                val (problemsLimitState, problemsLimitActions) =
-                    reduceProblemsLimitMessage(state.problemsLimitState, message.message)
-                state.copy(problemsLimitState = problemsLimitState) to problemsLimitActions
+            is StepQuizFeature.Message.StepQuizToolbarMessage -> {
+                val (stepQuizToolbarState, stepQuizToolbarActions) =
+                    reduceStepQuizToolbarMessage(state.stepQuizToolbarState, message.message)
+                state.copy(stepQuizToolbarState = stepQuizToolbarState) to stepQuizToolbarActions
             }
         }
 
@@ -48,22 +48,22 @@ internal class StepQuizChildFeatureReducer(
         return stepQuizHintsState to actions
     }
 
-    fun reduceProblemsLimitMessage(
-        state: ProblemsLimitFeature.State,
-        message: ProblemsLimitFeature.Message
-    ): Pair<ProblemsLimitFeature.State, Set<StepQuizFeature.Action>> {
-        val (problemsLimitState, problemsLimitActions) = problemsLimitReducer.reduce(state, message)
+    fun reduceStepQuizToolbarMessage(
+        state: StepQuizToolbarFeature.State,
+        message: StepQuizToolbarFeature.Message
+    ): Pair<StepQuizToolbarFeature.State, Set<StepQuizFeature.Action>> {
+        val (stepQuizToolbarState, stepQuizToolbarActions) = stepQuizToolbarReducer.reduce(state, message)
 
-        val actions = problemsLimitActions
+        val actions = stepQuizToolbarActions
             .map {
-                if (it is ProblemsLimitFeature.Action.ViewAction) {
-                    StepQuizFeature.Action.ViewAction.ProblemsLimitViewAction(it)
+                if (it is StepQuizToolbarFeature.Action.ViewAction) {
+                    StepQuizFeature.Action.ViewAction.StepQuizToolbarViewAction(it)
                 } else {
-                    StepQuizFeature.Action.ProblemsLimitAction(it)
+                    StepQuizFeature.Action.StepQuizToolbarAction(it)
                 }
             }
             .toSet()
 
-        return problemsLimitState to actions
+        return stepQuizToolbarState to actions
     }
 }

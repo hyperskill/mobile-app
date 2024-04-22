@@ -37,7 +37,6 @@ import org.hyperskill.app.notifications_onboarding.injection.NotificationsOnboar
 import org.hyperskill.app.onboarding.injection.OnboardingDataComponent
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.injection.PaywallComponent
-import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import org.hyperskill.app.problems_limit_info.injection.ProblemsLimitInfoModalComponent
 import org.hyperskill.app.products.injection.ProductsDataComponent
@@ -68,6 +67,7 @@ import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
@@ -125,7 +125,7 @@ interface AppGraph {
     fun buildStepDataComponent(): StepDataComponent
     fun buildStepQuizComponent(stepRoute: StepRoute): StepQuizComponent
     fun buildStepQuizHintsComponent(stepRoute: StepRoute): StepQuizHintsComponent
-    fun buildProblemsLimitComponent(stepRoute: StepRoute): ProblemsLimitComponent
+    fun buildStepQuizToolbarComponent(stepRoute: StepRoute): StepQuizToolbarComponent
     fun buildStepCompletionComponent(stepRoute: StepRoute): StepCompletionComponent
     fun buildStepToolbarComponent(stepRoute: StepRoute): StepToolbarComponent
     fun buildStageImplementComponent(projectId: Long, stageId: Long): StageImplementComponent

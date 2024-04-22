@@ -1,25 +1,25 @@
-package org.hyperskill.app.problems_limit.injection
+package org.hyperskill.app.step_quiz_toolbar.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarActionDispatcher
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 
-internal class ProblemsLimitComponentImpl(
+internal class StepQuizToolbarComponentImpl(
     private val appGraph: AppGraph,
     private val stepRoute: StepRoute
-) : ProblemsLimitComponent {
+) : StepQuizToolbarComponent {
 
     companion object {
-        private const val LOG_TAG = "ProblemsLimitFeature"
+        private const val LOG_TAG = "StepQuizToolbarFeature"
     }
 
-    override val problemsLimitReducer: ProblemsLimitReducer
-        get() = ProblemsLimitReducer(stepRoute)
+    override val stepQuizToolbarReducer: StepQuizToolbarReducer
+        get() = StepQuizToolbarReducer(stepRoute)
 
-    override val problemsLimitActionDispatcher: ProblemsLimitActionDispatcher
-        get() = ProblemsLimitActionDispatcher(
+    override val stepQuizToolbarActionDispatcher: StepQuizToolbarActionDispatcher
+        get() = StepQuizToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,

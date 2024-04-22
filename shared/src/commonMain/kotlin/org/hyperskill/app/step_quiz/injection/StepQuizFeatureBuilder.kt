@@ -7,9 +7,6 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -22,6 +19,9 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarActionDispatcher
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.core.model.safeCast
@@ -46,8 +46,8 @@ internal object StepQuizFeatureBuilder {
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
-        problemsLimitReducer: ProblemsLimitReducer,
-        problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
+        stepQuizToolbarReducer: StepQuizToolbarReducer,
+        stepQuizToolbarActionDispatcher: StepQuizToolbarActionDispatcher,
         logger: Logger,
         buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
@@ -55,7 +55,7 @@ internal object StepQuizFeatureBuilder {
             stepRoute = stepRoute,
             stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
                 stepQuizHintsReducer = stepQuizHintsReducer,
-                problemsLimitReducer = problemsLimitReducer
+                stepQuizToolbarReducer = stepQuizToolbarReducer
             ),
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
@@ -77,7 +77,7 @@ internal object StepQuizFeatureBuilder {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Idle,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                problemsLimitState = ProblemsLimitFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
             ),
             stepQuizReducer
         )
@@ -89,9 +89,9 @@ internal object StepQuizFeatureBuilder {
                 )
             )
             .wrapWithActionDispatcher(
-                problemsLimitActionDispatcher.transform(
-                    transformAction = { it.safeCast<StepQuizFeature.Action.ProblemsLimitAction>()?.action },
-                    transformMessage = StepQuizFeature.Message::ProblemsLimitMessage
+                stepQuizToolbarActionDispatcher.transform(
+                    transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizToolbarAction>()?.action },
+                    transformMessage = StepQuizFeature.Message::StepQuizToolbarMessage
                 )
             )
     }

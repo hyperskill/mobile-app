@@ -8,7 +8,7 @@
     android:elevation="?appBarElevation">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/stepQuizProblemsLimit"
+        android:id="@+id/stepQuizToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_background"

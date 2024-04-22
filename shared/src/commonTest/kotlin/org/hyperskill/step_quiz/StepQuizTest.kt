@@ -5,7 +5,6 @@ import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.Step
@@ -16,6 +15,7 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -53,7 +53,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         stepRoutes.forEach { stepRoute ->
@@ -65,7 +65,7 @@ class StepQuizTest {
                 StepQuizFeature.State(
                     stepQuizState = StepQuizFeature.StepQuizState.Loading,
                     stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                    problemsLimitState = ProblemsLimitFeature.initialState()
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState()
                 ),
                 StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                     step,
@@ -99,7 +99,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -110,7 +110,7 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                problemsLimitState = ProblemsLimitFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
@@ -142,7 +142,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -166,7 +166,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -189,7 +189,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -213,7 +213,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -237,7 +237,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -262,7 +262,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -292,7 +292,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -317,7 +317,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         assertEquals(expectedState, actualState)
@@ -345,7 +345,7 @@ class StepQuizTest {
                 isTheoryAvailable = true
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -357,7 +357,7 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                problemsLimitState = ProblemsLimitFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
@@ -406,7 +406,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            problemsLimitState = ProblemsLimitFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
         )
 
         val reducer = StepQuizReducer(
@@ -418,7 +418,7 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                problemsLimitState = ProblemsLimitFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,

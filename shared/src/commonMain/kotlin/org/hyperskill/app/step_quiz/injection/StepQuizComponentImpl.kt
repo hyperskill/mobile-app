@@ -1,7 +1,6 @@
 package org.hyperskill.app.step_quiz.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.problems_limit.injection.ProblemsLimitComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.data.repository.AttemptRepositoryImpl
 import org.hyperskill.app.step_quiz.data.source.AttemptRemoteDataSource
@@ -13,6 +12,7 @@ import org.hyperskill.app.step_quiz.remote.AttemptRemoteDataSourceImpl
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizStatsTextMapper
 import org.hyperskill.app.step_quiz.view.mapper.StepQuizTitleMapper
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
+import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class StepQuizComponentImpl(
@@ -46,8 +46,8 @@ internal class StepQuizComponentImpl(
     private val stepQuizHintsComponent: StepQuizHintsComponent =
         appGraph.buildStepQuizHintsComponent(stepRoute)
 
-    private val problemsLimitComponent: ProblemsLimitComponent =
-        appGraph.buildProblemsLimitComponent(stepRoute)
+    private val stepQuizToolbarComponent: StepQuizToolbarComponent =
+        appGraph.buildStepQuizToolbarComponent(stepRoute)
 
     override val stepQuizFeature: Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action>
         get() = StepQuizFeatureBuilder.build(
@@ -65,7 +65,7 @@ internal class StepQuizComponentImpl(
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             stepQuizHintsActionDispatcher = stepQuizHintsComponent.stepQuizHintsActionDispatcher,
             stepQuizHintsReducer = stepQuizHintsComponent.stepQuizHintsReducer,
-            problemsLimitReducer = problemsLimitComponent.problemsLimitReducer,
-            problemsLimitActionDispatcher = problemsLimitComponent.problemsLimitActionDispatcher
+            stepQuizToolbarReducer = stepQuizToolbarComponent.stepQuizToolbarReducer,
+            stepQuizToolbarActionDispatcher = stepQuizToolbarComponent.stepQuizToolbarActionDispatcher
         )
 }
