@@ -6,6 +6,7 @@ import com.amplitude.android.Configuration
 import com.amplitude.common.Logger
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEngine
+import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 
 class AndroidAmplitudeAnalyticEngine(
@@ -19,7 +20,7 @@ class AndroidAmplitudeAnalyticEngine(
     fun startup(applicationContext: Context) {
         amplitude = Amplitude(
             Configuration(
-                apiKey = "",
+                apiKey = BuildKonfig.AMPLITUDE_DEV_KEY,
                 context = applicationContext
             )
         )
