@@ -34,7 +34,6 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 @Composable
 fun PaywallContent(
     buyButtonText: String,
-    priceText: String?,
     isContinueWithLimitsButtonVisible: Boolean,
     onTermsOfServiceClick: () -> Unit,
     onBuySubscriptionClick: () -> Unit,
@@ -49,6 +48,7 @@ fun PaywallContent(
             .padding(PaywallDefaults.ContentPadding + padding)
     ) {
         Column(
+            verticalArrangement = Arrangement.spacedBy(24.dp),
             modifier = Modifier.weight(1f)
         ) {
             Image(
@@ -57,18 +57,12 @@ fun PaywallContent(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
             )
-            Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = stringResource(id = R.string.paywall_mobile_only_title),
                 style = MaterialTheme.typography.h5,
                 fontWeight = FontWeight.Medium
             )
-            Spacer(modifier = Modifier.height(24.dp))
             SubscriptionDetails()
-            Spacer(modifier = Modifier.height(32.dp))
-            if (priceText != null) {
-                SubscriptionPrice(priceText)
-            }
         }
         Column {
             HyperskillButton(
@@ -79,68 +73,31 @@ fun PaywallContent(
             }
             Spacer(modifier = Modifier.height(8.dp))
             if (isContinueWithLimitsButtonVisible) {
-                ContinueButton(onClick = onContinueWithLimitsClick)
+                HyperskillButton(
+                    onClick = onContinueWithLimitsClick,
+                    colors = HyperskillButtonDefaults.buttonColors(colorResource(id = R.color.layer_1)),
+                    border = BorderStroke(1.dp, colorResource(id = R.color.button_tertiary)),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.paywall_mobile_only_continue_btn),
+                        color = colorResource(id = R.color.button_tertiary)
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(20.dp))
-            TermsOfService(
+
+            Text(
+                text = stringResource(id = R.string.paywall_tos_and_privacy_bth),
+                fontSize = 12.sp,
+                color = colorResource(id = R.color.color_on_surface_alpha_60),
+                textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .clickable(onClick = onTermsOfServiceClick)
             )
         }
     }
-}
-
-@Composable
-private fun SubscriptionPrice(
-    priceText: String,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(
-            text = stringResource(id = R.string.paywall_android_subscription_duration),
-            style = MaterialTheme.typography.subtitle1,
-            fontWeight = FontWeight.Medium
-        )
-        Text(
-            text = priceText,
-            style = MaterialTheme.typography.body2
-        )
-    }
-}
-
-@Composable
-private fun ContinueButton(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    HyperskillButton(
-        onClick = onClick,
-        colors = HyperskillButtonDefaults.buttonColors(colorResource(id = R.color.layer_1)),
-        border = BorderStroke(1.dp, colorResource(id = R.color.button_tertiary)),
-        modifier = modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = stringResource(id = R.string.paywall_mobile_only_continue_btn),
-            color = colorResource(id = R.color.button_tertiary)
-        )
-    }
-}
-
-@Composable
-private fun TermsOfService(
-    modifier: Modifier = Modifier
-) {
-    Text(
-        text = stringResource(id = R.string.paywall_tos_and_privacy_bth),
-        fontSize = 12.sp,
-        color = colorResource(id = R.color.color_on_surface_alpha_60),
-        textAlign = TextAlign.Center,
-        modifier = modifier
-    )
 }
 
 @Preview
@@ -150,7 +107,6 @@ fun PaywallContentPreview() {
         PaywallContent(
             buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
             isContinueWithLimitsButtonVisible = true,
-            priceText = PaywallPreviewDefaults.PRICE_TEXT,
             onTermsOfServiceClick = {},
             onBuySubscriptionClick = {},
             onContinueWithLimitsClick = {}
