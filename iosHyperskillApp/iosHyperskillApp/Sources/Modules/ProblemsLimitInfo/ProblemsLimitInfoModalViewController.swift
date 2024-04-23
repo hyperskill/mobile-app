@@ -2,40 +2,30 @@ import PanModal
 import shared
 import UIKit
 
-final class ProblemsLimitInfoModalViewController: PanModalPresentableViewController {
+final class ProblemsLimitInfoModalViewController: PanModalSwiftUIViewController<ProblemsLimitInfoModalView> {
     private let viewModel: ProblemsLimitInfoModalViewModel
 
-    var problemsLimitInfoModalView: ProblemsLimitInfoModalView? { view as? ProblemsLimitInfoModalView }
-
-    override var shortFormHeight: PanModalHeight { .contentHeight(view.intrinsicContentSize.height) }
-
-    override var longFormHeight: PanModalHeight { shortFormHeight }
+    override var shouldUpdateAdditionalSafeAreaInsets: Bool { false }
 
     init(viewModel: ProblemsLimitInfoModalViewModel) {
         self.viewModel = viewModel
-        super.init()
-    }
 
-    override func loadView() {
-        let view = ProblemsLimitInfoModalView()
-        self.view = view
-    }
+        let view = ProblemsLimitInfoModalView(
+            viewState: viewModel.state,
+            onCallToActionButtonTap: viewModel.doUnlockUnlimitedProblems
+        )
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setup()
-        problemsLimitInfoModalView?.renderState(viewModel.state)
+        super.init(
+            isPresented: .constant(false),
+            content: { view }
+        )
+
+        self.viewModel.onViewAction = handleViewAction(_:)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         viewModel.startListening()
-
-        DispatchQueue.main.async {
-            self.panModalSetNeedsLayoutUpdate()
-            self.panModalTransition(to: .shortForm)
-        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -53,18 +43,6 @@ final class ProblemsLimitInfoModalViewController: PanModalPresentableViewControl
     }
 
     // MARK: Private API
-
-    private func setup() {
-        problemsLimitInfoModalView?.onUnlockLimitsButtonTap = { [weak self] in
-            FeedbackGenerator(feedbackType: .selection).triggerFeedback()
-            self?.viewModel.doUnlockUnlimitedProblems()
-        }
-        problemsLimitInfoModalView?.onGoToHomescreenButtonTap = {
-            FeedbackGenerator(feedbackType: .selection).triggerFeedback()
-        }
-
-        viewModel.onViewAction = handleViewAction(_:)
-    }
 
     private func handleViewAction(_ viewAction: ProblemsLimitInfoModalFeatureActionViewAction) {
         switch ProblemsLimitInfoModalFeatureActionViewActionKs(viewAction) {

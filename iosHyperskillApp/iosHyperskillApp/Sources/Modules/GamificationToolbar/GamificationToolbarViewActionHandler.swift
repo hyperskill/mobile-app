@@ -17,9 +17,8 @@ enum GamificationToolbarViewActionHandler {
                 let assembly = SearchAssembly()
                 stackRouter.pushViewController(assembly.makeModule())
             }
-        case .showProblemsLimitInfoModal(_):
+        case .showProblemsLimitInfoModal:
             #warning("TODO: ALTAPPS-1226")
-            break
         }
     }
 }

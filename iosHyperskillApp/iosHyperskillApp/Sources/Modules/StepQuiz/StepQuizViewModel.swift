@@ -137,6 +137,16 @@ final class StepQuizViewModel: FeatureViewModel<
         )
     }
 
+    // MARK: StepQuizToolbar
+
+    func doLimitsToolbarAction() {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizToolbarMessage(
+                message: StepQuizToolbarFeatureMessageProblemsLimitClicked()
+            )
+        )
+    }
+
     func doTheoryToolbarAction() {
         onNewMessage(StepQuizFeatureMessageTheoryToolbarItemClicked())
     }
