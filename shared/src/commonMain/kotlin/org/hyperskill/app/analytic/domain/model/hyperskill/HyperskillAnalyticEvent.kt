@@ -3,7 +3,6 @@ package org.hyperskill.app.analytic.domain.model.hyperskill
 import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticSource
-import org.hyperskill.app.analytic.domain.model.CommonAnalyticKeys
 import ru.nobird.app.core.model.mapOfNotNull
 
 /**
@@ -27,15 +26,6 @@ abstract class HyperskillAnalyticEvent(
     val target: HyperskillAnalyticTarget? = null,
     val context: Map<String, Any>? = null
 ) : AnalyticEvent {
-    companion object {
-        const val PARAM_CLIENT_TIME = "client_time"
-        const val PARAM_ACTION = "action"
-        const val PARAM_PART = "part"
-        const val PARAM_TARGET = "target"
-        const val PARAM_USER = "user"
-        const val PARAM_CONTEXT = "context"
-        const val PARAM_PLATFORM = "platform"
-    }
 
     private val clientTime = Clock.System.now()
 
@@ -44,12 +34,12 @@ abstract class HyperskillAnalyticEvent(
     @Deprecated("Use context in constructor instead!")
     override val params: Map<String, Any> =
         mapOfNotNull(
-            PARAM_CLIENT_TIME to clientTime.toString(),
-            CommonAnalyticKeys.PARAM_ROUTE to route.path,
-            PARAM_ACTION to action.actionName,
-            PARAM_PART to part?.partName,
-            PARAM_TARGET to target?.targetName,
-            PARAM_CONTEXT to context?.takeIf { it.isNotEmpty() }
+            HyperskillAnalyticKeys.PARAM_CLIENT_TIME to clientTime.toString(),
+            HyperskillAnalyticKeys.PARAM_ROUTE to route.path,
+            HyperskillAnalyticKeys.PARAM_ACTION to action.actionName,
+            HyperskillAnalyticKeys.PARAM_PART to part?.partName,
+            HyperskillAnalyticKeys.PARAM_TARGET to target?.targetName,
+            HyperskillAnalyticKeys.PARAM_CONTEXT to context?.takeIf { it.isNotEmpty() }
         )
 
     final override val sources: Set<AnalyticSource>

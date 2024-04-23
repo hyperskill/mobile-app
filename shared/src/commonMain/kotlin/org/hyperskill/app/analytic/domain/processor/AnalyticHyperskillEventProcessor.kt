@@ -11,12 +11,6 @@ import ru.nobird.app.core.model.safeCast
 class AnalyticHyperskillEventProcessor(
     private val platform: Platform
 ) {
-    companion object {
-        private const val PARAM_CONTEXT = "context"
-        private const val PARAM_PLATFORM = "platform"
-        private const val PARAM_USER = "user"
-        private const val PARAM_IS_NOTIFICATIONS_ALLOW = "is_notifications_allow"
-    }
 
     fun processEvent(
         event: AnalyticEvent,
