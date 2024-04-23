@@ -100,7 +100,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override val analyticComponent: AnalyticComponent by lazy {
         AnalyticComponentImpl(
             appGraph = this,
-            platformAnalyticEngines = listOf(platformAnalyticComponent.appsFlyerAnalyticEngine)
+            platformAnalyticEngines = listOf(
+                platformAnalyticComponent.appsFlyerAnalyticEngine,
+                platformAnalyticComponent.amplitudeAnalyticEngine
+            )
         )
     }
 
