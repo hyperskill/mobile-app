@@ -92,7 +92,7 @@ final class StudyPlanViewModel: FeatureViewModel<
     }
 
     func doReloadProblemsLimit() {
-        // TODO: ALTAPPS-1226 remove problems limit widget
+        #warning("ALTAPPS-1226 remove problems limit widget")
     }
 
     // MARK: Analytic

@@ -1,6 +1,7 @@
 import Foundation
 import shared
 
+@available(*, deprecated, message: "ALTAPPS-1226: Delete this")
 extension LegacyProblemsLimitFeatureViewStateKs: Equatable {
     public static func == (lhs: LegacyProblemsLimitFeatureViewStateKs, rhs: LegacyProblemsLimitFeatureViewStateKs) -> Bool {
         switch (lhs, rhs) {

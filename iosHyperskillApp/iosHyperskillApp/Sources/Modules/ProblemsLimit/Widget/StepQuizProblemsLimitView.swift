@@ -1,6 +1,7 @@
 import shared
 import SwiftUI
 
+@available(*, deprecated, message: "ALTAPPS-1226: Delete this")
 struct StepQuizProblemsLimitView: View {
     let stateKs: LegacyProblemsLimitFeatureViewStateKs
 
