@@ -17,7 +17,6 @@ import org.hyperskill.app.android.gamification_toolbar.view.ui.delegate.Gamifica
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
-import org.hyperskill.app.android.problems_limit.view.ui.delegate.ProblemsLimitDelegate
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.study_plan.delegate.LearningActivityTargetViewActionHandler
 import org.hyperskill.app.android.study_plan.delegate.StudyPlanWidgetDelegate
@@ -53,7 +52,6 @@ class StudyPlanFragment :
     private val logger: Logger by logger(LOG_TAG)
 
     private var gamificationToolbarDelegate: GamificationToolbarDelegate? = null
-    private var problemsLimitDelegate: ProblemsLimitDelegate? = null
     private var studyPlanWidgetDelegate: StudyPlanWidgetDelegate? = null
     private var usersInterviewCardDelegate: UsersInterviewCardDelegate? = null
 
@@ -90,7 +88,6 @@ class StudyPlanFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initGamificationToolbarDelegate()
-        initProblemsLimitDelegate()
         initUserQuestionnaireCardDelegate()
         initSwipeRefresh()
         studyPlanWidgetDelegate?.setup(viewBinding.studyPlanRecycler, viewBinding.studyPlanError)
@@ -106,16 +103,6 @@ class StudyPlanFragment :
         ) { message ->
             studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.GamificationToolbarMessage(message))
         }
-    }
-
-    private fun initProblemsLimitDelegate() {
-        problemsLimitDelegate = ProblemsLimitDelegate(
-            viewBinding = viewBinding.studyPlanProblemsLimit,
-            onNewMessage = {
-                studyPlanViewModel.onNewMessage(StudyPlanScreenFeature.Message.ProblemsLimitMessage(it))
-            }
-        )
-        problemsLimitDelegate?.setup()
     }
 
     private fun initUserQuestionnaireCardDelegate() {
@@ -140,8 +127,6 @@ class StudyPlanFragment :
         super.onDestroyView()
         studyPlanWidgetDelegate?.cleanup()
         gamificationToolbarDelegate = null
-        problemsLimitDelegate?.cleanup()
-        problemsLimitDelegate = null
         usersInterviewCardDelegate = null
     }
 
@@ -154,7 +139,6 @@ class StudyPlanFragment :
         renderSwipeRefresh(state)
         gamificationToolbarDelegate?.render(state.toolbarViewState)
         gamificationToolbarDelegate?.setSubtitle(state.trackTitle)
-        problemsLimitDelegate?.render(state.problemsLimitViewState)
         studyPlanWidgetDelegate?.render(state.studyPlanWidgetViewState)
         usersInterviewCardDelegate?.render(
             state.usersInterviewWidgetState,
@@ -175,10 +159,10 @@ class StudyPlanFragment :
                 gamificationToolbarDelegate?.onAction(
                     action = action.viewAction,
                     mainScreenRouter = mainScreenRouter,
-                    router = requireRouter()
+                    router = requireRouter(),
+                    fragmentManager = childFragmentManager
                 )
             }
-            is StudyPlanScreenFeature.Action.ViewAction.ProblemsLimitViewAction -> {}
             is StudyPlanScreenFeature.Action.ViewAction.StudyPlanWidgetViewAction -> {
                 when (val studyPlanWidgetViewAction = action.viewAction) {
                     is StudyPlanWidgetFeature.Action.ViewAction.NavigateTo.Home -> {

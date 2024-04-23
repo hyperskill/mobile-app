@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
-import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.State
 import org.hyperskill.app.problems_limit_info.presentation.ProblemsLimitInfoModalFeature.ViewState
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
@@ -15,9 +15,9 @@ internal class ProblemsLimitInfoModalViewStateMapper(
     private val sharedDateFormatter: SharedDateFormatter
 ) {
     fun map(state: State): ViewState =
-        when (state.context) {
-            ProblemsLimitInfoModalContext.USER_INITIATED -> getUserInitiatedViewState(state)
-            ProblemsLimitInfoModalContext.AUTOMATIC_NO_LIMITS_LEFT -> getAutomaticNoLimitsLeftViewState(state)
+        when (state.launchSource) {
+            ProblemsLimitInfoModalLaunchSource.USER_INITIATED -> getUserInitiatedViewState(state)
+            ProblemsLimitInfoModalLaunchSource.AUTOMATIC_NO_LIMITS_LEFT -> getAutomaticNoLimitsLeftViewState(state)
         }
 
     @Suppress("MagicNumber")

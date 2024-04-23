@@ -1,11 +1,12 @@
 package org.hyperskill.app.problems_limit.presentation
 
 import kotlin.time.Duration
-import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
-object ProblemsLimitFeature {
+// Used for ios app compatibility
+// TODO: ALTAPPS-1226 remove problems limit widget on ios
+object LegacyProblemsLimitFeature {
+
     sealed interface State {
         object Idle : State
 
@@ -20,9 +21,6 @@ object ProblemsLimitFeature {
 
         object NetworkError : State
     }
-
-    internal val State.isRefreshing: Boolean
-        get() = this is State.Content && isRefreshing
 
     sealed interface ViewState {
         object Idle : ViewState
@@ -51,32 +49,7 @@ object ProblemsLimitFeature {
         object RetryContentLoading : Message
     }
 
-    internal sealed interface InternalMessage : Message {
-        data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
-        object PullToRefresh : InternalMessage
-
-        object LoadSubscriptionResultError : InternalMessage
-        data class LoadSubscriptionResultSuccess(
-            val subscription: Subscription,
-            val isFreemiumWrongSubmissionChargeLimitsEnabled: Boolean
-        ) : InternalMessage
-
-        data class UpdateInChanged(val newUpdateIn: Duration) : InternalMessage
-        data class SubscriptionChanged(val newSubscription: Subscription) : InternalMessage
-    }
-
     sealed interface Action {
         sealed interface ViewAction : Action
-    }
-
-    internal sealed interface InternalAction : Action {
-        data class LoadSubscription(
-            val screen: ProblemsLimitScreen,
-            val forceUpdate: Boolean
-        ) : InternalAction
-
-        data class LaunchTimer(val updateIn: Duration) : InternalAction
-
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
     }
 }

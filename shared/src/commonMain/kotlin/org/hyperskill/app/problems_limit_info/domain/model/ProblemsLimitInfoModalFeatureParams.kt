@@ -1,7 +1,6 @@
 package org.hyperskill.app.problems_limit_info.domain.model
 
 import kotlinx.serialization.Serializable
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
@@ -9,6 +8,5 @@ import org.hyperskill.app.subscriptions.domain.model.Subscription
 data class ProblemsLimitInfoModalFeatureParams(
     val subscription: Subscription,
     val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-    val context: ProblemsLimitInfoModalContext,
-    val stepRoute: StepRoute
+    val context: ProblemsLimitInfoModalContext
 )
