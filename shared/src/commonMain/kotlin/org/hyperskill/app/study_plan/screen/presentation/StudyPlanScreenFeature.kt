@@ -3,7 +3,6 @@ package org.hyperskill.app.study_plan.screen.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
-import org.hyperskill.app.problems_limit.presentation.LegacyProblemsLimitFeature
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
@@ -22,7 +21,6 @@ object StudyPlanScreenFeature {
     data class ViewState(
         val trackTitle: String?,
         val toolbarViewState: GamificationToolbarFeature.ViewState,
-        val problemsLimitViewState: LegacyProblemsLimitFeature.ViewState,
         val usersInterviewWidgetState: UsersInterviewWidgetFeature.State,
         val studyPlanWidgetViewState: StudyPlanWidgetViewState,
         val isRefreshing: Boolean

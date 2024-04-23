@@ -114,7 +114,6 @@ fun PaywallScreen(
                 PaywallContent(
                     buyButtonText = contentState.buyButtonText,
                     isContinueWithLimitsButtonVisible = contentState.isContinueWithLimitsButtonVisible,
-                    priceText = contentState.priceText,
                     onBuySubscriptionClick = onBuySubscriptionClick,
                     onContinueWithLimitsClick = onContinueWithLimitsClick,
                     onTermsOfServiceClick = onTermsOfServiceClick,
@@ -133,16 +132,14 @@ private class PaywallPreviewProvider : PreviewParameterProvider<ViewState> {
                 isToolbarVisible = true,
                 contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-                    isContinueWithLimitsButtonVisible = false,
-                    priceText = "$11.99 / month"
+                    isContinueWithLimitsButtonVisible = false
                 )
             ),
             ViewState(
                 isToolbarVisible = false,
                 contentState = ViewStateContent.Content(
                     buyButtonText = PaywallPreviewDefaults.BUY_BUTTON_TEXT,
-                    isContinueWithLimitsButtonVisible = true,
-                    priceText = PaywallPreviewDefaults.PRICE_TEXT
+                    isContinueWithLimitsButtonVisible = true
                 )
             ),
             ViewState(

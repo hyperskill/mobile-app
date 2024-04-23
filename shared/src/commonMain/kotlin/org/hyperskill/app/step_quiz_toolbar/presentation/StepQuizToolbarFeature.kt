@@ -35,11 +35,11 @@ object StepQuizToolbarFeature {
     internal sealed interface InternalMessage : Message {
         object Initialize : InternalMessage
 
+        object SubscriptionFetchError : InternalMessage
         data class SubscriptionFetchSuccess(
             val subscription: Subscription,
             val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
-        object SubscriptionFetchError : InternalMessage
 
         data class SubscriptionChanged(val subscription: Subscription) : InternalMessage
     }
