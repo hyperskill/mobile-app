@@ -1,5 +1,4 @@
 import shared
-import SVProgressHUD
 import SwiftUI
 
 extension StepQuizHintsView {

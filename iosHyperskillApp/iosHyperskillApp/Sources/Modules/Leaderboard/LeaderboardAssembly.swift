@@ -10,10 +10,12 @@ final class LeaderboardAssembly: UIKitAssembly {
         )
 
         let stackRouter = StackRouter()
+        let panModalPresenter = PanModalPresenter()
 
         let leaderboardView = LeaderboardView(
             viewModel: leaderboardViewModel,
-            stackRouter: stackRouter
+            stackRouter: stackRouter,
+            panModalPresenter: panModalPresenter
         )
 
         let hostingController = StyledHostingController(
@@ -23,6 +25,7 @@ final class LeaderboardAssembly: UIKitAssembly {
         hostingController.title = Strings.Leaderboard.title
 
         stackRouter.rootViewController = hostingController
+        panModalPresenter.rootViewController = hostingController
 
         return hostingController
     }

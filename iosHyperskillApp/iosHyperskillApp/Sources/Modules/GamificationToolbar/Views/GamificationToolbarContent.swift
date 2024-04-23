@@ -18,6 +18,7 @@ struct GamificationToolbarContent: ToolbarContent {
 
     let onStreakTap: () -> Void
     let onProgressTap: () -> Void
+    let onProblemsLimitTap: () -> Void
     let onSearchTap: () -> Void
 
     var body: some ToolbarContent {
@@ -25,6 +26,7 @@ struct GamificationToolbarContent: ToolbarContent {
             switch viewStateKs {
             case .idle, .loading:
                 HStack {
+                    SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
                     SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
                     SkeletonRoundedView(appearance: .init(size: appearance.skeletonSize))
                     if #available(iOS 15.0, *) {
@@ -49,6 +51,13 @@ struct GamificationToolbarContent: ToolbarContent {
                         isCompletedToday: data.streak.isCompleted,
                         onTap: onStreakTap
                     )
+
+                    if let problemsLimit = data.problemsLimit {
+                        ProblemsLimitBarButtonItem(
+                            text: problemsLimit.limitLabel,
+                            onTap: onProblemsLimitTap
+                        )
+                    }
 
                     if #available(iOS 15.0, *) {
                         Button(

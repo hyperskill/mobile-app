@@ -38,6 +38,7 @@ struct HomeView: View {
                 viewStateKs: viewModel.gamificationToolbarViewStateKs,
                 onStreakTap: viewModel.doStreakBarButtonItemAction,
                 onProgressTap: viewModel.doProgressBarButtonItemAction,
+                onProblemsLimitTap: viewModel.doProblemsLimitBarButtonItemAction,
                 onSearchTap: viewModel.doSearchBarButtonItemAction
             )
         }
@@ -130,7 +131,8 @@ private extension HomeView {
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             GamificationToolbarViewActionHandler.handle(
                 viewAction: gamificationToolbarViewAction.viewAction,
-                stackRouter: stackRouter
+                stackRouter: stackRouter,
+                panModalPresenter: panModalPresenter
             )
         case .challengeWidgetViewAction(let challengeWidgetViewAction):
             handleChallengeWidgetViewAction(

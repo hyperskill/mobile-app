@@ -38,6 +38,7 @@ struct StudyPlanView: View {
                 viewStateKs: viewModel.gamificationToolbarViewStateKs,
                 onStreakTap: viewModel.doStreakBarButtonItemAction,
                 onProgressTap: viewModel.doProgressBarButtonItemAction,
+                onProblemsLimitTap: viewModel.doProblemsLimitBarButtonItemAction,
                 onSearchTap: viewModel.doSearchBarButtonItemAction
             )
         }
@@ -79,11 +80,6 @@ struct StudyPlanView: View {
                             .foregroundColor(.secondaryText)
                             .padding(.bottom, appearance.trackTitleBottomPadding)
                     }
-
-                    ProblemsLimitView(
-                        stateKs: viewModel.problemsLimitViewStateKs,
-                        onReloadButtonTap: viewModel.doReloadProblemsLimit
-                    )
 
                     let usersInterviewWidgetFeatureStateKs = viewModel.usersInterviewWidgetFeatureStateKs
                     if usersInterviewWidgetFeatureStateKs != .hidden {
@@ -127,7 +123,8 @@ private extension StudyPlanView {
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             GamificationToolbarViewActionHandler.handle(
                 viewAction: gamificationToolbarViewAction.viewAction,
-                stackRouter: stackRouter
+                stackRouter: stackRouter,
+                panModalPresenter: panModalPresenter
             )
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
             handleStudyPlanWidgetViewAction(
