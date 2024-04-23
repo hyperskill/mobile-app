@@ -1,8 +1,9 @@
 import shared
 import SwiftUI
 
+@available(*, deprecated, message: "ALTAPPS-1226: Delete this")
 struct ProblemsLimitView: View {
-    let stateKs: ProblemsLimitFeatureViewStateKs
+    let stateKs: LegacyProblemsLimitFeatureViewStateKs
 
     let onReloadButtonTap: () -> Void
 
@@ -19,7 +20,7 @@ struct ProblemsLimitView: View {
             )
             .buttonStyle(OutlineButtonStyle())
         case .content(let content):
-            switch ProblemsLimitFeatureViewStateContentKs(content) {
+            switch LegacyProblemsLimitFeatureViewStateContentKs(content) {
             case .empty:
                 EmptyView()
             case .widget(let data):
@@ -37,7 +38,7 @@ struct ProblemsLimitView_Previews: PreviewProvider {
     static var previews: some View {
         ProblemsLimitView(
             stateKs: .content(
-                ProblemsLimitFeatureViewStateContentWidget(
+                LegacyProblemsLimitFeatureViewStateContentWidget(
                     progress: 0.6,
                     stepsLimitLabel: "3/5 steps",
                     updateInLabel: "Update in 12 hours"

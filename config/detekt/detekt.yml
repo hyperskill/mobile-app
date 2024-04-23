@@ -204,6 +204,7 @@ complexity:
       - '**/iosTest/**'
       - '**/injection/**'
       - '**ViewStateMapper.kt'
+      - '**Reducer.kt'
     thresholdInFiles: 11
     thresholdInClasses: 11
     thresholdInInterfaces: 11

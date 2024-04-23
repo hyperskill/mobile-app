@@ -10,10 +10,6 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarA
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarReducer
 import org.hyperskill.app.logging.presentation.wrapWithLogger
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitActionDispatcher
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitReducer
-import org.hyperskill.app.problems_limit.view.mapper.ProblemsLimitViewStateMapper
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenActionDispatcher
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenFeature
 import org.hyperskill.app.study_plan.screen.presentation.StudyPlanScreenReducer
@@ -38,13 +34,10 @@ internal object StudyPlanScreenFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         toolbarReducer: GamificationToolbarReducer,
         toolbarActionDispatcher: GamificationToolbarActionDispatcher,
-        problemsLimitReducer: ProblemsLimitReducer,
-        problemsLimitActionDispatcher: ProblemsLimitActionDispatcher,
         usersInterviewWidgetReducer: UsersInterviewWidgetReducer,
         usersInterviewWidgetActionDispatcher: UsersInterviewWidgetActionDispatcher,
         studyPlanWidgetReducer: StudyPlanWidgetReducer,
         studyPlanWidgetDispatcher: StudyPlanWidgetActionDispatcher,
-        problemsLimitViewStateMapper: ProblemsLimitViewStateMapper,
         studyPlanWidgetViewStateMapper: StudyPlanWidgetViewStateMapper,
         resourceProvider: ResourceProvider,
         logger: Logger,
@@ -52,7 +45,6 @@ internal object StudyPlanScreenFeatureBuilder {
     ): Feature<StudyPlanScreenFeature.ViewState, StudyPlanScreenFeature.Message, StudyPlanScreenFeature.Action> {
         val studyPlanScreenReducer = StudyPlanScreenReducer(
             toolbarReducer = toolbarReducer,
-            problemsLimitReducer = problemsLimitReducer,
             usersInterviewWidgetReducer = usersInterviewWidgetReducer,
             studyPlanWidgetReducer = studyPlanWidgetReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
@@ -62,14 +54,12 @@ internal object StudyPlanScreenFeatureBuilder {
         )
         val studyPlanScreenViewStateMapper =
             StudyPlanScreenViewStateMapper(
-                problemsLimitViewStateMapper = problemsLimitViewStateMapper,
                 studyPlanWidgetViewStateMapper = studyPlanWidgetViewStateMapper,
                 resourceProvider = resourceProvider
             )
         return ReduxFeature(
             StudyPlanScreenFeature.State(
                 toolbarState = GamificationToolbarFeature.State.Idle,
-                problemsLimitState = ProblemsLimitFeature.State.Idle,
                 usersInterviewWidgetState = UsersInterviewWidgetFeature.State.Idle,
                 studyPlanWidgetState = StudyPlanWidgetFeature.State()
             ),
@@ -83,14 +73,6 @@ internal object StudyPlanScreenFeatureBuilder {
                         it.safeCast<StudyPlanScreenFeature.InternalAction.GamificationToolbarAction>()?.action
                     },
                     transformMessage = StudyPlanScreenFeature.Message::GamificationToolbarMessage
-                )
-            )
-            .wrapWithActionDispatcher(
-                problemsLimitActionDispatcher.transform(
-                    transformAction = {
-                        it.safeCast<StudyPlanScreenFeature.InternalAction.ProblemsLimitAction>()?.action
-                    },
-                    transformMessage = StudyPlanScreenFeature.Message::ProblemsLimitMessage
                 )
             )
             .wrapWithActionDispatcher(

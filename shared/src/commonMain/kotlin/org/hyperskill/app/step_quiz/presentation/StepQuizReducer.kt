@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.datetime.Clock
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -604,8 +605,10 @@ internal class StepQuizReducer(
             Action.ViewAction.ShowProblemsLimitReachedModal(
                 subscription = subscription,
                 chargeLimitsStrategy = chargeLimitsStrategy,
-                context = ProblemsLimitInfoModalContext.AUTOMATIC_NO_LIMITS_LEFT,
-                stepRoute = stepRoute
+                context = ProblemsLimitInfoModalContext.Step(
+                    launchSource = ProblemsLimitInfoModalLaunchSource.AUTOMATIC_NO_LIMITS_LEFT,
+                    stepRoute = stepRoute
+                )
             )
         )
 }

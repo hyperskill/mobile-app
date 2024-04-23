@@ -1,30 +1,31 @@
-package org.hyperskill.app.problems_limit.domain.analytic
+package org.hyperskill.app.gamification_toolbar.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.problems_limit.domain.model.ProblemsLimitScreen
+import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 
 /**
- * Represents a click analytic event of the error state placeholder retry button.
+ * Represents a click on the problems limit navigation bar button item analytic event.
  *
  * JSON payload:
  * ```
  * {
- *     "route": "/home",
+ *     "route": "/home | /study-plan | /leaderboard",
  *     "action": "click",
- *     "part": "problems_limit_widget",
- *     "target": "retry"
+ *     "part": "head",
+ *     "target": "problems_limit"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-class ProblemsLimitClickedRetryContentLoadingHyperskillAnalyticEvent(
-    screen: ProblemsLimitScreen
+class GamificationToolbarClickedProblemsLimitHSAnalyticEvent(
+    screen: GamificationToolbarScreen
 ) : HyperskillAnalyticEvent(
     screen.analyticRoute,
     HyperskillAnalyticAction.CLICK,
-    HyperskillAnalyticPart.PROBLEMS_LIMIT_WIDGET,
-    HyperskillAnalyticTarget.RETRY
+    HyperskillAnalyticPart.HEAD,
+    HyperskillAnalyticTarget.PROBLEMS_LIMIT
 )

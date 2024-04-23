@@ -129,8 +129,6 @@ private extension StudyPlanView {
                 viewAction: gamificationToolbarViewAction.viewAction,
                 stackRouter: stackRouter
             )
-        case .problemsLimitViewAction:
-            break
         case .studyPlanWidgetViewAction(let studyPlanWidgetViewAction):
             handleStudyPlanWidgetViewAction(
                 studyPlanWidgetViewAction.viewAction

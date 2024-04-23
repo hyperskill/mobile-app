@@ -88,6 +88,25 @@
                 tools:visibility="visible"
                 />
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/gamificationProblemsLimitTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:textSize="14sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:drawableStart="@drawable/ic_menu_problems_limit"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                tools:text="3"
+                tools:visibility="visible"
+                />
+
             <ImageView
                 android:id="@+id/gamificationSearchButton"
                 android:layout_width="wrap_content"
