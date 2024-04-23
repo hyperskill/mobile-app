@@ -52,5 +52,5 @@ abstract class HyperskillAnalyticEvent(
             PARAM_CONTEXT to context?.takeIf { it.isNotEmpty() }
         )
 
-    final override val source: AnalyticSource = AnalyticSource.HYPERSKILL_API
+    final override val sources: Set<AnalyticSource> = setOf(AnalyticSource.HYPERSKILL_API)
 }

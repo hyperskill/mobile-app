@@ -25,7 +25,7 @@ class AnalyticInteractor(
 
     suspend fun logEvent(event: AnalyticEvent, forceLogEvent: Boolean = false) {
         analyticEngines
-            .filter { it.targetSource == event.source }
+            .filter { it.targetSource in event.sources }
             .forEach { it.reportEvent(event, forceLogEvent) }
         eventMonitor?.analyticDidReportEvent(event)
     }

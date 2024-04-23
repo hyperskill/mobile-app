@@ -7,5 +7,5 @@ class HyperskillProcessedAnalyticEvent(
     override val name: String,
     override val params: Map<String, Any>
 ) : AnalyticEvent {
-    override val source: AnalyticSource = AnalyticSource.HYPERSKILL_API
+    override val sources: Set<AnalyticSource> = setOf(AnalyticSource.HYPERSKILL_API)
 }
