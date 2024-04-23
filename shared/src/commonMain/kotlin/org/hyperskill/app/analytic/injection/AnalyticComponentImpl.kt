@@ -14,6 +14,9 @@ class AnalyticComponentImpl(
     override val analyticInteractor: AnalyticInteractor =
         AnalyticInteractor(
             analyticEngines = analyticEngines,
-            eventMonitor = appGraph.sentryComponent.sentryInteractor
+            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
+            eventMonitor = appGraph.sentryComponent.sentryInteractor,
+            platform = appGraph.commonComponent.platform
         )
 }

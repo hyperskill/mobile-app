@@ -6,4 +6,8 @@ import org.hyperskill.app.analytic.domain.model.AnalyticSource
 abstract class AppsFlyerAnalyticEngine : AnalyticEngine {
     final override val targetSource: AnalyticSource
         get() = AnalyticSource.APPS_FLYER
+
+    final override suspend fun flushEvents() {
+        // no op
+    }
 }

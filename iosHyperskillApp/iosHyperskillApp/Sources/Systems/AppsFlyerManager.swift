@@ -58,11 +58,12 @@ final class AppsFlyerManager: AppsFlyerAnalyticEngine {
 
     // MARK: AnalyticEngine
 
-    override func flushEvents(completionHandler: @escaping (Error?) -> Void) {
-        completionHandler(nil)
-    }
-
-    override func reportEvent(event: AnalyticEvent, force: Bool, completionHandler: @escaping (Error?) -> Void) {
+    override func reportEvent(
+        event: AnalyticEvent,
+        userProperties: AnalyticEventUserProperties,
+        force: Bool,
+        completionHandler: @escaping (Error?) -> Void
+    ) {
         completionHandler(nil)
 
         let name = event.name
@@ -87,10 +88,6 @@ AppsFlyerManager: successfully logged event = \(name) with result = \(String(des
         AppsFlyerLib.shared().logEvent(name: name, values: values)
         #endif
     }
-
-    override func setScreenOrientation(screenOrientation: ScreenOrientation) {}
-
-    override func setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Bool) {}
 }
 
 // MARK: - NotificationCenter -

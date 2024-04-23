@@ -6,7 +6,9 @@ import com.amplitude.android.Configuration
 import com.amplitude.common.Logger
 import com.amplitude.core.events.BaseEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEngine
+import org.hyperskill.app.analytic.domain.model.asMapWithoutUserId
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.processor.AmplitudeAnalyticEventMapper
 import org.hyperskill.app.config.BuildKonfig
@@ -29,14 +31,19 @@ class AndroidAmplitudeAnalyticEngine(
         amplitude.logger.logMode = if (isDebugMode) Logger.LogMode.DEBUG else Logger.LogMode.OFF
     }
 
-    override suspend fun reportEvent(event: AnalyticEvent, force: Boolean) {
+    override suspend fun reportEvent(
+        event: AnalyticEvent,
+        userProperties: AnalyticEventUserProperties,
+        force: Boolean
+    ) {
         if (event is HyperskillAnalyticEvent) {
             val amplitudeAnalyticEvent = AmplitudeAnalyticEventMapper.map(event)
             amplitude.track(
                 BaseEvent().apply {
                     eventType = amplitudeAnalyticEvent.name
                     eventProperties = amplitudeAnalyticEvent.params.toMutableMap()
-                    userProperties = this@AndroidAmplitudeAnalyticEngine.userProperties.toMutableMap()
+                    this.userProperties = userProperties.asMapWithoutUserId().toMutableMap()
+                    this.userId = userProperties.userId?.toString()
                 }
             )
         }

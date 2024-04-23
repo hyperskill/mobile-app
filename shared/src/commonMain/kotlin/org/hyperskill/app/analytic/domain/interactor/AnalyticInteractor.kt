@@ -6,12 +6,24 @@ import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.analytic.domain.model.AnalyticEngine
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEventMonitor
+import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
+import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.model.ScreenOrientation
+import org.hyperskill.app.core.domain.platform.Platform
+import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 
 class AnalyticInteractor(
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val notificationInteractor: NotificationInteractor,
+    private val platform: Platform,
     private val analyticEngines: List<AnalyticEngine>,
     override val eventMonitor: AnalyticEventMonitor?
 ) : Analytic {
+
+    private var screenOrientation: ScreenOrientation? = null
+    private var isATTPermissionGranted: Boolean = false
+
     override fun reportEvent(event: AnalyticEvent, forceReportEvent: Boolean) {
         MainScope().launch {
             logEvent(event, forceReportEvent)
@@ -24,17 +36,29 @@ class AnalyticInteractor(
     }
 
     suspend fun logEvent(event: AnalyticEvent, forceLogEvent: Boolean = false) {
-        analyticEngines
-            .filter { it.targetSource in event.sources }
-            .forEach { it.reportEvent(event, forceLogEvent) }
+        val engines = analyticEngines.filter { it.targetSource in event.sources }
+        val userProperties = getUserProperties()
+        engines.forEach { engine -> engine.reportEvent(event, userProperties, forceLogEvent) }
         eventMonitor?.analyticDidReportEvent(event)
     }
 
     override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
-        analyticEngines.forEach { it.setScreenOrientation(screenOrientation) }
+        this.screenOrientation = screenOrientation
     }
 
     override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
-        analyticEngines.forEach { it.setAppTrackingTransparencyAuthorizationStatus(isAuthorized) }
+        this.isATTPermissionGranted = isAuthorized
+    }
+
+    private suspend fun getUserProperties(): AnalyticEventUserProperties {
+        val profile = currentProfileStateRepository.getState(forceUpdate = false).getOrNull()
+        return AnalyticEventUserProperties(
+            userId = profile?.id,
+            isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
+            isATTPermissionGranted = isATTPermissionGranted,
+            screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT,
+            isInternalTesting = BuildKonfig.IS_INTERNAL_TESTING ?: false,
+            platform = platform.analyticName
+        )
     }
 }
