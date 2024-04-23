@@ -3,6 +3,7 @@ package org.hyperskill.app.analytic.domain.model.hyperskill
 import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticSource
+import org.hyperskill.app.analytic.domain.model.CommonAnalyticKeys
 import ru.nobird.app.core.model.mapOfNotNull
 
 /**
@@ -28,7 +29,6 @@ abstract class HyperskillAnalyticEvent(
 ) : AnalyticEvent {
     companion object {
         const val PARAM_CLIENT_TIME = "client_time"
-        const val PARAM_ROUTE = "route"
         const val PARAM_ACTION = "action"
         const val PARAM_PART = "part"
         const val PARAM_TARGET = "target"
@@ -45,7 +45,7 @@ abstract class HyperskillAnalyticEvent(
     override val params: Map<String, Any> =
         mapOfNotNull(
             PARAM_CLIENT_TIME to clientTime.toString(),
-            PARAM_ROUTE to route.path,
+            CommonAnalyticKeys.PARAM_ROUTE to route.path,
             PARAM_ACTION to action.actionName,
             PARAM_PART to part?.partName,
             PARAM_TARGET to target?.targetName,

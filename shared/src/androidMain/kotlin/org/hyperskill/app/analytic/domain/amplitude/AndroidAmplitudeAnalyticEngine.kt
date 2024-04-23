@@ -4,10 +4,12 @@ import android.content.Context
 import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
 import com.amplitude.common.Logger
+import com.amplitude.core.events.BaseEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEngine
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.analytic.domain.processor.AmplitudeAnalyticEventMapper
 import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.core.domain.model.ScreenOrientation
 
 class AndroidAmplitudeAnalyticEngine(
     private val isDebugMode: Boolean
@@ -24,22 +26,19 @@ class AndroidAmplitudeAnalyticEngine(
                 context = applicationContext
             )
         )
-        amplitude.logger.logMode = if (isDebugMode) Logger.LogMode.INFO else Logger.LogMode.OFF
+        amplitude.logger.logMode = if (isDebugMode) Logger.LogMode.DEBUG else Logger.LogMode.OFF
     }
 
     override suspend fun reportEvent(event: AnalyticEvent, force: Boolean) {
-        TODO("TODO: ALTAPPS-1235")
-    }
-
-    override suspend fun flushEvents() {
-        // no op
-    }
-
-    override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
-        // no op
-    }
-
-    override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
-        // no op
+        if (event is HyperskillAnalyticEvent) {
+            val amplitudeAnalyticEvent = AmplitudeAnalyticEventMapper.map(event)
+            amplitude.track(
+                BaseEvent().apply {
+                    eventType = amplitudeAnalyticEvent.name
+                    eventProperties = amplitudeAnalyticEvent.params.toMutableMap()
+                    userProperties = this@AndroidAmplitudeAnalyticEngine.userProperties.toMutableMap()
+                }
+            )
+        }
     }
 }
