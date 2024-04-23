@@ -15,5 +15,6 @@ open class AppsFlyerAnalyticEvent(
     override val name: String,
     override val params: Map<String, Any> = emptyMap()
 ) : AnalyticEvent {
-    override val sources: Set<AnalyticSource> = setOf(AnalyticSource.APPS_FLYER)
+    override val sources: Set<AnalyticSource>
+        get() = setOf(AnalyticSource.APPS_FLYER)
 }
