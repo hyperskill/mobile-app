@@ -60,6 +60,14 @@ final class LeaderboardViewModel: FeatureViewModel<
         )
     }
 
+    func doProblemsLimitBarButtonItemAction() {
+        onNewMessage(
+            LeaderboardScreenFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageProblemsLimitClicked()
+            )
+        )
+    }
+
     func doSearchBarButtonItemAction() {
         onNewMessage(
             LeaderboardScreenFeatureMessageGamificationToolbarMessage(

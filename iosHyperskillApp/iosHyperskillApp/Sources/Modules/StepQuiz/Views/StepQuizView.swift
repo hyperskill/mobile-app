@@ -64,6 +64,7 @@ struct StepQuizView: View {
                         )
                     } else {
                         StepExpandableStepTextView(
+                            title: viewData.stepTextHeaderTitle,
                             text: viewData.stepText,
                             isExpanded: true,
                             onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
@@ -104,18 +105,11 @@ struct StepQuizView: View {
                     attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
                 )
             )
-            .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
-                $0.toolbar {
-                    // buildIf is only available in iOS 16.0 or newer
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(
-                            Strings.Step.theory,
-                            action: viewModel.doTheoryToolbarAction
-                        )
-                        .disabled(StepQuizResolver.shared.isQuizLoading(state: viewModel.state.stepQuizState))
-                    }
-                }
-            }
+            .stepQuizToolbar(
+                state: viewModel.state,
+                onLimitsButtonTap: viewModel.doLimitsToolbarAction,
+                onTheoryButtonTap: viewModel.doTheoryToolbarAction
+            )
         }
     }
 
@@ -291,69 +285,86 @@ struct StepQuizView: View {
             .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
         }
     }
+}
 
-    private func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
+// MARK: - StepQuizView (ViewAction) -
+
+private extension StepQuizView {
+    func handleViewAction(_ viewAction: StepQuizFeatureActionViewAction) {
         switch StepQuizFeatureActionViewActionKs(viewAction) {
         case .showNetworkError:
             ProgressHUD.showError(status: Strings.Common.connectionError)
         case .requestResetCode:
             presentResetCodePermissionAlert()
-        case .showProblemsLimitReachedModal(let showProblemsLimitReachedModalViewAction):
-            presentProblemsLimitReachedModal(
+        case .showProblemsLimitReachedModal(let data):
+            presentProblemsLimitInfoModal(
                 params: ProblemsLimitInfoModalFeatureParams(
-                    subscription: showProblemsLimitReachedModalViewAction.subscription,
-                    chargeLimitsStrategy: showProblemsLimitReachedModalViewAction.chargeLimitsStrategy,
-                    context: showProblemsLimitReachedModalViewAction.context
+                    subscription: data.subscription,
+                    chargeLimitsStrategy: data.chargeLimitsStrategy,
+                    context: data.context
                 )
             )
-        case .showProblemOnboardingModal(let showProblemOnboardingModalViewAction):
-            presentProblemOnboardingModal(modalType: showProblemOnboardingModalViewAction.modalType)
-        case .navigateTo(let viewActionNavigateTo):
-            switch StepQuizFeatureActionViewActionNavigateToKs(viewActionNavigateTo) {
-            case .stepScreen(let navigateToStepScreenViewAction):
-                let assembly = StepAssembly(stepRoute: navigateToStepScreenViewAction.stepRoute)
-                stackRouter.pushViewController(assembly.makeModule())
-            case .studyPlan:
-                stackRouter.popViewController(
-                    animated: true,
-                    completion: {
-                        TabBarRouter(tab: .studyPlan).route()
-                    }
-                )
-            }
-        case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
-            switch StepQuizHintsFeatureActionViewActionKs(stepQuizHintsViewAction.viewAction) {
-            case .showNetworkError:
-                ProgressHUD.showError(status: Strings.Common.connectionError)
-            }
-        case .createMagicLinkState(let createMagicLinkStateViewAction):
-            switch StepQuizFeatureActionViewActionCreateMagicLinkStateKs(createMagicLinkStateViewAction) {
-            case .error:
-                ProgressHUD.showError()
-            case .loading:
-                ProgressHUD.show()
-            case .success:
-                ProgressHUD.showSuccess()
-            }
-        case .openUrl(let data):
-            WebControllerManager.shared.presentWebControllerWithURLString(data.url, controllerType: .inAppSafari)
+        case .showProblemOnboardingModal(let data):
+            presentProblemOnboardingModal(modalType: data.modalType)
         case .hideProblemsLimitReachedModal:
             panModalPresenter.dismissPanModal(
                 condition: { ($0 as? ProblemsLimitInfoModalViewController) != nil }
             )
+        case .createMagicLinkState(let createMagicLinkStateViewAction):
+            handleCreateMagicLinkStateViewAction(createMagicLinkStateViewAction)
+        case .openUrl(let data):
+            WebControllerManager.shared.presentWebControllerWithURLString(
+                data.url,
+                controllerType: .inAppSafari
+            )
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(navigateToViewAction)
+        case .stepQuizHintsViewAction(let stepQuizHintsViewAction):
+            StepQuizHintsViewActionHandler.handle(viewAction: stepQuizHintsViewAction.viewAction)
         case .stepQuizToolbarViewAction(let stepQuizToolbarViewAction):
             handleStepQuizToolbarViewAction(viewAction: stepQuizToolbarViewAction.viewAction)
         }
     }
-    
-    private func handleStepQuizToolbarViewAction(viewAction: StepQuizToolbarFeatureActionViewAction) {
-        // no op
+
+    func handleCreateMagicLinkStateViewAction(_ viewAction: StepQuizFeatureActionViewActionCreateMagicLinkState) {
+        switch StepQuizFeatureActionViewActionCreateMagicLinkStateKs(viewAction) {
+        case .error:
+            ProgressHUD.showError()
+        case .loading:
+            ProgressHUD.show()
+        case .success:
+            ProgressHUD.showSuccess()
+        }
     }
-}
 
-// MARK: - StepQuizView (Modals) -
+    func handleNavigateToViewAction(_ viewAction: StepQuizFeatureActionViewActionNavigateTo) {
+        switch StepQuizFeatureActionViewActionNavigateToKs(viewAction) {
+        case .stepScreen(let data):
+            let assembly = StepAssembly(stepRoute: data.stepRoute)
+            stackRouter.pushViewController(assembly.makeModule())
+        case .studyPlan:
+            stackRouter.popViewController(
+                animated: true,
+                completion: {
+                    TabBarRouter(tab: .studyPlan).route()
+                }
+            )
+        }
+    }
 
-private extension StepQuizView {
+    func handleStepQuizToolbarViewAction(viewAction: StepQuizToolbarFeatureActionViewAction) {
+        switch StepQuizToolbarFeatureActionViewActionKs(viewAction) {
+        case .showProblemsLimitInfoModal(let data):
+            presentProblemsLimitInfoModal(
+                params: ProblemsLimitInfoModalFeatureParams(
+                    subscription: data.subscription,
+                    chargeLimitsStrategy: data.chargeLimitsStrategy,
+                    context: data.context
+                )
+            )
+        }
+    }
+
     func presentResetCodePermissionAlert() {
         let alert = UIAlertController(
             title: Strings.StepQuiz.ResetCodeAlert.title,
@@ -378,11 +389,10 @@ private extension StepQuizView {
                 }
             )
         )
-
         modalRouter.presentAlert(alert)
     }
 
-    func presentProblemsLimitReachedModal(params: ProblemsLimitInfoModalFeatureParams) {
+    func presentProblemsLimitInfoModal(params: ProblemsLimitInfoModalFeatureParams) {
         let assembly = ProblemsLimitInfoModalAssembly(params: params)
         panModalPresenter.presentIfPanModal(assembly.makeModule())
     }
