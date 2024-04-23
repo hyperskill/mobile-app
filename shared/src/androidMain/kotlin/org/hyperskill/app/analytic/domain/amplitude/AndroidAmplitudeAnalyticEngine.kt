@@ -1,24 +1,44 @@
 package org.hyperskill.app.analytic.domain.amplitude
 
+import android.content.Context
+import com.amplitude.android.Amplitude
+import com.amplitude.android.Configuration
+import com.amplitude.common.Logger
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEngine
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 
-// TODO: ALTAPPS-1235
-class AndroidAmplitudeAnalyticEngine : AmplitudeAnalyticEngine() {
+class AndroidAmplitudeAnalyticEngine(
+    private val isDebugMode: Boolean
+) : AmplitudeAnalyticEngine() {
+
+    companion object {
+        private lateinit var amplitude: Amplitude
+    }
+
+    fun startup(applicationContext: Context) {
+        amplitude = Amplitude(
+            Configuration(
+                apiKey = "",
+                context = applicationContext
+            )
+        )
+        amplitude.logger.logMode = if (isDebugMode) Logger.LogMode.INFO else Logger.LogMode.OFF
+    }
+
     override suspend fun reportEvent(event: AnalyticEvent, force: Boolean) {
         TODO("TODO: ALTAPPS-1235")
     }
 
     override suspend fun flushEvents() {
-        TODO("TODO: ALTAPPS-1235")
+        // no op
     }
 
     override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
-        TODO("TODO: ALTAPPS-1235")
+        // no op
     }
 
     override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
-        TODO("TODO: ALTAPPS-1235")
+        // no op
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context
 import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.analytic.domain.amplitude.AndroidAmplitudeAnalyticEngine
 import org.hyperskill.app.analytic.domain.apps_flyer.AndroidAppsFlyerAnalyticEngine
-import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEngine
 import org.hyperskill.app.logging.inject.LoggerComponent
 
 internal class PlatformAnalyticComponentImpl(
@@ -18,7 +17,9 @@ internal class PlatformAnalyticComponentImpl(
             isDebugMode = BuildConfig.DEBUG
         )
     }
-    override val amplitudeAnalyticEngine: AmplitudeAnalyticEngine by lazy {
-        AndroidAmplitudeAnalyticEngine()
+    override val amplitudeAnalyticEngine: AndroidAmplitudeAnalyticEngine by lazy {
+        AndroidAmplitudeAnalyticEngine(
+            isDebugMode = BuildConfig.DEBUG
+        )
     }
 }
