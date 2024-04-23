@@ -497,7 +497,7 @@
 		2CE3F5B92BD7AB38000B51A4 /* StepQuizHintsViewActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3F5B82BD7AB38000B51A4 /* StepQuizHintsViewActionHandler.swift */; };
 		2CE3F5BC2BD7B079000B51A4 /* ProblemsLimitInfoModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE3F5BB2BD7B079000B51A4 /* ProblemsLimitInfoModalView.swift */; };
 		2CE3F5C32BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3F5BD2BD7BB79000B51A4 /* problems-limit-info-modal-full-limits-light.lottie */; };
-		2CE3F5C42BD7BB7A000B51A4 /* problems-limit-info-modal-no-imits-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-imits-dark.lottie */; };
+		2CE3F5C42BD7BB7A000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie */; };
 		2CE3F5C52BD7BB7A000B51A4 /* problems-limit-info-modal-no-limits-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3F5BF2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-light.lottie */; };
 		2CE3F5C62BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3F5C02BD7BB79000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie */; };
 		2CE3F5C72BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CE3F5C12BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie */; };
@@ -1225,7 +1225,7 @@
 		2CE3F5B82BD7AB38000B51A4 /* StepQuizHintsViewActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizHintsViewActionHandler.swift; sourceTree = "<group>"; };
 		2CE3F5BB2BD7B079000B51A4 /* ProblemsLimitInfoModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemsLimitInfoModalView.swift; sourceTree = "<group>"; };
 		2CE3F5BD2BD7BB79000B51A4 /* problems-limit-info-modal-full-limits-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "problems-limit-info-modal-full-limits-light.lottie"; sourceTree = "<group>"; };
-		2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-imits-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "problems-limit-info-modal-no-imits-dark.lottie"; sourceTree = "<group>"; };
+		2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "problems-limit-info-modal-no-limits-dark.lottie"; sourceTree = "<group>"; };
 		2CE3F5BF2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "problems-limit-info-modal-no-limits-light.lottie"; sourceTree = "<group>"; };
 		2CE3F5C02BD7BB79000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "problems-limit-info-modal-partially-filled-dark.lottie"; sourceTree = "<group>"; };
 		2CE3F5C12BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "problems-limit-info-modal-partially-filled-light.lottie"; sourceTree = "<group>"; };
@@ -3122,7 +3122,7 @@
 				2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */,
 				2CE3F5C22BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie */,
 				2CE3F5BD2BD7BB79000B51A4 /* problems-limit-info-modal-full-limits-light.lottie */,
-				2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-imits-dark.lottie */,
+				2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie */,
 				2CE3F5BF2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-light.lottie */,
 				2CE3F5C02BD7BB79000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie */,
 				2CE3F5C12BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie */,
@@ -4477,7 +4477,7 @@
 				2CE3F5C62BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie in Resources */,
 				2CE3F5C32BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-light.lottie in Resources */,
 				2CCECFC42BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie in Resources */,
-				2CE3F5C42BD7BB7A000B51A4 /* problems-limit-info-modal-no-imits-dark.lottie in Resources */,
+				2CE3F5C42BD7BB7A000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie in Resources */,
 				2CCECFC12BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
 				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
