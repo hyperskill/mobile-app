@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>We value your privacy and strive to deliver a personalized experience. To enhance your user experience and provide relevant content, we request permission to collect and analyze anonymized data about your interactions within the app.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -45,11 +43,35 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This enables you to save images to your Camera roll.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We value your privacy and strive to deliver a personalized experience. To enhance your user experience and provide relevant content, we request permission to collect and analyze anonymized data about your interactions within the app.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UISceneConfigurations</key>
 		<dict/>
 	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>lightbulb.circle.fill</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeLove</string>
+			<key>UIApplicationShortcutItemSubtitle</key>
+			<string>Help us enhance your experience</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>We Value Your Feedback</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>$(PRODUCT_BUNDLE_IDENTIFIER).SendFeedback</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>version</key>
+				<string>1</string>
+			</dict>
+		</dict>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -68,26 +90,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-	</array>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemType</key>
-			<string>$(PRODUCT_BUNDLE_IDENTIFIER).SendFeedback</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>We Value Your Feedback</string>
-			<key>UIApplicationShortcutItemSubtitle</key>
-			<string>Help us enhance your experience</string>
-			<key>UIApplicationShortcutItemIconSymbolName</key>
-			<string>lightbulb.circle.fill</string>
-			<key>UIApplicationShortcutItemIconType</key>
-			<string>UIApplicationShortcutIconTypeLove</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict>
-				<key>version</key>
-				<string>1</string>
-			</dict>
-		</dict>
 	</array>
 </dict>
 </plist>
