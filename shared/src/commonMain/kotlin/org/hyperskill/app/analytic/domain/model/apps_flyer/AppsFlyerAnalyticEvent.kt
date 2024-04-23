@@ -12,9 +12,9 @@ import org.hyperskill.app.analytic.domain.model.AnalyticSource
  * @see AnalyticEvent
  */
 open class AppsFlyerAnalyticEvent(
-    override val name: String,
-    override val params: Map<String, Any> = emptyMap()
+    final override val name: String,
+    final override val params: Map<String, Any> = emptyMap()
 ) : AnalyticEvent {
-    override val sources: Set<AnalyticSource>
+    final override val sources: Set<AnalyticSource>
         get() = setOf(AnalyticSource.APPS_FLYER)
 }

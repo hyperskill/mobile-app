@@ -21,6 +21,7 @@ import org.hyperskill.app.share_streak.domain.interactor.ShareStreakInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAmplitudeAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
@@ -195,11 +196,9 @@ class StepCompletionActionDispatcher(
             .getState(forceUpdate = false)
             .getOrElse { return }
 
-        analyticInteractor.logEvent(
-            StepCompletionStepSolvedAppsFlyerAnalyticEvent(
-                stepId = stepId,
-                trackTitle = cachedProfile.trackTitle
-            )
+        logStepCompletedAnalyticEvents(
+            stepId = stepId,
+            trackTitle = cachedProfile.trackTitle
         )
 
         if (cachedProfile.dailyStep == stepId) {
@@ -277,6 +276,24 @@ class StepCompletionActionDispatcher(
         }
 
         updateCurrentProfileHypercoinsBalanceRemotely()
+    }
+
+    private suspend fun logStepCompletedAnalyticEvents(
+        stepId: Long,
+        trackTitle: String?
+    ) {
+        analyticInteractor.logEvent(
+            StepCompletionStepSolvedAppsFlyerAnalyticEvent(
+                stepId = stepId,
+                trackTitle = trackTitle
+            )
+        )
+        analyticInteractor.logEvent(
+            StepCompletionStepSolvedAmplitudeAnalyticEvent(
+                stepId = stepId,
+                trackTitle = trackTitle
+            )
+        )
     }
 
     private suspend fun updateCurrentProfileHypercoinsBalanceRemotely(): Int? =

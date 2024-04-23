@@ -14,17 +14,17 @@ class StepCompletionTopicCompletedAppsFlyerAnalyticEvent(
     topicId: Long,
     trackTitle: String?,
     trackIsCompleted: Boolean
-) : AppsFlyerAnalyticEvent(name = "af_topic_completed") {
+) : AppsFlyerAnalyticEvent(
+    name = "af_topic_completed",
+    params = mapOfNotNull(
+        PARAM_TOPIC_ID to topicId,
+        PARAM_TRACK_TITLE to trackTitle,
+        PARAM_TRACK_COMPLETED to if (trackIsCompleted) "yes" else "no"
+    )
+) {
     companion object {
         private const val PARAM_TOPIC_ID = "topic_id"
         private const val PARAM_TRACK_TITLE = "track_name"
         private const val PARAM_TRACK_COMPLETED = "track_completed"
     }
-
-    override val params: Map<String, Any> =
-        mapOfNotNull(
-            PARAM_TOPIC_ID to topicId,
-            PARAM_TRACK_TITLE to trackTitle,
-            PARAM_TRACK_COMPLETED to if (trackIsCompleted) "yes" else "no"
-        )
 }
