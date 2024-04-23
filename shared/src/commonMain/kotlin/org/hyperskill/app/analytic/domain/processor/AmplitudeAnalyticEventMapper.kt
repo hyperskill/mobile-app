@@ -1,16 +1,21 @@
 package org.hyperskill.app.analytic.domain.processor
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticKeys
 
 internal object AmplitudeAnalyticEventMapper {
 
-    fun map(analyticEvent: HyperskillAnalyticEvent): AmplitudeAnalyticEvent =
-        AmplitudeAnalyticEvent(
-            name = getType(analyticEvent),
-            params = getParams(analyticEvent)
-        )
+    fun map(analyticEvent: AnalyticEvent): AmplitudeAnalyticEvent? =
+        when (analyticEvent) {
+            is HyperskillAnalyticEvent -> AmplitudeAnalyticEvent(
+                name = getType(analyticEvent),
+                params = getParams(analyticEvent)
+            )
+            is AmplitudeAnalyticEvent -> analyticEvent
+            else -> null
+        }
 
     private fun getType(analyticEvent: HyperskillAnalyticEvent): String =
         buildString {

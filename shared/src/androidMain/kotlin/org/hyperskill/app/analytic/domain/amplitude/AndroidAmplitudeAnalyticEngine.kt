@@ -9,7 +9,6 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEngine
 import org.hyperskill.app.analytic.domain.model.asMapWithoutUserId
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.processor.AmplitudeAnalyticEventMapper
 import org.hyperskill.app.config.BuildKonfig
 
@@ -36,8 +35,8 @@ class AndroidAmplitudeAnalyticEngine(
         userProperties: AnalyticEventUserProperties,
         force: Boolean
     ) {
-        if (event is HyperskillAnalyticEvent) {
-            val amplitudeAnalyticEvent = AmplitudeAnalyticEventMapper.map(event)
+        val amplitudeAnalyticEvent = AmplitudeAnalyticEventMapper.map(event)
+        if (amplitudeAnalyticEvent != null) {
             amplitude.track(
                 BaseEvent().apply {
                     eventType = amplitudeAnalyticEvent.name

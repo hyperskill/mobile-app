@@ -4,7 +4,9 @@ import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedContinueWit
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedSignInHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsViewedHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSignInAmplitudeAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignInAppsFlyerAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSignUpAmplitudeAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignUpAppsFlyerAnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
 import org.hyperskill.app.auth.presentation.AuthCredentialsFeature.Action
@@ -71,11 +73,7 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
             is Message.AuthSuccess -> {
                 if (state.formState is AuthCredentialsFeature.FormState.Loading) {
                     state.copy(formState = AuthCredentialsFeature.FormState.Authenticated) to setOf(
-                        if (message.profile.isNewUser) {
-                            Action.LogAnalyticEvent(AuthSignUpAppsFlyerAnalyticEvent)
-                        } else {
-                            Action.LogAnalyticEvent(AuthSignInAppsFlyerAnalyticEvent)
-                        },
+                        getAuthSuccessAnalyticAction(message.profile.isNewUser),
                         Action.AddSentryBreadcrumb(
                             HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignedInSuccessfully()
                         ),
@@ -118,4 +116,17 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                     Action.LogAnalyticEvent(AuthCredentialsClickedContinueWithSocialHyperskillAnalyticEvent())
                 )
         } ?: (state to emptySet())
+
+    private fun getAuthSuccessAnalyticAction(isNewUser: Boolean): Action.LogAnalyticEvent =
+        if (isNewUser) {
+            Action.LogAnalyticEvent(
+                AuthSignUpAppsFlyerAnalyticEvent,
+                AuthSignUpAmplitudeAnalyticEvent
+            )
+        } else {
+            Action.LogAnalyticEvent(
+                AuthSignInAppsFlyerAnalyticEvent,
+                AuthSignInAmplitudeAnalyticEvent
+            )
+        }
 }
