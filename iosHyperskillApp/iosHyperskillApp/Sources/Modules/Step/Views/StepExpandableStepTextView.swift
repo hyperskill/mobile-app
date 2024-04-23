@@ -28,7 +28,7 @@ struct StepExpandableStepTextView: View {
                 },
                 label: {
                     HStack(alignment: .center) {
-                        Text(Strings.StepQuiz.stepTextHeaderTitle)
+                        Text(title)
                             .foregroundColor(.primaryText)
                             .multilineTextAlignment(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)

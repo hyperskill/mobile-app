@@ -59,7 +59,7 @@ final class ProblemsLimitInfoModalViewController: PanModalPresentableViewControl
             FeedbackGenerator(feedbackType: .selection).triggerFeedback()
             self?.viewModel.doUnlockUnlimitedProblems()
         }
-        problemsLimitInfoModalView?.onGoToHomescreenButtonTap = { [weak self] in
+        problemsLimitInfoModalView?.onGoToHomescreenButtonTap = {
             FeedbackGenerator(feedbackType: .selection).triggerFeedback()
         }
 

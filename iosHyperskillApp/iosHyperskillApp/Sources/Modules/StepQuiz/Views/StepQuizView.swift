@@ -105,18 +105,11 @@ struct StepQuizView: View {
                     attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
                 )
             )
-            .if(StepQuizResolver.shared.isTheoryToolbarItemAvailable(state: viewModel.state.stepQuizState)) {
-                $0.toolbar {
-                    // buildIf is only available in iOS 16.0 or newer
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(
-                            Strings.Step.theory,
-                            action: viewModel.doTheoryToolbarAction
-                        )
-                        .disabled(StepQuizResolver.shared.isQuizLoading(state: viewModel.state.stepQuizState))
-                    }
-                }
-            }
+            .stepQuizToolbar(
+                state: viewModel.state,
+                onLimitsButtonTap: {},
+                onTheoryButtonTap: viewModel.doTheoryToolbarAction
+            )
         }
     }
 
