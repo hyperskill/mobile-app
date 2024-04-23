@@ -199,8 +199,7 @@ object StepQuizFeature {
             data class ShowProblemsLimitReachedModal(
                 val subscription: Subscription,
                 val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
-                val context: ProblemsLimitInfoModalContext,
-                val stepRoute: StepRoute
+                val context: ProblemsLimitInfoModalContext
             ) : ViewAction
 
             object HideProblemsLimitReachedModal : ViewAction

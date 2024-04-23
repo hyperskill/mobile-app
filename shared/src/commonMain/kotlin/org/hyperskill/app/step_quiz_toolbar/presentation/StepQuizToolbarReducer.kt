@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_quiz_toolbar.presentation
 
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalLaunchSource
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_toolbar.domain.analytic.StepQuizToolbarLimitClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature.Action
@@ -58,8 +59,10 @@ class StepQuizToolbarReducer(
                 Action.ViewAction.ShowProblemsLimitInfoModal(
                     subscription = state.subscription,
                     chargeLimitsStrategy = state.chargeLimitsStrategy,
-                    context = ProblemsLimitInfoModalContext.USER_INITIATED,
-                    stepRoute = stepRoute
+                    context = ProblemsLimitInfoModalContext.Step(
+                        launchSource = ProblemsLimitInfoModalLaunchSource.USER_INITIATED,
+                        stepRoute = stepRoute
+                    )
                 )
             )
         } else {

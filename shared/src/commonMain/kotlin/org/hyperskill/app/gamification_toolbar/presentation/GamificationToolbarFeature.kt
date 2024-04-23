@@ -4,9 +4,12 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarData
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarScreen
 import org.hyperskill.app.gamification_toolbar.domain.model.GamificationToolbarTrackProgress
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.streaks.domain.model.HistoricalStreak
 import org.hyperskill.app.streaks.domain.model.Streak
 import org.hyperskill.app.study_plan.domain.model.StudyPlan
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object GamificationToolbarFeature {
     sealed interface State {
@@ -17,6 +20,8 @@ object GamificationToolbarFeature {
             val trackProgress: GamificationToolbarTrackProgress?,
             val currentStreak: Int,
             val historicalStreak: HistoricalStreak,
+            val subscription: Subscription,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
             internal val isRefreshing: Boolean = false
         ) : State
     }
@@ -29,8 +34,9 @@ object GamificationToolbarFeature {
         object Loading : ViewState
         object Error : ViewState
         data class Content(
+            val streak: Streak,
             val progress: Progress?,
-            val streak: Streak
+            val problemsLimit: ProblemsLimit?
         ) : ViewState {
             data class Progress(
                 val value: Float, // a value between 0 and 1
@@ -43,6 +49,8 @@ object GamificationToolbarFeature {
                 val isCompleted: Boolean,
                 val isRecovered: Boolean
             )
+
+            data class ProblemsLimit(val limitLabel: String)
         }
     }
 
@@ -50,6 +58,7 @@ object GamificationToolbarFeature {
         object ClickedStreak : Message
         object ClickedProgress : Message
         object ClickedSearch : Message
+        object ProblemsLimitClicked : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -59,7 +68,9 @@ object GamificationToolbarFeature {
         data class Initialize(val forceUpdate: Boolean = false) : InternalMessage
         object FetchGamificationToolbarDataError : InternalMessage
         data class FetchGamificationToolbarDataSuccess(
-            val gamificationToolbarData: GamificationToolbarData
+            val gamificationToolbarData: GamificationToolbarData,
+            val subscription: Subscription,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
         object PullToRefresh : InternalMessage
@@ -74,6 +85,7 @@ object GamificationToolbarFeature {
         data class GamificationToolbarDataChanged(
             val gamificationToolbarData: GamificationToolbarData
         ) : InternalMessage
+        data class SubscriptionChanged(val subscription: Subscription) : InternalMessage
     }
 
     sealed interface Action {
@@ -81,6 +93,11 @@ object GamificationToolbarFeature {
             object ShowProfileTab : ViewAction
             object ShowProgressScreen : ViewAction
             object ShowSearchScreen : ViewAction
+            data class ShowProblemsLimitInfoModal(
+                val subscription: Subscription,
+                val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
+                val context: ProblemsLimitInfoModalContext
+            ) : ViewAction
         }
     }
 
