@@ -60,6 +60,7 @@ class StepPracticeDetailsFragment : Fragment(R.layout.fragment_step_practice_des
             viewLifecycle = viewLifecycleOwner.lifecycle
         )
         with(viewBinding) {
+            stepPracticeDetailsStepTitle.text = step.title
             stepPracticeDetailsArrow.setIsExpanded(true)
             CollapsibleStepBlockDelegate.setupCollapsibleBlock(
                 arrowView = stepPracticeDetailsArrow,

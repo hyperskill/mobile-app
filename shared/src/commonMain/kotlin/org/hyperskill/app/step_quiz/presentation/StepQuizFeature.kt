@@ -3,7 +3,7 @@ package org.hyperskill.app.step_quiz.presentation
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
-import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -11,14 +11,17 @@ import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
 import org.hyperskill.app.submissions.domain.model.Submission
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object StepQuizFeature {
     data class State(
         val stepQuizState: StepQuizState,
-        val stepQuizHintsState: StepQuizHintsFeature.State
+        val stepQuizHintsState: StepQuizHintsFeature.State,
+        val stepQuizToolbarState: StepQuizToolbarFeature.State
     )
 
     sealed interface StepQuizState {
@@ -57,12 +60,7 @@ object StepQuizFeature {
         object GptCodeGenerationWithErrors : ProblemOnboardingModal
     }
 
-    @Serializable
-    data class ProblemsLimitReachedModalData(
-        val title: String,
-        val description: String,
-        val unlockLimitsButtonText: String?
-    )
+    internal sealed interface ChildFeatureMessage
 
     sealed interface Message {
         data class InitWithStep(val step: Step, val forceUpdate: Boolean = false) : Message
@@ -99,12 +97,6 @@ object StepQuizFeature {
         data class RequestResetCodeResult(val isGranted: Boolean) : Message
 
         /**
-         * Daily limit reached modal
-         */
-        object ProblemsLimitReachedModalGoToHomeScreenClicked : Message
-        object ProblemsLimitReachedModalUnlockUnlimitedProblemsClicked : Message
-
-        /**
          * Problem onboarding modal
          */
         data class ProblemOnboardingModalShownMessage(val modalType: ProblemOnboardingModal) : Message
@@ -135,15 +127,13 @@ object StepQuizFeature {
 
         object ClickedRetryEventMessage : Message
 
-        object ProblemsLimitReachedModalShownEventMessage : Message
-        object ProblemsLimitReachedModalHiddenEventMessage : Message
-
         object FixGptGeneratedCodeMistakesBadgeClickedQuestionMark : Message
 
         /**
          * Message Wrappers
          */
-        data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message
+        data class StepQuizHintsMessage(val message: StepQuizHintsFeature.Message) : Message, ChildFeatureMessage
+        data class StepQuizToolbarMessage(val message: StepQuizToolbarFeature.Message) : Message, ChildFeatureMessage
     }
 
     internal sealed interface InternalMessage : Message {
@@ -152,8 +142,8 @@ object StepQuizFeature {
             val step: Step,
             val attempt: Attempt,
             val submissionState: SubmissionState,
-            val isProblemsLimitReached: Boolean,
-            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?,
+            val subscription: Subscription,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
             val problemsOnboardingFlags: ProblemsOnboardingFlags,
             val isMobileGptCodeGenerationWithErrorsEnabled: Boolean
         ) : InternalMessage
@@ -164,11 +154,11 @@ object StepQuizFeature {
         ) : InternalMessage
 
         data class UpdateProblemsLimitResult(
-            val isProblemsLimitReached: Boolean,
-            val problemsLimitReachedModalData: ProblemsLimitReachedModalData?
+            val subscription: Subscription,
+            val chargeLimitsStrategy: FreemiumChargeLimitsStrategy
         ) : InternalMessage
 
-        data class ProblemsLimitChanged(val isProblemsLimitReached: Boolean) : InternalMessage
+        data class ProblemsLimitChanged(val subscription: Subscription) : InternalMessage
 
         object CreateMagicLinkForUnsupportedQuizError : InternalMessage
         data class CreateMagicLinkForUnsupportedQuizSuccess(val url: String) : InternalMessage
@@ -199,13 +189,18 @@ object StepQuizFeature {
          * Action Wrappers
          */
         data class StepQuizHintsAction(val action: StepQuizHintsFeature.Action) : Action
+        data class StepQuizToolbarAction(val action: StepQuizToolbarFeature.Action) : Action
 
         sealed interface ViewAction : Action {
             object ShowNetworkError : ViewAction // error
 
             object RequestResetCode : ViewAction
 
-            data class ShowProblemsLimitReachedModal(val modalData: ProblemsLimitReachedModalData) : ViewAction
+            data class ShowProblemsLimitReachedModal(
+                val subscription: Subscription,
+                val chargeLimitsStrategy: FreemiumChargeLimitsStrategy,
+                val context: ProblemsLimitInfoModalContext
+            ) : ViewAction
 
             object HideProblemsLimitReachedModal : ViewAction
 
@@ -213,6 +208,10 @@ object StepQuizFeature {
 
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class StepQuizToolbarViewAction(
+                val viewAction: StepQuizToolbarFeature.Action.ViewAction
             ) : ViewAction
 
             sealed interface CreateMagicLinkState : ViewAction {
@@ -223,12 +222,8 @@ object StepQuizFeature {
             data class OpenUrl(val url: String) : ViewAction
 
             sealed interface NavigateTo : ViewAction {
-                object Home : NavigateTo
                 object StudyPlan : NavigateTo
-
                 data class StepScreen(val stepRoute: StepRoute) : NavigateTo
-
-                data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
             }
         }
     }

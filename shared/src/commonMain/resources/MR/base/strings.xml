@@ -20,8 +20,8 @@
     <string name="new_word">New</string>
     <string name="progress">Progress</string>
     <string name="completed">Completed</string>
-    <string name="minutes_short">%d m.</string>
-    <string name="hours_short">%d h.</string>
+    <string name="minutes_short">%d m</string>
+    <string name="hours_short">%d h</string>
 
     <!-- Badge -->
     <string name="badge_ide_required_text">IDE required</string>
@@ -444,16 +444,21 @@
     <string name="topics_widget_learn_next_badge">Learn next</string>
 
     <!--Problems limit reached modal-->
-    <string name="problems_limit_reached_modal_title">You\'ve reached your daily limit</string>
-    <string name="problems_limit_reached_modal_no_lives_left_title">You\'ve used all %d of your lives for today</string>
+    <string name="problems_limit_info_modal_full_limits_title">You\'ve got all your limits back!</string>
+    <string name="problems_limit_info_modal_part_spent_limits_title">You still have limits left</string>
+    <string name="problems_limit_info_modal_part_spent_lives_title">You still have lives left</string>
+    <string name="problems_limit_info_modal_no_limits_left_title">Out of limits: Need a recharge?</string>
+    <string name="problems_limit_info_modal_no_lives_left_title">Out of lives: Need a recharge?</string>
 
-    <string name="problems_limit_reached_modal_description">You\'ve solved %d problems today. Great job! Tomorrow new problems will be available to you.</string>
-    <string name="problems_limit_reached_modal_no_lives_left_description">Take a break and come back tomorrow for another exciting day of practice!</string>
-    <string name="problems_limit_reached_modal_unlock_unlimited_problems_description">You\'ve solved %d problems today. Great job! Unlock unlimited problems with Mobile only plan.</string>
-    <string name="problems_limit_reached_modal_unlock_unlimited_lives_description">Great job! Unlock unlimited lives with Mobile only plan.</string>
+    <string name="problems_limit_info_modal_problems_limits_description">Limits refresh daily and get deducted when you solve a problem.</string>
+    <string name="problems_limit_info_modal_lives_description">Lives refresh daily and get deducted when you make a mistake on a problem.</string>
+
+    <string name="problems_limit_info_reset_in">Reset in %s</string>
+
+    <string name="problems_limit_info_modal_unlock_unlimited_problems_description">Fast learner? Unlock unlimited problems with Mobile only plan</string>
+    <string name="problems_limit_info_modal_unlock_unlimited_lives_description">Fast learner? Unlock unlimited lives with Mobile only plan</string>
 
     <string name="problems_limit_reached_modal_unlock_unlimited_problems_button">Unlock unlimited problems</string>
-    <string name="problems_limit_reached_modal_unlock_unlimited_lives_button">Unlock unlimited lives</string>
 
     <!--  Problems limit widget  -->
     <string name="problems_limit_widget_problems_limit">%d/%d problems left</string>
@@ -566,8 +571,8 @@
     <string name="challenge_widget_reload_button">Reload</string>
 
     <!-- Users interview widget -->
-    <string name="users_interview_widget_title">Interview Invitation</string>
-    <string name="users_interview_widget_subtitle">Share your experience in an interview and earn amazon gift card</string>
+    <string name="users_interview_widget_title">We want to hear your story!</string>
+    <string name="users_interview_widget_subtitle">Share your Hyperskill app experience in an online feedback session, and receive an Amazon gift card</string>
 
     <!-- Questionnaire onboarding -->
     <string name="users_questionnaire_onboarding_title_template">How did you hear about\n%s?</string>
@@ -648,8 +653,7 @@
 
     <!--Paywall-->
     <string name="paywall_mobile_only_title">Solve unlimited problems with Mobile only plan</string>
-    <string name="paywall_ios_mobile_only_buy_btn">Subscribe for %s / month</string>
-    <string name="paywall_android_mobile_only_buy_btn">Subscribe</string>
+    <string name="paywall_mobile_only_buy_btn">Subscribe for %s/month</string>
     <string name="paywall_mobile_only_continue_btn">Continue with daily limits</string>
     <string name="paywall_placeholder_error_description">Oops! We were unable to load the subscriptions data.</string>
     <string name="paywall_screen_title">Subscription</string>
@@ -659,8 +663,6 @@
     <string name="paywall_subscription_sync_description">The app is updating. Please wait a moment.</string>
     <string name="paywall_tos_and_privacy_bth">Hyperskill Terms of Service and Privacy Policy</string>
     <string name="paywall_tos_and_privacy_url">https://hi.hyperskill.org/terms</string>
-    <string name="paywall_android_subscription_duration">Monthly</string>
-    <string name="paywall_android_explicit_subscription_price">%s / month, cancel any time</string>
 
     <!--Manage subscription-->
     <string name="manage_subscription_screen_title">Subscription</string>

@@ -3,8 +3,6 @@ package org.hyperskill.app.study_plan.screen.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.isRefreshing
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature
-import org.hyperskill.app.problems_limit.presentation.ProblemsLimitFeature.isRefreshing
 import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature
 import org.hyperskill.app.study_plan.widget.view.model.StudyPlanWidgetViewState
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetFeature
@@ -12,20 +10,17 @@ import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidg
 object StudyPlanScreenFeature {
     internal data class State(
         val toolbarState: GamificationToolbarFeature.State,
-        val problemsLimitState: ProblemsLimitFeature.State,
         val usersInterviewWidgetState: UsersInterviewWidgetFeature.State,
         val studyPlanWidgetState: StudyPlanWidgetFeature.State
     ) {
         val isRefreshing: Boolean
             get() = toolbarState.isRefreshing ||
-                problemsLimitState.isRefreshing ||
                 studyPlanWidgetState.isRefreshing
     }
 
     data class ViewState(
         val trackTitle: String?,
         val toolbarViewState: GamificationToolbarFeature.ViewState,
-        val problemsLimitViewState: ProblemsLimitFeature.ViewState,
         val usersInterviewWidgetState: UsersInterviewWidgetFeature.State,
         val studyPlanWidgetViewState: StudyPlanWidgetViewState,
         val isRefreshing: Boolean
@@ -46,10 +41,6 @@ object StudyPlanScreenFeature {
             val message: GamificationToolbarFeature.Message
         ) : Message
 
-        data class ProblemsLimitMessage(
-            val message: ProblemsLimitFeature.Message
-        ) : Message
-
         data class UsersInterviewWidgetMessage(
             val message: UsersInterviewWidgetFeature.Message
         ) : Message
@@ -63,10 +54,6 @@ object StudyPlanScreenFeature {
         sealed interface ViewAction : Action {
             data class GamificationToolbarViewAction(
                 val viewAction: GamificationToolbarFeature.Action.ViewAction
-            ) : ViewAction
-
-            data class ProblemsLimitViewAction(
-                val viewAction: ProblemsLimitFeature.Action.ViewAction
             ) : ViewAction
 
             data class UsersInterviewWidgetViewAction(
@@ -84,10 +71,6 @@ object StudyPlanScreenFeature {
 
         data class GamificationToolbarAction(
             val action: GamificationToolbarFeature.Action
-        ) : InternalAction
-
-        data class ProblemsLimitAction(
-            val action: ProblemsLimitFeature.Action
         ) : InternalAction
 
         data class UsersInterviewWidgetAction(

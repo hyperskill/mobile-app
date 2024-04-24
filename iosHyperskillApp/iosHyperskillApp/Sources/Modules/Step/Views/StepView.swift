@@ -16,6 +16,8 @@ struct StepView: View {
             )
 
             buildBody()
+
+            let _ = renderStepToolbarViewState(viewModel.stepToolbarViewStateKs)
         }
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
@@ -35,7 +37,7 @@ struct StepView: View {
 
     @ViewBuilder
     private func buildBody() -> some View {
-        switch viewModel.stateKs {
+        switch viewModel.stepStateKs {
         case .idle, .loading:
             ProgressView()
         case .error:
@@ -48,16 +50,13 @@ struct StepView: View {
             )
         case .data(let data):
             buildContent(data: data)
-                .if(!viewModel.isStageImplement) {
-                    $0.navigationTitle(data.step.title)
-                }
         }
     }
 
     @ViewBuilder
-    private func buildContent(data: StepFeatureStateData) -> some View {
-        switch data.step.type {
-        case Step.Type_.theory:
+    private func buildContent(data: StepFeatureStepStateData) -> some View {
+        switch data.step.type.wrapped {
+        case .theory:
             let startPracticingButton: StepTheoryContentView.StartPracticingButton? = {
                 guard data.isPracticingAvailable else {
                     return nil
@@ -77,7 +76,8 @@ struct StepView: View {
                     modalRouter.present(module: assembly.makeModule(), modalPresentationStyle: .automatic)
                 }
             )
-        case Step.Type_.practice:
+            .navigationTitle(data.step.title)
+        case .practice:
             StepQuizAssembly(
                 step: data.step,
                 stepRoute: viewModel.stepRoute,
@@ -86,8 +86,17 @@ struct StepView: View {
             )
             .makeModule()
             .environmentObject(panModalPresenter)
-        default:
-            Text("Unkwown state")
+        }
+    }
+
+    private func renderStepToolbarViewState(_ stepToolbarViewState: StepToolbarFeatureViewStateKs) {
+        switch stepToolbarViewState {
+        case .idle, .loading:
+            break
+        case .unavailable, .error:
+            stackRouter.rootViewController?.styledNavigationController?.hideProgress()
+        case .content(let data):
+            stackRouter.rootViewController?.styledNavigationController?.setProgress(data.progress, animated: true)
         }
     }
 
@@ -95,6 +104,8 @@ struct StepView: View {
         switch StepFeatureActionViewActionKs(viewAction) {
         case .stepCompletionViewAction(let stepCompletionViewAction):
             handleStepCompletionViewAction(stepCompletionViewAction.viewAction)
+        case .stepToolbarViewAction:
+            break
         }
     }
 
@@ -194,7 +205,7 @@ private extension StepView {
 struct StepView_Previews: PreviewProvider {
     static var previews: some View {
         UIKitViewControllerPreview {
-            StepAssembly(stepRoute: StepRouteLearnStep(stepId: 4350)).makeModule()
+            StepAssembly(stepRoute: StepRouteLearnStep(stepId: 4350, topicId: nil)).makeModule()
         }
     }
 }

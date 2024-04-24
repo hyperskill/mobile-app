@@ -8,7 +8,7 @@ import org.hyperskill.app.submissions.domain.model.Reply
 class CommonCodeQuizConfig(private val step: Step) : CodeStepQuizConfig {
 
     override val langName: String =
-        requireNotNull(step.block.options.codeTemplates).keys.first()
+        requireNotNull(step.block.options.codeTemplates).keys.firstOrNull() ?: ""
 
     override val displayedLangName: String?
         get() = step.displayLanguage

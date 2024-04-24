@@ -3,6 +3,7 @@ package org.hyperskill.app.android.gamification_toolbar.view.ui.delegate
 import android.content.Context
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.github.terrakok.cicerone.Router
 import com.google.android.material.appbar.AppBarLayout
@@ -11,12 +12,15 @@ import org.hyperskill.app.android.databinding.LayoutGamificationToolbarBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
+import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
 import org.hyperskill.app.android.progress.navigation.ProgressScreen
 import org.hyperskill.app.android.topic_search.navigation.TopicSearchScreen
 import org.hyperskill.app.android.view.base.ui.extension.setElevationOnCollapsed
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 class GamificationToolbarDelegate(
     lifecycleOwner: LifecycleOwner,
@@ -37,6 +41,9 @@ class GamificationToolbarDelegate(
             }
             gamificationSearchButton.setOnClickListener {
                 onNewMessage(Message.ClickedSearch)
+            }
+            gamificationProblemsLimitTextView.setOnClickListener {
+                onNewMessage(Message.ProblemsLimitClicked)
             }
         }
     }
@@ -65,7 +72,13 @@ class GamificationToolbarDelegate(
                         progress.value,
                         progress.isCompleted
                     )
-                    viewBinding.gamificationTrackProgressTextView.text = progress.formattedValue
+                    viewBinding.gamificationTrackProgressTextView.setTextIfChanged(progress.formattedValue)
+                }
+            }
+            state.problemsLimit.let { problemsLimit ->
+                viewBinding.gamificationProblemsLimitTextView.isVisible = problemsLimit != null
+                if (problemsLimit != null) {
+                    viewBinding.gamificationProblemsLimitTextView.setTextIfChanged(problemsLimit.limitLabel)
                 }
             }
             viewBinding.gamificationSearchButton.isVisible = true
@@ -75,7 +88,8 @@ class GamificationToolbarDelegate(
     fun onAction(
         action: GamificationToolbarFeature.Action.ViewAction,
         mainScreenRouter: MainScreenRouter,
-        router: Router
+        router: Router,
+        fragmentManager: FragmentManager
     ) {
         when (action) {
             is GamificationToolbarFeature.Action.ViewAction.ShowProfileTab ->
@@ -84,6 +98,15 @@ class GamificationToolbarDelegate(
                 router.navigateTo(ProgressScreen)
             GamificationToolbarFeature.Action.ViewAction.ShowSearchScreen -> {
                 router.navigateTo(TopicSearchScreen)
+            }
+            is GamificationToolbarFeature.Action.ViewAction.ShowProblemsLimitInfoModal -> {
+                ProblemsLimitInfoBottomSheet.newInstance(
+                    params = ProblemsLimitInfoModalFeatureParams(
+                        action.subscription,
+                        action.chargeLimitsStrategy,
+                        action.context
+                    )
+                ).showIfNotExists(fragmentManager, ProblemsLimitInfoBottomSheet.TAG)
             }
         }
     }

@@ -1,7 +1,6 @@
 package org.hyperskill.app.paywall.view
 
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource.APP_BECOMES_ACTIVE
@@ -13,8 +12,7 @@ import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewState
 import org.hyperskill.app.paywall.presentation.PaywallFeature.ViewStateContent
 
 internal class PaywallViewStateMapper(
-    private val resourceProvider: ResourceProvider,
-    private val platformType: PlatformType
+    private val resourceProvider: ResourceProvider
 ) {
     fun map(
         state: State,
@@ -37,25 +35,13 @@ internal class PaywallViewStateMapper(
                     } else {
                         ViewStateContent.Content(
                             buyButtonText = resourceProvider.getString(
-                                if (platformType == PlatformType.IOS) {
-                                    SharedResources.strings.paywall_ios_mobile_only_buy_btn
-                                } else {
-                                    SharedResources.strings.paywall_android_mobile_only_buy_btn
-                                },
+                                SharedResources.strings.paywall_mobile_only_buy_btn,
                                 state.formattedPrice
                             ),
                             isContinueWithLimitsButtonVisible = when (paywallTransitionSource) {
                                 PROFILE_SETTINGS, MANAGE_SUBSCRIPTION -> false
                                 APP_BECOMES_ACTIVE,
                                 PROBLEMS_LIMIT_MODAL -> true
-                            },
-                            priceText = if (platformType == PlatformType.ANDROID) {
-                                resourceProvider.getString(
-                                    SharedResources.strings.paywall_android_explicit_subscription_price,
-                                    state.formattedPrice
-                                )
-                            } else {
-                                null
                             }
                         )
                     }

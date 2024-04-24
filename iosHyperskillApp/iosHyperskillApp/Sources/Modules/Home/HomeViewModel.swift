@@ -62,6 +62,14 @@ final class HomeViewModel: FeatureViewModel<HomeFeature.ViewState, HomeFeatureMe
         )
     }
 
+    func doProblemsLimitBarButtonItemAction() {
+        onNewMessage(
+            HomeFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageProblemsLimitClicked()
+            )
+        )
+    }
+
     func doSearchBarButtonItemAction() {
         onNewMessage(
             HomeFeatureMessageGamificationToolbarMessage(
@@ -103,7 +111,7 @@ extension HomeViewModel: ProblemOfDayOutputProtocol {
         DispatchQueue.main.async {
             self.onViewAction?(
                 HomeFeatureActionViewActionNavigateToStepScreen(
-                    stepRoute: StepRouteLearnDaily(stepId: Int64(stepID))
+                    stepRoute: StepRouteLearnDaily(stepId: Int64(stepID), topicId: nil)
                 )
             )
         }

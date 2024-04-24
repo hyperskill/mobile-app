@@ -34,6 +34,9 @@ import org.hyperskill.app.paywall.injection.PlatformPaywallComponent
 import org.hyperskill.app.paywall.injection.PlatformPaywallComponentImpl
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponent
 import org.hyperskill.app.play_services.injection.PlayServicesCheckerComponentImpl
+import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalFeatureParams
+import org.hyperskill.app.problems_limit_info.injection.PlatformProblemsLimitInfoModalComponent
+import org.hyperskill.app.problems_limit_info.injection.PlatformProblemsLimitInfoModalComponentImpl
 import org.hyperskill.app.profile.injection.PlatformProfileComponent
 import org.hyperskill.app.profile.injection.PlatformProfileComponentImpl
 import org.hyperskill.app.profile.injection.ProfileComponent
@@ -300,5 +303,12 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     override fun buildPlatformManageSubscriptionComponent(): PlatformManageSubscriptionComponent =
         PlatformManageSubscriptionComponentImpl(
             manageSubscriptionComponent = buildManageSubscriptionComponent()
+        )
+
+    override fun buildPlatformProblemsLimitInfoModalComponent(
+        params: ProblemsLimitInfoModalFeatureParams
+    ): PlatformProblemsLimitInfoModalComponent =
+        PlatformProblemsLimitInfoModalComponentImpl(
+            problemsLimitInfoModalComponent = buildProblemsLimitInfoModalComponent(params)
         )
 }

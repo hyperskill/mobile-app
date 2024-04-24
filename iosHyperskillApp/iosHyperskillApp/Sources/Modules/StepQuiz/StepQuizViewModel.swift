@@ -110,7 +110,7 @@ final class StepQuizViewModel: FeatureViewModel<
     }
 
     func makeViewData() -> StepQuizViewData {
-        stepQuizViewDataMapper.mapStepDataToViewData(step: step, state: stepQuizStateKs)
+        stepQuizViewDataMapper.mapStepDataToViewData(step: step, stepRoute: stepRoute, state: stepQuizStateKs)
     }
 
     private func updateChildQuiz() {
@@ -133,6 +133,16 @@ final class StepQuizViewModel: FeatureViewModel<
         onNewMessage(
             StepQuizFeatureMessageRequestResetCodeResult(
                 isGranted: isGranted
+            )
+        )
+    }
+
+    // MARK: StepQuizToolbar
+
+    func doLimitsToolbarAction() {
+        onNewMessage(
+            StepQuizFeatureMessageStepQuizToolbarMessage(
+                message: StepQuizToolbarFeatureMessageProblemsLimitClicked()
             )
         )
     }
@@ -203,36 +213,6 @@ extension StepQuizViewModel: StepQuizFillBlanksOutputProtocol {
 extension StepQuizViewModel: StepQuizInputProtocol {
     func update(isPracticingLoading: Bool) {
         self.isPracticingLoading = isPracticingLoading
-    }
-}
-
-// MARK: - StepQuizViewModel: ProblemsLimitReachedModalViewControllerDelegate -
-
-extension StepQuizViewModel: ProblemsLimitReachedModalViewControllerDelegate {
-    func problemsLimitReachedModalViewControllerDidTapGoToHomescreenButton(
-        _ viewController: ProblemsLimitReachedModalViewController
-    ) {
-        viewController.dismiss(animated: true) { [weak self] in
-            self?.onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalGoToHomeScreenClicked())
-        }
-    }
-
-    func problemsLimitReachedModalViewControllerDidTapUnlockLimitsButton(
-        _ viewController: ProblemsLimitReachedModalViewController
-    ) {
-        viewController.dismiss(animated: true) { [weak self] in
-            self?.onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalUnlockUnlimitedProblemsClicked())
-        }
-    }
-
-    func problemsLimitReachedModalViewControllerDidAppear(_ viewController: ProblemsLimitReachedModalViewController) {
-        onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalShownEventMessage())
-    }
-
-    func problemsLimitReachedModalViewControllerDidDisappear(
-        _ viewController: ProblemsLimitReachedModalViewController
-    ) {
-        onNewMessage(StepQuizFeatureMessageProblemsLimitReachedModalHiddenEventMessage())
     }
 }
 

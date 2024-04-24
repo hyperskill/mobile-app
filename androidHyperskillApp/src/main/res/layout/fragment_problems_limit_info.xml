@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="16dp"
+    android:paddingBottom="32dp"
+    android:paddingHorizontal="20dp"
+    >
+
+    <ImageView
+        android:id="@+id/problemsLimitReachedSwipeIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bottom_sheet_swipe_indicator"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription"
+        />
+
+    <TextView
+        android:id="@+id/problemsLimitInfoModalTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Headline6"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/problemsLimitReachedSwipeIndicator"
+        tools:text="@string/problems_limit_info_modal_no_limits_left_title"
+        />
+
+    <TextView
+        android:id="@+id/problemsLimitInfoDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/color_on_surface_alpha_60"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/problemsLimitInfoModalTitle"
+        tools:text="@string/problems_limit_info_modal_problems_limits_description"
+        />
+    
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/problemsLimitInfoAnimation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/problemsLimitInfoLeftLimits"
+        app:layout_constraintTop_toBottomOf="@+id/problemsLimitInfoDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:lottie_rawRes="@raw/problems_limit_no_limits_left_animation"/>
+
+    <TextView
+        android:id="@+id/problemsLimitInfoLeftLimits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppTheme.Subtitle1"
+        android:textSize="18sp"
+        android:layout_marginTop="22dp"
+        app:layout_goneMarginBottom="32dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/problemsLimitInfoResetIn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="5 problems left"/>
+
+    <TextView
+        android:id="@+id/problemsLimitInfoResetIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_on_surface_alpha_60"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/problemsLimitInfoUnlockDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="reset in 5 h"/>
+
+    <TextView
+        android:id="@+id/problemsLimitInfoUnlockDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_on_surface_alpha_60"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/problemsLimitInfoUnlimitedProblemsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="@string/problems_limit_info_modal_unlock_unlimited_lives_description"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/problemsLimitInfoUnlimitedProblemsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppTheme.Button"
+        android:text="@string/problems_limit_reached_modal_unlock_unlimited_problems_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

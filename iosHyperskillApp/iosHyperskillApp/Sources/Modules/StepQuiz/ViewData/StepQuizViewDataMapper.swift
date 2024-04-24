@@ -11,7 +11,11 @@ final class StepQuizViewDataMapper {
         self.stepQuizTitleMapper = stepQuizTitleMapper
     }
 
-    func mapStepDataToViewData(step: Step, state: StepQuizFeatureStepQuizStateKs) -> StepQuizViewData {
+    func mapStepDataToViewData(
+        step: Step,
+        stepRoute: StepRoute,
+        state: StepQuizFeatureStepQuizStateKs
+    ) -> StepQuizViewData {
         let attemptLoadedState = StepQuizStateExtentionsKt.attemptLoadedState(state.sealed)
 
         let quizType = resolveQuizType(
@@ -20,9 +24,19 @@ final class StepQuizViewDataMapper {
             attemptLoadedState: attemptLoadedState
         )
 
+        let navigationTitle = stepRoute is StepRouteStageImplement
+            ? nil
+            : step.title
+
+        let stepTextHeaderTitle = stepRoute is StepRouteStageImplement
+            ? Strings.StepQuiz.stepTextHeaderTitle
+            : step.title
+
         if case .unsupported = quizType {
             return StepQuizViewData(
+                navigationTitle: navigationTitle,
                 formattedStats: nil,
+                stepTextHeaderTitle: stepTextHeaderTitle,
                 stepText: step.block.text,
                 quizType: quizType,
                 quizName: nil,
@@ -65,7 +79,9 @@ final class StepQuizViewDataMapper {
         }()
 
         return StepQuizViewData(
+            navigationTitle: navigationTitle,
             formattedStats: formattedStats,
+            stepTextHeaderTitle: stepTextHeaderTitle,
             stepText: step.block.text,
             quizType: quizType,
             quizName: quizName,

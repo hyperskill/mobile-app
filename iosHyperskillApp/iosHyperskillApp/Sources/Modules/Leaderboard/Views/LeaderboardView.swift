@@ -13,6 +13,7 @@ struct LeaderboardView: View {
     @StateObject var viewModel: LeaderboardViewModel
 
     let stackRouter: StackRouterProtocol
+    let panModalPresenter: PanModalPresenter
 
     var body: some View {
         ZStack {
@@ -33,6 +34,7 @@ struct LeaderboardView: View {
                 viewStateKs: viewModel.gamificationToolbarViewStateKs,
                 onStreakTap: viewModel.doStreakBarButtonItemAction,
                 onProgressTap: viewModel.doProgressBarButtonItemAction,
+                onProblemsLimitTap: viewModel.doProblemsLimitBarButtonItemAction,
                 onSearchTap: viewModel.doSearchBarButtonItemAction
             )
         }
@@ -102,7 +104,8 @@ private extension LeaderboardView {
         case .gamificationToolbarViewAction(let gamificationToolbarViewAction):
             GamificationToolbarViewActionHandler.handle(
                 viewAction: gamificationToolbarViewAction.viewAction,
-                stackRouter: stackRouter
+                stackRouter: stackRouter,
+                panModalPresenter: panModalPresenter
             )
         case .leaderboardWidgetViewAction:
             break

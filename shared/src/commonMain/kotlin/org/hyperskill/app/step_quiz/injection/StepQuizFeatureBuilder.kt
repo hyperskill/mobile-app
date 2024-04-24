@@ -4,7 +4,6 @@ import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.UrlPathProcessor
 import org.hyperskill.app.onboarding.domain.interactor.OnboardingInteractor
@@ -14,11 +13,15 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
 import org.hyperskill.app.step_quiz.presentation.StepQuizActionDispatcher
+import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarActionDispatcher
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.core.model.safeCast
@@ -40,16 +43,20 @@ internal object StepQuizFeatureBuilder {
         analyticInteractor: AnalyticInteractor,
         sentryInteractor: SentryInteractor,
         onboardingInteractor: OnboardingInteractor,
+        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         stepQuizHintsReducer: StepQuizHintsReducer,
         stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher,
-        resourceProvider: ResourceProvider,
+        stepQuizToolbarReducer: StepQuizToolbarReducer,
+        stepQuizToolbarActionDispatcher: StepQuizToolbarActionDispatcher,
         logger: Logger,
-        buildVariant: BuildVariant,
-        currentSubscriptionStateRepository: CurrentSubscriptionStateRepository
+        buildVariant: BuildVariant
     ): Feature<StepQuizFeature.State, StepQuizFeature.Message, StepQuizFeature.Action> {
         val stepQuizReducer = StepQuizReducer(
             stepRoute = stepRoute,
-            stepQuizHintsReducer = stepQuizHintsReducer
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
+                stepQuizHintsReducer = stepQuizHintsReducer,
+                stepQuizToolbarReducer = stepQuizToolbarReducer
+            ),
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val stepQuizActionDispatcher = StepQuizActionDispatcher(
@@ -63,14 +70,14 @@ internal object StepQuizFeatureBuilder {
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             onboardingInteractor = onboardingInteractor,
-            resourceProvider = resourceProvider,
             logger = logger.withTag(LOG_TAG)
         )
 
         return ReduxFeature(
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Idle,
-                stepQuizHintsState = StepQuizHintsFeature.State.Idle
+                stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
             ),
             stepQuizReducer
         )
@@ -79,6 +86,12 @@ internal object StepQuizFeatureBuilder {
                 stepQuizHintsActionDispatcher.transform(
                     transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizHintsAction>()?.action },
                     transformMessage = StepQuizFeature.Message::StepQuizHintsMessage
+                )
+            )
+            .wrapWithActionDispatcher(
+                stepQuizToolbarActionDispatcher.transform(
+                    transformAction = { it.safeCast<StepQuizFeature.Action.StepQuizToolbarAction>()?.action },
+                    transformMessage = StepQuizFeature.Message::StepQuizToolbarMessage
                 )
             )
     }

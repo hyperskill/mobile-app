@@ -2,7 +2,11 @@ import Combine
 import shared
 import SwiftUI
 
-final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage, StepFeatureActionViewAction> {
+final class StepViewModel: FeatureViewModel<
+  StepFeature.ViewState,
+  StepFeatureMessage,
+  StepFeatureActionViewAction
+> {
     let stepRoute: StepRoute
 
     weak var stepQuizModuleInput: StepQuizInputProtocol?
@@ -10,7 +14,8 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
 
     private let viewDataMapper: StepViewDataMapper
 
-    var stateKs: StepFeatureStateKs { .init(state) }
+    var stepStateKs: StepFeatureStepStateKs { .init(state.stepState) }
+    var stepToolbarViewStateKs: StepToolbarFeatureViewStateKs { .init(state.stepToolbarViewState) }
 
     var isStageImplement: Bool { stepRoute is StepRouteStageImplement }
 
@@ -27,13 +32,15 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
         onNewMessage(StepFeatureMessageInitialize(forceUpdate: false))
     }
 
-    override func shouldNotifyStateDidChange(oldState: StepFeatureState, newState: StepFeatureState) -> Bool {
-        let oldStateKs = StepFeatureStateKs(oldState)
-        let newStateKs = StepFeatureStateKs(newState)
+    override func shouldNotifyStateDidChange(
+        oldState: StepFeature.ViewState,
+        newState: StepFeature.ViewState
+    ) -> Bool {
+        let shouldNotify = !oldState.isEqual(newState)
 
-        let shouldNotify = oldStateKs != newStateKs
-
-        if shouldNotify, case .data = oldStateKs, case .data = newStateKs {
+        if shouldNotify,
+           oldState.stepState is StepFeatureStepStateData,
+           newState.stepState is StepFeatureStepStateData {
             updateStepQuizSubscription = objectWillChange.sink { [weak self] in
                 guard let strongSelf = self else {
                     return
@@ -76,7 +83,7 @@ final class StepViewModel: FeatureViewModel<StepFeatureState, StepFeatureMessage
     private func updateStepQuiz() {
         mainScheduler.schedule { [weak self] in
             guard let strongSelf = self,
-                  case .data(let stepFeatureStateData) = strongSelf.stateKs else {
+                  case .data(let stepFeatureStateData) = strongSelf.stepStateKs else {
                 return
             }
 

@@ -10,6 +10,9 @@ struct LottieAnimationFileName {
 struct LottieAnimationViewWrapper: UIViewRepresentable {
     let fileName: LottieAnimationFileName
 
+    var loopMode: LottieLoopMode = .autoReverse
+    var animationSpeed: CGFloat = 1
+
     @Environment(\.colorScheme) var colorScheme
 
     func makeUIView(context: Context) -> some UIView {
@@ -56,7 +59,8 @@ struct LottieAnimationViewWrapper: UIViewRepresentable {
             case .success(let dotLottieFile):
                 animationView.loadAnimation(from: dotLottieFile)
                 animationView.contentMode = .scaleAspectFit
-                animationView.loopMode = .autoReverse
+                animationView.loopMode = loopMode
+                animationView.animationSpeed = animationSpeed
                 animationView.play()
             case .failure(let error):
                 assertionFailure("LottieAnimationViewWrapper: failed load dotLottieFile with error: \(error)")

@@ -11,7 +11,6 @@ final class StudyPlanViewModel: FeatureViewModel<
 
     var studyPlanWidgetStateKs: StudyPlanWidgetViewStateKs { .init(state.studyPlanWidgetViewState) }
     var gamificationToolbarViewStateKs: GamificationToolbarFeatureViewStateKs { .init(state.toolbarViewState) }
-    var problemsLimitViewStateKs: ProblemsLimitFeatureViewStateKs { .init(state.problemsLimitViewState) }
     var usersInterviewWidgetFeatureStateKs: UsersInterviewWidgetFeatureStateKs {
         .init(state.usersInterviewWidgetState)
     }
@@ -83,18 +82,18 @@ final class StudyPlanViewModel: FeatureViewModel<
         )
     }
 
-    func doSearchBarButtonItemAction() {
+    func doProblemsLimitBarButtonItemAction() {
         onNewMessage(
             StudyPlanScreenFeatureMessageGamificationToolbarMessage(
-                message: GamificationToolbarFeatureMessageClickedSearch()
+                message: GamificationToolbarFeatureMessageProblemsLimitClicked()
             )
         )
     }
 
-    func doReloadProblemsLimit() {
+    func doSearchBarButtonItemAction() {
         onNewMessage(
-            StudyPlanScreenFeatureMessageProblemsLimitMessage(
-                message: ProblemsLimitFeatureMessageRetryContentLoading()
+            StudyPlanScreenFeatureMessageGamificationToolbarMessage(
+                message: GamificationToolbarFeatureMessageClickedSearch()
             )
         )
     }

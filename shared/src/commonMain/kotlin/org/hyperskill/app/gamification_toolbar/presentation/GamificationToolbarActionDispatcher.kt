@@ -1,5 +1,7 @@
 package org.hyperskill.app.gamification_toolbar.presentation
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -10,12 +12,15 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalAction
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.InternalMessage
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Message
+import org.hyperskill.app.profile.domain.model.freemiumChargeLimitsStrategy
+import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
 import org.hyperskill.app.streaks.domain.flow.StreakFlow
 import org.hyperskill.app.study_plan.domain.repository.CurrentStudyPlanStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 class GamificationToolbarActionDispatcher(
@@ -25,6 +30,8 @@ class GamificationToolbarActionDispatcher(
     currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     topicCompletedFlow: TopicCompletedFlow,
     private val currentGamificationToolbarDataStateRepository: CurrentGamificationToolbarDataStateRepository,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+    private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -59,6 +66,11 @@ class GamificationToolbarActionDispatcher(
             .distinctUntilChanged()
             .onEach { onNewMessage(InternalMessage.GamificationToolbarDataChanged(it)) }
             .launchIn(actionScope)
+
+        currentSubscriptionStateRepository.changes
+            .distinctUntilChanged()
+            .onEach { onNewMessage(InternalMessage.SubscriptionChanged(it)) }
+            .launchIn(actionScope)
     }
 
     override suspend fun doSuspendableAction(action: Action) {
@@ -81,10 +93,29 @@ class GamificationToolbarActionDispatcher(
             action.screen.fetchContentSentryTransaction,
             onError = { InternalMessage.FetchGamificationToolbarDataError }
         ) {
-            currentGamificationToolbarDataStateRepository
-                .getState(forceUpdate = action.forceUpdate)
-                .getOrThrow()
-                .let(InternalMessage::FetchGamificationToolbarDataSuccess)
+            coroutineScope {
+                val toolbarDataDeferred = async {
+                    currentGamificationToolbarDataStateRepository.getState(forceUpdate = action.forceUpdate)
+                }
+
+                val subscriptionDeferred = async {
+                    currentSubscriptionStateRepository.getState(forceUpdate = action.forceUpdate)
+                }
+
+                val chargeLimitsStrategyDeferred = async {
+                    currentProfileStateRepository
+                        .getState(forceUpdate = action.forceUpdate)
+                        .map {
+                            it.freemiumChargeLimitsStrategy
+                        }
+                }
+
+                InternalMessage.FetchGamificationToolbarDataSuccess(
+                    gamificationToolbarData = toolbarDataDeferred.await().getOrThrow(),
+                    subscription = subscriptionDeferred.await().getOrThrow(),
+                    chargeLimitsStrategy = chargeLimitsStrategyDeferred.await().getOrThrow()
+                )
+            }
         }.let(onNewMessage)
     }
 }

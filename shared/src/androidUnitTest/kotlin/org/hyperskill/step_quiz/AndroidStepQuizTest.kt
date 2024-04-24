@@ -5,13 +5,20 @@ import org.hyperskill.app.onboarding.domain.model.ProblemsOnboardingFlags
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.presentation.StepQuizChildFeatureReducer
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizReducer
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
+import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.subscriptions.domain.model.Subscription
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 import org.hyperskill.onboarding.domain.model.stub
 import org.hyperskill.step.domain.model.stub
 import org.hyperskill.step_quiz.domain.model.stub
+import org.hyperskill.subscriptions.stub
 import org.junit.Test
 
 class AndroidStepQuizTest {
@@ -44,13 +51,14 @@ class AndroidStepQuizTest {
                             )
                         }
                     ),
-                    stepQuizHintsState = StepQuizHintsFeature.State.Idle
+                    stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState()
                 )
 
                 val stepRoute = when (concreteStepRouteClass) {
-                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id)
+                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id, null)
                     StepRoute.Learn.TheoryOpenedFromPractice::class ->
-                        StepRoute.Learn.TheoryOpenedFromPractice(step.id)
+                        StepRoute.Learn.TheoryOpenedFromPractice(step.id, null)
                     StepRoute.Learn.TheoryOpenedFromSearch::class ->
                         StepRoute.Learn.TheoryOpenedFromSearch(step.id)
                     StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
@@ -63,20 +71,28 @@ class AndroidStepQuizTest {
                 }
                 val reducer = StepQuizReducer(
                     stepRoute = stepRoute,
-                    stepQuizHintsReducer = StepQuizHintsReducer(stepRoute)
+                    stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
+                        stepQuizHintsReducer = StepQuizHintsReducer(stepRoute),
+                        stepQuizToolbarReducer = StepQuizToolbarReducer(stepRoute)
+                    ),
                 )
 
                 val (state, _) = reducer.reduce(
                     StepQuizFeature.State(
                         stepQuizState = StepQuizFeature.StepQuizState.Loading,
-                        stepQuizHintsState = StepQuizHintsFeature.State.Idle
+                        stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                        stepQuizToolbarState = StepQuizToolbarFeature.initialState()
                     ),
                     StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                         step,
                         attempt,
                         submissionState,
-                        isProblemsLimitReached = false,
-                        problemsLimitReachedModalData = null,
+                        subscription = Subscription.stub(
+                            type = SubscriptionType.FREEMIUM,
+                            stepsLimitLeft = 5,
+                            stepsLimitTotal = 5
+                        ),
+                        chargeLimitsStrategy = FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION,
                         problemsOnboardingFlags = ProblemsOnboardingFlags.stub(),
                         isMobileGptCodeGenerationWithErrorsEnabled = false
                     )
