@@ -5,8 +5,7 @@ import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticKeys
 
-internal object AmplitudeAnalyticEventMapper {
-
+object AmplitudeAnalyticEventMapper {
     fun map(analyticEvent: AnalyticEvent): AmplitudeAnalyticEvent? =
         when (analyticEvent) {
             is HyperskillAnalyticEvent -> AmplitudeAnalyticEvent(
