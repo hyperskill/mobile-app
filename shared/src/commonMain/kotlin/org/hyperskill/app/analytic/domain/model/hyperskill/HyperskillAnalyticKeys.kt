@@ -15,4 +15,6 @@ internal object HyperskillAnalyticKeys {
     const val SCREEN_ORIENTATION_VALUE_PORTRAIT = "portrait"
     const val SCREEN_ORIENTATION_VALUE_LANDSCAPE = "landscape"
     const val PARAM_IS_NOTIFICATIONS_ALLOW = "is_notifications_allow"
+    const val PARAM_SUBSCRIPTION_TYPE = "subscription_type"
+    const val PARAM_SUBSCRIPTION_STATUS = "subscription_status"
 }
