@@ -20,6 +20,7 @@ target "iosHyperskillApp" do
 
   # Analytics
   pod "AppsFlyerFramework", "6.14.2"
+  pod "AmplitudeSwift", "1.4.5"
 
   # Social SDKs
   pod "GoogleSignIn", "6.2.4"
