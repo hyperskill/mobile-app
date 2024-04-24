@@ -24,12 +24,17 @@ final class StepQuizViewDataMapper {
             attemptLoadedState: attemptLoadedState
         )
 
+        let navigationTitle = stepRoute is StepRouteStageImplement
+            ? nil
+            : step.title
+
         let stepTextHeaderTitle = stepRoute is StepRouteStageImplement
             ? Strings.StepQuiz.stepTextHeaderTitle
             : step.title
 
         if case .unsupported = quizType {
             return StepQuizViewData(
+                navigationTitle: navigationTitle,
                 formattedStats: nil,
                 stepTextHeaderTitle: stepTextHeaderTitle,
                 stepText: step.block.text,
@@ -74,6 +79,7 @@ final class StepQuizViewDataMapper {
         }()
 
         return StepQuizViewData(
+            navigationTitle: navigationTitle,
             formattedStats: formattedStats,
             stepTextHeaderTitle: stepTextHeaderTitle,
             stepText: step.block.text,
