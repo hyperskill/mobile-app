@@ -49,6 +49,7 @@ struct StepExpandableStepTextView: View {
                     text: text,
                     configuration: .stepText()
                 )
+                .transition(.scale.combined(with: .opacity))
             }
         }
     }
