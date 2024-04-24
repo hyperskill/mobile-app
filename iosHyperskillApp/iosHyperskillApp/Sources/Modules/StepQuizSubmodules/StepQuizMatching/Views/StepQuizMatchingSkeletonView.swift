@@ -32,14 +32,14 @@ struct StepQuizMatchingSkeletonView: View {
             }
 
             SkeletonRoundedButton()
+                .padding(.top)
         }
     }
 }
 
-struct StepQuizMatchingSkeletonView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizMatchingSkeletonView()
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
+#if DEBUG
+#Preview {
+    StepQuizMatchingSkeletonView()
+        .padding()
 }
+#endif

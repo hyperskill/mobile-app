@@ -155,6 +155,7 @@ struct StepQuizView: View {
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
+                .padding(.top)
         }
     }
     // swiftlint:enable function_parameter_count

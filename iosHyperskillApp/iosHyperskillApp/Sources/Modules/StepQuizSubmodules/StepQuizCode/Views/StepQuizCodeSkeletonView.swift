@@ -11,10 +11,9 @@ struct StepQuizCodeSkeletonView: View {
     }
 }
 
-struct StepQuizCodeSkeletonView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizCodeSkeletonView()
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
+#if DEBUG
+#Preview {
+    StepQuizCodeSkeletonView()
+        .padding()
 }
+#endif

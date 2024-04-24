@@ -68,10 +68,12 @@ struct StepQuizFillBlanksSkeletonView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     StepQuizFillBlanksSkeletonView()
         .padding()
 }
+#endif
 
 // MARK: - FillBlanksQuizTitleViewWrapper -
 

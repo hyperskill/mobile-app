@@ -7,8 +7,8 @@ struct StepQuizSQLSkeletonView: View {
     }
 }
 
-struct StepQuizSQLSkeletonView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizSQLSkeletonView()
-    }
+#if DEBUG
+#Preview {
+    StepQuizSQLSkeletonView()
 }
+#endif
