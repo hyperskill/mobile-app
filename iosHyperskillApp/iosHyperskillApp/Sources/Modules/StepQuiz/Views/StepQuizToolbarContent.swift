@@ -17,7 +17,7 @@ extension View {
         let stepsLimitLabel =
             (stepQuizToolbarViewState as? StepQuizToolbarFeatureViewStateContentVisible)?.stepsLimitLabel
         let isLimitsToolbarItemAvailable =
-            (stepQuizToolbarViewState as? StepQuizToolbarFeatureViewStateContentHidden) == nil
+            (stepQuizToolbarViewState as? StepQuizToolbarFeatureViewStateContentVisible) != nil
         let isLimitsToolbarItemDisabled = isQuizLoading || stepsLimitLabel == nil
 
         if #available(iOS 16.0, *) {
@@ -73,6 +73,10 @@ private struct StepQuizToolbarContent: ToolbarContent {
                 disabled: isLimitsToolbarItemDisabled,
                 onTap: onLimitsButtonTap
             )
+        } else {
+            ToolbarItem(placement: .principal) {
+                Text("")
+            }
         }
 
         if isTheoryToolbarItemAvailable {

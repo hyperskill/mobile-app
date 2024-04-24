@@ -27,7 +27,9 @@ struct StepQuizView: View {
     }
 
     var body: some View {
-        buildBody()
+        let viewData = viewModel.makeViewData()
+
+        buildBody(viewData: viewData)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.startListening()
@@ -39,12 +41,15 @@ struct StepQuizView: View {
                 viewModel.stopListening()
                 viewModel.onViewAction = nil
             }
+            .if(viewData.navigationTitle != nil) {
+                $0.navigationTitle(viewData.navigationTitle.require())
+            }
     }
 
     // MARK: Private API
 
     @ViewBuilder
-    private func buildBody() -> some View {
+    private func buildBody(viewData: StepQuizViewData) -> some View {
         if viewModel.stepQuizStateKs == .networkError {
             PlaceholderView(
                 configuration: .networkError(
@@ -53,8 +58,6 @@ struct StepQuizView: View {
                 )
             )
         } else {
-            let viewData = viewModel.makeViewData()
-
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     if case .unsupported = viewData.quizType {
