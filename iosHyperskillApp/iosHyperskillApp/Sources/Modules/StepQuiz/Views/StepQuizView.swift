@@ -27,7 +27,9 @@ struct StepQuizView: View {
     }
 
     var body: some View {
-        buildBody()
+        let viewData = viewModel.makeViewData()
+
+        buildBody(viewData: viewData)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.startListening()
@@ -39,12 +41,15 @@ struct StepQuizView: View {
                 viewModel.stopListening()
                 viewModel.onViewAction = nil
             }
+            .if(viewData.navigationTitle != nil) {
+                $0.navigationTitle(viewData.navigationTitle.require())
+            }
     }
 
     // MARK: Private API
 
     @ViewBuilder
-    private func buildBody() -> some View {
+    private func buildBody(viewData: StepQuizViewData) -> some View {
         if viewModel.stepQuizStateKs == .networkError {
             PlaceholderView(
                 configuration: .networkError(
@@ -53,8 +58,6 @@ struct StepQuizView: View {
                 )
             )
         } else {
-            let viewData = viewModel.makeViewData()
-
             ScrollView {
                 VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
                     if case .unsupported = viewData.quizType {
@@ -63,12 +66,19 @@ struct StepQuizView: View {
                             onGoToStudyPlanButtonTap: viewModel.doUnsupportedQuizGoToStudyPlanAction
                         )
                     } else {
-                        StepExpandableStepTextView(
-                            title: viewData.stepTextHeaderTitle,
-                            text: viewData.stepText,
-                            isExpanded: true,
-                            onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
-                        )
+                        if viewModel.stepRoute is StepRouteStageImplement {
+                            LatexView(
+                                text: viewData.stepText,
+                                configuration: .stepText()
+                            )
+                        } else {
+                            StepExpandableStepTextView(
+                                title: viewData.stepTextHeaderTitle,
+                                text: viewData.stepText,
+                                isExpanded: true,
+                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                            )
+                        }
 
                         if StepQuizHintsFeature.shared.isHintsFeatureAvailable(step: viewModel.step) {
                             StepQuizHintsView(
@@ -107,6 +117,7 @@ struct StepQuizView: View {
             )
             .stepQuizToolbar(
                 state: viewModel.state,
+                stepRoute: viewModel.stepRoute,
                 onLimitsButtonTap: viewModel.doLimitsToolbarAction,
                 onTheoryButtonTap: viewModel.doTheoryToolbarAction
             )
