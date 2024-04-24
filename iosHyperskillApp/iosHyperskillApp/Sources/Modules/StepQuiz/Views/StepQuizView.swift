@@ -30,6 +30,7 @@ struct StepQuizView: View {
         let viewData = viewModel.makeViewData()
 
         buildBody(viewData: viewData)
+            .animation(.default, value: viewModel.state)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.startListening()
@@ -155,6 +156,7 @@ struct StepQuizView: View {
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
+                .padding(.top)
         }
     }
     // swiftlint:enable function_parameter_count

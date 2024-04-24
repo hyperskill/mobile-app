@@ -7,14 +7,14 @@ struct StepQuizStringSkeletonView: View {
                 .frame(height: 96)
 
             SkeletonRoundedButton()
+                .padding(.top)
         }
     }
 }
 
-struct StepQuizStringSkeletonView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizStringSkeletonView()
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
+#if DEBUG
+#Preview {
+    StepQuizStringSkeletonView()
+        .padding()
 }
+#endif

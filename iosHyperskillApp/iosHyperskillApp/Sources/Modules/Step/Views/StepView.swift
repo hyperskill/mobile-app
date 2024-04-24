@@ -16,6 +16,7 @@ struct StepView: View {
             )
 
             buildBody()
+                .animation(.default, value: viewModel.state)
 
             let _ = renderStepToolbarViewState(viewModel.stepToolbarViewStateKs)
         }
