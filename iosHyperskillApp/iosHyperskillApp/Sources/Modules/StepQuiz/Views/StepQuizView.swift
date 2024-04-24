@@ -30,6 +30,7 @@ struct StepQuizView: View {
         let viewData = viewModel.makeViewData()
 
         buildBody(viewData: viewData)
+            .animation(.default, value: viewModel.state)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.startListening()
