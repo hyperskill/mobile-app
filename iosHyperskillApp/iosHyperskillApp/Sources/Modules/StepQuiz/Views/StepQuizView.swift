@@ -66,12 +66,19 @@ struct StepQuizView: View {
                             onGoToStudyPlanButtonTap: viewModel.doUnsupportedQuizGoToStudyPlanAction
                         )
                     } else {
-                        StepExpandableStepTextView(
-                            title: viewData.stepTextHeaderTitle,
-                            text: viewData.stepText,
-                            isExpanded: true,
-                            onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
-                        )
+                        if viewModel.stepRoute is StepRouteStageImplement {
+                            LatexView(
+                                text: viewData.stepText,
+                                configuration: .stepText()
+                            )
+                        } else {
+                            StepExpandableStepTextView(
+                                title: viewData.stepTextHeaderTitle,
+                                text: viewData.stepText,
+                                isExpanded: true,
+                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                            )
+                        }
 
                         if StepQuizHintsFeature.shared.isHintsFeatureAvailable(step: viewModel.step) {
                             StepQuizHintsView(
@@ -110,6 +117,7 @@ struct StepQuizView: View {
             )
             .stepQuizToolbar(
                 state: viewModel.state,
+                stepRoute: viewModel.stepRoute,
                 onLimitsButtonTap: viewModel.doLimitsToolbarAction,
                 onTheoryButtonTap: viewModel.doTheoryToolbarAction
             )
