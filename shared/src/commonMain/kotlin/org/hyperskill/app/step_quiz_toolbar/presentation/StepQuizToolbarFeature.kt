@@ -2,12 +2,14 @@ package org.hyperskill.app.step_quiz_toolbar.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.problems_limit_info.domain.model.ProblemsLimitInfoModalContext
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
 object StepQuizToolbarFeature {
     sealed interface State {
         object Idle : State
+        object Unavailable : State
         object Loading : State
         object Error : State
         data class Content(
@@ -16,7 +18,12 @@ object StepQuizToolbarFeature {
         ) : State
     }
 
-    internal fun initialState() = State.Idle
+    internal fun initialState(stepRoute: StepRoute) =
+        if (StepQuizToolbarResolver.isToolbarAvailable(stepRoute)) {
+            State.Idle
+        } else {
+            State.Unavailable
+        }
 
     sealed interface ViewState {
         object Idle : ViewState

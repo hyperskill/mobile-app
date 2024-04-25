@@ -32,6 +32,21 @@ class AndroidStepQuizTest {
             stepRouteClass.sealedSubclasses.ifEmpty {
                 listOf(stepRouteClass)
             }.forEach { concreteStepRouteClass ->
+                val stepRoute = when (concreteStepRouteClass) {
+                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id, null)
+                    StepRoute.Learn.TheoryOpenedFromPractice::class ->
+                        StepRoute.Learn.TheoryOpenedFromPractice(step.id, null)
+                    StepRoute.Learn.TheoryOpenedFromSearch::class ->
+                        StepRoute.Learn.TheoryOpenedFromSearch(step.id)
+                    StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
+                    StepRoute.Repeat.Practice::class -> StepRoute.Repeat.Practice(step.id)
+                    StepRoute.Repeat.Theory::class -> StepRoute.Repeat.Theory(step.id)
+                    StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
+                    else -> throw IllegalStateException(
+                        "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
+                    )
+                }
+
                 val expectedState = StepQuizFeature.State(
                     stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
                         step = step,
@@ -52,23 +67,9 @@ class AndroidStepQuizTest {
                         }
                     ),
                     stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                    stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
                 )
 
-                val stepRoute = when (concreteStepRouteClass) {
-                    StepRoute.Learn.Step::class -> StepRoute.Learn.Step(step.id, null)
-                    StepRoute.Learn.TheoryOpenedFromPractice::class ->
-                        StepRoute.Learn.TheoryOpenedFromPractice(step.id, null)
-                    StepRoute.Learn.TheoryOpenedFromSearch::class ->
-                        StepRoute.Learn.TheoryOpenedFromSearch(step.id)
-                    StepRoute.LearnDaily::class -> StepRoute.LearnDaily(step.id)
-                    StepRoute.Repeat.Practice::class -> StepRoute.Repeat.Practice(step.id)
-                    StepRoute.Repeat.Theory::class -> StepRoute.Repeat.Theory(step.id)
-                    StepRoute.StageImplement::class -> StepRoute.StageImplement(step.id, 1, 1)
-                    else -> throw IllegalStateException(
-                        "Unknown step route class: $concreteStepRouteClass. Please add it to the test."
-                    )
-                }
                 val reducer = StepQuizReducer(
                     stepRoute = stepRoute,
                     stepQuizChildFeatureReducer = StepQuizChildFeatureReducer(
@@ -81,7 +82,7 @@ class AndroidStepQuizTest {
                     StepQuizFeature.State(
                         stepQuizState = StepQuizFeature.StepQuizState.Loading,
                         stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                        stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                        stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
                     ),
                     StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                         step,
