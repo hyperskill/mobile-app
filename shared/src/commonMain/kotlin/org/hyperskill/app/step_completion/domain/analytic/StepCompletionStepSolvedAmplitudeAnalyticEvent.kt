@@ -1,6 +1,6 @@
 package org.hyperskill.app.step_completion.domain.analytic
 
-import org.hyperskill.app.analytic.domain.model.apps_flyer.AppsFlyerAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
 import ru.nobird.app.core.model.mapOfNotNull
 
 /**
@@ -9,13 +9,13 @@ import ru.nobird.app.core.model.mapOfNotNull
  * @param stepId Solved problem id.
  * @param trackTitle Title of the track.
  *
- * @see AppsFlyerAnalyticEvent
+ * @see AmplitudeAnalyticEvent
  */
-class StepCompletionStepSolvedAppsFlyerAnalyticEvent(
+class StepCompletionStepSolvedAmplitudeAnalyticEvent(
     stepId: Long,
     trackTitle: String?
-) : AppsFlyerAnalyticEvent(
-    name = "af_complete_exercise",
+) : AmplitudeAnalyticEvent(
+    name = "complete_step",
     params = mapOfNotNull(
         StepCompletionHyperskillAnalyticParams.PARAM_STEP_ID to stepId,
         StepCompletionHyperskillAnalyticParams.PARAM_TRACK_TITLE to trackTitle

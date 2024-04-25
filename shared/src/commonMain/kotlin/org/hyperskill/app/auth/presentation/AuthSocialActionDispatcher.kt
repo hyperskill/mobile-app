@@ -76,7 +76,7 @@ class AuthSocialActionDispatcher(
                 onNewMessage(message)
             }
             is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
+                action.analyticEvent.forEach { analyticInteractor.logEvent(it) }
             is Action.AddSentryBreadcrumb ->
                 sentryInteractor.addBreadcrumb(action.breadcrumb)
             is Action.CaptureSentryAuthError -> {

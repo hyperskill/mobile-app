@@ -43,7 +43,7 @@ interface AuthCredentialsFeature {
     sealed interface Action {
         data class AuthWithEmail(val email: String, val password: String) : Action
 
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+        class LogAnalyticEvent(vararg val analyticEvent: AnalyticEvent) : Action
 
         data class GetMagicLink(val path: HyperskillUrlPath) : Action
 

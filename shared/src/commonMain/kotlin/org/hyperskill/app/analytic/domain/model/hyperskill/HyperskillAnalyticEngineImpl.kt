@@ -8,21 +8,14 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
 import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
-import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.core.domain.model.ScreenOrientation
-import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
-import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 
 internal class HyperskillAnalyticEngineImpl(
     private val authInteractor: AuthInteractor,
-    private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val notificationInteractor: NotificationInteractor,
     private val analyticHyperskillRepository: AnalyticHyperskillRepository,
-    private val analyticHyperskillEventProcessor: AnalyticHyperskillEventProcessor,
 ) : HyperskillAnalyticEngine() {
 
     companion object {
@@ -31,42 +24,32 @@ internal class HyperskillAnalyticEngineImpl(
 
     private var flushEventsJob: Job? = null
 
-    private var screenOrientation: ScreenOrientation? = null
-    private var isATTPermissionGranted: Boolean = false
-    private val isInternalTesting: Boolean = BuildKonfig.IS_INTERNAL_TESTING ?: false
-
-    override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
-        this.screenOrientation = screenOrientation
-    }
-
-    override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
-        this.isATTPermissionGranted = isAuthorized
-    }
-
-    override suspend fun reportEvent(event: AnalyticEvent, force: Boolean) {
-        internalReportEvent(event, forceReport = force)
+    override suspend fun reportEvent(
+        event: AnalyticEvent,
+        userProperties: AnalyticEventUserProperties,
+        force: Boolean
+    ) {
+        internalReportEvent(event, userProperties, forceReport = force)
     }
 
     override suspend fun flushEvents() {
         launchFlushEventsJob(withDelay = false)
     }
 
-    private suspend fun internalReportEvent(event: AnalyticEvent, forceReport: Boolean) {
+    private suspend fun internalReportEvent(
+        event: AnalyticEvent,
+        userProperties: AnalyticEventUserProperties,
+        forceReport: Boolean
+    ) {
         kotlin.runCatching {
-            if (event !is HyperskillAnalyticEvent) {
+            if (event !is HyperskillAnalyticEvent || userProperties.userId == null) {
                 return
             }
 
-            val currentProfile: Profile =
-                currentProfileStateRepository.getState().getOrElse { return }
-
-            val processedEvent = analyticHyperskillEventProcessor.processEvent(
+            val processedEvent = AnalyticHyperskillEventProcessor.processEvent(
                 event = event,
-                userId = currentProfile.id,
-                isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
-                isATTPermissionGranted = isATTPermissionGranted,
-                screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT,
-                isInternalTesting = isInternalTesting
+                userId = userProperties.userId,
+                userProperties = userProperties
             )
             analyticHyperskillRepository.logEvent(processedEvent)
 

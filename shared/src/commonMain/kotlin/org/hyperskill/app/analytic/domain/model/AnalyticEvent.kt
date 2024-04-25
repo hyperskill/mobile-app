@@ -5,5 +5,5 @@ interface AnalyticEvent {
     val params: Map<String, Any>
         get() = emptyMap()
 
-    val source: AnalyticSource
+    val sources: Set<AnalyticSource>
 }

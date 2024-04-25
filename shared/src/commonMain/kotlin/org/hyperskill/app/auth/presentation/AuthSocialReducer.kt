@@ -1,6 +1,8 @@
 package org.hyperskill.app.auth.presentation
 
+import org.hyperskill.app.auth.domain.analytic.AuthSignInAmplitudeAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignInAppsFlyerAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSignUpAmplitudeAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignUpAppsFlyerAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent
@@ -32,11 +34,7 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             is Message.AuthSuccess -> {
                 if (state is State.Loading) {
                     State.Authenticated to setOf(
-                        if (message.profile.isNewUser) {
-                            Action.LogAnalyticEvent(AuthSignUpAppsFlyerAnalyticEvent)
-                        } else {
-                            Action.LogAnalyticEvent(AuthSignInAppsFlyerAnalyticEvent)
-                        },
+                        getAuthSuccessAnalyticAction(message.profile.isNewUser),
                         Action.AddSentryBreadcrumb(
                             HyperskillSentryBreadcrumbBuilder.buildAuthSocialSignedInSuccessfully(
                                 message.socialAuthProvider
@@ -71,6 +69,19 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             is Message.ClickedContinueWithEmailEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent()))
         } ?: (state to emptySet())
+
+    private fun getAuthSuccessAnalyticAction(isNewUser: Boolean): Action.LogAnalyticEvent =
+        if (isNewUser) {
+            Action.LogAnalyticEvent(
+                AuthSignUpAppsFlyerAnalyticEvent,
+                AuthSignUpAmplitudeAnalyticEvent
+            )
+        } else {
+            Action.LogAnalyticEvent(
+                AuthSignInAppsFlyerAnalyticEvent,
+                AuthSignInAmplitudeAnalyticEvent
+            )
+        }
 
     private fun getAuthFailureActionsSet(data: Message.AuthFailureData): Set<Action> =
         setOf(
