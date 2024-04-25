@@ -22,8 +22,8 @@ object AmplitudeAnalyticEventMapper {
             append(' ')
             if (analyticEvent.part != null) {
                 append(analyticEvent.part.partName)
+                append(' ')
             }
-            append(' ')
             if (analyticEvent.target != null) {
                 append(analyticEvent.target.targetName)
             }

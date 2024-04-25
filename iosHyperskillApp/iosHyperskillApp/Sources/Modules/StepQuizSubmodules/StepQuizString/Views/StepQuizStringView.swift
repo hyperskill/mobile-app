@@ -30,7 +30,7 @@ struct StepQuizStringView: View {
                 .multilineTextAlignment(.leading)
                 .disableAutocorrection(true)
                 .autocapitalization(.none)
-                .keyboardType(viewModel.viewData.isDecimalTextInput ? .decimalPad : .default)
+                .keyboardType(viewModel.viewData.isDecimalTextInput ? .numbersAndPunctuation : .default)
                 .frame(height: appearance.textEditorHeight)
                 .frame(maxWidth: .infinity)
                 .padding(appearance.textEditorInsets.edgeInsets)
