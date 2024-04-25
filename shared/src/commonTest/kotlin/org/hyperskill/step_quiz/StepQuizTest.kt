@@ -44,19 +44,19 @@ class StepQuizTest {
         val submissionState = StepQuizFeature.SubmissionState.Empty()
         val stepRoutes = listOf(StepRoute.LearnDaily(step.id), StepRoute.Repeat.Practice(step.id))
 
-        val expectedState = StepQuizFeature.State(
-            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
-                step = step,
-                attempt = attempt,
-                submissionState = submissionState,
-                isProblemsLimitReached = false,
-                isTheoryAvailable = false
-            ),
-            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
-        )
-
         stepRoutes.forEach { stepRoute ->
+            val expectedState = StepQuizFeature.State(
+                stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                    step = step,
+                    attempt = attempt,
+                    submissionState = submissionState,
+                    isProblemsLimitReached = false,
+                    isTheoryAvailable = false
+                ),
+                stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+            )
+
             val reducer = StepQuizReducer(
                 stepRoute = stepRoute,
                 stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
@@ -65,7 +65,7 @@ class StepQuizTest {
                 StepQuizFeature.State(
                     stepQuizState = StepQuizFeature.StepQuizState.Loading,
                     stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                    stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                    stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
                 ),
                 StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                     step,
@@ -99,7 +99,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         val reducer = StepQuizReducer(
@@ -110,7 +110,7 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
@@ -142,7 +142,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         val reducer = StepQuizReducer(
@@ -166,7 +166,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         assertEquals(expectedState, actualState)
@@ -189,7 +189,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         val reducer = StepQuizReducer(
@@ -213,7 +213,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         assertEquals(expectedState, actualState)
@@ -237,7 +237,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         val reducer = StepQuizReducer(
@@ -262,7 +262,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         assertEquals(expectedState, actualState)
@@ -292,7 +292,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         val reducer = StepQuizReducer(
@@ -317,7 +317,7 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         assertEquals(expectedState, actualState)
@@ -345,7 +345,7 @@ class StepQuizTest {
                 isTheoryAvailable = true
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         val reducer = StepQuizReducer(
@@ -357,7 +357,7 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,
@@ -396,6 +396,7 @@ class StepQuizTest {
         val step = Step.stub(id = 1, topicTheory = 2)
         val attempt = Attempt.stub()
         val submissionState = StepQuizFeature.SubmissionState.Empty()
+        val stepRoute = StepRoute.LearnDaily(step.id)
 
         val expectedState = StepQuizFeature.State(
             stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
@@ -406,11 +407,11 @@ class StepQuizTest {
                 isTheoryAvailable = false
             ),
             stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-            stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
         )
 
         val reducer = StepQuizReducer(
-            stepRoute = StepRoute.LearnDaily(step.id),
+            stepRoute = stepRoute,
             stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(StepRoute.Learn.Step(step.id, null))
         )
 
@@ -418,7 +419,7 @@ class StepQuizTest {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Loading,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
             ),
             StepQuizFeature.InternalMessage.FetchAttemptSuccess(
                 step,

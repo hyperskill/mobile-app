@@ -9,6 +9,7 @@ object StepQuizToolbarViewStateMapper {
     fun map(state: State): ViewState =
         when (state) {
             State.Idle -> ViewState.Idle
+            State.Unavailable -> ViewState.Content.Hidden
             State.Loading -> ViewState.Loading
             State.Error -> ViewState.Error
             is State.Content -> {
