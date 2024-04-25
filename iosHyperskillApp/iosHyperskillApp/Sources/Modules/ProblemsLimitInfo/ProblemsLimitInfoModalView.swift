@@ -1,5 +1,6 @@
 import shared
 import SwiftUI
+import UIKit
 
 extension ProblemsLimitInfoModalView {
     struct Appearance {
@@ -83,10 +84,17 @@ struct ProblemsLimitInfoModalView: View {
             }
         }()
 
+        let animationSpeed: CGFloat = {
+            if viewState.animation == .fullLimits {
+                return UIScreen.main.maximumFramesPerSecond > 60 ? 0.65 : 0.25
+            }
+            return 1
+        }()
+
         return LottieAnimationViewWrapper(
             fileName: fileName.require(),
             loopMode: viewState.animation.isLooped ? .loop : .playOnce,
-            animationSpeed: viewState.animation == .fullLimits ? 0.25 : 1
+            animationSpeed: animationSpeed
         )
         .frame(widthHeight: appearance.animationViewWidthHeight)
     }
