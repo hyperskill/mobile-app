@@ -16,6 +16,7 @@ struct StepView: View {
             )
 
             buildBody()
+                .animation(.default, value: viewModel.state)
 
             let _ = renderStepToolbarViewState(viewModel.stepToolbarViewStateKs)
         }
@@ -50,16 +51,13 @@ struct StepView: View {
             )
         case .data(let data):
             buildContent(data: data)
-                .if(!viewModel.isStageImplement) {
-                    $0.navigationTitle(data.step.title)
-                }
         }
     }
 
     @ViewBuilder
     private func buildContent(data: StepFeatureStepStateData) -> some View {
-        switch data.step.type {
-        case Step.Type_.theory:
+        switch data.step.type.wrapped {
+        case .theory:
             let startPracticingButton: StepTheoryContentView.StartPracticingButton? = {
                 guard data.isPracticingAvailable else {
                     return nil
@@ -79,7 +77,8 @@ struct StepView: View {
                     modalRouter.present(module: assembly.makeModule(), modalPresentationStyle: .automatic)
                 }
             )
-        case Step.Type_.practice:
+            .navigationTitle(data.step.title)
+        case .practice:
             StepQuizAssembly(
                 step: data.step,
                 stepRoute: viewModel.stepRoute,
@@ -88,8 +87,6 @@ struct StepView: View {
             )
             .makeModule()
             .environmentObject(panModalPresenter)
-        default:
-            Text("Unkwown state")
         }
     }
 

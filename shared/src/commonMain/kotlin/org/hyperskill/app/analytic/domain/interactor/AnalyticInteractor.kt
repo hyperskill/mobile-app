@@ -1,6 +1,8 @@
 package org.hyperskill.app.analytic.domain.interactor
 
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.analytic.domain.model.AnalyticEngine
@@ -12,9 +14,11 @@ import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
+import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
 
 class AnalyticInteractor(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
+    private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val notificationInteractor: NotificationInteractor,
     private val platform: Platform,
     private val analyticEngines: List<AnalyticEngine>,
@@ -50,15 +54,23 @@ class AnalyticInteractor(
         this.isATTPermissionGranted = isAuthorized
     }
 
-    private suspend fun getUserProperties(): AnalyticEventUserProperties {
-        val profile = currentProfileStateRepository.getState(forceUpdate = false).getOrNull()
-        return AnalyticEventUserProperties(
-            userId = profile?.id,
-            isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
-            isATTPermissionGranted = isATTPermissionGranted,
-            screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT,
-            isInternalTesting = BuildKonfig.IS_INTERNAL_TESTING ?: false,
-            platform = platform.analyticName
-        )
-    }
+    private suspend fun getUserProperties(): AnalyticEventUserProperties =
+        coroutineScope {
+            val profileDeferred = async {
+                currentProfileStateRepository.getState(forceUpdate = false).getOrNull()
+            }
+            val subscriptionDeferred = async {
+                currentSubscriptionStateRepository.getState(forceUpdate = false).getOrNull()
+            }
+            AnalyticEventUserProperties(
+                userId = profileDeferred.await()?.id,
+                subscriptionType = subscriptionDeferred.await()?.type,
+                subscriptionStatus = subscriptionDeferred.await()?.status,
+                isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
+                isATTPermissionGranted = isATTPermissionGranted,
+                screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT,
+                isInternalTesting = BuildKonfig.IS_INTERNAL_TESTING ?: false,
+                platform = platform.analyticName
+            )
+        }
 }

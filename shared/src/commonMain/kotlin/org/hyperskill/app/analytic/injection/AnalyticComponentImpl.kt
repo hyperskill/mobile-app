@@ -15,6 +15,7 @@ class AnalyticComponentImpl(
         AnalyticInteractor(
             analyticEngines = analyticEngines,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
             eventMonitor = appGraph.sentryComponent.sentryInteractor,
             platform = appGraph.commonComponent.platform

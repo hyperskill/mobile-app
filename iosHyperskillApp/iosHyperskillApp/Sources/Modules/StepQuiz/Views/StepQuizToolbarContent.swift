@@ -5,6 +5,7 @@ extension View {
     @ViewBuilder
     func stepQuizToolbar(
         state: StepQuizFeature.State,
+        stepRoute: StepRoute,
         onLimitsButtonTap: @escaping () -> Void,
         onTheoryButtonTap: @escaping () -> Void
     ) -> some View {
@@ -17,10 +18,12 @@ extension View {
         let stepsLimitLabel =
             (stepQuizToolbarViewState as? StepQuizToolbarFeatureViewStateContentVisible)?.stepsLimitLabel
         let isLimitsToolbarItemAvailable =
-            (stepQuizToolbarViewState as? StepQuizToolbarFeatureViewStateContentHidden) == nil
+            (stepQuizToolbarViewState as? StepQuizToolbarFeatureViewStateContentVisible) != nil
         let isLimitsToolbarItemDisabled = isQuizLoading || stepsLimitLabel == nil
 
-        if #available(iOS 16.0, *) {
+        if stepRoute is StepRouteStageImplement {
+            self
+        } else if #available(iOS 16.0, *) {
             self.toolbar {
                 StepQuizToolbarContent(
                     limitsText: stepsLimitLabel,
@@ -73,6 +76,10 @@ private struct StepQuizToolbarContent: ToolbarContent {
                 disabled: isLimitsToolbarItemDisabled,
                 onTap: onLimitsButtonTap
             )
+        } else {
+            ToolbarItem(placement: .principal) {
+                Text("")
+            }
         }
 
         if isTheoryToolbarItemAvailable {

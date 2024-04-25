@@ -36,7 +36,7 @@ internal class PaywallActionDispatcher(
             is InternalAction.LogWrongSubscriptionTypeAfterSync ->
                 handleLogWrongSubscriptionTypeAfterSync(action)
             is InternalAction.LogAnalyticEvent ->
-                action.analyticEvent.forEach {
+                action.analyticEvents.forEach {
                     analyticInteractor.logEvent(it)
                 }
             else -> {
