@@ -16,6 +16,8 @@ import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepositor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizCreateSubmissionAmplitudeAnalyticEvent
+import org.hyperskill.app.step_quiz.domain.analytic.StepQuizSubmissionCreatedAmplitudeAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.interactor.StepQuizInteractor
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.StepQuizReplyValidator
@@ -125,6 +127,13 @@ internal class StepQuizActionDispatcher(
             is Action.CreateSubmission -> {
                 val reply = action.submission.reply ?: return onNewMessage(Message.CreateSubmissionNetworkError)
 
+                analyticInteractor.logEvent(
+                    StepQuizCreateSubmissionAmplitudeAnalyticEvent(
+                        stepId = action.step.id,
+                        blockName = action.step.block.name
+                    )
+                )
+
                 val sentryTransaction = HyperskillSentryTransactionBuilder.buildStepQuizCreateSubmission(
                     blockName = action.step.block.name
                 )
@@ -152,6 +161,13 @@ internal class StepQuizActionDispatcher(
                     .fold(
                         onSuccess = { newSubmission ->
                             sentryInteractor.finishTransaction(sentryTransaction)
+                            analyticInteractor.logEvent(
+                                StepQuizSubmissionCreatedAmplitudeAnalyticEvent(
+                                    stepId = action.step.id,
+                                    blockName = action.step.block.name,
+                                    submissionStatus = newSubmission.status
+                                )
+                            )
                             onNewMessage(Message.CreateSubmissionSuccess(newSubmission, newAttempt))
                         },
                         onFailure = { e ->

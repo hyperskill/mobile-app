@@ -94,7 +94,8 @@ kotlin {
                 implementation(libs.firebase.messaging)
                 implementation(libs.revenuecat)
                 implementation(libs.kermit)
-                implementation(libs.android.appsFlyer)
+                implementation(libs.android.analytic.appsFlyer)
+                implementation(libs.android.analytic.amplitude)
                 implementation(libs.googlePlay.installreferrer)
             }
         }

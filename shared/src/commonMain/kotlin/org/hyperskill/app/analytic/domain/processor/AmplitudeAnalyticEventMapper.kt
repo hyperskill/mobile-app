@@ -1,0 +1,40 @@
+package org.hyperskill.app.analytic.domain.processor
+
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticKeys
+
+internal object AmplitudeAnalyticEventMapper {
+
+    fun map(analyticEvent: AnalyticEvent): AmplitudeAnalyticEvent? =
+        when (analyticEvent) {
+            is HyperskillAnalyticEvent -> AmplitudeAnalyticEvent(
+                name = getType(analyticEvent),
+                params = getParams(analyticEvent)
+            )
+            is AmplitudeAnalyticEvent -> analyticEvent
+            else -> null
+        }
+
+    private fun getType(analyticEvent: HyperskillAnalyticEvent): String =
+        buildString {
+            append(analyticEvent.action.actionName)
+            if (analyticEvent.part != null) {
+                append(' ')
+                append(analyticEvent.part.partName)
+            }
+            if (analyticEvent.target != null) {
+                append(' ')
+                append(analyticEvent.target.targetName)
+            }
+        }
+
+    private fun getParams(analyticEvent: HyperskillAnalyticEvent): Map<String, Any> =
+        buildMap {
+            put(HyperskillAnalyticKeys.PARAM_ROUTE, analyticEvent.route.path)
+            if (analyticEvent.context != null) {
+                putAll(analyticEvent.context)
+            }
+        }
+}

@@ -21,7 +21,9 @@ import org.hyperskill.app.share_streak.domain.interactor.ShareStreakInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAmplitudeAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionStepSolvedAppsFlyerAnalyticEvent
+import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAmplitudeAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedAppsFlyerAnalyticEvent
 import org.hyperskill.app.step_completion.domain.flow.DailyStepCompletedFlow
 import org.hyperskill.app.step_completion.domain.flow.StepCompletedFlow
@@ -79,18 +81,7 @@ class StepCompletionActionDispatcher(
                 analyticInteractor.logEvent(action.analyticEvent)
             }
             is InternalAction.LogTopicCompletedAnalyticEvent -> {
-                val trackTitle = currentProfileStateRepository
-                    .getState(forceUpdate = false)
-                    .map { it.trackTitle }
-                    .getOrNull()
-
-                analyticInteractor.logEvent(
-                    StepCompletionTopicCompletedAppsFlyerAnalyticEvent(
-                        topicId = action.topicId,
-                        trackTitle = trackTitle,
-                        trackIsCompleted = false
-                    )
-                )
+                logTopicCompletedAnalyticEvents(action.topicId)
             }
             else -> {
                 // no op
@@ -195,11 +186,9 @@ class StepCompletionActionDispatcher(
             .getState(forceUpdate = false)
             .getOrElse { return }
 
-        analyticInteractor.logEvent(
-            StepCompletionStepSolvedAppsFlyerAnalyticEvent(
-                stepId = stepId,
-                trackTitle = cachedProfile.trackTitle
-            )
+        logStepCompletedAnalyticEvents(
+            stepId = stepId,
+            trackTitle = cachedProfile.trackTitle
         )
 
         if (cachedProfile.dailyStep == stepId) {
@@ -277,6 +266,45 @@ class StepCompletionActionDispatcher(
         }
 
         updateCurrentProfileHypercoinsBalanceRemotely()
+    }
+
+    private suspend fun logStepCompletedAnalyticEvents(
+        stepId: Long,
+        trackTitle: String?
+    ) {
+        analyticInteractor.logEvent(
+            StepCompletionStepSolvedAppsFlyerAnalyticEvent(
+                stepId = stepId,
+                trackTitle = trackTitle
+            )
+        )
+        analyticInteractor.logEvent(
+            StepCompletionStepSolvedAmplitudeAnalyticEvent(
+                stepId = stepId,
+                trackTitle = trackTitle
+            )
+        )
+    }
+
+    private suspend fun logTopicCompletedAnalyticEvents(topicId: Long) {
+        val trackTitle = currentProfileStateRepository
+            .getState(forceUpdate = false)
+            .map { it.trackTitle }
+            .getOrNull()
+
+        analyticInteractor.logEvent(
+            StepCompletionTopicCompletedAppsFlyerAnalyticEvent(
+                topicId = topicId,
+                trackTitle = trackTitle,
+                trackIsCompleted = false
+            )
+        )
+        analyticInteractor.logEvent(
+            StepCompletionTopicCompletedAmplitudeAnalyticEvent(
+                topicId = topicId,
+                trackTitle = trackTitle
+            )
+        )
     }
 
     private suspend fun updateCurrentProfileHypercoinsBalanceRemotely(): Int? =
