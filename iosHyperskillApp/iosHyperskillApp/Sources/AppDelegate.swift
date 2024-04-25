@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ApplicationThemeService.default.applyDefaultTheme()
 
         AppsFlyerManager.configure()
+        AmplitudeManager.configure()
         FirebaseApp.configure()
         ProgressHUD.configure()
         KeyboardManager.configure()

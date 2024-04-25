@@ -128,6 +128,7 @@
 		2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */; };
 		2C2600832A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2600822A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift */; };
 		2C2600852A1FF8B000BD3D39 /* AppPowerModeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */; };
+		2C2780C62BD8E968003CC243 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2780C52BD8E968003CC243 /* AmplitudeManager.swift */; };
 		2C27C77C28772F8A006A641A /* ImageDecoders+SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C27C77B28772F8A006A641A /* ImageDecoders+SVG.swift */; };
 		2C27C77E28773042006A641A /* NukeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C27C77D28773042006A641A /* NukeManager.swift */; };
 		2C2B7DD22946EF2800FAB55D /* WebViewNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */; };
@@ -851,6 +852,7 @@
 		2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DesignSystem.swift"; sourceTree = "<group>"; };
 		2C2600822A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsSkeletonView.swift; sourceTree = "<group>"; };
 		2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPowerModeObserver.swift; sourceTree = "<group>"; };
+		2C2780C52BD8E968003CC243 /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		2C27C77B28772F8A006A641A /* ImageDecoders+SVG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDecoders+SVG.swift"; sourceTree = "<group>"; };
 		2C27C77D28773042006A641A /* NukeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NukeManager.swift; sourceTree = "<group>"; };
 		2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewNavigationController.swift; sourceTree = "<group>"; };
@@ -2784,6 +2786,7 @@
 		2C906CBC280E5C7D0079C594 /* Systems */ = {
 			isa = PBXGroup;
 			children = (
+				2C2780C52BD8E968003CC243 /* AmplitudeManager.swift */,
 				E99D4CEC2826A37400B49D52 /* AppAppearance.swift */,
 				2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */,
 				2CFBFC142AD4264900D4935D /* AppsFlyerManager.swift */,
@@ -4985,6 +4988,7 @@
 				2C54E42F2A1FAA88003406B9 /* TrackSelectionDetailsProvidersView.swift in Sources */,
 				E996D41029221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift in Sources */,
 				2C195D092B84863F0076B2C8 /* UsersQuestionnaireOnboardingChoicesView.swift in Sources */,
+				2C2780C62BD8E968003CC243 /* AmplitudeManager.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				E9A22BA0295081BD001700B7 /* StreakFreezeModalViewController.swift in Sources */,
 				2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */,
