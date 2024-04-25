@@ -71,7 +71,7 @@ struct ProblemsLimitInfoModalView: View {
     }
 
     private var animationView: some View {
-        let fileName: LottieAnimationFileName? = {
+        let fileName: LottieAnimationFileName? =
             switch viewState.animation {
             case .fullLimits:
                 LottieAnimations.problemsLimitInfoModalFullLimits
@@ -82,14 +82,16 @@ struct ProblemsLimitInfoModalView: View {
             default:
                 nil
             }
-        }()
 
-        let animationSpeed: CGFloat = {
-            if viewState.animation == .fullLimits {
-                return UIScreen.main.maximumFramesPerSecond > 60 ? 0.65 : 0.25
+        let animationSpeed: CGFloat =
+            switch viewState.animation {
+            case .fullLimits:
+                UIScreen.main.maximumFramesPerSecond > 60 ? 0.65 : 0.25
+            case .partiallySpentLimits:
+                2.5
+            default:
+                1
             }
-            return 1
-        }()
 
         return LottieAnimationViewWrapper(
             fileName: fileName.require(),
