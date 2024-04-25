@@ -19,12 +19,12 @@ object AmplitudeAnalyticEventMapper {
     private fun getType(analyticEvent: HyperskillAnalyticEvent): String =
         buildString {
             append(analyticEvent.action.actionName)
-            append(' ')
             if (analyticEvent.part != null) {
-                append(analyticEvent.part.partName)
                 append(' ')
+                append(analyticEvent.part.partName)
             }
             if (analyticEvent.target != null) {
+                append(' ')
                 append(analyticEvent.target.targetName)
             }
         }
