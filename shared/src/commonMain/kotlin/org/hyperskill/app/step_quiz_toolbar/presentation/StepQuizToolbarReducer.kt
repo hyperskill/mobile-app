@@ -26,10 +26,13 @@ class StepQuizToolbarReducer(
         }
 
     private fun handleInitialization(state: State): StepQuizToolbarReducerResult =
-        if (state is State.Idle) {
-            State.Loading to setOf(InternalAction.FetchSubscription)
-        } else {
-            state to emptySet()
+        when {
+            state is State.Unavailable || !StepQuizToolbarResolver.isToolbarAvailable(stepRoute) ->
+                State.Unavailable to emptySet()
+            state is State.Idle ->
+                State.Loading to setOf(InternalAction.FetchSubscription)
+            else ->
+                state to emptySet()
         }
 
     private fun handleSubscriptionFetchSuccess(
