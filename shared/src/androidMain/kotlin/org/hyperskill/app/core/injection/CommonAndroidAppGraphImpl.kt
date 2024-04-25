@@ -63,7 +63,6 @@ import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
-import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
@@ -134,8 +133,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     /**
      * Step component
      */
-    override fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent =
-        PlatformStepComponentImpl(stepComponent)
+    override fun buildPlatformStepComponent(stepRoute: StepRoute): PlatformStepComponent =
+        PlatformStepComponentImpl(
+            stepComponent = buildStepComponent(stepRoute)
+        )
 
     /**
      * Step quiz component

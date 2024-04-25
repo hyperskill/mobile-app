@@ -42,14 +42,16 @@ class StepFragment :
                 }
     }
 
-    private var stepDelegate: StepDelegate<StepFragment>? = null
+    private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
-    private lateinit var viewModelFactory: ViewModelProvider.Factory
+    private var viewModelFactory: ViewModelProvider.Factory? = null
+    private val stepViewModel: StepViewModel by reduxViewModel(this) {
+        requireNotNull(viewModelFactory)
+    }
 
     private val viewBinding: FragmentStepBinding by viewBinding(FragmentStepBinding::bind)
-    private val stepViewModel: StepViewModel by reduxViewModel(this) { viewModelFactory }
+
     private var viewStateDelegate: ViewStateDelegate<StepFeature.StepState>? = null
-    private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
@@ -57,12 +59,11 @@ class StepFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        stepDelegate = StepDelegate(fragment = this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initViewStateDelegate()
-        stepDelegate?.init(
+        StepDelegate.init(
             errorBinding = viewBinding.stepError,
             lifecycle = viewLifecycleOwner.lifecycle,
             onNewMessage = stepViewModel::onNewMessage
@@ -70,9 +71,7 @@ class StepFragment :
     }
 
     private fun injectComponent() {
-        val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
-        val platformStepComponent = HyperskillApp.graph().buildPlatformStepComponent(stepComponent)
-        viewModelFactory = platformStepComponent.reduxViewModelFactory
+        viewModelFactory = HyperskillApp.graph().buildPlatformStepComponent(stepRoute).reduxViewModelFactory
     }
 
     private fun initViewStateDelegate() {
@@ -85,7 +84,8 @@ class StepFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        stepDelegate?.onAction(
+        StepDelegate.onAction(
+            fragment = this,
             mainScreenRouter = mainScreenRouter,
             action = action
         )
@@ -114,11 +114,6 @@ class StepFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stepDelegate = null
     }
 
     override fun onNewMessage(message: StepCompletionFeature.Message) {

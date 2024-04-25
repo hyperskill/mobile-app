@@ -25,10 +25,7 @@ import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepDelegate<TFragment>(
-    private val fragment: TFragment
-) where TFragment : Fragment,
-        TFragment : ShareStreakDialogFragment.Callback {
+object StepDelegate {
 
     fun init(
         errorBinding: ErrorNoConnectionWithButtonBinding,
@@ -51,10 +48,11 @@ class StepDelegate<TFragment>(
         }
     }
 
-    fun onAction(
+    fun <TFragment> onAction(
+        fragment: TFragment,
         mainScreenRouter: MainScreenRouter,
         action: StepFeature.Action.ViewAction
-    ) {
+    ) where TFragment : Fragment, TFragment : ShareStreakDialogFragment.Callback  {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
                 when (val stepCompletionAction = action.viewAction) {
@@ -103,7 +101,7 @@ class StepDelegate<TFragment>(
                             .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
-                        shareStreak(stepCompletionAction.streak)
+                        shareStreak(fragment, stepCompletionAction.streak)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowRequestUserReviewModal ->
                         RequestReviewDialogFragment
@@ -138,7 +136,10 @@ class StepDelegate<TFragment>(
         return "$title\n$link"
     }
 
-    private fun shareStreak(streak: Int) {
+    private fun shareStreak(
+        fragment: Fragment,
+        streak: Int
+    ) {
         val shareIntent = ShareUtils.getShareDrawableIntent(
             fragment.requireContext(),
             getShareStreakDrawableRes(streak),

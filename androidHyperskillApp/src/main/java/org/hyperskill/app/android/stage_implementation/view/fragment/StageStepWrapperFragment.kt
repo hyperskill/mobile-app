@@ -72,22 +72,16 @@ class StageStepWrapperFragment :
 
     private var viewStateDelegate: ViewStateDelegate<StepFeature.StepState>? = null
 
-    @Suppress("DEPRECATION")
-    private var stepDelegate: StepDelegate<StageStepWrapperFragment>? = null
-
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        stepDelegate = StepDelegate(fragment = this)
     }
 
     private fun injectComponent() {
-        val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
-        val platformStepComponent = HyperskillApp.graph().buildPlatformStepComponent(stepComponent)
-        viewModelFactory = platformStepComponent.reduxViewModelFactory
+        viewModelFactory = HyperskillApp.graph().buildPlatformStepComponent(stepRoute).reduxViewModelFactory
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,7 +102,7 @@ class StageStepWrapperFragment :
             }
         }
         viewBinding.stageImplementationTitle.text = stageTitle
-        stepDelegate?.init(
+        StepDelegate.init(
             errorBinding = viewBinding.stageImplementationError,
             lifecycle = viewLifecycleOwner.lifecycle,
             onNewMessage = stepViewModel::onNewMessage
@@ -118,11 +112,6 @@ class StageStepWrapperFragment :
     override fun onDestroyView() {
         super.onDestroyView()
         viewStateDelegate = null
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stepDelegate = null
     }
 
     override fun render(state: StepFeature.ViewState) {
@@ -150,7 +139,8 @@ class StageStepWrapperFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        stepDelegate?.onAction(
+        StepDelegate.onAction(
+            fragment = this,
             mainScreenRouter = mainScreenRouter,
             action = action
         )
