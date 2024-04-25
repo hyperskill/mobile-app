@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,13 +8,15 @@
 
     <include
         android:id="@+id/stepTheoryAppBar"
-        layout="@layout/view_step_appbar" />
+        layout="@layout/view_step_appbar"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_constraintTop_toBottomOf="@+id/stepTheoryAppBar"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/stepTheoryContentContainer"
@@ -52,7 +55,8 @@
         android:layout_gravity="bottom"
         android:orientation="vertical"
         android:layout_marginHorizontal="@dimen/step_content_padding"
-        android:layout_marginBottom="@dimen/step_content_padding" >
+        android:layout_marginBottom="@dimen/step_content_padding"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/stepTheoryPracticeAction"
@@ -73,18 +77,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/stepTheoryFab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/step_theory_fab_margin"
-        android:layout_marginTop="@dimen/step_theory_fab_margin"
-        android:src="@drawable/ic_toolbar_back"
-        android:theme="@style/StepFloatingActionButton"
-        android:visibility="invisible"
-        app:layout_anchorGravity="top|start"
-        app:tint="?colorControlNormal"
-        tools:ignore="ContentDescription"
-        />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

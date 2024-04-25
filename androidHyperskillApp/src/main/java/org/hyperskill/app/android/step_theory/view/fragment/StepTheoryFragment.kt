@@ -14,7 +14,6 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
-import kotlin.math.abs
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -89,16 +88,6 @@ class StepTheoryFragment :
                 requireRouter().exit()
             }
             stepToolbar.stepToolbarTitle.text = step.title
-            root.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
-                if (abs(verticalOffset) == appBarLayout.totalScrollRange) {
-                    viewBinding.stepTheoryFab.show()
-                } else {
-                    viewBinding.stepTheoryFab.hide()
-                }
-            }
-        }
-        viewBinding.stepTheoryFab.setOnClickListener {
-            requireRouter().exit()
         }
 
         setupStartPracticeButton(isPracticingAvailable)
