@@ -2,6 +2,7 @@ package org.hyperskill.app.analytic.domain.processor
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticKeys
 
@@ -19,6 +20,10 @@ object AmplitudeAnalyticEventMapper {
     private fun getType(analyticEvent: HyperskillAnalyticEvent): String =
         buildString {
             append(analyticEvent.action.actionName)
+            if (analyticEvent.action == HyperskillAnalyticAction.VIEW) {
+                append(' ')
+                append(analyticEvent.route.path)
+            }
             if (analyticEvent.part != null) {
                 append(' ')
                 append(analyticEvent.part.partName)
