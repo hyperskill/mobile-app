@@ -37,13 +37,14 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
             GIDSignIn.sharedInstance.signOut()
         }
 
+        GIDSignIn.sharedInstance.configuration = GIDConfiguration(
+            clientID: GoogleServiceInfo.authClientID,
+            serverClientID: GoogleServiceInfo.authServerClientID
+        )
+
         GIDSignIn.sharedInstance.signIn(
-            with: GIDConfiguration(
-                clientID: GoogleServiceInfo.authClientID,
-                serverClientID: GoogleServiceInfo.authServerClientID
-            ),
-            presenting: currentPresentedViewController
-        ) { user, error in
+            withPresenting: currentPresentedViewController
+        ) { result, error in
             if let error {
                 #if DEBUG
                 print("GoogleSocialAuthSDKProvider :: error = \(error.localizedDescription)")
@@ -53,13 +54,15 @@ final class GoogleSocialAuthSDKProvider: SocialAuthSDKProvider {
                 } else {
                     completion(.failure(.connectionError(originalError: error)))
                 }
-            } else if let serverAuthCode = user?.serverAuthCode {
+            } else if let serverAuthCode = result?.serverAuthCode {
                 #if DEBUG
                 print("GoogleSocialAuthSDKProvider :: success serverAuthCode = \(serverAuthCode)")
                 #endif
                 completion(.success(SocialAuthSDKResponse(authorizationCode: serverAuthCode)))
             } else {
+                #if DEBUG
                 print("GoogleSocialAuthSDKProvider :: error missing serverAuthCode")
+                #endif
                 completion(
                     .failure(.accessDenied(originalError: GoogleSocialAuthSDKProviderErrorReason.noServerAuthCode))
                 )

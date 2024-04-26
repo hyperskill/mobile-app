@@ -2,11 +2,11 @@ PODS:
   - AmplitudeSwift (1.4.5):
     - AnalyticsConnector (~> 1.0.1)
   - AnalyticsConnector (1.0.3)
-  - AppAuth (1.6.2):
-    - AppAuth/Core (= 1.6.2)
-    - AppAuth/ExternalUserAgent (= 1.6.2)
-  - AppAuth/Core (1.6.2)
-  - AppAuth/ExternalUserAgent (1.6.2):
+  - AppAuth (1.7.5):
+    - AppAuth/Core (= 1.7.5)
+    - AppAuth/ExternalUserAgent (= 1.7.5)
+  - AppAuth/Core (1.7.5)
+  - AppAuth/ExternalUserAgent (1.7.5):
     - AppAuth/Core
   - AppsFlyerFramework (6.14.2):
     - AppsFlyerFramework/Main (= 6.14.2)
@@ -46,10 +46,10 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30911.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleSignIn (6.2.4):
-    - AppAuth (~> 1.5)
-    - GTMAppAuth (~> 1.3)
-    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
+  - GoogleSignIn (7.1.0):
+    - AppAuth (< 2.0, >= 1.7.3)
+    - GTMAppAuth (< 5.0, >= 4.1.1)
+    - GTMSessionFetcher/Core (~> 3.3)
   - GoogleUtilities/AppDelegateSwizzler (7.13.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -75,10 +75,10 @@ PODS:
   - GoogleUtilities/UserDefaults (7.13.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - GTMAppAuth (1.3.1):
-    - AppAuth/Core (~> 1.6)
-    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
-  - GTMSessionFetcher/Core (2.3.0)
+  - GTMAppAuth (4.1.1):
+    - AppAuth/Core (~> 1.7)
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3)
+  - GTMSessionFetcher/Core (3.4.1)
   - Highlightr (2.1.0)
   - IQKeyboardManagerSwift (6.5.9)
   - Kanna (5.2.7)
@@ -117,7 +117,7 @@ DEPENDENCIES:
   - CombineSchedulers (from `https://github.com/ivan-magda/combine-schedulers.git`, branch `main`)
   - Firebase/CoreOnly (= 10.24.0)
   - Firebase/Messaging (= 10.24.0)
-  - GoogleSignIn (= 6.2.4)
+  - GoogleSignIn (= 7.1.0)
   - Highlightr (from `https://github.com/raspu/Highlightr.git`, branch `master`)
   - IQKeyboardManagerSwift (= 6.5.9)
   - Kanna (= 5.2.7)
@@ -207,7 +207,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AmplitudeSwift: 4daa595b157c73b9bc5f225f9b8faead90d044b3
   AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
-  AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   AppsFlyerFramework: b3de9a49c6af8a8e38c44603e468b5e207f22466
   Atributika: 47e778507cfb3cd2c996278b0285221a62e97d71
   CocoaLumberjack: f8d89a516e7710fdb2e9b8f1560b16ec6040eef0
@@ -219,10 +219,10 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 4d52717dd820707cc4eadec5eb981b4832ec8d5d
   Gifu: 416d4e38c4c2fed012f019e0a1d3ffcb58e5b842
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
-  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
+  GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
-  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
-  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
+  GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   Highlightr: 683f05d5223cade533a78528a35c9f06e4caddf8
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
   Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
@@ -243,6 +243,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 19961bf4e3671b9fcf03cd1f26539f30b59b23c5
+PODFILE CHECKSUM: 7f8a0ca9a731edc65f42faa83ed57cf9116247b3
 
 COCOAPODS: 1.15.2
