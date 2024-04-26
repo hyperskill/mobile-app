@@ -81,7 +81,7 @@ PODS:
   - GTMSessionFetcher/Core (3.4.1)
   - Highlightr (2.1.0)
   - IQKeyboardManagerSwift (6.5.9)
-  - Kanna (5.2.7)
+  - Kanna (5.3.0)
   - lottie-ios (4.4.3)
   - nanopb (2.30910.0):
     - nanopb/decode (= 2.30910.0)
@@ -122,7 +122,7 @@ DEPENDENCIES:
   - GoogleSignIn (= 7.1.0)
   - Highlightr (from `https://github.com/raspu/Highlightr.git`, branch `master`)
   - IQKeyboardManagerSwift (= 6.5.9)
-  - Kanna (= 5.2.7)
+  - Kanna (= 5.3.0)
   - lottie-ios (= 4.4.3)
   - NukeUI (from `https://github.com/kean/NukeUI.git`, tag `0.8.3`)
   - PanModal (from `https://github.com/ivan-magda/PanModal.git`, branch `remove-presenting-appearance-transitions`)
@@ -227,7 +227,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
   Highlightr: 683f05d5223cade533a78528a35c9f06e4caddf8
   IQKeyboardManagerSwift: 6e839c575c4aa1078d58a596e41244e77abe918f
-  Kanna: 01cfbddc127f5ff0963692f285fcbc8a9d62d234
+  Kanna: 6ecbd674bcbef2766a2acf80e99d1174440c5b9c
   lottie-ios: fcb5e73e17ba4c983140b7d21095c834b3087418
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   Nuke: 279f17a599fd1c83cf51de5e0e1f2db143a287b0
@@ -245,6 +245,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 4895900b7afe53c85897af4e9b28acb0067ef7e2
+PODFILE CHECKSUM: 943b9a4c9bb61623e988d694af1b98ac0359c105
 
 COCOAPODS: 1.15.2
