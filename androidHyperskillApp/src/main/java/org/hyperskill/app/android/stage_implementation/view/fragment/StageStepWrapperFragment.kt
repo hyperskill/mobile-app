@@ -14,7 +14,7 @@ import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
-import org.hyperskill.app.android.step.view.fragment.StepFragment
+import org.hyperskill.app.android.step.view.fragment.StepWrapperFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeDetailsFragment
@@ -31,7 +31,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 /**
  * A wrapper fragment around StepQuiz.
- * Analog of [StepFragment] with special ui for StageImplementation.
+ * Analog of [StepWrapperFragment] with special ui for StageImplementation.
  * Able to launch only stepQuiz, not a stepTheory.
  *
  * Should not be used directly, only via [StageImplementationFragment]

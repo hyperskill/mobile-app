@@ -20,10 +20,11 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
-import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepToolbarHost
+import org.hyperskill.app.android.step.view.model.StepToolbarViewState
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -75,7 +76,6 @@ class StepTheoryFragment :
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(viewBinding.stepTheoryAppBar.stepToolbar.root)
             addMenuProvider(
                 this@StepTheoryFragment,
                 viewLifecycleOwner,
@@ -83,12 +83,7 @@ class StepTheoryFragment :
             )
         }
 
-        with(viewBinding.stepTheoryAppBar) {
-            stepToolbar.root.setNavigationOnClickListener {
-                requireRouter().exit()
-            }
-            stepToolbar.stepToolbarTitle.text = step.title
-        }
+        parentOfType(StepToolbarHost::class.java)?.render(StepToolbarViewState.Theory(step.title))
 
         setupStartPracticeButton(isPracticingAvailable)
 

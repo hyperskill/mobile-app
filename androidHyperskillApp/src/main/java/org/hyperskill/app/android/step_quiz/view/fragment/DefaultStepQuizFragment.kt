@@ -27,7 +27,8 @@ import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomS
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarHost
+import org.hyperskill.app.android.step.view.model.StepToolbarHost
+import org.hyperskill.app.android.step.view.model.StepToolbarViewState
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
@@ -421,7 +422,7 @@ abstract class DefaultStepQuizFragment :
 
     private fun renderLimits(state: StepQuizToolbarFeature.State) {
         val viewState = StepQuizToolbarViewStateMapper.map(state)
-        (parentFragment as? StepQuizToolbarHost)?.render(viewState)
+        parentOfType(StepToolbarHost::class.java)?.render(StepToolbarViewState.Practice(viewState))
     }
 
     final override fun render(isPracticingLoading: Boolean) {
