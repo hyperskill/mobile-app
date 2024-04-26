@@ -15,8 +15,8 @@ target "iosHyperskillApp" do
   pod "RevenueCat", "4.41.1"
 
   # Firebase
-  pod "Firebase/CoreOnly", "10.17.0"
-  pod "Firebase/Messaging", "10.17.0"
+  pod "Firebase/CoreOnly", "10.24.0"
+  pod "Firebase/Messaging", "10.24.0"
 
   # Analytics
   pod "AppsFlyerFramework", "6.14.2"
