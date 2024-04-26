@@ -131,15 +131,15 @@ internal class ProblemsLimitInfoModalViewStateMapper(
             null
         }
 
-    private fun getResetInText(stepsLimitResetTime: Instant?): String? =
-        if (stepsLimitResetTime != null) {
+    private fun getResetInText(stepsLimitResetTime: Instant?): String? {
+        val currentTime = Clock.System.now()
+        return stepsLimitResetTime?.takeIf { it > currentTime }?.let {
             resourceProvider.getString(
                 SharedResources.strings.problems_limit_info_reset_in,
-                sharedDateFormatter.formatHoursOrMinutesCountShort(stepsLimitResetTime - Clock.System.now())
+                sharedDateFormatter.formatHoursOrMinutesCountShort(it - currentTime)
             )
-        } else {
-            null
         }
+    }
 
     private fun getButtonText(): String =
         resourceProvider.getString(
