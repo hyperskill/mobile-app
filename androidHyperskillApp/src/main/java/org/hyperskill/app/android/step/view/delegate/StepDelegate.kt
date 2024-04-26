@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
+import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
@@ -18,7 +19,7 @@ import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragment
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
@@ -52,7 +53,7 @@ object StepDelegate {
         fragment: TFragment,
         mainScreenRouter: MainScreenRouter,
         action: StepFeature.Action.ViewAction
-    ) where TFragment : Fragment, TFragment : ShareStreakDialogFragment.Callback  {
+    ) where TFragment : Fragment, TFragment : ShareStreakDialogFragment.Callback {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
                 when (val stepCompletionAction = action.viewAction) {
@@ -66,7 +67,7 @@ object StepDelegate {
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
-                        fragment.requireRouter().replaceScreen(StepScreen(stepCompletionAction.stepRoute))
+                        fragment.parentOfType(StepHost::class.java)?.reloadStep(stepCompletionAction.stepRoute)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowStartPracticingError -> {

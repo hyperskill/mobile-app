@@ -2,6 +2,7 @@ package org.hyperskill.app.android.core.view.ui.fragment
 
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commitNow
 
 @Suppress("UNCHECKED_CAST")
 fun <T> Fragment.parentOfType(klass: Class<T>): T? =
@@ -32,8 +33,8 @@ fun Fragment.setChildFragment(
     if (childFragmentManager.findFragmentByTag(tag) == null) {
         val fragment = buildFragment()
         childFragmentManager
-            .beginTransaction()
-            .add(containerViewId, fragment, tag)
-            .commitNow()
+            .commitNow {
+                add(containerViewId, fragment, tag)
+            }
     }
 }
