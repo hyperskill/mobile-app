@@ -52,9 +52,10 @@ struct ProblemsLimitInfoModalView: View {
 
             if let unlockDescription = viewState.unlockDescription {
                 Text(unlockDescription)
-                    .foregroundColor(.newSecondaryText)
                     .font(.subheadline)
+                    .foregroundColor(.newSecondaryText)
                     .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
 
             Button(
