@@ -16,8 +16,10 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
 import org.hyperskill.app.analytic.domain.processor.AmplitudeAnalyticEventMapper
 
 class AmplitudeAnalyticEventMapperTest {
-    object TestViewHyperskillAnalyticEvent : HyperskillAnalyticEvent(
-        route = HyperskillAnalyticRoute.Debug(),
+    class TestViewHyperskillAnalyticEvent(
+        route: HyperskillAnalyticRoute = HyperskillAnalyticRoute.Debug()
+    ) : HyperskillAnalyticEvent(
+        route = route,
         action = HyperskillAnalyticAction.VIEW
     )
 
@@ -37,7 +39,7 @@ class AmplitudeAnalyticEventMapperTest {
 
     @Test
     fun `map should return AmplitudeAnalyticEvent when HyperskillAnalyticEvent is provided`() {
-        val actual = AmplitudeAnalyticEventMapper.map(TestViewHyperskillAnalyticEvent)
+        val actual = AmplitudeAnalyticEventMapper.map(TestViewHyperskillAnalyticEvent())
         assertNotNull(actual)
     }
 
@@ -64,9 +66,9 @@ class AmplitudeAnalyticEventMapperTest {
 
     @Test
     fun `map should include path in name when HyperskillAnalyticEvent with VIEW action is provided`() {
-        val hyperskillEvent = TestViewHyperskillAnalyticEvent
+        val hyperskillEvent = TestViewHyperskillAnalyticEvent()
 
-        val actual = AmplitudeAnalyticEventMapper.map(TestViewHyperskillAnalyticEvent)
+        val actual = AmplitudeAnalyticEventMapper.map(hyperskillEvent)
 
         assertTrue(actual!!.name.contains(hyperskillEvent.route.path))
     }
@@ -85,5 +87,38 @@ class AmplitudeAnalyticEventMapperTest {
             ),
             actual.params
         )
+    }
+
+    @Test
+    fun `map should correctly set name for view step screens`() {
+        val events = listOf(
+            TestViewHyperskillAnalyticEvent(
+                route = HyperskillAnalyticRoute.Learn.Step(1L)
+            ),
+            TestViewHyperskillAnalyticEvent(
+                route = HyperskillAnalyticRoute.Learn.Daily(1L)
+            ),
+            TestViewHyperskillAnalyticEvent(
+                route = HyperskillAnalyticRoute.Projects.Stages.Implement(
+                    projectId = 1L,
+                    stageId = 2L
+                )
+            ),
+            TestViewHyperskillAnalyticEvent(
+                route = HyperskillAnalyticRoute.Repeat.Step(1L)
+            ),
+            TestViewHyperskillAnalyticEvent(
+                route = HyperskillAnalyticRoute.Repeat.Step.Theory(1L)
+            )
+        )
+
+        events.forEach { event ->
+            val result = AmplitudeAnalyticEventMapper.map(event)!!
+            assertEquals(
+                "view step",
+                result.name,
+                "Event name should be 'view step' for VIEW action in step screens"
+            )
+        }
     }
 }
