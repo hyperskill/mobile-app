@@ -2,7 +2,6 @@ package org.hyperskill.analytic.domain.processor
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
@@ -40,7 +39,7 @@ class AmplitudeAnalyticEventMapperTest {
     @Test
     fun `map should return AmplitudeAnalyticEvent when HyperskillAnalyticEvent is provided`() {
         val actual = AmplitudeAnalyticEventMapper.map(TestViewHyperskillAnalyticEvent())
-        assertNotNull(actual)
+        assertTrue(actual is AmplitudeAnalyticEvent)
     }
 
     @Test
