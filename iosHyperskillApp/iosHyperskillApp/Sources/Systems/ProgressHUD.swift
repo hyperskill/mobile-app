@@ -7,12 +7,8 @@ enum ProgressHUD {
         SVProgressHUD.setMinimumDismissTimeInterval(0.5)
         SVProgressHUD.setGraceTimeInterval(0)
         SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.clear)
-        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.light)
+        SVProgressHUD.setDefaultStyle(SVProgressHUDStyle.automatic)
         SVProgressHUD.setHapticsEnabled(true)
-    }
-
-    static func updateStyle(isDark: Bool) {
-        SVProgressHUD.setDefaultStyle(isDark ? .dark : .light)
     }
 
     static func setHapticsEnabled(_ isEnabled: Bool) {

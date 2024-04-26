@@ -107,7 +107,9 @@ PODS:
   - STRegex (2.1.1)
   - SVGKit (3.1.1):
     - CocoaLumberjack (~> 3.0)
-  - SVProgressHUD (2.2.5)
+  - SVProgressHUD (2.3.1):
+    - SVProgressHUD/Core (= 2.3.1)
+  - SVProgressHUD/Core (2.3.1)
   - SwiftLint (0.54.0)
 
 DEPENDENCIES:
@@ -131,7 +133,7 @@ DEPENDENCIES:
   - SnapKit (= 5.6.0)
   - STRegex (= 2.1.1)
   - SVGKit (from `https://github.com/SVGKit/SVGKit.git`, branch `3.x`)
-  - SVProgressHUD (= 2.2.5)
+  - SVProgressHUD (= 2.3.1)
   - SwiftLint (= 0.54.0)
 
 SPEC REPOS:
@@ -240,9 +242,9 @@ SPEC CHECKSUMS:
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   STRegex: d49e88d0fe58538d3175fdd989bc1243b9be2a07
   SVGKit: 9bc0f0982df559e65b96f2150ff9c15a61e453ac
-  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
   SwiftLint: c1de071d9d08c8aba837545f6254315bc900e211
 
-PODFILE CHECKSUM: 7f8a0ca9a731edc65f42faa83ed57cf9116247b3
+PODFILE CHECKSUM: 6a12659596e5ad93739c0cb84f557044f30e5050
 
 COCOAPODS: 1.15.2

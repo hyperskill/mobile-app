@@ -39,9 +39,7 @@ final class AppViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         viewModel.doLoadApp()
-        updateProgressHUDStyle()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -52,20 +50,6 @@ final class AppViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.stopListening()
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        view.performBlockIfAppearanceChanged(from: previousTraitCollection) {
-            updateProgressHUDStyle()
-        }
-    }
-
-    // MARK: Private API
-
-    private func updateProgressHUDStyle() {
-        ProgressHUD.updateStyle(isDark: view.isDarkInterfaceStyle)
     }
 }
 
