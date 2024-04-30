@@ -257,6 +257,7 @@
 		2C70B7592BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7552BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie */; };
 		2C70B75A2BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */; };
 		2C70B75B2BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */; };
+		2C70B7612BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -991,6 +992,7 @@
 		2C70B7552BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-wow-dark.lottie"; sourceTree = "<group>"; };
 		2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-dark.lottie"; sourceTree = "<group>"; };
 		2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-light.lottie"; sourceTree = "<group>"; };
+		2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacebotRocketAnimationView.swift; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -2609,6 +2611,15 @@
 			path = ProblemsOnboarding;
 			sourceTree = "<group>";
 		};
+		2C70B7622BE0F35900DFC104 /* ToolbarProgress */ = {
+			isa = PBXGroup;
+			children = (
+				2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */,
+				2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */,
+			);
+			path = ToolbarProgress;
+			sourceTree = "<group>";
+		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3209,10 +3220,10 @@
 				2C971B842AC2F5DC00868FCE /* StepExpandableStepTextView.swift */,
 				2CAE8CF628052F9600E6C83D /* StepHeaderView.swift */,
 				2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */,
-				2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
 				2CAE8D0A280578A200E6C83D /* BottomControls */,
 				2CD0BA05298B985A0037479A /* Modals */,
+				2C70B7622BE0F35900DFC104 /* ToolbarProgress */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5047,6 +5058,7 @@
 				2C8E4F96284895A30011ADFA /* PanModalPresentableViewController.swift in Sources */,
 				E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */,
 				2C975D662A1128670068FD4E /* FeedbackGenerator.swift in Sources */,
+				2C70B7612BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift in Sources */,
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2C05AC482A0EA0180039C7EF /* ProjectSelectionListAssembly.swift in Sources */,
 				2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */,
