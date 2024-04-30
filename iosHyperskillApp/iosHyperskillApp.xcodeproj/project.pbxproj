@@ -258,6 +258,7 @@
 		2C70B75A2BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */; };
 		2C70B75B2BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */; };
 		2C70B7612BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */; };
+		2C70B7642BE0FC4900DFC104 /* SpacebotWowAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70B7632BE0FC4900DFC104 /* SpacebotWowAnimationView.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -993,6 +994,7 @@
 		2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-dark.lottie"; sourceTree = "<group>"; };
 		2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-light.lottie"; sourceTree = "<group>"; };
 		2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacebotRocketAnimationView.swift; sourceTree = "<group>"; };
+		2C70B7632BE0FC4900DFC104 /* SpacebotWowAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacebotWowAnimationView.swift; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -2615,6 +2617,7 @@
 			isa = PBXGroup;
 			children = (
 				2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */,
+				2C70B7632BE0FC4900DFC104 /* SpacebotWowAnimationView.swift */,
 				2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */,
 			);
 			path = ToolbarProgress;
@@ -5212,6 +5215,7 @@
 				2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */,
 				2CE0F6EA2BB408160032C439 /* StepTheoryFeedbackModalAssembly.swift in Sources */,
 				2C4F63A32A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift in Sources */,
+				2C70B7642BE0FC4900DFC104 /* SpacebotWowAnimationView.swift in Sources */,
 				2C2600832A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift in Sources */,
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
