@@ -253,6 +253,10 @@
 		2C7036E82943A2A800775E87 /* ProblemOfDaySkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */; };
 		2C7036EA2943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */; };
 		2C708D3228E5AA700061A8DB /* KotlinThrowable+AsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */; };
+		2C70B7582BE0E97800DFC104 /* spacebot-progress-bar-wow-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7542BE0E97800DFC104 /* spacebot-progress-bar-wow-light.lottie */; };
+		2C70B7592BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7552BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie */; };
+		2C70B75A2BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */; };
+		2C70B75B2BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -983,6 +987,10 @@
 		2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDaySkeletonView.swift; sourceTree = "<group>"; };
 		2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCardSkeletonView.swift; sourceTree = "<group>"; };
 		2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinThrowable+AsError.swift"; sourceTree = "<group>"; };
+		2C70B7542BE0E97800DFC104 /* spacebot-progress-bar-wow-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-wow-light.lottie"; sourceTree = "<group>"; };
+		2C70B7552BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-wow-dark.lottie"; sourceTree = "<group>"; };
+		2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-dark.lottie"; sourceTree = "<group>"; };
+		2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-light.lottie"; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -2564,6 +2572,43 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		2C70B7532BE0E96400DFC104 /* SpacebotProgressBar */ = {
+			isa = PBXGroup;
+			children = (
+				2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */,
+				2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */,
+				2C70B7552BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie */,
+				2C70B7542BE0E97800DFC104 /* spacebot-progress-bar-wow-light.lottie */,
+			);
+			path = SpacebotProgressBar;
+			sourceTree = "<group>";
+		};
+		2C70B75C2BE0E9A600DFC104 /* ProblemsLimitInfo */ = {
+			isa = PBXGroup;
+			children = (
+				2CE3F5C22BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie */,
+				2CE3F5BD2BD7BB79000B51A4 /* problems-limit-info-modal-full-limits-light.lottie */,
+				2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie */,
+				2CE3F5BF2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-light.lottie */,
+				2CE3F5C02BD7BB79000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie */,
+				2CE3F5C12BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie */,
+			);
+			path = ProblemsLimitInfo;
+			sourceTree = "<group>";
+		};
+		2C70B75D2BE0E9FD00DFC104 /* ProblemsOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */,
+				2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */,
+				2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */,
+				2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */,
+				2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */,
+				2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */,
+			);
+			path = ProblemsOnboarding;
+			sourceTree = "<group>";
+		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -3129,19 +3174,10 @@
 		2CAA3C642AA9C40C004F6CE6 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
-				2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */,
-				2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */,
-				2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */,
-				2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */,
-				2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */,
-				2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */,
-				2CE3F5C22BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie */,
-				2CE3F5BD2BD7BB79000B51A4 /* problems-limit-info-modal-full-limits-light.lottie */,
-				2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie */,
-				2CE3F5BF2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-light.lottie */,
-				2CE3F5C02BD7BB79000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie */,
-				2CE3F5C12BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie */,
 				2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */,
+				2C70B75C2BE0E9A600DFC104 /* ProblemsLimitInfo */,
+				2C70B75D2BE0E9FD00DFC104 /* ProblemsOnboarding */,
+				2C70B7532BE0E96400DFC104 /* SpacebotProgressBar */,
 			);
 			path = LottieAnimations;
 			sourceTree = "<group>";
@@ -4474,12 +4510,15 @@
 				2CCECFC32BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
+				2C70B75B2BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
 				2CCECFC22BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie in Resources */,
 				2CE3F5C82BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie in Resources */,
+				2C70B7592BE0E97800DFC104 /* spacebot-progress-bar-wow-dark.lottie in Resources */,
 				2C4F3C892BB29E7B0055E89F /* PrivacyInfo.xcprivacy in Resources */,
 				2C98C7A62850B93100857783 /* alt.css in Resources */,
 				E9954647288EC11000013FA6 /* LaunchScreen.storyboard in Resources */,
+				2C70B75A2BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				2CA9895D2B9812AD007CD455 /* RevenueCat-Info.plist in Resources */,
 				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
@@ -4487,6 +4526,7 @@
 				2C98C7A72850B93100857783 /* fonts.css in Resources */,
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
 				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
+				2C70B7582BE0E97800DFC104 /* spacebot-progress-bar-wow-light.lottie in Resources */,
 				2CFBFC172AD42CED00D4935D /* AppsFlyer-Info.plist in Resources */,
 				2CE3F5C52BD7BB7A000B51A4 /* problems-limit-info-modal-no-limits-light.lottie in Resources */,
 				2CDCC16F2AC2BFF000BB309D /* AllTests.xctestplan in Resources */,

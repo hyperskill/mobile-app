@@ -34,4 +34,16 @@ enum LottieAnimations {
         light: "problems-limit-info-modal-full-limits-light",
         dark: "problems-limit-info-modal-full-limits-dark"
     )
+
+    // MARK: SpacebotProgressBar
+
+    static let spacebotProgressBarWow = LottieAnimationFileName(
+        light: "spacebot-progress-bar-wow-light",
+        dark: "spacebot-progress-bar-wow-dark"
+    )
+
+    static let spacebotProgressBarRocket = LottieAnimationFileName(
+        light: "spacebot-progress-bar-rocket-light",
+        dark: "spacebot-progress-bar-rocket-dark"
+    )
 }
