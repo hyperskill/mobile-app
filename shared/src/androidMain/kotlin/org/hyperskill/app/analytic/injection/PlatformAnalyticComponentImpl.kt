@@ -4,7 +4,7 @@ import android.content.Context
 import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.analytic.domain.amplitude.AndroidAmplitudeAnalyticEngine
 import org.hyperskill.app.analytic.domain.apps_flyer.AndroidAppsFlyerAnalyticEngine
-import org.hyperskill.app.logging.inject.LoggerComponent
+import org.hyperskill.app.logging.injection.LoggerComponent
 
 internal class PlatformAnalyticComponentImpl(
     loggerComponent: LoggerComponent,
