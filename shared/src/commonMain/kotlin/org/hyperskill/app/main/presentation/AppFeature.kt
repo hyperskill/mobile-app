@@ -101,10 +101,6 @@ object AppFeature {
     }
 
     sealed interface Action {
-        data class FetchAppStartupConfig(
-            val pushNotificationData: PushNotificationData?
-        ) : Action
-
         object UpdateDailyLearningNotificationTime : Action
 
         object SendPushNotificationsToken : Action
@@ -158,9 +154,21 @@ object AppFeature {
     }
 
     internal sealed interface InternalAction : Action {
+        /**
+         * Fetch data required for the App startup
+         * and identify user in Purchase SDk if user already authorized.
+         */
+        data class FetchAppStartupConfig(val pushNotificationData: PushNotificationData?) : InternalAction
+
         object FetchSubscription : InternalAction
 
-        data class IdentifyUserInPurchaseSdkAndFetchPaymentAbility(val userId: Long) : Action
+        data class IdentifyUserInPurchaseSdk(val userId: Long): InternalAction
+
+        /**
+         * Check whether it's possible to make payment from user's device and account.
+         * @see [InternalMessage.PaymentAbilityResult]
+         */
+        object FetchPaymentAbility: InternalAction
 
         data class RefreshSubscriptionOnExpiration(val subscription: Subscription) : InternalAction
 
