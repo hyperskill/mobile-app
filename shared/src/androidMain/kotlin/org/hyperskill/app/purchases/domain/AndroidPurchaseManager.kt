@@ -14,6 +14,9 @@ import com.revenuecat.purchases.awaitGetProducts
 import com.revenuecat.purchases.awaitLogIn
 import com.revenuecat.purchases.awaitPurchase
 import com.revenuecat.purchases.models.StoreProduct
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 import org.hyperskill.app.BuildConfig
 import org.hyperskill.app.purchases.domain.model.PlatformPurchaseParams
 import org.hyperskill.app.purchases.domain.model.PurchaseManager
@@ -43,6 +46,18 @@ class AndroidPurchaseManager(
     override suspend fun login(userId: Long): Result<Unit> =
         kotlin.runCatching {
             Purchases.sharedInstance.awaitLogIn(userId.toString())
+        }
+
+    @Suppress("TooGenericExceptionCaught")
+    override suspend fun canMakePayments(): Boolean =
+        suspendCoroutine { continuation ->
+            try {
+                Purchases.canMakePayments(application) { result ->
+                    continuation.resume(result)
+                }
+            } catch (e: Exception) {
+                continuation.resumeWithException(e)
+            }
         }
 
     override suspend fun purchase(
