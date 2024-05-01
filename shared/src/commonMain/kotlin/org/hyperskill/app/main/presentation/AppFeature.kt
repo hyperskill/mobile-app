@@ -30,6 +30,7 @@ object AppFeature {
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
             internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
             internal val isMobileOnlySubscriptionEnabled: Boolean,
+            internal val canMakePayments: Boolean,
             internal val subscription: Subscription? = null,
             internal val appShowsCount: Int = 1,
             internal val isPaywallShown: Boolean = false
@@ -55,7 +56,8 @@ object AppFeature {
         data class FetchAppStartupConfigSuccess(
             val profile: Profile,
             val subscription: Subscription?,
-            val notificationData: PushNotificationData?
+            val notificationData: PushNotificationData?,
+            val canMakePayments: Boolean
         ) : Message
         object FetchAppStartupConfigError : Message
 
@@ -91,6 +93,8 @@ object AppFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        data class PaymentAbilityResult(val canMakePayments: Boolean) : InternalMessage
+
         data class SubscriptionChanged(
             val subscription: Subscription
         ) : InternalMessage
@@ -126,8 +130,6 @@ object AppFeature {
         data class IdentifyUserInSentry(val userId: Long) : Action
         object ClearUserInSentry : Action
 
-        data class IdentifyUserInPurchaseSdk(val userId: Long) : Action
-
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class AuthScreen(val isInSignUpMode: Boolean = false) : NavigateTo
@@ -157,6 +159,8 @@ object AppFeature {
 
     internal sealed interface InternalAction : Action {
         object FetchSubscription : InternalAction
+
+        data class IdentifyUserInPurchaseSdkAndFetchPaymentAbility(val userId: Long) : Action
 
         data class RefreshSubscriptionOnExpiration(val subscription: Subscription) : InternalAction
 
