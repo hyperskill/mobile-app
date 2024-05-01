@@ -77,7 +77,7 @@ internal class AppActionDispatcher(
 
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is Action.FetchAppStartupConfig ->
+            is InternalAction.FetchAppStartupConfig ->
                 handleFetchAppStartupConfig(action, ::onNewMessage)
             is Action.IdentifyUserInSentry ->
                 sentryInteractor.setUsedId(action.userId)
@@ -87,8 +87,10 @@ internal class AppActionDispatcher(
                 handleUpdateDailyLearningNotificationTime()
             is Action.SendPushNotificationsToken ->
                 pushNotificationsInteractor.renewFCMToken()
-            is InternalAction.IdentifyUserInPurchaseSdkAndFetchPaymentAbility ->
-                handleIdentifyUserInPurchaseSdk(action.userId, ::onNewMessage)
+            is InternalAction.IdentifyUserInPurchaseSdk ->
+                identifyUserInPurchaseSDK(action.userId)
+            is InternalAction.FetchPaymentAbility ->
+                onNewMessage(InternalMessage.PaymentAbilityResult(purchaseInteractor.canMakePayments()))
             is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded ->
                 appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
             is InternalAction.FetchSubscription ->
@@ -102,7 +104,7 @@ internal class AppActionDispatcher(
     }
 
     private suspend fun handleFetchAppStartupConfig(
-        action: Action.FetchAppStartupConfig,
+        action: InternalAction.FetchAppStartupConfig,
         onNewMessage: (Message) -> Unit
     ) {
         val isAuthorized =
@@ -126,7 +128,15 @@ internal class AppActionDispatcher(
                 val profile = profileDeferred.await().getOrThrow()
                 val subscription = subscriptionDeferred.await()
 
-                val canMakePayments = isAuthorized && identifyUserInPurchaseSDKAndFetchPaymentAbility(profile.id)
+                val canMakePayments = if (isAuthorized) {
+                    identifyUserInPurchaseSDK(profile.id)
+                        .fold(
+                            onSuccess = { purchaseInteractor.canMakePayments() },
+                            onFailure = { false }
+                        )
+                } else {
+                    false
+                }
 
                 sentryInteractor.addBreadcrumb(
                     HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
@@ -186,25 +196,14 @@ internal class AppActionDispatcher(
             }
     }
 
-    private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long, onNewMessage: (Message) -> Unit) {
-        onNewMessage(
-            InternalMessage.PaymentAbilityResult(
-                identifyUserInPurchaseSDKAndFetchPaymentAbility(userId)
-            )
-        )
-    }
-
-    private suspend fun identifyUserInPurchaseSDKAndFetchPaymentAbility(userId: Long): Boolean {
+    private suspend fun identifyUserInPurchaseSDK(userId: Long): Result<Unit> =
         purchaseInteractor
             .login(userId)
             .onFailure {
                 logger.e(it) {
                     "Failed to login user in the purchase sdk"
                 }
-                return false
             }
-        return purchaseInteractor.canMakePayments()
-    }
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
         fetchSubscription()?.let {

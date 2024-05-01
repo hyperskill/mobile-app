@@ -42,7 +42,7 @@ internal class AppReducer(
             is Message.Initialize -> {
                 if (state is State.Idle || (state is State.NetworkError && message.forceUpdate)) {
                     State.Loading to setOf(
-                        Action.FetchAppStartupConfig(message.pushNotificationData),
+                        InternalAction.FetchAppStartupConfig(message.pushNotificationData),
                         Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded
                     )
                 } else {
@@ -211,12 +211,12 @@ internal class AppReducer(
     private fun handleAppBecomesActive(state: State): ReducerResult =
         if (state is State.Ready) {
             state.incrementAppShowsCount() to
-                if (shouldShowPaywall(state)) {
-                    setOf(
-                        Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE)
-                    )
-                } else {
-                    emptySet()
+                when {
+                    shouldShowPaywall(state) ->
+                        setOf(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
+                    // Fetch actual payment ability state if it's not possible to male payment at the moment
+                    !state.canMakePayments -> setOf(InternalAction.FetchPaymentAbility)
+                    else -> emptySet()
                 }
         } else {
             state to emptySet()
@@ -340,7 +340,7 @@ internal class AppReducer(
     private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
         setOf(
             InternalAction.FetchSubscription,
-            InternalAction.IdentifyUserInPurchaseSdkAndFetchPaymentAbility(userId = profile.id),
+            InternalAction.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.IdentifyUserInSentry(userId = profile.id),
             Action.UpdateDailyLearningNotificationTime,
             Action.SendPushNotificationsToken
