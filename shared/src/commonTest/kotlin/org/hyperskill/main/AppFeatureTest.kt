@@ -35,7 +35,8 @@ class AppFeatureTest {
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = false, trackId = 1),
                 notificationData = null,
-                subscription = null
+                subscription = null,
+                canMakePayments = false
             )
         )
         assertTrue {
@@ -53,7 +54,8 @@ class AppFeatureTest {
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = true),
                 notificationData = null,
-                subscription = null
+                subscription = null,
+                canMakePayments = false
             )
         )
         assertNoStreakRecoveryActions(actions)
@@ -66,6 +68,7 @@ class AppFeatureTest {
             AppFeature.Message.FetchAppStartupConfigSuccess(
                 profile = Profile.stub(isGuest = true, trackId = 1),
                 subscription = null,
+                canMakePayments = false,
                 notificationData = PushNotificationData(
                     typeString = PushNotificationType.STREAK_NEW.name,
                     categoryString = PushNotificationCategory.CONTINUE_LEARNING.backendName!!
@@ -94,7 +97,8 @@ class AppFeatureTest {
                     featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to true)
                 ),
                 subscription = Subscription.stub(SubscriptionType.FREEMIUM),
-                notificationData = null
+                notificationData = null,
+                canMakePayments = false
             )
         )
         assertContains(
@@ -121,7 +125,8 @@ class AppFeatureTest {
                             featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to true)
                         ),
                         subscription = Subscription.stub(subscriptionType),
-                        notificationData = null
+                        notificationData = null,
+                        canMakePayments = true
                     )
                 )
                 assertNoPaywallViewAction(actions)
@@ -134,7 +139,8 @@ class AppFeatureTest {
             isAuthorized = true,
             isMobileLeaderboardsEnabled = false,
             subscription = Subscription.stub(SubscriptionType.FREEMIUM),
-            isMobileOnlySubscriptionEnabled = true
+            isMobileOnlySubscriptionEnabled = true,
+            canMakePayments = false
         )
         for (i in 1..AppReducer.APP_SHOWS_COUNT_TILL_PAYWALL + 1) {
             val (newState, actions) = appReducer.reduce(
@@ -167,7 +173,8 @@ class AppFeatureTest {
                     featuresMap = mapOf(FeatureKeys.MOBILE_ONLY_SUBSCRIPTION to false)
                 ),
                 subscription = Subscription.stub(SubscriptionType.FREEMIUM),
-                notificationData = null
+                notificationData = null,
+                canMakePayments = true
             )
         )
         assertNoPaywallViewAction(actions)
