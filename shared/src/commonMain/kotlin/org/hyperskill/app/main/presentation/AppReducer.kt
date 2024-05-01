@@ -72,7 +72,8 @@ internal class AppReducer(
                     State.Ready(
                         isAuthorized = false,
                         isMobileLeaderboardsEnabled = false,
-                        isMobileOnlySubscriptionEnabled = false
+                        isMobileOnlySubscriptionEnabled = false,
+                        canMakePayments = false
                     ) to getDeauthorizedUserActions() + setOf(navigateToViewAction)
                 } else {
                     null
@@ -99,6 +100,7 @@ internal class AppReducer(
                 handleSubscriptionChanged(state, message)
             is Message.IsPaywallShownChanged ->
                 handleIsPaywallShownChanged(state, message)
+            is InternalMessage.PaymentAbilityResult -> handlePaymentAbilityResult(state, message)
         } ?: (state to emptySet())
 
     private fun handleFetchAppStartupConfigSuccess(
@@ -124,7 +126,8 @@ internal class AppReducer(
                 streakRecoveryState = streakRecoveryState,
                 appShowsCount = 0, // This is a hack to show paywall on the first app start
                 subscription = message.subscription,
-                isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled
+                isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled,
+                canMakePayments = message.canMakePayments
             )
 
             val actions: Set<Action> =
@@ -189,7 +192,8 @@ internal class AppReducer(
             val authState = State.Ready(
                 isAuthorized = true,
                 isMobileLeaderboardsEnabled = message.profile.features.isMobileLeaderboardsEnabled,
-                isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled
+                isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled,
+                canMakePayments = false
             )
             val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
                 WelcomeOnboardingFeature.State(),
@@ -221,6 +225,7 @@ internal class AppReducer(
     private fun shouldShowPaywall(state: State.Ready): Boolean =
         state.isAuthorized &&
             state.isMobileOnlySubscriptionEnabled &&
+            state.canMakePayments &&
             state.subscription?.isFreemium == true &&
             !state.isPaywallShown &&
             state.appShowsCount % APP_SHOWS_COUNT_TILL_PAYWALL == 0
@@ -324,7 +329,6 @@ internal class AppReducer(
     ): Set<Action> =
         setOfNotNull(
             Action.IdentifyUserInSentry(userId = profileId),
-            Action.IdentifyUserInPurchaseSdk(userId = profileId),
             subscription?.let(InternalAction::RefreshSubscriptionOnExpiration),
             Action.UpdateDailyLearningNotificationTime,
             Action.SendPushNotificationsToken
@@ -336,8 +340,8 @@ internal class AppReducer(
     private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
         setOf(
             InternalAction.FetchSubscription,
+            InternalAction.IdentifyUserInPurchaseSdkAndFetchPaymentAbility(userId = profile.id),
             Action.IdentifyUserInSentry(userId = profile.id),
-            Action.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.UpdateDailyLearningNotificationTime,
             Action.SendPushNotificationsToken
         )
@@ -366,6 +370,16 @@ internal class AppReducer(
     ): ReducerResult =
         if (state is State.Ready) {
             state.copy(isPaywallShown = message.isPaywallShown) to emptySet()
+        } else {
+            state to emptySet()
+        }
+
+    private fun handlePaymentAbilityResult(
+        state: State,
+        message: InternalMessage.PaymentAbilityResult
+    ): ReducerResult =
+        if (state is State.Ready) {
+            state.copy(canMakePayments = message.canMakePayments) to emptySet()
         } else {
             state to emptySet()
         }

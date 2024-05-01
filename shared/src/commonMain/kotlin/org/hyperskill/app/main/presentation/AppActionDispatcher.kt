@@ -13,6 +13,8 @@ import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
+import org.hyperskill.app.main.presentation.AppFeature.InternalAction
+import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
@@ -68,7 +70,7 @@ internal class AppActionDispatcher(
             .changes
             .distinctUntilChanged()
             .onEach { subscription ->
-                onNewMessage(AppFeature.InternalMessage.SubscriptionChanged(subscription))
+                onNewMessage(InternalMessage.SubscriptionChanged(subscription))
             }
             .launchIn(actionScope)
     }
@@ -85,15 +87,15 @@ internal class AppActionDispatcher(
                 handleUpdateDailyLearningNotificationTime()
             is Action.SendPushNotificationsToken ->
                 pushNotificationsInteractor.renewFCMToken()
-            is Action.IdentifyUserInPurchaseSdk ->
-                handleIdentifyUserInPurchaseSdk(action.userId)
+            is InternalAction.IdentifyUserInPurchaseSdkAndFetchPaymentAbility ->
+                handleIdentifyUserInPurchaseSdk(action.userId, ::onNewMessage)
             is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded ->
                 appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
-            is AppFeature.InternalAction.FetchSubscription ->
+            is InternalAction.FetchSubscription ->
                 handleFetchSubscription(::onNewMessage)
-            is AppFeature.InternalAction.RefreshSubscriptionOnExpiration ->
+            is InternalAction.RefreshSubscriptionOnExpiration ->
                 subscriptionsInteractor.refreshSubscriptionOnExpirationIfNeeded(action.subscription)
-            is AppFeature.InternalAction.CancelSubscriptionRefresh ->
+            is InternalAction.CancelSubscriptionRefresh ->
                 subscriptionsInteractor.cancelSubscriptionRefresh()
             else -> {}
         }
@@ -124,6 +126,8 @@ internal class AppActionDispatcher(
                 val profile = profileDeferred.await().getOrThrow()
                 val subscription = subscriptionDeferred.await()
 
+                val canMakePayments = isAuthorized && identifyUserInPurchaseSDKAndFetchPaymentAbility(profile.id)
+
                 sentryInteractor.addBreadcrumb(
                     HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatusSuccess()
                 )
@@ -131,7 +135,8 @@ internal class AppActionDispatcher(
                 Message.FetchAppStartupConfigSuccess(
                     profile = profile,
                     subscription = subscription,
-                    notificationData = action.pushNotificationData
+                    notificationData = action.pushNotificationData,
+                    canMakePayments = canMakePayments
                 )
             }
         }.let(onNewMessage)
@@ -181,20 +186,30 @@ internal class AppActionDispatcher(
             }
     }
 
-    private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long) {
+    private suspend fun handleIdentifyUserInPurchaseSdk(userId: Long, onNewMessage: (Message) -> Unit) {
+        onNewMessage(
+            InternalMessage.PaymentAbilityResult(
+                identifyUserInPurchaseSDKAndFetchPaymentAbility(userId)
+            )
+        )
+    }
+
+    private suspend fun identifyUserInPurchaseSDKAndFetchPaymentAbility(userId: Long): Boolean {
         purchaseInteractor
             .login(userId)
             .onFailure {
                 logger.e(it) {
                     "Failed to login user in the purchase sdk"
                 }
+                return false
             }
+        return purchaseInteractor.canMakePayments()
     }
 
     private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
         fetchSubscription()?.let {
             onNewMessage(
-                AppFeature.InternalMessage.SubscriptionChanged(it)
+                InternalMessage.SubscriptionChanged(it)
             )
         }
     }
