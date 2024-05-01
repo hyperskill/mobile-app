@@ -18,6 +18,8 @@ interface PurchaseManager {
      */
     suspend fun login(userId: Long): Result<Unit>
 
+    suspend fun canMakePayments(): Boolean
+
     /**
      * Makes purchase of the product with [productId].
      */
