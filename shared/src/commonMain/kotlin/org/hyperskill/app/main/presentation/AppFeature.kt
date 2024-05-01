@@ -162,13 +162,13 @@ object AppFeature {
 
         object FetchSubscription : InternalAction
 
-        data class IdentifyUserInPurchaseSdk(val userId: Long): InternalAction
+        data class IdentifyUserInPurchaseSdk(val userId: Long) : InternalAction
 
         /**
          * Check whether it's possible to make payment from user's device and account.
          * @see [InternalMessage.PaymentAbilityResult]
          */
-        object FetchPaymentAbility: InternalAction
+        object FetchPaymentAbility : InternalAction
 
         data class RefreshSubscriptionOnExpiration(val subscription: Subscription) : InternalAction
 
