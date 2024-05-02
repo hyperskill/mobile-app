@@ -7,7 +7,6 @@ import org.hyperskill.app.analytic.data.source.AnalyticHyperskillCacheDataSource
 import org.hyperskill.app.analytic.data.source.AnalyticHyperskillRemoteDataSource
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEngine
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEngineImpl
-import org.hyperskill.app.analytic.domain.processor.AnalyticHyperskillEventProcessor
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 import org.hyperskill.app.analytic.remote.AnalyticHyperskillRemoteDataSourceImpl
 import org.hyperskill.app.core.injection.AppGraph
@@ -27,15 +26,9 @@ internal class HyperskillAnalyticEngineComponentImpl(appGraph: AppGraph) : Hyper
             hyperskillCacheDataSource
         )
 
-    private val hyperskillEventProcessor =
-        AnalyticHyperskillEventProcessor(appGraph.commonComponent.platform)
-
     override val hyperskillAnalyticEngine: HyperskillAnalyticEngine =
         HyperskillAnalyticEngineImpl(
             authInteractor = appGraph.authComponent.authInteractor,
-            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
-            notificationInteractor = appGraph.buildNotificationComponent().notificationInteractor,
-            analyticHyperskillRepository = hyperskillRepository,
-            analyticHyperskillEventProcessor = hyperskillEventProcessor
+            analyticHyperskillRepository = hyperskillRepository
         )
 }

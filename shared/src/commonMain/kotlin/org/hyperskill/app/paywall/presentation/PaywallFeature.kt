@@ -30,6 +30,7 @@ object PaywallFeature {
         object Error : ViewStateContent
         data class Content(
             val buyButtonText: String,
+            val priceText: String?,
             val isContinueWithLimitsButtonVisible: Boolean
         ) : ViewStateContent
 
@@ -109,6 +110,6 @@ object PaywallFeature {
             val actualSubscriptionType: SubscriptionType
         ) : InternalAction
 
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+        class LogAnalyticEvent(vararg val analyticEvents: AnalyticEvent) : InternalAction
     }
 }

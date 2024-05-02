@@ -10,7 +10,17 @@ internal class CurrentSubscriptionStateHolderImpl(
     private val json: Json,
     private val settings: Settings
 ) : CurrentSubscriptionStateHolder {
-    override suspend fun getState(): Subscription? =
+
+    private var cachedSubscription: Subscription? = null
+
+    override suspend fun getState(): Subscription? {
+        if (cachedSubscription == null) {
+            cachedSubscription = readSubscriptionFromSettings()
+        }
+        return cachedSubscription
+    }
+
+    private fun readSubscriptionFromSettings(): Subscription? =
         if (settings.contains(SubscriptionCacheKeys.CURRENT_SUBSCRIPTION)) {
             json.decodeFromString(
                 Subscription.serializer(),
@@ -21,6 +31,7 @@ internal class CurrentSubscriptionStateHolderImpl(
         }
 
     override suspend fun setState(newState: Subscription) {
+        this.cachedSubscription = newState
         settings.putString(
             SubscriptionCacheKeys.CURRENT_SUBSCRIPTION,
             json.encodeToString(Subscription.serializer(), newState)
@@ -28,6 +39,7 @@ internal class CurrentSubscriptionStateHolderImpl(
     }
 
     override fun resetState() {
+        this.cachedSubscription = null
         settings.remove(SubscriptionCacheKeys.CURRENT_SUBSCRIPTION)
     }
 }

@@ -11,11 +11,11 @@ import org.hyperskill.app.analytic.domain.model.apps_flyer.AppsFlyerAnalyticEven
  */
 class NotificationsOnboardingCompletionAppsFlyerAnalyticEvent(
     isSuccess: Boolean
-) : AppsFlyerAnalyticEvent(name = "af_onb_completion") {
+) : AppsFlyerAnalyticEvent(
+    name = "af_onb_completion",
+    params = mapOf(PARAM_SUCCESS to if (isSuccess) "yes" else "no")
+) {
     companion object {
         private const val PARAM_SUCCESS = "af_success"
     }
-
-    override val params: Map<String, Any> =
-        mapOf(PARAM_SUCCESS to if (isSuccess) "yes" else "no")
 }

@@ -1,4 +1,4 @@
-package org.hyperskill.app.logging.inject
+package org.hyperskill.app.logging.injection
 
 import co.touchlab.kermit.Logger
 
