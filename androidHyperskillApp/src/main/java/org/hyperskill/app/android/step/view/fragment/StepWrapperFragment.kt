@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
@@ -16,6 +17,7 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.step.domain.model.Step
@@ -105,8 +107,9 @@ class StepWrapperFragment :
 
         if (stepState is StepFeature.StepState.Data) {
             initStepContainer(stepState)
+            parentOfType(StepToolbarHost::class.java)?.renderTopicProgress(state.stepToolbarViewState)
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
-                ?.render(stepState.stepCompletionState.isPracticingLoading)
+                ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
         }
     }
 

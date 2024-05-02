@@ -1,5 +1,8 @@
 package org.hyperskill.app.android.step.view.model
 
+import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
+
 interface StepToolbarHost {
-    fun render(viewState: StepToolbarViewState)
+    fun renderToolbarContent(viewState: StepToolbarContentViewState)
+    fun renderTopicProgress(viewState: StepToolbarFeature.ViewState)
 }

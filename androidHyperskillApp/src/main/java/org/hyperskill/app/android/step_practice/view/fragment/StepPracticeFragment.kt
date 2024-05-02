@@ -45,9 +45,9 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
         }
     }
 
-    override fun render(isPracticingLoading: Boolean) {
+    override fun renderPracticeLoading(isPracticingLoading: Boolean) {
         (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
-            ?.render(isPracticingLoading)
+            ?.renderPracticeLoading(isPracticingLoading)
     }
 
     override fun onLimitsClicked() {

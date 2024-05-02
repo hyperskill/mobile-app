@@ -1,6 +1,8 @@
 package org.hyperskill.app.android.step_theory.view.fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,8 +25,8 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
-import org.hyperskill.app.android.step.view.model.StepToolbarViewState
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
 import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -42,12 +44,15 @@ class StepTheoryFragment :
     MenuProvider {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
+
         fun newInstance(step: Step, stepRoute: StepRoute, isPracticingAvailable: Boolean): Fragment =
             StepTheoryFragment().apply {
                 this.step = step
                 this.stepRoute = stepRoute
                 this.isPracticingAvailable = isPracticingAvailable
             }
+
+        private val mainHandler = Handler(Looper.getMainLooper())
     }
 
     private lateinit var resourceProvider: ResourceProvider
@@ -83,7 +88,8 @@ class StepTheoryFragment :
             )
         }
 
-        parentOfType(StepToolbarHost::class.java)?.render(StepToolbarViewState.Theory(step.title))
+        parentOfType(StepToolbarHost::class.java)
+            ?.renderToolbarContent(StepToolbarContentViewState.Theory(step.title))
 
         setupStartPracticeButton(isPracticingAvailable)
 
@@ -137,7 +143,7 @@ class StepTheoryFragment :
         }
     }
 
-    override fun render(isPracticingLoading: Boolean) {
+    override fun renderPracticeLoading(isPracticingLoading: Boolean) {
         if (isResumed) {
             with(viewBinding) {
                 stepTheoryPracticeActionShimmer.isVisible = isPracticingLoading

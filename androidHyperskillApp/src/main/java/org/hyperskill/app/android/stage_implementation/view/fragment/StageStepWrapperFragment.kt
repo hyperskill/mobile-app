@@ -120,7 +120,7 @@ class StageStepWrapperFragment :
 
         if (stepState is StepFeature.StepState.Data) {
             (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
-                ?.render(stepState.stepCompletionState.isPracticingLoading)
+                ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
             initStepTheoryFragment(stepState.step, stepRoute)
             initStepQuizFragment(stepState.step, stepRoute)
         }

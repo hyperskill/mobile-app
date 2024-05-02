@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <include
         android:id="@+id/stepAppBar"
         layout="@layout/view_step_appbar"/>
+
+    <View
+        android:id="@+id/stepTopicProgressSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_on_surface_alpha_12"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/stepTopicProgressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:trackThickness="8dp"
+        android:max="100"
+        android:progress="0"
+        app:trackColor="@color/color_on_surface_alpha_9"
+        app:indicatorDirectionLinear="startToEnd"
+        android:visibility="gone"
+        tools:progress="50"
+        tools:visibility="visible"/>
 
     <FrameLayout
         android:id="@+id/stepWrapperContainer"
@@ -15,4 +39,4 @@
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

@@ -7,6 +7,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import kotlin.math.roundToInt
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
@@ -14,10 +16,12 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
-import org.hyperskill.app.android.step.view.model.StepToolbarViewState
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
+import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost {
 
@@ -76,24 +80,50 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
             }
     }
 
-    override fun render(viewState: StepToolbarViewState) {
+    override fun renderToolbarContent(viewState: StepToolbarContentViewState) {
         when (viewState) {
-            is StepToolbarViewState.Practice -> {
+            is StepToolbarContentViewState.Practice -> {
                 val stepQuizToolbarViewState = viewState.stepQuizToolbarViewState
                 viewBinding.stepAppBar.stepTheoryToolbarTitle.isVisible = false
                 viewBinding.stepAppBar.stepQuizLimitsTextView.isVisible =
                     stepQuizToolbarViewState is StepQuizToolbarFeature.ViewState.Content.Visible
                 if (stepQuizToolbarViewState is StepQuizToolbarFeature.ViewState.Content.Visible) {
-                    viewBinding.stepAppBar.stepQuizLimitsTextView.text = stepQuizToolbarViewState.stepsLimitLabel
+                    viewBinding.stepAppBar.stepQuizLimitsTextView.setTextIfChanged(
+                        stepQuizToolbarViewState.stepsLimitLabel
+                    )
                 }
             }
-            is StepToolbarViewState.Theory -> {
+            is StepToolbarContentViewState.Theory -> {
                 viewBinding.stepAppBar.stepQuizLimitsTextView.isVisible = false
                 with(viewBinding.stepAppBar.stepTheoryToolbarTitle) {
                     isVisible = true
-                    text = viewState.title
+                    setTextIfChanged(viewState.title)
                 }
             }
+        }
+    }
+
+    @Suppress("MagicNumber")
+    override fun renderTopicProgress(viewState: StepToolbarFeature.ViewState) {
+        val isProgressVisible = viewState is StepToolbarFeature.ViewState.Content
+        viewBinding.stepTopicProgressSeparator.isVisible = isProgressVisible
+        viewBinding.stepTopicProgressIndicator.isVisible = isProgressVisible
+        if (viewState is StepToolbarFeature.ViewState.Content) {
+            setProgress(viewBinding.stepTopicProgressIndicator, viewState.progress)
+        }
+    }
+
+    @Suppress("MagicNumber")
+    private fun setProgress(
+        progressIndicator: LinearProgressIndicator,
+        progress: Float
+    ) {
+        val normalProgress = (progress * 100).roundToInt()
+        if (normalProgress != progressIndicator.progress) {
+            progressIndicator.setProgressCompat(
+                /* progress = */ normalProgress,
+                /* animated = */ normalProgress > progressIndicator.progress
+            )
         }
     }
 }
