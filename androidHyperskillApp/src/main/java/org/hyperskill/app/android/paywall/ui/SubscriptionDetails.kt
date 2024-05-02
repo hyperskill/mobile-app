@@ -20,7 +20,9 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.R as SharedR
 
 @Composable
-fun SubscriptionDetails(modifier: Modifier = Modifier) {
+fun SubscriptionDetails(
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(6.dp)
