@@ -3,6 +3,7 @@ package org.hyperskill.app.paywall.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -33,6 +34,7 @@ internal object PaywallFeatureBuilder {
         resourceProvider: ResourceProvider,
         subscriptionsRepository: SubscriptionsRepository,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
+        platformType: PlatformType,
         sentryInteractor: SentryInteractor,
         logger: Logger,
         buildVariant: BuildVariant
@@ -53,7 +55,7 @@ internal object PaywallFeatureBuilder {
             logger = logger.withTag(LOG_TAG)
         )
 
-        val viewStateMapper = PaywallViewStateMapper(resourceProvider)
+        val viewStateMapper = PaywallViewStateMapper(resourceProvider, platformType)
 
         return ReduxFeature(
             initialState = PaywallFeature.State.Idle,

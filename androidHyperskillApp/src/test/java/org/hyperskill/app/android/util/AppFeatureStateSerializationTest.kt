@@ -18,7 +18,8 @@ class AppFeatureStateSerializationTest {
                     AppFeature.State.Ready(
                         isAuthorized = true,
                         isMobileLeaderboardsEnabled = true,
-                        isMobileOnlySubscriptionEnabled = true
+                        isMobileOnlySubscriptionEnabled = true,
+                        canMakePayments = true
                     )
                 else -> throw IllegalStateException("Unknown state class: $stateClass. Please add it to the test.")
             }

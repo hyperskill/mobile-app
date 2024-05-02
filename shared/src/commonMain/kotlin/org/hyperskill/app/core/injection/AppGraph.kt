@@ -22,7 +22,7 @@ import org.hyperskill.app.leaderboard.screen.injection.LeaderboardScreenComponen
 import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponent
-import org.hyperskill.app.logging.inject.LoggerComponent
+import org.hyperskill.app.logging.injection.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent

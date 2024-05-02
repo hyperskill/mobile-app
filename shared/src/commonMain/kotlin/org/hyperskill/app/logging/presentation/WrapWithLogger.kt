@@ -8,7 +8,7 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 /**
  * Log reduce results (new state & actions) when application is not in the release mode
  */
-fun <State, Message, Action> StateReducer<State, Message, Action>.wrapWithLogger(
+internal fun <State, Message, Action> StateReducer<State, Message, Action>.wrapWithLogger(
     buildVariant: BuildVariant,
     logger: Logger,
     tag: String,

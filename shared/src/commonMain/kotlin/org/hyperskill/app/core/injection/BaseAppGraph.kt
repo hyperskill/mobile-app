@@ -41,8 +41,8 @@ import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataCo
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponentImpl
-import org.hyperskill.app.logging.inject.LoggerComponent
-import org.hyperskill.app.logging.inject.LoggerComponentImpl
+import org.hyperskill.app.logging.injection.LoggerComponent
+import org.hyperskill.app.logging.injection.LoggerComponentImpl
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponentImpl
 import org.hyperskill.app.main.injection.MainComponent
