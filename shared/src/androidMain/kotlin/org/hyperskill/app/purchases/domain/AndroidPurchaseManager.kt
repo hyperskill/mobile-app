@@ -49,14 +49,16 @@ class AndroidPurchaseManager(
         }
 
     @Suppress("TooGenericExceptionCaught")
-    override suspend fun canMakePayments(): Boolean =
-        suspendCoroutine { continuation ->
-            try {
-                Purchases.canMakePayments(application) { result ->
-                    continuation.resume(result)
+    override suspend fun canMakePayments(): Result<Boolean> =
+        runCatching {
+            suspendCoroutine { continuation ->
+                try {
+                    Purchases.canMakePayments(application) { result ->
+                        continuation.resume(result)
+                    }
+                } catch (e: Exception) {
+                    continuation.resumeWithException(e)
                 }
-            } catch (e: Exception) {
-                continuation.resumeWithException(e)
             }
         }
 

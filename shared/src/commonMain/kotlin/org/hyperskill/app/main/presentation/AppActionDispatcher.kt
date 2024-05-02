@@ -90,7 +90,7 @@ internal class AppActionDispatcher(
             is InternalAction.IdentifyUserInPurchaseSdk ->
                 identifyUserInPurchaseSDK(action.userId)
             is InternalAction.FetchPaymentAbility ->
-                onNewMessage(InternalMessage.PaymentAbilityResult(purchaseInteractor.canMakePayments()))
+                handleFetchPaymentAbility(::onNewMessage)
             is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded ->
                 appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
             is InternalAction.FetchSubscription ->
@@ -133,7 +133,11 @@ internal class AppActionDispatcher(
                     // Otherwise user will be identified later after authorization.
                     identifyUserInPurchaseSDK(profile.id)
                         .fold(
-                            onSuccess = { purchaseInteractor.canMakePayments() },
+                            onSuccess = {
+                                purchaseInteractor
+                                    .canMakePayments()
+                                    .getOrDefault(false)
+                            },
                             onFailure = { false }
                         )
                 } else {
@@ -196,6 +200,16 @@ internal class AppActionDispatcher(
                     "AppActionDispatcher: failed to update timezone\n$it"
                 )
             }
+    }
+
+    private suspend fun handleFetchPaymentAbility(onNewMessage: (Message) -> Unit) {
+        onNewMessage(
+            InternalMessage.PaymentAbilityResult(
+                canMakePayments = purchaseInteractor
+                    .canMakePayments()
+                    .getOrDefault(false)
+            )
+        )
     }
 
     private suspend fun identifyUserInPurchaseSDK(userId: Long): Result<Unit> =

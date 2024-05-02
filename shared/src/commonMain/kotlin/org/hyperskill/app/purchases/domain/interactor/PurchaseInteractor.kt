@@ -21,7 +21,7 @@ class PurchaseInteractor(
             purchaseManager.login(userId)
         }
 
-    suspend fun canMakePayments(): Boolean =
+    suspend fun canMakePayments(): Result<Boolean> =
         purchaseManager.canMakePayments()
 
     suspend fun purchaseMobileOnlySubscription(

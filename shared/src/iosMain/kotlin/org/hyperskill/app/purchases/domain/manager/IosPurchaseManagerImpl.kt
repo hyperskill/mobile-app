@@ -20,8 +20,8 @@ internal class IosPurchaseManagerImpl(
             .login(userId)
             .toKotlinResult()
 
-    override suspend fun canMakePayments(): Boolean =
-        true
+    override suspend fun canMakePayments(): Result<Boolean> =
+        Result.success(true)
 
     override suspend fun purchase(
         productId: String,
