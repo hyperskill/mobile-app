@@ -193,7 +193,8 @@ class AppFeatureTest {
         val initialState = AppFeature.State.Ready(
             isAuthorized = true,
             isMobileLeaderboardsEnabled = false,
-            isMobileOnlySubscriptionEnabled = true
+            isMobileOnlySubscriptionEnabled = true,
+            canMakePayments = true
         )
 
         val (_, actions) = appReducer.reduce(
@@ -213,7 +214,8 @@ class AppFeatureTest {
         val initialState = AppFeature.State.Ready(
             isAuthorized = false,
             isMobileLeaderboardsEnabled = false,
-            isMobileOnlySubscriptionEnabled = true
+            isMobileOnlySubscriptionEnabled = true,
+            canMakePayments = true
         )
 
         val (_, actions) = appReducer.reduce(
