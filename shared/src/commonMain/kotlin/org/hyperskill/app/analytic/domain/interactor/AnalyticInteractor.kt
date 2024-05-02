@@ -62,10 +62,15 @@ class AnalyticInteractor(
             val subscriptionDeferred = async {
                 currentSubscriptionStateRepository.getState(forceUpdate = false).getOrNull()
             }
+
+            val profile = profileDeferred.await()
+            val subscription = subscriptionDeferred.await()
+
             AnalyticEventUserProperties(
-                userId = profileDeferred.await()?.id,
-                subscriptionType = subscriptionDeferred.await()?.type,
-                subscriptionStatus = subscriptionDeferred.await()?.status,
+                userId = profile?.id,
+                features = profile?.features?.origin,
+                subscriptionType = subscription?.type,
+                subscriptionStatus = subscription?.status,
                 isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
                 isATTPermissionGranted = isATTPermissionGranted,
                 screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT,

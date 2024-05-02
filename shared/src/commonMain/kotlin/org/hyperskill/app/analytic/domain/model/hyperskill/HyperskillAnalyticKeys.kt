@@ -17,4 +17,5 @@ internal object HyperskillAnalyticKeys {
     const val PARAM_IS_NOTIFICATIONS_ALLOW = "is_notifications_allow"
     const val PARAM_SUBSCRIPTION_TYPE = "subscription_type"
     const val PARAM_SUBSCRIPTION_STATUS = "subscription_status"
+    const val PARAM_FEATURES = "features"
 }
