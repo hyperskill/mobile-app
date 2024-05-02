@@ -30,6 +30,7 @@ object AppFeature {
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
             internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
             internal val isMobileOnlySubscriptionEnabled: Boolean,
+            internal val canMakePayments: Boolean,
             internal val subscription: Subscription? = null,
             internal val appShowsCount: Int = 1,
             internal val isPaywallShown: Boolean = false
@@ -55,7 +56,8 @@ object AppFeature {
         data class FetchAppStartupConfigSuccess(
             val profile: Profile,
             val subscription: Subscription?,
-            val notificationData: PushNotificationData?
+            val notificationData: PushNotificationData?,
+            val canMakePayments: Boolean
         ) : Message
         object FetchAppStartupConfigError : Message
 
@@ -91,16 +93,14 @@ object AppFeature {
     }
 
     internal sealed interface InternalMessage : Message {
+        data class PaymentAbilityResult(val canMakePayments: Boolean) : InternalMessage
+
         data class SubscriptionChanged(
             val subscription: Subscription
         ) : InternalMessage
     }
 
     sealed interface Action {
-        data class FetchAppStartupConfig(
-            val pushNotificationData: PushNotificationData?
-        ) : Action
-
         object UpdateDailyLearningNotificationTime : Action
 
         object SendPushNotificationsToken : Action
@@ -125,8 +125,6 @@ object AppFeature {
          */
         data class IdentifyUserInSentry(val userId: Long) : Action
         object ClearUserInSentry : Action
-
-        data class IdentifyUserInPurchaseSdk(val userId: Long) : Action
 
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
@@ -156,7 +154,21 @@ object AppFeature {
     }
 
     internal sealed interface InternalAction : Action {
+        /**
+         * Fetch data required for the App startup
+         * and identify user in Purchase SDK if the user has already authorized.
+         */
+        data class FetchAppStartupConfig(val pushNotificationData: PushNotificationData?) : InternalAction
+
         data class FetchSubscription(val forceUpdate: Boolean) : InternalAction
+
+        data class IdentifyUserInPurchaseSdk(val userId: Long) : InternalAction
+
+        /**
+         * Check whether it's possible to make payment from user's device and account.
+         * @see [InternalMessage.PaymentAbilityResult]
+         */
+        object FetchPaymentAbility : InternalAction
 
         data class RefreshSubscriptionOnExpiration(val subscription: Subscription) : InternalAction
 
