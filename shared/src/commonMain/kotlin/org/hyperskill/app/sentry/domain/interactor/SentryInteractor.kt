@@ -30,8 +30,8 @@ class SentryInteractor(
         sentryManager.addBreadcrumb(breadcrumb)
     }
 
-    fun captureMessage(message: String, level: HyperskillSentryLevel) {
-        sentryManager.captureMessage(message, level)
+    fun captureMessage(message: String, level: HyperskillSentryLevel, data: Map<String, Any> = emptyMap()) {
+        sentryManager.captureMessage(message, level, data)
     }
 
     fun captureErrorMessage(message: String, data: Map<String, Any> = emptyMap()) {
