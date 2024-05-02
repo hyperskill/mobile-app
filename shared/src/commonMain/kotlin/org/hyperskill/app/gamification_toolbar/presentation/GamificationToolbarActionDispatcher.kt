@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.gamification_toolbar.domain.repository.CurrentGamificationToolbarDataStateRepository
 import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarFeature.Action
@@ -95,11 +96,11 @@ class GamificationToolbarActionDispatcher(
         ) {
             coroutineScope {
                 val toolbarDataDeferred = async {
-                    currentGamificationToolbarDataStateRepository.getState(forceUpdate = action.forceUpdate)
+                    currentGamificationToolbarDataStateRepository.getStateWithSource(forceUpdate = action.forceUpdate)
                 }
 
                 val subscriptionDeferred = async {
-                    currentSubscriptionStateRepository.getState(forceUpdate = action.forceUpdate)
+                    currentSubscriptionStateRepository.getStateWithSource(forceUpdate = action.forceUpdate)
                 }
 
                 val chargeLimitsStrategyDeferred = async {
@@ -110,11 +111,35 @@ class GamificationToolbarActionDispatcher(
                         }
                 }
 
-                InternalMessage.FetchGamificationToolbarDataSuccess(
-                    gamificationToolbarData = toolbarDataDeferred.await().getOrThrow(),
-                    subscription = subscriptionDeferred.await().getOrThrow(),
-                    chargeLimitsStrategy = chargeLimitsStrategyDeferred.await().getOrThrow()
-                )
+                val gamificationToolbarDataWithSource = toolbarDataDeferred.await().getOrThrow()
+                val subscriptionWithSource = subscriptionDeferred.await().getOrThrow()
+                val chargeLimitsStrategy = chargeLimitsStrategyDeferred.await().getOrThrow()
+
+                // Fetch subscription from remote
+                // if gamification toolbar data is from remote and subscription is from cache.
+                // That means there was no toolbar data in-memory and subscription from disk cache,
+                // so we need to fetch subscription from remote to get the latest data (happens on app launch).
+                val shouldFetchSubscriptionFromRemote = !action.forceUpdate &&
+                    gamificationToolbarDataWithSource.usedDataSourceType == DataSourceType.REMOTE &&
+                    subscriptionWithSource.usedDataSourceType == DataSourceType.CACHE
+
+                if (shouldFetchSubscriptionFromRemote) {
+                    val subscription = currentSubscriptionStateRepository
+                        .getState(forceUpdate = true)
+                        .getOrThrow()
+
+                    InternalMessage.FetchGamificationToolbarDataSuccess(
+                        gamificationToolbarData = gamificationToolbarDataWithSource.state,
+                        subscription = subscription,
+                        chargeLimitsStrategy = chargeLimitsStrategy
+                    )
+                } else {
+                    InternalMessage.FetchGamificationToolbarDataSuccess(
+                        gamificationToolbarData = gamificationToolbarDataWithSource.state,
+                        subscription = subscriptionWithSource.state,
+                        chargeLimitsStrategy = chargeLimitsStrategy
+                    )
+                }
             }
         }.let(onNewMessage)
     }
