@@ -187,4 +187,44 @@ class AppFeatureTest {
             }
         }
     }
+
+    @Test
+    fun `Subscription should be refreshed when user is authorized and app becomes active`() {
+        val initialState = AppFeature.State.Ready(
+            isAuthorized = true,
+            isMobileLeaderboardsEnabled = false,
+            isMobileOnlySubscriptionEnabled = true
+        )
+
+        val (_, actions) = appReducer.reduce(
+            initialState,
+            AppFeature.Message.AppBecomesActive
+        )
+
+        assertTrue {
+            actions.any {
+                it is AppFeature.InternalAction.FetchSubscription
+            }
+        }
+    }
+
+    @Test
+    fun `Subscription should not be refreshed when user is not authorized and app becomes active`() {
+        val initialState = AppFeature.State.Ready(
+            isAuthorized = false,
+            isMobileLeaderboardsEnabled = false,
+            isMobileOnlySubscriptionEnabled = true
+        )
+
+        val (_, actions) = appReducer.reduce(
+            initialState,
+            AppFeature.Message.AppBecomesActive
+        )
+
+        assertTrue {
+            actions.none {
+                it is AppFeature.InternalAction.FetchSubscription
+            }
+        }
+    }
 }

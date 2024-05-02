@@ -160,7 +160,7 @@ object AppFeature {
          */
         data class FetchAppStartupConfig(val pushNotificationData: PushNotificationData?) : InternalAction
 
-        object FetchSubscription : InternalAction
+        data class FetchSubscription(val forceUpdate: Boolean) : InternalAction
 
         data class IdentifyUserInPurchaseSdk(val userId: Long) : InternalAction
 

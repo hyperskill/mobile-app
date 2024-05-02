@@ -210,14 +210,18 @@ internal class AppReducer(
 
     private fun handleAppBecomesActive(state: State): ReducerResult =
         if (state is State.Ready) {
-            state.incrementAppShowsCount() to
+            state.incrementAppShowsCount() to buildSet {
                 when {
                     shouldShowPaywall(state) ->
-                        setOf(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
-                    // Fetch actual payment ability state if it's not possible to male payment at the moment
-                    !state.canMakePayments -> setOf(InternalAction.FetchPaymentAbility)
-                    else -> emptySet()
+                        add(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
+                    // Fetch actual payment ability state if it's not possible to make payment at the moment
+                    !state.canMakePayments && state.subscription?.isFreemium == true ->
+                        add(InternalAction.FetchPaymentAbility)
                 }
+                if (state.isAuthorized) {
+                    add(InternalAction.FetchSubscription(forceUpdate = true))
+                }
+            }
         } else {
             state to emptySet()
         }
@@ -339,7 +343,7 @@ internal class AppReducer(
 
     private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
         setOf(
-            InternalAction.FetchSubscription,
+            InternalAction.FetchSubscription(forceUpdate = false),
             InternalAction.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.IdentifyUserInSentry(userId = profile.id),
             Action.UpdateDailyLearningNotificationTime,

@@ -94,7 +94,7 @@ internal class AppActionDispatcher(
             is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded ->
                 appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
             is InternalAction.FetchSubscription ->
-                handleFetchSubscription(::onNewMessage)
+                handleFetchSubscription(action, ::onNewMessage)
             is InternalAction.RefreshSubscriptionOnExpiration ->
                 subscriptionsInteractor.refreshSubscriptionOnExpirationIfNeeded(action.subscription)
             is InternalAction.CancelSubscriptionRefresh ->
@@ -123,7 +123,7 @@ internal class AppActionDispatcher(
                 sentryInteractor.addBreadcrumb(HyperskillSentryBreadcrumbBuilder.buildAppDetermineUserAccountStatus())
 
                 val profileDeferred = async { appInteractor.fetchProfile(isAuthorized) }
-                val subscriptionDeferred = async { fetchSubscription(isAuthorized) }
+                val subscriptionDeferred = async { fetchSubscription(isAuthorized = isAuthorized) }
 
                 val profile = profileDeferred.await().getOrThrow()
                 val subscription = subscriptionDeferred.await()
@@ -158,10 +158,13 @@ internal class AppActionDispatcher(
         }.let(onNewMessage)
     }
 
-    private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
+    private suspend fun fetchSubscription(
+        isAuthorized: Boolean = true,
+        forceUpdate: Boolean = false
+    ): Subscription? =
         if (isAuthorized) {
             currentSubscriptionStateRepository
-                .getStateWithSource(forceUpdate = false)
+                .getStateWithSource(forceUpdate = forceUpdate)
                 .fold(
                     onSuccess = { (subscription, usedDataSourceType) ->
                         // Fetch subscription from remote
@@ -221,8 +224,11 @@ internal class AppActionDispatcher(
                 }
             }
 
-    private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
-        fetchSubscription()?.let {
+    private suspend fun handleFetchSubscription(
+        action: InternalAction.FetchSubscription,
+        onNewMessage: (Message) -> Unit
+    ) {
+        fetchSubscription(forceUpdate = action.forceUpdate)?.let {
             onNewMessage(
                 InternalMessage.SubscriptionChanged(it)
             )
