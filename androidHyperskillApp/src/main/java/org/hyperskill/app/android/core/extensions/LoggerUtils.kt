@@ -14,7 +14,12 @@ private class LazyLoggerProvider(private val tag: String) : Lazy<Logger> {
 
     private var logger: Logger? = null
     override val value: Logger
-        get() = logger ?: HyperskillApp.graph().loggerComponent.logger.withTag(tag)
+        get() {
+            if (logger == null) {
+                logger = HyperskillApp.graph().loggerComponent.logger.withTag(tag)
+            }
+            return logger!!
+        }
 
     override fun isInitialized(): Boolean =
         logger != null
