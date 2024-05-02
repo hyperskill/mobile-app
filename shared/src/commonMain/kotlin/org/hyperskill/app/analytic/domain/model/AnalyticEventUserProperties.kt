@@ -8,6 +8,7 @@ import ru.nobird.app.core.model.mapOfNotNull
 
 data class AnalyticEventUserProperties(
     val userId: Long?,
+    val features: Map<String, Boolean>?,
     val subscriptionType: SubscriptionType?,
     val subscriptionStatus: SubscriptionStatus?,
     val isNotificationsPermissionGranted: Boolean,
@@ -33,4 +34,5 @@ fun AnalyticEventUserProperties.asMapWithoutUserId(): Map<String, Any> =
             ScreenOrientation.LANDSCAPE -> HyperskillAnalyticKeys.SCREEN_ORIENTATION_VALUE_LANDSCAPE
         },
         HyperskillAnalyticKeys.PARAM_IS_INTERNAL_TESTING to isInternalTesting,
+        HyperskillAnalyticKeys.PARAM_FEATURES to features?.takeIf { it.isNotEmpty() }
     )
