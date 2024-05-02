@@ -206,14 +206,14 @@ internal class AppReducer(
 
     private fun handleAppBecomesActive(state: State): ReducerResult =
         if (state is State.Ready) {
-            state.incrementAppShowsCount() to
+            state.incrementAppShowsCount() to buildSet {
                 if (shouldShowPaywall(state)) {
-                    setOf(
-                        Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE)
-                    )
-                } else {
-                    emptySet()
+                    add(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
                 }
+                if (state.isAuthorized) {
+                    add(InternalAction.FetchSubscription(forceUpdate = true))
+                }
+            }
         } else {
             state to emptySet()
         }
@@ -335,7 +335,7 @@ internal class AppReducer(
 
     private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
         setOf(
-            InternalAction.FetchSubscription,
+            InternalAction.FetchSubscription(forceUpdate = false),
             Action.IdentifyUserInSentry(userId = profile.id),
             Action.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.UpdateDailyLearningNotificationTime,
