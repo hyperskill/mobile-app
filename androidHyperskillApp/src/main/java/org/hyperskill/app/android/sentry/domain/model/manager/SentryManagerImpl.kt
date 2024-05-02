@@ -56,9 +56,9 @@ class SentryManagerImpl(
 
     override fun captureMessage(message: String, level: HyperskillSentryLevel, data: Map<String, Any>) {
         Sentry.captureMessage(message, level.toSentryLevel()) { scope ->
-            scope.span.let {
+            scope.span?.let { span ->
                 data.forEach { (key, value) ->
-                    it?.setData(key, value)
+                    span.setData(key, value)
                 }
             }
         }
