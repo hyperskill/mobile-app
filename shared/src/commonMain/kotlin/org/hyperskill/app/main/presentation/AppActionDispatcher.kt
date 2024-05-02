@@ -129,6 +129,8 @@ internal class AppActionDispatcher(
                 val subscription = subscriptionDeferred.await()
 
                 val canMakePayments = if (isAuthorized) {
+                    // Identify user in the Purchase SDK if user is already authorized.
+                    // Otherwise user will be identified later after authorization.
                     identifyUserInPurchaseSDK(profile.id)
                         .fold(
                             onSuccess = { purchaseInteractor.canMakePayments() },

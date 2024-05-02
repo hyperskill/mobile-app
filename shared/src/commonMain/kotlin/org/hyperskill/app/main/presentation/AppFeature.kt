@@ -156,7 +156,7 @@ object AppFeature {
     internal sealed interface InternalAction : Action {
         /**
          * Fetch data required for the App startup
-         * and identify user in Purchase SDk if user already authorized.
+         * and identify user in Purchase SDK if the user has already authorized.
          */
         data class FetchAppStartupConfig(val pushNotificationData: PushNotificationData?) : InternalAction
 
