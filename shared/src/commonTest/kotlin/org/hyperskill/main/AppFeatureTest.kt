@@ -98,7 +98,7 @@ class AppFeatureTest {
                 ),
                 subscription = Subscription.stub(SubscriptionType.FREEMIUM),
                 notificationData = null,
-                canMakePayments = false
+                canMakePayments = true
             )
         )
         assertContains(
@@ -140,7 +140,7 @@ class AppFeatureTest {
             isMobileLeaderboardsEnabled = false,
             subscription = Subscription.stub(SubscriptionType.FREEMIUM),
             isMobileOnlySubscriptionEnabled = true,
-            canMakePayments = false
+            canMakePayments = true
         )
         for (i in 1..AppReducer.APP_SHOWS_COUNT_TILL_PAYWALL + 1) {
             val (newState, actions) = appReducer.reduce(
