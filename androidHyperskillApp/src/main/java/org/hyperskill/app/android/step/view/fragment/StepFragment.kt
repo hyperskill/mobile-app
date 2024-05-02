@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlin.math.roundToInt
@@ -101,6 +102,7 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
                 }
             }
         }
+        TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
     }
 
     @Suppress("MagicNumber")
