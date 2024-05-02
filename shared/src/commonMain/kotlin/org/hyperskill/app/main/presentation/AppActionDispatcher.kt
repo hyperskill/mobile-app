@@ -13,6 +13,7 @@ import org.hyperskill.app.core.injection.StateRepositoriesComponent
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.main.domain.interactor.AppInteractor
 import org.hyperskill.app.main.presentation.AppFeature.Action
+import org.hyperskill.app.main.presentation.AppFeature.InternalAction
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
@@ -89,11 +90,11 @@ internal class AppActionDispatcher(
                 handleIdentifyUserInPurchaseSdk(action.userId)
             is Action.LogAppLaunchFirstTimeAnalyticEventIfNeeded ->
                 appInteractor.logAppLaunchFirstTimeAnalyticEventIfNeeded()
-            is AppFeature.InternalAction.FetchSubscription ->
-                handleFetchSubscription(::onNewMessage)
-            is AppFeature.InternalAction.RefreshSubscriptionOnExpiration ->
+            is InternalAction.FetchSubscription ->
+                handleFetchSubscription(action, ::onNewMessage)
+            is InternalAction.RefreshSubscriptionOnExpiration ->
                 subscriptionsInteractor.refreshSubscriptionOnExpirationIfNeeded(action.subscription)
-            is AppFeature.InternalAction.CancelSubscriptionRefresh ->
+            is InternalAction.CancelSubscriptionRefresh ->
                 subscriptionsInteractor.cancelSubscriptionRefresh()
             else -> {}
         }
@@ -137,10 +138,13 @@ internal class AppActionDispatcher(
         }.let(onNewMessage)
     }
 
-    private suspend fun fetchSubscription(isAuthorized: Boolean = true): Subscription? =
+    private suspend fun fetchSubscription(
+        isAuthorized: Boolean = true,
+        forceUpdate: Boolean = false
+    ): Subscription? =
         if (isAuthorized) {
             currentSubscriptionStateRepository
-                .getStateWithSource(forceUpdate = false)
+                .getStateWithSource(forceUpdate = forceUpdate)
                 .fold(
                     onSuccess = { (subscription, usedDataSourceType) ->
                         // Fetch subscription from remote
@@ -191,8 +195,11 @@ internal class AppActionDispatcher(
             }
     }
 
-    private suspend fun handleFetchSubscription(onNewMessage: (Message) -> Unit) {
-        fetchSubscription()?.let {
+    private suspend fun handleFetchSubscription(
+        action: InternalAction.FetchSubscription,
+        onNewMessage: (Message) -> Unit
+    ) {
+        fetchSubscription(forceUpdate = action.forceUpdate)?.let {
             onNewMessage(
                 AppFeature.InternalMessage.SubscriptionChanged(it)
             )
