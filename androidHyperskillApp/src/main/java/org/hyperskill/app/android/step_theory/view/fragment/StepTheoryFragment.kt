@@ -1,20 +1,12 @@
 package org.hyperskill.app.android.step_theory.view.fragment
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuProvider
 import androidx.core.view.doOnNextLayout
 import androidx.core.view.isVisible
 import androidx.core.view.marginBottom
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.android.HyperskillApp
@@ -25,10 +17,10 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepMenuState
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
-import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.step.domain.model.Step
@@ -36,12 +28,10 @@ import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.view.mapper.CommentThreadTitleMapper
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.argument
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 class StepTheoryFragment :
     Fragment(R.layout.fragment_step_theory),
-    StepCompletionView,
-    MenuProvider {
+    StepCompletionView {
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
 
@@ -51,8 +41,6 @@ class StepTheoryFragment :
                 this.stepRoute = stepRoute
                 this.isPracticingAvailable = isPracticingAvailable
             }
-
-        private val mainHandler = Handler(Looper.getMainLooper())
     }
 
     private lateinit var resourceProvider: ResourceProvider
@@ -77,16 +65,14 @@ class StepTheoryFragment :
         commentThreadTitleMapper = stepComponent.commentThreadTitleMapper
     }
 
+    override fun onResume() {
+        super.onResume()
+        parentOfType(StepToolbarHost::class.java)
+            ?.renderMenu(StepMenuState.TheoryFeedback)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (requireActivity() as AppCompatActivity).apply {
-            addMenuProvider(
-                this@StepTheoryFragment,
-                viewLifecycleOwner,
-                Lifecycle.State.RESUMED
-            )
-        }
 
         parentOfType(StepToolbarHost::class.java)
             ?.renderToolbarContent(StepToolbarContentViewState.Theory(step.title))
@@ -151,21 +137,4 @@ class StepTheoryFragment :
             }
         }
     }
-
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        menuInflater.inflate(R.menu.step_theory_appbar_menu, menu)
-    }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
-        when (menuItem.itemId) {
-            R.id.theoryFeedback -> {
-                StepTheoryFeedbackDialogFragment
-                    .newInstance(stepRoute)
-                    .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
-                true
-            }
-            else -> {
-                false
-            }
-        }
 }

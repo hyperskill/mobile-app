@@ -50,8 +50,13 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
             ?.renderPracticeLoading(isPracticingLoading)
     }
 
-    override fun onLimitsClicked() {
+    override fun onLimitsClick() {
         (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepQuizToolbarCallback)
-            ?.onLimitsClicked()
+            ?.onLimitsClick()
+    }
+
+    override fun onTheoryClick() {
+        (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepQuizToolbarCallback)
+            ?.onTheoryClick()
     }
 }

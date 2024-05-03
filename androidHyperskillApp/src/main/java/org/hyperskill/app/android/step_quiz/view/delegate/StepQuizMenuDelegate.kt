@@ -40,6 +40,15 @@ class StepQuizMenuDelegate(
             else -> false
         }
 
+    override fun onPrepareMenu(menu: Menu) {
+        val menuItem: MenuItem? = menu.findItem(R.id.theory)
+        menuItem?.isVisible =
+            theoryButtonState?.isVisible ?: false
+        val isEnabled = theoryButtonState?.isEnabled ?: false
+        menuItem?.isEnabled = isEnabled
+        menuItem?.actionView?.isEnabled = isEnabled
+    }
+
     fun render(menuHost: MenuHost, state: StepQuizFeature.StepQuizState) {
         val newTheoryButtonState = TheoryButtonState(
             isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state),

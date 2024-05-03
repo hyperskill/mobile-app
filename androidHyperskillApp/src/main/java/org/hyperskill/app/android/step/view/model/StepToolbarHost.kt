@@ -5,4 +5,5 @@ import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 interface StepToolbarHost {
     fun renderToolbarContent(viewState: StepToolbarContentViewState)
     fun renderTopicProgress(viewState: StepToolbarFeature.ViewState)
+    fun renderMenu(menuState: StepMenuState)
 }

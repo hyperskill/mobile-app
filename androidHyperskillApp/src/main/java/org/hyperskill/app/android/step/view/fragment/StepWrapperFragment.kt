@@ -149,8 +149,13 @@ class StepWrapperFragment :
         stepViewModel.onShareClick(streak)
     }
 
-    override fun onLimitsClicked() {
+    override fun onLimitsClick() {
         (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepQuizToolbarCallback)
-            ?.onLimitsClicked()
+            ?.onLimitsClick()
+    }
+
+    override fun onTheoryClick() {
+        (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepQuizToolbarCallback)
+            ?.onTheoryClick()
     }
 }
