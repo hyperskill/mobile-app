@@ -78,6 +78,7 @@ final class SpacebotWowAnimationView: UIView {
 
 extension SpacebotWowAnimationView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
+        isUserInteractionEnabled = false
         setLottieAnimation()
     }
 

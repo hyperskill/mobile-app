@@ -11,6 +11,10 @@ final class SpacebotRocketAnimationView: UIView {
 
     private lazy var animationView = LottieAnimationView()
 
+    private lazy var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+
+    var onTap: (() -> Void)?
+
     init(
         frame: CGRect = .zero,
         appearance: Appearance = Appearance()
@@ -30,7 +34,9 @@ final class SpacebotRocketAnimationView: UIView {
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        performBlockIfAppearanceChanged(from: previousTraitCollection, block: setLottieAnimation)
+        performBlockIfAppearanceChanged(from: previousTraitCollection) {
+            self.setLottieAnimation()
+        }
     }
 
     func playAppearance(completion: LottieCompletionBlock? = nil) {
@@ -43,7 +49,7 @@ final class SpacebotRocketAnimationView: UIView {
         animationView.play(completion: completion)
     }
 
-    private func setLottieAnimation() {
+    private func setLottieAnimation(currentProgress: AnimationProgressTime = 0) {
         let dotLottieName = isDarkInterfaceStyle
             ? LottieAnimations.spacebotProgressBarRocket.dark
             : LottieAnimations.spacebotProgressBarRocket.light
@@ -58,16 +64,25 @@ final class SpacebotRocketAnimationView: UIView {
                 animationView.loadAnimation(from: dotLottieFile)
                 animationView.contentMode = .scaleAspectFit
                 animationView.loopMode = .playOnce
+                animationView.currentProgress = currentProgress
             case .failure(let error):
                 assertionFailure("SpacebotRocketAnimationView: failed load dotLottieFile with error: \(error)")
             }
         }
     }
+
+    @objc
+    private func handleTap() {
+        onTap?()
+    }
 }
 
 extension SpacebotRocketAnimationView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
-        setLottieAnimation()
+        isUserInteractionEnabled = true
+        addGestureRecognizer(gestureRecognizer)
+
+        setLottieAnimation(currentProgress: 1)
     }
 
     func addSubviews() {

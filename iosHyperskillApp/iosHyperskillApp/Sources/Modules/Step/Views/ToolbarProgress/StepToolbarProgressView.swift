@@ -1,15 +1,22 @@
+import Lottie
 import SnapKit
 import UIKit
 
 extension StepToolbarProgressView {
     struct Appearance {
-        let trackTintColor = UIColor.dynamic(
+        let progressBarTrackTintColor = UIColor.dynamic(
             light: UIColor(red: 232.0 / 255.0, green: 232.0 / 255.0, blue: 232.0 / 255.0, alpha: 1.0),
             dark: UIColor(red: 50.0 / 255.0, green: 50.0 / 255.0, blue: 50.0 / 255.0, alpha: 1.0)
         )
-        let progressTintColor = ColorPalette.primary
+        let progressBarProgressTintColor = ColorPalette.primary
+        let progressBarHeight: CGFloat = 4
 
-        let height: CGFloat = 2
+        let spacebotRocketSize = CGSize(width: 111, height: 60)
+        let spacebotHeadSize = CGSize(width: 36, height: 36)
+        let spacebotRocketMinProgress: CGFloat = 0.043
+        let spacebotRocketMaxProgress: CGFloat = 0.95
+
+        let spacebotWowSize = CGSize(width: 72, height: 72)
     }
 
     enum Animation {
@@ -22,10 +29,15 @@ final class StepToolbarProgressView: UIView {
 
     private lazy var progressView: UIProgressView = {
         let progressView = UIProgressView(progressViewStyle: .bar)
-        progressView.trackTintColor = appearance.trackTintColor
-        progressView.progressTintColor = appearance.progressTintColor
+        progressView.trackTintColor = appearance.progressBarTrackTintColor
+        progressView.progressTintColor = appearance.progressBarProgressTintColor
         return progressView
     }()
+
+    private lazy var spacebotWowAnimationView = SpacebotWowAnimationView()
+
+    private lazy var spacebotRocketAnimationView = SpacebotRocketAnimationView()
+    private var spacebotRocketAnimationViewLeadingConstraint: Constraint?
 
     init(
         frame: CGRect = .zero,
@@ -46,6 +58,7 @@ final class StepToolbarProgressView: UIView {
 
     func setProgress(_ progress: Float, animated: Bool) {
         progressView.setProgress(progress, animated: animated)
+        updateSpacebotRocketOffset()
     }
 
     func setHidden(_ isHidden: Bool, animated: Bool, completion: (() -> Void)? = nil) {
@@ -100,20 +113,59 @@ final class StepToolbarProgressView: UIView {
             completion?()
         }
     }
+
+    private func updateSpacebotRocketOffset() {
+        let normalizedProgress = min(
+            max(CGFloat(progressView.progress), appearance.spacebotRocketMinProgress),
+            appearance.spacebotRocketMaxProgress
+        )
+        let offset = bounds.size.width * CGFloat(normalizedProgress)
+            - (appearance.spacebotRocketSize.width / 2)
+            - (appearance.spacebotHeadSize.width / 2)
+        spacebotRocketAnimationViewLeadingConstraint?.update(offset: offset)
+    }
+
+    @objc
+    private func didTapSpacebotRocketAnimationView() {
+        spacebotWowAnimationView.play()
+    }
 }
 
 extension StepToolbarProgressView: ProgrammaticallyInitializableViewProtocol {
-    func setupView() {}
+    func setupView() {
+        spacebotRocketAnimationView.onTap = { [weak self] in
+            guard let self else {
+                return
+            }
+
+            self.spacebotWowAnimationView.play()
+        }
+    }
 
     func addSubviews() {
         addSubview(progressView)
+        addSubview(spacebotWowAnimationView)
+        addSubview(spacebotRocketAnimationView)
     }
 
     func makeConstraints() {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-            make.height.equalTo(appearance.height)
+            make.height.equalTo(appearance.progressBarHeight)
+        }
+
+        spacebotWowAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        spacebotWowAnimationView.snp.makeConstraints { make in
+            make.size.equalTo(appearance.spacebotWowSize)
+            make.centerY.equalTo(spacebotRocketAnimationView.snp.centerY)
+            make.centerX.equalTo(spacebotRocketAnimationView.snp.centerX).offset(appearance.spacebotHeadSize.width / 2)
+        }
+
+        spacebotRocketAnimationView.translatesAutoresizingMaskIntoConstraints = false
+        spacebotRocketAnimationView.snp.makeConstraints { make in
+            make.centerY.equalTo(progressView.snp.centerY)
+            spacebotRocketAnimationViewLeadingConstraint = make.leading.equalToSuperview().constraint
         }
     }
 }
@@ -121,10 +173,30 @@ extension StepToolbarProgressView: ProgrammaticallyInitializableViewProtocol {
 // MARK: - Preview -
 
 #if DEBUG
+func makeStyledNavigationController() -> StyledNavigationController {
+    let rootViewController = UIViewController()
+    rootViewController.title = "Progress"
+    return StyledNavigationController(rootViewController: rootViewController)
+}
+
 @available(iOS 17, *)
-#Preview {
-    let view = StepToolbarProgressView()
-    view.setHidden(false, animated: true, completion: nil)
-    return view
+#Preview("Zero") {
+    let styledNavigationController = makeStyledNavigationController()
+    styledNavigationController.setProgress(0, animated: true)
+    return styledNavigationController
+}
+
+@available(iOS 17, *)
+#Preview("Half") {
+    let styledNavigationController = makeStyledNavigationController()
+    styledNavigationController.setProgress(0.5, animated: true)
+    return styledNavigationController
+}
+
+@available(iOS 17, *)
+#Preview("Full") {
+    let styledNavigationController = makeStyledNavigationController()
+    styledNavigationController.setProgress(1, animated: true)
+    return styledNavigationController
 }
 #endif
