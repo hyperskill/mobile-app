@@ -43,7 +43,6 @@ class StepMenuDelegate(
                 menuHost.invalidateMenu()
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-
     }
 
     fun renderMenu(menuState: StepMenuState) {

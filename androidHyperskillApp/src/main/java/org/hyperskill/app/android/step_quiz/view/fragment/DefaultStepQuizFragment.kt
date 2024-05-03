@@ -341,7 +341,6 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
-
         parentOfType(StepToolbarHost::class.java)
             ?.renderMenu(
                 StepMenuState.OpenTheory(
