@@ -1,17 +1,12 @@
 package org.hyperskill.app.android.step.view.fragment
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commitNow
-import androidx.lifecycle.Lifecycle
 import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -21,6 +16,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
+import org.hyperskill.app.android.step.view.delegate.StepMenuDelegate
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.model.StepMenuState
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
@@ -33,7 +29,7 @@ import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepFragment : Fragment(R.layout.fragment_step), MenuProvider, StepToolbarHost, StepHost {
+class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost {
 
     companion object {
         private const val STEP_WRAPPER_TAG = "step_wrapper"
@@ -47,17 +43,27 @@ class StepFragment : Fragment(R.layout.fragment_step), MenuProvider, StepToolbar
 
     private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
-    private var menuState: StepMenuState? = null
-
     private val viewBinding: FragmentStepBinding by viewBinding(FragmentStepBinding::bind)
 
     private val stepQuizToolbarCallback: StepQuizToolbarCallback?
         get() = childFragmentManager.findFragmentByTag(STEP_WRAPPER_TAG) as? StepQuizToolbarCallback
 
+    private var stepMenuDelegate: StepMenuDelegate? = null
+
+    override fun onResume() {
+        super.onResume()
+        stepMenuDelegate = StepMenuDelegate(
+            viewLifecycleOwner = viewLifecycleOwner,
+            menuHost = requireActivity() as MenuHost,
+            onTheoryClick = ::onTheoryClick,
+            onTheoryFeedbackClick = ::onTheoryFeedbackClick
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setStepFragment()
         setupAppBar()
+        setStepFragment()
     }
 
     @Suppress("DEPRECATION")
@@ -70,18 +76,17 @@ class StepFragment : Fragment(R.layout.fragment_step), MenuProvider, StepToolbar
     private fun setupAppBar() {
         (requireActivity() as AppCompatActivity)
             .setSupportActionBar(viewBinding.stepAppBar.stepToolbar)
-        (requireActivity() as AppCompatActivity)
-            .addMenuProvider(
-                this@StepFragment,
-                viewLifecycleOwner,
-                Lifecycle.State.RESUMED
-            )
         viewBinding.stepAppBar.stepToolbar.setNavigationOnClickListener {
             requireRouter().exit()
         }
         viewBinding.stepAppBar.stepQuizLimitsTextView.setOnClickListener {
             stepQuizToolbarCallback?.onLimitsClick()
         }
+    }
+
+    override fun onDestroyView() {
+        this.stepMenuDelegate = null
+        super.onDestroyView()
     }
 
     @Suppress("DEPRECATION", "MagicNumber")
@@ -153,54 +158,16 @@ class StepFragment : Fragment(R.layout.fragment_step), MenuProvider, StepToolbar
     }
 
     override fun renderMenu(menuState: StepMenuState) {
-        if (this.menuState != menuState) {
-            this.menuState = menuState
-            (requireActivity() as MenuHost).invalidateMenu()
-        }
+        stepMenuDelegate?.renderMenu(menuState)
     }
 
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        when (menuState) {
-            is StepMenuState.OpenTheory,
-            StepMenuState.TheoryFeedback -> {
-                menuInflater.inflate(R.menu.step_menu, menu)
-            }
-            null -> {
-                // no op
-            }
-        }
+    private fun onTheoryFeedbackClick() {
+        StepTheoryFeedbackDialogFragment
+            .newInstance(stepRoute)
+            .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
     }
 
-    override fun onPrepareMenu(menu: Menu) {
-        val theoryItem: MenuItem? = menu.findItem(R.id.theory)
-        val theoryFeedbackItem: MenuItem? = menu.findItem(R.id.theoryFeedback)
-
-        val state = menuState
-
-        theoryFeedbackItem?.isVisible = state is StepMenuState.TheoryFeedback
-
-        val isTheoryItemVisible = state is StepMenuState.OpenTheory && state.isVisible
-        theoryItem?.isVisible = isTheoryItemVisible
-        if (isTheoryItemVisible) {
-            val isTheoryItemEnabled = state is StepMenuState.OpenTheory && state.isEnabled
-            theoryItem?.isEnabled = isTheoryItemEnabled
-        }
+    private fun onTheoryClick() {
+        stepQuizToolbarCallback?.onTheoryClick()
     }
-
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
-        when (menuItem.itemId) {
-            R.id.theoryFeedback -> {
-                StepTheoryFeedbackDialogFragment
-                    .newInstance(stepRoute)
-                    .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
-                true
-            }
-            R.id.theory -> {
-                stepQuizToolbarCallback?.onTheoryClick()
-                true
-            }
-            else -> {
-                false
-            }
-        }
 }
