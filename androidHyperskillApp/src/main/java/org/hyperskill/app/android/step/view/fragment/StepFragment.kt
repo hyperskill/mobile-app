@@ -50,16 +50,6 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
 
     private var stepMenuDelegate: StepMenuDelegate? = null
 
-    override fun onResume() {
-        super.onResume()
-        stepMenuDelegate = StepMenuDelegate(
-            viewLifecycleOwner = viewLifecycleOwner,
-            menuHost = requireActivity() as MenuHost,
-            onTheoryClick = ::onTheoryClick,
-            onTheoryFeedbackClick = ::onTheoryFeedbackClick
-        )
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAppBar()
@@ -76,6 +66,12 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
     private fun setupAppBar() {
         (requireActivity() as AppCompatActivity)
             .setSupportActionBar(viewBinding.stepAppBar.stepToolbar)
+        stepMenuDelegate = StepMenuDelegate(
+            viewLifecycleOwner = viewLifecycleOwner,
+            menuHost = requireActivity() as MenuHost,
+            onTheoryClick = ::onTheoryClick,
+            onTheoryFeedbackClick = ::onTheoryFeedbackClick
+        )
         viewBinding.stepAppBar.stepToolbar.setNavigationOnClickListener {
             requireRouter().exit()
         }
@@ -127,8 +123,8 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
                 with(viewBinding.stepAppBar.stepTheoryToolbarTitle) {
                     isVisible = true
                     setTextIfChanged(viewState.title)
-                    TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
                 }
+                TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
             }
         }
     }
