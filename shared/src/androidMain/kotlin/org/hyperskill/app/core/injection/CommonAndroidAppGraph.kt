@@ -35,7 +35,6 @@ import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
-import org.hyperskill.app.step.injection.StepComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponent
@@ -64,7 +63,7 @@ interface CommonAndroidAppGraph : AppGraph {
         authCredentialsComponent: AuthCredentialsComponent
     ): PlatformAuthCredentialsComponent
 
-    fun buildPlatformStepComponent(stepComponent: StepComponent): PlatformStepComponent
+    fun buildPlatformStepComponent(stepRoute: StepRoute): PlatformStepComponent
 
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
 

@@ -14,7 +14,7 @@ import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
-import org.hyperskill.app.android.step.view.fragment.StepFragment
+import org.hyperskill.app.android.step.view.fragment.StepWrapperFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeDetailsFragment
@@ -31,7 +31,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
 
 /**
  * A wrapper fragment around StepQuiz.
- * Analog of [StepFragment] with special ui for StageImplementation.
+ * Analog of [StepWrapperFragment] with special ui for StageImplementation.
  * Able to launch only stepQuiz, not a stepTheory.
  *
  * Should not be used directly, only via [StageImplementationFragment]
@@ -72,22 +72,16 @@ class StageStepWrapperFragment :
 
     private var viewStateDelegate: ViewStateDelegate<StepFeature.StepState>? = null
 
-    @Suppress("DEPRECATION")
-    private var stepDelegate: StepDelegate<StageStepWrapperFragment>? = null
-
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
-        stepDelegate = StepDelegate(fragment = this)
     }
 
     private fun injectComponent() {
-        val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
-        val platformStepComponent = HyperskillApp.graph().buildPlatformStepComponent(stepComponent)
-        viewModelFactory = platformStepComponent.reduxViewModelFactory
+        viewModelFactory = HyperskillApp.graph().buildPlatformStepComponent(stepRoute).reduxViewModelFactory
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -108,7 +102,7 @@ class StageStepWrapperFragment :
             }
         }
         viewBinding.stageImplementationTitle.text = stageTitle
-        stepDelegate?.init(
+        StepDelegate.init(
             errorBinding = viewBinding.stageImplementationError,
             lifecycle = viewLifecycleOwner.lifecycle,
             onNewMessage = stepViewModel::onNewMessage
@@ -120,18 +114,13 @@ class StageStepWrapperFragment :
         viewStateDelegate = null
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        stepDelegate = null
-    }
-
     override fun render(state: StepFeature.ViewState) {
         val stepState = state.stepState
         viewStateDelegate?.switchState(stepState)
 
         if (stepState is StepFeature.StepState.Data) {
             (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepCompletionView)
-                ?.render(stepState.stepCompletionState.isPracticingLoading)
+                ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
             initStepTheoryFragment(stepState.step, stepRoute)
             initStepQuizFragment(stepState.step, stepRoute)
         }
@@ -150,7 +139,8 @@ class StageStepWrapperFragment :
     }
 
     override fun onAction(action: StepFeature.Action.ViewAction) {
-        stepDelegate?.onAction(
+        StepDelegate.onAction(
+            fragment = this,
             mainScreenRouter = mainScreenRouter,
             action = action
         )
