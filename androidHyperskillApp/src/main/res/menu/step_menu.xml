@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/theory"
+        android:title="@string/step_menu_theory_item"
+        android:icon="@drawable/ic_theory"
+        app:showAsAction="ifRoom"
+        android:visible="false" />
+
+    <item
+        android:id="@+id/theoryFeedback"
+        android:title="@string/step_menu_theory_feedback_item"
+        android:icon="@drawable/ic_step_theory_feedback"
+        app:showAsAction="ifRoom"
+        android:visible="false" />
+
+</menu>
