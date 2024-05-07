@@ -13,6 +13,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.analytic.remote.model.AnalyticHyperskillRequest
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 class AnalyticHyperskillRequestTest {
     companion object {
@@ -32,7 +33,10 @@ class AnalyticHyperskillRequestTest {
         action = action,
         part = part,
         target = target,
-        context = mapOf(HyperskillAnalyticKeys.PARAM_PLATFORM to TEST_PLATFORM)
+        context = mapOf(
+            HyperskillAnalyticKeys.PARAM_PLATFORM to TEST_PLATFORM,
+            HyperskillAnalyticKeys.PARAM_SUBSCRIPTION_TYPE to SubscriptionType.FREEMIUM
+        )
     ) {
         override val params: Map<String, Any>
             get() = super.params + mapOf(
@@ -72,6 +76,7 @@ class AnalyticHyperskillRequestTest {
                 put(HyperskillAnalyticKeys.PARAM_USER, TEST_USER_ID)
                 putJsonObject(HyperskillAnalyticKeys.PARAM_CONTEXT) {
                     put(HyperskillAnalyticKeys.PARAM_PLATFORM, TEST_PLATFORM)
+                    put(HyperskillAnalyticKeys.PARAM_SUBSCRIPTION_TYPE, SubscriptionType.FREEMIUM.name)
                 }
             }
             addJsonObject {
@@ -81,6 +86,7 @@ class AnalyticHyperskillRequestTest {
                 put(HyperskillAnalyticKeys.PARAM_USER, TEST_USER_ID)
                 putJsonObject(HyperskillAnalyticKeys.PARAM_CONTEXT) {
                     put(HyperskillAnalyticKeys.PARAM_PLATFORM, TEST_PLATFORM)
+                    put(HyperskillAnalyticKeys.PARAM_SUBSCRIPTION_TYPE, SubscriptionType.FREEMIUM.name)
                 }
             }
         }
