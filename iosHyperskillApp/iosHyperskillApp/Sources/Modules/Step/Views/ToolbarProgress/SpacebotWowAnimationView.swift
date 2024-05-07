@@ -35,11 +35,6 @@ final class SpacebotWowAnimationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        performBlockIfAppearanceChanged(from: previousTraitCollection, block: setLottieAnimation)
-    }
-
     func play(completion: LottieCompletionBlock? = nil) {
         animationView.alpha = appearance.animationViewAlphaVisible
         animationView.play { [weak self] completed in
@@ -55,11 +50,7 @@ final class SpacebotWowAnimationView: UIView {
     }
 
     private func setLottieAnimation() {
-        let dotLottieName = isDarkInterfaceStyle
-            ? LottieAnimations.spacebotProgressBarWow.dark
-            : LottieAnimations.spacebotProgressBarWow.light
-
-        DotLottieFile.named(dotLottieName) { [weak animationView] result in
+        DotLottieFile.named(LottieAnimations.spacebotProgressBarWow.light) { [weak animationView] result in
             guard let animationView else {
                 return print("SpacebotWowAnimationView: animationView is deallocated")
             }
