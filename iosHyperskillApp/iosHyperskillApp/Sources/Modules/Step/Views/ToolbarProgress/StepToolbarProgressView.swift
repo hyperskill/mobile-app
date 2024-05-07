@@ -16,7 +16,7 @@ extension StepToolbarProgressView {
         let spacebotRocketMinProgress: CGFloat = 0.043
         let spacebotRocketMaxProgress: CGFloat = 0.95
 
-        let spacebotWowSize = CGSize(width: 108, height: 108)
+        let spacebotWowSize = CGSize(width: 72, height: 72)
     }
 
     enum Animation {
@@ -40,7 +40,11 @@ final class StepToolbarProgressView: UIView {
 
     private lazy var spacebotWowAnimationView = SpacebotWowAnimationView()
 
-    private lazy var spacebotRocketAnimationView = SpacebotRocketAnimationView()
+    private lazy var spacebotRocketAnimationView: SpacebotRocketAnimationView = {
+        let view = SpacebotRocketAnimationView()
+        view.addTarget(self, action: #selector(didTapSpacebotRocketAnimationView), for: .touchUpInside)
+        return view
+    }()
     private var spacebotRocketAnimationViewLeadingConstraint: Constraint?
 
     private var isAnimationPlaying = false
@@ -62,6 +66,28 @@ final class StepToolbarProgressView: UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard isUserInteractionEnabled else {
+            return super.hitTest(point, with: event)
+        }
+
+        let pointInRocketView = convert(point, to: spacebotRocketAnimationView)
+
+        let headSize = appearance.spacebotHeadSize
+        let headRect = CGRect(
+            x: spacebotRocketAnimationView.bounds.width - headSize.width * 1.5,
+            y: (spacebotRocketAnimationView.bounds.height - headSize.height) / 2,
+            width: headSize.width,
+            height: headSize.height
+        )
+
+        if headRect.contains(pointInRocketView) {
+            return spacebotRocketAnimationView
+        }
+
+        return super.hitTest(point, with: event)
     }
 
     func handleOrientationChange() {
@@ -174,6 +200,7 @@ extension StepToolbarProgressView {
                 self?.setProgress(0, animated: false)
                 self?.progress = nil
             }
+            self?.isUserInteractionEnabled = !isHidden
             completion?()
         }
 
@@ -226,15 +253,7 @@ extension StepToolbarProgressView {
 // MARK: - StepToolbarProgressView: ProgrammaticallyInitializableViewProtocol -
 
 extension StepToolbarProgressView: ProgrammaticallyInitializableViewProtocol {
-    func setupView() {
-        spacebotRocketAnimationView.onTap = { [weak self] in
-            guard let self else {
-                return
-            }
-
-            self.spacebotWowAnimationView.play()
-        }
-    }
+    func setupView() {}
 
     func addSubviews() {
         addSubview(progressView)

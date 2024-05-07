@@ -6,14 +6,10 @@ extension SpacebotRocketAnimationView {
     struct Appearance {}
 }
 
-final class SpacebotRocketAnimationView: UIView {
+final class SpacebotRocketAnimationView: UIControl {
     let appearance: Appearance
 
     private lazy var animationView = LottieAnimationView()
-
-    private lazy var gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-
-    var onTap: (() -> Void)?
 
     init(
         frame: CGRect = .zero,
@@ -70,18 +66,12 @@ final class SpacebotRocketAnimationView: UIView {
             }
         }
     }
-
-    @objc
-    private func handleTap() {
-        onTap?()
-    }
 }
 
 extension SpacebotRocketAnimationView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
         isUserInteractionEnabled = true
-        addGestureRecognizer(gestureRecognizer)
-
+        animationView.isUserInteractionEnabled = true
         setLottieAnimation(currentProgress: 1)
     }
 
