@@ -1,5 +1,6 @@
 package org.hyperskill.app.step_toolbar.presentation
 
+import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.topics.domain.model.TopicProgress
 
@@ -31,7 +32,9 @@ object StepToolbarFeature {
         ) : ViewState
     }
 
-    sealed interface Message
+    sealed interface Message {
+        object SpacebotClicked : Message
+    }
 
     internal sealed interface InternalMessage : Message {
         data class Initialize(
@@ -54,5 +57,7 @@ object StepToolbarFeature {
             val topicId: Long,
             val forceLoadFromRemote: Boolean
         ) : InternalAction
+
+        data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
     }
 }
