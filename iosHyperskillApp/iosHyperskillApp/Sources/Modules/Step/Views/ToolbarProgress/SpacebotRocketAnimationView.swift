@@ -40,12 +40,12 @@ final class SpacebotRocketAnimationView: UIView {
     }
 
     func playAppearance(completion: LottieCompletionBlock? = nil) {
-        animationView.animationSpeed = -2.5
+        animationView.animationSpeed = -3.5
         animationView.play(completion: completion)
     }
 
     func playDisappearance(completion: LottieCompletionBlock? = nil) {
-        animationView.animationSpeed = 1.5
+        animationView.animationSpeed = 2.5
         animationView.play(completion: completion)
     }
 

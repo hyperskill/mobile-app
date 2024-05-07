@@ -19,14 +19,24 @@ final class StyledNavigationController: UINavigationController {
         handleProgressViewVisibilityOnPopViewController(isPopToRoot: true, animated: animated)
         return super.popToRootViewController(animated: animated)
     }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: any UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            self?.progressView.handleOrientationChange()
+        }
+    }
 }
 
 // MARK: - UIViewController (StepToolbarProgressView) -
 
 extension StyledNavigationController {
     func setProgress(_ progress: Float, animated: Bool) {
+        let playWowAnimation = !progressView.isHidden
+            && progressView.progress != nil
+            && progressView.progress.require() < progress
         progressView.setHidden(false, animated: animated) { [weak progressView] in
-            progressView?.setProgress(progress, animated: animated)
+            progressView?.setProgress(progress, animated: animated, playWowAnimation: playWowAnimation)
         }
     }
 
@@ -41,7 +51,7 @@ extension StyledNavigationController {
         progressView.translatesAutoresizingMaskIntoConstraints = false
         progressView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(navigationBar.snp.bottom)
+            make.bottom.equalTo(navigationBar.snp.bottom).offset(progressView.appearance.progressBarHeight)
         }
     }
 

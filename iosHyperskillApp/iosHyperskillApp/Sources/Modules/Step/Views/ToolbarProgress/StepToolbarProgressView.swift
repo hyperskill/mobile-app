@@ -16,11 +16,15 @@ extension StepToolbarProgressView {
         let spacebotRocketMinProgress: CGFloat = 0.043
         let spacebotRocketMaxProgress: CGFloat = 0.95
 
-        let spacebotWowSize = CGSize(width: 72, height: 72)
+        let spacebotWowSize = CGSize(width: 108, height: 108)
     }
 
     enum Animation {
         static let visibilityDuration: TimeInterval = 0.3
+
+        static let progressUpdateMinDuration: TimeInterval = 0.3
+        static let progressUpdateMaxDuration: TimeInterval = 1.0
+        static let progressUpdateScaleFactor: Double = 2.0
     }
 }
 
@@ -39,6 +43,10 @@ final class StepToolbarProgressView: UIView {
     private lazy var spacebotRocketAnimationView = SpacebotRocketAnimationView()
     private var spacebotRocketAnimationViewLeadingConstraint: Constraint?
 
+    private var isAnimationPlaying = false
+
+    private(set) var progress: Float?
+
     init(
         frame: CGRect = .zero,
         appearance: Appearance = Appearance()
@@ -56,15 +64,115 @@ final class StepToolbarProgressView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setProgress(_ progress: Float, animated: Bool) {
-        progressView.setProgress(progress, animated: animated)
+    func handleOrientationChange() {
         updateSpacebotRocketOffset()
     }
 
+    @objc
+    private func didTapSpacebotRocketAnimationView() {
+        spacebotWowAnimationView.play()
+    }
+}
+
+// MARK: - StepToolbarProgressView (Progress) -
+
+extension StepToolbarProgressView {
+    func setProgress(_ progress: Float, animated: Bool, playWowAnimation: Bool = false) {
+        guard self.progress != progress else {
+            return
+        }
+
+        let progressDelta = abs(progress - (self.progress ?? 0))
+        self.progress = progress
+
+        if animated {
+            startAnimationSequence(
+                playWowAnimation: playWowAnimation,
+                progress: progress,
+                progressDelta: progressDelta
+            )
+        } else {
+            updateProgressImmediately(progress)
+        }
+    }
+
+    private func startAnimationSequence(playWowAnimation: Bool, progress: Float, progressDelta: Float) {
+        guard !isAnimationPlaying else {
+            return
+        }
+        isAnimationPlaying = true
+
+        if playWowAnimation {
+            playRocketAndWowAnimations(progress: progress, progressDelta: progressDelta)
+        } else {
+            animateProgress(progress, progressDelta: progressDelta) { [weak self] in
+                self?.isAnimationPlaying = false
+            }
+        }
+    }
+
+    private func playRocketAndWowAnimations(progress: Float, progressDelta: Float) {
+        spacebotRocketAnimationView.playAppearance { [weak self] _ in
+            self?.animateProgress(progress, progressDelta: progressDelta) { [weak self] in
+                self?.spacebotRocketAnimationView.playDisappearance { [weak self] _ in
+                    self?.spacebotWowAnimationView.play()
+                    self?.isAnimationPlaying = false
+                }
+            }
+        }
+    }
+
+    private func animateProgress(_ progress: Float, progressDelta: Float, completion: (() -> Void)? = nil) {
+        // Calculate animation duration based on progressDelta
+        let animationDuration = min(
+            max(Double(progressDelta) * Animation.progressUpdateScaleFactor, Animation.progressUpdateMinDuration),
+            Animation.progressUpdateMaxDuration
+        )
+
+        UIView.animate(
+            withDuration: animationDuration,
+            animations: { [weak self] in
+                guard let self else {
+                    return
+                }
+
+                self.progressView.progress = progress
+                self.progressView.layoutIfNeeded()
+
+                self.updateSpacebotRocketOffset()
+                self.layoutIfNeeded()
+            },
+            completion: { _ in
+                completion?()
+            }
+        )
+    }
+
+    private func updateSpacebotRocketOffset() {
+        let normalizedProgress = min(
+            max(CGFloat(progressView.progress), appearance.spacebotRocketMinProgress),
+            appearance.spacebotRocketMaxProgress
+        )
+        let offset = UIScreen.main.bounds.width * CGFloat(normalizedProgress)
+            - (appearance.spacebotRocketSize.width / 2)
+            - (appearance.spacebotHeadSize.width / 2)
+        spacebotRocketAnimationViewLeadingConstraint?.update(offset: offset)
+    }
+
+    private func updateProgressImmediately(_ progress: Float) {
+        progressView.progress = progress
+        updateSpacebotRocketOffset()
+    }
+}
+
+// MARK: - StepToolbarProgressView (Visibility) -
+
+extension StepToolbarProgressView {
     func setHidden(_ isHidden: Bool, animated: Bool, completion: (() -> Void)? = nil) {
         let completionHandler: () -> Void = { [weak self] in
             if isHidden {
                 self?.setProgress(0, animated: false)
+                self?.progress = nil
             }
             completion?()
         }
@@ -113,23 +221,9 @@ final class StepToolbarProgressView: UIView {
             completion?()
         }
     }
-
-    private func updateSpacebotRocketOffset() {
-        let normalizedProgress = min(
-            max(CGFloat(progressView.progress), appearance.spacebotRocketMinProgress),
-            appearance.spacebotRocketMaxProgress
-        )
-        let offset = bounds.size.width * CGFloat(normalizedProgress)
-            - (appearance.spacebotRocketSize.width / 2)
-            - (appearance.spacebotHeadSize.width / 2)
-        spacebotRocketAnimationViewLeadingConstraint?.update(offset: offset)
-    }
-
-    @objc
-    private func didTapSpacebotRocketAnimationView() {
-        spacebotWowAnimationView.play()
-    }
 }
+
+// MARK: - StepToolbarProgressView: ProgrammaticallyInitializableViewProtocol -
 
 extension StepToolbarProgressView: ProgrammaticallyInitializableViewProtocol {
     func setupView() {
@@ -189,14 +283,20 @@ func makeStyledNavigationController() -> StyledNavigationController {
 @available(iOS 17, *)
 #Preview("Half") {
     let styledNavigationController = makeStyledNavigationController()
-    styledNavigationController.setProgress(0.5, animated: true)
+    styledNavigationController.setProgress(0, animated: false)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        styledNavigationController.setProgress(0.5, animated: true)
+    }
     return styledNavigationController
 }
 
 @available(iOS 17, *)
 #Preview("Full") {
     let styledNavigationController = makeStyledNavigationController()
-    styledNavigationController.setProgress(1, animated: true)
+    styledNavigationController.setProgress(0, animated: false)
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        styledNavigationController.setProgress(1, animated: true)
+    }
     return styledNavigationController
 }
 #endif
