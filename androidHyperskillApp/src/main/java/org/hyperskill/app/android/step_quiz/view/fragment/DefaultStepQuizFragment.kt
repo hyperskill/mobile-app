@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.MenuHost
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -26,12 +25,13 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepMenuState
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
-import org.hyperskill.app.android.step.view.model.StepQuizToolbarHost
+import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
+import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
-import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizMenuDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.ProblemOnboardingBottomSheetCallback
 import org.hyperskill.app.android.step_quiz.view.dialog.ProblemsOnboardingBottomSheetFactory
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizViewStateDelegateFactory
@@ -81,8 +81,6 @@ abstract class DefaultStepQuizFragment :
 
     private var stepQuizHintsDelegate: StepQuizHintsDelegate? = null
 
-    private var stepQuizMenuDelegate: StepQuizMenuDelegate? = null
-
     private var stepQuizStatsTextMapper: StepQuizStatsTextMapper? = null
     private var stepQuizTitleMapper: StepQuizTitleMapper? = null
     private val stepQuizFeedbackMapper by lazy(LazyThreadSafetyMode.NONE) {
@@ -117,8 +115,6 @@ abstract class DefaultStepQuizFragment :
 
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupMenuDelegate()
 
         val stepView = createStepView(LayoutInflater.from(requireContext()), viewBinding.root)
         viewBinding.root.addView(stepView)
@@ -195,26 +191,13 @@ abstract class DefaultStepQuizFragment :
         }
     }
 
-    private fun setupMenuDelegate() {
-        stepQuizMenuDelegate = StepQuizMenuDelegate(
-            menuHost = requireActivity() as MenuHost,
-            viewLifecycleOwner = viewLifecycleOwner,
-            onTheoryClick = {
-                stepQuizViewModel.onNewMessage(
-                    StepQuizFeature.Message.TheoryToolbarItemClicked
-                )
-            }
-        )
-    }
-
     override fun onDestroyView() {
-        super.onDestroyView()
-        stepQuizMenuDelegate = null
         stepQuizStateDelegate = null
         stepQuizButtonsViewStateDelegate = null
         stepQuizFeedbackBlocksDelegate = null
         stepQuizFormDelegate = null
         stepQuizHintsDelegate = null
+        super.onDestroyView()
     }
 
     protected abstract fun createStepView(layoutInflater: LayoutInflater, parent: ViewGroup): View
@@ -334,6 +317,7 @@ abstract class DefaultStepQuizFragment :
     }
 
     override fun render(state: StepQuizFeature.State) {
+        renderLimits(state.stepQuizToolbarState)
         stepQuizStateDelegate?.switchState(state.stepQuizState)
 
         updateStatisticsVisibility()
@@ -357,11 +341,13 @@ abstract class DefaultStepQuizFragment :
             }
         }
 
-        stepQuizMenuDelegate?.render(
-            menuHost = requireActivity() as MenuHost,
-            state = state.stepQuizState
-        )
-        renderLimits(state.stepQuizToolbarState)
+        parentOfType(StepToolbarHost::class.java)
+            ?.renderMenu(
+                StepMenuState.OpenTheory(
+                    isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state.stepQuizState),
+                    isEnabled = !StepQuizResolver.isQuizLoading(state.stepQuizState)
+                )
+            )
         renderHints(state.stepQuizHintsState)
 
         onNewState(state)
@@ -421,10 +407,11 @@ abstract class DefaultStepQuizFragment :
 
     private fun renderLimits(state: StepQuizToolbarFeature.State) {
         val viewState = StepQuizToolbarViewStateMapper.map(state)
-        (parentFragment as? StepQuizToolbarHost)?.render(viewState)
+        parentOfType(StepToolbarHost::class.java)
+            ?.renderToolbarContent(StepToolbarContentViewState.Practice(viewState))
     }
 
-    final override fun render(isPracticingLoading: Boolean) {
+    final override fun renderPracticeLoading(isPracticingLoading: Boolean) {
         if (isResumed) {
             with(viewBinding) {
                 stepQuizButtons.stepQuizContinueButtonShimmer.isVisible = isPracticingLoading
@@ -445,9 +432,15 @@ abstract class DefaultStepQuizFragment :
         )
     }
 
-    override fun onLimitsClicked() {
+    override fun onLimitsClick() {
         stepQuizViewModel.onNewMessage(
             StepQuizFeature.Message.StepQuizToolbarMessage(StepQuizToolbarFeature.Message.ProblemsLimitClicked)
+        )
+    }
+
+    override fun onTheoryClick() {
+        stepQuizViewModel.onNewMessage(
+            StepQuizFeature.Message.TheoryToolbarItemClicked
         )
     }
 
