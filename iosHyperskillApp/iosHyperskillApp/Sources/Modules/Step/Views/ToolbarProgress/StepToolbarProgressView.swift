@@ -51,6 +51,8 @@ final class StepToolbarProgressView: UIView {
 
     private(set) var progress: Float?
 
+    var onSpacebotHeadTap: (() -> Void)?
+
     init(
         frame: CGRect = .zero,
         appearance: Appearance = Appearance()
@@ -97,6 +99,7 @@ final class StepToolbarProgressView: UIView {
     @objc
     private func didTapSpacebotRocketAnimationView() {
         spacebotWowAnimationView.play()
+        onSpacebotHeadTap?()
     }
 }
 

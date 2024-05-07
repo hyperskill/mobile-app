@@ -3,6 +3,7 @@ package org.hyperskill.app.step_toolbar.presentation
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.progresses.domain.interactor.ProgressesInteractor
 import org.hyperskill.app.step_completion.domain.flow.TopicCompletedFlow
@@ -15,7 +16,8 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 class StepToolbarActionDispatcher(
     config: ActionDispatcherOptions,
     topicCompletedFlow: TopicCompletedFlow,
-    private val progressesInteractor: ProgressesInteractor
+    private val progressesInteractor: ProgressesInteractor,
+    private val analyticInteractor: AnalyticInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -31,6 +33,8 @@ class StepToolbarActionDispatcher(
         when (action) {
             is InternalAction.FetchTopicProgress ->
                 handleFetchTopicProgressAction(action, ::onNewMessage)
+            is InternalAction.LogAnalyticEvent ->
+                analyticInteractor.logEvent(action.event)
         }
     }
 

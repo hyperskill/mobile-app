@@ -31,6 +31,10 @@ final class StyledNavigationController: UINavigationController {
 // MARK: - UIViewController (StepToolbarProgressView) -
 
 extension StyledNavigationController {
+    func setOnSpacebotHeadTapAction(_ action: @escaping () -> Void) {
+        progressView.onSpacebotHeadTap = action
+    }
+
     func setProgress(_ progress: Float, animated: Bool) {
         let playWowAnimation = !progressView.isHidden
             && progressView.progress != nil
@@ -60,6 +64,7 @@ extension StyledNavigationController {
 
         if isActuallyPopToRoot || !isAncestorAStepView() {
             progressView.setHidden(true, animated: animated)
+            progressView.onSpacebotHeadTap = nil
         }
     }
 
