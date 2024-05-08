@@ -40,34 +40,40 @@ final class CodePlaygroundManager {
         symbol: Character,
         language: CodeLanguage
     ) -> (shouldMakeNewLine: Bool, paired: Bool) {
-        switch language {
-        case .python, .python3, .python31:
-            return symbol == ":"
-                ? (shouldMakeNewLine: true, paired: false)
-                : (shouldMakeNewLine: false, paired: false)
-        case .c,
-             .cValgrind,
-             .cpp11,
-             .cpp,
-             .java,
-             .java8,
-             .java9,
-             .java11,
-             .java17,
-             .cs,
-             .csMono,
-             .kotlin,
-             .swift,
-             .rust,
-             .javascript,
-             .scala,
-             .scala3,
-             .go,
-             .perl,
-             .php:
-            return symbol == "{"
-                ? (shouldMakeNewLine: true, paired: true)
-                : (shouldMakeNewLine: false, paired: false)
+        switch symbol {
+        case ":":
+            if case .python = language,
+               case .python3 = language,
+               case .python31 = language {
+                return (shouldMakeNewLine: true, paired: false)
+            }
+            return (shouldMakeNewLine: false, paired: false)
+        case "{":
+            switch language {
+            case .c,
+                    .cValgrind,
+                    .cpp,
+                    .cpp11,
+                    .java,
+                    .java8,
+                    .java9,
+                    .java11,
+                    .java17,
+                    .cs,
+                    .csMono,
+                    .kotlin,
+                    .swift,
+                    .rust,
+                    .javascript,
+                    .scala,
+                    .scala3,
+                    .go,
+                    .perl,
+                    .php:
+                return (shouldMakeNewLine: true, paired: true)
+            default:
+                return (shouldMakeNewLine: false, paired: false)
+            }
         default:
             return (shouldMakeNewLine: false, paired: false)
         }
