@@ -54,4 +54,24 @@ final class CodePlaygroundGetCurrentTokenTests: XCTestCase {
     func testGetCurrentTokenWhenTextIsEmpty() {
         XCTAssertEqual(manager.getCurrentToken(text: "", cursorPosition: 0), "")
     }
+
+    func testGetCurrentTokenWithMultipleTokens() {
+        XCTAssertEqual(manager.getCurrentToken(text: "first second third", cursorPosition: 6), "second")
+    }
+
+    func testGetCurrentTokenConsecutiveNotAllowedCharacters() {
+        XCTAssertEqual(manager.getCurrentToken(text: "first!!second", cursorPosition: 6), "")
+    }
+
+    func testGetCurrentTokenAtStartOfSpecialCharacters() {
+        XCTAssertEqual(manager.getCurrentToken(text: "a_b_c", cursorPosition: 2), "a_b_c")
+    }
+
+    func testGetCurrentTokenWithNumericCharacters() {
+        XCTAssertEqual(manager.getCurrentToken(text: "def_main(123)", cursorPosition: 10), "123")
+    }
+
+    func testGetCurrentTokenJustBeforeNotAllowedCharacter() {
+        XCTAssertEqual(manager.getCurrentToken(text: "token#", cursorPosition: 5), "token")
+    }
 }
