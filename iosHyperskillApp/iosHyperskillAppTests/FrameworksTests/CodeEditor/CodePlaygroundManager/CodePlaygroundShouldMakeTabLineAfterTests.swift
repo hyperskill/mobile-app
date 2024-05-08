@@ -213,7 +213,6 @@ final class CodePlaygroundShouldMakeTabLineAfterTests: XCTestCase {
     // MARK: ASM tests
 
     func testShouldNotMakeNewTabLineForAsm() {
-        let expectedTuple = (shouldMakeNewLine: false, paired: false)
         let resultAsm32 = manager.shouldMakeTabLineAfter(symbol: "{", language: .asm32)
         let resultAsm64 = manager.shouldMakeTabLineAfter(symbol: "{", language: .asm32)
         XCTAssertFalse(resultAsm32.shouldMakeNewLine)
