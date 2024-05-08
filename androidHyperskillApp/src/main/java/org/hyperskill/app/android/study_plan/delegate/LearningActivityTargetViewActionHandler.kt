@@ -5,7 +5,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.projects_selection.list.navigation.ProjectSelectionListScreen
 import org.hyperskill.app.android.stage_implementation.view.dialog.UnsupportedStageBottomSheet
 import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.project_selection.list.injection.ProjectSelectionListParams

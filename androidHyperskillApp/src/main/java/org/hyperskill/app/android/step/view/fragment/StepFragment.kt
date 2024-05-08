@@ -6,22 +6,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.MenuHost
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commitNow
 import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.github.terrakok.cicerone.Router
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlin.math.roundToInt
+import kotlinx.serialization.builtins.ListSerializer
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.step.view.delegate.StepMenuDelegate
+import org.hyperskill.app.android.step.view.delegate.StepRouterDelegate
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.model.StepMenuState
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
+import org.hyperskill.app.android.step.view.navigation.StepNavigationContainer
+import org.hyperskill.app.android.step.view.navigation.StepWrapperScreen
 import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
@@ -29,26 +32,38 @@ import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost {
+@Suppress("DEPRECATION")
+class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost, StepNavigationContainer {
 
     companion object {
-        private const val STEP_WRAPPER_TAG = "step_wrapper"
-
         fun newInstance(stepRoute: StepRoute): Fragment =
             StepFragment()
                 .apply {
-                    this.stepRoute = stepRoute
+                    this.stepRoutesStack = listOf(stepRoute)
                 }
     }
 
-    private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
+    // Stores stepRoutes opened in the navigation stack (practice step -> theory step)
+    private var stepRoutesStack: List<StepRoute> by argument(serializer = ListSerializer(StepRoute.serializer()))
+
+    private val currentStepRoute: StepRoute
+        get() = stepRoutesStack.last()
+
+    private val stepQuizToolbarCallback: StepQuizToolbarCallback?
+        get() = childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? StepQuizToolbarCallback
 
     private val viewBinding: FragmentStepBinding by viewBinding(FragmentStepBinding::bind)
 
-    private val stepQuizToolbarCallback: StepQuizToolbarCallback?
-        get() = childFragmentManager.findFragmentByTag(STEP_WRAPPER_TAG) as? StepQuizToolbarCallback
-
     private var stepMenuDelegate: StepMenuDelegate? = null
+
+    private val stepRouterDelegate: StepRouterDelegate = StepRouterDelegate(
+        containerId = R.id.stepWrapperContainer,
+        fragment = this,
+        onBackPressed = ::popStepRoute
+    )
+
+    override val router: Router
+        get() = stepRouterDelegate.router
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,10 +71,9 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         setStepFragment()
     }
 
-    @Suppress("DEPRECATION")
     private fun setStepFragment() {
-        setChildFragment(R.id.stepWrapperContainer, STEP_WRAPPER_TAG) {
-            StepWrapperFragment.newInstance(stepRoute)
+        if (childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) == null) {
+            stepRouterDelegate.router.newRootScreen(StepWrapperScreen(currentStepRoute))
         }
     }
 
@@ -73,10 +87,19 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
             onTheoryFeedbackClick = ::onTheoryFeedbackClick
         )
         viewBinding.stepAppBar.stepToolbar.setNavigationOnClickListener {
-            requireRouter().exit()
+            onNavigationClick()
         }
         viewBinding.stepAppBar.stepQuizLimitsTextView.setOnClickListener {
             stepQuizToolbarCallback?.onLimitsClick()
+        }
+    }
+
+    private fun onNavigationClick() {
+        if (childFragmentManager.fragments.isEmpty()) {
+            requireRouter().exit()
+        } else {
+            popStepRoute()
+            stepRouterDelegate.router.exit()
         }
     }
 
@@ -85,21 +108,14 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         super.onDestroyView()
     }
 
-    @Suppress("DEPRECATION", "MagicNumber")
     override fun reloadStep(stepRoute: StepRoute) {
-        this.stepRoute = stepRoute
-        childFragmentManager
-            .commitNow {
-                setCustomAnimations(
-                    /* enter = */ R.anim.slide_in,
-                    /* exit = */ R.anim.fade_out
-                )
-                replace(
-                    R.id.stepWrapperContainer,
-                    StepWrapperFragment.newInstance(stepRoute),
-                    STEP_WRAPPER_TAG
-                )
-            }
+        pushStepRoute(stepRoute)
+        stepRouterDelegate.router.replaceScreen(StepWrapperScreen(stepRoute))
+    }
+
+    override fun navigateToTheory(stepRoute: StepRoute) {
+        pushStepRoute(stepRoute)
+        stepRouterDelegate.router.navigateTo(StepWrapperScreen(stepRoute))
     }
 
     override fun renderToolbarContent(viewState: StepToolbarContentViewState) {
@@ -129,7 +145,6 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         }
     }
 
-    @Suppress("MagicNumber")
     override fun renderTopicProgress(viewState: StepToolbarFeature.ViewState) {
         val isProgressVisible = viewState is StepToolbarFeature.ViewState.Content
         viewBinding.stepTopicProgressSeparator.isVisible = isProgressVisible
@@ -159,11 +174,20 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
 
     private fun onTheoryFeedbackClick() {
         StepTheoryFeedbackDialogFragment
-            .newInstance(stepRoute)
+            .newInstance(currentStepRoute)
             .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
     }
 
     private fun onTheoryClick() {
         stepQuizToolbarCallback?.onTheoryClick()
+    }
+
+    @Suppress("MagicNumber")
+    private fun popStepRoute() {
+        stepRoutesStack = stepRoutesStack.dropLast(1)
+    }
+
+    private fun pushStepRoute(stepRoute: StepRoute) {
+        stepRoutesStack = stepRoutesStack + stepRoute
     }
 }

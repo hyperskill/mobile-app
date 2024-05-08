@@ -378,7 +378,7 @@ class StepQuizTest {
         assertEquals(expectedState, finalState)
         assertTrue {
             finalActions.any {
-                it is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen &&
+                it is StepQuizFeature.Action.ViewAction.NavigateTo.TheoryStepScreen &&
                     it.stepRoute == StepRoute.Learn.TheoryOpenedFromPractice(topicTheoryId, null)
             }
         }
@@ -440,7 +440,7 @@ class StepQuizTest {
         assertEquals(expectedState, finalState)
         assertTrue {
             finalActions.none {
-                it is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen
+                it is StepQuizFeature.Action.ViewAction.NavigateTo.TheoryStepScreen
             }
         }
     }

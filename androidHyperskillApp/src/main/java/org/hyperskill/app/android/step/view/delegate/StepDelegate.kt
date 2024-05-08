@@ -20,6 +20,7 @@ import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragm
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepHost
+import org.hyperskill.app.android.step.view.navigation.requireStepRouter
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
@@ -58,7 +59,7 @@ object StepDelegate {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
                 when (val stepCompletionAction = action.viewAction) {
                     StepCompletionFeature.Action.ViewAction.NavigateTo.Back -> {
-                        fragment.requireRouter().exit()
+                        fragment.requireStepRouter().exit()
                     }
 
                     StepCompletionFeature.Action.ViewAction.NavigateTo.StudyPlan -> {

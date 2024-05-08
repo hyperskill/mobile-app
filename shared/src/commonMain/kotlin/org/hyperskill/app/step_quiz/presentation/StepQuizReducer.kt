@@ -526,7 +526,7 @@ internal class StepQuizReducer(
                         is StepRoute.StageImplement ->
                             null
                     }?.let { targetStepRoute ->
-                        add(Action.ViewAction.NavigateTo.StepScreen(targetStepRoute))
+                        add(Action.ViewAction.NavigateTo.TheoryStepScreen(targetStepRoute))
                     } ?: add(Action.ViewAction.ShowNetworkError)
                 }
             }

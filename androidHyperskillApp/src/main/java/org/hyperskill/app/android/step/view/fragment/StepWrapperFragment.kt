@@ -33,7 +33,7 @@ import ru.nobird.app.presentation.redux.container.ReduxView
  * A wrapper fragment that runs [StepFeature]
  * and hosts [StepPracticeFragment] or [StepTheoryFragment].
  */
-@Deprecated("Should not be used directly, only via StageFragment")
+@Deprecated("Should not be used directly, only via StepWrapperScreen")
 class StepWrapperFragment :
     Fragment(R.layout.fragment_step_wrapper),
     ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,

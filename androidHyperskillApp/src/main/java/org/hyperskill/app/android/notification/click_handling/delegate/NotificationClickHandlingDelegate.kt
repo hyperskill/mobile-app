@@ -5,7 +5,7 @@ import com.github.terrakok.cicerone.Router
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.profile.view.dialog.BadgeEarnedDialogFragment
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.screen.TopicsRepetitionScreen
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
