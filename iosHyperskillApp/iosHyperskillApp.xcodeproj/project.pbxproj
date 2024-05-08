@@ -430,6 +430,7 @@
 		2CB2BDB32BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB22BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift */; };
 		2CB2BDB52BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB42BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift */; };
 		2CB2BDB72BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB62BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift */; };
+		2CB2BDB92BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB82BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift */; };
 		2CB2BF272AE91F38000A144F /* FillBlanksModeWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BF262AE91F38000A144F /* FillBlanksModeWrapper.swift */; };
 		2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB45761288EC29D007C2D77 /* StepQuizActionButtons.swift */; };
 		2CB45764288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB45763288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift */; };
@@ -1170,6 +1171,7 @@
 		2CB2BDB22BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundGetCurrentTokenTests.swift; sourceTree = "<group>"; };
 		2CB2BDB42BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundShouldMakeTabLineAfterTests.swift; sourceTree = "<group>"; };
 		2CB2BDB62BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundGetChangesSubstringPerformanceTests.swift; sourceTree = "<group>"; };
+		2CB2BDB82BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift; sourceTree = "<group>"; };
 		2CB2BF262AE91F38000A144F /* FillBlanksModeWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksModeWrapper.swift; sourceTree = "<group>"; };
 		2CB45761288EC29D007C2D77 /* StepQuizActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizActionButtons.swift; sourceTree = "<group>"; };
 		2CB45763288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizActionButtonCodeQuizDelegate.swift; sourceTree = "<group>"; };
@@ -3327,6 +3329,7 @@
 				2CB2BDB62BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift */,
 				2CB2BDB02BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift */,
 				2CB2BDB22BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift */,
+				2CB2BDB82BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift */,
 				2CB2BDB42BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift */,
 			);
 			path = CodePlaygroundManager;
@@ -4651,6 +4654,7 @@
 				2CB2BDB12BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift in Sources */,
 				2CB2BDB52BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift in Sources */,
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
+				2CB2BDB92BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift in Sources */,
 				2CB2BDB72BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift in Sources */,
 				2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */,
 				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
