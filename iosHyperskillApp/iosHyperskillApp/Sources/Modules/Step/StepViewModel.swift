@@ -80,6 +80,12 @@ final class StepViewModel: FeatureViewModel<
         )
     }
 
+    func logSpacebotClickedEvent() {
+        onNewMessage(
+            StepFeatureMessageStepToolbarMessage(message: StepToolbarFeatureMessageSpacebotClicked())
+        )
+    }
+
     private func updateStepQuiz() {
         mainScheduler.schedule { [weak self] in
             guard let strongSelf = self,
