@@ -42,12 +42,12 @@ final class CodePlaygroundManager {
     ) -> (shouldMakeNewLine: Bool, paired: Bool) {
         switch symbol {
         case ":":
-            if case .python = language,
-               case .python3 = language,
-               case .python31 = language {
+            switch language {
+            case .python, .python3, .python31:
                 return (shouldMakeNewLine: true, paired: false)
+            default:
+                return (shouldMakeNewLine: false, paired: false)
             }
-            return (shouldMakeNewLine: false, paired: false)
         case "{":
             switch language {
             case .c,
