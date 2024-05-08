@@ -12,6 +12,10 @@ import org.hyperskill.app.analytic.remote.AnalyticHyperskillRemoteDataSourceImpl
 import org.hyperskill.app.core.injection.AppGraph
 
 internal class HyperskillAnalyticEngineComponentImpl(appGraph: AppGraph) : HyperskillAnalyticEngineComponent {
+    companion object {
+        private const val LOG_TAG = "HyperskillAnalyticEngine"
+    }
+
     private val hyperskillRemoteDataSource: AnalyticHyperskillRemoteDataSource =
         AnalyticHyperskillRemoteDataSourceImpl(
             appGraph.networkComponent.authorizedHttpClient,
@@ -29,6 +33,7 @@ internal class HyperskillAnalyticEngineComponentImpl(appGraph: AppGraph) : Hyper
     override val hyperskillAnalyticEngine: HyperskillAnalyticEngine =
         HyperskillAnalyticEngineImpl(
             authInteractor = appGraph.authComponent.authInteractor,
-            analyticHyperskillRepository = hyperskillRepository
+            analyticHyperskillRepository = hyperskillRepository,
+            logger = appGraph.loggerComponent.logger.withTag(LOG_TAG)
         )
 }

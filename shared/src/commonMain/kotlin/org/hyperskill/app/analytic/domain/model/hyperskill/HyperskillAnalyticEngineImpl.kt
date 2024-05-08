@@ -1,5 +1,6 @@
 package org.hyperskill.app.analytic.domain.model.hyperskill
 
+import co.touchlab.kermit.Logger
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Job
@@ -16,6 +17,7 @@ import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 internal class HyperskillAnalyticEngineImpl(
     private val authInteractor: AuthInteractor,
     private val analyticHyperskillRepository: AnalyticHyperskillRepository,
+    private val logger: Logger
 ) : HyperskillAnalyticEngine() {
 
     companion object {
@@ -71,7 +73,9 @@ internal class HyperskillAnalyticEngineImpl(
             val isAuthorized = authInteractor.isAuthorized()
                 .getOrDefault(false)
 
-            analyticHyperskillRepository.flushEvents(isAuthorized)
+            analyticHyperskillRepository
+                .flushEvents(isAuthorized)
+                .onFailure { logger.e(it) { "Failed to flush events" } }
         }
     }
 }

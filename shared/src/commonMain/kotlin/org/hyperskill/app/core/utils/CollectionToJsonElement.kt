@@ -24,5 +24,6 @@ fun Any?.toJsonElement(): JsonElement =
         is Boolean -> JsonPrimitive(this)
         is Number -> JsonPrimitive(this)
         is String -> JsonPrimitive(this)
+        is Enum<*> -> JsonPrimitive(this.name)
         else -> throw IllegalStateException("Can't serialize unknown type: $this")
     }
