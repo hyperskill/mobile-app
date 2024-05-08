@@ -40,7 +40,6 @@ class StepRouterDelegate(
                             navigator.onBackPressedCallback.handleOnBackPressed()
                         }
                         navigator.invalidateOnBackPressedCallback()
-
                     }
                     Lifecycle.Event.ON_RESUME -> {
                         navigator?.let {
