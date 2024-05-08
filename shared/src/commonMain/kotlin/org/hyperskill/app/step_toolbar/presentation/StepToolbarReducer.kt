@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_toolbar.presentation
 
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_toolbar.domain.analytic.StepToolbarSpacebotClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.Action
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalAction
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature.InternalMessage
@@ -20,6 +21,7 @@ class StepToolbarReducer(
             InternalMessage.FetchTopicProgressError -> handleFetchTopicProgressError(state)
             is InternalMessage.FetchTopicProgressSuccess -> handleFetchTopicProgressSuccess(state, message)
             is InternalMessage.TopicCompleted -> handleTopicCompleted(state, message)
+            Message.SpacebotClicked -> handleSpacebotClicked(state)
         } ?: (state to emptySet())
 
     private fun handleInitialize(
@@ -72,4 +74,9 @@ class StepToolbarReducer(
         } else {
             null
         }
+
+    private fun handleSpacebotClicked(state: State): StepToolbarReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(StepToolbarSpacebotClickedHyperskillAnalyticEvent(stepRoute.analyticRoute))
+        )
 }
