@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step.view.delegate
 
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,17 +8,13 @@ import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import kotlin.time.Duration.Companion.milliseconds
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.step.view.model.StepMenuState
 
-@OptIn(FlowPreview::class)
 class StepMenuDelegate(
     menuHost: MenuHost,
     private val viewLifecycleOwner: LifecycleOwner,
@@ -36,9 +31,6 @@ class StepMenuDelegate(
             Lifecycle.State.RESUMED
         )
         menuStateFlow
-            // Hack to avoid menu items invisibility
-            // when toolbar content transition is playing.
-            .debounce(200.milliseconds)
             .onEach {
                 menuHost.invalidateMenu()
             }
@@ -46,8 +38,16 @@ class StepMenuDelegate(
     }
 
     fun renderMenu(menuState: StepMenuState) {
+        val newState = if (menuStateFlow.value is StepMenuState.OpenTheory && menuState is StepMenuState.OpenTheory) {
+            StepMenuState.OpenTheory(
+                isVisible = true,
+                isEnabled = menuState.isEnabled
+            )
+        } else {
+            menuState
+        }
         viewLifecycleOwner.lifecycleScope.launch {
-            menuStateFlow.emit(menuState)
+            menuStateFlow.emit(newState)
         }
     }
 
@@ -64,7 +64,6 @@ class StepMenuDelegate(
     }
 
     override fun onPrepareMenu(menu: Menu) {
-        Log.d("StepMenuDelegate", "onPrepareMenu(state=${menuStateFlow.value})")
         val theoryItem: MenuItem? = menu.findItem(R.id.theory)
         val theoryFeedbackItem: MenuItem? = menu.findItem(R.id.theoryFeedback)
 

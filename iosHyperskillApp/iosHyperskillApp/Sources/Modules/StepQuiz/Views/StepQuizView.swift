@@ -352,7 +352,7 @@ private extension StepQuizView {
 
     func handleNavigateToViewAction(_ viewAction: StepQuizFeatureActionViewActionNavigateTo) {
         switch StepQuizFeatureActionViewActionNavigateToKs(viewAction) {
-        case .stepScreen(let data):
+        case .theoryStepScreen(let data):
             let assembly = StepAssembly(stepRoute: data.stepRoute)
             stackRouter.pushViewController(assembly.makeModule())
         case .studyPlan:

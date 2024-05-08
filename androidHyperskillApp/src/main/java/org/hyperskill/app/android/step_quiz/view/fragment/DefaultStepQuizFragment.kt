@@ -19,17 +19,16 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
-import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomSheet
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.model.StepMenuState
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
-import org.hyperskill.app.android.step.view.screen.StepScreen
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFeedbackBlocksDelegate
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.dialog.ProblemOnboardingBottomSheetCallback
@@ -237,8 +236,8 @@ abstract class DefaultStepQuizFragment :
             is StepQuizFeature.Action.ViewAction.ShowNetworkError -> {
                 view?.snackbar(messageRes = org.hyperskill.app.R.string.connection_error)
             }
-            is StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen -> {
-                requireRouter().navigateTo(StepScreen(action.stepRoute))
+            is StepQuizFeature.Action.ViewAction.NavigateTo.TheoryStepScreen -> {
+                parentOfType(StepHost::class.java)?.navigateToTheory(action.stepRoute)
             }
             is StepQuizFeature.Action.ViewAction.RequestResetCode -> {
                 requestResetCodeActionPermission()

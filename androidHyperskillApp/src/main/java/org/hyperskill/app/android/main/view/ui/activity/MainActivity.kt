@@ -45,7 +45,7 @@ import org.hyperskill.app.android.notification_onboarding.fragment.Notifications
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.paywall.fragment.PaywallFragment
 import org.hyperskill.app.android.paywall.navigation.PaywallScreen
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.android.users_questionnaire_onboarding.fragment.UsersQuestionnaireOnboardingFragment
