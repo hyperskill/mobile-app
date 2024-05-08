@@ -7,7 +7,7 @@ import org.hyperskill.app.analytic.data.source.AnalyticHyperskillRemoteDataSourc
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.repository.AnalyticHyperskillRepository
 
-class AnalyticHyperskillRepositoryImpl(
+internal class AnalyticHyperskillRepositoryImpl(
     private val mutex: Mutex,
     private val hyperskillRemoteDataSource: AnalyticHyperskillRemoteDataSource,
     private val hyperskillCacheDataSource: AnalyticHyperskillCacheDataSource
@@ -18,12 +18,12 @@ class AnalyticHyperskillRepositoryImpl(
         }
     }
 
-    override suspend fun flushEvents(isAuthorized: Boolean) {
+    override suspend fun flushEvents(isAuthorized: Boolean): Result<Unit> {
         val eventsToFlush: List<AnalyticEvent>
         mutex.withLock {
             eventsToFlush = hyperskillCacheDataSource.getEvents()
             hyperskillCacheDataSource.clearEvents()
         }
-        hyperskillRemoteDataSource.flushEvents(eventsToFlush, isAuthorized)
+        return hyperskillRemoteDataSource.flushEvents(eventsToFlush, isAuthorized)
     }
 }
