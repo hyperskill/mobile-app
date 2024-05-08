@@ -13,7 +13,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:iosHyperskillApp.xcodeproj",
         "identifier" : "2C919DEC27EEF5BC0022A2F2",
