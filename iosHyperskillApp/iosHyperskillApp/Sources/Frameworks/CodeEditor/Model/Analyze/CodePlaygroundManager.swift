@@ -42,12 +42,12 @@ final class CodePlaygroundManager {
     ) -> (shouldMakeNewLine: Bool, paired: Bool) {
         switch symbol {
         case ":":
-            if case .python = language,
-               case .python3 = language,
-               case .python31 = language {
+            switch language {
+            case .python, .python3, .python31:
                 return (shouldMakeNewLine: true, paired: false)
+            default:
+                return (shouldMakeNewLine: false, paired: false)
             }
-            return (shouldMakeNewLine: false, paired: false)
         case "{":
             switch language {
             case .c,
@@ -88,22 +88,30 @@ final class CodePlaygroundManager {
             return ""
         }
 
-        var offsetBefore = 0
-        while let character = text[safe: (cursorPosition - offsetBefore - 1)],
-              Self.allowedCharactersSet.contains(character) {
-            offsetBefore += 1
+        let startIndex = text.startIndex
+        let cursorIndex = text.index(startIndex, offsetBy: cursorPosition, limitedBy: text.endIndex) ?? text.endIndex
+
+        var beforeCursorIndex = cursorIndex
+        while beforeCursorIndex > text.startIndex {
+            let prevIndex = text.index(before: beforeCursorIndex)
+            if Self.allowedCharactersSet.contains(text[prevIndex]) {
+                beforeCursorIndex = prevIndex
+            } else {
+                break
+            }
         }
 
-        var offsetAfter = 0
-        while let character = text[safe: (cursorPosition + offsetAfter)],
-              Self.allowedCharactersSet.contains(character) {
-            offsetAfter += 1
+        var afterCursorIndex = cursorIndex
+        while afterCursorIndex < text.endIndex {
+            let nextIndex = text.index(after: afterCursorIndex)
+            if Self.allowedCharactersSet.contains(text[afterCursorIndex]) {
+                afterCursorIndex = nextIndex
+            } else {
+                break
+            }
         }
 
-        let beforeCursorString = text[safe: (cursorPosition - offsetBefore)..<cursorPosition] ?? ""
-        let afterCursorString = text[safe: cursorPosition..<(cursorPosition + offsetAfter)] ?? ""
-
-        return beforeCursorString + afterCursorString
+        return String(text[beforeCursorIndex..<afterCursorIndex])
     }
 
     // swiftlint:disable:next function_parameter_count
