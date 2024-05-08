@@ -105,7 +105,7 @@ object StepQuizFeature {
         /**
          * Click on step theory topic in toolbar
          *
-         * @see StepQuizFeature.Action.ViewAction.NavigateTo.StepScreen
+         * @see StepQuizFeature.Action.ViewAction.NavigateTo.TheoryStepScreen
          */
         object TheoryToolbarItemClicked : Message
 
@@ -223,7 +223,7 @@ object StepQuizFeature {
 
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
-                data class StepScreen(val stepRoute: StepRoute) : NavigateTo
+                data class TheoryStepScreen(val stepRoute: StepRoute) : NavigateTo
             }
         }
     }

@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step.view.screen
+package org.hyperskill.app.android.step.view.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory

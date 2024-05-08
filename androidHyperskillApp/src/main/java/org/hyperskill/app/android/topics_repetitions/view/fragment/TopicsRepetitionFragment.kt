@@ -13,7 +13,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentTopicsRepetitionBinding
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionChartCardDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionHeaderDelegate
 import org.hyperskill.app.android.topics_repetitions.view.delegate.TopicsRepetitionListDelegate
