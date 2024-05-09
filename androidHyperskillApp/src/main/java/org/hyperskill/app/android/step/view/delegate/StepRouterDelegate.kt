@@ -20,7 +20,7 @@ class StepRouterDelegate(
     @IdRes containerId: Int,
     private val fragment: Fragment,
     onBackPressed: () -> Unit
-): BackNavigationDelegate {
+) : BackNavigationDelegate {
 
     private object StepFragmentTransactionInterceptor : FragmentTransactionInterceptor {
         override fun setupFragmentTransaction(
