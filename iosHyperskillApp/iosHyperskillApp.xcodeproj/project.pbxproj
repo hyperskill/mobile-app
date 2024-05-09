@@ -203,6 +203,8 @@
 		2C52F9972B98711A001524B5 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9962B98711A001524B5 /* PaywallViewModel.swift */; };
 		2C52F99A2B9871E7001524B5 /* PaywallAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */; };
 		2C52F99C2B987397001524B5 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F99B2B987397001524B5 /* PaywallView.swift */; };
+		2C542E782BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542E772BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift */; };
+		2C542E7A2BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542E792BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift */; };
 		2C54E4222A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */; };
 		2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */; };
 		2C54E4282A1F717F003406B9 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4272A1F717F003406B9 /* CardView.swift */; };
@@ -943,6 +945,8 @@
 		2C52F9962B98711A001524B5 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
 		2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallAssembly.swift; sourceTree = "<group>"; };
 		2C52F99B2B987397001524B5 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		2C542E772BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManagerCountTabSizeTests.swift; sourceTree = "<group>"; };
+		2C542E792BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManagerCountTabSizePerformanceTests.swift; sourceTree = "<group>"; };
 		2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsDescriptionView.swift; sourceTree = "<group>"; };
 		2C54E4272A1F717F003406B9 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -3332,6 +3336,8 @@
 				2CB2BDB02BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift */,
 				2C1CF25A2BEBD5260073C234 /* CodePlaygroundGetCurrentTokenPerformanceTests.swift */,
 				2CB2BDB22BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift */,
+				2C542E792BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift */,
+				2C542E772BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift */,
 				2CB2BDB82BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift */,
 				2CB2BDB42BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift */,
 			);
@@ -4652,6 +4658,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C542E782BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift in Sources */,
 				2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */,
 				2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */,
 				2CB2BDB12BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift in Sources */,
@@ -4664,6 +4671,7 @@
 				2CB2BDB32BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift in Sources */,
 				2CA542272ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift in Sources */,
 				2C1CF25B2BEBD5260073C234 /* CodePlaygroundGetCurrentTokenPerformanceTests.swift in Sources */,
+				2C542E7A2BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift in Sources */,
 				2CE7B48F2AB0A09100DCBE4D /* HTMLStringTests.swift in Sources */,
 				2C77E8B32BDBD80A0046E5D1 /* HTMLExtractorTests.swift in Sources */,
 			);
