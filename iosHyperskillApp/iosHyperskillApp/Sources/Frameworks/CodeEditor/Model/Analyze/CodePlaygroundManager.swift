@@ -318,29 +318,17 @@ final class CodePlaygroundManager {
     }
 
     func countTabSize(text: String) -> Int {
-        var minTabSize = 100
+        var minTabSize = Int.max
 
         text.enumerateLines { line, _ in
-            var spacesBeforeFirstCharacter = 0
-
-            for character in line {
-                if character == " " {
-                    spacesBeforeFirstCharacter += 1
-                } else {
-                    break
-                }
-            }
-
-            if spacesBeforeFirstCharacter > 0 && minTabSize > spacesBeforeFirstCharacter {
-                minTabSize = spacesBeforeFirstCharacter
+            let leadingSpaces = line.prefix(while: { $0 == " " }).count
+            // Update the minimum tab size if this line has leading spaces and it's fewer than any previous line
+            if leadingSpaces > 0 {
+                minTabSize = min(minTabSize, leadingSpaces)
             }
         }
 
-        if minTabSize == 100 {
-            minTabSize = 4
-        }
-
-        return minTabSize
+        return minTabSize == Int.max ? 4 : minTabSize
     }
 
     private func hideCodeCompletion() {
