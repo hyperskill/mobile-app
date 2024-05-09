@@ -56,14 +56,19 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
 
     private var stepMenuDelegate: StepMenuDelegate? = null
 
-    private val stepRouterDelegate: StepRouterDelegate = StepRouterDelegate(
-        containerId = R.id.stepWrapperContainer,
-        fragment = this,
-        onBackPressed = ::popStepRoute
-    )
+    private var stepRouterDelegate: StepRouterDelegate? = null
 
     override val router: Router
-        get() = stepRouterDelegate.router
+        get() = requireNotNull(stepRouterDelegate?.router)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        stepRouterDelegate = StepRouterDelegate(
+            containerId = R.id.stepWrapperContainer,
+            fragment = this,
+            onBackPressed = ::popStepRoute
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,7 +78,7 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
 
     private fun setStepFragment() {
         if (childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) == null) {
-            stepRouterDelegate.router.newRootScreen(StepWrapperScreen(currentStepRoute))
+            router.newRootScreen(StepWrapperScreen(currentStepRoute))
         }
     }
 
@@ -99,7 +104,7 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
             requireRouter().exit()
         } else {
             popStepRoute()
-            stepRouterDelegate.router.exit()
+            router.exit()
         }
     }
 
@@ -108,14 +113,19 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         super.onDestroyView()
     }
 
+    override fun onDestroy() {
+        stepRouterDelegate = null
+        super.onDestroy()
+    }
+
     override fun reloadStep(stepRoute: StepRoute) {
         pushStepRoute(stepRoute)
-        stepRouterDelegate.router.replaceScreen(StepWrapperScreen(stepRoute))
+        router.replaceScreen(StepWrapperScreen(stepRoute))
     }
 
     override fun navigateToTheory(stepRoute: StepRoute) {
         pushStepRoute(stepRoute)
-        stepRouterDelegate.router.navigateTo(StepWrapperScreen(stepRoute))
+        router.navigateTo(StepWrapperScreen(stepRoute))
     }
 
     override fun renderToolbarContent(viewState: StepToolbarContentViewState) {
