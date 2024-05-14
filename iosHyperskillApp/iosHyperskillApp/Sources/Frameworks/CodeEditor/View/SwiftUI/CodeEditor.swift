@@ -21,8 +21,7 @@ struct CodeEditor: UIViewRepresentable {
 
     var elementsSize: CodeQuizElementsSize = DeviceInfo.current.isPad ? .big : .small
 
-    var suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding? =
-        ResponderChainCodeEditorSuggestionsPresentationContextProvider()
+    let suggestionsPresentationContextProvider: CodeEditorSuggestionsPresentationContextProviding?
 
     var onDidBeginEditing: (() -> Void)?
 
@@ -137,7 +136,10 @@ extension CodeEditor {
         func codeEditorViewDidRequestSuggestionPresentationController(
             _ codeEditorView: CodeEditorView
         ) -> UIViewController? {
-            suggestionsPresentationContextProvider?.presentationController(for: codeEditorView)
+            let presentationController =
+                suggestionsPresentationContextProvider?.presentationController(for: codeEditorView)
+            assert(presentationController != nil, "Suggestion presentation controller is not provided")
+            return presentationController
         }
 
         func codeEditorViewDidChangeHeight(_ codeEditorView: CodeEditorView, height: CGFloat) {
@@ -191,7 +193,8 @@ private extension CodeEditorView.Appearance {
 #Preview {
     CodeEditor(
         code: .constant(CodeLanguageSamples.sample(for: .java)),
-        language: .java
+        language: .java,
+        suggestionsPresentationContextProvider: nil
     )
     .frame(height: 236)
     .frame(maxWidth: .infinity)
