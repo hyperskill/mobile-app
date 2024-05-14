@@ -3,13 +3,11 @@ package org.hyperskill.app.android.step_quiz_fill_blanks.delegate
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
-import androidx.transition.TransitionManager
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBinding
-import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksOptionsBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.adapter.FillBlanksInputItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.adapter.FillBlanksSelectItemAdapterDelegate
@@ -37,7 +35,6 @@ import ru.nobird.app.core.model.mutate
 
 class FillBlanksStepQuizFormDelegate(
     private val binding: LayoutStepQuizFillBlanksBinding,
-    private val optionsBinding: LayoutStepQuizFillBlanksOptionsBinding,
     private val fragmentManager: FragmentManager,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
@@ -69,34 +66,34 @@ class FillBlanksStepQuizFormDelegate(
         val resolveState = resolve(resolveState, state)
         this.resolveState = resolveState
         if (resolveState is ResolveState.ResolveSucceed) {
-            if (fillBlanksMapper == null) {
-                fillBlanksMapper = FillBlanksItemMapper(mode = resolveState.mode)
-                if (resolveState.mode == FillBlanksMode.SELECT) {
-                    setupOptionsRecycler(optionsBinding)
-                }
-            }
-
-            val fillBlanksData = fillBlanksMapper?.map(
-                attempt = state.attempt,
-                submission = state.submission
-            )
-
-            initSelectedState(resolveState, fillBlanksData)
-
-            val isEnabled = StepQuizResolver.isQuizEnabled(state)
-
-            fillBlanksAdapter.items = mapItems(fillBlanksData, highlightedSelectItemIndex, isEnabled)
-            binding.root.post { binding.stepQuizFillBlanksRecycler.requestLayout() }
-
-            fillBlanksOptionsAdapter?.items = mapBlankOptions(
-                fillBlanksData = fillBlanksData,
-                usedOptionsIndices = selectBlankToSelectOptionMap.values.toList(),
-                isEnabled = isEnabled
-            )
+            render(resolveState, state)
         }
     }
 
-    private fun initSelectedState(
+    private fun render(
+        resolveState: ResolveState.ResolveSucceed,
+        state: StepQuizFeature.StepQuizState.AttemptLoaded
+    ) {
+        if (fillBlanksMapper == null) {
+            fillBlanksMapper = FillBlanksItemMapper(mode = resolveState.mode)
+            if (resolveState.mode == FillBlanksMode.SELECT) {
+                setupOptionsRecycler()
+            }
+        }
+
+        val fillBlanksData = fillBlanksMapper?.map(
+            attempt = state.attempt,
+            submission = state.submission
+        )
+
+        initSelectStateIfNeeded(resolveState, fillBlanksData)
+
+        val isEnabled = StepQuizResolver.isQuizEnabled(state)
+        setFillBlanksItems(fillBlanksData, isEnabled)
+        setOptionsItems(fillBlanksData, isEnabled)
+    }
+
+    private fun initSelectStateIfNeeded(
         resolveState: ResolveState.ResolveSucceed,
         fillBlanksData: FillBlanksData?
     ) {
@@ -107,38 +104,62 @@ class FillBlanksStepQuizFormDelegate(
                 getHighlightedSelectItemIndex(fillBlanksData.fillBlanks, selectItemIndices)
         }
         if (!wasSelectStateInitialized) {
-            val selectItemIndices = getSelectItemIndices(fillBlanksData.fillBlanks)
-            this.selectItemIndices = selectItemIndices
-            highlightedSelectItemIndex =
-                getHighlightedSelectItemIndex(fillBlanksData.fillBlanks, selectItemIndices)
+            initSelectState(fillBlanksData)
+        }
+    }
 
-            if (selectOptions.isEmpty()) {
-                selectOptions = fillBlanksData.options
-            }
+    private fun initSelectState(fillBlanksData: FillBlanksData) {
+        val selectItemIndices = getSelectItemIndices(fillBlanksData.fillBlanks)
+        this.selectItemIndices = selectItemIndices
+        highlightedSelectItemIndex =
+            getHighlightedSelectItemIndex(fillBlanksData.fillBlanks, selectItemIndices)
 
-            if (selectBlankToSelectOptionMap.isEmpty()) {
-                selectBlankToSelectOptionMap.putAll(
-                    getBlankToOptionMap(
-                        items = fillBlanksData.fillBlanks,
-                        selectItemIndices = selectItemIndices,
-                        selectOptions = selectOptions
-                    )
+        if (selectOptions.isEmpty()) {
+            selectOptions = fillBlanksData.options
+        }
+
+        if (selectBlankToSelectOptionMap.isEmpty()) {
+            selectBlankToSelectOptionMap.putAll(
+                getBlankToOptionMap(
+                    items = fillBlanksData.fillBlanks,
+                    selectItemIndices = selectItemIndices,
+                    selectOptions = selectOptions
+                )
+            )
+        }
+
+        fillBlanksAdapter.addDelegate(
+            FillBlanksSelectItemAdapterDelegate(fillBlanksData.options) { blankIndex ->
+                onSelectItemClick(
+                    blankIndex = blankIndex,
+                    items = fillBlanksAdapter.items,
+                    selectItemIndices = selectItemIndices,
+                    selectOptions = fillBlanksData.options
                 )
             }
+        )
 
-            fillBlanksAdapter.addDelegate(
-                FillBlanksSelectItemAdapterDelegate(fillBlanksData.options) { blankIndex ->
-                    onSelectItemClick(
-                        blankIndex = blankIndex,
-                        items = fillBlanksAdapter.items,
-                        selectItemIndices = selectItemIndices,
-                        selectOptions = fillBlanksData.options
-                    )
-                }
-            )
+        wasSelectStateInitialized = true
+    }
 
-            wasSelectStateInitialized = true
-        }
+    private fun setOptionsItems(
+        fillBlanksData: FillBlanksData?,
+        isEnabled: Boolean
+    ) {
+        fillBlanksOptionsAdapter?.items = mapBlankOptions(
+            fillBlanksData = fillBlanksData,
+            usedOptionsIndices = selectBlankToSelectOptionMap.values.toList(),
+            isEnabled = isEnabled
+        )
+        binding.root.post { binding.stepQuizFillBlanksOptionsRecycler.requestLayout() }
+    }
+
+    private fun setFillBlanksItems(
+        fillBlanksData: FillBlanksData?,
+        isEnabled: Boolean
+    ) {
+        fillBlanksAdapter.items = mapItems(fillBlanksData, highlightedSelectItemIndex, isEnabled)
+        binding.root.post { binding.stepQuizFillBlanksRecycler.requestLayout() }
     }
 
     private fun getHighlightedSelectItemIndex(
@@ -270,7 +291,7 @@ class FillBlanksStepQuizFormDelegate(
         }
     }
 
-    private fun setupOptionsRecycler(optionsBinding: LayoutStepQuizFillBlanksOptionsBinding) {
+    private fun setupOptionsRecycler() {
         fillBlanksOptionsAdapter = DefaultDelegateAdapter<FillBlanksSelectOptionUIItem>().apply {
             addDelegate(
                 FillBlanksSelectOptionAdapterDelegate { selectedOptionIndex, option ->
@@ -285,15 +306,14 @@ class FillBlanksStepQuizFormDelegate(
                 }
             )
         }
-        with(optionsBinding.stepQuizFillBlanksOptionsRecycler) {
+        with(binding.stepQuizFillBlanksOptionsRecycler) {
             itemAnimator = null
             adapter = fillBlanksOptionsAdapter
             isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
                 .apply { justifyContent = JustifyContent.FLEX_START }
+            isVisible = true
         }
-        optionsBinding.root.isVisible = true
-        TransitionManager.beginDelayedTransition(optionsBinding.root)
     }
 
     override fun createReply(): Reply =

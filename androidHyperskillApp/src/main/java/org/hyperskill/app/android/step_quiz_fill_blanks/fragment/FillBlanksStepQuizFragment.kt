@@ -3,11 +3,8 @@ package org.hyperskill.app.android.step_quiz_fill_blanks.fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBinding
-import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksOptionsBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_fill_blanks.delegate.FillBlanksStepQuizFormDelegate
@@ -52,11 +49,6 @@ class FillBlanksStepQuizFragment :
     override fun createStepQuizFormDelegate(): StepQuizFormDelegate =
         FillBlanksStepQuizFormDelegate(
             binding = binding,
-            optionsBinding = LayoutStepQuizFillBlanksOptionsBinding.bind(
-                requireParentFragment()
-                    .requireView()
-                    .findViewById<RecyclerView>(R.id.stepQuizFillBlanksOptionsContainer)
-            ),
             fragmentManager = childFragmentManager,
             onQuizChanged = ::syncReplyState
         ).also {
