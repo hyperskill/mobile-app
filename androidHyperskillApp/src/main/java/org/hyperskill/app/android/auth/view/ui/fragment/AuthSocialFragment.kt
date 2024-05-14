@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -14,7 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
-import com.google.android.material.snackbar.Snackbar
 import org.hyperskill.app.android.BuildConfig
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
@@ -34,8 +34,8 @@ import org.hyperskill.app.auth.view.mapper.AuthSocialErrorMapper
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.view.base.ui.extension.argument
+import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
-import ru.nobird.android.view.base.ui.extension.snackbar
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 import org.hyperskill.app.R as SharedRes
@@ -168,15 +168,27 @@ class AuthSocialFragment :
         when (action) {
             is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow ->
                 (parentFragment as? AuthFlow)?.onAuthSuccess(action.profile)
-            is AuthSocialFeature.Action.ViewAction.ShowAuthError ->
-                view?.snackbar(
-                    message = authSocialErrorMapper.getAuthSocialErrorText(action.socialAuthError),
-                    Snackbar.LENGTH_LONG
-                )
         }
     }
 
     override fun render(state: AuthSocialFeature.State) {
+        renderError(state)
+        renderLoading(state)
+    }
+
+    private fun renderError(state: AuthSocialFeature.State) {
+        with(viewBinding.authErrorMsgTextView) {
+            isVisible = state is AuthSocialFeature.State.Error
+            if (state is AuthSocialFeature.State.Error) {
+                setTextIfChanged(
+                    authSocialErrorMapper.getAuthSocialErrorText(state.error)
+                )
+            }
+        }
+        TransitionManager.beginDelayedTransition(viewBinding.authSocialContentContainer)
+    }
+
+    private fun renderLoading(state: AuthSocialFeature.State) {
         if (state is AuthSocialFeature.State.Loading) {
             LoadingProgressDialogFragment.newInstance()
                 .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
