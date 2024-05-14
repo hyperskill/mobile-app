@@ -1,6 +1,6 @@
 package org.hyperskill.app.profile.domain.model
 
-data class FeaturesMap(private val origin: Map<String, Boolean>) : Map<String, Boolean> by origin
+data class FeaturesMap(internal val origin: Map<String, Boolean>) : Map<String, Boolean> by origin
 
 val FeaturesMap.isRecommendationsJavaProjectsFeatureEnabled: Boolean
     get() = get(FeatureKeys.RECOMMENDATIONS_JAVA_PROJECTS) ?: false

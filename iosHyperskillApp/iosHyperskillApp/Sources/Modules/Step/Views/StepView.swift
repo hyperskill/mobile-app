@@ -16,6 +16,7 @@ struct StepView: View {
             )
 
             buildBody()
+                .animation(.default, value: viewModel.state)
 
             let _ = renderStepToolbarViewState(viewModel.stepToolbarViewStateKs)
         }
@@ -90,13 +91,18 @@ struct StepView: View {
     }
 
     private func renderStepToolbarViewState(_ stepToolbarViewState: StepToolbarFeatureViewStateKs) {
+        guard let styledNavigationController = stackRouter.rootViewController?.styledNavigationController else {
+            return
+        }
+
         switch stepToolbarViewState {
         case .idle, .loading:
             break
         case .unavailable, .error:
-            stackRouter.rootViewController?.styledNavigationController?.hideProgress()
+            styledNavigationController.hideProgress()
         case .content(let data):
-            stackRouter.rootViewController?.styledNavigationController?.setProgress(data.progress, animated: true)
+            styledNavigationController.setProgress(data.progress, animated: true)
+            styledNavigationController.setOnSpacebotHeadTapAction(viewModel.logSpacebotClickedEvent)
         }
     }
 

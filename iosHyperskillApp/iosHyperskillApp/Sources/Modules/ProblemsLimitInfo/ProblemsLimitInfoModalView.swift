@@ -1,5 +1,6 @@
 import shared
 import SwiftUI
+import UIKit
 
 extension ProblemsLimitInfoModalView {
     struct Appearance {
@@ -51,9 +52,10 @@ struct ProblemsLimitInfoModalView: View {
 
             if let unlockDescription = viewState.unlockDescription {
                 Text(unlockDescription)
-                    .foregroundColor(.newSecondaryText)
                     .font(.subheadline)
+                    .foregroundColor(.newSecondaryText)
                     .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
 
             Button(
@@ -70,7 +72,7 @@ struct ProblemsLimitInfoModalView: View {
     }
 
     private var animationView: some View {
-        let fileName: LottieAnimationFileName? = {
+        let fileName: LottieAnimationFileName? =
             switch viewState.animation {
             case .fullLimits:
                 LottieAnimations.problemsLimitInfoModalFullLimits
@@ -81,12 +83,21 @@ struct ProblemsLimitInfoModalView: View {
             default:
                 nil
             }
-        }()
+
+        let animationSpeed: CGFloat =
+            switch viewState.animation {
+            case .fullLimits:
+                UIScreen.main.maximumFramesPerSecond > 60 ? 0.65 : 0.25
+            case .partiallySpentLimits:
+                2.5
+            default:
+                1
+            }
 
         return LottieAnimationViewWrapper(
             fileName: fileName.require(),
             loopMode: viewState.animation.isLooped ? .loop : .playOnce,
-            animationSpeed: viewState.animation == .fullLimits ? 0.25 : 1
+            animationSpeed: animationSpeed
         )
         .frame(widthHeight: appearance.animationViewWidthHeight)
     }

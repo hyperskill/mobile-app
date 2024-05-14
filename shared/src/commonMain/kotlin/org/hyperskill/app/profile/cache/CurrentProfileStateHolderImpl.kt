@@ -9,7 +9,17 @@ class CurrentProfileStateHolderImpl(
     private val json: Json,
     private val settings: Settings
 ) : CurrentProfileStateHolder {
+
+    private var cachedProfile: Profile? = null
+
     override suspend fun getState(): Profile? {
+        if (cachedProfile == null) {
+            cachedProfile = readProfileFromSettings()
+        }
+        return cachedProfile
+    }
+
+    private fun readProfileFromSettings(): Profile? {
         val key =
             when {
                 settings.hasKey(ProfileCacheKeyValues.CURRENT_PROFILE) ->
@@ -27,6 +37,7 @@ class CurrentProfileStateHolderImpl(
     }
 
     override suspend fun setState(newState: Profile) {
+        this.cachedProfile = newState
         val key =
             if (newState.isGuest) {
                 ProfileCacheKeyValues.GUEST_PROFILE
@@ -40,6 +51,7 @@ class CurrentProfileStateHolderImpl(
     }
 
     override fun resetState() {
+        this.cachedProfile = null
         settings.remove(ProfileCacheKeyValues.GUEST_PROFILE)
         settings.remove(ProfileCacheKeyValues.CURRENT_PROFILE)
     }

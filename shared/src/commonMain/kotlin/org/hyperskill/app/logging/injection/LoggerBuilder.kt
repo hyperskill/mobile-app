@@ -1,14 +1,15 @@
-package org.hyperskill.app.logging.inject
+package org.hyperskill.app.logging.injection
 
 import co.touchlab.kermit.Logger
 import co.touchlab.kermit.Severity
 import co.touchlab.kermit.StaticConfig
 import co.touchlab.kermit.platformLogWriter
 import org.hyperskill.app.core.domain.BuildVariant
-import org.hyperskill.app.logging.SentryLogWriter
+import org.hyperskill.app.logging.sentry.SentryLogWriter
+import org.hyperskill.app.logging.sentry.SentryMessageStringFormatterImpl
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 
-object LoggerBuilder {
+internal object LoggerBuilder {
     private const val LOG_TAG = "HYPERSKILL_APP"
 
     fun build(
@@ -19,7 +20,10 @@ object LoggerBuilder {
             config = StaticConfig(
                 logWriterList = listOfNotNull(
                     if (buildVariant == BuildVariant.RELEASE) null else platformLogWriter(),
-                    SentryLogWriter(sentryInteractor)
+                    SentryLogWriter(
+                        sentryInteractor = sentryInteractor,
+                        sentryMessageStringFormatter = SentryMessageStringFormatterImpl
+                    )
                 ),
                 minSeverity = if (buildVariant == BuildVariant.RELEASE) {
                     Severity.Info

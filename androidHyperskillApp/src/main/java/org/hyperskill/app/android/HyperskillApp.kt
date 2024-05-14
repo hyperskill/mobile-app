@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import org.hyperskill.app.analytic.injection.PlatformAnalyticComponent
 import org.hyperskill.app.android.core.extensions.NotificationChannelInitializer
 import org.hyperskill.app.android.core.injection.AndroidAppComponent
 import org.hyperskill.app.android.core.injection.AndroidAppComponentImpl
@@ -56,7 +57,7 @@ class HyperskillApp : Application(), ImageLoaderFactory {
 
         setNightMode(appGraph)
         initSentry(appGraph)
-        initAppsFlyer(appGraph)
+        initAnalyticEngines(appGraph.platformAnalyticComponent)
         initChannels()
     }
 
@@ -67,8 +68,9 @@ class HyperskillApp : Application(), ImageLoaderFactory {
         appGraph.sentryComponent.sentryInteractor.setup()
     }
 
-    private fun initAppsFlyer(appGraph: AndroidAppComponent) {
-        appGraph.platformAnalyticComponent.appsFlyerAnalyticEngine.startup()
+    private fun initAnalyticEngines(platformAnalyticComponent: PlatformAnalyticComponent) {
+        platformAnalyticComponent.appsFlyerAnalyticEngine.startup()
+        platformAnalyticComponent.amplitudeAnalyticEngine.startup(this)
     }
 
     private fun buildUserAgentInfo() =

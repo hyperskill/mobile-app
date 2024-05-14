@@ -2,144 +2,202 @@ package org.hyperskill.app.android.step.view.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.transition.TransitionManager
 import by.kirich1409.viewbindingdelegate.viewBinding
-import org.hyperskill.app.android.HyperskillApp
+import com.github.terrakok.cicerone.Router
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import kotlin.math.roundToInt
+import kotlinx.serialization.builtins.ListSerializer
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
-import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
-import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
-import org.hyperskill.app.android.step.view.delegate.StepDelegate
-import org.hyperskill.app.android.step.view.model.StepCompletionHost
-import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
-import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
-import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.android.step.view.delegate.StepMenuDelegate
+import org.hyperskill.app.android.step.view.delegate.StepRouterDelegate
+import org.hyperskill.app.android.step.view.model.StepHost
+import org.hyperskill.app.android.step.view.model.StepMenuState
+import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
+import org.hyperskill.app.android.step.view.model.StepToolbarHost
+import org.hyperskill.app.android.step.view.navigation.StepNavigationContainer
+import org.hyperskill.app.android.step.view.navigation.StepWrapperScreen
+import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.presentation.StepFeature
-import org.hyperskill.app.step.presentation.StepViewModel
-import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
-import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
-import ru.nobird.android.view.redux.ui.extension.reduxViewModel
-import ru.nobird.app.presentation.redux.container.ReduxView
+import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
+import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
+import ru.nobird.android.view.base.ui.extension.setTextIfChanged
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepFragment :
-    Fragment(R.layout.fragment_step),
-    ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
-    StepCompletionHost,
-    ShareStreakDialogFragment.Callback {
+@Suppress("DEPRECATION")
+class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost, StepNavigationContainer {
 
     companion object {
-        private const val STEP_TAG = "step"
-
         fun newInstance(stepRoute: StepRoute): Fragment =
             StepFragment()
                 .apply {
-                    this.stepRoute = stepRoute
+                    this.stepRoutesStack = listOf(stepRoute)
                 }
     }
 
-    private var stepDelegate: StepDelegate<StepFragment>? = null
+    // Stores stepRoutes opened in the navigation stack (practice step -> theory step)
+    private var stepRoutesStack: List<StepRoute> by argument(serializer = ListSerializer(StepRoute.serializer()))
 
-    private lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val currentStepRoute: StepRoute
+        get() = stepRoutesStack.last()
+
+    private val stepQuizToolbarCallback: StepQuizToolbarCallback?
+        get() = childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? StepQuizToolbarCallback
 
     private val viewBinding: FragmentStepBinding by viewBinding(FragmentStepBinding::bind)
-    private val stepViewModel: StepViewModel by reduxViewModel(this) { viewModelFactory }
-    private var viewStateDelegate: ViewStateDelegate<StepFeature.StepState>? = null
-    private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
 
-    private val mainScreenRouter: MainScreenRouter =
-        HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+    private var stepMenuDelegate: StepMenuDelegate? = null
+
+    private var stepRouterDelegate: StepRouterDelegate? = null
+
+    override val router: Router
+        get() = requireNotNull(stepRouterDelegate?.router)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectComponent()
-        stepDelegate = StepDelegate(fragment = this)
+        stepRouterDelegate = StepRouterDelegate(
+            containerId = R.id.stepWrapperContainer,
+            fragment = this,
+            onBackPressed = ::popStepRoute
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initViewStateDelegate()
-        stepDelegate?.init(
-            errorBinding = viewBinding.stepError,
-            lifecycle = viewLifecycleOwner.lifecycle,
-            onNewMessage = stepViewModel::onNewMessage
-        )
+        super.onViewCreated(view, savedInstanceState)
+        setupAppBar()
+        setStepFragment()
     }
 
-    private fun injectComponent() {
-        val stepComponent = HyperskillApp.graph().buildStepComponent(stepRoute)
-        val platformStepComponent = HyperskillApp.graph().buildPlatformStepComponent(stepComponent)
-        viewModelFactory = platformStepComponent.reduxViewModelFactory
-    }
-
-    private fun initViewStateDelegate() {
-        viewStateDelegate = ViewStateDelegate<StepFeature.StepState>().apply {
-            addState<StepFeature.StepState.Idle>()
-            addState<StepFeature.StepState.Loading>(viewBinding.stepProgress)
-            addState<StepFeature.StepState.Error>(viewBinding.stepError.root)
-            addState<StepFeature.StepState.Data>(viewBinding.stepContainer)
+    private fun setStepFragment() {
+        if (childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) == null) {
+            router.newRootScreen(StepWrapperScreen(currentStepRoute))
         }
     }
 
-    override fun onAction(action: StepFeature.Action.ViewAction) {
-        stepDelegate?.onAction(
-            mainScreenRouter = mainScreenRouter,
-            action = action
+    private fun setupAppBar() {
+        (requireActivity() as AppCompatActivity)
+            .setSupportActionBar(viewBinding.stepAppBar.stepToolbar)
+        stepMenuDelegate = StepMenuDelegate(
+            viewLifecycleOwner = viewLifecycleOwner,
+            menuHost = requireActivity() as MenuHost,
+            onTheoryClick = ::onTheoryClick,
+            onTheoryFeedbackClick = ::onTheoryFeedbackClick
         )
-    }
-
-    override fun render(state: StepFeature.ViewState) {
-        val stepState = state.stepState
-        viewStateDelegate?.switchState(stepState)
-
-        if (stepState is StepFeature.StepState.Data) {
-            initStepContainer(stepState)
-            (childFragmentManager.findFragmentByTag(STEP_TAG) as? StepCompletionView)
-                ?.render(stepState.stepCompletionState.isPracticingLoading)
+        viewBinding.stepAppBar.stepToolbar.setNavigationOnClickListener {
+            onNavigationClick()
+        }
+        viewBinding.stepAppBar.stepQuizLimitsTextView.setOnClickListener {
+            stepQuizToolbarCallback?.onLimitsClick()
         }
     }
 
-    private fun initStepContainer(data: StepFeature.StepState.Data) {
-        setChildFragment(R.id.stepContainer, STEP_TAG) {
-            when (data.step.type) {
-                Step.Type.PRACTICE -> StepPracticeFragment.newInstance(data.step, stepRoute)
-                Step.Type.THEORY -> StepTheoryFragment.newInstance(data.step, stepRoute, data.isPracticingAvailable)
-            }
+    private fun onNavigationClick() {
+        if (childFragmentManager.fragments.isEmpty()) {
+            requireRouter().exit()
+        } else {
+            popStepRoute()
+            router.exit()
         }
     }
 
     override fun onDestroyView() {
+        this.stepMenuDelegate = null
         super.onDestroyView()
-        viewStateDelegate = null
     }
 
     override fun onDestroy() {
+        stepRouterDelegate = null
         super.onDestroy()
-        stepDelegate = null
     }
 
-    override fun onNewMessage(message: StepCompletionFeature.Message) {
-        stepViewModel.onNewMessage(
-            StepFeature.Message.StepCompletionMessage(message)
-        )
+    override fun reloadStep(stepRoute: StepRoute) {
+        pushStepRoute(stepRoute)
+        router.replaceScreen(StepWrapperScreen(stepRoute))
     }
 
-    override fun onShareStreakBottomSheetShown(streak: Int) {
-        stepViewModel.onShareStreakBottomSheetShown(streak)
+    override fun navigateToTheory(stepRoute: StepRoute) {
+        pushStepRoute(stepRoute)
+        router.navigateTo(StepWrapperScreen(stepRoute))
     }
 
-    override fun onShareStreakBottomSheetDismissed(streak: Int) {
-        stepViewModel.onShareStreakBottomSheetDismissed(streak)
+    override fun renderToolbarContent(viewState: StepToolbarContentViewState) {
+        when (viewState) {
+            is StepToolbarContentViewState.Practice -> {
+                val stepQuizToolbarViewState = viewState.stepQuizToolbarViewState
+                viewBinding.stepAppBar.stepTheoryToolbarTitle.isVisible = false
+                if (!viewBinding.stepAppBar.stepQuizLimitsTextView.isVisible) {
+                    viewBinding.stepAppBar.stepQuizLimitsTextView.isVisible =
+                        stepQuizToolbarViewState is StepQuizToolbarFeature.ViewState.Content.Visible
+                    TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
+                }
+                if (stepQuizToolbarViewState is StepQuizToolbarFeature.ViewState.Content.Visible) {
+                    viewBinding.stepAppBar.stepQuizLimitsTextView.setTextIfChanged(
+                        stepQuizToolbarViewState.stepsLimitLabel
+                    )
+                }
+            }
+            is StepToolbarContentViewState.Theory -> {
+                viewBinding.stepAppBar.stepQuizLimitsTextView.isVisible = false
+                with(viewBinding.stepAppBar.stepTheoryToolbarTitle) {
+                    isVisible = true
+                    setTextIfChanged(viewState.title)
+                }
+                TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
+            }
+        }
     }
 
-    override fun onRefuseStreakSharingClick(streak: Int) {
-        stepViewModel.onRefuseStreakSharingClick(streak)
+    override fun renderTopicProgress(viewState: StepToolbarFeature.ViewState) {
+        val isProgressVisible = viewState is StepToolbarFeature.ViewState.Content
+        viewBinding.stepTopicProgressSeparator.isVisible = isProgressVisible
+        viewBinding.stepTopicProgressIndicator.isVisible = isProgressVisible
+        if (viewState is StepToolbarFeature.ViewState.Content) {
+            setProgress(viewBinding.stepTopicProgressIndicator, viewState.progress)
+        }
     }
 
-    override fun onShareClick(streak: Int) {
-        stepViewModel.onShareClick(streak)
+    @Suppress("MagicNumber")
+    private fun setProgress(
+        progressIndicator: LinearProgressIndicator,
+        progress: Float
+    ) {
+        val normalProgress = (progress * 100).roundToInt()
+        if (normalProgress != progressIndicator.progress) {
+            progressIndicator.setProgressCompat(
+                /* progress = */ normalProgress,
+                /* animated = */ normalProgress > progressIndicator.progress
+            )
+        }
+    }
+
+    override fun renderMenu(menuState: StepMenuState) {
+        stepMenuDelegate?.renderMenu(menuState)
+    }
+
+    private fun onTheoryFeedbackClick() {
+        StepTheoryFeedbackDialogFragment
+            .newInstance(currentStepRoute)
+            .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
+    }
+
+    private fun onTheoryClick() {
+        stepQuizToolbarCallback?.onTheoryClick()
+    }
+
+    @Suppress("MagicNumber")
+    private fun popStepRoute() {
+        stepRoutesStack = stepRoutesStack.dropLast(1)
+    }
+
+    private fun pushStepRoute(stepRoute: StepRoute) {
+        stepRoutesStack = stepRoutesStack + stepRoute
     }
 }

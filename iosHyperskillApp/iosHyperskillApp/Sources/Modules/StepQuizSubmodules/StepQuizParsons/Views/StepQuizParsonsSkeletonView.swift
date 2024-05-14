@@ -17,12 +17,13 @@ struct StepQuizParsonsSkeletonView: View {
             }
 
             SkeletonRoundedButton()
+                .padding(.top)
         }
     }
 }
 
-struct StepQuizParsonsSkeletonView_Previews: PreviewProvider {
-    static var previews: some View {
-        StepQuizParsonsSkeletonView()
-    }
+#if DEBUG
+#Preview {
+    StepQuizParsonsSkeletonView()
 }
+#endif

@@ -77,7 +77,7 @@ internal object StepQuizFeatureBuilder {
             StepQuizFeature.State(
                 stepQuizState = StepQuizFeature.StepQuizState.Idle,
                 stepQuizHintsState = StepQuizHintsFeature.State.Idle,
-                stepQuizToolbarState = StepQuizToolbarFeature.initialState()
+                stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
             ),
             stepQuizReducer
         )

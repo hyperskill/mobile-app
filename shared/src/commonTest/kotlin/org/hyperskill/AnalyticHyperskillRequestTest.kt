@@ -8,18 +8,12 @@ import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_ACTION
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_CLIENT_TIME
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_CONTEXT
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_PART
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_PLATFORM
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_ROUTE
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_TARGET
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent.Companion.PARAM_USER
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticKeys
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.analytic.remote.model.AnalyticHyperskillRequest
+import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
 
 class AnalyticHyperskillRequestTest {
     companion object {
@@ -39,12 +33,15 @@ class AnalyticHyperskillRequestTest {
         action = action,
         part = part,
         target = target,
-        context = mapOf(PARAM_PLATFORM to TEST_PLATFORM)
+        context = mapOf(
+            HyperskillAnalyticKeys.PARAM_PLATFORM to TEST_PLATFORM,
+            HyperskillAnalyticKeys.PARAM_SUBSCRIPTION_TYPE to SubscriptionType.FREEMIUM
+        )
     ) {
         override val params: Map<String, Any>
             get() = super.params + mapOf(
-                PARAM_USER to userId,
-                PARAM_CLIENT_TIME to TEST_CLIENT_TIME
+                HyperskillAnalyticKeys.PARAM_USER to userId,
+                HyperskillAnalyticKeys.PARAM_CLIENT_TIME to TEST_CLIENT_TIME
             )
     }
 
@@ -71,23 +68,25 @@ class AnalyticHyperskillRequestTest {
 
         val expected = buildJsonArray {
             addJsonObject {
-                put(PARAM_CLIENT_TIME, TEST_CLIENT_TIME)
-                put(PARAM_ROUTE, "/home")
-                put(PARAM_ACTION, "view")
-                put(PARAM_PART, "main")
-                put(PARAM_TARGET, "send")
-                put(PARAM_USER, TEST_USER_ID)
-                putJsonObject(PARAM_CONTEXT) {
-                    put(PARAM_PLATFORM, TEST_PLATFORM)
+                put(HyperskillAnalyticKeys.PARAM_CLIENT_TIME, TEST_CLIENT_TIME)
+                put(HyperskillAnalyticKeys.PARAM_ROUTE, "/home")
+                put(HyperskillAnalyticKeys.PARAM_ACTION, "view")
+                put(HyperskillAnalyticKeys.PARAM_PART, "main")
+                put(HyperskillAnalyticKeys.PARAM_TARGET, "send")
+                put(HyperskillAnalyticKeys.PARAM_USER, TEST_USER_ID)
+                putJsonObject(HyperskillAnalyticKeys.PARAM_CONTEXT) {
+                    put(HyperskillAnalyticKeys.PARAM_PLATFORM, TEST_PLATFORM)
+                    put(HyperskillAnalyticKeys.PARAM_SUBSCRIPTION_TYPE, SubscriptionType.FREEMIUM.name)
                 }
             }
             addJsonObject {
-                put(PARAM_CLIENT_TIME, TEST_CLIENT_TIME)
-                put(PARAM_ROUTE, "/home")
-                put(PARAM_ACTION, "click")
-                put(PARAM_USER, TEST_USER_ID)
-                putJsonObject(PARAM_CONTEXT) {
-                    put(PARAM_PLATFORM, TEST_PLATFORM)
+                put(HyperskillAnalyticKeys.PARAM_CLIENT_TIME, TEST_CLIENT_TIME)
+                put(HyperskillAnalyticKeys.PARAM_ROUTE, "/home")
+                put(HyperskillAnalyticKeys.PARAM_ACTION, "click")
+                put(HyperskillAnalyticKeys.PARAM_USER, TEST_USER_ID)
+                putJsonObject(HyperskillAnalyticKeys.PARAM_CONTEXT) {
+                    put(HyperskillAnalyticKeys.PARAM_PLATFORM, TEST_PLATFORM)
+                    put(HyperskillAnalyticKeys.PARAM_SUBSCRIPTION_TYPE, SubscriptionType.FREEMIUM.name)
                 }
             }
         }

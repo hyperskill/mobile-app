@@ -25,7 +25,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.databinding.FragmentSearchTopicBinding
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.topic_search.ui.TopicSearchResult
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.search.presentation.SearchFeature

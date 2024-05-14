@@ -1,13 +1,13 @@
 package org.hyperskill.app.sentry.domain.model.breadcrumb
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticKeys
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel
 
 object HyperskillSentryBreadcrumbAnalyticEventMapper {
     private val PARAMS_TO_IGNORE = setOf(
-        HyperskillAnalyticEvent.PARAM_CLIENT_TIME,
-        HyperskillAnalyticEvent.PARAM_PLATFORM
+        HyperskillAnalyticKeys.PARAM_CLIENT_TIME,
+        HyperskillAnalyticKeys.PARAM_PLATFORM
     )
 
     fun mapAnalyticEvent(event: AnalyticEvent): HyperskillSentryBreadcrumb =

@@ -1,6 +1,7 @@
 package org.hyperskill.app.problems_limit_info.injection
 
 import co.touchlab.kermit.Logger
+import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -41,6 +42,19 @@ internal object ProblemsLimitInfoModalFeatureBuilder {
         )
 
         val viewStateMapper = ProblemsLimitInfoModalViewStateMapper(resourceProvider, dateFormatter)
+
+        if (params.subscription.stepsLimitResetTime != null &&
+            params.subscription.stepsLimitResetTime < Clock.System.now()
+        ) {
+            logger.e(
+                """
+                stepsLimitResetTime is in the past:
+                subscription: {$params.subscription},
+                chargeLimitsStrategy: ${params.chargeLimitsStrategy},
+                launchSource: ${params.context.launchSource}
+                """.trimIndent()
+            )
+        }
 
         return ReduxFeature(
             initialState = ProblemsLimitInfoModalFeature.initialState(

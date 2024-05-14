@@ -9,6 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
+import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
@@ -18,17 +19,15 @@ import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragment
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
-import org.hyperskill.app.android.step.view.screen.StepScreen
+import org.hyperskill.app.android.step.view.model.StepHost
+import org.hyperskill.app.android.step.view.navigation.requireStepRouter
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
-class StepDelegate<TFragment>(
-    private val fragment: TFragment
-) where TFragment : Fragment,
-        TFragment : ShareStreakDialogFragment.Callback {
+object StepDelegate {
 
     fun init(
         errorBinding: ErrorNoConnectionWithButtonBinding,
@@ -51,15 +50,16 @@ class StepDelegate<TFragment>(
         }
     }
 
-    fun onAction(
+    fun <TFragment> onAction(
+        fragment: TFragment,
         mainScreenRouter: MainScreenRouter,
         action: StepFeature.Action.ViewAction
-    ) {
+    ) where TFragment : Fragment, TFragment : ShareStreakDialogFragment.Callback {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
                 when (val stepCompletionAction = action.viewAction) {
                     StepCompletionFeature.Action.ViewAction.NavigateTo.Back -> {
-                        fragment.requireRouter().exit()
+                        fragment.requireStepRouter().exit()
                     }
 
                     StepCompletionFeature.Action.ViewAction.NavigateTo.StudyPlan -> {
@@ -68,7 +68,7 @@ class StepDelegate<TFragment>(
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ReloadStep -> {
-                        fragment.requireRouter().replaceScreen(StepScreen(stepCompletionAction.stepRoute))
+                        fragment.parentOfType(StepHost::class.java)?.reloadStep(stepCompletionAction.stepRoute)
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowStartPracticingError -> {
@@ -103,7 +103,7 @@ class StepDelegate<TFragment>(
                             .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
-                        shareStreak(stepCompletionAction.streak)
+                        shareStreak(fragment, stepCompletionAction.streak)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowRequestUserReviewModal ->
                         RequestReviewDialogFragment
@@ -138,7 +138,10 @@ class StepDelegate<TFragment>(
         return "$title\n$link"
     }
 
-    private fun shareStreak(streak: Int) {
+    private fun shareStreak(
+        fragment: Fragment,
+        streak: Int
+    ) {
         val shareIntent = ShareUtils.getShareDrawableIntent(
             fragment.requireContext(),
             getShareStreakDrawableRes(streak),

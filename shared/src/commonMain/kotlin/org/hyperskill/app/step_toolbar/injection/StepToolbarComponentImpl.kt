@@ -17,6 +17,7 @@ internal class StepToolbarComponentImpl(
         get() = StepToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
-            progressesInteractor = appGraph.buildProgressesDataComponent().progressesInteractor
+            progressesInteractor = appGraph.buildProgressesDataComponent().progressesInteractor,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
 }

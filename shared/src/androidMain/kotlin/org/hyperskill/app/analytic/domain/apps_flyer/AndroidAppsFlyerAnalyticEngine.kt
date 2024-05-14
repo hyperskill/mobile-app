@@ -5,9 +5,9 @@ import co.touchlab.kermit.Logger
 import com.appsflyer.AppsFlyerLib
 import com.appsflyer.attribution.AppsFlyerRequestListener
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
 import org.hyperskill.app.analytic.domain.model.apps_flyer.AppsFlyerAnalyticEngine
 import org.hyperskill.app.config.BuildKonfig
-import org.hyperskill.app.core.domain.model.ScreenOrientation
 
 class AndroidAppsFlyerAnalyticEngine(
     logger: Logger,
@@ -40,7 +40,11 @@ class AndroidAppsFlyerAnalyticEngine(
             )
     }
 
-    override suspend fun reportEvent(event: AnalyticEvent, force: Boolean) {
+    override suspend fun reportEvent(
+        event: AnalyticEvent,
+        userProperties: AnalyticEventUserProperties,
+        force: Boolean
+    ) {
         AppsFlyerLib
             .getInstance()
             .logEvent(
@@ -58,17 +62,5 @@ class AndroidAppsFlyerAnalyticEngine(
                     }
                 }
             )
-    }
-
-    override suspend fun flushEvents() {
-        // no op
-    }
-
-    override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
-        // no op
-    }
-
-    override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
-        // no op
     }
 }

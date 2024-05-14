@@ -64,7 +64,7 @@ interface AuthSocialFeature {
             val socialAuthProvider: SocialAuthProvider
         ) : Action
 
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : Action
+        class LogAnalyticEvent(vararg val analyticEvent: AnalyticEvent) : Action
 
         /**
          * Sentry

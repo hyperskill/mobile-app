@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/stepContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/stepProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-
-        app:layout_constraintTop_toTopOf="parent" />
 
     <include
-        android:id="@+id/stepError"
-        layout="@layout/error_no_connection_with_button"
+        android:id="@+id/stepAppBar"
+        layout="@layout/view_step_appbar"/>
 
+    <View
+        android:id="@+id/stepTopicProgressSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_on_surface_alpha_12"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/stepTopicProgressIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:trackThickness="8dp"
+        android:max="100"
+        android:progress="0"
+        app:trackColor="@color/color_on_surface_alpha_9"
+        app:indicatorDirectionLinear="startToEnd"
+        android:visibility="gone"
+        tools:progress="50"
+        tools:visibility="visible"/>
+
+    <FrameLayout
+        android:id="@+id/stepWrapperContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

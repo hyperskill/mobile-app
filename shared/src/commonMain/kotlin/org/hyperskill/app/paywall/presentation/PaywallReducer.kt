@@ -6,6 +6,7 @@ import org.hyperskill.app.paywall.domain.analytic.PaywallClickedBuySubscriptionH
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedContinueWithLimitsHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedRetryContentLoadingHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallClickedTermsOfServiceAndPrivacyPolicyHyperskillAnalyticEvent
+import org.hyperskill.app.paywall.domain.analytic.PaywallSubscriptionPurchasedAmplitudeAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallSubscriptionPurchasedAppsFlyerAnalyticEvent
 import org.hyperskill.app.paywall.domain.analytic.PaywallViewedHyperskillAnalyticEvent
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
@@ -106,7 +107,10 @@ internal class PaywallReducer(
                 is PurchaseResult.Succeed -> {
                     state.copy(isPurchaseSyncLoadingShowed = true) to setOf(
                         InternalAction.SyncSubscription,
-                        InternalAction.LogAnalyticEvent(PaywallSubscriptionPurchasedAppsFlyerAnalyticEvent)
+                        InternalAction.LogAnalyticEvent(
+                            PaywallSubscriptionPurchasedAppsFlyerAnalyticEvent,
+                            PaywallSubscriptionPurchasedAmplitudeAnalyticEvent
+                        )
                     )
                 }
                 is PurchaseResult.Error.ProductAlreadyPurchasedError -> {

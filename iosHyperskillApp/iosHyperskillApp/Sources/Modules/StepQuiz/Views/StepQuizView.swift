@@ -30,6 +30,7 @@ struct StepQuizView: View {
         let viewData = viewModel.makeViewData()
 
         buildBody(viewData: viewData)
+            .animation(.default, value: viewModel.state)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 viewModel.startListening()
@@ -155,6 +156,7 @@ struct StepQuizView: View {
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
+                .padding(.top)
         }
     }
     // swiftlint:enable function_parameter_count
@@ -350,7 +352,7 @@ private extension StepQuizView {
 
     func handleNavigateToViewAction(_ viewAction: StepQuizFeatureActionViewActionNavigateTo) {
         switch StepQuizFeatureActionViewActionNavigateToKs(viewAction) {
-        case .stepScreen(let data):
+        case .theoryStepScreen(let data):
             let assembly = StepAssembly(stepRoute: data.stepRoute)
             stackRouter.pushViewController(assembly.makeModule())
         case .studyPlan:

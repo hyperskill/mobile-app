@@ -86,6 +86,7 @@
 		2C198E082AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E072AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift */; };
 		2C198E0A2AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C198E092AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift */; };
 		2C1B71052B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1B71042B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift */; };
+		2C1CF25B2BEBD5260073C234 /* CodePlaygroundGetCurrentTokenPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1CF25A2BEBD5260073C234 /* CodePlaygroundGetCurrentTokenPerformanceTests.swift */; };
 		2C1F5869280D063800372A37 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F5868280D063800372A37 /* WebViewController.swift */; };
 		2C1F586B280D094A00372A37 /* WebControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586A280D094A00372A37 /* WebControllerManager.swift */; };
 		2C1F5870280D0CB700372A37 /* WebCacheCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1F586F280D0CB700372A37 /* WebCacheCleaner.swift */; };
@@ -128,6 +129,7 @@
 		2C25BFD52851F8F00036C689 /* UIColor+DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */; };
 		2C2600832A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2600822A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift */; };
 		2C2600852A1FF8B000BD3D39 /* AppPowerModeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */; };
+		2C2780C62BD8E968003CC243 /* AmplitudeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2780C52BD8E968003CC243 /* AmplitudeManager.swift */; };
 		2C27C77C28772F8A006A641A /* ImageDecoders+SVG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C27C77B28772F8A006A641A /* ImageDecoders+SVG.swift */; };
 		2C27C77E28773042006A641A /* NukeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C27C77D28773042006A641A /* NukeManager.swift */; };
 		2C2B7DD22946EF2800FAB55D /* WebViewNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */; };
@@ -201,6 +203,8 @@
 		2C52F9972B98711A001524B5 /* PaywallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9962B98711A001524B5 /* PaywallViewModel.swift */; };
 		2C52F99A2B9871E7001524B5 /* PaywallAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */; };
 		2C52F99C2B987397001524B5 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C52F99B2B987397001524B5 /* PaywallView.swift */; };
+		2C542E782BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542E772BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift */; };
+		2C542E7A2BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C542E792BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift */; };
 		2C54E4222A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */; };
 		2C54E4262A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */; };
 		2C54E4282A1F717F003406B9 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C54E4272A1F717F003406B9 /* CardView.swift */; };
@@ -252,6 +256,10 @@
 		2C7036E82943A2A800775E87 /* ProblemOfDaySkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */; };
 		2C7036EA2943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */; };
 		2C708D3228E5AA700061A8DB /* KotlinThrowable+AsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */; };
+		2C70B75A2BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */; };
+		2C70B75B2BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */; };
+		2C70B7612BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */; };
+		2C70B7642BE0FC4900DFC104 /* SpacebotWowAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C70B7632BE0FC4900DFC104 /* SpacebotWowAnimationView.swift */; };
 		2C725B5E28090D1F00A49043 /* View+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B5D28090D1F00A49043 /* View+Border.swift */; };
 		2C725B612809125700A49043 /* LayoutInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B602809125700A49043 /* LayoutInsets.swift */; };
 		2C725B632809198000A49043 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C725B622809198000A49043 /* BackgroundView.swift */; };
@@ -259,6 +267,7 @@
 		2C7271282B6B92AD005628B0 /* PaywallFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7271272B6B92AD005628B0 /* PaywallFooterView.swift */; };
 		2C76136A2B99CBA500AE3204 /* ManageSubscriptionFeatureViewStateKsExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7613692B99CBA500AE3204 /* ManageSubscriptionFeatureViewStateKsExtensions.swift */; };
 		2C772E7D28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */; };
+		2C77E8B32BDBD80A0046E5D1 /* HTMLExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C77E8B22BDBD80A0046E5D1 /* HTMLExtractorTests.swift */; };
 		2C7802C5285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */; };
 		2C7822612942F9CF0067200F /* StreakBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */; };
 		2C792324287B759500A3F61D /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C792323287B759500A3F61D /* StringExtensions.swift */; };
@@ -420,6 +429,11 @@
 		2CB1962428EF27F30075F7EF /* UIKitViewControllerPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */; };
 		2CB279AD28C72A9500EDDCC8 /* TabBarRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */; };
 		2CB279AF28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB279AE28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift */; };
+		2CB2BDB12BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB02BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift */; };
+		2CB2BDB32BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB22BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift */; };
+		2CB2BDB52BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB42BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift */; };
+		2CB2BDB72BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB62BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift */; };
+		2CB2BDB92BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BDB82BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift */; };
 		2CB2BF272AE91F38000A144F /* FillBlanksModeWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2BF262AE91F38000A144F /* FillBlanksModeWrapper.swift */; };
 		2CB45762288EC29D007C2D77 /* StepQuizActionButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB45761288EC29D007C2D77 /* StepQuizActionButtons.swift */; };
 		2CB45764288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB45763288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift */; };
@@ -446,6 +460,7 @@
 		2CC78D0C28C74EF90006EF91 /* ViewRelatedEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0B28C74EF90006EF91 /* ViewRelatedEventsViewController.swift */; };
 		2CC78D0E28C75A3D0006EF91 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */; };
 		2CC95C0E2A4EBB970036C73E /* ProjectLevelAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC95C0D2A4EBB970036C73E /* ProjectLevelAvatarView.swift */; };
+		2CCAAB7F2BEA561C001A040F /* spacebot-progress-bar-wow.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCAAB7E2BEA561C001A040F /* spacebot-progress-bar-wow.lottie */; };
 		2CCC421F2ABD810A0067C869 /* GhostButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC421E2ABD810A0067C869 /* GhostButtonStyle.swift */; };
 		2CCCA3992862D58E00D98089 /* StepQuizStringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */; };
 		2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */; };
@@ -807,6 +822,7 @@
 		2C198E072AEA8BB900DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsCollectionViewAdapter.swift; sourceTree = "<group>"; };
 		2C198E092AEA904800DCD35A /* StepQuizFillBlanksSelectOptionsViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksSelectOptionsViewWrapper.swift; sourceTree = "<group>"; };
 		2C1B71042B6CB7D9003FD4A1 /* OffsetObservingScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OffsetObservingScrollView.swift; sourceTree = "<group>"; };
+		2C1CF25A2BEBD5260073C234 /* CodePlaygroundGetCurrentTokenPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundGetCurrentTokenPerformanceTests.swift; sourceTree = "<group>"; };
 		2C1F5868280D063800372A37 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		2C1F586A280D094A00372A37 /* WebControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebControllerManager.swift; sourceTree = "<group>"; };
 		2C1F586F280D0CB700372A37 /* WebCacheCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCacheCleaner.swift; sourceTree = "<group>"; };
@@ -851,6 +867,7 @@
 		2C25BFD42851F8F00036C689 /* UIColor+DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DesignSystem.swift"; sourceTree = "<group>"; };
 		2C2600822A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsSkeletonView.swift; sourceTree = "<group>"; };
 		2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPowerModeObserver.swift; sourceTree = "<group>"; };
+		2C2780C52BD8E968003CC243 /* AmplitudeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeManager.swift; sourceTree = "<group>"; };
 		2C27C77B28772F8A006A641A /* ImageDecoders+SVG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDecoders+SVG.swift"; sourceTree = "<group>"; };
 		2C27C77D28773042006A641A /* NukeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NukeManager.swift; sourceTree = "<group>"; };
 		2C2B7DD12946EF2800FAB55D /* WebViewNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewNavigationController.swift; sourceTree = "<group>"; };
@@ -928,6 +945,8 @@
 		2C52F9962B98711A001524B5 /* PaywallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallViewModel.swift; sourceTree = "<group>"; };
 		2C52F9992B9871E7001524B5 /* PaywallAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallAssembly.swift; sourceTree = "<group>"; };
 		2C52F99B2B987397001524B5 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		2C542E772BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManagerCountTabSizeTests.swift; sourceTree = "<group>"; };
+		2C542E792BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundManagerCountTabSizePerformanceTests.swift; sourceTree = "<group>"; };
 		2C54E4212A1F6672003406B9 /* TrackSelectionDetailsFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C54E4252A1F7086003406B9 /* TrackSelectionDetailsDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsDescriptionView.swift; sourceTree = "<group>"; };
 		2C54E4272A1F717F003406B9 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -980,6 +999,10 @@
 		2C7036E72943A2A800775E87 /* ProblemOfDaySkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProblemOfDaySkeletonView.swift; sourceTree = "<group>"; };
 		2C7036E92943A34000775E87 /* TopicsRepetitionsCardSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsCardSkeletonView.swift; sourceTree = "<group>"; };
 		2C708D3128E5AA700061A8DB /* KotlinThrowable+AsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KotlinThrowable+AsError.swift"; sourceTree = "<group>"; };
+		2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-dark.lottie"; sourceTree = "<group>"; };
+		2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-rocket-light.lottie"; sourceTree = "<group>"; };
+		2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacebotRocketAnimationView.swift; sourceTree = "<group>"; };
+		2C70B7632BE0FC4900DFC104 /* SpacebotWowAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpacebotWowAnimationView.swift; sourceTree = "<group>"; };
 		2C725B5D28090D1F00A49043 /* View+Border.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Border.swift"; sourceTree = "<group>"; };
 		2C725B602809125700A49043 /* LayoutInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutInsets.swift; sourceTree = "<group>"; };
 		2C725B622809198000A49043 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
@@ -987,6 +1010,7 @@
 		2C7271272B6B92AD005628B0 /* PaywallFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallFooterView.swift; sourceTree = "<group>"; };
 		2C7613692B99CBA500AE3204 /* ManageSubscriptionFeatureViewStateKsExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageSubscriptionFeatureViewStateKsExtensions.swift; sourceTree = "<group>"; };
 		2C772E7C28ABB4E500A58758 /* AppleIDSocialAuthSDKProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIDSocialAuthSDKProvider.swift; sourceTree = "<group>"; };
+		2C77E8B22BDBD80A0046E5D1 /* HTMLExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLExtractorTests.swift; sourceTree = "<group>"; };
 		2C7802C4285C93F900082547 /* StepQuizActionButtonState+SubmissionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StepQuizActionButtonState+SubmissionStatus.swift"; sourceTree = "<group>"; };
 		2C7822602942F9CF0067200F /* StreakBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakBarButtonItem.swift; sourceTree = "<group>"; };
 		2C792323287B759500A3F61D /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -1149,6 +1173,11 @@
 		2CB1962328EF27F30075F7EF /* UIKitViewControllerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitViewControllerPreview.swift; sourceTree = "<group>"; };
 		2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarRouter.swift; sourceTree = "<group>"; };
 		2CB279AE28C72AA400EDDCC8 /* DeepLinkRouterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkRouterProtocol.swift; sourceTree = "<group>"; };
+		2CB2BDB02BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundGetChangesSubstringTests.swift; sourceTree = "<group>"; };
+		2CB2BDB22BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundGetCurrentTokenTests.swift; sourceTree = "<group>"; };
+		2CB2BDB42BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundShouldMakeTabLineAfterTests.swift; sourceTree = "<group>"; };
+		2CB2BDB62BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundGetChangesSubstringPerformanceTests.swift; sourceTree = "<group>"; };
+		2CB2BDB82BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift; sourceTree = "<group>"; };
 		2CB2BF262AE91F38000A144F /* FillBlanksModeWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlanksModeWrapper.swift; sourceTree = "<group>"; };
 		2CB45761288EC29D007C2D77 /* StepQuizActionButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizActionButtons.swift; sourceTree = "<group>"; };
 		2CB45763288ED6D4007C2D77 /* StepQuizActionButtonCodeQuizDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizActionButtonCodeQuizDelegate.swift; sourceTree = "<group>"; };
@@ -1175,6 +1204,7 @@
 		2CC78D0B28C74EF90006EF91 /* ViewRelatedEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRelatedEventsViewController.swift; sourceTree = "<group>"; };
 		2CC78D0D28C75A3D0006EF91 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		2CC95C0D2A4EBB970036C73E /* ProjectLevelAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectLevelAvatarView.swift; sourceTree = "<group>"; };
+		2CCAAB7E2BEA561C001A040F /* spacebot-progress-bar-wow.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "spacebot-progress-bar-wow.lottie"; sourceTree = "<group>"; };
 		2CCC421E2ABD810A0067C869 /* GhostButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostButtonStyle.swift; sourceTree = "<group>"; };
 		2CCCA3982862D58E00D98089 /* StepQuizStringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringView.swift; sourceTree = "<group>"; };
 		2CCCA39A2862E3BB00D98089 /* StepQuizStringDataType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringDataType.swift; sourceTree = "<group>"; };
@@ -2560,6 +2590,52 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		2C70B7532BE0E96400DFC104 /* SpacebotProgressBar */ = {
+			isa = PBXGroup;
+			children = (
+				2C70B7562BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie */,
+				2C70B7572BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie */,
+				2CCAAB7E2BEA561C001A040F /* spacebot-progress-bar-wow.lottie */,
+			);
+			path = SpacebotProgressBar;
+			sourceTree = "<group>";
+		};
+		2C70B75C2BE0E9A600DFC104 /* ProblemsLimitInfo */ = {
+			isa = PBXGroup;
+			children = (
+				2CE3F5C22BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie */,
+				2CE3F5BD2BD7BB79000B51A4 /* problems-limit-info-modal-full-limits-light.lottie */,
+				2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie */,
+				2CE3F5BF2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-light.lottie */,
+				2CE3F5C02BD7BB79000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie */,
+				2CE3F5C12BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie */,
+			);
+			path = ProblemsLimitInfo;
+			sourceTree = "<group>";
+		};
+		2C70B75D2BE0E9FD00DFC104 /* ProblemsOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */,
+				2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */,
+				2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */,
+				2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */,
+				2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */,
+				2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */,
+			);
+			path = ProblemsOnboarding;
+			sourceTree = "<group>";
+		};
+		2C70B7622BE0F35900DFC104 /* ToolbarProgress */ = {
+			isa = PBXGroup;
+			children = (
+				2C70B7602BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift */,
+				2C70B7632BE0FC4900DFC104 /* SpacebotWowAnimationView.swift */,
+				2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */,
+			);
+			path = ToolbarProgress;
+			sourceTree = "<group>";
+		};
 		2C725B5C28090CE500A49043 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -2784,6 +2860,7 @@
 		2C906CBC280E5C7D0079C594 /* Systems */ = {
 			isa = PBXGroup;
 			children = (
+				2C2780C52BD8E968003CC243 /* AmplitudeManager.swift */,
 				E99D4CEC2826A37400B49D52 /* AppAppearance.swift */,
 				2C2600842A1FF8B000BD3D39 /* AppPowerModeObserver.swift */,
 				2CFBFC142AD4264900D4935D /* AppsFlyerManager.swift */,
@@ -3124,19 +3201,10 @@
 		2CAA3C642AA9C40C004F6CE6 /* LottieAnimations */ = {
 			isa = PBXGroup;
 			children = (
-				2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */,
-				2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */,
-				2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */,
-				2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */,
-				2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */,
-				2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */,
-				2CE3F5C22BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie */,
-				2CE3F5BD2BD7BB79000B51A4 /* problems-limit-info-modal-full-limits-light.lottie */,
-				2CE3F5BE2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie */,
-				2CE3F5BF2BD7BB79000B51A4 /* problems-limit-info-modal-no-limits-light.lottie */,
-				2CE3F5C02BD7BB79000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie */,
-				2CE3F5C12BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie */,
 				2CAA3C692AA9C7B6004F6CE6 /* LottieAnimations.swift */,
+				2C70B75C2BE0E9A600DFC104 /* ProblemsLimitInfo */,
+				2C70B75D2BE0E9FD00DFC104 /* ProblemsOnboarding */,
+				2C70B7532BE0E96400DFC104 /* SpacebotProgressBar */,
 			);
 			path = LottieAnimations;
 			sourceTree = "<group>";
@@ -3168,10 +3236,10 @@
 				2C971B842AC2F5DC00868FCE /* StepExpandableStepTextView.swift */,
 				2CAE8CF628052F9600E6C83D /* StepHeaderView.swift */,
 				2C8409522805BF3C009C6BE9 /* StepTheoryContentView.swift */,
-				2C52A3492BD0D73800A76AB3 /* StepToolbarProgressView.swift */,
 				2CAE8CF1280525C900E6C83D /* StepView.swift */,
 				2CAE8D0A280578A200E6C83D /* BottomControls */,
 				2CD0BA05298B985A0037479A /* Modals */,
+				2C70B7622BE0F35900DFC104 /* ToolbarProgress */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3251,6 +3319,29 @@
 				2CB279AC28C72A9500EDDCC8 /* TabBarRouter.swift */,
 			);
 			path = Routers;
+			sourceTree = "<group>";
+		};
+		2CB2BDAC2BEB779C009E2D83 /* CodeEditor */ = {
+			isa = PBXGroup;
+			children = (
+				2CB2BDAF2BEB7F4F009E2D83 /* CodePlaygroundManager */,
+			);
+			path = CodeEditor;
+			sourceTree = "<group>";
+		};
+		2CB2BDAF2BEB7F4F009E2D83 /* CodePlaygroundManager */ = {
+			isa = PBXGroup;
+			children = (
+				2CB2BDB62BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift */,
+				2CB2BDB02BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift */,
+				2C1CF25A2BEBD5260073C234 /* CodePlaygroundGetCurrentTokenPerformanceTests.swift */,
+				2CB2BDB22BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift */,
+				2C542E792BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift */,
+				2C542E772BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift */,
+				2CB2BDB82BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift */,
+				2CB2BDB42BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift */,
+			);
+			path = CodePlaygroundManager;
 			sourceTree = "<group>";
 		};
 		2CB559302B87024000D949CB /* UsersQuestionnaireOnboarding */ = {
@@ -3644,6 +3735,7 @@
 		2CE7B48C2AB0A06000DCBE4D /* FrameworksTests */ = {
 			isa = PBXGroup;
 			children = (
+				2CB2BDAC2BEB779C009E2D83 /* CodeEditor */,
 				2CE7B48D2AB0A07300DCBE4D /* ContentProcessor */,
 			);
 			path = FrameworksTests;
@@ -3652,6 +3744,7 @@
 		2CE7B48D2AB0A07300DCBE4D /* ContentProcessor */ = {
 			isa = PBXGroup;
 			children = (
+				2C77E8B22BDBD80A0046E5D1 /* HTMLExtractorTests.swift */,
 				2CE7B48E2AB0A09100DCBE4D /* HTMLStringTests.swift */,
 			);
 			path = ContentProcessor;
@@ -4468,12 +4561,15 @@
 				2CCECFC32BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
+				2C70B75B2BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
 				2CCECFC22BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie in Resources */,
 				2CE3F5C82BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie in Resources */,
+				2CCAAB7F2BEA561C001A040F /* spacebot-progress-bar-wow.lottie in Resources */,
 				2C4F3C892BB29E7B0055E89F /* PrivacyInfo.xcprivacy in Resources */,
 				2C98C7A62850B93100857783 /* alt.css in Resources */,
 				E9954647288EC11000013FA6 /* LaunchScreen.storyboard in Resources */,
+				2C70B75A2BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
 				2CA9895D2B9812AD007CD455 /* RevenueCat-Info.plist in Resources */,
 				2C20FBBC284F647C006D879E /* wysiwyg.css in Resources */,
@@ -4562,13 +4658,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C542E782BECB3B900B578AD /* CodePlaygroundManagerCountTabSizeTests.swift in Sources */,
 				2CF87DA729B71D150092FF83 /* IntrospectTestUtils.swift in Sources */,
 				2C919E3327EEF92F0022A2F2 /* LinkedListTests.swift in Sources */,
+				2CB2BDB12BEB7F65009E2D83 /* CodePlaygroundGetChangesSubstringTests.swift in Sources */,
+				2CB2BDB52BEB81A1009E2D83 /* CodePlaygroundShouldMakeTabLineAfterTests.swift in Sources */,
 				2C919E3727EF00950022A2F2 /* QueueTests.swift in Sources */,
+				2CB2BDB92BEB934D009E2D83 /* CodePlaygroundShouldMakeTabLineAfterPerformanceTests.swift in Sources */,
+				2CB2BDB72BEB8488009E2D83 /* CodePlaygroundGetChangesSubstringPerformanceTests.swift in Sources */,
 				2CF87DA929B71D500092FF83 /* IntrospectViewControllerTests.swift in Sources */,
 				2C1F587E280D2F9200372A37 /* URLExtensionsTests.swift in Sources */,
+				2CB2BDB32BEB8054009E2D83 /* CodePlaygroundGetCurrentTokenTests.swift in Sources */,
 				2CA542272ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift in Sources */,
+				2C1CF25B2BEBD5260073C234 /* CodePlaygroundGetCurrentTokenPerformanceTests.swift in Sources */,
+				2C542E7A2BECB4A200B578AD /* CodePlaygroundManagerCountTabSizePerformanceTests.swift in Sources */,
 				2CE7B48F2AB0A09100DCBE4D /* HTMLStringTests.swift in Sources */,
+				2C77E8B32BDBD80A0046E5D1 /* HTMLExtractorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4985,6 +5090,7 @@
 				2C54E42F2A1FAA88003406B9 /* TrackSelectionDetailsProvidersView.swift in Sources */,
 				E996D41029221F0E00A47498 /* TopicsRepetitionsRepeatBlock.swift in Sources */,
 				2C195D092B84863F0076B2C8 /* UsersQuestionnaireOnboardingChoicesView.swift in Sources */,
+				2C2780C62BD8E968003CC243 /* AmplitudeManager.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
 				E9A22BA0295081BD001700B7 /* StreakFreezeModalViewController.swift in Sources */,
 				2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */,
@@ -4999,6 +5105,7 @@
 				2C8E4F96284895A30011ADFA /* PanModalPresentableViewController.swift in Sources */,
 				E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */,
 				2C975D662A1128670068FD4E /* FeedbackGenerator.swift in Sources */,
+				2C70B7612BE0EC1E00DFC104 /* SpacebotRocketAnimationView.swift in Sources */,
 				2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */,
 				2C05AC482A0EA0180039C7EF /* ProjectSelectionListAssembly.swift in Sources */,
 				2C2FD61E28191EC0004E7AF6 /* SentryManager.swift in Sources */,
@@ -5152,6 +5259,7 @@
 				2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */,
 				2CE0F6EA2BB408160032C439 /* StepTheoryFeedbackModalAssembly.swift in Sources */,
 				2C4F63A32A104EA300D4EE39 /* ProjectSelectionListGridSectionSkeletonView.swift in Sources */,
+				2C70B7642BE0FC4900DFC104 /* SpacebotWowAnimationView.swift in Sources */,
 				2C2600832A1FE28F00BD3D39 /* TrackSelectionDetailsSkeletonView.swift in Sources */,
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
@@ -5253,7 +5361,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -5274,7 +5382,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
@@ -5295,7 +5403,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
@@ -5316,7 +5424,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5337,7 +5445,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -5366,7 +5474,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5512,7 +5620,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;
@@ -5548,7 +5656,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 431;
+				CURRENT_PROJECT_VERSION = 452;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;

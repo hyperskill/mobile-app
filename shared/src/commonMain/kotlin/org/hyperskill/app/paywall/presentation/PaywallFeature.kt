@@ -110,6 +110,6 @@ object PaywallFeature {
             val actualSubscriptionType: SubscriptionType
         ) : InternalAction
 
-        data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+        class LogAnalyticEvent(vararg val analyticEvents: AnalyticEvent) : InternalAction
     }
 }
