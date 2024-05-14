@@ -3,6 +3,7 @@ package org.hyperskill.app.main.domain.interactor
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.main.domain.analytic.AppLaunchFirstTimeAppsFlyerAnalyticEvent
 import org.hyperskill.app.main.domain.analytic.AppLaunchFirstTimeHyperskillAnalyticEvent
 import org.hyperskill.app.main.domain.repository.AppRepository
 import org.hyperskill.app.notification.remote.domain.interactor.PushNotificationsInteractor
@@ -50,7 +51,10 @@ class AppInteractor(
     suspend fun logAppLaunchFirstTimeAnalyticEventIfNeeded() {
         if (!appRepository.isAppDidLaunchFirstTime()) {
             appRepository.setAppDidLaunchFirstTime()
-            analyticInteractor.logEvent(AppLaunchFirstTimeHyperskillAnalyticEvent)
+            with(analyticInteractor) {
+                logEvent(AppLaunchFirstTimeHyperskillAnalyticEvent)
+                logEvent(AppLaunchFirstTimeAppsFlyerAnalyticEvent)
+            }
         }
     }
 

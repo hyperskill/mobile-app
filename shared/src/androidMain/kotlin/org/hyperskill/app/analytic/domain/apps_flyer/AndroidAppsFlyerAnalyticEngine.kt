@@ -18,6 +18,7 @@ class AndroidAppsFlyerAnalyticEngine(
     private val logger: Logger =
         logger.withTag("AppsFlyerAnalyticEngine")
 
+    @Suppress("MagicNumber")
     fun startup() {
         val appsFlyerLib = AppsFlyerLib.getInstance()
         if (isDebugMode) {
@@ -45,6 +46,9 @@ class AndroidAppsFlyerAnalyticEngine(
         userProperties: AnalyticEventUserProperties,
         force: Boolean
     ) {
+        AppsFlyerLib
+            .getInstance()
+            .setCustomerUserId(userProperties.userId?.toString())
         AppsFlyerLib
             .getInstance()
             .logEvent(

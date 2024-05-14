@@ -69,6 +69,8 @@ final class AppsFlyerManager: AppsFlyerAnalyticEngine {
         let name = event.name
         let values = event.params
 
+        AppsFlyerLib.shared().customerUserID = userProperties.userId?.stringValue
+
         #if DEBUG
         print("AppsFlyerManager: logging event = \(name) with values = \(values)")
         AppsFlyerLib.shared().logEvent(
