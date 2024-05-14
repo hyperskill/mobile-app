@@ -312,6 +312,28 @@ class FillBlanksStepQuizFormDelegate(
             isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
                 .apply { justifyContent = JustifyContent.FLEX_START }
+            addItemDecoration(
+                FlexboxItemDecoration(context).apply {
+                    setOrientation(FlexboxItemDecoration.HORIZONTAL)
+                    setDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.bg_step_quiz_fill_blanks_options_horizontal_divider
+                        )
+                    )
+                }
+            )
+            addItemDecoration(
+                FlexboxItemDecoration(context).apply {
+                    setOrientation(FlexboxItemDecoration.VERTICAL)
+                    setDrawable(
+                        ContextCompat.getDrawable(
+                            context,
+                            R.drawable.bg_step_quiz_fill_blanks_options_vertical_divider
+                        )
+                    )
+                }
+            )
             isVisible = true
         }
     }

@@ -56,7 +56,7 @@ class FillBlanksSelectOptionAdapterDelegate(
                 if (data.isUsed) {
                     R.id.step_quiz_fill_blanks_select_empty_layer
                 } else {
-                    R.id.step_quiz_fill_blanks_select_filled_layer
+                    R.id.step_quiz_fill_blanks_select_filled_selected_layer
                 }
             )
         }
