@@ -25,6 +25,8 @@ struct StepQuizCodeEditorView: View {
 
     @State private var height: CGFloat = Self.Appearance.codeEditorMinHeight
 
+    private let codeEditorSuggestionsPresentationContextProvider = CodeEditorSuggestionsPresentationContextProvider()
+
     var body: some View {
         VStack(spacing: 0) {
             Divider()
@@ -66,6 +68,7 @@ struct StepQuizCodeEditorView: View {
                 language: language,
                 isEditable: true,
                 textInsets: appearance.codeEditorInsets.uiEdgeInsets,
+                suggestionsPresentationContextProvider: codeEditorSuggestionsPresentationContextProvider,
                 onDidChangeHeight: { newHeight in
                     let constrainMinimumHeight = max(newHeight, Self.Appearance.codeEditorMinHeight)
                     guard constrainMinimumHeight != height else {
@@ -81,6 +84,9 @@ struct StepQuizCodeEditorView: View {
             )
             .frame(height: height)
             .frame(maxWidth: .infinity)
+            .introspectViewController { viewController in
+                codeEditorSuggestionsPresentationContextProvider.presentationController = viewController
+            }
 
             Divider()
         }
