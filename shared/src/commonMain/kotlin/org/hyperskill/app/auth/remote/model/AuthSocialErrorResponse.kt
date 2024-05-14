@@ -8,7 +8,7 @@ data class AuthSocialErrorResponse(
     @SerialName("error")
     val error: String,
     @SerialName("provider")
-    val provider: String,
+    val provider: String? = null,
     @SerialName("email")
-    val email: String
+    val email: String? = null
 )
