@@ -3,6 +3,7 @@ package org.hyperskill.app.first_problem_onboarding.presentation
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent
 import org.hyperskill.app.first_problem_onboarding.domain.analytic.FirstProblemOnboardingViewedHyperskillAnalyticEvent
+import org.hyperskill.app.first_problem_onboarding.domain.analytic.OnboardingCompletionAppsFlyerAnalyticEvent
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.InternalAction
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Message
@@ -124,20 +125,26 @@ internal class FirstProblemOnboardingReducer : StateReducer<State, Message, Acti
             state.copy(
                 isLearningActivityLoading = state.nextLearningActivityState is NextLearningActivityState.Error ||
                     state.nextLearningActivityState is NextLearningActivityState.Loading
-            ) to actions + setOf(
-                InternalAction.LogAnalyticEvent(
-                    FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent(
-                        if (state.isNewUserMode) {
-                            HyperskillAnalyticTarget.START_LEARNING
-                        } else {
-                            HyperskillAnalyticTarget.KEEP_LEARNING
-                        }
-                    )
-                )
-            )
+            ) to actions + getActionButtonClickedAnalyticActions(state.isNewUserMode)
         } else {
             null
         }
+
+    private fun getActionButtonClickedAnalyticActions(isNewUserMode: Boolean): Set<Action> {
+        val target = if (isNewUserMode) {
+            HyperskillAnalyticTarget.START_LEARNING
+        } else {
+            HyperskillAnalyticTarget.KEEP_LEARNING
+        }
+        return setOf(
+            InternalAction.LogAnalyticEvent(
+                FirstProblemOnboardingClickedLearningActionHyperskillAnalyticEvent(target)
+            ),
+            InternalAction.LogAnalyticEvent(
+                OnboardingCompletionAppsFlyerAnalyticEvent(target.targetName)
+            )
+        )
+    }
 
     private fun handleViewedEvent(state: State): FirstProblemOnboardingReducerResult =
         state to setOf(

@@ -6,7 +6,6 @@ import org.hyperskill.app.notification.local.domain.analytic.NotificationSystemN
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedAllowNotificationsHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedDailyStudyRemindsIntervalHourHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingClickedNotNowHyperskillAnalyticEvent
-import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingCompletionAppsFlyerAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalPickerModalClickedConfirmHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalPickerModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.notifications_onboarding.domain.analytic.NotificationsOnboardingDailyStudyRemindersIntervalPickerModalShownHyperskillAnalyticEvent
@@ -47,11 +46,6 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                             isAllowed = message.isPermissionGranted
                         )
                     ),
-                    InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingCompletionAppsFlyerAnalyticEvent(
-                            isSuccess = message.isPermissionGranted
-                        )
-                    ),
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
             }
@@ -59,9 +53,6 @@ internal class NotificationsOnboardingReducer : StateReducer<State, Message, Act
                 state to setOf(
                     InternalAction.LogAnalyticEvent(
                         NotificationsOnboardingClickedNotNowHyperskillAnalyticEvent
-                    ),
-                    InternalAction.LogAnalyticEvent(
-                        NotificationsOnboardingCompletionAppsFlyerAnalyticEvent(isSuccess = false)
                     ),
                     Action.ViewAction.CompleteNotificationOnboarding
                 )
