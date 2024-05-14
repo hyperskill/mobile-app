@@ -86,7 +86,7 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
     private fun getAuthFailureActionsSet(data: Message.AuthFailureData): Set<Action> =
         setOf(
             Action.ViewAction.ShowAuthError(
-                socialAuthError = data.socialAuthError ?: AuthSocialError.CONNECTION_PROBLEM,
+                socialAuthError = data.socialAuthError ?: AuthSocialError.ConnectionProblem,
                 originalError = data.originalError
             ),
             Action.AddSentryBreadcrumb(

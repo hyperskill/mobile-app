@@ -38,7 +38,7 @@ class AuthSocialWebViewClient(
                 } catch (e: UnsupportedOperationException) {
                     onNewMessage(
                         AuthSocialWebViewFeature.Message.AuthCodeFailure(
-                            socialError = AuthSocialError.CONNECTION_PROBLEM,
+                            socialError = AuthSocialError.ConnectionProblem,
                             originalError = e
                         )
                     )
@@ -56,7 +56,7 @@ class AuthSocialWebViewClient(
         if (request?.isForMainFrame == true) {
             onNewMessage(
                 AuthSocialWebViewFeature.Message.AuthCodeFailure(
-                    socialError = AuthSocialError.CONNECTION_PROBLEM,
+                    socialError = AuthSocialError.ConnectionProblem,
                     originalError = if (error != null) Exception(
                         "Error code=${error.errorCode}, description=${error.description}"
                     ) else {
