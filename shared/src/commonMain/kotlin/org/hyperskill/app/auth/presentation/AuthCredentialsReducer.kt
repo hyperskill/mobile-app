@@ -3,6 +3,7 @@ package org.hyperskill.app.auth.presentation
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedContinueWithSocialHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedResetPasswordHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsClickedSignInHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthCredentialsFailedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthCredentialsViewedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignInAmplitudeAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignInAppsFlyerAnalyticEvent
@@ -89,7 +90,8 @@ class AuthCredentialsReducer : StateReducer<State, Message, Action> {
                         Action.AddSentryBreadcrumb(
                             HyperskillSentryBreadcrumbBuilder.buildAuthCredentialsSignInFailed()
                         ),
-                        Action.CaptureSentryException(message.originalError)
+                        Action.CaptureSentryException(message.originalError),
+                        Action.LogAnalyticEvent(AuthCredentialsFailedHyperskillAnalyticEvent(message.credentialsError))
                     )
                 } else {
                     null
