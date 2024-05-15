@@ -44,7 +44,7 @@ class AuthSocialActionDispatcher(
                                             Message.AuthFailure(
                                                 Message.AuthFailureData(
                                                     socialAuthProvider = action.socialAuthProvider,
-                                                    socialAuthError = AuthSocialError.CONNECTION_PROBLEM,
+                                                    socialAuthError = AuthSocialError.ConnectionProblem,
                                                     originalError = it
                                                 )
                                             )
@@ -56,7 +56,7 @@ class AuthSocialActionDispatcher(
                                     if (it is AuthSocialException) {
                                         it.authSocialError
                                     } else {
-                                        AuthSocialError.CONNECTION_PROBLEM
+                                        AuthSocialError.ConnectionProblem
                                     }
                                 Message.AuthFailure(
                                     Message.AuthFailureData(

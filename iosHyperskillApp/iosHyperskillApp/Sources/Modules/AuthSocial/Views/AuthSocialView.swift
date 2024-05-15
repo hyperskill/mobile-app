@@ -70,6 +70,7 @@ struct AuthSocialView: View {
         case .completeAuthFlow(let data):
             viewModel.doCompleteAuthFlow(profile: data.profile)
         case .showAuthError(let data):
+            #warning("TODO: ALTAPPS-915 Remove ShowAuthError")
             let errorText = viewModel.getAuthSocialErrorText(authSocialError: data.socialAuthError)
             ProgressHUD.showError(status: errorText)
         }
