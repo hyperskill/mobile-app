@@ -77,7 +77,7 @@ final class AuthSocialViewModel: FeatureViewModel<
                     let message = AuthSocialFeatureMessageSocialAuthProviderAuthFailureEventMessage(
                         data: AuthSocialFeatureMessageAuthFailureData(
                             socialAuthProvider: provider.sharedType,
-                            socialAuthError: .connectionProblem,
+                            socialAuthError: nil,
                             originalError: originalError
                         )
                     )

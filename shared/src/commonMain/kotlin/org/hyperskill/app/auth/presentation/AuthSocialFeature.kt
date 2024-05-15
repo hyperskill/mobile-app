@@ -10,7 +10,7 @@ interface AuthSocialFeature {
     sealed interface State {
         object Idle : State
         object Loading : State
-        object Error : State
+        data class Error(val error: AuthSocialError) : State
         object Authenticated : State
     }
 
@@ -74,6 +74,8 @@ interface AuthSocialFeature {
 
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val profile: Profile) : ViewAction
+            // ShowAuthError is used for iOS compatibility;
+            // TODO: ALTAPPS-915 Remove ShowAuthError
             data class ShowAuthError(val socialAuthError: AuthSocialError, val originalError: Throwable) : ViewAction
         }
     }
