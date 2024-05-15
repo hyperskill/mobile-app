@@ -74,9 +74,6 @@ interface AuthSocialFeature {
 
         sealed interface ViewAction : Action {
             data class CompleteAuthFlow(val profile: Profile) : ViewAction
-            // ShowAuthError is used for iOS compatibility;
-            // TODO: ALTAPPS-915 Remove ShowAuthError
-            data class ShowAuthError(val socialAuthError: AuthSocialError, val originalError: Throwable) : ViewAction
         }
     }
 }
