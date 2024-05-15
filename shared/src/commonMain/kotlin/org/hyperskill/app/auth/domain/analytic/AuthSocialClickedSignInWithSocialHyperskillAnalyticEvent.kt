@@ -4,16 +4,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAct
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.auth.domain.model.SocialAuthProvider
-
-private fun SocialAuthProvider.getAnalyticTarget(): HyperskillAnalyticTarget =
-    when (this) {
-        SocialAuthProvider.JETBRAINS_ACCOUNT -> HyperskillAnalyticTarget.JETBRAINS_ACCOUNT
-        SocialAuthProvider.GOOGLE -> HyperskillAnalyticTarget.GOOGLE
-        SocialAuthProvider.GITHUB -> HyperskillAnalyticTarget.GITHUB
-        SocialAuthProvider.APPLE -> HyperskillAnalyticTarget.APPLE
-    }
 
 /**
  * Represents a click on sign in with social auth provider button analytic event.

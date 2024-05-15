@@ -6,6 +6,7 @@ import org.hyperskill.app.auth.domain.analytic.AuthSignUpAmplitudeAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignUpAppsFlyerAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSocialFailedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialViewedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
@@ -90,6 +91,9 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             Action.AddSentryBreadcrumb(
                 HyperskillSentryBreadcrumbBuilder.buildAuthSocialSignInFailed(data.socialAuthProvider)
             ),
-            Action.CaptureSentryAuthError(data.socialAuthError, data.originalError)
+            Action.CaptureSentryAuthError(data.socialAuthError, data.originalError),
+            Action.LogAnalyticEvent(
+                AuthSocialFailedHyperskillAnalyticEvent(data.socialAuthError, data.socialAuthProvider)
+            )
         )
 }
