@@ -290,7 +290,7 @@ class FillBlanksStepQuizFormDelegate(
                 try {
                     val mode = FillBlanksResolver.resolve(dataset)
                     ResolveState.ResolveSucceed(mode)
-                } catch (e: InvalidFillBlanksConfigException) {
+                } catch (_: InvalidFillBlanksConfigException) {
                     ResolveState.ResolveFailed
                 }
             } else {

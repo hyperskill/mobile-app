@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step_quiz_fill_blanks.model
 
-
 /**
  * Represents the state of the select mode in a fill in the blanks quiz.
  *
