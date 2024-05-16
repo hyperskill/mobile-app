@@ -17,8 +17,12 @@ struct StepQuizTableViewData {
     }
 
     struct Column: Identifiable {
+        let id: Int
         let text: String
 
-        var id: Int { self.text.hashValue }
+        init(id: Int? = nil, text: String) {
+            self.id = id ?? text.hashValue
+            self.text = text
+        }
     }
 }

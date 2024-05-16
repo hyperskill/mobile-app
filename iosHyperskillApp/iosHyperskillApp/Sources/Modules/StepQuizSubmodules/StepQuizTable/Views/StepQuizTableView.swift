@@ -3,7 +3,7 @@ import SwiftUI
 struct StepQuizTableView: View {
     @ObservedObject var viewModel: StepQuizTableViewModel
 
-    private(set) var panModalPresenter: PanModalPresenter
+    @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
     @Environment(\.isEnabled) private var isEnabled
 
@@ -20,7 +20,6 @@ struct StepQuizTableView: View {
             }
         }
         .conditionalOpacity(isEnabled: isEnabled)
-        .padding(.bottom, LayoutInsets.smallInset)
     }
 
     private func doSelectColumnsPresentation(for row: StepQuizTableViewData.Row) {
