@@ -8,16 +8,12 @@ extension StepQuizTableSelectColumnsViewController {
     }
 }
 
-final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewController {
+final class StepQuizTableSelectColumnsViewController: PanModalSwiftUIViewController<StepQuizTableSelectColumnsView> {
     private let row: StepQuizTableViewData.Row
     private let columns: [StepQuizTableViewData.Column]
     private var selectedColumnsIDs: Set<Int>
     private let isMultipleChoice: Bool
     private let onColumnsSelected: (Set<Int>) -> Void
-
-    override var panScrollable: UIScrollView? { self.scrollView }
-
-    private lazy var scrollView = UIScrollView()
 
     init(
         row: StepQuizTableViewData.Row,
@@ -32,48 +28,25 @@ final class StepQuizTableSelectColumnsViewController: PanModalPresentableViewCon
         self.isMultipleChoice = isMultipleChoice
         self.onColumnsSelected = onColumnsSelected
 
-        super.init()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        self.view.backgroundColor = .systemBackground
-
-        self.view.addSubview(self.scrollView)
-        self.scrollView.translatesAutoresizingMaskIntoConstraints = false
-        self.scrollView.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview()
-            make.leading.trailing.equalTo(self.view.safeAreaLayoutGuide)
-            make.width.equalToSuperview()
-        }
-
-        let prompt = self.isMultipleChoice
+        let prompt = isMultipleChoice
             ? Strings.StepQuizTable.multipleChoicePrompt
             : Strings.StepQuizTable.singleChoicePrompt
 
-        let contentView = StepQuizTableSelectColumnsView(
+        var view = StepQuizTableSelectColumnsView(
             prompt: prompt,
-            title: self.row.text,
-            columns: self.columns,
-            selectedColumnsIDs: self.selectedColumnsIDs,
-            isMultipleChoice: self.isMultipleChoice,
-            onColumnsChanged: self.handleColumnsChanged(_:),
-            onConfirmTapped: self.finishColumnsSelection
+            title: row.text,
+            columns: columns,
+            selectedColumnsIDs: selectedColumnsIDs,
+            isMultipleChoice: isMultipleChoice
         )
-        let contentHostingController = UIHostingController(rootView: contentView)
 
-        self.addChild(contentHostingController)
-        self.scrollView.addSubview(contentHostingController.view)
+        super.init(
+            isPresented: .constant(false),
+            content: { view }
+        )
 
-        contentHostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        contentHostingController.view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        contentHostingController.didMove(toParent: self)
-
-        self.panModalSetNeedsLayoutUpdate()
+        view.onColumnsChanged = self.handleColumnsChanged(_:)
+        view.onConfirmTapped = self.finishColumnsSelection
     }
 
     // MARK: Private API
