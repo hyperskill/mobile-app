@@ -168,10 +168,6 @@ class AuthSocialFragment :
         when (action) {
             is AuthSocialFeature.Action.ViewAction.CompleteAuthFlow ->
                 (parentFragment as? AuthFlow)?.onAuthSuccess(action.profile)
-            is AuthSocialFeature.Action.ViewAction.ShowAuthError -> {
-                // no op
-                // TODO: ALTAPPS-915 Remove ShowAuthError
-            }
         }
     }
 
