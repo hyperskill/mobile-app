@@ -123,7 +123,7 @@
     <string name="step_quiz_sorting_invalid_reply">Sort items</string>
 
     <!-- Step quiz matching -->
-    <string name="step_quiz_matching_title">Match the items from left and right columns</string>
+    <string name="step_quiz_matching_title">Match the items for each row</string>
     <string name="step_quiz_matching_invalid_reply">Match items</string>
 
     <!-- Step quiz table -->

@@ -14,6 +14,14 @@ final class AuthSocialViewModel: FeatureViewModel<
 
     let availableSocialAuthProviders = SocialAuthProvider.allCases.filter(\.isSupported)
 
+    var authSocialErrorMessage: String? {
+        guard let errorState = state as? AuthSocialFeatureStateError else {
+            return nil
+        }
+
+        return authSocialErrorMapper.getAuthSocialErrorText(authSocialError: errorState.error)
+    }
+
     init(
         socialAuthService: SocialAuthServiceProtocol,
         authSocialErrorMapper: AuthSocialErrorMapper,
@@ -77,7 +85,7 @@ final class AuthSocialViewModel: FeatureViewModel<
                     let message = AuthSocialFeatureMessageSocialAuthProviderAuthFailureEventMessage(
                         data: AuthSocialFeatureMessageAuthFailureData(
                             socialAuthProvider: provider.sharedType,
-                            socialAuthError: .connectionProblem,
+                            socialAuthError: nil,
                             originalError: originalError
                         )
                     )
@@ -86,10 +94,6 @@ final class AuthSocialViewModel: FeatureViewModel<
                 }
             }
         }
-    }
-
-    func getAuthSocialErrorText(authSocialError: AuthSocialError) -> String {
-        self.authSocialErrorMapper.getAuthSocialErrorText(authSocialError: authSocialError)
     }
 
     func doCompleteAuthFlow(profile: Profile) {

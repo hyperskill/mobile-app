@@ -116,11 +116,7 @@ class AuthRemoteDataSourceImpl(
                 }
         } else {
             val authErrorBody = httpResponse.body<AuthSocialErrorResponse>()
-            val error = AuthSocialError
-                .values()
-                .find { it.name.lowercase() == authErrorBody.error }
-                ?: AuthSocialError.CONNECTION_PROBLEM
-
+            val error = AuthSocialError.ServerError(authErrorBody.error)
             throw AuthSocialException(authSocialError = error)
         }
     }
