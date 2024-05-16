@@ -181,14 +181,48 @@ class FillBlanksStepQuizFormDelegate(
         binding.root.post { binding.stepQuizFillBlanksOptionsRecycler.requestLayout() }
     }
 
+    private fun mapBlankOptions(
+        options: List<FillBlanksProcessedOption>,
+        usedOptionsIndices: List<Int>,
+        isEnabled: Boolean
+    ): List<FillBlanksSelectOptionUIItem> =
+        options.mapIndexed { index, option ->
+            FillBlanksSelectOptionUIItem(
+                id = index,
+                option = option,
+                isUsed = index in usedOptionsIndices,
+                isClickable = isEnabled
+            )
+        }
+
     private fun setFillBlanksItems(
         fillBlanksData: FillBlanksData?,
         highlightedSelectItemIndex: Int?,
         isEnabled: Boolean
     ) {
-        fillBlanksAdapter.items = mapItems(fillBlanksData, highlightedSelectItemIndex, isEnabled)
-        binding.root.post { binding.stepQuizFillBlanksRecycler.requestLayout() }
+        fillBlanksAdapter.items = mapFillBlanksUiItems(
+            items = fillBlanksData?.fillBlanks ?: emptyList(),
+            highlightedSelectItemIndex = highlightedSelectItemIndex,
+            isEnabled = isEnabled
+        )
     }
+
+    private fun mapFillBlanksUiItems(
+        items: List<FillBlanksItem>,
+        highlightedSelectItemIndex: Int?,
+        isEnabled: Boolean
+    ): List<FillBlanksUiItem> =
+        items.mapIndexed { index, item ->
+            when (item) {
+                is FillBlanksItem.Input -> FillBlanksUiItem.Input(item, isEnabled)
+                is FillBlanksItem.Select -> FillBlanksUiItem.Select(
+                    origin = item,
+                    isHighlighted = index == highlightedSelectItemIndex,
+                    isEnabled = isEnabled
+                )
+                is FillBlanksItem.Text -> FillBlanksUiItem.Text(item)
+            }
+        }
 
     private fun getHighlightedSelectItemIndex(
         items: List<FillBlanksItem>,
@@ -264,36 +298,6 @@ class FillBlanksStepQuizFormDelegate(
             }
         } else {
             currentResolveState
-        }
-
-    private fun mapItems(
-        fillBlanksData: FillBlanksData?,
-        highlightedSelectItemIndex: Int?,
-        isEnabled: Boolean
-    ) =
-        fillBlanksData?.fillBlanks?.mapIndexed { index, item ->
-            when (item) {
-                is FillBlanksItem.Input -> FillBlanksUiItem.Input(item, isEnabled)
-                is FillBlanksItem.Select -> FillBlanksUiItem.Select(
-                    origin = item,
-                    isHighlighted = index == highlightedSelectItemIndex,
-                    isEnabled = isEnabled
-                )
-                is FillBlanksItem.Text -> FillBlanksUiItem.Text(item)
-            }
-        } ?: emptyList()
-
-    private fun mapBlankOptions(
-        options: List<FillBlanksProcessedOption>,
-        usedOptionsIndices: List<Int>,
-        isEnabled: Boolean
-    ): List<FillBlanksSelectOptionUIItem> =
-        options.mapIndexed { index, option ->
-            FillBlanksSelectOptionUIItem(
-                option = option,
-                isUsed = index in usedOptionsIndices,
-                isClickable = isEnabled
-            )
         }
 
     private fun getSelectItemIndices(items: List<FillBlanksItem>?) =
