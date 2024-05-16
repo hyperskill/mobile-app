@@ -15,17 +15,21 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
         self.reply = reply
 
         if let pairs = dataset.pairs {
-            var items = [StepQuizMatchingViewData.Item]()
+            let items: [StepQuizMatchingViewData.MatchItem]
 
             if let ordering = reply?.ordering {
-                for (index, order) in ordering.enumerated() {
-                    items.append(.title(text: pairs[index].first ?? ""))
-                    items.append(.option(.init(id: order.intValue, text: pairs[order.intValue].second ?? "")))
+                items = ordering.enumerated().map { index, order in
+                    .init(
+                        title: .init(id: index, text: pairs[index].first ?? ""),
+                        option: .init(id: order.intValue, text: pairs[order.intValue].second ?? "")
+                    )
                 }
             } else {
-                for (index, pair) in pairs.enumerated() {
-                    items.append(.title(text: pair.first ?? ""))
-                    items.append(.option(.init(id: index, text: pair.second ?? "")))
+                items = pairs.enumerated().map { index, pair in
+                    .init(
+                        title: .init(id: index, text: pair.first ?? ""),
+                        option: .init(id: index, text: pair.second ?? "")
+                    )
                 }
             }
 
@@ -35,37 +39,45 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
         }
     }
 
-    func doMoveUp(from index: Int) {
-        assert(!index.isMultiple(of: 2), "Index must be odd")
+    func makeSelectColumnsViewController(
+        for matchItem: StepQuizMatchingViewData.MatchItem
+    ) -> PanModalPresentableViewController {
+        let columns = viewData.items.map { item in
+            StepQuizTableViewData.Column(id: item.option.id, text: item.option.text)
+        }
 
-        let tmp = viewData.items[index - 2]
-        viewData.items[index - 2] = viewData.items[index]
-        viewData.items[index] = tmp
+        return StepQuizTableSelectColumnsViewController(
+            title: matchItem.title.text,
+            columns: columns,
+            selectedColumnsIDs: [matchItem.option.id],
+            isMultipleChoice: false,
+            onColumnsSelected: { [weak self] selectedColumnsIDs in
+                guard let self else {
+                    return
+                }
 
-        outputCurrentReply()
-    }
+                guard let selectedColumnID = selectedColumnsIDs.first,
+                      matchItem.option.id != selectedColumnID else {
+                    return
+                }
 
-    func doMoveDown(from index: Int) {
-        assert(!index.isMultiple(of: 2), "Index must be odd")
+                guard let targetIndex = self.viewData.items.firstIndex(
+                    where: { $0.option.id == selectedColumnID }
+                ), let originalIndex = self.viewData.items.firstIndex(of: matchItem) else {
+                    return
+                }
 
-        let tmp = viewData.items[index + 2]
-        viewData.items[index + 2] = viewData.items[index]
-        viewData.items[index] = tmp
+                let tmp = self.viewData.items[originalIndex].option
+                self.viewData.items[originalIndex].option = self.viewData.items[targetIndex].option
+                self.viewData.items[targetIndex].option = tmp
 
-        outputCurrentReply()
+                self.outputCurrentReply()
+            }
+        )
     }
 
     func createReply() -> Reply {
-        Reply(
-            ordering: viewData.items.compactMap { item in
-                switch item {
-                case .title:
-                    nil
-                case .option(let option):
-                    option.id
-                }
-            }
-        )
+        Reply(ordering: viewData.items.map(\.option.id))
     }
 
     private func outputCurrentReply() {

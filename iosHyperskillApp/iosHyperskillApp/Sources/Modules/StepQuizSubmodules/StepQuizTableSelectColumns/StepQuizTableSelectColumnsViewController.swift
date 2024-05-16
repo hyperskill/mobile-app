@@ -9,20 +9,18 @@ extension StepQuizTableSelectColumnsViewController {
 }
 
 final class StepQuizTableSelectColumnsViewController: PanModalSwiftUIViewController<StepQuizTableSelectColumnsView> {
-    private let row: StepQuizTableViewData.Row
     private let columns: [StepQuizTableViewData.Column]
     private var selectedColumnsIDs: Set<Int>
     private let isMultipleChoice: Bool
     private let onColumnsSelected: (Set<Int>) -> Void
 
     init(
-        row: StepQuizTableViewData.Row,
+        title: String,
         columns: [StepQuizTableViewData.Column],
         selectedColumnsIDs: Set<Int>,
         isMultipleChoice: Bool,
         onColumnsSelected: @escaping (Set<Int>) -> Void
     ) {
-        self.row = row
         self.columns = columns
         self.selectedColumnsIDs = selectedColumnsIDs
         self.isMultipleChoice = isMultipleChoice
@@ -34,7 +32,7 @@ final class StepQuizTableSelectColumnsViewController: PanModalSwiftUIViewControl
 
         var view = StepQuizTableSelectColumnsView(
             prompt: prompt,
-            title: row.text,
+            title: title,
             columns: columns,
             selectedColumnsIDs: selectedColumnsIDs,
             isMultipleChoice: isMultipleChoice
