@@ -68,44 +68,20 @@
     <ID>LongParameterList:AppInteractor.kt$AppInteractor$( private val appRepository: AppRepository, private val authInteractor: AuthInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val userStorageInteractor: UserStorageInteractor, private val analyticInteractor: AnalyticInteractor, private val progressesRepository: ProgressesRepository, private val trackRepository: TrackRepository, private val providersRepository: ProvidersRepository, private val projectsRepository: ProjectsRepository, private val shareStreakRepository: ShareStreakRepository, private val pushNotificationsInteractor: PushNotificationsInteractor )</ID>
     <ID>LongParameterList:AuthRemoteDataSourceImpl.kt$AuthRemoteDataSourceImpl$( private val authCacheMutex: Mutex, private val deauthorizationFlow: Flow&lt;UserDeauthorized&gt;, private val authSocialHttpClient: HttpClient, private val authCredentialsHttpClient: HttpClient, private val networkEndpointConfigInfo: NetworkEndpointConfigInfo, private val json: Json, private val settings: Settings )</ID>
     <ID>LongParameterList:CodeTheme.kt$CodeTheme$( val name: String, val syntax: CodeSyntax, @ColorInt val background: Int, @ColorInt val lineNumberBackground: Int, @ColorInt val lineNumberStroke: Int, @ColorInt val lineNumberText: Int, @ColorInt val selectedLineBackground: Int, @ColorInt val bracketsHighlight: Int = ColorUtil.getColorArgb(R.color.default_code_brackets_highlight_color), @ColorInt val errorHighlight: Int = ColorUtil.getColorArgb(R.color.default_code_error_highlight_color) )</ID>
-    <ID>LongParameterList:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$( selectedOptionIndex: Int, blankIndex: Int, selectedOption: FillBlanksOption, items: List&lt;FillBlanksUiItem&gt;, selectItemIndices: List&lt;Int&gt;, selectOptions: List&lt;FillBlanksOption&gt; )</ID>
     <ID>LongParameterList:NetworkEndpointConfigInfo.kt$NetworkEndpointConfigInfo$( val baseUrl: String, val host: String, val oauthClientId: String, val oauthClientSecret: String, val redirectUri: String, val credentialsClientId: String, val credentialsClientSecret: String )</ID>
     <ID>LongParameterList:ProjectSelectionDetailsFeature.kt$ProjectSelectionDetailsFeature$( isNewUserMode: Boolean, trackId: Long, projectId: Long, isProjectSelected: Boolean, isProjectBestRated: Boolean, isProjectFastestToComplete: Boolean )</ID>
-    <ID>MagicNumber:AlignmentExtension.kt$0f</ID>
-    <ID>MagicNumber:AppBarExtensions.kt$&lt;no name provided&gt;$0f</ID>
-    <ID>MagicNumber:AppBarExtensions.kt$AppBarStateChangeListener$0</ID>
-    <ID>MagicNumber:AppReducer.kt$AppReducer$0</ID>
-    <ID>MagicNumber:ArrowImageView.kt$ArrowImageView$0</ID>
-    <ID>MagicNumber:AutocompleteDictionary.kt$AutocompleteDictionary.Companion$0</ID>
-    <ID>MagicNumber:AutocompleteDictionary.kt$AutocompleteDictionary.Companion$1</ID>
-    <ID>MagicNumber:BadgeDetailsDialogFragment.kt$BadgeDetailsDialogFragment$0</ID>
     <ID>MagicNumber:BadgeDetailsDialogFragment.kt$BadgeDetailsDialogFragment$100</ID>
-    <ID>MagicNumber:BadgeGrid.kt$1f</ID>
     <ID>MagicNumber:BadgeGrid.kt$2</ID>
     <ID>MagicNumber:BadgeGrid.kt$4</ID>
-    <ID>MagicNumber:BadgesViewStateMapper.kt$BadgesViewStateMapper$0</ID>
-    <ID>MagicNumber:BadgesViewStateMapper.kt$BadgesViewStateMapper$0f</ID>
-    <ID>MagicNumber:BadgesViewStateMapper.kt$BadgesViewStateMapper$1</ID>
     <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$0xFF</ID>
     <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$16</ID>
     <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$24</ID>
     <ID>MagicNumber:BaseStyleBlock.kt$BaseStyleBlock$8</ID>
-    <ID>MagicNumber:ChallengeHeader.kt$1f</ID>
-    <ID>MagicNumber:ChallengeProgress.kt$1</ID>
-    <ID>MagicNumber:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$0</ID>
-    <ID>MagicNumber:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$1</ID>
-    <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$0</ID>
     <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$1</ID>
     <ID>MagicNumber:CodeAnalyzer.kt$CodeAnalyzer$2</ID>
-    <ID>MagicNumber:CodeEditor.kt$CodeEditor$0</ID>
-    <ID>MagicNumber:CodeEditor.kt$CodeEditor$0f</ID>
     <ID>MagicNumber:CodeEditor.kt$CodeEditor$1</ID>
     <ID>MagicNumber:CodeEditor.kt$CodeEditor$2</ID>
     <ID>MagicNumber:CodeStepQuizFormDelegate.kt$CodeStepQuizFormDelegate$5</ID>
-    <ID>MagicNumber:CodeStepQuizFragment.kt$CodeStepQuizFragment$0</ID>
-    <ID>MagicNumber:CodeThemes.kt$CodeThemes$0</ID>
-    <ID>MagicNumber:CodeToolbarAdapter.kt$CodeToolbarAdapter$0</ID>
-    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.05f</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.07f</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.08f</ID>
@@ -115,9 +91,7 @@
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.14f</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.15f</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0.16f</ID>
-    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0f</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$0xFF</ID>
-    <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$1</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$12</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$16</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$2</ID>
@@ -127,64 +101,24 @@
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$6</ID>
     <ID>MagicNumber:ColorExtensions.kt$ColorExtensions$8</ID>
     <ID>MagicNumber:CommentsRemoteDataSourceImpl.kt$CommentsRemoteDataSourceImpl$100</ID>
-    <ID>MagicNumber:DailyStudyReminderLocalNotificationDelegate.kt$DailyStudyReminderLocalNotificationDelegate$0</ID>
-    <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$0</ID>
     <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1</ID>
     <ID>MagicNumber:DateTimeHelper.kt$DateTimeHelper$1L</ID>
-    <ID>MagicNumber:DateTimeUtils.kt$DateTimeUtils$1</ID>
     <ID>MagicNumber:DateTimeUtils.kt$DateTimeUtils$7</ID>
     <ID>MagicNumber:DebugFragment.kt$DebugFragment$1500</ID>
-    <ID>MagicNumber:EditTextExtensions.kt$0</ID>
-    <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$0</ID>
     <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$1</ID>
     <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$2L</ID>
     <ID>MagicNumber:ExpandableTextView.kt$ExpandableTextView$300L</ID>
-    <ID>MagicNumber:FillBlanksItemMapper.kt$FillBlanksItemMapper$0</ID>
     <ID>MagicNumber:FillBlanksItemMapper.kt$FillBlanksItemMapper$1</ID>
-    <ID>MagicNumber:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$0</ID>
-    <ID>MagicNumber:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$1</ID>
-    <ID>MagicNumber:FirstProblemOnboardingSkeleton.kt$1f</ID>
-    <ID>MagicNumber:GamificationToolbarDelegate.kt$GamificationToolbarDelegate$0</ID>
-    <ID>MagicNumber:GamificationToolbarViewStateMapper.kt$GamificationToolbarViewStateMapper$0</ID>
     <ID>MagicNumber:GamificationToolbarViewStateMapper.kt$GamificationToolbarViewStateMapper$100</ID>
-    <ID>MagicNumber:HomeActionDispatcher.kt$HomeActionDispatcher$0</ID>
-    <ID>MagicNumber:HomeReducer.kt$HomeReducer$0</ID>
-    <ID>MagicNumber:HorizontalMarginItemDecoration.kt$HorizontalMarginItemDecoration$0</ID>
-    <ID>MagicNumber:HorizontalMarginItemDecoration.kt$HorizontalMarginItemDecoration$1</ID>
-    <ID>MagicNumber:HtmlText.kt$0</ID>
-    <ID>MagicNumber:HyperskillNotificationManagerImpl.kt$HyperskillNotificationManagerImpl$0</ID>
-    <ID>MagicNumber:HyperskillNotificationManagerImpl.kt$HyperskillNotificationManagerImpl$0L</ID>
     <ID>MagicNumber:HyperskillNotificationManagerImpl.kt$HyperskillNotificationManagerImpl$2</ID>
-    <ID>MagicNumber:LatexView.kt$LatexView$0</ID>
-    <ID>MagicNumber:LatexWebView.kt$LatexWebView$0</ID>
-    <ID>MagicNumber:LatexWebView.kt$LatexWebView.OnScrollWebListener$0</ID>
-    <ID>MagicNumber:LayerListDrawableDelegate.kt$LayerListDrawableDelegate$0</ID>
     <ID>MagicNumber:LayerListDrawableDelegate.kt$LayerListDrawableDelegate$255</ID>
-    <ID>MagicNumber:LeaderboardPlaceInfo.kt$1</ID>
     <ID>MagicNumber:LeaderboardPlaceInfo.kt$3</ID>
-    <ID>MagicNumber:LeaderboardScreen.kt$1f</ID>
-    <ID>MagicNumber:LeaderboardScreenActionDispatcher.kt$LeaderboardScreenActionDispatcher$0</ID>
     <ID>MagicNumber:LeaderboardSkeletonItem.kt$2</ID>
     <ID>MagicNumber:LeaderboardSkeletonItem.kt$5</ID>
-    <ID>MagicNumber:LeaderboardWidgetViewStateMapper.kt$LeaderboardWidgetViewStateMapper$1</ID>
-    <ID>MagicNumber:LearningActivitiesRemoteDataSourceImpl.kt$LearningActivitiesRemoteDataSourceImpl$1</ID>
-    <ID>MagicNumber:LearningActivityTextsMapper.kt$LearningActivityTextsMapper$0</ID>
-    <ID>MagicNumber:LinearProgressIndicator.kt$0f</ID>
-    <ID>MagicNumber:LinearProgressIndicator.kt$1f</ID>
     <ID>MagicNumber:LinearProgressIndicator.kt$2</ID>
-    <ID>MagicNumber:LoadingView.kt$LoadingView$0</ID>
-    <ID>MagicNumber:LoadingView.kt$LoadingView$0f</ID>
     <ID>MagicNumber:LoadingView.kt$LoadingView$2</ID>
-    <ID>MagicNumber:ManageSubscriptionContent.kt$1f</ID>
     <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$0.2f</ID>
-    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$0f</ID>
-    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$1</ID>
-    <ID>MagicNumber:MatchingItemOptionAdapterDelegate.kt$MatchingItemOptionAdapterDelegate.ViewHolder$1f</ID>
-    <ID>MagicNumber:MatchingItemTitleAdapterDelegate.kt$MatchingItemTitleAdapterDelegate.ViewHolder$0f</ID>
-    <ID>MagicNumber:MatchingStepQuizFormDelegate.kt$MatchingStepQuizFormDelegate$1</ID>
     <ID>MagicNumber:MatchingStepQuizFormDelegate.kt$MatchingStepQuizFormDelegate$2</ID>
-    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$0</ID>
-    <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$1</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$10</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$11</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$12</ID>
@@ -199,109 +133,39 @@
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$8</ID>
     <ID>MagicNumber:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$9</ID>
     <ID>MagicNumber:NotificationsOnboardingScreen.kt$0.5f</ID>
-    <ID>MagicNumber:NotificationsOnboardingScreen.kt$1f</ID>
-    <ID>MagicNumber:NotificationsOnboardingViewStateMapper.kt$NotificationsOnboardingViewStateMapper$1</ID>
     <ID>MagicNumber:NotificationsOnboardingViewStateMapper.kt$NotificationsOnboardingViewStateMapper$10</ID>
-    <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter$0.0</ID>
-    <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter.Companion$0</ID>
-    <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter.Companion$1</ID>
     <ID>MagicNumber:NumbersFormatter.kt$NumbersFormatter.Companion$2</ID>
-    <ID>MagicNumber:ParsonsStepQuizFormDelegate.kt$ParsonsStepQuizFormDelegate$0</ID>
-    <ID>MagicNumber:ParsonsStepQuizFormDelegate.kt$ParsonsStepQuizFormDelegate$1</ID>
-    <ID>MagicNumber:PaywallContent.kt$1f</ID>
-    <ID>MagicNumber:PercentProgressIndicator.kt$0.0f</ID>
     <ID>MagicNumber:PercentProgressIndicator.kt$0xFF5D72E9</ID>
     <ID>MagicNumber:PercentProgressIndicator.kt$0xFFA6BCF4</ID>
-    <ID>MagicNumber:PercentProgressIndicator.kt$1f</ID>
     <ID>MagicNumber:PreconfiguredHttpClient.kt$10.0</ID>
-    <ID>MagicNumber:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$0</ID>
-    <ID>MagicNumber:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$1F</ID>
-    <ID>MagicNumber:ProductsInteractor.kt$ProductsInteractor$1</ID>
-    <ID>MagicNumber:ProfileFragment.kt$ProfileFragment$1</ID>
     <ID>MagicNumber:ProfileFragment.kt$ProfileFragment$2</ID>
-    <ID>MagicNumber:ProfileFragment.kt$ProfileFragment.Companion$0</ID>
     <ID>MagicNumber:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$18F</ID>
-    <ID>MagicNumber:Progress.kt$0.0</ID>
     <ID>MagicNumber:Progress.kt$10</ID>
     <ID>MagicNumber:Progress.kt$10.0</ID>
     <ID>MagicNumber:Progress.kt$3</ID>
     <ID>MagicNumber:ProgressScreenViewStateMapper.kt$ProgressScreenViewStateMapper$3</ID>
-    <ID>MagicNumber:ProjectAdapterDelegate.kt$ProjectAdapterDelegate.ViewHolder$0</ID>
-    <ID>MagicNumber:ProjectAdapterDelegate.kt$ProjectAdapterDelegate.ViewHolder$0.0f</ID>
     <ID>MagicNumber:ProjectAdapterDelegate.kt$ProjectAdapterDelegate.ViewHolder$100f</ID>
-    <ID>MagicNumber:ProjectProgressContent.kt$1f</ID>
-    <ID>MagicNumber:ProjectProgressSkeleton.kt$1f</ID>
-    <ID>MagicNumber:ProjectSelectionDetailsViewStateMapper.kt$ProjectSelectionDetailsViewStateMapper$0</ID>
-    <ID>MagicNumber:ProjectSelectionListDelegate.kt$ProjectSelectionListDelegate$0</ID>
-    <ID>MagicNumber:ProjectSelectionListDelegate.kt$ProjectSelectionListDelegate$1</ID>
-    <ID>MagicNumber:PushNotificationHandlerImpl.kt$PushNotificationHandlerImpl$0</ID>
-    <ID>MagicNumber:RequestReviewCacheDataSourceImpl.kt$RequestReviewCacheDataSourceImpl$0</ID>
-    <ID>MagicNumber:RequestReviewCacheDataSourceImpl.kt$RequestReviewCacheDataSourceImpl$1</ID>
-    <ID>MagicNumber:RequestReviewDialog.kt$1f</ID>
-    <ID>MagicNumber:RequestReviewInteractor.kt$RequestReviewInteractor$0L</ID>
-    <ID>MagicNumber:RxUtil.kt$1</ID>
-    <ID>MagicNumber:RxUtil.kt$RetryExponential$1</ID>
-    <ID>MagicNumber:RxUtil.kt$RetryExponential$1L</ID>
     <ID>MagicNumber:RxUtil.kt$RetryExponential$2</ID>
     <ID>MagicNumber:SentryManagerImpl.kt$SentryManagerImpl$0.3</ID>
-    <ID>MagicNumber:SentryManagerImpl.kt$SentryManagerImpl$1.0</ID>
     <ID>MagicNumber:ShareUtils.kt$ShareUtils$100</ID>
-    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$0</ID>
-    <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$1</ID>
     <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$2</ID>
     <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$3</ID>
     <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$60</ID>
     <ID>MagicNumber:SharedDateFormatter.kt$SharedDateFormatter$9</ID>
-    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$0</ID>
     <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$0.2f</ID>
-    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$0f</ID>
-    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$1</ID>
-    <ID>MagicNumber:SortingOptionAdapterDelegate.kt$SortingOptionAdapterDelegate.ViewHolder$1f</ID>
-    <ID>MagicNumber:SortingStepQuizFormDelegate.kt$SortingStepQuizFormDelegate$1</ID>
-    <ID>MagicNumber:StageImplementActionDispatcher.kt$StageImplementActionDispatcher$1</ID>
-    <ID>MagicNumber:StateExtensions.kt$0f</ID>
-    <ID>MagicNumber:StateExtentions.kt$0</ID>
-    <ID>MagicNumber:StateExtentions.kt$1</ID>
-    <ID>MagicNumber:Step.kt$0</ID>
-    <ID>MagicNumber:Step.kt$1</ID>
     <ID>MagicNumber:StepActionDispatcher.kt$StepActionDispatcher$38627L</ID>
-    <ID>MagicNumber:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$0</ID>
-    <ID>MagicNumber:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$1</ID>
-    <ID>MagicNumber:StepDelegate.kt$StepDelegate$1</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$10</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$100</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$25</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$5</ID>
     <ID>MagicNumber:StepDelegate.kt$StepDelegate$50</ID>
-    <ID>MagicNumber:StepQuizHintsFeature.kt$StepQuizHintsFeature$0</ID>
-    <ID>MagicNumber:StepQuizResolver.kt$StepQuizResolver$0</ID>
-    <ID>MagicNumber:StepQuizResolver.kt$StepQuizResolver$1</ID>
-    <ID>MagicNumber:StepQuizStatsTextMapper.kt$StepQuizStatsTextMapper$0</ID>
-    <ID>MagicNumber:Streak.kt$Streak$0</ID>
-    <ID>MagicNumber:Streak.kt$Streak$1</ID>
-    <ID>MagicNumber:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$0</ID>
-    <ID>MagicNumber:StreakRecoveryReducer.kt$StreakRecoveryReducer$0</ID>
-    <ID>MagicNumber:StringExtensions.kt$0</ID>
     <ID>MagicNumber:StringExtensions.kt$1</ID>
-    <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$0</ID>
     <ID>MagicNumber:StudyPlanActivityAdapterDelegate.kt$StudyPlanActivityAdapterDelegate.ViewHolder$100f</ID>
-    <ID>MagicNumber:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate$0</ID>
-    <ID>MagicNumber:StudyPlanWidgetDelegate.kt$StudyPlanWidgetDelegate$1</ID>
-    <ID>MagicNumber:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$0</ID>
     <ID>MagicNumber:StudyPlanWidgetReducer.kt$StudyPlanWidgetReducer$1</ID>
-    <ID>MagicNumber:StudyPlanWidgetViewStateMapper.kt$StudyPlanWidgetViewStateMapper$0</ID>
     <ID>MagicNumber:SubscriptionSyncLoading.kt$0.5f</ID>
-    <ID>MagicNumber:SubscriptionsInteractor.kt$SubscriptionsInteractor$0</ID>
     <ID>MagicNumber:TableSelectionItemAdapterDelegate.kt$TableSelectionItemAdapterDelegate.ViewHolder$0.2f</ID>
-    <ID>MagicNumber:TableSelectionItemAdapterDelegate.kt$TableSelectionItemAdapterDelegate.ViewHolder$1f</ID>
-    <ID>MagicNumber:TextAttributes.kt$TextAttributes.Companion$0</ID>
     <ID>MagicNumber:TextAttributes.kt$TextAttributes.Companion$1</ID>
-    <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$0</ID>
-    <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$0x0</ID>
-    <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$1</ID>
     <ID>MagicNumber:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment$50f</ID>
-    <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$0</ID>
-    <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$1</ID>
     <ID>MagicNumber:TimeIntervalUtil.kt$TimeIntervalUtil$24</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$2</ID>
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$2f</ID>
@@ -310,35 +174,11 @@
     <ID>MagicNumber:ToolbarTrackProgressView.kt$ToolbarTrackProgressView$90f</ID>
     <ID>MagicNumber:TopicSearchResultContent.kt$3</ID>
     <ID>MagicNumber:TopicSearchSkeleton.kt$5</ID>
-    <ID>MagicNumber:TopicsRepetitionCardFormDelegate.kt$TopicsRepetitionCardFormDelegate$0</ID>
-    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$0</ID>
-    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$0f</ID>
-    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$1</ID>
     <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$10</ID>
-    <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$1f</ID>
     <ID>MagicNumber:TopicsRepetitionChartCardDelegate.kt$TopicsRepetitionChartCardDelegate$2</ID>
-    <ID>MagicNumber:TopicsRepetitionListDelegate.kt$TopicsRepetitionListDelegate$0</ID>
-    <ID>MagicNumber:TopicsRepetitionListDelegate.kt$TopicsRepetitionListDelegate$1</ID>
-    <ID>MagicNumber:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$0</ID>
-    <ID>MagicNumber:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$1</ID>
-    <ID>MagicNumber:TopicsRepetitionsViewDataMapper.kt$TopicsRepetitionsViewDataMapper$0</ID>
-    <ID>MagicNumber:TrackAdapterDelegate.kt$TrackAdapterDelegate.ViewHolder$0</ID>
-    <ID>MagicNumber:TrackAdapterDelegate.kt$TrackAdapterDelegate.ViewHolder$0.0f</ID>
     <ID>MagicNumber:TrackAdapterDelegate.kt$TrackAdapterDelegate.ViewHolder$100f</ID>
-    <ID>MagicNumber:TrackProgressContent.kt$0</ID>
-    <ID>MagicNumber:TrackProgressContent.kt$1f</ID>
-    <ID>MagicNumber:TrackProgressSkeleton.kt$1f</ID>
-    <ID>MagicNumber:TrackSelectionDetailsViewStateMapper.kt$TrackSelectionDetailsViewStateMapper$0.0</ID>
-    <ID>MagicNumber:TrackSelectionDetailsViewStateMapper.kt$TrackSelectionDetailsViewStateMapper$1</ID>
-    <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$0</ID>
-    <ID>MagicNumber:TrackSelectionListDelegate.kt$TrackSelectionListDelegate$1</ID>
     <ID>MagicNumber:VerticalDashLineView.kt$VerticalDashLineView$.5f</ID>
-    <ID>MagicNumber:VerticalDashLineView.kt$VerticalDashLineView$0f</ID>
-    <ID>MagicNumber:VerticalMarginItemDecoration.kt$VerticalMarginItemDecoration$0</ID>
-    <ID>MagicNumber:VerticalMarginItemDecoration.kt$VerticalMarginItemDecoration$1</ID>
     <ID>MagicNumber:ViewExtensions.kt$1</ID>
-    <ID>MagicNumber:ViewExtensions.kt$&lt;no name provided&gt;$1f</ID>
-    <ID>MagicNumber:WelcomeFragment.kt$WelcomeFragment$0</ID>
     <ID>MatchingDeclarationName:FindStage.kt$FindStageInput</ID>
     <ID>MatchingDeclarationName:HyperskillButton.kt$HyperskillButtonDefaults</ID>
     <ID>MatchingDeclarationName:LeaderboardItem.kt$LeaderboardItemDefaults</ID>
@@ -433,7 +273,6 @@
     <ID>ReturnCount:TopicsRepetitionsActionDispatcher.kt$TopicsRepetitionsActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( fragmentStepQuizBinding.stepQuizFeedbackBlocks.root, descriptionBinding?.stepQuizDescription, fragmentStepQuizBinding.stepQuizButtons.stepQuizSubmitButton, *quizViews ).toTypedArray() )</ID>
     <ID>SpreadOperator:StepQuizViewStateDelegateFactory.kt$StepQuizViewStateDelegateFactory$( *listOfNotNull( skeletonView, descriptionBinding?.stepQuizDescriptionSkeleton ).toTypedArray() )</ID>
-    <ID>SwallowedException:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate$e: InvalidFillBlanksConfigException</ID>
     <ID>SwallowedException:NotificationExtensions.kt$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$e: ActivityNotFoundException</ID>
     <ID>SwallowedException:PushNotificationData.kt$PushNotificationData$e: Exception</ID>
@@ -474,6 +313,7 @@
     <ID>UnstableCollections:UsersQuestionnaireOptionsList.kt$List&lt;String&gt;</ID>
     <ID>UnusedParameter:CodeAnalyzer.kt$CodeAnalyzer$count: Int</ID>
     <ID>UnusedParameter:DebugToolsHelper.kt$DebugToolsHelper$app: Application</ID>
+    <ID>UnusedParameter:StepQuizReducer.kt$StepQuizReducer$attempt: Attempt</ID>
     <ID>UnusedPrivateMember:StepQuizResolverTest.kt$StepQuizResolverTest$@Suppress("UNUSED_EXPRESSION") private fun marker( stepRoute: StepRoute, stepQuizState: StepQuizFeature.StepQuizState )</ID>
     <ID>UnusedPrivateProperty:MainActivity.kt$MainActivity$val splashScreen = installSplashScreen()</ID>
     <ID>UnusedPrivateProperty:TrackSelectionDetailsFragment.kt$TrackSelectionDetailsFragment$private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) { HyperskillApp.graph().navigationComponent.mainScreenCicerone.router }</ID>

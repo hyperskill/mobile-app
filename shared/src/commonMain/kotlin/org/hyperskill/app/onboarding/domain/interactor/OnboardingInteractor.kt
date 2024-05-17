@@ -11,14 +11,6 @@ class OnboardingInteractor(
         onboardingRepository.setParsonsOnboardingShown(isShown)
     }
 
-    fun setFillBlanksInputModeOnboardingShown(isShown: Boolean) {
-        onboardingRepository.setFillBlanksInputModeOnboardingShown(isShown)
-    }
-
-    fun setFillBlanksSelectModeOnboardingShown(isShown: Boolean) {
-        onboardingRepository.setFillBlanksSelectModeOnboardingShown(isShown)
-    }
-
     fun setGptCodeGenerationWithErrorsOnboardingShown(isShown: Boolean) {
         onboardingRepository.setGptCodeGenerationWithErrorsOnboardingShown(isShown)
     }

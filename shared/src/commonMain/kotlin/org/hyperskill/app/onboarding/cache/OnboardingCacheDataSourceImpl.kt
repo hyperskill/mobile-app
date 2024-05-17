@@ -13,20 +13,6 @@ internal class OnboardingCacheDataSourceImpl(
         settings.putBoolean(OnboardingCacheKeyValues.IS_PARSONS_ONBOARDING_SHOWN, isShown)
     }
 
-    override fun isFillBlanksInputModeOnboardingShown(): Boolean =
-        settings.getBoolean(OnboardingCacheKeyValues.IS_FILL_BLANKS_INPUT_MODE_ONBOARDING_SHOWN)
-
-    override fun setFillBlanksInputModeOnboardingShown(isShown: Boolean) {
-        settings.putBoolean(OnboardingCacheKeyValues.IS_FILL_BLANKS_INPUT_MODE_ONBOARDING_SHOWN, isShown)
-    }
-
-    override fun isFillBlanksSelectModeOnboardingShown(): Boolean =
-        settings.getBoolean(OnboardingCacheKeyValues.IS_FILL_BLANKS_SELECT_MODE_ONBOARDING_SHOWN)
-
-    override fun setFillBlanksSelectModeOnboardingShown(isShown: Boolean) {
-        settings.putBoolean(OnboardingCacheKeyValues.IS_FILL_BLANKS_SELECT_MODE_ONBOARDING_SHOWN, isShown)
-    }
-
     override fun isGptCodeGenerationWithErrorsOnboardingShown(): Boolean =
         settings.getBoolean(OnboardingCacheKeyValues.IS_GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_SHOWN)
 
