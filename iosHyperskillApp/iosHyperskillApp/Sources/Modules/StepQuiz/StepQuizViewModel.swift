@@ -19,8 +19,6 @@ final class StepQuizViewModel: FeatureViewModel<
     private let stepQuizViewDataMapper: StepQuizViewDataMapper
     var stepQuizStateKs: StepQuizFeatureStepQuizStateKs { .init(state.stepQuizState) }
 
-    weak var fillBlanksSelectOptionsModuleInput: StepQuizFillBlanksSelectOptionsInputProtocol?
-
     @Published var isPracticingLoading = false
 
     init(
@@ -185,26 +183,6 @@ extension StepQuizViewModel: StepQuizChildQuizOutputProtocol {
 
     func handleChildQuizAnalyticEventMessage(_ message: StepQuizFeatureMessage) {
         onNewMessage(message)
-    }
-}
-
-// MARK: - StepQuizViewModel: StepQuizFillBlanksOutputProtocol -
-
-extension StepQuizViewModel: StepQuizFillBlanksOutputProtocol {
-    func handleStepQuizFillBlanksCurrentSelectModeState(
-        options: [StepQuizFillBlankOption],
-        selectedIndices: Set<Int>,
-        blanksCount: Int
-    ) {
-        guard let fillBlanksSelectOptionsModuleInput else {
-            return assertionFailure("StepQuizViewModel: fillBlanksSelectOptionsModuleInput is nil")
-        }
-
-        fillBlanksSelectOptionsModuleInput.update(
-            options: options,
-            selectedIndices: selectedIndices,
-            blanksCount: blanksCount
-        )
     }
 }
 
