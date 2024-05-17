@@ -23,6 +23,7 @@ struct StepQuizTableSelectColumnsView: View {
                     text: title,
                     configuration: .quizContent()
                 )
+                .padding(.bottom, LayoutInsets.smallInset)
 
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(columns) { column in
