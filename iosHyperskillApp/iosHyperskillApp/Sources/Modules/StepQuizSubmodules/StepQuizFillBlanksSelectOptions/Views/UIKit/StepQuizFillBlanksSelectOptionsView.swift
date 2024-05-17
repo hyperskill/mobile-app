@@ -3,11 +3,9 @@ import UIKit
 
 extension StepQuizFillBlanksSelectOptionsView {
     struct Appearance {
-        var collectionViewMaxHeight: CGFloat { UIScreen.main.bounds.height / 3 }
-        let collectionViewMinHeight: CGFloat = 44
         let collectionViewMinLineSpacing = LayoutInsets.defaultInset
         let collectionViewMinInteritemSpacing = LayoutInsets.defaultInset
-        let collectionViewSectionInset = LayoutInsets.default.uiEdgeInsets
+        let collectionViewSectionInset = LayoutInsets(top: LayoutInsets.defaultInset).uiEdgeInsets
 
         let backgroundColor = UIColor.clear
     }
@@ -35,21 +33,9 @@ final class StepQuizFillBlanksSelectOptionsView: UIView {
         return collectionView
     }()
 
-    private lazy var topSeparatorView = UIKitSeparatorView()
-
-    var onNewHeight: ((CGFloat) -> Void)?
-
     override var intrinsicContentSize: CGSize {
         let collectionViewContentSize = self.collectionView.collectionViewLayout.collectionViewContentSize
-        let collectionViewHeight = max(
-            self.appearance.collectionViewMinHeight,
-            min(self.appearance.collectionViewMaxHeight, collectionViewContentSize.height)
-        )
-
-        onNewHeight?(collectionViewHeight)
-        self.collectionView.isScrollEnabled = collectionViewContentSize.height > self.appearance.collectionViewMaxHeight
-
-        return CGSize(width: UIView.noIntrinsicMetric, height: collectionViewHeight)
+        return CGSize(width: UIView.noIntrinsicMetric, height: collectionViewContentSize.height)
     }
 
     init(
@@ -67,6 +53,11 @@ final class StepQuizFillBlanksSelectOptionsView: UIView {
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.invalidateIntrinsicContentSize()
     }
 
     func updateCollectionViewData(delegate: UICollectionViewDelegate, dataSource: UICollectionViewDataSource) {
@@ -97,18 +88,12 @@ extension StepQuizFillBlanksSelectOptionsView: ProgrammaticallyInitializableView
 
     func addSubviews() {
         self.addSubview(self.collectionView)
-        self.addSubview(self.topSeparatorView)
     }
 
     func makeConstraints() {
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.collectionView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-
-        self.topSeparatorView.translatesAutoresizingMaskIntoConstraints = false
-        self.topSeparatorView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
         }
     }
 }
