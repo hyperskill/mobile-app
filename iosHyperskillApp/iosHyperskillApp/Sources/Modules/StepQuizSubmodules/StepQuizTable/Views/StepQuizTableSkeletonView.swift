@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct StepQuizTableSkeletonView: View {
+    let itemHeight: CGFloat
+
     var body: some View {
         VStack(spacing: LayoutInsets.largeInset) {
             ForEach(0..<4) { _ in
-                SkeletonRoundedButton()
+                SkeletonRoundedButton(height: itemHeight)
             }
         }
     }
@@ -12,7 +14,7 @@ struct StepQuizTableSkeletonView: View {
 
 #if DEBUG
 #Preview {
-    StepQuizTableSkeletonView()
+    StepQuizTableSkeletonView(itemHeight: 44)
         .padding()
 }
 #endif
