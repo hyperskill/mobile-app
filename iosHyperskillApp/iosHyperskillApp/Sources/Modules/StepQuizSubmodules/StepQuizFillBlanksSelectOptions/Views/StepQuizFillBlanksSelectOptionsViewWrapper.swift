@@ -8,10 +8,7 @@ struct StepQuizFillBlanksSelectOptionsViewWrapper: UIViewRepresentable {
 
     var isUserInteractionEnabled = true
 
-    var onNewHeight: ((CGFloat) -> Void)?
-
     static func dismantleUIView(_ uiView: StepQuizFillBlanksSelectOptionsView, coordinator: Coordinator) {
-        uiView.onNewHeight = nil
         coordinator.onUpdateCollectionViewData = nil
         coordinator.onDidSelectComponent = nil
         coordinator.onDeviceOrientationDidChange = nil
@@ -24,8 +21,6 @@ struct StepQuizFillBlanksSelectOptionsViewWrapper: UIViewRepresentable {
 
     func updateUIView(_ uiView: StepQuizFillBlanksSelectOptionsView, context: Context) {
         moduleInput?(context.coordinator)
-
-        uiView.onNewHeight = onNewHeight
 
         let collectionViewAdapter = context.coordinator.collectionViewAdapter
 

@@ -381,7 +381,6 @@
 		2CA3B0362888955F00EEF716 /* StepQuizCodeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */; };
 		2CA542252ACAE18500EF24B5 /* IntrospectScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA542242ACAE18500EF24B5 /* IntrospectScrollView.swift */; };
 		2CA542272ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA542262ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift */; };
-		2CA5E4C42AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */; };
 		2CA5F8EC2994C3AB0013B854 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8EB2994C3AB0013B854 /* DebugView.swift */; };
 		2CA5F8EE2994C3D00013B854 /* DebugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */; };
 		2CA5F8F02994C4A90013B854 /* DebugAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */; };
@@ -1120,7 +1119,6 @@
 		2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSkeletonView.swift; sourceTree = "<group>"; };
 		2CA542242ACAE18500EF24B5 /* IntrospectScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectScrollView.swift; sourceTree = "<group>"; };
 		2CA542262ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectScrollViewTests.swift; sourceTree = "<group>"; };
-		2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksOutputProtocol.swift; sourceTree = "<group>"; };
 		2CA5F8EB2994C3AB0013B854 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewModel.swift; sourceTree = "<group>"; };
 		2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAssembly.swift; sourceTree = "<group>"; };
@@ -2273,14 +2271,6 @@
 			path = UIKit;
 			sourceTree = "<group>";
 		};
-		2C44B3302AECFFFC00AE8C2B /* InputOutput */ = {
-			isa = PBXGroup;
-			children = (
-				2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */,
-			);
-			path = InputOutput;
-			sourceTree = "<group>";
-		};
 		2C45E7C62A0FF7C900DFF32D /* Header */ = {
 			isa = PBXGroup;
 			children = (
@@ -2706,7 +2696,6 @@
 			children = (
 				2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */,
 				2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */,
-				2C44B3302AECFFFC00AE8C2B /* InputOutput */,
 				2C7CB6742ADFCB1E006F78DA /* ViewData */,
 				2C7CB6702ADFB985006F78DA /* Views */,
 			);
@@ -4916,7 +4905,6 @@
 				2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
-				2CA5E4C42AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift in Sources */,
 				2C9674302888242D0091B6C9 /* StepQuizCodeViewData.swift in Sources */,
 				2C66720F2A529A7C0040EA2F /* ProgressScreenTrackProgressSkeletonView.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,

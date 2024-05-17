@@ -59,7 +59,7 @@ final class StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView: UIVi
         fileprivate var borderColor: UIColor? {
             switch self {
             case .default:
-                ColorPalette.onSurfaceAlpha12
+                ColorPalette.primary
             case .selected:
                 nil
             }

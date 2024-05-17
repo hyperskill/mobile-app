@@ -6,14 +6,26 @@ struct StepQuizFillBlanksView: View {
     @Environment(\.isEnabled) private var isEnabled
 
     var body: some View {
-        FillBlanksQuizViewWrapper(
-            components: viewModel.viewData.components,
-            options: viewModel.viewData.options,
-            isUserInteractionEnabled: isEnabled,
-            onInputDidChange: viewModel.doInputTextUpdate(_:for:),
-            onDidSelectComponent: viewModel.doSelectComponent(at:),
-            onDidDeselectComponent: viewModel.doDeselectComponent(at:)
-        )
+        VStack(spacing: 0) {
+            FillBlanksQuizViewWrapper(
+                components: viewModel.viewData.components,
+                options: viewModel.viewData.options,
+                isUserInteractionEnabled: isEnabled,
+                onInputDidChange: viewModel.doInputTextUpdate(_:for:),
+                onDidSelectComponent: viewModel.doSelectComponent(at:),
+                onDidDeselectComponent: viewModel.doDeselectComponent(at:)
+            )
+
+            if viewModel.mode == .select {
+                StepQuizFillBlanksSelectOptionsViewWrapper(
+                    moduleOutput: viewModel,
+                    moduleInput: { [weak viewModel] moduleInput in
+                        viewModel?.selectOptionsModuleInput = moduleInput
+                    },
+                    isUserInteractionEnabled: isEnabled
+                )
+            }
+        }
         .onAppear {
             viewModel.doProvideModuleInput()
             KeyboardManager.setEnableAutoToolbar(true)

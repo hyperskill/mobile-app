@@ -17,15 +17,6 @@ struct StepQuizView: View {
     @EnvironmentObject private var stackRouter: SwiftUIStackRouter
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
-    @State private var fillBlanksSelectOptionsViewHeight: CGFloat = 0
-    private var shouldRenderFillBlanksSpacer: Bool {
-        if #available(iOS 15.0, *) {
-            return false
-        } else {
-            return true
-        }
-    }
-
     var body: some View {
         let viewData = viewModel.makeViewData()
 
@@ -105,17 +96,7 @@ struct StepQuizView: View {
                 .introspectScrollView { scrollView in
                     scrollView.shouldIgnoreScrollingAdjustment = true
                 }
-
-                if shouldRenderFillBlanksSpacer {
-                    Spacer(minLength: fillBlanksSelectOptionsViewHeight)
-                }
             }
-            .safeAreaInsetBottomCompatibility(
-                buildFillBlanksSelectOptionsView(
-                    quizType: viewData.quizType,
-                    attemptLoadedState: StepQuizStateExtentionsKt.attemptLoadedState(viewModel.state.stepQuizState)
-                )
-            )
             .stepQuizToolbar(
                 state: viewModel.state,
                 stepRoute: viewModel.stepRoute,
@@ -264,38 +245,6 @@ struct StepQuizView: View {
                 )
                 .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
             }
-        }
-    }
-
-    @ViewBuilder
-    private func buildFillBlanksSelectOptionsView(
-        quizType: StepQuizChildQuizType,
-        attemptLoadedState: StepQuizFeatureStepQuizStateAttemptLoaded?
-    ) -> some View {
-        if case .fillBlanks(let mode) = quizType, mode == .select,
-           let attemptLoadedState {
-            StepQuizFillBlanksSelectOptionsViewWrapper(
-                moduleOutput: viewModel.childQuizModuleInput as? StepQuizFillBlanksSelectOptionsOutputProtocol,
-                moduleInput: { [weak viewModel] moduleInput in
-                    guard let viewModel else {
-                        return
-                    }
-
-                    viewModel.fillBlanksSelectOptionsModuleInput = moduleInput
-                },
-                isUserInteractionEnabled: StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState),
-                onNewHeight: { height in
-                    if fillBlanksSelectOptionsViewHeight != height {
-                        DispatchQueue.main.async {
-                            fillBlanksSelectOptionsViewHeight = height
-                        }
-                    }
-                }
-            )
-            .background(TransparentBlurView())
-            .edgesIgnoringSafeArea(.all)
-            .frame(height: fillBlanksSelectOptionsViewHeight)
-            .disabled(!StepQuizResolver.shared.isQuizEnabled(state: attemptLoadedState))
         }
     }
 }

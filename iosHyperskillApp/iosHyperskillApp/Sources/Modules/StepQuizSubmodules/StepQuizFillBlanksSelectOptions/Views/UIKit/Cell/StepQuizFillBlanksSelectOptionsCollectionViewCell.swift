@@ -3,13 +3,13 @@ import UIKit
 
 extension StepQuizFillBlanksSelectOptionsCollectionViewCell {
     struct Appearance {
-        static let defaultSize = CGSize(width: 48, height: 32)
+        static let defaultSize = CGSize(width: 48, height: 40)
 
         static var defaultWidth: CGFloat { Self.defaultSize.width }
         static var defaultHeight: CGFloat { Self.defaultSize.height }
 
         let cornerRadius: CGFloat = 8
-        let insets = LayoutInsets.small
+        let insets = LayoutInsets(horizontal: 12, vertical: LayoutInsets.smallInset)
 
         let textColor = UIColor.primaryText
         static let font = CodeEditorThemeService().theme.font
