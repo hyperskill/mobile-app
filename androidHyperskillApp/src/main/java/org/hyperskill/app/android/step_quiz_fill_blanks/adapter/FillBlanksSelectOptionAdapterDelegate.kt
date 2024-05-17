@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.LayerListDrawableDelegate
 import org.hyperskill.app.android.databinding.ItemStepQuizFillBlanksSelectOptionBinding
+import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksProcessedOption
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksSelectOptionUIItem
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksOption
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class FillBlanksSelectOptionAdapterDelegate(
-    private val onClick: (selectedOptionIndex: Int, option: FillBlanksOption) -> Unit
+    private val onClick: (selectedOptionIndex: Int, option: FillBlanksProcessedOption) -> Unit
 ) : AdapterDelegate<FillBlanksSelectOptionUIItem, DelegateViewHolder<FillBlanksSelectOptionUIItem>>() {
     override fun isForViewType(position: Int, data: FillBlanksSelectOptionUIItem): Boolean = true
 
@@ -56,7 +56,7 @@ class FillBlanksSelectOptionAdapterDelegate(
                 if (data.isUsed) {
                     R.id.step_quiz_fill_blanks_select_empty_layer
                 } else {
-                    R.id.step_quiz_fill_blanks_select_filled_layer
+                    R.id.step_quiz_fill_blanks_select_filled_selected_layer
                 }
             )
         }

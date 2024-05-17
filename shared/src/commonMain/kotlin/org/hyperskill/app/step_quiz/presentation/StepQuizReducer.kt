@@ -31,8 +31,6 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
-import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -567,27 +565,6 @@ internal class StepQuizReducer(
                     setOf(
                         Action.ViewAction.ShowProblemOnboardingModal(
                             modalType = StepQuizFeature.ProblemOnboardingModal.Parsons
-                        )
-                    )
-                } else {
-                    emptySet()
-                }
-            }
-            BlockName.FILL_BLANKS -> {
-                val fillBlanksMode = kotlin.runCatching {
-                    val dataset = attempt.dataset ?: return@runCatching null
-                    FillBlanksResolver.resolve(dataset)
-                }.getOrNull()?.takeIf {
-                    when (it) {
-                        FillBlanksMode.INPUT -> !problemsOnboardingFlags.isFillBlanksInputModeOnboardingShown
-                        FillBlanksMode.SELECT -> !problemsOnboardingFlags.isFillBlanksSelectModeOnboardingShown
-                    }
-                }
-
-                if (fillBlanksMode != null) {
-                    setOf(
-                        Action.ViewAction.ShowProblemOnboardingModal(
-                            modalType = StepQuizFeature.ProblemOnboardingModal.FillBlanks(fillBlanksMode)
                         )
                     )
                 } else {

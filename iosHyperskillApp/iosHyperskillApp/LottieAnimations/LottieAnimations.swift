@@ -8,16 +8,6 @@ enum LottieAnimations {
         dark: "parsons-problem-onboarding-animation-dark"
     )
 
-    static let fillBlanksInputProblemOnboarding = LottieAnimationFileName(
-        light: "fill-blanks-input-problem-onboarding-animation-light",
-        dark: "fill-blanks-input-problem-onboarding-animation-dark"
-    )
-
-    static let fillBlanksSelectProblemOnboarding = LottieAnimationFileName(
-        light: "fill-blanks-select-problem-onboarding-animation-light",
-        dark: "fill-blanks-select-problem-onboarding-animation-dark"
-    )
-
     // MARK: ProblemsLimitInfo
 
     static let problemsLimitInfoModalPartiallyFilled = LottieAnimationFileName(

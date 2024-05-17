@@ -17,7 +17,6 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.FragmentStepQuizProblemOnboardingBinding
 import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 
 class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -85,10 +84,6 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private fun getAnimation(modalType: StepQuizFeature.ProblemOnboardingModal): Int =
         when (modalType) {
             StepQuizFeature.ProblemOnboardingModal.Parsons -> R.raw.parsons_problem_onboarding_animation
-            is StepQuizFeature.ProblemOnboardingModal.FillBlanks -> when (modalType.mode) {
-                FillBlanksMode.INPUT -> R.raw.fill_blanks_input_onboarding_animation
-                FillBlanksMode.SELECT -> R.raw.fill_blanks_select_onboarding_animation
-            }
             StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors -> throwWrongModalTypeError()
         }
 
@@ -100,8 +95,6 @@ class ProblemOnboardingBottomSheetDialogFragment : BottomSheetDialogFragment() {
             when (modalType) {
                 StepQuizFeature.ProblemOnboardingModal.Parsons ->
                     org.hyperskill.app.R.string.step_quiz_problem_onboarding_modal_parsons_description
-                is StepQuizFeature.ProblemOnboardingModal.FillBlanks ->
-                    org.hyperskill.app.R.string.step_quiz_problem_onboarding_modal_fill_blanks_description
                 StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
                     throwWrongModalTypeError()
             }

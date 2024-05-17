@@ -6,7 +6,6 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPar
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 
 /**
  * Represents a shown analytic event of the problem onboarding modal.
@@ -36,11 +35,6 @@ class ProblemOnboardingModalShownHyperskillAnalyticEvent(
 internal val StepQuizFeature.ProblemOnboardingModal.hyperskillAnalyticTarget: HyperskillAnalyticTarget
     get() = when (this) {
         StepQuizFeature.ProblemOnboardingModal.Parsons -> HyperskillAnalyticTarget.PARSONS_PROBLEM_ONBOARDING_MODAL
-        is StepQuizFeature.ProblemOnboardingModal.FillBlanks ->
-            when (this.mode) {
-                FillBlanksMode.INPUT -> HyperskillAnalyticTarget.FILL_BLANKS_INPUT_MODE_ONBOARDING_MODAL
-                FillBlanksMode.SELECT -> HyperskillAnalyticTarget.FILL_BLANKS_SELECT_MODE_ONBOARDING_MODAL
-            }
         StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
             HyperskillAnalyticTarget.GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL
     }
