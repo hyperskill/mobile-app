@@ -7,14 +7,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.LayerListDrawableDelegate
+import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksProcessedOption
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksUiItem
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksOption
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
 
 class FillBlanksSelectItemAdapterDelegate(
-    private val options: List<FillBlanksOption>,
+    private val options: List<FillBlanksProcessedOption>,
     private val onClick: (blankIndex: Int) -> Unit
 ) : AdapterDelegate<FillBlanksUiItem, DelegateViewHolder<FillBlanksUiItem>>() {
     override fun isForViewType(position: Int, data: FillBlanksUiItem): Boolean =

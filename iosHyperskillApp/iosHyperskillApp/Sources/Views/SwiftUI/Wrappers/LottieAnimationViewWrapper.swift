@@ -86,18 +86,4 @@ extension LottieAnimationViewWrapper {
     )
     .padding()
 }
-
-#Preview("Fill blanks input mode problem onboarding") {
-    LottieAnimationViewWrapper(
-        fileName: LottieAnimations.fillBlanksInputProblemOnboarding
-    )
-    .padding()
-}
-
-#Preview("Fill blanks select mode problem onboarding") {
-    LottieAnimationViewWrapper(
-        fileName: LottieAnimations.fillBlanksSelectProblemOnboarding
-    )
-    .padding()
-}
 #endif
