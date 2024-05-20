@@ -16,31 +16,27 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
         self.dataset = dataset
         self.reply = reply
 
-        if let pairs = dataset.pairs {
-            let items: [StepQuizMatchingViewData.MatchItem]
-
-            if let ordering = reply?.ordering {
-                items = ordering.enumerated().map { index, order in
-                    .init(
-                        title: .init(id: index, text: pairs[index].first ?? ""),
-                        option: .init(id: order.intValue, text: pairs[order.intValue].second ?? "")
-                    )
-                }
-                self.options = items.compactMap(\.option)
-            } else {
-                var options = [StepQuizMatchingViewData.MatchItem.Option]()
-                items = pairs.enumerated().map { index, pair in
-                    options.append(.init(id: index, text: pair.second ?? ""))
-                    return .init(title: .init(id: index, text: pair.first ?? ""))
-                }
-                self.options = options
-            }
-
-            self.viewData = StepQuizMatchingViewData(items: items)
-        } else {
+        guard let pairs = dataset.pairs else {
             self.options = []
             self.viewData = StepQuizMatchingViewData(items: [])
+            return
         }
+
+        let options = pairs.enumerated().map { index, pair in
+            StepQuizMatchingViewData.MatchItem.Option(id: index, text: pair.second ?? "")
+        }
+
+        let replyOrdering = reply?.ordering as? [Int?]
+
+        let items = pairs.enumerated().map { index, _ in
+            StepQuizMatchingViewData.MatchItem(
+                title: .init(id: index, text: pairs[index].first ?? ""),
+                option: options.first { $0.id == replyOrdering?[index] }
+            )
+        }
+
+        self.options = options
+        self.viewData = StepQuizMatchingViewData(items: items)
     }
 
     func makeSelectColumnsViewController(
@@ -79,7 +75,7 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     }
 
     func createReply() -> Reply {
-        Reply(ordering: viewData.items.compactMap(\.option).map(\.id))
+        Reply.companion.matching(ordering: viewData.items.map(\.option?.id) as [Any])
     }
 
     private func outputCurrentReply() {
