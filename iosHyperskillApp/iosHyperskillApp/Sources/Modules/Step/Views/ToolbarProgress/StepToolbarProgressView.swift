@@ -63,11 +63,17 @@ final class StepToolbarProgressView: UIView {
         self.setupView()
         self.addSubviews()
         self.makeConstraints()
+
+        addNotificationObservers()
     }
 
     @available(*, unavailable)
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        removeNotificationObservers()
     }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -100,6 +106,62 @@ final class StepToolbarProgressView: UIView {
     private func didTapSpacebotRocketAnimationView() {
         spacebotWowAnimationView.play()
         onSpacebotHeadTap?()
+    }
+}
+
+// MARK: - StepToolbarProgressView (NotificationCenter) -
+
+extension StepToolbarProgressView {
+    private func addNotificationObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleApplicationWillEnterForeground),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+
+    private func removeNotificationObservers() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+
+    @objc
+    private func handleApplicationDidEnterBackground() {
+        guard isAnimationPlaying else {
+            return
+        }
+
+        isAnimationPlaying = false
+
+        spacebotWowAnimationView.stop()
+        spacebotRocketAnimationView.stop()
+    }
+
+    @objc
+    private func handleApplicationWillEnterForeground() {
+        guard !isHidden else {
+            return
+        }
+
+        spacebotWowAnimationView.resetCurrentProgress()
+        spacebotRocketAnimationView.resetCurrentProgress()
+
+        updateProgressImmediately(progress ?? 0)
     }
 }
 
