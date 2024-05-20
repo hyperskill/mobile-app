@@ -8,6 +8,8 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     private let dataset: Dataset
     private let reply: Reply?
 
+    private let options: [StepQuizMatchingViewData.MatchItem.Option]
+
     @Published private(set) var viewData: StepQuizMatchingViewData
 
     init(dataset: Dataset, reply: Reply?) {
@@ -24,17 +26,19 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
                         option: .init(id: order.intValue, text: pairs[order.intValue].second ?? "")
                     )
                 }
+                self.options = items.compactMap(\.option)
             } else {
+                var options = [StepQuizMatchingViewData.MatchItem.Option]()
                 items = pairs.enumerated().map { index, pair in
-                    .init(
-                        title: .init(id: index, text: pair.first ?? ""),
-                        option: .init(id: index, text: pair.second ?? "")
-                    )
+                    options.append(.init(id: index, text: pair.second ?? ""))
+                    return .init(title: .init(id: index, text: pair.first ?? ""))
                 }
+                self.options = options
             }
 
             self.viewData = StepQuizMatchingViewData(items: items)
         } else {
+            self.options = []
             self.viewData = StepQuizMatchingViewData(items: [])
         }
     }
@@ -42,34 +46,32 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     func makeSelectColumnsViewController(
         for matchItem: StepQuizMatchingViewData.MatchItem
     ) -> PanModalPresentableViewController {
-        let columns = viewData.items.map { item in
-            StepQuizTableViewData.Column(id: item.option.id, text: item.option.text)
+        let columns = options.map { option in
+            StepQuizTableViewData.Column(id: option.id, text: option.text)
         }
 
         return StepQuizTableSelectColumnsViewController(
             title: matchItem.title.text,
             columns: columns,
-            selectedColumnsIDs: [matchItem.option.id],
+            selectedColumnsIDs: matchItem.option != nil ? [matchItem.option.require().id] : [],
             isMultipleChoice: false,
             onColumnsSelected: { [weak self] selectedColumnsIDs in
-                guard let self else {
+                guard let self,
+                      let selectedColumnID = selectedColumnsIDs.first,
+                      matchItem.option?.id != selectedColumnID,
+                      let currentItemIndex = self.viewData.items.firstIndex(of: matchItem) else {
                     return
                 }
 
-                guard let selectedColumnID = selectedColumnsIDs.first,
-                      matchItem.option.id != selectedColumnID else {
-                    return
+                if let swappingIndex = self.viewData.items.firstIndex(where: { $0.option?.id == selectedColumnID }) {
+                    let tmp = self.viewData.items[currentItemIndex].option
+                    self.viewData.items[currentItemIndex].option = self.viewData.items[swappingIndex].option
+                    self.viewData.items[swappingIndex].option = tmp
+                } else {
+                    self.viewData.items[currentItemIndex].option = self.options.first(
+                        where: { $0.id == selectedColumnID }
+                    )
                 }
-
-                guard let targetIndex = self.viewData.items.firstIndex(
-                    where: { $0.option.id == selectedColumnID }
-                ), let originalIndex = self.viewData.items.firstIndex(of: matchItem) else {
-                    return
-                }
-
-                let tmp = self.viewData.items[originalIndex].option
-                self.viewData.items[originalIndex].option = self.viewData.items[targetIndex].option
-                self.viewData.items[targetIndex].option = tmp
 
                 self.outputCurrentReply()
             }
@@ -77,7 +79,7 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     }
 
     func createReply() -> Reply {
-        Reply(ordering: viewData.items.map(\.option.id))
+        Reply(ordering: viewData.items.compactMap(\.option).map(\.id))
     }
 
     private func outputCurrentReply() {
