@@ -17,8 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            app:tint="?colorControlNormal"
-            app:srcCompat="@drawable/ic_grip" />
+            app:srcCompat="@drawable/ic_bottom_sheet_swipe_indicator" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tableColumnSelectionInformation"
