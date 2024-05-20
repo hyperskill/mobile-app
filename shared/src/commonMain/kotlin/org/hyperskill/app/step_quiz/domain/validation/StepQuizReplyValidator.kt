@@ -3,11 +3,12 @@ package org.hyperskill.app.step_quiz.domain.validation
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.step.domain.model.BlockName
+import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
 import org.hyperskill.app.submissions.domain.model.ChoiceAnswer
 import org.hyperskill.app.submissions.domain.model.Reply
 import ru.nobird.app.core.model.safeCast
 
-class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
+internal class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
     companion object {
         private const val MINUS = "-\\\u002D\u00AD\u2012\u2013\u2014\u2015\u02D7"
         private const val PLUS = "+"
@@ -17,7 +18,7 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
             "^[$MINUS$PLUS]?[0-9]*[$POINT]?[0-9]+([$EXP][$$MINUS$PLUS]?[0-9]+)?$"
     }
 
-    fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult {
+    fun validate(dataset: Dataset?, reply: Reply, stepBlockName: String): ReplyValidationResult {
         when (stepBlockName) {
             BlockName.CHOICE -> {
                 val choices = reply.choices?.safeCast<List<ChoiceAnswer.Choice>>()
@@ -26,7 +27,15 @@ class StepQuizReplyValidator(private val resourceProvider: ResourceProvider) {
                     return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
                 }
             }
-            BlockName.MATCHING, BlockName.SORTING -> if (reply.ordering.isNullOrEmpty()) {
+            BlockName.MATCHING -> {
+                val uniqueOrdering = reply.ordering?.toSet()
+                val optionsCount = dataset?.pairs?.map { it.second }?.size ?: 0
+
+                if (uniqueOrdering.isNullOrEmpty() || uniqueOrdering.size != optionsCount) {
+                    return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
+                }
+            }
+            BlockName.SORTING -> if (reply.ordering.isNullOrEmpty()) {
                 return ReplyValidationResult.Error(getErrorMessage(stepBlockName))
             }
             BlockName.PARSONS -> if (reply.lines.isNullOrEmpty()) {

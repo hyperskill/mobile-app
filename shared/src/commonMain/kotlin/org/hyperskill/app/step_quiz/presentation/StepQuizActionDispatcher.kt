@@ -120,7 +120,11 @@ internal class StepQuizActionDispatcher(
                 }
             }
             is Action.CreateSubmissionValidateReply -> {
-                val validationResult = stepQuizReplyValidator.validate(action.reply, action.step.block.name)
+                val validationResult = stepQuizReplyValidator.validate(
+                    dataset = action.dataset,
+                    reply = action.reply,
+                    stepBlockName = action.step.block.name
+                )
                 onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
             is Action.CreateSubmission -> {

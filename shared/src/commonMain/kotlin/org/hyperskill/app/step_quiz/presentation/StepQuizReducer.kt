@@ -114,7 +114,11 @@ internal class StepQuizReducer(
                             StepQuizClickedSendHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         }
                     state to setOf(
-                        Action.CreateSubmissionValidateReply(message.step, message.reply),
+                        Action.CreateSubmissionValidateReply(
+                            step = message.step,
+                            dataset = state.stepQuizState.attempt.dataset,
+                            reply = message.reply
+                        ),
                         InternalAction.LogAnalyticEvent(analyticEvent)
                     )
                 } else {
