@@ -76,6 +76,12 @@ data class Reply(
                 prompt = prompt,
                 score = if (markedAsCorrect) ReplyScore.Float(PROMPT_MANUALLY_CONFIRMED_SCORE) else null
             )
+
+        fun table(answers: List<ChoiceAnswer>): Reply =
+            Reply(choices = answers)
+
+        fun matching(ordering: List<Int>): Reply =
+            Reply(ordering = ordering)
     }
 }
 
