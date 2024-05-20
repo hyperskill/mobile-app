@@ -28,8 +28,6 @@ class TableStepQuizFormDelegate(
 
     private val tableAdapter = DefaultDelegateAdapter<TableSelectionItem>()
 
-    private val tableSelectionItemMapper = TableSelectionItemMapper()
-
     private var isCheckBox: Boolean = false
 
     init {
@@ -48,7 +46,7 @@ class TableStepQuizFormDelegate(
 
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
         isCheckBox = state.attempt.dataset?.isCheckbox ?: false
-        tableAdapter.items = tableSelectionItemMapper.mapToTableSelectionItems(
+        tableAdapter.items = TableSelectionItemMapper.mapToTableSelectionItems(
             attempt = state.attempt,
             submission = state.submission,
             isEnabled = StepQuizResolver.isQuizEnabled(state)
