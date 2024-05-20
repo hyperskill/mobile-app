@@ -29,7 +29,6 @@ object TableSelectionItemMapper {
             }
             ?: emptyList()
 
-
     private fun mapChoiceAnswersToTableAnswerItem(
         choices: List<ChoiceAnswer>?,
         rowIndex: Int,
