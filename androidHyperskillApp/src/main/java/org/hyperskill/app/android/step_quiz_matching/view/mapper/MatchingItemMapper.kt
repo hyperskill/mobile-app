@@ -28,17 +28,13 @@ object MatchingItemMapper {
     private fun mapPairsToTableChoices(
         pairs: List<Pair>,
         rowIndex: Int,
-        ordering: List<Int>?
+        ordering: List<Int?>?
     ): List<TableChoiceItem> =
         pairs.mapIndexed { choiceIndex, choicePair ->
             TableChoiceItem(
                 id = choiceIndex,
                 text = choicePair.second ?: "",
-                answer = if (ordering == null) {
-                    choiceIndex == rowIndex
-                } else {
-                    ordering[rowIndex] == choiceIndex
-                }
+                answer = ordering?.getOrNull(rowIndex) == choiceIndex
             )
         }
 }

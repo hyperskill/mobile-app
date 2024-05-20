@@ -59,9 +59,9 @@ class MatchingStepQuizFormDelegate(
         createReplyInternal(matchingAdapter.items)
 
     private fun createReplyInternal(items: List<TableSelectionItem>): Reply =
-        Reply(
+        Reply.matching(
             ordering = items.map { item ->
-                item.tableChoices.first { it.answer }.id
+                item.tableChoices.firstOrNull { it.answer }?.id
             }
         )
 
@@ -77,15 +77,24 @@ class MatchingStepQuizFormDelegate(
         answers: List<TableChoiceItem>,
         rows: List<TableSelectionItem>
     ): List<TableSelectionItem> {
-        val selectedAnswerIndex = answers.indexOfFirst { it.answer }
-        val rowIndexToSwap = rows.indexOfFirst {
-            it.tableChoices[selectedAnswerIndex].answer
-        }
+        val selectedAnswerIndex =
+            answers
+                .indexOfFirst { it.answer }
+                .takeIf { it != -1 }
+                ?: return rows
+        val rowIndexToSwap =
+            rows
+                .indexOfFirst { it.tableChoices[selectedAnswerIndex].answer }
+                .takeIf { it != -1 }
         return rows.mutate {
             val currentRow = get(currentRowIndex)
-            val rowToSwap = get(rowIndexToSwap)
-            set(currentRowIndex, currentRow.copy(tableChoices = rowToSwap.tableChoices))
-            set(rowIndexToSwap, rowToSwap.copy(tableChoices = currentRow.tableChoices))
+            if (rowIndexToSwap != null) {
+                val rowToSwap = get(rowIndexToSwap)
+                set(currentRowIndex, currentRow.copy(tableChoices = rowToSwap.tableChoices))
+                set(rowIndexToSwap, rowToSwap.copy(tableChoices = currentRow.tableChoices))
+            } else {
+                set(currentRowIndex, currentRow.copy(tableChoices = answers))
+            }
         }
     }
 }

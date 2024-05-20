@@ -20,7 +20,7 @@ data class Reply(
     @SerialName("number")
     val number: String? = null,
     @SerialName("ordering")
-    val ordering: List<Int>? = null,
+    val ordering: List<Int?>? = null,
     @SerialName("language")
     val language: String? = null,
     @SerialName("code")
@@ -80,7 +80,7 @@ data class Reply(
         fun table(answers: List<ChoiceAnswer>): Reply =
             Reply(choices = answers)
 
-        fun matching(ordering: List<Int>): Reply =
+        fun matching(ordering: List<Int?>): Reply =
             Reply(ordering = ordering)
     }
 }
