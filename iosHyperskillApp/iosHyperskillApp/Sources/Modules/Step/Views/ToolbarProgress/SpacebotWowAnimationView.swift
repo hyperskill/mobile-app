@@ -10,6 +10,8 @@ extension SpacebotWowAnimationView {
 }
 
 final class SpacebotWowAnimationView: UIView {
+    private static let initialAnimationProgressTime: AnimationProgressTime = 0
+
     let appearance: Appearance
 
     private lazy var animationView: LottieAnimationView = {
@@ -47,6 +49,14 @@ final class SpacebotWowAnimationView: UIView {
             self.animationView.alpha = self.appearance.animationViewAlphaHidden
             self.animationView.currentProgress = 0
         }
+    }
+
+    func stop() {
+        animationView.stop()
+    }
+
+    func resetCurrentProgress() {
+        animationView.currentProgress = Self.initialAnimationProgressTime
     }
 
     private func setLottieAnimation() {

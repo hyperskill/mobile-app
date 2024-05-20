@@ -7,6 +7,8 @@ extension SpacebotRocketAnimationView {
 }
 
 final class SpacebotRocketAnimationView: UIControl {
+    private static let initialAnimationProgressTime: AnimationProgressTime = 1
+
     let appearance: Appearance
 
     private lazy var animationView = LottieAnimationView()
@@ -45,6 +47,14 @@ final class SpacebotRocketAnimationView: UIControl {
         animationView.play(completion: completion)
     }
 
+    func stop() {
+        animationView.stop()
+    }
+
+    func resetCurrentProgress() {
+        animationView.currentProgress = Self.initialAnimationProgressTime
+    }
+
     private func setLottieAnimation(currentProgress: AnimationProgressTime = 0) {
         let dotLottieName = isDarkInterfaceStyle
             ? LottieAnimations.spacebotProgressBarRocket.dark
@@ -72,7 +82,7 @@ extension SpacebotRocketAnimationView: ProgrammaticallyInitializableViewProtocol
     func setupView() {
         isUserInteractionEnabled = true
         animationView.isUserInteractionEnabled = true
-        setLottieAnimation(currentProgress: 1)
+        setLottieAnimation(currentProgress: Self.initialAnimationProgressTime)
     }
 
     func addSubviews() {
