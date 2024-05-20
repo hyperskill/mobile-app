@@ -35,6 +35,8 @@ data class Step(
     val checkProfile: String = "",
     @SerialName("seconds_to_complete")
     val secondsToComplete: Float?,
+    @SerialName("success_rate")
+    private val successRate: Float?,
     @SerialName("last_completed_at")
     val lastCompletedAt: Instant? = null
 ) {
@@ -48,6 +50,9 @@ data class Step(
 
     val millisSinceLastCompleted: Long?
         get() = lastCompletedAt?.let { (Clock.System.now() - it).inWholeMilliseconds }
+
+    val hasEasyDifficultyLevel: Boolean
+        get() = successRate != null && successRate >= 0.66
 }
 
 /**
