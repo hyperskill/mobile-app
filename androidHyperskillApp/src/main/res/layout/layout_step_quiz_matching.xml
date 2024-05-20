@@ -33,7 +33,7 @@
 
     <include
         android:id="@+id/matchingSkeleton"
-        layout="@layout/layout_step_quiz_sorting_skeleton"
+        layout="@layout/layout_step_quiz_table_skeleton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"/>
