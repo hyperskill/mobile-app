@@ -28,7 +28,7 @@ internal class StepQuizReplyValidator(private val resourceProvider: ResourceProv
                 }
             }
             BlockName.MATCHING -> {
-                val uniqueOrdering = reply.ordering?.toSet()
+                val uniqueOrdering = reply.ordering?.filterNotNull()?.toSet()
                 val optionsCount = dataset?.pairs?.map { it.second }?.size ?: 0
 
                 if (uniqueOrdering.isNullOrEmpty() || uniqueOrdering.size != optionsCount) {
