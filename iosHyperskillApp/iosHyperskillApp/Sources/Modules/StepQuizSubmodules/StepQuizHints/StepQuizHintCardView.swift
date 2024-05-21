@@ -86,13 +86,7 @@ struct StepQuizHintCardView: View {
             )
             .font(.subheadline)
             .foregroundColor(.primary)
-            // .textSelection(.enabled) is available only for iOS 15
-            // this is the simpliest solution
-            .contextMenu(ContextMenu(menuItems: {
-                Button(Strings.StepQuiz.Hints.copy, action: {
-                    UIPasteboard.general.string = hintText
-                })
-            }))
+            .textSelectionCompatibility(fallbackStringToCopy: hintText)
 
             if isDisplaingShortHintText {
                 ShowMoreButton {

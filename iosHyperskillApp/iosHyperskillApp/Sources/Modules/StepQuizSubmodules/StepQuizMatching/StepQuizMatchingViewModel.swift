@@ -8,68 +8,66 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     private let dataset: Dataset
     private let reply: Reply?
 
+    private let options: [StepQuizMatchingViewData.MatchItem.Option]
+
     @Published private(set) var viewData: StepQuizMatchingViewData
 
     init(dataset: Dataset, reply: Reply?) {
         self.dataset = dataset
         self.reply = reply
 
-        if let pairs = dataset.pairs {
-            let items: [StepQuizMatchingViewData.MatchItem]
-
-            if let ordering = reply?.ordering {
-                items = ordering.enumerated().map { index, order in
-                    .init(
-                        title: .init(id: index, text: pairs[index].first ?? ""),
-                        option: .init(id: order.intValue, text: pairs[order.intValue].second ?? "")
-                    )
-                }
-            } else {
-                items = pairs.enumerated().map { index, pair in
-                    .init(
-                        title: .init(id: index, text: pair.first ?? ""),
-                        option: .init(id: index, text: pair.second ?? "")
-                    )
-                }
-            }
-
-            self.viewData = StepQuizMatchingViewData(items: items)
-        } else {
+        guard let pairs = dataset.pairs else {
+            self.options = []
             self.viewData = StepQuizMatchingViewData(items: [])
+            return
         }
+
+        let options = pairs.enumerated().map { index, pair in
+            StepQuizMatchingViewData.MatchItem.Option(id: index, text: pair.second ?? "")
+        }
+
+        let replyOrdering = reply?.ordering as? [Int?]
+
+        let items = pairs.enumerated().map { index, _ in
+            StepQuizMatchingViewData.MatchItem(
+                title: .init(id: index, text: pairs[index].first ?? ""),
+                option: options.first { $0.id == replyOrdering?[index] }
+            )
+        }
+
+        self.options = options
+        self.viewData = StepQuizMatchingViewData(items: items)
     }
 
     func makeSelectColumnsViewController(
         for matchItem: StepQuizMatchingViewData.MatchItem
     ) -> PanModalPresentableViewController {
-        let columns = viewData.items.map { item in
-            StepQuizTableViewData.Column(id: item.option.id, text: item.option.text)
+        let columns = options.map { option in
+            StepQuizTableViewData.Column(id: option.id, text: option.text)
         }
 
         return StepQuizTableSelectColumnsViewController(
             title: matchItem.title.text,
             columns: columns,
-            selectedColumnsIDs: [matchItem.option.id],
+            selectedColumnsIDs: matchItem.option != nil ? [matchItem.option.require().id] : [],
             isMultipleChoice: false,
             onColumnsSelected: { [weak self] selectedColumnsIDs in
-                guard let self else {
+                guard let self,
+                      let selectedColumnID = selectedColumnsIDs.first,
+                      matchItem.option?.id != selectedColumnID,
+                      let currentItemIndex = self.viewData.items.firstIndex(of: matchItem) else {
                     return
                 }
 
-                guard let selectedColumnID = selectedColumnsIDs.first,
-                      matchItem.option.id != selectedColumnID else {
-                    return
+                if let swappingIndex = self.viewData.items.firstIndex(where: { $0.option?.id == selectedColumnID }) {
+                    let tmp = self.viewData.items[currentItemIndex].option
+                    self.viewData.items[currentItemIndex].option = self.viewData.items[swappingIndex].option
+                    self.viewData.items[swappingIndex].option = tmp
+                } else {
+                    self.viewData.items[currentItemIndex].option = self.options.first(
+                        where: { $0.id == selectedColumnID }
+                    )
                 }
-
-                guard let targetIndex = self.viewData.items.firstIndex(
-                    where: { $0.option.id == selectedColumnID }
-                ), let originalIndex = self.viewData.items.firstIndex(of: matchItem) else {
-                    return
-                }
-
-                let tmp = self.viewData.items[originalIndex].option
-                self.viewData.items[originalIndex].option = self.viewData.items[targetIndex].option
-                self.viewData.items[targetIndex].option = tmp
 
                 self.outputCurrentReply()
             }
@@ -77,7 +75,7 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     }
 
     func createReply() -> Reply {
-        Reply(ordering: viewData.items.map(\.option.id))
+        Reply.companion.matching(ordering: viewData.items.map(\.option?.id) as [Any])
     }
 
     private func outputCurrentReply() {
