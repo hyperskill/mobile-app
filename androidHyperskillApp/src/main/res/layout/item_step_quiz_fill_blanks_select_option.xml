@@ -9,7 +9,9 @@
     android:focusable="true"
     android:background="@drawable/bg_step_quiz_fill_blanks_select_item"
     android:paddingVertical="12dp"
-    android:paddingHorizontal="13dp">
+    android:paddingHorizontal="13dp"
+    android:layout_marginEnd="12dp"
+    android:layout_marginBottom="12dp">
 
     <TextView
         android:id="@+id/stepQuizFillBlanksSelectOptionText"

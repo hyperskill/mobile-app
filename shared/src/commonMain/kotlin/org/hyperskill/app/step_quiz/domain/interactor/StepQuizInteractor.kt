@@ -84,5 +84,7 @@ class StepQuizInteractor(
     }
 
     suspend fun generateGptCodeWithErrors(stepId: Long): Result<String> =
-        submissionsRepository.generateCodeWithErrors(stepId)
+        submissionsRepository.generateCodeWithErrors(stepId).map { code ->
+            code.lineSequence().filter { !it.startsWith("```") }.joinToString("\n")
+        }
 }
