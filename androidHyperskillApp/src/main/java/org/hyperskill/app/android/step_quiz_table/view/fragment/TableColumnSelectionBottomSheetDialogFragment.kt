@@ -17,7 +17,7 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.databinding.BottomSheetDialogTableColumnsSelectionBinding
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableColumnMultipleSelectionItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableColumnSingleSelectionItemAdapterDelegate
-import org.hyperskill.app.submissions.domain.model.Cell
+import org.hyperskill.app.android.step_quiz_table.view.model.TableChoiceItem
 import ru.nobird.android.ui.adapters.DefaultDelegateAdapter
 import ru.nobird.android.ui.adapters.selection.MultipleChoiceSelectionHelper
 import ru.nobird.android.ui.adapters.selection.SelectionHelper
@@ -30,7 +30,12 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
 
         private const val ARG_SELECTED = "selected"
 
-        fun newInstance(index: Int, rowTitle: String, chosenColumns: List<Cell>, isCheckBox: Boolean): DialogFragment =
+        fun newInstance(
+            index: Int,
+            rowTitle: String,
+            chosenColumns: List<TableChoiceItem>,
+            isCheckBox: Boolean
+        ): DialogFragment =
             TableColumnSelectionBottomSheetDialogFragment()
                 .apply {
                     this.index = index
@@ -48,10 +53,10 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
 
     private var index: Int by argument()
     private var rowTitle: String by argument()
-    private var chosenColumns: List<Cell> by argument(ListSerializer(Cell.serializer()))
+    private var chosenColumns: List<TableChoiceItem> by argument(ListSerializer(TableChoiceItem.serializer()))
     private var isCheckBox: Boolean by argument()
 
-    private val columnsAdapter = DefaultDelegateAdapter<Cell>()
+    private val columnsAdapter = DefaultDelegateAdapter<TableChoiceItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,13 +120,13 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val select = columnsAdapter.items.mapIndexed { index, cell ->
+        val select = List(columnsAdapter.items.size) { index ->
             selectionHelper.isSelected(index)
         }
         outState.putBooleanArray(ARG_SELECTED, select.toBooleanArray())
     }
 
-    private fun handleColumnSelectionClick(cell: Cell) {
+    private fun handleColumnSelectionClick(cell: TableChoiceItem) {
         when (selectionHelper) {
             is SingleChoiceSelectionHelper ->
                 selectionHelper.select(columnsAdapter.items.indexOf(cell))
@@ -140,6 +145,6 @@ class TableColumnSelectionBottomSheetDialogFragment : BottomSheetDialogFragment(
     }
 
     interface Callback {
-        fun onSyncChosenColumnsWithParent(index: Int, chosenRows: List<Cell>)
+        fun onSyncChosenColumnsWithParent(index: Int, chosenRows: List<TableChoiceItem>)
     }
 }
