@@ -28,7 +28,7 @@
     <ID>CyclomaticComplexMethod:StepQuizActionDispatcher.kt$StepQuizActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>CyclomaticComplexMethod:StepQuizHintsReducer.kt$StepQuizHintsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
     <ID>CyclomaticComplexMethod:StepQuizReducer.kt$StepQuizReducer$override fun reduce(state: State, message: Message): StepQuizReducerResult</ID>
-    <ID>CyclomaticComplexMethod:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
+    <ID>CyclomaticComplexMethod:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(dataset: Dataset?, reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
     <ID>CyclomaticComplexMethod:TopicsRepetitionsReducer.kt$TopicsRepetitionsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
     <ID>DefaultsVisibility:LeaderboardListDivider.kt$LeaderboardListDividerDefaults$LeaderboardListDividerDefaults</ID>
     <ID>EmptyCatchBlock:TimeIntervalPickerDialogFragment.kt$TimeIntervalPickerDialogFragment${ }</ID>
@@ -266,7 +266,7 @@
     <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getLastSeenHint(stepId: Long): Comment?</ID>
     <ID>ReturnCount:StepQuizHintsInteractor.kt$StepQuizHintsInteractor$suspend fun getNotSeenHintsIds(stepId: Long): List&lt;Long&gt;</ID>
     <ID>ReturnCount:StepQuizReducer.kt$StepQuizReducer$private fun handleGenerateGptCodeWithErrorsResult( state: State, message: InternalMessage.GenerateGptCodeWithErrorsResult ): StepQuizReducerResult</ID>
-    <ID>ReturnCount:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
+    <ID>ReturnCount:StepQuizReplyValidator.kt$StepQuizReplyValidator$fun validate(dataset: Dataset?, reply: Reply, stepBlockName: String): ReplyValidationResult</ID>
     <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$fun isQuizEnabled(state: StepQuizFeature.StepQuizState.AttemptLoaded): Boolean</ID>
     <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$fun shouldSyncReply(state: StepQuizFeature.StepQuizState): Boolean</ID>
     <ID>ReturnCount:StepQuizResolver.kt$StepQuizResolver$internal fun isIdeRequired(step: Step, submissionState: StepQuizFeature.SubmissionState): Boolean</ID>
