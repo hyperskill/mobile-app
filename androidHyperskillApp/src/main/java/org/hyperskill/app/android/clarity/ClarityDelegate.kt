@@ -34,14 +34,12 @@ class ClarityDelegate(
         setNotFirstSession(settings)
         Log.d("ClarityDelegate", "init: isFirstSession=$isFirstSession")
         if (isFirstSession) {
-            Log.d("ClarityDelegate","Initialize Clarity")
             Clarity.initialize(context, clarityConfig)
         }
     }
 
     fun setUserId(userId: Long) {
         if (isFirstSession) {
-            Log.d("ClarityDelegate","Set user id")
             Clarity.setCustomUserId(userId.toString())
         }
     }
