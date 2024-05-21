@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.clarity
 
 import android.content.Context
-import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.savedstate.SavedStateRegistry
 import com.microsoft.clarity.Clarity
@@ -17,8 +16,9 @@ class ClarityDelegate(
     companion object {
         private const val SAVED_STATE_PROVIDER_KEY = "CLARITY_MANAGER"
         private const val IS_FIRST_SESSION_KEY = "IS_ANDROID_FIRST_SESSION"
+        private const val IS_DEBUG_KEY = "IS_DEBUG"
         private val clarityConfig = ClarityConfig(
-            projectId = "",
+            projectId = BuildConfig.CLARITY_PROJECT_ID,
             logLevel = if (BuildConfig.DEBUG) LogLevel.Debug else LogLevel.None,
             allowMeteredNetworkUsage = false,
             allowedDomains = emptyList(),
@@ -32,9 +32,9 @@ class ClarityDelegate(
         registerSavedStateProvider(savedStateRegistry)
         isFirstSession = isFirstSession(savedStateRegistry, settings)
         setNotFirstSession(settings)
-        Log.d("ClarityDelegate", "init: isFirstSession=$isFirstSession")
         if (isFirstSession) {
             Clarity.initialize(context, clarityConfig)
+            Clarity.setCustomTag(IS_DEBUG_KEY, BuildConfig.DEBUG.toString())
         }
     }
 
