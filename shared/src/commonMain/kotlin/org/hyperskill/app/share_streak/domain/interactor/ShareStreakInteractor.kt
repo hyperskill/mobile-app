@@ -8,7 +8,7 @@ import org.hyperskill.app.streaks.domain.model.StreakState
 
 class ShareStreakInteractor(private val shareStreakRepository: ShareStreakRepository) {
     companion object {
-        private val SHAREABLE_STREAKS = setOf(1, 5, 10, 25, 50, 100)
+        private val SHAREABLE_STREAKS = setOf(5, 10, 25, 50, 100)
     }
 
     fun setLastTimeShareStreakShown() {
