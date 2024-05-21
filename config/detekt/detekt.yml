@@ -653,7 +653,7 @@ style:
   MagicNumber:
     active: true
     excludes: *testFolders
-    ignoreNumbers: ["0", "1"]
+    ignoreNumbers: ["0", "1", "-1"]
     ignoreHashCodeFunction: true
     ignorePropertyDeclaration: true
     ignoreLocalVariableDeclaration: false
