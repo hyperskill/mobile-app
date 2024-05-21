@@ -25,7 +25,7 @@ class BuildKonfig(
             EndpointConfigType.MAIN -> InternalBuildKonfig.MAIN_BASE_URL
         }
 
-    val host: String =
+    internal val host: String =
         when (endpointConfigType) {
             EndpointConfigType.PRODUCTION -> InternalBuildKonfig.PRODUCTION_HOST
             EndpointConfigType.MAIN -> InternalBuildKonfig.MAIN_HOST
