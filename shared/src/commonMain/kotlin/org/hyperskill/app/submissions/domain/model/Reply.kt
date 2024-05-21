@@ -20,7 +20,7 @@ data class Reply(
     @SerialName("number")
     val number: String? = null,
     @SerialName("ordering")
-    val ordering: List<Int>? = null,
+    val ordering: List<Int?>? = null,
     @SerialName("language")
     val language: String? = null,
     @SerialName("code")
@@ -45,6 +45,9 @@ data class Reply(
 
     companion object {
         internal const val PROMPT_MANUALLY_CONFIRMED_SCORE: Float = 1F
+
+        fun matching(ordering: List<Int?>): Reply =
+            Reply(ordering = ordering)
 
         fun code(code: String?, language: String?): Reply =
             Reply(code = code, language = language)

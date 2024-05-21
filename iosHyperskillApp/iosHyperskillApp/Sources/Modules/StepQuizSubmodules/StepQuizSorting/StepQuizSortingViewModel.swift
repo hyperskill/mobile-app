@@ -17,8 +17,8 @@ final class StepQuizSortingViewModel: ObservableObject, StepQuizChildQuizInputPr
         if let options = dataset.options {
             let items: [StepQuizSortingViewData.Option]
 
-            if let ordering = reply?.ordering {
-                items = ordering.map { .init(id: $0.intValue, text: options[$0.intValue]) }
+            if let ordering = reply?.ordering as? [Int] {
+                items = ordering.map { .init(id: $0, text: options[$0]) }
             } else {
                 items = options.enumerated().map { .init(id: $0, text: $1) }
             }

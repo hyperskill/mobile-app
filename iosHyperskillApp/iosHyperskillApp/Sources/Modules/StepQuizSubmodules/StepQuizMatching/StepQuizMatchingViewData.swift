@@ -7,7 +7,7 @@ struct StepQuizMatchingViewData {
         var id: Int { title.id }
 
         let title: Title
-        var option: Option
+        var option: Option?
 
         struct Title: Hashable, Identifiable {
             let id: Int
