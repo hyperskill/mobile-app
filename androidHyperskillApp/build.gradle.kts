@@ -24,6 +24,7 @@ dependencies {
     implementation(libs.android.ui.fragment)
     implementation(libs.android.ui.fragment.ktx)
     implementation(libs.android.lifecycle.runtime)
+    implementation(libs.android.lifecycle.proccess)
     implementation(libs.android.browser)
 
     implementation(libs.kotlin.coroutines.core)
@@ -85,6 +86,8 @@ dependencies {
     implementation(libs.compose.viewbinding)
 
     coreLibraryDesugaring(libs.android.desugar.jdk)
+
+    implementation(libs.android.analytic.clarity)
 }
 
 android {
