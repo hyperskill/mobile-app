@@ -221,6 +221,7 @@
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
 		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
 		2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */; };
+		2C58F9012BFC7A180001E476 /* View+TextSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58F9002BFC7A180001E476 /* View+TextSelection.swift */; };
 		2C5B2A1B286595810097B270 /* CodeCompletionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1A286595810097B270 /* CodeCompletionCellView.swift */; };
 		2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1C286595960097B270 /* CodeCompletionTableViewCell.swift */; };
 		2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1E286595AF0097B270 /* CodeCompletionTableViewController.swift */; };
@@ -957,6 +958,7 @@
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
 		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
 		2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCenteredScrollView.swift; sourceTree = "<group>"; };
+		2C58F9002BFC7A180001E476 /* View+TextSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+TextSelection.swift"; sourceTree = "<group>"; };
 		2C5B2A1A286595810097B270 /* CodeCompletionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionCellView.swift; sourceTree = "<group>"; };
 		2C5B2A1C286595960097B270 /* CodeCompletionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionTableViewCell.swift; sourceTree = "<group>"; };
 		2C5B2A1E286595AF0097B270 /* CodeCompletionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionTableViewController.swift; sourceTree = "<group>"; };
@@ -2040,6 +2042,7 @@
 				2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */,
 				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
 				2C7271232B6B634F005628B0 /* View+Task.swift */,
+				2C58F9002BFC7A180001E476 /* View+TextSelection.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -5224,6 +5227,7 @@
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
 				2C0EB9522A151B69006DC84B /* TrackSelectionListAssembly.swift in Sources */,
+				2C58F9012BFC7A180001E476 /* View+TextSelection.swift in Sources */,
 				2C55E1922A05706300FE58D7 /* HomeSubheadlineView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
