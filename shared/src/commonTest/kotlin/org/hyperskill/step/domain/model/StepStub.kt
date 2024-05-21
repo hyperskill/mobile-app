@@ -20,6 +20,7 @@ fun Step.Companion.stub(
     canSkip: Boolean = false,
     checkProfile: String = "",
     secondsToComplete: Float? = null,
+    successRate: Float? = null,
     lastCompletedAt: Instant? = null
 ): Step =
     Step(
@@ -37,5 +38,6 @@ fun Step.Companion.stub(
         canSkip = canSkip,
         checkProfile = checkProfile,
         secondsToComplete = secondsToComplete,
+        successRate = successRate,
         lastCompletedAt = lastCompletedAt
     )

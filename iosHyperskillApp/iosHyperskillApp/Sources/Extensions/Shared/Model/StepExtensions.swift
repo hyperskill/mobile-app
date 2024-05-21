@@ -17,6 +17,7 @@ extension Step {
         canSkip: Bool = true,
         checkProfile: String = "",
         secondsToComplete: Float? = nil,
+        successRate: Float? = nil,
         lastCompletedAt: Kotlinx_datetimeInstant = .fromSwiftCurrentDate()
     ) {
         self.init(
@@ -34,6 +35,7 @@ extension Step {
             canSkip: canSkip,
             checkProfile: checkProfile,
             secondsToComplete: secondsToComplete != nil ? KotlinFloat(value: secondsToComplete.require()) : nil,
+            successRate: successRate != nil ? KotlinFloat(value: successRate.require()) : nil,
             lastCompletedAt: lastCompletedAt
         )
     }
