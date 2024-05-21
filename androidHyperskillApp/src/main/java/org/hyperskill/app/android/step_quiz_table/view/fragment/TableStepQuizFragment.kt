@@ -9,10 +9,10 @@ import org.hyperskill.app.android.databinding.LayoutStepQuizTableBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
 import org.hyperskill.app.android.step_quiz_table.view.delegate.TableStepQuizFormDelegate
+import org.hyperskill.app.android.step_quiz_table.view.model.TableChoiceItem
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
-import org.hyperskill.app.submissions.domain.model.Cell
 import ru.nobird.app.presentation.redux.container.ReduxView
 
 class TableStepQuizFragment :
@@ -59,7 +59,7 @@ class TableStepQuizFragment :
         return tableStepQuizFormDelegate
     }
 
-    override fun onSyncChosenColumnsWithParent(index: Int, chosenRows: List<Cell>) {
+    override fun onSyncChosenColumnsWithParent(index: Int, chosenRows: List<TableChoiceItem>) {
         tableStepQuizFormDelegate.updateTableSelectionItem(index, chosenRows)
     }
 }

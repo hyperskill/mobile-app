@@ -6,22 +6,22 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
 import org.hyperskill.app.android.databinding.ItemCompoundSelectionCheckboxBinding
-import org.hyperskill.app.submissions.domain.model.Cell
+import org.hyperskill.app.android.step_quiz_table.view.model.TableChoiceItem
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 import ru.nobird.android.ui.adapters.selection.SelectionHelper
 
 class TableColumnMultipleSelectionItemAdapterDelegate(
     private val selectionHelper: SelectionHelper,
-    private val onClick: (Cell) -> Unit
-) : AdapterDelegate<Cell, DelegateViewHolder<Cell>>() {
-    override fun isForViewType(position: Int, data: Cell): Boolean =
+    private val onClick: (TableChoiceItem) -> Unit
+) : AdapterDelegate<TableChoiceItem, DelegateViewHolder<TableChoiceItem>>() {
+    override fun isForViewType(position: Int, data: TableChoiceItem): Boolean =
         true
 
-    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<Cell> =
+    override fun onCreateViewHolder(parent: ViewGroup): DelegateViewHolder<TableChoiceItem> =
         ViewHolder(createView(parent, R.layout.item_compound_selection_checkbox))
 
-    private inner class ViewHolder(root: View) : DelegateViewHolder<Cell>(root) {
+    private inner class ViewHolder(root: View) : DelegateViewHolder<TableChoiceItem>(root) {
         private val viewBinding: ItemCompoundSelectionCheckboxBinding by viewBinding(
             ItemCompoundSelectionCheckboxBinding::bind
         )
@@ -31,15 +31,15 @@ class TableColumnMultipleSelectionItemAdapterDelegate(
 
         init {
             root.setOnClickListener {
-                onClick(itemData as Cell)
+                onClick(itemData as TableChoiceItem)
             }
             tableColumnText.webViewClient = ProgressableWebViewClient(tableColumnTextProgress)
         }
 
-        override fun onBind(data: Cell) {
-            itemView.isSelected = selectionHelper.isSelected(adapterPosition)
-            tableColumnCheckBox.isChecked = selectionHelper.isSelected(adapterPosition)
-            tableColumnText.setText(data.name)
+        override fun onBind(data: TableChoiceItem) {
+            itemView.isSelected = selectionHelper.isSelected(bindingAdapterPosition)
+            tableColumnCheckBox.isChecked = selectionHelper.isSelected(bindingAdapterPosition)
+            tableColumnText.setText(data.text)
         }
     }
 }

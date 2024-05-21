@@ -176,6 +176,7 @@ object StepQuizResolver {
         isMobileGptCodeGenerationWithErrorsOnboardingShown: Boolean
     ): Boolean =
         when {
+            step.hasEasyDifficultyLevel -> false
             !isMobileGptCodeGenerationWithErrorsEnabled || isMobileGptCodeGenerationWithErrorsOnboardingShown -> false
             submissionState !is StepQuizFeature.SubmissionState.Empty -> false
             else -> BlockName.codeRelatedBlocksNames.contains(step.block.name) && !isIdeRequired(step, submissionState)

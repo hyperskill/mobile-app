@@ -7,13 +7,13 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.ProgressableWebViewClient
 import org.hyperskill.app.android.databinding.ItemTableSelectionBinding
+import org.hyperskill.app.android.step_quiz_table.view.model.TableChoiceItem
 import org.hyperskill.app.android.step_quiz_table.view.model.TableSelectionItem
-import org.hyperskill.app.submissions.domain.model.Cell
 import ru.nobird.android.ui.adapterdelegates.AdapterDelegate
 import ru.nobird.android.ui.adapterdelegates.DelegateViewHolder
 
 class TableSelectionItemAdapterDelegate(
-    private val onItemClicked: (Int, String, List<Cell>) -> Unit
+    private val onItemClicked: (Int, String, List<TableChoiceItem>) -> Unit
 ) : AdapterDelegate<TableSelectionItem, DelegateViewHolder<TableSelectionItem>>() {
     companion object {
         private const val SEPARATOR = ", "
@@ -37,7 +37,7 @@ class TableSelectionItemAdapterDelegate(
         init {
             viewOverlay.setOnClickListener {
                 onItemClicked(
-                    adapterPosition,
+                    bindingAdapterPosition,
                     (itemData as TableSelectionItem).titleText,
                     (itemData as TableSelectionItem).tableChoices
                 )
@@ -55,7 +55,7 @@ class TableSelectionItemAdapterDelegate(
             val selectedChoices = data.tableChoices.filter { it.answer }
 
             stepQuizTableChoice.isVisible = selectedChoices.isNotEmpty()
-            stepQuizTableChoice.setText(selectedChoices.joinToString(separator = SEPARATOR) { it.name })
+            stepQuizTableChoice.setText(selectedChoices.joinToString(separator = SEPARATOR) { it.text })
         }
     }
 }

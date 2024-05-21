@@ -7,9 +7,11 @@ import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_table.view.adapter.TableSelectionItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_table.view.fragment.TableColumnSelectionBottomSheetDialogFragment
 import org.hyperskill.app.android.step_quiz_table.view.mapper.TableSelectionItemMapper
+import org.hyperskill.app.android.step_quiz_table.view.model.TableChoiceItem
 import org.hyperskill.app.android.step_quiz_table.view.model.TableSelectionItem
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
+import org.hyperskill.app.step_quiz.presentation.submission
 import org.hyperskill.app.submissions.domain.model.Cell
 import org.hyperskill.app.submissions.domain.model.ChoiceAnswer
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -26,12 +28,10 @@ class TableStepQuizFormDelegate(
 
     private val tableAdapter = DefaultDelegateAdapter<TableSelectionItem>()
 
-    private val tableSelectionItemMapper = TableSelectionItemMapper()
-
     private var isCheckBox: Boolean = false
 
     init {
-        tableAdapter += TableSelectionItemAdapterDelegate() { index, rowTitle, chosenColumns ->
+        tableAdapter += TableSelectionItemAdapterDelegate { index, rowTitle, chosenColumns ->
             TableColumnSelectionBottomSheetDialogFragment
                 .newInstance(index, rowTitle, chosenColumns, isCheckBox)
                 .showIfNotExists(fragmentManager, TableColumnSelectionBottomSheetDialogFragment.TAG)
@@ -45,32 +45,32 @@ class TableStepQuizFormDelegate(
     }
 
     override fun setState(state: StepQuizFeature.StepQuizState.AttemptLoaded) {
-        val submission = (state.submissionState as? StepQuizFeature.SubmissionState.Loaded)
-            ?.submission
-
         isCheckBox = state.attempt.dataset?.isCheckbox ?: false
-        tableAdapter.items = tableSelectionItemMapper.mapToTableSelectionItems(
-            state.attempt,
-            submission,
-            StepQuizResolver.isQuizEnabled(state)
+        tableAdapter.items = TableSelectionItemMapper.mapToTableSelectionItems(
+            attempt = state.attempt,
+            submission = state.submission,
+            isEnabled = StepQuizResolver.isQuizEnabled(state)
         )
     }
 
     override fun createReply(): Reply =
-        Reply(
-            choices = tableAdapter
-                .items
-                .map {
-                    ChoiceAnswer.Table(
-                        TableChoiceAnswer(
-                            nameRow = it.titleText,
-                            columns = it.tableChoices
-                        )
+        Reply.table(
+            answers = tableAdapter.items.map { item ->
+                ChoiceAnswer.Table(
+                    TableChoiceAnswer(
+                        nameRow = item.titleText,
+                        columns = item.tableChoices.map { answerItem ->
+                            Cell(
+                                id = answerItem.text,
+                                answer = answerItem.answer
+                            )
+                        }
                     )
-                }
+                )
+            }
         )
 
-    fun updateTableSelectionItem(index: Int, columns: List<Cell>) {
+    fun updateTableSelectionItem(index: Int, columns: List<TableChoiceItem>) {
         tableAdapter.items = tableAdapter.items.mutate {
             val tableSelectionItem = get(index)
             set(index, tableSelectionItem.copy(tableChoices = columns))

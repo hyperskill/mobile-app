@@ -1,10 +1,11 @@
 package org.hyperskill.app.android.step_quiz_table.view.model
 
+import kotlinx.serialization.Serializable
 import ru.nobird.app.core.model.Identifiable
 
-data class TableSelectionItem(
+@Serializable
+data class TableChoiceItem(
     override val id: Int,
-    val titleText: String,
-    val tableChoices: List<TableChoiceItem>,
-    val isEnabled: Boolean
+    val text: String,
+    val answer: Boolean
 ) : Identifiable<Int>
