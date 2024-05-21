@@ -112,6 +112,7 @@
                     android:paddingHorizontal="16dp"
                     android:paddingVertical="14dp"
                     android:textAppearance="?textAppearanceBody2"
+                    android:textIsSelectable="true"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
