@@ -5,7 +5,7 @@ final class CodePlaygroundManager {
     typealias AnalyzeResult = (text: String, position: Int, autocomplete: CodeCompletion?)
     typealias Changes = (isInsertion: Bool, changes: String)
 
-    private static let closersDict = ["{": "}", "[": "]", "(": ")", "\"": "\"", "'": "'"]
+    private static let closersDict = ["{": "}", "[": "]", "(": ")", "\"": "\""]
 
     private static let allowedCharactersSet = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890_")
 
