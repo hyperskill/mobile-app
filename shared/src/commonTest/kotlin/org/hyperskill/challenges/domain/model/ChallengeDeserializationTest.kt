@@ -12,11 +12,11 @@ class ChallengeDeserializationTest {
     companion object {
         private const val ID: Long = 6
         private const val TITLE = "QA  ☾⋆"
-        private const val DESCRIPTION = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!"
+        private const val DESCRIPTION = "The Challenge! Ho-ho-ho!🎅\nHurry up and get yor prise!"
         private val TARGET_TYPE = ChallengeTargetType.STEP.value
-        private const val STARTING_DATE = "2024-05-20T04:00:00Z"
-        private const val FINISH_DATE = "2024-05-20T04:00:00Z"
-        private const val INTERVAL_DURATION_DAYS = 1
+        private const val START = "2024-05-20T04:00:00Z"
+        private const val END = "2024-05-20T04:00:00Z"
+        private const val NEXT_INTERVAL_TIME = "2024-05-20T04:00:00Z"
         private const val INTERVALS_COUNT = 1
         private const val STATUS = "not completed"
         private val REWARD_LINK: String? = null
@@ -29,10 +29,10 @@ class ChallengeDeserializationTest {
     "title": "$TITLE",
     "description": "$DESCRIPTION",
     "target_type": "$TARGET_TYPE",
-    "starting_date": "$STARTING_DATE",
-    "finish_date": "$FINISH_DATE",
-    "interval_duration_days": $INTERVAL_DURATION_DAYS,
+    "start": "$START",
+    "end": "$END",
     "intervals_count": $INTERVALS_COUNT,
+    "next_interval_time": "$NEXT_INTERVAL_TIME",
     "status": "$STATUS",
     "reward_link": $REWARD_LINK,
     "progress":
@@ -52,14 +52,14 @@ class ChallengeDeserializationTest {
             title = TITLE,
             description = DESCRIPTION,
             targetTypeValue = TARGET_TYPE,
-            start = Instant.parse(STARTING_DATE),
-            end = Instant.parse(FINISH_DATE),
-            intervalDurationDays = INTERVAL_DURATION_DAYS,
+            start = Instant.parse(START),
+            end = Instant.parse(END),
             intervalsCount = INTERVALS_COUNT,
             statusValue = STATUS,
             rewardLink = REWARD_LINK,
             progress = listOf(PROGRESS),
-            currentInterval = CURRENT_INTERVAL
+            currentInterval = CURRENT_INTERVAL,
+            nextIntervalTime = Instant.parse(NEXT_INTERVAL_TIME)
         )
         val decodedObject = json.decodeFromString(Challenge.serializer(), TEST_JSON_STRING)
         assertEquals(expected, decodedObject)

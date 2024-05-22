@@ -16,7 +16,7 @@ class ChallengeWidgetViewStateMapperTest {
 
     companion object {
         private const val TITLE = "QA  ☾⋆"
-        private const val DESCRIPTION = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!"
+        private const val DESCRIPTION = "The Challenge! Ho-ho-ho!🎅\nHurry up and get yor prise!"
     }
 
     private val viewStateMapper = ChallengeWidgetViewStateMapper(
@@ -33,12 +33,12 @@ class ChallengeWidgetViewStateMapperTest {
             targetTypeValue = ChallengeTargetType.STEP.value,
             start = Instant.parse("2023-11-02T04:00:00Z"),
             end = Instant.parse("2023-11-03T04:00:00Z"),
-            intervalDurationDays = 1,
             intervalsCount = 1,
             statusValue = ChallengeStatus.NOT_STARTED.value,
             rewardLink = null,
             progress = listOf(false),
-            currentInterval = null
+            currentInterval = null,
+            nextIntervalTime = Instant.parse("2023-11-03T04:00:00Z")
         )
 
         val expected = ChallengeWidgetViewState.Content.Announcement(

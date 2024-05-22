@@ -1,6 +1,5 @@
 package org.hyperskill.app.challenges.widget.view.mapper
 
-import kotlin.time.Duration.Companion.days
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -148,14 +147,10 @@ class ChallengeWidgetViewStateMapper(
     private fun getCompleteInState(
         challenge: Challenge
     ): ChallengeWidgetViewState.Content.HappeningNow.CompleteInState {
-        if (challenge.currentInterval == null) {
-            return ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.Empty
-        }
-
-        val nextDeadline =
-            challenge.start.plus((challenge.currentInterval * challenge.intervalDurationDays).days)
-        val secondsRemaining = calculateSecondsRemaining(deadline = nextDeadline)
-
+        val nextIntervalTime =
+            challenge.nextIntervalTime
+                ?: return ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.Empty
+        val secondsRemaining = calculateSecondsRemaining(deadline = nextIntervalTime)
         return if (secondsRemaining > 0) {
             ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.TimeRemaining(
                 title = resourceProvider.getString(SharedResources.strings.challenge_widget_complete_in_text),
