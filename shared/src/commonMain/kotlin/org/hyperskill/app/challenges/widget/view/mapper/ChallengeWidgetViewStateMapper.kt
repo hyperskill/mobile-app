@@ -1,20 +1,15 @@
 package org.hyperskill.app.challenges.widget.view.mapper
 
+import kotlin.time.Duration.Companion.days
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.LocalTime
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.challenges.domain.model.Challenge
 import org.hyperskill.app.challenges.domain.model.ChallengeStatus
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
-import org.hyperskill.app.core.utils.NYC
 import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
@@ -22,10 +17,6 @@ class ChallengeWidgetViewStateMapper(
     private val dateFormatter: SharedDateFormatter,
     private val resourceProvider: ResourceProvider
 ) {
-    companion object {
-        private val TIME_ZONE_NYC = TimeZone.NYC
-    }
-
     fun map(state: ChallengeWidgetFeature.State): ChallengeWidgetViewState =
         when (state) {
             ChallengeWidgetFeature.State.Idle -> ChallengeWidgetViewState.Idle
@@ -104,38 +95,31 @@ class ChallengeWidgetViewStateMapper(
             title = challenge.title,
             description = description,
             formattedDurationOfTime = getFormattedDurationOfTime(
-                startingDate = challenge.startingDate,
-                finishDate = challenge.finishDate
+                start = challenge.start,
+                end = challenge.end
             )
         )
     }
 
-    private fun getFormattedDurationOfTime(startingDate: LocalDate, finishDate: LocalDate): String {
-        if (startingDate == finishDate) {
-            return dateFormatter.formatDayNumericAndMonthShort(startingDate)
+    private fun getFormattedDurationOfTime(start: Instant, end: Instant): String {
+        val startDate = start.toLocalDateTime(TimeZone.currentSystemDefault()).date
+        if (start == end) {
+            return dateFormatter.formatDayNumericAndMonthShort(startDate)
         }
 
-        val formattedStartingDate = dateFormatter.formatDayNumericAndMonthShort(startingDate)
-        val formattedFinishDate = dateFormatter.formatDayNumericAndMonthShort(finishDate)
+        val formattedStartingDate = dateFormatter.formatDayNumericAndMonthShort(startDate)
+
+        val endDate = end.toLocalDateTime(TimeZone.currentSystemDefault()).date
+        val formattedFinishDate = dateFormatter.formatDayNumericAndMonthShort(endDate)
 
         return "$formattedStartingDate - $formattedFinishDate"
     }
 
-    private fun calculateTimeRemaining(deadline: LocalDate): Long {
-        val deadlineInstant = LocalDateTime(
-            date = deadline,
-            time = LocalTime(0, 0, 0, 0)
-        ).toInstant(TIME_ZONE_NYC)
-
-        val nowInNewYork = Clock.System.now()
-            .toLocalDateTime(TIME_ZONE_NYC)
-            .toInstant(TIME_ZONE_NYC)
-
-        return (deadlineInstant - nowInNewYork).inWholeSeconds
-    }
+    private fun calculateSecondsRemaining(deadline: Instant): Long =
+        (deadline - Clock.System.now()).inWholeSeconds
 
     private fun getStartsInState(challenge: Challenge): ChallengeWidgetViewState.Content.Announcement.StartsInState {
-        val timeRemaining = calculateTimeRemaining(deadline = challenge.startingDate)
+        val timeRemaining = calculateSecondsRemaining(deadline = challenge.start)
         return if (timeRemaining > 0) {
             ChallengeWidgetViewState.Content.Announcement.StartsInState.TimeRemaining(
                 title = resourceProvider.getString(SharedResources.strings.challenge_widget_starts_in_text),
@@ -169,13 +153,13 @@ class ChallengeWidgetViewStateMapper(
         }
 
         val nextDeadline =
-            challenge.startingDate.plus(DatePeriod(days = challenge.currentInterval * challenge.intervalDurationDays))
-        val timeRemaining = calculateTimeRemaining(deadline = nextDeadline)
+            challenge.start.plus((challenge.currentInterval * challenge.intervalDurationDays).days)
+        val secondsRemaining = calculateSecondsRemaining(deadline = nextDeadline)
 
-        return if (timeRemaining > 0) {
+        return if (secondsRemaining > 0) {
             ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.TimeRemaining(
                 title = resourceProvider.getString(SharedResources.strings.challenge_widget_complete_in_text),
-                subtitle = dateFormatter.formatDaysWithHoursAndMinutesCount(seconds = timeRemaining)
+                subtitle = dateFormatter.formatDaysWithHoursAndMinutesCount(seconds = secondsRemaining)
             )
         } else {
             ChallengeWidgetViewState.Content.HappeningNow.CompleteInState.Deadline

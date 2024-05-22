@@ -2,7 +2,7 @@ package org.hyperskill.challenges.widget.view.mapper
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import org.hyperskill.ResourceProviderStub
 import org.hyperskill.app.challenges.domain.model.Challenge
 import org.hyperskill.app.challenges.domain.model.ChallengeStatus
@@ -13,6 +13,12 @@ import org.hyperskill.app.challenges.widget.view.model.ChallengeWidgetViewState
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 
 class ChallengeWidgetViewStateMapperTest {
+
+    companion object {
+        private const val TITLE = "QA  ☾⋆"
+        private const val DESCRIPTION = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!"
+    }
+
     private val viewStateMapper = ChallengeWidgetViewStateMapper(
         dateFormatter = SharedDateFormatter(ResourceProviderStub()),
         resourceProvider = ResourceProviderStub()
@@ -22,23 +28,23 @@ class ChallengeWidgetViewStateMapperTest {
     fun `Not started challenge is mapped to Announcement in ViewState`() {
         val given = Challenge(
             id = 6,
-            title = "QA  ☾⋆",
-            description = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
+            title = TITLE,
+            description = DESCRIPTION,
             targetTypeValue = ChallengeTargetType.STEP.value,
-            startingDate = LocalDate.parse("2023-11-02"),
+            start = Instant.parse("2023-11-02T04:00:00Z"),
+            end = Instant.parse("2023-11-03T04:00:00Z"),
             intervalDurationDays = 1,
             intervalsCount = 1,
             statusValue = ChallengeStatus.NOT_STARTED.value,
             rewardLink = null,
             progress = listOf(false),
-            finishDate = LocalDate.parse("2023-11-03"),
             currentInterval = null
         )
 
         val expected = ChallengeWidgetViewState.Content.Announcement(
             headerData = ChallengeWidgetViewState.Content.HeaderData(
-                title = "QA  ☾⋆",
-                description = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
+                title = TITLE,
+                description = DESCRIPTION,
                 formattedDurationOfTime = "2 Nov - 3 Nov"
             ),
             startsInState = ChallengeWidgetViewState.Content.Announcement.StartsInState.Deadline

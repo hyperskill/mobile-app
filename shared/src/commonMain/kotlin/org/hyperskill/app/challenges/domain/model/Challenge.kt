@@ -1,6 +1,6 @@
 package org.hyperskill.app.challenges.domain.model
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,8 +14,10 @@ data class Challenge(
     val description: String,
     @SerialName("target_type")
     internal val targetTypeValue: String,
-    @SerialName("starting_date")
-    val startingDate: LocalDate,
+    @SerialName("start")
+    val start: Instant,
+    @SerialName("end")
+    val end: Instant,
     @SerialName("interval_duration_days")
     val intervalDurationDays: Int,
     @SerialName("intervals_count")
@@ -26,8 +28,6 @@ data class Challenge(
     val rewardLink: String?,
     @SerialName("progress")
     val progress: List<Boolean>,
-    @SerialName("finish_date")
-    val finishDate: LocalDate,
     @SerialName("current_interval")
     val currentInterval: Int?
 ) {
