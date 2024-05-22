@@ -486,6 +486,8 @@
 		2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */; };
 		2CD4EDF92B79D51E0091F0B2 /* View+SafeAreaInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */; };
 		2CD4EDFB2B79D74B0091F0B2 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */; };
+		2CD7C2D32BFDDC5500DFD5BE /* SpaceBotAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7C2D22BFDDC5500DFD5BE /* SpaceBotAvatarView.swift */; };
+		2CD7C2D52BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7C2D42BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift */; };
 		2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */; };
 		2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */; };
 		2CDA98432944524D00ADE539 /* HomeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */; };
@@ -1225,6 +1227,8 @@
 		2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewDataMapper.swift; sourceTree = "<group>"; };
 		2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SafeAreaInset.swift"; sourceTree = "<group>"; };
 		2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
+		2CD7C2D22BFDDC5500DFD5BE /* SpaceBotAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceBotAvatarView.swift; sourceTree = "<group>"; };
+		2CD7C2D42BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceBotAvatarImageResources.swift; sourceTree = "<group>"; };
 		2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCircleView.swift; sourceTree = "<group>"; };
 		2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSkeletonView.swift; sourceTree = "<group>"; };
 		2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSkeletonView.swift; sourceTree = "<group>"; };
@@ -1819,6 +1823,7 @@
 				2CE7B4852AB05AA300DCBE4D /* StepQuizSubmodules */,
 				E9F655CE2875B30B00291143 /* Streak */,
 				E9F0A2A729D416AC00C4A61E /* StudyPlan */,
+				2CD7C2D02BFDDC2100DFD5BE /* TopicCompletedModal */,
 				E9A022AB291D0E1C004317DB /* TopicsRepetitions */,
 				2C2600862A2001E600BD3D39 /* TrackSelection */,
 				2CA382B42BC69DAE00F1DE26 /* UsersInterviewWidget */,
@@ -3557,6 +3562,31 @@
 			path = ViewData;
 			sourceTree = "<group>";
 		};
+		2CD7C2D02BFDDC2100DFD5BE /* TopicCompletedModal */ = {
+			isa = PBXGroup;
+			children = (
+				2CD7C2D12BFDDC3400DFD5BE /* Views */,
+			);
+			path = TopicCompletedModal;
+			sourceTree = "<group>";
+		};
+		2CD7C2D12BFDDC3400DFD5BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2CD7C2D62BFDE4BD00DFD5BE /* SpaceBotAvatar */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2CD7C2D62BFDE4BD00DFD5BE /* SpaceBotAvatar */ = {
+			isa = PBXGroup;
+			children = (
+				2CD7C2D42BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift */,
+				2CD7C2D22BFDDC5500DFD5BE /* SpaceBotAvatarView.swift */,
+			);
+			path = SpaceBotAvatar;
+			sourceTree = "<group>";
+		};
 		2CDA984729445BF600ADE539 /* Statistics */ = {
 			isa = PBXGroup;
 			children = (
@@ -4907,6 +4937,7 @@
 				2C05AC642A0EDFD80039C7EF /* ProjectSelectionListGridCellBadgesView.swift in Sources */,
 				2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
+				2CD7C2D52BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift in Sources */,
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
 				2C9674302888242D0091B6C9 /* StepQuizCodeViewData.swift in Sources */,
 				2C66720F2A529A7C0040EA2F /* ProgressScreenTrackProgressSkeletonView.swift in Sources */,
@@ -5036,6 +5067,7 @@
 				E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2CC61BD62BC5135300C2A8E9 /* StepQuizStringForcePromptScoreView.swift in Sources */,
+				2CD7C2D32BFDDC5500DFD5BE /* SpaceBotAvatarView.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
 				2CA854DC2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
