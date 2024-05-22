@@ -8,5 +8,6 @@ interface AnalyticEngine {
         userProperties: AnalyticEventUserProperties,
         force: Boolean = false
     )
+
     suspend fun flushEvents()
 }
