@@ -27,8 +27,14 @@ struct SpaceBotAvatarView: View {
 #Preview {
     ScrollView {
         LazyVStack {
-            ForEach(SpaceBotAvatarImageResources.resources, id: \.self) { resource in
-                SpaceBotAvatarView(imageResource: resource)
+            ForEach(
+                Array(SpaceBotAvatarImageResources.resources.enumerated()),
+                id: \.offset
+            ) { index, resource in
+                HStack {
+                    Text("\(index + 1)")
+                    SpaceBotAvatarView(imageResource: resource)
+                }
             }
         }
         .padding()
