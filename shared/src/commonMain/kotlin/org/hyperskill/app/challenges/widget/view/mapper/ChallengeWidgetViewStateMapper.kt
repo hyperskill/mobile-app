@@ -44,7 +44,7 @@ class ChallengeWidgetViewStateMapper(
             ChallengeStatus.STARTED -> {
                 ChallengeWidgetViewState.Content.HappeningNow(
                     headerData = headerData,
-                    completeInState = getCompleteInState(challenge),
+                    completeInState = getIntervalCompleteInState(challenge),
                     progressStatuses = getProgressStatuses(challenge)
                 )
             }
@@ -144,7 +144,7 @@ class ChallengeWidgetViewStateMapper(
             ChallengeWidgetViewState.Content.CollectRewardButtonState.Hidden
         }
 
-    private fun getCompleteInState(
+    private fun getIntervalCompleteInState(
         challenge: Challenge
     ): ChallengeWidgetViewState.Content.HappeningNow.CompleteInState {
         val nextIntervalTime =
