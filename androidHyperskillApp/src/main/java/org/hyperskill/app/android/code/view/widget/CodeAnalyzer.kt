@@ -30,7 +30,6 @@ class CodeAnalyzer(private val autocompleteContainer: AutocompleteContainer) {
 
     private val quotes = hashMapOf(
         "\"" to "\"",
-        "'" to "'",
         "`" to "`"
     )
 
@@ -85,10 +84,9 @@ class CodeAnalyzer(private val autocompleteContainer: AutocompleteContainer) {
             }
 
             in quotes -> {
-                val next = getNextSymbolAsString(start + 1, text)
                 val prev = getPrevSymbolAsString(start, text)
                 // don't want auto quote if there is a statement next
-                if ((next == null || Character.isWhitespace(next[0])) && prev != inserted) {
+                if (prev != inserted) {
                     insertTextAfterCursor(start, count, codeEditor, inserted)
                 } else {
                     onClosingSymbolInserted(start, count, codeEditor, inserted, text)
