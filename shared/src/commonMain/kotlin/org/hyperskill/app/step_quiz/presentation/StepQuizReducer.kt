@@ -23,7 +23,6 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditor
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizGptGeneratedCodeWithErrorsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
@@ -375,7 +374,6 @@ internal class StepQuizReducer(
                         } else {
                             getProblemOnboardingModalActions(
                                 step = message.step,
-                                attempt = message.attempt,
                                 problemsOnboardingFlags = message.problemsOnboardingFlags
                             )
                         }
@@ -560,7 +558,6 @@ internal class StepQuizReducer(
 
     private fun getProblemOnboardingModalActions(
         step: Step,
-        attempt: Attempt,
         problemsOnboardingFlags: ProblemsOnboardingFlags
     ): Set<Action> =
         when (step.block.name) {
