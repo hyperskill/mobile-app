@@ -52,7 +52,7 @@ class CodeToolbarAdapter(private val context: Context) :
                 ignoreCase = true
             )
         ) {
-            onSymbolClickListener?.onSymbolClick("$word ", autocomplete.prefix.length)
+            onSymbolClickListener?.onSymbolClick("$word", autocomplete.prefix.length)
         } else {
             onSymbolClickListener?.onSymbolClick(word, 0)
         }

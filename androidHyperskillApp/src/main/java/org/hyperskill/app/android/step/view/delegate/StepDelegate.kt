@@ -123,13 +123,12 @@ object StepDelegate {
     @DrawableRes
     private fun getShareStreakDrawableRes(streak: Int): Int =
         when (streak) {
-            1 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_1
             5 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_5
             10 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_10
             25 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_25
             50 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_50
             100 -> org.hyperskill.app.android.R.drawable.img_share_streak_day_100
-            else -> org.hyperskill.app.android.R.drawable.img_share_streak_day_1
+            else -> org.hyperskill.app.android.R.drawable.img_share_streak_day_5
         }
 
     private fun getShareStreakText(context: Context): String {
