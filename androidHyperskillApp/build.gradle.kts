@@ -85,6 +85,8 @@ dependencies {
     implementation(libs.compose.viewbinding)
 
     coreLibraryDesugaring(libs.android.desugar.jdk)
+
+    implementation(libs.android.analytic.clarity)
 }
 
 android {
