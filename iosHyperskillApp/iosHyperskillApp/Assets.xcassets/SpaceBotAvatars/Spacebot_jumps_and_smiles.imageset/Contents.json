@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Spacebot_jumps_and_smiles.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
