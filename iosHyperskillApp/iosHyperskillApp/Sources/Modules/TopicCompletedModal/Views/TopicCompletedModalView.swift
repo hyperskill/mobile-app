@@ -11,6 +11,7 @@ struct TopicCompletedModalView: View {
             TopicCompletedModalContentView(
                 title: viewModel.state.title,
                 description: viewModel.state.description_,
+                earnedGemsText: viewModel.state.earnedGemsText,
                 callToActionButtonTitle: viewModel.state.callToActionButtonTitle,
                 spacebotAvatarVariantIndex: Int(viewModel.state.spacebotAvatarVariantIndex),
                 backgroundAnimationStyle: viewModel.state.backgroundAnimationStyle,

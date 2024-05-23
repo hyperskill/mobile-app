@@ -21,6 +21,7 @@ object TopicCompletedModalFeature {
     data class ViewState(
         val title: String,
         val description: String,
+        val earnedGemsText: String,
         val callToActionButtonTitle: String,
         val spacebotAvatarVariantIndex: Int,
         val backgroundAnimationStyle: BackgroundAnimationStyle

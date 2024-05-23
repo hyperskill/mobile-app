@@ -9,6 +9,8 @@ internal class TopicCompletedModalViewStateMapper(
     private val resourceProvider: ResourceProvider
 ) {
     companion object {
+        private const val COMPLETED_TOPIC_EARNED_GEMS_VALUE = 5
+
         internal const val SPACEBOT_AVATAR_VARIANT_COUNT = 20
 
         private val DESCRIPTION_RESOURCES = listOf(
@@ -42,6 +44,11 @@ internal class TopicCompletedModalViewStateMapper(
                 state.topic.title
             ),
             description = getDescription(state.passedTopicsCount),
+            earnedGemsText = resourceProvider.getQuantityString(
+                SharedResources.plurals.topic_completed_modal_earned_gems,
+                COMPLETED_TOPIC_EARNED_GEMS_VALUE,
+                COMPLETED_TOPIC_EARNED_GEMS_VALUE
+            ),
             callToActionButtonTitle = resourceProvider.getString(
                 if (state.canContinueWithNextTopic) {
                     SharedResources.strings.topic_completed_modal_continue_with_next_topic_button_text

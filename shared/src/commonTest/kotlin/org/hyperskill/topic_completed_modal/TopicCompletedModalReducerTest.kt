@@ -109,11 +109,10 @@ class TopicCompletedModalReducerTest {
         }
     }
 
-    private fun createInitialState(canContinueWithNextTopic: Boolean): State {
-        return State(
+    private fun createInitialState(canContinueWithNextTopic: Boolean): State =
+        State(
             topic = Topic(id = 1, title = "Sample Topic", progressId = ""),
             passedTopicsCount = 5,
             canContinueWithNextTopic = canContinueWithNextTopic
         )
-    }
 }

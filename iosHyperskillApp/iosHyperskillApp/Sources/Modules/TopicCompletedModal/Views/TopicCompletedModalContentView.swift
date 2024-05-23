@@ -2,8 +2,11 @@ import shared
 import SwiftUI
 
 struct TopicCompletedModalContentView: View {
+    private static let gemsBadgeWidthHeight: CGFloat = 28
+
     let title: String
     let description: String
+    let earnedGemsText: String
     let callToActionButtonTitle: String
     let spacebotAvatarVariantIndex: Int
     let backgroundAnimationStyle: TopicCompletedModalFeature.ViewStateBackgroundAnimationStyle
@@ -46,6 +49,18 @@ struct TopicCompletedModalContentView: View {
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity, alignment: .center)
 
+                HStack(alignment: .center, spacing: LayoutInsets.smallInset) {
+                    Text(earnedGemsText)
+                        .foregroundColor(.newSecondaryText)
+                        .font(.subheadline)
+
+                    Image(.problemOfDaySolvedModalGemsBadge)
+                        .resizable()
+                        .renderingMode(.original)
+                        .scaledToFit()
+                        .frame(widthHeight: Self.gemsBadgeWidthHeight)
+                }
+
                 Spacer()
 
                 Button(
@@ -68,6 +83,7 @@ struct TopicCompletedModalContentView: View {
     TopicCompletedModalContentView(
         title: "Introduction to Kotlin",
         description: "Education is a journey, not a destination—enjoy each step towards becoming wiser.",
+        earnedGemsText: "+ 15 gems",
         callToActionButtonTitle: "Continue with next topic",
         spacebotAvatarVariantIndex: 1,
         backgroundAnimationStyle: .first,
