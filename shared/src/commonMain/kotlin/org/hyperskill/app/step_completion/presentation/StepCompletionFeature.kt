@@ -6,6 +6,8 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topics.domain.model.Topic
 
 object StepCompletionFeature {
     fun createState(step: Step, stepRoute: StepRoute): State =
@@ -72,9 +74,9 @@ object StepCompletionFeature {
          */
         sealed interface CheckTopicCompletionStatus : Message {
             data class Completed(
-                val topicId: Long,
-                val modalText: String,
-                val nextLearningActivity: LearningActivity?
+                val topic: Topic,
+                val passedTopicsCount: Int,
+                val nextLearningActivity: LearningActivity?,
             ) : CheckTopicCompletionStatus
 
             object Uncompleted : CheckTopicCompletionStatus
@@ -112,8 +114,6 @@ object StepCompletionFeature {
         /**
          * Analytic
          */
-        object TopicCompletedModalShownEventMessage : Message
-        object TopicCompletedModalHiddenEventMessage : Message
         object DailyStepCompletedModalShownEventMessage : Message
         object DailyStepCompletedModalHiddenEventMessage : Message
     }
@@ -128,8 +128,7 @@ object StepCompletionFeature {
     sealed interface Action {
         sealed interface ViewAction : Action {
             data class ShowTopicCompletedModal(
-                val modalText: String,
-                val isNextStepAvailable: Boolean
+                val params: TopicCompletedModalFeatureParams
             ) : ViewAction
 
             data class ShowProblemOfDaySolvedModal(

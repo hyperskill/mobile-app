@@ -30,7 +30,7 @@ internal object TopicCompletedModalFeatureBuilder {
         params: TopicCompletedModalFeatureParams
     ): Feature<ViewState, Message, Action> {
         val topicCompletedModalReducer =
-            TopicCompletedModalReducer()
+            TopicCompletedModalReducer(analyticRoute = params.stepRoute.analyticRoute)
                 .wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val topicCompletedModalActionDispatcher = TopicCompletedModalActionDispatcher(

@@ -31,14 +31,24 @@ object TopicCompletedModalFeature {
     }
 
     sealed interface Message {
-        object Initialize : Message
-        object ViewedEventMessage : Message
+        object CloseButtonClicked : Message
+        object CallToActionButtonClicked : Message
+
+        object ShownEventMessage : Message
+        object HiddenEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message
 
     sealed interface Action {
-        sealed interface ViewAction : Action
+        sealed interface ViewAction : Action {
+            object Dismiss : ViewAction
+
+            sealed interface NavigateTo : ViewAction {
+                object NextTopic : NavigateTo
+                object StudyPlan : NavigateTo
+            }
+        }
     }
 
     internal sealed interface InternalAction : Action {
