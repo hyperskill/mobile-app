@@ -368,6 +368,20 @@
 		2C9B66C427ECA73700569645 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9B66C327ECA73700569645 /* AppDelegate.swift */; };
 		2C9CC1BD280920B5006604D7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */; };
 		2C9CC1BF28092E06006604D7 /* AuthAdaptiveContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */; };
+		2C9D20B32BFF084C00F88A6C /* topic-completed-modal-background-video-430-light-1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20A72BFF084A00F88A6C /* topic-completed-modal-background-video-430-light-1.mp4 */; };
+		2C9D20B42BFF084C00F88A6C /* topic-completed-modal-background-video-430-dark-1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20A82BFF084A00F88A6C /* topic-completed-modal-background-video-430-dark-1.mp4 */; };
+		2C9D20B52BFF084C00F88A6C /* topic-completed-modal-background-video-834-dark-2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20A92BFF084A00F88A6C /* topic-completed-modal-background-video-834-dark-2.mp4 */; };
+		2C9D20B62BFF084C00F88A6C /* topic-completed-modal-background-video-430-dark-2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20AA2BFF084B00F88A6C /* topic-completed-modal-background-video-430-dark-2.mp4 */; };
+		2C9D20B72BFF084C00F88A6C /* topic-completed-modal-background-video-834-light-2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20AB2BFF084B00F88A6C /* topic-completed-modal-background-video-834-light-2.mp4 */; };
+		2C9D20B82BFF084C00F88A6C /* topic-completed-modal-background-video-414-light-2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20AC2BFF084B00F88A6C /* topic-completed-modal-background-video-414-light-2.mp4 */; };
+		2C9D20B92BFF084C00F88A6C /* topic-completed-modal-background-video-414-light-1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20AD2BFF084B00F88A6C /* topic-completed-modal-background-video-414-light-1.mp4 */; };
+		2C9D20BA2BFF084C00F88A6C /* topic-completed-modal-background-video-414-dark-1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20AE2BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-1.mp4 */; };
+		2C9D20BB2BFF084C00F88A6C /* topic-completed-modal-background-video-430-light-2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20AF2BFF084B00F88A6C /* topic-completed-modal-background-video-430-light-2.mp4 */; };
+		2C9D20BC2BFF084C00F88A6C /* topic-completed-modal-background-video-834-dark-1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20B02BFF084B00F88A6C /* topic-completed-modal-background-video-834-dark-1.mp4 */; };
+		2C9D20BD2BFF084C00F88A6C /* topic-completed-modal-background-video-834-light-1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20B12BFF084B00F88A6C /* topic-completed-modal-background-video-834-light-1.mp4 */; };
+		2C9D20BE2BFF084C00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20B22BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 */; };
+		2C9D20C42BFF0B6B00F88A6C /* BackgroundVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C32BFF0B6B00F88A6C /* BackgroundVideoView.swift */; };
+		2C9D20C62BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */; };
 		2C9D493D29F07015000599AB /* StudyPlanSectionErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D493C29F07015000599AB /* StudyPlanSectionErrorView.swift */; };
 		2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */; };
 		2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */; };
@@ -1109,6 +1123,20 @@
 		2C9B66C327ECA73700569645 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C9CC1BC280920B5006604D7 /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		2C9CC1BE28092E06006604D7 /* AuthAdaptiveContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAdaptiveContentView.swift; sourceTree = "<group>"; };
+		2C9D20A72BFF084A00F88A6C /* topic-completed-modal-background-video-430-light-1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-430-light-1.mp4"; sourceTree = "<group>"; };
+		2C9D20A82BFF084A00F88A6C /* topic-completed-modal-background-video-430-dark-1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-430-dark-1.mp4"; sourceTree = "<group>"; };
+		2C9D20A92BFF084A00F88A6C /* topic-completed-modal-background-video-834-dark-2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-834-dark-2.mp4"; sourceTree = "<group>"; };
+		2C9D20AA2BFF084B00F88A6C /* topic-completed-modal-background-video-430-dark-2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-430-dark-2.mp4"; sourceTree = "<group>"; };
+		2C9D20AB2BFF084B00F88A6C /* topic-completed-modal-background-video-834-light-2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-834-light-2.mp4"; sourceTree = "<group>"; };
+		2C9D20AC2BFF084B00F88A6C /* topic-completed-modal-background-video-414-light-2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-414-light-2.mp4"; sourceTree = "<group>"; };
+		2C9D20AD2BFF084B00F88A6C /* topic-completed-modal-background-video-414-light-1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-414-light-1.mp4"; sourceTree = "<group>"; };
+		2C9D20AE2BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-414-dark-1.mp4"; sourceTree = "<group>"; };
+		2C9D20AF2BFF084B00F88A6C /* topic-completed-modal-background-video-430-light-2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-430-light-2.mp4"; sourceTree = "<group>"; };
+		2C9D20B02BFF084B00F88A6C /* topic-completed-modal-background-video-834-dark-1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-834-dark-1.mp4"; sourceTree = "<group>"; };
+		2C9D20B12BFF084B00F88A6C /* topic-completed-modal-background-video-834-light-1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-834-light-1.mp4"; sourceTree = "<group>"; };
+		2C9D20B22BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-414-dark-2.mp4"; sourceTree = "<group>"; };
+		2C9D20C32BFF0B6B00F88A6C /* BackgroundVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundVideoView.swift; sourceTree = "<group>"; };
+		2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalBackgroundView.swift; sourceTree = "<group>"; };
 		2C9D493C29F07015000599AB /* StudyPlanSectionErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionErrorView.swift; sourceTree = "<group>"; };
 		2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementAssembly.swift; sourceTree = "<group>"; };
 		2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementViewModel.swift; sourceTree = "<group>"; };
@@ -2293,6 +2321,7 @@
 			isa = PBXGroup;
 			children = (
 				2CE7B4832AB0593F00DCBE4D /* AttributedTextLabelWrapper.swift */,
+				2C9D20C32BFF0B6B00F88A6C /* BackgroundVideoView.swift */,
 				2CAA3C622AA9C196004F6CE6 /* LottieAnimationViewWrapper.swift */,
 				2C46D0622807E4C100B3636E /* TextFieldWrapper.swift */,
 				2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */,
@@ -3080,6 +3109,25 @@
 			path = UIKit;
 			sourceTree = "<group>";
 		};
+		2C9D209E2BFEFE4300F88A6C /* TopicCompletedModalBackgroundVideos */ = {
+			isa = PBXGroup;
+			children = (
+				2C9D20AE2BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-1.mp4 */,
+				2C9D20B22BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 */,
+				2C9D20AD2BFF084B00F88A6C /* topic-completed-modal-background-video-414-light-1.mp4 */,
+				2C9D20AC2BFF084B00F88A6C /* topic-completed-modal-background-video-414-light-2.mp4 */,
+				2C9D20A82BFF084A00F88A6C /* topic-completed-modal-background-video-430-dark-1.mp4 */,
+				2C9D20AA2BFF084B00F88A6C /* topic-completed-modal-background-video-430-dark-2.mp4 */,
+				2C9D20A72BFF084A00F88A6C /* topic-completed-modal-background-video-430-light-1.mp4 */,
+				2C9D20AF2BFF084B00F88A6C /* topic-completed-modal-background-video-430-light-2.mp4 */,
+				2C9D20B02BFF084B00F88A6C /* topic-completed-modal-background-video-834-dark-1.mp4 */,
+				2C9D20A92BFF084A00F88A6C /* topic-completed-modal-background-video-834-dark-2.mp4 */,
+				2C9D20B12BFF084B00F88A6C /* topic-completed-modal-background-video-834-light-1.mp4 */,
+				2C9D20AB2BFF084B00F88A6C /* topic-completed-modal-background-video-834-light-2.mp4 */,
+			);
+			path = TopicCompletedModalBackgroundVideos;
+			sourceTree = "<group>";
+		};
 		2C9E5E8229B211DD003AEC16 /* StageImplement */ = {
 			isa = PBXGroup;
 			children = (
@@ -3573,6 +3621,7 @@
 		2CD7C2D12BFDDC3400DFD5BE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */,
 				2CD7C2D62BFDE4BD00DFD5BE /* SpaceBotAvatar */,
 			);
 			path = Views;
@@ -3674,6 +3723,7 @@
 				2C42EFAA27F2C03D00B4648B /* Localizable.strings */,
 				2CAA3C642AA9C40C004F6CE6 /* LottieAnimations */,
 				2CAFD38D27FC515200F88B0B /* Theme */,
+				2C9D209E2BFEFE4300F88A6C /* TopicCompletedModalBackgroundVideos */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -4554,7 +4604,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C98C7A92850B93100857783 /* highlight.css in Resources */,
+				2C9D20BA2BFF084C00F88A6C /* topic-completed-modal-background-video-414-dark-1.mp4 in Resources */,
+				2C9D20B62BFF084C00F88A6C /* topic-completed-modal-background-video-430-dark-2.mp4 in Resources */,
 				2CDCC16D2AC2BF4D00BB309D /* UITests.xctestplan in Resources */,
+				2C9D20B52BFF084C00F88A6C /* topic-completed-modal-background-video-834-dark-2.mp4 in Resources */,
 				2CDCC16B2AC2BE8F00BB309D /* UnitTests.xctestplan in Resources */,
 				2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
@@ -4564,7 +4617,9 @@
 				2CE3F5C82BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie in Resources */,
 				2CCAAB7F2BEA561C001A040F /* spacebot-progress-bar-wow.lottie in Resources */,
 				2C4F3C892BB29E7B0055E89F /* PrivacyInfo.xcprivacy in Resources */,
+				2C9D20B72BFF084C00F88A6C /* topic-completed-modal-background-video-834-light-2.mp4 in Resources */,
 				2C98C7A62850B93100857783 /* alt.css in Resources */,
+				2C9D20B42BFF084C00F88A6C /* topic-completed-modal-background-video-430-dark-1.mp4 in Resources */,
 				E9954647288EC11000013FA6 /* LaunchScreen.storyboard in Resources */,
 				2C70B75A2BE0E97800DFC104 /* spacebot-progress-bar-rocket-dark.lottie in Resources */,
 				058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */,
@@ -4573,12 +4628,18 @@
 				2C98C7AD2850B93100857783 /* icons.css in Resources */,
 				2C98C7A72850B93100857783 /* fonts.css in Resources */,
 				2C20FBB2284F4FEA006D879E /* highlight.js in Resources */,
+				2C9D20B92BFF084C00F88A6C /* topic-completed-modal-background-video-414-light-1.mp4 in Resources */,
+				2C9D20BE2BFF084C00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 in Resources */,
 				2C20B28C286C4426000F458A /* code-language-samples.plist in Resources */,
 				2CFBFC172AD42CED00D4935D /* AppsFlyer-Info.plist in Resources */,
 				2CE3F5C52BD7BB7A000B51A4 /* problems-limit-info-modal-no-limits-light.lottie in Resources */,
 				2CDCC16F2AC2BFF000BB309D /* AllTests.xctestplan in Resources */,
+				2C9D20B32BFF084C00F88A6C /* topic-completed-modal-background-video-430-light-1.mp4 in Resources */,
 				058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */,
 				2CE3F5C62BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-dark.lottie in Resources */,
+				2C9D20BC2BFF084C00F88A6C /* topic-completed-modal-background-video-834-dark-1.mp4 in Resources */,
+				2C9D20BD2BFF084C00F88A6C /* topic-completed-modal-background-video-834-light-1.mp4 in Resources */,
+				2C9D20BB2BFF084C00F88A6C /* topic-completed-modal-background-video-430-light-2.mp4 in Resources */,
 				2CE3F5C32BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-light.lottie in Resources */,
 				2CCECFC42BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie in Resources */,
 				2CE3F5C42BD7BB7A000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie in Resources */,
@@ -4590,6 +4651,7 @@
 				2CCECFC52BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie in Resources */,
 				2CE3F5C72BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
+				2C9D20B82BFF084C00F88A6C /* topic-completed-modal-background-video-414-light-2.mp4 in Resources */,
 				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
 				2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */,
 			);
@@ -5087,6 +5149,7 @@
 				2C195D092B84863F0076B2C8 /* UsersQuestionnaireOnboardingChoicesView.swift in Sources */,
 				2C2780C62BD8E968003CC243 /* AmplitudeManager.swift in Sources */,
 				E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */,
+				2C9D20C62BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift in Sources */,
 				E9A22BA0295081BD001700B7 /* StreakFreezeModalViewController.swift in Sources */,
 				2CBD1917291D392400F5FB0B /* UIView+Animations.swift in Sources */,
 				2C4F639E2A10203000D4EE39 /* ProjectSelectionListGridSectionView.swift in Sources */,
@@ -5152,6 +5215,7 @@
 				2C5837A32B2844E20096B89B /* SearchPlaceholderSuggestionsView.swift in Sources */,
 				2CD316C028A3B2040002B2B2 /* ApplicationTheme+SharedTheme.swift in Sources */,
 				2CE3F5CA2BD7C8F3000B51A4 /* ProblemsLimitBarButtonItem.swift in Sources */,
+				2C9D20C42BFF0B6B00F88A6C /* BackgroundVideoView.swift in Sources */,
 				2C1061A4285C34C900EBD614 /* StepQuizChildQuizOutputProtocol.swift in Sources */,
 				2C0409812B85FC3000E9CF41 /* UsersQuestionnaireOnboardingOutputProtocol.swift in Sources */,
 				2C20FBA4284F165A006D879E /* ProcessedContent.swift in Sources */,

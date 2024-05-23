@@ -1,16 +1,6 @@
 import SwiftUI
 
-extension SpaceBotAvatarView {
-    struct Appearance {
-        var size: CGSize {
-            DeviceInfo.current.isPad ? CGSize(width: 344, height: 344) : CGSize(width: 228, height: 228)
-        }
-    }
-}
-
 struct SpaceBotAvatarView: View {
-    private(set) var appearance = Appearance()
-
     let imageResource: ImageResource
 
     var body: some View {
@@ -19,7 +9,7 @@ struct SpaceBotAvatarView: View {
             .resizable()
             .scaledToFit()
             .clipShape(Circle())
-            .frame(size: appearance.size)
+            .frame(widthHeight: DeviceInfo.current.isPad ? 344 : 228)
     }
 }
 
