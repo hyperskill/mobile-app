@@ -6,5 +6,6 @@ import org.hyperskill.app.topics.domain.model.Topic
 @Serializable
 data class TopicCompletedModalFeatureParams(
     val topic: Topic,
-    val isNextStepAvailable: Boolean
+    val passedTopicsCount: Int,
+    val canContinueWithNextTopic: Boolean
 )

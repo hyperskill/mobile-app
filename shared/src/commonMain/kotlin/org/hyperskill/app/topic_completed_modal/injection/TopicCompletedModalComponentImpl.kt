@@ -14,6 +14,7 @@ internal class TopicCompletedModalComponentImpl(
     override val topicCompletedModal: Feature<ViewState, Message, Action>
         get() = TopicCompletedModalFeatureBuilder.build(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
+            resourceProvider = appGraph.commonComponent.resourceProvider,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             params = params
