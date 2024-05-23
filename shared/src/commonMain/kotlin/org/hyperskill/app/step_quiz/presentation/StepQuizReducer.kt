@@ -23,7 +23,6 @@ import org.hyperskill.app.step_quiz.domain.analytic.StepQuizFullScreenCodeEditor
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizGptGeneratedCodeWithErrorsHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.step_quiz.domain.analytic.StepQuizUnsupportedClickedSolveOnTheWebHyperskillAnalyticEvent
-import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
@@ -31,8 +30,6 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.StepQuizState
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
-import org.hyperskill.app.step_quiz_fill_blanks.presentation.FillBlanksResolver
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -116,7 +113,11 @@ internal class StepQuizReducer(
                             StepQuizClickedSendHyperskillAnalyticEvent(stepRoute.analyticRoute)
                         }
                     state to setOf(
-                        Action.CreateSubmissionValidateReply(message.step, message.reply),
+                        Action.CreateSubmissionValidateReply(
+                            step = message.step,
+                            dataset = state.stepQuizState.attempt.dataset,
+                            reply = message.reply
+                        ),
                         InternalAction.LogAnalyticEvent(analyticEvent)
                     )
                 } else {
@@ -373,7 +374,6 @@ internal class StepQuizReducer(
                         } else {
                             getProblemOnboardingModalActions(
                                 step = message.step,
-                                attempt = message.attempt,
                                 problemsOnboardingFlags = message.problemsOnboardingFlags
                             )
                         }
@@ -558,7 +558,6 @@ internal class StepQuizReducer(
 
     private fun getProblemOnboardingModalActions(
         step: Step,
-        attempt: Attempt,
         problemsOnboardingFlags: ProblemsOnboardingFlags
     ): Set<Action> =
         when (step.block.name) {
@@ -567,27 +566,6 @@ internal class StepQuizReducer(
                     setOf(
                         Action.ViewAction.ShowProblemOnboardingModal(
                             modalType = StepQuizFeature.ProblemOnboardingModal.Parsons
-                        )
-                    )
-                } else {
-                    emptySet()
-                }
-            }
-            BlockName.FILL_BLANKS -> {
-                val fillBlanksMode = kotlin.runCatching {
-                    val dataset = attempt.dataset ?: return@runCatching null
-                    FillBlanksResolver.resolve(dataset)
-                }.getOrNull()?.takeIf {
-                    when (it) {
-                        FillBlanksMode.INPUT -> !problemsOnboardingFlags.isFillBlanksInputModeOnboardingShown
-                        FillBlanksMode.SELECT -> !problemsOnboardingFlags.isFillBlanksSelectModeOnboardingShown
-                    }
-                }
-
-                if (fillBlanksMode != null) {
-                    setOf(
-                        Action.ViewAction.ShowProblemOnboardingModal(
-                            modalType = StepQuizFeature.ProblemOnboardingModal.FillBlanks(fillBlanksMode)
                         )
                     )
                 } else {

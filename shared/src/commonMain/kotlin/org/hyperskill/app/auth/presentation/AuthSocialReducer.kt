@@ -6,6 +6,7 @@ import org.hyperskill.app.auth.domain.analytic.AuthSignUpAmplitudeAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSignUpAppsFlyerAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedContinueWithEmailHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialClickedSignInWithSocialHyperskillAnalyticEvent
+import org.hyperskill.app.auth.domain.analytic.AuthSocialFailedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.analytic.AuthSocialViewedHyperskillAnalyticEvent
 import org.hyperskill.app.auth.domain.model.AuthSocialError
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
@@ -48,13 +49,15 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
             }
             is Message.AuthFailure -> {
                 if (state is State.Loading) {
-                    State.Error to getAuthFailureActionsSet(message.data)
+                    State.Error(message.data.socialAuthError ?: AuthSocialError.ConnectionProblem) to
+                        getAuthFailureActionsSet(message.data)
                 } else {
                     null
                 }
             }
             is Message.SocialAuthProviderAuthFailureEventMessage ->
-                state to getAuthFailureActionsSet(message.data)
+                State.Error(message.data.socialAuthError ?: AuthSocialError.ConnectionProblem) to
+                    getAuthFailureActionsSet(message.data)
             is Message.ViewedEventMessage ->
                 state to setOf(Action.LogAnalyticEvent(AuthSocialViewedHyperskillAnalyticEvent()))
             is Message.ClickedSignInWithSocialEventMessage ->
@@ -85,13 +88,12 @@ class AuthSocialReducer : StateReducer<State, Message, Action> {
 
     private fun getAuthFailureActionsSet(data: Message.AuthFailureData): Set<Action> =
         setOf(
-            Action.ViewAction.ShowAuthError(
-                socialAuthError = data.socialAuthError ?: AuthSocialError.CONNECTION_PROBLEM,
-                originalError = data.originalError
-            ),
             Action.AddSentryBreadcrumb(
                 HyperskillSentryBreadcrumbBuilder.buildAuthSocialSignInFailed(data.socialAuthProvider)
             ),
-            Action.CaptureSentryAuthError(data.socialAuthError, data.originalError)
+            Action.CaptureSentryAuthError(data.socialAuthError, data.originalError),
+            Action.LogAnalyticEvent(
+                AuthSocialFailedHyperskillAnalyticEvent(data.socialAuthError, data.socialAuthProvider)
+            )
         )
 }

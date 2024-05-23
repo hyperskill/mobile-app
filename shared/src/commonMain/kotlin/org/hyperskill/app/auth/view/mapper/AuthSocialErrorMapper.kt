@@ -9,11 +9,8 @@ class AuthSocialErrorMapper(
 ) {
     fun getAuthSocialErrorText(authSocialError: AuthSocialError): String =
         when (authSocialError) {
-            AuthSocialError.SOCIAL_SIGNUP_WITH_EXISTING_EMAIL ->
-                resourceProvider.getString(SharedResources.strings.auth_social_email_already_used)
-            AuthSocialError.SOCIAL_SIGNUP_WITHOUT_EMAIL ->
-                resourceProvider.getString(SharedResources.strings.auth_social_email_not_provided_by_social)
-            AuthSocialError.CONNECTION_PROBLEM ->
+            is AuthSocialError.ServerError -> authSocialError.errorText
+            AuthSocialError.ConnectionProblem ->
                 resourceProvider.getString(SharedResources.strings.connection_error)
         }
 }

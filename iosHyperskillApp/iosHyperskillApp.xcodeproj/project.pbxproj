@@ -221,6 +221,7 @@
 		2C58DE252803C185002A2774 /* AuthSocialControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */; };
 		2C58DE292803D197002A2774 /* UIColor+DynamicColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */; };
 		2C58DE2B2803DEE2002A2774 /* VerticalCenteredScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */; };
+		2C58F9012BFC7A180001E476 /* View+TextSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C58F9002BFC7A180001E476 /* View+TextSelection.swift */; };
 		2C5B2A1B286595810097B270 /* CodeCompletionCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1A286595810097B270 /* CodeCompletionCellView.swift */; };
 		2C5B2A1D286595960097B270 /* CodeCompletionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1C286595960097B270 /* CodeCompletionTableViewCell.swift */; };
 		2C5B2A1F286595AF0097B270 /* CodeCompletionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5B2A1E286595AF0097B270 /* CodeCompletionTableViewController.swift */; };
@@ -381,7 +382,6 @@
 		2CA3B0362888955F00EEF716 /* StepQuizCodeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */; };
 		2CA542252ACAE18500EF24B5 /* IntrospectScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA542242ACAE18500EF24B5 /* IntrospectScrollView.swift */; };
 		2CA542272ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA542262ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift */; };
-		2CA5E4C42AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */; };
 		2CA5F8EC2994C3AB0013B854 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8EB2994C3AB0013B854 /* DebugView.swift */; };
 		2CA5F8EE2994C3D00013B854 /* DebugViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */; };
 		2CA5F8F02994C4A90013B854 /* DebugAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */; };
@@ -467,12 +467,8 @@
 		2CCCA39D2862E44B00D98089 /* StepQuizStringAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39C2862E44B00D98089 /* StepQuizStringAssembly.swift */; };
 		2CCCA39F2862E45300D98089 /* StepQuizStringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA39E2862E45300D98089 /* StepQuizStringViewModel.swift */; };
 		2CCCA3A12862E62F00D98089 /* StepQuizStringViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */; };
-		2CCECFC12BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */; };
-		2CCECFC22BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */; };
-		2CCECFC32BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */; };
 		2CCECFC42BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */; };
 		2CCECFC52BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */; };
-		2CCECFC62BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie in Resources */ = {isa = PBXBuildFile; fileRef = 2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */; };
 		2CCF3B5828004FC40075D12C /* UserAgentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */; };
 		2CCF3B5A280050890075D12C /* DeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCF3B59280050890075D12C /* DeviceInfo.swift */; };
 		2CD20ED12B73475400FB5269 /* ApplicationShortcutsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD20ED02B73475400FB5269 /* ApplicationShortcutsService.swift */; };
@@ -635,7 +631,6 @@
 		E9978886282FFC6E00ADD74A /* StepQuizChoiceViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */; };
 		E99B21812887E535006A6154 /* StepQuizSkeletonViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */; };
 		E99B21832887E996006A6154 /* StepQuizChoiceSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21822887E996006A6154 /* StepQuizChoiceSkeletonView.swift */; };
-		E99B21852887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21842887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift */; };
 		E99B21872887E9C5006A6154 /* StepQuizSortingSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21862887E9C5006A6154 /* StepQuizSortingSkeletonView.swift */; };
 		E99B21892887E9DA006A6154 /* StepQuizTableSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B21882887E9DA006A6154 /* StepQuizTableSkeletonView.swift */; };
 		E99B218C2887EA14006A6154 /* StepQuizStringSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99B218B2887EA14006A6154 /* StepQuizStringSkeletonView.swift */; };
@@ -963,6 +958,7 @@
 		2C58DE242803C185002A2774 /* AuthSocialControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialControlsView.swift; sourceTree = "<group>"; };
 		2C58DE282803D197002A2774 /* UIColor+DynamicColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DynamicColor.swift"; sourceTree = "<group>"; };
 		2C58DE2A2803DEE2002A2774 /* VerticalCenteredScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCenteredScrollView.swift; sourceTree = "<group>"; };
+		2C58F9002BFC7A180001E476 /* View+TextSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+TextSelection.swift"; sourceTree = "<group>"; };
 		2C5B2A1A286595810097B270 /* CodeCompletionCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionCellView.swift; sourceTree = "<group>"; };
 		2C5B2A1C286595960097B270 /* CodeCompletionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionTableViewCell.swift; sourceTree = "<group>"; };
 		2C5B2A1E286595AF0097B270 /* CodeCompletionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeCompletionTableViewController.swift; sourceTree = "<group>"; };
@@ -1125,7 +1121,6 @@
 		2CA3B0352888955F00EEF716 /* StepQuizCodeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizCodeSkeletonView.swift; sourceTree = "<group>"; };
 		2CA542242ACAE18500EF24B5 /* IntrospectScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectScrollView.swift; sourceTree = "<group>"; };
 		2CA542262ACAE32A00EF24B5 /* IntrospectScrollViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrospectScrollViewTests.swift; sourceTree = "<group>"; };
-		2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizFillBlanksOutputProtocol.swift; sourceTree = "<group>"; };
 		2CA5F8EB2994C3AB0013B854 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		2CA5F8ED2994C3D00013B854 /* DebugViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugViewModel.swift; sourceTree = "<group>"; };
 		2CA5F8EF2994C4A90013B854 /* DebugAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugAssembly.swift; sourceTree = "<group>"; };
@@ -1211,12 +1206,8 @@
 		2CCCA39C2862E44B00D98089 /* StepQuizStringAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringAssembly.swift; sourceTree = "<group>"; };
 		2CCCA39E2862E45300D98089 /* StepQuizStringViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringViewModel.swift; sourceTree = "<group>"; };
 		2CCCA3A02862E62F00D98089 /* StepQuizStringViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringViewData.swift; sourceTree = "<group>"; };
-		2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-select-problem-onboarding-animation-dark.lottie"; sourceTree = "<group>"; };
-		2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-input-problem-onboarding-animation-dark.lottie"; sourceTree = "<group>"; };
-		2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-input-problem-onboarding-animation-light.lottie"; sourceTree = "<group>"; };
 		2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "parsons-problem-onboarding-animation-light.lottie"; sourceTree = "<group>"; };
 		2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "parsons-problem-onboarding-animation-dark.lottie"; sourceTree = "<group>"; };
-		2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fill-blanks-select-problem-onboarding-animation-light.lottie"; sourceTree = "<group>"; };
 		2CCF3B5728004FC40075D12C /* UserAgentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAgentBuilder.swift; sourceTree = "<group>"; };
 		2CCF3B59280050890075D12C /* DeviceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfo.swift; sourceTree = "<group>"; };
 		2CD20ED02B73475400FB5269 /* ApplicationShortcutsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationShortcutsService.swift; sourceTree = "<group>"; };
@@ -1387,7 +1378,6 @@
 		E9978885282FFC6E00ADD74A /* StepQuizChoiceViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceViewData.swift; sourceTree = "<group>"; };
 		E99B21802887E535006A6154 /* StepQuizSkeletonViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSkeletonViewFactory.swift; sourceTree = "<group>"; };
 		E99B21822887E996006A6154 /* StepQuizChoiceSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceSkeletonView.swift; sourceTree = "<group>"; };
-		E99B21842887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingSkeletonView.swift; sourceTree = "<group>"; };
 		E99B21862887E9C5006A6154 /* StepQuizSortingSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizSortingSkeletonView.swift; sourceTree = "<group>"; };
 		E99B21882887E9DA006A6154 /* StepQuizTableSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizTableSkeletonView.swift; sourceTree = "<group>"; };
 		E99B218B2887EA14006A6154 /* StepQuizStringSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizStringSkeletonView.swift; sourceTree = "<group>"; };
@@ -2052,6 +2042,7 @@
 				2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */,
 				2C4605B02ABD75FC003C17E9 /* View+ScrollBounceBehavior.swift */,
 				2C7271232B6B634F005628B0 /* View+Task.swift */,
+				2C58F9002BFC7A180001E476 /* View+TextSelection.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2281,14 +2272,6 @@
 				2C198E062AEA86E800DCD35A /* Cell */,
 			);
 			path = UIKit;
-			sourceTree = "<group>";
-		};
-		2C44B3302AECFFFC00AE8C2B /* InputOutput */ = {
-			isa = PBXGroup;
-			children = (
-				2CA5E4C32AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift */,
-			);
-			path = InputOutput;
 			sourceTree = "<group>";
 		};
 		2C45E7C62A0FF7C900DFF32D /* Header */ = {
@@ -2616,10 +2599,6 @@
 		2C70B75D2BE0E9FD00DFC104 /* ProblemsOnboarding */ = {
 			isa = PBXGroup;
 			children = (
-				2CCECFBC2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie */,
-				2CCECFBD2BBEDB6D003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie */,
-				2CCECFBB2BBEDB6D003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie */,
-				2CCECFC02BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie */,
 				2CCECFBF2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie */,
 				2CCECFBE2BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie */,
 			);
@@ -2720,7 +2699,6 @@
 			children = (
 				2C7CB66A2ADFB947006F78DA /* StepQuizFillBlanksAssembly.swift */,
 				2C7CB66C2ADFB951006F78DA /* StepQuizFillBlanksViewModel.swift */,
-				2C44B3302AECFFFC00AE8C2B /* InputOutput */,
 				2C7CB6742ADFCB1E006F78DA /* ViewData */,
 				2C7CB6702ADFB985006F78DA /* Views */,
 			);
@@ -4258,20 +4236,11 @@
 			isa = PBXGroup;
 			children = (
 				2C079682285CEF0900EE0487 /* StepQuizMatchingAssembly.swift */,
+				E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */,
 				E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */,
 				2C079680285CEEFE00EE0487 /* StepQuizMatchingViewModel.swift */,
-				E9D2D671284E0A89000757AC /* Views */,
 			);
 			path = StepQuizMatching;
-			sourceTree = "<group>";
-		};
-		E9D2D671284E0A89000757AC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				E99B21842887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift */,
-				E9D2D674284E0B30000757AC /* StepQuizMatchingView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		E9D537CE2A71053700F21828 /* Badges */ = {
@@ -4558,12 +4527,10 @@
 				2CDCC16D2AC2BF4D00BB309D /* UITests.xctestplan in Resources */,
 				2CDCC16B2AC2BE8F00BB309D /* UnitTests.xctestplan in Resources */,
 				2C49CC922851D4AC0040BA7F /* altcontent.css in Resources */,
-				2CCECFC32BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-light.lottie in Resources */,
 				2CE2817927E8EF1E00641E22 /* GoogleService-Info.plist in Resources */,
 				2C20FBB6284F54DF006D879E /* jquery-3.4.1.min.js in Resources */,
 				2C70B75B2BE0E97800DFC104 /* spacebot-progress-bar-rocket-light.lottie in Resources */,
 				2C42EFA827F2C03D00B4648B /* Localizable.strings in Resources */,
-				2CCECFC22BBEDB6E003B87DD /* fill-blanks-input-problem-onboarding-animation-dark.lottie in Resources */,
 				2CE3F5C82BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-dark.lottie in Resources */,
 				2CCAAB7F2BEA561C001A040F /* spacebot-progress-bar-wow.lottie in Resources */,
 				2C4F3C892BB29E7B0055E89F /* PrivacyInfo.xcprivacy in Resources */,
@@ -4585,7 +4552,6 @@
 				2CE3F5C32BD7BB7A000B51A4 /* problems-limit-info-modal-full-limits-light.lottie in Resources */,
 				2CCECFC42BBEDB6E003B87DD /* parsons-problem-onboarding-animation-light.lottie in Resources */,
 				2CE3F5C42BD7BB7A000B51A4 /* problems-limit-info-modal-no-limits-dark.lottie in Resources */,
-				2CCECFC12BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-dark.lottie in Resources */,
 				2C98C7AA2850B93100857783 /* step.css in Resources */,
 				2C98C7AC2850B93100857783 /* bootstrap.css in Resources */,
 				E9D458E429927C8900AAEBD9 /* lines_wrapper.js in Resources */,
@@ -4594,7 +4560,6 @@
 				2CCECFC52BBEDB6E003B87DD /* parsons-problem-onboarding-animation-dark.lottie in Resources */,
 				2CE3F5C72BD7BB7A000B51A4 /* problems-limit-info-modal-partially-filled-light.lottie in Resources */,
 				2C2FD62028191FFE004E7AF6 /* Sentry-Info.plist in Resources */,
-				2CCECFC62BBEDB6E003B87DD /* fill-blanks-select-problem-onboarding-animation-light.lottie in Resources */,
 				2C20FBB8284F630C006D879E /* MathJax.js in Resources */,
 				2C0DB91E2864617E001EA35E /* code-completion-keywords.plist in Resources */,
 			);
@@ -4943,7 +4908,6 @@
 				2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
-				2CA5E4C42AEBAAD80021DF9F /* StepQuizFillBlanksOutputProtocol.swift in Sources */,
 				2C9674302888242D0091B6C9 /* StepQuizCodeViewData.swift in Sources */,
 				2C66720F2A529A7C0040EA2F /* ProgressScreenTrackProgressSkeletonView.swift in Sources */,
 				2C1F5888280D5D6200372A37 /* SocialAuthSDKProvider.swift in Sources */,
@@ -5019,7 +4983,6 @@
 				2CA542252ACAE18500EF24B5 /* IntrospectScrollView.swift in Sources */,
 				E900D1052843573A00A77BBC /* StepQuizSortingIcon.swift in Sources */,
 				2CCCA39B2862E3BB00D98089 /* StepQuizStringDataType.swift in Sources */,
-				E99B21852887E9B0006A6154 /* StepQuizMatchingSkeletonView.swift in Sources */,
 				2CA854D82B1DDC790045CA1B /* LeaderboardSkeletonView.swift in Sources */,
 				2C8DDB2A2BC94C720017D280 /* View+ConditionalOpacity.swift in Sources */,
 				E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */,
@@ -5264,6 +5227,7 @@
 				E99CD0BA292B982400620259 /* TopicsRepetitionsAssembly.swift in Sources */,
 				2CD3652528796C4300D61855 /* ProfileViewDataMapper.swift in Sources */,
 				2C0EB9522A151B69006DC84B /* TrackSelectionListAssembly.swift in Sources */,
+				2C58F9012BFC7A180001E476 /* View+TextSelection.swift in Sources */,
 				2C55E1922A05706300FE58D7 /* HomeSubheadlineView.swift in Sources */,
 				2CE1C4DF27EDFB3800220041 /* FeatureViewModel.swift in Sources */,
 				E9B2CF5B2822960D00B2DC6F /* StepQuizBottomControls.swift in Sources */,
@@ -5361,7 +5325,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -5382,7 +5346,7 @@
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = iosHyperskillAppUITests/Info.plist;
@@ -5403,7 +5367,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
@@ -5424,7 +5388,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = iosHyperskillAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5445,7 +5409,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
@@ -5474,7 +5438,7 @@
 				CODE_SIGN_ENTITLEMENTS = NotificationServiceExtension/NotificationServiceExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				INFOPLIST_FILE = NotificationServiceExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -5620,7 +5584,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;
@@ -5656,7 +5620,7 @@
 				CODE_SIGN_ENTITLEMENTS = iosHyperskillApp/iosHyperskillApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 452;
+				CURRENT_PROJECT_VERSION = 471;
 				DEVELOPMENT_ASSET_PATHS = "\"iosHyperskillApp/Preview Content\"";
 				DEVELOPMENT_TEAM = UJ4KC2QN7B;
 				ENABLE_PREVIEWS = YES;

@@ -36,7 +36,7 @@
         android:adjustViewBounds="true"
         android:layout_marginTop="16dp"
         tools:ignore="ContentDescription"
-        tools:src="@drawable/img_share_streak_day_1"
+        tools:src="@drawable/img_share_streak_day_5"
         />
 
     <com.google.android.material.button.MaterialButton

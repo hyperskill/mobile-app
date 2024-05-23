@@ -31,6 +31,8 @@ struct StepQuizCodeFullScreenCodeView: View {
 
     let onDidTapInputAccessoryButton: (String) -> Void
 
+    private let codeEditorSuggestionsPresentationContextProvider = CodeEditorSuggestionsPresentationContextProvider()
+
     var body: some View {
         ZStack(alignment: .bottom) {
             CodeEditor(
@@ -38,11 +40,15 @@ struct StepQuizCodeFullScreenCodeView: View {
                 codeTemplate: codeTemplate,
                 language: language,
                 textInsets: appearance.codeEditorTextInsets,
+                suggestionsPresentationContextProvider: codeEditorSuggestionsPresentationContextProvider,
                 onDidBeginEditing: onDidBeginEditingCode,
                 onDidEndEditing: onDidEndEditingCode,
                 onDidTapInputAccessoryButton: onDidTapInputAccessoryButton
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .introspectViewController { viewController in
+                codeEditorSuggestionsPresentationContextProvider.presentationController = viewController
+            }
 
             if isActionButtonsVisible {
                 StepQuizActionButtons(

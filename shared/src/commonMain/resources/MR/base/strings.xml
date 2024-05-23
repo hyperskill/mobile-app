@@ -123,7 +123,7 @@
     <string name="step_quiz_sorting_invalid_reply">Sort items</string>
 
     <!-- Step quiz matching -->
-    <string name="step_quiz_matching_title">Match the items from left and right columns</string>
+    <string name="step_quiz_matching_title">Match the items for each row</string>
     <string name="step_quiz_matching_invalid_reply">Match items</string>
 
     <!-- Step quiz table -->
@@ -186,9 +186,6 @@
     <string name="step_quiz_problem_onboarding_modal_title">You\'ve unlocked a new problem type!</string>
     <string name="step_quiz_problem_onboarding_modal_parsons_description">Now you can rearrange the lines to make the
         code work. Use the "Tab" button to add indentation.
-    </string>
-    <string name="step_quiz_problem_onboarding_modal_fill_blanks_description">Fill in the gaps with the relevant code
-        elements.
     </string>
     <string name="step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_header">Fix mistakes in the code</string>
     <string name="step_quiz_problem_onboarding_modal_gpt_code_generation_with_errors_description">Spacebot wrote some

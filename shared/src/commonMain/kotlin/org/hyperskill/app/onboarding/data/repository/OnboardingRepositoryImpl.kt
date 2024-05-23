@@ -14,20 +14,6 @@ internal class OnboardingRepositoryImpl(
         onboardingCacheDataSource.setParsonsOnboardingShown(isShown)
     }
 
-    override fun isFillBlanksInputModeOnboardingShown(): Boolean =
-        onboardingCacheDataSource.isFillBlanksInputModeOnboardingShown()
-
-    override fun setFillBlanksInputModeOnboardingShown(isShown: Boolean) {
-        onboardingCacheDataSource.setFillBlanksInputModeOnboardingShown(isShown)
-    }
-
-    override fun isFillBlanksSelectModeOnboardingShown(): Boolean =
-        onboardingCacheDataSource.isFillBlanksSelectModeOnboardingShown()
-
-    override fun setFillBlanksSelectModeOnboardingShown(isShown: Boolean) {
-        onboardingCacheDataSource.setFillBlanksSelectModeOnboardingShown(isShown)
-    }
-
     override fun isGptCodeGenerationWithErrorsOnboardingShown(): Boolean =
         onboardingCacheDataSource.isGptCodeGenerationWithErrorsOnboardingShown()
 

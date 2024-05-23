@@ -17,13 +17,7 @@ struct AuthSocialView: View {
     @State private var presentingAuthWithEmail = false
 
     var body: some View {
-        let state = viewModel.state
-
-        if state is AuthSocialFeatureStateLoading {
-            ProgressHUD.show()
-        } else if state is AuthSocialFeatureStateAuthenticated {
-            ProgressHUD.showSuccess()
-        }
+        let _ = renderProgressHUD(state: viewModel.state)
 
         return NavigationView {
             AuthAdaptiveContentView(
@@ -37,6 +31,7 @@ struct AuthSocialView: View {
 
                 AuthSocialControlsView(
                     socialAuthProviders: viewModel.availableSocialAuthProviders,
+                    errorMessage: viewModel.authSocialErrorMessage,
                     isContinueWithEmailAvailable: !isInSignUpMode,
                     onSocialAuthProviderClick: viewModel.signIn(with:),
                     onContinueWithEmailClick: {
@@ -65,13 +60,20 @@ struct AuthSocialView: View {
 
     // MARK: Private API
 
+    private func renderProgressHUD(state: AuthSocialFeatureState) {
+        if state is AuthSocialFeatureStateLoading {
+            ProgressHUD.show()
+        } else if state is AuthSocialFeatureStateError {
+            ProgressHUD.showError()
+        } else if state is AuthSocialFeatureStateAuthenticated {
+            ProgressHUD.showSuccess()
+        }
+    }
+
     private func handleViewAction(_ viewAction: AuthSocialFeatureActionViewAction) {
         switch AuthSocialFeatureActionViewActionKs(viewAction) {
         case .completeAuthFlow(let data):
             viewModel.doCompleteAuthFlow(profile: data.profile)
-        case .showAuthError(let data):
-            let errorText = viewModel.getAuthSocialErrorText(authSocialError: data.socialAuthError)
-            ProgressHUD.showError(status: errorText)
         }
     }
 }

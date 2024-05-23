@@ -9,7 +9,6 @@ object ProblemsOnboardingBottomSheetFactory {
         modalType: StepQuizFeature.ProblemOnboardingModal
     ): BottomSheetDialogFragment =
         when (modalType) {
-            is StepQuizFeature.ProblemOnboardingModal.FillBlanks,
             StepQuizFeature.ProblemOnboardingModal.Parsons -> {
                 ProblemOnboardingBottomSheetDialogFragment.newInstance(modalType)
             }

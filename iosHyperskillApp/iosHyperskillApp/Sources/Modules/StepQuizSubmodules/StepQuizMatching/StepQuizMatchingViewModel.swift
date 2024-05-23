@@ -8,64 +8,74 @@ final class StepQuizMatchingViewModel: ObservableObject, StepQuizChildQuizInputP
     private let dataset: Dataset
     private let reply: Reply?
 
+    private let options: [StepQuizMatchingViewData.MatchItem.Option]
+
     @Published private(set) var viewData: StepQuizMatchingViewData
 
     init(dataset: Dataset, reply: Reply?) {
         self.dataset = dataset
         self.reply = reply
 
-        if let pairs = dataset.pairs {
-            var items = [StepQuizMatchingViewData.Item]()
-
-            if let ordering = reply?.ordering {
-                for (index, order) in ordering.enumerated() {
-                    items.append(.title(text: pairs[index].first ?? ""))
-                    items.append(.option(.init(id: order.intValue, text: pairs[order.intValue].second ?? "")))
-                }
-            } else {
-                for (index, pair) in pairs.enumerated() {
-                    items.append(.title(text: pair.first ?? ""))
-                    items.append(.option(.init(id: index, text: pair.second ?? "")))
-                }
-            }
-
-            self.viewData = StepQuizMatchingViewData(items: items)
-        } else {
+        guard let pairs = dataset.pairs else {
+            self.options = []
             self.viewData = StepQuizMatchingViewData(items: [])
+            return
         }
+
+        let options = pairs.enumerated().map { index, pair in
+            StepQuizMatchingViewData.MatchItem.Option(id: index, text: pair.second ?? "")
+        }
+
+        let replyOrdering = reply?.ordering as? [Int?]
+
+        let items = pairs.enumerated().map { index, _ in
+            StepQuizMatchingViewData.MatchItem(
+                title: .init(id: index, text: pairs[index].first ?? ""),
+                option: options.first { $0.id == replyOrdering?[index] }
+            )
+        }
+
+        self.options = options
+        self.viewData = StepQuizMatchingViewData(items: items)
     }
 
-    func doMoveUp(from index: Int) {
-        assert(!index.isMultiple(of: 2), "Index must be odd")
+    func makeSelectColumnsViewController(
+        for matchItem: StepQuizMatchingViewData.MatchItem
+    ) -> PanModalPresentableViewController {
+        let columns = options.map { option in
+            StepQuizTableViewData.Column(id: option.id, text: option.text)
+        }
 
-        let tmp = viewData.items[index - 2]
-        viewData.items[index - 2] = viewData.items[index]
-        viewData.items[index] = tmp
+        return StepQuizTableSelectColumnsViewController(
+            title: matchItem.title.text,
+            columns: columns,
+            selectedColumnsIDs: matchItem.option != nil ? [matchItem.option.require().id] : [],
+            isMultipleChoice: false,
+            onColumnsSelected: { [weak self] selectedColumnsIDs in
+                guard let self,
+                      let selectedColumnID = selectedColumnsIDs.first,
+                      matchItem.option?.id != selectedColumnID,
+                      let currentItemIndex = self.viewData.items.firstIndex(of: matchItem) else {
+                    return
+                }
 
-        outputCurrentReply()
-    }
+                if let swappingIndex = self.viewData.items.firstIndex(where: { $0.option?.id == selectedColumnID }) {
+                    let tmp = self.viewData.items[currentItemIndex].option
+                    self.viewData.items[currentItemIndex].option = self.viewData.items[swappingIndex].option
+                    self.viewData.items[swappingIndex].option = tmp
+                } else {
+                    self.viewData.items[currentItemIndex].option = self.options.first(
+                        where: { $0.id == selectedColumnID }
+                    )
+                }
 
-    func doMoveDown(from index: Int) {
-        assert(!index.isMultiple(of: 2), "Index must be odd")
-
-        let tmp = viewData.items[index + 2]
-        viewData.items[index + 2] = viewData.items[index]
-        viewData.items[index] = tmp
-
-        outputCurrentReply()
+                self.outputCurrentReply()
+            }
+        )
     }
 
     func createReply() -> Reply {
-        Reply(
-            ordering: viewData.items.compactMap { item in
-                switch item {
-                case .title:
-                    nil
-                case .option(let option):
-                    option.id
-                }
-            }
-        )
+        Reply.companion.matching(ordering: viewData.items.map(\.option?.id) as [Any])
     }
 
     private func outputCurrentReply() {

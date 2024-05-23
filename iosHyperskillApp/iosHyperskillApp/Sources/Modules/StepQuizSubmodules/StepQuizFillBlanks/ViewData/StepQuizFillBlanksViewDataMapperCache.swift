@@ -3,18 +3,21 @@ import Foundation
 protocol StepQuizFillBlanksViewDataMapperCacheProtocol: AnyObject {
     func getHighlightedCode(for key: Int) -> NSAttributedString?
     func setHighlightedCode(_ code: NSAttributedString, for key: Int)
+
+    func getHTMLUnescapedString(for key: Int) -> String?
+    func setHTMLUnescapedString(_ string: String, for key: Int)
 }
 
 final class StepQuizFillBlanksViewDataMapperCache: StepQuizFillBlanksViewDataMapperCacheProtocol {
     static let shared = StepQuizFillBlanksViewDataMapperCache()
 
-    private lazy var cache: NSCache<NSNumber, NSAttributedString> = {
-        let cache = NSCache<NSNumber, NSAttributedString>()
-        cache.countLimit = 50
-        return cache
-    }()
+    private let highlightedCodeCache = NSCache<NSNumber, NSAttributedString>()
+    private let htmlUnescapedStringCache = NSCache<NSNumber, NSString>()
 
     private init() {
+        highlightedCodeCache.countLimit = 50
+        htmlUnescapedStringCache.countLimit = 50
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(clearCacheOnEnterBackground),
@@ -24,15 +27,24 @@ final class StepQuizFillBlanksViewDataMapperCache: StepQuizFillBlanksViewDataMap
     }
 
     func getHighlightedCode(for key: Int) -> NSAttributedString? {
-        cache.object(forKey: key as NSNumber)
+        highlightedCodeCache.object(forKey: key as NSNumber)
     }
 
     func setHighlightedCode(_ code: NSAttributedString, for key: Int) {
-        cache.setObject(code, forKey: key as NSNumber)
+        highlightedCodeCache.setObject(code, forKey: key as NSNumber)
+    }
+
+    func getHTMLUnescapedString(for key: Int) -> String? {
+        htmlUnescapedStringCache.object(forKey: key as NSNumber) as String?
+    }
+
+    func setHTMLUnescapedString(_ string: String, for key: Int) {
+        htmlUnescapedStringCache.setObject(string as NSString, forKey: key as NSNumber)
     }
 
     @objc
     private func clearCacheOnEnterBackground() {
-        cache.removeAllObjects()
+        highlightedCodeCache.removeAllObjects()
+        htmlUnescapedStringCache.removeAllObjects()
     }
 }

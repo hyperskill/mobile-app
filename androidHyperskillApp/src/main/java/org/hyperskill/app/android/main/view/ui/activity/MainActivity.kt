@@ -27,6 +27,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.auth.view.ui.fragment.AuthFragment
 import org.hyperskill.app.android.auth.view.ui.navigation.AuthScreen
+import org.hyperskill.app.android.clarity.ClarityDelegate
 import org.hyperskill.app.android.core.extensions.screenOrientation
 import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
@@ -92,6 +93,9 @@ class MainActivity :
     private val notificationInteractor =
         HyperskillApp.graph().platformLocalNotificationComponent.notificationInteractor
 
+    private val clarityDelegate: ClarityDelegate =
+        ClarityDelegate(HyperskillApp.graph().commonComponent.settings)
+
     override val navigator by lazy {
         NestedAppNavigator(
             this,
@@ -145,6 +149,9 @@ class MainActivity :
         observePaywallIsShownChanged()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
+
+        clarityDelegate.init(applicationContext, savedStateRegistry)
+
         logNotificationAvailability()
     }
 
@@ -184,6 +191,7 @@ class MainActivity :
                     ) == PackageManager.PERMISSION_GRANTED
                 )
             )
+            clarityDelegate.setUserId(profile.id)
         }
     }
 

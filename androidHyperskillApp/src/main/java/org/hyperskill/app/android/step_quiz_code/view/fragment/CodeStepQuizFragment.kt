@@ -7,13 +7,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
+import androidx.recyclerview.widget.RecyclerView
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.code.util.CodeEditorKeyboardExtensionUtil
 import org.hyperskill.app.android.code.view.adapter.CodeToolbarAdapter
 import org.hyperskill.app.android.databinding.LayoutStepQuizCodeBinding
-import org.hyperskill.app.android.databinding.LayoutStepQuizCodeKeyboardExtensionBinding
 import org.hyperskill.app.android.databinding.LayoutStepQuizDescriptionBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz.view.fragment.DefaultStepQuizFragment
@@ -75,30 +73,19 @@ class CodeStepQuizFragment :
         val binding = LayoutStepQuizCodeBinding.inflate(layoutInflater, parent, false).also {
             _binding = it
         }
-        setupKeyboardExtensionView(layoutInflater, binding)
+        setupKeyboardExtensionView(binding)
         return binding.root
     }
 
-    private fun setupKeyboardExtensionView(layoutInflater: LayoutInflater, viewBinding: LayoutStepQuizCodeBinding) {
+    private fun setupKeyboardExtensionView(viewBinding: LayoutStepQuizCodeBinding) {
         val parentFragmentViewGroup = requireParentFragment().requireView() as ViewGroup
-        val keyboardExtensionViewBinding = LayoutStepQuizCodeKeyboardExtensionBinding.inflate(
-            layoutInflater,
-            parentFragmentViewGroup,
-            false
-        )
-        parentFragmentViewGroup.addView(keyboardExtensionViewBinding.root)
-        viewLifecycleOwner.lifecycle.addObserver(
-            object : DefaultLifecycleObserver {
-                override fun onDestroy(owner: LifecycleOwner) {
-                    parentFragmentViewGroup.removeView(keyboardExtensionViewBinding.root)
-                }
-            }
-        )
+        val extensionRecycler =
+            parentFragmentViewGroup.findViewById<RecyclerView>(R.id.stepQuizCodeKeyboardExtensionRecycler)
 
         CodeEditorKeyboardExtensionUtil.setupKeyboardExtension(
             context = requireContext(),
             rootView = parentFragmentViewGroup,
-            recyclerView = keyboardExtensionViewBinding.stepQuizCodeKeyboardExtensionRecycler,
+            recyclerView = extensionRecycler,
             codeLayout = viewBinding.stepQuizCodeEmbeddedEditor.codeStepLayout,
             codeToolbarAdapter = requireNotNull(codeToolbarAdapter),
             onToolbarSymbolClicked = { symbol, _ ->

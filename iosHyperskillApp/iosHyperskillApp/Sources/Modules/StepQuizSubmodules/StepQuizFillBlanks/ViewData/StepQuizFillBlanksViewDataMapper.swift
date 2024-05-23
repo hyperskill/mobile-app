@@ -42,8 +42,20 @@ final class StepQuizFillBlanksViewDataMapper {
             components[index].id = index
         }
 
-        let options = fillBlanksData.options.map {
-            StepQuizFillBlankOption(originalText: $0.originalText, displayText: $0.displayText)
+        let options = fillBlanksData.options.map { option in
+            let displayText: String = {
+                let hashValue = option.displayText.hashValue
+
+                if let cached = cache.getHTMLUnescapedString(for: hashValue) {
+                    return cached
+                } else {
+                    let unescaped = HTMLString.unescape(string: option.displayText)
+                    cache.setHTMLUnescapedString(unescaped, for: hashValue)
+                    return unescaped
+                }
+            }()
+
+            return StepQuizFillBlankOption(originalText: option.originalText, displayText: displayText)
         }
 
         return StepQuizFillBlanksViewData(components: components, options: options)

@@ -1,35 +1,16 @@
 import SwiftUI
 
 struct StepQuizTableSelectColumnsView: View {
-    private let prompt: String
-    private let title: String
+    let prompt: String
+    let title: String
 
-    private let columns: [StepQuizTableViewData.Column]
-    @State private var selectedColumnsIDs: Set<Int>
+    let columns: [StepQuizTableViewData.Column]
+    @State private(set) var selectedColumnsIDs: Set<Int>
 
-    private let isMultipleChoice: Bool
+    let isMultipleChoice: Bool
 
-    private let onColumnsChanged: (Set<Int>) -> Void
-
-    private let onConfirmTapped: () -> Void
-
-    init(
-        prompt: String,
-        title: String,
-        columns: [StepQuizTableViewData.Column],
-        selectedColumnsIDs: Set<Int>,
-        isMultipleChoice: Bool,
-        onColumnsChanged: @escaping (Set<Int>) -> Void,
-        onConfirmTapped: @escaping () -> Void
-    ) {
-        self.prompt = prompt
-        self.title = title
-        self.columns = columns
-        self.selectedColumnsIDs = selectedColumnsIDs
-        self.isMultipleChoice = isMultipleChoice
-        self.onColumnsChanged = onColumnsChanged
-        self.onConfirmTapped = onConfirmTapped
-    }
+    var onColumnsChanged: ((Set<Int>) -> Void)?
+    var onConfirmTapped: (() -> Void)?
 
     var body: some View {
         VStack(spacing: LayoutInsets.defaultInset) {
@@ -54,10 +35,12 @@ struct StepQuizTableSelectColumnsView: View {
                                 handleColumnTapped(column: column)
                             }
                         )
+                        .padding(.vertical, LayoutInsets.smallInset)
                     }
                 }
+                .padding(.bottom, LayoutInsets.smallInset)
 
-                Button(Strings.StepQuizTable.confirmButton, action: onConfirmTapped)
+                Button(Strings.StepQuizTable.confirmButton, action: { onConfirmTapped?() })
                     .buttonStyle(RoundedRectangleButtonStyle(style: .violet))
                     .padding(.vertical)
 
@@ -86,7 +69,7 @@ struct StepQuizTableSelectColumnsView: View {
             }
         }
 
-        onColumnsChanged(selectedColumnsIDs)
+        onColumnsChanged?(selectedColumnsIDs)
     }
 }
 

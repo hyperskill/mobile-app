@@ -9,6 +9,7 @@ struct AuthCredentialsErrorView: View {
             .font(.caption)
             .frame(maxWidth: .infinity)
             .padding()
+            .textSelectionCompatibility(fallbackStringToCopy: message)
             .background(Color(ColorPalette.error).opacity(0.12))
             .cornerRadius(8)
     }

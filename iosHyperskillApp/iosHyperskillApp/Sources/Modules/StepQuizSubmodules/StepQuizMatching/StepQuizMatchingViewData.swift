@@ -1,22 +1,20 @@
 import Foundation
 
 struct StepQuizMatchingViewData {
-    var items: [Item]
+    var items: [MatchItem]
 
-    enum Item: Identifiable {
-        case title(text: String)
-        case option(Option)
+    struct MatchItem: Hashable, Identifiable {
+        var id: Int { title.id }
 
-        var id: String {
-            switch self {
-            case .title(let text):
-                text
-            case .option(let option):
-                option.text
-            }
+        let title: Title
+        var option: Option?
+
+        struct Title: Hashable, Identifiable {
+            let id: Int
+            let text: String
         }
 
-        struct Option {
+        struct Option: Hashable {
             let id: Int
             let text: String
         }

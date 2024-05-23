@@ -1,25 +1,27 @@
 package org.hyperskill.app.android.step_quiz_fill_blanks.delegate
 
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
-import androidx.transition.TransitionManager
 import com.google.android.flexbox.FlexboxItemDecoration
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksBinding
-import org.hyperskill.app.android.databinding.LayoutStepQuizFillBlanksOptionsBinding
 import org.hyperskill.app.android.step_quiz.view.delegate.StepQuizFormDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.adapter.FillBlanksInputItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.adapter.FillBlanksSelectItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.adapter.FillBlanksSelectOptionAdapterDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.adapter.FillBlanksTextItemAdapterDelegate
 import org.hyperskill.app.android.step_quiz_fill_blanks.dialog.FillBlanksInputDialogFragment
+import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksProcessedOption
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksSelectOptionUIItem
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.FillBlanksUiItem
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.HighlightResult
 import org.hyperskill.app.android.step_quiz_fill_blanks.model.ResolveState
+import org.hyperskill.app.android.step_quiz_fill_blanks.model.SelectState
+import org.hyperskill.app.core.utils.mutate
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.step_quiz.presentation.submission
@@ -37,7 +39,6 @@ import ru.nobird.app.core.model.mutate
 
 class FillBlanksStepQuizFormDelegate(
     private val binding: LayoutStepQuizFillBlanksBinding,
-    private val optionsBinding: LayoutStepQuizFillBlanksOptionsBinding,
     private val fragmentManager: FragmentManager,
     private val onQuizChanged: (Reply) -> Unit
 ) : StepQuizFormDelegate {
@@ -53,13 +54,7 @@ class FillBlanksStepQuizFormDelegate(
 
     private var resolveState: ResolveState = ResolveState.NotResolved
 
-    private var wasSelectStateInitialized: Boolean = false
-
-    private var selectOptions: List<FillBlanksOption> = emptyList()
-    private val selectBlankToSelectOptionMap: MutableMap<Int, Int> = mutableMapOf()
-
-    private var selectItemIndices: List<Int> = emptyList()
-    private var highlightedSelectItemIndex: Int? = null
+    private var selectState: SelectState? = null
 
     init {
         setupFillBlankItemsRecycler()
@@ -69,77 +64,165 @@ class FillBlanksStepQuizFormDelegate(
         val resolveState = resolve(resolveState, state)
         this.resolveState = resolveState
         if (resolveState is ResolveState.ResolveSucceed) {
-            if (fillBlanksMapper == null) {
-                fillBlanksMapper = FillBlanksItemMapper(mode = resolveState.mode)
-                if (resolveState.mode == FillBlanksMode.SELECT) {
-                    setupOptionsRecycler(optionsBinding)
-                }
-            }
+            render(resolveState, state, selectState)
+        }
+    }
 
-            val fillBlanksData = fillBlanksMapper?.map(
-                attempt = state.attempt,
-                submission = state.submission
-            )
+    private fun render(
+        resolveState: ResolveState.ResolveSucceed,
+        state: StepQuizFeature.StepQuizState.AttemptLoaded,
+        selectState: SelectState?
+    ) {
+        if (fillBlanksMapper == null) {
+            fillBlanksMapper = FillBlanksItemMapper(mode = resolveState.mode)
+        }
 
-            initSelectedState(resolveState, fillBlanksData)
+        if (resolveState.mode == FillBlanksMode.SELECT && selectState == null) {
+            setupOptionsRecycler()
+        }
 
-            val isEnabled = StepQuizResolver.isQuizEnabled(state)
+        val fillBlanksData = fillBlanksMapper?.map(
+            attempt = state.attempt,
+            submission = state.submission
+        )
 
-            fillBlanksAdapter.items = mapItems(fillBlanksData, highlightedSelectItemIndex, isEnabled)
-            binding.root.post { binding.stepQuizFillBlanksRecycler.requestLayout() }
+        val actualSelectState = getSelectState(resolveState, fillBlanksData, selectState)
+        this.selectState = actualSelectState
 
-            fillBlanksOptionsAdapter?.items = mapBlankOptions(
-                fillBlanksData = fillBlanksData,
-                usedOptionsIndices = selectBlankToSelectOptionMap.values.toList(),
+        val isEnabled = StepQuizResolver.isQuizEnabled(state)
+        setFillBlanksItems(
+            fillBlanksData = fillBlanksData,
+            highlightedSelectItemIndex = actualSelectState?.highlightedSelectItemIndex,
+            isEnabled = isEnabled
+        )
+        if (actualSelectState != null) {
+            setOptionsItems(
+                options = actualSelectState.options,
+                selectBlankToSelectOptionMap = actualSelectState.selectBlankToSelectOptionMap,
                 isEnabled = isEnabled
             )
         }
     }
 
-    private fun initSelectedState(
+    private fun getSelectState(
         resolveState: ResolveState.ResolveSucceed,
-        fillBlanksData: FillBlanksData?
-    ) {
-        if (resolveState.mode != FillBlanksMode.SELECT || fillBlanksData == null) return
-        if (wasSelectStateInitialized && isAllSelectItemsEmpty(fillBlanksData.fillBlanks, selectItemIndices)) {
-            selectBlankToSelectOptionMap.clear()
-            this.highlightedSelectItemIndex =
-                getHighlightedSelectItemIndex(fillBlanksData.fillBlanks, selectItemIndices)
-        }
-        if (!wasSelectStateInitialized) {
-            val selectItemIndices = getSelectItemIndices(fillBlanksData.fillBlanks)
-            this.selectItemIndices = selectItemIndices
-            highlightedSelectItemIndex =
-                getHighlightedSelectItemIndex(fillBlanksData.fillBlanks, selectItemIndices)
-
-            if (selectOptions.isEmpty()) {
-                selectOptions = fillBlanksData.options
+        fillBlanksData: FillBlanksData?,
+        selectState: SelectState?
+    ): SelectState? =
+        when {
+            resolveState.mode != FillBlanksMode.SELECT || fillBlanksData == null -> null
+            selectState == null -> {
+                val newSelectState = initSelectState(fillBlanksData)
+                addFillBlanksSelectAdapterDelegate(newSelectState.options)
+                newSelectState
             }
-
-            if (selectBlankToSelectOptionMap.isEmpty()) {
-                selectBlankToSelectOptionMap.putAll(
-                    getBlankToOptionMap(
+            isAllSelectItemsEmpty(fillBlanksData.fillBlanks, selectState.selectItemIndices) -> {
+                selectState.copy(
+                    selectBlankToSelectOptionMap = emptyMap(),
+                    highlightedSelectItemIndex = getHighlightedSelectItemIndex(
                         items = fillBlanksData.fillBlanks,
-                        selectItemIndices = selectItemIndices,
-                        selectOptions = selectOptions
+                        selectItemIndices = selectState.selectItemIndices
                     )
                 )
             }
+            else -> selectState
+        }
 
-            fillBlanksAdapter.addDelegate(
-                FillBlanksSelectItemAdapterDelegate(fillBlanksData.options) { blankIndex ->
+    private fun initSelectState(fillBlanksData: FillBlanksData): SelectState {
+        val selectItemIndices = getSelectItemIndices(fillBlanksData.fillBlanks)
+        val options = processOptions(fillBlanksData.options)
+        return SelectState(
+            options = options,
+            selectBlankToSelectOptionMap = getBlankToOptionMap(
+                items = fillBlanksData.fillBlanks,
+                selectItemIndices = selectItemIndices,
+                selectOptions = options
+            ),
+            selectItemIndices = selectItemIndices,
+            highlightedSelectItemIndex = getHighlightedSelectItemIndex(
+                items = fillBlanksData.fillBlanks,
+                selectItemIndices = selectItemIndices
+            )
+        )
+    }
+
+    private fun addFillBlanksSelectAdapterDelegate(options: List<FillBlanksProcessedOption>) {
+        fillBlanksAdapter.addDelegate(
+            FillBlanksSelectItemAdapterDelegate(options) { blankIndex ->
+                selectState?.let {
                     onSelectItemClick(
                         blankIndex = blankIndex,
                         items = fillBlanksAdapter.items,
-                        selectItemIndices = selectItemIndices,
-                        selectOptions = fillBlanksData.options
+                        selectState = it
                     )
                 }
-            )
-
-            wasSelectStateInitialized = true
-        }
+            }
+        )
     }
+
+    private fun processOptions(options: List<FillBlanksOption>) =
+        options.map {
+            FillBlanksProcessedOption(
+                originalText = it.originalText,
+                displayText = HtmlCompat.fromHtml(it.displayText, HtmlCompat.FROM_HTML_MODE_COMPACT)
+            )
+        }
+
+    private fun setOptionsItems(
+        options: List<FillBlanksProcessedOption>,
+        selectBlankToSelectOptionMap: Map<Int, Int>,
+        isEnabled: Boolean
+    ) {
+        fillBlanksOptionsAdapter?.items = mapBlankOptions(
+            options = options,
+            usedOptionsIndices = selectBlankToSelectOptionMap.values.toList(),
+            isEnabled = isEnabled
+        )
+        binding.root.post { binding.stepQuizFillBlanksOptionsRecycler.requestLayout() }
+    }
+
+    private fun mapBlankOptions(
+        options: List<FillBlanksProcessedOption>,
+        usedOptionsIndices: List<Int>,
+        isEnabled: Boolean
+    ): List<FillBlanksSelectOptionUIItem> =
+        options.mapIndexed { index, option ->
+            FillBlanksSelectOptionUIItem(
+                id = index,
+                option = option,
+                isUsed = index in usedOptionsIndices,
+                isClickable = isEnabled
+            )
+        }
+
+    private fun setFillBlanksItems(
+        fillBlanksData: FillBlanksData?,
+        highlightedSelectItemIndex: Int?,
+        isEnabled: Boolean
+    ) {
+        fillBlanksAdapter.items = mapFillBlanksUiItems(
+            items = fillBlanksData?.fillBlanks ?: emptyList(),
+            highlightedSelectItemIndex = highlightedSelectItemIndex,
+            isEnabled = isEnabled
+        )
+    }
+
+    private fun mapFillBlanksUiItems(
+        items: List<FillBlanksItem>,
+        highlightedSelectItemIndex: Int?,
+        isEnabled: Boolean
+    ): List<FillBlanksUiItem> =
+        items.mapIndexed { index, item ->
+            when (item) {
+                is FillBlanksItem.Input -> FillBlanksUiItem.Input(item, isEnabled)
+                is FillBlanksItem.Select -> FillBlanksUiItem.Select(
+                    origin = item,
+                    isHighlighted = index == highlightedSelectItemIndex,
+                    isEnabled = isEnabled
+                )
+                is FillBlanksItem.Text -> FillBlanksUiItem.Text(item)
+            }
+        }
 
     private fun getHighlightedSelectItemIndex(
         items: List<FillBlanksItem>,
@@ -162,7 +245,7 @@ class FillBlanksStepQuizFormDelegate(
     private fun getBlankToOptionMap(
         items: List<FillBlanksItem>,
         selectItemIndices: List<Int>,
-        selectOptions: List<FillBlanksOption>
+        selectOptions: List<FillBlanksProcessedOption>
     ): Map<Int, Int> {
         val duplicatedOptionIndices = mutableMapOf<Int, Int>()
         return selectItemIndices
@@ -207,7 +290,7 @@ class FillBlanksStepQuizFormDelegate(
                 try {
                     val mode = FillBlanksResolver.resolve(dataset)
                     ResolveState.ResolveSucceed(mode)
-                } catch (e: InvalidFillBlanksConfigException) {
+                } catch (_: InvalidFillBlanksConfigException) {
                     ResolveState.ResolveFailed
                 }
             } else {
@@ -216,36 +299,6 @@ class FillBlanksStepQuizFormDelegate(
         } else {
             currentResolveState
         }
-
-    private fun mapItems(
-        fillBlanksData: FillBlanksData?,
-        highlightedSelectItemIndex: Int?,
-        isEnabled: Boolean
-    ) =
-        fillBlanksData?.fillBlanks?.mapIndexed { index, item ->
-            when (item) {
-                is FillBlanksItem.Input -> FillBlanksUiItem.Input(item, isEnabled)
-                is FillBlanksItem.Select -> FillBlanksUiItem.Select(
-                    origin = item,
-                    isHighlighted = index == highlightedSelectItemIndex,
-                    isEnabled = isEnabled
-                )
-                is FillBlanksItem.Text -> FillBlanksUiItem.Text(item)
-            }
-        } ?: emptyList()
-
-    private fun mapBlankOptions(
-        fillBlanksData: FillBlanksData?,
-        usedOptionsIndices: List<Int>,
-        isEnabled: Boolean
-    ): List<FillBlanksSelectOptionUIItem> =
-        fillBlanksData?.options?.mapIndexed { index, option ->
-            FillBlanksSelectOptionUIItem(
-                option = option,
-                isUsed = index in usedOptionsIndices,
-                isClickable = isEnabled
-            )
-        } ?: emptyList()
 
     private fun getSelectItemIndices(items: List<FillBlanksItem>?) =
         items?.mapIndexedNotNull { index, item ->
@@ -270,41 +323,44 @@ class FillBlanksStepQuizFormDelegate(
         }
     }
 
-    private fun setupOptionsRecycler(optionsBinding: LayoutStepQuizFillBlanksOptionsBinding) {
-        fillBlanksOptionsAdapter = DefaultDelegateAdapter<FillBlanksSelectOptionUIItem>().apply {
-            addDelegate(
-                FillBlanksSelectOptionAdapterDelegate { selectedOptionIndex, option ->
-                    onOptionClick(
-                        selectedOptionIndex = selectedOptionIndex,
-                        blankIndex = highlightedSelectItemIndex ?: return@FillBlanksSelectOptionAdapterDelegate,
-                        selectedOption = option,
-                        items = fillBlanksAdapter.items,
-                        selectItemIndices = selectItemIndices,
-                        selectOptions = selectOptions
-                    )
-                }
-            )
-        }
-        with(optionsBinding.stepQuizFillBlanksOptionsRecycler) {
+    private fun setupOptionsRecycler() {
+        fillBlanksOptionsAdapter = getFillBlanksOptionsAdapter()
+        with(binding.stepQuizFillBlanksOptionsRecycler) {
             itemAnimator = null
             adapter = fillBlanksOptionsAdapter
             isNestedScrollingEnabled = false
             layoutManager = FlexboxLayoutManager(context)
                 .apply { justifyContent = JustifyContent.FLEX_START }
+            isVisible = true
         }
-        optionsBinding.root.isVisible = true
-        TransitionManager.beginDelayedTransition(optionsBinding.root)
     }
+
+    private fun getFillBlanksOptionsAdapter(): DefaultDelegateAdapter<FillBlanksSelectOptionUIItem> =
+        DefaultDelegateAdapter<FillBlanksSelectOptionUIItem>().apply {
+            addDelegate(
+                FillBlanksSelectOptionAdapterDelegate { selectedOptionIndex, option ->
+                    selectState?.let {
+                        onOptionClick(
+                            selectedOptionIndex = selectedOptionIndex,
+                            blankIndex = it.highlightedSelectItemIndex ?: return@FillBlanksSelectOptionAdapterDelegate,
+                            selectedOption = option,
+                            items = fillBlanksAdapter.items,
+                            selectState = it
+                        )
+                    }
+                }
+            )
+        }
 
     override fun createReply(): Reply =
         createReplyInternal(
             items = fillBlanksAdapter.items,
-            selectOptions = selectOptions
+            selectOptions = selectState?.options ?: emptyList()
         )
 
     private fun createReplyInternal(
         items: List<FillBlanksUiItem>,
-        selectOptions: List<FillBlanksOption> = emptyList()
+        selectOptions: List<FillBlanksProcessedOption>? = null
     ): Reply =
         Reply.fillBlanks(
             blanks = items.mapNotNull { item ->
@@ -313,7 +369,7 @@ class FillBlanksStepQuizFormDelegate(
                     is FillBlanksUiItem.Text -> null
                     is FillBlanksUiItem.Select -> {
                         item.origin.selectedOptionIndex?.let { optionIndex ->
-                            selectOptions.getOrNull(optionIndex)?.originalText
+                            selectOptions?.getOrNull(optionIndex)?.originalText
                         } ?: ""
                     }
                 }
@@ -338,8 +394,7 @@ class FillBlanksStepQuizFormDelegate(
     private fun onSelectItemClick(
         blankIndex: Int,
         items: List<FillBlanksUiItem>,
-        selectItemIndices: List<Int>,
-        selectOptions: List<FillBlanksOption>
+        selectState: SelectState
     ) {
         val selectedItem = items.getOrNull(blankIndex) as? FillBlanksUiItem.Select ?: return
         val updatedItems = items.mutate {
@@ -351,22 +406,32 @@ class FillBlanksStepQuizFormDelegate(
 
         val highlightResult = updateSelectItemsHighlighting(
             items = updatedItems,
-            selectItemIndices = selectItemIndices,
-            currentHighlightedSelectItemIndex = highlightedSelectItemIndex,
+            selectItemIndices = selectState.selectItemIndices,
+            currentHighlightedSelectItemIndex = selectState.highlightedSelectItemIndex,
             clickedSelectItemIndex = blankIndex
         )
-        this.highlightedSelectItemIndex = highlightResult.newHighlightedSelectItemIndex
-        fillBlanksAdapter.items = highlightResult.updatedItems
 
-        this.selectBlankToSelectOptionMap.remove(blankIndex)
+        this.selectState = selectState.copy(
+            highlightedSelectItemIndex = highlightResult.newHighlightedSelectItemIndex,
+            selectBlankToSelectOptionMap = selectState.selectBlankToSelectOptionMap.mutate {
+                remove(blankIndex)
+            }
+        )
+
+        fillBlanksAdapter.items = highlightResult.updatedItems
         fillBlanksOptionsAdapter?.items =
             updateUsedOptions(
                 items = fillBlanksOptionsAdapter?.items,
-                usedOptionsIndices = selectBlankToSelectOptionMap.values.toList()
+                usedOptionsIndices = selectState.selectBlankToSelectOptionMap.values.toList()
             )
 
         if (selectedItem.origin.selectedOptionIndex != null) {
-            onQuizChanged(createReplyInternal(highlightResult.updatedItems, selectOptions))
+            onQuizChanged(
+                createReplyInternal(
+                    items = highlightResult.updatedItems,
+                    selectOptions = selectState.options
+                )
+            )
         }
     }
 
@@ -381,10 +446,9 @@ class FillBlanksStepQuizFormDelegate(
     private fun onOptionClick(
         selectedOptionIndex: Int,
         blankIndex: Int,
-        selectedOption: FillBlanksOption,
+        selectedOption: FillBlanksProcessedOption,
         items: List<FillBlanksUiItem>,
-        selectItemIndices: List<Int>,
-        selectOptions: List<FillBlanksOption>
+        selectState: SelectState
     ) {
         val filledItems = fillNextBlank(
             selectedOptionIndex = selectedOptionIndex,
@@ -393,21 +457,37 @@ class FillBlanksStepQuizFormDelegate(
         )
         val highlightResult = updateSelectItemsHighlighting(
             items = filledItems,
-            selectItemIndices = selectItemIndices,
-            currentHighlightedSelectItemIndex = highlightedSelectItemIndex
+            selectItemIndices = selectState.selectItemIndices,
+            currentHighlightedSelectItemIndex = selectState.highlightedSelectItemIndex
         )
-        this.highlightedSelectItemIndex = highlightResult.newHighlightedSelectItemIndex
-        this.selectBlankToSelectOptionMap[blankIndex] = selectedOptionIndex
+
+        this.selectState = selectState.copy(
+            highlightedSelectItemIndex = highlightResult.newHighlightedSelectItemIndex,
+            selectBlankToSelectOptionMap = selectState.selectBlankToSelectOptionMap.mutate {
+                set(blankIndex, selectedOptionIndex)
+            }
+        )
+
         fillBlanksAdapter.items = highlightResult.updatedItems
-        fillBlanksOptionsAdapter?.items = fillBlanksOptionsAdapter?.items?.mutate {
-            val optionItem = getOrNull(selectedOptionIndex) ?: return
+        fillBlanksOptionsAdapter?.let {
+            it.items = markOptionAsUsed(it.items, selectedOptionIndex, selectedOption)
+        }
+
+        onQuizChanged(createReplyInternal(highlightResult.updatedItems, selectState.options))
+    }
+
+    private fun markOptionAsUsed(
+        options: List<FillBlanksSelectOptionUIItem>,
+        selectedOptionIndex: Int,
+        selectedOption: FillBlanksProcessedOption
+    ): List<FillBlanksSelectOptionUIItem> =
+        options.mutate {
+            val optionItem = getOrNull(selectedOptionIndex) ?: return options
             set(
                 selectedOptionIndex,
                 optionItem.copy(option = selectedOption, isUsed = true)
             )
-        } ?: emptyList()
-        onQuizChanged(createReplyInternal(highlightResult.updatedItems, selectOptions))
-    }
+        }
 
     private fun updateSelectItemsHighlighting(
         items: List<FillBlanksUiItem>,

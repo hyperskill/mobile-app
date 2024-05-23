@@ -41,13 +41,6 @@ struct StepQuizProblemOnboardingModalView: View {
         let height: CGFloat = switch modalType {
         case .parsons:
             264
-        case .fillBlanks(let data):
-            switch FillBlanksModeWrapper(shared: data.mode).require() {
-            case .input:
-                110
-            case .select:
-                198
-            }
         case .gptCodeGenerationWithErrors:
             fatalError("Did receive unsupported modal type")
         }
@@ -55,13 +48,6 @@ struct StepQuizProblemOnboardingModalView: View {
         let fileName = switch modalType {
         case .parsons:
             LottieAnimations.parsonsProblemOnboarding
-        case .fillBlanks(let data):
-            switch FillBlanksModeWrapper(shared: data.mode).require() {
-            case .input:
-                LottieAnimations.fillBlanksInputProblemOnboarding
-            case .select:
-                LottieAnimations.fillBlanksSelectProblemOnboarding
-            }
         case .gptCodeGenerationWithErrors:
             fatalError("Did receive unsupported modal type")
         }
@@ -95,8 +81,6 @@ struct StepQuizProblemOnboardingModalView: View {
         switch modalType {
         case .parsons:
             Strings.StepQuiz.ProblemOnboardingModal.parsonsDescription
-        case .fillBlanks:
-            Strings.StepQuiz.ProblemOnboardingModal.fillBlanksDescription
         case .gptCodeGenerationWithErrors:
             Strings.StepQuiz.ProblemOnboardingModal.gptCodeGenerationWithErrorsDescription
         }
@@ -106,18 +90,6 @@ struct StepQuizProblemOnboardingModalView: View {
 #if DEBUG
 #Preview {
     StepQuizProblemOnboardingModalView(modalType: .parsons)
-}
-
-#Preview {
-    StepQuizProblemOnboardingModalView(
-        modalType: .fillBlanks(StepQuizFeatureProblemOnboardingModalFillBlanks(mode: .input))
-    )
-}
-
-#Preview {
-    StepQuizProblemOnboardingModalView(
-        modalType: .fillBlanks(StepQuizFeatureProblemOnboardingModalFillBlanks(mode: .select))
-    )
 }
 
 #Preview {

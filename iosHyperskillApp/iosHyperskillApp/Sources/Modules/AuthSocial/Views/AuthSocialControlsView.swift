@@ -3,6 +3,8 @@ import SwiftUI
 struct AuthSocialControlsView: View {
     let socialAuthProviders: [SocialAuthProvider]
 
+    let errorMessage: String?
+
     let isContinueWithEmailAvailable: Bool
 
     let onSocialAuthProviderClick: ((SocialAuthProvider) -> Void)
@@ -18,6 +20,10 @@ struct AuthSocialControlsView: View {
                         onSocialAuthProviderClick(provider)
                     }
                 )
+            }
+
+            if let errorMessage {
+                AuthCredentialsErrorView(message: errorMessage)
             }
 
             if isContinueWithEmailAvailable {
@@ -64,6 +70,7 @@ struct AuthSocialControlsView_Previews: PreviewProvider {
         Group {
             AuthSocialControlsView(
                 socialAuthProviders: SocialAuthProvider.allCases,
+                errorMessage: "Error message",
                 isContinueWithEmailAvailable: true,
                 onSocialAuthProviderClick: { _ in },
                 onContinueWithEmailClick: {}
@@ -72,6 +79,7 @@ struct AuthSocialControlsView_Previews: PreviewProvider {
 
             AuthSocialControlsView(
                 socialAuthProviders: SocialAuthProvider.allCases,
+                errorMessage: "Error message",
                 isContinueWithEmailAvailable: true,
                 onSocialAuthProviderClick: { _ in },
                 onContinueWithEmailClick: {}

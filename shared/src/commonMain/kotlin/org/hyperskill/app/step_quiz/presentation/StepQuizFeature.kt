@@ -8,8 +8,8 @@ import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz.domain.model.attempts.Attempt
+import org.hyperskill.app.step_quiz.domain.model.attempts.Dataset
 import org.hyperskill.app.step_quiz.domain.validation.ReplyValidationResult
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsFeature
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.submissions.domain.model.Reply
@@ -52,10 +52,6 @@ object StepQuizFeature {
     sealed interface ProblemOnboardingModal {
         @Serializable
         object Parsons : ProblemOnboardingModal
-
-        @Serializable
-        data class FillBlanks(val mode: FillBlanksMode) : ProblemOnboardingModal
-
         @Serializable
         object GptCodeGenerationWithErrors : ProblemOnboardingModal
     }
@@ -175,7 +171,11 @@ object StepQuizFeature {
             val shouldResetReply: Boolean
         ) : Action
 
-        data class CreateSubmissionValidateReply(val step: Step, val reply: Reply) : Action
+        data class CreateSubmissionValidateReply(
+            val step: Step,
+            val dataset: Dataset?,
+            val reply: Reply
+        ) : Action
         data class CreateSubmission(
             val step: Step,
             val stepContext: StepContext,

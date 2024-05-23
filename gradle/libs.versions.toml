@@ -34,6 +34,8 @@ composeBom = "2023.06.01"
 
 kitPresentationRedux = '1.3.1'
 
+clarity = '2.3.0'
+
 [libraries]
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 plugin-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
@@ -75,7 +77,6 @@ android-ui-material = { module = "com.google.android.material:material", version
 android-ui-appcompat = { module = "androidx.appcompat:appcompat", version = "1.6.1" }
 android-ui-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.1.4" }
 android-ui-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version = "1.1.0" }
-android-ui-flexbox = { module = "com.google.android.flexbox:flexbox", version = "3.0.0" }
 android-ui-core-ktx = { module = "androidx.core:core-ktx", version = "1.3.0" }
 android-ui-fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
 android-ui-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
@@ -139,6 +140,7 @@ android-desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version =
 #Analytic
 android-analytic-appsFlyer = { module = "com.appsflyer:af-android-sdk", version.ref = "appsFlyer" }
 android-analytic-amplitude = { module = "com.amplitude:analytics-android", version.ref = "amplitude" }
+android-analytic-clarity = { module = "com.microsoft.clarity:clarity", version.ref = "clarity" }
 
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-foundation = { module = "androidx.compose.foundation:foundation" }

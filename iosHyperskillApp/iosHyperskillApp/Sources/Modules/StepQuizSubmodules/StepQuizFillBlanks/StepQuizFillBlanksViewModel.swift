@@ -6,7 +6,9 @@ final class StepQuizFillBlanksViewModel: ObservableObject {
     weak var moduleOutput: StepQuizChildQuizOutputProtocol?
     private let provideModuleInputCallback: (StepQuizChildQuizInputProtocol?) -> Void
 
-    private let mode: FillBlanksModeWrapper
+    weak var selectOptionsModuleInput: StepQuizFillBlanksSelectOptionsInputProtocol?
+
+    let mode: FillBlanksModeWrapper
 
     private let viewDataMapper: StepQuizFillBlanksViewDataMapper
     @Published private(set) var viewData: StepQuizFillBlanksViewData
@@ -113,10 +115,8 @@ extension StepQuizFillBlanksViewModel {
             return
         }
 
-        guard let fillBlanksModuleOutput = moduleOutput as? StepQuizFillBlanksOutputProtocol else {
-            assertionFailure("""
-StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String(describing: moduleOutput))
-""")
+        guard let selectOptionsModuleInput else {
+            assertionFailure("StepQuizFillBlanksViewModel: StepQuizFillBlanksSelectOptionsInputProtocol is nil")
             return
         }
 
@@ -124,11 +124,7 @@ StepQuizFillBlanksViewModel: expected StepQuizFillBlanksOutputProtocol, \(String
         let selectedIndices = Set(viewData.components.compactMap(\.selectedOptionIndex))
         let blanksCount = viewData.components.filter({ $0.type == .select }).count
 
-        fillBlanksModuleOutput.handleStepQuizFillBlanksCurrentSelectModeState(
-            options: options,
-            selectedIndices: selectedIndices,
-            blanksCount: blanksCount
-        )
+        selectOptionsModuleInput.update(options: options, selectedIndices: selectedIndices, blanksCount: blanksCount)
     }
 
     @MainActor

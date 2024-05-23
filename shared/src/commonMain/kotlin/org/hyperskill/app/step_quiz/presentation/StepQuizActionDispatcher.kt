@@ -25,7 +25,6 @@ import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Action
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalAction
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.InternalMessage
 import org.hyperskill.app.step_quiz.presentation.StepQuizFeature.Message
-import org.hyperskill.app.step_quiz_fill_blanks.model.FillBlanksMode
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
@@ -121,7 +120,11 @@ internal class StepQuizActionDispatcher(
                 }
             }
             is Action.CreateSubmissionValidateReply -> {
-                val validationResult = stepQuizReplyValidator.validate(action.reply, action.step.block.name)
+                val validationResult = stepQuizReplyValidator.validate(
+                    dataset = action.dataset,
+                    reply = action.reply,
+                    stepBlockName = action.step.block.name
+                )
                 onNewMessage(Message.CreateSubmissionReplyValidationResult(action.step, action.reply, validationResult))
             }
             is Action.CreateSubmission -> {
@@ -181,14 +184,6 @@ internal class StepQuizActionDispatcher(
                 when (action.modalType) {
                     StepQuizFeature.ProblemOnboardingModal.Parsons ->
                         onboardingInteractor.setParsonsOnboardingShown(isShown = true)
-                    is StepQuizFeature.ProblemOnboardingModal.FillBlanks -> {
-                        when (action.modalType.mode) {
-                            FillBlanksMode.INPUT ->
-                                onboardingInteractor.setFillBlanksInputModeOnboardingShown(isShown = true)
-                            FillBlanksMode.SELECT ->
-                                onboardingInteractor.setFillBlanksSelectModeOnboardingShown(isShown = true)
-                        }
-                    }
                     StepQuizFeature.ProblemOnboardingModal.GptCodeGenerationWithErrors ->
                         onboardingInteractor.setGptCodeGenerationWithErrorsOnboardingShown(isShown = true)
                 }
