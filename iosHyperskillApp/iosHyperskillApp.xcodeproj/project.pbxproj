@@ -382,6 +382,8 @@
 		2C9D20BE2BFF084C00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 2C9D20B22BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 */; };
 		2C9D20C42BFF0B6B00F88A6C /* BackgroundVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C32BFF0B6B00F88A6C /* BackgroundVideoView.swift */; };
 		2C9D20C62BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */; };
+		2C9D20C82BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C72BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift */; };
+		2C9D20CA2BFF512300F88A6C /* TopicCompletedModalContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C92BFF512300F88A6C /* TopicCompletedModalContentView.swift */; };
 		2C9D493D29F07015000599AB /* StudyPlanSectionErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D493C29F07015000599AB /* StudyPlanSectionErrorView.swift */; };
 		2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */; };
 		2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */; };
@@ -500,8 +502,7 @@
 		2CD48D8E28586B6F00CFCC4A /* StepQuizViewDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */; };
 		2CD4EDF92B79D51E0091F0B2 /* View+SafeAreaInset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */; };
 		2CD4EDFB2B79D74B0091F0B2 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */; };
-		2CD7C2D32BFDDC5500DFD5BE /* SpaceBotAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7C2D22BFDDC5500DFD5BE /* SpaceBotAvatarView.swift */; };
-		2CD7C2D52BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7C2D42BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift */; };
+		2CD7C2D32BFDDC5500DFD5BE /* TopicCompletedModalSpacebotAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD7C2D22BFDDC5500DFD5BE /* TopicCompletedModalSpacebotAvatarView.swift */; };
 		2CDA9838294432C900ADE539 /* SkeletonCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */; };
 		2CDA98412944512D00ADE539 /* ProfileSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */; };
 		2CDA98432944524D00ADE539 /* HomeSkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */; };
@@ -711,9 +712,12 @@
 		E9FB89A72893CD2C0011EFFB /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89A62893CD2C0011EFFB /* LocalNotificationsService.swift */; };
 		E9FB89AC2893EA580011EFFB /* NotificationPermissionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AB2893EA580011EFFB /* NotificationPermissionStatus.swift */; };
 		E9FB89B02893EA900011EFFB /* UserNotificationsCenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9FB89AF2893EA900011EFFB /* UserNotificationsCenterDelegate.swift */; };
+		EB4CE234549223320211CBA1 /* TopicCompletedModalAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4527BBE3E83FB9D7E4155AB3 /* TopicCompletedModalAssembly.swift */; };
 		ECD10958C8BA7D758D3D1F66 /* ProjectSelectionDetailsAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AD7CF422D27CCAE2839046 /* ProjectSelectionDetailsAssembly.swift */; };
 		ED49113F88FF32AAFE6AFFBC /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AEA48C62195F44E21D6491 /* SearchViewModel.swift */; };
+		EDBDC768EF7A93B1B7D68594 /* TopicCompletedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC85A7863C88FC3792A14F3C /* TopicCompletedModalView.swift */; };
 		F759010A5FC990E99AAF0D76 /* ProgressScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A5BDA1E184CA8FBAAD8584 /* ProgressScreenViewModel.swift */; };
+		FF22113BBBA05BDE544C3F8D /* TopicCompletedModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2A5B0E69AEE0C8FB0B6DF7 /* TopicCompletedModalViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1137,6 +1141,8 @@
 		2C9D20B22BFF084B00F88A6C /* topic-completed-modal-background-video-414-dark-2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "topic-completed-modal-background-video-414-dark-2.mp4"; sourceTree = "<group>"; };
 		2C9D20C32BFF0B6B00F88A6C /* BackgroundVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundVideoView.swift; sourceTree = "<group>"; };
 		2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalBackgroundView.swift; sourceTree = "<group>"; };
+		2C9D20C72BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalHostingController.swift; sourceTree = "<group>"; };
+		2C9D20C92BFF512300F88A6C /* TopicCompletedModalContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalContentView.swift; sourceTree = "<group>"; };
 		2C9D493C29F07015000599AB /* StudyPlanSectionErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionErrorView.swift; sourceTree = "<group>"; };
 		2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementAssembly.swift; sourceTree = "<group>"; };
 		2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementViewModel.swift; sourceTree = "<group>"; };
@@ -1255,8 +1261,7 @@
 		2CD48D8D28586B6F00CFCC4A /* StepQuizViewDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizViewDataMapper.swift; sourceTree = "<group>"; };
 		2CD4EDF82B79D51E0091F0B2 /* View+SafeAreaInset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SafeAreaInset.swift"; sourceTree = "<group>"; };
 		2CD4EDFA2B79D74B0091F0B2 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
-		2CD7C2D22BFDDC5500DFD5BE /* SpaceBotAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceBotAvatarView.swift; sourceTree = "<group>"; };
-		2CD7C2D42BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceBotAvatarImageResources.swift; sourceTree = "<group>"; };
+		2CD7C2D22BFDDC5500DFD5BE /* TopicCompletedModalSpacebotAvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalSpacebotAvatarView.swift; sourceTree = "<group>"; };
 		2CDA9837294432C900ADE539 /* SkeletonCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCircleView.swift; sourceTree = "<group>"; };
 		2CDA98402944512D00ADE539 /* ProfileSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSkeletonView.swift; sourceTree = "<group>"; };
 		2CDA98422944524D00ADE539 /* HomeSkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSkeletonView.swift; sourceTree = "<group>"; };
@@ -1337,6 +1342,7 @@
 		2D7F5C51275BBB18DCE9ACE9 /* Pods-iosHyperskillApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosHyperskillApp.debug.xcconfig"; path = "Target Support Files/Pods-iosHyperskillApp/Pods-iosHyperskillApp.debug.xcconfig"; sourceTree = "<group>"; };
 		2E205DEF27554501F7BE01AA /* LeaderboardViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LeaderboardViewModel.swift; sourceTree = "<group>"; };
 		3944E4546DEF47A28B2E7292 /* NotificationsOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingView.swift; sourceTree = "<group>"; };
+		4527BBE3E83FB9D7E4155AB3 /* TopicCompletedModalAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalAssembly.swift; sourceTree = "<group>"; };
 		46D1A5B08EE626D2D612CEAE /* RequestReviewModalViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RequestReviewModalViewModel.swift; sourceTree = "<group>"; };
 		4C8A2BB5BB3B6B1B802B4105 /* ManageSubscriptionView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ManageSubscriptionView.swift; sourceTree = "<group>"; };
 		4FF61AAE06DC019B8C49543C /* RequestReviewModalAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RequestReviewModalAssembly.swift; sourceTree = "<group>"; };
@@ -1349,10 +1355,12 @@
 		772BEE130815F1450D253FE3 /* UsersQuestionnaireOnboardingViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UsersQuestionnaireOnboardingViewModel.swift; sourceTree = "<group>"; };
 		7F55BD539626D22DCF0E1344 /* SearchAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SearchAssembly.swift; sourceTree = "<group>"; };
 		8501ED6A0BE25809989218DB /* ManageSubscriptionAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ManageSubscriptionAssembly.swift; sourceTree = "<group>"; };
+		8B2A5B0E69AEE0C8FB0B6DF7 /* TopicCompletedModalViewModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewModel.swift; sourceTree = "<group>"; };
 		907B10B0F7D4970530A478A2 /* SearchView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 		9AACF19B25D42FD4AE322D5A /* ProgressScreenAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProgressScreenAssembly.swift; sourceTree = "<group>"; };
 		9C0F8A86D62CB915A1E49CAA /* Pods_iosHyperskillApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosHyperskillApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5774D657D505A3A80A7B60D /* UsersQuestionnaireOnboardingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UsersQuestionnaireOnboardingView.swift; sourceTree = "<group>"; };
+		AC85A7863C88FC3792A14F3C /* TopicCompletedModalView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalView.swift; sourceTree = "<group>"; };
 		B985D10E5B6760387575C4AF /* ProblemsLimitInfoModalAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ProblemsLimitInfoModalAssembly.swift; sourceTree = "<group>"; };
 		C2065D585FD89A96C31C08BC /* TrackSelectionDetailsView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TrackSelectionDetailsView.swift; sourceTree = "<group>"; };
 		C2D19C8A442CF9C4F00370B8 /* NotificationsOnboardingAssembly.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingAssembly.swift; sourceTree = "<group>"; };
@@ -1851,7 +1859,7 @@
 				2CE7B4852AB05AA300DCBE4D /* StepQuizSubmodules */,
 				E9F655CE2875B30B00291143 /* Streak */,
 				E9F0A2A729D416AC00C4A61E /* StudyPlan */,
-				2CD7C2D02BFDDC2100DFD5BE /* TopicCompletedModal */,
+				792B14488FE37F89BE960FF2 /* TopicCompletedModal */,
 				E9A022AB291D0E1C004317DB /* TopicsRepetitions */,
 				2C2600862A2001E600BD3D39 /* TrackSelection */,
 				2CA382B42BC69DAE00F1DE26 /* UsersInterviewWidget */,
@@ -3610,30 +3618,15 @@
 			path = ViewData;
 			sourceTree = "<group>";
 		};
-		2CD7C2D02BFDDC2100DFD5BE /* TopicCompletedModal */ = {
-			isa = PBXGroup;
-			children = (
-				2CD7C2D12BFDDC3400DFD5BE /* Views */,
-			);
-			path = TopicCompletedModal;
-			sourceTree = "<group>";
-		};
 		2CD7C2D12BFDDC3400DFD5BE /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */,
-				2CD7C2D62BFDE4BD00DFD5BE /* SpaceBotAvatar */,
+				2C9D20C92BFF512300F88A6C /* TopicCompletedModalContentView.swift */,
+				2CD7C2D22BFDDC5500DFD5BE /* TopicCompletedModalSpacebotAvatarView.swift */,
+				AC85A7863C88FC3792A14F3C /* TopicCompletedModalView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		2CD7C2D62BFDE4BD00DFD5BE /* SpaceBotAvatar */ = {
-			isa = PBXGroup;
-			children = (
-				2CD7C2D42BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift */,
-				2CD7C2D22BFDDC5500DFD5BE /* SpaceBotAvatarView.swift */,
-			);
-			path = SpaceBotAvatar;
 			sourceTree = "<group>";
 		};
 		2CDA984729445BF600ADE539 /* Statistics */ = {
@@ -4074,6 +4067,17 @@
 				2C1DEE2C27EC3FE00001A567 /* Sources */,
 			);
 			path = iosHyperskillApp;
+			sourceTree = "<group>";
+		};
+		792B14488FE37F89BE960FF2 /* TopicCompletedModal */ = {
+			isa = PBXGroup;
+			children = (
+				4527BBE3E83FB9D7E4155AB3 /* TopicCompletedModalAssembly.swift */,
+				2C9D20C72BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift */,
+				8B2A5B0E69AEE0C8FB0B6DF7 /* TopicCompletedModalViewModel.swift */,
+				2CD7C2D12BFDDC3400DFD5BE /* Views */,
+			);
+			path = TopicCompletedModal;
 			sourceTree = "<group>";
 		};
 		9C3B04E6CBDCDDFE888D5DAF /* RequestReview */ = {
@@ -4999,7 +5003,6 @@
 				2C05AC642A0EDFD80039C7EF /* ProjectSelectionListGridCellBadgesView.swift in Sources */,
 				2C93AF2329B34F66004639E0 /* StepQuizPyCharmView.swift in Sources */,
 				2C20FBAA284F1951006D879E /* ContentProcessor.swift in Sources */,
-				2CD7C2D52BFDE08B00DFD5BE /* SpaceBotAvatarImageResources.swift in Sources */,
 				2C20B28F286C4515000F458A /* CodeLanguageSamples.swift in Sources */,
 				2C9674302888242D0091B6C9 /* StepQuizCodeViewData.swift in Sources */,
 				2C66720F2A529A7C0040EA2F /* ProgressScreenTrackProgressSkeletonView.swift in Sources */,
@@ -5096,6 +5099,7 @@
 				2C906CBE280E5D9C0079C594 /* ProgressHUD.swift in Sources */,
 				2CBC97D02A555BE60078E445 /* HypercoinsAwardView.swift in Sources */,
 				2CA854DA2B1DE4780045CA1B /* LeaderboardPlaceholderEmptyView.swift in Sources */,
+				2C9D20CA2BFF512300F88A6C /* TopicCompletedModalContentView.swift in Sources */,
 				2CD4EDFB2B79D74B0091F0B2 /* TransparentBlurView.swift in Sources */,
 				2CA8E094281039EB00154088 /* RoundedRectangleButtonStyle.swift in Sources */,
 				E9D537D02A71056100F21828 /* ProfileBadgesGridItemView.swift in Sources */,
@@ -5129,7 +5133,7 @@
 				E94BB04E2A9E034700736B7C /* StepQuizParsonsAssembly.swift in Sources */,
 				2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */,
 				2CC61BD62BC5135300C2A8E9 /* StepQuizStringForcePromptScoreView.swift in Sources */,
-				2CD7C2D32BFDDC5500DFD5BE /* SpaceBotAvatarView.swift in Sources */,
+				2CD7C2D32BFDDC5500DFD5BE /* TopicCompletedModalSpacebotAvatarView.swift in Sources */,
 				2C2ECCA5288C0661008DDCBA /* StepQuizRetryButton.swift in Sources */,
 				2CA854DC2B1DEDA90045CA1B /* GamificationToolbarViewActionHandler.swift in Sources */,
 				2C336A082A4D38F300A01F26 /* ProgressScreenTrackProgressContentView.swift in Sources */,
@@ -5381,6 +5385,10 @@
 				3CE2B6E310E441BA383B8175 /* ManageSubscriptionViewModel.swift in Sources */,
 				8F9F3F017CBB65F94D047A0A /* ProblemsLimitInfoModalAssembly.swift in Sources */,
 				11BE2566C9E2335505BD2002 /* ProblemsLimitInfoModalViewModel.swift in Sources */,
+				EB4CE234549223320211CBA1 /* TopicCompletedModalAssembly.swift in Sources */,
+				EDBDC768EF7A93B1B7D68594 /* TopicCompletedModalView.swift in Sources */,
+				2C9D20C82BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift in Sources */,
+				FF22113BBBA05BDE544C3F8D /* TopicCompletedModalViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

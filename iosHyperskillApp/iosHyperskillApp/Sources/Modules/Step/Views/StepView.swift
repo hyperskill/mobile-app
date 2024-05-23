@@ -125,10 +125,11 @@ struct StepView: View {
                 animated: false
             )
         case .showTopicCompletedModal(let topicCompletedModalViewAction):
-            presentTopicCompletedModal(
-                modalText: topicCompletedModalViewAction.modalText,
-                isNextStepAvailable: topicCompletedModalViewAction.isNextStepAvailable
-            )
+            #warning("todo")
+//            presentTopicCompletedModal(
+//                modalText: topicCompletedModalViewAction.modalText,
+//                isNextStepAvailable: topicCompletedModalViewAction.isNextStepAvailable
+//            )
         case .navigateTo(let navigateToViewAction):
             switch StepCompletionFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .back:

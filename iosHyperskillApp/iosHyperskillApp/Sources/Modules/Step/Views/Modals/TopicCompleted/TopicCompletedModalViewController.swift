@@ -156,7 +156,7 @@ final class TopicCompletedModalViewController: PanModalPresentableViewController
         if isNextStepAvailable {
             let continueWithNextTopicButton = makeActionButton(
                 style: .violet,
-                title: Strings.StepQuiz.TopicCompletedModal.continueWithNextTopicButtonText,
+                title: "Strings.StepQuiz.TopicCompletedModal.continueWithNextTopicButtonText",
                 action: #selector(continueWithNextTopicButtonTapped)
             )
 

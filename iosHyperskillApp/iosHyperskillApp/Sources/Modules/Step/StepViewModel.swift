@@ -118,6 +118,7 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
     func topicCompletedModalViewControllerDidTapGoToStudyPlanButton(
         _ viewController: TopicCompletedModalViewController
     ) {
+        #warning("todo")
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalGoToStudyPlanClicked()
@@ -140,19 +141,9 @@ extension StepViewModel: TopicCompletedModalViewControllerDelegate {
     }
 
     func topicCompletedModalViewControllerDidAppear(_ viewController: TopicCompletedModalViewController) {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageTopicCompletedModalShownEventMessage()
-            )
-        )
     }
 
     func topicCompletedModalViewControllerDidDisappear(_ viewController: TopicCompletedModalViewController) {
-        onNewMessage(
-            StepFeatureMessageStepCompletionMessage(
-                message: StepCompletionFeatureMessageTopicCompletedModalHiddenEventMessage()
-            )
-        )
     }
 }
 

@@ -77,6 +77,8 @@ import org.hyperskill.app.study_plan.screen.injection.StudyPlanScreenComponent
 import org.hyperskill.app.study_plan.widget.injection.StudyPlanWidgetComponent
 import org.hyperskill.app.submissions.injection.SubmissionsDataComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topic_completed_modal.injection.TopicCompletedModalComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsDataComponent
@@ -196,4 +198,7 @@ interface AppGraph {
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent
+    fun buildTopicCompletedModalComponent(
+        params: TopicCompletedModalFeatureParams
+    ): TopicCompletedModalComponent
 }

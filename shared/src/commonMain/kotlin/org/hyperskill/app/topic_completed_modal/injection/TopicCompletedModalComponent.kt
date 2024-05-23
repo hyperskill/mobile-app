@@ -6,5 +6,5 @@ import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModal
 import ru.nobird.app.presentation.redux.feature.Feature
 
 interface TopicCompletedModalComponent {
-    val topicCompletedModal: Feature<ViewState, Message, Action>
+    val topicCompletedModalFeature: Feature<ViewState, Message, Action>
 }

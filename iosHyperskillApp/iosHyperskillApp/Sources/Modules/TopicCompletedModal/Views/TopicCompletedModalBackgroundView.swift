@@ -1,7 +1,8 @@
+import shared
 import SwiftUI
 
 struct TopicCompletedModalBackgroundView: View {
-    let style: Style
+    let style: TopicCompletedModalFeature.ViewStateBackgroundAnimationStyle
 
     @Environment(\.colorScheme) var colorScheme
 
@@ -27,11 +28,6 @@ struct TopicCompletedModalBackgroundView: View {
             resourceType: "mp4"
         )
         .edgesIgnoringSafeArea(.all)
-    }
-
-    enum Style {
-        case first
-        case second
     }
 }
 
