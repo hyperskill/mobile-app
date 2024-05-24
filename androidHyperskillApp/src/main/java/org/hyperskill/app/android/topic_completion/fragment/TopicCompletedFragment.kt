@@ -7,16 +7,19 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.databinding.FragmentTopicCompletionBinding
+import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.databinding.FragmentTopicCompletedBinding
+import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalViewState
+import org.hyperskill.app.android.topic_completion.ui.TopicCompleted
 
-class TopicCompletionFragment : Fragment(R.layout.fragment_topic_completion), SurfaceHolder.Callback {
+class TopicCompletedFragment : Fragment(R.layout.fragment_topic_completed), SurfaceHolder.Callback {
 
     companion object {
-        fun newInstance(): TopicCompletionFragment =
-            TopicCompletionFragment()
+        fun newInstance(): TopicCompletedFragment =
+            TopicCompletedFragment()
     }
 
-    private val viewBinding: FragmentTopicCompletionBinding by viewBinding(FragmentTopicCompletionBinding::bind)
+    private val viewBinding: FragmentTopicCompletedBinding by viewBinding(FragmentTopicCompletedBinding::bind)
 
     private var mediaPlayer: MediaPlayer? = null
 
@@ -32,8 +35,11 @@ class TopicCompletionFragment : Fragment(R.layout.fragment_topic_completion), Su
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(viewBinding.topicCompletionSurfaceView) {
-            holder.addCallback(this@TopicCompletionFragment)
+        viewBinding.topicCompletedSurfaceView.holder.addCallback(this@TopicCompletedFragment)
+        viewBinding.topicCompletedComposeView.setContent {
+            HyperskillTheme {
+                TopicCompleted(viewState = TopicCompletedModalViewState())
+            }
         }
     }
 

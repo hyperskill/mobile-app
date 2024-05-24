@@ -5,7 +5,12 @@
     android:layout_height="match_parent">
 
     <SurfaceView
-        android:id="@+id/topicCompletionSurfaceView"
+        android:id="@+id/topicCompletedSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/topicCompletedComposeView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
