@@ -632,7 +632,6 @@
 		E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */; };
 		E96D493B2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */; };
 		E96E80F627EF57BA00AA6683 /* AuthSocialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */; };
-		E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */; };
 		E97EDAFC2A8F504D00CABF8E /* BadgeEarnedModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97EDAFB2A8F504D00CABF8E /* BadgeEarnedModalView.swift */; };
 		E97EDB002A8F595E00CABF8E /* BadgeEarnedModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97EDAFF2A8F595E00CABF8E /* BadgeEarnedModalViewController.swift */; };
 		E9802D07281BB5CC00CF3AC1 /* StepQuizChoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */; };
@@ -683,7 +682,6 @@
 		E9C3506D2886B0FE0080D277 /* MainBundleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */; };
 		E9C3506F2886D0600080D277 /* OpenURLInsideAppButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */; };
 		E9C5C93028AE105200CADDEC /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C5C92F28AE105200CADDEC /* NotificationsService.swift */; };
-		E9CC6C0429893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */; };
 		E9CC6C0729893F2200D8D070 /* StepQuizInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */; };
 		E9CF48A92A38499F00938CCE /* StreakRecoveryModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CF48A82A38499F00938CCE /* StreakRecoveryModalViewController.swift */; };
 		E9D2D670284E0A70000757AC /* StepQuizMatchingViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */; };
@@ -1403,7 +1401,6 @@
 		E95BE4032938A30900992DDE /* TopicsRepetitionsStatusBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsRepetitionsStatusBlock.swift; sourceTree = "<group>"; };
 		E96D493A2A9CCF3600BD78FE /* StepQuizParsonsItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizParsonsItemView.swift; sourceTree = "<group>"; };
 		E96E80F527EF57BA00AA6683 /* AuthSocialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSocialViewModel.swift; sourceTree = "<group>"; };
-		E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewController.swift; sourceTree = "<group>"; };
 		E97EDAFB2A8F504D00CABF8E /* BadgeEarnedModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeEarnedModalView.swift; sourceTree = "<group>"; };
 		E97EDAFF2A8F595E00CABF8E /* BadgeEarnedModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeEarnedModalViewController.swift; sourceTree = "<group>"; };
 		E9802D06281BB5CC00CF3AC1 /* StepQuizChoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizChoiceView.swift; sourceTree = "<group>"; };
@@ -1454,7 +1451,6 @@
 		E9C3506C2886B0FE0080D277 /* MainBundleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBundleInfo.swift; sourceTree = "<group>"; };
 		E9C3506E2886D0600080D277 /* OpenURLInsideAppButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenURLInsideAppButton.swift; sourceTree = "<group>"; };
 		E9C5C92F28AE105200CADDEC /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
-		E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalViewControllerDelegate.swift; sourceTree = "<group>"; };
 		E9CC6C0629893F2200D8D070 /* StepQuizInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizInputProtocol.swift; sourceTree = "<group>"; };
 		E9CF48A82A38499F00938CCE /* StreakRecoveryModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakRecoveryModalViewController.swift; sourceTree = "<group>"; };
 		E9D2D66F284E0A70000757AC /* StepQuizMatchingViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepQuizMatchingViewData.swift; sourceTree = "<group>"; };
@@ -3569,7 +3565,6 @@
 			isa = PBXGroup;
 			children = (
 				2CE0F6EC2BB40B570032C439 /* TheoryFeedback */,
-				2CE0F6E72BB3F5CC0032C439 /* TopicCompleted */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -3668,15 +3663,6 @@
 				2C2D73432B1736E000CBB1DA /* AppTabItemsAvailabilityService.swift */,
 			);
 			path = TabBar;
-			sourceTree = "<group>";
-		};
-		2CE0F6E72BB3F5CC0032C439 /* TopicCompleted */ = {
-			isa = PBXGroup;
-			children = (
-				E97BEA1D2977D26F00348EEC /* TopicCompletedModalViewController.swift */,
-				E9CC6C0329893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift */,
-			);
-			path = TopicCompleted;
 			sourceTree = "<group>";
 		};
 		2CE0F6EC2BB40B570032C439 /* TheoryFeedback */ = {
@@ -4921,7 +4907,6 @@
 				2C9ACAA62B870E3D00FE63FA /* AppRouter.swift in Sources */,
 				E9A6250F28ABAE83009423EE /* WelcomeViewModel.swift in Sources */,
 				2C0F3CFC2A80A47600947C35 /* BadgeDetailsModalView.swift in Sources */,
-				E97BEA1E2977D26F00348EEC /* TopicCompletedModalViewController.swift in Sources */,
 				2CEEE03128916A3100282849 /* ProblemOfDayAssembly.swift in Sources */,
 				2C7CB66F2ADFB96F006F78DA /* StepQuizFillBlanksView.swift in Sources */,
 				2C8E4FB628490C020011ADFA /* PanModalPresenter.swift in Sources */,
@@ -5270,7 +5255,6 @@
 				2C93C2D2292E574F004D1861 /* HyperskillSentryLevel+SentryLevel.swift in Sources */,
 				2C5CA2442A202F1400DBF2F9 /* ProjectSelectionDetailsSkeletonView.swift in Sources */,
 				2C198E052AEA86DF00DCD35A /* StepQuizFillBlanksSelectOptionsCollectionViewCellContainerView.swift in Sources */,
-				E9CC6C0429893D8400D8D070 /* TopicCompletedModalViewControllerDelegate.swift in Sources */,
 				E9317A0228A23FD100F59373 /* UNNotificationTrigger+nextTriggerDate.swift in Sources */,
 				2C725B632809198000A49043 /* BackgroundView.swift in Sources */,
 				2C5CA23C2A201CCB00DBF2F9 /* ProjectSelectionDetailsProjectOverviewView.swift in Sources */,
