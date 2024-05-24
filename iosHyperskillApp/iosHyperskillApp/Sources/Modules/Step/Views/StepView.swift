@@ -23,12 +23,12 @@ struct StepView: View {
         .navigationBarHidden(false)
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            viewModel.startListening()
             viewModel.onViewAction = handleViewAction(_:)
+            viewModel.startListening()
         }
         .onDisappear {
-            viewModel.stopListening()
             viewModel.onViewAction = nil
+            viewModel.stopListening()
         }
         .environmentObject(stackRouter)
         .environmentObject(modalRouter)
@@ -125,11 +125,9 @@ struct StepView: View {
                 animated: false
             )
         case .showTopicCompletedModal(let topicCompletedModalViewAction):
-            #warning("todo")
-//            presentTopicCompletedModal(
-//                modalText: topicCompletedModalViewAction.modalText,
-//                isNextStepAvailable: topicCompletedModalViewAction.isNextStepAvailable
-//            )
+            presentTopicCompletedModal(
+                params: topicCompletedModalViewAction.params
+            )
         case .navigateTo(let navigateToViewAction):
             switch StepCompletionFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .back:
@@ -167,13 +165,12 @@ struct StepView: View {
 // MARK: - StepView (Modals) -
 
 private extension StepView {
-    func presentTopicCompletedModal(modalText: String, isNextStepAvailable: Bool) {
-        let modal = TopicCompletedModalViewController(
-            modalText: modalText,
-            isNextStepAvailable: isNextStepAvailable,
-            delegate: viewModel
+    func presentTopicCompletedModal(params: TopicCompletedModalFeatureParams) {
+        let assembly = TopicCompletedModalAssembly(
+            params: params,
+            output: viewModel
         )
-        panModalPresenter.presentPanModal(modal)
+        modalRouter.present(module: assembly.makeModule())
     }
 
     func presentDailyStepCompletedModal(

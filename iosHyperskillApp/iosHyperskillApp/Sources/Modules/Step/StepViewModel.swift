@@ -112,38 +112,23 @@ extension StepViewModel: StepQuizOutputProtocol {
     }
 }
 
-// MARK: - StepViewModel: TopicCompletedModalViewControllerDelegate -
+// MARK: - StepViewModel: TopicCompletedModalOutputProtocol -
 
-extension StepViewModel: TopicCompletedModalViewControllerDelegate {
-    func topicCompletedModalViewControllerDidTapGoToStudyPlanButton(
-        _ viewController: TopicCompletedModalViewController
-    ) {
-        #warning("todo")
+extension StepViewModel: TopicCompletedModalOutputProtocol {
+    func topicCompletedModalDidRequestGoToStudyPlan() {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalGoToStudyPlanClicked()
             )
         )
-
-        viewController.dismiss(animated: true)
     }
-
-    func topicCompletedModalViewControllerDidTapContinueWithNextTopicButton(
-        _ viewController: TopicCompletedModalViewController
-    ) {
+    
+    func topicCompletedModalDidRequestContinueWithNextTopic() {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
                 message: StepCompletionFeatureMessageTopicCompletedModalContinueNextTopicClicked()
             )
         )
-
-        viewController.dismiss(animated: true)
-    }
-
-    func topicCompletedModalViewControllerDidAppear(_ viewController: TopicCompletedModalViewController) {
-    }
-
-    func topicCompletedModalViewControllerDidDisappear(_ viewController: TopicCompletedModalViewController) {
     }
 }
 

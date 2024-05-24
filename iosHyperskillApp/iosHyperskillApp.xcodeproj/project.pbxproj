@@ -384,6 +384,7 @@
 		2C9D20C62BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */; };
 		2C9D20C82BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C72BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift */; };
 		2C9D20CA2BFF512300F88A6C /* TopicCompletedModalContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20C92BFF512300F88A6C /* TopicCompletedModalContentView.swift */; };
+		2C9D20CC2BFFA7A300F88A6C /* TopicCompletedModalOutputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D20CB2BFFA7A300F88A6C /* TopicCompletedModalOutputProtocol.swift */; };
 		2C9D493D29F07015000599AB /* StudyPlanSectionErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9D493C29F07015000599AB /* StudyPlanSectionErrorView.swift */; };
 		2C9E5E8429B2156D003AEC16 /* StageImplementAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */; };
 		2C9E5E8629B215CA003AEC16 /* StageImplementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */; };
@@ -1143,6 +1144,7 @@
 		2C9D20C52BFF0BE200F88A6C /* TopicCompletedModalBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalBackgroundView.swift; sourceTree = "<group>"; };
 		2C9D20C72BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalHostingController.swift; sourceTree = "<group>"; };
 		2C9D20C92BFF512300F88A6C /* TopicCompletedModalContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalContentView.swift; sourceTree = "<group>"; };
+		2C9D20CB2BFFA7A300F88A6C /* TopicCompletedModalOutputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCompletedModalOutputProtocol.swift; sourceTree = "<group>"; };
 		2C9D493C29F07015000599AB /* StudyPlanSectionErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPlanSectionErrorView.swift; sourceTree = "<group>"; };
 		2C9E5E8329B2156D003AEC16 /* StageImplementAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementAssembly.swift; sourceTree = "<group>"; };
 		2C9E5E8529B215CA003AEC16 /* StageImplementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageImplementViewModel.swift; sourceTree = "<group>"; };
@@ -4074,6 +4076,7 @@
 			children = (
 				4527BBE3E83FB9D7E4155AB3 /* TopicCompletedModalAssembly.swift */,
 				2C9D20C72BFF4F6C00F88A6C /* TopicCompletedModalHostingController.swift */,
+				2C9D20CB2BFFA7A300F88A6C /* TopicCompletedModalOutputProtocol.swift */,
 				8B2A5B0E69AEE0C8FB0B6DF7 /* TopicCompletedModalViewModel.swift */,
 				2CD7C2D12BFDDC3400DFD5BE /* Views */,
 			);
@@ -4860,6 +4863,7 @@
 				2C52F9972B98711A001524B5 /* PaywallViewModel.swift in Sources */,
 				2C1860FC2923C540007D4EBF /* AppFeatureStateKsExtensions.swift in Sources */,
 				2C4FBD8E2876C94800ACA5C8 /* ProfileAboutSocialAccountsView.swift in Sources */,
+				2C9D20CC2BFFA7A300F88A6C /* TopicCompletedModalOutputProtocol.swift in Sources */,
 				2C05AC542A0EC5B00039C7EF /* ProjectSelectionListHeaderView.swift in Sources */,
 				E95BE4042938A30900992DDE /* TopicsRepetitionsStatusBlock.swift in Sources */,
 				2CBFB94A28897DBB0044D1BA /* StepQuizCodeFullScreenView.swift in Sources */,

@@ -4,9 +4,14 @@ import SwiftUI
 struct TopicCompletedModalView: View {
     @StateObject var viewModel: TopicCompletedModalViewModel
 
+    @Environment(\.presentationMode) private var presentationMode
+
     var body: some View {
         ZStack {
-            UIViewControllerEventsWrapper(onViewDidAppear: viewModel.logViewedEvent)
+            UIViewControllerEventsWrapper(
+                onViewDidAppear: viewModel.logShownEvent,
+                onViewWillDisappear: viewModel.logHiddenEvent
+            )
 
             TopicCompletedModalContentView(
                 title: viewModel.state.title,
@@ -15,8 +20,8 @@ struct TopicCompletedModalView: View {
                 callToActionButtonTitle: viewModel.state.callToActionButtonTitle,
                 spacebotAvatarVariantIndex: Int(viewModel.state.spacebotAvatarVariantIndex),
                 backgroundAnimationStyle: viewModel.state.backgroundAnimationStyle,
-                onCloseButtonTap: {},
-                onCallToActionButtonTap: {}
+                onCloseButtonTap: viewModel.doCloseAction,
+                onCallToActionButtonTap: viewModel.doCallToAction
             )
         }
         .onAppear {
@@ -38,9 +43,28 @@ private extension TopicCompletedModalView {
     ) {
         switch TopicCompletedModalFeatureActionViewActionKs(viewAction) {
         case .dismiss:
-            break
-        case .navigateTo:
-            break
+            dismiss()
+        case .navigateTo(let navigateToViewAction):
+            handleNavigateToViewAction(
+                TopicCompletedModalFeatureActionViewActionNavigateToKs(navigateToViewAction)
+            )
+        }
+    }
+
+    func handleNavigateToViewAction(_ viewAction: TopicCompletedModalFeatureActionViewActionNavigateToKs) {
+        switch viewAction {
+        case .nextTopic:
+            viewModel.doNextTopicPresentation()
+        case .studyPlan:
+            viewModel.doStudyPlanPresentation()
+        }
+
+        dismiss()
+    }
+
+    func dismiss() {
+        DispatchQueue.main.async {
+            presentationMode.wrappedValue.dismiss()
         }
     }
 }

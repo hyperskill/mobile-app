@@ -6,6 +6,8 @@ final class TopicCompletedModalViewModel: FeatureViewModel<
   TopicCompletedModalFeatureMessage,
   TopicCompletedModalFeatureActionViewAction
 > {
+    weak var moduleOutput: TopicCompletedModalOutputProtocol?
+
     override func shouldNotifyStateDidChange(
         oldState: TopicCompletedModalFeature.ViewState,
         newState: TopicCompletedModalFeature.ViewState
@@ -13,7 +15,27 @@ final class TopicCompletedModalViewModel: FeatureViewModel<
         false
     }
 
-    func logViewedEvent() {
-        // onNewMessage(TopicCompletedModalFeatureMessageViewedEventMessage())
+    func doCallToAction() {
+        onNewMessage(TopicCompletedModalFeatureMessageCallToActionButtonClicked())
+    }
+
+    func doCloseAction() {
+        onNewMessage(TopicCompletedModalFeatureMessageCloseButtonClicked())
+    }
+
+    func logShownEvent() {
+        onNewMessage(TopicCompletedModalFeatureMessageShownEventMessage())
+    }
+
+    func logHiddenEvent() {
+        onNewMessage(TopicCompletedModalFeatureMessageHiddenEventMessage())
+    }
+
+    func doNextTopicPresentation() {
+        moduleOutput?.topicCompletedModalDidRequestContinueWithNextTopic()
+    }
+
+    func doStudyPlanPresentation() {
+        moduleOutput?.topicCompletedModalDidRequestGoToStudyPlan()
     }
 }

@@ -17,38 +17,43 @@ private typealias TopicCompletedModalReducerResult = Pair<State, Set<Action>>
 internal class TopicCompletedModalReducer(
     private val analyticRoute: HyperskillAnalyticRoute
 ) : StateReducer<State, Message, Action> {
+
     override fun reduce(state: State, message: Message): TopicCompletedModalReducerResult =
         when (message) {
-            Message.CloseButtonClicked -> {
-                val event = TopicCompletedModalClickedCloseHyperskillAnalyticEvent(analyticRoute)
-                state to setOf(InternalAction.LogAnalyticEvent(event), Action.ViewAction.Dismiss)
-            }
-            Message.CallToActionButtonClicked ->
-                handleCallToActionButtonClicked(state)
-            Message.ShownEventMessage -> {
-                val event = TopicCompletedModalShownHyperskillAnalyticEvent(analyticRoute)
-                state to setOf(InternalAction.LogAnalyticEvent(event))
-            }
-            Message.HiddenEventMessage -> {
-                val event = TopicCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute)
-                state to setOf(InternalAction.LogAnalyticEvent(event))
-            }
+            Message.CloseButtonClicked -> handleCloseButtonClicked(state)
+            Message.CallToActionButtonClicked -> handleCallToActionButtonClicked(state)
+            Message.ShownEventMessage -> handleShownEventMessage(state)
+            Message.HiddenEventMessage -> handleHiddenEventMessage(state)
         }
+
+    private fun handleCloseButtonClicked(state: State): TopicCompletedModalReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(TopicCompletedModalClickedCloseHyperskillAnalyticEvent(analyticRoute)),
+            Action.ViewAction.Dismiss
+        )
 
     private fun handleCallToActionButtonClicked(state: State): TopicCompletedModalReducerResult =
         if (state.canContinueWithNextTopic) {
             state to setOf(
                 InternalAction.LogAnalyticEvent(
                     TopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(analyticRoute)
-                ),
-                Action.ViewAction.NavigateTo.NextTopic
+                ), Action.ViewAction.NavigateTo.NextTopic
             )
         } else {
             state to setOf(
                 InternalAction.LogAnalyticEvent(
                     TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(analyticRoute)
-                ),
-                Action.ViewAction.NavigateTo.StudyPlan
+                ), Action.ViewAction.NavigateTo.StudyPlan
             )
         }
+
+    private fun handleShownEventMessage(state: State): TopicCompletedModalReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(TopicCompletedModalShownHyperskillAnalyticEvent(analyticRoute))
+        )
+
+    private fun handleHiddenEventMessage(state: State): TopicCompletedModalReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(TopicCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute))
+        )
 }
