@@ -76,7 +76,7 @@ object StepCompletionFeature {
             data class Completed(
                 val topic: Topic,
                 val passedTopicsCount: Int,
-                val nextLearningActivity: LearningActivity?,
+                val nextLearningActivity: LearningActivity?
             ) : CheckTopicCompletionStatus
 
             object Uncompleted : CheckTopicCompletionStatus

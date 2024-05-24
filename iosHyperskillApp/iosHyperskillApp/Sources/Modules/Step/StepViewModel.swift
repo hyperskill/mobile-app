@@ -122,7 +122,7 @@ extension StepViewModel: TopicCompletedModalOutputProtocol {
             )
         )
     }
-    
+
     func topicCompletedModalDidRequestContinueWithNextTopic() {
         onNewMessage(
             StepFeatureMessageStepCompletionMessage(
