@@ -76,15 +76,16 @@ object StepDelegate {
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                        TopicPracticeCompletedBottomSheet
-                            .newInstance(
-                                stepCompletionAction.modalText,
-                                stepCompletionAction.isNextStepAvailable
-                            )
-                            .showIfNotExists(
-                                fragment.childFragmentManager,
-                                TopicPracticeCompletedBottomSheet.Tag
-                            )
+                        // TODO: ALTAPPS-1253 Implement new TopicCompletedModal
+//                        TopicPracticeCompletedBottomSheet
+//                            .newInstance(
+//                                stepCompletionAction.modalText,
+//                                stepCompletionAction.isNextStepAvailable
+//                            )
+//                            .showIfNotExists(
+//                                fragment.childFragmentManager,
+//                                TopicPracticeCompletedBottomSheet.Tag
+//                            )
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
