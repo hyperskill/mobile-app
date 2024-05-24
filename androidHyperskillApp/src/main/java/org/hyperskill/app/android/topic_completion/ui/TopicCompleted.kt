@@ -1,6 +1,12 @@
 package org.hyperskill.app.android.topic_completion.ui
 
+import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.core.MutableTransitionState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
@@ -32,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.TypewriterTextEffect
 import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalViewState
 
 @Composable
@@ -39,25 +47,36 @@ fun TopicCompleted(
     viewState: TopicCompletedModalViewState,
     modifier: Modifier = Modifier
 ) {
+    val enterTransitionState = remember {
+        MutableTransitionState(false)
+    }
+    LaunchedEffect(Unit) {
+        enterTransitionState.targetState = true
+    }
     Column(modifier.padding(vertical = 17.dp)) {
         CloseButton(
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(end = 14.dp)
         ) {
-
+            TODO("Not implemented yet")
         }
         Content(
             viewState = viewState,
+            enterTransitionState = enterTransitionState,
             modifier = Modifier.weight(1f)
         )
-        HyperskillButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            onClick = { /*TODO*/ }
-        ) {
-            Text(text = viewState.callToActionButtonTitle)
+        EnterTransition(enterTransitionState) {
+            HyperskillButton(
+                onClick = {
+                    TODO("Not implemented yet")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp)
+            ) {
+                Text(text = viewState.callToActionButtonTitle)
+            }
         }
     }
 }
@@ -84,29 +103,45 @@ private fun CloseButton(
 @Composable
 private fun Content(
     viewState: TopicCompletedModalViewState,
+    enterTransitionState: MutableTransitionState<Boolean>,
     modifier: Modifier = Modifier
 ) {
-    Box(modifier = modifier.padding(horizontal = 32.dp)) {
+    Box(
+        modifier = modifier
+            .padding(horizontal = 32.dp)
+            .fillMaxWidth()
+    ) {
         Column(modifier = Modifier.align(Alignment.Center)) {
-            SpaceBotAvatar(
-                spacebotAvatarVariantIndex = viewState.spacebotAvatarVariantIndex,
+            EnterTransition(
+                visibleState = enterTransitionState,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            ) {
+                SpaceBotAvatar(
+                    spacebotAvatarVariantIndex = viewState.spacebotAvatarVariantIndex
+                )
+            }
             Spacer(modifier = Modifier.height(32.dp))
-            Title(
-                text = viewState.title,
+            EnterTransition(
+                visibleState = enterTransitionState,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            ) {
+                Title(
+                    text = viewState.title,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+            }
             Spacer(modifier = Modifier.height(16.dp))
             Description(
                 text = viewState.description,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
             Spacer(modifier = Modifier.height(32.dp))
-            EarnedGemsCount(
-                text = viewState.earnedGemsText,
+            EnterTransition(
+                visibleState = enterTransitionState,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
+            ) {
+                EarnedGemsCount(text = viewState.earnedGemsText)
+            }
         }
     }
 }
@@ -126,17 +161,24 @@ fun Title(text: String, modifier: Modifier = Modifier) {
 
 @Composable
 fun Description(text: String, modifier: Modifier = Modifier) {
-    Text(
+    TypewriterTextEffect(
         text = text,
-        style = MaterialTheme.typography.subtitle1,
-        fontSize = 16.sp,
-        fontWeight = FontWeight.Medium,
-        letterSpacing = 0.15.sp,
-        lineHeight = 24.sp,
-        color = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_87),
-        textAlign = TextAlign.Center,
-        modifier = modifier
-    )
+        startTypingDelayInMillis = TopicCompletedDefaults.DESCRIPTION_TYPING_DELAY_MILLIS
+    ) { displayedText ->
+        Log.d("TypewriterTextEffect", "Display text: $displayedText")
+        Text(
+            text = displayedText,
+            style = MaterialTheme.typography.subtitle1,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            letterSpacing = 0.15.sp,
+            lineHeight = 24.sp,
+            color = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_87),
+            textAlign = TextAlign.Center,
+            minLines = 2,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
@@ -144,7 +186,8 @@ fun SpaceBotAvatar(
     spacebotAvatarVariantIndex: Int,
     modifier: Modifier = Modifier
 ) {
-    val imageRes = remember { getAvatarRes(spacebotAvatarVariantIndex) }
+    @DrawableRes
+    val imageRes: Int = remember { getAvatarRes(spacebotAvatarVariantIndex) }
     Image(
         painter = painterResource(id = imageRes),
         contentDescription = null,
@@ -155,7 +198,10 @@ fun SpaceBotAvatar(
 }
 
 @Composable
-private fun EarnedGemsCount(text: String, modifier: Modifier = Modifier) {
+private fun EarnedGemsCount(
+    text: String,
+    modifier: Modifier = Modifier
+) {
     Row(modifier) {
         Text(
             text = text,
@@ -197,6 +243,25 @@ private fun getAvatarRes(spacebotAvatarVariantIndex: Int): Int =
         20 -> R.drawable.topic_completion_spacebot_20
         else -> R.drawable.topic_completion_spacebot_1
     }
+
+@Composable
+fun EnterTransition(
+    visibleState: MutableTransitionState<Boolean>,
+    modifier: Modifier = Modifier,
+    content: @Composable AnimatedVisibilityScope.() -> Unit
+) {
+    AnimatedVisibility(
+        visibleState = visibleState,
+        enter = fadeIn(tween(durationMillis = TopicCompletedDefaults.ENTER_TRANSITION_DURATION_MILLIS)),
+        content = content,
+        modifier = modifier
+    )
+}
+
+private object TopicCompletedDefaults {
+    const val ENTER_TRANSITION_DURATION_MILLIS = 300
+    const val DESCRIPTION_TYPING_DELAY_MILLIS = ENTER_TRANSITION_DURATION_MILLIS + 100
+}
 
 @Preview
 @Composable

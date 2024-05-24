@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.SurfaceHolder
 import android.view.View
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
@@ -36,9 +37,12 @@ class TopicCompletedFragment : Fragment(R.layout.fragment_topic_completed), Surf
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.topicCompletedSurfaceView.holder.addCallback(this@TopicCompletedFragment)
-        viewBinding.topicCompletedComposeView.setContent {
-            HyperskillTheme {
-                TopicCompleted(viewState = TopicCompletedModalViewState())
+        with(viewBinding.topicCompletedComposeView) {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
+            setContent {
+                HyperskillTheme {
+                    TopicCompleted(viewState = TopicCompletedModalViewState())
+                }
             }
         }
     }
