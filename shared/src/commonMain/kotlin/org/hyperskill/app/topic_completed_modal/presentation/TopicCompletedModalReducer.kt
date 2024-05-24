@@ -37,13 +37,15 @@ internal class TopicCompletedModalReducer(
             state to setOf(
                 InternalAction.LogAnalyticEvent(
                     TopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(analyticRoute)
-                ), Action.ViewAction.NavigateTo.NextTopic
+                ),
+                Action.ViewAction.NavigateTo.NextTopic
             )
         } else {
             state to setOf(
                 InternalAction.LogAnalyticEvent(
                     TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(analyticRoute)
-                ), Action.ViewAction.NavigateTo.StudyPlan
+                ),
+                Action.ViewAction.NavigateTo.StudyPlan
             )
         }
 

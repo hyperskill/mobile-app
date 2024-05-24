@@ -18,7 +18,6 @@ import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragment
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
-import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.navigation.requireStepRouter
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
