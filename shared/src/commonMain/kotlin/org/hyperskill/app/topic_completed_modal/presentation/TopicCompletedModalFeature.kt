@@ -37,6 +37,7 @@ object TopicCompletedModalFeature {
 
         object ShownEventMessage : Message
         object HiddenEventMessage : Message
+        object UserDidTakeScreenshotEventMessage : Message
     }
 
     internal sealed interface InternalMessage : Message

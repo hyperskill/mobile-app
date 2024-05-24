@@ -8,6 +8,15 @@ final class TopicCompletedModalViewModel: FeatureViewModel<
 > {
     weak var moduleOutput: TopicCompletedModalOutputProtocol?
 
+    init(feature: Presentation_reduxFeature) {
+        super.init(feature: feature)
+        addNotificationObservers()
+    }
+
+    deinit {
+        removeNotificationObservers()
+    }
+
     override func shouldNotifyStateDidChange(
         oldState: TopicCompletedModalFeature.ViewState,
         newState: TopicCompletedModalFeature.ViewState
@@ -37,5 +46,29 @@ final class TopicCompletedModalViewModel: FeatureViewModel<
 
     func doStudyPlanPresentation() {
         moduleOutput?.topicCompletedModalDidRequestGoToStudyPlan()
+    }
+}
+
+private extension TopicCompletedModalViewModel {
+    func addNotificationObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleUserDidTakeScreenshot),
+            name: UIApplication.userDidTakeScreenshotNotification,
+            object: nil
+        )
+    }
+
+    func removeNotificationObservers() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.userDidTakeScreenshotNotification,
+            object: nil
+        )
+    }
+
+    @objc
+    func handleUserDidTakeScreenshot() {
+        onNewMessage(TopicCompletedModalFeatureMessageUserDidTakeScreenshotEventMessage())
     }
 }

@@ -10,6 +10,7 @@ import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedMo
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Action
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.InternalAction
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Message
@@ -104,6 +105,23 @@ class TopicCompletedModalReducerTest {
             actions.any {
                 it is InternalAction.LogAnalyticEvent &&
                     it.event is TopicCompletedModalHiddenHyperskillAnalyticEvent &&
+                    it.event.route == analyticRoute
+            }
+        }
+    }
+
+    @Test
+    fun `UserDidTakeScreenshotEventMessage triggers LogAnalyticEvent with screenshot event`() {
+        val initialState = createInitialState(canContinueWithNextTopic = true)
+        val message = Message.UserDidTakeScreenshotEventMessage
+
+        val (state, actions) = reducer.reduce(initialState, message)
+
+        assertEquals(initialState, state)
+        assertTrue {
+            actions.any {
+                it is InternalAction.LogAnalyticEvent &&
+                    it.event is TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent &&
                     it.event.route == analyticRoute
             }
         }

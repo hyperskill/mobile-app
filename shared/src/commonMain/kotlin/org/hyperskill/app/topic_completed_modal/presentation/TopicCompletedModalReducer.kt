@@ -6,6 +6,7 @@ import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedMo
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.topic_completed_modal.domain.analytic.TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Action
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.InternalAction
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.Message
@@ -24,6 +25,7 @@ internal class TopicCompletedModalReducer(
             Message.CallToActionButtonClicked -> handleCallToActionButtonClicked(state)
             Message.ShownEventMessage -> handleShownEventMessage(state)
             Message.HiddenEventMessage -> handleHiddenEventMessage(state)
+            Message.UserDidTakeScreenshotEventMessage -> handleUserDidTakeScreenshotEventMessage(state)
         }
 
     private fun handleCloseButtonClicked(state: State): TopicCompletedModalReducerResult =
@@ -57,5 +59,12 @@ internal class TopicCompletedModalReducer(
     private fun handleHiddenEventMessage(state: State): TopicCompletedModalReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(TopicCompletedModalHiddenHyperskillAnalyticEvent(analyticRoute))
+        )
+
+    private fun handleUserDidTakeScreenshotEventMessage(state: State): TopicCompletedModalReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                TopicCompletedModalUserDidTakeScreenshotHyperskillAnalyticEvent(analyticRoute)
+            )
         )
 }
