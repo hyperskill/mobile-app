@@ -69,7 +69,8 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
                 HyperskillTheme {
                     TopicCompleted(
                         viewState = TopicCompletedModalViewState(),
-                        onCloseClick = ::onCloseClick
+                        onCloseClick = ::onCloseClick,
+                        onCTAButtonClick = ::onCTAButtonClick
                     )
                 }
             }
@@ -78,6 +79,10 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
 
     private fun onCloseClick() {
         dialog?.dismiss()
+    }
+
+    private fun onCTAButtonClick() {
+        TODO("Not implemented yet")
     }
 
     override fun onStop() {

@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.topic_completion.ui
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -46,7 +45,8 @@ import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalView
 fun TopicCompleted(
     viewState: TopicCompletedModalViewState,
     modifier: Modifier = Modifier,
-    onCloseClick: () -> Unit
+    onCloseClick: () -> Unit,
+    onCTAButtonClick: () -> Unit
 ) {
     val enterTransitionState = remember {
         MutableTransitionState(false)
@@ -68,9 +68,7 @@ fun TopicCompleted(
         )
         EnterTransition(enterTransitionState) {
             HyperskillButton(
-                onClick = {
-                    TODO("Not implemented yet")
-                },
+                onClick = onCTAButtonClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp)
@@ -147,7 +145,7 @@ private fun Content(
 }
 
 @Composable
-fun Title(text: String, modifier: Modifier = Modifier) {
+private fun Title(text: String, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = MaterialTheme.typography.subtitle1,
@@ -160,12 +158,11 @@ fun Title(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Description(text: String, modifier: Modifier = Modifier) {
+private fun Description(text: String, modifier: Modifier = Modifier) {
     TypewriterTextEffect(
         text = text,
         startTypingDelayInMillis = TopicCompletedDefaults.DESCRIPTION_TYPING_DELAY_MILLIS
     ) { displayedText ->
-        Log.d("TypewriterTextEffect", "Display text: $displayedText")
         Text(
             text = displayedText,
             style = MaterialTheme.typography.subtitle1,
@@ -182,7 +179,7 @@ fun Description(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SpaceBotAvatar(
+private fun SpaceBotAvatar(
     spacebotAvatarVariantIndex: Int,
     modifier: Modifier = Modifier
 ) {
@@ -245,7 +242,7 @@ private fun getAvatarRes(spacebotAvatarVariantIndex: Int): Int =
     }
 
 @Composable
-fun EnterTransition(
+private fun EnterTransition(
     visibleState: MutableTransitionState<Boolean>,
     modifier: Modifier = Modifier,
     content: @Composable AnimatedVisibilityScope.() -> Unit
@@ -267,6 +264,10 @@ private object TopicCompletedDefaults {
 @Composable
 private fun TopicCompletedPreview() {
     HyperskillTheme {
-        TopicCompleted(TopicCompletedModalViewState()) {}
+        TopicCompleted(
+            viewState = TopicCompletedModalViewState(),
+            onCloseClick = {},
+            onCTAButtonClick = {}
+        )
     }
 }
