@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_completion.domain.analytic
+package org.hyperskill.app.topic_completed_modal.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -7,24 +7,25 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 
 /**
- * Represents click on the "Go to study plan" button analytic event.
+ * Represents a hidden analytic event of the topic completed modal.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/learn/step/1",
- *     "action": "click",
+ *     "action": "hidden",
  *     "part": "topic_completed_modal",
- *     "target": "go_to_study_plan"
+ *     "target": "close"
  * }
  * ```
+ *
  * @see HyperskillAnalyticEvent
  */
-class StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(
+class TopicCompletedModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute
 ) : HyperskillAnalyticEvent(
     route,
-    HyperskillAnalyticAction.CLICK,
+    HyperskillAnalyticAction.HIDDEN,
     HyperskillAnalyticPart.TOPIC_COMPLETED_MODAL,
-    HyperskillAnalyticTarget.GO_TO_STUDY_PLAN
+    HyperskillAnalyticTarget.CLOSE
 )

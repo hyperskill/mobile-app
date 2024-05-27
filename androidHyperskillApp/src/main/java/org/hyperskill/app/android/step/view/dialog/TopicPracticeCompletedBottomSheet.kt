@@ -49,9 +49,10 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
         BottomSheetDialog(requireContext(), theme).also { dialog ->
             dialog.setOnShowListener {
                 dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                if (savedInstanceState == null) {
-                    onNewMessage(StepCompletionFeature.Message.TopicCompletedModalShownEventMessage)
-                }
+                // TODO: ALTAPPS-1253 log shown event
+//                if (savedInstanceState == null) {
+//                    onNewMessage(StepCompletionFeature.Message.TopicCompletedModalShownEventMessage)
+//                }
             }
         }
 
@@ -81,13 +82,14 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
                 onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
             }
 
-            completedDailyStepPrimaryButton.setText(
-                if (isNextStepAvailable) {
-                    org.hyperskill.app.R.string.step_quiz_topic_completed_continue_with_next_topic_button_text
-                } else {
-                    org.hyperskill.app.R.string.go_to_study_plan
-                }
-            )
+            // TODO: ALTAPPS-1253 Render new call to action button
+//            completedDailyStepPrimaryButton.setText(
+//                if (isNextStepAvailable) {
+//                    org.hyperskill.app.R.string.step_quiz_topic_completed_continue_with_next_topic_button_text
+//                } else {
+//                    org.hyperskill.app.R.string.go_to_study_plan
+//                }
+//            )
             completedDailyStepPrimaryButton.setOnClickListener {
                 dismiss()
                 onNewMessage(
@@ -103,7 +105,8 @@ class TopicPracticeCompletedBottomSheet : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalHiddenEventMessage)
+        // TODO: ALTAPPS-1253 log hidden event
+        // onNewMessage(StepCompletionFeature.Message.TopicCompletedModalHiddenEventMessage)
     }
 
     private fun onNewMessage(message: StepCompletionFeature.Message) {

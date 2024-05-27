@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "space_robot_gold_metal_3d.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
