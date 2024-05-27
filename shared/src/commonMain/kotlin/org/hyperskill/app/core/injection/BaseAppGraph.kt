@@ -142,6 +142,9 @@ import org.hyperskill.app.submissions.injection.SubmissionsDataComponent
 import org.hyperskill.app.submissions.injection.SubmissionsDataComponentImpl
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topic_completed_modal.injection.TopicCompletedModalComponent
+import org.hyperskill.app.topic_completed_modal.injection.TopicCompletedModalComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -516,4 +519,9 @@ abstract class BaseAppGraph : AppGraph {
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent =
         ProblemsLimitInfoModalComponentImpl(appGraph = this, params = params)
+
+    override fun buildTopicCompletedModalComponent(
+        params: TopicCompletedModalFeatureParams
+    ): TopicCompletedModalComponent =
+        TopicCompletedModalComponentImpl(appGraph = this, params = params)
 }
