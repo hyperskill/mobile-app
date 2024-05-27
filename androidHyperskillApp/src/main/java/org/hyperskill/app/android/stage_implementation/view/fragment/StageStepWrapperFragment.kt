@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
@@ -19,6 +20,7 @@ import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeDetailsFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
+import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
@@ -41,7 +43,8 @@ class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
     ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
-    ShareStreakDialogFragment.Callback {
+    ShareStreakDialogFragment.Callback,
+    TopicCompletedDialogFragment.Callback {
 
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
@@ -164,5 +167,15 @@ class StageStepWrapperFragment :
 
     override fun onRefuseStreakSharingClick(streak: Int) {
         stepViewModel.onRefuseStreakSharingClick(streak)
+    }
+
+    override fun navigateToStudyPlan() {
+        parentOfType(StepCompletionHost::class.java)
+            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
+    }
+
+    override fun navigateToNextTopic() {
+        parentOfType(StepCompletionHost::class.java)
+            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
     }
 }

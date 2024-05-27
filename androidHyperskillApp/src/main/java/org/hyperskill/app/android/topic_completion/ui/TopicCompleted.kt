@@ -35,17 +35,29 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerState
 import org.hyperskill.app.android.core.view.ui.widget.compose.TypewriterTextEffect
 import org.hyperskill.app.android.core.view.ui.widget.compose.shimmerShot
-import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalViewState
+import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.ViewState
+import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalViewModel
+
+@Composable
+fun TopicCompleted(viewModel: TopicCompletedModalViewModel) {
+    val viewState by viewModel.state.collectAsStateWithLifecycle()
+    TopicCompleted(
+        viewState = viewState,
+        onCloseClick = viewModel::onCloseClick,
+        onCTAButtonClick = viewModel::onCTAClick
+    )
+}
 
 @Composable
 fun TopicCompleted(
-    viewState: TopicCompletedModalViewState,
+    viewState: ViewState,
     onCloseClick: () -> Unit,
     modifier: Modifier = Modifier,
     onCTAButtonClick: () -> Unit
@@ -107,7 +119,7 @@ private fun CloseButton(
 
 @Composable
 private fun Content(
-    viewState: TopicCompletedModalViewState,
+    viewState: ViewState,
     enterTransitionState: MutableTransitionState<Boolean>,
     onDescriptionFullyShowed: () -> Unit,
     modifier: Modifier = Modifier
@@ -279,7 +291,14 @@ private object TopicCompletedDefaults {
 private fun TopicCompletedPreview() {
     HyperskillTheme {
         TopicCompleted(
-            viewState = TopicCompletedModalViewState(),
+            viewState = ViewState(
+                title= "{Topic name} completed!",
+                description= "Learning might be tough, but it brings you knowledge that lasts forever",
+                earnedGemsText= "+ 5",
+                callToActionButtonTitle= "Continue with next topic",
+                spacebotAvatarVariantIndex= 0,
+                backgroundAnimationStyle = ViewState.BackgroundAnimationStyle.FIRST
+            ),
             onCloseClick = {},
             onCTAButtonClick = {}
         )

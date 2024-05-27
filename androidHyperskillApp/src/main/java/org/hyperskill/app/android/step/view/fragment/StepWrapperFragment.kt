@@ -20,6 +20,7 @@ import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
+import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
@@ -39,7 +40,8 @@ class StepWrapperFragment :
     ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback,
-    StepQuizToolbarCallback {
+    StepQuizToolbarCallback,
+    TopicCompletedDialogFragment.Callback {
 
     companion object {
         private const val STEP_CONTENT_TAG = "step_content"
@@ -157,5 +159,15 @@ class StepWrapperFragment :
     override fun onTheoryClick() {
         (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepQuizToolbarCallback)
             ?.onTheoryClick()
+    }
+
+    override fun navigateToStudyPlan() {
+        parentOfType(StepCompletionHost::class.java)
+            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
+    }
+
+    override fun navigateToNextTopic() {
+        parentOfType(StepCompletionHost::class.java)
+            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
     }
 }
