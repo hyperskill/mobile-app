@@ -38,7 +38,9 @@ import androidx.compose.ui.unit.sp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerState
 import org.hyperskill.app.android.core.view.ui.widget.compose.TypewriterTextEffect
+import org.hyperskill.app.android.core.view.ui.widget.compose.shimmer
 import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalViewState
 
 @Composable
@@ -54,6 +56,7 @@ fun TopicCompleted(
     LaunchedEffect(Unit) {
         enterTransitionState.targetState = true
     }
+    val shimmerState = remember { ShimmerState() }
     Column(modifier.padding(vertical = 17.dp)) {
         CloseButton(
             onClick = onCloseClick,
@@ -64,7 +67,10 @@ fun TopicCompleted(
         Content(
             viewState = viewState,
             enterTransitionState = enterTransitionState,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
+            onDescriptionFullyShowed = {
+                shimmerState.runShimmerAnimation()
+            }
         )
         EnterTransition(enterTransitionState) {
             HyperskillButton(
@@ -72,6 +78,7 @@ fun TopicCompleted(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp)
+                    .shimmer(shimmerState)
             ) {
                 Text(text = viewState.callToActionButtonTitle)
             }
@@ -102,6 +109,7 @@ private fun CloseButton(
 private fun Content(
     viewState: TopicCompletedModalViewState,
     enterTransitionState: MutableTransitionState<Boolean>,
+    onDescriptionFullyShowed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -131,7 +139,8 @@ private fun Content(
             Spacer(modifier = Modifier.height(16.dp))
             Description(
                 text = viewState.description,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                onDescriptionFullyShowed = onDescriptionFullyShowed
             )
             Spacer(modifier = Modifier.height(32.dp))
             EnterTransition(
@@ -158,10 +167,15 @@ private fun Title(text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun Description(text: String, modifier: Modifier = Modifier) {
+private fun Description(
+    text: String,
+    modifier: Modifier = Modifier,
+    onDescriptionFullyShowed: () -> Unit = {}
+) {
     TypewriterTextEffect(
         text = text,
-        startTypingDelayInMillis = TopicCompletedDefaults.DESCRIPTION_TYPING_DELAY_MILLIS
+        startTypingDelayInMillis = TopicCompletedDefaults.DESCRIPTION_TYPING_DELAY_MILLIS,
+        onEffectCompleted = onDescriptionFullyShowed
     ) { displayedText ->
         Text(
             text = displayedText,
@@ -256,8 +270,8 @@ private fun EnterTransition(
 }
 
 private object TopicCompletedDefaults {
-    const val ENTER_TRANSITION_DURATION_MILLIS = 500
-    const val DESCRIPTION_TYPING_DELAY_MILLIS = ENTER_TRANSITION_DURATION_MILLIS - 100
+    const val ENTER_TRANSITION_DURATION_MILLIS = 600
+    const val DESCRIPTION_TYPING_DELAY_MILLIS = ENTER_TRANSITION_DURATION_MILLIS - 200
 }
 
 @Preview
