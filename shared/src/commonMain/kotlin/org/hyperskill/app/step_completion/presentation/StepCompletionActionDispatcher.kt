@@ -146,6 +146,11 @@ class StepCompletionActionDispatcher(
                     nextLearningActivityStateRepository.getState(forceUpdate = true)
                 }
 
+                val passedTopicsCount = currentProfileStateRepository
+                    .getState(forceUpdate = false)
+                    .map { it.gamification.passedTopicsCount }
+                    .getOrElse { 0 }
+
                 val topic = topicDeferred.await()
                     .getOrElse {
                         return@coroutineScope onNewMessage(
@@ -161,11 +166,8 @@ class StepCompletionActionDispatcher(
 
                 onNewMessage(
                     Message.CheckTopicCompletionStatus.Completed(
-                        topicId = action.topicId,
-                        modalText = resourceProvider.getString(
-                            SharedResources.strings.step_quiz_topic_completed_modal_text,
-                            topic.title
-                        ),
+                        topic = topic,
+                        passedTopicsCount = passedTopicsCount,
                         nextLearningActivity = nextLearningActivity
                     )
                 )

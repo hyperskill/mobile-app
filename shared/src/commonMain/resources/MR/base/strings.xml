@@ -92,8 +92,6 @@
     <string name="step_quiz_problem_of_day_solved_modal_text">Solve another one tomorrow to get more</string>
     <string name="step_quiz_problem_of_day_solved_modal_streak_text">%s streak</string>
     <string name="step_quiz_problem_of_day_solved_modal_share_streak_button_text">Share your streak</string>
-    <string name="step_quiz_topic_completed_modal_text">You completed %s</string>
-    <string name="step_quiz_topic_completed_continue_with_next_topic_button_text">Continue with next topic</string>
     <string name="step_quiz_step_text_header_title">Description</string>
 
     <string name="step_quiz_unsupported_quiz_text">Current quiz type is not supported in mobile app yet</string>
@@ -202,6 +200,71 @@
     <string name="stage_implement_unsupported_modal_description">To proceed, you need an IDE. Please continue learning
         on a computer.\n\nIf this is not an option for you right now, check out the available activities on your training
         screen.
+    </string>
+
+    <!-- Topic completed modal -->
+    <string name="topic_completed_modal_title_template">%s completed!</string>
+    <string name="topic_completed_modal_continue_with_next_topic_button_text">Continue with next topic</string>
+
+    <string name="topic_completed_modal_description_1">
+        Education is a journey, not a destination—enjoy each step towards becoming wiser.
+    </string>
+    <string name="topic_completed_modal_description_2">
+        Growth shows in every challenge you overcome and every lesson you learn.
+    </string>
+    <string name="topic_completed_modal_description_3">
+        Ideas grow when you ask questions, like flowers in a well-tended garden.
+    </string>
+    <string name="topic_completed_modal_description_4">
+        Listening and learning all your life fills your mind with valuable treasures.
+    </string>
+    <string name="topic_completed_modal_description_5">
+        Learning might be tough, but it brings you knowledge that lasts forever.
+    </string>
+    <string name="topic_completed_modal_description_6">
+        Push your limits today to unlock new opportunities tomorrow; each topic you master opens up more.
+    </string>
+    <string name="topic_completed_modal_description_7">
+        Keep being curious, and you\'ll keep finding new possibilities.
+    </string>
+    <string name="topic_completed_modal_description_8">
+        Use what you learn to make a better future; every new thing you understand can change the world.
+    </string>
+    <string name="topic_completed_modal_description_9">
+        Finding new things is at the heart of learning, and it keeps your mind excited and full of wonder.
+    </string>
+    <string name="topic_completed_modal_description_10">
+        Every lesson is a step toward achieving great things.
+    </string>
+    <string name="topic_completed_modal_description_11">
+        Every lesson lights up your path to understanding more and more.
+    </string>
+    <string name="topic_completed_modal_description_12">
+        Knowledge is like a map that shows you what\'s possible and helps you think big.
+    </string>
+    <string name="topic_completed_modal_description_13">
+        Learning takes you places far from where you started; each new skill is like a ticket to new adventures.
+    </string>
+    <string name="topic_completed_modal_description_14">
+        Learn more, and you\'ll see more benefits in life, from clearer thinking to better decisions.
+    </string>
+    <string name="topic_completed_modal_description_15">
+        Learning weaves your skills together, turning bits of information into complete understanding.
+    </string>
+    <string name="topic_completed_modal_description_16">
+        Learning is a journey of self-discovery, with each step marking your progress.
+    </string>
+    <string name="topic_completed_modal_description_17">
+        Learn something new to change how you see the world, making it richer and fuller.
+    </string>
+    <string name="topic_completed_modal_description_18">
+        Education keeps your mind active, mixing ideas like notes in a beautiful song.
+    </string>
+    <string name="topic_completed_modal_description_19">
+        Understand more to handle life’s challenges better and move forward with confidence.
+    </string>
+    <string name="topic_completed_modal_description_20">
+        Every topic you finish builds up your knowledge, making you stronger and smarter.
     </string>
 
     <!-- Tab bar -->

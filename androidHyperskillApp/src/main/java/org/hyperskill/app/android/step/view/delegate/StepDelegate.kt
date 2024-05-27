@@ -18,7 +18,6 @@ import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
 import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragment
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
-import org.hyperskill.app.android.step.view.dialog.TopicPracticeCompletedBottomSheet
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.navigation.requireStepRouter
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
@@ -76,15 +75,16 @@ object StepDelegate {
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                        TopicPracticeCompletedBottomSheet
-                            .newInstance(
-                                stepCompletionAction.modalText,
-                                stepCompletionAction.isNextStepAvailable
-                            )
-                            .showIfNotExists(
-                                fragment.childFragmentManager,
-                                TopicPracticeCompletedBottomSheet.Tag
-                            )
+                        // TODO: ALTAPPS-1253 Implement new TopicCompletedModal
+//                        TopicPracticeCompletedBottomSheet
+//                            .newInstance(
+//                                stepCompletionAction.modalText,
+//                                stepCompletionAction.isNextStepAvailable
+//                            )
+//                            .showIfNotExists(
+//                                fragment.childFragmentManager,
+//                                TopicPracticeCompletedBottomSheet.Tag
+//                            )
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
