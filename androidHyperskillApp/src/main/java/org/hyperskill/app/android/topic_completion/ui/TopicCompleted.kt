@@ -292,11 +292,11 @@ private fun TopicCompletedPreview() {
     HyperskillTheme {
         TopicCompleted(
             viewState = ViewState(
-                title= "{Topic name} completed!",
-                description= "Learning might be tough, but it brings you knowledge that lasts forever",
-                earnedGemsText= "+ 5",
-                callToActionButtonTitle= "Continue with next topic",
-                spacebotAvatarVariantIndex= 0,
+                title = "{Topic name} completed!",
+                description = "Learning might be tough, but it brings you knowledge that lasts forever",
+                earnedGemsText = "+ 5",
+                callToActionButtonTitle = "Continue with next topic",
+                spacebotAvatarVariantIndex = 0,
                 backgroundAnimationStyle = ViewState.BackgroundAnimationStyle.FIRST
             ),
             onCloseClick = {},

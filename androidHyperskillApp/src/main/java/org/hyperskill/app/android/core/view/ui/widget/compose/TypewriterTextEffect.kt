@@ -40,12 +40,12 @@ fun TypewriterTextEffect(
 ) {
     // Ensure minDelayInMillis is less than or equal to maxDelayInMillis
     require(minDelayInMillis <= maxDelayInMillis) {
-        "TypewriterTextEffect: Invalid delay range. minDelayInMillis ($minDelayInMillis) must be less than or equal to maxDelayInMillis ($maxDelayInMillis)."
+        "TypewriterTextEffect: Invalid delay range. minDelayInMillis ($minDelayInMillis) must be less than or equal to maxDelayInMillis ($maxDelayInMillis)." //ktlint-disable
     }
 
     // Ensure minCharacterChunk is less than or equal to maxCharacterChunk
     require(minCharacterChunk <= maxCharacterChunk) {
-        "TypewriterTextEffect: Invalid character chunk range. minCharacterChunk ($minCharacterChunk) must be less than or equal to maxCharacterChunk ($maxCharacterChunk)."
+        "TypewriterTextEffect: Invalid character chunk range. minCharacterChunk ($minCharacterChunk) must be less than or equal to maxCharacterChunk ($maxCharacterChunk)." //ktlint-disable
     }
 
     val currentOnEffectCompleted by rememberUpdatedState(newValue = onEffectCompleted)

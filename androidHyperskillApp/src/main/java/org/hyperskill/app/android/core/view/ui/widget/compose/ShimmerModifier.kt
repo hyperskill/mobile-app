@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
  * Animation is playing one time.
  * To start animation call [ShimmerState.runShimmerAnimation] on the [ShimmerState] instance.
  */
-fun Modifier.shimmerShot(shimmerState: ShimmerState) =
+fun Modifier.shimmerShot(shimmerState: ShimmerState): Modifier =
     composed {
         val startOffsetX by animateFloatAsState(
             targetValue = shimmerState.targetValue,
@@ -42,7 +42,6 @@ fun Modifier.shimmerShot(shimmerState: ShimmerState) =
             drawRect(brush)
         }
     }
-
 
 @Stable
 class ShimmerState(
