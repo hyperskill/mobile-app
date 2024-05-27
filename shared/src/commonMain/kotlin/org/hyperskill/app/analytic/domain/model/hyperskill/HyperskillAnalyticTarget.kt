@@ -64,8 +64,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     DAILY_STEP_COMPLETED_MODAL("daily_step_completed_modal"),
     PROBLEMS_LIMIT_REACHED_MODAL("problems_limit_reached_modal"),
     PARSONS_PROBLEM_ONBOARDING_MODAL("parsons_problem_onboarding_modal"),
-    FILL_BLANKS_INPUT_MODE_ONBOARDING_MODAL("fill_blanks_input_mode_onboarding_modal"),
-    FILL_BLANKS_SELECT_MODE_ONBOARDING_MODAL("fill_blanks_select_mode_onboarding_modal"),
     GPT_CODE_GENERATION_WITH_ERRORS_ONBOARDING_MODAL("gpt_code_generation_with_errors_onboarding_modal"),
     TOPIC_COMPLETED_MODAL("topic_completed_modal"),
     CLOSE("close"),
@@ -131,5 +129,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     RENEW_SUBSCRIPTION("renew_subscription"),
     HYPERSKILL_TERMS_OF_SERVICE_AND_PRIVACY_POLICY("hyperskill_terms_of_service_and_privacy_policy"),
     QUESTION_MARK("question_mark"),
-    SPACEBOT("spacebot")
+    SPACEBOT("spacebot"),
+    SCREENSHOT("screenshot")
 }

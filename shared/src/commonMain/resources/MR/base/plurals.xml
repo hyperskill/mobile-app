@@ -72,6 +72,10 @@
         <item quantity="one">+%d gem</item>
         <item quantity="other">+%d gems</item>
     </plural>
+    <plural name="topic_completed_modal_earned_gems">
+        <item quantity="one">+ %d gem</item>
+        <item quantity="other">+ %d gems</item>
+    </plural>
     <plural name="problems_without_count">
         <item quantity="one">problem</item>
         <item quantity="other">problems</item>
