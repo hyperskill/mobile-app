@@ -7,9 +7,12 @@ import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import by.kirich1409.viewbindingdelegate.viewBinding
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.databinding.FragmentTopicCompletedBinding
@@ -28,6 +31,8 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
     private val viewBinding: FragmentTopicCompletedBinding by viewBinding(FragmentTopicCompletedBinding::bind)
 
     private var mediaPlayer: MediaPlayer? = null
+
+    private val isVideoBackgroundPlaying: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,11 +72,14 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-                    TopicCompleted(
-                        viewState = TopicCompletedModalViewState(),
-                        onCloseClick = ::onCloseClick,
-                        onCTAButtonClick = ::onCTAButtonClick
-                    )
+                    val isPlayingState by isVideoBackgroundPlaying.collectAsStateWithLifecycle()
+                    if (isPlayingState) {
+                        TopicCompleted(
+                            viewState = TopicCompletedModalViewState(),
+                            onCloseClick = ::onCloseClick,
+                            onCTAButtonClick = ::onCTAButtonClick
+                        )
+                    }
                 }
             }
         }
@@ -100,6 +108,7 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
             isLooping = true
             setOnPreparedListener {
                 it.start()
+                isVideoBackgroundPlaying.value = true
             }
         }
     }
@@ -107,6 +116,7 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         mediaPlayer?.apply {
             stop()
+            isVideoBackgroundPlaying.value = false
             release()
         }
     }
