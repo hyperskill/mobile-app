@@ -6,6 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.milliseconds
@@ -25,6 +26,7 @@ import kotlinx.coroutines.delay
  * @throws IllegalArgumentException if [minDelayInMillis] is greater than [maxDelayInMillis].
  * @throws IllegalArgumentException if [minCharacterChunk] is greater than [maxCharacterChunk].
  */
+@Suppress("MaxLineLength")
 @Composable
 fun TypewriterTextEffect(
     text: String,
@@ -45,6 +47,8 @@ fun TypewriterTextEffect(
     require(minCharacterChunk <= maxCharacterChunk) {
         "TypewriterTextEffect: Invalid character chunk range. minCharacterChunk ($minCharacterChunk) must be less than or equal to maxCharacterChunk ($maxCharacterChunk)."
     }
+
+    val currentOnEffectCompleted by rememberUpdatedState(newValue = onEffectCompleted)
 
     // Initialize and remember the displayedText
     var displayedText by remember { mutableStateOf("") }
@@ -71,6 +75,6 @@ fun TypewriterTextEffect(
             displayedText = text.substring(startIndex = 0, endIndex = endIndex)
             delay(Random.nextLong(minDelayInMillis, maxDelayInMillis))
         }
-        onEffectCompleted()
+        currentOnEffectCompleted()
     }
 }

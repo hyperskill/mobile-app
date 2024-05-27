@@ -16,30 +16,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-@Stable
-class ShimmerState(
-    val colors: List<Color> = listOf(
-        Color.Transparent,
-        Color.White.copy(alpha = 0.7f),
-        Color.Transparent
-    ),
-    durationMillis: Int = 1200,
-    easing: Easing = FastOutSlowInEasing
-) {
-
-    var targetValue: Float by mutableStateOf(-2f)
-        private set
-
-    val startOffsetXAnimationSpec: AnimationSpec<Float> = tween(
-        durationMillis = durationMillis,
-        easing = easing
-    )
-
-    fun runShimmerAnimation() {
-        targetValue = 2f
-    }
-}
-
 fun Modifier.shimmer(shimmerState: ShimmerState) =
     composed {
         val startOffsetX by animateFloatAsState(
@@ -61,3 +37,33 @@ fun Modifier.shimmer(shimmerState: ShimmerState) =
             drawRect(brush)
         }
     }
+
+
+@Stable
+class ShimmerState(
+    val colors: List<Color> = listOf(
+        Color.Transparent,
+        Color.White.copy(alpha = 0.7f),
+        Color.Transparent
+    ),
+    durationMillis: Int = 1200,
+    easing: Easing = FastOutSlowInEasing
+) {
+
+    companion object {
+        private const val INITIAL_VALUE = -2f
+        private const val TARGET_VALUE = 2f
+    }
+
+    var targetValue: Float by mutableStateOf(INITIAL_VALUE)
+        private set
+
+    val startOffsetXAnimationSpec: AnimationSpec<Float> = tween(
+        durationMillis = durationMillis,
+        easing = easing
+    )
+
+    fun runShimmerAnimation() {
+        targetValue = TARGET_VALUE
+    }
+}

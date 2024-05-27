@@ -46,8 +46,8 @@ import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalView
 @Composable
 fun TopicCompleted(
     viewState: TopicCompletedModalViewState,
-    modifier: Modifier = Modifier,
     onCloseClick: () -> Unit,
+    modifier: Modifier = Modifier,
     onCTAButtonClick: () -> Unit
 ) {
     val enterTransitionState = remember {
