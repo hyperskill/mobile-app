@@ -45,7 +45,8 @@ import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalView
 @Composable
 fun TopicCompleted(
     viewState: TopicCompletedModalViewState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCloseClick: () -> Unit
 ) {
     val enterTransitionState = remember {
         MutableTransitionState(false)
@@ -55,12 +56,11 @@ fun TopicCompleted(
     }
     Column(modifier.padding(vertical = 17.dp)) {
         CloseButton(
+            onClick = onCloseClick,
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(end = 14.dp)
-        ) {
-            TODO("Not implemented yet")
-        }
+        )
         Content(
             viewState = viewState,
             enterTransitionState = enterTransitionState,
@@ -267,6 +267,6 @@ private object TopicCompletedDefaults {
 @Composable
 private fun TopicCompletedPreview() {
     HyperskillTheme {
-        TopicCompleted(TopicCompletedModalViewState())
+        TopicCompleted(TopicCompletedModalViewState()) {}
     }
 }
