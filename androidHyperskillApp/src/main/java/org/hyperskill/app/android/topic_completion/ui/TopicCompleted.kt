@@ -40,7 +40,7 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerState
 import org.hyperskill.app.android.core.view.ui.widget.compose.TypewriterTextEffect
-import org.hyperskill.app.android.core.view.ui.widget.compose.shimmer
+import org.hyperskill.app.android.core.view.ui.widget.compose.shimmerShot
 import org.hyperskill.app.android.topic_completion.model.TopicCompletedModalViewState
 
 @Composable
@@ -78,7 +78,7 @@ fun TopicCompleted(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp)
-                    .shimmer(shimmerState)
+                    .shimmerShot(shimmerState)
             ) {
                 Text(text = viewState.callToActionButtonTitle)
             }

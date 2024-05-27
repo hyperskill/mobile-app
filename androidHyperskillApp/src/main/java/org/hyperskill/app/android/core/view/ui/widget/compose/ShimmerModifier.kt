@@ -16,7 +16,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-fun Modifier.shimmer(shimmerState: ShimmerState) =
+/**
+ * Applies shimmer animation to the target Composable.
+ * Animation is playing one time.
+ * To start animation call [ShimmerState.runShimmerAnimation] on the [ShimmerState] instance.
+ */
+fun Modifier.shimmerShot(shimmerState: ShimmerState) =
     composed {
         val startOffsetX by animateFloatAsState(
             targetValue = shimmerState.targetValue,
