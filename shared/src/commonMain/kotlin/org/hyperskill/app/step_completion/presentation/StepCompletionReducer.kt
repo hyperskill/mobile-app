@@ -14,10 +14,6 @@ import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStr
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalClickedShareHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalHiddenHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionShareStreakModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_completion.domain.analytic.StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Action
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.ContinueButtonAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.InternalAction
@@ -26,6 +22,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Mes
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.State
 import org.hyperskill.app.step_quiz.presentation.StepQuizResolver
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias StepCompletionReducerResult = Pair<State, Set<Action>>
@@ -50,10 +47,14 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     isPracticingLoading = false,
                     nextStepRoute = nextStepRoute
                 ) to setOf(
-                    InternalAction.LogTopicCompletedAnalyticEvent(topicId = message.topicId),
+                    InternalAction.LogTopicCompletedAnalyticEvent(topicId = message.topic.id),
                     Action.ViewAction.ShowTopicCompletedModal(
-                        modalText = message.modalText,
-                        isNextStepAvailable = nextStepRoute != null
+                        TopicCompletedModalFeatureParams(
+                            topic = message.topic,
+                            passedTopicsCount = message.passedTopicsCount,
+                            canContinueWithNextTopic = nextStepRoute != null,
+                            stepRoute = stepRoute
+                        )
                     )
                 )
             }
@@ -64,24 +65,10 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     Action.ViewAction.ShowStartPracticingError(message.errorMessage)
                 )
             is Message.TopicCompletedModalGoToStudyPlanClicked ->
-                state to setOf(
-                    Action.ViewAction.NavigateTo.StudyPlan,
-                    InternalAction.LogAnalyticEvent(
-                        StepCompletionTopicCompletedModalClickedGoToStudyPlanHyperskillAnalyticEvent(
-                            route = stepRoute.analyticRoute
-                        )
-                    )
-                )
+                state to setOf(Action.ViewAction.NavigateTo.StudyPlan)
             is Message.TopicCompletedModalContinueNextTopicClicked ->
                 if (state.nextStepRoute != null) {
-                    state to setOf(
-                        Action.ViewAction.ReloadStep(state.nextStepRoute),
-                        InternalAction.LogAnalyticEvent(
-                            StepCompletionTopicCompletedModalClickedContinueNextTopicHyperskillAnalyticEvent(
-                                route = stepRoute.analyticRoute
-                            )
-                        )
-                    )
+                    state to setOf(Action.ViewAction.ReloadStep(state.nextStepRoute))
                 } else {
                     null
                 }
@@ -166,18 +153,6 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
             /**
              * Analytic
              * */
-            is Message.TopicCompletedModalShownEventMessage -> {
-                val event = StepCompletionTopicCompletedModalShownHyperskillAnalyticEvent(
-                    route = stepRoute.analyticRoute
-                )
-                state to setOf(InternalAction.LogAnalyticEvent(event))
-            }
-            is Message.TopicCompletedModalHiddenEventMessage -> {
-                val event = StepCompletionTopicCompletedModalHiddenHyperskillAnalyticEvent(
-                    route = stepRoute.analyticRoute
-                )
-                state to setOf(InternalAction.LogAnalyticEvent(event))
-            }
             is Message.DailyStepCompletedModalShownEventMessage -> {
                 val event = StepCompletionDailyStepCompletedModalShownHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute
