@@ -162,7 +162,8 @@ class StepWrapperFragment :
     }
 
     override fun navigateToStudyPlan() {
-        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked) }
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
+    }
 
     override fun navigateToNextTopic() {
         onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)

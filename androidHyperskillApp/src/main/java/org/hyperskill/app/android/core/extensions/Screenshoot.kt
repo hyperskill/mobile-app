@@ -39,4 +39,3 @@ inline fun Fragment.doOnScreenShootCaptured(
         )
     }
 }
-
