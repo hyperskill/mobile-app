@@ -17,6 +17,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.extensions.doOnScreenShootCaptured
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.databinding.FragmentTopicCompletedBinding
 import org.hyperskill.app.android.topic_completion.delegate.TopicCompletedMediaPlayerDelegate
@@ -53,11 +54,14 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NO_TITLE, R.style.ThemeOverlay_AppTheme_Dialog_Fullscreen)
+        injectComponent()
         mediaPlayerDelegate = TopicCompletedMediaPlayerDelegate(
             lifecycle = lifecycle,
             providePlayingResource = ::getBackgroundResource
         )
-        injectComponent()
+        doOnScreenShootCaptured {
+            topicCompletedModalViewModel.onNewMessage(Message.UserDidTakeScreenshotEventMessage)
+        }
     }
 
     private fun injectComponent() {
