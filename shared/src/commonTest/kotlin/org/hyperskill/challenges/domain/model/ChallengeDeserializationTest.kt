@@ -2,30 +2,44 @@ package org.hyperskill.challenges.domain.model
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import org.hyperskill.app.challenges.domain.model.Challenge
 import org.hyperskill.app.challenges.domain.model.ChallengeTargetType
 import org.hyperskill.app.network.injection.NetworkModule
 
 class ChallengeDeserializationTest {
+
     companion object {
+        private const val ID: Long = 6
+        private const val TITLE = "QA  ☾⋆"
+        private const val DESCRIPTION = "The Challenge! Ho-ho-ho!🎅\nHurry up and get yor prise!"
+        private val TARGET_TYPE = ChallengeTargetType.STEP.value
+        private const val START = "2024-05-20T04:00:00Z"
+        private const val END = "2024-05-20T04:00:00Z"
+        private const val NEXT_INTERVAL_TIME = "2024-05-20T04:00:00Z"
+        private const val INTERVALS_COUNT = 1
+        private const val STATUS = "not completed"
+        private val REWARD_LINK: String? = null
+        private const val PROGRESS = false
+        private val CURRENT_INTERVAL: Int? = null
+
         private val TEST_JSON_STRING = """
 {
-    "id": 6,
-    "title": "QA  ☾⋆",
-    "description": "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
-    "target_type": "step",
-    "starting_date": "2023-11-02",
-    "interval_duration_days": 1,
-    "intervals_count": 1,
-    "status": "not completed",
-    "reward_link": null,
+    "id": $ID,
+    "title": "$TITLE",
+    "description": "$DESCRIPTION",
+    "target_type": "$TARGET_TYPE",
+    "start": "$START",
+    "end": "$END",
+    "intervals_count": $INTERVALS_COUNT,
+    "next_interval_time": "$NEXT_INTERVAL_TIME",
+    "status": "$STATUS",
+    "reward_link": $REWARD_LINK,
     "progress":
     [
-        false
+        $PROGRESS
     ],
-    "finish_date": "2023-11-03",
-    "current_interval": null
+    "current_interval": $CURRENT_INTERVAL
 }
         """.trimIndent()
     }
@@ -34,18 +48,18 @@ class ChallengeDeserializationTest {
     fun `Test Challenge deserialization`() {
         val json = NetworkModule.provideJson()
         val expected = Challenge(
-            id = 6,
-            title = "QA  ☾⋆",
-            description = "The Challenge! Ho-ho-ho!🎅\r\nHurry up and get yor prise!",
-            targetTypeValue = ChallengeTargetType.STEP.value,
-            startingDate = LocalDate.parse("2023-11-02"),
-            intervalDurationDays = 1,
-            intervalsCount = 1,
-            statusValue = "not completed",
-            rewardLink = null,
-            progress = listOf(false),
-            finishDate = LocalDate.parse("2023-11-03"),
-            currentInterval = null
+            id = ID,
+            title = TITLE,
+            description = DESCRIPTION,
+            targetTypeValue = TARGET_TYPE,
+            start = Instant.parse(START),
+            end = Instant.parse(END),
+            intervalsCount = INTERVALS_COUNT,
+            statusValue = STATUS,
+            rewardLink = REWARD_LINK,
+            progress = listOf(PROGRESS),
+            currentInterval = CURRENT_INTERVAL,
+            nextIntervalTime = Instant.parse(NEXT_INTERVAL_TIME)
         )
         val decodedObject = json.decodeFromString(Challenge.serializer(), TEST_JSON_STRING)
         assertEquals(expected, decodedObject)
