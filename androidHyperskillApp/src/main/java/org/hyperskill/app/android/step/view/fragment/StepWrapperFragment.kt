@@ -162,12 +162,9 @@ class StepWrapperFragment :
     }
 
     override fun navigateToStudyPlan() {
-        parentOfType(StepCompletionHost::class.java)
-            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
-    }
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked) }
 
     override fun navigateToNextTopic() {
-        parentOfType(StepCompletionHost::class.java)
-            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
     }
 }

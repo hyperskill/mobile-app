@@ -8,7 +8,6 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
@@ -170,12 +169,10 @@ class StageStepWrapperFragment :
     }
 
     override fun navigateToStudyPlan() {
-        parentOfType(StepCompletionHost::class.java)
-            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
     }
 
     override fun navigateToNextTopic() {
-        parentOfType(StepCompletionHost::class.java)
-            ?.onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
     }
 }
