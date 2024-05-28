@@ -52,8 +52,8 @@ class TopicCompletedMediaPlayerDelegate(
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         mediaPlayer?.apply {
+            // Don't set _isVideoBackgroundPlaying.value = false, to not restart enter animation
             stop()
-            _isVideoBackgroundPlaying.value = false
             release()
         }
     }
