@@ -21,6 +21,7 @@ import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragmen
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.navigation.requireStepRouter
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
+import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
@@ -53,7 +54,9 @@ object StepDelegate {
         fragment: TFragment,
         mainScreenRouter: MainScreenRouter,
         action: StepFeature.Action.ViewAction
-    ) where TFragment : Fragment, TFragment : ShareStreakDialogFragment.Callback {
+    ) where TFragment : Fragment,
+            TFragment : ShareStreakDialogFragment.Callback,
+            TFragment : TopicCompletedDialogFragment.Callback {
         when (action) {
             is StepFeature.Action.ViewAction.StepCompletionViewAction -> {
                 when (val stepCompletionAction = action.viewAction) {
@@ -75,16 +78,12 @@ object StepDelegate {
                     }
 
                     is StepCompletionFeature.Action.ViewAction.ShowTopicCompletedModal -> {
-                        // TODO: ALTAPPS-1253 Implement new TopicCompletedModal
-//                        TopicPracticeCompletedBottomSheet
-//                            .newInstance(
-//                                stepCompletionAction.modalText,
-//                                stepCompletionAction.isNextStepAvailable
-//                            )
-//                            .showIfNotExists(
-//                                fragment.childFragmentManager,
-//                                TopicPracticeCompletedBottomSheet.Tag
-//                            )
+                        TopicCompletedDialogFragment
+                            .newInstance(stepCompletionAction.params)
+                            .showIfNotExists(
+                                fragment.childFragmentManager,
+                                TopicCompletedDialogFragment.TAG
+                            )
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowProblemOfDaySolvedModal -> {
                         CompletedStepOfTheDayDialogFragment
