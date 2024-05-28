@@ -37,7 +37,6 @@ internal object StepFeatureBuilder {
         stepRoute: StepRoute,
         stepInteractor: StepInteractor,
         nextLearningActivityStateRepository: NextLearningActivityStateRepository,
-        currentProfileStateRepository: CurrentProfileStateRepository,
         analyticInteractor: AnalyticInteractor,
         stepCompletedFlow: StepCompletedFlow,
         sentryInteractor: SentryInteractor,
@@ -59,7 +58,6 @@ internal object StepFeatureBuilder {
             stepCompletedFlow = stepCompletedFlow,
             stepInteractor = stepInteractor,
             nextLearningActivityStateRepository = nextLearningActivityStateRepository,
-            currentProfileStateRepository = currentProfileStateRepository,
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             logger.withTag(LOG_TAG)
