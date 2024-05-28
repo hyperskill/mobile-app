@@ -52,8 +52,6 @@ class TopicCompletedDialogFragment : DialogFragment(R.layout.fragment_topic_comp
 
     private var mediaPlayer: MediaPlayer? = null
 
-    private var backgroundAnimationStyle: ViewState.BackgroundAnimationStyle =
-        ViewState.BackgroundAnimationStyle.FIRST
     private val isVideoBackgroundPlaying: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {

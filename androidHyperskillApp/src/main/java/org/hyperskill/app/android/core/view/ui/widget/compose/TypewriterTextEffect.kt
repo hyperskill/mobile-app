@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.core.view.ui.widget.compose
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -58,11 +57,9 @@ fun TypewriterTextEffect(
 
     // Launch the effect to update the displayedText value over time
     LaunchedEffect(text) {
-        Log.d("TypewriterTextEffect", "Start LaunchedEffect")
         if (startTypingDelayInMillis != null) {
             delay(startTypingDelayInMillis.milliseconds)
         }
-        Log.d("TypewriterTextEffect", "Start typing")
 
         val textLength = text.length
         var endIndex = 0
