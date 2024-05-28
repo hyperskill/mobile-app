@@ -25,7 +25,6 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
-import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.InternalMessage
