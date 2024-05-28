@@ -10,7 +10,6 @@ internal object FeatureKeys {
     const val MOBILE_LEADERBOARDS = "mobile_leaderboards"
     const val MOBILE_ONLY_SUBSCRIPTION = "mobile.mobile_only_subscription"
     const val MOBILE_USERS_INTERVIEW_WIDGET = "mobile.users_interview_widget"
-    const val MOBILE_SHORT_THEORY = "mobile.short_theory"
     const val MOBILE_GPT_CODE_GENERATION_WITH_ERRORS_FORCED_ONBOARDING =
         "mobile.gpt_code_generation_with_errors_forced_onboarding_v2"
 }
