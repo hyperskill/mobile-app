@@ -18,12 +18,14 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.StepToolbarAction
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
@@ -42,7 +44,8 @@ class StepWrapperFragment :
     StepCompletionHost,
     ShareStreakDialogFragment.Callback,
     StepQuizToolbarCallback,
-    TopicCompletedDialogFragment.Callback {
+    TopicCompletedDialogFragment.Callback,
+    StepToolbarCallback {
 
     companion object {
         private const val STEP_CONTENT_TAG = "step_content"
@@ -114,7 +117,10 @@ class StepWrapperFragment :
 
         if (stepState is StepFeature.StepState.Data) {
             initStepContainer(stepState)
-            parentOfType(StepToolbarHost::class.java)?.renderTopicProgress(state.stepToolbarViewState)
+            parentOfType(StepToolbarHost::class.java)?.apply {
+                renderTopicProgress(state.stepToolbarViewState)
+                renderSecondaryMenuActions(state.stepToolbarActions)
+            }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
                 ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
         }
@@ -153,7 +159,7 @@ class StepWrapperFragment :
     }
 
     override fun onShareClick(streak: Int) {
-        stepViewModel.onShareClick(streak)
+        stepViewModel.onShareStreakClick(streak)
     }
 
     override fun onLimitsClick() {
@@ -172,5 +178,9 @@ class StepWrapperFragment :
 
     override fun navigateToNextTopic() {
         onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
+    }
+
+    override fun onActionClicked(action: StepToolbarAction) {
+        stepViewModel.onActionClick(action)
     }
 }

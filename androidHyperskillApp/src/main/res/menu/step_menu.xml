@@ -17,4 +17,28 @@
         app:showAsAction="ifRoom"
         android:visible="false" />
 
+    <item
+        android:id="@+id/share"
+        android:title="@string/step_menu_share_action"
+        app:showAsAction="never"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/practiceFeedback"
+        android:title="@string/step_menu_report_action"
+        app:showAsAction="never"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/skip"
+        android:title="@string/step_menu_skip_action"
+        app:showAsAction="never"
+        android:visible="false"/>
+
+    <item
+        android:id="@+id/open_in_web"
+        android:title="@string/step_menu_open_in_web_action"
+        app:showAsAction="never"
+        android:visible="false"/>
+
 </menu>

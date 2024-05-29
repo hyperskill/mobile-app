@@ -25,7 +25,7 @@ import org.hyperskill.app.android.problems_limit.dialog.ProblemsLimitInfoBottomS
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepHost
-import org.hyperskill.app.android.step.view.model.StepMenuState
+import org.hyperskill.app.android.step.view.model.StepMainMenuAction
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
@@ -341,8 +341,8 @@ abstract class DefaultStepQuizFragment :
         }
 
         parentOfType(StepToolbarHost::class.java)
-            ?.renderMenu(
-                StepMenuState.OpenTheory(
+            ?.renderMainMenuAction(
+                StepMainMenuAction.OpenTheory(
                     isVisible = StepQuizResolver.isTheoryToolbarItemAvailable(state.stepQuizState),
                     isEnabled = !StepQuizResolver.isQuizLoading(state.stepQuizState)
                 )

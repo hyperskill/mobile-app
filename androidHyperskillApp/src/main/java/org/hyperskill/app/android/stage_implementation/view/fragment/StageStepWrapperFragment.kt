@@ -166,7 +166,7 @@ class StageStepWrapperFragment :
     }
 
     override fun onShareClick(streak: Int) {
-        stepViewModel.onShareClick(streak)
+        stepViewModel.onShareStreakClick(streak)
     }
 
     override fun onRefuseStreakSharingClick(streak: Int) {

@@ -19,14 +19,16 @@ import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.step.view.delegate.StepMenuDelegate
 import org.hyperskill.app.android.step.view.delegate.StepRouterDelegate
 import org.hyperskill.app.android.step.view.model.StepHost
-import org.hyperskill.app.android.step.view.model.StepMenuState
+import org.hyperskill.app.android.step.view.model.StepMainMenuAction
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step.view.navigation.StepNavigationContainer
 import org.hyperskill.app.android.step.view.navigation.StepWrapperScreen
 import org.hyperskill.app.android.step_feedback.dialog.StepFeedbackDialogFragment
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.StepToolbarAction
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
@@ -89,7 +91,8 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
             viewLifecycleOwner = viewLifecycleOwner,
             menuHost = requireActivity() as MenuHost,
             onTheoryClick = ::onTheoryClick,
-            onTheoryFeedbackClick = ::onTheoryFeedbackClick
+            onTheoryFeedbackClick = ::onTheoryFeedbackClick,
+            onSecondaryActionClick = ::onSecondaryActionClick
         )
         viewBinding.stepAppBar.stepToolbar.setNavigationOnClickListener {
             onNavigationClick()
@@ -178,8 +181,12 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         }
     }
 
-    override fun renderMenu(menuState: StepMenuState) {
-        stepMenuDelegate?.renderMenu(menuState)
+    override fun renderMainMenuAction(menuState: StepMainMenuAction) {
+        stepMenuDelegate?.renderMainMenuAction(menuState)
+    }
+
+    override fun renderSecondaryMenuActions(actions: Set<StepToolbarAction>) {
+        stepMenuDelegate?.renderSecondaryMenuActions(actions)
     }
 
     private fun onTheoryFeedbackClick() {
@@ -190,6 +197,11 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
 
     private fun onTheoryClick() {
         stepQuizToolbarCallback?.onTheoryClick()
+    }
+
+    private fun onSecondaryActionClick(action: StepToolbarAction) {
+        (childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? StepToolbarCallback)
+            ?.onActionClicked(action)
     }
 
     @Suppress("MagicNumber")

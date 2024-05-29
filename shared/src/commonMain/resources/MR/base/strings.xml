@@ -743,4 +743,9 @@
     <string name="step_theory_feedback_alert_cancel_button">Cancel</string>
     <string name="step_theory_feedback_alert_send_button">Send</string>
     <string name="step_theory_feedback_alert_success_text">Thank you for your feedback. We appreciate your feedback and will look into this soon.</string>
+
+    <string name="step_menu_share_action">Share</string>
+    <string name="step_menu_report_action">Report</string>
+    <string name="step_menu_skip_action">Skip</string>
+    <string name="step_menu_open_in_web_action">Open in browser</string>
 </resources>

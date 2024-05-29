@@ -17,7 +17,7 @@ import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepTheoryBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
-import org.hyperskill.app.android.step.view.model.StepMenuState
+import org.hyperskill.app.android.step.view.model.StepMainMenuAction
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_content_text.view.fragment.TextStepContentFragment
@@ -68,7 +68,7 @@ class StepTheoryFragment :
     override fun onResume() {
         super.onResume()
         parentOfType(StepToolbarHost::class.java)
-            ?.renderMenu(StepMenuState.TheoryFeedback)
+            ?.renderMainMenuAction(StepMainMenuAction.Theory)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

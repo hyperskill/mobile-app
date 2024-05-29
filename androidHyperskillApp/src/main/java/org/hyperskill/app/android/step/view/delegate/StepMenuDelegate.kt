@@ -13,16 +13,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.hyperskill.app.android.R
-import org.hyperskill.app.android.step.view.model.StepMenuState
+import org.hyperskill.app.android.step.view.model.StepMainMenuAction
+import org.hyperskill.app.step.domain.model.StepToolbarAction
 
 class StepMenuDelegate(
     menuHost: MenuHost,
     private val viewLifecycleOwner: LifecycleOwner,
     private val onTheoryClick: () -> Unit,
-    private val onTheoryFeedbackClick: () -> Unit
+    private val onTheoryFeedbackClick: () -> Unit,
+    private val onSecondaryActionClick: (StepToolbarAction) -> Unit
 ) : MenuProvider {
 
-    private var menuStateFlow: MutableStateFlow<StepMenuState?> = MutableStateFlow(null)
+    private var mainMenuActionStateFlow: MutableStateFlow<StepMainMenuAction?> = MutableStateFlow(null)
+    private var secondaryMenuActionsFlow: MutableStateFlow<Set<StepToolbarAction>> = MutableStateFlow(emptySet())
 
     init {
         menuHost.addMenuProvider(
@@ -30,16 +33,21 @@ class StepMenuDelegate(
             viewLifecycleOwner,
             Lifecycle.State.RESUMED
         )
-        menuStateFlow
+        mainMenuActionStateFlow
+            .onEach {
+                menuHost.invalidateMenu()
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+        secondaryMenuActionsFlow
             .onEach {
                 menuHost.invalidateMenu()
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    fun renderMenu(menuState: StepMenuState) {
-        val newState = if (menuStateFlow.value is StepMenuState.OpenTheory && menuState is StepMenuState.OpenTheory) {
-            StepMenuState.OpenTheory(
+    fun renderMainMenuAction(menuState: StepMainMenuAction) {
+        val newState = if (mainMenuActionStateFlow.value is StepMainMenuAction.OpenTheory && menuState is StepMainMenuAction.OpenTheory) {
+            StepMainMenuAction.OpenTheory(
                 isVisible = true,
                 isEnabled = menuState.isEnabled
             )
@@ -47,36 +55,43 @@ class StepMenuDelegate(
             menuState
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            menuStateFlow.emit(newState)
+            mainMenuActionStateFlow.emit(newState)
         }
     }
 
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-        when (menuStateFlow.value) {
-            is StepMenuState.OpenTheory,
-            StepMenuState.TheoryFeedback -> {
-                menuInflater.inflate(R.menu.step_menu, menu)
-            }
-            null -> {
-                // no op
-            }
+    fun renderSecondaryMenuActions(actions: Set<StepToolbarAction>) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            secondaryMenuActionsFlow.emit(actions)
         }
     }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) =
+        menuInflater.inflate(R.menu.step_menu, menu)
 
     override fun onPrepareMenu(menu: Menu) {
+        renderMainAction(menu, mainMenuActionStateFlow.value)
+        renderSecondaryActions(menu, secondaryMenuActionsFlow.value)
+    }
+
+    private fun renderMainAction(menu: Menu, mainMenuAction: StepMainMenuAction?) {
         val theoryItem: MenuItem? = menu.findItem(R.id.theory)
         val theoryFeedbackItem: MenuItem? = menu.findItem(R.id.theoryFeedback)
 
-        val state = menuStateFlow.value
+        theoryFeedbackItem?.isVisible = mainMenuAction is StepMainMenuAction.Theory
 
-        theoryFeedbackItem?.isVisible = state is StepMenuState.TheoryFeedback
-
-        val isTheoryItemVisible = state is StepMenuState.OpenTheory && state.isVisible
+        val isTheoryItemVisible = mainMenuAction is StepMainMenuAction.OpenTheory && mainMenuAction.isVisible
         theoryItem?.isVisible = isTheoryItemVisible
         if (isTheoryItemVisible) {
-            val isTheoryItemEnabled = state is StepMenuState.OpenTheory && state.isEnabled
+            val isTheoryItemEnabled = mainMenuAction is StepMainMenuAction.OpenTheory && mainMenuAction.isEnabled
             theoryItem?.isEnabled = isTheoryItemEnabled
         }
+    }
+
+    private fun renderSecondaryActions(menu: Menu, actions: Set<StepToolbarAction>) {
+        menu.findItem(R.id.share)?.isVisible = actions.contains(StepToolbarAction.SHARE)
+        menu.findItem(R.id.practiceFeedback)?.isVisible = actions.contains(StepToolbarAction.REPORT)
+        menu.findItem(R.id.skip)?.isVisible = actions.contains(StepToolbarAction.SKIP)
+        menu.findItem(R.id.open_in_web)?.isVisible = actions.contains(StepToolbarAction.OPEN_IN_WEB)
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
@@ -87,6 +102,22 @@ class StepMenuDelegate(
             }
             R.id.theory -> {
                 onTheoryClick.invoke()
+                true
+            }
+            R.id.practiceFeedback -> {
+                onSecondaryActionClick.invoke(StepToolbarAction.REPORT)
+                true
+            }
+            R.id.share -> {
+                onSecondaryActionClick.invoke(StepToolbarAction.SHARE)
+                true
+            }
+            R.id.skip -> {
+                onSecondaryActionClick.invoke(StepToolbarAction.SKIP)
+                true
+            }
+            R.id.open_in_web -> {
+                onSecondaryActionClick.invoke(StepToolbarAction.OPEN_IN_WEB)
                 true
             }
             else -> {
