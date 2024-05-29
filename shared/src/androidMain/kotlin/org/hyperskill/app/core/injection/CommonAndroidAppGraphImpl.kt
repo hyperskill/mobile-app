@@ -70,6 +70,9 @@ import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedb
 import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponentImpl
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponentImpl
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topic_completed_modal.injection.PlatformTopicCompletedModalComponent
+import org.hyperskill.app.topic_completed_modal.injection.PlatformTopicCompletedModalComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponentImpl
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
@@ -314,5 +317,12 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     ): PlatformProblemsLimitInfoModalComponent =
         PlatformProblemsLimitInfoModalComponentImpl(
             problemsLimitInfoModalComponent = buildProblemsLimitInfoModalComponent(params)
+        )
+
+    override fun buildPlatformTopicCompletedModalComponent(
+        params: TopicCompletedModalFeatureParams
+    ): PlatformTopicCompletedModalComponent =
+        PlatformTopicCompletedModalComponentImpl(
+            topicCompletedModalComponent = buildTopicCompletedModalComponent(params)
         )
 }

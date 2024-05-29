@@ -19,6 +19,7 @@ import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeDetailsFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
+import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
@@ -41,7 +42,8 @@ class StageStepWrapperFragment :
     Fragment(R.layout.fragment_stage_step_wrapper),
     ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
-    ShareStreakDialogFragment.Callback {
+    ShareStreakDialogFragment.Callback,
+    TopicCompletedDialogFragment.Callback {
 
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
@@ -164,5 +166,13 @@ class StageStepWrapperFragment :
 
     override fun onRefuseStreakSharingClick(streak: Int) {
         stepViewModel.onRefuseStreakSharingClick(streak)
+    }
+
+    override fun navigateToStudyPlan() {
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
+    }
+
+    override fun navigateToNextTopic() {
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
     }
 }
