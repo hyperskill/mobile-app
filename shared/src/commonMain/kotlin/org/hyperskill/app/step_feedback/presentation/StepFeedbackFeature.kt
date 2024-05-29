@@ -1,6 +1,7 @@
 package org.hyperskill.app.step_feedback.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 
 object StepFeedbackFeature {
     internal data class State(
@@ -24,7 +25,9 @@ object StepFeedbackFeature {
         object SendButtonClicked : Message
     }
 
-    internal sealed interface InternalMessage : Message
+    internal sealed interface InternalMessage : Message {
+        object FeedbackSent : InternalMessage
+    }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
@@ -34,5 +37,10 @@ object StepFeedbackFeature {
 
     internal sealed interface InternalAction : Action {
         data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
+        data class SendFeedback(
+            val route: HyperskillAnalyticRoute,
+            val stepId: Long,
+            val feedback: String
+        ) : InternalAction
     }
 }

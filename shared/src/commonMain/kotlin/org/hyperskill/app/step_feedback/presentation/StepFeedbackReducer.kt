@@ -2,10 +2,10 @@ package org.hyperskill.app.step_feedback.presentation
 
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_feedback.domain.analytic.StepFeedbackModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_feedback.domain.analytic.StepFeedbackModalSendButtonClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step_feedback.domain.analytic.StepFeedbackModalShownHyperskillAnalyticEvent
 import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.Action
 import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.InternalAction
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.InternalMessage
 import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.Message
 import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
@@ -21,6 +21,7 @@ internal class StepFeedbackReducer(
             Message.AlertHidden -> handleAlertHidden(state)
             Message.SendButtonClicked -> handleSendButtonClicked(state)
             is Message.FeedbackTextChanged -> handleFeedbackTextChanged(state, message)
+            InternalMessage.FeedbackSent -> handleFeedbackSent(state)
         }
 
     private fun handleAlertShown(state: State): ReducerResult =
@@ -51,13 +52,13 @@ internal class StepFeedbackReducer(
 
     private fun handleSendButtonClicked(state: State): ReducerResult =
         state to setOf(
-            InternalAction.LogAnalyticEvent(
-                StepFeedbackModalSendButtonClickedHyperskillAnalyticEvent(
-                    route = stepRoute.analyticRoute,
-                    stepId = stepRoute.stepId,
-                    feedback = state.feedback ?: ""
-                )
-            ),
-            Action.ViewAction.ShowSendSuccessAndHideModal
+            InternalAction.SendFeedback(
+                route = stepRoute.analyticRoute,
+                stepId = stepRoute.stepId,
+                feedback = state.feedback ?: ""
+            )
         )
+
+    private fun handleFeedbackSent(state: State): ReducerResult =
+        state to setOf(Action.ViewAction.ShowSendSuccessAndHideModal)
 }
