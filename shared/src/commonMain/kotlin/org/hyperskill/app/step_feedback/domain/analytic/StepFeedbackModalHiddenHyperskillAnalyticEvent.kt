@@ -1,4 +1,4 @@
-package org.hyperskill.app.step_theory_feedback.domain.analytic
+package org.hyperskill.app.step_feedback.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
@@ -24,7 +24,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *
  * @see HyperskillAnalyticEvent
  */
-class StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent(
+class StepFeedbackModalHiddenHyperskillAnalyticEvent(
     route: HyperskillAnalyticRoute,
     stepId: Long
 ) : HyperskillAnalyticEvent(
@@ -32,5 +32,5 @@ class StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent(
     action = HyperskillAnalyticAction.HIDDEN,
     part = HyperskillAnalyticPart.STEP_THEORY_FEEDBACK_MODAL,
     target = HyperskillAnalyticTarget.CLOSE,
-    context = mapOf(StepTheoryFeedbackAnalyticKeys.STEP_ID to stepId)
+    context = mapOf(StepFeedbackAnalyticKeys.STEP_ID to stepId)
 )

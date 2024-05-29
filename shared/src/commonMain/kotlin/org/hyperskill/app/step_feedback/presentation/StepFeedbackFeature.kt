@@ -1,8 +1,8 @@
-package org.hyperskill.app.step_theory_feedback.presentation
+package org.hyperskill.app.step_feedback.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
-object StepTheoryFeedbackFeature {
+object StepFeedbackFeature {
     internal data class State(
         val feedback: String?
     )

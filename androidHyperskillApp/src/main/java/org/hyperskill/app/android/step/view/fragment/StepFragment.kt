@@ -25,7 +25,7 @@ import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step.view.navigation.StepNavigationContainer
 import org.hyperskill.app.android.step.view.navigation.StepWrapperScreen
-import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
+import org.hyperskill.app.android.step_feedback.dialog.StepFeedbackDialogFragment
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
@@ -183,9 +183,9 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
     }
 
     private fun onTheoryFeedbackClick() {
-        StepTheoryFeedbackDialogFragment
+        StepFeedbackDialogFragment
             .newInstance(currentStepRoute)
-            .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
+            .showIfNotExists(childFragmentManager, StepFeedbackDialogFragment.TAG)
     }
 
     private fun onTheoryClick() {

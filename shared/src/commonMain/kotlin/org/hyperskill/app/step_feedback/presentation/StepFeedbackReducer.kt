@@ -1,18 +1,18 @@
-package org.hyperskill.app.step_theory_feedback.presentation
+package org.hyperskill.app.step_feedback.presentation
 
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step_theory_feedback.domain.analytic.StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent
-import org.hyperskill.app.step_theory_feedback.domain.analytic.StepTheoryFeedbackModalSendButtonClickedHyperskillAnalyticEvent
-import org.hyperskill.app.step_theory_feedback.domain.analytic.StepTheoryFeedbackModalShownHyperskillAnalyticEvent
-import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.Action
-import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.InternalAction
-import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.Message
-import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.State
+import org.hyperskill.app.step_feedback.domain.analytic.StepFeedbackModalHiddenHyperskillAnalyticEvent
+import org.hyperskill.app.step_feedback.domain.analytic.StepFeedbackModalSendButtonClickedHyperskillAnalyticEvent
+import org.hyperskill.app.step_feedback.domain.analytic.StepFeedbackModalShownHyperskillAnalyticEvent
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.Action
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.InternalAction
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.Message
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-internal class StepTheoryFeedbackReducer(
+internal class StepFeedbackReducer(
     private val stepRoute: StepRoute
 ) : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
@@ -26,7 +26,7 @@ internal class StepTheoryFeedbackReducer(
     private fun handleAlertShown(state: State): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                StepTheoryFeedbackModalShownHyperskillAnalyticEvent(
+                StepFeedbackModalShownHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
                     stepId = stepRoute.stepId
                 )
@@ -36,7 +36,7 @@ internal class StepTheoryFeedbackReducer(
     private fun handleAlertHidden(state: State): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent(
+                StepFeedbackModalHiddenHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
                     stepId = stepRoute.stepId
                 )
@@ -52,7 +52,7 @@ internal class StepTheoryFeedbackReducer(
     private fun handleSendButtonClicked(state: State): ReducerResult =
         state to setOf(
             InternalAction.LogAnalyticEvent(
-                StepTheoryFeedbackModalSendButtonClickedHyperskillAnalyticEvent(
+                StepFeedbackModalSendButtonClickedHyperskillAnalyticEvent(
                     route = stepRoute.analyticRoute,
                     stepId = stepRoute.stepId,
                     feedback = state.feedback ?: ""

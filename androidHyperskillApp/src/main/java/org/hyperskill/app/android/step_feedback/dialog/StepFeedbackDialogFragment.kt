@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.step_theory_feedback.dialog
+package org.hyperskill.app.android.step_feedback.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -18,21 +18,21 @@ import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.requestFocus
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature
-import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackFeature.Message
-import org.hyperskill.app.step_theory_feedback.presentation.StepTheoryFeedbackViewModel
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackFeature.Message
+import org.hyperskill.app.step_feedback.presentation.StepFeedbackViewModel
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
-class StepTheoryFeedbackDialogFragment :
+class StepFeedbackDialogFragment :
     DialogFragment(),
-    ReduxView<StepTheoryFeedbackFeature.ViewState, StepTheoryFeedbackFeature.Action.ViewAction> {
+    ReduxView<StepFeedbackFeature.ViewState, StepFeedbackFeature.Action.ViewAction> {
     companion object {
-        const val TAG = "StepTheoryFeedbackDialogFragment"
+        const val TAG = "StepFeedbackDialogFragment"
         private const val KEYBOARD_SHOW_DELAY = 100L
 
-        fun newInstance(stepRoute: StepRoute): StepTheoryFeedbackDialogFragment =
-            StepTheoryFeedbackDialogFragment().apply {
+        fun newInstance(stepRoute: StepRoute): StepFeedbackDialogFragment =
+            StepFeedbackDialogFragment().apply {
                 this.stepRoute = stepRoute
             }
     }
@@ -40,7 +40,7 @@ class StepTheoryFeedbackDialogFragment :
     private var stepRoute: StepRoute by argument(StepRoute.serializer())
 
     private var viewModelFactory: ViewModelProvider.Factory? = null
-    private val stepTheoryFeedbackViewModel: StepTheoryFeedbackViewModel by reduxViewModel(this) {
+    private val stepFeedbackViewModel: StepFeedbackViewModel by reduxViewModel(this) {
         requireNotNull(viewModelFactory)
     }
 
@@ -53,7 +53,7 @@ class StepTheoryFeedbackDialogFragment :
 
     private fun injectComponent() {
         viewModelFactory = HyperskillApp.graph()
-            .buildPlatformStepTheoryFeedbackComponent(stepRoute).reduxViewModelFactory
+            .buildPlatformStepFeedbackComponent(stepRoute).reduxViewModelFactory
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
@@ -77,7 +77,7 @@ class StepTheoryFeedbackDialogFragment :
         }
         this.sendButton = sendButton
         setupFeedbackTextView(alertDialog)
-        stepTheoryFeedbackViewModel.onNewMessage(Message.AlertShown)
+        stepFeedbackViewModel.onNewMessage(Message.AlertShown)
     }
 
     private fun setupFeedbackTextView(alertDialog: AlertDialog) {
@@ -98,13 +98,13 @@ class StepTheoryFeedbackDialogFragment :
     }
 
     private fun onFeedbackTextChanged(text: String?) {
-        stepTheoryFeedbackViewModel.onNewMessage(
+        stepFeedbackViewModel.onNewMessage(
             Message.FeedbackTextChanged(text)
         )
     }
 
     private fun onSendClick() {
-        stepTheoryFeedbackViewModel.onNewMessage(Message.SendButtonClicked)
+        stepFeedbackViewModel.onNewMessage(Message.SendButtonClicked)
     }
 
     override fun onDestroyView() {
@@ -113,19 +113,19 @@ class StepTheoryFeedbackDialogFragment :
     }
 
     override fun onCancel(dialog: DialogInterface) {
-        stepTheoryFeedbackViewModel.onNewMessage(Message.AlertHidden)
+        stepFeedbackViewModel.onNewMessage(Message.AlertHidden)
     }
 
-    override fun onAction(action: StepTheoryFeedbackFeature.Action.ViewAction) {
+    override fun onAction(action: StepFeedbackFeature.Action.ViewAction) {
         when (action) {
-            StepTheoryFeedbackFeature.Action.ViewAction.ShowSendSuccessAndHideModal -> {
+            StepFeedbackFeature.Action.ViewAction.ShowSendSuccessAndHideModal -> {
                 parentFragment?.requireView()?.snackbar(R.string.step_theory_feedback_alert_success_text)
                 dismiss()
             }
         }
     }
 
-    override fun render(state: StepTheoryFeedbackFeature.ViewState) {
+    override fun render(state: StepFeedbackFeature.ViewState) {
         sendButton?.isEnabled = state.isSendButtonEnabled
     }
 

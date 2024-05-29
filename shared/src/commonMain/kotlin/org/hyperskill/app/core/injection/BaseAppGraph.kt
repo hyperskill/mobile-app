@@ -124,8 +124,8 @@ import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponentImpl
-import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
-import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponentImpl
+import org.hyperskill.app.step_feedback.injection.StepFeedbackComponent
+import org.hyperskill.app.step_feedback.injection.StepFeedbackComponentImpl
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponentImpl
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
@@ -303,8 +303,8 @@ abstract class BaseAppGraph : AppGraph {
     /**
      * Step theory feedback component
      */
-    override fun buildStepTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent =
-        StepTheoryFeedbackComponentImpl(this, stepRoute)
+    override fun buildStepFeedbackComponent(stepRoute: StepRoute): StepFeedbackComponent =
+        StepFeedbackComponentImpl(this, stepRoute)
 
     override fun buildSubmissionsDataComponent(): SubmissionsDataComponent =
         SubmissionsDataComponentImpl(this)

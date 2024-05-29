@@ -1,7 +1,7 @@
-package org.hyperskill.app.step_theory_feedback.injection
+package org.hyperskill.app.step_feedback.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 
-interface PlatformStepTheoryFeedbackComponent {
+interface PlatformStepFeedbackComponent {
     val reduxViewModelFactory: ReduxViewModelFactory
 }

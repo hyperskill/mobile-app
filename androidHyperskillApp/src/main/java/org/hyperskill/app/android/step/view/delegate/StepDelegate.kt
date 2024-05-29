@@ -21,6 +21,7 @@ import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragmen
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.navigation.requireStepRouter
 import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
+import org.hyperskill.app.android.step_feedback.dialog.StepFeedbackDialogFragment
 import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
@@ -114,7 +115,14 @@ object StepDelegate {
                 }
             }
             is StepFeature.Action.ViewAction.ShareStepLink -> TODO("ALTAPPS-1267")
-            is StepFeature.Action.ViewAction.ShowFeedbackModal -> TODO("ALTAPPS-1267")
+            is StepFeature.Action.ViewAction.ShowFeedbackModal -> {
+                StepFeedbackDialogFragment
+                    .newInstance(action.stepRoute)
+                    .showIfNotExists(
+                        manager = fragment.childFragmentManager,
+                        tag = StepFeedbackDialogFragment.TAG
+                    )
+            }
             is StepFeature.Action.ViewAction.StepToolbarViewAction -> {
                 // no op
             }
