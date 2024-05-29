@@ -1,6 +1,7 @@
 package org.hyperskill.app.step.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -11,16 +12,22 @@ import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 object StepFeature {
     data class State(
         val stepState: StepState,
-        val stepToolbarState: StepToolbarFeature.State
+        val stepToolbarState: StepToolbarFeature.State,
+        val isLoadingMagicLink: Boolean
     )
 
     internal fun initialState(stepRoute: StepRoute): State =
-        State(StepState.Idle, StepToolbarFeature.initialState(stepRoute))
+        State(
+            stepState = StepState.Idle,
+            stepToolbarState = StepToolbarFeature.initialState(stepRoute),
+            isLoadingMagicLink = false
+        )
 
     data class ViewState(
         val stepState: StepState,
         val stepToolbarViewState: StepToolbarFeature.ViewState,
-        val stepToolbarActions: Set<StepToolbarAction>
+        val stepToolbarActions: Set<StepToolbarAction>,
+        val isLoadingMagicLink: Boolean
     )
 
     sealed interface StepState {
@@ -64,6 +71,9 @@ object StepFeature {
         object SolvingTimerFired : InternalMessage
 
         data class ShareLinkReady(val link: String) : InternalMessage
+
+        data class GetMagicLinkReceiveSuccess(val url: String) : InternalMessage
+        object GetMagicLinkReceiveFailure : InternalMessage
     }
 
     sealed interface Action {
@@ -79,6 +89,10 @@ object StepFeature {
             data class StepToolbarViewAction(
                 val viewAction: StepToolbarFeature.Action.ViewAction
             ) : ViewAction
+
+            data class OpenUrl(val url: String) : ViewAction
+
+            object ShowMagicLinkError : ViewAction
         }
     }
 
@@ -96,6 +110,8 @@ object StepFeature {
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
 
         data class CreateStepShareLink(val stepRoute: StepRoute) : InternalAction
+
+        data class GetMagicLink(val path: HyperskillUrlPath) : InternalAction
 
         /**
          * Action Wrappers

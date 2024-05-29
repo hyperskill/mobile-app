@@ -3,12 +3,15 @@ package org.hyperskill.app.android.step.view.delegate
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import co.touchlab.kermit.Logger
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.extensions.ShareUtils
+import org.hyperskill.app.android.core.extensions.launchUrlInCustomTabs
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.ErrorNoConnectionWithButtonBinding
@@ -20,8 +23,8 @@ import org.hyperskill.app.android.request_review.dialog.RequestReviewDialogFragm
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
 import org.hyperskill.app.android.step.view.model.StepHost
 import org.hyperskill.app.android.step.view.navigation.requireStepRouter
-import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.step_feedback.dialog.StepFeedbackDialogFragment
+import org.hyperskill.app.android.step_quiz.view.dialog.CompletedStepOfTheDayDialogFragment
 import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.android.view.base.ui.extension.snackbar
 import org.hyperskill.app.step.presentation.StepFeature
@@ -54,7 +57,8 @@ object StepDelegate {
     fun <TFragment> onAction(
         fragment: TFragment,
         mainScreenRouter: MainScreenRouter,
-        action: StepFeature.Action.ViewAction
+        action: StepFeature.Action.ViewAction,
+        logger: Logger
     ) where TFragment : Fragment,
             TFragment : ShareStreakDialogFragment.Callback,
             TFragment : TopicCompletedDialogFragment.Callback {
@@ -122,6 +126,14 @@ object StepDelegate {
                         manager = fragment.childFragmentManager,
                         tag = StepFeedbackDialogFragment.TAG
                     )
+            }
+            is StepFeature.Action.ViewAction.OpenUrl -> {
+                fragment.launchUrlInCustomTabs(action.url, logger)
+            }
+            StepFeature.Action.ViewAction.ShowMagicLinkError -> {
+                Toast
+                    .makeText(fragment.requireContext(), R.string.common_error, Toast.LENGTH_SHORT)
+                    .show()
             }
             is StepFeature.Action.ViewAction.StepToolbarViewAction -> {
                 // no op

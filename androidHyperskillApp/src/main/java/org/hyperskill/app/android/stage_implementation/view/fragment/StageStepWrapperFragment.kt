@@ -8,6 +8,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.extensions.logger
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
@@ -48,6 +49,7 @@ class StageStepWrapperFragment :
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
+        private const val LOGGER_TAG = "StageStepWrapperFragment"
 
         @Suppress("DEPRECATION")
         fun newInstance(
@@ -76,6 +78,8 @@ class StageStepWrapperFragment :
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+
+    private val logger by logger(LOGGER_TAG)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,7 +148,8 @@ class StageStepWrapperFragment :
         StepDelegate.onAction(
             fragment = this,
             mainScreenRouter = mainScreenRouter,
-            action = action
+            action = action,
+            logger = logger
         )
     }
 

@@ -1,5 +1,6 @@
 package org.hyperskill.app.step.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.analytic.StepToolbarActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -60,7 +61,10 @@ internal class StepReducer(
 
             Message.ReportClicked -> handleReportClicked(state)
             Message.SkipClicked -> handleSkipClicked(state)
+
             Message.OpenInWebClicked -> handleOpenInWebClicked(state)
+            is InternalMessage.GetMagicLinkReceiveSuccess -> handleMagicLinkSuccess(state, message)
+            InternalMessage.GetMagicLinkReceiveFailure -> handleMagicLinkError(state)
         } ?: (state to emptySet())
 
     private fun handleInitialize(state: State, message: Message.Initialize): ReducerResult {
@@ -203,13 +207,25 @@ internal class StepReducer(
         )
 
     private fun handleOpenInWebClicked(state: State): ReducerResult =
-        state to setOf(
+        state.copy(isLoadingMagicLink = true) to setOf(
+            InternalAction.GetMagicLink(HyperskillUrlPath.Step(stepRoute)),
             InternalAction.LogAnalyticEvent(
                 StepToolbarActionClickedHyperskillAnalyticEvent(
                     StepToolbarAction.OPEN_IN_WEB, stepRoute
                 )
             )
         )
+
+    private fun handleMagicLinkSuccess(
+        state: State,
+        message: InternalMessage.GetMagicLinkReceiveSuccess
+    ): ReducerResult =
+        state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+
+    private fun handleMagicLinkError(
+        state: State
+    ): ReducerResult =
+        state.copy(isLoadingMagicLink = false) to setOf(Action.ViewAction.ShowMagicLinkError)
 
     private fun reduceStepCompletionMessage(
         state: StepCompletionFeature.State,

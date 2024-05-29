@@ -23,6 +23,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
@@ -41,6 +42,7 @@ internal class StepActionDispatcher(
     private val stepInteractor: StepInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val urlBuilder: HyperskillUrlBuilder,
+    private val magicLinksInteractor: MagicLinksInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val logger: Logger
@@ -80,6 +82,8 @@ internal class StepActionDispatcher(
                 handleLogSolvingTime(action, stepSolvingInitialTime)
             is InternalAction.CreateStepShareLink ->
                 handleCreateShareLink(action.stepRoute, ::onNewMessage)
+            is InternalAction.GetMagicLink ->
+                handleGetMagicLink(action.path, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -180,5 +184,20 @@ internal class StepActionDispatcher(
                 urlBuilder.build(HyperskillUrlPath.Step(stepRoute)).toString()
             )
         )
+    }
+
+    private suspend fun handleGetMagicLink(
+        path: HyperskillUrlPath,
+        onNewMessage: (Message) -> Unit
+    ) {
+        magicLinksInteractor
+            .createMagicLink(path.path)
+            .fold(
+                onSuccess = {
+                    InternalMessage.GetMagicLinkReceiveSuccess(it.url)
+                },
+                onFailure = { InternalMessage.GetMagicLinkReceiveFailure }
+            )
+            .let(onNewMessage)
     }
 }
