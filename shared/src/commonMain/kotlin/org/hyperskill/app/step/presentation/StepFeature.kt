@@ -4,6 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.StepToolbarAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 
@@ -18,7 +19,8 @@ object StepFeature {
 
     data class ViewState(
         val stepState: StepState,
-        val stepToolbarViewState: StepToolbarFeature.ViewState
+        val stepToolbarViewState: StepToolbarFeature.ViewState,
+        val stepToolbarActions: Set<StepToolbarAction>
     )
 
     sealed interface StepState {
@@ -43,6 +45,11 @@ object StepFeature {
         object ScreenShowed : Message
         object ScreenHidden : Message
 
+        object ShareClicked : Message
+        object ReportClicked : Message
+        object SkipClicked : Message
+        object OpenInWebClicked : Message
+
         /**
          * Message Wrappers
          */
@@ -55,10 +62,16 @@ object StepFeature {
         data class StepCompleted(val stepId: Long) : InternalMessage
 
         object SolvingTimerFired : InternalMessage
+
+        data class ShareLinkReady(val link: String) : InternalMessage
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
+            data class ShareStepLink(val link: String) : ViewAction
+
+            data class ShowFeedbackModal(val stepRoute: StepRoute) : ViewAction
+
             data class StepCompletionViewAction(
                 val viewAction: StepCompletionFeature.Action.ViewAction
             ) : ViewAction
@@ -81,6 +94,8 @@ object StepFeature {
         data class UpdateNextLearningActivityState(val step: Step) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+
+        data class CreateStepShareLink(val stepRoute: StepRoute) : InternalAction
 
         /**
          * Action Wrappers

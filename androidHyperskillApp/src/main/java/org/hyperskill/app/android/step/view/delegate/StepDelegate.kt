@@ -113,6 +113,8 @@ object StepDelegate {
                             )
                 }
             }
+            is StepFeature.Action.ViewAction.ShareStepLink -> TODO("ALTAPPS-1267")
+            is StepFeature.Action.ViewAction.ShowFeedbackModal -> TODO("ALTAPPS-1267")
             is StepFeature.Action.ViewAction.StepToolbarViewAction -> {
                 // no op
             }

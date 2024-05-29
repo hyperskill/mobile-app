@@ -1,7 +1,9 @@
 package org.hyperskill.app.step.presentation
 
+import org.hyperskill.app.step.domain.analytic.StepToolbarActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step.domain.model.StepToolbarAction
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.InternalMessage
@@ -52,6 +54,13 @@ internal class StepReducer(
                     reduceStepToolbarMessage(state.stepToolbarState, message.message)
                 state.copy(stepToolbarState = stepToolbarState) to stepToolbarActions
             }
+
+            Message.ShareClicked -> handleShareClicked(state)
+            is InternalMessage.ShareLinkReady -> handleShareLinkReady(state, message)
+
+            Message.ReportClicked -> handleReportClicked(state)
+            Message.SkipClicked -> handleSkipClicked(state)
+            Message.OpenInWebClicked -> handleOpenInWebClicked(state)
         } ?: (state to emptySet())
 
     private fun handleInitialize(state: State, message: Message.Initialize): ReducerResult {
@@ -159,6 +168,48 @@ internal class StepReducer(
         } else {
             state to emptySet()
         }
+
+    private fun handleShareClicked(state: State): ReducerResult =
+        state to setOf(
+            InternalAction.CreateStepShareLink(stepRoute),
+            InternalAction.LogAnalyticEvent(
+                StepToolbarActionClickedHyperskillAnalyticEvent(
+                    StepToolbarAction.SHARE,
+                    stepRoute
+                )
+            )
+        )
+
+    private fun handleShareLinkReady(state: State, message: InternalMessage.ShareLinkReady): ReducerResult =
+        state to setOf(Action.ViewAction.ShareStepLink(message.link))
+
+    private fun handleReportClicked(state: State): ReducerResult =
+        state to setOf(
+            Action.ViewAction.ShowFeedbackModal(stepRoute),
+            InternalAction.LogAnalyticEvent(
+                StepToolbarActionClickedHyperskillAnalyticEvent(
+                    StepToolbarAction.REPORT, stepRoute
+                )
+            )
+        )
+
+    private fun handleSkipClicked(state: State): ReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StepToolbarActionClickedHyperskillAnalyticEvent(
+                    StepToolbarAction.SKIP, stepRoute
+                )
+            )
+        )
+
+    private fun handleOpenInWebClicked(state: State): ReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                StepToolbarActionClickedHyperskillAnalyticEvent(
+                    StepToolbarAction.OPEN_IN_WEB, stepRoute
+                )
+            )
+        )
 
     private fun reduceStepCompletionMessage(
         state: StepCompletionFeature.State,

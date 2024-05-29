@@ -19,12 +19,15 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.InternalMessage
@@ -37,6 +40,7 @@ internal class StepActionDispatcher(
     stepCompletedFlow: StepCompletedFlow,
     private val stepInteractor: StepInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+    private val urlBuilder: HyperskillUrlBuilder,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val logger: Logger
@@ -74,6 +78,8 @@ internal class StepActionDispatcher(
                 handleStopStepSolvingTimeLogging()
             is InternalAction.LogSolvingTime ->
                 handleLogSolvingTime(action, stepSolvingInitialTime)
+            is InternalAction.CreateStepShareLink ->
+                handleCreateShareLink(action.stepRoute, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -163,5 +169,16 @@ internal class StepActionDispatcher(
                 logger.e(e) { "Failed to log step solving time" }
             }
         }
+    }
+
+    private fun handleCreateShareLink(
+        stepRoute: StepRoute,
+        onNewMessage: (Message) -> Unit
+    ) {
+        onNewMessage(
+            InternalMessage.ShareLinkReady(
+                urlBuilder.build(HyperskillUrlPath.Step(stepRoute)).toString()
+            )
+        )
     }
 }

@@ -62,8 +62,10 @@ internal object StepFeatureBuilder {
             logger.withTag(LOG_TAG)
         )
 
+        val stepViewStateMapper = StepViewStateMapper(stepRoute)
+
         return ReduxFeature(StepFeature.initialState(stepRoute), stepReducer)
-            .transformState(StepViewStateMapper::map)
+            .transformState(stepViewStateMapper::map)
             .wrapWithActionDispatcher(stepActionDispatcher)
             .wrapWithActionDispatcher(
                 stepCompletionActionDispatcher.transform(
