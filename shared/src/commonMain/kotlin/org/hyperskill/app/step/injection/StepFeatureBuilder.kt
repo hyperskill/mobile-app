@@ -3,6 +3,7 @@ package org.hyperskill.app.step.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
@@ -38,6 +39,7 @@ internal object StepFeatureBuilder {
         nextLearningActivityStateRepository: NextLearningActivityStateRepository,
         analyticInteractor: AnalyticInteractor,
         stepCompletedFlow: StepCompletedFlow,
+        urlBuilder: HyperskillUrlBuilder,
         sentryInteractor: SentryInteractor,
         stepCompletionReducer: StepCompletionReducer,
         stepCompletionActionDispatcher: StepCompletionActionDispatcher,
@@ -57,9 +59,10 @@ internal object StepFeatureBuilder {
             stepCompletedFlow = stepCompletedFlow,
             stepInteractor = stepInteractor,
             nextLearningActivityStateRepository = nextLearningActivityStateRepository,
+            urlBuilder = urlBuilder,
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
-            logger.withTag(LOG_TAG)
+            logger = logger.withTag(LOG_TAG)
         )
 
         val stepViewStateMapper = StepViewStateMapper(stepRoute)
