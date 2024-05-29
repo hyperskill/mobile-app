@@ -2,7 +2,6 @@ package org.hyperskill.app.android.step.view.delegate
 
 import android.content.ActivityNotFoundException
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.fragment.app.Fragment
@@ -107,7 +106,7 @@ object StepDelegate {
                             .showIfNotExists(fragment.childFragmentManager, ShareStreakDialogFragment.TAG)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowShareStreakSystemModal -> {
-                        shareStreak(fragment, stepCompletionAction.streak)
+                        shareStreak(fragment, stepCompletionAction.streak, logger)
                     }
                     is StepCompletionFeature.Action.ViewAction.ShowRequestUserReviewModal ->
                         RequestReviewDialogFragment
@@ -118,7 +117,8 @@ object StepDelegate {
                             )
                 }
             }
-            is StepFeature.Action.ViewAction.ShareStepLink -> TODO("ALTAPPS-1267")
+            is StepFeature.Action.ViewAction.ShareStepLink ->
+                shareLink(fragment, action.link, logger)
             is StepFeature.Action.ViewAction.ShowFeedbackModal -> {
                 StepFeedbackDialogFragment
                     .newInstance(action.stepRoute)
@@ -160,7 +160,8 @@ object StepDelegate {
 
     private fun shareStreak(
         fragment: Fragment,
-        streak: Int
+        streak: Int,
+        logger: Logger
     ) {
         val shareIntent = ShareUtils.getShareDrawableIntent(
             fragment.requireContext(),
@@ -171,7 +172,20 @@ object StepDelegate {
         try {
             fragment.startActivity(shareIntent)
         } catch (e: ActivityNotFoundException) {
-            Log.e("StepDelegate", "Unable to share streak. Activity not found!")
+            logger.e { "Unable to share streak. Activity not found!" }
+        }
+    }
+
+    private fun shareLink(
+        fragment: Fragment,
+        link: String,
+        logger: Logger
+    ) {
+        val shareIntent = ShareUtils.getShareTextIntent(link)
+        try {
+            fragment.startActivity(shareIntent)
+        } catch (e: ActivityNotFoundException) {
+            logger.e { "Unable to share step link. Activity not found!" }
         }
     }
 }
