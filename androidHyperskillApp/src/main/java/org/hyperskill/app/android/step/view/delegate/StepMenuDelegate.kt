@@ -67,8 +67,9 @@ class StepMenuDelegate(
         }
     }
 
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) =
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.step_menu, menu)
+    }
 
     override fun onPrepareMenu(menu: Menu) {
         val state = menuActionsStateFlow.value

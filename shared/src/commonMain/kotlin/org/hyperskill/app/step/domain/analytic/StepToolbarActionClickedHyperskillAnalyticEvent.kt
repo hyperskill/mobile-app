@@ -4,8 +4,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAct
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepRoute
 
 /**
  * Represents click on the home screen quick action analytic event.

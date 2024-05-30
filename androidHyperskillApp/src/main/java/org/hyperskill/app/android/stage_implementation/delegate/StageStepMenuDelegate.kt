@@ -29,8 +29,9 @@ private class StageMenuProvider(
     private val onActionClick: (StepMenuAction) -> Unit
 ) : MenuProvider {
 
-    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) =
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.stage_menu, menu)
+    }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
         when (menuItem.itemId) {

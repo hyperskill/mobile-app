@@ -118,14 +118,14 @@ import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponentImpl
+import org.hyperskill.app.step_feedback.injection.StepFeedbackComponent
+import org.hyperskill.app.step_feedback.injection.StepFeedbackComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponentImpl
-import org.hyperskill.app.step_feedback.injection.StepFeedbackComponent
-import org.hyperskill.app.step_feedback.injection.StepFeedbackComponentImpl
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponentImpl
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent

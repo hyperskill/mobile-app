@@ -87,7 +87,6 @@ object StepDelegate {
             }
             StepFeature.Action.ViewAction.ShowCantSkipError -> {
                 showToast(fragment.requireContext(), R.string.step_skip_failed_message)
-
             }
             is StepFeature.Action.ViewAction.StepToolbarViewAction -> {
                 // no op

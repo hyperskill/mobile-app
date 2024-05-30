@@ -35,9 +35,9 @@ import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
+import org.hyperskill.app.step_feedback.injection.PlatformStepFeedbackComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
-import org.hyperskill.app.step_feedback.injection.PlatformStepFeedbackComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
 import org.hyperskill.app.topic_completed_modal.injection.PlatformTopicCompletedModalComponent
