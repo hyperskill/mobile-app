@@ -1,7 +1,7 @@
 package org.hyperskill.app.step.view.mapper
 
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step_toolbar.view.mapper.StepToolbarViewStateMapper
 
@@ -29,6 +29,6 @@ internal class StepViewStateMapper(
         stepRoute: StepRoute
     ): Boolean =
         stepState is StepFeature.StepState.Data &&
-            stepState.step.canSkip &&
-                stepRoute is StepRoute.Learn
+            stepRoute is StepRoute.Learn.Step &&
+            stepState.step.canSkip
 }
