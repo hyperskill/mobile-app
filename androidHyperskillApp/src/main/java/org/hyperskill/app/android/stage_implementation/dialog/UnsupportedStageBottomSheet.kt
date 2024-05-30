@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.stage_implementation.view.dialog
+package org.hyperskill.app.android.stage_implementation.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface

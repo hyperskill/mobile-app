@@ -1,9 +1,9 @@
-package org.hyperskill.app.android.stage_implementation.view.navigation
+package org.hyperskill.app.android.stage_implementation.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.github.terrakok.cicerone.androidx.FragmentScreen
-import org.hyperskill.app.android.stage_implementation.view.fragment.StageImplementationFragment
+import org.hyperskill.app.android.stage_implementation.fragment.StageImplementationFragment
 
 class StageImplementationScreen(
     private val projectId: Long,

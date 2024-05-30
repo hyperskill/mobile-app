@@ -1,7 +1,9 @@
-package org.hyperskill.app.android.stage_implementation.view.fragment
+package org.hyperskill.app.android.stage_implementation.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.MenuHost
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -14,6 +16,7 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.share_streak.fragment.ShareStreakDialogFragment
+import org.hyperskill.app.android.stage_implementation.delegate.StageStepMenuDelegate
 import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.fragment.StepWrapperFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
@@ -112,6 +115,17 @@ class StageStepWrapperFragment :
             errorBinding = viewBinding.stageImplementationError,
             lifecycle = viewLifecycleOwner.lifecycle,
             onNewMessage = stepViewModel::onNewMessage
+        )
+        setupMenu()
+    }
+
+    private fun setupMenu() {
+        (requireActivity() as AppCompatActivity)
+            .setSupportActionBar(viewBinding.stageImplementationAppBar.stageImplementationToolbar)
+        StageStepMenuDelegate.setup(
+            menuHost = requireActivity() as MenuHost,
+            viewLifecycleOwner = viewLifecycleOwner,
+            onActionClick = stepViewModel::onActionClick
         )
     }
 

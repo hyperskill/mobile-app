@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.stage_implementation.view.dialog
+package org.hyperskill.app.android.stage_implementation.dialog
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -14,16 +14,16 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
-import org.hyperskill.app.android.databinding.FragmentProjectCompletedBinding
+import org.hyperskill.app.android.databinding.FragmentStageCompletedBinding
 import org.hyperskill.app.android.view.base.ui.extension.wrapWithTheme
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implementation.presentation.StageImplementationViewModel
 
-class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
+class StageCompletedBottomSheet : BottomSheetDialogFragment() {
     companion object {
-        const val TAG: String = "ProjectCompletedBottomSheet"
-        fun newInstance(params: Params): ProjectCompletedBottomSheet =
-            ProjectCompletedBottomSheet().apply {
+        const val TAG: String = "StageCompletedBottomSheet"
+        fun newInstance(params: Params): StageCompletedBottomSheet =
+            StageCompletedBottomSheet().apply {
                 this.params = params
             }
     }
@@ -32,7 +32,7 @@ class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
 
     private val viewModel: StageImplementationViewModel by viewModels(ownerProducer = ::requireParentFragment)
 
-    private val viewBinding: FragmentProjectCompletedBinding by viewBinding(FragmentProjectCompletedBinding::bind)
+    private val viewBinding: FragmentStageCompletedBinding by viewBinding(FragmentStageCompletedBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
                 dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 if (savedInstanceState == null) {
                     viewModel.onNewMessage(
-                        StageImplementFeature.Message.ProjectCompletedModalShownEventMessage
+                        StageImplementFeature.Message.StageCompletedModalShownEventMessage
                     )
                 }
             }
@@ -58,7 +58,7 @@ class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
     ): View? =
         inflater.wrapWithTheme(requireActivity())
             .inflate(
-                R.layout.fragment_project_completed,
+                R.layout.fragment_stage_completed,
                 container,
                 false
             )
@@ -68,14 +68,12 @@ class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
         val context = requireContext()
 
         with(viewBinding) {
-            projectCompletedGemsAmountForStageCompletionTextView.text =
-                context.getString(R.string.plus_hypercoins_award, params.stageAward)
-            projectCompletedGemsAmountForProjectCompletionTextView.text =
-                context.getString(R.string.plus_hypercoins_award, params.projectAward)
+            stageCompletedModalTitle.text = params.title
+            stageCompletedGemsAmountTextView.text = context.getString(R.string.plus_hypercoins_award, params.award)
 
-            projectCompletedGoToStudyPlanButton.setOnClickListener {
+            stageCompletedGoToStudyPlanButton.setOnClickListener {
                 viewModel.onNewMessage(
-                    StageImplementFeature.Message.ProjectCompletedModalGoToStudyPlanClicked
+                    StageImplementFeature.Message.StageCompletedModalGoToStudyPlanClicked
                 )
             }
         }
@@ -84,13 +82,13 @@ class ProjectCompletedBottomSheet : BottomSheetDialogFragment() {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         viewModel.onNewMessage(
-            StageImplementFeature.Message.ProjectCompletedModalHiddenEventMessage
+            StageImplementFeature.Message.StageCompletedModalHiddenEventMessage
         )
     }
 
     @Serializable
     data class Params(
-        val stageAward: Int,
-        val projectAward: Int
+        val title: String,
+        val award: Int
     )
 }

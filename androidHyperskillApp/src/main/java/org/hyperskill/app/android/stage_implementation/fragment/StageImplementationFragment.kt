@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.stage_implementation.view.fragment
+package org.hyperskill.app.android.stage_implementation.fragment
 
 import android.os.Bundle
 import android.view.View
@@ -13,8 +13,8 @@ import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreenRouter
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.main.view.ui.navigation.switch
-import org.hyperskill.app.android.stage_implementation.view.dialog.ProjectCompletedBottomSheet
-import org.hyperskill.app.android.stage_implementation.view.dialog.StageCompletedBottomSheet
+import org.hyperskill.app.android.stage_implementation.dialog.ProjectCompletedBottomSheet
+import org.hyperskill.app.android.stage_implementation.dialog.StageCompletedBottomSheet
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implementation.presentation.StageImplementationViewModel
