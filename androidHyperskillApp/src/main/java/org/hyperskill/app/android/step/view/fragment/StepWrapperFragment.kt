@@ -25,7 +25,7 @@ import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.domain.model.StepToolbarAction
+import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
@@ -119,7 +119,7 @@ class StepWrapperFragment :
             initStepContainer(stepState)
             parentOfType(StepToolbarHost::class.java)?.apply {
                 renderTopicProgress(state.stepToolbarViewState)
-                renderSecondaryMenuActions(state.stepToolbarActions)
+                renderSecondaryMenuActions(state.stepMenuActions)
             }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
                 ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
@@ -180,7 +180,7 @@ class StepWrapperFragment :
         onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
     }
 
-    override fun onActionClicked(action: StepToolbarAction) {
+    override fun onActionClicked(action: StepMenuAction) {
         stepViewModel.onActionClick(action)
     }
 }

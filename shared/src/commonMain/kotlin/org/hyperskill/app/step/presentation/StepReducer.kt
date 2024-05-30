@@ -4,7 +4,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.analytic.StepToolbarActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.domain.model.StepToolbarAction
+import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.InternalMessage
@@ -178,7 +178,7 @@ internal class StepReducer(
             InternalAction.CreateStepShareLink(stepRoute),
             InternalAction.LogAnalyticEvent(
                 StepToolbarActionClickedHyperskillAnalyticEvent(
-                    StepToolbarAction.SHARE,
+                    StepMenuAction.SHARE,
                     stepRoute
                 )
             )
@@ -192,7 +192,7 @@ internal class StepReducer(
             Action.ViewAction.ShowFeedbackModal(stepRoute),
             InternalAction.LogAnalyticEvent(
                 StepToolbarActionClickedHyperskillAnalyticEvent(
-                    StepToolbarAction.REPORT, stepRoute
+                    StepMenuAction.REPORT, stepRoute
                 )
             )
         )
@@ -201,7 +201,7 @@ internal class StepReducer(
         state to setOf(
             InternalAction.LogAnalyticEvent(
                 StepToolbarActionClickedHyperskillAnalyticEvent(
-                    StepToolbarAction.SKIP, stepRoute
+                    StepMenuAction.SKIP, stepRoute
                 )
             )
         )
@@ -211,7 +211,7 @@ internal class StepReducer(
             InternalAction.GetMagicLink(HyperskillUrlPath.Step(stepRoute)),
             InternalAction.LogAnalyticEvent(
                 StepToolbarActionClickedHyperskillAnalyticEvent(
-                    StepToolbarAction.OPEN_IN_WEB, stepRoute
+                    StepMenuAction.OPEN_IN_WEB, stepRoute
                 )
             )
         )

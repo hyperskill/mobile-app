@@ -11,13 +11,6 @@
         android:visible="false" />
 
     <item
-        android:id="@+id/theoryFeedback"
-        android:title="@string/step_menu_theory_feedback_item"
-        android:icon="@drawable/ic_step_theory_feedback"
-        app:showAsAction="ifRoom"
-        android:visible="false" />
-
-    <item
         android:id="@+id/share"
         android:title="@string/step_menu_share_action"
         app:showAsAction="never"

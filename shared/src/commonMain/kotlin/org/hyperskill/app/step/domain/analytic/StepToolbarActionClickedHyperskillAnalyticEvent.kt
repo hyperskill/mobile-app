@@ -5,7 +5,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.domain.model.StepToolbarAction
+import org.hyperskill.app.step.domain.model.StepMenuAction
 
 /**
  * Represents click on the home screen quick action analytic event.
@@ -26,17 +26,17 @@ import org.hyperskill.app.step.domain.model.StepToolbarAction
  * @see HyperskillAnalyticEvent
  */
 class StepToolbarActionClickedHyperskillAnalyticEvent(
-    action: StepToolbarAction,
+    action: StepMenuAction,
     stepRoute: StepRoute,
 ) : HyperskillAnalyticEvent(
     route = stepRoute.analyticRoute,
     action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
     target = when (action) {
-        StepToolbarAction.SHARE -> HyperskillAnalyticTarget.SHARE
-        StepToolbarAction.REPORT -> HyperskillAnalyticTarget.REPORT
-        StepToolbarAction.SKIP -> HyperskillAnalyticTarget.SKIP
-        StepToolbarAction.OPEN_IN_WEB -> HyperskillAnalyticTarget.OPEN_IN_WEB
+        StepMenuAction.SHARE -> HyperskillAnalyticTarget.SHARE
+        StepMenuAction.REPORT -> HyperskillAnalyticTarget.REPORT
+        StepMenuAction.SKIP -> HyperskillAnalyticTarget.SKIP
+        StepMenuAction.OPEN_IN_WEB -> HyperskillAnalyticTarget.OPEN_IN_WEB
     },
     context = mapOf(STEP_ID_KEY to stepRoute.stepId)
 ) {

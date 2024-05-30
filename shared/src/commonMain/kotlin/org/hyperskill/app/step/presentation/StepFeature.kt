@@ -5,7 +5,7 @@ import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.step.domain.model.StepToolbarAction
+import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 
@@ -26,7 +26,7 @@ object StepFeature {
     data class ViewState(
         val stepState: StepState,
         val stepToolbarViewState: StepToolbarFeature.ViewState,
-        val stepToolbarActions: Set<StepToolbarAction>,
+        val stepMenuActions: Set<StepMenuAction>,
         val isLoadingMagicLink: Boolean
     )
 
