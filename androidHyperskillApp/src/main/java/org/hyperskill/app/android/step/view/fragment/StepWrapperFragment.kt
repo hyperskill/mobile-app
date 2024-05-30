@@ -9,6 +9,8 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.logger
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepWrapperBinding
@@ -24,12 +26,13 @@ import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragme
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
 import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.StepMenuAction
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -123,6 +126,17 @@ class StepWrapperFragment :
             }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
                 ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
+        }
+
+        renderLoading(state.isLoadingShowed)
+    }
+
+    private fun renderLoading(isLoadingShowed: Boolean) {
+        if (isLoadingShowed) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
         }
     }
 

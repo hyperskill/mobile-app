@@ -13,7 +13,7 @@ internal class StepViewStateMapper(
             stepState = state.stepState,
             stepToolbarViewState = StepToolbarViewStateMapper.map(state.stepToolbarState),
             stepMenuActions = getStepToolbarActions(state.stepState, stepRoute),
-            isLoadingMagicLink = state.isLoadingMagicLink
+            isLoadingShowed = state.isLoadingShowed
         )
 
     private fun getStepToolbarActions(

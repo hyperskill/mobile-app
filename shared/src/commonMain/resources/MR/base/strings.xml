@@ -75,6 +75,7 @@
     <string name="step_comment_thread_type_hint_text">Hint</string>
     <string name="step_comment_thread_type_useful_link_text">Useful links</string>
     <string name="step_comment_thread_type_solutions_text">Solutions</string>
+    <string name="step_skip_failed_message">Unable to skip this step</string>
 
     <!-- Step quiz -->
     <string name="step_quiz_status_correct_text">You\'re absolutely correct!</string>
@@ -744,6 +745,7 @@
     <string name="step_theory_feedback_alert_send_button">Send</string>
     <string name="step_theory_feedback_alert_success_text">Thank you for your feedback. We appreciate your feedback and will look into this soon.</string>
 
+    <!--Step menu actions-->
     <string name="step_menu_share_action">Share</string>
     <string name="step_menu_report_action">Report</string>
     <string name="step_menu_skip_action">Skip</string>

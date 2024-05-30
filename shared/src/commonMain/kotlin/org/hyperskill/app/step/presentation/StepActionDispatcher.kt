@@ -22,6 +22,8 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
+import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
+import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -41,6 +43,7 @@ internal class StepActionDispatcher(
     stepCompletedFlow: StepCompletedFlow,
     private val stepInteractor: StepInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+    private val learningActivityRepository: LearningActivitiesRepository,
     private val urlBuilder: HyperskillUrlBuilder,
     private val magicLinksInteractor: MagicLinksInteractor,
     private val analyticInteractor: AnalyticInteractor,
@@ -84,6 +87,9 @@ internal class StepActionDispatcher(
                 handleCreateShareLink(action.stepRoute, ::onNewMessage)
             is InternalAction.GetMagicLink ->
                 handleGetMagicLink(action.path, ::onNewMessage)
+            is InternalAction.SkipStep -> handleSkipStep(action.stepId, ::onNewMessage)
+            is InternalAction.FetchNextLearningActivity ->
+                handleFetchNextLearningActivityStep(::onNewMessage)
             else -> {
                 // no op
             }
@@ -199,5 +205,33 @@ internal class StepActionDispatcher(
                 onFailure = { InternalMessage.GetMagicLinkReceiveFailure }
             )
             .let(onNewMessage)
+    }
+
+    private suspend fun handleSkipStep(
+        stepId: Long,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildSkipStep(),
+            onError = { InternalMessage.StepSkipFailed }
+        ) {
+            stepInteractor.skipStep(stepId)
+            InternalMessage.StepSkipSuccess
+        }.let(onNewMessage)
+    }
+
+    private suspend fun handleFetchNextLearningActivityStep(
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildSkipStepNextLearningActivityLoading(),
+            onError = { InternalMessage.FetchNextLearningActivityError }
+        ) {
+            val nextLearningActivity =
+                learningActivityRepository.getNextLearningActivity(
+                    setOf(LearningActivityType.LEARN_TOPIC)
+                ).getOrThrow()
+            InternalMessage.FetchNextLearningActivitySuccess(nextLearningActivity)
+        }.let(onNewMessage)
     }
 }

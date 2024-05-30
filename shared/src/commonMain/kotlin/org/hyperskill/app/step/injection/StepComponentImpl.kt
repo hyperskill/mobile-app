@@ -28,6 +28,7 @@ internal class StepComponentImpl(
             stepInteractor = appGraph.buildStepDataComponent().stepInteractor,
             stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository,
+            learningActivitiesRepository = appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
             urlBuilder = appGraph.networkComponent.urlBuilder,
             magicLinksInteractor = appGraph.buildMagicLinksDataComponent().magicLinksInteractor,
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,

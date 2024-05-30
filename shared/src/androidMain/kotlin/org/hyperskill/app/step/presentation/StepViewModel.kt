@@ -50,7 +50,7 @@ class StepViewModel(
             when (action) {
                 StepMenuAction.SHARE -> Message.ShareClicked
                 StepMenuAction.REPORT -> Message.ReportClicked
-                StepMenuAction.SKIP -> Message.ShareClicked
+                StepMenuAction.SKIP -> Message.SkipClicked
                 StepMenuAction.OPEN_IN_WEB -> Message.OpenInWebClicked
             }
         )
