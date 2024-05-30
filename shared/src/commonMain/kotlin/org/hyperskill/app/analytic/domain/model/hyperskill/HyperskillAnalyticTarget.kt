@@ -11,7 +11,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SKIP("skip"),
     INPUT_OUTPUT_INFO("input_output_info"),
     STEP_TEXT_DESCRIPTION("step_text_description"),
-    STEP_THEORY_FEEDBACK_MODAL("step_theory_feedback_modal"),
+    STEP_FEEDBACK_MODAL("step_feedback_modal"),
     RESET("reset"),
     RUN("run"),
     ALLOW("allow"),

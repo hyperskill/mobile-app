@@ -15,7 +15,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTar
  *     "route": "/learn/step/1",
  *     "action": "shown",
  *     "part": "modal",
- *     "target": "step_theory_feedback_modal",
+ *     "target": "step_feedback_modal",
  *     "context": {
  *         "step_id": 1
  *     }
@@ -31,6 +31,6 @@ class StepFeedbackModalShownHyperskillAnalyticEvent(
     route = route,
     action = HyperskillAnalyticAction.SHOWN,
     part = HyperskillAnalyticPart.MODAL,
-    target = HyperskillAnalyticTarget.STEP_THEORY_FEEDBACK_MODAL,
+    target = HyperskillAnalyticTarget.STEP_FEEDBACK_MODAL,
     context = mapOf(StepFeedbackAnalyticKeys.STEP_ID to stepId)
 )
