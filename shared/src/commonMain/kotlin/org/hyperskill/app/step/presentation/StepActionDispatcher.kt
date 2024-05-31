@@ -22,8 +22,6 @@ import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
-import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -43,7 +41,6 @@ internal class StepActionDispatcher(
     stepCompletedFlow: StepCompletedFlow,
     private val stepInteractor: StepInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
-    private val learningActivityRepository: LearningActivitiesRepository,
     private val urlBuilder: HyperskillUrlBuilder,
     private val magicLinksInteractor: MagicLinksInteractor,
     private val analyticInteractor: AnalyticInteractor,
@@ -228,9 +225,7 @@ internal class StepActionDispatcher(
             onError = { InternalMessage.FetchNextLearningActivityError }
         ) {
             val nextLearningActivity =
-                learningActivityRepository.getNextLearningActivity(
-                    setOf(LearningActivityType.LEARN_TOPIC)
-                ).getOrThrow()
+                nextLearningActivityStateRepository.getState(forceUpdate = true).getOrThrow()
             InternalMessage.FetchNextLearningActivitySuccess(nextLearningActivity)
         }.let(onNewMessage)
     }

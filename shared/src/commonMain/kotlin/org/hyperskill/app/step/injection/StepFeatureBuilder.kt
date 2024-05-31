@@ -6,7 +6,6 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
-import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
@@ -39,7 +38,6 @@ internal object StepFeatureBuilder {
         stepRoute: StepRoute,
         stepInteractor: StepInteractor,
         nextLearningActivityStateRepository: NextLearningActivityStateRepository,
-        learningActivitiesRepository: LearningActivitiesRepository,
         analyticInteractor: AnalyticInteractor,
         stepCompletedFlow: StepCompletedFlow,
         urlBuilder: HyperskillUrlBuilder,
@@ -63,7 +61,6 @@ internal object StepFeatureBuilder {
             stepCompletedFlow = stepCompletedFlow,
             stepInteractor = stepInteractor,
             nextLearningActivityStateRepository = nextLearningActivityStateRepository,
-            learningActivityRepository = learningActivitiesRepository,
             urlBuilder = urlBuilder,
             magicLinksInteractor = magicLinksInteractor,
             analyticInteractor = analyticInteractor,
