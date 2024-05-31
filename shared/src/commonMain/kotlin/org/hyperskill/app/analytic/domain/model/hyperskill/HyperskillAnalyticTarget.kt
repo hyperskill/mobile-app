@@ -11,7 +11,7 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     SKIP("skip"),
     INPUT_OUTPUT_INFO("input_output_info"),
     STEP_TEXT_DESCRIPTION("step_text_description"),
-    STEP_THEORY_FEEDBACK_MODAL("step_theory_feedback_modal"),
+    STEP_FEEDBACK_MODAL("step_feedback_modal"),
     RESET("reset"),
     RUN("run"),
     ALLOW("allow"),
@@ -130,5 +130,6 @@ enum class HyperskillAnalyticTarget(val targetName: String) {
     HYPERSKILL_TERMS_OF_SERVICE_AND_PRIVACY_POLICY("hyperskill_terms_of_service_and_privacy_policy"),
     QUESTION_MARK("question_mark"),
     SPACEBOT("spacebot"),
-    SCREENSHOT("screenshot")
+    SCREENSHOT("screenshot"),
+    OPEN_IN_WEB("open_in_web")
 }

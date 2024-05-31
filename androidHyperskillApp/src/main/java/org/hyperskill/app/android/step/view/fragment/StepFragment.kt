@@ -18,19 +18,19 @@ import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStepBinding
 import org.hyperskill.app.android.step.view.delegate.StepMenuDelegate
 import org.hyperskill.app.android.step.view.delegate.StepRouterDelegate
+import org.hyperskill.app.android.step.view.model.OpenTheoryMenuAction
 import org.hyperskill.app.android.step.view.model.StepHost
-import org.hyperskill.app.android.step.view.model.StepMenuState
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarContentViewState
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step.view.navigation.StepNavigationContainer
 import org.hyperskill.app.android.step.view.navigation.StepWrapperScreen
-import org.hyperskill.app.android.step_theory_feedback.dialog.StepTheoryFeedbackDialogFragment
+import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarFeature
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 import ru.nobird.android.view.base.ui.extension.setTextIfChanged
-import ru.nobird.android.view.base.ui.extension.showIfNotExists
 
 @Suppress("DEPRECATION")
 class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost, StepNavigationContainer {
@@ -89,7 +89,7 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
             viewLifecycleOwner = viewLifecycleOwner,
             menuHost = requireActivity() as MenuHost,
             onTheoryClick = ::onTheoryClick,
-            onTheoryFeedbackClick = ::onTheoryFeedbackClick
+            onSecondaryActionClick = ::onSecondaryActionClick
         )
         viewBinding.stepAppBar.stepToolbar.setNavigationOnClickListener {
             onNavigationClick()
@@ -150,6 +150,7 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
                     isVisible = true
                     setTextIfChanged(viewState.title)
                 }
+                renderTheoryAction(OpenTheoryMenuAction(isVisible = false, isEnabled = false))
                 TransitionManager.beginDelayedTransition(viewBinding.stepAppBar.stepToolbar)
             }
         }
@@ -178,18 +179,21 @@ class StepFragment : Fragment(R.layout.fragment_step), StepToolbarHost, StepHost
         }
     }
 
-    override fun renderMenu(menuState: StepMenuState) {
-        stepMenuDelegate?.renderMenu(menuState)
+    override fun renderTheoryAction(action: OpenTheoryMenuAction) {
+        stepMenuDelegate?.renderMainMenuAction(action)
     }
 
-    private fun onTheoryFeedbackClick() {
-        StepTheoryFeedbackDialogFragment
-            .newInstance(currentStepRoute)
-            .showIfNotExists(childFragmentManager, StepTheoryFeedbackDialogFragment.TAG)
+    override fun renderSecondaryMenuActions(actions: Set<StepMenuAction>) {
+        stepMenuDelegate?.renderSecondaryMenuActions(actions)
     }
 
     private fun onTheoryClick() {
         stepQuizToolbarCallback?.onTheoryClick()
+    }
+
+    private fun onSecondaryActionClick(action: StepMenuAction) {
+        (childFragmentManager.findFragmentByTag(StepWrapperScreen.TAG) as? StepToolbarCallback)
+            ?.onActionClicked(action)
     }
 
     @Suppress("MagicNumber")

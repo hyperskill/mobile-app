@@ -64,4 +64,18 @@ internal object LearningActivityTargetViewActionMapper {
                 }
             }
         }
+
+    fun mapLearningActivityToStepRouteOrNull(
+        activity: LearningActivity
+    ): StepRoute? {
+        val learningActivityTargetViewAction =
+            mapLearningActivityToTargetViewAction(
+                activity = activity,
+                trackId = null,
+                projectId = null
+            )
+                .getOrElse { return null }
+
+        return (learningActivityTargetViewAction as? LearningActivityTargetViewAction.NavigateTo.Step)?.stepRoute
+    }
 }

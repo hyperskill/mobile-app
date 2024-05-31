@@ -5,6 +5,7 @@ import io.ktor.client.plugins.cookies.CookiesStorage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.network.domain.model.NetworkEndpointConfigInfo
 
 interface NetworkComponent {
@@ -16,4 +17,5 @@ interface NetworkComponent {
     val authorizedHttpClient: HttpClient
     val frontendEventsUnauthorizedHttpClient: HttpClient
     val cookiesStorage: CookiesStorage
+    val urlBuilder: HyperskillUrlBuilder
 }

@@ -1,8 +1,6 @@
 package org.hyperskill.app.step_completion.presentation
 
-import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
-import org.hyperskill.app.learning_activities.presentation.model.LearningActivityTargetViewAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedContinueHyperskillAnalyticEvent
 import org.hyperskill.app.step_completion.domain.analytic.StepCompletionClickedStartPracticingHyperskillAnalyticEvent
@@ -41,7 +39,9 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
                     Action.ViewAction.ShowStartPracticingError(message.errorMessage)
                 )
             is Message.CheckTopicCompletionStatus.Completed -> {
-                val nextStepRoute = getNextStepRouteForLearningActivity(message.nextLearningActivity)
+                val nextStepRoute =
+                    message.nextLearningActivity
+                        ?.let(LearningActivityTargetViewActionMapper::mapLearningActivityToStepRouteOrNull)
                 state.copy(
                     continueButtonAction = ContinueButtonAction.NavigateToStudyPlan,
                     isPracticingLoading = false,
@@ -226,24 +226,4 @@ class StepCompletionReducer(private val stepRoute: StepRoute) : StateReducer<Sta
         } else {
             state to emptySet()
         }
-
-    private fun getNextStepRouteForLearningActivity(learningActivity: LearningActivity?): StepRoute? {
-        if (learningActivity == null) {
-            return null
-        }
-
-        val learningActivityTargetViewAction = LearningActivityTargetViewActionMapper
-            .mapLearningActivityToTargetViewAction(
-                activity = learningActivity,
-                trackId = null,
-                projectId = null
-            )
-            .getOrElse { return null }
-
-        return if (learningActivityTargetViewAction is LearningActivityTargetViewAction.NavigateTo.Step) {
-            learningActivityTargetViewAction.stepRoute
-        } else {
-            null
-        }
-    }
 }
