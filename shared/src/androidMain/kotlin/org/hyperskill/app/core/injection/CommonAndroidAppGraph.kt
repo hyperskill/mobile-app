@@ -35,10 +35,12 @@ import org.hyperskill.app.search.injection.PlatformSearchComponent
 import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementationComponent
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
+import org.hyperskill.app.step_feedback.injection.PlatformStepFeedbackComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
-import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topic_completed_modal.injection.PlatformTopicCompletedModalComponent
 import org.hyperskill.app.topics_repetitions.injection.PlatformTopicsRepetitionComponent
 import org.hyperskill.app.track_selection.details.injection.PlatformTrackSelectionDetailsComponent
 import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetailsParams
@@ -67,7 +69,7 @@ interface CommonAndroidAppGraph : AppGraph {
 
     fun buildPlatformStepQuizComponent(stepQuizComponent: StepQuizComponent): PlatformStepQuizComponent
 
-    fun buildPlatformStepTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent
+    fun buildPlatformStepFeedbackComponent(stepRoute: StepRoute): PlatformStepFeedbackComponent
 
     fun buildPlatformProfileComponent(profileComponent: ProfileComponent): PlatformProfileComponent
 
@@ -126,4 +128,8 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): PlatformProblemsLimitInfoModalComponent
+
+    fun buildPlatformTopicCompletedModalComponent(
+        params: TopicCompletedModalFeatureParams
+    ): PlatformTopicCompletedModalComponent
 }

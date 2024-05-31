@@ -1,8 +1,11 @@
 package org.hyperskill.app.step.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
+import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
@@ -10,15 +13,22 @@ import org.hyperskill.app.step_toolbar.presentation.StepToolbarFeature
 object StepFeature {
     data class State(
         val stepState: StepState,
-        val stepToolbarState: StepToolbarFeature.State
+        val stepToolbarState: StepToolbarFeature.State,
+        val isLoadingShowed: Boolean
     )
 
     internal fun initialState(stepRoute: StepRoute): State =
-        State(StepState.Idle, StepToolbarFeature.initialState(stepRoute))
+        State(
+            stepState = StepState.Idle,
+            stepToolbarState = StepToolbarFeature.initialState(stepRoute),
+            isLoadingShowed = false
+        )
 
     data class ViewState(
         val stepState: StepState,
-        val stepToolbarViewState: StepToolbarFeature.ViewState
+        val stepToolbarViewState: StepToolbarFeature.ViewState,
+        val stepMenuActions: Set<StepMenuAction>,
+        val isLoadingShowed: Boolean
     )
 
     sealed interface StepState {
@@ -43,6 +53,11 @@ object StepFeature {
         object ScreenShowed : Message
         object ScreenHidden : Message
 
+        object ShareClicked : Message
+        object ReportClicked : Message
+        object SkipClicked : Message
+        object OpenInWebClicked : Message
+
         /**
          * Message Wrappers
          */
@@ -55,10 +70,25 @@ object StepFeature {
         data class StepCompleted(val stepId: Long) : InternalMessage
 
         object SolvingTimerFired : InternalMessage
+
+        data class ShareLinkReady(val link: String) : InternalMessage
+
+        data class GetMagicLinkReceiveSuccess(val url: String) : InternalMessage
+        object GetMagicLinkReceiveFailure : InternalMessage
+
+        object StepSkipSuccess : InternalMessage
+        object StepSkipFailed : InternalMessage
+
+        data class FetchNextLearningActivitySuccess(val nextLearningActivity: LearningActivity?) : InternalMessage
+        object FetchNextLearningActivityError : InternalMessage
     }
 
     sealed interface Action {
         sealed interface ViewAction : Action {
+            data class ShareStepLink(val link: String) : ViewAction
+
+            data class ShowFeedbackModal(val stepRoute: StepRoute) : ViewAction
+
             data class StepCompletionViewAction(
                 val viewAction: StepCompletionFeature.Action.ViewAction
             ) : ViewAction
@@ -66,6 +96,14 @@ object StepFeature {
             data class StepToolbarViewAction(
                 val viewAction: StepToolbarFeature.Action.ViewAction
             ) : ViewAction
+
+            data class OpenUrl(val url: String) : ViewAction
+
+            object ShowLoadingError : ViewAction
+
+            data class ReloadStep(val stepRoute: StepRoute) : ViewAction
+
+            object ShowCantSkipError : ViewAction
         }
     }
 
@@ -81,6 +119,13 @@ object StepFeature {
         data class UpdateNextLearningActivityState(val step: Step) : InternalAction
 
         data class LogAnalyticEvent(val analyticEvent: AnalyticEvent) : InternalAction
+
+        data class CreateStepShareLink(val stepRoute: StepRoute) : InternalAction
+
+        data class GetMagicLink(val path: HyperskillUrlPath) : InternalAction
+
+        data class SkipStep(val stepId: Long) : InternalAction
+        object FetchNextLearningActivity : InternalAction
 
         /**
          * Action Wrappers

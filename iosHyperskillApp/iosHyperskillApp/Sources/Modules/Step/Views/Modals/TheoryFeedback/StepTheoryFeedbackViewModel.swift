@@ -18,7 +18,7 @@ final class StepTheoryFeedbackViewModel {
     }
 
     func doAlertShown() {
-        let event = StepTheoryFeedbackModalShownHyperskillAnalyticEvent(
+        let event = StepFeedbackModalShownHyperskillAnalyticEvent(
             route: stepRoute.analyticRoute,
             stepId: stepRoute.stepId
         )
@@ -26,7 +26,7 @@ final class StepTheoryFeedbackViewModel {
     }
 
     func doAlertHidden() {
-        let event = StepTheoryFeedbackModalHiddenHyperskillAnalyticEvent(
+        let event = StepFeedbackModalHiddenHyperskillAnalyticEvent(
             route: stepRoute.analyticRoute,
             stepId: stepRoute.stepId
         )
@@ -34,7 +34,7 @@ final class StepTheoryFeedbackViewModel {
     }
 
     func doSend() {
-        let event = StepTheoryFeedbackModalSendButtonClickedHyperskillAnalyticEvent(
+        let event = StepFeedbackModalSendButtonClickedHyperskillAnalyticEvent(
             route: stepRoute.analyticRoute,
             stepId: stepRoute.stepId,
             feedback: feedbackText ?? ""

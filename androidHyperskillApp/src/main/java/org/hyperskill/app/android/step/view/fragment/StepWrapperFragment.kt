@@ -8,6 +8,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.extensions.logger
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.databinding.FragmentStepWrapperBinding
@@ -17,15 +20,19 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step.view.model.StepToolbarCallback
 import org.hyperskill.app.android.step.view.model.StepToolbarHost
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeFragment
 import org.hyperskill.app.android.step_theory.view.fragment.StepTheoryFragment
+import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
 import org.hyperskill.app.step.domain.model.Step
+import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature
 import org.hyperskill.app.step.presentation.StepViewModel
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.redux.ui.extension.reduxViewModel
 import ru.nobird.app.presentation.redux.container.ReduxView
 
@@ -39,10 +46,13 @@ class StepWrapperFragment :
     ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback,
-    StepQuizToolbarCallback {
+    StepQuizToolbarCallback,
+    TopicCompletedDialogFragment.Callback,
+    StepToolbarCallback {
 
     companion object {
         private const val STEP_CONTENT_TAG = "step_content"
+        private const val LOGGER_TAG = "StepWrapperFragment"
 
         @Suppress("DEPRECATION")
         fun newInstance(stepRoute: StepRoute): Fragment =
@@ -65,6 +75,8 @@ class StepWrapperFragment :
 
     private val mainScreenRouter: MainScreenRouter =
         HyperskillApp.graph().navigationComponent.mainScreenCicerone.router
+
+    private val logger by logger(LOGGER_TAG)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,7 +109,8 @@ class StepWrapperFragment :
         StepDelegate.onAction(
             fragment = this,
             mainScreenRouter = mainScreenRouter,
-            action = action
+            action = action,
+            logger = logger
         )
     }
 
@@ -107,9 +120,23 @@ class StepWrapperFragment :
 
         if (stepState is StepFeature.StepState.Data) {
             initStepContainer(stepState)
-            parentOfType(StepToolbarHost::class.java)?.renderTopicProgress(state.stepToolbarViewState)
+            parentOfType(StepToolbarHost::class.java)?.apply {
+                renderTopicProgress(state.stepToolbarViewState)
+                renderSecondaryMenuActions(state.stepMenuActions)
+            }
             (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepCompletionView)
                 ?.renderPracticeLoading(stepState.stepCompletionState.isPracticingLoading)
+        }
+
+        renderLoading(state.isLoadingShowed)
+    }
+
+    private fun renderLoading(isLoadingShowed: Boolean) {
+        if (isLoadingShowed) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
         }
     }
 
@@ -146,7 +173,7 @@ class StepWrapperFragment :
     }
 
     override fun onShareClick(streak: Int) {
-        stepViewModel.onShareClick(streak)
+        stepViewModel.onShareStreakClick(streak)
     }
 
     override fun onLimitsClick() {
@@ -157,5 +184,17 @@ class StepWrapperFragment :
     override fun onTheoryClick() {
         (childFragmentManager.findFragmentByTag(STEP_CONTENT_TAG) as? StepQuizToolbarCallback)
             ?.onTheoryClick()
+    }
+
+    override fun navigateToStudyPlan() {
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalGoToStudyPlanClicked)
+    }
+
+    override fun navigateToNextTopic() {
+        onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
+    }
+
+    override fun onActionClicked(action: StepMenuAction) {
+        stepViewModel.onActionClick(action)
     }
 }

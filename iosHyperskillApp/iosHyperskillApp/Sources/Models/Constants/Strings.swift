@@ -133,11 +133,6 @@ enum Strings {
               sharedStrings.step_quiz_problem_of_day_solved_modal_share_streak_button_text.localized()
         }
 
-        enum TopicCompletedModal {
-            static let continueWithNextTopicButtonText =
-                sharedStrings.step_quiz_topic_completed_continue_with_next_topic_button_text.localized()
-        }
-
         enum ShareStreakModal {
             static let title = sharedStrings.share_streak_modal_title.localized()
             static let shareButton = sharedStrings.share_streak_modal_share_button_text.localized()

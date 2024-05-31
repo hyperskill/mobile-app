@@ -118,14 +118,14 @@ import org.hyperskill.app.step_completion.injection.StepCompletionComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionComponentImpl
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponent
 import org.hyperskill.app.step_completion.injection.StepCompletionFlowDataComponentImpl
+import org.hyperskill.app.step_feedback.injection.StepFeedbackComponent
+import org.hyperskill.app.step_feedback.injection.StepFeedbackComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
 import org.hyperskill.app.step_quiz.injection.StepQuizComponentImpl
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponent
 import org.hyperskill.app.step_quiz_hints.injection.StepQuizHintsComponentImpl
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponent
 import org.hyperskill.app.step_quiz_toolbar.injection.StepQuizToolbarComponentImpl
-import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponent
-import org.hyperskill.app.step_theory_feedback.injection.StepTheoryFeedbackComponentImpl
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponent
 import org.hyperskill.app.step_toolbar.injection.StepToolbarComponentImpl
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
@@ -142,6 +142,9 @@ import org.hyperskill.app.submissions.injection.SubmissionsDataComponent
 import org.hyperskill.app.submissions.injection.SubmissionsDataComponentImpl
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponent
 import org.hyperskill.app.subscriptions.injection.SubscriptionsDataComponentImpl
+import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
+import org.hyperskill.app.topic_completed_modal.injection.TopicCompletedModalComponent
+import org.hyperskill.app.topic_completed_modal.injection.TopicCompletedModalComponentImpl
 import org.hyperskill.app.topics.injection.TopicsDataComponent
 import org.hyperskill.app.topics.injection.TopicsDataComponentImpl
 import org.hyperskill.app.topics_repetitions.injection.TopicsRepetitionsComponent
@@ -300,8 +303,8 @@ abstract class BaseAppGraph : AppGraph {
     /**
      * Step theory feedback component
      */
-    override fun buildStepTheoryFeedbackComponent(stepRoute: StepRoute): StepTheoryFeedbackComponent =
-        StepTheoryFeedbackComponentImpl(this, stepRoute)
+    override fun buildStepFeedbackComponent(stepRoute: StepRoute): StepFeedbackComponent =
+        StepFeedbackComponentImpl(this, stepRoute)
 
     override fun buildSubmissionsDataComponent(): SubmissionsDataComponent =
         SubmissionsDataComponentImpl(this)
@@ -516,4 +519,9 @@ abstract class BaseAppGraph : AppGraph {
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent =
         ProblemsLimitInfoModalComponentImpl(appGraph = this, params = params)
+
+    override fun buildTopicCompletedModalComponent(
+        params: TopicCompletedModalFeatureParams
+    ): TopicCompletedModalComponent =
+        TopicCompletedModalComponentImpl(appGraph = this, params = params)
 }

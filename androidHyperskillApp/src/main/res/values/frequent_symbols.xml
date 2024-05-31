@@ -2,34 +2,22 @@
 <resources>
     <string-array name="frequent_symbols_default">
         <item>Tab</item>
-        <item>&lt;</item>
-        <item>></item>
-        <item>!</item>
-        <item>/</item>
-        <item>.</item>
-        <item>;</item>
-        <item>=</item>
-        <item>\"</item>
-        <item>{</item>
-        <item>}</item>
-        <item>[</item>
-        <item>]</item>
         <item>(</item>
-        <item>)</item>
-        <item>&amp;</item>
-        <item>|</item>
-        <item>\#</item>
-        <item>*</item>
+        <item>\"</item>
+        <item>=</item>
+        <item>;</item>
+        <item>.</item>
+        <item>,</item>
+        <item>{</item>
+        <item>:</item>
         <item>+</item>
         <item>-</item>
-        <item>:</item>
+        <item>*</item>
+        <item>/</item>
         <item>%</item>
-        <item>,</item>
-        <item>_</item>
-        <item>\@</item>
-        <item>\?</item>
-        <item>^</item>
-        <item>"'"</item>
+        <item>></item>
+        <item>&lt;</item>
+        <item>[</item>
     </string-array>
     <string-array name="frequent_symbols_cpp">
         <item>Tab</item>
@@ -158,65 +146,41 @@
     </string-array>
     <string-array name="frequent_symbols_java">
         <item>Tab</item>
-        <item>{</item>
-        <item>}</item>
-        <item>;</item>
+        <item>(</item>
         <item>\"</item>
         <item>=</item>
-        <item>(</item>
-        <item>)</item>
-        <item>[</item>
-        <item>]</item>
-        <item>&lt;</item>
-        <item>></item>
+        <item>;</item>
         <item>.</item>
-        <item>&amp;</item>
-        <item>|</item>
-        <item>!</item>
+        <item>,</item>
+        <item>{</item>
+        <item>:</item>
         <item>+</item>
         <item>-</item>
         <item>*</item>
         <item>/</item>
         <item>%</item>
-        <item>:</item>
-        <item>,</item>
-        <item>_</item>
-        <item>\@</item>
-        <item>\?</item>
-        <item>^</item>
-        <item>"'"</item>
-        <item>\#</item>
+        <item>></item>
+        <item>&lt;</item>
+        <item>[</item>
     </string-array>
     <string-array name="frequent_symbols_js">
         <item>Tab</item>
-        <item>{</item>
-        <item>}</item>
-        <item>;</item>
-        <item>\"</item>
         <item>(</item>
-        <item>)</item>
+        <item>\"</item>
         <item>=</item>
-        <item>[</item>
-        <item>]</item>
+        <item>;</item>
         <item>.</item>
+        <item>,</item>
+        <item>{</item>
         <item>:</item>
-        <item>_</item>
-        <item>!</item>
-        <item>&amp;</item>
-        <item>|</item>
-        <item>*</item>
-        <item>/</item>
         <item>+</item>
         <item>-</item>
+        <item>*</item>
+        <item>/</item>
         <item>%</item>
-        <item>\?</item>
-        <item>\#</item>
-        <item>&lt;</item>
         <item>></item>
-        <item>,</item>
-        <item>\@</item>
-        <item>^</item>
-        <item>"'"</item>
+        <item>&lt;</item>
+        <item>[</item>
     </string-array>
     <string-array name="frequent_symbols_php">
         <item>Tab</item>
@@ -252,34 +216,21 @@
     </string-array>
     <string-array name="frequent_symbols_py">
         <item>Tab</item>
-        <item>:</item>
         <item>(</item>
-        <item>)</item>
         <item>\"</item>
-        <item>"'"</item>
-        <item>{</item>
-        <item>}</item>
-        <item>[</item>
-        <item>]</item>
-        <item>,</item>
         <item>=</item>
-        <item>!</item>
-        <item>/</item>
+        <item>:</item>
         <item>.</item>
-        <item>;</item>
-        <item>&lt;</item>
-        <item>></item>
-        <item>&amp;</item>
-        <item>|</item>
-        <item>\#</item>
-        <item>*</item>
+        <item>,</item>
         <item>+</item>
         <item>-</item>
+        <item>*</item>
+        <item>/</item>
         <item>%</item>
-        <item>_</item>
-        <item>\@</item>
-        <item>\?</item>
-        <item>^</item>
+        <item>></item>
+        <item>&lt;</item>
+        <item>[</item>
+        <item>{</item>
     </string-array>
     <string-array name="frequent_symbols_rb">
         <item>Tab</item>
@@ -315,7 +266,6 @@
     <string-array name="frequent_symbols_sql">
         <item>Tab</item>
         <item>(</item>
-        <item>)</item>
         <item>"'"</item>
         <item>"`"</item>
         <item>.</item>
