@@ -8,14 +8,14 @@ import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
 
 /**
- * Represents click on the home screen quick action analytic event.
+ * Represents a click on the step screen menu action.
  *
  * JSON payload:
  * ```
  * {
  *     "route": "/step/learn/1",
  *     "action": "click",
- *     "part": "main",
+ *     "part": "head",
  *     "target": "share | skip | report | open_in_web",
  *     "context":  {
  *         "step_id": 1
@@ -31,7 +31,7 @@ class StepToolbarActionClickedHyperskillAnalyticEvent(
 ) : HyperskillAnalyticEvent(
     route = stepRoute.analyticRoute,
     action = HyperskillAnalyticAction.CLICK,
-    part = HyperskillAnalyticPart.MAIN,
+    part = HyperskillAnalyticPart.HEAD,
     target = when (action) {
         StepMenuAction.SHARE -> HyperskillAnalyticTarget.SHARE
         StepMenuAction.REPORT -> HyperskillAnalyticTarget.REPORT

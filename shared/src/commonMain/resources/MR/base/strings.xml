@@ -749,5 +749,5 @@
     <string name="step_menu_share_action">Share</string>
     <string name="step_menu_report_action">Report</string>
     <string name="step_menu_skip_action">Skip</string>
-    <string name="step_menu_open_in_web_action">Open in browser</string>
+    <string name="step_menu_open_in_web_action">Open in Web</string>
 </resources>

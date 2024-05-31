@@ -1,6 +1,5 @@
 package org.hyperskill.app.android.step.view.delegate
 
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -45,7 +44,6 @@ class StepMenuDelegate(
         menuActionsStateFlow
             .debounce(100.milliseconds)
             .onEach {
-                Log.d("StepMenuDelegate", "invalidateMenu: $it")
                 menuHost.invalidateMenu()
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
