@@ -3,10 +3,12 @@ package org.hyperskill.app.step.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.step.domain.interactor.StepInteractor
 import org.hyperskill.app.step.domain.model.StepRoute
@@ -38,6 +40,8 @@ internal object StepFeatureBuilder {
         nextLearningActivityStateRepository: NextLearningActivityStateRepository,
         analyticInteractor: AnalyticInteractor,
         stepCompletedFlow: StepCompletedFlow,
+        urlBuilder: HyperskillUrlBuilder,
+        magicLinksInteractor: MagicLinksInteractor,
         sentryInteractor: SentryInteractor,
         stepCompletionReducer: StepCompletionReducer,
         stepCompletionActionDispatcher: StepCompletionActionDispatcher,
@@ -57,13 +61,17 @@ internal object StepFeatureBuilder {
             stepCompletedFlow = stepCompletedFlow,
             stepInteractor = stepInteractor,
             nextLearningActivityStateRepository = nextLearningActivityStateRepository,
+            urlBuilder = urlBuilder,
+            magicLinksInteractor = magicLinksInteractor,
             analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
-            logger.withTag(LOG_TAG)
+            logger = logger.withTag(LOG_TAG)
         )
 
+        val stepViewStateMapper = StepViewStateMapper(stepRoute)
+
         return ReduxFeature(StepFeature.initialState(stepRoute), stepReducer)
-            .transformState(StepViewStateMapper::map)
+            .transformState(stepViewStateMapper::map)
             .wrapWithActionDispatcher(stepActionDispatcher)
             .wrapWithActionDispatcher(
                 stepCompletionActionDispatcher.transform(

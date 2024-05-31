@@ -79,6 +79,18 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildSkipStep(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-feature-skip-step-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
+    fun buildSkipStepNextLearningActivityLoading(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "step-feature-skip-step-next-step-loading",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     /**
      * StepCompletionFeature
      */

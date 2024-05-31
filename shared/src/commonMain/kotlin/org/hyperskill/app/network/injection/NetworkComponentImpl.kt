@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.sync.Mutex
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.auth.injection.AuthDataBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.network.domain.model.AuthorizedClientDependencies
 import org.hyperskill.app.network.domain.model.NetworkClientType
@@ -67,4 +68,7 @@ internal class NetworkComponentImpl(
             appGraph.commonComponent.buildKonfig.buildVariant,
             cookiesStorage
         )
+
+    override val urlBuilder: HyperskillUrlBuilder
+        get() = HyperskillUrlBuilder(endpointConfigInfo)
 }

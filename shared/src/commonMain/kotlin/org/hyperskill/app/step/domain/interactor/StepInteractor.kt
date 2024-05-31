@@ -61,4 +61,7 @@ class StepInteractor(
 
             nextRecommendedStep
         }
+
+    suspend fun skipStep(stepId: Long): Result<Step> =
+        stepRepository.skipStep(stepId)
 }
