@@ -18,4 +18,5 @@ internal object AnalyticKeys {
     const val PARAM_SUBSCRIPTION_TYPE = "subscription_type"
     const val PARAM_SUBSCRIPTION_STATUS = "subscription_status"
     const val PARAM_FEATURES = "features"
+    const val CAN_MAKE_PAYMENTS = "can_make_payments"
 }
