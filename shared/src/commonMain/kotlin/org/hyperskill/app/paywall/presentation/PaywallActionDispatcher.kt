@@ -73,7 +73,7 @@ internal class PaywallActionDispatcher(
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildPaywallFeaturePurchaseSubscription(),
             onError = { e ->
-                logger.e(e) { "Failed to purchase subscription"}
+                logger.e(e) { "Failed to purchase subscription" }
                 InternalMessage.MobileOnlySubscriptionPurchaseError
             }
         ) {

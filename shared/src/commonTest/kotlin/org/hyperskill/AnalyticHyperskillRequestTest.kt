@@ -6,9 +6,9 @@ import kotlinx.serialization.json.addJsonObject
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
+import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
-import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget

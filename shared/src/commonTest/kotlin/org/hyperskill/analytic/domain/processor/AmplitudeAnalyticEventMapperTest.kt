@@ -4,11 +4,11 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.apps_flyer.AppsFlyerAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
-import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
