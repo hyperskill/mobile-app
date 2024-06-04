@@ -4,7 +4,7 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.amplitude.AmplitudeAnalyticEvent
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent
-import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticKeys
+import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 
 object AmplitudeAnalyticEventMapper {
@@ -71,7 +71,7 @@ object AmplitudeAnalyticEventMapper {
 
     private fun getParams(analyticEvent: HyperskillAnalyticEvent): Map<String, Any> =
         buildMap {
-            put(HyperskillAnalyticKeys.PARAM_ROUTE, analyticEvent.route.path)
+            put(AnalyticKeys.PARAM_ROUTE, analyticEvent.route.path)
             if (analyticEvent.context != null) {
                 putAll(analyticEvent.context)
             }

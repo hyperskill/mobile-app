@@ -49,7 +49,7 @@ final class AmplitudeManager: AmplitudeAnalyticEngine {
                 userId: userProperties.userId?.stringValue,
                 eventType: amplitudeAnalyticEvent.name,
                 eventProperties: amplitudeAnalyticEvent.params,
-                userProperties: userProperties.asMapWithoutUserId()
+                userProperties: userProperties.properties
             )
         )
     }

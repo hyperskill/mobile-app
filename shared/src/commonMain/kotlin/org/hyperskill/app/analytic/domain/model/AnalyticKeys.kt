@@ -1,6 +1,6 @@
-package org.hyperskill.app.analytic.domain.model.hyperskill
+package org.hyperskill.app.analytic.domain.model
 
-internal object HyperskillAnalyticKeys {
+internal object AnalyticKeys {
     const val PARAM_CLIENT_TIME = "client_time"
     const val PARAM_ROUTE = "route"
     const val PARAM_ACTION = "action"
