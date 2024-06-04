@@ -4,7 +4,7 @@ import org.hyperskill.app.step.domain.model.BlockName
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.domain.model.isIdeRequired
-import org.hyperskill.app.step.domain.model.supportedBlocksNames
+import org.hyperskill.app.step.domain.model.isSupported
 import org.hyperskill.app.submissions.domain.model.SubmissionStatus
 import org.hyperskill.app.submissions.domain.model.isWrongOrRejected
 
@@ -75,7 +75,7 @@ object StepQuizResolver {
         }
 
     fun isQuizSupportable(step: Step): Boolean =
-        BlockName.supportedBlocksNames.contains(step.block.name) && !step.isIdeRequired()
+        step.isSupported() && !step.isIdeRequired()
 
     internal fun isIdeRequired(step: Step, submissionState: StepQuizFeature.SubmissionState): Boolean {
         if (step.isIdeRequired()) {

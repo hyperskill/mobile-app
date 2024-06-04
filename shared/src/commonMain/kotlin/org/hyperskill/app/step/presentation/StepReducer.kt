@@ -1,7 +1,6 @@
 package org.hyperskill.app.step.presentation
 
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.learning_activities.presentation.mapper.LearningActivityTargetViewActionMapper
 import org.hyperskill.app.step.domain.analytic.StepToolbarActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.model.StepMenuAction
@@ -70,10 +69,10 @@ internal class StepReducer(
             InternalMessage.StepSkipSuccess -> handleSkipStepSuccess(state)
             InternalMessage.StepSkipFailed -> handleSkipStepError(state)
 
-            is InternalMessage.FetchNextLearningActivitySuccess ->
+            is InternalMessage.FetchNextRecommendedStepSuccess ->
                 handleFetchNextLearningActivitySuccess(state, message)
-            InternalMessage.FetchNextLearningActivityError ->
-                handleFetchNextLearningActivityError(state)
+            InternalMessage.FetchNextRecommendedStepError ->
+                handleFetchNextRecommendedStepError(state)
         } ?: (state to emptySet())
 
     private fun handleInitialize(state: State, message: Message.Initialize): ReducerResult {
@@ -233,33 +232,30 @@ internal class StepReducer(
 
     private fun handleSkipStepSuccess(state: State): ReducerResult =
         if (state.stepState is StepState.Data) {
-            state to setOf(InternalAction.FetchNextLearningActivity)
+            val updatedStep = state.stepState.step.copy(canSkip = false)
+            state.updateStepState(state.stepState.copy(step = updatedStep)) to
+                setOf(InternalAction.FetchNextRecommendedStep(state.stepState.step))
         } else {
             state to emptySet()
         }
 
     private fun handleSkipStepError(state: State): ReducerResult =
-        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowLoadingError)
+        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowCantSkipError)
 
     private fun handleFetchNextLearningActivitySuccess(
         state: State,
-        message: InternalMessage.FetchNextLearningActivitySuccess
+        message: InternalMessage.FetchNextRecommendedStepSuccess
     ): ReducerResult {
         val nextStepRoute =
-            message.nextLearningActivity
-                ?.let(LearningActivityTargetViewActionMapper::mapLearningActivityToStepRouteOrNull)
-
-        return state.copy(isLoadingShowed = false) to setOf(
-            if (nextStepRoute != null) {
-                Action.ViewAction.ReloadStep(nextStepRoute)
-            } else {
-                Action.ViewAction.ShowCantSkipError
-            }
-        )
+            StepRoute.Learn.Step(
+                stepId = message.nextRecommendedStep.id,
+                topicId = message.nextRecommendedStep.topic
+            )
+        return state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ReloadStep(nextStepRoute))
     }
 
-    private fun handleFetchNextLearningActivityError(state: State): ReducerResult =
-        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowLoadingError)
+    private fun handleFetchNextRecommendedStepError(state: State): ReducerResult =
+        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowCantSkipError)
 
     private fun handleOpenInWebClicked(state: State): ReducerResult =
         state.copy(isLoadingShowed = true) to setOf(

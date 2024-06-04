@@ -2,7 +2,6 @@ package org.hyperskill.app.step.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
-import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepContext
 import org.hyperskill.app.step.domain.model.StepMenuAction
@@ -79,8 +78,8 @@ object StepFeature {
         object StepSkipSuccess : InternalMessage
         object StepSkipFailed : InternalMessage
 
-        data class FetchNextLearningActivitySuccess(val nextLearningActivity: LearningActivity?) : InternalMessage
-        object FetchNextLearningActivityError : InternalMessage
+        data class FetchNextRecommendedStepSuccess(val nextRecommendedStep: Step) : InternalMessage
+        object FetchNextRecommendedStepError : InternalMessage
     }
 
     sealed interface Action {
@@ -125,7 +124,7 @@ object StepFeature {
         data class GetMagicLink(val path: HyperskillUrlPath) : InternalAction
 
         data class SkipStep(val stepId: Long) : InternalAction
-        object FetchNextLearningActivity : InternalAction
+        data class FetchNextRecommendedStep(val currentStep: Step) : InternalAction
 
         /**
          * Action Wrappers

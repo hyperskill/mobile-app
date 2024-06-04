@@ -85,8 +85,8 @@ internal class StepActionDispatcher(
             is InternalAction.GetMagicLink ->
                 handleGetMagicLink(action.path, ::onNewMessage)
             is InternalAction.SkipStep -> handleSkipStep(action.stepId, ::onNewMessage)
-            is InternalAction.FetchNextLearningActivity ->
-                handleFetchNextLearningActivityStep(::onNewMessage)
+            is InternalAction.FetchNextRecommendedStep ->
+                handleFetchNextLearningActivityStep(action, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -218,15 +218,22 @@ internal class StepActionDispatcher(
     }
 
     private suspend fun handleFetchNextLearningActivityStep(
+        action: InternalAction.FetchNextRecommendedStep,
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStepNextLearningActivityLoading(),
-            onError = { InternalMessage.FetchNextLearningActivityError }
+            onError = { InternalMessage.FetchNextRecommendedStepError }
         ) {
-            val nextLearningActivity =
-                nextLearningActivityStateRepository.getState(forceUpdate = true).getOrThrow()
-            InternalMessage.FetchNextLearningActivitySuccess(nextLearningActivity)
+            val nextRecommendedStep =
+                stepInteractor
+                    .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
+                    .getOrThrow()
+            if (nextRecommendedStep != null) {
+                InternalMessage.FetchNextRecommendedStepSuccess(nextRecommendedStep)
+            } else {
+                InternalMessage.FetchNextRecommendedStepError
+            }
         }.let(onNewMessage)
     }
 }
