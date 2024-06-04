@@ -21,6 +21,7 @@ dependencies {
     implementation(libs.android.ui.constraintlayout)
     implementation(libs.android.ui.swiperefreshlayout)
     implementation(libs.android.ui.core.ktx)
+    implementation(libs.android.ui.activity.ktx)
     implementation(libs.android.ui.fragment)
     implementation(libs.android.ui.fragment.ktx)
     implementation(libs.android.lifecycle.runtime)
