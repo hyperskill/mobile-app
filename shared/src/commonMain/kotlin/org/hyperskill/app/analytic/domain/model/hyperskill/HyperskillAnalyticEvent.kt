@@ -2,6 +2,7 @@ package org.hyperskill.app.analytic.domain.model.hyperskill
 
 import kotlinx.datetime.Clock
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
+import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.analytic.domain.model.AnalyticSource
 import ru.nobird.app.core.model.mapOfNotNull
 
@@ -34,12 +35,12 @@ abstract class HyperskillAnalyticEvent(
     @Deprecated("Use context in constructor instead!")
     override val params: Map<String, Any> =
         mapOfNotNull(
-            HyperskillAnalyticKeys.PARAM_CLIENT_TIME to clientTime.toString(),
-            HyperskillAnalyticKeys.PARAM_ROUTE to route.path,
-            HyperskillAnalyticKeys.PARAM_ACTION to action.actionName,
-            HyperskillAnalyticKeys.PARAM_PART to part?.partName,
-            HyperskillAnalyticKeys.PARAM_TARGET to target?.targetName,
-            HyperskillAnalyticKeys.PARAM_CONTEXT to context?.takeIf { it.isNotEmpty() }
+            AnalyticKeys.PARAM_CLIENT_TIME to clientTime.toString(),
+            AnalyticKeys.PARAM_ROUTE to route.path,
+            AnalyticKeys.PARAM_ACTION to action.actionName,
+            AnalyticKeys.PARAM_PART to part?.partName,
+            AnalyticKeys.PARAM_TARGET to target?.targetName,
+            AnalyticKeys.PARAM_CONTEXT to context?.takeIf { it.isNotEmpty() }
         )
 
     final override val sources: Set<AnalyticSource>
