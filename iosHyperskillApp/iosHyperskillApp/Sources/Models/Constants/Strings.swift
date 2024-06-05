@@ -76,14 +76,16 @@ enum Strings {
 
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
+    }
 
-        enum TheoryFeedback {
-            static let alertTitle = sharedStrings.step_theory_feedback_alert_title.localized()
-            static let alertHint = sharedStrings.step_theory_feedback_alert_hint.localized()
-            static let alertCancelButton = sharedStrings.step_theory_feedback_alert_cancel_button.localized()
-            static let alertSendButton = sharedStrings.step_theory_feedback_alert_send_button.localized()
-            static let alertSuccessText = sharedStrings.step_theory_feedback_alert_success_text.localized()
-        }
+    // MARK: - StepFeedback -
+
+    enum StepFeedback {
+        static let alertTitle = sharedStrings.step_theory_feedback_alert_title.localized()
+        static let alertHint = sharedStrings.step_theory_feedback_alert_hint.localized()
+        static let alertCancelButton = sharedStrings.step_theory_feedback_alert_cancel_button.localized()
+        static let alertSendButton = sharedStrings.step_theory_feedback_alert_send_button.localized()
+        static let alertSuccessText = sharedStrings.step_theory_feedback_alert_success_text.localized()
     }
 
     // MARK: - StepQuiz -

@@ -73,7 +73,7 @@ struct StepView: View {
                 viewData: viewModel.makeViewData(data.step),
                 startPracticingButton: startPracticingButton,
                 onTheoryFeedbackButtonTap: {
-                    let assembly = StepTheoryFeedbackModalAssembly(stepRoute: viewModel.stepRoute)
+                    let assembly = StepFeedbackAssembly(stepRoute: viewModel.stepRoute)
                     modalRouter.present(module: assembly.makeModule(), modalPresentationStyle: .automatic)
                 }
             )

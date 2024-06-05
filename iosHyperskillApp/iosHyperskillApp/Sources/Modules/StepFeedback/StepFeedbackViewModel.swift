@@ -1,7 +1,7 @@
 import Foundation
 import shared
 
-final class StepTheoryFeedbackViewModel {
+final class StepFeedbackViewModel {
     private let stepRoute: StepRoute
     private let analyticInteractor: AnalyticInteractor
 
