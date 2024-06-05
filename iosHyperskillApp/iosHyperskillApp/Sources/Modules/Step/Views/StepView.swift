@@ -112,15 +112,15 @@ struct StepView: View {
             handleStepCompletionViewAction(stepCompletionViewAction.viewAction)
         case .stepToolbarViewAction:
             break
-        case .openUrl(_):
+        case .openUrl:
             #warning("TODO: ALTAPPS-1269")
-        case .reloadStep(_):
+        case .reloadStep:
             #warning("TODO: ALTAPPS-1269")
-        case .shareStepLink(_):
+        case .shareStepLink:
             #warning("TODO: ALTAPPS-1269")
         case .showCantSkipError:
             #warning("TODO: ALTAPPS-1269")
-        case .showFeedbackModal(_):
+        case .showFeedbackModal:
             #warning("TODO: ALTAPPS-1269")
         case .showLoadingError:
             #warning("TODO: ALTAPPS-1269")

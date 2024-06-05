@@ -111,10 +111,11 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
 
     override fun buildPurchaseComponent(): PurchaseComponent =
         PurchaseComponentImpl(
-            AndroidPurchaseManager(
+            purchaseManager = AndroidPurchaseManager(
                 application = application,
                 isDebugMode = BuildConfig.DEBUG
-            )
+            ),
+            analyticInteractor = analyticComponent.analyticInteractor
         )
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
