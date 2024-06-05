@@ -20,6 +20,7 @@ enum Strings {
         static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
         static let progress = sharedStrings.progress.localized()
         static let completed = sharedStrings.completed.localized()
+        static let error = sharedStrings.common_error.localized()
     }
 
     // MARK: - Badge -
@@ -76,6 +77,7 @@ enum Strings {
 
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
+        static let stepSkipFailedMessage = sharedStrings.step_skip_failed_message.localized()
     }
 
     // MARK: - StepFeedback -
