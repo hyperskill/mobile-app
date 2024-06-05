@@ -86,7 +86,7 @@ internal class StepActionDispatcher(
                 handleGetMagicLink(action.path, ::onNewMessage)
             is InternalAction.SkipStep -> handleSkipStep(action.stepId, ::onNewMessage)
             is InternalAction.FetchNextRecommendedStep ->
-                handleFetchNextLearningActivityStep(action, ::onNewMessage)
+                handleFetchNextRecommendedStep(action, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -217,7 +217,7 @@ internal class StepActionDispatcher(
         }.let(onNewMessage)
     }
 
-    private suspend fun handleFetchNextLearningActivityStep(
+    private suspend fun handleFetchNextRecommendedStep(
         action: InternalAction.FetchNextRecommendedStep,
         onNewMessage: (Message) -> Unit
     ) {

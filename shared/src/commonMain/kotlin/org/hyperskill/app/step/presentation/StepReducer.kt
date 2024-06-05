@@ -70,7 +70,7 @@ internal class StepReducer(
             InternalMessage.StepSkipFailed -> handleSkipStepError(state)
 
             is InternalMessage.FetchNextRecommendedStepSuccess ->
-                handleFetchNextLearningActivitySuccess(state, message)
+                handleFetchNextRecommendedStepSuccess(state, message)
             InternalMessage.FetchNextRecommendedStepError ->
                 handleFetchNextRecommendedStepError(state)
         } ?: (state to emptySet())
@@ -242,7 +242,7 @@ internal class StepReducer(
     private fun handleSkipStepError(state: State): ReducerResult =
         state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowCantSkipError)
 
-    private fun handleFetchNextLearningActivitySuccess(
+    private fun handleFetchNextRecommendedStepSuccess(
         state: State,
         message: InternalMessage.FetchNextRecommendedStepSuccess
     ): ReducerResult {

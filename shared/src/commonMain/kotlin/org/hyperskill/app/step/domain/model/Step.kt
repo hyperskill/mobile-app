@@ -73,7 +73,7 @@ fun Step.pycharmCode(): String? =
     block.options.files?.first { it.isVisible }?.text
 
 /**
- * Returns true when step is supported on the platform.
+ * Returns true when step block name is supported on the platform.
  * Otherwise, returns false.
  *
  * @see [BlockName.supportedBlocksNames]
