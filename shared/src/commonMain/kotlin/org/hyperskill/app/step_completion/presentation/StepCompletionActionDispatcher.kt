@@ -95,29 +95,36 @@ class StepCompletionActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             HyperskillSentryTransactionBuilder.buildStepCompletionNextStepLoading(),
-            onError = {
-                InternalMessage.FetchNextRecommendedStepError(
-                    when (action.currentStep.type) {
-                        Step.Type.THEORY ->
-                            resourceProvider.getString(
-                                SharedResources.strings.step_theory_failed_to_start_practicing
-                            )
-                        Step.Type.PRACTICE ->
-                            resourceProvider.getString(
-                                SharedResources.strings.step_theory_failed_to_continue_practicing
-                            )
-                    }
-                )
-            }
+            onError = { getFetchNextRecommendedStepErrorMessage(action.currentStep.type) }
         ) {
             val nextRecommendedStep = stepInteractor
                 .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
                 .getOrThrow()
-            InternalMessage.FetchNextRecommendedStepSuccess(
-                StepRoute.Learn.Step(stepId = nextRecommendedStep.id, topicId = nextRecommendedStep.topic)
-            )
+            if (nextRecommendedStep != null) {
+                InternalMessage.FetchNextRecommendedStepSuccess(
+                    StepRoute.Learn.Step(stepId = nextRecommendedStep.id, topicId = nextRecommendedStep.topic)
+                )
+            } else {
+                getFetchNextRecommendedStepErrorMessage(action.currentStep.type)
+            }
         }.let(onNewMessage)
     }
+
+    private fun getFetchNextRecommendedStepErrorMessage(
+        currentStepType: Step.Type
+    ): InternalMessage.FetchNextRecommendedStepError =
+        InternalMessage.FetchNextRecommendedStepError(
+            when (currentStepType) {
+                Step.Type.THEORY ->
+                    resourceProvider.getString(
+                        SharedResources.strings.step_theory_failed_to_start_practicing
+                    )
+                Step.Type.PRACTICE ->
+                    resourceProvider.getString(
+                        SharedResources.strings.step_theory_failed_to_continue_practicing
+                    )
+            }
+        )
 
     private suspend fun handleCheckTopicCompletionStatusAction(
         action: InternalAction.CheckTopicCompletionStatus,
