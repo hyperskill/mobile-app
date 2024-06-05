@@ -15,7 +15,7 @@ class StepRepositoryImpl(
     override suspend fun completeStep(stepId: Long): Result<Step> =
         stepRemoteDataSource.completeStep(stepId)
 
-    override suspend fun skipStep(stepId: Long): Result<Step> =
+    override suspend fun skipStep(stepId: Long): Result<Unit> =
         stepRemoteDataSource.skipStep(stepId)
 
     override suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>> =

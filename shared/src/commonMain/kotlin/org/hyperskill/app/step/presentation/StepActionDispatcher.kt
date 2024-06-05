@@ -85,8 +85,8 @@ internal class StepActionDispatcher(
             is InternalAction.GetMagicLink ->
                 handleGetMagicLink(action.path, ::onNewMessage)
             is InternalAction.SkipStep -> handleSkipStep(action.stepId, ::onNewMessage)
-            is InternalAction.FetchNextLearningActivity ->
-                handleFetchNextLearningActivityStep(::onNewMessage)
+            is InternalAction.FetchNextRecommendedStep ->
+                handleFetchNextRecommendedStep(action, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -210,23 +210,37 @@ internal class StepActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStep(),
-            onError = { InternalMessage.StepSkipFailed }
+            onError = { e ->
+                logger.e(e) { "Failed to skip step" }
+                InternalMessage.StepSkipFailed
+            }
         ) {
             stepInteractor.skipStep(stepId)
             InternalMessage.StepSkipSuccess
         }.let(onNewMessage)
     }
 
-    private suspend fun handleFetchNextLearningActivityStep(
+    private suspend fun handleFetchNextRecommendedStep(
+        action: InternalAction.FetchNextRecommendedStep,
         onNewMessage: (Message) -> Unit
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStepNextLearningActivityLoading(),
-            onError = { InternalMessage.FetchNextLearningActivityError }
+            onError = { e ->
+                logger.e(e) { "Failed to fetch next recommended step" }
+                InternalMessage.FetchNextRecommendedStepError
+            }
         ) {
-            val nextLearningActivity =
-                nextLearningActivityStateRepository.getState(forceUpdate = true).getOrThrow()
-            InternalMessage.FetchNextLearningActivitySuccess(nextLearningActivity)
+            val nextRecommendedStep =
+                stepInteractor
+                    .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
+                    .getOrThrow()
+            if (nextRecommendedStep != null) {
+                InternalMessage.FetchNextRecommendedStepSuccess(nextRecommendedStep)
+            } else {
+                logger.w { "Next recommended step is not found" }
+                InternalMessage.FetchNextRecommendedStepError
+            }
         }.let(onNewMessage)
     }
 }

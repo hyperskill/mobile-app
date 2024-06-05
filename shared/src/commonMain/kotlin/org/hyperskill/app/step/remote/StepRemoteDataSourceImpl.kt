@@ -37,13 +37,12 @@ class StepRemoteDataSourceImpl(
                 .body<StepResponse>().steps.first()
         }
 
-    override suspend fun skipStep(stepId: Long): Result<Step> =
+    override suspend fun skipStep(stepId: Long): Result<Unit> =
         runCatching {
             httpClient
                 .post("/api/steps/$stepId/skip") {
                     contentType(ContentType.Application.Json)
                 }
-                .body<StepResponse>().steps.first()
         }
 
     override suspend fun viewStep(stepId: Long, stepContext: StepContext) {
