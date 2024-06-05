@@ -1,6 +1,9 @@
 package org.hyperskill.app.step.presentation
 
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
+import org.hyperskill.app.step.domain.analytic.StepToolbarActionClickedHyperskillAnalyticEvent
 import org.hyperskill.app.step.domain.analytic.StepViewedHyperskillAnalyticEvent
+import org.hyperskill.app.step.domain.model.StepMenuAction
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
@@ -52,6 +55,24 @@ internal class StepReducer(
                     reduceStepToolbarMessage(state.stepToolbarState, message.message)
                 state.copy(stepToolbarState = stepToolbarState) to stepToolbarActions
             }
+
+            Message.ShareClicked -> handleShareClicked(state)
+            is InternalMessage.ShareLinkReady -> handleShareLinkReady(state, message)
+
+            Message.ReportClicked -> handleReportClicked(state)
+            Message.SkipClicked -> handleSkipClicked(state)
+
+            Message.OpenInWebClicked -> handleOpenInWebClicked(state)
+            is InternalMessage.GetMagicLinkReceiveSuccess -> handleMagicLinkSuccess(state, message)
+            InternalMessage.GetMagicLinkReceiveFailure -> handleMagicLinkError(state)
+
+            InternalMessage.StepSkipSuccess -> handleSkipStepSuccess(state)
+            InternalMessage.StepSkipFailed -> handleSkipStepError(state)
+
+            is InternalMessage.FetchNextRecommendedStepSuccess ->
+                handleFetchNextRecommendedStepSuccess(state, message)
+            InternalMessage.FetchNextRecommendedStepError ->
+                handleFetchNextRecommendedStepError(state)
         } ?: (state to emptySet())
 
     private fun handleInitialize(state: State, message: Message.Initialize): ReducerResult {
@@ -104,6 +125,19 @@ internal class StepReducer(
             stepToolbarState = stepToolbarState
         ) to stepActions + stepToolbarActions
     }
+
+    private fun isPracticingAvailable(stepRoute: StepRoute): Boolean =
+        when (stepRoute) {
+            is StepRoute.Learn.Step,
+            is StepRoute.Learn.TheoryOpenedFromPractice ->
+                true
+            is StepRoute.Learn.TheoryOpenedFromSearch,
+            is StepRoute.LearnDaily,
+            is StepRoute.Repeat.Practice,
+            is StepRoute.Repeat.Theory,
+            is StepRoute.StageImplement ->
+                false
+        }
 
     private fun handleScreenShowed(state: State): ReducerResult =
         state to buildSet {
@@ -160,6 +194,90 @@ internal class StepReducer(
             state to emptySet()
         }
 
+    private fun handleShareClicked(state: State): ReducerResult =
+        state to setOf(
+            InternalAction.CreateStepShareLink(stepRoute),
+            InternalAction.LogAnalyticEvent(
+                StepToolbarActionClickedHyperskillAnalyticEvent(
+                    StepMenuAction.SHARE,
+                    stepRoute
+                )
+            )
+        )
+
+    private fun handleShareLinkReady(state: State, message: InternalMessage.ShareLinkReady): ReducerResult =
+        state to setOf(Action.ViewAction.ShareStepLink(message.link))
+
+    private fun handleReportClicked(state: State): ReducerResult =
+        state to setOf(
+            Action.ViewAction.ShowFeedbackModal(stepRoute),
+            InternalAction.LogAnalyticEvent(
+                StepToolbarActionClickedHyperskillAnalyticEvent(
+                    StepMenuAction.REPORT, stepRoute
+                )
+            )
+        )
+
+    private fun handleSkipClicked(state: State): ReducerResult =
+        if (!state.isLoadingShowed && state.stepState is StepState.Data) {
+            state.copy(isLoadingShowed = true) to setOf(
+                InternalAction.LogAnalyticEvent(
+                    StepToolbarActionClickedHyperskillAnalyticEvent(StepMenuAction.SKIP, stepRoute)
+                ),
+                InternalAction.SkipStep(stepRoute.stepId)
+            )
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleSkipStepSuccess(state: State): ReducerResult =
+        if (state.stepState is StepState.Data) {
+            val updatedStep = state.stepState.step.copy(canSkip = false)
+            state.updateStepState(state.stepState.copy(step = updatedStep)) to
+                setOf(InternalAction.FetchNextRecommendedStep(state.stepState.step))
+        } else {
+            state to emptySet()
+        }
+
+    private fun handleSkipStepError(state: State): ReducerResult =
+        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowCantSkipError)
+
+    private fun handleFetchNextRecommendedStepSuccess(
+        state: State,
+        message: InternalMessage.FetchNextRecommendedStepSuccess
+    ): ReducerResult {
+        val nextStepRoute =
+            StepRoute.Learn.Step(
+                stepId = message.nextRecommendedStep.id,
+                topicId = message.nextRecommendedStep.topic
+            )
+        return state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ReloadStep(nextStepRoute))
+    }
+
+    private fun handleFetchNextRecommendedStepError(state: State): ReducerResult =
+        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowCantSkipError)
+
+    private fun handleOpenInWebClicked(state: State): ReducerResult =
+        state.copy(isLoadingShowed = true) to setOf(
+            InternalAction.GetMagicLink(HyperskillUrlPath.Step(stepRoute)),
+            InternalAction.LogAnalyticEvent(
+                StepToolbarActionClickedHyperskillAnalyticEvent(
+                    StepMenuAction.OPEN_IN_WEB, stepRoute
+                )
+            )
+        )
+
+    private fun handleMagicLinkSuccess(
+        state: State,
+        message: InternalMessage.GetMagicLinkReceiveSuccess
+    ): ReducerResult =
+        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.OpenUrl(message.url))
+
+    private fun handleMagicLinkError(
+        state: State
+    ): ReducerResult =
+        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowLoadingError)
+
     private fun reduceStepCompletionMessage(
         state: StepCompletionFeature.State,
         message: StepCompletionFeature.Message
@@ -197,19 +315,6 @@ internal class StepReducer(
 
         return stepToolbarState to actions
     }
-
-    private fun isPracticingAvailable(stepRoute: StepRoute): Boolean =
-        when (stepRoute) {
-            is StepRoute.Learn.Step,
-            is StepRoute.Learn.TheoryOpenedFromPractice ->
-                true
-            is StepRoute.Learn.TheoryOpenedFromSearch,
-            is StepRoute.LearnDaily,
-            is StepRoute.Repeat.Practice,
-            is StepRoute.Repeat.Theory,
-            is StepRoute.StageImplement ->
-                false
-        }
 
     private fun State.updateStepState(stepState: StepState): State =
         copy(stepState = stepState)

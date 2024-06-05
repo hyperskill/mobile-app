@@ -14,13 +14,13 @@ interface StepRepository {
 
     suspend fun completeStep(stepId: Long): Result<Step>
 
-    suspend fun skipStep(stepId: Long): Result<Step>
+    suspend fun skipStep(stepId: Long): Result<Unit>
 
     suspend fun getRecommendedStepsByTopicId(topicId: Long): Result<List<Step>>
 
-    suspend fun getNextRecommendedStepByTopicId(topicId: Long): Result<Step> =
+    suspend fun getNextRecommendedStepByTopicId(topicId: Long): Result<Step?> =
         kotlin.runCatching {
-            getRecommendedStepsByTopicId(topicId).getOrThrow().first { it.isNext }
+            getRecommendedStepsByTopicId(topicId).getOrThrow().firstOrNull { it.isNext }
         }
 
     suspend fun viewStep(stepId: Long, stepContext: StepContext)

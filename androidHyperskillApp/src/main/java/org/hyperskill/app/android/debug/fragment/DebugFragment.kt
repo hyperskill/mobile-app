@@ -14,7 +14,7 @@ import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.debug.ui.DebugScreen
-import org.hyperskill.app.android.stage_implementation.view.navigation.StageImplementationScreen
+import org.hyperskill.app.android.stage_implementation.navigation.StageImplementationScreen
 import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.debug.presentation.DebugFeature

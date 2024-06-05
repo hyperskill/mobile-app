@@ -63,11 +63,11 @@ import org.hyperskill.app.stage_implementation.injection.PlatformStageImplementa
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.injection.PlatformStepComponent
 import org.hyperskill.app.step.injection.PlatformStepComponentImpl
+import org.hyperskill.app.step_feedback.injection.PlatformStepFeedbackComponent
+import org.hyperskill.app.step_feedback.injection.PlatformStepFeedbackComponentImpl
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponent
 import org.hyperskill.app.step_quiz.injection.PlatformStepQuizComponentImpl
 import org.hyperskill.app.step_quiz.injection.StepQuizComponent
-import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponent
-import org.hyperskill.app.step_theory_feedback.injection.PlatformStepTheoryFeedbackComponentImpl
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponent
 import org.hyperskill.app.study_plan.injection.PlatformStudyPlanScreenComponentImpl
 import org.hyperskill.app.topic_completed_modal.domain.model.TopicCompletedModalFeatureParams
@@ -111,10 +111,11 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
 
     override fun buildPurchaseComponent(): PurchaseComponent =
         PurchaseComponentImpl(
-            AndroidPurchaseManager(
+            purchaseManager = AndroidPurchaseManager(
                 application = application,
                 isDebugMode = BuildConfig.DEBUG
-            )
+            ),
+            analyticInteractor = analyticComponent.analyticInteractor
         )
 
     override fun buildPlatformAuthSocialWebViewComponent(): PlatformAuthSocialWebViewComponent =
@@ -153,9 +154,9 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     /**
      * Step theory feedback component
      */
-    override fun buildPlatformStepTheoryFeedbackComponent(stepRoute: StepRoute): PlatformStepTheoryFeedbackComponent =
-        PlatformStepTheoryFeedbackComponentImpl(
-            stepTheoryFeedbackComponent = buildStepTheoryFeedbackComponent(stepRoute)
+    override fun buildPlatformStepFeedbackComponent(stepRoute: StepRoute): PlatformStepFeedbackComponent =
+        PlatformStepFeedbackComponentImpl(
+            stepFeedbackComponent = buildStepFeedbackComponent(stepRoute)
         )
 
     /**

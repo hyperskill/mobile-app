@@ -20,9 +20,8 @@ class MagicLinksDataComponentImpl(appGraph: AppGraph) : MagicLinksDataComponent 
     override val magicLinksInteractor: MagicLinksInteractor
         get() = MagicLinksInteractor(magicLinksRepository)
 
-    private val urlBuilder: HyperskillUrlBuilder = HyperskillUrlBuilder(
-        appGraph.networkComponent.endpointConfigInfo
-    )
+    private val urlBuilder: HyperskillUrlBuilder =
+        appGraph.networkComponent.urlBuilder
 
     override val urlPathProcessor: UrlPathProcessor
         get() = UrlPathProcessor(urlBuilder, magicLinksInteractor)

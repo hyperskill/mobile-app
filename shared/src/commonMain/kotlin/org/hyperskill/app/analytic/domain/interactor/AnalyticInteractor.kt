@@ -9,12 +9,14 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEngine
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.analytic.domain.model.AnalyticEventMonitor
 import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
+import org.hyperskill.app.analytic.domain.model.AnalyticKeys
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.notification.local.domain.interactor.NotificationInteractor
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
+import ru.nobird.app.core.model.mapOfNotNull
 
 class AnalyticInteractor(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
@@ -25,8 +27,7 @@ class AnalyticInteractor(
     override val eventMonitor: AnalyticEventMonitor?
 ) : Analytic {
 
-    private var screenOrientation: ScreenOrientation? = null
-    private var isATTPermissionGranted: Boolean = false
+    private var userProperties: MutableMap<String, Any> = mutableMapOf()
 
     override fun reportEvent(event: AnalyticEvent, forceReportEvent: Boolean) {
         MainScope().launch {
@@ -46,12 +47,23 @@ class AnalyticInteractor(
         eventMonitor?.analyticDidReportEvent(event)
     }
 
+    override fun setUserProperty(key: String, value: Any) {
+        userProperties[key] = value
+    }
+
+    override fun removeUserProperty(key: String) {
+        userProperties.remove(key)
+    }
+
     override fun setScreenOrientation(screenOrientation: ScreenOrientation) {
-        this.screenOrientation = screenOrientation
+        userProperties[AnalyticKeys.PARAM_SCREEN_ORIENTATION] = when (screenOrientation) {
+            ScreenOrientation.PORTRAIT -> AnalyticKeys.SCREEN_ORIENTATION_VALUE_PORTRAIT
+            ScreenOrientation.LANDSCAPE -> AnalyticKeys.SCREEN_ORIENTATION_VALUE_LANDSCAPE
+        }
     }
 
     override fun setAppTrackingTransparencyAuthorizationStatus(isAuthorized: Boolean) {
-        this.isATTPermissionGranted = isAuthorized
+        userProperties[AnalyticKeys.PARAM_IS_ATT_ALLOW] = isAuthorized
     }
 
     private suspend fun getUserProperties(): AnalyticEventUserProperties =
@@ -68,14 +80,15 @@ class AnalyticInteractor(
 
             AnalyticEventUserProperties(
                 userId = profile?.id,
-                features = profile?.features?.origin,
-                subscriptionType = subscription?.type,
-                subscriptionStatus = subscription?.status,
-                isNotificationsPermissionGranted = notificationInteractor.isNotificationsPermissionGranted(),
-                isATTPermissionGranted = isATTPermissionGranted,
-                screenOrientation = screenOrientation ?: ScreenOrientation.PORTRAIT,
-                isInternalTesting = BuildKonfig.IS_INTERNAL_TESTING ?: false,
-                platform = platform.analyticName
+                properties = userProperties + mapOfNotNull(
+                    AnalyticKeys.PARAM_PLATFORM to platform.analyticName,
+                    AnalyticKeys.PARAM_SUBSCRIPTION_TYPE to subscription?.type,
+                    AnalyticKeys.PARAM_SUBSCRIPTION_STATUS to subscription?.status,
+                    AnalyticKeys.PARAM_IS_NOTIFICATIONS_ALLOW to
+                        notificationInteractor.isNotificationsPermissionGranted(),
+                    AnalyticKeys.PARAM_IS_INTERNAL_TESTING to (BuildKonfig.IS_INTERNAL_TESTING ?: false),
+                    AnalyticKeys.PARAM_FEATURES to profile?.features?.origin?.takeIf { it.isNotEmpty() }
+                ),
             )
         }
 }

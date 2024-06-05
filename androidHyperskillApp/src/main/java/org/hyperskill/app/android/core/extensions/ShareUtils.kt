@@ -55,4 +55,13 @@ object ShareUtils {
             file
         )
     }
+
+    fun getShareTextIntent(text: String): Intent {
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+        return Intent.createChooser(shareIntent, null)
+    }
 }

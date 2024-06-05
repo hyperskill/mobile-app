@@ -48,7 +48,10 @@ internal class PaywallActionDispatcher(
     private suspend fun handleFetchMobileOnlyPrice(onNewMessage: (Message) -> Unit) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildPaywallFetchSubscriptionPrice(),
-            onError = { InternalMessage.FetchMobileOnlyPriceError }
+            onError = { e ->
+                logger.e(e) { "Failed to load subscription price" }
+                InternalMessage.FetchMobileOnlyPriceError
+            }
         ) {
             val price = purchaseInteractor
                 .getFormattedMobileOnlySubscriptionPrice()
@@ -69,7 +72,10 @@ internal class PaywallActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildPaywallFeaturePurchaseSubscription(),
-            onError = { InternalMessage.MobileOnlySubscriptionPurchaseError }
+            onError = { e ->
+                logger.e(e) { "Failed to purchase subscription" }
+                InternalMessage.MobileOnlySubscriptionPurchaseError
+            }
         ) {
             val purchaseResult = purchaseInteractor
                 .purchaseMobileOnlySubscription(action.purchaseParams)
@@ -89,7 +95,10 @@ internal class PaywallActionDispatcher(
     private suspend fun handleSyncSubscription(onNewMessage: (Message) -> Unit) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildPaywallFeatureSyncSubscription(),
-            onError = { InternalMessage.SubscriptionSyncError }
+            onError = { e ->
+                logger.e(e) { "Failed to sync subscription status" }
+                InternalMessage.SubscriptionSyncError
+            }
         ) {
             val subscription = subscriptionsRepository.syncSubscription().getOrThrow()
             currentSubscriptionStateRepository.updateState(subscription)

@@ -19,12 +19,16 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
+import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
+import org.hyperskill.app.core.domain.url.HyperskillUrlPath
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
+import org.hyperskill.app.magic_links.domain.interactor.MagicLinksInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.sentry.domain.model.transaction.HyperskillSentryTransactionBuilder
 import org.hyperskill.app.sentry.domain.withTransaction
 import org.hyperskill.app.step.domain.interactor.StepInteractor
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step.presentation.StepFeature.Action
 import org.hyperskill.app.step.presentation.StepFeature.InternalAction
 import org.hyperskill.app.step.presentation.StepFeature.InternalMessage
@@ -37,6 +41,8 @@ internal class StepActionDispatcher(
     stepCompletedFlow: StepCompletedFlow,
     private val stepInteractor: StepInteractor,
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
+    private val urlBuilder: HyperskillUrlBuilder,
+    private val magicLinksInteractor: MagicLinksInteractor,
     private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val logger: Logger
@@ -74,6 +80,13 @@ internal class StepActionDispatcher(
                 handleStopStepSolvingTimeLogging()
             is InternalAction.LogSolvingTime ->
                 handleLogSolvingTime(action, stepSolvingInitialTime)
+            is InternalAction.CreateStepShareLink ->
+                handleCreateShareLink(action.stepRoute, ::onNewMessage)
+            is InternalAction.GetMagicLink ->
+                handleGetMagicLink(action.path, ::onNewMessage)
+            is InternalAction.SkipStep -> handleSkipStep(action.stepId, ::onNewMessage)
+            is InternalAction.FetchNextRecommendedStep ->
+                handleFetchNextRecommendedStep(action, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -163,5 +176,71 @@ internal class StepActionDispatcher(
                 logger.e(e) { "Failed to log step solving time" }
             }
         }
+    }
+
+    private fun handleCreateShareLink(
+        stepRoute: StepRoute,
+        onNewMessage: (Message) -> Unit
+    ) {
+        onNewMessage(
+            InternalMessage.ShareLinkReady(
+                urlBuilder.build(HyperskillUrlPath.Step(stepRoute)).toString()
+            )
+        )
+    }
+
+    private suspend fun handleGetMagicLink(
+        path: HyperskillUrlPath,
+        onNewMessage: (Message) -> Unit
+    ) {
+        magicLinksInteractor
+            .createMagicLink(path.path)
+            .fold(
+                onSuccess = {
+                    InternalMessage.GetMagicLinkReceiveSuccess(it.url)
+                },
+                onFailure = { InternalMessage.GetMagicLinkReceiveFailure }
+            )
+            .let(onNewMessage)
+    }
+
+    private suspend fun handleSkipStep(
+        stepId: Long,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildSkipStep(),
+            onError = { e ->
+                logger.e(e) { "Failed to skip step" }
+                InternalMessage.StepSkipFailed
+            }
+        ) {
+            stepInteractor.skipStep(stepId)
+            InternalMessage.StepSkipSuccess
+        }.let(onNewMessage)
+    }
+
+    private suspend fun handleFetchNextRecommendedStep(
+        action: InternalAction.FetchNextRecommendedStep,
+        onNewMessage: (Message) -> Unit
+    ) {
+        sentryInteractor.withTransaction(
+            transaction = HyperskillSentryTransactionBuilder.buildSkipStepNextLearningActivityLoading(),
+            onError = { e ->
+                logger.e(e) { "Failed to fetch next recommended step" }
+                InternalMessage.FetchNextRecommendedStepError
+            }
+        ) {
+            val nextRecommendedStep =
+                stepInteractor
+                    .getNextRecommendedStepAndCompleteCurrentIfNeeded(action.currentStep)
+                    .getOrThrow()
+            if (nextRecommendedStep != null) {
+                InternalMessage.FetchNextRecommendedStepSuccess(nextRecommendedStep)
+            } else {
+                logger.w { "Next recommended step is not found" }
+                InternalMessage.FetchNextRecommendedStepError
+            }
+        }.let(onNewMessage)
     }
 }
