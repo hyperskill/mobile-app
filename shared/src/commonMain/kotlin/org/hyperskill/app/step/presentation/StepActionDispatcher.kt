@@ -210,7 +210,7 @@ internal class StepActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStep(),
-            onError = {  e ->
+            onError = { e ->
                 logger.e(e) { "Failed to skip step" }
                 InternalMessage.StepSkipFailed
             }
