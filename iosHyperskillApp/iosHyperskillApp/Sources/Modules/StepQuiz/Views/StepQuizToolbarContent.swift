@@ -96,7 +96,7 @@ private struct TheoryToolbarItem: ToolbarContent {
     let onTap: () -> Void
 
     var body: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
+        ToolbarItem(placement: .automatic) {
             Button(
                 action: onTap,
                 label: { Image(systemName: "book") }

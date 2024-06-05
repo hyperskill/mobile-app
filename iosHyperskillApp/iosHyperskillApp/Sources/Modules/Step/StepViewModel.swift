@@ -80,6 +80,22 @@ final class StepViewModel: FeatureViewModel<
         )
     }
 
+    func doShareMenuAction() {
+        onNewMessage(StepFeatureMessageShareClicked())
+    }
+
+    func doReportMenuAction() {
+        onNewMessage(StepFeatureMessageReportClicked())
+    }
+
+    func doSkipMenuAction() {
+        onNewMessage(StepFeatureMessageSkipClicked())
+    }
+
+    func doOpenInWebMenuAction() {
+        onNewMessage(StepFeatureMessageOpenInWebClicked())
+    }
+
     func logSpacebotClickedEvent() {
         onNewMessage(
             StepFeatureMessageStepToolbarMessage(message: StepToolbarFeatureMessageSpacebotClicked())

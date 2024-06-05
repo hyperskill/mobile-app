@@ -2,7 +2,7 @@ import Foundation
 import shared
 import UIKit
 
-final class StepTheoryFeedbackModalAssembly: UIKitAssembly {
+final class StepFeedbackAssembly: UIKitAssembly {
     private let stepRoute: StepRoute
 
     init(stepRoute: StepRoute) {
@@ -10,43 +10,43 @@ final class StepTheoryFeedbackModalAssembly: UIKitAssembly {
     }
 
     func makeModule() -> UIViewController {
-        let viewModel = StepTheoryFeedbackViewModel(
+        let viewModel = StepFeedbackViewModel(
             stepRoute: stepRoute,
             analyticInteractor: .default
         )
 
         let alertController = UIAlertController(
-            title: Strings.Step.TheoryFeedback.alertTitle,
+            title: Strings.StepFeedback.alertTitle,
             message: nil,
             preferredStyle: .alert
         )
         alertController.addTextField { textField in
             textField.returnKeyType = .send
             textField.enablesReturnKeyAutomatically = true
-            textField.placeholder = Strings.Step.TheoryFeedback.alertHint
+            textField.placeholder = Strings.StepFeedback.alertHint
             textField.addTarget(
                 viewModel,
-                action: #selector(StepTheoryFeedbackViewModel.handleTextFieldDidChange(_:)),
+                action: #selector(StepFeedbackViewModel.handleTextFieldDidChange(_:)),
                 for: .editingChanged
             )
         }
 
         let cancelAction = UIAlertAction(
-            title: Strings.Step.TheoryFeedback.alertCancelButton,
+            title: Strings.StepFeedback.alertCancelButton,
             style: .cancel,
             handler: { _ in
                 viewModel.doAlertHidden()
             }
         )
         let sendAction = UIAlertAction(
-            title: Strings.Step.TheoryFeedback.alertSendButton,
+            title: Strings.StepFeedback.alertSendButton,
             style: .default,
             handler: { _ in
                 viewModel.doSend()
                 viewModel.doAlertHidden()
 
                 DispatchQueue.main.async {
-                    ProgressHUD.showSuccess(status: Strings.Step.TheoryFeedback.alertSuccessText)
+                    ProgressHUD.showSuccess(status: Strings.StepFeedback.alertSuccessText)
                 }
             }
         )

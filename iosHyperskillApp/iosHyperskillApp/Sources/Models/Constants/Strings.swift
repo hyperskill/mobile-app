@@ -20,6 +20,7 @@ enum Strings {
         static let goToStudyPlan = sharedStrings.go_to_study_plan.localized()
         static let progress = sharedStrings.progress.localized()
         static let completed = sharedStrings.completed.localized()
+        static let error = sharedStrings.common_error.localized()
     }
 
     // MARK: - Badge -
@@ -76,14 +77,17 @@ enum Strings {
 
     enum Step {
         static let startPracticing = sharedStrings.step_start_practicing_text.localized()
+        static let stepSkipFailedMessage = sharedStrings.step_skip_failed_message.localized()
+    }
 
-        enum TheoryFeedback {
-            static let alertTitle = sharedStrings.step_theory_feedback_alert_title.localized()
-            static let alertHint = sharedStrings.step_theory_feedback_alert_hint.localized()
-            static let alertCancelButton = sharedStrings.step_theory_feedback_alert_cancel_button.localized()
-            static let alertSendButton = sharedStrings.step_theory_feedback_alert_send_button.localized()
-            static let alertSuccessText = sharedStrings.step_theory_feedback_alert_success_text.localized()
-        }
+    // MARK: - StepFeedback -
+
+    enum StepFeedback {
+        static let alertTitle = sharedStrings.step_theory_feedback_alert_title.localized()
+        static let alertHint = sharedStrings.step_theory_feedback_alert_hint.localized()
+        static let alertCancelButton = sharedStrings.step_theory_feedback_alert_cancel_button.localized()
+        static let alertSendButton = sharedStrings.step_theory_feedback_alert_send_button.localized()
+        static let alertSuccessText = sharedStrings.step_theory_feedback_alert_success_text.localized()
     }
 
     // MARK: - StepQuiz -
