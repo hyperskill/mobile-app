@@ -210,7 +210,10 @@ internal class StepActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStep(),
-            onError = { InternalMessage.StepSkipFailed }
+            onError = {  e ->
+                logger.e(e) { "Failed to skip step" }
+                InternalMessage.StepSkipFailed
+            }
         ) {
             stepInteractor.skipStep(stepId)
             InternalMessage.StepSkipSuccess
@@ -223,7 +226,10 @@ internal class StepActionDispatcher(
     ) {
         sentryInteractor.withTransaction(
             transaction = HyperskillSentryTransactionBuilder.buildSkipStepNextLearningActivityLoading(),
-            onError = { InternalMessage.FetchNextRecommendedStepError }
+            onError = { e ->
+                logger.e(e) { "Failed to fetch next recommended step" }
+                InternalMessage.FetchNextRecommendedStepError
+            }
         ) {
             val nextRecommendedStep =
                 stepInteractor
@@ -232,6 +238,7 @@ internal class StepActionDispatcher(
             if (nextRecommendedStep != null) {
                 InternalMessage.FetchNextRecommendedStepSuccess(nextRecommendedStep)
             } else {
+                logger.w { "Next recommended step is not found" }
                 InternalMessage.FetchNextRecommendedStepError
             }
         }.let(onNewMessage)
