@@ -19,6 +19,7 @@
     <ID>ComposableParamOrder:ServerSwitcher.kt$EndpointSwitcher</ID>
     <ID>CyclomaticComplexMethod:AuthCredentialsReducer.kt$AuthCredentialsReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
     <ID>CyclomaticComplexMethod:DebugReducer.kt$DebugReducer$override fun reduce(state: State, message: Message): Pair&lt;State, Set&lt;Action&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:DefaultStepQuizFragment.kt$DefaultStepQuizFragment$override fun onAction(action: StepQuizFeature.Action.ViewAction)</ID>
     <ID>CyclomaticComplexMethod:HomeReducer.kt$HomeReducer$override fun reduce(state: State, message: Message): HomeReducerResult</ID>
     <ID>CyclomaticComplexMethod:LeaderboardScreenReducer.kt$LeaderboardScreenReducer$override fun reduce(state: State, message: Message): LeaderboardScreenReducerResult</ID>
     <ID>CyclomaticComplexMethod:LeaderboardWidgetReducer.kt$LeaderboardWidgetReducer$override fun reduce(state: State, message: Message): LeaderboardWidgetReducerResult</ID>
