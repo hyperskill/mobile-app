@@ -25,12 +25,11 @@ internal inline fun <State, Message, Action> Feature<State, Message, Action>.wra
     crossinline getAnalyticEvent: (Action) -> AnalyticEvent?
 ): Feature<State, Message, Action> =
     wrapWithActionDispatcher(
-        AnalyticActionDispatcher(
-            analyticInteractor = analyticInteractor,
-            logAnalyticScope = AnalyticActionDispatcherConfig(parentScope).createLogAnalyticScope(),
-        ) { action ->
-            getSingleAnalyticEventFromAction(action, getAnalyticEvent)
-        }
+        SingleAnalyticEventActionDispatcher(
+            analyticInteractor,
+            parentScope,
+            getAnalyticEvent
+        )
     )
 
 /**
@@ -46,10 +45,10 @@ internal inline fun <State, Message, Action> Feature<State, Message, Action>.wra
  *
  * @see [AnalyticActionDispatcher], [AnalyticActionDispatcherConfig], [AnalyticActionDispatcher.ScopeConfigOptions]
  */
-internal inline fun <State, Message, Action> Feature<State, Message, Action>.wrapWithBatchAnalyticLogger(
+internal fun <State, Message, Action> Feature<State, Message, Action>.wrapWithBatchAnalyticLogger(
     analyticInteractor: AnalyticInteractor,
     parentScope: CoroutineScope? = null,
-    noinline getAnalyticEvent: (Action) -> Collection<AnalyticEvent>?
+    getAnalyticEvent: (Action) -> Collection<AnalyticEvent>?
 ): Feature<State, Message, Action> =
     wrapWithActionDispatcher(
         AnalyticActionDispatcher(
@@ -69,7 +68,8 @@ internal inline fun <Action, Message> SingleAnalyticEventActionDispatcher(
         analyticInteractor = analyticInteractor,
         logAnalyticScope = AnalyticActionDispatcherConfig(parentScope).createLogAnalyticScope()
     ) { action ->
-        getSingleAnalyticEventFromAction(action, getAnalyticEvent)
+        val event = getAnalyticEvent(action)
+        if (event != null) listOf(event) else null
     }
 
 @Suppress("FunctionName", "unused")
@@ -83,11 +83,3 @@ internal inline fun <Action, Message> BatchAnalyticEventActionDispatcher(
         logAnalyticScope = AnalyticActionDispatcherConfig(parentScope).createLogAnalyticScope(),
         getAnalyticEvent = getAnalyticEvent
     )
-
-private inline fun <Action> getSingleAnalyticEventFromAction(
-    action: Action,
-    getAnalyticEvent: (Action) -> AnalyticEvent?
-): List<AnalyticEvent>? {
-    val event = getAnalyticEvent(action)
-    return if (event != null) listOf(event) else null
-}

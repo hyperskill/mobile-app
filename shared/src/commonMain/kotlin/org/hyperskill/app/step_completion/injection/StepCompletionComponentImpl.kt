@@ -3,6 +3,7 @@ package org.hyperskill.app.step_completion.injection
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_completion.presentation.MainStepCompletionActionDispatcher
 import org.hyperskill.app.step_completion.presentation.StepCompletionActionDispatcher
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 
@@ -13,8 +14,8 @@ internal class StepCompletionComponentImpl(
     override val stepCompletionReducer: StepCompletionReducer
         get() = StepCompletionReducer(stepRoute)
 
-    override val stepCompletionActionDispatcher: StepCompletionActionDispatcher
-        get() = StepCompletionActionDispatcher(
+    private val mainStepCompletionActionDispatcher: MainStepCompletionActionDispatcher
+        get() = MainStepCompletionActionDispatcher(
             ActionDispatcherOptions(),
             stepCompletedFlow = appGraph.stepCompletionFlowDataComponent.stepCompletedFlow,
             stepInteractor = appGraph.buildStepDataComponent().stepInteractor,
@@ -34,5 +35,11 @@ internal class StepCompletionComponentImpl(
             dailyStepCompletedFlow = appGraph.stepCompletionFlowDataComponent.dailyStepCompletedFlow,
             topicCompletedFlow = appGraph.stepCompletionFlowDataComponent.topicCompletedFlow,
             topicProgressFlow = appGraph.progressesFlowDataComponent.topicProgressFlow
+        )
+
+    override val stepCompletionActionDispatcher: StepCompletionActionDispatcher
+        get() = StepCompletionActionDispatcher(
+            mainStepCompletionActionDispatcher,
+            appGraph.analyticComponent.analyticInteractor
         )
 }

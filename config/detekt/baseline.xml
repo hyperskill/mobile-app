@@ -253,7 +253,7 @@
     <ID>ReturnCount:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$private fun getLoadedWidgetContent(state: ChallengeWidgetFeature.State.Content): ChallengeWidgetViewState</ID>
     <ID>ReturnCount:ExpandableTextView.kt$ExpandableTextView$private fun resolveDisplayedText(staticLayout: StaticLayout): CharSequence?</ID>
     <ID>ReturnCount:FillBlanksItemMapper.kt$FillBlanksItemMapper$internal fun map( componentsDataset: List&lt;Component>, replyBlanks: List&lt;String>? ): FillBlanksData?</ID>
-    <ID>ReturnCount:NotificationClickHandlingActionDispatcher.kt$NotificationClickHandlingActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>ReturnCount:MainNotificationClickHandlingActionDispatcher.kt$NotificationClickHandlingActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>ReturnCount:NotificationClickHandlingReducer.kt$NotificationClickHandlingReducer$private fun getStepRouteForNextLearningActivity(learningActivity: LearningActivity?): StepRoute?</ID>
     <ID>ReturnCount:NotificationExtensions.kt$fun NotificationChannel.isFullyEnabled(notificationManager: NotificationManagerCompat): Boolean</ID>
     <ID>ReturnCount:Progress.kt$fun Progress.averageRating(): Double</ID>

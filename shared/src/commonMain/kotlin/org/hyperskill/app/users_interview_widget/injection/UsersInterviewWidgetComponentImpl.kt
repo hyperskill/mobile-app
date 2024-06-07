@@ -6,6 +6,7 @@ import org.hyperskill.app.users_interview_widget.cache.UsersInterviewWidgetCache
 import org.hyperskill.app.users_interview_widget.data.repository.UsersInterviewWidgetRepositoryImpl
 import org.hyperskill.app.users_interview_widget.data.source.UsersInterviewWidgetCacheDataSource
 import org.hyperskill.app.users_interview_widget.domain.repository.UsersInterviewWidgetRepository
+import org.hyperskill.app.users_interview_widget.presentation.MainUsersInterviewWidgetActionDispatcher
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetActionDispatcher
 import org.hyperskill.app.users_interview_widget.presentation.UsersInterviewWidgetReducer
 
@@ -23,9 +24,11 @@ internal class UsersInterviewWidgetComponentImpl(
 
     override val usersInterviewWidgetActionDispatcher: UsersInterviewWidgetActionDispatcher
         get() = UsersInterviewWidgetActionDispatcher(
-            config = ActionDispatcherOptions(),
-            usersInterviewWidgetRepository = usersInterviewWidgetRepository,
-            currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
+            MainUsersInterviewWidgetActionDispatcher(
+                config = ActionDispatcherOptions(),
+                usersInterviewWidgetRepository = usersInterviewWidgetRepository,
+                currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository
+            ),
             analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
 }

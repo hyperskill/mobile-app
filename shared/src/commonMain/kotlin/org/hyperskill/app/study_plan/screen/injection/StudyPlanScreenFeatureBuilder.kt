@@ -54,6 +54,7 @@ internal object StudyPlanScreenFeatureBuilder {
                 studyPlanWidgetViewStateMapper = studyPlanWidgetViewStateMapper,
                 resourceProvider = resourceProvider
             )
+
         return ReduxFeature(
             StudyPlanScreenFeature.State(
                 toolbarState = GamificationToolbarFeature.State.Idle,
