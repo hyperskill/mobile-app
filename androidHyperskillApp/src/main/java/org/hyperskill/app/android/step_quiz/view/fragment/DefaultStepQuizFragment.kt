@@ -287,6 +287,18 @@ abstract class DefaultStepQuizFragment :
                     }
                 }
             }
+            StepQuizFeature.Action.ViewAction.HapticFeedback.CorrectSubmission -> {
+                // TODO(): ALTAPPS-1270
+            }
+            StepQuizFeature.Action.ViewAction.HapticFeedback.WrongSubmission -> {
+                // TODO(): ALTAPPS-1270
+            }
+            StepQuizFeature.Action.ViewAction.HapticFeedback.ReplyValidationError -> {
+                // TODO(): ALTAPPS-1270
+            }
+            StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton -> {
+                // TODO(): ALTAPPS-1270
+            }
         }
     }
 

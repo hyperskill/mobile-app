@@ -285,6 +285,10 @@ private extension StepQuizView {
             StepQuizHintsViewActionHandler.handle(viewAction: stepQuizHintsViewAction.viewAction)
         case .stepQuizToolbarViewAction(let stepQuizToolbarViewAction):
             handleStepQuizToolbarViewAction(viewAction: stepQuizToolbarViewAction.viewAction)
+        case .hapticFeedback(let hapticFeedbackViewAction):
+            handleHapticFeedbackViewAction(hapticFeedbackViewAction)
+        case .scrollToCallToActionButton:
+            #warning("Implement scroll to call to action button")
         }
     }
 
@@ -365,5 +369,19 @@ private extension StepQuizView {
             delegate: viewModel
         )
         panModalPresenter.presentPanModal(panModal)
+    }
+
+    func handleHapticFeedbackViewAction(_ viewAction: StepQuizFeatureActionViewActionHapticFeedback) {
+        let feedbackType: FeedbackGenerator.FeedbackType =
+        switch StepQuizFeatureActionViewActionHapticFeedbackKs(viewAction) {
+        case .replyValidationError:
+            .notification(.warning)
+        case .correctSubmission:
+            .notification(.success)
+        case .wrongSubmission:
+            .notification(.error)
+        }
+
+        FeedbackGenerator(feedbackType: feedbackType).triggerFeedback()
     }
 }

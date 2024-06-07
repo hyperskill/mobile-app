@@ -206,6 +206,8 @@ object StepQuizFeature {
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
+            object ScrollToCallToActionButton : ViewAction
+
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
             ) : ViewAction
@@ -224,6 +226,13 @@ object StepQuizFeature {
             sealed interface NavigateTo : ViewAction {
                 object StudyPlan : NavigateTo
                 data class TheoryStepScreen(val stepRoute: StepRoute) : NavigateTo
+            }
+
+            sealed interface HapticFeedback : ViewAction {
+                object ReplyValidationError : HapticFeedback
+
+                object WrongSubmission : HapticFeedback
+                object CorrectSubmission : HapticFeedback
             }
         }
     }

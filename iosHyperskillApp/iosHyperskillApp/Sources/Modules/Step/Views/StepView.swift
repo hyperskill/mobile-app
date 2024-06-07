@@ -179,6 +179,11 @@ struct StepView: View {
             presentShareStreakSystemModal(streak: Int(showShareStreakSystemModalViewAction.streak))
         case .showRequestUserReviewModal(let showRequestUserReviewModalViewAction):
             presentRequestReviewModal(stepRoute: showRequestUserReviewModalViewAction.stepRoute)
+        case .hapticFeedback(let hapticFeedbackViewAction):
+            switch StepCompletionFeatureActionViewActionHapticFeedbackKs(hapticFeedbackViewAction) {
+            case .topicCompleted:
+                FeedbackGenerator(feedbackType: .notification(.success)).triggerFeedback()
+            }
         }
     }
 
