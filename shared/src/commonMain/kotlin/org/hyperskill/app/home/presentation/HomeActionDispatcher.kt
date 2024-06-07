@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.utils.DateTimeUtils
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
@@ -36,7 +35,6 @@ internal class HomeActionDispatcher(
     private val topicsRepetitionsInteractor: TopicsRepetitionsInteractor,
     private val stepInteractor: StepInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val dateFormatter: SharedDateFormatter,
     topicRepeatedFlow: TopicRepeatedFlow,
@@ -96,8 +94,6 @@ internal class HomeActionDispatcher(
                     }
                     .launchIn(actionScope)
             }
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }

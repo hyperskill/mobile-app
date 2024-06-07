@@ -2,6 +2,7 @@ package org.hyperskill.app.first_problem_onboarding.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -9,6 +10,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingActionDispatcher
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Action
+import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.InternalAction
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.Message
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingFeature.ViewState
 import org.hyperskill.app.first_problem_onboarding.presentation.FirstProblemOnboardingReducer
@@ -40,7 +42,6 @@ internal object FirstProblemOnboardingFeatureBuilder {
 
         val actionDispatcher = FirstProblemOnboardingActionDispatcher(
             config = ActionDispatcherOptions(),
-            analyticInteractor = analyticInteractor,
             currentProfileStateRepository = currentProfileStateRepository,
             learningActivityRepository = learningActivitiesRepository,
             onboardingInteractor = onboardingInteractor,
@@ -52,5 +53,8 @@ internal object FirstProblemOnboardingFeatureBuilder {
         return ReduxFeature(FirstProblemOnboardingFeature.initialState(isNewUserMode), reducer)
             .wrapWithActionDispatcher(actionDispatcher)
             .transformState(firstProblemOnboardingViewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

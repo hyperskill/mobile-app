@@ -29,8 +29,7 @@ internal inline fun <State, Message, Action> Feature<State, Message, Action>.wra
             analyticInteractor = analyticInteractor,
             logAnalyticScope = AnalyticActionDispatcherConfig(parentScope).createLogAnalyticScope(),
         ) { action ->
-            val event = getAnalyticEvent(action)
-            if (event != null) listOf(event) else null
+            getSingleAnalyticEventFromAction(action, getAnalyticEvent)
         }
     )
 
@@ -59,3 +58,36 @@ internal inline fun <State, Message, Action> Feature<State, Message, Action>.wra
             getAnalyticEvent = getAnalyticEvent
         )
     )
+
+@Suppress("FunctionName")
+internal inline fun <Action, Message> SingleAnalyticEventActionDispatcher(
+    analyticInteractor: AnalyticInteractor,
+    parentScope: CoroutineScope? = null,
+    crossinline getAnalyticEvent: (Action) -> AnalyticEvent?
+): AnalyticActionDispatcher<Action, Message> =
+    AnalyticActionDispatcher(
+        analyticInteractor = analyticInteractor,
+        logAnalyticScope = AnalyticActionDispatcherConfig(parentScope).createLogAnalyticScope()
+    ) { action ->
+        getSingleAnalyticEventFromAction(action, getAnalyticEvent)
+    }
+
+@Suppress("FunctionName", "unused")
+internal inline fun <Action, Message> BatchAnalyticEventActionDispatcher(
+    analyticInteractor: AnalyticInteractor,
+    parentScope: CoroutineScope? = null,
+    noinline getAnalyticEvent: (Action) -> Collection<AnalyticEvent>?
+): AnalyticActionDispatcher<Action, Message> =
+    AnalyticActionDispatcher(
+        analyticInteractor = analyticInteractor,
+        logAnalyticScope = AnalyticActionDispatcherConfig(parentScope).createLogAnalyticScope(),
+        getAnalyticEvent = getAnalyticEvent
+    )
+
+private inline fun <Action> getSingleAnalyticEventFromAction(
+    action: Action,
+    getAnalyticEvent: (Action) -> AnalyticEvent?
+): List<AnalyticEvent>? {
+    val event = getAnalyticEvent(action)
+    return if (event != null) listOf(event) else null
+}

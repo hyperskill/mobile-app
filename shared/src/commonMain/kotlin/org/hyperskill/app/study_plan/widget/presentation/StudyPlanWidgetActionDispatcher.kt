@@ -3,7 +3,6 @@ package org.hyperskill.app.study_plan.widget.presentation
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
 import org.hyperskill.app.learning_activities.domain.repository.NextLearningActivityStateRepository
@@ -28,8 +27,7 @@ class StudyPlanWidgetActionDispatcher(
     private val currentStudyPlanStateRepository: CurrentStudyPlanStateRepository,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val progressesRepository: ProgressesRepository,
-    private val sentryInteractor: SentryInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
 
     init {
@@ -71,9 +69,6 @@ class StudyPlanWidgetActionDispatcher(
             }
             is InternalAction.CaptureSentryException -> {
                 sentryInteractor.captureException(action.throwable)
-            }
-            is InternalAction.LogAnalyticEvent -> {
-                analyticInteractor.logEvent(action.analyticEvent)
             }
             else -> {
                 // no op

@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature.Action
 import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeature.InternalAction
@@ -16,8 +15,7 @@ import org.hyperskill.app.leaderboard.screen.presentation.LeaderboardScreenFeatu
 import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class LeaderboardScreenActionDispatcher(
-    config: ActionDispatcherOptions,
-    private val analyticInteractor: AnalyticInteractor
+    config: ActionDispatcherOptions
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var isDailyLeaderboardTimerLaunched: Boolean = false
     private var isWeeklyLeaderboardTimerLaunched: Boolean = false
@@ -34,8 +32,6 @@ internal class LeaderboardScreenActionDispatcher(
             is InternalAction.LaunchWeeklyLeaderboardTimer -> {
                 handleLaunchWeeklyLeaderboardTimerAction(action, ::onNewMessage)
             }
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }

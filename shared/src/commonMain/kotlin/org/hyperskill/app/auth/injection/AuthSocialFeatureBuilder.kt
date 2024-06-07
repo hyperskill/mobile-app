@@ -2,6 +2,7 @@ package org.hyperskill.app.auth.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithBatchAnalyticLogger
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.presentation.AuthSocialActionDispatcher
 import org.hyperskill.app.auth.presentation.AuthSocialFeature.Action
@@ -13,6 +14,7 @@ import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
+import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
@@ -33,13 +35,16 @@ object AuthSocialFeatureBuilder {
             ActionDispatcherOptions(),
             authInteractor,
             currentProfileStateRepository,
-            analyticInteractor,
             sentryInteractor
         )
 
         return ReduxFeature(
             State.Idle,
             authReducer.wrapWithLogger(buildVariant, logger, LOG_TAG)
-        ).wrapWithActionDispatcher(authActionDispatcher)
+        )
+            .wrapWithActionDispatcher(authActionDispatcher)
+            .wrapWithBatchAnalyticLogger(analyticInteractor) {
+                it.safeCast<Action.LogAnalyticEvent>()?.analyticEvent?.toList()
+            }
     }
 }

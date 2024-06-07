@@ -2,6 +2,7 @@ package org.hyperskill.app.progress_screen.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -46,7 +47,6 @@ internal object ProgressScreenFeatureBuilder {
             trackInteractor = trackInteractor,
             projectsRepository = projectsRepository,
             progressesInteractor = progressesInteractor,
-            analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor
         )
         return ReduxFeature(
@@ -60,5 +60,8 @@ internal object ProgressScreenFeatureBuilder {
         )
             .wrapWithActionDispatcher(actionDispatcher)
             .transformState(viewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? ProgressScreenFeature.InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

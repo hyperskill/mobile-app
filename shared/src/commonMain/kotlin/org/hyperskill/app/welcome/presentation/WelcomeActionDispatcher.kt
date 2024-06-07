@@ -1,6 +1,5 @@
 package org.hyperskill.app.welcome.presentation
 
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.welcome.domain.interactor.WelcomeInteractor
@@ -11,8 +10,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 internal class WelcomeActionDispatcher(
     config: ActionDispatcherOptions,
     private val welcomeInteractor: WelcomeInteractor,
-    private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val analyticInteractor: AnalyticInteractor
+    private val currentProfileStateRepository: CurrentProfileStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -25,8 +23,6 @@ internal class WelcomeActionDispatcher(
                         onFailure = { onNewMessage(Message.ProfileFetchFailure) }
                     )
             }
-            is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             else -> {}
         }
     }

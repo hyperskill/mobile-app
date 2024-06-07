@@ -2,6 +2,7 @@ package org.hyperskill.app.leaderboard.screen.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -42,14 +43,13 @@ internal object LeaderboardScreenFeatureBuilder {
         resourceProvider: ResourceProvider,
         dateFormatter: SharedDateFormatter
     ): Feature<ViewState, Message, Action> {
+
         val leaderboardScreenReducer = LeaderboardScreenReducer(
             leaderWidgetReducer = leaderWidgetReducer,
             gamificationToolbarReducer = gamificationToolbarReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
-        val leaderboardScreenActionDispatcher = LeaderboardScreenActionDispatcher(
-            config = ActionDispatcherOptions(),
-            analyticInteractor = analyticInteractor
-        )
+
+        val leaderboardScreenActionDispatcher = LeaderboardScreenActionDispatcher(ActionDispatcherOptions())
 
         val leaderboardScreenViewStateMapper = LeaderboardScreenViewStateMapper(
             resourceProvider = resourceProvider,
@@ -75,5 +75,8 @@ internal object LeaderboardScreenFeatureBuilder {
                     transformMessage = Message::GamificationToolbarMessage
                 )
             )
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }
