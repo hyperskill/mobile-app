@@ -9,7 +9,7 @@ import org.hyperskill.app.gamification_toolbar.presentation.GamificationToolbarF
 class GamificationToolbarActionDispatcher internal constructor(
     mainGamificationToolbarActionDispatcher: MainGamificationToolbarActionDispatcher,
     analyticInteractor: AnalyticInteractor
-): CompositeActionDispatcher<Action, Message>(
+) : CompositeActionDispatcher<Action, Message>(
     listOf(
         mainGamificationToolbarActionDispatcher,
         SingleAnalyticEventActionDispatcher(analyticInteractor) {

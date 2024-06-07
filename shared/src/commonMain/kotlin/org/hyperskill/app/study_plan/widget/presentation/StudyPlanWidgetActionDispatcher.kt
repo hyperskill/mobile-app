@@ -9,7 +9,7 @@ import org.hyperskill.app.study_plan.widget.presentation.StudyPlanWidgetFeature.
 class StudyPlanWidgetActionDispatcher internal constructor(
     mainStudyPlanWidgetActionDispatcher: MainStudyPlanWidgetActionDispatcher,
     analyticInteractor: AnalyticInteractor
-): CompositeActionDispatcher<Action, Message>(
+) : CompositeActionDispatcher<Action, Message>(
     listOf(
         mainStudyPlanWidgetActionDispatcher,
         SingleAnalyticEventActionDispatcher(analyticInteractor) {
