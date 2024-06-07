@@ -151,6 +151,9 @@ object StepDelegate {
                         manager = fragment.childFragmentManager,
                         tag = RequestReviewDialogFragment.TAG
                     )
+            StepCompletionFeature.Action.ViewAction.HapticFeedback.TopicCompleted -> {
+                // TODO(): ALTAPPS-1270
+            }
         }
     }
 

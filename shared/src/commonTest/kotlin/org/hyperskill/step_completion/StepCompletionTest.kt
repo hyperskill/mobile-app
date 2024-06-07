@@ -13,6 +13,7 @@ import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Int
 import org.hyperskill.app.step_completion.presentation.StepCompletionFeature.Message
 import org.hyperskill.app.step_completion.presentation.StepCompletionReducer
 import org.hyperskill.app.subscriptions.domain.model.FreemiumChargeLimitsStrategy
+import org.hyperskill.app.topics.domain.model.Topic
 import org.hyperskill.step.domain.model.stub
 
 class StepCompletionTest {
@@ -83,5 +84,23 @@ class StepCompletionTest {
 
         assertEquals(initialState, actualState)
         assertTrue(actualActions.isEmpty())
+    }
+
+    @Test
+    fun `HapticFeedbackTopicCompleted triggers when topic is completed`() {
+        val stepRoute = StepRoute.Learn.Step(1L, null)
+        val initialState = StepCompletionFeature.createState(Step.stub(stepRoute.stepId), stepRoute)
+
+        val reducer = StepCompletionReducer(stepRoute)
+        val (_, actions) = reducer.reduce(
+            initialState,
+            Message.CheckTopicCompletionStatus.Completed(
+                topic = Topic(id = 1, progressId = "", title = ""),
+                passedTopicsCount = 5,
+                nextLearningActivity = null
+            )
+        )
+
+        assertContains(actions, Action.ViewAction.HapticFeedback.TopicCompleted)
     }
 }
