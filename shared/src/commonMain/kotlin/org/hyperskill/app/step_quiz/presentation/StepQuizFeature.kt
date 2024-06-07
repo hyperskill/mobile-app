@@ -225,6 +225,13 @@ object StepQuizFeature {
                 object StudyPlan : NavigateTo
                 data class TheoryStepScreen(val stepRoute: StepRoute) : NavigateTo
             }
+
+            sealed interface HapticFeedback : ViewAction {
+                object ReplyValidationError : HapticFeedback
+
+                object WrongSubmission : HapticFeedback
+                object CorrectSubmission : HapticFeedback
+            }
         }
     }
 

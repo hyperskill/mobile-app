@@ -124,59 +124,9 @@ internal class StepQuizReducer(
                     null
                 }
             is Message.CreateSubmissionReplyValidationResult ->
-                if (state.stepQuizState is StepQuizState.AttemptLoaded) {
-                    when (message.replyValidation) {
-                        is ReplyValidationResult.Error -> {
-                            state.copy(
-                                stepQuizState = state.stepQuizState.copy(
-                                    submissionState = StepQuizFeature.SubmissionState.Loaded(
-                                        createLocalSubmission(state.stepQuizState, message.reply),
-                                        message.replyValidation
-                                    )
-                                )
-                            ) to emptySet()
-                        }
-                        ReplyValidationResult.Success -> {
-                            val submission = createLocalSubmission(state.stepQuizState, message.reply)
-                                .copy(status = SubmissionStatus.EVALUATION)
-
-                            state.copy(
-                                stepQuizState = state.stepQuizState.copy(
-                                    submissionState = StepQuizFeature.SubmissionState.Loaded(
-                                        submission,
-                                        message.replyValidation
-                                    )
-                                )
-                            ) to setOf(
-                                Action.CreateSubmission(
-                                    message.step,
-                                    stepRoute.stepContext,
-                                    state.stepQuizState.attempt.id,
-                                    submission
-                                )
-                            )
-                        }
-                    }
-                } else {
-                    null
-                }
+                handleCreateSubmissionReplyValidationResult(state, message)
             is Message.CreateSubmissionSuccess ->
-                if (state.stepQuizState is StepQuizState.AttemptLoaded) {
-                    state.copy(
-                        stepQuizState = state.stepQuizState.copy(
-                            attempt = message.newAttempt ?: state.stepQuizState.attempt,
-                            submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
-                        )
-                    ) to buildSet {
-                        if (message.submission.status == SubmissionStatus.WRONG &&
-                            StepQuizResolver.isStepHasLimitedAttempts(stepRoute)
-                        ) {
-                            add(InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION))
-                        }
-                    }
-                } else {
-                    null
-                }
+                handleCreateSubmissionSuccess(state, message)
             is Message.CreateSubmissionNetworkError ->
                 if (
                     state.stepQuizState is StepQuizState.AttemptLoaded &&
@@ -449,6 +399,76 @@ internal class StepQuizReducer(
             stepQuizToolbarState = stepQuizToolbarState
         ) to stepQuizActions + stepQuizHintsActions + stepQuizToolbarActions
     }
+
+    private fun handleCreateSubmissionReplyValidationResult(
+        state: State,
+        message: Message.CreateSubmissionReplyValidationResult
+    ): StepQuizReducerResult? =
+        if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+            when (message.replyValidation) {
+                is ReplyValidationResult.Error -> {
+                    state.copy(
+                        stepQuizState = state.stepQuizState.copy(
+                            submissionState = StepQuizFeature.SubmissionState.Loaded(
+                                createLocalSubmission(state.stepQuizState, message.reply),
+                                message.replyValidation
+                            )
+                        )
+                    ) to setOf(Action.ViewAction.HapticFeedback.ReplyValidationError)
+                }
+                ReplyValidationResult.Success -> {
+                    val submission = createLocalSubmission(state.stepQuizState, message.reply)
+                        .copy(status = SubmissionStatus.EVALUATION)
+
+                    state.copy(
+                        stepQuizState = state.stepQuizState.copy(
+                            submissionState = StepQuizFeature.SubmissionState.Loaded(
+                                submission,
+                                message.replyValidation
+                            )
+                        )
+                    ) to setOf(
+                        Action.CreateSubmission(
+                            message.step,
+                            stepRoute.stepContext,
+                            state.stepQuizState.attempt.id,
+                            submission
+                        )
+                    )
+                }
+            }
+        } else {
+            null
+        }
+
+    private fun handleCreateSubmissionSuccess(
+        state: State,
+        message: Message.CreateSubmissionSuccess
+    ): StepQuizReducerResult? =
+        if (state.stepQuizState is StepQuizState.AttemptLoaded) {
+            state.copy(
+                stepQuizState = state.stepQuizState.copy(
+                    attempt = message.newAttempt ?: state.stepQuizState.attempt,
+                    submissionState = StepQuizFeature.SubmissionState.Loaded(message.submission)
+                )
+            ) to buildSet {
+                val submissionStatus = message.submission.status
+
+                if (submissionStatus == SubmissionStatus.WRONG &&
+                    StepQuizResolver.isStepHasLimitedAttempts(stepRoute)
+                ) {
+                    add(InternalAction.UpdateProblemsLimit(FreemiumChargeLimitsStrategy.AFTER_WRONG_SUBMISSION))
+                }
+
+                if (submissionStatus == SubmissionStatus.CORRECT) {
+                    add(Action.ViewAction.HapticFeedback.CorrectSubmission)
+                } else if (submissionStatus == SubmissionStatus.WRONG) {
+                    add(Action.ViewAction.HapticFeedback.WrongSubmission)
+                }
+            }
+        } else {
+            null
+        }
 
     private fun handleUpdateProblemsLimitResult(
         state: State,
