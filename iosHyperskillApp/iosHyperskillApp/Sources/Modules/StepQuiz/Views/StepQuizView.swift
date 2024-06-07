@@ -287,6 +287,8 @@ private extension StepQuizView {
             handleStepQuizToolbarViewAction(viewAction: stepQuizToolbarViewAction.viewAction)
         case .hapticFeedback(let hapticFeedbackViewAction):
             handleHapticFeedbackViewAction(hapticFeedbackViewAction)
+        case .scrollToCallToActionButton:
+            #warning("Implement scroll to call to action button")
         }
     }
 

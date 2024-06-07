@@ -548,4 +548,81 @@ class StepQuizTest {
 
         assertContains(actions, StepQuizFeature.Action.ViewAction.HapticFeedback.ReplyValidationError)
     }
+
+    @Test
+    fun `ScrollToCallToActionButton triggers when receiving ReplyValidationResult`() {
+        val step = Step.stub(id = 1)
+        val stepRoute = StepRoute.Learn.Step(step.id, null)
+        val attempt = Attempt.stub()
+        val submissionState = StepQuizFeature.SubmissionState.Empty()
+
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = step,
+                attempt = attempt,
+                submissionState = submissionState,
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        listOf(
+            ReplyValidationResult.Success,
+            ReplyValidationResult.Error("Error message")
+        ).forEach { replyValidation ->
+            val (_, actions) = reducer.reduce(
+                initialState,
+                StepQuizFeature.Message.CreateSubmissionReplyValidationResult(
+                    step = step,
+                    reply = Reply(),
+                    replyValidation = replyValidation
+                )
+            )
+
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+        }
+    }
+
+    @Test
+    fun `ScrollToCallToActionButton triggers when receiving correct or wrong submission`() {
+        val stepRoute = StepRoute.Learn.Step(1, null)
+        val initialState = StepQuizFeature.State(
+            stepQuizState = StepQuizFeature.StepQuizState.AttemptLoaded(
+                step = Step.stub(id = stepRoute.stepId),
+                attempt = Attempt.stub(),
+                submissionState = StepQuizFeature.SubmissionState.Empty(),
+                isProblemsLimitReached = false,
+                isTheoryAvailable = false
+            ),
+            stepQuizHintsState = StepQuizHintsFeature.State.Idle,
+            stepQuizToolbarState = StepQuizToolbarFeature.initialState(stepRoute)
+        )
+
+        val reducer = StepQuizReducer(
+            stepRoute = stepRoute,
+            stepQuizChildFeatureReducer = StepQuizChildFeatureReducer.stub(stepRoute)
+        )
+
+        listOf(
+            SubmissionStatus.CORRECT,
+            SubmissionStatus.WRONG
+        ).forEach { submissionStatus ->
+            val (_, actions) = reducer.reduce(
+                initialState,
+                StepQuizFeature.Message.CreateSubmissionSuccess(
+                    submission = Submission(status = submissionStatus),
+                    newAttempt = null
+                )
+            )
+
+            assertContains(actions, StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton)
+        }
+    }
 }

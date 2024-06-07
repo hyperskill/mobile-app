@@ -414,7 +414,10 @@ internal class StepQuizReducer(
                                 message.replyValidation
                             )
                         )
-                    ) to setOf(Action.ViewAction.HapticFeedback.ReplyValidationError)
+                    ) to setOf(
+                        Action.ViewAction.HapticFeedback.ReplyValidationError,
+                        Action.ViewAction.ScrollToCallToActionButton
+                    )
                 }
                 ReplyValidationResult.Success -> {
                     val submission = createLocalSubmission(state.stepQuizState, message.reply)
@@ -433,7 +436,8 @@ internal class StepQuizReducer(
                             stepRoute.stepContext,
                             state.stepQuizState.attempt.id,
                             submission
-                        )
+                        ),
+                        Action.ViewAction.ScrollToCallToActionButton
                     )
                 }
             }
@@ -462,8 +466,10 @@ internal class StepQuizReducer(
 
                 if (submissionStatus == SubmissionStatus.CORRECT) {
                     add(Action.ViewAction.HapticFeedback.CorrectSubmission)
+                    add(Action.ViewAction.ScrollToCallToActionButton)
                 } else if (submissionStatus == SubmissionStatus.WRONG) {
                     add(Action.ViewAction.HapticFeedback.WrongSubmission)
+                    add(Action.ViewAction.ScrollToCallToActionButton)
                 }
             }
         } else {

@@ -296,6 +296,9 @@ abstract class DefaultStepQuizFragment :
             StepQuizFeature.Action.ViewAction.HapticFeedback.ReplyValidationError -> {
                 // TODO(): ALTAPPS-1270
             }
+            StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton -> {
+                // TODO(): ALTAPPS-1270
+            }
         }
     }
 

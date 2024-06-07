@@ -206,6 +206,8 @@ object StepQuizFeature {
 
             data class ShowProblemOnboardingModal(val modalType: ProblemOnboardingModal) : ViewAction
 
+            object ScrollToCallToActionButton : ViewAction
+
             data class StepQuizHintsViewAction(
                 val viewAction: StepQuizHintsFeature.Action.ViewAction
             ) : ViewAction
