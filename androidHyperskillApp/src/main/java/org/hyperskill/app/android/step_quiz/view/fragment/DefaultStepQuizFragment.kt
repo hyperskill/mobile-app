@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.extensions.performConfirmHapticFeedback
+import org.hyperskill.app.android.core.extensions.performRejectHapticFeedback
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.fragment.parentOfType
 import org.hyperskill.app.android.databinding.FragmentStepQuizBinding
@@ -128,6 +129,7 @@ abstract class DefaultStepQuizFragment :
             skeletonView = skeletonView,
             quizViews = quizViews
         )
+        viewBinding.stepQuizFeedbackBlocks.stepQuizFeedbackWrong.isHapticFeedbackEnabled = true
         stepQuizFeedbackBlocksDelegate =
             StepQuizFeedbackBlocksDelegate(requireContext(), viewBinding.stepQuizFeedbackBlocks)
         stepQuizFormDelegate = createStepQuizFormDelegate().also { delegate ->
@@ -179,8 +181,11 @@ abstract class DefaultStepQuizFragment :
     }
 
     private fun setupQuizButtons() {
-        viewBinding.stepQuizButtons.stepQuizSubmitButton.setOnClickListener {
-            onSubmitButtonClicked()
+        with(viewBinding.stepQuizButtons.stepQuizSubmitButton) {
+            isHapticFeedbackEnabled = true
+            setOnClickListener {
+                onSubmitButtonClicked()
+            }
         }
         viewBinding.stepQuizButtons.stepQuizRetryButton.setOnClickListener {
             onRetryButtonClicked()
@@ -292,13 +297,11 @@ abstract class DefaultStepQuizFragment :
                 }
             }
             StepQuizFeature.Action.ViewAction.HapticFeedback.CorrectSubmission -> {
-                // TODO(): ALTAPPS-1270
+                viewBinding.stepQuizButtons.stepQuizContinueButton.performConfirmHapticFeedback()
             }
-            StepQuizFeature.Action.ViewAction.HapticFeedback.WrongSubmission -> {
-                // TODO(): ALTAPPS-1270
-            }
+            StepQuizFeature.Action.ViewAction.HapticFeedback.WrongSubmission,
             StepQuizFeature.Action.ViewAction.HapticFeedback.ReplyValidationError -> {
-                // TODO(): ALTAPPS-1270
+                viewBinding.stepQuizButtons.stepQuizSubmitButton.performRejectHapticFeedback()
             }
             StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton -> {
                 handleScrollToCallToActionButton()
@@ -430,7 +433,6 @@ abstract class DefaultStepQuizFragment :
 
     private fun switchStepQuizButtonsState(newState: StepQuizButtonsState) {
         stepQuizButtonsViewStateDelegate?.switchState(newState)
-        Log.d("DefaultStepQuizFragment", "Buttons rendered: $newState")
     }
 
     private fun renderHints(state: StepQuizHintsFeature.State) {
