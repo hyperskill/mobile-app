@@ -109,12 +109,7 @@ class StageStepWrapperFragment :
                 viewBinding.stagePracticeContainer
             )
         }
-        with(viewBinding.stageImplementationAppBar) {
-            stageImplementationToolbarTitle.text = navigationTitle
-            stageImplementationToolbar.setNavigationOnClickListener {
-                requireRouter().exit()
-            }
-        }
+        viewBinding.stageImplementationAppBar.stageImplementationToolbarTitle.text = navigationTitle
         viewBinding.stageImplementationTitle.text = stageTitle
         StepDelegate.init(
             errorBinding = viewBinding.stageImplementationError,
@@ -130,7 +125,8 @@ class StageStepWrapperFragment :
         StageStepMenuDelegate.setup(
             menuHost = requireActivity() as MenuHost,
             viewLifecycleOwner = viewLifecycleOwner,
-            onActionClick = stepViewModel::onActionClick
+            onActionClick = stepViewModel::onActionClick,
+            onBackClick = { requireRouter().exit() }
         )
     }
 
