@@ -1,7 +1,6 @@
 package org.hyperskill.app.android.step_quiz.view.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -305,7 +304,6 @@ abstract class DefaultStepQuizFragment :
                 viewBinding.stepQuizButtons.stepQuizSubmitButton.performRejectHapticFeedback()
             }
             StepQuizFeature.Action.ViewAction.ScrollToCallToActionButton -> {
-                Log.d( "DefaultStepQuizFragment", "ScrollToCallToActionButton")
                 handleScrollToCallToActionButton()
             }
         }
