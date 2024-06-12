@@ -3,19 +3,30 @@ package org.hyperskill.app.android.step_practice.view.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import by.kirich1409.viewbindingdelegate.viewBinding
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.extensions.smoothScrollToBottom
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
+import org.hyperskill.app.android.databinding.FragmentStepPracticeBinding
 import org.hyperskill.app.android.step.view.model.StepCompletionView
 import org.hyperskill.app.android.step.view.model.StepQuizToolbarCallback
+import org.hyperskill.app.android.step_practice.model.StepPracticeHost
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.step.domain.model.Step
 import org.hyperskill.app.step.domain.model.StepRoute
 
-class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepCompletionView, StepQuizToolbarCallback {
+class StepPracticeFragment :
+    Fragment(R.layout.fragment_step_practice),
+    StepCompletionView,
+    StepQuizToolbarCallback,
+    StepPracticeHost {
+
     companion object {
         private const val STEP_CONTENT_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
+
+        private const val SMOOTH_SCROLL_DURATION_MILLISECONDS = 500
 
         fun newInstance(step: Step, stepRoute: StepRoute): Fragment =
             StepPracticeFragment().apply {
@@ -26,6 +37,8 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
 
     private var step: Step by argument(serializer = Step.serializer())
     private var stepRoute: StepRoute by argument(serializer = StepRoute.serializer())
+
+    private val stepPracticeViewBinding: FragmentStepPracticeBinding by viewBinding(FragmentStepPracticeBinding::bind)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,5 +71,11 @@ class StepPracticeFragment : Fragment(R.layout.fragment_step_practice), StepComp
     override fun onTheoryClick() {
         (childFragmentManager.findFragmentByTag(STEP_QUIZ_FRAGMENT_TAG) as? StepQuizToolbarCallback)
             ?.onTheoryClick()
+    }
+
+    override fun fullScrollDown() {
+        stepPracticeViewBinding
+            .stepPracticeContainer
+            .smoothScrollToBottom(SMOOTH_SCROLL_DURATION_MILLISECONDS)
     }
 }
