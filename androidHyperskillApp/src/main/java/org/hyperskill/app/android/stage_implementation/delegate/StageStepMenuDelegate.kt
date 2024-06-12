@@ -15,10 +15,11 @@ object StageStepMenuDelegate {
     fun setup(
         menuHost: MenuHost,
         viewLifecycleOwner: LifecycleOwner,
-        onActionClick: (StepMenuAction) -> Unit
+        onActionClick: (StepMenuAction) -> Unit,
+        onBackClick: () -> Unit
     ) {
         menuHost.addMenuProvider(
-            StageMenuProvider(onActionClick),
+            StageMenuProvider(onActionClick, onBackClick),
             viewLifecycleOwner,
             Lifecycle.State.RESUMED
         )
@@ -26,7 +27,8 @@ object StageStepMenuDelegate {
 }
 
 private class StageMenuProvider(
-    private val onActionClick: (StepMenuAction) -> Unit
+    private val onActionClick: (StepMenuAction) -> Unit,
+    private val onBackClick: () -> Unit
 ) : MenuProvider {
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -45,6 +47,10 @@ private class StageMenuProvider(
             }
             R.id.stageOpenInWeb -> {
                 onActionClick(StepMenuAction.OPEN_IN_WEB)
+                true
+            }
+            android.R.id.home -> {
+                onBackClick()
                 true
             }
             else -> false
