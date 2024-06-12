@@ -1,7 +1,8 @@
-package org.hyperskill.app.main.presentation
+package org.hyperskill.app.main_legacy.presentation
 
 import kotlinx.serialization.Serializable
 import org.hyperskill.app.auth.domain.model.UserDeauthorized.Reason
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
@@ -9,7 +10,8 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
-object AppFeature {
+@Deprecated("Should be removed in ALTAPPS-1276")
+object LegacyAppFeature {
 
     @Serializable
     sealed interface State {
@@ -27,6 +29,8 @@ object AppFeature {
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
+            internal val welcomeOnboardingState: LegacyWelcomeOnboardingFeature.State =
+                LegacyWelcomeOnboardingFeature.State(),
             internal val isMobileOnlySubscriptionEnabled: Boolean,
             internal val canMakePayments: Boolean,
             internal val subscription: Subscription? = null,
@@ -84,6 +88,10 @@ object AppFeature {
         data class NotificationClickHandlingMessage(
             val message: NotificationClickHandlingFeature.Message
         ) : Message
+
+        data class WelcomeOnboardingMessage(
+            val message: LegacyWelcomeOnboardingFeature.Message
+        ) : Message
     }
 
     internal sealed interface InternalMessage : Message {
@@ -108,6 +116,10 @@ object AppFeature {
 
         data class ClickedNotificationAction(
             val action: NotificationClickHandlingFeature.Action
+        ) : Action
+
+        data class WelcomeOnboardingAction(
+            val action: LegacyWelcomeOnboardingFeature.Action
         ) : Action
 
         /**
@@ -135,6 +147,10 @@ object AppFeature {
 
             data class ClickedNotificationViewAction(
                 val viewAction: NotificationClickHandlingFeature.Action.ViewAction
+            ) : ViewAction
+
+            data class WelcomeOnboardingViewAction(
+                val viewAction: LegacyWelcomeOnboardingFeature.Action.ViewAction
             ) : ViewAction
         }
     }

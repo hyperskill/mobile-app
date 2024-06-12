@@ -1,16 +1,17 @@
 package org.hyperskill.app.legacy_welcome_onboarding.presentation
 
-import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Action
 import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.InternalAction
 import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.InternalMessage
 import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Message
 import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.State
+import org.hyperskill.app.profile.domain.model.isNewUser
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
+@Deprecated("Should be removed in ALTAPPS-1276")
 class LegacyWelcomeOnboardingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {

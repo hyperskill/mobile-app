@@ -32,8 +32,6 @@ import org.hyperskill.app.android.core.extensions.screenOrientation
 import org.hyperskill.app.android.core.view.ui.fragment.ReduxViewLifecycleObserver
 import org.hyperskill.app.android.core.view.ui.navigation.AppNavigationContainer
 import org.hyperskill.app.android.databinding.ActivityMainBinding
-import org.hyperskill.app.android.first_problem_onboarding.fragment.FirstProblemOnboardingFragment
-import org.hyperskill.app.android.first_problem_onboarding.navigation.FirstProblemOnboardingScreen
 import org.hyperskill.app.android.main.view.ui.navigation.MainScreen
 import org.hyperskill.app.android.main.view.ui.navigation.Tabs
 import org.hyperskill.app.android.notification.NotificationIntentBuilder
@@ -42,24 +40,17 @@ import org.hyperskill.app.android.notification.model.ClickedNotificationData
 import org.hyperskill.app.android.notification.model.DailyStudyReminderClickedData
 import org.hyperskill.app.android.notification.model.DefaultNotificationClickedData
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
-import org.hyperskill.app.android.notification_onboarding.fragment.NotificationsOnboardingFragment
-import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.paywall.fragment.PaywallFragment
 import org.hyperskill.app.android.paywall.navigation.PaywallScreen
-import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
-import org.hyperskill.app.android.users_questionnaire_onboarding.fragment.UsersQuestionnaireOnboardingFragment
-import org.hyperskill.app.android.users_questionnaire_onboarding.navigation.UsersQuestionnaireOnboardingScreen
 import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
-import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
-import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
@@ -143,9 +134,6 @@ class MainActivity :
         startupViewModel(intent)
 
         observeAuthFlowSuccess()
-        observeNotificationsOnboardingFlowFinished()
-        observeFirstProblemOnboardingFlowFinished()
-        observeUsersQuestionnaireOnboardingCompleted()
         observePaywallIsShownChanged()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
@@ -195,22 +183,6 @@ class MainActivity :
         }
     }
 
-    private fun observeNotificationsOnboardingFlowFinished() {
-        observeResult<Any>(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED) {
-            mainViewModel.onNewMessage(LegacyWelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
-        }
-    }
-
-    private fun observeFirstProblemOnboardingFlowFinished() {
-        observeResult<Any>(FirstProblemOnboardingFragment.FIRST_PROBLEM_ONBOARDING_FINISHED) {
-            mainViewModel.onNewMessage(
-                LegacyWelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
-                    firstProblemStepRoute = it.safeCast<StepRoute>()
-                )
-            )
-        }
-    }
-
     private fun observePaywallIsShownChanged() {
         observeResult<Boolean>(PaywallFragment.PAYWALL_IS_SHOWN_CHANGED) {
             mainViewModel.onNewMessage(
@@ -235,19 +207,6 @@ class MainActivity :
                     } else {
                         onResult(result)
                     }
-                }
-        }
-    }
-
-    private fun observeUsersQuestionnaireOnboardingCompleted() {
-        lifecycleScope.launch {
-            router
-                .observeResult(UsersQuestionnaireOnboardingFragment.USERS_QUESTIONNAIRE_ONBOARDING_FINISHED)
-                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-                .collectLatest {
-                    mainViewModel.onNewMessage(
-                        LegacyWelcomeOnboardingFeature.Message.UsersQuestionnaireOnboardingCompleted
-                    )
                 }
         }
     }
@@ -287,23 +246,6 @@ class MainActivity :
                         TrackSelectionListParams(isNewUserMode = true)
                     )
                 )
-            is AppFeature.Action.ViewAction.WelcomeOnboardingViewAction ->
-                when (val viewAction = action.viewAction) {
-                    is LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep -> {
-                        router.newRootChain(
-                            MainScreen(Tabs.STUDY_PLAN),
-                            StepScreen(viewAction.stepRoute)
-                        )
-                    }
-                    is LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.FirstProblemOnboardingScreen ->
-                        router.newRootScreen(
-                            FirstProblemOnboardingScreen(viewAction.isNewUserMode)
-                        )
-                    LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
-                        router.newRootScreen(NotificationsOnboardingScreen)
-                    LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
-                        router.newRootScreen(UsersQuestionnaireOnboardingScreen)
-                }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->
                 StreakRecoveryViewActionDelegate.handleViewAction(
                     fragmentManager = supportFragmentManager,

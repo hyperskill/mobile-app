@@ -1,11 +1,14 @@
-package org.hyperskill.app.main.presentation
+package org.hyperskill.app.main_legacy.presentation
 
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
-import org.hyperskill.app.main.presentation.AppFeature.Action
-import org.hyperskill.app.main.presentation.AppFeature.InternalAction
-import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
-import org.hyperskill.app.main.presentation.AppFeature.Message
-import org.hyperskill.app.main.presentation.AppFeature.State
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.getFinishAction
+import org.hyperskill.app.main_legacy.presentation.LegacyAppFeature.Action
+import org.hyperskill.app.main_legacy.presentation.LegacyAppFeature.InternalAction
+import org.hyperskill.app.main_legacy.presentation.LegacyAppFeature.InternalMessage
+import org.hyperskill.app.main_legacy.presentation.LegacyAppFeature.Message
+import org.hyperskill.app.main_legacy.presentation.LegacyAppFeature.State
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingReducer
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
@@ -21,9 +24,11 @@ import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-internal class AppReducer(
+@Deprecated("Should be removed in ALTAPPS-1276")
+internal class LegacyAppReducer(
     private val streakRecoveryReducer: StreakRecoveryReducer,
-    private val notificationClickHandlingReducer: NotificationClickHandlingReducer
+    private val notificationClickHandlingReducer: NotificationClickHandlingReducer,
+    private val legacyWelcomeOnboardingReducer: LegacyWelcomeOnboardingReducer
 ) : StateReducer<State, Message, Action> {
 
     companion object {
@@ -90,6 +95,8 @@ internal class AppReducer(
                 handleNotificationClicked(state, message)
             is Message.NotificationClickHandlingMessage ->
                 state to reduceNotificationClickHandlingMessage(message.message)
+            is Message.WelcomeOnboardingMessage ->
+                reduceWelcomeOnboardingMessage(state, message.message)
             is InternalMessage.SubscriptionChanged ->
                 handleSubscriptionChanged(state, message)
             is Message.IsPaywallShownChanged ->
@@ -189,7 +196,15 @@ internal class AppReducer(
                 isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled,
                 canMakePayments = false
             )
-            authState to getAuthorizedUserActions(message.profile)
+            val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
+                LegacyWelcomeOnboardingFeature.State(),
+                LegacyWelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
+                    message.profile,
+                    message.isNotificationPermissionGranted
+                )
+            )
+            authState.copy(welcomeOnboardingState = onboardingState) to
+                getAuthorizedUserActions(message.profile) + onboardingActions
         } else {
             state to emptySet()
         }
@@ -268,6 +283,50 @@ internal class AppReducer(
             }
         }.toSet()
     }
+
+    private fun reduceWelcomeOnboardingMessage(
+        state: State,
+        message: LegacyWelcomeOnboardingFeature.Message
+    ): ReducerResult =
+        if (state is State.Ready) {
+            val (onboardingState, actions) =
+                reduceWelcomeOnboardingMessage(state.welcomeOnboardingState, message)
+            state.copy(welcomeOnboardingState = onboardingState) to actions
+        } else {
+            state to emptySet()
+        }
+
+    private fun reduceWelcomeOnboardingMessage(
+        state: LegacyWelcomeOnboardingFeature.State,
+        message: LegacyWelcomeOnboardingFeature.Message
+    ): Pair<LegacyWelcomeOnboardingFeature.State, Set<Action>> {
+        val (onboardingState, onboardingActions) =
+            legacyWelcomeOnboardingReducer.reduce(state, message)
+        val finishAction = onboardingActions.getFinishAction()
+        return if (finishAction != null) {
+            onboardingState to handleWelcomeOnboardingFinishAction(finishAction)
+        } else {
+            onboardingState to
+                onboardingActions.map {
+                    if (it is LegacyWelcomeOnboardingFeature.Action.ViewAction) {
+                        Action.ViewAction.WelcomeOnboardingViewAction(it)
+                    } else {
+                        Action.WelcomeOnboardingAction(it)
+                    }
+                }.toSet()
+        }
+    }
+
+    private fun handleWelcomeOnboardingFinishAction(
+        finishAction: LegacyWelcomeOnboardingFeature.Action.OnboardingFlowFinished
+    ): Set<Action> =
+        setOf(
+            if (finishAction.profile?.isNewUser == true) {
+                Action.ViewAction.NavigateTo.TrackSelectionScreen
+            } else {
+                Action.ViewAction.NavigateTo.StudyPlan
+            }
+        )
 
     private fun getOnAuthorizedAppStartUpActions(
         profileId: Long,

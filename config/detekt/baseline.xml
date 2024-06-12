@@ -52,6 +52,7 @@
     <ID>ImplicitDefaultLocale:TimeIntervalUtil.kt$TimeIntervalUtil$String.format("%02d:00 \u2014 %02d:00", i, i + 1)</ID>
     <ID>InvalidPackageDeclaration:HandleActions.kt$package org.hyperskill.app.core.view</ID>
     <ID>LambdaParameterInRestartableEffect:OnComposableShownFirstTime.kt$block</ID>
+    <ID>LongMethod:LegacyAppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:AppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:ChallengeCard.kt$@Composable fun ChallengeCard( viewState: ChallengeWidgetViewState, onNewMessage: (Message) -&gt; Unit )</ID>
     <ID>LongMethod:DefaultStepQuizFragment.kt$DefaultStepQuizFragment$override fun onAction(action: StepQuizFeature.Action.ViewAction)</ID>
@@ -176,7 +177,7 @@
     <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
     <ID>MaxLineLength:HtmlText.kt$text</ID>
     <ID>MaxLineLength:LinearProgressIndicator.kt$*</ID>
-    <ID>MaxLineLength:MainComponentImpl.kt$MainComponentImpl$notificationClickHandlingActionDispatcher = clickedNotificationComponent.notificationClickHandlingActionDispatcher</ID>
+    <ID>MaxLineLength:LegacyMainComponentImpl.kt$MainComponentImpl$notificationClickHandlingActionDispatcher = clickedNotificationComponent.notificationClickHandlingActionDispatcher</ID>
     <ID>MaxLineLength:ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent.kt$ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent$*</ID>
     <ID>MaxLineLength:RepositoryCacheProxy.kt$RepositoryCacheProxy$*</ID>
     <ID>MaxLineLength:StepComponentImpl.kt$StepComponentImpl$nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository</ID>
@@ -305,7 +306,7 @@
     <ID>UnusedPrivateProperty:MainActivity.kt$MainActivity$val splashScreen = installSplashScreen()</ID>
     <ID>UnusedPrivateProperty:TrackSelectionDetailsFragment.kt$TrackSelectionDetailsFragment$private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) { HyperskillApp.graph().navigationComponent.mainScreenCicerone.router }</ID>
     <ID>UseCheckOrError:AndroidStepQuizTest.kt$AndroidStepQuizTest$throw IllegalStateException( "Unknown step route class: $concreteStepRouteClass. Please add it to the test." )</ID>
-    <ID>UseCheckOrError:AppFeatureStateSerializationTest.kt$AppFeatureStateSerializationTest$throw IllegalStateException("Unknown state class: $stateClass. Please add it to the test.")</ID>
+    <ID>UseCheckOrError:LegacyAppFeatureStateSerializationTest.kt$AppFeatureStateSerializationTest$throw IllegalStateException("Unknown state class: $stateClass. Please add it to the test.")</ID>
     <ID>UseCheckOrError:CollectionToJsonElement.kt$throw IllegalStateException("Can't serialize unknown type: $this")</ID>
     <ID>UseCheckOrError:ContextExtensions.kt$throw IllegalStateException("Can't find Activity in a given context")</ID>
     <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$BundleDelegate$throw IllegalStateException("Property ${property.name} could not be read")</ID>

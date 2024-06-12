@@ -21,11 +21,13 @@ import org.hyperskill.app.leaderboard.injection.LeaderboardDataComponent
 import org.hyperskill.app.leaderboard.screen.injection.LeaderboardScreenComponent
 import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
+import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.logging.injection.LoggerComponent
 import org.hyperskill.app.magic_links.injection.MagicLinksDataComponent
 import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainDataComponent
+import org.hyperskill.app.main_legacy.injection.LegacyMainComponent
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.network.injection.NetworkComponent
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
@@ -91,7 +93,7 @@ import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetC
 import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
-import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -99,6 +101,8 @@ interface AppGraph {
     val loggerComponent: LoggerComponent
     val authComponent: AuthComponent
     val mainComponent: MainComponent
+    @Deprecated("Should be removed in ALTAPPS-1276")
+    val legacyMainComponent: LegacyMainComponent
     val analyticComponent: AnalyticComponent
     val sentryComponent: SentryComponent
     val streakFlowDataComponent: StreakFlowDataComponent

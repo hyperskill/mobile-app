@@ -1,10 +1,11 @@
 package org.hyperskill.app.legacy_welcome_onboarding.presentation
 
 import kotlinx.serialization.Serializable
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Action
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
-import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Action
 
+@Deprecated("Should be removed in ALTAPPS-1276")
 object LegacyWelcomeOnboardingFeature {
     @Serializable
     data class State(val profile: Profile? = null)
