@@ -25,7 +25,8 @@ class StepMenuDelegate(
     menuHost: MenuHost,
     private val viewLifecycleOwner: LifecycleOwner,
     private val onTheoryClick: () -> Unit,
-    private val onSecondaryActionClick: (StepMenuAction) -> Unit
+    private val onSecondaryActionClick: (StepMenuAction) -> Unit,
+    private val onBackClick: () -> Unit
 ) : MenuProvider {
 
     private val menuActionsStateFlow: MutableStateFlow<MenuActionsState> = MutableStateFlow(
@@ -114,9 +115,11 @@ class StepMenuDelegate(
                 onSecondaryActionClick.invoke(StepMenuAction.OPEN_IN_WEB)
                 true
             }
-            else -> {
-                false
+            android.R.id.home -> {
+                onBackClick()
+                true
             }
+            else -> false
         }
 
     private data class MenuActionsState(
