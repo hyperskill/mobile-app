@@ -17,8 +17,8 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
 import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
@@ -27,7 +27,7 @@ private typealias ReducerResult = Pair<State, Set<Action>>
 internal class AppReducer(
     private val streakRecoveryReducer: StreakRecoveryReducer,
     private val notificationClickHandlingReducer: NotificationClickHandlingReducer,
-    private val welcomeOnboardingReducer: WelcomeOnboardingReducer
+    private val legacyWelcomeOnboardingReducer: LegacyWelcomeOnboardingReducer
 ) : StateReducer<State, Message, Action> {
 
     companion object {
@@ -196,8 +196,8 @@ internal class AppReducer(
                 canMakePayments = false
             )
             val (onboardingState, onboardingActions) = reduceWelcomeOnboardingMessage(
-                WelcomeOnboardingFeature.State(),
-                WelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
+                LegacyWelcomeOnboardingFeature.State(),
+                LegacyWelcomeOnboardingFeature.InternalMessage.OnboardingFlowRequested(
                     message.profile,
                     message.isNotificationPermissionGranted
                 )
@@ -285,7 +285,7 @@ internal class AppReducer(
 
     private fun reduceWelcomeOnboardingMessage(
         state: State,
-        message: WelcomeOnboardingFeature.Message
+        message: LegacyWelcomeOnboardingFeature.Message
     ): ReducerResult =
         if (state is State.Ready) {
             val (onboardingState, actions) =
@@ -296,18 +296,18 @@ internal class AppReducer(
         }
 
     private fun reduceWelcomeOnboardingMessage(
-        state: WelcomeOnboardingFeature.State,
-        message: WelcomeOnboardingFeature.Message
-    ): Pair<WelcomeOnboardingFeature.State, Set<Action>> {
+        state: LegacyWelcomeOnboardingFeature.State,
+        message: LegacyWelcomeOnboardingFeature.Message
+    ): Pair<LegacyWelcomeOnboardingFeature.State, Set<Action>> {
         val (onboardingState, onboardingActions) =
-            welcomeOnboardingReducer.reduce(state, message)
+            legacyWelcomeOnboardingReducer.reduce(state, message)
         val finishAction = onboardingActions.getFinishAction()
         return if (finishAction != null) {
             onboardingState to handleWelcomeOnboardingFinishAction(finishAction)
         } else {
             onboardingState to
                 onboardingActions.map {
-                    if (it is WelcomeOnboardingFeature.Action.ViewAction) {
+                    if (it is LegacyWelcomeOnboardingFeature.Action.ViewAction) {
                         Action.ViewAction.WelcomeOnboardingViewAction(it)
                     } else {
                         Action.WelcomeOnboardingAction(it)
@@ -317,7 +317,7 @@ internal class AppReducer(
     }
 
     private fun handleWelcomeOnboardingFinishAction(
-        finishAction: WelcomeOnboardingFeature.Action.OnboardingFlowFinished
+        finishAction: LegacyWelcomeOnboardingFeature.Action.OnboardingFlowFinished
     ): Set<Action> =
         setOf(
             if (finishAction.profile?.isNewUser == true) {

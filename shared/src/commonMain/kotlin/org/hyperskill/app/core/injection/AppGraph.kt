@@ -91,7 +91,7 @@ import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetC
 import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -188,7 +188,10 @@ interface AppGraph {
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
     fun buildSearchResultsDataComponent(): SearchResultsDataComponent
     fun buildSearchComponent(): SearchComponent
-    fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
+
+    @Deprecated("Should be removed in ALTAPPS-1276")
+    fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
+
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent

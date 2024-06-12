@@ -12,7 +12,7 @@ import org.hyperskill.app.main.injection.PlatformMainComponentImpl
 import org.hyperskill.app.main.presentation.AppFeature.Message
 import org.hyperskill.app.main.presentation.AppFeature.State
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
 import ru.nobird.android.view.redux.viewmodel.ReduxViewModel
 import ru.nobird.app.core.model.Cancellable
 import ru.nobird.app.presentation.redux.container.ReduxViewContainer
@@ -79,7 +79,7 @@ class MainViewModel(
         analyticInteractor.setScreenOrientation(screenOrientation)
     }
 
-    fun onNewMessage(message: WelcomeOnboardingFeature.Message) {
+    fun onNewMessage(message: LegacyWelcomeOnboardingFeature.Message) {
         onNewMessage(Message.WelcomeOnboardingMessage(message))
     }
 }

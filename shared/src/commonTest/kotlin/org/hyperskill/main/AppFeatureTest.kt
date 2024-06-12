@@ -17,7 +17,7 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.SubscriptionType
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
 import org.hyperskill.profile.stub
 import org.hyperskill.subscriptions.stub
 
@@ -25,7 +25,7 @@ class AppFeatureTest {
     private val appReducer = AppReducer(
         streakRecoveryReducer = StreakRecoveryReducer(resourceProvider = ResourceProviderStub()),
         notificationClickHandlingReducer = NotificationClickHandlingReducer(),
-        welcomeOnboardingReducer = WelcomeOnboardingReducer()
+        legacyWelcomeOnboardingReducer = LegacyWelcomeOnboardingReducer()
     )
 
     @Test

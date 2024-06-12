@@ -22,8 +22,8 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispa
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingActionDispatcher
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
@@ -45,8 +45,8 @@ internal object AppFeatureBuilder {
         notificationClickHandlingActionDispatcher: NotificationClickHandlingActionDispatcher,
         notificationsInteractor: NotificationInteractor,
         pushNotificationsInteractor: PushNotificationsInteractor,
-        welcomeOnboardingReducer: WelcomeOnboardingReducer,
-        welcomeOnboardingActionDispatcher: WelcomeOnboardingActionDispatcher,
+        legacyWelcomeOnboardingReducer: LegacyWelcomeOnboardingReducer,
+        legacyWelcomeOnboardingActionDispatcher: LegacyWelcomeOnboardingActionDispatcher,
         purchaseInteractor: PurchaseInteractor,
         currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
         subscriptionsInteractor: SubscriptionsInteractor,
@@ -56,7 +56,7 @@ internal object AppFeatureBuilder {
         val appReducer = AppReducer(
             streakRecoveryReducer = streakRecoveryReducer,
             notificationClickHandlingReducer = clickedNotificationReducer,
-            welcomeOnboardingReducer = welcomeOnboardingReducer
+            legacyWelcomeOnboardingReducer = legacyWelcomeOnboardingReducer
         ).wrapWithLogger(buildVariant, logger, LOG_TAG)
 
         val appActionDispatcher = AppActionDispatcher(
@@ -88,7 +88,7 @@ internal object AppFeatureBuilder {
                 )
             )
             .wrapWithActionDispatcher(
-                welcomeOnboardingActionDispatcher.transform(
+                legacyWelcomeOnboardingActionDispatcher.transform(
                     transformAction = { it.safeCast<Action.WelcomeOnboardingAction>()?.action },
                     transformMessage = Message::WelcomeOnboardingMessage
                 )

@@ -169,8 +169,8 @@ import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponentImpl
 
 abstract class BaseAppGraph : AppGraph {
 
@@ -492,8 +492,8 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildSearchComponent(): SearchComponent =
         SearchComponentImpl(this)
 
-    override fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent =
-        WelcomeOnboardingComponentImpl(this)
+    override fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent =
+        LegacyWelcomeOnboardingComponentImpl(this)
 
     override fun buildRequestReviewDataComponent(): RequestReviewDataComponent =
         RequestReviewDataComponentImpl(this)

@@ -59,7 +59,7 @@ import org.hyperskill.app.notification.local.domain.analytic.NotificationDailySt
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
@@ -197,14 +197,14 @@ class MainActivity :
 
     private fun observeNotificationsOnboardingFlowFinished() {
         observeResult<Any>(NotificationsOnboardingFragment.NOTIFICATIONS_ONBOARDING_FINISHED) {
-            mainViewModel.onNewMessage(WelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
+            mainViewModel.onNewMessage(LegacyWelcomeOnboardingFeature.Message.NotificationOnboardingCompleted)
         }
     }
 
     private fun observeFirstProblemOnboardingFlowFinished() {
         observeResult<Any>(FirstProblemOnboardingFragment.FIRST_PROBLEM_ONBOARDING_FINISHED) {
             mainViewModel.onNewMessage(
-                WelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
+                LegacyWelcomeOnboardingFeature.Message.FirstProblemOnboardingCompleted(
                     firstProblemStepRoute = it.safeCast<StepRoute>()
                 )
             )
@@ -246,7 +246,7 @@ class MainActivity :
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collectLatest {
                     mainViewModel.onNewMessage(
-                        WelcomeOnboardingFeature.Message.UsersQuestionnaireOnboardingCompleted
+                        LegacyWelcomeOnboardingFeature.Message.UsersQuestionnaireOnboardingCompleted
                     )
                 }
         }
@@ -289,19 +289,19 @@ class MainActivity :
                 )
             is AppFeature.Action.ViewAction.WelcomeOnboardingViewAction ->
                 when (val viewAction = action.viewAction) {
-                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep -> {
+                    is LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.StudyPlanWithStep -> {
                         router.newRootChain(
                             MainScreen(Tabs.STUDY_PLAN),
                             StepScreen(viewAction.stepRoute)
                         )
                     }
-                    is WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.FirstProblemOnboardingScreen ->
+                    is LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.FirstProblemOnboardingScreen ->
                         router.newRootScreen(
                             FirstProblemOnboardingScreen(viewAction.isNewUserMode)
                         )
-                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
+                    LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.NotificationOnboardingScreen ->
                         router.newRootScreen(NotificationsOnboardingScreen)
-                    WelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
+                    LegacyWelcomeOnboardingFeature.Action.ViewAction.NavigateTo.UsersQuestionnaireOnboardingScreen ->
                         router.newRootScreen(UsersQuestionnaireOnboardingScreen)
                 }
             is AppFeature.Action.ViewAction.StreakRecoveryViewAction ->

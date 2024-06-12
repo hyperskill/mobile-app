@@ -4,7 +4,7 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
@@ -14,8 +14,8 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
     private val clickedNotificationComponent: NotificationClickHandlingComponent =
         appGraph.buildClickedNotificationComponent()
 
-    private val welcomeOnboardingComponent: WelcomeOnboardingComponent =
-        appGraph.buildWelcomeOnboardingComponent()
+    private val legacyWelcomeOnboardingComponent: LegacyWelcomeOnboardingComponent =
+        appGraph.buildLegacyWelcomeOnboardingComponent()
 
     /*ktlint-disable*/
     override fun appFeature(
@@ -33,8 +33,8 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
             notificationClickHandlingActionDispatcher = clickedNotificationComponent.notificationClickHandlingActionDispatcher,
             notificationsInteractor = appGraph.buildNotificationComponent().notificationInteractor,
             pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
-            welcomeOnboardingReducer = welcomeOnboardingComponent.welcomeOnboardingReducer,
-            welcomeOnboardingActionDispatcher = welcomeOnboardingComponent.welcomeOnboardingActionDispatcher,
+            legacyWelcomeOnboardingReducer = legacyWelcomeOnboardingComponent.legacyWelcomeOnboardingReducer,
+            legacyWelcomeOnboardingActionDispatcher = legacyWelcomeOnboardingComponent.legacyWelcomeOnboardingActionDispatcher,
             purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             subscriptionsInteractor = appGraph.subscriptionDataComponent.subscriptionsInteractor,

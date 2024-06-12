@@ -8,7 +8,7 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
 
 object AppFeature {
 
@@ -28,7 +28,7 @@ object AppFeature {
             val isAuthorized: Boolean,
             val isMobileLeaderboardsEnabled: Boolean,
             internal val streakRecoveryState: StreakRecoveryFeature.State = StreakRecoveryFeature.State(),
-            internal val welcomeOnboardingState: WelcomeOnboardingFeature.State = WelcomeOnboardingFeature.State(),
+            internal val welcomeOnboardingState: LegacyWelcomeOnboardingFeature.State = LegacyWelcomeOnboardingFeature.State(),
             internal val isMobileOnlySubscriptionEnabled: Boolean,
             internal val canMakePayments: Boolean,
             internal val subscription: Subscription? = null,
@@ -88,7 +88,7 @@ object AppFeature {
         ) : Message
 
         data class WelcomeOnboardingMessage(
-            val message: WelcomeOnboardingFeature.Message
+            val message: LegacyWelcomeOnboardingFeature.Message
         ) : Message
     }
 
@@ -117,7 +117,7 @@ object AppFeature {
         ) : Action
 
         data class WelcomeOnboardingAction(
-            val action: WelcomeOnboardingFeature.Action
+            val action: LegacyWelcomeOnboardingFeature.Action
         ) : Action
 
         /**
@@ -148,7 +148,7 @@ object AppFeature {
             ) : ViewAction
 
             data class WelcomeOnboardingViewAction(
-                val viewAction: WelcomeOnboardingFeature.Action.ViewAction
+                val viewAction: LegacyWelcomeOnboardingFeature.Action.ViewAction
             ) : ViewAction
         }
     }

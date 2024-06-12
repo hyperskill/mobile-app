@@ -1,17 +1,17 @@
 package org.hyperskill.app.welcome_onboarding.presentation
 
 import org.hyperskill.app.profile.domain.model.isNewUser
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalAction
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.InternalMessage
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Action
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Action.ViewAction
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.InternalAction
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.InternalMessage
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.Message
+import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
 
-class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
+class LegacyWelcomeOnboardingReducer : StateReducer<State, Message, Action> {
     override fun reduce(state: State, message: Message): ReducerResult =
         when (message) {
             is InternalMessage.OnboardingFlowRequested ->
