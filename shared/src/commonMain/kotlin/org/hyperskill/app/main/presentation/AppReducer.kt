@@ -1,6 +1,9 @@
 package org.hyperskill.app.main.presentation
 
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.getFinishAction
 import org.hyperskill.app.main.presentation.AppFeature.Action
 import org.hyperskill.app.main.presentation.AppFeature.InternalAction
 import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
@@ -17,9 +20,6 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
-import org.hyperskill.app.welcome_onboarding.presentation.getFinishAction
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>

@@ -1,9 +1,0 @@
-package org.hyperskill.app.welcome_onboarding.injection
-
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingActionDispatcher
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
-
-interface LegacyWelcomeOnboardingComponent {
-    val legacyWelcomeOnboardingReducer: LegacyWelcomeOnboardingReducer
-    val legacyWelcomeOnboardingActionDispatcher: LegacyWelcomeOnboardingActionDispatcher
-}

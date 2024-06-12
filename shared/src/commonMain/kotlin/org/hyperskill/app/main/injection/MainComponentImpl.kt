@@ -4,7 +4,7 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
-import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
+import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {

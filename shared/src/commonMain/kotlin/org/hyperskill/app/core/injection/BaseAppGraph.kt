@@ -169,8 +169,8 @@ import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
-import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
-import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponentImpl
+import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
+import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponentImpl
 
 abstract class BaseAppGraph : AppGraph {
 

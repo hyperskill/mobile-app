@@ -8,7 +8,7 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.subscriptions.domain.model.Subscription
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
 
 object AppFeature {
 

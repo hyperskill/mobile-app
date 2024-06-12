@@ -1,9 +1,9 @@
-package org.hyperskill.app.welcome_onboarding.injection
+package org.hyperskill.app.legacy_welcome_onboarding.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingActionDispatcher
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingActionDispatcher
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
 
 internal class LegacyWelcomeOnboardingComponentImpl(
     private val appGraph: AppGraph

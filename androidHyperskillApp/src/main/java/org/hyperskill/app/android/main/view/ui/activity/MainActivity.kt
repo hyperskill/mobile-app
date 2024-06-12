@@ -59,7 +59,7 @@ import org.hyperskill.app.notification.local.domain.analytic.NotificationDailySt
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingFeature
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator

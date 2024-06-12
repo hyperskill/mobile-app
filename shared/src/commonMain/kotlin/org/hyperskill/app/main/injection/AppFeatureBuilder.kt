@@ -22,8 +22,8 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryActionDispa
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.interactor.SubscriptionsInteractor
 import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionStateRepository
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingActionDispatcher
-import org.hyperskill.app.welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingActionDispatcher
+import org.hyperskill.app.legacy_welcome_onboarding.presentation.LegacyWelcomeOnboardingReducer
 import ru.nobird.app.core.model.safeCast
 import ru.nobird.app.presentation.redux.dispatcher.transform
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher

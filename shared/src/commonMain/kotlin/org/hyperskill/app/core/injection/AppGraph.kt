@@ -91,7 +91,7 @@ import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetC
 import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
-import org.hyperskill.app.welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
+import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
 
 interface AppGraph {
     val commonComponent: CommonComponent
