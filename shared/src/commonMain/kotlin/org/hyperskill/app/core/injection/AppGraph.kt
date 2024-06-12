@@ -196,6 +196,8 @@ interface AppGraph {
     @Deprecated("Should be removed in ALTAPPS-1276")
     fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
 
+    fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
+
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent

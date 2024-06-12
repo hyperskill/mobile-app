@@ -503,6 +503,9 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent =
         LegacyWelcomeOnboardingComponentImpl(this)
 
+    override fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent =
+        WelcomeOnboardingComponentImpl(this)
+
     override fun buildRequestReviewDataComponent(): RequestReviewDataComponent =
         RequestReviewDataComponentImpl(this)
 

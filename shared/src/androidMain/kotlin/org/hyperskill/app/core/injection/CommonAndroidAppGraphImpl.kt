@@ -86,6 +86,8 @@ import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.Pl
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponentImpl
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
@@ -325,5 +327,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     ): PlatformTopicCompletedModalComponent =
         PlatformTopicCompletedModalComponentImpl(
             topicCompletedModalComponent = buildTopicCompletedModalComponent(params)
+        )
+
+    override fun buildPlatformWelcomeOnboardingComponent(): PlatformWelcomeOnboardingComponent =
+        PlatformWelcomeOnboardingComponentImpl(
+            welcomeOnboardingComponent = buildWelcomeOnboardingComponent()
         )
 }

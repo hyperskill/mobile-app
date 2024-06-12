@@ -49,6 +49,7 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParam
 import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.PlatformUsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
+import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponent
 
 interface CommonAndroidAppGraph : AppGraph {
     val application: Application
@@ -132,4 +133,6 @@ interface CommonAndroidAppGraph : AppGraph {
     fun buildPlatformTopicCompletedModalComponent(
         params: TopicCompletedModalFeatureParams
     ): PlatformTopicCompletedModalComponent
+
+    fun buildPlatformWelcomeOnboardingComponent(): PlatformWelcomeOnboardingComponent
 }
