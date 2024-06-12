@@ -129,7 +129,7 @@ extension AppViewModel: NotificationsOnboardingOutputProtocol {
     func handleNotificationsOnboardingCompleted() {
         onNewMessage(
             AppFeatureMessageWelcomeOnboardingMessage(
-                message: WelcomeOnboardingFeatureMessageNotificationOnboardingCompleted()
+                message: LegacyWelcomeOnboardingFeatureMessageNotificationOnboardingCompleted()
             )
         )
     }
@@ -141,7 +141,7 @@ extension AppViewModel: UsersQuestionnaireOnboardingOutputProtocol {
     func handleUsersQuestionnaireOnboardingCompleted() {
         onNewMessage(
             AppFeatureMessageWelcomeOnboardingMessage(
-                message: WelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()
+                message: LegacyWelcomeOnboardingFeatureMessageUsersQuestionnaireOnboardingCompleted()
             )
         )
     }
@@ -153,7 +153,7 @@ extension AppViewModel: FirstProblemOnboardingOutputProtocol {
     func handleFirstProblemOnboardingCompleted(stepRoute: StepRoute?) {
         onNewMessage(
             AppFeatureMessageWelcomeOnboardingMessage(
-                message: WelcomeOnboardingFeatureMessageFirstProblemOnboardingCompleted(
+                message: LegacyWelcomeOnboardingFeatureMessageFirstProblemOnboardingCompleted(
                     firstProblemStepRoute: stepRoute
                 )
             )
@@ -237,7 +237,7 @@ private extension AppViewModel {
     func handleTrackSelectionDetailsDidRequestNavigateToFirstProblemOnboarding() {
         onViewAction?(
             AppFeatureActionViewActionWelcomeOnboardingViewAction(
-                viewAction: WelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnboardingScreen(
+                viewAction: LegacyWelcomeOnboardingFeatureActionViewActionNavigateToFirstProblemOnboardingScreen(
                     isNewUserMode: true
                 )
             )

@@ -80,7 +80,7 @@ extension AppViewController: AppViewControllerProtocol {
             )
         case .welcomeOnboardingViewAction(let welcomeOnboardingViewAction):
             handleWelcomeOnboardingViewAction(
-                WelcomeOnboardingFeatureActionViewActionKs(welcomeOnboardingViewAction.viewAction)
+                LegacyWelcomeOnboardingFeatureActionViewActionKs(welcomeOnboardingViewAction.viewAction)
             )
         }
     }
@@ -202,11 +202,11 @@ extension AppViewController: AppViewControllerProtocol {
     }
 
     private func handleWelcomeOnboardingViewAction(
-        _ viewAction: WelcomeOnboardingFeatureActionViewActionKs
+        _ viewAction: LegacyWelcomeOnboardingFeatureActionViewActionKs
     ) {
         switch viewAction {
         case .navigateTo(let navigateToViewAction):
-            switch WelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
+            switch LegacyWelcomeOnboardingFeatureActionViewActionNavigateToKs(navigateToViewAction) {
             case .firstProblemOnboardingScreen(let data):
                 router.route(.firstProblemOnboarding(isNewUserMode: data.isNewUserMode, moduleOutput: viewModel))
             case .notificationOnboardingScreen:
