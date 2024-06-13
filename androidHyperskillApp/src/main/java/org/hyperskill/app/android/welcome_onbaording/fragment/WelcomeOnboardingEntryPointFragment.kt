@@ -11,10 +11,10 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.ui.WelcomeOnboardingEntryPoint
 
-class WelcomeOnboardingStartingFragment : Fragment() {
+class WelcomeOnboardingEntryPointFragment : Fragment() {
     companion object {
-        fun newInstance(): WelcomeOnboardingStartingFragment =
-            WelcomeOnboardingStartingFragment()
+        fun newInstance(): WelcomeOnboardingEntryPointFragment =
+            WelcomeOnboardingEntryPointFragment()
     }
 
     override fun onCreateView(

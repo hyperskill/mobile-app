@@ -3,17 +3,23 @@ package org.hyperskill.app.welcome_onboarding.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStep
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
 
 object WelcomeOnboardingFeature {
 
-    data class State(val initialStep: WelcomeOnboardingStep)
+    data class State(val initialStep: WelcomeOnboardingStartScreen)
 
     fun shouldLaunchFeature(profile: Profile, isNotificationPermissionGranted: Boolean): Boolean =
-        profile.isNewUser || isNotificationPermissionGranted
+        profile.isNewUser || !isNotificationPermissionGranted
 
-    internal fun initialState() =
-        State(initialStep = WelcomeOnboardingStep.START_SCREEN)
+    internal fun initialState(profile: Profile, isNotificationPermissionGranted: Boolean) =
+        State(
+            initialStep = when {
+                profile.isNewUser -> WelcomeOnboardingStartScreen.START_SCREEN
+                !isNotificationPermissionGranted -> WelcomeOnboardingStartScreen.NOTIFICATION_ONBOARDING
+                else -> error("Welcome onboarding should not be shown")
+            }
+        )
 
     sealed interface Message {
         object StartJourneyClicked : Message
