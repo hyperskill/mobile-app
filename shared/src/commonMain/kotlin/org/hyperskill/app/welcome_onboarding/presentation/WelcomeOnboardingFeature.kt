@@ -5,6 +5,8 @@ import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType
 
 object WelcomeOnboardingFeature {
 
@@ -24,6 +26,10 @@ object WelcomeOnboardingFeature {
 
     sealed interface Message {
         object StartJourneyClicked : Message
+        data class QuestionnaireItemClicked(
+            val questionnaireType: WelcomeQuestionnaireType,
+            val itemType: WelcomeQuestionnaireItemType
+        ) : Message
     }
 
     internal sealed interface InternalMessage : Message
@@ -31,7 +37,7 @@ object WelcomeOnboardingFeature {
     sealed interface Action {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
-                object WelcomeOnboardingQuestionnaire : NavigateTo
+                data class WelcomeOnboardingQuestionnaire(val type: WelcomeQuestionnaireType) : NavigateTo
             }
         }
     }

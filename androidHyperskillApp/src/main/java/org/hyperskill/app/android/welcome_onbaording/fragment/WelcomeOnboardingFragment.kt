@@ -7,10 +7,15 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingEntryPointScreen
+import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeQuestionnaireScreen
+import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
+import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
@@ -31,6 +36,7 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         injectComponent()
+        welcomeOnboardingViewModel.handleActions(this, ::onAction)
         if (savedInstanceState == null) {
             initNavigation(welcomeOnboardingViewModel.state.value)
         }
@@ -54,5 +60,19 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
 
     override fun onStartClick() {
         welcomeOnboardingViewModel.onStartClick()
+    }
+
+    override fun onQuestionnaireItemClicked(
+        questionnaireType: WelcomeQuestionnaireType,
+        itemType: WelcomeQuestionnaireItemType
+    ) {
+        welcomeOnboardingViewModel.onQuestionnaireItemClicked(questionnaireType, itemType)
+    }
+
+    private fun onAction(action: ViewAction) {
+        when (action) {
+            is ViewAction.NavigateTo.WelcomeOnboardingQuestionnaire ->
+                router.newRootScreen(WelcomeQuestionnaireScreen(action.type))
+        }
     }
 }

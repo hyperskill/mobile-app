@@ -755,4 +755,32 @@
     <string name="welcome_onboarding_entry_point_title">Welcome</string>
     <string name="welcome_onboarding_entry_point_description">We\'re here to help you build the ideal study plan! A few quick questions will guide us.</string>
     <string name="welcome_onboarding_entry_point_start_btn">Start my journey</string>
+
+    <!--Welcome onboarding first questionnaire-->
+    <string name="welcome_questionnaire_how_did_you_hear_about_hyperskill_title">How did you hear about Hyperskill?</string>
+    <string name="welcome_questionnaire_tiktok_item">Tik tok</string>
+    <string name="welcome_questionnaire_google_item">Google search</string>
+    <string name="welcome_questionnaire_news_item">News/article/blog</string>
+    <string name="welcome_questionnaire_play_store_item">Play store</string>
+    <string name="welcome_questionnaire_app_store_item">App store</string>
+    <string name="welcome_questionnaire_facebook_item">Facebook/Instagram</string>
+    <string name="welcome_questionnaire_friends_item">Friends/family</string>
+    <string name="welcome_questionnaire_youtube_item">YouTube</string>
+    <string name="welcome_questionnaire_other_item">Other</string>
+
+    <!--Welcome onboarding learning goal questionnaire-->
+    <string name="welcome_questionnaire_learning_goal_title">Why are you learning to code?</string>
+    <string name="welcome_questionnaire_learning_goal_start_career_item">Start a programming-related career</string>
+    <string name="welcome_questionnaire_learning_goal_current_job_item">Get better at my current job</string>
+    <string name="welcome_questionnaire_learning_goal_change_stack_item">Change technology stack</string>
+    <string name="welcome_questionnaire_learning_goal_study_item">Complement my studies</string>
+    <string name="welcome_questionnaire_learning_goal_fun_item">Just for fun </string>
+    <string name="welcome_questionnaire_learning_goal_different_reason_item">For a different reason</string>
+
+    <!--Welcome onboarding background questionnaire-->
+    <string name="welcome_questionnaire_background_title">What\'s your coding background?</string>
+    <string name="welcome_questionnaire_background_no_experience_item">I have no coding experience</string>
+    <string name="welcome_questionnaire_background_basic_item">I have some basic understanding of programming concepts.</string>
+    <string name="welcome_questionnaire_background_medium_item">I have written some projects</string>
+    <string name="welcome_questionnaire_background_pro_item">I am working professional</string>
 </resources>
