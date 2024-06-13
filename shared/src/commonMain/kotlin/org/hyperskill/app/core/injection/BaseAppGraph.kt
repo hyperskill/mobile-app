@@ -175,6 +175,7 @@ import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 
 abstract class BaseAppGraph : AppGraph {
 
@@ -503,8 +504,8 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent =
         LegacyWelcomeOnboardingComponentImpl(this)
 
-    override fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent =
-        WelcomeOnboardingComponentImpl(this)
+    override fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent =
+        WelcomeOnboardingComponentImpl(this, params)
 
     override fun buildRequestReviewDataComponent(): RequestReviewDataComponent =
         RequestReviewDataComponentImpl(this)

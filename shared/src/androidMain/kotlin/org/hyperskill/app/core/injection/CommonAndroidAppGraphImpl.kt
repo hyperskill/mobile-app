@@ -88,6 +88,7 @@ import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
@@ -300,7 +301,7 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
 
     override fun buildPlatformUsersQuestionnaireOnboardingComponent(): PlatformUsersQuestionnaireOnboardingComponent =
         PlatformUsersQuestionnaireOnboardingComponentImpl(
-            usersQuestionnaireOnboardingComponent = buildUsersQuestionnaireOnboardingComponent()
+            usersQuestionnaireOnboardingComponent = buildLegacyUsersQuestionnaireOnboardingComponent()
         )
 
     override fun buildPlatformPaywallComponent(
@@ -329,8 +330,10 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
             topicCompletedModalComponent = buildTopicCompletedModalComponent(params)
         )
 
-    override fun buildPlatformWelcomeOnboardingComponent(): PlatformWelcomeOnboardingComponent =
+    override fun buildPlatformWelcomeOnboardingComponent(
+        params: WelcomeOnboardingFeatureParams
+    ): PlatformWelcomeOnboardingComponent =
         PlatformWelcomeOnboardingComponentImpl(
-            welcomeOnboardingComponent = buildWelcomeOnboardingComponent()
+            welcomeOnboardingComponent = buildWelcomeOnboardingComponent(params)
         )
 }

@@ -94,6 +94,7 @@ import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.UsersQ
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 
 interface AppGraph {
     val commonComponent: CommonComponent
@@ -193,9 +194,7 @@ interface AppGraph {
     fun buildSearchResultsDataComponent(): SearchResultsDataComponent
     fun buildSearchComponent(): SearchComponent
     fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
-
-    fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
-
+    fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent

@@ -5,6 +5,7 @@ import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
@@ -21,7 +22,8 @@ internal object WelcomeOnboardingFeatureBuilder {
     fun build(
         analyticInteractor: AnalyticInteractor,
         logger: Logger,
-        buildVariant: BuildVariant
+        buildVariant: BuildVariant,
+        params: WelcomeOnboardingFeatureParams
     ): Feature<State, Message, Action> {
         val welcomeOnboardingReducer =
             WelcomeOnboardingReducer()
@@ -33,7 +35,7 @@ internal object WelcomeOnboardingFeatureBuilder {
         )
 
         return ReduxFeature(
-            initialState = WelcomeOnboardingFeature.initialState(),
+            initialState = WelcomeOnboardingFeature.initialState(params),
             reducer = welcomeOnboardingReducer
         ).wrapWithActionDispatcher(welcomeOnboardingActionDispatcher)
     }

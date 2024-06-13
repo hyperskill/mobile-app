@@ -52,6 +52,7 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.local.domain.analytic.NotificationDailyStudyReminderClickedHyperskillAnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import ru.nobird.android.view.base.ui.delegate.ViewStateDelegate
 import ru.nobird.android.view.base.ui.extension.resolveColorAttribute
 import ru.nobird.android.view.navigation.navigator.NestedAppNavigator
@@ -283,7 +284,11 @@ class MainActivity :
                     PaywallScreen(action.paywallTransitionSource)
                 )
             is AppFeature.Action.ViewAction.NavigateTo.WelcomeOnboarding -> {
-                router.newRootScreen(WelcomeOnboardingScreen)
+                router.newRootScreen(
+                    WelcomeOnboardingScreen(
+                        WelcomeOnboardingFeatureParams(action.profile, action.isNotificationPermissionGranted)
+                    )
+                )
             }
         }
     }

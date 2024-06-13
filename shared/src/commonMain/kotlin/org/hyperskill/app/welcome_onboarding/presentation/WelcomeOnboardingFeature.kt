@@ -3,6 +3,7 @@ package org.hyperskill.app.welcome_onboarding.presentation
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
 
 object WelcomeOnboardingFeature {
@@ -12,11 +13,11 @@ object WelcomeOnboardingFeature {
     fun shouldLaunchFeature(profile: Profile, isNotificationPermissionGranted: Boolean): Boolean =
         profile.isNewUser || !isNotificationPermissionGranted
 
-    internal fun initialState(profile: Profile, isNotificationPermissionGranted: Boolean) =
+    internal fun initialState(params: WelcomeOnboardingFeatureParams) =
         State(
             initialStep = when {
-                profile.isNewUser -> WelcomeOnboardingStartScreen.START_SCREEN
-                !isNotificationPermissionGranted -> WelcomeOnboardingStartScreen.NOTIFICATION_ONBOARDING
+                params.profile.isNewUser -> WelcomeOnboardingStartScreen.START_SCREEN
+                !params.isNotificationPermissionGranted -> WelcomeOnboardingStartScreen.NOTIFICATION_ONBOARDING
                 else -> error("Welcome onboarding should not be shown")
             }
         )

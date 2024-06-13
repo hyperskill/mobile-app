@@ -50,6 +50,7 @@ import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.Pl
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 
 interface CommonAndroidAppGraph : AppGraph {
     val application: Application
@@ -134,5 +135,5 @@ interface CommonAndroidAppGraph : AppGraph {
         params: TopicCompletedModalFeatureParams
     ): PlatformTopicCompletedModalComponent
 
-    fun buildPlatformWelcomeOnboardingComponent(): PlatformWelcomeOnboardingComponent
+    fun buildPlatformWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): PlatformWelcomeOnboardingComponent
 }

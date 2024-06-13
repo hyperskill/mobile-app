@@ -4,8 +4,10 @@ import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
+import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingEntryPointScreen
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
@@ -13,14 +15,18 @@ import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
     companion object {
-        fun newInstance(): WelcomeOnboardingFragment =
-            WelcomeOnboardingFragment()
+        fun newInstance(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingFragment =
+            WelcomeOnboardingFragment().apply {
+                this.params = params
+            }
     }
 
     private var viewModelFactory: ViewModelProvider.Factory? = null
     private val welcomeOnboardingViewModel: WelcomeOnboardingViewModel by viewModels {
         requireNotNull(viewModelFactory)
     }
+
+    private var params: WelcomeOnboardingFeatureParams by argument(WelcomeOnboardingFeatureParams.serializer())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +40,7 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         viewModelFactory =
             HyperskillApp
                 .graph()
-                .buildPlatformWelcomeOnboardingComponent()
+                .buildPlatformWelcomeOnboardingComponent(params)
                 .reduxViewModelFactory
     }
 
