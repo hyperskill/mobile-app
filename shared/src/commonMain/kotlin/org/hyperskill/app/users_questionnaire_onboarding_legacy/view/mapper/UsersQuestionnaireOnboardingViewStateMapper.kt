@@ -1,12 +1,13 @@
-package org.hyperskill.app.users_questionnaire_onboarding.view.mapper
+package org.hyperskill.app.users_questionnaire_onboarding_legacy.view.mapper
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.domain.platform.Platform
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.users_questionnaire_onboarding.presentation.UsersQuestionnaireOnboardingFeature.State
-import org.hyperskill.app.users_questionnaire_onboarding.presentation.UsersQuestionnaireOnboardingFeature.ViewState
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.LegacyUsersQuestionnaireOnboardingFeature.State
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.LegacyUsersQuestionnaireOnboardingFeature.ViewState
 
+@Deprecated("Should be removed in ALTAPPS-1276")
 internal class UsersQuestionnaireOnboardingViewStateMapper(
     platform: Platform,
     resourceProvider: ResourceProvider

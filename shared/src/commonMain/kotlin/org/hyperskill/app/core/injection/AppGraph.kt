@@ -90,7 +90,7 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
-import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
@@ -192,8 +192,6 @@ interface AppGraph {
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
     fun buildSearchResultsDataComponent(): SearchResultsDataComponent
     fun buildSearchComponent(): SearchComponent
-
-    @Deprecated("Should be removed in ALTAPPS-1276")
     fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
 
     fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent
@@ -203,7 +201,7 @@ interface AppGraph {
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
     fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent
-    fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
+    fun buildLegacyUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams
     ): ProblemsLimitInfoModalComponent

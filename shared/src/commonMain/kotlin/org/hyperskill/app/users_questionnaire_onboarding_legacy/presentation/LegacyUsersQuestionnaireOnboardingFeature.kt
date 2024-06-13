@@ -1,8 +1,9 @@
-package org.hyperskill.app.users_questionnaire_onboarding.presentation
+package org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation
 
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 
-object UsersQuestionnaireOnboardingFeature {
+@Deprecated("Should be removed in ALTAPPS-1276")
+object LegacyUsersQuestionnaireOnboardingFeature {
     internal data class State(
         val selectedChoice: String? = null,
         val textInputValue: String? = null

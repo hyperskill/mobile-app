@@ -1,4 +1,4 @@
-package org.hyperskill.app.users_questionnaire_onboarding.domain.analytic
+package org.hyperskill.app.users_questionnaire_onboarding_legacy.domain.analytic
 
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticAction
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEvent

@@ -16,7 +16,7 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.users_questionnaire_onboarding.ui.UsersQuestionnaireOnboardingScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.users_questionnaire_onboarding.onboarding.presentation.UsersQuestionnaireOnboardingViewModel
-import org.hyperskill.app.users_questionnaire_onboarding.presentation.UsersQuestionnaireOnboardingFeature.Action.ViewAction
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.LegacyUsersQuestionnaireOnboardingFeature.Action.ViewAction
 
 class UsersQuestionnaireOnboardingFragment : Fragment() {
     companion object {

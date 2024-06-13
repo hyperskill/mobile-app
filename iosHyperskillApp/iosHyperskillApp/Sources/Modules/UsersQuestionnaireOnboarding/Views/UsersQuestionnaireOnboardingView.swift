@@ -49,9 +49,9 @@ struct UsersQuestionnaireOnboardingView: View {
 
 private extension UsersQuestionnaireOnboardingView {
     func handleViewAction(
-        _ viewAction: UsersQuestionnaireOnboardingFeatureActionViewAction
+        _ viewAction: LegacyUsersQuestionnaireOnboardingFeatureActionViewAction
     ) {
-        switch UsersQuestionnaireOnboardingFeatureActionViewActionKs(viewAction) {
+        switch LegacyUsersQuestionnaireOnboardingFeatureActionViewActionKs(viewAction) {
         case .showSendSuccessMessage(let showSendSuccessMessageViewAction):
             ProgressHUD.showSuccess(status: showSendSuccessMessageViewAction.message)
         case .completeUsersQuestionnaireOnboarding:

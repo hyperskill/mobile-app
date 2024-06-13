@@ -1,4 +1,4 @@
-package org.hyperskill.app.users_questionnaire_onboarding.domain.analytic
+package org.hyperskill.app.users_questionnaire_onboarding_legacy.domain.analytic
 
 internal object UsersQuestionnaireOnboardingAnalyticParams {
     const val PARAM_SOURCE = "source"

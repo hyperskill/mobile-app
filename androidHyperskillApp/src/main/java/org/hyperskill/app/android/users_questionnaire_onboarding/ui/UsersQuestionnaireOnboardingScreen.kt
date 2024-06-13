@@ -29,14 +29,14 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTextButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.users_questionnaire_onboarding.onboarding.presentation.UsersQuestionnaireOnboardingViewModel
-import org.hyperskill.app.users_questionnaire_onboarding.presentation.UsersQuestionnaireOnboardingFeature
-import org.hyperskill.app.users_questionnaire_onboarding.presentation.UsersQuestionnaireOnboardingFeature.ViewState
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.LegacyUsersQuestionnaireOnboardingFeature
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.LegacyUsersQuestionnaireOnboardingFeature.ViewState
 
 @Composable
 fun UsersQuestionnaireOnboardingScreen(viewModel: UsersQuestionnaireOnboardingViewModel) {
     DisposableEffect(viewModel) {
         viewModel.onNewMessage(
-            UsersQuestionnaireOnboardingFeature.Message.ViewedEventMessage
+            LegacyUsersQuestionnaireOnboardingFeature.Message.ViewedEventMessage
         )
         onDispose {
             // no op

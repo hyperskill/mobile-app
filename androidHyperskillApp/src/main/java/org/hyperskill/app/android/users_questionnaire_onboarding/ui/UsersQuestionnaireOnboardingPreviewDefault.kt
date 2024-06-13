@@ -1,6 +1,6 @@
 package org.hyperskill.app.android.users_questionnaire_onboarding.ui
 
-import org.hyperskill.app.users_questionnaire_onboarding.presentation.UsersQuestionnaireOnboardingFeature
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.LegacyUsersQuestionnaireOnboardingFeature
 
 object UsersQuestionnaireOnboardingPreviewDefault {
 
@@ -14,7 +14,7 @@ object UsersQuestionnaireOnboardingPreviewDefault {
         selectedChoice: SelectedChoice,
         isSendButtonEnabled: Boolean
     ) =
-        UsersQuestionnaireOnboardingFeature.ViewState(
+        LegacyUsersQuestionnaireOnboardingFeature.ViewState(
             title = "How did you hear about Hyperskill?",
             choices = listOf(
                 "Google",
@@ -43,12 +43,12 @@ object UsersQuestionnaireOnboardingPreviewDefault {
             }
         )
 
-    fun getUnselectedViewState(): UsersQuestionnaireOnboardingFeature.ViewState =
+    fun getUnselectedViewState(): LegacyUsersQuestionnaireOnboardingFeature.ViewState =
         getViewState(SelectedChoice.NONE, false)
 
-    fun getFirstOptionSelectedViewState(): UsersQuestionnaireOnboardingFeature.ViewState =
+    fun getFirstOptionSelectedViewState(): LegacyUsersQuestionnaireOnboardingFeature.ViewState =
         getViewState(SelectedChoice.FIRST, true)
 
-    fun getOtherOptionSelectedViewState(isSendButtonEnabled: Boolean): UsersQuestionnaireOnboardingFeature.ViewState =
+    fun getOtherOptionSelectedViewState(isSendButtonEnabled: Boolean): LegacyUsersQuestionnaireOnboardingFeature.ViewState =
         getViewState(SelectedChoice.LAST, isSendButtonEnabled)
 }

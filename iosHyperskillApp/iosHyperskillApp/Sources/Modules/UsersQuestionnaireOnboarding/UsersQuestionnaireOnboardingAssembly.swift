@@ -10,7 +10,7 @@ final class UsersQuestionnaireOnboardingAssembly: UIKitAssembly {
 
     func makeModule() -> UIViewController {
         let usersQuestionnaireOnboardingComponent =
-            AppGraphBridge.sharedAppGraph.buildUsersQuestionnaireOnboardingComponent()
+            AppGraphBridge.sharedAppGraph.buildLegacyUsersQuestionnaireOnboardingComponent()
 
         let usersQuestionnaireOnboardingViewModel = UsersQuestionnaireOnboardingViewModel(
             feature: usersQuestionnaireOnboardingComponent.usersQuestionnaireOnboardingFeature
