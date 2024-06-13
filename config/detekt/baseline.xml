@@ -52,13 +52,12 @@
     <ID>ImplicitDefaultLocale:TimeIntervalUtil.kt$TimeIntervalUtil$String.format("%02d:00 \u2014 %02d:00", i, i + 1)</ID>
     <ID>InvalidPackageDeclaration:HandleActions.kt$package org.hyperskill.app.core.view</ID>
     <ID>LambdaParameterInRestartableEffect:OnComposableShownFirstTime.kt$block</ID>
-    <ID>LongMethod:LegacyAppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:AppReducer.kt$AppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:ChallengeCard.kt$@Composable fun ChallengeCard( viewState: ChallengeWidgetViewState, onNewMessage: (Message) -&gt; Unit )</ID>
     <ID>LongMethod:DefaultStepQuizFragment.kt$DefaultStepQuizFragment$override fun onAction(action: StepQuizFeature.Action.ViewAction)</ID>
     <ID>LongMethod:LeaderboardSkeletonItem.kt$@Composable fun LeaderboardSkeletonItem( placeNumber: Int?, modifier: Modifier = Modifier )</ID>
+    <ID>LongMethod:LegacyAppReducer.kt$LegacyAppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
-    <ID>LongMethod:MainActivity.kt$MainActivity$override fun onAction(action: AppFeature.Action.ViewAction)</ID>
     <ID>LongMethod:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$private fun getDailyStudyRemindersNotificationDescriptions()</ID>
     <ID>LongMethod:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$fun render( dateFormatter: SharedDateFormatter, binding: LayoutProblemOfTheDayCardBinding, state: HomeFeature.ProblemOfDayState, areProblemsLimited: Boolean )</ID>
     <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -&gt; Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -&gt; Unit, modifier: Modifier = Modifier )</ID>
@@ -177,7 +176,6 @@
     <ID>MaxLineLength:ExpandableTextView.kt$ExpandableTextView$*</ID>
     <ID>MaxLineLength:HtmlText.kt$text</ID>
     <ID>MaxLineLength:LinearProgressIndicator.kt$*</ID>
-    <ID>MaxLineLength:LegacyMainComponentImpl.kt$MainComponentImpl$notificationClickHandlingActionDispatcher = clickedNotificationComponent.notificationClickHandlingActionDispatcher</ID>
     <ID>MaxLineLength:ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent.kt$ProjectSelectionDetailsClickedSelectThisProjectHyperskillAnalyticEvent$*</ID>
     <ID>MaxLineLength:RepositoryCacheProxy.kt$RepositoryCacheProxy$*</ID>
     <ID>MaxLineLength:StepComponentImpl.kt$StepComponentImpl$nextLearningActivityStateRepository = appGraph.stateRepositoriesComponent.nextLearningActivityStateRepository</ID>
@@ -282,7 +280,6 @@
     <ID>TooManyFunctions:FillBlanksStepQuizFormDelegate.kt$FillBlanksStepQuizFormDelegate : StepQuizFormDelegate</ID>
     <ID>TooManyFunctions:HyperskillSentryBreadcrumbBuilder.kt$HyperskillSentryBreadcrumbBuilder</ID>
     <ID>TooManyFunctions:HyperskillSentryTransactionBuilder.kt$HyperskillSentryTransactionBuilder</ID>
-    <ID>TooManyFunctions:MainActivity.kt$MainActivity : AppCompatActivityAppNavigationContainerReduxView</ID>
     <ID>TooManyFunctions:NotificationInteractor.kt$NotificationInteractor</ID>
     <ID>TooManyFunctions:ProfileFragment.kt$ProfileFragment : FragmentReduxViewCallbackCallback</ID>
     <ID>TooManyFunctions:SharedDateFormatter.kt$SharedDateFormatter</ID>
@@ -306,7 +303,6 @@
     <ID>UnusedPrivateProperty:MainActivity.kt$MainActivity$val splashScreen = installSplashScreen()</ID>
     <ID>UnusedPrivateProperty:TrackSelectionDetailsFragment.kt$TrackSelectionDetailsFragment$private val mainScreenRouter: MainScreenRouter by lazy(LazyThreadSafetyMode.NONE) { HyperskillApp.graph().navigationComponent.mainScreenCicerone.router }</ID>
     <ID>UseCheckOrError:AndroidStepQuizTest.kt$AndroidStepQuizTest$throw IllegalStateException( "Unknown step route class: $concreteStepRouteClass. Please add it to the test." )</ID>
-    <ID>UseCheckOrError:LegacyAppFeatureStateSerializationTest.kt$AppFeatureStateSerializationTest$throw IllegalStateException("Unknown state class: $stateClass. Please add it to the test.")</ID>
     <ID>UseCheckOrError:CollectionToJsonElement.kt$throw IllegalStateException("Can't serialize unknown type: $this")</ID>
     <ID>UseCheckOrError:ContextExtensions.kt$throw IllegalStateException("Can't find Activity in a given context")</ID>
     <ID>UseCheckOrError:FragmentSerializableArgumentDelegate.kt$BundleDelegate$throw IllegalStateException("Property ${property.name} could not be read")</ID>
