@@ -285,11 +285,11 @@ internal class AppReducer(
         setOf(Action.ClearUserInSentry)
 
     private fun getAuthorizedUserActions(profile: Profile, isNotificationPermissionGranted: Boolean): Set<Action> =
-        setOfNotNull(
+        setOf(
             if (WelcomeOnboardingFeature.shouldLaunchFeature(profile, isNotificationPermissionGranted)) {
                 Action.ViewAction.NavigateTo.WelcomeOnboarding(profile, isNotificationPermissionGranted)
             } else {
-                null
+                Action.ViewAction.NavigateTo.StudyPlan
             },
             InternalAction.FetchSubscription(forceUpdate = false),
             InternalAction.IdentifyUserInPurchaseSdk(userId = profile.id),
