@@ -5,17 +5,19 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.welcome_onbaording.language.navigation.WelcomeOnboardingChooseProgrammingLanguageScreen
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingEntryPointScreen
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeQuestionnaireScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
-import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
@@ -69,10 +71,16 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         welcomeOnboardingViewModel.onQuestionnaireItemClicked(questionnaireType, itemType)
     }
 
+    override fun onProgrammingLanguageSelected(language: WelcomeOnboardingProgrammingLanguage) {
+        welcomeOnboardingViewModel.onLanguageSelected(language)
+    }
+
     private fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.NavigateTo.WelcomeOnboardingQuestionnaire ->
                 router.newRootScreen(WelcomeQuestionnaireScreen(action.type))
+            ViewAction.NavigateTo.ChooseProgrammingLanguage ->
+                router.newRootScreen(WelcomeOnboardingChooseProgrammingLanguageScreen)
         }
     }
 }

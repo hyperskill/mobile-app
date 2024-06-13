@@ -4,9 +4,10 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType
 
 object WelcomeOnboardingFeature {
 
@@ -30,6 +31,7 @@ object WelcomeOnboardingFeature {
             val questionnaireType: WelcomeQuestionnaireType,
             val itemType: WelcomeQuestionnaireItemType
         ) : Message
+        data class ProgrammingLanguageSelected(val language: WelcomeOnboardingProgrammingLanguage) : Message
     }
 
     internal sealed interface InternalMessage : Message
@@ -38,6 +40,7 @@ object WelcomeOnboardingFeature {
         sealed interface ViewAction : Action {
             sealed interface NavigateTo : ViewAction {
                 data class WelcomeOnboardingQuestionnaire(val type: WelcomeQuestionnaireType) : NavigateTo
+                object ChooseProgrammingLanguage : NavigateTo
             }
         }
     }

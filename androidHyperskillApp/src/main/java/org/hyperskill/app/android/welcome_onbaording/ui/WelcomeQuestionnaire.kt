@@ -20,8 +20,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItem
-import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType.ClientSource
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType.ClientSource
 import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireViewState
 
 @Composable
@@ -54,7 +54,7 @@ fun WelcomeQuestionnaire(
 }
 
 @Composable
-fun ItemsList(
+private fun ItemsList(
     items: List<WelcomeQuestionnaireItem>,
     onItemClick: (type: WelcomeQuestionnaireItemType) -> Unit,
     modifier: Modifier = Modifier
@@ -79,7 +79,6 @@ fun ItemsList(
                 )
             )
         }
-
     }
 }
 

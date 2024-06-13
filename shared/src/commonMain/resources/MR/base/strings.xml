@@ -783,4 +783,13 @@
     <string name="welcome_questionnaire_background_basic_item">I have some basic understanding of programming concepts.</string>
     <string name="welcome_questionnaire_background_medium_item">I have written some projects</string>
     <string name="welcome_questionnaire_background_pro_item">I am working professional</string>
+
+    <!--Welcome onboarding pick language-->
+    <string name="welcome_onboarding_pick_language_title">Pick a language to learn!</string>
+    <string name="welcome_onboarding_lang_java">Java</string>
+    <string name="welcome_onboarding_lang_js">JavaScript</string>
+    <string name="welcome_onboarding_lang_kotlin">Koltin</string>
+    <string name="welcome_onboarding_lang_python">Python</string>
+    <string name="welcome_onboarding_lang_sql">SQL</string>
+    <string name="welcome_onboarding_lang_not_sure">I\'m not sure yet</string>
 </resources>

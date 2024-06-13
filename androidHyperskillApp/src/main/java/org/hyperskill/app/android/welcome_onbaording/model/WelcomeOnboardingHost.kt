@@ -1,7 +1,8 @@
 package org.hyperskill.app.android.welcome_onbaording.model
 
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType
 
 interface WelcomeOnboardingHost {
     fun onStartClick()
@@ -9,4 +10,5 @@ interface WelcomeOnboardingHost {
         questionnaireType: WelcomeQuestionnaireType,
         itemType: WelcomeQuestionnaireItemType
     )
+    fun onProgrammingLanguageSelected(language: WelcomeOnboardingProgrammingLanguage)
 }

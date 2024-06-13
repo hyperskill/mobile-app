@@ -16,7 +16,6 @@ object WelcomeOnboardingDefault {
     val titleTextStyle: TextStyle
         @Composable
         get() = TextStyle(
-
             fontSize = 24.sp,
             fontWeight = FontWeight.SemiBold,
             color = colorResource(id = R.color.text_primary)

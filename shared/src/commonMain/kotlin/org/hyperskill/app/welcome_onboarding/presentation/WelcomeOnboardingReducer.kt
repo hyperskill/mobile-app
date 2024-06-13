@@ -14,6 +14,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         when (message) {
             Message.StartJourneyClicked -> handleStartJourneyClicked(state)
             is Message.QuestionnaireItemClicked -> handleQuestionnaireItemClicked(state, message)
+            is Message.ProgrammingLanguageSelected -> handleProgrammingLanguageSelected(state, message)
         }
 
     private fun handleStartJourneyClicked(state: State): WelcomeOnboardingReducerResult =
@@ -35,7 +36,14 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
                     NavigateTo.WelcomeOnboardingQuestionnaire(WelcomeQuestionnaireType.LEARNING_REASON)
                 WelcomeQuestionnaireType.LEARNING_REASON ->
                     NavigateTo.WelcomeOnboardingQuestionnaire(WelcomeQuestionnaireType.CODING_EXPERIENCE)
-                WelcomeQuestionnaireType.CODING_EXPERIENCE -> TODO()
+                WelcomeQuestionnaireType.CODING_EXPERIENCE ->
+                    NavigateTo.ChooseProgrammingLanguage
             }
         )
+
+    private fun handleProgrammingLanguageSelected(
+        state: State,
+        message: Message.ProgrammingLanguageSelected
+    ): WelcomeOnboardingReducerResult =
+        TODO()
 }

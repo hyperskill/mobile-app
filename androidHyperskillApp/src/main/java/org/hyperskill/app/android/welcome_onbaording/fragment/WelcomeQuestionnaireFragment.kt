@@ -13,7 +13,7 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.ui.WelcomeQuestionnaire
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireViewState
 import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireViewStateMapper
 import ru.nobird.android.view.base.ui.extension.argument
