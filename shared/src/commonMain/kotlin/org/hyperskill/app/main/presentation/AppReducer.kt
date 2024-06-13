@@ -17,6 +17,7 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>
@@ -189,7 +190,7 @@ internal class AppReducer(
                 isMobileOnlySubscriptionEnabled = message.profile.features.isMobileOnlySubscriptionEnabled,
                 canMakePayments = false
             )
-            authState to getAuthorizedUserActions(message.profile)
+            authState to getAuthorizedUserActions(message.profile, message.isNotificationPermissionGranted)
         } else {
             state to emptySet()
         }
@@ -283,8 +284,13 @@ internal class AppReducer(
     private fun getNotAuthorizedAppStartUpActions(): Set<Action> =
         setOf(Action.ClearUserInSentry)
 
-    private fun getAuthorizedUserActions(profile: Profile): Set<Action> =
-        setOf(
+    private fun getAuthorizedUserActions(profile: Profile, isNotificationPermissionGranted: Boolean): Set<Action> =
+        setOfNotNull(
+            if (WelcomeOnboardingFeature.shouldLaunchFeature(profile, isNotificationPermissionGranted)) {
+                Action.ViewAction.NavigateTo.WelcomeOnboarding(profile, isNotificationPermissionGranted)
+            } else {
+                null
+            },
             InternalAction.FetchSubscription(forceUpdate = false),
             InternalAction.IdentifyUserInPurchaseSdk(userId = profile.id),
             Action.IdentifyUserInSentry(userId = profile.id),

@@ -45,6 +45,7 @@ import org.hyperskill.app.android.paywall.navigation.PaywallScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
+import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature
@@ -281,6 +282,9 @@ class MainActivity :
                     MainScreen(initialTab = Tabs.STUDY_PLAN),
                     PaywallScreen(action.paywallTransitionSource)
                 )
+            is AppFeature.Action.ViewAction.NavigateTo.WelcomeOnboarding -> {
+                router.newRootScreen(WelcomeOnboardingScreen)
+            }
         }
     }
 

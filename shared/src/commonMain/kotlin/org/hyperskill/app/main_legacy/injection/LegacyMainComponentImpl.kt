@@ -20,7 +20,6 @@ internal class LegacyMainComponentImpl(private val appGraph: AppGraph) : LegacyM
     private val legacyWelcomeOnboardingComponent: LegacyWelcomeOnboardingComponent =
         appGraph.buildLegacyWelcomeOnboardingComponent()
 
-
     /*ktlint-disable*/
     @Suppress("MaxLineLength")
     override fun legacyAppFeature(): Feature<State, Message, Action> =

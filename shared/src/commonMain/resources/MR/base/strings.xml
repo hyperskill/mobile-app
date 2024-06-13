@@ -750,4 +750,9 @@
     <string name="step_menu_report_action">Report</string>
     <string name="step_menu_skip_action">Skip</string>
     <string name="step_menu_open_in_web_action">Open in Web</string>
+
+    <!--Welcome onboarding-->
+    <string name="welcome_onboarding_entry_point_title">Welcome</string>
+    <string name="welcome_onboarding_entry_point_description">We\'re here to help you build the ideal study plan! A few quick questions will guide us.</string>
+    <string name="welcome_onboarding_entry_point_start_btn">Start my journey</string>
 </resources>
