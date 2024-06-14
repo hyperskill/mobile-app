@@ -788,8 +788,28 @@
     <string name="welcome_onboarding_pick_language_title">Pick a language to learn!</string>
     <string name="welcome_onboarding_lang_java">Java</string>
     <string name="welcome_onboarding_lang_js">JavaScript</string>
-    <string name="welcome_onboarding_lang_kotlin">Koltin</string>
+    <string name="welcome_onboarding_lang_kotlin">Kotlin</string>
     <string name="welcome_onboarding_lang_python">Python</string>
     <string name="welcome_onboarding_lang_sql">SQL</string>
     <string name="welcome_onboarding_lang_not_sure">I\'m not sure yet</string>
+
+    <!--Welcome onboarding track details-->
+    <string name="welcome_onboarding_track_details_title">Here\’s the track for you!</string>
+    <string name="welcome_onboarding_track_details_change_text">You can always change this later</string>
+    <string name="welcome_onboarding_track_details_continue_btn">Continue</string>
+
+    <string name="welcome_onboarding_track_details_java_title">Java Developer</string>
+    <string name="welcome_onboarding_track_details_java_description"><![CDATA[Top choice for <b>backend</b> systems and <b>Android apps</b>. Master the language that powers millions of devices worldwide!]]></string>
+
+    <string name="welcome_onboarding_track_details_js_title">Frontend Developer</string>
+    <string name="welcome_onboarding_track_details_js_description"><![CDATA[Build anything from small <b>websites</b> to large-scale <b>web applications</b>. The ultimate language for web development]]></string>
+
+    <string name="welcome_onboarding_track_details_python_title">Python Developer</string>
+    <string name="welcome_onboarding_track_details_python_description"><![CDATA[The top choice for <b>data science</b> and <b>machine learning</b>. Start your journey with this easy-to-learn language and unlock a world of possibilities!]]></string>
+
+    <string name="welcome_onboarding_track_details_kotlin_title">Kotlin Developer</string>
+    <string name="welcome_onboarding_track_details_kotlin_description"><![CDATA[Enhance your development skills with the language that combines simplicity and power, perfect for <b>Android</b> and <b>server-side applications!</b>]]></string>
+
+    <string name="welcome_onboarding_track_details_sql_title">SQL</string>
+    <string name="welcome_onboarding_track_details_sql_description">Your pathway to becoming a data analyst. Gain the skills to query and analyze data effectively in any industry!</string>
 </resources>

@@ -9,10 +9,12 @@ import org.hyperskill.app.android.welcome_onbaording.language.navigation.Welcome
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingEntryPointScreen
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeQuestionnaireScreen
+import org.hyperskill.app.android.welcome_onbaording.track.navigation.WelcomeOnboardingTrackDetailsScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
@@ -75,12 +77,18 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         welcomeOnboardingViewModel.onLanguageSelected(language)
     }
 
+    override fun onTrackSelected(track: WelcomeOnboardingTrack) {
+        welcomeOnboardingViewModel.onTrackSelected(track)
+    }
+
     private fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.NavigateTo.WelcomeOnboardingQuestionnaire ->
                 router.newRootScreen(WelcomeQuestionnaireScreen(action.type))
             ViewAction.NavigateTo.ChooseProgrammingLanguage ->
                 router.newRootScreen(WelcomeOnboardingChooseProgrammingLanguageScreen)
+            is ViewAction.NavigateTo.TrackDetails ->
+                router.navigateTo(WelcomeOnboardingTrackDetailsScreen(action.track))
         }
     }
 }

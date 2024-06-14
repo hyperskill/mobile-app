@@ -94,6 +94,7 @@ import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.UsersQ
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingTrackDetailsComponent
 import org.hyperskill.app.welcome_onboarding.injection.WelcomeQuestionnaireComponent
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 
@@ -197,6 +198,7 @@ interface AppGraph {
     fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
     fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent
     fun buildWelcomeQuestionnaireComponent(): WelcomeQuestionnaireComponent
+    fun buildWelcomeOnboardingTrackDetailsComponent(): WelcomeOnboardingTrackDetailsComponent
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
