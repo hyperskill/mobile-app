@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import org.hyperskill.app.android.R
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.R as SharedR
 
 val WelcomeOnboardingProgrammingLanguage.title: String

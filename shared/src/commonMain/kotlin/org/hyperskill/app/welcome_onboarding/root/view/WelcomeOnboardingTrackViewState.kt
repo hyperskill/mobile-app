@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.view
+package org.hyperskill.app.welcome_onboarding.root.view
 
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 

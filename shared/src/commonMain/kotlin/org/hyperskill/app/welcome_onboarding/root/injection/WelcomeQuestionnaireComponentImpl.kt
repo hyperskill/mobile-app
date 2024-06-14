@@ -1,7 +1,7 @@
-package org.hyperskill.app.welcome_onboarding.injection
+package org.hyperskill.app.welcome_onboarding.root.injection
 
 import org.hyperskill.app.core.injection.AppGraph
-import org.hyperskill.app.welcome_onboarding.view.WelcomeQuestionnaireViewStateMapper
+import org.hyperskill.app.welcome_onboarding.root.view.WelcomeQuestionnaireViewStateMapper
 
 class WelcomeQuestionnaireComponentImpl(
     private val appGraph: AppGraph

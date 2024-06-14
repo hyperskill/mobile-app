@@ -1,12 +1,12 @@
-package org.hyperskill.app.welcome_onboarding.view
+package org.hyperskill.app.welcome_onboarding.root.view
 
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType.ClientSource
-import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType.CodingBackground
-import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType.LearningGoal
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.ClientSource
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.CodingBackground
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.LearningGoal
 
 class WelcomeQuestionnaireViewStateMapper(
     private val resourceProvider: ResourceProvider,

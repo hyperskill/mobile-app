@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.model
+package org.hyperskill.app.welcome_onboarding.root.model
 
 enum class WelcomeQuestionnaireType {
     HOW_DID_YOU_HEAR_ABOUT_HYPERSKILL,

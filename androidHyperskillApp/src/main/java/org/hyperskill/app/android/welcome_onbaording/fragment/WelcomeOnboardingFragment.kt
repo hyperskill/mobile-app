@@ -12,12 +12,12 @@ import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeQuestionn
 import org.hyperskill.app.android.welcome_onbaording.track.navigation.WelcomeOnboardingTrackDetailsScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
-import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 

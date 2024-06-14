@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.injection
+package org.hyperskill.app.welcome_onboarding.root.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
@@ -6,12 +6,12 @@ import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingActionDispatcher
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingReducer
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingActionDispatcher
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Message
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.State
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingReducer
 import ru.nobird.app.presentation.redux.dispatcher.wrapWithActionDispatcher
 import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature

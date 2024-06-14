@@ -17,7 +17,7 @@ import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 import org.hyperskill.app.subscriptions.domain.model.isFreemium
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias ReducerResult = Pair<State, Set<Action>>

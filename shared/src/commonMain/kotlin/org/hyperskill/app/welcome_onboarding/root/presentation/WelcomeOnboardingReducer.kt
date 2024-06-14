@@ -1,12 +1,12 @@
-package org.hyperskill.app.welcome_onboarding.presentation
+package org.hyperskill.app.welcome_onboarding.root.presentation
 
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction.NavigateTo
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction.NavigateTo
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Message
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.State
 import ru.nobird.app.presentation.redux.reducer.StateReducer
 
 private typealias WelcomeOnboardingReducerResult = Pair<State, Set<Action>>

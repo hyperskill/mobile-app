@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.view
+package org.hyperskill.app.welcome_onboarding.root.view
 
 import dev.icerock.moko.resources.StringResource
 import org.hyperskill.app.SharedResources

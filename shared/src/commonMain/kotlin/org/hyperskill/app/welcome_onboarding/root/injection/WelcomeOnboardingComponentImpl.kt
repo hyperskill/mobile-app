@@ -1,10 +1,10 @@
-package org.hyperskill.app.welcome_onboarding.injection
+package org.hyperskill.app.welcome_onboarding.root.injection
 
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Message
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.State
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Message
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.State
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class WelcomeOnboardingComponentImpl(
