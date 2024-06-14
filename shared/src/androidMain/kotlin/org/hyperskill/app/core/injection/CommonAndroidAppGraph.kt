@@ -51,6 +51,8 @@ import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.track_details.injection.PlatformWelcomeOnboardingTrackDetailsComponent
 
 interface CommonAndroidAppGraph : AppGraph {
     val application: Application
@@ -136,4 +138,6 @@ interface CommonAndroidAppGraph : AppGraph {
     ): PlatformTopicCompletedModalComponent
 
     fun buildPlatformWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): PlatformWelcomeOnboardingComponent
+
+    fun buildPlatformWelcomeOnboardingTrackDetailsComponent(track: WelcomeOnboardingTrack): PlatformWelcomeOnboardingTrackDetailsComponent
 }

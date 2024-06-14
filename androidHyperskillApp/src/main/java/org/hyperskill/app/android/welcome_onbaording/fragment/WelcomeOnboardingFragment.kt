@@ -14,7 +14,6 @@ import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingStartScreen
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature
@@ -77,8 +76,8 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         welcomeOnboardingViewModel.onLanguageSelected(language)
     }
 
-    override fun onTrackSelected(track: WelcomeOnboardingTrack) {
-        welcomeOnboardingViewModel.onTrackSelected(track)
+    override fun onTrackSelected() {
+        welcomeOnboardingViewModel.onTrackSelected()
     }
 
     private fun onAction(action: ViewAction) {

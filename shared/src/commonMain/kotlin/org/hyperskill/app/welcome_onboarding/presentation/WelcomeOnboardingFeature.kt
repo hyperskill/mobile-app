@@ -33,7 +33,7 @@ object WelcomeOnboardingFeature {
             val itemType: WelcomeQuestionnaireItemType
         ) : Message
         data class ProgrammingLanguageSelected(val language: WelcomeOnboardingProgrammingLanguage) : Message
-        data class TrackSelected(val track: WelcomeOnboardingTrack) : Message
+        object TrackSelected : Message
     }
 
     internal sealed interface InternalMessage : Message

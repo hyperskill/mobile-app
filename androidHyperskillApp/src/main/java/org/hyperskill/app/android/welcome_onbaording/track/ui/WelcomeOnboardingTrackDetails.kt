@@ -11,6 +11,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -20,15 +21,31 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.shimmer
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.view.WelcomeOnboardingTrackViewState
+import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature
+import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsViewModel
 
 @Composable
 fun WelcomeOnboardingTrackDetails(
-    viewState: WelcomeOnboardingTrackViewState,
+    viewModel: WelcomeOnboardingTrackDetailsViewModel,
+    modifier: Modifier = Modifier
+) {
+    val viewState by viewModel.state.collectAsStateWithLifecycle()
+    WelcomeOnboardingTrackDetails(
+        viewState = viewState,
+        onSelectClick = viewModel::onContinueClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun WelcomeOnboardingTrackDetails(
+    viewState: WelcomeOnboardingTrackDetailsFeature.ViewState,
     onSelectClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -71,7 +88,10 @@ fun WelcomeOnboardingTrackDetails(
         }
         HyperskillButton(
             onClick = onSelectClick,
-            modifier = Modifier.fillMaxWidth()
+            enabled = !viewState.isLoadingShowed,
+            modifier = Modifier
+                .fillMaxWidth()
+                .shimmer(isLoading = viewState.isLoadingShowed)
         ) {
             Text(text = viewState.buttonText)
         }
@@ -84,13 +104,14 @@ fun WelcomeOnboardingTrackDetails(
 private fun WelcomeOnboardingTrackDetailsPreview() {
     HyperskillTheme {
         WelcomeOnboardingTrackDetails(
-            WelcomeOnboardingTrackViewState(
+            WelcomeOnboardingTrackDetailsFeature.ViewState(
                 track = WelcomeOnboardingTrack.KOTLIN,
                 title = stringResource(id = R.string.welcome_onboarding_track_details_title),
                 trackTitle = stringResource(id = R.string.welcome_onboarding_track_details_kotlin_title),
                 trackDescriptionHtml = stringResource(id = R.string.welcome_onboarding_track_details_kotlin_description),
                 changeText = stringResource(id = R.string.welcome_onboarding_track_details_change_text),
-                buttonText = stringResource(id = R.string.welcome_onboarding_track_details_continue_btn)
+                buttonText = stringResource(id = R.string.welcome_onboarding_track_details_continue_btn),
+                isLoadingShowed = false
             ),
             onSelectClick = {}
         )

@@ -1,7 +1,0 @@
-package org.hyperskill.app.welcome_onboarding.injection
-
-import org.hyperskill.app.welcome_onboarding.view.WelcomeOnboardingTrackViewStateMapper
-
-interface WelcomeOnboardingTrackDetailsComponent {
-    val welcomeOnboardingTrackDetailsViewStateMapper: WelcomeOnboardingTrackViewStateMapper
-}

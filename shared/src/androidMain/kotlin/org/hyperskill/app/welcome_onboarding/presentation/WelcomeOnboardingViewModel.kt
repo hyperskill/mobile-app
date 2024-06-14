@@ -3,7 +3,6 @@ package org.hyperskill.app.welcome_onboarding.presentation
 import org.hyperskill.app.core.flowredux.presentation.FlowView
 import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingProgrammingLanguage
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingFeature.Action.ViewAction
@@ -28,7 +27,7 @@ class WelcomeOnboardingViewModel(
         onNewMessage(Message.ProgrammingLanguageSelected(language))
     }
 
-    fun onTrackSelected(track: WelcomeOnboardingTrack) {
-        onNewMessage(Message.TrackSelected(track))
+    fun onTrackSelected() {
+        onNewMessage(Message.TrackSelected)
     }
 }

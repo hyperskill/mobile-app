@@ -12,5 +12,5 @@ interface WelcomeOnboardingHost {
         itemType: WelcomeQuestionnaireItemType
     )
     fun onProgrammingLanguageSelected(language: WelcomeOnboardingProgrammingLanguage)
-    fun onTrackSelected(track: WelcomeOnboardingTrack)
+    fun onTrackSelected()
 }

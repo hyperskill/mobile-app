@@ -89,6 +89,9 @@ import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponentImpl
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.track_details.injection.PlatformWelcomeOnboardingTrackDetailsComponent
+import org.hyperskill.app.welcome_onboarding.track_details.injection.PlatformWelcomeOnboardingTrackDetailsComponentImpl
 
 abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph() {
 
@@ -335,5 +338,12 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     ): PlatformWelcomeOnboardingComponent =
         PlatformWelcomeOnboardingComponentImpl(
             welcomeOnboardingComponent = buildWelcomeOnboardingComponent(params)
+        )
+
+    override fun buildPlatformWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): PlatformWelcomeOnboardingTrackDetailsComponent =
+        PlatformWelcomeOnboardingTrackDetailsComponentImpl(
+            welcomeOnboardingTrackDetailsComponent = buildWelcomeOnboardingTrackDetailsComponent(track)
         )
 }
