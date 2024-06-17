@@ -5,9 +5,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.welcome_onbaording.finish.navigation.WelcomeOnboardingFinishScreen
 import org.hyperskill.app.android.welcome_onbaording.language.navigation.WelcomeOnboardingChooseProgrammingLanguageScreen
+import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingCompleteResult
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingEntryPointScreen
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeQuestionnaireScreen
@@ -26,6 +28,7 @@ import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
     companion object {
+        const val WELCOME_ONBOARDING_COMPLETED = "WELCOME_ONBOARDING_COMPLETED"
         fun newInstance(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingFragment =
             WelcomeOnboardingFragment().apply {
                 this.params = params
@@ -104,7 +107,17 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
                 router.newRootScreen(NotificationsOnboardingScreen)
             is ViewAction.NavigateTo.OnboardingFinish ->
                 router.newRootScreen(WelcomeOnboardingFinishScreen(action.selectedTrack))
-            is ViewAction.CompleteWelcomeOnboarding -> TODO()
+            is ViewAction.CompleteWelcomeOnboarding -> {
+                val stepRoute = action.stepRoute
+                requireAppRouter().sendResult(
+                    WELCOME_ONBOARDING_COMPLETED,
+                    if (stepRoute == null) {
+                        WelcomeOnboardingCompleteResult.Empty
+                    } else {
+                        WelcomeOnboardingCompleteResult.StepRoute(stepRoute)
+                    }
+                )
+            }
         }
     }
 }

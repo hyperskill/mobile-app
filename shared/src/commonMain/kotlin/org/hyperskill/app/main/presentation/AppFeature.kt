@@ -6,6 +6,7 @@ import org.hyperskill.app.notification.click_handling.presentation.NotificationC
 import org.hyperskill.app.notification.remote.domain.model.PushNotificationData
 import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
+import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.subscriptions.domain.model.Subscription
 
@@ -76,6 +77,8 @@ object AppFeature {
             val isPaywallShown: Boolean
         ) : Message
 
+        data class WelcomeOnboardingCompleted(val stepRoute: StepRoute?) : Message
+
         /**
          * Message Wrappers
          */
@@ -122,6 +125,7 @@ object AppFeature {
                 object TrackSelectionScreen : NavigateTo
                 object WelcomeScreen : NavigateTo
                 object StudyPlan : NavigateTo
+                data class Step(val stepRoute: StepRoute) : NavigateTo
                 data class Paywall(val paywallTransitionSource: PaywallTransitionSource) : NavigateTo
                 data class StudyPlanWithPaywall(
                     val paywallTransitionSource: PaywallTransitionSource

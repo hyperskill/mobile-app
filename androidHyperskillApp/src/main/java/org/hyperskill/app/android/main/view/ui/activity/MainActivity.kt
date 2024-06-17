@@ -42,9 +42,12 @@ import org.hyperskill.app.android.notification.model.DefaultNotificationClickedD
 import org.hyperskill.app.android.notification.model.PushNotificationClickedData
 import org.hyperskill.app.android.paywall.fragment.PaywallFragment
 import org.hyperskill.app.android.paywall.navigation.PaywallScreen
+import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
+import org.hyperskill.app.android.welcome_onbaording.fragment.WelcomeOnboardingFragment
+import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingCompleteResult
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
@@ -136,6 +139,7 @@ class MainActivity :
         startupViewModel(intent)
 
         observeAuthFlowSuccess()
+        observeWelcomeOnboardingCompleted()
         observePaywallIsShownChanged()
 
         mainViewModel.logScreenOrientation(screenOrientation = resources.configuration.screenOrientation)
@@ -189,6 +193,19 @@ class MainActivity :
         observeResult<Boolean>(PaywallFragment.PAYWALL_IS_SHOWN_CHANGED) {
             mainViewModel.onNewMessage(
                 AppFeature.Message.IsPaywallShownChanged(it)
+            )
+        }
+    }
+
+    private fun observeWelcomeOnboardingCompleted() {
+        observeResult<WelcomeOnboardingCompleteResult>(WelcomeOnboardingFragment.WELCOME_ONBOARDING_COMPLETED) {
+            mainViewModel.onNewMessage(
+                AppFeature.Message.WelcomeOnboardingCompleted(
+                    when (it) {
+                        WelcomeOnboardingCompleteResult.Empty -> null
+                        is WelcomeOnboardingCompleteResult.StepRoute -> it.stepRoute
+                    }
+                )
             )
         }
     }
@@ -273,6 +290,11 @@ class MainActivity :
             }
             AppFeature.Action.ViewAction.NavigateTo.StudyPlan ->
                 router.newRootScreen(MainScreen(Tabs.STUDY_PLAN))
+            is AppFeature.Action.ViewAction.NavigateTo.Step ->
+                router.newRootChain(
+                    MainScreen(Tabs.STUDY_PLAN),
+                    StepScreen(action.stepRoute)
+                )
             is AppFeature.Action.ViewAction.NavigateTo.Paywall -> {
                 if (supportFragmentManager.findFragmentByTag(PaywallScreen.TAG) == null) {
                     router.navigateTo(PaywallScreen(action.paywallTransitionSource))

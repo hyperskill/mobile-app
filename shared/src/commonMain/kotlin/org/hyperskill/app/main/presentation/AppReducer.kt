@@ -2,6 +2,7 @@ package org.hyperskill.app.main.presentation
 
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.main.presentation.AppFeature.Action
+import org.hyperskill.app.main.presentation.AppFeature.Action.ViewAction.NavigateTo
 import org.hyperskill.app.main.presentation.AppFeature.InternalAction
 import org.hyperskill.app.main.presentation.AppFeature.InternalMessage
 import org.hyperskill.app.main.presentation.AppFeature.Message
@@ -61,9 +62,9 @@ internal class AppReducer(
                 if (state is State.Ready && state.isAuthorized) {
                     val navigateToViewAction = when (message.reason) {
                         UserDeauthorized.Reason.TOKEN_REFRESH_FAILURE ->
-                            Action.ViewAction.NavigateTo.WelcomeScreen
+                            NavigateTo.WelcomeScreen
                         UserDeauthorized.Reason.SIGN_OUT ->
-                            Action.ViewAction.NavigateTo.AuthScreen()
+                            NavigateTo.AuthScreen()
                     }
 
                     State.Ready(
@@ -76,9 +77,9 @@ internal class AppReducer(
                     null
                 }
             is Message.OpenAuthScreen ->
-                state to setOf(Action.ViewAction.NavigateTo.AuthScreen())
+                state to setOf(NavigateTo.AuthScreen())
             is Message.OpenNewUserScreen ->
-                state to setOf(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+                state to setOf(NavigateTo.TrackSelectionScreen)
             is Message.StreakRecoveryMessage ->
                 if (state is State.Ready) {
                     val (streakRecoveryState, streakRecoveryActions) =
@@ -96,6 +97,7 @@ internal class AppReducer(
             is Message.IsPaywallShownChanged ->
                 handleIsPaywallShownChanged(state, message)
             is InternalMessage.PaymentAbilityResult -> handlePaymentAbilityResult(state, message)
+            is Message.WelcomeOnboardingCompleted -> handleWelcomeOnboardingCompleted(state, message)
         } ?: (state to emptySet())
 
     private fun handleFetchAppStartupConfigSuccess(
@@ -140,15 +142,15 @@ internal class AppReducer(
                                     )
                                 )
                             message.profile.isNewUser ->
-                                add(Action.ViewAction.NavigateTo.TrackSelectionScreen)
+                                add(NavigateTo.TrackSelectionScreen)
                             shouldShowPaywall(readyState) ->
                                 add(
-                                    Action.ViewAction.NavigateTo.StudyPlanWithPaywall(
+                                    NavigateTo.StudyPlanWithPaywall(
                                         PaywallTransitionSource.APP_BECOMES_ACTIVE
                                     )
                                 )
                             else ->
-                                add(Action.ViewAction.NavigateTo.StudyPlan)
+                                add(NavigateTo.StudyPlan)
                         }
                         addAll(
                             getOnAuthorizedAppStartUpActions(
@@ -169,7 +171,7 @@ internal class AppReducer(
                             )
                         }
                         addAll(getNotAuthorizedAppStartUpActions())
-                        add(Action.ViewAction.NavigateTo.WelcomeScreen)
+                        add(NavigateTo.WelcomeScreen)
                     }
                     addAll(streakRecoveryActions)
                 }
@@ -200,7 +202,7 @@ internal class AppReducer(
             state.incrementAppShowsCount() to buildSet {
                 when {
                     shouldShowPaywall(state) ->
-                        add(Action.ViewAction.NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
+                        add(NavigateTo.Paywall(PaywallTransitionSource.APP_BECOMES_ACTIVE))
                     // Fetch actual payment ability state if it's not possible to make payment at the moment
                     !state.canMakePayments && state.subscription?.isFreemium == true ->
                         add(InternalAction.FetchPaymentAbility)
@@ -287,9 +289,9 @@ internal class AppReducer(
     private fun getAuthorizedUserActions(profile: Profile, isNotificationPermissionGranted: Boolean): Set<Action> =
         setOf(
             if (WelcomeOnboardingFeature.shouldLaunchFeature(profile, isNotificationPermissionGranted)) {
-                Action.ViewAction.NavigateTo.WelcomeOnboarding(profile, isNotificationPermissionGranted)
+                NavigateTo.WelcomeOnboarding(profile, isNotificationPermissionGranted)
             } else {
-                Action.ViewAction.NavigateTo.StudyPlan
+                NavigateTo.StudyPlan
             },
             InternalAction.FetchSubscription(forceUpdate = false),
             InternalAction.IdentifyUserInPurchaseSdk(userId = profile.id),
@@ -335,4 +337,16 @@ internal class AppReducer(
         } else {
             state to emptySet()
         }
+
+    private fun handleWelcomeOnboardingCompleted(
+        state: State,
+        message: Message.WelcomeOnboardingCompleted
+    ): ReducerResult =
+        state to setOf(
+            if (message.stepRoute != null) {
+                NavigateTo.Step(message.stepRoute)
+            } else {
+                NavigateTo.StudyPlan
+            }
+        )
 }
