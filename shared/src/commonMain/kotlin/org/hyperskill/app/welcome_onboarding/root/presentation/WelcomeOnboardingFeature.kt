@@ -16,9 +16,9 @@ import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 object WelcomeOnboardingFeature {
 
     data class State(
-        val initialStep: WelcomeOnboardingStartScreen,
-        val selectedTrack: WelcomeOnboardingTrack?,
-        val nextLearningActivityState: NextLearningActivityState,
+        internal val initialStep: WelcomeOnboardingStartScreen,
+        internal val selectedTrack: WelcomeOnboardingTrack?,
+        internal val nextLearningActivityState: NextLearningActivityState,
         val isNextLearningActivityLoadingShown: Boolean
     )
 

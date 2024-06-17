@@ -3,11 +3,19 @@ package org.hyperskill.app.android.welcome_onbaording.fragment
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragment
+import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.welcome_onbaording.finish.navigation.WelcomeOnboardingFinishScreen
@@ -24,7 +32,9 @@ import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewM
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
+import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
@@ -55,6 +65,25 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
                 .graph()
                 .buildPlatformWelcomeOnboardingComponent(params)
                 .reduxViewModelFactory
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        welcomeOnboardingViewModel
+            .state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .distinctUntilChanged()
+            .onEach(::render)
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun render(state: WelcomeOnboardingFeature.State) {
+        if (state.isNextLearningActivityLoadingShown) {
+            LoadingProgressDialogFragment.newInstance()
+                .showIfNotExists(childFragmentManager, LoadingProgressDialogFragment.TAG)
+        } else {
+            childFragmentManager.dismissDialogFragmentIfExists(LoadingProgressDialogFragment.TAG)
+        }
     }
 
     override fun onStartClick() {
