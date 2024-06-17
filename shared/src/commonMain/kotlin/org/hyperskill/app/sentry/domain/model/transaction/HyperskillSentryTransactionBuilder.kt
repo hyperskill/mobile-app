@@ -316,6 +316,12 @@ object HyperskillSentryTransactionBuilder {
             operation = HyperskillSentryTransactionOperation.API_LOAD
         )
 
+    fun buildWelcomeOnboardingFeatureFetchNextLearningActivity(): HyperskillSentryTransaction =
+        HyperskillSentryTransaction(
+            name = "welcome-onboarding-feature-fetch-next-learning-activity",
+            operation = HyperskillSentryTransactionOperation.API_LOAD
+        )
+
     /**
      * ChallengeWidgetFeature
      */

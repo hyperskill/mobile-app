@@ -87,6 +87,7 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
 
     private fun onAction(action: ViewAction) {
         when (action) {
+            ViewAction.NavigateTo.StartScreen -> router.newRootScreen(WelcomeOnboardingEntryPointScreen)
             is ViewAction.NavigateTo.WelcomeOnboardingQuestionnaire ->
                 router.newRootScreen(WelcomeQuestionnaireScreen(action.type))
             ViewAction.NavigateTo.ChooseProgrammingLanguage ->
@@ -95,6 +96,8 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
                 router.navigateTo(WelcomeOnboardingTrackDetailsScreen(action.track))
             ViewAction.NavigateTo.NotificationOnboarding ->
                 router.newRootScreen(NotificationsOnboardingScreen)
+            ViewAction.NavigateTo.OnboardingFinish -> TODO()
+            is ViewAction.CompleteWelcomeOnboarding -> TODO()
         }
     }
 }

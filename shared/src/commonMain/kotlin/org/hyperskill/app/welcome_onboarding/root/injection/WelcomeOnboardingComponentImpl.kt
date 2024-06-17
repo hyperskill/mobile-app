@@ -16,6 +16,8 @@ internal class WelcomeOnboardingComponentImpl(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             logger = appGraph.loggerComponent.logger,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
+            sentryInteractor = appGraph.sentryComponent.sentryInteractor,
+            learningActivityRepository = appGraph.buildLearningActivitiesDataComponent().learningActivitiesRepository,
             params = params
         )
 }
