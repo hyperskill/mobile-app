@@ -17,6 +17,9 @@ struct StepQuizView: View {
     @EnvironmentObject private var stackRouter: SwiftUIStackRouter
     @EnvironmentObject private var panModalPresenter: PanModalPresenter
 
+    @Namespace private var actionButtonID
+    @State private var scrollToCallToActionButtonTrigger = false
+
     var body: some View {
         let viewData = viewModel.makeViewData()
 
@@ -50,59 +53,66 @@ struct StepQuizView: View {
                 )
             )
         } else {
-            ScrollView {
-                VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
-                    if case .unsupported = viewData.quizType {
-                        StepQuizUnsupportedView(
-                            onSolveButtonTap: viewModel.doUnsupportedQuizSolveOnTheWebAction,
-                            onGoToStudyPlanButtonTap: viewModel.doUnsupportedQuizGoToStudyPlanAction
-                        )
-                    } else {
-                        if viewModel.stepRoute is StepRouteStageImplement {
-                            LatexView(
-                                text: viewData.stepText,
-                                configuration: .stepText()
+            ScrollViewReader { scrollViewProxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: appearance.interItemSpacing) {
+                        if case .unsupported = viewData.quizType {
+                            StepQuizUnsupportedView(
+                                onSolveButtonTap: viewModel.doUnsupportedQuizSolveOnTheWebAction,
+                                onGoToStudyPlanButtonTap: viewModel.doUnsupportedQuizGoToStudyPlanAction
                             )
                         } else {
-                            StepExpandableStepTextView(
-                                title: viewData.stepTextHeaderTitle,
-                                text: viewData.stepText,
-                                isExpanded: true,
-                                onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                            if viewModel.stepRoute is StepRouteStageImplement {
+                                LatexView(
+                                    text: viewData.stepText,
+                                    configuration: .stepText()
+                                )
+                            } else {
+                                StepExpandableStepTextView(
+                                    title: viewData.stepTextHeaderTitle,
+                                    text: viewData.stepText,
+                                    isExpanded: true,
+                                    onExpandButtonTap: viewModel.logClickedStepTextDetailsEvent
+                                )
+                            }
+
+                            if StepQuizHintsFeature.shared.isHintsFeatureAvailable(step: viewModel.step) {
+                                StepQuizHintsView(
+                                    state: viewModel.state.stepQuizHintsState,
+                                    onNewMessage: { [weak viewModel] message in
+                                        viewModel?.handleStepQuizHints(message: message)
+                                    }
+                                )
+                                .equatable()
+                            }
+
+                            buildQuizContent(
+                                state: viewModel.state,
+                                step: viewModel.step,
+                                quizName: viewData.quizName,
+                                quizType: viewData.quizType,
+                                formattedStats: viewData.formattedStats,
+                                feedbackHintText: viewData.feedbackHintText
                             )
                         }
-
-                        if StepQuizHintsFeature.shared.isHintsFeatureAvailable(step: viewModel.step) {
-                            StepQuizHintsView(
-                                state: viewModel.state.stepQuizHintsState,
-                                onNewMessage: { [weak viewModel] message in
-                                    viewModel?.handleStepQuizHints(message: message)
-                                }
-                            )
-                            .equatable()
-                        }
-
-                        buildQuizContent(
-                            state: viewModel.state,
-                            step: viewModel.step,
-                            quizName: viewData.quizName,
-                            quizType: viewData.quizType,
-                            formattedStats: viewData.formattedStats,
-                            feedbackHintText: viewData.feedbackHintText
-                        )
+                    }
+                    .padding()
+                    .introspectScrollView { scrollView in
+                        scrollView.shouldIgnoreScrollingAdjustment = true
                     }
                 }
-                .padding()
-                .introspectScrollView { scrollView in
-                    scrollView.shouldIgnoreScrollingAdjustment = true
+                .stepQuizToolbar(
+                    state: viewModel.state,
+                    stepRoute: viewModel.stepRoute,
+                    onLimitsButtonTap: viewModel.doLimitsToolbarAction,
+                    onTheoryButtonTap: viewModel.doTheoryToolbarAction
+                )
+                .onChange(of: scrollToCallToActionButtonTrigger) { _ in
+                    withAnimation {
+                        scrollViewProxy.scrollTo(actionButtonID, anchor: .bottom)
+                    }
                 }
             }
-            .stepQuizToolbar(
-                state: viewModel.state,
-                stepRoute: viewModel.stepRoute,
-                onLimitsButtonTap: viewModel.doLimitsToolbarAction,
-                onTheoryButtonTap: viewModel.doTheoryToolbarAction
-            )
         }
     }
 
@@ -135,6 +145,7 @@ struct StepQuizView: View {
             }
 
             buildQuizActionButtons(quizType: quizType, state: state, attemptLoadedState: attemptLoadedState)
+                .id(actionButtonID)
         } else {
             StepQuizSkeletonViewFactory.makeSkeleton(for: quizType)
                 .padding(.top)
@@ -288,7 +299,9 @@ private extension StepQuizView {
         case .hapticFeedback(let hapticFeedbackViewAction):
             handleHapticFeedbackViewAction(hapticFeedbackViewAction)
         case .scrollToCallToActionButton:
-            #warning("Implement scroll to call to action button")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.33) {
+                self.scrollToCallToActionButtonTrigger.toggle()
+            }
         }
     }
 
