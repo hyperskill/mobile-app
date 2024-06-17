@@ -99,7 +99,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         state to setOf(NavigateTo.OnboardingFinish(requireNotNull(state.selectedTrack)))
 
     private fun handleFinishOnboardingShowed(state: State): WelcomeOnboardingReducerResult =
-        state to setOf(InternalAction.LaunchFinishOnboardingTimer(600.milliseconds))
+        state to setOf(InternalAction.LaunchFinishOnboardingTimer(1500.milliseconds))
 
     private fun handleFinishOnboardingTimerFired(state: State): WelcomeOnboardingReducerResult =
         when (state.nextLearningActivityState) {

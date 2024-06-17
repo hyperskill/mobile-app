@@ -173,12 +173,14 @@ import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponent
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponentImpl
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponentImpl
 import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeQuestionnaireComponent
 import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeQuestionnaireComponentImpl
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponent
 import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponentImpl
 
@@ -519,6 +521,9 @@ abstract class BaseAppGraph : AppGraph {
         track: WelcomeOnboardingTrack
     ): WelcomeOnboardingTrackDetailsComponent =
         WelcomeOnboardingTrackDetailsComponentImpl(track,this)
+
+    override fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent =
+        WelcomeOnboardingFinishComponentImpl(this)
 
     override fun buildRequestReviewDataComponent(): RequestReviewDataComponent =
         RequestReviewDataComponentImpl(this)

@@ -15,7 +15,7 @@ internal class WelcomeOnboardingTrackDetailsViewStateMapper(
         ViewState(
             track = state.track,
             title = resourceProvider.getString(SharedResources.strings.welcome_onboarding_track_details_title),
-            trackTitle = resourceProvider.getString(getTrackTitleRes(state.track)),
+            trackTitle = resourceProvider.getString(state.track.titleStringResource),
             trackDescriptionHtml = resourceProvider.getString(getTrackDescriptionRes(state.track)),
             changeText = resourceProvider.getString(
                 SharedResources.strings.welcome_onboarding_track_details_change_text
@@ -25,15 +25,6 @@ internal class WelcomeOnboardingTrackDetailsViewStateMapper(
             ),
             isLoadingShowed = state.isLoadingShowed
         )
-
-    private fun getTrackTitleRes(track: WelcomeOnboardingTrack): StringResource =
-        when (track) {
-            WelcomeOnboardingTrack.JAVA -> SharedResources.strings.welcome_onboarding_track_details_java_title
-            WelcomeOnboardingTrack.JAVA_SCRIPT -> SharedResources.strings.welcome_onboarding_track_details_js_title
-            WelcomeOnboardingTrack.KOTLIN -> SharedResources.strings.welcome_onboarding_track_details_kotlin_title
-            WelcomeOnboardingTrack.PYTHON -> SharedResources.strings.welcome_onboarding_track_details_python_title
-            WelcomeOnboardingTrack.SQL -> SharedResources.strings.welcome_onboarding_track_details_sql_title
-        }
 
     private fun getTrackDescriptionRes(track: WelcomeOnboardingTrack): StringResource =
         when (track) {

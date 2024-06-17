@@ -21,9 +21,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.welcome_onboarding.finish.view.WelcomeOnboardingFinishViewState
 
 @Composable
-fun WelcomeOnboardingFinish(modifier: Modifier = Modifier) {
+fun WelcomeOnboardingFinish(
+    viewState: WelcomeOnboardingFinishViewState,
+    modifier: Modifier = Modifier
+) {
     Box(modifier = modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -31,7 +35,7 @@ fun WelcomeOnboardingFinish(modifier: Modifier = Modifier) {
                 .padding(horizontal = 20.dp)
         ) {
             Text(
-                text = "You're all set!",
+                text = viewState.title,
                 style = MaterialTheme.typography.h5,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -41,7 +45,7 @@ fun WelcomeOnboardingFinish(modifier: Modifier = Modifier) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Embark on your journey in '{track.title}' right now!",
+                text = viewState.description,
                 style = MaterialTheme.typography.body1,
                 color = colorResource(id = org.hyperskill.app.R.color.color_on_surface_alpha_60),
                 fontSize = 14.sp,
@@ -62,6 +66,11 @@ fun WelcomeOnboardingFinish(modifier: Modifier = Modifier) {
 @Preview
 private fun WelcomeOnboardingFinishPreview() {
     HyperskillTheme {
-        WelcomeOnboardingFinish()
+        WelcomeOnboardingFinish(
+            viewState = WelcomeOnboardingFinishViewState(
+                title = "You're all set!",
+                description = "Embark on your journey in '{track.title}' right now!"
+            )
+        )
     }
 }

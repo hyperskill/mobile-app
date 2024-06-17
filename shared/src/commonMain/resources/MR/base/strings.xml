@@ -812,4 +812,7 @@
 
     <string name="welcome_onboarding_track_details_sql_title">SQL</string>
     <string name="welcome_onboarding_track_details_sql_description">Your pathway to becoming a data analyst. Gain the skills to query and analyze data effectively in any industry!</string>
+
+    <string name="welcome_onboarding_finish_screen_title">You\'re all set!</string>
+    <string name="welcome_onboarding_finish_screen_description">Embark on your journey in %s right now!</string>
 </resources>

@@ -93,10 +93,11 @@ import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetC
 import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.UsersQuestionnaireOnboardingComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
-import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
-import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeQuestionnaireComponent
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponent
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeQuestionnaireComponent
 import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponent
 
 interface AppGraph {
@@ -199,7 +200,10 @@ interface AppGraph {
     fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
     fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent
     fun buildWelcomeQuestionnaireComponent(): WelcomeQuestionnaireComponent
-    fun buildWelcomeOnboardingTrackDetailsComponent(track: WelcomeOnboardingTrack): WelcomeOnboardingTrackDetailsComponent
+    fun buildWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): WelcomeOnboardingTrackDetailsComponent
+    fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent
     fun buildRequestReviewDataComponent(): RequestReviewDataComponent
     fun buildRequestReviewModalComponent(stepRoute: StepRoute): RequestReviewModalComponent
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
