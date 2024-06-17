@@ -29,7 +29,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             is Message.TrackSelected -> handleTrackSelected(state, message)
             Message.NotificationPermissionOnboardingCompleted -> handleNotificationPermissionOnboardingCompleted(state)
             Message.FinishOnboardingShowed -> handleFinishOnboardingShowed(state)
-            InternalMessage.FinishOnboardingTimerFired -> handleFinishOnboardingTimerFired(state)
+            InternalMessage.FinishOnboardingTimerFired -> finishOnboarding(state)
             is InternalMessage.FetchNextLearningActivitySuccess ->
                 handleFetchNextLearningActivitySuccess(state, message)
             InternalMessage.FetchNextLearningActivityError ->
@@ -39,7 +39,11 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
     private fun handleInitialize(state: State): WelcomeOnboardingReducerResult =
         when (state.initialStep) {
             WelcomeOnboardingStartScreen.START_SCREEN -> state to setOf(NavigateTo.StartScreen)
-            WelcomeOnboardingStartScreen.NOTIFICATION_ONBOARDING -> navigateToNotificationOnboardingActions(state)
+            WelcomeOnboardingStartScreen.NOTIFICATION_ONBOARDING ->
+                state.copy(nextLearningActivityState = NextLearningActivityState.Loading) to setOf(
+                    NavigateTo.NotificationOnboarding,
+                    InternalAction.FetchNextLearningActivity
+                )
         }
 
     private fun handleStartJourneyClicked(state: State): WelcomeOnboardingReducerResult =
@@ -84,28 +88,41 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             )
         )
 
-    private fun handleTrackSelected(state: State, message: Message.TrackSelected): WelcomeOnboardingReducerResult {
-        val (newState, actions) = navigateToNotificationOnboardingActions(state)
-        return newState.copy(selectedTrack = message.selectedTrack) to actions
-    }
-
-    private fun navigateToNotificationOnboardingActions(state: State): WelcomeOnboardingReducerResult =
-        state.copy(nextLearningActivityState = NextLearningActivityState.Loading) to setOf(
-            NavigateTo.NotificationOnboarding,
-            InternalAction.FetchNextLearningActivity
-        )
+    private fun handleTrackSelected(
+        state: State,
+        message: Message.TrackSelected
+    ): WelcomeOnboardingReducerResult =
+        if (message.isNotificationPermissionGranted) {
+            state.copy(
+                nextLearningActivityState = NextLearningActivityState.Loading,
+                selectedTrack = message.selectedTrack
+            ) to setOf(
+                NavigateTo.NotificationOnboarding,
+                InternalAction.FetchNextLearningActivity
+            )
+        } else {
+            state.copy(
+                nextLearningActivityState = NextLearningActivityState.Loading,
+                isNextLearningActivityLoadingShown = true,
+                selectedTrack = message.selectedTrack
+            ) to setOf(InternalAction.FetchNextLearningActivity)
+        }
 
     private fun handleNotificationPermissionOnboardingCompleted(state: State): WelcomeOnboardingReducerResult =
-        state to setOf(NavigateTo.OnboardingFinish(requireNotNull(state.selectedTrack)))
+        if (state.selectedTrack != null) {
+            state to setOf(NavigateTo.OnboardingFinish(state.selectedTrack))
+        } else {
+            finishOnboarding(state)
+        }
 
     private fun handleFinishOnboardingShowed(state: State): WelcomeOnboardingReducerResult =
         state to setOf(InternalAction.LaunchFinishOnboardingTimer(1500.milliseconds))
 
-    private fun handleFinishOnboardingTimerFired(state: State): WelcomeOnboardingReducerResult =
+    private fun finishOnboarding(state: State): WelcomeOnboardingReducerResult =
         when (state.nextLearningActivityState) {
             NextLearningActivityState.Idle -> state to setOf(InternalAction.FetchNextLearningActivity)
             NextLearningActivityState.Loading -> {
-                // Wait for a result
+                // Wait for a next learning activity
                 state.copy(isNextLearningActivityLoadingShown = true) to emptySet()
             }
             NextLearningActivityState.Error -> completeWelcomeOnboarding(state, null)

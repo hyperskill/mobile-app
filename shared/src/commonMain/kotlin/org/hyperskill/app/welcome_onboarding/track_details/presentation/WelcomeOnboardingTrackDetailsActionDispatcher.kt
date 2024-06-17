@@ -37,7 +37,6 @@ internal class WelcomeOnboardingTrackDetailsActionDispatcher(
         selectTrack(action.trackId)
             .fold(
                 onSuccess = {
-                    delay(2000L)
                     InternalMessage.SelectTrackSuccess
                 },
                 onFailure = { e ->

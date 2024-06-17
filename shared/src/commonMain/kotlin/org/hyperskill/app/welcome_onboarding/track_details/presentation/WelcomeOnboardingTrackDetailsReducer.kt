@@ -32,7 +32,7 @@ internal class WelcomeOnboardingTrackDetailsReducer : StateReducer<State, Messag
         state.copy(isLoadingShowed = true) to setOf(InternalAction.SelectTrack(getTrackId(state.track)))
 
     private fun handleSelectTrackSuccess(state: State): WelcomeOnboardingTrackDetailsReducerResult =
-        state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.NotifyTrackSelected)
+        state to setOf(Action.ViewAction.NotifyTrackSelected)
 
     private fun handleSelectTrackFailed(state: State): WelcomeOnboardingTrackDetailsReducerResult =
         state.copy(isLoadingShowed = false) to setOf(Action.ViewAction.ShowTrackSelectionError)

@@ -29,8 +29,11 @@ object WelcomeOnboardingFeature {
         data class Success(val nextLearningActivity: LearningActivity?) : NextLearningActivityState
     }
 
-    fun shouldLaunchFeature(profile: Profile, isNotificationPermissionGranted: Boolean): Boolean =
+    fun shouldBeLaunchedAfterAuthorization(profile: Profile, isNotificationPermissionGranted: Boolean): Boolean =
         profile.isNewUser || !isNotificationPermissionGranted
+
+    fun shouldBeLaunchedOnStartup(profile: Profile): Boolean =
+        profile.isNewUser
 
     internal fun initialState(params: WelcomeOnboardingFeatureParams) =
         State(
@@ -52,7 +55,10 @@ object WelcomeOnboardingFeature {
             val itemType: WelcomeQuestionnaireItemType
         ) : Message
         data class ProgrammingLanguageSelected(val language: WelcomeOnboardingProgrammingLanguage) : Message
-        data class TrackSelected(val selectedTrack: WelcomeOnboardingTrack) : Message
+        data class TrackSelected(
+            val selectedTrack: WelcomeOnboardingTrack,
+            val isNotificationPermissionGranted: Boolean
+        ) : Message
         object NotificationPermissionOnboardingCompleted : Message
         object FinishOnboardingShowed : Message
     }

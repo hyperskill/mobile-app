@@ -13,7 +13,6 @@ import org.hyperskill.app.paywall.domain.model.PaywallTransitionSource
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isMobileLeaderboardsEnabled
 import org.hyperskill.app.profile.domain.model.isMobileOnlySubscriptionEnabled
-import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryFeature
 import org.hyperskill.app.streak_recovery.presentation.StreakRecoveryReducer
 import org.hyperskill.app.subscriptions.domain.model.Subscription
@@ -141,8 +140,8 @@ internal class AppReducer(
                                         )
                                     )
                                 )
-                            message.profile.isNewUser ->
-                                add(NavigateTo.TrackSelectionScreen)
+                            WelcomeOnboardingFeature.shouldBeLaunchedOnStartup(message.profile) ->
+                                add(NavigateTo.WelcomeOnboarding(message.profile))
                             shouldShowPaywall(readyState) ->
                                 add(
                                     NavigateTo.StudyPlanWithPaywall(
@@ -288,8 +287,8 @@ internal class AppReducer(
 
     private fun getAuthorizedUserActions(profile: Profile, isNotificationPermissionGranted: Boolean): Set<Action> =
         setOf(
-            if (WelcomeOnboardingFeature.shouldLaunchFeature(profile, isNotificationPermissionGranted)) {
-                NavigateTo.WelcomeOnboarding(profile, isNotificationPermissionGranted)
+            if (WelcomeOnboardingFeature.shouldBeLaunchedAfterAuthorization(profile, isNotificationPermissionGranted)) {
+                NavigateTo.WelcomeOnboarding(profile)
             } else {
                 NavigateTo.StudyPlan
             },

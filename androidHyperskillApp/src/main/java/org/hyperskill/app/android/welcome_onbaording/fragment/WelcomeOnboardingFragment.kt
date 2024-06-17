@@ -1,6 +1,9 @@
 package org.hyperskill.app.android.welcome_onbaording.fragment
 
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
@@ -19,10 +22,8 @@ import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParam
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
@@ -46,9 +47,6 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         super.onCreate(savedInstanceState)
         injectComponent()
         welcomeOnboardingViewModel.handleActions(this, ::onAction)
-        if (savedInstanceState == null) {
-            initNavigation(welcomeOnboardingViewModel.state.value)
-        }
     }
 
     private fun injectComponent() {
@@ -57,14 +55,6 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
                 .graph()
                 .buildPlatformWelcomeOnboardingComponent(params)
                 .reduxViewModelFactory
-    }
-
-    private fun initNavigation(state: WelcomeOnboardingFeature.State) {
-        val screen = when (state.initialStep) {
-            WelcomeOnboardingStartScreen.START_SCREEN -> WelcomeOnboardingEntryPointScreen
-            WelcomeOnboardingStartScreen.NOTIFICATION_ONBOARDING -> TODO()
-        }
-        router.newRootScreen(screen)
     }
 
     override fun onStartClick() {
@@ -82,8 +72,15 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         welcomeOnboardingViewModel.onLanguageSelected(language)
     }
 
+    @SuppressLint("InlinedApi")
     override fun onTrackSelected(track: WelcomeOnboardingTrack) {
-        welcomeOnboardingViewModel.onTrackSelected(track)
+        welcomeOnboardingViewModel.onTrackSelected(
+            track,
+            isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        )
     }
 
     override fun onNotificationOnboardingCompleted() {
@@ -96,7 +93,8 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
 
     private fun onAction(action: ViewAction) {
         when (action) {
-            ViewAction.NavigateTo.StartScreen -> router.newRootScreen(WelcomeOnboardingEntryPointScreen)
+            ViewAction.NavigateTo.StartScreen ->
+                router.newRootScreen(WelcomeOnboardingEntryPointScreen)
             is ViewAction.NavigateTo.WelcomeOnboardingQuestionnaire ->
                 router.newRootScreen(WelcomeQuestionnaireScreen(action.type))
             ViewAction.NavigateTo.ChooseProgrammingLanguage ->

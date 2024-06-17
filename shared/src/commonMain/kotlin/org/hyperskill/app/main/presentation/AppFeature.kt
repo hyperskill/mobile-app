@@ -130,10 +130,7 @@ object AppFeature {
                 data class StudyPlanWithPaywall(
                     val paywallTransitionSource: PaywallTransitionSource
                 ) : NavigateTo
-                data class WelcomeOnboarding(
-                    val profile: Profile,
-                    val isNotificationPermissionGranted: Boolean
-                ) : NavigateTo
+                data class WelcomeOnboarding(val profile: Profile) : NavigateTo
             }
 
             /**

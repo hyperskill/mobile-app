@@ -173,21 +173,24 @@ class MainActivity :
         }
     }
 
-    @SuppressLint("InlinedApi")
     private fun observeAuthFlowSuccess() {
         observeResult<Profile>(AuthFragment.AUTH_SUCCESS) { profile ->
             mainViewModel.onNewMessage(
                 AppFeature.Message.UserAuthorized(
                     profile = profile,
-                    isNotificationPermissionGranted = ContextCompat.checkSelfPermission(
-                        this@MainActivity,
-                        android.Manifest.permission.POST_NOTIFICATIONS
-                    ) == PackageManager.PERMISSION_GRANTED
+                    isNotificationPermissionGranted = isNotificationPermissionGranted()
                 )
             )
             clarityDelegate.setUserId(profile.id)
         }
     }
+
+    @SuppressLint("InlinedApi")
+    private fun isNotificationPermissionGranted(): Boolean =
+        ContextCompat.checkSelfPermission(
+            this@MainActivity,
+            android.Manifest.permission.POST_NOTIFICATIONS
+        ) == PackageManager.PERMISSION_GRANTED
 
     private fun observePaywallIsShownChanged() {
         observeResult<Boolean>(PaywallFragment.PAYWALL_IS_SHOWN_CHANGED) {
@@ -308,7 +311,7 @@ class MainActivity :
             is AppFeature.Action.ViewAction.NavigateTo.WelcomeOnboarding -> {
                 router.newRootScreen(
                     WelcomeOnboardingScreen(
-                        WelcomeOnboardingFeatureParams(action.profile, action.isNotificationPermissionGranted)
+                        WelcomeOnboardingFeatureParams(action.profile, isNotificationPermissionGranted())
                     )
                 )
             }

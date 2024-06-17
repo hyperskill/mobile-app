@@ -137,7 +137,11 @@ interface CommonAndroidAppGraph : AppGraph {
         params: TopicCompletedModalFeatureParams
     ): PlatformTopicCompletedModalComponent
 
-    fun buildPlatformWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): PlatformWelcomeOnboardingComponent
+    fun buildPlatformWelcomeOnboardingComponent(
+        params: WelcomeOnboardingFeatureParams
+    ): PlatformWelcomeOnboardingComponent
 
-    fun buildPlatformWelcomeOnboardingTrackDetailsComponent(track: WelcomeOnboardingTrack): PlatformWelcomeOnboardingTrackDetailsComponent
+    fun buildPlatformWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): PlatformWelcomeOnboardingTrackDetailsComponent
 }

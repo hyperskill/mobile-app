@@ -13,6 +13,11 @@ import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboarding
 class WelcomeOnboardingViewModel(
     flowView: FlowView<State, Message, ViewAction>
 ) : ReduxFlowViewModel<State, Message, ViewAction>(flowView) {
+
+    init {
+        onNewMessage(Message.Initialize)
+    }
+
     fun onStartClick() {
         onNewMessage(Message.StartJourneyClicked)
     }
@@ -28,8 +33,8 @@ class WelcomeOnboardingViewModel(
         onNewMessage(Message.ProgrammingLanguageSelected(language))
     }
 
-    fun onTrackSelected(track: WelcomeOnboardingTrack) {
-        onNewMessage(Message.TrackSelected(track))
+    fun onTrackSelected(track: WelcomeOnboardingTrack, isNotificationPermissionGranted: Boolean) {
+        onNewMessage(Message.TrackSelected(track, isNotificationPermissionGranted))
     }
 
     fun onNotificationPermissionCompleted() {
