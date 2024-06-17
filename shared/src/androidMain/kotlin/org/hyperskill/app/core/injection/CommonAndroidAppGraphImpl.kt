@@ -81,8 +81,6 @@ import org.hyperskill.app.track_selection.details.injection.TrackSelectionDetail
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponent
 import org.hyperskill.app.track_selection.list.injection.PlatformTrackSelectionListComponentImpl
 import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParams
-import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.PlatformUsersQuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire_onboarding.onboarding.injection.PlatformUsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
@@ -300,11 +298,6 @@ abstract class CommonAndroidAppGraphImpl : CommonAndroidAppGraph, BaseAppGraph()
     ): PlatformRequestReviewComponent =
         PlatformRequestReviewComponentImpl(
             requestReviewComponent = buildRequestReviewModalComponent(stepRoute)
-        )
-
-    override fun buildPlatformUsersQuestionnaireOnboardingComponent(): PlatformUsersQuestionnaireOnboardingComponent =
-        PlatformUsersQuestionnaireOnboardingComponentImpl(
-            usersQuestionnaireOnboardingComponent = buildLegacyUsersQuestionnaireOnboardingComponent()
         )
 
     override fun buildPlatformPaywallComponent(

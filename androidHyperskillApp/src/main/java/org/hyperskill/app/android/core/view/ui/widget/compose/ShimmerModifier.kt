@@ -20,8 +20,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-private const val InitialValue = -2f
-private const val TargetValue = 2f
+private const val INITIAL_VALUE = -2f
+private const val TARGET_VALUE = 2f
 
 private val DefaultColors: List<Color> = listOf(
     Color.Transparent,
@@ -77,8 +77,8 @@ private fun Modifier.shimmer(
         val transition = rememberInfiniteTransition(label = "")
 
         val translateAnimation = transition.animateFloat(
-            initialValue = InitialValue,
-            targetValue = TargetValue,
+            initialValue = INITIAL_VALUE,
+            targetValue = TARGET_VALUE,
             animationSpec = infiniteRepeatable(
                 animation = tween(
                     durationMillis = durationMillis,
@@ -111,7 +111,7 @@ class ShimmerShotState(
     easing: Easing = FastOutSlowInEasing
 ) {
 
-    var targetValue: Float by mutableStateOf(InitialValue)
+    var targetValue: Float by mutableStateOf(INITIAL_VALUE)
         private set
 
     val animationSpec: DurationBasedAnimationSpec<Float> = tween(
@@ -120,6 +120,6 @@ class ShimmerShotState(
     )
 
     fun runShimmerAnimation() {
-        targetValue = TargetValue
+        targetValue = TARGET_VALUE
     }
 }

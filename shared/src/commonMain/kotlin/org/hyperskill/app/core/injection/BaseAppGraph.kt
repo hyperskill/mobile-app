@@ -520,7 +520,7 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildWelcomeOnboardingTrackDetailsComponent(
         track: WelcomeOnboardingTrack
     ): WelcomeOnboardingTrackDetailsComponent =
-        WelcomeOnboardingTrackDetailsComponentImpl(track,this)
+        WelcomeOnboardingTrackDetailsComponentImpl(track, this)
 
     override fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent =
         WelcomeOnboardingFinishComponentImpl(this)

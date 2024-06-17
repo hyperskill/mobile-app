@@ -49,7 +49,6 @@ internal class WelcomeOnboardingActionDispatcher(
             )
         }.let(onNewMessage)
 
-
     private suspend fun handleLaunchFinishOnboardingTimer(
         action: InternalAction.LaunchFinishOnboardingTimer,
         onNewMessage: (Message) -> Unit

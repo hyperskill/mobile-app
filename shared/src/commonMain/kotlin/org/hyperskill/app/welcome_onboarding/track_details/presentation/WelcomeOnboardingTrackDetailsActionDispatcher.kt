@@ -1,7 +1,6 @@
 package org.hyperskill.app.welcome_onboarding.track_details.presentation
 
 import co.touchlab.kermit.Logger
-import kotlinx.coroutines.delay
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository

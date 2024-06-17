@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.welcome_onbaording.fragment
+package org.hyperskill.app.android.welcome_onbaording.root.fragment
 
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
@@ -18,12 +18,12 @@ import org.hyperskill.app.android.core.view.ui.dialog.LoadingProgressDialogFragm
 import org.hyperskill.app.android.core.view.ui.dialog.dismissDialogFragmentIfExists
 import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
+import org.hyperskill.app.android.welcome_onbaording.entry_point.navigation.WelcomeOnboardingEntryPointScreen
 import org.hyperskill.app.android.welcome_onbaording.finish.navigation.WelcomeOnboardingFinishScreen
 import org.hyperskill.app.android.welcome_onbaording.language.navigation.WelcomeOnboardingChooseProgrammingLanguageScreen
-import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingCompleteResult
-import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
-import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingEntryPointScreen
-import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeQuestionnaireScreen
+import org.hyperskill.app.android.welcome_onbaording.questionnaire.navigation.WelcomeQuestionnaireScreen
+import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingCompleteResult
+import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.track.navigation.WelcomeOnboardingTrackDetailsScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams

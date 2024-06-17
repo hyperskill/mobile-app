@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
+import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.track.ui.WelcomeOnboardingTrackDetails
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack

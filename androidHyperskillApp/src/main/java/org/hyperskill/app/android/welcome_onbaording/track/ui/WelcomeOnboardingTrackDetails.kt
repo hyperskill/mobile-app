@@ -108,7 +108,9 @@ private fun WelcomeOnboardingTrackDetailsPreview() {
                 track = WelcomeOnboardingTrack.KOTLIN,
                 title = stringResource(id = R.string.welcome_onboarding_track_details_title),
                 trackTitle = stringResource(id = R.string.welcome_onboarding_track_details_kotlin_title),
-                trackDescriptionHtml = stringResource(id = R.string.welcome_onboarding_track_details_kotlin_description),
+                trackDescriptionHtml = stringResource(
+                    id = R.string.welcome_onboarding_track_details_kotlin_description
+                ),
                 changeText = stringResource(id = R.string.welcome_onboarding_track_details_change_text),
                 buttonText = stringResource(id = R.string.welcome_onboarding_track_details_continue_btn),
                 isLoadingShowed = false

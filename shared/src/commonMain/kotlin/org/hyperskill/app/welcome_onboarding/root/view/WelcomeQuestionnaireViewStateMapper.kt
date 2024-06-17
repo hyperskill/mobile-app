@@ -3,10 +3,10 @@ package org.hyperskill.app.welcome_onboarding.root.view
 import org.hyperskill.app.SharedResources
 import org.hyperskill.app.core.domain.platform.PlatformType
 import org.hyperskill.app.core.view.mapper.ResourceProvider
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.ClientSource
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.CodingBackground
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.LearningGoal
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 
 class WelcomeQuestionnaireViewStateMapper(
     private val resourceProvider: ResourceProvider,
@@ -25,7 +25,7 @@ class WelcomeQuestionnaireViewStateMapper(
             title = resourceProvider.getString(
                 SharedResources.strings.welcome_questionnaire_how_did_you_hear_about_hyperskill_title
             ),
-            items =  listOf(
+            items = listOf(
                 WelcomeQuestionnaireItem(
                     ClientSource.TIK_TOK,
                     resourceProvider.getString(SharedResources.strings.welcome_questionnaire_tiktok_item)

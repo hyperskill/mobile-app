@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.welcome_onbaording.fragment
+package org.hyperskill.app.android.welcome_onbaording.questionnaire.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,10 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
-import org.hyperskill.app.android.welcome_onbaording.ui.WelcomeQuestionnaire
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.android.welcome_onbaording.questionnaire.ui.WelcomeQuestionnaire
+import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.view.WelcomeQuestionnaireViewState
 import org.hyperskill.app.welcome_onboarding.root.view.WelcomeQuestionnaireViewStateMapper
 import ru.nobird.android.view.base.ui.extension.argument
@@ -27,12 +27,12 @@ class WelcomeQuestionnaireFragment : Fragment() {
     }
 
     private var type: WelcomeQuestionnaireType by argument()
-    
+
     private var viewStateMapper: WelcomeQuestionnaireViewStateMapper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewStateMapper = 
+        viewStateMapper =
             HyperskillApp
                 .graph()
                 .buildWelcomeQuestionnaireComponent()

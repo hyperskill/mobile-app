@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.welcome_onbaording.ui
+package org.hyperskill.app.android.welcome_onbaording.questionnaire.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter

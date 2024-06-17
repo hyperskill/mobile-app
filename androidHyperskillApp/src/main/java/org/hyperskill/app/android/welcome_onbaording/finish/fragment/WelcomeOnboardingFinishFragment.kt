@@ -12,7 +12,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.welcome_onbaording.finish.ui.WelcomeOnboardingFinish
-import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
+import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 import org.hyperskill.app.welcome_onboarding.finish.view.WelcomeOnboardingFinishViewStateMapper
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import ru.nobird.android.view.base.ui.extension.argument

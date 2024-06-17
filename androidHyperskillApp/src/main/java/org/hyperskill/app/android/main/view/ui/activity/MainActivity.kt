@@ -46,9 +46,9 @@ import org.hyperskill.app.android.step.view.navigation.StepScreen
 import org.hyperskill.app.android.streak_recovery.view.delegate.StreakRecoveryViewActionDelegate
 import org.hyperskill.app.android.track_selection.list.navigation.TrackSelectionListScreen
 import org.hyperskill.app.android.welcome.navigation.WelcomeScreen
-import org.hyperskill.app.android.welcome_onbaording.fragment.WelcomeOnboardingFragment
-import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingCompleteResult
-import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingScreen
+import org.hyperskill.app.android.welcome_onbaording.root.fragment.WelcomeOnboardingFragment
+import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingCompleteResult
+import org.hyperskill.app.android.welcome_onbaording.root.navigation.WelcomeOnboardingScreen
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.main.presentation.MainViewModel
 import org.hyperskill.app.notification.click_handling.presentation.NotificationClickHandlingFeature

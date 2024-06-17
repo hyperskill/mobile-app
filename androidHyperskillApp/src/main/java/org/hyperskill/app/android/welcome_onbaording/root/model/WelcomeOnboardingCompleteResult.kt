@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.welcome_onbaording.model
+package org.hyperskill.app.android.welcome_onbaording.root.model
 
 sealed interface WelcomeOnboardingCompleteResult {
     object Empty : WelcomeOnboardingCompleteResult

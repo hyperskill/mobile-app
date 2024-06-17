@@ -19,7 +19,7 @@ import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIn
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.notification_onboarding.ui.NotificationsOnboardingScreen
 import org.hyperskill.app.android.profile.view.fragment.TimeIntervalPickerDialogFragment
-import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
+import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message

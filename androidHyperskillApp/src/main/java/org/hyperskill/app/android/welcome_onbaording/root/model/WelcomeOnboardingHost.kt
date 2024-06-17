@@ -1,4 +1,4 @@
-package org.hyperskill.app.android.welcome_onbaording.model
+package org.hyperskill.app.android.welcome_onbaording.root.model
 
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage

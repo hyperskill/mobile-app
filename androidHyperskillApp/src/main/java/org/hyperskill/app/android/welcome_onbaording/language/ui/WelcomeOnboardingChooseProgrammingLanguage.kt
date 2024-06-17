@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.welcome_onbaording.ui.WelcomeQuestionnaireItem
+import org.hyperskill.app.android.welcome_onbaording.questionnaire.ui.WelcomeQuestionnaireItem
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 
 @Composable
