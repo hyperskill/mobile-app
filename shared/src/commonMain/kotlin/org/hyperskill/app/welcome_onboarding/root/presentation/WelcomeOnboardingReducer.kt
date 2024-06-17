@@ -26,7 +26,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             Message.StartJourneyClicked -> handleStartJourneyClicked(state)
             is Message.QuestionnaireItemClicked -> handleQuestionnaireItemClicked(state, message)
             is Message.ProgrammingLanguageSelected -> handleProgrammingLanguageSelected(state, message)
-            is Message.TrackSelected -> navigateToNotificationOnboardingActions(state)
+            is Message.TrackSelected -> handleTrackSelected(state, message)
             Message.NotificationPermissionOnboardingCompleted -> handleNotificationPermissionOnboardingCompleted(state)
             Message.FinishOnboardingShowed -> handleFinishOnboardingShowed(state)
             InternalMessage.FinishOnboardingTimerFired -> handleFinishOnboardingTimerFired(state)
@@ -84,6 +84,11 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             )
         )
 
+    private fun handleTrackSelected(state: State, message: Message.TrackSelected): WelcomeOnboardingReducerResult {
+        val (newState, actions) = navigateToNotificationOnboardingActions(state)
+        return newState.copy(selectedTrack = message.selectedTrack) to actions
+    }
+
     private fun navigateToNotificationOnboardingActions(state: State): WelcomeOnboardingReducerResult =
         state.copy(nextLearningActivityState = NextLearningActivityState.Loading) to setOf(
             NavigateTo.NotificationOnboarding,
@@ -91,7 +96,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         )
 
     private fun handleNotificationPermissionOnboardingCompleted(state: State): WelcomeOnboardingReducerResult =
-        state to setOf(NavigateTo.OnboardingFinish)
+        state to setOf(NavigateTo.OnboardingFinish(requireNotNull(state.selectedTrack)))
 
     private fun handleFinishOnboardingShowed(state: State): WelcomeOnboardingReducerResult =
         state to setOf(InternalAction.LaunchFinishOnboardingTimer(600.milliseconds))
@@ -101,7 +106,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             NextLearningActivityState.Idle -> state to setOf(InternalAction.FetchNextLearningActivity)
             NextLearningActivityState.Loading -> {
                 // Wait for a result
-                state.copy(isNextLearningActivityLoadingShowed = true) to emptySet()
+                state.copy(isNextLearningActivityLoadingShown = true) to emptySet()
             }
             NextLearningActivityState.Error -> completeWelcomeOnboarding(state, null)
             is NextLearningActivityState.Success ->
@@ -112,7 +117,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         state: State,
         message: InternalMessage.FetchNextLearningActivitySuccess
     ): WelcomeOnboardingReducerResult =
-        if (state.isNextLearningActivityLoadingShowed) {
+        if (state.isNextLearningActivityLoadingShown) {
             completeWelcomeOnboarding(state, message.nextLearningActivity)
         } else {
             state.copy(
@@ -121,13 +126,16 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         }
 
     private fun handleFetchNextLearningActivityError(state: State): WelcomeOnboardingReducerResult =
-        if (state.isNextLearningActivityLoadingShowed) {
+        if (state.isNextLearningActivityLoadingShown) {
             completeWelcomeOnboarding(state, nextLearningActivity = null)
         } else {
             state.copy(nextLearningActivityState = NextLearningActivityState.Error) to emptySet()
         }
 
-    private fun completeWelcomeOnboarding(state: State, nextLearningActivity: LearningActivity?): WelcomeOnboardingReducerResult {
+    private fun completeWelcomeOnboarding(
+        state: State,
+        nextLearningActivity: LearningActivity?
+    ): WelcomeOnboardingReducerResult {
         val stepRoute = if (nextLearningActivity?.targetType == LearningActivityTargetType.STEP) {
             nextLearningActivity.targetId?.let { stepId ->
                 StepRoute.Learn.Step(stepId = stepId, topicId = nextLearningActivity.topicId)
@@ -135,7 +143,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         } else {
             null
         }
-        return state.copy(isNextLearningActivityLoadingShowed = false) to
+        return state.copy(isNextLearningActivityLoadingShown = false) to
             setOf(Action.ViewAction.CompleteWelcomeOnboarding(stepRoute))
     }
 }

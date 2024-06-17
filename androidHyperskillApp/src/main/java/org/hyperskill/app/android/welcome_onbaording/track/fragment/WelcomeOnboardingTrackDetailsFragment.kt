@@ -68,7 +68,7 @@ class WelcomeOnboardingTrackDetailsFragment : Fragment() {
     private fun onAction(action: ViewAction) {
         when (action) {
             ViewAction.NotifyTrackSelected -> {
-                (parentFragment as? WelcomeOnboardingHost)?.onTrackSelected()
+                (parentFragment as? WelcomeOnboardingHost)?.onTrackSelected(track)
             }
             ViewAction.ShowTrackSelectionError -> {
                 requireView().snackbar(org.hyperskill.app.R.string.common_error)

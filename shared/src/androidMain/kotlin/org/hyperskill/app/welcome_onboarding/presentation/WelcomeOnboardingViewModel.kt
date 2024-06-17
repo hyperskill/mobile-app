@@ -2,6 +2,7 @@ package org.hyperskill.app.welcome_onboarding.presentation
 
 import org.hyperskill.app.core.flowredux.presentation.FlowView
 import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
@@ -27,11 +28,15 @@ class WelcomeOnboardingViewModel(
         onNewMessage(Message.ProgrammingLanguageSelected(language))
     }
 
-    fun onTrackSelected() {
-        onNewMessage(Message.TrackSelected)
+    fun onTrackSelected(track: WelcomeOnboardingTrack) {
+        onNewMessage(Message.TrackSelected(track))
     }
 
     fun onNotificationPermissionCompleted() {
         onNewMessage(Message.NotificationPermissionOnboardingCompleted)
+    }
+
+    fun onFinishOnboardingShowed() {
+        onNewMessage(Message.FinishOnboardingShowed)
     }
 }

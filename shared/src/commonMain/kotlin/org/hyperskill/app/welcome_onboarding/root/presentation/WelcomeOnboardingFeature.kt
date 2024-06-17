@@ -17,8 +17,9 @@ object WelcomeOnboardingFeature {
 
     data class State(
         val initialStep: WelcomeOnboardingStartScreen,
+        val selectedTrack: WelcomeOnboardingTrack?,
         val nextLearningActivityState: NextLearningActivityState,
-        val isNextLearningActivityLoadingShowed: Boolean
+        val isNextLearningActivityLoadingShown: Boolean
     )
 
     sealed interface NextLearningActivityState {
@@ -38,8 +39,9 @@ object WelcomeOnboardingFeature {
                 !params.isNotificationPermissionGranted -> WelcomeOnboardingStartScreen.NOTIFICATION_ONBOARDING
                 else -> error("Welcome onboarding should not be shown")
             },
+            selectedTrack = null,
             nextLearningActivityState = NextLearningActivityState.Idle,
-            isNextLearningActivityLoadingShowed = false
+            isNextLearningActivityLoadingShown = false
         )
 
     sealed interface Message {
@@ -50,7 +52,7 @@ object WelcomeOnboardingFeature {
             val itemType: WelcomeQuestionnaireItemType
         ) : Message
         data class ProgrammingLanguageSelected(val language: WelcomeOnboardingProgrammingLanguage) : Message
-        object TrackSelected : Message
+        data class TrackSelected(val selectedTrack: WelcomeOnboardingTrack) : Message
         object NotificationPermissionOnboardingCompleted : Message
         object FinishOnboardingShowed : Message
     }
@@ -69,7 +71,7 @@ object WelcomeOnboardingFeature {
                 object ChooseProgrammingLanguage : NavigateTo
                 data class TrackDetails(val track: WelcomeOnboardingTrack) : NavigateTo
                 object NotificationOnboarding : NavigateTo
-                object OnboardingFinish : NavigateTo
+                data class OnboardingFinish(val selectedTrack: WelcomeOnboardingTrack) : NavigateTo
             }
             data class CompleteWelcomeOnboarding(val stepRoute: StepRoute?) : NavigateTo
         }
