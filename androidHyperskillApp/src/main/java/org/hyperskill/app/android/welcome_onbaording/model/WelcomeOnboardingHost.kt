@@ -12,4 +12,5 @@ interface WelcomeOnboardingHost {
     )
     fun onProgrammingLanguageSelected(language: WelcomeOnboardingProgrammingLanguage)
     fun onTrackSelected()
+    fun onNotificationOnboardingCompleted()
 }

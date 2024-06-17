@@ -4,9 +4,9 @@ import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.profile.domain.model.Profile
 import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
-import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 
@@ -34,6 +34,7 @@ object WelcomeOnboardingFeature {
         ) : Message
         data class ProgrammingLanguageSelected(val language: WelcomeOnboardingProgrammingLanguage) : Message
         object TrackSelected : Message
+        object NotificationPermissionOnboardingCompleted : Message
     }
 
     internal sealed interface InternalMessage : Message
@@ -44,6 +45,8 @@ object WelcomeOnboardingFeature {
                 data class WelcomeOnboardingQuestionnaire(val type: WelcomeQuestionnaireType) : NavigateTo
                 object ChooseProgrammingLanguage : NavigateTo
                 data class TrackDetails(val track: WelcomeOnboardingTrack) : NavigateTo
+                object NotificationOnboarding : NavigateTo
+                object OnboardingFinish : NavigateTo
             }
         }
     }

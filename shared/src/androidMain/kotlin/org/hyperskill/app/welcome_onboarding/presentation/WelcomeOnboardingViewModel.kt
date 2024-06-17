@@ -30,4 +30,8 @@ class WelcomeOnboardingViewModel(
     fun onTrackSelected() {
         onNewMessage(Message.TrackSelected)
     }
+
+    fun onNotificationPermissionCompleted() {
+        onNewMessage(Message.NotificationPermissionOnboardingCompleted)
+    }
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.argument
+import org.hyperskill.app.android.notification_onboarding.navigation.NotificationsOnboardingScreen
 import org.hyperskill.app.android.welcome_onbaording.language.navigation.WelcomeOnboardingChooseProgrammingLanguageScreen
 import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeOnboardingEntryPointScreen
@@ -12,13 +13,13 @@ import org.hyperskill.app.android.welcome_onbaording.navigation.WelcomeQuestionn
 import org.hyperskill.app.android.welcome_onbaording.track.navigation.WelcomeOnboardingTrackDetailsScreen
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
 class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
@@ -80,6 +81,10 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         welcomeOnboardingViewModel.onTrackSelected()
     }
 
+    override fun onNotificationOnboardingCompleted() {
+        welcomeOnboardingViewModel.onNotificationPermissionCompleted()
+    }
+
     private fun onAction(action: ViewAction) {
         when (action) {
             is ViewAction.NavigateTo.WelcomeOnboardingQuestionnaire ->
@@ -88,6 +93,8 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
                 router.newRootScreen(WelcomeOnboardingChooseProgrammingLanguageScreen)
             is ViewAction.NavigateTo.TrackDetails ->
                 router.navigateTo(WelcomeOnboardingTrackDetailsScreen(action.track))
+            ViewAction.NavigateTo.NotificationOnboarding ->
+                router.newRootScreen(NotificationsOnboardingScreen)
         }
     }
 }

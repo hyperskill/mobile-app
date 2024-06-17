@@ -1,7 +1,7 @@
 package org.hyperskill.app.welcome_onboarding.root.presentation
 
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction.NavigateTo
@@ -17,7 +17,8 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             Message.StartJourneyClicked -> handleStartJourneyClicked(state)
             is Message.QuestionnaireItemClicked -> handleQuestionnaireItemClicked(state, message)
             is Message.ProgrammingLanguageSelected -> handleProgrammingLanguageSelected(state, message)
-            is Message.TrackSelected -> handleTrackSelected(state, message)
+            is Message.TrackSelected -> handleTrackSelected(state)
+            Message.NotificationPermissionOnboardingCompleted -> handleNotificationPermissionOnboardingCompleted(state)
         }
 
     private fun handleStartJourneyClicked(state: State): WelcomeOnboardingReducerResult =
@@ -62,9 +63,9 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             )
         )
 
-    private fun handleTrackSelected(
-        state: State,
-        message: Message.TrackSelected
-    ): WelcomeOnboardingReducerResult =
+    private fun handleTrackSelected(state: State): WelcomeOnboardingReducerResult =
+        state to setOf(NavigateTo.NotificationOnboarding)
+
+    private fun handleNotificationPermissionOnboardingCompleted(state: State): WelcomeOnboardingReducerResult =
         TODO()
 }

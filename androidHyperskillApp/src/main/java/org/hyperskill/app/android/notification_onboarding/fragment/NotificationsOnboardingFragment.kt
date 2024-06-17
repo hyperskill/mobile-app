@@ -16,10 +16,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.accompanist.themeadapter.material.MdcTheme
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.extensions.startAppNotificationSettingsIntent
-import org.hyperskill.app.android.core.view.ui.navigation.requireAppRouter
 import org.hyperskill.app.android.notification.permission.NotificationPermissionDelegate
 import org.hyperskill.app.android.notification_onboarding.ui.NotificationsOnboardingScreen
 import org.hyperskill.app.android.profile.view.fragment.TimeIntervalPickerDialogFragment
+import org.hyperskill.app.android.welcome_onbaording.model.WelcomeOnboardingHost
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message
@@ -30,7 +30,6 @@ import ru.nobird.android.view.base.ui.extension.showIfNotExists
 class NotificationsOnboardingFragment : Fragment(), TimeIntervalPickerDialogFragment.Callback {
 
     companion object {
-        const val NOTIFICATIONS_ONBOARDING_FINISHED = "NOTIFICATIONS_ONBOARDING_FINISHED"
         fun newInstance(): NotificationsOnboardingFragment =
             NotificationsOnboardingFragment().apply {
                 waitForNotificationPermissionResult = false
@@ -105,7 +104,7 @@ class NotificationsOnboardingFragment : Fragment(), TimeIntervalPickerDialogFrag
     private fun onAction(action: ViewAction) {
         when (action) {
             ViewAction.CompleteNotificationOnboarding -> {
-                requireAppRouter().sendResult(NOTIFICATIONS_ONBOARDING_FINISHED, Any())
+                (parentFragment as? WelcomeOnboardingHost)?.onNotificationOnboardingCompleted()
             }
             ViewAction.RequestNotificationPermission -> {
                 notificationPermissionDelegate?.requestNotificationPermission()
