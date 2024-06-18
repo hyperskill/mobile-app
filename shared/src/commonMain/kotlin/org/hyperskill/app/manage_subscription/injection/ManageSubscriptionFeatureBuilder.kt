@@ -2,6 +2,7 @@ package org.hyperskill.app.manage_subscription.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -9,6 +10,7 @@ import org.hyperskill.app.core.view.mapper.ResourceProvider
 import org.hyperskill.app.core.view.mapper.date.SharedDateFormatter
 import org.hyperskill.app.logging.presentation.wrapWithLogger
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionActionDispatcher
+import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.Action
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.Message
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.State
@@ -41,7 +43,6 @@ internal object ManageSubscriptionFeatureBuilder {
 
         val manageSubscriptionActionDispatcher = ManageSubscriptionActionDispatcher(
             config = ActionDispatcherOptions(),
-            analyticInteractor = analyticInteractor,
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             purchaseInteractor = purchaseInteractor,
             sentryInteractor = sentryInteractor,
@@ -56,5 +57,8 @@ internal object ManageSubscriptionFeatureBuilder {
         )
             .wrapWithActionDispatcher(manageSubscriptionActionDispatcher)
             .transformState(viewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? ManageSubscriptionFeature.InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

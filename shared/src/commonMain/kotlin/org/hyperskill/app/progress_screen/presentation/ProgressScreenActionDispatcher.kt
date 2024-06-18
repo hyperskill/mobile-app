@@ -2,7 +2,6 @@ package org.hyperskill.app.progress_screen.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.progress_screen.presentation.ProgressScreenFeature.InternalAction
@@ -27,7 +26,6 @@ internal class ProgressScreenActionDispatcher(
     private val trackInteractor: TrackInteractor,
     private val projectsRepository: ProjectsRepository,
     private val progressesInteractor: ProgressesInteractor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<ProgressScreenFeature.Action, Message>(
     config.createConfig()
@@ -39,9 +37,6 @@ internal class ProgressScreenActionDispatcher(
             }
             is InternalAction.FetchProjectWithProgress -> {
                 handleFetchProjectWithProgressAction(action, ::onNewMessage)
-            }
-            is InternalAction.LogAnalyticEvent -> {
-                analyticInteractor.logEvent(action.analyticEvent)
             }
             else -> {
                 // no op

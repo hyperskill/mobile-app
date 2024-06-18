@@ -4,6 +4,7 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.step_quiz_hints.domain.interactor.StepQuizHintsInteractor
+import org.hyperskill.app.step_quiz_hints.presentation.MainStepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsActionDispatcher
 import org.hyperskill.app.step_quiz_hints.presentation.StepQuizHintsReducer
 
@@ -21,8 +22,8 @@ class StepQuizHintsComponentImpl(
     override val stepQuizHintsReducer: StepQuizHintsReducer
         get() = StepQuizHintsReducer(stepRoute = stepRoute)
 
-    override val stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher
-        get() = StepQuizHintsActionDispatcher(
+    private val mainStepQuizHintsActionDispatcher: MainStepQuizHintsActionDispatcher
+        get() = MainStepQuizHintsActionDispatcher(
             config = ActionDispatcherOptions(),
             stepQuizHintsInteractor = stepQuizHintsInteractor,
             likesInteractor = appGraph.buildLikesDataComponent().likesInteractor,
@@ -30,7 +31,12 @@ class StepQuizHintsComponentImpl(
             reactionsInteractor = appGraph.buildReactionsDataComponent().reactionsInteractor,
             userStorageInteractor = appGraph.buildUserStorageComponent().userStorageInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             sentryInteractor = appGraph.sentryComponent.sentryInteractor
+        )
+
+    override val stepQuizHintsActionDispatcher: StepQuizHintsActionDispatcher
+        get() = StepQuizHintsActionDispatcher(
+            mainStepQuizHintsActionDispatcher,
+            analyticInteractor = appGraph.analyticComponent.analyticInteractor
         )
 }

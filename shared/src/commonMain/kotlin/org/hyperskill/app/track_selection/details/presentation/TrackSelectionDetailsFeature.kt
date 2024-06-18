@@ -123,6 +123,6 @@ object TrackSelectionDetailsFeature {
 
         data class SelectTrack(val trackId: Long) : InternalAction
 
-        data class LogAnalyticEvent(val event: HyperskillAnalyticEvent) : InternalAction
+        data class LogAnalyticEvent(val analyticEvent: HyperskillAnalyticEvent) : InternalAction
     }
 }

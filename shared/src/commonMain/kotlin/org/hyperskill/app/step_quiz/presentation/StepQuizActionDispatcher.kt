@@ -200,8 +200,6 @@ internal class StepQuizActionDispatcher(
             }
             is InternalAction.GenerateGptCodeWithErrors ->
                 handleGenerateGptCodeWithErrorsAction(action, ::onNewMessage)
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             else -> {}
         }
     }

@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.DataSourceType
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
@@ -43,7 +42,6 @@ internal class StepActionDispatcher(
     private val nextLearningActivityStateRepository: NextLearningActivityStateRepository,
     private val urlBuilder: HyperskillUrlBuilder,
     private val magicLinksInteractor: MagicLinksInteractor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -72,8 +70,6 @@ internal class StepActionDispatcher(
                 stepInteractor.viewStep(action.stepId, action.stepContext)
             is InternalAction.UpdateNextLearningActivityState ->
                 handleUpdateNextLearningActivityStateAction(action)
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             is InternalAction.StartSolvingTimer ->
                 handleStartStepSolvingTimeLogging()
             is InternalAction.StopSolvingTimer ->

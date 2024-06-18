@@ -5,7 +5,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.badges.domain.repository.BadgesRepository
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.domain.url.HyperskillUrlPath
@@ -32,7 +31,6 @@ internal class ProfileActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val streaksInteractor: StreaksInteractor,
     private val productsInteractor: ProductsInteractor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val notificationInteractor: NotificationInteractor,
     private val urlPathProcessor: UrlPathProcessor,
@@ -111,8 +109,6 @@ internal class ProfileActionDispatcher(
             is Action.FetchProfile -> {
                 // TODO add code when GET on any profile is implemented
             }
-            is Action.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
             else -> {}

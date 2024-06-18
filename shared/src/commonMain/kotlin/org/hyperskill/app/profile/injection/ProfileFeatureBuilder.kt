@@ -2,6 +2,7 @@ package org.hyperskill.app.profile.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.badges.domain.repository.BadgesRepository
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -48,7 +49,6 @@ internal object ProfileFeatureBuilder {
             currentProfileStateRepository = currentProfileStateRepository,
             streaksInteractor = streaksInteractor,
             productsInteractor = productsInteractor,
-            analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             notificationInteractor = notificationInteractor,
             urlPathProcessor = urlPathProcessor,
@@ -60,5 +60,8 @@ internal object ProfileFeatureBuilder {
 
         return ReduxFeature(State.Idle, profileReducer)
             .wrapWithActionDispatcher(profileActionDispatcher)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? Action.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

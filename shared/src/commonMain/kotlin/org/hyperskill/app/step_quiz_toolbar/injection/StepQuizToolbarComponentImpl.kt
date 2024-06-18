@@ -3,6 +3,7 @@ package org.hyperskill.app.step_quiz_toolbar.injection
 import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.step.domain.model.StepRoute
+import org.hyperskill.app.step_quiz_toolbar.presentation.MainStepQuizToolbarActionDispatcher
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarActionDispatcher
 import org.hyperskill.app.step_quiz_toolbar.presentation.StepQuizToolbarReducer
 
@@ -18,12 +19,17 @@ internal class StepQuizToolbarComponentImpl(
     override val stepQuizToolbarReducer: StepQuizToolbarReducer
         get() = StepQuizToolbarReducer(stepRoute)
 
-    override val stepQuizToolbarActionDispatcher: StepQuizToolbarActionDispatcher
-        get() = StepQuizToolbarActionDispatcher(
+    private val mainStepQuizToolbarActionDispatcher: MainStepQuizToolbarActionDispatcher
+        get() = MainStepQuizToolbarActionDispatcher(
             config = ActionDispatcherOptions(),
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             currentProfileStateRepository = appGraph.profileDataComponent.currentProfileStateRepository,
-            analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             logger = appGraph.loggerComponent.logger.withTag(LOG_TAG)
+        )
+
+    override val stepQuizToolbarActionDispatcher: StepQuizToolbarActionDispatcher
+        get() = StepQuizToolbarActionDispatcher(
+            mainStepQuizToolbarActionDispatcher,
+            appGraph.analyticComponent.analyticInteractor
         )
 }

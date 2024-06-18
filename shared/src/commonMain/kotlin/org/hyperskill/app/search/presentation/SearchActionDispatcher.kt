@@ -5,7 +5,6 @@ import kotlin.time.toDuration
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.search.domain.interactor.SearchInteractor
 import org.hyperskill.app.search.presentation.SearchFeature.Action
@@ -20,8 +19,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 internal class SearchActionDispatcher(
     config: ActionDispatcherOptions,
     private val searchInteractor: SearchInteractor,
-    private val sentryInteractor: SentryInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     private var searchJob: Job? = null
 
@@ -36,9 +34,6 @@ internal class SearchActionDispatcher(
             }
             InternalAction.CancelSearch -> {
                 cancelSearchJob()
-            }
-            is InternalAction.LogAnalyticEvent -> {
-                analyticInteractor.logEvent(action.analyticEvent)
             }
             else -> {
                 // no op

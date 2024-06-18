@@ -2,6 +2,7 @@ package org.hyperskill.app.welcome.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -31,11 +32,13 @@ internal object WelcomeFeatureBuilder {
         val welcomeActionDispatcher = WelcomeActionDispatcher(
             ActionDispatcherOptions(),
             welcomeInteractor,
-            currentProfileStateRepository,
-            analyticInteractor
+            currentProfileStateRepository
         )
 
         return ReduxFeature(State.Idle, welcomeReducer)
             .wrapWithActionDispatcher(welcomeActionDispatcher)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? Action.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

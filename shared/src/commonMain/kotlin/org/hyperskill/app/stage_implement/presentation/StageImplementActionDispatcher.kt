@@ -3,7 +3,6 @@ package org.hyperskill.app.stage_implement.presentation
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.hyperskill.app.SharedResources
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.domain.repository.updateState
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.view.mapper.ResourceProvider
@@ -27,7 +26,6 @@ internal class StageImplementActionDispatcher(
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val stagesInteractor: StagesInteractor,
     private val progressesInteractor: ProgressesInteractor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val resourceProvider: ResourceProvider
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
@@ -44,9 +42,6 @@ internal class StageImplementActionDispatcher(
             }
             is InternalAction.CheckStageCompletionStatus -> {
                 handleCheckStageCompletionStatusAction(action, ::onNewMessage)
-            }
-            is InternalAction.LogAnalyticEvent -> {
-                analyticInteractor.logEvent(action.analyticEvent)
             }
             else -> {
                 // no op
