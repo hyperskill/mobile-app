@@ -32,7 +32,7 @@ internal class AnalyticActionDispatcher<Action, Message>(
         if (isCancelled) return
 
         val analyticEvents = getAnalyticEvent(action)
-        if (analyticEvents != null) {
+        if (!analyticEvents.isNullOrEmpty()) {
             logAnalyticScope.launch {
                 analyticEvents.forEach { analyticEvent ->
                     analyticInteractor.logEvent(analyticEvent)

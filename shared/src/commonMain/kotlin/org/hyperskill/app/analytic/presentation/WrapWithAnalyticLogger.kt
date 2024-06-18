@@ -26,9 +26,9 @@ internal inline fun <State, Message, Action> Feature<State, Message, Action>.wra
 ): Feature<State, Message, Action> =
     wrapWithActionDispatcher(
         SingleAnalyticEventActionDispatcher(
-            analyticInteractor,
-            parentScope,
-            getAnalyticEvent
+            analyticInteractor = analyticInteractor,
+            parentScope = parentScope,
+            getAnalyticEvent = getAnalyticEvent
         )
     )
 
@@ -51,9 +51,9 @@ internal fun <State, Message, Action> Feature<State, Message, Action>.wrapWithBa
     getAnalyticEvent: (Action) -> Collection<AnalyticEvent>?
 ): Feature<State, Message, Action> =
     wrapWithActionDispatcher(
-        AnalyticActionDispatcher(
+        BatchAnalyticEventActionDispatcher(
             analyticInteractor = analyticInteractor,
-            logAnalyticScope = AnalyticActionDispatcherConfig(parentScope).createLogAnalyticScope(),
+            parentScope = parentScope,
             getAnalyticEvent = getAnalyticEvent
         )
     )
