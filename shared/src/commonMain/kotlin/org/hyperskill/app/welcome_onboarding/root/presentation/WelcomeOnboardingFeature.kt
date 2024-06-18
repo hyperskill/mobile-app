@@ -82,7 +82,7 @@ object WelcomeOnboardingFeature {
                 object NotificationOnboarding : NavigateTo
                 data class OnboardingFinish(val selectedTrack: WelcomeOnboardingTrack) : NavigateTo
             }
-            data class CompleteWelcomeOnboarding(val stepRoute: StepRoute?) : NavigateTo
+            data class CompleteWelcomeOnboarding(val stepRoute: StepRoute?) : ViewAction
         }
     }
 
