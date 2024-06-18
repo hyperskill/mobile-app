@@ -177,10 +177,10 @@ import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingF
 import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponentImpl
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
-import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponentImpl
 import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponent
 import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponentImpl
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponentImpl
 import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponent
 import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponentImpl
 

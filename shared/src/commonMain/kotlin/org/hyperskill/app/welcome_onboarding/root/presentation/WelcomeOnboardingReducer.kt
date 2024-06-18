@@ -5,6 +5,7 @@ import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingFinishScreenStartClickedHSAnalyticEvent
 import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingFinishScreenViewedHSAnalyticEvent
 import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingProgrammingLanguageClickedHSAnalyticEvent
@@ -15,7 +16,6 @@ import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboard
 import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingUserQuestionnaireViewedHSAnalyticEvent
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
-import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction.NavigateTo
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.InternalAction

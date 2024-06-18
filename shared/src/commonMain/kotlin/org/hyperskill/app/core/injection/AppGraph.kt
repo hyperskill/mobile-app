@@ -96,8 +96,8 @@ import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponent
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
 import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponent
 
 interface AppGraph {

@@ -7,10 +7,10 @@ import org.hyperskill.app.profile.domain.model.isNewUser
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
 
 object WelcomeOnboardingFeature {
 

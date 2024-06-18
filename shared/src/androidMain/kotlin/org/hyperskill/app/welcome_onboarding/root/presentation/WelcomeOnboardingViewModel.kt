@@ -3,9 +3,9 @@ package org.hyperskill.app.welcome_onboarding.root.presentation
 import org.hyperskill.app.core.flowredux.presentation.FlowView
 import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Message
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.State
