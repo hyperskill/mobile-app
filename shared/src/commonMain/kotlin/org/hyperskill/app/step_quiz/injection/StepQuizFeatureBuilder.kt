@@ -2,6 +2,7 @@ package org.hyperskill.app.step_quiz.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.logging.presentation.wrapWithLogger
@@ -94,5 +95,8 @@ internal object StepQuizFeatureBuilder {
                     transformMessage = StepQuizFeature.Message::StepQuizToolbarMessage
                 )
             )
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? StepQuizFeature.InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

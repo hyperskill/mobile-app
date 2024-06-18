@@ -2,6 +2,7 @@ package org.hyperskill.app.track_selection.details.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -16,6 +17,7 @@ import org.hyperskill.app.subscriptions.domain.repository.CurrentSubscriptionSta
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsActionDispatcher
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Action
+import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.InternalAction
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.Message
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsFeature.ViewState
 import org.hyperskill.app.track_selection.details.presentation.TrackSelectionDetailsReducer
@@ -47,8 +49,7 @@ object TrackSelectionDetailsFeatureBuilder {
             currentSubscriptionStateRepository = currentSubscriptionStateRepository,
             sentryInteractor = sentryInteractor,
             profileRepository = profileRepository,
-            currentProfileStateRepository = currentProfileStateRepository,
-            analyticInteractor = analyticInteractor
+            currentProfileStateRepository = currentProfileStateRepository
         )
         val viewStateMapper = TrackSelectionDetailsViewStateMapper(
             resourceProvider = resourceProvider,
@@ -62,5 +63,8 @@ object TrackSelectionDetailsFeatureBuilder {
         return ReduxFeature(initialState, reducer)
             .wrapWithActionDispatcher(actionDispatcher)
             .transformState(viewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

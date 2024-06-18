@@ -1,6 +1,5 @@
 package org.hyperskill.app.auth.presentation
 
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.exception.AuthSocialException
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.AuthSocialError
@@ -16,7 +15,6 @@ class AuthSocialActionDispatcher(
     config: ActionDispatcherOptions,
     private val authInteractor: AuthInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val analyticInteractor: AnalyticInteractor,
     private var sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -75,8 +73,6 @@ class AuthSocialActionDispatcher(
 
                 onNewMessage(message)
             }
-            is Action.LogAnalyticEvent ->
-                action.analyticEvent.forEach { analyticInteractor.logEvent(it) }
             is Action.AddSentryBreadcrumb ->
                 sentryInteractor.addBreadcrumb(action.breadcrumb)
             is Action.CaptureSentryAuthError -> {

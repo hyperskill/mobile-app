@@ -2,6 +2,7 @@ package org.hyperskill.app.search.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -35,8 +36,7 @@ internal object SearchFeatureBuilder {
         val searchActionDispatcher = SearchActionDispatcher(
             config = ActionDispatcherOptions(),
             searchInteractor = searchInteractor,
-            sentryInteractor = sentryInteractor,
-            analyticInteractor = analyticInteractor
+            sentryInteractor = sentryInteractor
         )
 
         return ReduxFeature(
@@ -45,5 +45,8 @@ internal object SearchFeatureBuilder {
         )
             .transformState(SearchViewStateMapper::map)
             .wrapWithActionDispatcher(searchActionDispatcher)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? SearchFeature.InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }
