@@ -111,7 +111,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         state: State,
         message: Message.TrackSelected
     ): WelcomeOnboardingReducerResult =
-        if (message.isNotificationPermissionGranted) {
+        if (!message.isNotificationPermissionGranted) {
             state.copy(
                 nextLearningActivityState = NextLearningActivityState.Loading,
                 selectedTrack = message.selectedTrack
