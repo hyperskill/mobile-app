@@ -51,7 +51,7 @@ class WelcomeQuestionnaireFragment : Fragment() {
                 val viewState: WelcomeQuestionnaireViewState = remember {
                     requireNotNull(viewStateMapper).mapQuestionnaireTypeToViewState(type)
                 }
-                OnComposableShownFirstTime(key = this@WelcomeQuestionnaireFragment, block = ::onShow)
+                OnComposableShownFirstTime(key = Unit, block = ::onShow)
                 HyperskillTheme {
                     WelcomeQuestionnaire(viewState, onItemClick = ::onItemClick)
                 }

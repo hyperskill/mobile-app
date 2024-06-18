@@ -29,7 +29,7 @@ class WelcomeOnboardingSelectTrackClickedHSAnalyticEvent(
     track: WelcomeOnboardingTrack
 ) : HyperskillAnalyticEvent(
     route = HyperskillAnalyticRoute.Onboarding.TrackSelection,
-    action =  HyperskillAnalyticAction.CLICK,
+    action = HyperskillAnalyticAction.CLICK,
     part = HyperskillAnalyticPart.MAIN,
     target = HyperskillAnalyticTarget.TRACK,
     context = mapOf(

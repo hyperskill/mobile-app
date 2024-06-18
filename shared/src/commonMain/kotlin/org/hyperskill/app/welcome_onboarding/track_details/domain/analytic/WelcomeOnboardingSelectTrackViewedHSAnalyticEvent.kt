@@ -17,7 +17,7 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRou
  *
  * @see HyperskillAnalyticEvent
  */
-object WelcomeOnboardingSelectTrackViewedHSAnalyticEvent  : HyperskillAnalyticEvent(
+object WelcomeOnboardingSelectTrackViewedHSAnalyticEvent : HyperskillAnalyticEvent(
     HyperskillAnalyticRoute.Onboarding.ProgrammingLanguageQuestionnaire,
     HyperskillAnalyticAction.VIEW
 )

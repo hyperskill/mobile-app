@@ -28,10 +28,7 @@ class WelcomeOnboardingChooseProgrammingLanguageFragment : Fragment() {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
                 HyperskillTheme {
-                    OnComposableShownFirstTime(
-                        key = this@WelcomeOnboardingChooseProgrammingLanguageFragment,
-                        block = ::onShow
-                    )
+                    OnComposableShownFirstTime(key = Unit, block = ::onShow)
                     WelcomeOnboardingChooseProgrammingLanguage(onLangClick = ::onLanguageSelected)
                 }
             }

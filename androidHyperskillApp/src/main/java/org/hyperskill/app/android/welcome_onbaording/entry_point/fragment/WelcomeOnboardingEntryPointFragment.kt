@@ -26,7 +26,7 @@ class WelcomeOnboardingEntryPointFragment : Fragment() {
         ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
-                OnComposableShownFirstTime(key = this@WelcomeOnboardingEntryPointFragment, block = ::onShow)
+                OnComposableShownFirstTime(key = Unit, block = ::onShow)
                 HyperskillTheme {
                     WelcomeOnboardingEntryPoint(onStartClick = ::onStartClick)
                 }

@@ -36,7 +36,7 @@ fun WelcomeOnboardingTrackDetails(
     viewModel: WelcomeOnboardingTrackDetailsViewModel,
     modifier: Modifier = Modifier
 ) {
-    OnComposableShownFirstTime(key = viewModel, block = viewModel::onShow)
+    OnComposableShownFirstTime(key = Unit, block = viewModel::onShow)
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     WelcomeOnboardingTrackDetails(
         viewState = viewState,

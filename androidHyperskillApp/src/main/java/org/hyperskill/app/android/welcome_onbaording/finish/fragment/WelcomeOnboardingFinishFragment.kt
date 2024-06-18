@@ -50,7 +50,7 @@ class WelcomeOnboardingFinishFragment : Fragment() {
                     val viewState = remember {
                         requireNotNull(viewStateMapper).map(track)
                     }
-                    OnComposableShownFirstTime(key = this@WelcomeOnboardingFinishFragment, block = ::onShow)
+                    OnComposableShownFirstTime(key = Unit, block = ::onShow)
                     WelcomeOnboardingFinish(viewState, onFinishClick = ::onFinishClick)
                 }
             }
