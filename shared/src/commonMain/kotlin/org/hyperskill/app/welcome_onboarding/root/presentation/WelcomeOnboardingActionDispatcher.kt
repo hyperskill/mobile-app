@@ -1,7 +1,6 @@
 package org.hyperskill.app.welcome_onboarding.root.presentation
 
 import co.touchlab.kermit.Logger
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
@@ -16,15 +15,12 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class WelcomeOnboardingActionDispatcher(
     config: ActionDispatcherOptions,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor,
     private val learningActivityRepository: LearningActivitiesRepository,
     private val logger: Logger
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.event)
             InternalAction.FetchNextLearningActivity -> handleFetchNextLearningActivity(::onNewMessage)
             else -> {
                 // no op

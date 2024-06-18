@@ -19,7 +19,7 @@ import ru.nobird.app.presentation.redux.feature.Feature
 import ru.nobird.app.presentation.redux.feature.ReduxFeature
 
 @Deprecated("Should be removed in ALTAPPS-1276")
-internal object UsersQuestionnaireOnboardingFeatureBuilder {
+internal object LegacyUsersQuestionnaireOnboardingFeatureBuilder {
     private const val LOG_TAG = "UsersQuestionnaireOnboardingFeature"
 
     fun build(

@@ -6,6 +6,6 @@ import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.Leg
 import ru.nobird.app.presentation.redux.feature.Feature
 
 @Deprecated("Should be removed in ALTAPPS-1276")
-interface UsersQuestionnaireOnboardingComponent {
-    val usersQuestionnaireOnboardingFeature: Feature<ViewState, Message, Action>
+interface LegacyUsersQuestionnaireOnboardingComponent {
+    val legacyUsersQuestionnaireOnboardingFeature: Feature<ViewState, Message, Action>
 }

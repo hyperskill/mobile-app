@@ -7,11 +7,11 @@ import org.hyperskill.app.users_questionnaire_onboarding_legacy.presentation.Leg
 import ru.nobird.app.presentation.redux.feature.Feature
 
 @Deprecated("Should be removed in ALTAPPS-1276")
-internal class UsersQuestionnaireOnboardingComponentImpl(
+internal class LegacyUsersQuestionnaireOnboardingComponentImpl(
     private val appGraph: AppGraph
-) : UsersQuestionnaireOnboardingComponent {
-    override val usersQuestionnaireOnboardingFeature: Feature<ViewState, Message, Action>
-        get() = UsersQuestionnaireOnboardingFeatureBuilder.build(
+) : LegacyUsersQuestionnaireOnboardingComponent {
+    override val legacyUsersQuestionnaireOnboardingFeature: Feature<ViewState, Message, Action>
+        get() = LegacyUsersQuestionnaireOnboardingFeatureBuilder.build(
             analyticInteractor = appGraph.analyticComponent.analyticInteractor,
             buildVariant = appGraph.commonComponent.buildKonfig.buildVariant,
             logger = appGraph.loggerComponent.logger,

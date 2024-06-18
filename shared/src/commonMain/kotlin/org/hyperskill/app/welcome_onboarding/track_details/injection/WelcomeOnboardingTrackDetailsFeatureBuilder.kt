@@ -2,6 +2,7 @@ package org.hyperskill.app.welcome_onboarding.track_details.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -13,6 +14,7 @@ import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsActionDispatcher
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature.Action
+import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature.InternalAction
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature.Message
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature.ViewState
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsReducer
@@ -41,7 +43,6 @@ internal object WelcomeOnboardingTrackDetailsFeatureBuilder {
             ActionDispatcherOptions(),
             profileRepository = profileRepository,
             currentProfileStateRepository = currentProfileStateRepository,
-            analyticInteractor,
             logger = logger.withTag(LOG_TAG)
         )
 
@@ -53,5 +54,8 @@ internal object WelcomeOnboardingTrackDetailsFeatureBuilder {
         )
             .wrapWithActionDispatcher(welcomeOnboardingTrackDetailsActionDispatcher)
             .transformState(viewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.event
+            }
     }
 }

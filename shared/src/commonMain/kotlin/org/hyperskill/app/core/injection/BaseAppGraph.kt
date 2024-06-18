@@ -167,8 +167,8 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponentImpl
-import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.UsersQuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.UsersQuestionnaireOnboardingComponentImpl
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.LegacyUsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.LegacyUsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
@@ -542,8 +542,8 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent =
         UsersInterviewWidgetComponentImpl(this)
 
-    override fun buildLegacyUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
-        UsersQuestionnaireOnboardingComponentImpl(this)
+    override fun buildLegacyUsersQuestionnaireOnboardingComponent(): LegacyUsersQuestionnaireOnboardingComponent =
+        LegacyUsersQuestionnaireOnboardingComponentImpl(this)
 
     override fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams

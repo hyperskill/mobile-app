@@ -2,6 +2,7 @@ package org.hyperskill.app.welcome_onboarding.root.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.repository.LearningActivitiesRepository
@@ -35,7 +36,6 @@ internal object WelcomeOnboardingFeatureBuilder {
 
         val welcomeOnboardingActionDispatcher = WelcomeOnboardingActionDispatcher(
             ActionDispatcherOptions(),
-            analyticInteractor,
             sentryInteractor = sentryInteractor,
             learningActivityRepository = learningActivityRepository,
             logger = logger.withTag(LOG_TAG)
@@ -44,6 +44,10 @@ internal object WelcomeOnboardingFeatureBuilder {
         return ReduxFeature(
             initialState = WelcomeOnboardingFeature.initialState(params),
             reducer = welcomeOnboardingReducer
-        ).wrapWithActionDispatcher(welcomeOnboardingActionDispatcher)
+        )
+            .wrapWithActionDispatcher(welcomeOnboardingActionDispatcher)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? WelcomeOnboardingFeature.InternalAction.LogAnalyticEvent)?.event
+            }
     }
 }
