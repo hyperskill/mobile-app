@@ -5,8 +5,8 @@ import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticEve
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticPart
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticTarget
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
 
 /**
  * Represents click on the questionnaire item button analytic event.

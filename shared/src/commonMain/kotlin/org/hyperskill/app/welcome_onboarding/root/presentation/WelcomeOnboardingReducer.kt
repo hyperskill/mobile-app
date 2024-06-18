@@ -15,7 +15,7 @@ import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboard
 import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingUserQuestionnaireViewedHSAnalyticEvent
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction.NavigateTo
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.InternalAction

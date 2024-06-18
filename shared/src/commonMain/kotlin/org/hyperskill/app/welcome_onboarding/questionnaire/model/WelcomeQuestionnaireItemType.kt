@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.root.model
+package org.hyperskill.app.welcome_onboarding.questionnaire.model
 
 sealed interface WelcomeQuestionnaireItemType {
     enum class ClientSource : WelcomeQuestionnaireItemType {

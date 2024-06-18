@@ -2,8 +2,8 @@ package org.hyperskill.app.android.welcome_onbaording.root.model
 
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
 
 interface WelcomeOnboardingHost {
     fun onStartClick()

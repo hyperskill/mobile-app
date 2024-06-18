@@ -20,10 +20,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.ClientSource
-import org.hyperskill.app.welcome_onboarding.root.view.WelcomeQuestionnaireItem
-import org.hyperskill.app.welcome_onboarding.root.view.WelcomeQuestionnaireViewState
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType.ClientSource
+import org.hyperskill.app.welcome_onboarding.questionnaire.view.WelcomeQuestionnaireItem
+import org.hyperskill.app.welcome_onboarding.questionnaire.view.WelcomeQuestionnaireViewState
 
 @Composable
 fun WelcomeQuestionnaire(

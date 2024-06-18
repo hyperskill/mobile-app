@@ -13,10 +13,10 @@ import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
 import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.welcome_onbaording.questionnaire.ui.WelcomeQuestionnaire
 import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
-import org.hyperskill.app.welcome_onboarding.root.view.WelcomeQuestionnaireViewState
-import org.hyperskill.app.welcome_onboarding.root.view.WelcomeQuestionnaireViewStateMapper
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.questionnaire.view.WelcomeQuestionnaireViewState
+import org.hyperskill.app.welcome_onboarding.questionnaire.view.WelcomeQuestionnaireViewStateMapper
 import ru.nobird.android.view.base.ui.extension.argument
 
 class WelcomeQuestionnaireFragment : Fragment() {

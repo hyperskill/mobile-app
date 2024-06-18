@@ -29,8 +29,8 @@ import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingViewModel

@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.root.view
+package org.hyperskill.app.welcome_onboarding.questionnaire.view
 
 data class WelcomeQuestionnaireViewState(
     val title: String,

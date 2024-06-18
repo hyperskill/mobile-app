@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import org.hyperskill.app.android.R
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.ClientSource
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.CodingBackground
-import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType.LearningGoal
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType.ClientSource
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType.CodingBackground
+import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType.LearningGoal
 
 val WelcomeQuestionnaireItemType.iconPainter: Painter
     @Composable
