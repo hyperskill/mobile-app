@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.injection
+package org.hyperskill.app.welcome_onboarding.root.injection
 
 import org.hyperskill.app.core.injection.ReduxViewModelFactory
 

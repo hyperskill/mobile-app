@@ -1,4 +1,4 @@
-package org.hyperskill.app.welcome_onboarding.presentation
+package org.hyperskill.app.welcome_onboarding.root.presentation
 
 import org.hyperskill.app.core.flowredux.presentation.FlowView
 import org.hyperskill.app.core.flowredux.presentation.ReduxFlowViewModel

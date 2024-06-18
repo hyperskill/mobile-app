@@ -28,7 +28,7 @@ import org.hyperskill.app.android.welcome_onbaording.track.navigation.WelcomeOnb
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.presentation.WelcomeOnboardingViewModel
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingViewModel
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType

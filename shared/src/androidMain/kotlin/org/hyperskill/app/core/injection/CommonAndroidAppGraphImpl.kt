@@ -84,8 +84,8 @@ import org.hyperskill.app.track_selection.list.injection.TrackSelectionListParam
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponent
 import org.hyperskill.app.welcome.injection.PlatformWelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
-import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponent
-import org.hyperskill.app.welcome_onboarding.injection.PlatformWelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.root.injection.PlatformWelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.PlatformWelcomeOnboardingComponentImpl
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.track_details.injection.PlatformWelcomeOnboardingTrackDetailsComponent
