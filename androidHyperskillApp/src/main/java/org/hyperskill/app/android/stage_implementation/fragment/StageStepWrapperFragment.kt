@@ -11,6 +11,7 @@ import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.extensions.argument
 import org.hyperskill.app.android.core.extensions.logger
+import org.hyperskill.app.android.core.extensions.smoothScrollToBottom
 import org.hyperskill.app.android.core.view.ui.fragment.setChildFragment
 import org.hyperskill.app.android.core.view.ui.navigation.requireRouter
 import org.hyperskill.app.android.databinding.FragmentStageStepWrapperBinding
@@ -21,6 +22,7 @@ import org.hyperskill.app.android.step.view.delegate.StepDelegate
 import org.hyperskill.app.android.step.view.fragment.StepWrapperFragment
 import org.hyperskill.app.android.step.view.model.StepCompletionHost
 import org.hyperskill.app.android.step.view.model.StepCompletionView
+import org.hyperskill.app.android.step_practice.model.StepPracticeHost
 import org.hyperskill.app.android.step_practice.view.fragment.StepPracticeDetailsFragment
 import org.hyperskill.app.android.step_quiz.view.factory.StepQuizFragmentFactory
 import org.hyperskill.app.android.topic_completion.fragment.TopicCompletedDialogFragment
@@ -47,12 +49,15 @@ class StageStepWrapperFragment :
     ReduxView<StepFeature.ViewState, StepFeature.Action.ViewAction>,
     StepCompletionHost,
     ShareStreakDialogFragment.Callback,
-    TopicCompletedDialogFragment.Callback {
+    TopicCompletedDialogFragment.Callback,
+    StepPracticeHost {
 
     companion object {
         private const val STEP_DESCRIPTION_FRAGMENT_TAG = "step_content"
         private const val STEP_QUIZ_FRAGMENT_TAG = "step_quiz"
         private const val LOGGER_TAG = "StageStepWrapperFragment"
+
+        private const val SMOOTH_SCROLL_DURATION_MILLISECONDS = 500
 
         @Suppress("DEPRECATION")
         fun newInstance(
@@ -104,12 +109,7 @@ class StageStepWrapperFragment :
                 viewBinding.stagePracticeContainer
             )
         }
-        with(viewBinding.stageImplementationAppBar) {
-            stageImplementationToolbarTitle.text = navigationTitle
-            stageImplementationToolbar.setNavigationOnClickListener {
-                requireRouter().exit()
-            }
-        }
+        viewBinding.stageImplementationAppBar.stageImplementationToolbarTitle.text = navigationTitle
         viewBinding.stageImplementationTitle.text = stageTitle
         StepDelegate.init(
             errorBinding = viewBinding.stageImplementationError,
@@ -125,7 +125,8 @@ class StageStepWrapperFragment :
         StageStepMenuDelegate.setup(
             menuHost = requireActivity() as MenuHost,
             viewLifecycleOwner = viewLifecycleOwner,
-            onActionClick = stepViewModel::onActionClick
+            onActionClick = stepViewModel::onActionClick,
+            onBackClick = { requireRouter().exit() }
         )
     }
 
@@ -193,5 +194,11 @@ class StageStepWrapperFragment :
 
     override fun navigateToNextTopic() {
         onNewMessage(StepCompletionFeature.Message.TopicCompletedModalContinueNextTopicClicked)
+    }
+
+    override fun fullScrollDown() {
+        viewBinding
+            .stagePracticeContainer
+            .smoothScrollToBottom(SMOOTH_SCROLL_DURATION_MILLISECONDS)
     }
 }
