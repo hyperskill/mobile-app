@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.core.view.ui.widget.compose.shimmer
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature
@@ -35,6 +36,7 @@ fun WelcomeOnboardingTrackDetails(
     viewModel: WelcomeOnboardingTrackDetailsViewModel,
     modifier: Modifier = Modifier
 ) {
+    OnComposableShownFirstTime(key = viewModel, block = viewModel::onShow)
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     WelcomeOnboardingTrackDetails(
         viewState = viewState,

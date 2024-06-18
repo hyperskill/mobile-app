@@ -815,4 +815,5 @@
 
     <string name="welcome_onboarding_finish_screen_title">You\'re all set!</string>
     <string name="welcome_onboarding_finish_screen_description">Embark on your journey in %s right now!</string>
+    <string name="welcome_onboarding_finish_btn">Start my journey</string>
 </resources>

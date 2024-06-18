@@ -1,7 +1,6 @@
 package org.hyperskill.app.welcome_onboarding.root.presentation
 
 import co.touchlab.kermit.Logger
-import kotlinx.coroutines.delay
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityType
@@ -27,7 +26,6 @@ internal class WelcomeOnboardingActionDispatcher(
             is InternalAction.LogAnalyticEvent ->
                 analyticInteractor.logEvent(action.event)
             InternalAction.FetchNextLearningActivity -> handleFetchNextLearningActivity(::onNewMessage)
-            is InternalAction.LaunchFinishOnboardingTimer -> handleLaunchFinishOnboardingTimer(action, ::onNewMessage)
             else -> {
                 // no op
             }
@@ -48,12 +46,4 @@ internal class WelcomeOnboardingActionDispatcher(
                     .getOrThrow()
             )
         }.let(onNewMessage)
-
-    private suspend fun handleLaunchFinishOnboardingTimer(
-        action: InternalAction.LaunchFinishOnboardingTimer,
-        onNewMessage: (Message) -> Unit
-    ) {
-        delay(action.duration)
-        onNewMessage(InternalMessage.FinishOnboardingTimerFired)
-    }
 }

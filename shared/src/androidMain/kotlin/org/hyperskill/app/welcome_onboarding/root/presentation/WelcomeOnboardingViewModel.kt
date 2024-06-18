@@ -42,6 +42,22 @@ class WelcomeOnboardingViewModel(
     }
 
     fun onFinishOnboardingShowed() {
-        onNewMessage(Message.FinishOnboardingShowed)
+        onNewMessage(Message.FinishOnboardingViewed)
+    }
+
+    fun onStartOnboardingViewed() {
+        onNewMessage(Message.StartOnboardingViewed)
+    }
+
+    fun onUserQuestionnaireViewed(questionnaireType: WelcomeQuestionnaireType) {
+        onNewMessage(Message.UserQuestionnaireViewed(questionnaireType))
+    }
+
+    fun onSelectProgrammingLanguageViewed() {
+        onNewMessage(Message.SelectProgrammingLanguageViewed)
+    }
+
+    fun onFinishClicked() {
+        onNewMessage(Message.FinishClicked)
     }
 }

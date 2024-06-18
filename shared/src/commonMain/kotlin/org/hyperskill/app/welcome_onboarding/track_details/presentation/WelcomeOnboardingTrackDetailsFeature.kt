@@ -29,6 +29,7 @@ object WelcomeOnboardingTrackDetailsFeature {
     )
 
     sealed interface Message {
+        object ViewedEventMessage : Message
         object ContinueClicked : Message
     }
 

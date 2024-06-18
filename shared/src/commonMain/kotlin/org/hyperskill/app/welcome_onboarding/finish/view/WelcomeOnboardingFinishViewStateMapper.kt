@@ -14,6 +14,7 @@ class WelcomeOnboardingFinishViewStateMapper(
             description = resourceProvider.getString(
                 SharedResources.strings.welcome_onboarding_finish_screen_description,
                 resourceProvider.getString(track.titleStringResource)
-            )
+            ),
+            buttonText = resourceProvider.getString(SharedResources.strings.welcome_onboarding_finish_btn)
         )
 }

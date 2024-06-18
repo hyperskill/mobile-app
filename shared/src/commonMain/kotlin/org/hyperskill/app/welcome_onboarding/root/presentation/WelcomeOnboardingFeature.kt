@@ -1,6 +1,5 @@
 package org.hyperskill.app.welcome_onboarding.root.presentation
 
-import kotlin.time.Duration
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.profile.domain.model.Profile
@@ -60,11 +59,15 @@ object WelcomeOnboardingFeature {
             val isNotificationPermissionGranted: Boolean
         ) : Message
         object NotificationPermissionOnboardingCompleted : Message
-        object FinishOnboardingShowed : Message
+        object FinishClicked : Message
+
+        object StartOnboardingViewed : Message
+        class UserQuestionnaireViewed(val questionnaireType: WelcomeQuestionnaireType) : Message
+        object SelectProgrammingLanguageViewed : Message
+        object FinishOnboardingViewed : Message
     }
 
     internal sealed interface InternalMessage : Message {
-        object FinishOnboardingTimerFired : InternalMessage
         data class FetchNextLearningActivitySuccess(val nextLearningActivity: LearningActivity?) : InternalMessage
         object FetchNextLearningActivityError : InternalMessage
     }
@@ -86,6 +89,5 @@ object WelcomeOnboardingFeature {
     internal sealed interface InternalAction : Action {
         data class LogAnalyticEvent(val event: AnalyticEvent) : InternalAction
         object FetchNextLearningActivity : InternalAction
-        data class LaunchFinishOnboardingTimer(val duration: Duration) : InternalAction
     }
 }

@@ -28,12 +28,12 @@ import org.hyperskill.app.android.welcome_onbaording.track.navigation.WelcomeOnb
 import org.hyperskill.app.core.view.handleActions
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
-import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingViewModel
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature
 import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingFeature.Action.ViewAction
+import org.hyperskill.app.welcome_onboarding.root.presentation.WelcomeOnboardingViewModel
 import ru.nobird.android.view.base.ui.extension.showIfNotExists
 import ru.nobird.android.view.navigation.ui.fragment.FlowFragment
 
@@ -116,8 +116,24 @@ class WelcomeOnboardingFragment : FlowFragment(), WelcomeOnboardingHost {
         welcomeOnboardingViewModel.onNotificationPermissionCompleted()
     }
 
-    override fun onFinishScreenShowed() {
+    override fun onFinishScreenViewed() {
         welcomeOnboardingViewModel.onFinishOnboardingShowed()
+    }
+
+    override fun onFinishClicked() {
+        welcomeOnboardingViewModel.onFinishClicked()
+    }
+
+    override fun onStartOnboardingViewed() {
+        welcomeOnboardingViewModel.onStartOnboardingViewed()
+    }
+
+    override fun onUserQuestionnaireViewed(questionnaireType: WelcomeQuestionnaireType) {
+        welcomeOnboardingViewModel.onUserQuestionnaireViewed(questionnaireType)
+    }
+
+    override fun onSelectProgrammingLanguageViewed() {
+        welcomeOnboardingViewModel.onSelectProgrammingLanguageViewed()
     }
 
     private fun onAction(action: ViewAction) {

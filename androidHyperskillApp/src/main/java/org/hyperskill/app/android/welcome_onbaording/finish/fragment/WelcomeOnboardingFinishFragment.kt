@@ -51,12 +51,16 @@ class WelcomeOnboardingFinishFragment : Fragment() {
                         requireNotNull(viewStateMapper).map(track)
                     }
                     OnComposableShownFirstTime(key = this@WelcomeOnboardingFinishFragment, block = ::onShow)
-                    WelcomeOnboardingFinish(viewState)
+                    WelcomeOnboardingFinish(viewState, onFinishClick = ::onFinishClick)
                 }
             }
         }
 
     private fun onShow() {
-        (parentFragment as? WelcomeOnboardingHost)?.onFinishScreenShowed()
+        (parentFragment as? WelcomeOnboardingHost)?.onFinishScreenViewed()
+    }
+
+    private fun onFinishClick() {
+        (parentFragment as? WelcomeOnboardingHost)?.onFinishClicked()
     }
 }

@@ -14,5 +14,10 @@ interface WelcomeOnboardingHost {
     fun onProgrammingLanguageSelected(language: WelcomeOnboardingProgrammingLanguage)
     fun onTrackSelected(track: WelcomeOnboardingTrack)
     fun onNotificationOnboardingCompleted()
-    fun onFinishScreenShowed()
+    fun onFinishClicked()
+
+    fun onStartOnboardingViewed()
+    fun onUserQuestionnaireViewed(questionnaireType: WelcomeQuestionnaireType)
+    fun onSelectProgrammingLanguageViewed()
+    fun onFinishScreenViewed()
 }

@@ -1,6 +1,8 @@
 package org.hyperskill.app.welcome_onboarding.track_details.presentation
 
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.track_details.domain.analytic.WelcomeOnboardingSelectTrackClickedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.track_details.domain.analytic.WelcomeOnboardingSelectTrackViewedHSAnalyticEvent
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature.Action
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature.InternalAction
 import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeOnboardingTrackDetailsFeature.InternalMessage.SelectTrackFailed
@@ -23,13 +25,24 @@ internal class WelcomeOnboardingTrackDetailsReducer : StateReducer<State, Messag
 
     override fun reduce(state: State, message: Message): WelcomeOnboardingTrackDetailsReducerResult =
         when (message) {
+            Message.ViewedEventMessage -> handleSelectTrackViewed(state)
             Message.ContinueClicked -> handleContinueClicked(state)
             SelectTrackSuccess -> handleSelectTrackSuccess(state)
             SelectTrackFailed -> handleSelectTrackFailed(state)
         }
 
+    private fun handleSelectTrackViewed(state: State): WelcomeOnboardingTrackDetailsReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(WelcomeOnboardingSelectTrackViewedHSAnalyticEvent)
+        )
+
     private fun handleContinueClicked(state: State): WelcomeOnboardingTrackDetailsReducerResult =
-        state.copy(isLoadingShowed = true) to setOf(InternalAction.SelectTrack(getTrackId(state.track)))
+        state.copy(isLoadingShowed = true) to setOf(
+            InternalAction.LogAnalyticEvent(
+                WelcomeOnboardingSelectTrackClickedHSAnalyticEvent(state.track)
+            ),
+            InternalAction.SelectTrack(getTrackId(state.track))
+        )
 
     private fun handleSelectTrackSuccess(state: State): WelcomeOnboardingTrackDetailsReducerResult =
         state to setOf(Action.ViewAction.NotifyTrackSelected)

@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.HyperskillApp
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.welcome_onbaording.questionnaire.ui.WelcomeQuestionnaire
 import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireItemType
@@ -50,6 +51,7 @@ class WelcomeQuestionnaireFragment : Fragment() {
                 val viewState: WelcomeQuestionnaireViewState = remember {
                     requireNotNull(viewStateMapper).mapQuestionnaireTypeToViewState(type)
                 }
+                OnComposableShownFirstTime(key = this@WelcomeQuestionnaireFragment, block = ::onShow)
                 HyperskillTheme {
                     WelcomeQuestionnaire(viewState, onItemClick = ::onItemClick)
                 }
@@ -61,5 +63,9 @@ class WelcomeQuestionnaireFragment : Fragment() {
             questionnaireType = type,
             itemType = itemType
         )
+    }
+
+    private fun onShow() {
+        (parentFragment as? WelcomeOnboardingHost)?.onUserQuestionnaireViewed(type)
     }
 }

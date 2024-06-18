@@ -1,10 +1,18 @@
 package org.hyperskill.app.welcome_onboarding.root.presentation
 
-import kotlin.time.Duration.Companion.milliseconds
+import org.hyperskill.app.first_problem_onboarding.domain.analytic.OnboardingCompletionAppsFlyerAnalyticEvent
 import org.hyperskill.app.learning_activities.domain.model.LearningActivity
 import org.hyperskill.app.learning_activities.domain.model.LearningActivityTargetType
 import org.hyperskill.app.step.domain.model.StepRoute
 import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingFinishScreenStartClickedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingFinishScreenViewedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingProgrammingLanguageClickedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingQuestionnaireItemClickedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingSelectProgrammingLanguageViewedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingStartJourneyClickedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingStartScreenViewedHSAnalyticEvent
+import org.hyperskill.app.welcome_onboarding.root.domain.analytic.WelcomeOnboardingUserQuestionnaireViewedHSAnalyticEvent
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingProgrammingLanguage
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeOnboardingStartScreen
 import org.hyperskill.app.welcome_onboarding.root.model.WelcomeQuestionnaireType
@@ -28,12 +36,16 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             is Message.ProgrammingLanguageSelected -> handleProgrammingLanguageSelected(state, message)
             is Message.TrackSelected -> handleTrackSelected(state, message)
             Message.NotificationPermissionOnboardingCompleted -> handleNotificationPermissionOnboardingCompleted(state)
-            Message.FinishOnboardingShowed -> handleFinishOnboardingShowed(state)
-            InternalMessage.FinishOnboardingTimerFired -> finishOnboarding(state)
+            Message.FinishClicked -> handleFinishClicked(state)
             is InternalMessage.FetchNextLearningActivitySuccess ->
                 handleFetchNextLearningActivitySuccess(state, message)
             InternalMessage.FetchNextLearningActivityError ->
                 handleFetchNextLearningActivityError(state)
+
+            Message.StartOnboardingViewed -> handleStartOnboardingViewed(state)
+            is Message.UserQuestionnaireViewed -> handleUserQuestionnaireViewed(state, message)
+            Message.SelectProgrammingLanguageViewed -> handleSelectProgrammingLanguageViewed(state)
+            Message.FinishOnboardingViewed -> handleFinishOnboardingViewed(state)
         }
 
     private fun handleInitialize(state: State): WelcomeOnboardingReducerResult =
@@ -48,7 +60,7 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
 
     private fun handleStartJourneyClicked(state: State): WelcomeOnboardingReducerResult =
         state to setOf(
-            // TODO: Send analytic event
+            InternalAction.LogAnalyticEvent(WelcomeOnboardingStartJourneyClickedHSAnalyticEvent),
             NavigateTo.WelcomeOnboardingQuestionnaire(
                 WelcomeQuestionnaireType.HOW_DID_YOU_HEAR_ABOUT_HYPERSKILL
             )
@@ -59,7 +71,12 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         message: Message.QuestionnaireItemClicked
     ): WelcomeOnboardingReducerResult =
         state to setOf(
-            // TODO: Send analytic event
+            InternalAction.LogAnalyticEvent(
+                WelcomeOnboardingQuestionnaireItemClickedHSAnalyticEvent(
+                    message.questionnaireType,
+                    message.itemType
+                )
+            ),
             when (message.questionnaireType) {
                 WelcomeQuestionnaireType.HOW_DID_YOU_HEAR_ABOUT_HYPERSKILL ->
                     NavigateTo.WelcomeOnboardingQuestionnaire(WelcomeQuestionnaireType.LEARNING_REASON)
@@ -74,8 +91,10 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
         state: State,
         message: Message.ProgrammingLanguageSelected
     ): WelcomeOnboardingReducerResult =
-        // TODO: Send analytic event
         state to setOf(
+            InternalAction.LogAnalyticEvent(
+                WelcomeOnboardingProgrammingLanguageClickedHSAnalyticEvent(message.language)
+            ),
             NavigateTo.TrackDetails(
                 when (message.language) {
                     WelcomeOnboardingProgrammingLanguage.JAVA -> WelcomeOnboardingTrack.JAVA
@@ -115,8 +134,38 @@ internal class WelcomeOnboardingReducer : StateReducer<State, Message, Action> {
             finishOnboarding(state)
         }
 
-    private fun handleFinishOnboardingShowed(state: State): WelcomeOnboardingReducerResult =
-        state to setOf(InternalAction.LaunchFinishOnboardingTimer(1500.milliseconds))
+    private fun handleStartOnboardingViewed(state: State): WelcomeOnboardingReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(WelcomeOnboardingStartScreenViewedHSAnalyticEvent)
+        )
+
+    private fun handleUserQuestionnaireViewed(
+        state: State,
+        message: Message.UserQuestionnaireViewed
+    ): WelcomeOnboardingReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(
+                WelcomeOnboardingUserQuestionnaireViewedHSAnalyticEvent(message.questionnaireType)
+            )
+        )
+
+    private fun handleSelectProgrammingLanguageViewed(state: State): WelcomeOnboardingReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(WelcomeOnboardingSelectProgrammingLanguageViewedHSAnalyticEvent)
+        )
+
+    private fun handleFinishOnboardingViewed(state: State): WelcomeOnboardingReducerResult =
+        state to setOf(
+            InternalAction.LogAnalyticEvent(WelcomeOnboardingFinishScreenViewedHSAnalyticEvent)
+        )
+
+    private fun handleFinishClicked(state: State): WelcomeOnboardingReducerResult {
+        val (newState, actions) = finishOnboarding(state)
+        return newState to setOf(
+            InternalAction.LogAnalyticEvent(OnboardingCompletionAppsFlyerAnalyticEvent),
+            InternalAction.LogAnalyticEvent(WelcomeOnboardingFinishScreenStartClickedHSAnalyticEvent)
+        ) + actions
+    }
 
     private fun finishOnboarding(state: State): WelcomeOnboardingReducerResult =
         when (state.nextLearningActivityState) {

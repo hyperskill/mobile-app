@@ -9,6 +9,11 @@ import org.hyperskill.app.welcome_onboarding.track_details.presentation.WelcomeO
 class WelcomeOnboardingTrackDetailsViewModel(
     flowView: FlowView<ViewState, Message, ViewAction>
 ) : ReduxFlowViewModel<ViewState, Message, ViewAction>(flowView) {
+
+    fun onShow() {
+        onNewMessage(Message.ViewedEventMessage)
+    }
+
     fun onContinueClick() {
         onNewMessage(Message.ContinueClicked)
     }

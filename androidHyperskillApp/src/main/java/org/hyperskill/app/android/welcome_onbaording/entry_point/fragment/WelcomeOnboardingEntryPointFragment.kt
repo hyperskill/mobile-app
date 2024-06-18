@@ -8,6 +8,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.OnComposableShownFirstTime
 import org.hyperskill.app.android.welcome_onbaording.entry_point.ui.WelcomeOnboardingEntryPoint
 import org.hyperskill.app.android.welcome_onbaording.root.model.WelcomeOnboardingHost
 
@@ -25,6 +26,7 @@ class WelcomeOnboardingEntryPointFragment : Fragment() {
         ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnLifecycleDestroyed(viewLifecycleOwner))
             setContent {
+                OnComposableShownFirstTime(key = this@WelcomeOnboardingEntryPointFragment, block = ::onShow)
                 HyperskillTheme {
                     WelcomeOnboardingEntryPoint(onStartClick = ::onStartClick)
                 }
@@ -33,5 +35,9 @@ class WelcomeOnboardingEntryPointFragment : Fragment() {
 
     private fun onStartClick() {
         (parentFragment as? WelcomeOnboardingHost)?.onStartClick()
+    }
+
+    private fun onShow() {
+        (parentFragment as? WelcomeOnboardingHost)?.onStartOnboardingViewed()
     }
 }
