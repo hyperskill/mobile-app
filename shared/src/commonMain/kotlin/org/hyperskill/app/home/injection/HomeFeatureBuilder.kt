@@ -2,6 +2,7 @@ package org.hyperskill.app.home.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetActionDispatcher
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetFeature
 import org.hyperskill.app.challenges.widget.presentation.ChallengeWidgetReducer
@@ -64,7 +65,6 @@ internal object HomeFeatureBuilder {
             topicsRepetitionsInteractor,
             stepInteractor,
             currentSubscriptionStateRepository,
-            analyticInteractor,
             sentryInteractor,
             dateFormatter,
             topicRepeatedFlow,
@@ -97,5 +97,8 @@ internal object HomeFeatureBuilder {
                     transformMessage = HomeFeature.Message::ChallengeWidgetMessage
                 )
             )
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                it.safeCast<HomeFeature.InternalAction.LogAnalyticEvent>()?.analyticEvent
+            }
     }
 }

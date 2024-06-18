@@ -2,7 +2,6 @@ package org.hyperskill.app.track_selection.details.presentation
 
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.profile.domain.repository.CurrentProfileStateRepository
 import org.hyperskill.app.profile.domain.repository.ProfileRepository
@@ -22,8 +21,7 @@ class TrackSelectionDetailsActionDispatcher(
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val sentryInteractor: SentryInteractor,
     private val profileRepository: ProfileRepository,
-    private val currentProfileStateRepository: CurrentProfileStateRepository,
-    private val analyticInteractor: AnalyticInteractor
+    private val currentProfileStateRepository: CurrentProfileStateRepository
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
         when (action) {
@@ -45,9 +43,6 @@ class TrackSelectionDetailsActionDispatcher(
                 currentProfileStateRepository.updateState(newProfile)
 
                 onNewMessage(TrackSelectionDetailsFeature.TrackSelectionResult.Success)
-            }
-            is InternalAction.LogAnalyticEvent -> {
-                analyticInteractor.logEvent(action.event)
             }
             else -> {
                 // no-op

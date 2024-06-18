@@ -7,9 +7,9 @@ import kotlinx.coroutines.launch
 import org.hyperskill.app.analytic.domain.model.Analytic
 import org.hyperskill.app.analytic.domain.model.AnalyticEngine
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.analytic.domain.model.AnalyticEventMonitor
 import org.hyperskill.app.analytic.domain.model.AnalyticEventUserProperties
 import org.hyperskill.app.analytic.domain.model.AnalyticKeys
+import org.hyperskill.app.analytic.domain.model.monitor.AnalyticEventMonitor
 import org.hyperskill.app.config.BuildKonfig
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 import org.hyperskill.app.core.domain.platform.Platform

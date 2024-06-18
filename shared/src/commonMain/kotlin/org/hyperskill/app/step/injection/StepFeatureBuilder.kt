@@ -2,6 +2,7 @@ package org.hyperskill.app.step.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.url.HyperskillUrlBuilder
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
@@ -63,7 +64,6 @@ internal object StepFeatureBuilder {
             nextLearningActivityStateRepository = nextLearningActivityStateRepository,
             urlBuilder = urlBuilder,
             magicLinksInteractor = magicLinksInteractor,
-            analyticInteractor = analyticInteractor,
             sentryInteractor = sentryInteractor,
             logger = logger.withTag(LOG_TAG)
         )
@@ -85,5 +85,8 @@ internal object StepFeatureBuilder {
                     transformMessage = Message::StepToolbarMessage
                 )
             )
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

@@ -1,6 +1,5 @@
 package org.hyperskill.app.auth.presentation
 
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.auth.domain.exception.AuthCredentialsException
 import org.hyperskill.app.auth.domain.interactor.AuthInteractor
 import org.hyperskill.app.auth.domain.model.AuthCredentialsError
@@ -19,7 +18,6 @@ class AuthCredentialsActionDispatcher(
     private val authInteractor: AuthInteractor,
     private val currentProfileStateRepository: CurrentProfileStateRepository,
     private val urlPathProcessor: UrlPathProcessor,
-    private val analyticInteractor: AnalyticInteractor,
     private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<Action, Message>(config.createConfig()) {
     override suspend fun doSuspendableAction(action: Action) {
@@ -61,8 +59,6 @@ class AuthCredentialsActionDispatcher(
             }
             is Action.GetMagicLink ->
                 getLink(action.path, ::onNewMessage)
-            is Action.LogAnalyticEvent ->
-                action.analyticEvent.forEach { analyticInteractor.logEvent(it) }
             is Action.AddSentryBreadcrumb ->
                 sentryInteractor.addBreadcrumb(action.breadcrumb)
             is Action.CaptureSentryException ->

@@ -1,5 +1,6 @@
 package org.hyperskill.app.analytic.domain.model
 
+import org.hyperskill.app.analytic.domain.model.monitor.AnalyticEventMonitor
 import org.hyperskill.app.core.domain.model.ScreenOrientation
 
 interface Analytic {

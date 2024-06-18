@@ -3,6 +3,7 @@ package org.hyperskill.app.profile_settings.injection
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.MutableSharedFlow
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.auth.domain.model.UserDeauthorized
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.domain.platform.Platform
@@ -51,7 +52,6 @@ internal object ProfileSettingsFeatureBuilder {
             config = ActionDispatcherOptions(),
             profileSettingsInteractor = profileSettingsInteractor,
             currentProfileStateRepository = currentProfileStateRepository,
-            analyticInteractor = analyticInteractor,
             authorizationFlow = authorizationFlow,
             platform = platform,
             userAgentInfo = userAgentInfo,
@@ -68,5 +68,8 @@ internal object ProfileSettingsFeatureBuilder {
         return ReduxFeature(State.Idle, profileSettingsReducer)
             .wrapWithActionDispatcher(profileSettingsActionDispatcher)
             .transformState(viewStateMapper::map)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? Action.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

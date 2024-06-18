@@ -6,7 +6,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.Action
 import org.hyperskill.app.manage_subscription.presentation.ManageSubscriptionFeature.InternalAction
@@ -21,7 +20,6 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 
 internal class ManageSubscriptionActionDispatcher(
     config: ActionDispatcherOptions,
-    private val analyticInteractor: AnalyticInteractor,
     private val currentSubscriptionStateRepository: CurrentSubscriptionStateRepository,
     private val purchaseInteractor: PurchaseInteractor,
     private val sentryInteractor: SentryInteractor,
@@ -47,8 +45,6 @@ internal class ManageSubscriptionActionDispatcher(
         when (action) {
             is InternalAction.FetchSubscription ->
                 handleFetchSubscription(::onNewMessage)
-            is InternalAction.LogAnalyticEvent ->
-                analyticInteractor.logEvent(action.analyticEvent)
             else -> {
                 // no op
             }

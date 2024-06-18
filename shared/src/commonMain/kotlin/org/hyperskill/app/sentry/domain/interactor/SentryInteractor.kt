@@ -3,7 +3,7 @@ package org.hyperskill.app.sentry.domain.interactor
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.hyperskill.app.analytic.domain.model.AnalyticEvent
-import org.hyperskill.app.analytic.domain.model.AnalyticEventMonitor
+import org.hyperskill.app.analytic.domain.model.monitor.AnalyticEventMonitor
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumb
 import org.hyperskill.app.sentry.domain.model.breadcrumb.HyperskillSentryBreadcrumbAnalyticEventMapper
 import org.hyperskill.app.sentry.domain.model.level.HyperskillSentryLevel

@@ -1,6 +1,5 @@
 package org.hyperskill.app.project_selection.details.presentation
 
-import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.project_selection.details.domain.interactor.ProjectSelectionDetailsInteractor
 import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
@@ -10,8 +9,7 @@ import ru.nobird.app.presentation.redux.dispatcher.CoroutineActionDispatcher
 internal class ProjectSelectionDetailsActionDispatcher(
     config: ActionDispatcherOptions,
     private val projectSelectionDetailsInteractor: ProjectSelectionDetailsInteractor,
-    private val sentryInteractor: SentryInteractor,
-    private val analyticInteractor: AnalyticInteractor
+    private val sentryInteractor: SentryInteractor
 ) : CoroutineActionDispatcher<ProjectSelectionDetailsFeature.Action, ProjectSelectionDetailsFeature.Message>(
     config.createConfig()
 ) {
@@ -52,9 +50,6 @@ internal class ProjectSelectionDetailsActionDispatcher(
             }
             ProjectSelectionDetailsFeature.InternalAction.ClearProjectsCache -> {
                 projectSelectionDetailsInteractor.clearProjectsCache()
-            }
-            is ProjectSelectionDetailsFeature.InternalAction.LogAnalyticEvent -> {
-                analyticInteractor.logEvent(action.analyticEvent)
             }
             else -> {
                 // no op

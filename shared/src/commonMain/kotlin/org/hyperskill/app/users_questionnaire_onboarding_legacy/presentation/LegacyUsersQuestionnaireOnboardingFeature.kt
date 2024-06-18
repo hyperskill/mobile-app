@@ -37,7 +37,7 @@ object LegacyUsersQuestionnaireOnboardingFeature {
 
     internal sealed interface InternalAction : Action {
         data class LogAnalyticEvent(
-            val event: AnalyticEvent,
+            val analyticEvent: AnalyticEvent,
             val forceLogEvent: Boolean = false
         ) : InternalAction
     }

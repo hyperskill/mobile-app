@@ -59,11 +59,11 @@
     <ID>LongMethod:LegacyAppReducer.kt$LegacyAppReducer$private fun handleFetchAppStartupConfigSuccess( state: State, message: Message.FetchAppStartupConfigSuccess ): ReducerResult</ID>
     <ID>LongMethod:LoadingView.kt$LoadingView$override fun onDraw(canvas: Canvas)</ID>
     <ID>LongMethod:MainActivity.kt$MainActivity$override fun onAction(action: AppFeature.Action.ViewAction)</ID>
+    <ID>LongMethod:MainStepCompletionActionDispatcher.kt$MainStepCompletionActionDispatcher$private suspend fun handleStepSolved(stepId: Long)</ID>
     <ID>LongMethod:NotificationCacheDataSourceImpl.kt$NotificationCacheDataSourceImpl$private fun getDailyStudyRemindersNotificationDescriptions()</ID>
     <ID>LongMethod:ProblemOfDayCardFormDelegate.kt$ProblemOfDayCardFormDelegate$fun render( dateFormatter: SharedDateFormatter, binding: LayoutProblemOfTheDayCardBinding, state: HomeFeature.ProblemOfDayState, areProblemsLimited: Boolean )</ID>
     <ID>LongMethod:ProfileBadges.kt$@Composable fun ProfileBadges( viewState: BadgesViewState, windowWidthSizeClass: WindowWidthSizeClass, onBadgeClick: (BadgeKind) -&gt; Unit, onExpandButtonClick: (ProfileFeature.Message.BadgesVisibilityButton) -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongMethod:ProfileSettingsDialogFragment.kt$ProfileSettingsDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
-    <ID>LongMethod:StepCompletionActionDispatcher.kt$StepCompletionActionDispatcher$private suspend fun handleStepSolved(stepId: Long)</ID>
     <ID>LongMethod:StreakFreezeDialogFragment.kt$StreakFreezeDialogFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
     <ID>LongMethod:TrackProgressContent.kt$@Composable fun TrackProgressContent( viewState: ProgressScreenViewState.TrackProgressViewState.Content, onNewMessage: (ProgressScreenFeature.Message) -&gt; Unit, modifier: Modifier = Modifier )</ID>
     <ID>LongParameterList:AppInteractor.kt$AppInteractor$( private val appRepository: AppRepository, private val authInteractor: AuthInteractor, private val currentProfileStateRepository: CurrentProfileStateRepository, private val userStorageInteractor: UserStorageInteractor, private val analyticInteractor: AnalyticInteractor, private val progressesRepository: ProgressesRepository, private val trackRepository: TrackRepository, private val providersRepository: ProvidersRepository, private val projectsRepository: ProjectsRepository, private val shareStreakRepository: ShareStreakRepository, private val pushNotificationsInteractor: PushNotificationsInteractor )</ID>
@@ -239,7 +239,7 @@
     <ID>ReturnCount:ChallengeWidgetViewStateMapper.kt$ChallengeWidgetViewStateMapper$private fun getLoadedWidgetContent(state: ChallengeWidgetFeature.State.Content): ChallengeWidgetViewState</ID>
     <ID>ReturnCount:ExpandableTextView.kt$ExpandableTextView$private fun resolveDisplayedText(staticLayout: StaticLayout): CharSequence?</ID>
     <ID>ReturnCount:FillBlanksItemMapper.kt$FillBlanksItemMapper$internal fun map( componentsDataset: List&lt;Component&gt;, replyBlanks: List&lt;String&gt;? ): FillBlanksData?</ID>
-    <ID>ReturnCount:NotificationClickHandlingActionDispatcher.kt$NotificationClickHandlingActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
+    <ID>ReturnCount:MainNotificationClickHandlingActionDispatcher.kt$MainNotificationClickHandlingActionDispatcher$override suspend fun doSuspendableAction(action: Action)</ID>
     <ID>ReturnCount:NotificationClickHandlingReducer.kt$NotificationClickHandlingReducer$private fun getStepRouteForNextLearningActivity(learningActivity: LearningActivity?): StepRoute?</ID>
     <ID>ReturnCount:NotificationExtensions.kt$fun NotificationChannel.isFullyEnabled(notificationManager: NotificationManagerCompat): Boolean</ID>
     <ID>ReturnCount:Progress.kt$fun Progress.averageRating(): Double</ID>

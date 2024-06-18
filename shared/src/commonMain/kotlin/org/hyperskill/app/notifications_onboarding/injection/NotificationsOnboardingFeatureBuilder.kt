@@ -2,6 +2,7 @@ package org.hyperskill.app.notifications_onboarding.injection
 
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -10,6 +11,7 @@ import org.hyperskill.app.notification.local.domain.interactor.NotificationInter
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingActionDispatcher
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Action
+import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.InternalAction
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.Message
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature.ViewState
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingReducer
@@ -30,8 +32,7 @@ internal object NotificationsOnboardingFeatureBuilder {
         val reducer = NotificationsOnboardingReducer().wrapWithLogger(buildVariant, logger, LOG_TAG)
         val actionDispatcher = NotificationsOnboardingActionDispatcher(
             config = ActionDispatcherOptions(),
-            notificationInteractor = notificationInteractor,
-            analyticInteractor = analyticInteractor
+            notificationInteractor = notificationInteractor
         )
         return ReduxFeature(
             initialState = NotificationsOnboardingFeature.initialState(),
@@ -39,5 +40,8 @@ internal object NotificationsOnboardingFeatureBuilder {
         )
             .wrapWithActionDispatcher(actionDispatcher)
             .transformState(NotificationsOnboardingViewStateMapper::mapState)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }

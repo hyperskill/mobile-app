@@ -3,6 +3,7 @@ package org.hyperskill.app.stage_implement.injection
 import co.touchlab.kermit.Logger
 import org.hyperskill.app.analytic.domain.interactor.AnalyticInteractor
 import org.hyperskill.app.analytic.domain.model.hyperskill.HyperskillAnalyticRoute
+import org.hyperskill.app.analytic.presentation.wrapWithAnalyticLogger
 import org.hyperskill.app.core.domain.BuildVariant
 import org.hyperskill.app.core.presentation.ActionDispatcherOptions
 import org.hyperskill.app.core.presentation.transformState
@@ -14,6 +15,7 @@ import org.hyperskill.app.sentry.domain.interactor.SentryInteractor
 import org.hyperskill.app.stage_implement.presentation.StageImplementActionDispatcher
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Action
+import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.InternalAction
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.Message
 import org.hyperskill.app.stage_implement.presentation.StageImplementFeature.ViewState
 import org.hyperskill.app.stage_implement.presentation.StageImplementReducer
@@ -53,7 +55,6 @@ internal object StageImplementFeatureBuilder {
             currentProfileStateRepository,
             stagesInteractor,
             progressesInteractor,
-            analyticInteractor,
             sentryInteractor,
             resourceProvider,
         )
@@ -63,5 +64,8 @@ internal object StageImplementFeatureBuilder {
         return ReduxFeature(StageImplementFeature.State.Idle, stageImplementReducer)
             .wrapWithActionDispatcher(stageImplementActionDispatcher)
             .transformState(stageImplementViewStateMapper::mapState)
+            .wrapWithAnalyticLogger(analyticInteractor) {
+                (it as? InternalAction.LogAnalyticEvent)?.analyticEvent
+            }
     }
 }
