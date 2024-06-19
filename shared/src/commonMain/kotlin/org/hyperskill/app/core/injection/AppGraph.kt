@@ -197,6 +197,7 @@ interface AppGraph {
     fun buildLeaderboardWidgetComponent(): LeaderboardWidgetComponent
     fun buildSearchResultsDataComponent(): SearchResultsDataComponent
     fun buildSearchComponent(): SearchComponent
+    @Deprecated("Should be removed in ALTAPPS-1276")
     fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent
     fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent
     fun buildWelcomeQuestionnaireComponent(): WelcomeQuestionnaireComponent
@@ -209,6 +210,7 @@ interface AppGraph {
     fun buildPaywallComponent(paywallTransitionSource: PaywallTransitionSource): PaywallComponent
     fun buildManageSubscriptionComponent(): ManageSubscriptionComponent
     fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent
+    @Deprecated("Should be removed in ALTAPPS-1276")
     fun buildLegacyUsersQuestionnaireOnboardingComponent(): LegacyUsersQuestionnaireOnboardingComponent
     fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams

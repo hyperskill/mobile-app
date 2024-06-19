@@ -758,11 +758,11 @@
 
     <!--Welcome onboarding first questionnaire-->
     <string name="welcome_questionnaire_how_did_you_hear_about_hyperskill_title">How did you hear about Hyperskill?</string>
-    <string name="welcome_questionnaire_tiktok_item">Tik tok</string>
-    <string name="welcome_questionnaire_google_item">Google search</string>
+    <string name="welcome_questionnaire_tiktok_item">TikTok</string>
+    <string name="welcome_questionnaire_google_item">Google Search</string>
     <string name="welcome_questionnaire_news_item">News/article/blog</string>
-    <string name="welcome_questionnaire_play_store_item">Play store</string>
-    <string name="welcome_questionnaire_app_store_item">App store</string>
+    <string name="welcome_questionnaire_play_store_item">Play Store</string>
+    <string name="welcome_questionnaire_app_store_item">App Store</string>
     <string name="welcome_questionnaire_facebook_item">Facebook/Instagram</string>
     <string name="welcome_questionnaire_friends_item">Friends/family</string>
     <string name="welcome_questionnaire_youtube_item">YouTube</string>
@@ -794,7 +794,7 @@
     <string name="welcome_onboarding_lang_not_sure">I\'m not sure yet</string>
 
     <!--Welcome onboarding track details-->
-    <string name="welcome_onboarding_track_details_title">Here\’s the track for you!</string>
+    <string name="welcome_onboarding_track_details_title">Here\'s the track for you!</string>
     <string name="welcome_onboarding_track_details_change_text">You can always change this later</string>
     <string name="welcome_onboarding_track_details_continue_btn">Continue</string>
 
