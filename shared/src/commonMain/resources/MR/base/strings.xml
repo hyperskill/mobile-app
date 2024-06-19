@@ -816,4 +816,11 @@
     <string name="welcome_onboarding_finish_screen_title">You\'re all set!</string>
     <string name="welcome_onboarding_finish_screen_description">Embark on your journey in %s right now!</string>
     <string name="welcome_onboarding_finish_btn">Start my journey</string>
+
+    <!--Notifications onboarding-->
+    <string name="notifications_onboarding_set_later_btn">Set later</string>
+    <string name="notifications_onboarding_title">Build a habit with reminders</string>
+    <string name="notifications_onboarding_set_time_text">Set time:</string>
+    <string name="notifications_onboarding_set_later_description">You can always change this later</string>
+    <string name="notifications_onboarding_turn_on_btn">Yes, turn on</string>
 </resources>
