@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerState
+import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerShotState
 import org.hyperskill.app.android.core.view.ui.widget.compose.shimmerShot
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalFeature.ViewState
 import org.hyperskill.app.topic_completed_modal.presentation.TopicCompletedModalViewModel
@@ -47,7 +47,7 @@ fun TopicCompleted(
     LaunchedEffect(Unit) {
         enterTransitionState.targetState = true
     }
-    val shimmerState = remember { ShimmerState() }
+    val shimmerState = remember { ShimmerShotState() }
     Column(modifier.padding(vertical = TopicCompletedDefaults.CONTENT_VERTICAL_PADDING)) {
         TopicCompletedCloseButton(
             onClick = onCloseClick,

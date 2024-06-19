@@ -39,6 +39,8 @@ import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponen
 import org.hyperskill.app.leaderboard.widget.injection.LeaderboardWidgetComponentImpl
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponent
 import org.hyperskill.app.learning_activities.injection.LearningActivitiesDataComponentImpl
+import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponent
+import org.hyperskill.app.legacy_welcome_onboarding.injection.LegacyWelcomeOnboardingComponentImpl
 import org.hyperskill.app.likes.injection.LikesDataComponent
 import org.hyperskill.app.likes.injection.LikesDataComponentImpl
 import org.hyperskill.app.logging.injection.LoggerComponent
@@ -49,6 +51,8 @@ import org.hyperskill.app.main.injection.MainComponent
 import org.hyperskill.app.main.injection.MainComponentImpl
 import org.hyperskill.app.main.injection.MainDataComponent
 import org.hyperskill.app.main.injection.MainDataComponentImpl
+import org.hyperskill.app.main_legacy.injection.LegacyMainComponent
+import org.hyperskill.app.main_legacy.injection.LegacyMainComponentImpl
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponent
 import org.hyperskill.app.manage_subscription.injection.ManageSubscriptionComponentImpl
 import org.hyperskill.app.network.injection.NetworkComponent
@@ -163,19 +167,31 @@ import org.hyperskill.app.user_storage.injection.UserStorageComponent
 import org.hyperskill.app.user_storage.injection.UserStorageComponentImpl
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponent
 import org.hyperskill.app.users_interview_widget.injection.UsersInterviewWidgetComponentImpl
-import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponent
-import org.hyperskill.app.users_questionnaire_onboarding.injection.UsersQuestionnaireOnboardingComponentImpl
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.LegacyUsersQuestionnaireOnboardingComponent
+import org.hyperskill.app.users_questionnaire_onboarding_legacy.injection.LegacyUsersQuestionnaireOnboardingComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeComponent
 import org.hyperskill.app.welcome.injection.WelcomeComponentImpl
 import org.hyperskill.app.welcome.injection.WelcomeDataComponent
 import org.hyperskill.app.welcome.injection.WelcomeDataComponentImpl
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponent
+import org.hyperskill.app.welcome_onboarding.finish.injection.WelcomeOnboardingFinishComponentImpl
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingFeatureParams
+import org.hyperskill.app.welcome_onboarding.model.WelcomeOnboardingTrack
+import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponent
+import org.hyperskill.app.welcome_onboarding.questionnaire.injection.WelcomeQuestionnaireComponentImpl
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponent
+import org.hyperskill.app.welcome_onboarding.root.injection.WelcomeOnboardingComponentImpl
+import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponent
+import org.hyperskill.app.welcome_onboarding.track_details.injection.WelcomeOnboardingTrackDetailsComponentImpl
 
 abstract class BaseAppGraph : AppGraph {
 
     override val mainComponent: MainComponent by lazy {
         MainComponentImpl(this)
+    }
+
+    override val legacyMainComponent: LegacyMainComponent by lazy {
+        LegacyMainComponentImpl(this)
     }
 
     override val networkComponent: NetworkComponent by lazy {
@@ -492,8 +508,22 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildSearchComponent(): SearchComponent =
         SearchComponentImpl(this)
 
-    override fun buildWelcomeOnboardingComponent(): WelcomeOnboardingComponent =
-        WelcomeOnboardingComponentImpl(this)
+    override fun buildLegacyWelcomeOnboardingComponent(): LegacyWelcomeOnboardingComponent =
+        LegacyWelcomeOnboardingComponentImpl(this)
+
+    override fun buildWelcomeOnboardingComponent(params: WelcomeOnboardingFeatureParams): WelcomeOnboardingComponent =
+        WelcomeOnboardingComponentImpl(this, params)
+
+    override fun buildWelcomeQuestionnaireComponent(): WelcomeQuestionnaireComponent =
+        WelcomeQuestionnaireComponentImpl(this)
+
+    override fun buildWelcomeOnboardingTrackDetailsComponent(
+        track: WelcomeOnboardingTrack
+    ): WelcomeOnboardingTrackDetailsComponent =
+        WelcomeOnboardingTrackDetailsComponentImpl(track, this)
+
+    override fun buildWelcomeOnboardingFinishComponent(): WelcomeOnboardingFinishComponent =
+        WelcomeOnboardingFinishComponentImpl(this)
 
     override fun buildRequestReviewDataComponent(): RequestReviewDataComponent =
         RequestReviewDataComponentImpl(this)
@@ -512,8 +542,8 @@ abstract class BaseAppGraph : AppGraph {
     override fun buildUsersInterviewWidgetComponent(): UsersInterviewWidgetComponent =
         UsersInterviewWidgetComponentImpl(this)
 
-    override fun buildUsersQuestionnaireOnboardingComponent(): UsersQuestionnaireOnboardingComponent =
-        UsersQuestionnaireOnboardingComponentImpl(this)
+    override fun buildLegacyUsersQuestionnaireOnboardingComponent(): LegacyUsersQuestionnaireOnboardingComponent =
+        LegacyUsersQuestionnaireOnboardingComponentImpl(this)
 
     override fun buildProblemsLimitInfoModalComponent(
         params: ProblemsLimitInfoModalFeatureParams

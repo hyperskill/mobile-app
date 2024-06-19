@@ -28,6 +28,26 @@ private const val URL_TAG = "url"
 @Composable
 fun HtmlText(
     text: String,
+    baseSpanStyle: SpanStyle? = null,
+    content: @Composable (AnnotatedString) -> Unit
+) {
+    val annotatedString = remember(text) {
+        HtmlCompat
+            .fromHtml(
+                text.replace("\n", "<br>"),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
+            .toAnnotatedString(
+                baseSpanStyle = baseSpanStyle,
+                underlineLinks = false
+            )
+    }
+    content(annotatedString)
+}
+
+@Composable
+fun ClickableHtmlText(
+    text: String,
     modifier: Modifier = Modifier,
     baseSpanStyle: SpanStyle? = null,
     linkColor: Color = Color.Blue,
@@ -35,15 +55,19 @@ fun HtmlText(
     style: TextStyle = LocalTextStyle.current,
     onUrlClick: ((url: String) -> Unit)? = null
 ) {
-    val spannedText = remember(text) {
-        HtmlCompat.fromHtml(text.replace("\n", "<br>"), HtmlCompat.FROM_HTML_MODE_COMPACT)
+    val annotatedString = remember(text) {
+        HtmlCompat
+            .fromHtml(
+                text.replace("\n", "<br>"),
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
+            .toAnnotatedString(
+                baseSpanStyle = baseSpanStyle,
+                linkColor = if (isHighlightLink) linkColor else Color.Unspecified,
+                underlineLinks = false
+            )
     }
     val uriHandler = LocalUriHandler.current
-    val annotatedString = spannedText.toAnnotatedString(
-        baseSpanStyle = baseSpanStyle,
-        linkColor = if (isHighlightLink) linkColor else Color.Unspecified,
-        underlineLinks = false
-    )
     ClickableText(
         modifier = modifier,
         text = annotatedString,
@@ -62,7 +86,7 @@ fun HtmlText(
 fun Spanned.toAnnotatedString(
     baseSpanStyle: SpanStyle?,
     underlineLinks: Boolean,
-    linkColor: Color
+    linkColor: Color = Color.Blue
 ): AnnotatedString =
     buildAnnotatedString {
         val spanned = this@toAnnotatedString
@@ -101,7 +125,7 @@ fun Spanned.toAnnotatedString(
 @Preview
 @Composable
 private fun LinksHtmlTextPreview() {
-    HtmlText(
+    ClickableHtmlText(
         /*ktlint-disable*/
         text = "<b>Some text</b> \n<a href=\"https://developer.android.com/jetpack/androidx/releases/compose\" target=\"_blank\">" +
             "link text</a>, the rest of the text"

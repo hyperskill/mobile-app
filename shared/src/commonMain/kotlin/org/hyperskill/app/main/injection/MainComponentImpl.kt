@@ -4,7 +4,6 @@ import org.hyperskill.app.core.injection.AppGraph
 import org.hyperskill.app.main.presentation.AppFeature
 import org.hyperskill.app.notification.click_handling.injection.NotificationClickHandlingComponent
 import org.hyperskill.app.streak_recovery.injection.StreakRecoveryComponent
-import org.hyperskill.app.welcome_onboarding.injection.WelcomeOnboardingComponent
 import ru.nobird.app.presentation.redux.feature.Feature
 
 internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent {
@@ -14,10 +13,8 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
     private val clickedNotificationComponent: NotificationClickHandlingComponent =
         appGraph.buildClickedNotificationComponent()
 
-    private val welcomeOnboardingComponent: WelcomeOnboardingComponent =
-        appGraph.buildWelcomeOnboardingComponent()
-
     /*ktlint-disable*/
+    @Suppress("MaxLineLength")
     override fun appFeature(
         initialState: AppFeature.State?
     ): Feature<AppFeature.State, AppFeature.Message, AppFeature.Action> =
@@ -33,8 +30,6 @@ internal class MainComponentImpl(private val appGraph: AppGraph) : MainComponent
             notificationClickHandlingActionDispatcher = clickedNotificationComponent.notificationClickHandlingActionDispatcher,
             notificationsInteractor = appGraph.buildNotificationComponent().notificationInteractor,
             pushNotificationsInteractor = appGraph.buildPushNotificationsComponent().pushNotificationsInteractor,
-            welcomeOnboardingReducer = welcomeOnboardingComponent.welcomeOnboardingReducer,
-            welcomeOnboardingActionDispatcher = welcomeOnboardingComponent.welcomeOnboardingActionDispatcher,
             purchaseInteractor = appGraph.buildPurchaseComponent().purchaseInteractor,
             currentSubscriptionStateRepository = appGraph.stateRepositoriesComponent.currentSubscriptionStateRepository,
             subscriptionsInteractor = appGraph.subscriptionDataComponent.subscriptionsInteractor,
