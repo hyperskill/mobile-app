@@ -1,8 +1,8 @@
 import Foundation
 import shared
 
-extension AppFeatureStateKs: Equatable {
-    public static func == (lhs: AppFeatureStateKs, rhs: AppFeatureStateKs) -> Bool {
+extension LegacyAppFeatureStateKs: Equatable {
+    public static func == (lhs: LegacyAppFeatureStateKs, rhs: LegacyAppFeatureStateKs) -> Bool {
         switch (lhs, rhs) {
         case (.idle, .idle):
             return true

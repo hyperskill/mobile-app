@@ -53,7 +53,7 @@ final class AppView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func renderState(_ state: AppFeatureStateKs) {
+    func renderState(_ state: LegacyAppFeatureStateKs) {
         switch state {
         case .idle, .loading:
             loadingIndicator.isHidden = false

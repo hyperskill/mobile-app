@@ -20,9 +20,9 @@ import org.hyperskill.app.android.R
 
 @Composable
 fun HyperskillCard(
-    contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
     cornerRadius: Dp = dimensionResource(id = R.dimen.corner_radius),
+    contentPadding: PaddingValues? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     onClick: (() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
@@ -42,7 +42,11 @@ fun HyperskillCard(
                     it
                 }
             }
-            .padding(contentPadding),
+            .apply {
+                if (contentPadding != null) {
+                    padding(contentPadding)
+                }
+            },
         content = content
     )
 }
