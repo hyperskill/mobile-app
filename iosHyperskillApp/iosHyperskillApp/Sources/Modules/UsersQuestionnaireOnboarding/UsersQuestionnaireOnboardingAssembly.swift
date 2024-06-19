@@ -13,7 +13,7 @@ final class UsersQuestionnaireOnboardingAssembly: UIKitAssembly {
             AppGraphBridge.sharedAppGraph.buildLegacyUsersQuestionnaireOnboardingComponent()
 
         let usersQuestionnaireOnboardingViewModel = UsersQuestionnaireOnboardingViewModel(
-            feature: usersQuestionnaireOnboardingComponent.usersQuestionnaireOnboardingFeature
+            feature: usersQuestionnaireOnboardingComponent.legacyUsersQuestionnaireOnboardingFeature
         )
         usersQuestionnaireOnboardingViewModel.moduleOutput = moduleOutput
 
