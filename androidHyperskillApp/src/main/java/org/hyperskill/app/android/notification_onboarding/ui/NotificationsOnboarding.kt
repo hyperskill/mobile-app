@@ -35,7 +35,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
-import org.hyperskill.app.android.core.view.ui.widget.compose.centerWithVerticalBias
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingViewModel
 import org.hyperskill.app.R as SharedR
@@ -81,45 +80,14 @@ fun NotificationsOnboarding(
                 .fillMaxWidth()
                 .weight(1f)
         ) {
-            Column(
-                Modifier
-                    .align(Alignment.centerWithVerticalBias(-0.5f))
+            Content(
+                formattedInterval = formattedInterval,
+                actionButtonHeight = actionButtonHeight,
+                onTimeClick = onTimeClick,
+                modifier = Modifier
+                    .align(NotificationsOnboardingDefaults.ContentAlignment)
                     .fillMaxHeight()
-                    .verticalScroll(rememberScrollState())
-            ) {
-                Spacer(modifier = Modifier.height(17.dp))
-                Title(modifier = Modifier.align(Alignment.CenterHorizontally))
-                Spacer(modifier = Modifier.height(24.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.img_notifications_onboarding),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-                NotificationsOnboardingSetTimeButton(
-                    formattedInterval = formattedInterval,
-                    onClick = onTimeClick,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = stringResource(id = SharedR.string.notifications_onboarding_set_later_description),
-                    color = colorResource(id = SharedR.color.text_secondary),
-                    fontSize = 12.sp,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-                Spacer(
-                    modifier = Modifier.height(
-                        18.dp + NotificationsOnboardingDefaults.BottomPadding +
-                            with(LocalDensity.current) {
-                                actionButtonHeight.toDp()
-                            }
-                    )
-                )
-            }
+            )
         }
         NotificationsOnboardingTurnOnButton(
             onClick = onAllowNotificationsClick,
@@ -129,6 +97,51 @@ fun NotificationsOnboarding(
                 .onSizeChanged {
                     actionButtonHeight = it.height
                 }
+        )
+    }
+}
+
+@Composable
+private fun Content(
+    formattedInterval: String,
+    actionButtonHeight: Int,
+    onTimeClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.verticalScroll(rememberScrollState())
+    ) {
+        Spacer(modifier = Modifier.height(17.dp))
+        Title(modifier = Modifier.align(Alignment.CenterHorizontally))
+        Spacer(modifier = Modifier.height(24.dp))
+        Image(
+            painter = painterResource(id = R.drawable.img_notifications_onboarding),
+            contentDescription = null,
+            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        NotificationsOnboardingSetTimeButton(
+            formattedInterval = formattedInterval,
+            onClick = onTimeClick,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = stringResource(id = SharedR.string.notifications_onboarding_set_later_description),
+            color = colorResource(id = SharedR.color.text_secondary),
+            fontSize = 12.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+        Spacer(
+            modifier = Modifier.height(
+                18.dp + NotificationsOnboardingDefaults.BottomPadding +
+                    with(LocalDensity.current) {
+                        actionButtonHeight.toDp()
+                    }
+            )
         )
     }
 }
