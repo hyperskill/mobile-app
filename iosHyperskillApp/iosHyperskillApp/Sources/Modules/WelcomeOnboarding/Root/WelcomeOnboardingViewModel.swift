@@ -42,4 +42,16 @@ final class WelcomeOnboardingViewModel: FeatureViewModel<
     func doStartJourneyAction() {
         onNewMessage(WelcomeOnboardingFeatureMessageStartJourneyClicked())
     }
+
+    func doQuestionnaireItemAction(
+        questionnaireType: WelcomeQuestionnaireType,
+        itemType: WelcomeQuestionnaireItemType
+    ) {
+        onNewMessage(
+            WelcomeOnboardingFeatureMessageQuestionnaireItemClicked(
+                questionnaireType: questionnaireType,
+                itemType: itemType
+            )
+        )
+    }
 }

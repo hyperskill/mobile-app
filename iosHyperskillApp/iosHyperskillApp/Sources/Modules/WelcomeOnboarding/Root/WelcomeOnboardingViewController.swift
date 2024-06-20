@@ -67,8 +67,24 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
                     }
                 )
                 return UIHostingController(rootView: welcomeOnboardingStartView)
-            case .welcomeOnboardingQuestionnaire:
-                break
+            case .welcomeOnboardingQuestionnaire(let data):
+                let questionnaireType = data.type
+
+                let assembly = WelcomeOnboardingQuestionnaireAssembly(
+                    type: questionnaireType,
+                    onQuestionnaireItemTap: { [weak self] item in
+                        guard let self else {
+                            return
+                        }
+
+                        self.viewModel.doQuestionnaireItemAction(
+                            questionnaireType: questionnaireType,
+                            itemType: item.type
+                        )
+                    }
+                )
+
+                return UIHostingController(rootView: assembly.makeModule())
             case .chooseProgrammingLanguage:
                 break
             case .trackDetails:
@@ -82,18 +98,11 @@ extension WelcomeOnboardingViewController: WelcomeOnboardingViewControllerProtoc
             return UIViewController()
         }()
 
-        let fromViewController = children.first
-
-        if let fromViewController,
-           type(of: fromViewController) == type(of: viewControllerToPresent) {
-            return
-        }
-
         assert(children.count <= 2)
 
         UIViewController.swapRootViewController(
             for: self,
-            from: fromViewController,
+            from: children.first,
             to: viewControllerToPresent
         )
     }
