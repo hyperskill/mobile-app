@@ -11,14 +11,20 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.TypewriterTextEffect
 import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType
 import org.hyperskill.app.welcome_onboarding.questionnaire.model.WelcomeQuestionnaireItemType.ClientSource
@@ -37,11 +43,9 @@ fun WelcomeQuestionnaire(
                 .align(Alignment.Center)
                 .padding(horizontal = 20.dp)
         ) {
-            Text(
+            Title(
                 text = viewState.title,
-                style = WelcomeOnboardingDefault.titleTextStyle,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
+                Modifier
                     .fillMaxWidth()
                     .padding(top = 14.dp)
             )
@@ -51,6 +55,31 @@ fun WelcomeQuestionnaire(
                 onItemClick = onItemClick
             )
         }
+    }
+}
+
+@OptIn(ExperimentalTextApi::class)
+@Composable
+private fun Title(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    val style = WelcomeOnboardingDefault.titleTextStyle
+    val textMeasurer = rememberTextMeasurer()
+    val textLayoutResult = remember(text) {
+        textMeasurer.measure(text, style)
+    }
+    TypewriterTextEffect(
+        text = text,
+        startTypingDelay = WelcomeOnboardingDefault.startTypingAnimationDelayMillis
+    ) {
+        Text(
+            text = it,
+            style = WelcomeOnboardingDefault.titleTextStyle,
+            textAlign = TextAlign.Center,
+            minLines = textLayoutResult.lineCount,
+            modifier = modifier
+        )
     }
 }
 
@@ -191,7 +220,7 @@ private fun WelcomeQuestionnairePreview(
     HyperskillTheme {
         WelcomeQuestionnaire(
             WelcomeQuestionnaireViewState(
-                title = "How did you hear about Hyperskill?",
+                title = stringResource(id = R.string.welcome_questionnaire_how_did_you_hear_about_hyperskill_title),
                 items = items
             ),
             onItemClick = {}

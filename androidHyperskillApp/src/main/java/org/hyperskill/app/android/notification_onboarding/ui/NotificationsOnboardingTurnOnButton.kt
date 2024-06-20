@@ -10,9 +10,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.core.view.HapticFeedbackConstantsCompat
 import org.hyperskill.app.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillButton
+import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerShotState
+import org.hyperskill.app.android.core.view.ui.widget.compose.shimmerShot
 
 @Composable
 fun NotificationsOnboardingTurnOnButton(
+    shimmerShotState: ShimmerShotState,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -23,7 +26,7 @@ fun NotificationsOnboardingTurnOnButton(
     }
     HyperskillButton(
         onClick = currentOnClick,
-        modifier = modifier
+        modifier = modifier.shimmerShot(shimmerShotState)
     ) {
         Text(text = stringResource(id = R.string.notifications_onboarding_turn_on_btn))
     }

@@ -19,7 +19,7 @@ fun TopicCompletedDescription(
 ) {
     TypewriterTextEffect(
         text = text,
-        startTypingDelayInMillis = TopicCompletedDefaults.DESCRIPTION_TYPING_DELAY_MILLIS,
+        startTypingDelay = TopicCompletedDefaults.DESCRIPTION_TYPING_DELAY_MILLIS,
         onEffectCompleted = onDescriptionFullyShowed
     ) { displayedText ->
         Text(

@@ -757,7 +757,7 @@
     <string name="welcome_onboarding_entry_point_start_btn">Start my journey</string>
 
     <!--Welcome onboarding first questionnaire-->
-    <string name="welcome_questionnaire_how_did_you_hear_about_hyperskill_title">How did you hear about Hyperskill?</string>
+    <string name="welcome_questionnaire_how_did_you_hear_about_hyperskill_title">How did you hear about\nHyperskill?</string>
     <string name="welcome_questionnaire_tiktok_item">TikTok</string>
     <string name="welcome_questionnaire_google_item">Google Search</string>
     <string name="welcome_questionnaire_news_item">News/article/blog</string>

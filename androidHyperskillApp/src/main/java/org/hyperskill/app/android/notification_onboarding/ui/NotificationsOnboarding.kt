@@ -15,6 +15,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,8 +34,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.delay
 import org.hyperskill.app.android.R
 import org.hyperskill.app.android.core.view.ui.widget.compose.HyperskillTheme
+import org.hyperskill.app.android.core.view.ui.widget.compose.ShimmerShotState
+import org.hyperskill.app.android.welcome_onbaording.root.ui.WelcomeOnboardingDefault
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingFeature
 import org.hyperskill.app.notifications_onboarding.presentation.NotificationsOnboardingViewModel
 import org.hyperskill.app.R as SharedR
@@ -60,8 +64,11 @@ fun NotificationsOnboarding(
     onTimeClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var actionButtonHeight: Int by remember {
-        mutableStateOf(0)
+    var actionButtonHeight: Int by remember { mutableStateOf(0) }
+    val shimmerShotState = remember { ShimmerShotState() }
+    LaunchedEffect(key1 = Unit) {
+        delay(WelcomeOnboardingDefault.runActionButtonShimmerDelay)
+        shimmerShotState.runShimmerAnimation()
     }
     Column(
         modifier = modifier
@@ -90,6 +97,7 @@ fun NotificationsOnboarding(
             )
         }
         NotificationsOnboardingTurnOnButton(
+            shimmerShotState = shimmerShotState,
             onClick = onAllowNotificationsClick,
             modifier = Modifier
                 .fillMaxWidth()
